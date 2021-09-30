@@ -9,8 +9,9 @@
 namespace App\Http\FresnsApi\Info;
 
 use App\Helpers\DateHelper;
-use App\Http\Center\Common\GlobalService;
+use App\Helpers\StrHelper;
 use App\Http\Center\Common\ErrorCodeService;
+use App\Http\Center\Common\GlobalService;
 use App\Http\Center\Common\ValidateService;
 use App\Http\Center\Helper\CmdRpcHelper;
 use App\Http\FresnsApi\Base\FresnsBaseApiController;
@@ -38,6 +39,8 @@ use App\Http\FresnsDb\FresnsMemberFollows\FresnsMemberFollows;
 use App\Http\FresnsDb\FresnsMemberRoleRels\FresnsMemberRoleRels;
 use App\Http\FresnsDb\FresnsMembers\FresnsMembers;
 use App\Http\FresnsDb\FresnsNotifies\FresnsNotifies;
+use App\Http\FresnsDb\FresnsPluginCallbacks\FresnsPluginCallbacks;
+use App\Http\FresnsDb\FresnsPluginCallbacks\FresnsPluginCallbacksService;
 use App\Http\FresnsDb\FresnsPluginUsages\FresnsPluginUsages;
 use App\Http\FresnsDb\FresnsPluginUsages\FresnsPluginUsagesService;
 use App\Http\FresnsDb\FresnsPosts\FresnsPosts;
@@ -46,9 +49,6 @@ use App\Http\FresnsDb\FresnsStopWords\FresnsStopWordsService;
 use App\Http\FresnsDb\FresnsUsers\FresnsUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Http\FresnsDb\FresnsPluginCallbacks\FresnsPluginCallbacks;
-use App\Http\FresnsDb\FresnsPluginCallbacks\FresnsPluginCallbacksService;
-use App\Helpers\StrHelper;
 
 class FsControllerApi extends FresnsBaseApiController
 {
@@ -555,8 +555,8 @@ class FsControllerApi extends FresnsBaseApiController
         }
 
         $data['downloadUrl'] = $downloadUrl;
-        $data['originalUrl'] = FresnsFileAppends::where('file_id',$files['id'])->value('file_original_path');
-        
+        $data['originalUrl'] = FresnsFileAppends::where('file_id', $files['id'])->value('file_original_path');
+
         $this->success($data);
     }
 
@@ -576,7 +576,7 @@ class FsControllerApi extends FresnsBaseApiController
         $bStatusNoRead = FresnsDialogs::where('b_member_id', $member_id)->where('b_status', FsConfig::NO_READ)->count();
         $dialogNoRead = $aStatusNoRead + $bStatusNoRead;
         // Dialog Messages of unread numbers
-        $dialogMessage = FresnsDialogMessages::where('recv_member_id', $member_id)->where('recv_read_at',null)->count();
+        $dialogMessage = FresnsDialogMessages::where('recv_member_id', $member_id)->where('recv_read_at', null)->count();
         $dialogUnread = [
             'dialog' => $dialogNoRead,
             'message' => $dialogMessage,
@@ -597,11 +597,12 @@ class FsControllerApi extends FresnsBaseApiController
     }
 
     // Callback Info
-    public function callbacks(Request $request){
+    public function callbacks(Request $request)
+    {
         // Calibration parameters
         $rule = [
-            'unikey' => "required",
-            'uuid' => "required",
+            'unikey' => 'required',
+            'uuid' => 'required',
         ];
         ValidateService::validateRule($request, $rule);
         $uuid = $request->input('uuid');
@@ -609,7 +610,7 @@ class FsControllerApi extends FresnsBaseApiController
         if (is_array($checkInfo)) {
             return $this->errorCheckInfo($checkInfo);
         }
-        $id = FresnsPluginCallbacks::where('uuid',$uuid)->first();
+        $id = FresnsPluginCallbacks::where('uuid', $uuid)->first();
         $service = new FresnsPluginCallbacksService();
         $service->setResourceDetail(FresnsPluginCallbacksResource::class);
         $detail = $service->detail($id['id']);

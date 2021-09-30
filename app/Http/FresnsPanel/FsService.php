@@ -16,6 +16,7 @@ class FsService extends BaseAdminService
     public static function getLanguage($lang)
     {
         $map = FsConfig::LANGUAGE_MAP;
+
         return $map[$lang] ?? 'English - English';
     }
 }

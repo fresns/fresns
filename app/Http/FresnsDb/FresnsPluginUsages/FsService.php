@@ -51,7 +51,7 @@ class FsService extends BaseAdminService
 
         // Plugin
         $common['plugOption'] = FresnsPlugins::staticBuildSelectOptions2('unikey', 'name', []);
-        
+
         // Role
         $common['roleOption'] = FresnsMemberRoles::buildSelectTreeData('id', 'name', []);
 
@@ -60,6 +60,7 @@ class FsService extends BaseAdminService
             'unikey as key',
             'name as text',
         ]);
+
         return $common;
     }
 
@@ -68,7 +69,7 @@ class FsService extends BaseAdminService
     {
         $languageArr = FresnsConfigsService::getLanguageStatus();
         $code = $languageArr['default_language'];
-        
+
         return $code;
     }
 

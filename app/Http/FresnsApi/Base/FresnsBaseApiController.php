@@ -426,7 +426,7 @@ class FresnsBaseApiController extends BaseApiController
         /*
          * Verify the appId and platform parameters
          * https://fresns.org/api/header.html
-         * 
+         *
          * Does session_keys > app_id exist
          * Does it match session_keys > platform_id
          * Whether session_keys > is_enable

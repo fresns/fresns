@@ -17,9 +17,8 @@ use App\Http\FresnsDb\FresnsPostLogs\FresnsPostLogsConfig;
 use App\Http\FresnsDb\FresnsPosts\FresnsPosts;
 
 /**
- * Detail resource config handle
+ * Detail resource config handle.
  */
-
 class FresnsPostLogsResourceDetail extends BaseAdminResource
 {
     public function toArray($request)

@@ -11,9 +11,8 @@ namespace App\Http\FresnsDb\FresnsConfigs;
 use App\Base\Resources\BaseAdminResource;
 
 /**
- * Detail resource config handle
+ * Detail resource config handle.
  */
-
 class FsResourceDetail extends BaseAdminResource
 {
     public function toArray($request)

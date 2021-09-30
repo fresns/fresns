@@ -12,8 +12,8 @@ use App\Base\Models\BaseAdminModel;
 use App\Base\Models\BaseCategoryModel;
 use App\Helpers\StrHelper;
 use App\Http\FresnsDb\FresnsFiles\FresnsFiles;
-use App\Http\FresnsDb\FresnsLanguages\FsModel as FresnsLanguagesModel;
 use App\Http\FresnsDb\FresnsLanguages\FresnsLanguagesService;
+use App\Http\FresnsDb\FresnsLanguages\FsModel as FresnsLanguagesModel;
 use Illuminate\Support\Facades\DB;
 
 class FsModel extends BaseCategoryModel

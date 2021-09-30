@@ -16,9 +16,8 @@ use App\Http\FresnsDb\FresnsPlugins\FresnsPlugins;
 use App\Http\FresnsDb\FresnsPluginUsages\FresnsPluginUsagesConfig;
 
 /**
- * List resource config handle
+ * List resource config handle.
  */
-
 class FresnsPluginUsagesResource extends BaseAdminResource
 {
     public function toArray($request)

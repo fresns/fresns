@@ -17,7 +17,7 @@ class FsConfig extends BaseConfig
 
     // Additional search columns in the main table
     const ADDED_SEARCHABLE_FIELDS = [
-        'uuid' => ['field' => 'uuid' , 'op' => '=']
+        'uuid' => ['field' => 'uuid', 'op' => '='],
     ];
 
     // Model Usage - Form Mapping

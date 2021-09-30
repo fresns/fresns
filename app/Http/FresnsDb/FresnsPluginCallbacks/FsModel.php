@@ -31,5 +31,4 @@ class FsModel extends BaseAdminModel
     public function hookStoreAfter($id)
     {
     }
-
 }

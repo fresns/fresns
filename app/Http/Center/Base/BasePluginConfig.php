@@ -10,14 +10,13 @@ namespace App\Http\Center\Base;
 
 class BasePluginConfig
 {
-
     /**
-     * Plugin Global Unique Values
+     * Plugin Global Unique Values.
      *
      * @var string
      */
     public $uniKey = '';
-    
+
     /**
      * Plugin Name.
      *
@@ -61,7 +60,7 @@ class BasePluginConfig
     public $authorLink = '';
 
     /**
-     * Plugin Usage Scenarios
+     * Plugin Usage Scenarios.
      *
      * @var array
      */
@@ -88,7 +87,7 @@ class BasePluginConfig
      * app/Plugins/$dirName
      * public/assets/$dirName
      * resources/views/plugins/$dirName
-     * resources/lang/{langtag}/$dirName
+     * resources/lang/{langtag}/$dirName.
      *
      * @var string
      */
@@ -130,5 +129,4 @@ class BasePluginConfig
         self::CODE_NOT_EXIST => 'Data does not exist',
         self::CODE_PARAMS_ERROR => 'Parameter error',
     ];
-
 }

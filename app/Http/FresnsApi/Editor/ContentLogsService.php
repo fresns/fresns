@@ -566,7 +566,7 @@ class ContentLogsService
     }
 
     /**
-     * Upload File
+     * Upload File.
      *
      * @param [type] $type 1-Post 2-Comment
      * @return void

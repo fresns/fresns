@@ -11,7 +11,7 @@ namespace App\Http\Center\Base;
 use App\Base\Controllers\BaseController;
 
 /**
- * Plugin scene base class
+ * Plugin scene base class.
  */
 class BaseSceneController extends BaseController
 {

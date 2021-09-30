@@ -27,17 +27,16 @@ use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShields;
 use App\Http\FresnsDb\FresnsMemberStats\FresnsMemberStats;
 
 /**
- * List resource config handle
+ * List resource config handle.
  */
-
 class FresnsMemberListsResource extends BaseAdminResource
 {
     public function toArray($request)
     {
         $langTag = request()->input('langTag');
         $mid = request()->header('mid');
-        if($mid){
-            $mid = FresnsMembers::where('uuid',$mid)->value('id');
+        if ($mid) {
+            $mid = FresnsMembers::where('uuid', $mid)->value('id');
         }
         $roleId = FresnsMemberRoleRelsService::getMemberRoleRels($this->id);
         $memberRole = FresnsMemberRoles::where('id', $roleId)->first();

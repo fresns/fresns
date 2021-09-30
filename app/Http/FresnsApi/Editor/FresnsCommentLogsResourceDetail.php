@@ -19,9 +19,8 @@ use App\Http\FresnsDb\FresnsPostLogs\FresnsPostLogsConfig;
 use App\Http\FresnsDb\FresnsPosts\FresnsPosts;
 
 /**
- * Detail resource config handle
+ * Detail resource config handle.
  */
-
 class FresnsCommentLogsResourceDetail extends BaseAdminResource
 {
     public function toArray($request)
@@ -83,7 +82,7 @@ class FresnsCommentLogsResourceDetail extends BaseAdminResource
                 }
             }
         }
-        
+
         // Default Field
         $default = [
             'id' => $this->id,

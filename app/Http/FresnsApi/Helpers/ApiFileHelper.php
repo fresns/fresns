@@ -59,7 +59,7 @@ class ApiFileHelper
                 $file['imageSquareUrl'] = $imagesRatio.$fileInfo['file_path'].$imagesSquare;
                 $file['imageBigUrl'] = $imagesSquare.$fileInfo['file_path'].$imagesBig;
             }
-            
+
             // Video Type
             $video_setting = ApiConfigHelper::getConfigByItemTag(FsConfig::VIDEO_SETTING);
             // Video Properties
@@ -239,7 +239,7 @@ class ApiFileHelper
 
     /**
      * Anti Hotlinking
-     * https://fresns.org/extensions/anti-hotlinking.html
+     * https://fresns.org/extensions/anti-hotlinking.html.
      */
     public static function getImageSignUrlByFileIdUrl($fileId, $fileUrl)
     {

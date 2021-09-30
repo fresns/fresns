@@ -16,10 +16,11 @@ class HttpHelper
 {
     /**
      * Initiate a request.
+     *
      * @param $url
-     * @param array $postData
-     * @param string $method
-     * @param bool $useJson
+     * @param  array  $postData
+     * @param  string  $method
+     * @param  bool  $useJson
      * @return mixed|array
      */
     public static function postFetch($url, $postFields = [], $header = [])
@@ -71,10 +72,11 @@ class HttpHelper
 
     /**
      * Initiate a request.
+     *
      * @param $url
-     * @param array $postData
-     * @param string $method
-     * @param bool $useJson
+     * @param  array  $postData
+     * @param  string  $method
+     * @param  bool  $useJson
      * @return mixed|array
      */
     public static function post($url, $dataArr = [], $header = [])

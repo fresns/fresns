@@ -78,6 +78,7 @@ class FileHelper
 
     /**
      * Unzip the file.
+     *
      * @param $fromName / Name of the file being decompressed
      * @param $toName / Which directory to unzip
      * @return false / Success returns true, Failure returns false
@@ -106,6 +107,7 @@ class FileHelper
 
     /**
      * The debugging inside this function is done with var_dump.
+     *
      * @param $zipFilename
      * @param $path
      * @param $toPath
@@ -135,6 +137,7 @@ class FileHelper
 
     /**
      * Copy all the files and folders under one folder to another folder (keeping the original structure).
+     *
      * @param <string> $rootFrom / Source folder path
      * @param <string> $rootTo / Destination folder path
      */

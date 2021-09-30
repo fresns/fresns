@@ -15,9 +15,8 @@ use App\Http\FresnsDb\FresnsPlugins\FresnsPlugins as TweetPlugin;
 use App\Http\FresnsDb\FresnsPlugins\FresnsPluginsConfig;
 
 /**
- * List resource config handle
+ * List resource config handle.
  */
-
 class FresnsPluginsResource extends BaseAdminResource
 {
     public function toArray($request)
@@ -52,7 +51,7 @@ class FresnsPluginsResource extends BaseAdminResource
             $websiteMobilePlugin = TweetPlugin::where('unikey', $websiteMobile)->first();
             $websiteMobilePlugin = $websiteMobilePlugin['name'] ?? '';
         }
-        
+
         // Default Column
         $default = [
             'key' => $this->id,

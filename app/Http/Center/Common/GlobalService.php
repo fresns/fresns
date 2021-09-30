@@ -84,11 +84,11 @@ class GlobalService
         $uri = Request::getRequestUri();
         if ($deviceInfo) {
             $addDeviceInfoUrlArr = GlobalConfig::ADD_DEVICE_INFO_URI_ARR;
-            if(!in_array($uri,$addDeviceInfoUrlArr)){
+            if (! in_array($uri, $addDeviceInfoUrlArr)) {
                 return true;
             }
             $map = GlobalConfig::URI_CONVERSION_OBJECT_TYPE_NO;
-            
+
             $objectType = '';
             foreach ($map as $k => $v) {
                 if (in_array($uri, $v)) {

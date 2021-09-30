@@ -11,9 +11,8 @@ namespace App\Http\FresnsApi\Info;
 use App\Base\Resources\BaseAdminResource;
 
 /**
- * List resource config handle
+ * List resource config handle.
  */
-
 class FresnsStopWordsResource extends BaseAdminResource
 {
     public function toArray($request)

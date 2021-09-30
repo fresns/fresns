@@ -26,6 +26,7 @@ class BaseInstaller
      * The installation function corresponding to each version when installing the plugin
      * Key: Integer version number (versionInt)
      * Value: Name of the installation function (functionName), example: installV1.
+     *
      * @var array
      */
     public $versionIntInstallFunctionNameMap = [
@@ -40,7 +41,8 @@ class BaseInstaller
     /**
      * Correspondence between each integer version and three versions, storing release records
      * Key: Integer version number (versionInt)
-     * Value: Semantic version number (version), example: 1.0.0
+     * Value: Semantic version number (version), example: 1.0.0.
+     *
      * @var array
      */
     public $versionIntToVersionMap = [
@@ -48,7 +50,7 @@ class BaseInstaller
     ];
 
     /**
-     * install, example:execute some sql insert
+     * install, example:execute some sql insert.
      */
     public function install()
     {
@@ -56,7 +58,7 @@ class BaseInstaller
     }
 
     /**
-     * uninstall, example:execute some sql delete
+     * uninstall, example:execute some sql delete.
      */
     public function uninstall()
     {
@@ -64,7 +66,7 @@ class BaseInstaller
     }
 
     /**
-     * upgrade
+     * upgrade.
      */
     public function upgrade()
     {

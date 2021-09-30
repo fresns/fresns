@@ -51,9 +51,8 @@ class FsModel extends BaseAdminModel
 
         /**
          * API Logic
-         * https://fresns.org/api/content/post-lists.html
+         * https://fresns.org/api/content/post-lists.html.
          */
-        
         $request = request();
         $mid = GlobalService::getGlobalKey('member_id');
 
@@ -74,7 +73,7 @@ class FsModel extends BaseAdminModel
             ->whereNotIn('post.id', $noPostHashtags)
             ->whereNotIn('post.id', $commentShields)
             ->where('post.deleted_at', null);
-        
+
         // Posts from the Powerless Group
         if (! empty($noGroupArr)) {
             $postgroupIdArr = FresnsPosts::whereNotIn('group_id', $noGroupArr)->pluck('id')->toArray();

@@ -12,8 +12,8 @@ use App\Base\Checkers\BaseChecker;
 use App\Http\Center\Common\ErrorCodeService;
 use App\Http\FresnsApi\Base\FresnsBaseChecker;
 use App\Http\FresnsApi\Helpers\ApiConfigHelper;
-use App\Http\FresnsDb\FresnsUsers\FresnsUsers;
 use App\Http\FresnsDb\FresnsPluginCallbacks\FresnsPluginCallbacks;
+use App\Http\FresnsDb\FresnsUsers\FresnsUsers;
 
 class FsChecker extends FresnsBaseChecker
 {
@@ -191,16 +191,17 @@ class FsChecker extends FresnsBaseChecker
     }
 
     // Check Plugin Callback
-    public static function checkPluginCallback($uuid){
-        $callInfo = FresnsPluginCallbacks::where('uuid',$uuid)->first();
-        if(!$callInfo){
+    public static function checkPluginCallback($uuid)
+    {
+        $callInfo = FresnsPluginCallbacks::where('uuid', $uuid)->first();
+        if (! $callInfo) {
             return self::checkInfo(ErrorCodeService::CALLBACK_UUID_ERROR);
         }
-        $createdTimes = strtotime($callInfo['created_at']) + ( 10 * 60 );
-        if($createdTimes < time()){
+        $createdTimes = strtotime($callInfo['created_at']) + (10 * 60);
+        if ($createdTimes < time()) {
             return self::checkInfo(ErrorCodeService::CALLBACK_TIME_ERROR);
         }
-        if($callInfo['status'] != FsConfig::NOT_USE_CALLBACKS){
+        if ($callInfo['status'] != FsConfig::NOT_USE_CALLBACKS) {
             return self::checkInfo(ErrorCodeService::CALLBACK_STATUS_ERROR);
         }
     }
@@ -209,6 +210,7 @@ class FsChecker extends FresnsBaseChecker
     public static function RulePhone($phone)
     {
         $result = preg_match("/^1[34578]{1}\d{9}$/", $phone);
+
         return $result;
     }
 
@@ -217,6 +219,7 @@ class FsChecker extends FresnsBaseChecker
     {
         $pattern = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/";
         preg_match($pattern, $email, $matches);
+
         return $matches;
     }
 }
