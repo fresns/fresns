@@ -9,13 +9,13 @@
 namespace App\Http\FresnsApi\Content;
 
 use App\Helpers\StrHelper;
-use App\Http\Center\Common\GlobalService;
 use App\Http\Center\Base\BasePluginConfig;
 use App\Http\Center\Common\ErrorCodeService;
+use App\Http\Center\Common\GlobalService;
 use App\Http\Center\Common\LogService;
 use App\Http\Center\Common\ValidateService;
-use App\Http\Center\Helper\PluginHelper;
 use App\Http\Center\Helper\CmdRpcHelper;
+use App\Http\Center\Helper\PluginHelper;
 use App\Http\Center\Scene\FileSceneService;
 use App\Http\FresnsApi\Base\FresnsBaseApiController;
 use App\Http\FresnsApi\Helpers\ApiConfigHelper;
@@ -200,7 +200,7 @@ class FsControllerApi extends FresnsBaseApiController
             'commentCountLt' => 'numeric',
         ];
         ValidateService::validateRule($request, $rule);
-        
+
         // Site Model = Private
         // Not logged in, content not output
         $site_mode = ApiConfigHelper::getConfigByItemKey(FsConfig::SITE_MODEL);
@@ -484,7 +484,7 @@ class FsControllerApi extends FresnsBaseApiController
         $commentAppendTable = FresnsCommentAppendsConfig::CFG_TABLE;
         $postTable = FresnsPostsConfig::CFG_TABLE;
         /**
-         * Filtering of comments on blocked objects (members and comments)
+         * Filtering of comments on blocked objects (members and comments).
          */
         // Target fields to be masked
         $request = request();
@@ -677,20 +677,20 @@ class FsControllerApi extends FresnsBaseApiController
         }
 
         $postArr1 = self::distance1($longitude, $latitude, $distance);
-        
+
         $memberShieldsTable = FresnsMemberShieldsConfig::CFG_TABLE;
 
         // If it is a non-public group post, it is not a member of the group and is not exported.
         $FresnsGroups = FresnsGroups::where('type_mode', 2)->where('type_find', 2)->pluck('id')->toArray();
-        $groupMember = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('deleted_at',null)->where('follow_type', 2)->pluck('follow_id')->toArray();
+        $groupMember = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('deleted_at', null)->where('follow_type', 2)->pluck('follow_id')->toArray();
         $noGroupArr = array_diff($FresnsGroups, $groupMember);
 
         // Filter the posts of blocked objects (members, groups, hashtags, posts), and the posts of blocked objects are not output.
-        $memberShields = DB::table($memberShieldsTable)->where('member_id', $mid)->where('shield_type', 1)->where('deleted_at',null)->pluck('shield_id')->toArray();
-        $GroupShields = DB::table($memberShieldsTable)->where('member_id', $mid)->where('shield_type', 2)->where('deleted_at',null)->pluck('shield_id')->toArray();
-        $shieldshashtags = DB::table($memberShieldsTable)->where('member_id', $mid)->where('shield_type', 3)->where('deleted_at',null)->pluck('shield_id')->toArray();
+        $memberShields = DB::table($memberShieldsTable)->where('member_id', $mid)->where('shield_type', 1)->where('deleted_at', null)->pluck('shield_id')->toArray();
+        $GroupShields = DB::table($memberShieldsTable)->where('member_id', $mid)->where('shield_type', 2)->where('deleted_at', null)->pluck('shield_id')->toArray();
+        $shieldshashtags = DB::table($memberShieldsTable)->where('member_id', $mid)->where('shield_type', 3)->where('deleted_at', null)->pluck('shield_id')->toArray();
         $noPostHashtags = FresnsHashtagLinkeds::where('linked_type', 1)->whereIn('hashtag_id', $shieldshashtags)->pluck('linked_id')->toArray();
-        $commentShields = DB::table($memberShieldsTable)->where('member_id', $mid)->where('shield_type', 4)->where('deleted_at',null)->pluck('shield_id')->toArray();
+        $commentShields = DB::table($memberShieldsTable)->where('member_id', $mid)->where('shield_type', 4)->where('deleted_at', null)->pluck('shield_id')->toArray();
         $postArr2 = FresnsPosts::whereNotIn('group_id', $noGroupArr)->whereNotIn('member_id', $memberShields)->whereNotIn('group_id', $GroupShields)->whereNotIn('id', $noPostHashtags)->whereNotIn('id', $commentShields)->pluck('id')->toArray();
         $idArr = array_intersect($postArr1, $postArr2);
         $searchType = $request->input('searchType', '');
@@ -767,6 +767,7 @@ class FsControllerApi extends FresnsBaseApiController
         foreach ($result as $key => $v) {
             $res[] = $v->id;
         }
+
         return $res;
     }
 

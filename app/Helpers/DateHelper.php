@@ -209,8 +209,8 @@ class DateHelper
         $language = ApiConfigHelper::getConfigByItemKey('language_menus');
         $langTag = ApiLanguageHelper::getLangTagByHeader();
         $langInfo = [];
-        if($language){
-            $language = json_decode($language,true);
+        if ($language) {
+            $language = json_decode($language, true);
             foreach ($language as $l) {
                 if ($l['langTag'] == $langTag) {
                     $langInfo = $l;

@@ -8,8 +8,8 @@
 
 namespace App\Http\FresnsApi\Message;
 
-use App\Http\Center\Common\GlobalService;
 use App\Http\Center\Common\ErrorCodeService;
+use App\Http\Center\Common\GlobalService;
 use App\Http\Center\Common\ValidateService;
 use App\Http\FresnsApi\Base\FresnsBaseApiController;
 use App\Http\FresnsApi\Content\FsConfig as ContentConfig;

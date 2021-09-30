@@ -33,7 +33,7 @@ class FsConfig
     const LIKE_POST_NAME = 'like_post_name';
     const FOLLOW_POST_NAME = 'follow_post_name';
     const SHIELD_POST_NAME = 'shield_post_name';
-    
+
     const LIKE_COMMENT_NAME = 'like_comment_name';
     const FOLLOW_COMMENT_NAME = 'follow_comment_name';
     const SHIELD_COMMENT_NAME = 'shield_comment_name';

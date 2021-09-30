@@ -24,6 +24,7 @@ class FsService extends BaseCategoryService
     public function common()
     {
         $common = parent::common();
+
         return $common;
     }
 }

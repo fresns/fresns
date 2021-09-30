@@ -10,5 +10,4 @@ namespace App\Http\FresnsApi\User;
 
 class FsUserService extends FsService
 {
-    
 }

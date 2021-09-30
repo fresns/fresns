@@ -39,6 +39,7 @@ class FsChecker extends BaseChecker
             $memberInfo = FresnsMembers::find($mid);
             if ($memberInfo['expired_at'] && ($memberInfo['expired_at'] <= date('Y-m-d H:i:s'))) {
                 LogService::info('Your account status has expired', $memberInfo);
+
                 return self::checkInfo(ErrorCodeService::MEMBER_EXPIRED_ERROR);
             }
         }

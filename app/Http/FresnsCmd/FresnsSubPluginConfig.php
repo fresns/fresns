@@ -24,7 +24,7 @@ class FresnsSubPluginConfig extends BasePluginConfig
 
     // Subscribe to user activity status
     public const PLG_CMD_SUB_USER_ACTIVE = 'plg_cmd_sub_user_active';
-    
+
     const PLG_CMD_HANDLE_MAP = [
         self::PLG_CMD_SUB_ADD_TABLE => 'subAddTableHandler',
         self::PLG_CMD_SUB_USER_ACTIVE => 'subUserActiveHandler',

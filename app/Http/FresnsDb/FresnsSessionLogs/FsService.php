@@ -27,6 +27,7 @@ class FsService extends BaseAdminService
     public function common()
     {
         $common = parent::common();
+
         return $common;
     }
 
@@ -53,7 +54,7 @@ class FsService extends BaseAdminService
         $map = GlobalConfig::URI_CONVERSION_OBJECT_TYPE_NO;
         $objectType = '';
 
-        if(empty($type)){
+        if (empty($type)) {
             foreach ($map as $k => $v) {
                 if (in_array($requestUri, $v)) {
                     $objectType = $k;

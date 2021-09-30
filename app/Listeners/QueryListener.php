@@ -3,8 +3,8 @@
 namespace App\Listeners;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 
 class QueryListener
@@ -28,7 +28,7 @@ class QueryListener
     public function handle(QueryExecuted $event)
     {
         if (env('APP_ENV', 'production') == 'local') {
-            $sql = str_replace("?", "'%s'", $event->sql);
+            $sql = str_replace('?', "'%s'", $event->sql);
             $log = vsprintf($sql, $event->bindings);
             Log::info($log);
         }

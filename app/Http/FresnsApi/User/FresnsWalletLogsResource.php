@@ -17,9 +17,8 @@ use App\Http\FresnsDb\FresnsPluginUsages\FresnsPluginUsagesConfig;
 use App\Http\FresnsDb\FresnsUserWalletLogs\FresnsUserWalletLogs;
 
 /**
- * List resource config handle
+ * List resource config handle.
  */
-
 class FresnsWalletLogsResource extends BaseAdminResource
 {
     public function toArray($request)

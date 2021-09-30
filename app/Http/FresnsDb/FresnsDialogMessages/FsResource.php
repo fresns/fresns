@@ -12,9 +12,8 @@ use App\Base\Resources\BaseAdminResource;
 use App\Http\FresnsApi\Base\FresnsBaseService;
 
 /**
- * List resource config handle
+ * List resource config handle.
  */
-
 class FsResource extends FresnsBaseService
 {
     public function toArray($request)

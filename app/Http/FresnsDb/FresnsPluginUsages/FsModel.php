@@ -10,8 +10,8 @@ namespace App\Http\FresnsDb\FresnsPluginUsages;
 
 use App\Base\Models\BaseAdminModel;
 use App\Http\FresnsDb\FresnsFiles\FresnsFiles;
-use App\Http\FresnsDb\FresnsLanguages\FsModel as FresnsLanguagesModel;
 use App\Http\FresnsDb\FresnsLanguages\FresnsLanguagesService;
+use App\Http\FresnsDb\FresnsLanguages\FsModel as FresnsLanguagesModel;
 
 class FsModel extends BaseAdminModel
 {

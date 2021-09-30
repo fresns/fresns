@@ -34,7 +34,7 @@ class FsModel extends BaseAdminModel
 
     public function getRawSqlQuery()
     {
-        $query = DB::table(FsConfig::CFG_TABLE) ->where('deleted_at', null);
+        $query = DB::table(FsConfig::CFG_TABLE)->where('deleted_at', null);
         $request = request();
         // 1.Draft + review rejection (status=1+4)
         // 2.Under Review (status=2)

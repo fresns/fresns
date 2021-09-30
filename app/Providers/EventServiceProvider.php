@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
+use App\Listeners\QueryListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
-use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Database\Events\QueryExecuted;
-use App\Listeners\QueryListener;
+use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -21,7 +21,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         QueryExecuted::class => [
             QueryListener::class,
-        ]
+        ],
     ];
 
     /**

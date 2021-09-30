@@ -17,8 +17,8 @@ use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShields;
 class FsChecker extends FresnsBaseChecker
 {
     /**
-     * Check if likes, followers and blockers are added
-     * 
+     * Check if likes, followers and blockers are added.
+     *
      * markType 1.like / 2.follow / 3.block
      * markTarget 1.member / 2.group / 3.hashtag / 4.post / 5.comment
      */
@@ -54,8 +54,8 @@ class FsChecker extends FresnsBaseChecker
     /**
      * Whether the right to operate
      * https://fresns.org/database/keyname/interactives.html
-     * Interactive behavior settings
-     * 
+     * Interactive behavior settings.
+     *
      * markType 1.like / 2.follow / 3.block
      * markTarget 1.member / 2.group / 3.hashtag / 4.post / 5.comment
      */
@@ -128,8 +128,8 @@ class FsChecker extends FresnsBaseChecker
     /**
      * Whether to output data when viewing other people's information
      * https://fresns.org/database/keyname/interactives.html
-     * View other people's content settings
-     * 
+     * View other people's content settings.
+     *
      * markType 1.like / 2.follow / 3.block
      * markTarget 1.member / 2.group / 3.hashtag / 4.post / 5.comment
      */

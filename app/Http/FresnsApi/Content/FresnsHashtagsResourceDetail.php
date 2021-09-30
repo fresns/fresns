@@ -26,9 +26,8 @@ use App\Http\FresnsDb\FresnsPluginUsages\FresnsPluginUsagesService;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Detail resource config handle
+ * Detail resource config handle.
  */
-
 class FresnsHashtagsResourceDetail extends BaseAdminResource
 {
     public function toArray($request)
@@ -103,7 +102,7 @@ class FresnsHashtagsResourceDetail extends BaseAdminResource
             // 'likeName' => $likeName,
             // 'shieldName' => $shieldName,
         ];
-        
+
         // Merger
         $arr = $default;
 

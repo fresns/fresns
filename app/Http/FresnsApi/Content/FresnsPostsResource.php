@@ -28,6 +28,7 @@ use App\Http\FresnsDb\FresnsExtends\FresnsExtendsConfig;
 use App\Http\FresnsDb\FresnsFiles\FresnsFiles;
 use App\Http\FresnsDb\FresnsGroups\FresnsGroups;
 use App\Http\FresnsDb\FresnsGroups\FresnsGroupsConfig;
+use App\Http\FresnsDb\FresnsHashtagLinkeds\FresnsHashtagLinkeds;
 use App\Http\FresnsDb\FresnsHashtags\FresnsHashtags;
 use App\Http\FresnsDb\FresnsImplants\FresnsImplants;
 use App\Http\FresnsDb\FresnsImplants\FresnsImplantsConfig;
@@ -50,24 +51,22 @@ use App\Http\FresnsDb\FresnsPostAllows\FresnsPostAllowsConfig;
 use App\Http\FresnsDb\FresnsPostAppends\FresnsPostAppends;
 use App\Http\FresnsDb\FresnsPostAppends\FresnsPostAppendsConfig;
 use App\Http\FresnsDb\FresnsPostMembers\FresnsPostMembers;
+use App\Http\FresnsDb\FresnsPosts\FresnsPosts;
 use App\Http\FresnsDb\FresnsPosts\FresnsPostsConfig;
 use App\Http\FresnsDb\FresnsPosts\FresnsPostsService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use App\Http\FresnsDb\FresnsPosts\FresnsPosts;
-use App\Http\FresnsDb\FresnsHashtagLinkeds\FresnsHashtagLinkeds;
 use Illuminate\Support\Facades\Request;
 
 /**
- * List resource config handle
+ * List resource config handle.
  */
-
 class FresnsPostsResource extends BaseAdminResource
 {
     public function toArray($request)
     {
         // Form Field
-        
+
         // Data Table: post_appends
         $append = DB::table(FresnsPostAppendsConfig::CFG_TABLE)->where('post_id', $this->id)->first();
         if ($append) {
@@ -167,7 +166,7 @@ class FresnsPostsResource extends BaseAdminResource
         $allowStatus = $this->is_allow;
         $allowBtnName = ApiLanguageHelper::getLanguages(FresnsPostsConfig::CFG_TABLE, 'allow_btn_name', $this->id);
         $allowBtnName = $allowBtnName == null ? '' : $allowBtnName['lang_content'];
-        $allowBtnUrl = $append['allow_plugin_unikey'] ?? "";
+        $allowBtnUrl = $append['allow_plugin_unikey'] ?? '';
         $memberListName = ApiLanguageHelper::getLanguages(FresnsPostsConfig::CFG_TABLE, 'member_list_name', $this->id);
         $memberListName = $memberListName == null ? '' : $memberListName['lang_content'];
         $memberListCount = Db::table('post_members')->where('post_id', $this->id)->count();
@@ -302,20 +301,20 @@ class FresnsPostsResource extends BaseAdminResource
             $attachCount['docs'] = 0;
             $attachCount['extends'] = DB::table(FresnsExtendLinkedsConfig::CFG_TABLE)->where('linked_type', 2)->where('linked_id', $this->id)->count();
             $more_json_decode = json_decode($this->more_json, true);
-            if($more_json_decode){
-                if(isset($more_json_decode['files'])){
-                    foreach($more_json_decode['files'] as $m){
-                        if($m['type'] == 1){
-                            $attachCount['images'] ++;
+            if ($more_json_decode) {
+                if (isset($more_json_decode['files'])) {
+                    foreach ($more_json_decode['files'] as $m) {
+                        if ($m['type'] == 1) {
+                            $attachCount['images']++;
                         }
-                        if($m['type'] == 2){
-                            $attachCount['videos'] ++;
+                        if ($m['type'] == 2) {
+                            $attachCount['videos']++;
                         }
-                        if($m['type'] == 3){
-                            $attachCount['audios'] ++;
+                        if ($m['type'] == 3) {
+                            $attachCount['audios']++;
                         }
-                        if($m['type'] == 4){
-                            $attachCount['docs'] ++;
+                        if ($m['type'] == 4) {
+                            $attachCount['docs']++;
                         }
                     }
                 }
@@ -337,9 +336,9 @@ class FresnsPostsResource extends BaseAdminResource
         $location['mapId'] = $this->map_id;
         $location['latitude'] = $this->map_latitude;
         $location['longitude'] = $this->map_longitude;
-        $location['scale'] = $append['map_scale'] ?? "";
-        $location['poi'] = $append['map_poi'] ?? "";
-        $location['poiId'] = $append['map_poi_id'] ?? "";
+        $location['scale'] = $append['map_scale'] ?? '';
+        $location['poi'] = $append['map_poi'] ?? '';
+        $location['poiId'] = $append['map_poi_id'] ?? '';
         $location['distance'] = '';
         $longitude = request()->input('longitude', '');
         $latitude = request()->input('latitude', '');
@@ -364,20 +363,20 @@ class FresnsPostsResource extends BaseAdminResource
         $attachCount['docs'] = 0;
         $attachCount['extends'] = DB::table(FresnsExtendLinkedsConfig::CFG_TABLE)->where('linked_type', 2)->where('linked_id', $this->id)->count();
         $more_json_decode = json_decode($this->more_json, true);
-        if($more_json_decode){
-            if(isset($more_json_decode['files'])){
-                foreach($more_json_decode['files'] as $m){
-                    if($m['type'] == 1){
-                        $attachCount['images'] ++;
+        if ($more_json_decode) {
+            if (isset($more_json_decode['files'])) {
+                foreach ($more_json_decode['files'] as $m) {
+                    if ($m['type'] == 1) {
+                        $attachCount['images']++;
                     }
-                    if($m['type'] == 2){
-                        $attachCount['videos'] ++;
+                    if ($m['type'] == 2) {
+                        $attachCount['videos']++;
                     }
-                    if($m['type'] == 3){
-                        $attachCount['audios'] ++;
+                    if ($m['type'] == 3) {
+                        $attachCount['audios']++;
                     }
-                    if($m['type'] == 4){
-                        $attachCount['docs'] ++;
+                    if ($m['type'] == 4) {
+                        $attachCount['docs']++;
                     }
                 }
             }
@@ -500,7 +499,7 @@ class FresnsPostsResource extends BaseAdminResource
         $managesArr = [];
         $TweetPluginUsagesArr = FresnsPluginUsages::where('type', 5)->where('scene', 'like', '%1%')->get();
         if ($TweetPluginUsagesArr) {
-            foreach($TweetPluginUsagesArr as $TweetPluginUsages){
+            foreach ($TweetPluginUsagesArr as $TweetPluginUsages) {
                 $manages = [];
                 $manages['plugin'] = $TweetPluginUsages['plugin_unikey'];
                 $plugin = FresnsPlugins::where('unikey', $TweetPluginUsages['plugin_unikey'])->first();
@@ -546,7 +545,7 @@ class FresnsPostsResource extends BaseAdminResource
                 $managesArr[] = $manages;
             }
         }
-        
+
         // Edit Status
         $editStatus = [];
         // Is the current member an author
@@ -575,10 +574,10 @@ class FresnsPostsResource extends BaseAdminResource
             }
         }
         $editStatus['canEdit'] = $postEdit;
-        
+
         // Delete Status
         $editStatus['canDelete'] = $append['can_delete'] == 1 ? true : false;
-        
+
         // more_json
         $more_json = json_decode($this->more_json, true);
         $icons = $more_json['icons'] ?? [];
@@ -630,10 +629,10 @@ class FresnsPostsResource extends BaseAdminResource
             'manages' => $managesArr,
             'editStatus' => $editStatus,
         ];
-        
+
         // Get posts from object to follow
         $uri = Request::getRequestUri();
-        if($uri == '/api/fresns/post/follows'){
+        if ($uri == '/api/fresns/post/follows') {
             $followType = $this->contentByType($this->id);
             $default = [
                 'pid' => $pid,
@@ -682,16 +681,16 @@ class FresnsPostsResource extends BaseAdminResource
                 'editStatus' => $editStatus,
                 'followType' => $followType,
             ];
-            if($followType == 'hashtag'){
-                $hashtagId= FresnsHashtagLinkeds::where('linked_type',1)->where('linked_id',$this->id)->first();
-                $hashTagInfo = "";
-                if($hashtagId){
+            if ($followType == 'hashtag') {
+                $hashtagId = FresnsHashtagLinkeds::where('linked_type', 1)->where('linked_id', $this->id)->first();
+                $hashTagInfo = '';
+                if ($hashtagId) {
                     $hashTagInfo = FresnsHashtags::find($hashtagId['hashtag_id']);
                 }
                 $hashtag = [];
-                $hashtag['huri'] = $hashTagInfo['slug'] ?? "";
-                $hashtag['hname'] = $hashTagInfo['name'] ?? "";
-                $hashtag['cover'] = $hashTagInfo['cover_file_url'] ?? "";
+                $hashtag['huri'] = $hashTagInfo['slug'] ?? '';
+                $hashtag['hname'] = $hashTagInfo['name'] ?? '';
+                $hashtag['cover'] = $hashTagInfo['cover_file_url'] ?? '';
                 $default = [
                     'pid' => $pid,
                     'title' => $title,
@@ -740,14 +739,14 @@ class FresnsPostsResource extends BaseAdminResource
                     'followType' => $followType,
                     'hashtag' => $hashtag,
                 ];
-            } 
+            }
         }
-         // Merger
+        // Merger
         $arr = $default;
 
         return $arr;
     }
-    
+
     // Distance Conversion
     public function GetDistance($lat1, $lng1, $lat2, $lng2, $distanceUnits)
     {
@@ -766,7 +765,7 @@ class FresnsPostsResource extends BaseAdminResource
             $s = round($s * 1000);
         }
         $s = round($s / 1000) == 0 ? 1 : round($s / 1000);
-        
+
         return $s.$distanceUnits;
     }
 
@@ -774,7 +773,6 @@ class FresnsPostsResource extends BaseAdminResource
     {
         return $d * M_PI / 180.0;
     }
-
 
     // Content Data Export Operations
     public static function getContentView($content, $postId, $postType)
@@ -843,9 +841,9 @@ class FresnsPostsResource extends BaseAdminResource
                 // hashtag info
                 if ($hashtagsInfo) {
                     $jumpUrl = ApiConfigHelper::getConfigByItemKey(FsConfig::SITE_DOMAIN)."/hashtag/{$hashtagsInfo['slug']}";
-                    if($hashtagShow == 1){
+                    if ($hashtagShow == 1) {
                         $content = str_replace($s, "<a href='{$jumpUrl}' class='fresns_content_hashtag'>$noTrimHashTags</a> ", $content);
-                    }else{
+                    } else {
                         $content = str_replace($s, "<a href='{$jumpUrl}' class='fresns_content_hashtag'>$s</a>", $content);
                     }
                 }
@@ -856,43 +854,45 @@ class FresnsPostsResource extends BaseAdminResource
     }
 
     // Determine which follow object the current content comes from
-    public function contentByType($id){
+    public function contentByType($id)
+    {
         $request = request();
-        $followType = "";
+        $followType = '';
         $followType = $request->input('followType');
         $mid = GlobalService::getGlobalKey('member_id');
-        if(!$followType){
+        if (! $followType) {
             // Posts by following hashtags
             $folloHashtagArr = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 3)->where('deleted_at', null)->pluck('follow_id')->toArray();
             $postIdArr = FresnsHashtagLinkeds::where('linked_type', 1)->whereIn('hashtag_id', $folloHashtagArr)->pluck('linked_id')->toArray();
             $postHashtagIdArr = FresnsPosts::whereIn('id', $postIdArr)->where('essence_status', '!=', 1)->pluck('id')->toArray();
-            if(in_array($id,$postHashtagIdArr)){
+            if (in_array($id, $postHashtagIdArr)) {
                 $followType = 'hashtag';
             }
             // Posts by following groups
             $folloGroupArr = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 2)->where('deleted_at', null)->pluck('follow_id')->toArray();
             $postGroupIdArr = FresnsPosts::whereIn('group_id', $folloGroupArr)->where('essence_status', '!=', 1)->pluck('id')->toArray();
-            if(in_array($id,$postGroupIdArr)){
+            if (in_array($id, $postGroupIdArr)) {
                 $followType = 'group';
             }
             // Only posts that have been added to the essence are exported under groups and hashtags
             // Posts set as secondary essence, forced output
             $essenceIdArr = FresnsPosts::where('essence_status', 3)->pluck('id')->toArray();
-            if(in_array($id,$essenceIdArr)){
+            if (in_array($id, $essenceIdArr)) {
                 $followType = 'group';
             }
             // My posts
             $mePostsArr = FresnsPosts::where('member_id', $mid)->pluck('id')->toArray();
-            if(in_array($id,$mePostsArr)){
+            if (in_array($id, $mePostsArr)) {
                 $followType = 'member';
             }
             // Posts by following members
             $followMemberArr = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 1)->pluck('follow_id')->toArray();
             $postMemberIdArr = FresnsPosts::whereIn('member_id', $followMemberArr)->pluck('id')->toArray();
-            if(in_array($id,$postMemberIdArr)){
+            if (in_array($id, $postMemberIdArr)) {
                 $followType = 'member';
-            } 
+            }
         }
+
         return $followType;
     }
 }

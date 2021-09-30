@@ -39,7 +39,7 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * Class FresnsCrontabPlugin
- * Fresns (https://fresns.org) Timed Tasks
+ * Fresns (https://fresns.org) Timed Tasks.
  */
 class FresnsCrontabPlugin extends BasePlugin
 {
@@ -168,12 +168,12 @@ class FresnsCrontabPlugin extends BasePlugin
 
     /**
      * Perform user role expiration time detection every 10 minutes
-     * https://fresns.org/contributing/information/task.html
+     * https://fresns.org/contributing/information/task.html.
      */
     // Database Table: member_role_rels
     protected function crontabCheckRoleExpiredHandler($input)
     {
-        $sessionId = FresnsSessionLogsService::addSessionLogs('plg_cmd_crontab_check_role_expired', 'Timed Tasks: Check Role Expired',null,null,null,null,15);
+        $sessionId = FresnsSessionLogsService::addSessionLogs('plg_cmd_crontab_check_role_expired', 'Timed Tasks: Check Role Expired', null, null, null, null, 15);
         $memberInfo = FresnsMemberRoleRels::where('type', 2)->where('expired_at', '!=', null)->get()->toArray();
         if ($memberInfo) {
             foreach ($memberInfo as $m) {
@@ -213,11 +213,11 @@ class FresnsCrontabPlugin extends BasePlugin
      * 1.Delete function is not enabled
      * 2.Logical Deletion
      * 3.Physical Deletion
-     * https://fresns.org/contributing/information/task.html
+     * https://fresns.org/contributing/information/task.html.
      */
     protected function crontabCheckDeleteUserHandler($input)
     {
-        $sessionId = FresnsSessionLogsService::addSessionLogs('plg_cmd_crontab_check_delete_user', 'Timed Tasks: Check Delete User',null,null,null,null,15);
+        $sessionId = FresnsSessionLogsService::addSessionLogs('plg_cmd_crontab_check_delete_user', 'Timed Tasks: Check Delete User', null, null, null, null, 15);
         $deleteAccount = ApiConfigHelper::getConfigByItemKey('delete_account');
         $deleteAccountTodo = ApiConfigHelper::getConfigByItemKey('delete_account_todo') ?? 0;
         if ($deleteAccount == 1) {
@@ -263,7 +263,7 @@ class FresnsCrontabPlugin extends BasePlugin
     }
 
     /**
-     * 2.Logical Deletion
+     * 2.Logical Deletion.
      */
     public function softDelete($input)
     {
@@ -285,7 +285,7 @@ class FresnsCrontabPlugin extends BasePlugin
         DB::table(FresnsUserConnectsConfig::CFG_TABLE)->where('user_id', $id)->delete();
         /**
          * Handle Dialogs: If a record exists, it is marked as deactivated
-         * The column is a_is_deactivate or b_is_deactivate
+         * The column is a_is_deactivate or b_is_deactivate.
          */
         // Query all member ids under the user
         $memberIdArr = DB::table(FresnsMembersConfig::CFG_TABLE)->where('user_id', $id)->pluck('id')->toArray();
@@ -303,8 +303,8 @@ class FresnsCrontabPlugin extends BasePlugin
 
     /**
      * 3.Physical Deletion
-     * Delete all records from the following tables of the user
-     * 
+     * Delete all records from the following tables of the user.
+     *
      * users
      * user_connects
      * user_wallets

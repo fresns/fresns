@@ -46,10 +46,10 @@ class FsModel extends BaseCategoryModel
         $commentTable = FresnsCommentsConfig::CFG_TABLE;
         $commentAppendTable = FresnsCommentAppendsConfig::CFG_TABLE;
         $postTable = FresnsPostsConfig::CFG_TABLE;
-        
+
         /**
          * API Logic
-         * https://fresns.org/api/content/comment-lists.html
+         * https://fresns.org/api/content/comment-lists.html.
          */
 
         // Target fields to be masked
@@ -243,6 +243,7 @@ class FsModel extends BaseCategoryModel
                 $query->orderBy('comment.created_at', $sortWayType);
                 break;
         }
+
         return $query;
     }
 

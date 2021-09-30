@@ -53,6 +53,7 @@ class FileSceneConfig
             'file' => 'required|file',
             'file_type' => 'required|min:2',
         ];
+
         return $rule;
     }
 
@@ -63,6 +64,7 @@ class FileSceneConfig
             'fileBase64' => 'required|min:30',
             'file_type' => 'required|min:2',
         ];
+
         return $rule;
     }
 }

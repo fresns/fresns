@@ -23,6 +23,7 @@ class FsService extends BaseAdminService
     public function common()
     {
         $common = parent::common();
+
         return $common;
     }
 
@@ -31,7 +32,7 @@ class FsService extends BaseAdminService
         $startNum = ($size - 1) * $pageSize;
         $endNum = $size * $pageSize;
         $data = FresnsImplants::where('implant_type', $type)->where('position', '>=', $startNum)->where('position', '<', $endNum)->get(['id', 'implant_template', 'type', 'target', 'value', 'support', 'position']);
-        
+
         // Determine if it is expired
         if ($data) {
             foreach ($data as &$v) {

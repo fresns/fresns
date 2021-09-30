@@ -74,7 +74,8 @@ class PluginController extends BaseController
 
     /**
      * Uninstall the plugin.
-     * @param Request $request
+     *
+     * @param  Request  $request
      */
     public function uninstall(Request $request)
     {
@@ -89,7 +90,8 @@ class PluginController extends BaseController
 
     /**
      * Upgrade plugin.
-     * @param Request $request
+     *
+     * @param  Request  $request
      */
     public function upgrade(Request $request)
     {

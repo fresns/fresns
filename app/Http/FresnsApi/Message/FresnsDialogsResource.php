@@ -20,9 +20,8 @@ use App\Http\FresnsDb\FresnsMembers\FresnsMembersConfig;
 use Illuminate\Support\Facades\DB;
 
 /**
- * List resource config handle
+ * List resource config handle.
  */
-
 class FresnsDialogsResource extends BaseAdminResource
 {
     public function toArray($request)

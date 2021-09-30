@@ -39,7 +39,7 @@ class FsModel extends BaseAdminModel
         // Target fields to be masked
         $request = request();
         $mid = $request->header('mid');
-        $query = DB::table("$extendsTable as extends")->select('extends.*') ->where('extends.deleted_at', null);
+        $query = DB::table("$extendsTable as extends")->select('extends.*')->where('extends.deleted_at', null);
 
         // Search
         $searchKey = $request->input('searchKey');
