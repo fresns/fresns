@@ -732,7 +732,7 @@ class FsControllerWeb extends BaseFrontendController
         // Provide parameters for whether data should be deleted when the plugin is uninstalled
         // clear_plugin_data = 1 // Delete files and data
         // clear_plugin_data = 0 // Delete files only
-        $clear_plugin_data = $request->input('clear_plugin_data');//是否删除插件数据库数据
+        $clear_plugin_data = $request->input('clear_plugin_data');
 
         $uniKey = $request->input('unikey');
 
