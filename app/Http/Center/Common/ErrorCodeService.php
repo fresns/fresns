@@ -78,7 +78,7 @@ class ErrorCodeService
     const BALANCE_CLOSING_BALANCE_ERROR = 30228;
     const TO_USER_WALLETS_ERROR = 30229;
     const TO_BALANCE_CLOSING_BALANCE_ERROR = 30230;
-    
+
     // Member
     const MEMBER_FAIL = 30300;
     const MEMBER_ERROR = 30301;
@@ -171,7 +171,7 @@ class ErrorCodeService
     const COMMENT_REMOKE_ERROR = 30824;
     const CONTENT_AUTHOR_ERROR = 30825;
     const COMMENT_CREATE_ERROR = 30826;
-    
+
     // Editor Check Parameters
     const MEMBER_LIST_JSON_ERROR = 30900;
     const COMMENT_SET_JSON_ERROR = 30901;
@@ -365,7 +365,7 @@ class ErrorCodeService
         self::COMMENT_REMOKE_ERROR              => 'There is no need to withdraw the comment, for it is not being reviewed',
         self::CONTENT_AUTHOR_ERROR              => 'Operation failed. Please confirm that you are the author',
         self::COMMENT_CREATE_ERROR              => 'Failed to create draft comment. Only first-level comment can create draft',
-        
+
         // Editor Check Parameters
         self::MEMBER_LIST_JSON_ERROR            => 'memberListJson format error or abnormal data',
         self::COMMENT_SET_JSON_ERROR            => 'commentSetJson format error or abnormal data',

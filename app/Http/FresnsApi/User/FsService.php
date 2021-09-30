@@ -147,25 +147,25 @@ class FsService
             $item['deactivateTime'] = DateHelper::fresnsOutputTimeToTimezone($v->deleted_at);
 
             // Determine if all roles of the member are in the "entitled roles" list
-            $memberRoleIdArr = FresnsMemberRoleRels::where('member_id', $v->id)->where('type',1)->pluck('role_id')->toArray();
+            $memberRoleIdArr = FresnsMemberRoleRels::where('member_id', $v->id)->where('type', 1)->pluck('role_id')->toArray();
             $memberRoleIdArr[] = $roleId;
             $permissionsRoleIdJson = ApiConfigHelper::getConfigByItemKey('multi_member_roles');
-            $permissionsRoleIdArr = json_decode($permissionsRoleIdJson,true) ?? [];
+            $permissionsRoleIdArr = json_decode($permissionsRoleIdJson, true) ?? [];
             $multiMemberServiceUrl = '';
-            if(!empty($permissionsRoleIdArr)){
+            if (! empty($permissionsRoleIdArr)) {
                 $isPermissions = false;
-                foreach($memberRoleIdArr as $memberRoleId){
-                    if(in_array($memberRoleId,$permissionsRoleIdArr)){
+                foreach ($memberRoleIdArr as $memberRoleId) {
+                    if (in_array($memberRoleId, $permissionsRoleIdArr)) {
                         $isPermissions = true;
                         break;
                     }
                 }
-                if($isPermissions === true){
+                if ($isPermissions === true) {
                     $multiMemberServiceUnikey = ApiConfigHelper::getConfigByItemKey('multi_member_service');
                     $multiMemberServiceUrl = FresnsPluginsService::getPluginUrlByUnikey($multiMemberServiceUnikey);
                 }
             }
-            
+
             $item['multiple'] = $multiMemberServiceUrl;
             $itemArr[] = $item;
         }

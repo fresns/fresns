@@ -24,9 +24,8 @@ use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShieldsConfig;
 use Illuminate\Support\Facades\DB;
 
 /**
- * List resource config handle
+ * List resource config handle.
  */
-
 class FresnsHashtagsResource extends BaseAdminResource
 {
     public function toArray($request)

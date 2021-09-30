@@ -9,14 +9,14 @@
 namespace App\Http\FresnsApi\Member;
 
 use App\Helpers\DateHelper;
-use App\Http\Center\Common\GlobalService;
 use App\Http\Center\Common\ErrorCodeService;
+use App\Http\Center\Common\GlobalService;
 use App\Http\Center\Common\ValidateService;
 use App\Http\Center\Helper\CmdRpcHelper;
 use App\Http\FresnsApi\Base\FresnsBaseApiController;
+use App\Http\FresnsApi\Content\FresnsCommentsResource;
 use App\Http\FresnsApi\Content\FresnsGroupsResource;
 use App\Http\FresnsApi\Content\FresnsHashtagsResource;
-use App\Http\FresnsApi\Content\FresnsCommentsResource;
 use App\Http\FresnsApi\Content\FresnsPostsResource;
 use App\Http\FresnsApi\Helpers\ApiConfigHelper;
 use App\Http\FresnsApi\Helpers\ApiLanguageHelper;
@@ -415,8 +415,7 @@ class FsControllerApi extends FresnsBaseApiController
             FresnsSessionLogsService::updateSessionLogs($sessionId, 2, $uid, $mid, $mid);
         }
 
-        
-        $this->success((object)[]);
+        $this->success((object) []);
     }
 
     // Get Member Role List
@@ -461,7 +460,7 @@ class FsControllerApi extends FresnsBaseApiController
         /**
          * Whether to output data when viewing other people's information
          * https://fresns.org/database/keyname/interactives.html
-         * View other people's content settings
+         * View other people's content settings.
          */
         $typeArr = [4, 5];
         if (! in_array($type, $typeArr)) {
@@ -476,8 +475,8 @@ class FsControllerApi extends FresnsBaseApiController
         /**
          * Whether to output data when viewing other people's information
          * https://fresns.org/database/keyname/interactives.html
-         * View other people's content settings
-         * 
+         * View other people's content settings.
+         *
          * type=1 Get a list of all members liked by objectType > objectId (query member_likes table)
          * type=2 Get a list of all members followed by objectType > objectId (query member_follows table)
          * type=3 Get a list of all members blocked by objectType > objectId (query member_shields table)
@@ -663,8 +662,8 @@ class FsControllerApi extends FresnsBaseApiController
         /**
          * Whether the right to operate
          * https://fresns.org/database/keyname/interactives.html
-         * Interactive behavior settings
-         * 
+         * Interactive behavior settings.
+         *
          * Tag members can not be themselves, as well as their own published posts, comments
          */
         $checkerApi = FsChecker::checkMarkApi($markType, $markTarget);
@@ -1033,7 +1032,7 @@ class FsControllerApi extends FresnsBaseApiController
         /**
          * Whether to output data when viewing other people's information
          * https://fresns.org/database/keyname/interactives.html
-         * View other people's content settings
+         * View other people's content settings.
          */
         if ($mid != $authMemberId) {
             $isMarkLists = FsChecker::checkMarkLists($viewType, $viewTarget);

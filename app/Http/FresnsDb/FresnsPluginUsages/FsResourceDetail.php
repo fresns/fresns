@@ -14,9 +14,8 @@ use App\Http\FresnsDb\FresnsLanguages\FresnsLanguages;
 use App\Http\FresnsDb\FresnsMemberRoles\FresnsMemberRoles;
 
 /**
- * Detail resource config handle
+ * Detail resource config handle.
  */
-
 class FsResourceDetail extends BaseAdminResource
 {
     public function toArray($request)
@@ -27,7 +26,7 @@ class FsResourceDetail extends BaseAdminResource
         foreach ($formMap as $k => $dbField) {
             $formMapFieldsArr[$dbField] = $this->$dbField;
         }
-        
+
         // Languages
         $languageArr = FresnsConfigsService::getLanguageStatus();
         $multilingual = $languageArr['languagesOption'];

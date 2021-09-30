@@ -8,8 +8,8 @@
 
 namespace App\Traits;
 
-use App\Http\Center\Common\GlobalService;
 use App\Http\Center\Common\ErrorCodeService;
+use App\Http\Center\Common\GlobalService;
 use App\Http\Center\Common\LogService;
 use App\Http\FresnsApi\Helpers\ApiLanguageHelper;
 use App\Http\FresnsDb\FresnsCodeMessages\FresnsCodeMessagesConfig;

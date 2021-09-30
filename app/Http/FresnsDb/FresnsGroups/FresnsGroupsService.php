@@ -65,8 +65,8 @@ class FresnsGroupsService extends FresnsBaseService
         if ($group) {
             $pluginUsagesArr = FresnsPluginUsages::where('type', 6)->where('group_id', $group['id'])->get();
             if ($pluginUsagesArr) {
-                foreach($pluginUsagesArr as $pluginUsages){
-                    $extends= [];
+                foreach ($pluginUsagesArr as $pluginUsages) {
+                    $extends = [];
                     $plugin = pluginUnikey::where('unikey', $pluginUsages['plugin_unikey'])->first();
                     $pluginBadges = FresnsPluginBadges::where('plugin_unikey', $pluginUsages['plugin_unikey'])->first();
                     $extends['plugin'] = $pluginUsages['plugin_unikey'] ?? '';
@@ -215,7 +215,7 @@ class FresnsGroupsService extends FresnsBaseService
         $publish_comment = $permissionArr['publish_comment'];
         $publish_comment_roles = $permissionArr['publish_comment_roles'];
         $publish_comment_review = $permissionArr['publish_comment_review'];
-        
+
         $adminMemberArr = [];
         if ($admin_member) {
             foreach ($admin_member as $a) {

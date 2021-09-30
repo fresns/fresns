@@ -27,8 +27,8 @@ class FsService
 {
     /**
      * post_logs > post_id and comment_logs > comment_id
-     * https://fresns.org/api/editor/delete.html
-     * 
+     * https://fresns.org/api/editor/delete.html.
+     *
      * What's New content: empty, representing new content.
      * Edit existing content: With value, means edit content.
      */
@@ -279,7 +279,7 @@ class FsService
     }
 
     // Editor config info: Publish post perm
-    public function publishPostPerm($user,$permission)
+    public function publishPostPerm($user, $permission)
     {
         // Global checksum (post)
         // Email, Phone number, Real name
@@ -306,7 +306,7 @@ class FsService
             if ($permissionArr) {
                 $permissionMap = FresnsMemberRolesService::getPermissionMap($permissionArr);
                 LogService::info('permissionMap-checkPermission', $permissionMap);
-                if($permissionMap['post_publish'] == false){
+                if ($permissionMap['post_publish'] == false) {
                     return ErrorCodeService::ROLE_NO_PERMISSION_PUBLISH;
                 }
                 // Publish Post Request - Email
@@ -329,11 +329,13 @@ class FsService
                 }
             }
         }
+
         return 0;
     }
 
     // Editor config info: Role limit permissions
-    public function postRoleLimit($permissionMap){
+    public function postRoleLimit($permissionMap)
+    {
         if ($permissionMap['post_limit_status'] == true) {
             $post_limit_rule = $permissionMap['post_limit_rule'];
             if ($permissionMap['post_limit_type'] == 1) {
@@ -371,11 +373,13 @@ class FsService
                 }
             }
         }
+
         return false;
     }
 
     // Editor config info: Global limit permissions
-    public function postGlobalLimit($roleId){
+    public function postGlobalLimit($roleId)
+    {
         $post_limit_status = ApiConfigHelper::getConfigByItemKey('post_limit_status');
 
         if ($post_limit_status === true) {
@@ -432,11 +436,12 @@ class FsService
                 }
             }
         }
+
         return false;
     }
 
     // Editor config info: Publish comment perm
-    public function publishCommentPerm($user,$permission)
+    public function publishCommentPerm($user, $permission)
     {
         // Publish Comment Request - Email
         $comment_email_verify = ApiConfigHelper::getConfigByItemKey('comment_email_verify');
@@ -484,13 +489,14 @@ class FsService
                     return ErrorCodeService::ROLE_PUBLISH_PROVE_VERIFY;
                 }
             }
-            
         }
+
         return 0;
     }
 
     // Editor config info: Role limit perm
-    public function commentRoleLimit($permissionMap){
+    public function commentRoleLimit($permissionMap)
+    {
         if ($permissionMap['comment_limit_status'] == true) {
             $comment_limit_rule = $permissionMap['comment_limit_rule'];
             $comment_limit_type = $permissionMap['comment_limit_type'];
@@ -531,11 +537,13 @@ class FsService
                 }
             }
         }
+
         return false;
     }
 
     // Editor config info: Global limit perm
-    public function commentGlobalLimit($roleId){
+    public function commentGlobalLimit($roleId)
+    {
         $comment_limit_status = ApiConfigHelper::getConfigByItemKey('comment_limit_status');
         // If the member master role is a whitelisted role, it is not subject to this permission requirement
         if ($comment_limit_status == true) {
@@ -593,6 +601,7 @@ class FsService
                 }
             }
         }
+
         return false;
     }
 }

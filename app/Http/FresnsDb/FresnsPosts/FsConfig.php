@@ -58,7 +58,7 @@ class FsConfig extends BaseConfig
     const APPEND_SEARCHABLE_FIELDS = [
         'searchKey' => ['field' => 'content', 'op' => 'LIKE'],
     ];
-    
+
     // Model Usage - Form Mapping
     const FORM_FIELDS_MAP = [
         'id' => 'id',

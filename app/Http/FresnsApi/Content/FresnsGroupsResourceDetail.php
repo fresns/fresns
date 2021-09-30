@@ -32,9 +32,8 @@ use App\Http\FresnsDb\FresnsPluginUsages\FresnsPluginUsagesService;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Detail resource config handle
+ * Detail resource config handle.
  */
-
 class FresnsGroupsResourceDetail extends BaseAdminResource
 {
     public function toArray($request)
@@ -67,7 +66,7 @@ class FresnsGroupsResourceDetail extends BaseAdminResource
         $shieldCount = $this->shield_count;
         $postCount = $this->post_count;
         $essenceCount = $this->essence_count;
-        
+
         // Operation behavior status
         $likeStatus = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where('member_id', $mid)->where('like_type', 2)->where('like_id', $this->id)->count();
         $followStatus = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 2)->where('follow_id', $this->id)->count();

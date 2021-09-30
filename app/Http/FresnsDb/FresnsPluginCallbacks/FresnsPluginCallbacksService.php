@@ -12,5 +12,4 @@ use App\Http\FresnsApi\Helpers\ApiConfigHelper;
 
 class FresnsPluginCallbacksService extends FsService
 {
-    
 }

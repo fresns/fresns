@@ -52,15 +52,14 @@ use App\Http\FresnsDb\FresnsPosts\FresnsPostsService;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Detail resource config handle
+ * Detail resource config handle.
  */
-
 class FresnsPostsResourceDetail extends BaseAdminResource
 {
     public function toArray($request)
     {
         // Form Field
-        
+
         // Data Table: post_appends
         $append = DB::table(FresnsPostAppendsConfig::CFG_TABLE)->where('post_id', $this->id)->first();
         if ($append) {
@@ -131,7 +130,7 @@ class FresnsPostsResourceDetail extends BaseAdminResource
         $brief = $this->is_brief;
         $sticky = $this->sticky_status;
         $essence = $this->essence_status;
-        
+
         // Operation behavior status
         $likeStatus = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where('member_id', $mid)->where('like_type', 4)->where('like_id', $this->id)->count();
         $followStatus = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 4)->where('follow_id', $this->id)->count();
@@ -288,20 +287,20 @@ class FresnsPostsResourceDetail extends BaseAdminResource
         $attachCount['docs'] = 0;
         $attachCount['extends'] = DB::table(FresnsExtendLinkedsConfig::CFG_TABLE)->where('linked_type', 2)->where('linked_id', $this->id)->count();
         $more_json_decode = json_decode($this->more_json, true);
-        if($more_json_decode){
-            if(isset($more_json_decode['files'])){
-                foreach($more_json_decode['files'] as $m){
-                    if($m['type'] == 1){
-                        $attachCount['images'] ++;
+        if ($more_json_decode) {
+            if (isset($more_json_decode['files'])) {
+                foreach ($more_json_decode['files'] as $m) {
+                    if ($m['type'] == 1) {
+                        $attachCount['images']++;
                     }
-                    if($m['type'] == 2){
-                        $attachCount['videos'] ++;
+                    if ($m['type'] == 2) {
+                        $attachCount['videos']++;
                     }
-                    if($m['type'] == 3){
-                        $attachCount['audios'] ++;
+                    if ($m['type'] == 3) {
+                        $attachCount['audios']++;
                     }
-                    if($m['type'] == 4){
-                        $attachCount['docs'] ++;
+                    if ($m['type'] == 4) {
+                        $attachCount['docs']++;
                     }
                 }
             }
@@ -429,7 +428,7 @@ class FresnsPostsResourceDetail extends BaseAdminResource
         $managesArr = [];
         $TweetPluginUsagesArr = FresnsPluginUsages::where('type', 5)->where('scene', 'like', '%1%')->get();
         if ($TweetPluginUsagesArr) {
-            foreach($TweetPluginUsagesArr as $TweetPluginUsages){
+            foreach ($TweetPluginUsagesArr as $TweetPluginUsages) {
                 $manages = [];
                 $manages['plugin'] = $TweetPluginUsages['plugin_unikey'];
                 $plugin = FresnsPlugins::where('unikey', $TweetPluginUsages['plugin_unikey'])->first();
@@ -472,10 +471,10 @@ class FresnsPostsResourceDetail extends BaseAdminResource
                         }
                     }
                 }
-            $managesArr[] = $manages;
+                $managesArr[] = $manages;
             }
         }
-        
+
         // Edit Status
         $editStatus = [];
         // Is the current member an author
@@ -583,7 +582,7 @@ class FresnsPostsResourceDetail extends BaseAdminResource
             'editStatus' => $editStatus,
             // 'seoInfo' => $seoInfo
         ];
-        
+
         // Merger
         $arr = $default;
 

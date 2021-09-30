@@ -22,7 +22,6 @@ use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 class PluginHelper
 {
-
     // Get Plugin Class
     public static function findPluginClass($uniKey)
     {
@@ -46,6 +45,7 @@ class PluginHelper
 
             return null;
         }
+
         return new $configClass();
     }
 

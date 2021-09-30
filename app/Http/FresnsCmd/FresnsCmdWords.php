@@ -15,8 +15,8 @@ use App\Http\Center\Common\ErrorCodeService;
 use App\Http\Center\Common\GlobalService;
 use App\Http\Center\Common\LogService;
 use App\Http\Center\Common\ValidateService;
-use App\Http\Center\Helper\PluginHelper;
 use App\Http\Center\Helper\CmdRpcHelper;
+use App\Http\Center\Helper\PluginHelper;
 use App\Http\Center\Scene\FileSceneConfig;
 use App\Http\Center\Scene\FileSceneService;
 use App\Http\FresnsApi\Helpers\ApiCommonHelper;
@@ -102,6 +102,7 @@ class FresnsCmdWords extends BasePlugin
         $pluginClass = PluginHelper::findPluginClass($pluginUniKey);
         if (empty($pluginClass)) {
             LogService::error('Plugin class not found');
+
             return $this->pluginError(ErrorCodeService::PLUGINS_CLASS_ERROR);
         }
         LogService::info('Start Handle: ', $input);
@@ -167,6 +168,7 @@ class FresnsCmdWords extends BasePlugin
         $verifyInfo = FresnsVerifyCodes::where($where)->where('expired_at', '>', date('Y-m-d H:i:s'))->first();
         if ($verifyInfo) {
             FresnsVerifyCodes::where('id', $verifyInfo['id'])->update(['is_enable' => 0]);
+
             return $this->pluginSuccess();
         } else {
             return $this->pluginError(ErrorCodeService::VERIFY_CODE_CHECK_ERROR);
@@ -200,7 +202,8 @@ class FresnsCmdWords extends BasePlugin
         $content = $input['content'];
         $pluginUniKey = ApiConfigHelper::getConfigByItemKey('send_email_service');
         if (empty($pluginUniKey)) {
-            LogService::error("No outgoing service provider configured");
+            LogService::error('No outgoing service provider configured');
+
             return $this->pluginError(ErrorCodeService::PLUGINS_CONFIG_ERROR);
         }
         // Command
@@ -208,6 +211,7 @@ class FresnsCmdWords extends BasePlugin
         $pluginClass = PluginHelper::findPluginClass($pluginUniKey);
         if (empty($pluginClass)) {
             LogService::error('Plugin class not found');
+
             return $this->pluginError(ErrorCodeService::PLUGINS_CLASS_ERROR);
         }
         $input = [
@@ -233,7 +237,8 @@ class FresnsCmdWords extends BasePlugin
         $templateParam = $input['templateParam'];
         $pluginUniKey = ApiConfigHelper::getConfigByItemKey('send_sms_service');
         if (empty($pluginUniKey)) {
-            LogService::error("No outgoing service provider configured");
+            LogService::error('No outgoing service provider configured');
+
             return $this->pluginError(ErrorCodeService::PLUGINS_CONFIG_ERROR);
         }
         // Command
@@ -241,6 +246,7 @@ class FresnsCmdWords extends BasePlugin
         $pluginClass = PluginHelper::findPluginClass($pluginUniKey);
         if (empty($pluginClass)) {
             LogService::error('Plugin class not found');
+
             return $this->pluginError(ErrorCodeService::PLUGINS_CLASS_ERROR);
         }
         $input = [
@@ -272,7 +278,8 @@ class FresnsCmdWords extends BasePlugin
         $linkUrl = $input['linkUrl'];
         $pluginUniKey = ApiConfigHelper::getConfigByItemKey('send_wechat_service');
         if (empty($pluginUniKey)) {
-            LogService::error("No outgoing service provider configured");
+            LogService::error('No outgoing service provider configured');
+
             return $this->pluginError(ErrorCodeService::PLUGINS_CONFIG_ERROR);
         }
         // Command
@@ -280,6 +287,7 @@ class FresnsCmdWords extends BasePlugin
         $pluginClass = PluginHelper::findPluginClass($pluginUniKey);
         if (empty($pluginClass)) {
             LogService::error('Plugin class not found');
+
             return $this->pluginError(ErrorCodeService::PLUGINS_CLASS_ERROR);
         }
         $input = [
@@ -314,7 +322,8 @@ class FresnsCmdWords extends BasePlugin
         $linkUrl = $input['linkUrl'];
         $pluginUniKey = ApiConfigHelper::getConfigByItemKey('send_ios_service');
         if (empty($pluginUniKey)) {
-            LogService::error("No outgoing service provider configured");
+            LogService::error('No outgoing service provider configured');
+
             return $this->pluginError(ErrorCodeService::PLUGINS_CONFIG_ERROR);
         }
         // Command
@@ -322,6 +331,7 @@ class FresnsCmdWords extends BasePlugin
         $pluginClass = PluginHelper::findPluginClass($pluginUniKey);
         if (empty($pluginClass)) {
             LogService::error('Plugin class not found');
+
             return $this->pluginError(ErrorCodeService::PLUGINS_CLASS_ERROR);
         }
         $input = [
@@ -355,7 +365,8 @@ class FresnsCmdWords extends BasePlugin
         $linkUrl = $input['linkUrl'];
         $pluginUniKey = ApiConfigHelper::getConfigByItemKey('send_android_service');
         if (empty($pluginUniKey)) {
-            LogService::error("No outgoing service provider configured");
+            LogService::error('No outgoing service provider configured');
+
             return $this->pluginError(ErrorCodeService::PLUGINS_CONFIG_ERROR);
         }
         // Command
@@ -363,6 +374,7 @@ class FresnsCmdWords extends BasePlugin
         $pluginClass = PluginHelper::findPluginClass($pluginUniKey);
         if (empty($pluginClass)) {
             LogService::error('Plugin class not found');
+
             return $this->pluginError(ErrorCodeService::PLUGINS_CLASS_ERROR);
         }
         $input = [
@@ -567,6 +579,7 @@ class FresnsCmdWords extends BasePlugin
 
         if (empty($pluginClass)) {
             LogService::error('Plugin Class Not Found');
+
             return $this->pluginError(ErrorCodeService::PLUGINS_CONFIG_ERROR);
         }
 
@@ -574,6 +587,7 @@ class FresnsCmdWords extends BasePlugin
 
         if ($isPlugin == false) {
             LogService::error('Plugin Class Not Found');
+
             return $this->pluginError(ErrorCodeService::PLUGINS_CLASS_ERROR);
         }
 
@@ -941,6 +955,7 @@ class FresnsCmdWords extends BasePlugin
 
             if (empty($pluginClass)) {
                 LogService::error('Plugin Class Not Found');
+
                 return $this->pluginError(ErrorCodeService::PLUGINS_CONFIG_ERROR);
             }
 
@@ -948,6 +963,7 @@ class FresnsCmdWords extends BasePlugin
 
             if ($isPlugin == false) {
                 LogService::error('Plugin Class Not Found');
+
                 return $this->pluginError(ErrorCodeService::PLUGINS_CLASS_ERROR);
             }
 
@@ -957,6 +973,7 @@ class FresnsCmdWords extends BasePlugin
                 ['images_secret_id', 'images_secret_key', 'images_bucket_domain']);
             if ($paramsExist == false) {
                 LogService::error('Unconfigured Plugin');
+
                 return $this->pluginError(ErrorCodeService::PLUGINS_CONFIG_ERROR);
             }
             $cmd = FresnsCmdWordsConfig::PLG_CMD_ANTI_LINK_IMAGE;
@@ -978,13 +995,11 @@ class FresnsCmdWords extends BasePlugin
             $imageBigUrl = $imageBigUrl;
         }
 
-
         $item['imageDefaultUrl'] = $imageDefaultUrl;
         $item['imageRatioUrl'] = $imageRatioUrl;
         $item['imageSquareUrl'] = $imageSquareUrl;
         $item['imageBigUrl'] = $imageBigUrl;
-        $item['originalUrl'] = FresnsFileAppends::where('file_id',$files['id'])->value('file_original_path');
-
+        $item['originalUrl'] = FresnsFileAppends::where('file_id', $files['id'])->value('file_original_path');
 
         return $this->pluginSuccess($item);
     }
@@ -1015,6 +1030,7 @@ class FresnsCmdWords extends BasePlugin
 
             if (empty($pluginClass)) {
                 LogService::error('Plugin Class Not Found');
+
                 return $this->pluginError(ErrorCodeService::PLUGINS_CONFIG_ERROR);
             }
 
@@ -1022,6 +1038,7 @@ class FresnsCmdWords extends BasePlugin
 
             if ($isPlugin == false) {
                 LogService::error('Plugin Class Not Found');
+
                 return $this->pluginError(ErrorCodeService::PLUGINS_CLASS_ERROR);
             }
 
@@ -1033,6 +1050,7 @@ class FresnsCmdWords extends BasePlugin
 
             if ($paramsExist == false) {
                 LogService::error('Unconfigured Plugin');
+
                 return $this->pluginError(ErrorCodeService::PLUGINS_CONFIG_ERROR);
             }
 
@@ -1053,8 +1071,7 @@ class FresnsCmdWords extends BasePlugin
         $item['videoCover'] = $videoCover;
         $item['videoGif'] = $videoGif;
         $item['videoUrl'] = $videoUrl;
-        $item['originalUrl'] = FresnsFileAppends::where('file_id',$files['id'])->value('file_original_path');
-
+        $item['originalUrl'] = FresnsFileAppends::where('file_id', $files['id'])->value('file_original_path');
 
         return $this->pluginSuccess($item);
     }
@@ -1080,6 +1097,7 @@ class FresnsCmdWords extends BasePlugin
 
             if (empty($pluginClass)) {
                 LogService::error('Plugin Class Not Found');
+
                 return $this->pluginError(ErrorCodeService::PLUGINS_CONFIG_ERROR);
             }
 
@@ -1087,6 +1105,7 @@ class FresnsCmdWords extends BasePlugin
 
             if ($isPlugin == false) {
                 LogService::error('Plugin Class Not Found');
+
                 return $this->pluginError(ErrorCodeService::PLUGINS_CLASS_ERROR);
             }
 
@@ -1096,6 +1115,7 @@ class FresnsCmdWords extends BasePlugin
                 ['audios_secret_id', 'audios_secret_key', 'audios_bucket_domain']);
             if ($paramsExist == false) {
                 LogService::error('Unconfigured Plugin');
+
                 return $this->pluginError(ErrorCodeService::PLUGINS_CONFIG_ERROR);
             }
 
@@ -1114,8 +1134,7 @@ class FresnsCmdWords extends BasePlugin
         }
 
         $item['audioUrl'] = $singUrl;
-        $item['originalUrl'] = FresnsFileAppends::where('file_id',$files['id'])->value('file_original_path');
-
+        $item['originalUrl'] = FresnsFileAppends::where('file_id', $files['id'])->value('file_original_path');
 
         return $this->pluginSuccess($item);
     }
@@ -1142,6 +1161,7 @@ class FresnsCmdWords extends BasePlugin
 
             if (empty($pluginClass)) {
                 LogService::error('Plugin Class Not Found');
+
                 return $this->pluginError(ErrorCodeService::PLUGINS_CONFIG_ERROR);
             }
 
@@ -1149,6 +1169,7 @@ class FresnsCmdWords extends BasePlugin
 
             if ($isPlugin == false) {
                 LogService::error('Plugin Class Not Found');
+
                 return $this->pluginError(ErrorCodeService::PLUGINS_CLASS_ERROR);
             }
 
@@ -1158,6 +1179,7 @@ class FresnsCmdWords extends BasePlugin
                 ['docs_secret_id', 'docs_secret_key', 'docs_bucket_domain']);
             if ($paramsExist == false) {
                 LogService::error('Unconfigured Plugin');
+
                 return $this->pluginError(ErrorCodeService::PLUGINS_CONFIG_ERROR);
             }
 
@@ -1175,8 +1197,7 @@ class FresnsCmdWords extends BasePlugin
             $singUrl = $url;
         }
         $item['docUrl'] = $singUrl;
-        $item['originalUrl'] = FresnsFileAppends::where('file_id',$files['id'])->value('file_original_path');
-
+        $item['originalUrl'] = FresnsFileAppends::where('file_id', $files['id'])->value('file_original_path');
 
         return $this->pluginSuccess($item);
     }
@@ -1203,7 +1224,7 @@ class FresnsCmdWords extends BasePlugin
      * Delete official content
      * type: 1.post / 2.comment
      * contentId: primary key ID
-     * https://fresns.org/extensions/delete.html
+     * https://fresns.org/extensions/delete.html.
      */
     public function deleteContentHandler($input)
     {
@@ -1555,14 +1576,14 @@ class FresnsCmdWords extends BasePlugin
         $min = 5; //Expiration time limit (unit: minutes)
         //Determine the timestamp type
         $timestampNum = strlen($timestamp);
-        if($timestampNum == 10){
+        if ($timestampNum == 10) {
             $now = time();
             $expiredMin = $min * 60;
         } else {
-            $now = intval(microtime(true)*1000);
+            $now = intval(microtime(true) * 1000);
             $expiredMin = $min * 60 * 1000;
         }
-        
+
         if ($now - $timestamp > $expiredMin) {
             return $this->pluginError(ErrorCodeService::HEADER_SIGN_EXPIRED);
         }
@@ -1902,15 +1923,15 @@ class FresnsCmdWords extends BasePlugin
 
         // If the connectInfo parameter is passed, check if the connectToken exists
         $connectInfoArr = [];
-        if($connectInfo){
-            $connectInfoArr = json_decode($connectInfo,true);
+        if ($connectInfo) {
+            $connectInfoArr = json_decode($connectInfo, true);
             $connectTokenArr = [];
-            foreach($connectInfoArr as $v){
+            foreach ($connectInfoArr as $v) {
                 $connectTokenArr[] = $v['connectToken'];
             }
 
-            $count = DB::table(FresnsUserConnectsConfig::CFG_TABLE)->whereIn('connect_token',$connectTokenArr)->count();
-            if($count > 0){
+            $count = DB::table(FresnsUserConnectsConfig::CFG_TABLE)->whereIn('connect_token', $connectTokenArr)->count();
+            if ($count > 0) {
                 return $this->pluginError(ErrorCodeService::CONNECT_TOKEN_ERROR);
             }
         }
@@ -1946,8 +1967,8 @@ class FresnsCmdWords extends BasePlugin
         FresnsSubPluginService::addSubTablePluginItem(FresnsUsersConfig::CFG_TABLE, $uid);
 
         $fileId = null;
-        if($avatarFid){
-            $fileId = FresnsFiles::where('uuid',$avatarFid)->value('id');
+        if ($avatarFid) {
+            $fileId = FresnsFiles::where('uuid', $avatarFid)->value('id');
         }
 
         $memberInput = [
@@ -2015,9 +2036,9 @@ class FresnsCmdWords extends BasePlugin
         FresnsMemberRoleRels::insert($memberRoleRelsInput);
 
         // If the connectInfo parameter is passed, add it to the user_connects table
-        if($connectInfoArr){
+        if ($connectInfoArr) {
             $itemArr = [];
-            foreach($connectInfoArr as $info){
+            foreach ($connectInfoArr as $info) {
                 $item = [];
                 $item['user_id'] = $uid;
                 $item['connect_id'] = $info['connectId'];
@@ -2039,8 +2060,8 @@ class FresnsCmdWords extends BasePlugin
 
         $service = new FsUserService();
         $data = $service->getUserDetail($uid, $langTag, $mid);
-        return $this->pluginSuccess($data);
 
+        return $this->pluginSuccess($data);
     }
 
     public function userLoginHandler($input)
@@ -2133,7 +2154,7 @@ class FresnsCmdWords extends BasePlugin
         }
         $langTag = request()->header('langTag');
         $service = new FsUserService();
-        $data = $service->getUserDetail($user->id,$langTag);
+        $data = $service->getUserDetail($user->id, $langTag);
         // Update the last_login_at field in the users table
         FresnsUsers::where('id', $user->id)->update(['last_login_at' => date('Y-m-d H:i:s', time())]);
 
@@ -2141,8 +2162,8 @@ class FresnsCmdWords extends BasePlugin
         if ($sessionId) {
             FresnsSessionLogsService::updateSessionLogs($sessionId, 2, $user->id, null, $user->id);
         }
-        return $this->pluginSuccess($data);
 
+        return $this->pluginSuccess($data);
     }
 
     public function userDetailHandler($input)
@@ -2153,7 +2174,7 @@ class FresnsCmdWords extends BasePlugin
         $langTag = request()->header('langTag');
         $service = new FsUserService();
         $data = $service->getUserDetail($uid, $langTag);
+
         return $this->pluginSuccess($data);
-        
     }
 }

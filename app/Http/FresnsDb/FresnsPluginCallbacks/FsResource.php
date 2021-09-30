@@ -12,9 +12,8 @@ use App\Base\Resources\BaseAdminResource;
 use App\Http\Center\Helper\PluginHelper;
 
 /**
- * List resource config handle
+ * List resource config handle.
  */
-
 class FsResource extends BaseAdminResource
 {
     public function toArray($request)

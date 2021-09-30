@@ -25,11 +25,12 @@ class FsService extends BaseAdminService
     public function common()
     {
         $common = parent::common();
+
         return $common;
     }
 
     /**
-     * Insert Notification
+     * Insert Notification.
      *
      * @param [type] $mark_id / Object: uuid or slug
      * @param [type] $member_id / Current Member

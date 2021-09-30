@@ -49,7 +49,7 @@ class FsModel extends BaseAdminModel
             $query->where('status', 2);
         }
         $class = $request->input('class');
-        
+
         if ($class == 1) {
             $query->where('post_id', null);
         } else {

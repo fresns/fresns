@@ -8,8 +8,8 @@
 
 namespace App\Http\Center\Base;
 
-use App\Http\Center\Common\GlobalService;
 use App\Http\Center\Common\ErrorCodeService;
+use App\Http\Center\Common\GlobalService;
 use App\Http\FresnsDb\FresnsCodeMessages\FresnsCodeMessagesService;
 
 trait PluginTrait
@@ -28,6 +28,7 @@ trait PluginTrait
 
     /**
      * Plugin initialization.
+     *
      * @return bool
      */
     public function initPlugin()
@@ -36,7 +37,7 @@ trait PluginTrait
     }
 
     /**
-     * Called Success
+     * Called Success.
      */
     protected function pluginSuccess($data = [])
     {

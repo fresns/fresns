@@ -15,7 +15,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
 {
     /**
      * System Command Word
-     * https://fresns.org/extensions/command.html
+     * https://fresns.org/extensions/command.html.
      */
 
     // unikey
@@ -100,6 +100,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
             'timestamp' => 'required',
             'sign' => 'required',
         ];
+
         return $rule;
     }
 
@@ -117,6 +118,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
             'deviceInfo' => 'json',
             'moreJson' => 'json',
         ];
+
         return $rule;
     }
 
@@ -130,6 +132,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
             'account' => 'required',
             'langTag' => 'required',
         ];
+
         return $rule;
     }
 
@@ -142,6 +145,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
             'verifyCode' => 'required',
             'account' => 'required',
         ];
+
         return $rule;
     }
 
@@ -153,6 +157,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
             'title' => 'required',
             'content' => 'required',
         ];
+
         return $rule;
     }
 
@@ -165,6 +170,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
             'templateCode' => 'required',
             'templateParam' => 'json',
         ];
+
         return $rule;
     }
 
@@ -181,6 +187,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
             'linkType' => 'required',
             'linkUrl' => 'required',
         ];
+
         return $rule;
     }
 
@@ -197,6 +204,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
             'linkType' => 'required',
             'linkUrl' => 'required',
         ];
+
         return $rule;
     }
 
@@ -214,6 +222,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
             'linkType' => 'required',
             'linkUrl' => 'required',
         ];
+
         return $rule;
     }
 
@@ -224,6 +233,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
             'type' => 'required|in:1,2,3',
             'nickname' => 'required',
         ];
+
         return $rule;
     }
 
@@ -234,6 +244,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
             'type' => 'required|in:1,2',
             'account' => 'required',
         ];
+
         return $rule;
     }
 
@@ -243,6 +254,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
         $rule = [
             'uid' => 'required',
         ];
+
         return $rule;
     }
 
@@ -253,6 +265,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
             'platform' => 'required',
             'uid' => 'required',
         ];
+
         return $rule;
     }
 
@@ -264,6 +277,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
             'uid' => 'required',
             'token' => 'required',
         ];
+
         return $rule;
     }
 
@@ -278,6 +292,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
             'systemFee' => 'required|numeric',
             'originName' => 'required',
         ];
+
         return $rule;
     }
 
@@ -292,6 +307,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
             'systemFee' => 'required|numeric',
             'originName' => 'required',
         ];
+
         return $rule;
     }
 
@@ -302,6 +318,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
             'type' => 'required|in:1,2,3,4',
             'scene' => 'required|numeric',
         ];
+
         return $rule;
     }
 
@@ -315,6 +332,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
             'tableField' => 'required',
             'mode' => 'required|in:1,2',
         ];
+
         return $rule;
     }
 
@@ -324,6 +342,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
         $rule = [
             'fid' => 'required',
         ];
+
         return $rule;
     }
 
@@ -333,6 +352,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
         $rule = [
             'fid' => 'required',
         ];
+
         return $rule;
     }
 
@@ -342,6 +362,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
         $rule = [
             'fid' => 'required',
         ];
+
         return $rule;
     }
 
@@ -351,6 +372,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
         $rule = [
             'fid' => 'required',
         ];
+
         return $rule;
     }
 
@@ -360,6 +382,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
         $rule = [
             'fid' => 'required',
         ];
+
         return $rule;
     }
 
@@ -370,6 +393,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
             'type' => 'required|in:1,2',
             'logId' => 'required',
         ];
+
         return $rule;
     }
 
@@ -380,6 +404,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
             'type' => 'required | in:1,2',
             'content' => 'required',
         ];
+
         return $rule;
     }
 }

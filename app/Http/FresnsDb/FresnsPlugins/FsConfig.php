@@ -26,7 +26,7 @@ class FsConfig extends BaseConfig
     // Plugin download or not
     const NO_DOWNLOAD = 0;
     const DOWNLOAD = 1;
-    
+
     // Is the new version
     const NO_NEWVISION = 0;
     const NEWVISION = 1;

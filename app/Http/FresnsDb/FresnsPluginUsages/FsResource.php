@@ -15,9 +15,8 @@ use App\Http\FresnsDb\FresnsMemberRoles\FresnsMemberRoles;
 use App\Http\FresnsDb\FresnsPlugins\FresnsPlugins;
 
 /**
- * List resource config handle
+ * List resource config handle.
  */
-
 class FsResource extends BaseAdminResource
 {
     public function toArray($request)
@@ -135,7 +134,7 @@ class FsResource extends BaseAdminResource
             $v['postLists'] = $parameter[$v['nickname']] ?? '';
             $v['sort_number'] = $newArr[$v['nickname']] ?? '';
         }
-        
+
         // Default Field
         $default = [
             'id' => $this->id,

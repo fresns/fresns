@@ -20,9 +20,8 @@ use App\Http\FresnsDb\FresnsPosts\FresnsPosts;
 use Illuminate\Support\Facades\DB;
 
 /**
- * List resource config handle
+ * List resource config handle.
  */
-
 class FresnsNotifiesResource extends BaseAdminResource
 {
     public function toArray($request)
