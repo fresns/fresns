@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Fresns (https://fresns.org)
  * Copyright (C) 2021-Present Jarvis Tang
@@ -16,16 +17,17 @@ class ErrorCodeService
     const PLUGINS_CLASS_ERROR = 30001;
     const PLUGINS_TIMEOUT_ERROR = 30002;
     const PLUGINS_IS_ENABLE_ERROR = 30003;
-    const PLUGINS_HANDLE_ERROR = 30004;
-    const CODE_PARAM_ERROR = 30005;
-    const DATA_EXCEPTION_ERROR = 30006;
-    const HELPER_EXCEPTION_ERROR = 30007;
-    const VERIFY_CODE_CHECK_ERROR = 30008;
-    const PRIVATE_MODE_ERROR = 30009;
-    const CALLBACK_ERROR = 30010;
-    const CALLBACK_UUID_ERROR = 30011;
-    const CALLBACK_TIME_ERROR = 30012;
-    const CALLBACK_STATUS_ERROR = 30013;
+    const PLUGINS_PARAM_ERROR = 30004;
+    const PLUGINS_HANDLE_ERROR = 30005;
+    const CODE_PARAM_ERROR = 30006;
+    const DATA_EXCEPTION_ERROR = 30007;
+    const HELPER_EXCEPTION_ERROR = 30008;
+    const VERIFY_CODE_CHECK_ERROR = 30009;
+    const PRIVATE_MODE_ERROR = 30010;
+    const CALLBACK_ERROR = 30011;
+    const CALLBACK_UUID_ERROR = 30012;
+    const CALLBACK_TIME_ERROR = 30013;
+    const CALLBACK_STATUS_ERROR = 30014;
 
     // Header
     const HEADER_ERROR = 30100;
@@ -210,6 +212,7 @@ class ErrorCodeService
         self::PLUGINS_CLASS_ERROR               => 'The service provider not exist',
         self::PLUGINS_TIMEOUT_ERROR             => 'No response from the service provider',
         self::PLUGINS_IS_ENABLE_ERROR           => 'The service provider not enabled',
+        self::PLUGINS_PARAM_ERROR               => 'Service provider config parameter is empty',
         self::PLUGINS_HANDLE_ERROR              => 'Service provider processing failed',
         self::CODE_PARAM_ERROR                  => 'Parameter error',
         self::DATA_EXCEPTION_ERROR              => 'Abnormal data: failed to be queried or data duplicated.',
