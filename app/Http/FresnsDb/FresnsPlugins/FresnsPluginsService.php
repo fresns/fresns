@@ -30,5 +30,4 @@ class FresnsPluginsService extends FsService
 
         return $url;
     }
-
 }
