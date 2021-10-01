@@ -1,4 +1,4 @@
-<p align="center"><a href="https://fresns.org" target="_blank"><img src="https://raw.githubusercontent.com/fresns/docs/main/images/Fresns%20Logo.png" width="400"></a></p>
+<p align="center"><a href="https://fresns.org" target="_blank"><img src="https://raw.githubusercontent.com/fresns/docs/main/images/Fresns%20Logo.png" width="300"></a></p>
 
 <p align="center">
 <img src="https://img.shields.io/badge/Fresns-1.0-yellow" alt="Fresns">
@@ -19,7 +19,7 @@ Fresns is a free and open source social network service software, a general-purp
 
 | Framework | Version | Use |
 | --- | --- | --- |
-| [Composer](https://github.com/composer/composer) | 2.1.8 | application-level package manager |
+| [Composer](https://github.com/composer/composer) | 2.1.8 | Application-Level Package Manager |
 | [Laravel Framework](https://github.com/laravel/framework) | 8.62.0 | Framework |
 | [Bootstrap](https://getbootstrap.com/) | 5.1.0 | Internal Front-end Framework |
 | [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.5.0 | Internal Icon Font Library |
