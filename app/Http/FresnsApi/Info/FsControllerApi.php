@@ -376,9 +376,9 @@ class FsControllerApi extends FresnsBaseApiController
         $request->offsetSet('currentPage', $currentPage);
         $request->offsetSet('is_enable', 1);
         $request->offsetSet('pageSize', $pageSize);
-        $TweetPluginUsagesService = new FresnsPluginUsagesService();
-        $TweetPluginUsagesService->setResource(FresnsPluginUsagesResource::class);
-        $list = $TweetPluginUsagesService->searchData();
+        $FsPluginUsagesService = new FresnsPluginUsagesService();
+        $FsPluginUsagesService->setResource(FresnsPluginUsagesResource::class);
+        $list = $FsPluginUsagesService->searchData();
         $data = [
             'pagination' => $list['pagination'],
             'list' => $list['list'],

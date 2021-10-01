@@ -9,6 +9,7 @@
 namespace App\Http\FresnsApi\Info;
 
 use App\Base\Resources\BaseAdminResource;
+use App\Http\FresnsApi\Helpers\ApiCommonHelper;
 use App\Http\FresnsApi\Helpers\ApiFileHelper;
 use App\Http\FresnsApi\Helpers\ApiLanguageHelper;
 use App\Http\FresnsDb\FresnsPluginBadges\FresnsPluginBadges;
@@ -38,7 +39,7 @@ class FresnsPluginUsagesResource extends BaseAdminResource
         $icon = ApiFileHelper::getImageSignUrlByFileIdUrl($this->icon_file_id, $this->icon_file_url);
         $url = '';
         if ($pluginInfo) {
-            $url = ApiFileHelper::getPluginUsagesUrl($plugin, $this->id);
+            $url = ApiCommonHelper::getPluginUsagesUrl($plugin, $this->id);
         }
         $number = $this->editor_number;
         $badgesType = '';

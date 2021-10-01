@@ -12,6 +12,7 @@ use App\Base\Resources\BaseAdminResource;
 use App\Helpers\DateHelper;
 use App\Http\Center\Common\GlobalService;
 use App\Http\Center\Common\LogService;
+use App\Http\FresnsApi\Helpers\ApiCommonHelper;
 use App\Http\FresnsApi\Helpers\ApiConfigHelper;
 use App\Http\FresnsApi\Helpers\ApiFileHelper;
 use App\Http\FresnsApi\Helpers\ApiLanguageHelper;
@@ -497,18 +498,18 @@ class FresnsPostsResource extends BaseAdminResource
 
         // Post Plugin Extensions
         $managesArr = [];
-        $TweetPluginUsagesArr = FresnsPluginUsages::where('type', 5)->where('scene', 'like', '%1%')->get();
-        if ($TweetPluginUsagesArr) {
-            foreach ($TweetPluginUsagesArr as $TweetPluginUsages) {
+        $FsPluginUsagesArr = FresnsPluginUsages::where('type', 5)->where('scene', 'like', '%1%')->get();
+        if ($FsPluginUsagesArr) {
+            foreach ($FsPluginUsagesArr as $FsPluginUsages) {
                 $manages = [];
-                $manages['plugin'] = $TweetPluginUsages['plugin_unikey'];
-                $plugin = FresnsPlugins::where('unikey', $TweetPluginUsages['plugin_unikey'])->first();
-                $name = FsService::getlanguageField('name', $TweetPluginUsages['id']);
+                $manages['plugin'] = $FsPluginUsages['plugin_unikey'];
+                $plugin = FresnsPlugins::where('unikey', $FsPluginUsages['plugin_unikey'])->first();
+                $name = FsService::getLanguageField('name', $FsPluginUsages['id']);
                 $manages['name'] = $name == null ? '' : $name['lang_content'];
-                $manages['icon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($TweetPluginUsages['icon_file_id'], $TweetPluginUsages['icon_file_url']);
-                $manages['url'] = ApiFileHelper::getPluginUsagesUrl($TweetPluginUsages['plugin_unikey'], $TweetPluginUsages['id']);
+                $manages['icon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($FsPluginUsages['icon_file_id'], $FsPluginUsages['icon_file_url']);
+                $manages['url'] = ApiCommonHelper::getPluginUsagesUrl($FsPluginUsages['plugin_unikey'], $FsPluginUsages['id']);
                 // Is the group administrator dedicated
-                if ($TweetPluginUsages['is_group_admin'] != 0) {
+                if ($FsPluginUsages['is_group_admin'] != 0) {
                     // Query whether the current member is a group administrator
                     if (! $this->group_id) {
                         $manages = [];
@@ -533,10 +534,10 @@ class FresnsPostsResource extends BaseAdminResource
                     }
                 }
                 // Determine if the primary role of the current member is an administrator
-                if ($TweetPluginUsages['member_roles']) {
+                if ($FsPluginUsages['member_roles']) {
                     $mroleRels = FresnsMemberRoleRels::where('member_id', $mid)->first();
                     if ($mroleRels) {
-                        $pluMemberRoleArr = explode(',', $TweetPluginUsages['member_roles']);
+                        $pluMemberRoleArr = explode(',', $FsPluginUsages['member_roles']);
                         if (! in_array($mroleRels['role_id'], $pluMemberRoleArr)) {
                             $manages = [];
                         }

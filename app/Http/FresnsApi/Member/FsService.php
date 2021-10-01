@@ -9,6 +9,7 @@
 namespace App\Http\FresnsApi\Member;
 
 use App\Helpers\DateHelper;
+use App\Http\FresnsApi\Helpers\ApiCommonHelper;
 use App\Http\FresnsApi\Helpers\ApiConfigHelper;
 use App\Http\FresnsApi\Helpers\ApiFileHelper;
 use App\Http\FresnsApi\Helpers\ApiLanguageHelper;
@@ -66,7 +67,7 @@ class FsService
                 $item['plugin'] = $v['plugin_unikey'];
                 $item['name'] = FresnsLanguagesService::getLanguageByTableId(FresnsPluginUsagesConfig::CFG_TABLE, 'name', $v['id'], $langTag);
                 $item['icon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($v['icon_file_id'], $v['icon_file_url']);
-                $item['url'] = ApiFileHelper::getPluginUsagesUrl($v['plugin_unikey'], $v['id']);
+                $item['url'] = ApiCommonHelper::getPluginUsagesUrl($v['plugin_unikey'], $v['id']);
                 $managesArr[] = $item;
             }
         }
@@ -90,7 +91,7 @@ class FsService
                     $item['plugin'] = $v['plugin_unikey'];
                     $item['name'] = FresnsLanguagesService::getLanguageByTableId(FresnsPluginUsagesConfig::CFG_TABLE, 'name', $v['id'], $langTag);
                     $item['icon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($v['icon_file_id'], $v['icon_file_url']);
-                    $item['url'] = ApiFileHelper::getPluginUsagesUrl($v['plugin_unikey'], $v['id']);
+                    $item['url'] = ApiCommonHelper::getPluginUsagesUrl($v['plugin_unikey'], $v['id']);
                     $pluginBadges = FresnsPluginBadges::where('plugin_unikey', $v['plugin_unikey'])->where('member_id', $mid)->first();
                     $item['badgesType'] = $pluginBadges['display_type'] ?? '';
                     $item['badgesValue'] = $pluginBadges['value_text'] ?? '';
@@ -119,7 +120,7 @@ class FsService
                     $item['plugin'] = $v['plugin_unikey'];
                     $item['name'] = FresnsLanguagesService::getLanguageByTableId(FresnsPluginUsagesConfig::CFG_TABLE, 'name', $v['id'], $langTag);
                     $item['icon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($v['icon_file_id'], $v['icon_file_url']);
-                    $item['url'] = ApiFileHelper::getPluginUsagesUrl($v['plugin_unikey'], $v['id']);
+                    $item['url'] = ApiCommonHelper::getPluginUsagesUrl($v['plugin_unikey'], $v['id']);
                     $pluginBadges = FresnsPluginBadges::where('plugin_unikey', $v['plugin_unikey'])->where('member_id', $mid)->first();
                     $item['badgesType'] = $pluginBadges['display_type'] ?? '';
                     $item['badgesValue'] = $pluginBadges['value_text'] ?? '';

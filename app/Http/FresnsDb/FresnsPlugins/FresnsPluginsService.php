@@ -19,14 +19,16 @@ class FresnsPluginsService extends FsService
         if (empty($plugin)) {
             return '';
         }
+
         $uri = $plugin['access_path'];
         if (empty($plugin['plugin_domain'])) {
-            $domain = $plugin['plugin_domain'];
-        } else {
             $domain = ApiConfigHelper::getConfigByItemKey('backend_domain');
+        } else {
+            $domain = $plugin['plugin_domain'];
         }
         $url = $domain.$uri;
 
         return $url;
     }
+
 }

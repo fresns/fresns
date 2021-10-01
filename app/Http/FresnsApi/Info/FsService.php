@@ -18,7 +18,7 @@ use App\Http\FresnsDb\FresnsPluginUsages\FresnsPluginUsagesConfig;
 class FsService
 {
     // Get Language Field
-    public static function getlanguageField($field, $id)
+    public static function getLanguageField($field, $id)
     {
         if (! $id) {
             return '';

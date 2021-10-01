@@ -316,7 +316,7 @@ class FsControllerApi extends FresnsBaseApiController
             }
         }
         if ($message) {
-            $message = ApiCommonHelper::stopWords($message);
+            $message = ApiCommonHelper::messageStopWords($message);
             if (! $message) {
                 $this->error(ErrorCodeService::DIALOG_WORD_ERROR);
             }
