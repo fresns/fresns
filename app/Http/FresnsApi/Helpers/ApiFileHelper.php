@@ -263,7 +263,11 @@ class ApiFileHelper
         }
     }
 
-    // Handling Custom Parameters for Plugin Usages
+    /**
+     * The full URL address of the plugin, stitched together from the domain name field plugin_domain plus the path field access_path.
+     * When plugin_domain is empty, it is spliced with the backend address (configuration table key name backend_domain) to form the full URL address.
+     * If the address has a {parameter} variable name, use the record plugin_usages > parameter to replace the field value.
+     */
     public static function getPluginUsagesUrl($pluginUnikey, $pluginUsagesid)
     {
         $bucketDomain = ApiConfigHelper::getConfigByItemKey(FsConfig::BACKEND_DOMAIN);

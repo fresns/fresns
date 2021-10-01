@@ -75,9 +75,9 @@ class FsControllerApi extends FresnsBaseApiController
         $mid = GlobalService::getGlobalKey('member_id');
         if ($deviceInfo) {
             if ($type == 1) {
-                $logsId = FresnsSessionLogsService::addSessionLogs($request->getRequestUri(), 'Create draft post', $user_id, $mid, null, 'Create a new draft', 11);
+                $logsId = FresnsSessionLogsService::addSessionLogs($request->getRequestUri(), 'Create draft post', $user_id, $mid, null, 'Create a new draft',11);
             } else {
-                $logsId = FresnsSessionLogsService::addSessionLogs($request->getRequestUri(), 'Create draft comment', $user_id, $mid, null, 'Create a new draft', 12);
+                $logsId = FresnsSessionLogsService::addSessionLogs($request->getRequestUri(), 'Create draft comment', $user_id, $mid, null, 'Create a new draft',12);
             }
         }
 
@@ -347,9 +347,9 @@ class FsControllerApi extends FresnsBaseApiController
         $user_id = GlobalService::getGlobalKey('user_id');
         if ($deviceInfo) {
             if ($type == 1) {
-                $logsId = FresnsSessionLogsService::addSessionLogs("App\Http\FresnsDb\FresnsPosts", 'Publish Post Content', $user_id, $mid, null, 'Officially Published Post Content', 13);
+                $logsId = FresnsSessionLogsService::addSessionLogs("App\Http\FresnsDb\FresnsPosts", 'Publish Post Content', $user_id, $mid, null, 'Officially Published Post Content',13);
             } else {
-                $logsId = FresnsSessionLogsService::addSessionLogs("App\Http\FresnsDb\FresnsComments", 'Publish Comment Content', $user_id, $mid, null, 'Officially Published Comment Content', 14);
+                $logsId = FresnsSessionLogsService::addSessionLogs("App\Http\FresnsDb\FresnsComments", 'Publish Comment Content', $user_id, $mid, null, 'Officially Published Comment Content',14);
             }
         }
         $type = $request->input('type');
@@ -476,9 +476,9 @@ class FsControllerApi extends FresnsBaseApiController
         $logsId = 0;
         if ($deviceInfo) {
             if ($type == 1) {
-                $logsId = FresnsSessionLogsService::addSessionLogs($request->getRequestUri(), 'Publish Post Content', $uid, $member_id, null, 'Officially Published Post Content', 13);
+                $logsId = FresnsSessionLogsService::addSessionLogs($request->getRequestUri(), 'Publish Post Content', $uid, $member_id, null, 'Officially Published Post Content',13);
             } else {
-                $logsId = FresnsSessionLogsService::addSessionLogs($request->getRequestUri(), 'Publish Comment Content', $uid, $member_id, null, 'Officially Published Comment Content', 14);
+                $logsId = FresnsSessionLogsService::addSessionLogs($request->getRequestUri(), 'Publish Comment Content', $uid, $member_id, null, 'Officially Published Comment Content',14);
             }
         }
         LogService::Info('logsId', $logsId);
@@ -511,13 +511,12 @@ class FsControllerApi extends FresnsBaseApiController
 
             $paramsExist = false;
 
-            $configMapInDB = FresnsConfigs::whereIn('item_key', ['images_secret_id', 'images_secret_key', 'images_bucket_domain'])->pluck('item_value',
-                'item_key')->toArray();
+            $configMapInDB = FresnsConfigs::whereIn('item_key', ['images_secret_id', 'images_secret_key', 'images_bucket_domain'])->pluck('item_value', 'item_key')->toArray();
             $paramsExist = ValidateService::validParamExist($configMapInDB,
                 ['images_secret_id', 'images_secret_key', 'images_bucket_domain']);
 
             if ($paramsExist == false) {
-                LogService::error('插件信息未配置');
+                LogService::error('Plugin not found');
                 FresnsSessionLogs::where('id', $logsId)->update(['object_result' => FsConfig::OBJECT_DEFAIL]);
                 $this->error(ErrorCodeService::PLUGINS_CONFIG_ERROR);
             }
@@ -859,8 +858,7 @@ class FsControllerApi extends FresnsBaseApiController
     }
 
     // Editor Configs
-    public function configs(Request $request)
-    {
+    public function configs(Request $request){
         $rule = [
             'type' => 'required|in:1,2',
         ];
@@ -877,18 +875,18 @@ class FsControllerApi extends FresnsBaseApiController
         // Get site model, determine member expiration time
         $site_mode = ApiConfigHelper::getConfigByItemKey(FsConfig::SITE_MODEL);
         $isExpired = false;
-        if ($site_mode == 'private') {
-            $expiredAt = FresnsMembers::where('id', $memberId)->value('expired_at');
-            if ($expiredAt) {
+        if($site_mode == 'private'){
+            $expiredAt = FresnsMembers::where('id',$memberId)->value('expired_at');
+            if($expiredAt){
                 if ($expiredAt <= date('Y-m-d H:i:s')) {
                     $isExpired = true;
                 }
             }
         }
-        $memberRoles = FresnsMemberRoles::where('id', $roleId)->first();
+        $memberRoles = FresnsMemberRoles::where('id',$roleId)->first();
         $memberRolesName = FresnsLanguagesService::getLanguageByTableId(FresnsMemberRolesConfig::CFG_TABLE, 'name', $memberRoles['id'], $langTag);
         $memberPermissionJson = $memberRoles['permission'];
-        $memberPermissionArr = json_decode($memberPermissionJson, true);
+        $memberPermissionArr = json_decode($memberPermissionJson,true);
         $permissionMap = FresnsMemberRolesService::getPermissionMap($memberPermissionArr);
         switch ($type) {
             // Post Editor
@@ -896,10 +894,10 @@ class FsControllerApi extends FresnsBaseApiController
                 // publishPerm
                 $publishPerm = [];
                 $errorCode = 0;
-                if ($isExpired === false) {
+                if($isExpired === false){
                     $status = true;
-                    $errorCode = $this->service->publishPostPerm($user, $memberPermissionJson);
-                    if ($errorCode > 0) {
+                    $errorCode = $this->service->publishPostPerm($user,$memberPermissionJson);
+                    if($errorCode > 0){
                         $status = false;
                     }
                 } else {
@@ -907,34 +905,38 @@ class FsControllerApi extends FresnsBaseApiController
                 }
                 $publishPerm['status'] = $status;
                 $publishPerm['review'] = $permissionMap['post_review'] ?? false;
-                if ($isExpired == true) {
-                    $publishPerm['expired_at'] = FresnsCodeMessagesService::getCodeMessage($plugin, $langTag, ErrorCodeService::MEMBER_EXPIRED_ERROR);
+                $tips = [];
+                if($isExpired == true){
+                    $tips['expired_at'] = FresnsCodeMessagesService::getCodeMessage($plugin, $langTag, ErrorCodeService::MEMBER_EXPIRED_ERROR);
                 } else {
-                    if ($errorCode > 0) {
+                    if($errorCode > 0){
                         $message = FresnsCodeMessagesService::getCodeMessage($plugin, $langTag, $errorCode);
                         if (empty($message)) {
                             $message = ErrorCodeService::getMsg($errorCode);
                         }
                         switch ($errorCode) {
                             case '30403':
-                                $publishPerm['post_publish'] = $message;
+                                $tips['post_publish'] = $message;
                                 break;
-                            case '30700':
-                                $publishPerm['post_email_verify'] = $message;
+                            case '30700': 
+                                $tips['post_email_verify'] = $message;
                                 break;
-                            case '30701':
-                                $publishPerm['post_phone_verify'] = $message;
+                            case '30701': 
+                                $tips['post_phone_verify'] = $message;
                                 break;
-                            case '30702':
-                                $publishPerm['post_prove_verify'] = $message;
+                            case '30702': 
+                                $tips['post_prove_verify'] = $message;
                                 break;
                             default:
-                                // code...
+                                # code...
                                 break;
                         }
                     }
                 }
-
+                if(!empty($tips)){
+                    $publishPerm['tips'] = $tips;
+                }
+                
                 // editPerm
                 $editPerm = [];
                 $editPerm['status'] = ApiConfigHelper::getConfigByItemKey('post_edit');
@@ -973,15 +975,15 @@ class FsControllerApi extends FresnsBaseApiController
                 $image = [];
                 $postEditorImage = ApiConfigHelper::getConfigByItemKey('post_editor_image');
                 $image['status'] = $postEditorImage;
-                $image['maxSizze'] = '';
-                if ($postEditorImage) {
+                $image['maxSizze'] = "";
+                if($postEditorImage){
                     $memberRoleInfo = FresnsMemberRoles::find($roleId);
-                    if ($memberRoleInfo) {
-                        foreach ($memberRoleInfo['permission'] as $m) {
-                            if ($m['permKey'] == 'post_editor_image') {
+                    if($memberRoleInfo){
+                        foreach($memberRoleInfo['permission'] as $m){
+                            if($m['permKey'] == 'post_editor_image'){
                                 $image['status'] = $m['permValue'];
                             }
-                            if ($m['permKey'] == 'images_max_size') {
+                            if($m['permKey'] == 'images_max_size'){
                                 $image['maxSize'] = $m['permValue'];
                             }
                         }
@@ -989,11 +991,11 @@ class FsControllerApi extends FresnsBaseApiController
                 }
                 // Get storage service plugin upload page
                 $imageService = ApiConfigHelper::getConfigByItemKey('images_service');
-                $unikey = FresnsPlugins::where('unikey', $imageService)->first();
+                $unikey = FresnsPlugins::where('unikey',$imageService)->first();
                 $image['url'] = ApiFileHelper::getPluginUsagesUrl($imageService, $unikey);
-
+                
                 $image['extensions'] = ApiConfigHelper::getConfigByItemKey('images_ext');
-                if (empty($image['maxSize'])) {
+                if(empty($image['maxSize'])){
                     $image['maxSize'] = ApiConfigHelper::getConfigByItemKey('images_max_size');
                 }
                 $toolbar['image'] = $image;
@@ -1002,20 +1004,20 @@ class FsControllerApi extends FresnsBaseApiController
                 // status: If the configs table key value is false, output it directly; if it is true, output the member master role permission parameter configuration value.
                 $video = [];
                 $postEditorVideo = ApiConfigHelper::getConfigByItemKey('post_editor_video');
-                $video['status'] = $postEditorVideo;
-                $video['maxSize'] = '';
-                $video['maxTime'] = '';
-                if ($postEditorVideo) {
+                $video['status']= $postEditorVideo;
+                $video['maxSize'] = "";
+                $video['maxTime'] = "";
+                if($postEditorVideo){
                     $memberRoleInfo = FresnsMemberRoles::find($roleId);
-                    if ($memberRoleInfo) {
-                        foreach ($memberRoleInfo['permission'] as $m) {
-                            if ($m['permKey'] == 'post_editor_video') {
+                    if($memberRoleInfo){
+                        foreach($memberRoleInfo['permission'] as $m){
+                            if($m['permKey'] == 'post_editor_video'){
                                 $video['status'] = $m['permValue'];
                             }
-                            if ($m['permKey'] == 'videos_max_size') {
+                            if($m['permKey'] == 'videos_max_size'){
                                 $video['maxSize'] = $m['permValue'];
                             }
-                            if ($m['permKey'] == 'videos_max_time') {
+                            if($m['permKey'] == 'videos_max_time'){
                                 $video['maxTime'] = $m['permValue'];
                             }
                         }
@@ -1023,14 +1025,14 @@ class FsControllerApi extends FresnsBaseApiController
                 }
                 // Get storage service plugin upload page
                 $imageService = ApiConfigHelper::getConfigByItemKey('videos_service');
-                $unikey = FresnsPlugins::where('unikey', $imageService)->first();
+                $unikey = FresnsPlugins::where('unikey',$imageService)->first();
                 $video['url'] = ApiFileHelper::getPluginUsagesUrl($imageService, $unikey);
 
                 $video['extensions'] = ApiConfigHelper::getConfigByItemKey('videos_ext');
-                if (empty($video['maxSize'])) {
+                if(empty($video['maxSize'])){
                     $video['maxSize'] = ApiConfigHelper::getConfigByItemKey('videos_max_size');
                 }
-                if (empty($video['maxTime'])) {
+                if(empty($video['maxTime'])){
                     $video['maxTime'] = ApiConfigHelper::getConfigByItemKey('videos_max_time');
                 }
                 $toolbar['video'] = $video;
@@ -1039,20 +1041,20 @@ class FsControllerApi extends FresnsBaseApiController
                 // status: If the configs table key value is false, output it directly; if it is true, output the member master role permission parameter configuration value.
                 $audio = [];
                 $postEditorVideo = ApiConfigHelper::getConfigByItemKey('post_editor_audio');
-                $audio['status'] = $postEditorVideo;
-                $audio['maxSize'] = '';
-                $audio['maxTime'] = '';
-                if ($postEditorVideo) {
+                $audio['status']= $postEditorVideo;
+                $audio['maxSize'] = "";
+                $audio['maxTime'] = "";
+                if($postEditorVideo){
                     $memberRoleInfo = FresnsMemberRoles::find($roleId);
-                    if ($memberRoleInfo) {
-                        foreach ($memberRoleInfo['permission'] as $m) {
-                            if ($m['permKey'] == 'post_editor_audio') {
+                    if($memberRoleInfo){
+                        foreach($memberRoleInfo['permission'] as $m){
+                            if($m['permKey'] == 'post_editor_audio'){
                                 $audio['status'] = $m['permValue'];
                             }
-                            if ($m['permKey'] == 'audios_max_size') {
+                            if($m['permKey'] == 'audios_max_size'){
                                 $audio['maxSize'] = $m['permValue'];
                             }
-                            if ($m['permKey'] == 'audios_max_time') {
+                            if($m['permKey'] == 'audios_max_time'){
                                 $audio['maxTime'] = $m['permValue'];
                             }
                         }
@@ -1060,14 +1062,14 @@ class FsControllerApi extends FresnsBaseApiController
                 }
                 // Get storage service plugin upload page
                 $imageService = ApiConfigHelper::getConfigByItemKey('audios_service');
-                $unikey = FresnsPlugins::where('unikey', $imageService)->first();
+                $unikey = FresnsPlugins::where('unikey',$imageService)->first();
                 $audio['url'] = ApiFileHelper::getPluginUsagesUrl($imageService, $unikey);
 
                 $audio['extensions'] = ApiConfigHelper::getConfigByItemKey('audios_ext');
-                if (empty($audio['maxSize'])) {
+                if(empty($audio['maxSize'])){
                     $audio['maxSize'] = ApiConfigHelper::getConfigByItemKey('audios_max_size');
                 }
-                if (empty($audio['maxTime'])) {
+                if(empty($audio['maxTime'])){
                     $audio['maxTime'] = ApiConfigHelper::getConfigByItemKey('audios_max_time');
                 }
                 $toolbar['audio'] = $audio;
@@ -1076,17 +1078,17 @@ class FsControllerApi extends FresnsBaseApiController
                 // status: If the configs table key value is false, output it directly; if it is true, output the member master role permission parameter configuration value.
                 $doc = [];
                 $postEditorVideo = ApiConfigHelper::getConfigByItemKey('post_editor_doc');
-                $doc['status'] = $postEditorVideo;
-                $doc['maxSize'] = '';
-                $doc['maxTime'] = '';
-                if ($postEditorVideo) {
+                $doc['status']= $postEditorVideo;
+                $doc['maxSize'] = "";
+                $doc['maxTime'] = "";
+                if($postEditorVideo){
                     $memberRoleInfo = FresnsMemberRoles::find($roleId);
-                    if ($memberRoleInfo) {
-                        foreach ($memberRoleInfo['permission'] as $m) {
-                            if ($m['permKey'] == 'post_editor_doc') {
+                    if($memberRoleInfo){
+                        foreach($memberRoleInfo['permission'] as $m){
+                            if($m['permKey'] == 'post_editor_doc'){
                                 $doc['status'] = $m['permValue'];
                             }
-                            if ($m['permKey'] == 'docs_max_size') {
+                            if($m['permKey'] == 'docs_max_size'){
                                 $doc['maxSize'] = $m['permValue'];
                             }
                         }
@@ -1094,11 +1096,11 @@ class FsControllerApi extends FresnsBaseApiController
                 }
                 // Get storage service plugin upload page
                 $imageService = ApiConfigHelper::getConfigByItemKey('docs_service');
-                $unikey = FresnsPlugins::where('unikey', $imageService)->first();
+                $unikey = FresnsPlugins::where('unikey',$imageService)->first();
                 $doc['url'] = ApiFileHelper::getPluginUsagesUrl($imageService, $unikey);
 
                 $doc['extensions'] = ApiConfigHelper::getConfigByItemKey('docs_ext');
-                if (empty($doc['maxSize'])) {
+                if(empty($doc['maxSize'])){
                     $doc['maxSize'] = ApiConfigHelper::getConfigByItemKey('docs_max_size');
                 }
                 $toolbar['doc'] = $doc;
@@ -1124,17 +1126,14 @@ class FsControllerApi extends FresnsBaseApiController
                 $expand = [];
                 $expand['status'] = ApiConfigHelper::getConfigByItemKey('post_editor_expand');
                 $list = [];
-                $tweetPluginUsagesArr = FresnsPluginUsages::where('type', 3)->where('scene', 'like', '%1%')->get();
-                foreach ($tweetPluginUsagesArr as $t) {
+                $tweetPluginUsagesArr = FresnsPluginUsages::where('type', 3)->where('scene', 'like', '%1%')->get()->toArray();
+                foreach($tweetPluginUsagesArr as $t){
                     $name = FresnsService::getlanguageField('name', $t['id']);
                     $arr = [];
                     $arr['plugin'] = $t['plugin_unikey'];
                     $arr['name'] = $name == null ? '' : $name['lang_content'];
                     $arr['icon'] = $t['icon_file_url'];
-                    // $arr['url']
-                    // 插件完整的 URL 地址，由域名字段 plugin_domain 加路径字段 access_path 拼接完成
-                    // 当 plugin_domain 为空时，与后端地址（配置表键名 backend_domain）拼接成完整 URL 地址
-                    // 如果地址有 {parameter} 变量名，使用该记录 plugin_usages > parameter 字段值替换
+                    $arr['url'] = ApiFileHelper::getPluginUsagesUrl($t['plugin_unikey'], $t['id']);
                     $arr['number'] = $t['editor_number'];
                     $list[] = $arr;
                 }
@@ -1151,17 +1150,14 @@ class FsControllerApi extends FresnsBaseApiController
                 $isLbs = [];
                 $isLbs['status'] = ApiConfigHelper::getConfigByItemKey('post_editor_lbs');
                 $maps = [];
-                $tweetPluginUsagesArr = FresnsPluginUsages::where('type', 9)->get();
-                foreach ($tweetPluginUsagesArr as $t) {
+                $tweetPluginUsagesArr = FresnsPluginUsages::where('type', 9)->get()->toArray();
+                foreach($tweetPluginUsagesArr as $t){
                     $name = FresnsService::getlanguageField('name', $t['id']);
                     $arr = [];
                     $arr['plugin'] = $t['plugin_unikey'];
                     $arr['name'] = $name == null ? '' : $name['lang_content'];
                     $arr['icon'] = $t['icon_file_url'];
-                    // $arr['url']
-                    // 插件完整的 URL 地址，由域名字段 plugin_domain 加路径字段 access_path 拼接完成
-                    // 当 plugin_domain 为空时，与后端地址（配置表键名 backend_domain）拼接成完整 URL 地址
-                    // 如果地址有 {parameter} 变量名，使用该记录 plugin_usages > parameter 字段值替换
+                    $arr['url'] = ApiFileHelper::getPluginUsagesUrl($t['plugin_unikey'], $t['id']);
                     $maps[] = $arr;
                 }
                 $isLbs['maps'] = $maps;
@@ -1170,7 +1166,7 @@ class FsControllerApi extends FresnsBaseApiController
                 $features['isAnonymous'] = ApiConfigHelper::getConfigByItemKey('post_editor_anonymous');
                 // features > word count
                 $features['contentWordCount'] = ApiConfigHelper::getConfigByItemKey('post_editor_word_count');
-
+                
                 // Config Data
                 $data = [
                     'publishPerm' => $publishPerm,
@@ -1187,10 +1183,10 @@ class FsControllerApi extends FresnsBaseApiController
                 // publishPerm
                 $publishPerm = [];
                 $errorCode = 0;
-                if ($isExpired === false) {
+                if($isExpired === false){
                     $status = true;
-                    $errorCode = $this->service->publishCommentPerm($user, $memberPermissionJson);
-                    if ($errorCode > 0) {
+                    $errorCode = $this->service->publishCommentPerm($user,$memberPermissionJson);
+                    if($errorCode > 0){
                         $status = false;
                     }
                 } else {
@@ -1198,32 +1194,37 @@ class FsControllerApi extends FresnsBaseApiController
                 }
                 $publishPerm['status'] = $status;
                 $publishPerm['review'] = $permissionMap['post_review'] ?? false;
-                if ($isExpired == true) {
-                    $publishPerm['expired_at'] = FresnsCodeMessagesService::getCodeMessage($plugin, $langTag, ErrorCodeService::MEMBER_EXPIRED_ERROR);
+                $tips = [];
+                if($isExpired == true){
+                    $tips['expired_at'] = FresnsCodeMessagesService::getCodeMessage($plugin, $langTag, ErrorCodeService::MEMBER_EXPIRED_ERROR);
                 } else {
-                    if ($errorCode > 0) {
+                    if($errorCode > 0){
                         $message = FresnsCodeMessagesService::getCodeMessage($plugin, $langTag, $errorCode);
                         if (empty($message)) {
                             $message = ErrorCodeService::getMsg($errorCode);
                         }
                         switch ($errorCode) {
                             case '30403':
-                                $publishPerm['comment_publish'] = $message;
+                                $tips['comment_publish'] = $message;
                                 break;
-                            case '30700':
-                                $publishPerm['comment_email_verify'] = $message;
+                            case '30700': 
+                                $tips['comment_email_verify'] = $message;
                                 break;
-                            case '30701':
-                                $publishPerm['comment_phone_verify'] = $message;
+                            case '30701': 
+                                $tips['comment_phone_verify'] = $message;
                                 break;
-                            case '30702':
-                                $publishPerm['comment_prove_verify'] = $message;
+                            case '30702': 
+                                $tips['comment_prove_verify'] = $message;
                                 break;
                             default:
-                                // code...
+                                # code...
                                 break;
                         }
                     }
+                }
+
+                if(!empty($tips)){
+                    $publishPerm['tips'] = $tips;
                 }
                 // editPerm
                 $editPerm = [];
@@ -1262,25 +1263,25 @@ class FsControllerApi extends FresnsBaseApiController
                 $image = [];
                 $commentEditorImage = ApiConfigHelper::getConfigByItemKey('comment_editor_image');
                 $image['status'] = $commentEditorImage;
-                $image['maxSizze'] = '';
-                if ($commentEditorImage) {
+                $image['maxSizze'] = "";
+                if($commentEditorImage){
                     $memberRoleInfo = FresnsMemberRoles::find($roleId);
-                    if ($memberRoleInfo) {
-                        foreach ($memberRoleInfo['permission'] as $m) {
-                            if ($m['permKey'] == 'comment_editor_image ') {
+                    if($memberRoleInfo){
+                        foreach($memberRoleInfo['permission'] as $m){
+                            if($m['permKey'] == 'comment_editor_image '){
                                 $image['status'] = $m['permValue'];
                             }
-                            if ($m['permKey'] == 'images_max_size') {
+                            if($m['permKey'] == 'images_max_size'){
                                 $image['maxSize'] = $m['permValue'];
                             }
                         }
                     }
                 }
                 $imageService = ApiConfigHelper::getConfigByItemKey('images_service');
-                $unikey = FresnsPlugins::where('unikey', $imageService)->first();
+                $unikey = FresnsPlugins::where('unikey',$imageService)->first();
                 $image['url'] = ApiFileHelper::getPluginUsagesUrl($imageService, $unikey);
                 $image['extensions'] = ApiConfigHelper::getConfigByItemKey('images_ext');
-                if (empty($image['maxSize'])) {
+                if(empty($image['maxSize'])){
                     $image['maxSize'] = ApiConfigHelper::getConfigByItemKey('images_max_size');
                 }
                 $toolbar['image'] = $image;
@@ -1288,33 +1289,33 @@ class FsControllerApi extends FresnsBaseApiController
                 // toolbar > video
                 $video = [];
                 $commentEditorVideo = ApiConfigHelper::getConfigByItemKey('comment_editor_video');
-                $video['status'] = $commentEditorVideo;
-                $video['maxSize'] = '';
-                $video['maxTime'] = '';
-                if ($commentEditorVideo) {
+                $video['status']= $commentEditorVideo;
+                $video['maxSize'] = "";
+                $video['maxTime'] = "";
+                if($commentEditorVideo){
                     $memberRoleInfo = FresnsMemberRoles::find($roleId);
-                    if ($memberRoleInfo) {
-                        foreach ($memberRoleInfo['permission'] as $m) {
-                            if ($m['permKey'] == 'comment_editor_video') {
+                    if($memberRoleInfo){
+                        foreach($memberRoleInfo['permission'] as $m){
+                            if($m['permKey'] == 'comment_editor_video'){
                                 $video['status'] = $m['permValue'];
                             }
-                            if ($m['permKey'] == 'videos_max_size') {
+                            if($m['permKey'] == 'videos_max_size'){
                                 $video['maxSize'] = $m['permValue'];
                             }
-                            if ($m['permKey'] == 'videos_max_time') {
+                            if($m['permKey'] == 'videos_max_time'){
                                 $video['maxTime'] = $m['permValue'];
                             }
                         }
                     }
                 }
                 $imageService = ApiConfigHelper::getConfigByItemKey('videos_service');
-                $unikey = FresnsPlugins::where('unikey', $imageService)->first();
+                $unikey = FresnsPlugins::where('unikey',$imageService)->first();
                 $video['url'] = ApiFileHelper::getPluginUsagesUrl($imageService, $unikey);
                 $video['extensions'] = ApiConfigHelper::getConfigByItemKey('videos_ext');
-                if (empty($video['maxSize'])) {
+                if(empty($video['maxSize'])){
                     $video['maxSize'] = ApiConfigHelper::getConfigByItemKey('videos_max_size');
                 }
-                if (empty($video['maxTime'])) {
+                if(empty($video['maxTime'])){
                     $video['maxTime'] = ApiConfigHelper::getConfigByItemKey('videos_max_time');
                 }
                 $toolbar['video'] = $video;
@@ -1322,33 +1323,33 @@ class FsControllerApi extends FresnsBaseApiController
                 // toolbar > audio
                 $audio = [];
                 $commentEditorVideo = ApiConfigHelper::getConfigByItemKey('comment_editor_audio');
-                $audio['status'] = $commentEditorVideo;
-                $audio['maxSize'] = '';
-                $audio['maxTime'] = '';
-                if ($commentEditorVideo) {
+                $audio['status']= $commentEditorVideo;
+                $audio['maxSize'] = "";
+                $audio['maxTime'] = "";
+                if($commentEditorVideo){
                     $memberRoleInfo = FresnsMemberRoles::find($roleId);
-                    if ($memberRoleInfo) {
-                        foreach ($memberRoleInfo['permission'] as $m) {
-                            if ($m['permKey'] == 'comment_editor_audio') {
+                    if($memberRoleInfo){
+                        foreach($memberRoleInfo['permission'] as $m){
+                            if($m['permKey'] == 'comment_editor_audio'){
                                 $audio['status'] = $m['permValue'];
                             }
-                            if ($m['permKey'] == 'audios_max_size') {
+                            if($m['permKey'] == 'audios_max_size'){
                                 $audio['maxSize'] = $m['permValue'];
                             }
-                            if ($m['permKey'] == 'audios_max_time') {
+                            if($m['permKey'] == 'audios_max_time'){
                                 $audio['maxTime'] = $m['permValue'];
                             }
                         }
                     }
                 }
                 $imageService = ApiConfigHelper::getConfigByItemKey('audios_service');
-                $unikey = FresnsPlugins::where('unikey', $imageService)->first();
+                $unikey = FresnsPlugins::where('unikey',$imageService)->first();
                 $audio['url'] = ApiFileHelper::getPluginUsagesUrl($imageService, $unikey);
                 $audio['extensions'] = ApiConfigHelper::getConfigByItemKey('audios_ext');
-                if (empty($audio['maxSize'])) {
+                if(empty($audio['maxSize'])){
                     $audio['maxSize'] = ApiConfigHelper::getConfigByItemKey('audios_max_size');
                 }
-                if (empty($audio['maxTime'])) {
+                if(empty($audio['maxTime'])){
                     $audio['maxTime'] = ApiConfigHelper::getConfigByItemKey('audios_max_time');
                 }
                 $toolbar['audio'] = $audio;
@@ -1356,27 +1357,27 @@ class FsControllerApi extends FresnsBaseApiController
                 // toolbar > doc
                 $doc = [];
                 $postEditorVideo = ApiConfigHelper::getConfigByItemKey('comment_editor_doc');
-                $doc['status'] = $postEditorVideo;
-                $doc['maxSize'] = '';
-                $doc['maxTime'] = '';
-                if ($postEditorVideo) {
+                $doc['status']= $postEditorVideo;
+                $doc['maxSize'] = "";
+                $doc['maxTime'] = "";
+                if($postEditorVideo){
                     $memberRoleInfo = FresnsMemberRoles::find($roleId);
-                    if ($memberRoleInfo) {
-                        foreach ($memberRoleInfo['permission'] as $m) {
-                            if ($m['permKey'] == 'comment_editor_doc') {
+                    if($memberRoleInfo){
+                        foreach($memberRoleInfo['permission'] as $m){
+                            if($m['permKey'] == 'comment_editor_doc'){
                                 $doc['status'] = $m['permValue'];
                             }
-                            if ($m['permKey'] == 'docs_max_size') {
+                            if($m['permKey'] == 'docs_max_size'){
                                 $doc['maxSize'] = $m['permValue'];
                             }
                         }
                     }
                 }
                 $imageService = ApiConfigHelper::getConfigByItemKey('docs_service');
-                $unikey = FresnsPlugins::where('unikey', $imageService)->first();
+                $unikey = FresnsPlugins::where('unikey',$imageService)->first();
                 $doc['url'] = ApiFileHelper::getPluginUsagesUrl($imageService, $unikey);
                 $doc['extensions'] = ApiConfigHelper::getConfigByItemKey('docs_ext');
-                if (empty($doc['maxSize'])) {
+                if(empty($doc['maxSize'])){
                     $doc['maxSize'] = ApiConfigHelper::getConfigByItemKey('docs_max_size');
                 }
                 $toolbar['doc'] = $doc;
@@ -1394,17 +1395,14 @@ class FsControllerApi extends FresnsBaseApiController
                 $expand = [];
                 $expand['status'] = ApiConfigHelper::getConfigByItemKey('comment_editor_expand');
                 $list = [];
-                $tweetPluginUsagesArr = FresnsPluginUsages::where('type', 3)->where('scene', 'like', '%2%')->get();
-                foreach ($tweetPluginUsagesArr as $t) {
+                $tweetPluginUsagesArr = FresnsPluginUsages::where('type', 3)->where('scene', 'like', '%2%')->get()->toArray();
+                foreach($tweetPluginUsagesArr as $t){
                     $name = FresnsService::getlanguageField('name', $t['id']);
                     $arr = [];
                     $arr['plugin'] = $t['plugin_unikey'];
                     $arr['name'] = $name == null ? '' : $name['lang_content'];
                     $arr['icon'] = $t['icon_file_url'];
-                    // $arr['url']
-                    // 插件完整的 URL 地址，由域名字段 plugin_domain 加路径字段 access_path 拼接完成
-                    // 当 plugin_domain 为空时，与后端地址（配置表键名 backend_domain）拼接成完整 URL 地址
-                    // 如果地址有 {parameter} 变量名，使用该记录 plugin_usages > parameter 字段值替换
+                    $arr['url'] = ApiFileHelper::getPluginUsagesUrl($t['plugin_unikey'], $t['id']);
                     $arr['number'] = $t['editor_number'];
                     $list[] = $arr;
                 }
@@ -1417,17 +1415,14 @@ class FsControllerApi extends FresnsBaseApiController
                 $isLbs = [];
                 $isLbs['status'] = ApiConfigHelper::getConfigByItemKey('comment_editor_lbs');
                 $maps = [];
-                $tweetPluginUsagesArr = FresnsPluginUsages::where('type', 9)->get();
-                foreach ($tweetPluginUsagesArr as $t) {
+                $tweetPluginUsagesArr = FresnsPluginUsages::where('type', 9)->get()->toArray();
+                foreach($tweetPluginUsagesArr as $t){
                     $name = FresnsService::getlanguageField('name', $t['id']);
                     $arr = [];
                     $arr['plugin'] = $t['plugin_unikey'];
                     $arr['name'] = $name == null ? '' : $name['lang_content'];
                     $arr['icon'] = $t['icon_file_url'];
-                    // $arr['url']
-                    // 插件完整的 URL 地址，由域名字段 plugin_domain 加路径字段 access_path 拼接完成
-                    // 当 plugin_domain 为空时，与后端地址（配置表键名 backend_domain）拼接成完整 URL 地址
-                    // 如果地址有 {parameter} 变量名，使用该记录 plugin_usages > parameter 字段值替换
+                    $arr['url'] = ApiFileHelper::getPluginUsagesUrl($t['plugin_unikey'], $t['id']);
                     $maps[] = $arr;
                 }
                 $isLbs['maps'] = $maps;
