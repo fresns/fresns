@@ -7,7 +7,8 @@
     "authors": [
         {
             "name": "Jarvis Tang",
-            "email": "jarvis.okay@gmail.com"
+            "email": "jarvis.okay@gmail.com",
+            "homepage": "https://github.com/jarvis-tang"
         }
     ],
     "require": {
