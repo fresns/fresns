@@ -977,9 +977,9 @@ class FsControllerApi extends FresnsBaseApiController
                 $image = [];
                 $postEditorImage = ApiConfigHelper::getConfigByItemKey('post_editor_image');
                 $image['status'] = $postEditorImage;
-                $image['maxSizze'] = "";
-                if($postEditorImage){
-                    if($permissionMap){
+                $image['maxSizze'] = '';
+                if ($postEditorImage) {
+                    if ($permissionMap) {
                         $image['status'] = $permissionMap['post_editor_image'];
                         $image['maxSize'] = $permissionMap['images_max_size'];
                     }
@@ -997,11 +997,11 @@ class FsControllerApi extends FresnsBaseApiController
                 // status: If the configs table key value is false, output it directly; if it is true, output the member master role permission parameter configuration value.
                 $video = [];
                 $postEditorVideo = ApiConfigHelper::getConfigByItemKey('post_editor_video');
-                $video['status']= $postEditorVideo;
-                $video['maxSize'] = "";
-                $video['maxTime'] = "";
-                if($postEditorVideo){
-                    if($permissionMap){
+                $video['status'] = $postEditorVideo;
+                $video['maxSize'] = '';
+                $video['maxTime'] = '';
+                if ($postEditorVideo) {
+                    if ($permissionMap) {
                         $video['status'] = $permissionMap['post_editor_video'];
                         $video['maxSize'] = $permissionMap['videos_max_size'];
                         $video['maxTime'] = $permissionMap['videos_max_time'];
@@ -1023,11 +1023,11 @@ class FsControllerApi extends FresnsBaseApiController
                 // status: If the configs table key value is false, output it directly; if it is true, output the member master role permission parameter configuration value.
                 $audio = [];
                 $postEditorAudio = ApiConfigHelper::getConfigByItemKey('post_editor_audio');
-                $audio['status']= $postEditorAudio;
-                $audio['maxSize'] = "";
-                $audio['maxTime'] = "";
-                if($postEditorAudio){
-                    if($permissionMap){
+                $audio['status'] = $postEditorAudio;
+                $audio['maxSize'] = '';
+                $audio['maxTime'] = '';
+                if ($postEditorAudio) {
+                    if ($permissionMap) {
                         $audio['status'] = $permissionMap['post_editor_audio'];
                         $audio['maxSize'] = $permissionMap['audios_max_size'];
                         $audio['maxTime'] = $permissionMap['audios_max_time'];
@@ -1049,11 +1049,11 @@ class FsControllerApi extends FresnsBaseApiController
                 // status: If the configs table key value is false, output it directly; if it is true, output the member master role permission parameter configuration value.
                 $doc = [];
                 $postEditorDoc = ApiConfigHelper::getConfigByItemKey('post_editor_doc');
-                $doc['status']= $postEditorDoc;
-                $doc['maxSize'] = "";
-                $doc['maxTime'] = "";
-                if($postEditorDoc){
-                    if($permissionMap){
+                $doc['status'] = $postEditorDoc;
+                $doc['maxSize'] = '';
+                $doc['maxTime'] = '';
+                if ($postEditorDoc) {
+                    if ($permissionMap) {
                         $doc['status'] = $permissionMap['post_editor_doc'];
                         $doc['maxSize'] = $permissionMap['docs_max_size'];
                         $doc['maxTime'] = $permissionMap['docs_max_time'] ?? false;
@@ -1225,9 +1225,9 @@ class FsControllerApi extends FresnsBaseApiController
                 $image = [];
                 $commentEditorImage = ApiConfigHelper::getConfigByItemKey('comment_editor_image');
                 $image['status'] = $commentEditorImage;
-                $image['maxSizze'] = "";
-                if($commentEditorImage){
-                    if($permissionMap){
+                $image['maxSizze'] = '';
+                if ($commentEditorImage) {
+                    if ($permissionMap) {
                         $image['status'] = $permissionMap['comment_editor_image'] ?? false;
                         $image['maxSize'] = $permissionMap['images_max_size'];
                     }
@@ -1243,11 +1243,11 @@ class FsControllerApi extends FresnsBaseApiController
                 // toolbar > video
                 $video = [];
                 $commentEditorVideo = ApiConfigHelper::getConfigByItemKey('comment_editor_video');
-                $video['status']= $commentEditorVideo;
-                $video['maxSize'] = "";
-                $video['maxTime'] = "";
-                if($commentEditorVideo){
-                    if($permissionMap){
+                $video['status'] = $commentEditorVideo;
+                $video['maxSize'] = '';
+                $video['maxTime'] = '';
+                if ($commentEditorVideo) {
+                    if ($permissionMap) {
                         $video['status'] = $permissionMap['comment_editor_video'] ?? false;
                         $video['maxSize'] = $permissionMap['videos_max_size'];
                         $video['maxTime'] = $permissionMap['videos_max_time'];
@@ -1267,11 +1267,11 @@ class FsControllerApi extends FresnsBaseApiController
                 // toolbar > audio
                 $audio = [];
                 $commentEditorAudio = ApiConfigHelper::getConfigByItemKey('comment_editor_audio');
-                $audio['status']= $commentEditorAudio;
-                $audio['maxSize'] = "";
-                $audio['maxTime'] = "";
-                if($commentEditorAudio){
-                    if($permissionMap){
+                $audio['status'] = $commentEditorAudio;
+                $audio['maxSize'] = '';
+                $audio['maxTime'] = '';
+                if ($commentEditorAudio) {
+                    if ($permissionMap) {
                         $audio['status'] = $permissionMap['comment_editor_audio'] ?? false;
                         $audio['maxSize'] = $permissionMap['audios_max_size'];
                         $audio['maxTime'] = $permissionMap['audios_max_time'];
@@ -1291,11 +1291,11 @@ class FsControllerApi extends FresnsBaseApiController
                 // toolbar > doc
                 $doc = [];
                 $commentEditorDoc = ApiConfigHelper::getConfigByItemKey('comment_editor_doc');
-                $doc['status']= $commentEditorDoc;
-                $doc['maxSize'] = "";
-                $doc['maxTime'] = "";
-                if($commentEditorDoc){
-                    if($permissionMap){
+                $doc['status'] = $commentEditorDoc;
+                $doc['maxSize'] = '';
+                $doc['maxTime'] = '';
+                if ($commentEditorDoc) {
+                    if ($permissionMap) {
                         $doc['status'] = $permissionMap['comment_editor_doc'] ?? false;
                         $doc['maxSize'] = $permissionMap['docs_max_size'];
                         $doc['maxTime'] = $permissionMap['docs_max_time'] ?? false;
