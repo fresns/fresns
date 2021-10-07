@@ -71,9 +71,9 @@ class FresnsGroupsTreesResource extends BaseAdminResource
                 $arr['followUrl'] = $c['plugin_unikey'];
 
                 // Operation behavior status
-                $arr['likeStatus'] = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where('member_id', $mid)->where('like_type', 2)->where('like_id', $c['id'])->where('deleted_at',null)->count();
-                $arr['followStatus'] = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 2)->where('follow_id', $c['id'])->where('deleted_at',null)->count();
-                $arr['shieldStatus'] = DB::table(FresnsMemberShieldsConfig::CFG_TABLE)->where('member_id', $mid)->where('shield_type', 2)->where('shield_id', $c['id'])->where('deleted_at',null)->count();
+                $arr['likeStatus'] = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where('member_id', $mid)->where('like_type', 2)->where('like_id', $c['id'])->where('deleted_at', null)->count();
+                $arr['followStatus'] = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 2)->where('follow_id', $c['id'])->where('deleted_at', null)->count();
+                $arr['shieldStatus'] = DB::table(FresnsMemberShieldsConfig::CFG_TABLE)->where('member_id', $mid)->where('shield_type', 2)->where('shield_id', $c['id'])->where('deleted_at', null)->count();
                 // Operation behavior settings
                 $arr['likeSetting'] = ApiConfigHelper::getConfigByItemKey(FsConfig::LIKE_GROUP_SETTING);
                 $arr['followSetting'] = ApiConfigHelper::getConfigByItemKey(FsConfig::FOLLOW_GROUP_SETTING);

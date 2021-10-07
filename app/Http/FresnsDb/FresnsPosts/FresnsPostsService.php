@@ -108,16 +108,16 @@ class FresnsPostsService extends FsService
         $mapId = $locationJson['mapId'] ?? null;
         $latitude = $locationJson['latitude'] ?? null;
         $longitude = $locationJson['longitude'] ?? null;
-        if(empty($mapId)) {
+        if (empty($mapId)) {
             $mapId = null;
         }
-        if(empty($latitude)) {
+        if (empty($latitude)) {
             $latitude = null;
         }
-        if(empty($longitude)) {
+        if (empty($longitude)) {
             $longitude = null;
         }
-        
+
         $more_json = [];
         $more_json['files'] = json_decode($draftPost['files_json'], true);
 
@@ -182,13 +182,13 @@ class FresnsPostsService extends FsService
         $mapId = $locationJson['mapId'] ?? null;
         $latitude = $locationJson['latitude'] ?? null;
         $longitude = $locationJson['longitude'] ?? null;
-        if(empty($mapId)) {
+        if (empty($mapId)) {
             $mapId = null;
         }
-        if(empty($latitude)) {
+        if (empty($latitude)) {
             $latitude = null;
         }
-        if(empty($latitude)) {
+        if (empty($latitude)) {
             $latitude = null;
         }
 
@@ -350,31 +350,31 @@ class FresnsPostsService extends FsService
         $district = $locationJson['district'] ?? null;
         $adcode = $locationJson['adcode'] ?? null;
         $address = $locationJson['address'] ?? null;
-        if(empty($scale)) {
+        if (empty($scale)) {
             $scale = null;
         }
-        if(empty($poi)) {
+        if (empty($poi)) {
             $poi = null;
         }
-        if(empty($poiId)) {
+        if (empty($poiId)) {
             $poiId = null;
         }
-        if(empty($nation)) {
+        if (empty($nation)) {
             $nation = null;
         }
-        if(empty($province)) {
+        if (empty($province)) {
             $province = null;
         }
-        if(empty($city)) {
+        if (empty($city)) {
             $city = null;
         }
-        if(empty($district)) {
+        if (empty($district)) {
             $district = null;
         }
-        if(empty($adcode)) {
+        if (empty($adcode)) {
             $adcode = null;
         }
-        if(empty($address)) {
+        if (empty($address)) {
             $address = null;
         }
 
@@ -580,31 +580,31 @@ class FresnsPostsService extends FsService
         $district = $locationJson['district'] ?? null;
         $adcode = $locationJson['adcode'] ?? null;
         $address = $locationJson['address'] ?? null;
-        if(empty($scale)) {
+        if (empty($scale)) {
             $scale = null;
         }
-        if(empty($poi)) {
+        if (empty($poi)) {
             $poi = null;
         }
-        if(empty($poiId)) {
+        if (empty($poiId)) {
             $poiId = null;
         }
-        if(empty($nation)) {
+        if (empty($nation)) {
             $nation = null;
         }
-        if(empty($province)) {
+        if (empty($province)) {
             $province = null;
         }
-        if(empty($city)) {
+        if (empty($city)) {
             $city = null;
         }
-        if(empty($district)) {
+        if (empty($district)) {
             $district = null;
         }
-        if(empty($adcode)) {
+        if (empty($adcode)) {
             $adcode = null;
         }
-        if(empty($address)) {
+        if (empty($address)) {
             $address = null;
         }
 

@@ -38,6 +38,7 @@ class ApiCommonHelper
             if ($str != false) {
                 if ($v['dialog_mode'] == 2) {
                     $text = str_replace($v['word'], $v['replace_word'], $text);
+
                     return $text;
                 }
                 if ($v['dialog_mode'] == 3) {

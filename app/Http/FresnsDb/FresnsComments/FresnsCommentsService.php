@@ -288,11 +288,11 @@ class FresnsCommentsService extends FsService
         } else {
             $isBrief = 0;
         }
-        
+
         // Location Information
         $locationJson = json_decode($draftComment['location_json'], true);
         $isLbs = $locationJson['isLbs'] ?? '';
-        
+
         $more_json = [];
         $more_json['files'] = json_decode($draftComment['files_json'], true);
 

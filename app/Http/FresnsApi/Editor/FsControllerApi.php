@@ -207,7 +207,7 @@ class FsControllerApi extends FresnsBaseApiController
     {
         $rule = [
             'type' => 'required|in:1,2',
-            'logId' => 'required'
+            'logId' => 'required',
         ];
         ValidateService::validateRule($request, $rule);
 
@@ -926,7 +926,7 @@ class FsControllerApi extends FresnsBaseApiController
                         }
                     }
                 }
-                $publishPerm['tips'] = !empty($tips) ? $tips : null;
+                $publishPerm['tips'] = ! empty($tips) ? $tips : null;
 
                 // editPerm
                 $editPerm = [];
@@ -1174,7 +1174,7 @@ class FsControllerApi extends FresnsBaseApiController
                         }
                     }
                 }
-                $publishPerm['tips'] = !empty($tips) ? $tips : null;
+                $publishPerm['tips'] = ! empty($tips) ? $tips : null;
 
                 // editPerm
                 $editPerm = [];
