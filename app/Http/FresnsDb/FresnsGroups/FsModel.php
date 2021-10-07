@@ -99,7 +99,6 @@ class FsModel extends BaseCategoryModel
             case 'view':
                 $orderByFields = [
                     'view_count' => $sortWayType,
-                    // 'updated_at' => 'DESC',
                 ];
 
                 return $orderByFields;
@@ -107,7 +106,6 @@ class FsModel extends BaseCategoryModel
             case 'like':
                 $orderByFields = [
                     'like_count' => $sortWayType,
-                    // 'updated_at' => 'DESC',
                 ];
 
                 return $orderByFields;
@@ -115,7 +113,6 @@ class FsModel extends BaseCategoryModel
             case 'follow':
                 $orderByFields = [
                     'follow_count' => $sortWayType,
-                    // 'updated_at' => 'DESC',
                 ];
 
                 return $orderByFields;
@@ -123,7 +120,6 @@ class FsModel extends BaseCategoryModel
             case 'shield':
                 $orderByFields = [
                     'shield_count' => $sortWayType,
-                    // 'updated_at' => 'DESC',
                 ];
 
                 return $orderByFields;
@@ -131,7 +127,6 @@ class FsModel extends BaseCategoryModel
             case 'post':
                 $orderByFields = [
                     'post_count' => $sortWayType,
-                    // 'updated_at' => 'DESC',
                 ];
 
                 return $orderByFields;
@@ -139,7 +134,6 @@ class FsModel extends BaseCategoryModel
             case 'essence':
                 $orderByFields = [
                     'essence_count' => $sortWayType,
-                    // 'updated_at' => 'DESC',
                 ];
 
                 return $orderByFields;
@@ -147,7 +141,6 @@ class FsModel extends BaseCategoryModel
             case 'time':
                 $orderByFields = [
                     'created_at' => $sortWayType,
-                    // 'updated_at' => 'DESC',
                 ];
 
                 return $orderByFields;
@@ -156,7 +149,6 @@ class FsModel extends BaseCategoryModel
             default:
                 $orderByFields = [
                     'rank_num' => 'ASC',
-                    // 'updated_at' => 'DESC',
                 ];
 
                 return $orderByFields;

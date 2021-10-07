@@ -21,16 +21,16 @@ class FresnsCrontabPluginConfig extends BasePluginConfig
     // Delete Subscription Information
     public const DELETE_SUB_PLUGIN_ITEM = 'delete_sub_plugin_item';
     // Perform user role expiration time detection every 10 minutes
-    public const PLG_CMD_CRONTAB_CHECK_ROLE_EXPIRED = 'plg_cmd_crontab_check_role_expired';
+    public const FRESNS_CMD_CRONTAB_CHECK_ROLE_EXPIRED = 'fresns_cmd_crontab_check_role_expired';
     // Timed Tasks: Logical Deletion and Physical Deletion
-    public const PLG_CMD_CRONTAB_CHECK_DELETE_USER = 'plg_cmd_crontab_check_delete_user';
+    public const FRESNS_CMD_CRONTAB_CHECK_DELETE_USER = 'fresns_cmd_crontab_check_delete_user';
 
     // Plugin command word callback mapping
-    const PLG_CMD_HANDLE_MAP = [
+    const FRESNS_CMD_HANDLE_MAP = [
         self::ADD_SUB_PLUGIN_ITEM => 'addSubPluginItemHandler',
         self::DELETE_SUB_PLUGIN_ITEM => 'deleteSubTablePluginItemHandler',
-        self::PLG_CMD_CRONTAB_CHECK_ROLE_EXPIRED => 'crontabCheckRoleExpiredHandler',
-        self::PLG_CMD_CRONTAB_CHECK_DELETE_USER => 'crontabCheckDeleteUserHandler',
+        self::FRESNS_CMD_CRONTAB_CHECK_ROLE_EXPIRED => 'crontabCheckRoleExpiredHandler',
+        self::FRESNS_CMD_CRONTAB_CHECK_DELETE_USER => 'crontabCheckDeleteUserHandler',
         self::ADD_CRONTAB_PLUGIN_ITEM => 'addCrontabPluginItemHandler',
         self::DELETE_CRONTAB_PLUGIN_ITEM => 'deleteCrontabPluginItemHandler',
     ];

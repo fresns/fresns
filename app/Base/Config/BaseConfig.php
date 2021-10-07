@@ -74,6 +74,7 @@ class BaseConfig
         'name' => ['field' => 'name', 'op' => 'LIKE'],
         'nickname' => ['field' => 'nickname', 'op' => 'LIKE'],
         'type' => ['field' => 'type', 'op' => 'IN'],
+        'state' => ['field' => 'state', 'op' => 'IN'],
         'status' => ['field' => 'status', 'op' => 'IN'],
         'is_enable' => ['field' => 'is_enable', 'op' => '='],
         'created_at_from' => ['field' => 'created_at', 'op' => '>='],

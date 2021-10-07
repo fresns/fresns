@@ -219,50 +219,44 @@ class FresnsCommentsService extends FsService
     {
         // Parsing basic information
         $draftComment = FresnsCommentLogs::find($draftId);
+        $uuid = strtolower(StrHelper::randString(8));
 
         // Parse content information (determine whether the content needs to be truncated)
         $contentBrief = $this->parseDraftContent($draftId);
-
         // Removing html tags
         $contentBrief = strip_tags($contentBrief);
-
-        $uuid = strtolower(StrHelper::randString(8));
         // Get the number of words in the brief of the comment
         $commentEditorBriefCount = ApiConfigHelper::getConfigByItemKey(FsConfig::COMMENT_EDITOR_WORD_COUNT) ?? 280;
         if (mb_strlen($draftComment['content']) > $commentEditorBriefCount) {
-            $is_brief = 1;
+            $isBrief = 1;
         } else {
-            $is_brief = 0;
+            $isBrief = 0;
         }
-        $allosJsonDecode = json_decode($draftComment['allow_json'], true);
-        $is_allow = $allosJsonDecode['isAllow'] ?? 0;
-        // Location Information
+
         $locationJson = json_decode($draftComment['location_json'], true);
         $isLbs = $locationJson['isLbs'] ?? 0;
+
         $more_json = [];
         $more_json['files'] = json_decode($draftComment['files_json'], true);
         LogService::info('draftComment', $draftComment);
         LogService::info('more_json', $more_json);
+
         $postInput = [
             'uuid' => $uuid,
             'member_id' => $draftComment['member_id'],
             'post_id' => $draftComment['post_id'],
             'types' => $draftComment['types'],
             'content' => $contentBrief,
-            'is_brief' => $is_brief,
+            'is_brief' => $isBrief,
             'parent_id' => $commentCid,
-            // 'is_markdown' => $draftComment['is_markdown'],
             'is_anonymous' => $draftComment['is_anonymous'],
-            // 'status' => 3,
             'is_lbs' => $isLbs,
-            // 'release_at'  => date('Y-m-d H:i:s'),
             'more_json' => json_encode($more_json),
         ];
         LogService::info('postInput', $postInput);
 
-        // $commentId = DB::table('comments')->insertGetId($postInput);
         $commentId = (new FresnsComments())->store($postInput);
-        $AppendStore = $this->postAppendStore($commentId, $draftId);
+        $AppendStore = $this->commentAppendStore($commentId, $draftId);
         if ($AppendStore) {
             FresnsSessionLogs::where('id', $sessionLodsId)->update([
                 'object_result' => 2,
@@ -285,30 +279,27 @@ class FresnsCommentsService extends FsService
 
         // Parse content information (determine whether the content needs to be truncated)
         $contentBrief = $this->parseDraftContent($draftId);
-
         // Removing html tags
         $contentBrief = strip_tags($contentBrief);
-
         // Get the number of words in the brief of the comment
         $commentEditorBriefCount = ApiConfigHelper::getConfigByItemKey(FsConfig::COMMENT_EDITOR_WORD_COUNT) ?? 280;
         if (mb_strlen($draftComment['content']) > $commentEditorBriefCount) {
-            $is_brief = 1;
+            $isBrief = 1;
         } else {
-            $is_brief = 0;
+            $isBrief = 0;
         }
-        $allosJsonDecode = json_decode($draftComment['allow_json'], true);
-        $is_allow = $allosJsonDecode['isAllow'] ?? 0;
+        
         // Location Information
         $locationJson = json_decode($draftComment['location_json'], true);
         $isLbs = $locationJson['isLbs'] ?? '';
+        
         $more_json = [];
         $more_json['files'] = json_decode($draftComment['files_json'], true);
 
         $commentInput = [
             'types' => $draftComment['types'],
             'content' => $contentBrief,
-            'is_brief' => $is_brief,
-            // 'is_markdown' => $draftComment['is_markdown'],
+            'is_brief' => $isBrief,
             'is_anonymous' => $draftComment['is_anonymous'],
             'is_lbs' => $isLbs,
             'latest_edit_at' => date('Y-m-d H:i:s'),
@@ -323,12 +314,12 @@ class FresnsCommentsService extends FsService
     }
 
     // comment_appends (add)
-    public function postAppendStore($commentId, $draftId)
+    public function commentAppendStore($commentId, $draftId)
     {
         $draftComment = FresnsCommentLogs::find($draftId);
         // Editor Config
-        $pluginEdit = $draftComment['is_plugin_edit'];
-        $pluginUnikey = $draftComment['plugin_unikey'];
+        $isPluginEditor = $draftComment['is_plugin_editor'];
+        $editorUnikey = $draftComment['editor_unikey'];
         // Location Config
         $locationJson = json_decode($draftComment['location_json'], true);
         $mapId = $locationJson['mapId'] ?? null;
@@ -368,8 +359,8 @@ class FresnsCommentsService extends FsService
             'platform_id' => $draftComment['platform_id'],
             'content' => $content,
             'is_markdown' => $draftComment['is_markdown'],
-            'is_plugin_edit' => $pluginEdit,
-            'plugin_unikey' => $pluginUnikey,
+            'is_plugin_editor' => $isPluginEditor,
+            'editor_unikey' => $editorUnikey,
             'map_id' => $mapId,
             'map_latitude' => $latitude,
             'map_longitude' => $longitude,
@@ -393,8 +384,8 @@ class FresnsCommentsService extends FsService
     {
         $draftComment = FresnsCommentLogs::find($draftId);
         // Editor Config
-        $pluginEdit = $draftComment['is_plugin_edit'];
-        $pluginUnikey = $draftComment['plugin_unikey'];
+        $isPluginEditor = $draftComment['is_plugin_editor'];
+        $editorUnikey = $draftComment['editor_unikey'];
         // Location Config
         $locationJson = json_decode($draftComment['location_json'], true);
         $mapId = $locationJson['mapId'] ?? null;
@@ -434,8 +425,8 @@ class FresnsCommentsService extends FsService
         $commentAppendInput = [
             'platform_id' => $draftComment['platform_id'],
             'content' => $content,
-            'is_plugin_edit' => $pluginEdit,
-            'plugin_unikey' => $pluginUnikey,
+            'is_plugin_editor' => $isPluginEditor,
+            'editor_unikey' => $editorUnikey,
             'map_id' => $mapId,
             'map_latitude' => $latitude,
             'map_longitude' => $longitude,
@@ -458,7 +449,7 @@ class FresnsCommentsService extends FsService
     public function afterStoreToDb($commentId, $draftId)
     {
         // Call the plugin to subscribe to the command word
-        $cmd = FresnsSubPluginConfig::PLG_CMD_SUB_ADD_TABLE;
+        $cmd = FresnsSubPluginConfig::FRESNS_CMD_SUB_ADD_TABLE;
         $input = [
             'tableName' => FresnsCommentsConfig::CFG_TABLE,
             'insertId' => $commentId,
@@ -469,7 +460,7 @@ class FresnsCommentsService extends FsService
         $content = $this->stopWords($draftComment['content']);
 
         // Log updated to published
-        FresnsCommentLogs::where('id', $draftId)->update(['status' => 3, 'comment_id' => $commentId, 'content' => $content]);
+        FresnsCommentLogs::where('id', $draftId)->update(['state' => 3, 'comment_id' => $commentId, 'content' => $content]);
         // Notification
         $this->sendAtMessages($commentId, $draftId);
         $this->sendCommentMessages($commentId, $draftId);
@@ -486,7 +477,7 @@ class FresnsCommentsService extends FsService
     public function afterUpdateToDb($commentId, $draftId)
     {
         // Call the plugin to subscribe to the command word
-        $cmd = FresnsSubPluginConfig::PLG_CMD_SUB_ADD_TABLE;
+        $cmd = FresnsSubPluginConfig::FRESNS_CMD_SUB_ADD_TABLE;
         $input = [
             'tableName' => FresnsCommentsConfig::CFG_TABLE,
             'insertId' => $commentId,
@@ -497,7 +488,7 @@ class FresnsCommentsService extends FsService
         $content = $this->stopWords($draftComment['content']);
 
         // Log updated to published
-        FresnsCommentLogs::where('id', $draftId)->update(['status' => 3, 'content'=> $content]);
+        FresnsCommentLogs::where('id', $draftId)->update(['state' => 3, 'content'=> $content]);
         FresnsCommentAppends::where('comment_id', $commentId)->increment('edit_count');
         // Notification
         $this->sendAtMessages($commentId, $draftId, 2);

@@ -9,7 +9,7 @@
 namespace App\Http\FresnsApi\User;
 
 use App\Helpers\DateHelper;
-use App\Http\FresnsApi\Helpers\ApiCommonHelper;
+use App\Helpers\StrHelper;
 use App\Http\FresnsApi\Helpers\ApiConfigHelper;
 use App\Http\FresnsApi\Helpers\ApiFileHelper;
 use App\Http\FresnsApi\Helpers\ApiLanguageHelper;
@@ -44,18 +44,18 @@ class FsService
 
         $data['uid'] = $users->uuid ?? '';
         $data['countryCode'] = $users->country_code ?? '';
-        $data['purePhone'] = ApiCommonHelper::encryptPhone($users->pure_phone ?? '');
-        $data['phone'] = ApiCommonHelper::encryptPhone($phone, 5, 6) ?? '';
-        $data['email'] = ApiCommonHelper::encryptEmail($email) ?? '';
+        $data['purePhone'] = StrHelper::encryptPhone($users->pure_phone ?? '');
+        $data['phone'] = StrHelper::encryptPhone($phone, 5, 6) ?? '';
+        $data['email'] = StrHelper::encryptEmail($email) ?? '';
         // Configs the plugin associated with the table account_prove_service and output the plugin URL
         $proveSupportUnikey = ApiConfigHelper::getConfigByItemKey('account_prove_service');
         $proveSupportUrl = FresnsPluginsService::getPluginUrlByUnikey($proveSupportUnikey);
         $data['proveSupport'] = $proveSupportUrl;
         $data['verifyStatus'] = $users->prove_verify ?? '';
-        $data['realname'] = ApiCommonHelper::encryptName($users->prove_realname) ?? '';
+        $data['realname'] = StrHelper::encryptName($users->prove_realname) ?? '';
         $data['gender'] = $users->prove_gender ?? '';
         $data['idType'] = $users->prove_type ?? '';
-        $data['idNumber'] = ApiCommonHelper::encryptIdNumber($users->prove_number, 1, -1) ?? '';
+        $data['idNumber'] = StrHelper::encryptIdNumber($users->prove_number, 1, -1) ?? '';
         $data['registerTime'] = DateHelper::fresnsOutputTimeToTimezone($users->created_at ?? '');
         $data['status'] = $users->is_enable ?? '';
         $data['deactivate'] = boolval($users->deleted_at ?? '');
@@ -92,11 +92,11 @@ class FsService
         $wallet['bankAddress'] = $userWallets['bank_address'] ?? '';
         $wallet['bankAccount'] = '';
         if (! empty($userWallets)) {
-            $wallet['bankAccount'] = ApiCommonHelper::encryptIdNumber($userWallets['bank_account'], 4, -2);
+            $wallet['bankAccount'] = StrHelper::encryptIdNumber($userWallets['bank_account'], 4, -2);
         }
         $wallet['bankStatus'] = $userWallets['bank_status'] ?? '';
-        $wallet['payExpands'] = FresnsPluginBadgesService::getPluginExpand($mid, FsConfig::PLUGIN_USAGERS_TYPE_1, $langTag);
-        $wallet['withdrawExpands'] = FresnsPluginBadgesService::getPluginExpand($mid, FsConfig::PLUGIN_USAGERS_TYPE_2, $langTag);
+        $wallet['payExpands'] = FresnsPluginBadgesService::getWalletPluginExpands($mid, FsConfig::PLUGIN_USAGERS_TYPE_1, $langTag);
+        $wallet['withdrawExpands'] = FresnsPluginBadgesService::getWalletPluginExpands($mid, FsConfig::PLUGIN_USAGERS_TYPE_2, $langTag);
         $data['wallet'] = $wallet;
 
         $memberArr = DB::table('members')->where('user_id', $uid)->get()->toArray();

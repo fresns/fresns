@@ -22,73 +22,73 @@ class FresnsCmdWordsConfig extends BasePluginConfig
     public $uniKey = 'fresns';
 
     // Command Word: Default
-    public const PLG_CMD_DEFAULT = 'plg_cmd_default';
+    public const FRESNS_CMD_DEFAULT = 'fresns_cmd_default';
 
     // Command Word: Basis
-    public const PLG_CMD_VERIFY_SIGN = 'plg_cmd_verify_sign';
-    public const PLG_CMD_UPLOAD_SESSION_LOG = 'plg_cmd_upload_session_log';
-    public const PLG_CMD_SEND_CODE = 'plg_cmd_send_code';
-    public const PLG_CMD_CHECKED_CODE = 'plg_cmd_checked_code';
-    public const PLG_CMD_SEND_EMAIL = 'plg_cmd_send_email';
-    public const PLG_CMD_SEND_SMS = 'plg_cmd_send_sms';
-    public const PLG_CMD_SEND_IOS = 'plg_cmd_send_ios';
-    public const PLG_CMD_SEND_ANDROID = 'plg_cmd_send_android';
-    public const PLG_CMD_SEND_WECHAT = 'plg_cmd_send_wechat';
+    public const FRESNS_CMD_VERIFY_SIGN = 'fresns_cmd_verify_sign';
+    public const FRESNS_CMD_UPLOAD_SESSION_LOG = 'fresns_cmd_upload_session_log';
+    public const FRESNS_CMD_SEND_CODE = 'fresns_cmd_send_code';
+    public const FRESNS_CMD_CHECKED_CODE = 'fresns_cmd_checked_code';
+    public const FRESNS_CMD_SEND_EMAIL = 'fresns_cmd_send_email';
+    public const FRESNS_CMD_SEND_SMS = 'fresns_cmd_send_sms';
+    public const FRESNS_CMD_SEND_IOS = 'fresns_cmd_send_ios';
+    public const FRESNS_CMD_SEND_ANDROID = 'fresns_cmd_send_android';
+    public const FRESNS_CMD_SEND_WECHAT = 'fresns_cmd_send_wechat';
 
     // Command Word: User
-    public const PLG_CMD_USER_REGISTER = 'plg_cmd_user_register';
-    public const PLG_CMD_USER_LOGIN = 'plg_cmd_user_login';
-    public const PLG_CMD_USER_DETAIL = 'plg_cmd_user_detail';
-    public const PLG_CMD_CREATE_SESSION_TOKEN = 'plg_cmd_create_session_token';
-    public const PLG_CMD_VERIFY_SESSION_TOKEN = 'plg_cmd_verify_session_token';
-    public const PLG_CMD_WALLET_INCREASE = 'plg_cmd_wallet_increase';
-    public const PLG_CMD_WALLET_DECREASE = 'plg_cmd_wallet_decrease';
+    public const FRESNS_CMD_USER_REGISTER = 'fresns_cmd_user_register';
+    public const FRESNS_CMD_USER_LOGIN = 'fresns_cmd_user_login';
+    public const FRESNS_CMD_USER_DETAIL = 'fresns_cmd_user_detail';
+    public const FRESNS_CMD_CREATE_SESSION_TOKEN = 'fresns_cmd_create_session_token';
+    public const FRESNS_CMD_VERIFY_SESSION_TOKEN = 'fresns_cmd_verify_session_token';
+    public const FRESNS_CMD_WALLET_INCREASE = 'fresns_cmd_wallet_increase';
+    public const FRESNS_CMD_WALLET_DECREASE = 'fresns_cmd_wallet_decrease';
 
     // Command Word: File
-    public const PLG_CMD_GET_UPLOAD_TOKEN = 'plg_cmd_get_upload_token';
-    public const PLG_CMD_UPLOAD_FILE = 'plg_cmd_upload_file';
-    public const PLG_CMD_ANTI_LINK_IMAGE = 'plg_cmd_anti_link_image';
-    public const PLG_CMD_ANTI_LINK_VIDEO = 'plg_cmd_anti_link_video';
-    public const PLG_CMD_ANTI_LINK_AUDIO = 'plg_cmd_anti_link_audio';
-    public const PLG_CMD_ANTI_LINK_DOC = 'plg_cmd_anti_link_doc';
-    public const PLG_CMD_PHYSICAL_DELETION_FILE = 'plg_cmd_physical_deletion_file';
+    public const FRESNS_CMD_GET_UPLOAD_TOKEN = 'fresns_cmd_get_upload_token';
+    public const FRESNS_CMD_UPLOAD_FILE = 'fresns_cmd_upload_file';
+    public const FRESNS_CMD_ANTI_LINK_IMAGE = 'fresns_cmd_anti_link_image';
+    public const FRESNS_CMD_ANTI_LINK_VIDEO = 'fresns_cmd_anti_link_video';
+    public const FRESNS_CMD_ANTI_LINK_AUDIO = 'fresns_cmd_anti_link_audio';
+    public const FRESNS_CMD_ANTI_LINK_DOC = 'fresns_cmd_anti_link_doc';
+    public const FRESNS_CMD_PHYSICAL_DELETION_FILE = 'fresns_cmd_physical_deletion_file';
 
     // Command Word: Content
-    public const PLG_CMD_DIRECT_RELEASE_CONTENT = 'plg_cmd_direct_release_content';
-    public const PLG_CMD_DELETE_CONTENT = 'plg_cmd_delete_content';
+    public const FRESNS_CMD_DIRECT_RELEASE_CONTENT = 'fresns_cmd_direct_release_content';
+    public const FRESNS_CMD_DELETE_CONTENT = 'fresns_cmd_delete_content';
 
     // Command word callback mapping
-    const PLG_CMD_HANDLE_MAP = [
-        self::PLG_CMD_DEFAULT => 'defaultHandler',
+    const FRESNS_CMD_HANDLE_MAP = [
+        self::FRESNS_CMD_DEFAULT => 'defaultHandler',
         // Basis
-        self::PLG_CMD_VERIFY_SIGN => 'verifySignHandler',
-        self::PLG_CMD_UPLOAD_SESSION_LOG => 'uploadSessionLogHandler',
-        self::PLG_CMD_SEND_CODE => 'sendCodeHandler',
-        self::PLG_CMD_CHECKED_CODE => 'checkedCodeHandler',
-        self::PLG_CMD_SEND_EMAIL => 'sendEmailHandler',
-        self::PLG_CMD_SEND_SMS => 'sendSmsHandler',
-        self::PLG_CMD_SEND_IOS => 'sendIosHandler',
-        self::PLG_CMD_SEND_ANDROID => 'sendAndriodHandler',
-        self::PLG_CMD_SEND_WECHAT => 'sendWeChatHandler',
+        self::FRESNS_CMD_VERIFY_SIGN => 'verifySignHandler',
+        self::FRESNS_CMD_UPLOAD_SESSION_LOG => 'uploadSessionLogHandler',
+        self::FRESNS_CMD_SEND_CODE => 'sendCodeHandler',
+        self::FRESNS_CMD_CHECKED_CODE => 'checkedCodeHandler',
+        self::FRESNS_CMD_SEND_EMAIL => 'sendEmailHandler',
+        self::FRESNS_CMD_SEND_SMS => 'sendSmsHandler',
+        self::FRESNS_CMD_SEND_IOS => 'sendIosHandler',
+        self::FRESNS_CMD_SEND_ANDROID => 'sendAndriodHandler',
+        self::FRESNS_CMD_SEND_WECHAT => 'sendWeChatHandler',
         // User
-        self::PLG_CMD_USER_REGISTER => 'userRegisterHandler',
-        self::PLG_CMD_USER_LOGIN => 'userLoginHandler',
-        self::PLG_CMD_USER_DETAIL => 'userDetailHandler',
-        self::PLG_CMD_CREATE_SESSION_TOKEN => 'createSessionTokenHandler',
-        self::PLG_CMD_VERIFY_SESSION_TOKEN => 'verifySessionTokenHandler',
-        self::PLG_CMD_WALLET_INCREASE => 'walletIncreaseHandler',
-        self::PLG_CMD_WALLET_DECREASE => 'walletDecreaseHandler',
+        self::FRESNS_CMD_USER_REGISTER => 'userRegisterHandler',
+        self::FRESNS_CMD_USER_LOGIN => 'userLoginHandler',
+        self::FRESNS_CMD_USER_DETAIL => 'userDetailHandler',
+        self::FRESNS_CMD_CREATE_SESSION_TOKEN => 'createSessionTokenHandler',
+        self::FRESNS_CMD_VERIFY_SESSION_TOKEN => 'verifySessionTokenHandler',
+        self::FRESNS_CMD_WALLET_INCREASE => 'walletIncreaseHandler',
+        self::FRESNS_CMD_WALLET_DECREASE => 'walletDecreaseHandler',
         // File
-        self::PLG_CMD_GET_UPLOAD_TOKEN => 'getUploadTokenHandler',
-        self::PLG_CMD_UPLOAD_FILE => 'uploadFileHandler',
-        self::PLG_CMD_ANTI_LINK_IMAGE => 'antiLinkImageHandler',
-        self::PLG_CMD_ANTI_LINK_VIDEO => 'antiLinkVideoHandler',
-        self::PLG_CMD_ANTI_LINK_AUDIO => 'antiLinkAudioHandler',
-        self::PLG_CMD_ANTI_LINK_DOC => 'antiLinkDocHandler',
-        self::PLG_CMD_PHYSICAL_DELETION_FILE => 'physicalDeletionFileHandler',
+        self::FRESNS_CMD_GET_UPLOAD_TOKEN => 'getUploadTokenHandler',
+        self::FRESNS_CMD_UPLOAD_FILE => 'uploadFileHandler',
+        self::FRESNS_CMD_ANTI_LINK_IMAGE => 'antiLinkImageHandler',
+        self::FRESNS_CMD_ANTI_LINK_VIDEO => 'antiLinkVideoHandler',
+        self::FRESNS_CMD_ANTI_LINK_AUDIO => 'antiLinkAudioHandler',
+        self::FRESNS_CMD_ANTI_LINK_DOC => 'antiLinkDocHandler',
+        self::FRESNS_CMD_PHYSICAL_DELETION_FILE => 'physicalDeletionFileHandler',
         // Content
-        self::PLG_CMD_DIRECT_RELEASE_CONTENT => 'directReleaseContentHandler',
-        self::PLG_CMD_DELETE_CONTENT => 'deleteContentHandler',
+        self::FRESNS_CMD_DIRECT_RELEASE_CONTENT => 'directReleaseContentHandler',
+        self::FRESNS_CMD_DELETE_CONTENT => 'deleteContentHandler',
     ];
 
     // Verify Sign

@@ -208,7 +208,7 @@ class GlobalService
         // Subscribe to the user's daily activity command word (called only when logged in)
         $uid = request()->header('uid');
         if ($uid) {
-            $cmd = FresnsSubPluginConfig::PLG_CMD_SUB_USER_ACTIVE;
+            $cmd = FresnsSubPluginConfig::FRESNS_CMD_SUB_USER_ACTIVE;
             $input = [];
             $resp = CmdRpcHelper::call(FresnsSubPlugin::class, $cmd, $input);
         }
@@ -216,7 +216,7 @@ class GlobalService
         $isCheckRole = true;
 
         // Member role expiration time detection
-        $checkRoleTime = FresnsSessionLogs::where('object_name', FresnsCrontabPluginConfig::PLG_CMD_CRONTAB_CHECK_ROLE_EXPIRED)
+        $checkRoleTime = FresnsSessionLogs::where('object_name', FresnsCrontabPluginConfig::FRESNS_CMD_CRONTAB_CHECK_ROLE_EXPIRED)
         ->where('object_type', FresnsSessionLogsConfig::OBJECT_TYPE_PLUGIN)
         ->orderByDesc('id')
         ->value('created_at');
@@ -228,10 +228,10 @@ class GlobalService
         if ($crontabPlugins) {
             $crontabPluginsArr = json_decode($crontabPlugins, true);
             foreach ($crontabPluginsArr as $v) {
-                if ($v['crontab_plugin_cmd'] == FresnsCrontabPluginConfig::PLG_CMD_CRONTAB_CHECK_ROLE_EXPIRED) {
+                if ($v['crontab_plugin_cmd'] == FresnsCrontabPluginConfig::FRESNS_CMD_CRONTAB_CHECK_ROLE_EXPIRED) {
                     $checkRole = $v['crontab_task_period'];
                 }
-                if ($v['crontab_plugin_cmd'] == FresnsCrontabPluginConfig::PLG_CMD_CRONTAB_CHECK_DELETE_USER) {
+                if ($v['crontab_plugin_cmd'] == FresnsCrontabPluginConfig::FRESNS_CMD_CRONTAB_CHECK_DELETE_USER) {
                     $checkDelete = $v['crontab_task_period'];
                 }
             }
@@ -248,14 +248,14 @@ class GlobalService
         }
 
         if ($isCheckRole == true) {
-            $cmd = FresnsCrontabPluginConfig::PLG_CMD_CRONTAB_CHECK_ROLE_EXPIRED;
+            $cmd = FresnsCrontabPluginConfig::FRESNS_CMD_CRONTAB_CHECK_ROLE_EXPIRED;
             $input = [];
             $resp = CmdRpcHelper::call(FresnsCrontabPlugin::class, $cmd, $input);
         }
         $isCheckDelete = true;
 
         // Delete users tasks
-        $checkDeleteTime = FresnsSessionLogs::where('object_name', FresnsCrontabPluginConfig::PLG_CMD_CRONTAB_CHECK_DELETE_USER)
+        $checkDeleteTime = FresnsSessionLogs::where('object_name', FresnsCrontabPluginConfig::FRESNS_CMD_CRONTAB_CHECK_DELETE_USER)
         ->where('object_type', FresnsSessionLogsConfig::OBJECT_TYPE_PLUGIN)
         ->orderByDesc('id')
         ->value('created_at');
@@ -272,7 +272,7 @@ class GlobalService
         }
 
         if ($isCheckDelete == true) {
-            $cmd = FresnsCrontabPluginConfig::PLG_CMD_CRONTAB_CHECK_DELETE_USER;
+            $cmd = FresnsCrontabPluginConfig::FRESNS_CMD_CRONTAB_CHECK_DELETE_USER;
             $input = [];
             $resp = CmdRpcHelper::call(FresnsCrontabPlugin::class, $cmd, $input);
         }

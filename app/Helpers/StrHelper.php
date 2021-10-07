@@ -69,15 +69,66 @@ class StrHelper
     }
 
     // Encrypt Phone
-    public static function encryptPhone($phone)
+    public static function encryptPhone($phone, $start = 3, $end = 6)
     {
-        return substr_replace($phone, '****', 3, 4);
+        if (empty($phone)) {
+            return '';
+        }
+
+        return substr_replace($phone, '****', $start, $end);
     }
 
-    // Encrypt ID
-    public static function encryptIdNumber($number)
+    // Email Encryption
+    public static function encryptEmail($email)
     {
-        return substr_replace($number, '********', 4, 11);
+        if (empty($email)) {
+            return '';
+        }
+        $emailArr = explode('@', $email);
+
+        $email = null;
+        if ($emailArr) {
+            $email1 = substr_replace($emailArr[0], '***', 3);
+            if (empty($email1)) {
+                return '';
+            }
+            $email = $email1.'@'.$emailArr[1];
+        }
+
+        return $email;
+    }
+
+    // Real Name Encryption
+    public static function encryptName($name)
+    {
+        $name = mb_substr($name, -1, 1);
+
+        $name = '*'.$name;
+
+        return $name;
+    }
+
+    // Real ID Number Encryption
+    public static function encryptIdNumber($number, $startNum = 1, $endNum = 1)
+    {
+        $num = strlen($number);
+        $count = $startNum + $endNum;
+        $num = $num - $count;
+        $str = '';
+        $str = sprintf("%'*".$num.'s', $str);
+        $start = mb_substr($number, 0, $startNum);
+        $end = mb_substr($number, $endNum);
+
+        return $start.$str.$end;
+    }
+
+    // Generate Unique Number
+    public static function createUuid($length = 8)
+    {
+        $str = Str::random($length);
+        $str = strtolower($str);
+
+        return $str;
     }
 
     /**

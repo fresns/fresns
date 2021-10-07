@@ -11,7 +11,6 @@ namespace App\Http\FresnsApi\Message;
 use App\Base\Checkers\BaseChecker;
 use App\Http\Center\Common\ErrorCodeService;
 use App\Http\Center\Common\LogService;
-use App\Http\FresnsApi\Helpers\ApiCommonHelper;
 use App\Http\FresnsApi\Helpers\ApiConfigHelper;
 use App\Http\FresnsDb\FresnsFiles\FresnsFiles;
 use App\Http\FresnsDb\FresnsMemberFollows\FresnsMemberFollows;

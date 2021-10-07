@@ -15,6 +15,7 @@ use App\Http\FresnsDb\FresnsCommentLogs\FresnsCommentLogsConfig;
 use App\Http\FresnsDb\FresnsComments\FresnsComments;
 use App\Http\FresnsDb\FresnsExtends\FresnsExtends;
 use App\Http\FresnsDb\FresnsExtends\FresnsExtendsConfig;
+use App\Http\FresnsDb\FresnsPlugins\FresnsPluginsService;
 use App\Http\FresnsDb\FresnsPostLogs\FresnsPostLogsConfig;
 use App\Http\FresnsDb\FresnsPosts\FresnsPosts;
 
@@ -53,25 +54,14 @@ class FresnsCommentLogsResourceDetail extends BaseAdminResource
                     if ($extendsInfo['frame'] == 1) {
                         $arr['files'] = $extendsInfo['text_files'];
                     }
-                    $arr['cover'] = $extendsInfo['cover_file_url'] ?? '';
-                    if ($arr['cover']) {
-                        $arr['cover'] = ApiFileHelper::getImageSignUrlByFileIdUrl($extendsInfo['cover_file_id'], $extendsInfo['cover_file_url']);
-                    }
-                    $title = ApiLanguageHelper::getLanguages(FresnsExtendsConfig::CFG_TABLE, 'title', $extendsInfo['id']);
-                    $title = $title == null ? '' : $title['lang_content'];
-                    $arr['title'] = $title;
+                    $arr['cover'] = ApiFileHelper::getImageSignUrlByFileIdUrl($extendsInfo['cover_file_id'], $extendsInfo['cover_file_url']);
+                    $arr['title'] = ApiLanguageHelper::getLanguagesByTableId(FresnsExtendsConfig::CFG_TABLE, 'title', $extendsInfo['id']);
                     $arr['titleColor'] = $extendsInfo['title_color'] ?? '';
-                    $descPrimary = ApiLanguageHelper::getLanguages(FresnsExtendsConfig::CFG_TABLE, 'desc_primary', $extendsInfo['id']);
-                    $descPrimary = $descPrimary == null ? '' : $descPrimary['lang_content'];
-                    $arr['descPrimary'] = $descPrimary;
+                    $arr['descPrimary'] = ApiLanguageHelper::getLanguagesByTableId(FresnsExtendsConfig::CFG_TABLE, 'desc_primary', $extendsInfo['id']);
                     $arr['descPrimaryColor'] = $extendsInfo['desc_primary_color'] ?? '';
-                    $descSecondary = ApiLanguageHelper::getLanguages(FresnsExtendsConfig::CFG_TABLE, 'desc_secondary', $extendsInfo['id']);
-                    $descSecondary = $descSecondary == null ? '' : $descSecondary['lang_content'];
-                    $arr['descSecondary'] = $descSecondary;
+                    $arr['descSecondary'] = ApiLanguageHelper::getLanguagesByTableId(FresnsExtendsConfig::CFG_TABLE, 'desc_secondary', $extendsInfo['id']);
                     $arr['descSecondaryColor'] = $extendsInfo['desc_secondary_color'] ?? '';
-                    $btnName = ApiLanguageHelper::getLanguages(FresnsExtendsConfig::CFG_TABLE, 'btn_name', $extendsInfo['id']);
-                    $btnName = $btnName == null ? '' : $btnName['lang_content'];
-                    $arr['btnName'] = $btnName;
+                    $arr['btnName'] = ApiLanguageHelper::getLanguagesByTableId(FresnsExtendsConfig::CFG_TABLE, 'btn_name', $extendsInfo['id']);
                     $arr['btnColor'] = $extendsInfo['btn_color'] ?? '';
                     $arr['type'] = $extendsInfo['extend_type'] ?? '';
                     $arr['target'] = $extendsInfo['extend_target'] ?? '';
@@ -86,17 +76,17 @@ class FresnsCommentLogsResourceDetail extends BaseAdminResource
         // Default Field
         $default = [
             'id' => $this->id,
-            'cid' => $commentInfo['uuid'] ?? '',
+            'cid' => $commentInfo['uuid'] ?? null,
+            'isPluginEditor' => $this->is_plugin_editor,
+            'editorUrl' => FresnsPluginsService::getPluginUrlByUnikey($this->editor_unikey),
             'types' => $this->types,
             'content' => $this->content,
             'isMarkdown' => $this->is_markdown,
             'isAnonymous' => $this->is_anonymous,
-            'isPluginEdit' => $this->is_plugin_edit,
-            'pluginUnikey' => $this->plugin_unikey,
-            // 'editor' => json_decode($this->editor_json,true),
-            'location' => json_decode($this->location_json, true) ?? [],
+            'location' => json_decode($this->location_json, true) ?? null,
             'files' => json_decode($this->files_json, true) ?? [],
             'extends' => $extends,
+            'state' => $this->state,
         ];
 
         return $default;

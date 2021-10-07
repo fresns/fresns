@@ -8,42 +8,12 @@
 
 namespace App\Http\FresnsApi\Info;
 
-use App\Http\FresnsApi\Helpers\ApiLanguageHelper;
 use App\Http\FresnsDb\FresnsExtends\FresnsExtends;
-use App\Http\FresnsDb\FresnsLanguages\FresnsLanguages;
 use App\Http\FresnsDb\FresnsMemberFollows\FresnsMemberFollows;
 use App\Http\FresnsDb\FresnsMemberFollows\FresnsMemberFollowsConfig;
-use App\Http\FresnsDb\FresnsPluginUsages\FresnsPluginUsagesConfig;
 
 class FsService
 {
-    // Get Language Field
-    public static function getLanguageField($field, $id)
-    {
-        if (! $id) {
-            return '';
-        }
-        $langTag = ApiLanguageHelper::getLangTagByHeader();
-
-        $input = [
-            'lang_tag' => $langTag,
-            'table_field' => $field,
-            'table_id' => $id,
-            'table_name' => FresnsPluginUsagesConfig::CFG_TABLE,
-        ];
-        $name = FresnsLanguages::where($input)->first();
-        if (! $name) {
-            $input = [
-                'table_field' => $field,
-                'table_id' => $id,
-                'table_name' => FresnsPluginUsagesConfig::CFG_TABLE,
-            ];
-            $name = FresnsLanguages::where($input)->first();
-        }
-
-        return $name;
-    }
-
     // Get information about the query and your Follow
     public static function getMemberFollows($queryType, $idArr, $mid, $langTag = null)
     {
@@ -70,7 +40,6 @@ class FsService
                     ->pluck('follow_id')
                     ->whereIn('follow_id', $idArr)
                     ->toArray();
-
                 break;
             case 4:
                 $followIdArr = FresnsMemberFollows::where('member_id', $mid)
@@ -81,7 +50,6 @@ class FsService
                 break;
             case 5:
                 $followIdArr = FresnsExtends::whereIn('id', $idArr)->where('member_id', $mid)->pluck('id')->toArray();
-
                 break;
             default:
                 $followIdArr = [];
@@ -92,7 +60,6 @@ class FsService
             // Quantity per output
             $count = FresnsMemberFollowsConfig::INPUTTIPS_COUNT;
             $followCount = count($followIdArr);
-
             if ($followCount == $count) {
                 $data = $followIdArr;
             }

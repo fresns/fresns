@@ -20,14 +20,14 @@ class FresnsSubPluginConfig extends BasePluginConfig
     const SUBSCRITE_TYPE5 = 5;
 
     // Scan for specified subscription information
-    public const PLG_CMD_SUB_ADD_TABLE = 'plg_cmd_sub_add_table';
+    public const FRESNS_CMD_SUB_ADD_TABLE = 'fresns_cmd_sub_add_table';
 
     // Subscribe to user activity status
-    public const PLG_CMD_SUB_USER_ACTIVE = 'plg_cmd_sub_user_active';
+    public const FRESNS_CMD_SUB_USER_ACTIVE = 'fresns_cmd_sub_user_active';
 
-    const PLG_CMD_HANDLE_MAP = [
-        self::PLG_CMD_SUB_ADD_TABLE => 'subAddTableHandler',
-        self::PLG_CMD_SUB_USER_ACTIVE => 'subUserActiveHandler',
+    const FRESNS_CMD_HANDLE_MAP = [
+        self::FRESNS_CMD_SUB_ADD_TABLE => 'subAddTableHandler',
+        self::FRESNS_CMD_SUB_USER_ACTIVE => 'subUserActiveHandler',
     ];
 
     public function subAddTableHandlerRule()

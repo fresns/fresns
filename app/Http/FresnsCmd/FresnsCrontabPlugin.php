@@ -47,7 +47,7 @@ class FresnsCrontabPlugin extends BasePlugin
     public function __construct()
     {
         $this->pluginConfig = new FresnsCrontabPluginConfig();
-        $this->pluginCmdHandlerMap = FresnsCrontabPluginConfig::PLG_CMD_HANDLE_MAP;
+        $this->pluginCmdHandlerMap = FresnsCrontabPluginConfig::FRESNS_CMD_HANDLE_MAP;
     }
 
     // Add subscription information
@@ -173,7 +173,7 @@ class FresnsCrontabPlugin extends BasePlugin
     // Database Table: member_role_rels
     protected function crontabCheckRoleExpiredHandler($input)
     {
-        $sessionId = FresnsSessionLogsService::addSessionLogs('plg_cmd_crontab_check_role_expired', 'Timed Tasks: Check Role Expired', null, null, null, null, 15);
+        $sessionId = FresnsSessionLogsService::addSessionLogs('fresns_cmd_crontab_check_role_expired', 'Timed Tasks: Check Role Expired', null, null, null, null, 15);
         $memberInfo = FresnsMemberRoleRels::where('type', 2)->where('expired_at', '!=', null)->get()->toArray();
         if ($memberInfo) {
             foreach ($memberInfo as $m) {
@@ -217,7 +217,7 @@ class FresnsCrontabPlugin extends BasePlugin
      */
     protected function crontabCheckDeleteUserHandler($input)
     {
-        $sessionId = FresnsSessionLogsService::addSessionLogs('plg_cmd_crontab_check_delete_user', 'Timed Tasks: Check Delete User', null, null, null, null, 15);
+        $sessionId = FresnsSessionLogsService::addSessionLogs('fresns_cmd_crontab_check_delete_user', 'Timed Tasks: Check Delete User', null, null, null, null, 15);
         $deleteAccount = ApiConfigHelper::getConfigByItemKey('delete_account');
         $deleteAccountTodo = ApiConfigHelper::getConfigByItemKey('delete_account_todo') ?? 0;
         if ($deleteAccount == 1) {
@@ -357,7 +357,7 @@ class FresnsCrontabPlugin extends BasePlugin
         DB::table(FresnsSessionTokensConfig::CFG_TABLE)->where('user_id', $id)->delete();
         $fileIdArr = DB::table(FresnsFileAppendsConfig::CFG_TABLE)->where('user_id', $id)->pluck('file_id')->toArray();
         $fileUuIdArr = DB::table(FresnsFileAppendsConfig::CFG_TABLE)->where('user_id', $id)->pluck('uuid')->toArray();
-        $cmd = FresnsCmdWordsConfig::PLG_CMD_PHYSICAL_DELETION_FILE;
+        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_PHYSICAL_DELETION_FILE;
         // Physical Deletion: files
         foreach ($fileUuIdArr as $v) {
             $input = [];
@@ -372,7 +372,7 @@ class FresnsCrontabPlugin extends BasePlugin
         // Physical Deletion: post data
         $postIdArr = DB::table(FresnsPostsConfig::CFG_TABLE)->whereIn('member_id', $memberIdArr)->pluck('id')->toArray();
         if ($postIdArr) {
-            $cmd = FresnsCmdWordsConfig::PLG_CMD_DELETE_CONTENT;
+            $cmd = FresnsCmdWordsConfig::FRESNS_CMD_DELETE_CONTENT;
             foreach ($postIdArr as $v) {
                 $input = [];
                 $input['type'] = 1;
@@ -383,7 +383,7 @@ class FresnsCrontabPlugin extends BasePlugin
         // Physical Deletion: comment data
         $commentIdArr = DB::table(FresnsCommentsConfig::CFG_TABLE)->whereIn('member_id', $memberIdArr)->pluck('id')->toArray();
         if ($commentIdArr) {
-            $cmd = FresnsCmdWordsConfig::PLG_CMD_DELETE_CONTENT;
+            $cmd = FresnsCmdWordsConfig::FRESNS_CMD_DELETE_CONTENT;
             foreach ($commentIdArr as $v) {
                 $input = [];
                 $input['type'] = 2;

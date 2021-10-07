@@ -23,7 +23,6 @@ class DateHelper
         // $timezone = "UTC";
         config(['app.timezone' =>  $timezone]);
         // (UTC8 => Asia/Singapore)
-        date_default_timezone_set('Europe/London');
         date_default_timezone_set('Asia/Singapore');
     }
 

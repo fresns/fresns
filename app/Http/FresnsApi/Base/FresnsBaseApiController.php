@@ -231,7 +231,7 @@ class FresnsBaseApiController extends BaseApiController
                 $userId = $user->id;
 
                 // Verify token
-                $cmd = FresnsCmdWordsConfig::PLG_CMD_VERIFY_SESSION_TOKEN;
+                $cmd = FresnsCmdWordsConfig::FRESNS_CMD_VERIFY_SESSION_TOKEN;
                 $input = [];
                 $input['uid'] = request()->header('uid');
                 $input['platform'] = request()->header('platform');
@@ -309,7 +309,7 @@ class FresnsBaseApiController extends BaseApiController
             }
 
             // Verify token
-            $cmd = FresnsCmdWordsConfig::PLG_CMD_VERIFY_SESSION_TOKEN;
+            $cmd = FresnsCmdWordsConfig::FRESNS_CMD_VERIFY_SESSION_TOKEN;
             $input = [];
             $input['uid'] = request()->header('uid');
             $input['platform'] = request()->header('platform');
@@ -464,7 +464,7 @@ class FresnsBaseApiController extends BaseApiController
         $dataMap['sign'] = request()->header('sign');
         LogService::info('Verify Info: ', $dataMap);
 
-        $cmd = FresnsCmdWordsConfig::PLG_CMD_VERIFY_SIGN;
+        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_VERIFY_SIGN;
         $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $dataMap);
         if (CmdRpcHelper::isErrorCmdResp($resp)) {
             $this->errorCheckInfo($resp, [], $resp['output']);

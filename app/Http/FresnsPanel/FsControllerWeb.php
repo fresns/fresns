@@ -17,7 +17,6 @@ use App\Http\Center\Common\ErrorCodeService;
 use App\Http\Center\Common\LogService;
 use App\Http\Center\Helper\InstallHelper;
 use App\Http\Center\Helper\PluginHelper;
-use App\Http\FresnsApi\Helpers\ApiCommonHelper;
 use App\Http\FresnsApi\Helpers\ApiConfigHelper;
 use App\Http\FresnsDb\FresnsComments\FresnsComments;
 use App\Http\FresnsDb\FresnsConfigs\FresnsConfigs;
@@ -306,10 +305,10 @@ class FsControllerWeb extends BaseFrontendController
             $v['phone_desc'] = 'null';
             $v['email_desc'] = 'null';
             if (! empty($v['pure_phone'])) {
-                $v['phone_desc'] = '+'.$v['country_code'].ApiCommonHelper::encryptPhone($v['pure_phone']);
+                $v['phone_desc'] = '+'.$v['country_code'].StrHelper::encryptPhone($v['pure_phone']);
             }
             if (! empty($v['email'])) {
-                $v['email_desc'] = ApiCommonHelper::encryptPhone($v['email']);
+                $v['email_desc'] = StrHelper::encryptPhone($v['email']);
             }
         }
 

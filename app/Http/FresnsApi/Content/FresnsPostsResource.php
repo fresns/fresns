@@ -12,11 +12,9 @@ use App\Base\Resources\BaseAdminResource;
 use App\Helpers\DateHelper;
 use App\Http\Center\Common\GlobalService;
 use App\Http\Center\Common\LogService;
-use App\Http\FresnsApi\Helpers\ApiCommonHelper;
 use App\Http\FresnsApi\Helpers\ApiConfigHelper;
 use App\Http\FresnsApi\Helpers\ApiFileHelper;
 use App\Http\FresnsApi\Helpers\ApiLanguageHelper;
-use App\Http\FresnsApi\Info\FsService;
 use App\Http\FresnsDb\FresnsComments\FresnsComments;
 use App\Http\FresnsDb\FresnsComments\FresnsCommentsConfig;
 use App\Http\FresnsDb\FresnsConfigs\FresnsConfigsConfig;
@@ -46,8 +44,9 @@ use App\Http\FresnsDb\FresnsMembers\FresnsMembers;
 use App\Http\FresnsDb\FresnsMembers\FresnsMembersConfig;
 use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShields;
 use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShieldsConfig;
-use App\Http\FresnsDb\FresnsPlugins\FresnsPlugins;
+use App\Http\FresnsDb\FresnsPlugins\FresnsPluginsService;
 use App\Http\FresnsDb\FresnsPluginUsages\FresnsPluginUsages;
+use App\Http\FresnsDb\FresnsPluginUsages\FresnsPluginUsagesConfig;
 use App\Http\FresnsDb\FresnsPostAllows\FresnsPostAllowsConfig;
 use App\Http\FresnsDb\FresnsPostAppends\FresnsPostAppends;
 use App\Http\FresnsDb\FresnsPostAppends\FresnsPostAppendsConfig;
@@ -82,8 +81,6 @@ class FresnsPostsResource extends BaseAdminResource
         if (! empty($roleRels)) {
             $memberRole = FresnsMemberRoles::find($roleRels['role_id']);
         }
-        // Data Table: member_icons
-        $memberIcon = FresnsMemberIcons::where('member_id', $this->member_id)->first();
         // Data Table: comments
         $comments = DB::table('comments as c')->select('c.*')
             ->leftJoin('members as m', 'c.member_id', '=', 'm.id')
@@ -136,8 +133,8 @@ class FresnsPostsResource extends BaseAdminResource
             $noAllow = 1;
         }
         $brief = $this->is_brief;
-        $sticky = $this->sticky_status;
-        $essence = $this->essence_status;
+        $sticky = $this->sticky_state;
+        $essence = $this->essence_state;
 
         // Operation behavior status
         $likeStatus = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where('member_id', $mid)->where('like_type', 4)->where('like_id', $this->id)->count();
@@ -148,11 +145,11 @@ class FresnsPostsResource extends BaseAdminResource
         $followSetting = ApiConfigHelper::getConfigByItemKey(FsConfig::FOLLOW_POST_SETTING);
         $shieldSetting = ApiConfigHelper::getConfigByItemKey(FsConfig::SHIELD_POST_SETTING);
         // Operation behavior naming
-        $likeName = ApiLanguageHelper::getLanguagesByItemKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', FsConfig::LIKE_POST_NAME) ?? 'Like';
-        $followName = ApiLanguageHelper::getLanguagesByItemKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', FsConfig::FOLLOW_POST_NAME) ?? 'Save post';
-        $shieldName = ApiLanguageHelper::getLanguagesByItemKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', FsConfig::SHIELD_POST_NAME) ?? 'Hide post';
+        $likeName = ApiLanguageHelper::getLanguagesByTableKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', FsConfig::LIKE_POST_NAME) ?? 'Like';
+        $followName = ApiLanguageHelper::getLanguagesByTableKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', FsConfig::FOLLOW_POST_NAME) ?? 'Save post';
+        $shieldName = ApiLanguageHelper::getLanguagesByTableKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', FsConfig::SHIELD_POST_NAME) ?? 'Hide post';
         // Content Naming
-        $PostName = ApiLanguageHelper::getLanguagesByItemKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', FsConfig::POST_NAME) ?? 'Post';
+        $PostName = ApiLanguageHelper::getLanguagesByTableKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', FsConfig::POST_NAME) ?? 'Post';
 
         $viewCount = $this->view_count;
         $likeCount = $this->like_count;
@@ -165,11 +162,9 @@ class FresnsPostsResource extends BaseAdminResource
         $editTime = DateHelper::fresnsOutputTimeToTimezone($this->latest_edit_at);
         $editTimeFormat = DateHelper::format_date_langTag(strtotime($editTime));
         $allowStatus = $this->is_allow;
-        $allowBtnName = ApiLanguageHelper::getLanguages(FresnsPostsConfig::CFG_TABLE, 'allow_btn_name', $this->id);
-        $allowBtnName = $allowBtnName == null ? '' : $allowBtnName['lang_content'];
+        $allowBtnName = ApiLanguageHelper::getLanguagesByTableId(FresnsPostsConfig::CFG_TABLE, 'allow_btn_name', $this->id);
         $allowBtnUrl = $append['allow_plugin_unikey'] ?? '';
-        $memberListName = ApiLanguageHelper::getLanguages(FresnsPostsConfig::CFG_TABLE, 'member_list_name', $this->id);
-        $memberListName = $memberListName == null ? '' : $memberListName['lang_content'];
+        $memberListName = ApiLanguageHelper::getLanguagesByTableId(FresnsPostsConfig::CFG_TABLE, 'member_list_name', $this->id);
         $memberListCount = Db::table('post_members')->where('post_id', $this->id)->count();
         $member = [];
         $member['anonymous'] = $this->is_anonymous;
@@ -211,51 +206,37 @@ class FresnsPostsResource extends BaseAdminResource
         $member['bio'] = '';
         $member['verifiedStatus'] = '';
         $member['verifiedIcon'] = '';
-        $icons = [];
-        $icons['icon'] = '';
-        $icons['name'] = '';
-        $member['icons'] = $icons;
+        $member['icons'] = [];
         if ($this->is_anonymous == 0) {
             if ($memberInfo->deleted_at == null && $memberInfo) {
                 $member['anonymous'] = $this->is_anonymous;
-                $member['deactivate'] = true;
+                $member['deactivate'] = false;
                 $member['mid'] = $memberInfo->uuid ?? '';
                 $member['mname'] = $memberInfo->name ?? '';
                 $member['nickname'] = $memberInfo->nickname ?? '';
                 $member['nicknameColor'] = $memberRole['nickname_color'] ?? '';
-
-                $roleName = '';
-                if (! empty($memberRole)) {
-                    $roleName = ApiLanguageHelper::getLanguages(FresnsMemberRolesConfig::CFG_TABLE, 'name', $memberRole['id']);
-                    $roleName = $roleName == null ? '' : $roleName['lang_content'];
-                }
-                $member['roleName'] = $roleName;
-                $member['roleNameDisplay'] = $memberRole['is_display_name'] ?? '';
-                $member['roleIcon'] = $memberRole['icon_file_url'] ?? '';
-                $member['roleIconDisplay'] = $memberRole['is_display_icon'] ?? '';
-
+                $member['roleName'] = ApiLanguageHelper::getLanguagesByTableId(FresnsMemberRolesConfig::CFG_TABLE, 'name', $memberRole['id']);
+                $member['roleNameDisplay'] = $memberRole['is_display_name'] ?? 0;
+                $member['roleIcon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($memberRole['icon_file_id'], $memberRole['icon_file_url']);
+                $member['roleIconDisplay'] = $memberRole['is_display_icon'] ?? 0;
                 $member['decorate'] = ApiFileHelper::getImageSignUrlByFileIdUrl($memberInfo->decorate_file_id, $memberInfo->decorate_file_url);
                 LogService::info('decorate_file_id', $memberInfo);
-                $member['gender'] = $memberInfo->gender ?? '';
+                $member['gender'] = $memberInfo->gender ?? 0;
                 $member['bio'] = $memberInfo->bio ?? '';
-                $member['verifiedStatus'] = $memberInfo->verified_status ?? '';
+                $member['verifiedStatus'] = $memberInfo->verified_status ?? 1;
                 $member['verifiedIcon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($memberInfo->verified_file_id, $memberInfo->verified_file_url);
-                $icons = [];
-                $icons['icon'] = $memberIcon['icon_file_url'] ?? '';
-                if ($icons['icon']) {
-                    $icons['icon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($memberIcon['icon_file_id'], $memberIcon['icon_file_url']);
-                }
-                $icons['name'] = '';
-                if ($memberIcon) {
-                    $iconName = ApiLanguageHelper::getLanguages(FresnsMemberIconsConfig::CFG_TABLE, 'name', $memberIcon['id']);
-                    $iconName = $iconName == null ? '' : $iconName['lang_content'];
-                    $icons['name'] = $iconName;
-                }
 
-                if (empty($icons['name']) && empty($icons['icon'])) {
-                    $icons = [];
+                $memberIconsArr = FresnsMemberIcons::where('member_id', $memberInfo->id)->get()->toArray();
+                $iconsArr = [];
+                foreach ($memberIconsArr as $v) {
+                    $item = [];
+                    $item['icon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($v['icon_file_id'], $v['icon_file_url']);
+                    $item['name'] = ApiLanguageHelper::getLanguagesByTableId(FresnsMemberIconsConfig::CFG_TABLE, 'name', $v['id']);
+                    $item['type'] = $v['type'];
+                    $item['url'] = FresnsPluginsService::getPluginUrlByUnikey($v['plugin_unikey']);
+                    $iconsArr[] = $item;
                 }
-                $member['icons'] = $icons;
+                $member['icons'] = $iconsArr;
             }
         }
 
@@ -417,31 +398,23 @@ class FresnsPostsResource extends BaseAdminResource
                     }
                     $arr['title'] = '';
                     if (! empty($e)) {
-                        $title = ApiLanguageHelper::getLanguages(FresnsExtendsConfig::CFG_TABLE, 'title', $e['id']);
-                        $title = $title == null ? '' : $title['lang_content'];
-                        $arr['title'] = $title;
+                        $arr['title'] = ApiLanguageHelper::getLanguagesByTableId(FresnsExtendsConfig::CFG_TABLE, 'title', $e['id']);
                     }
                     $arr['titleColor'] = $e['title_color'] ?? '';
                     $arr['descPrimary'] = '';
                     if (! empty($e)) {
-                        $descPrimary = ApiLanguageHelper::getLanguages(FresnsExtendsConfig::CFG_TABLE, 'desc_primary', $e['id']);
-                        $descPrimary = $descPrimary == null ? '' : $descPrimary['lang_content'];
-                        $arr['descPrimary'] = $descPrimary;
+                        $arr['descPrimary'] = ApiLanguageHelper::getLanguagesByTableId(FresnsExtendsConfig::CFG_TABLE, 'desc_primary', $e['id']);
                     }
                     $arr['descPrimaryColor'] = $e['desc_primary_color'] ?? '';
                     $arr['descSecondary'] = '';
                     if (! empty($e)) {
-                        $descSecondary = ApiLanguageHelper::getLanguages(FresnsExtendsConfig::CFG_TABLE, 'desc_secondary', $e['id']);
-                        $descSecondary = $descSecondary == null ? '' : $descSecondary['lang_content'];
-                        $arr['descSecondary'] = $descSecondary;
+                        $arr['descSecondary'] = ApiLanguageHelper::getLanguagesByTableId(FresnsExtendsConfig::CFG_TABLE, 'desc_secondary', $e['id']);
                     }
                     $arr['descSecondaryColor'] = $e['desc_secondary_color'] ?? '';
                     $arr['descPrimaryColor'] = $e['desc_primary_color'] ?? '';
                     $arr['btnName'] = '';
                     if (! empty($e)) {
-                        $btnName = ApiLanguageHelper::getLanguages(FresnsExtendsConfig::CFG_TABLE, 'btn_name', $e['id']);
-                        $btnName = $btnName == null ? '' : $btnName['lang_content'];
-                        $arr['btnName'] = $btnName;
+                        $arr['btnName'] = ApiLanguageHelper::getLanguagesByTableId(FresnsExtendsConfig::CFG_TABLE, 'btn_name', $e['id']);
                     }
                     $arr['btnColor'] = $e['btn_color'] ?? '';
                     $arr['type'] = $e['extend_type'] ?? '';
@@ -458,8 +431,7 @@ class FresnsPostsResource extends BaseAdminResource
         $group = [];
         if ($groupInfo) {
             $group['gid'] = $groupInfo['uuid'] ?? '';
-            $name = ApiLanguageHelper::getLanguages(FresnsGroupsConfig::CFG_TABLE, 'name', $this->group_id);
-            $group['gname'] = $name == null ? '' : $name['lang_content'];
+            $group['gname'] = ApiLanguageHelper::getLanguagesByTableId(FresnsGroupsConfig::CFG_TABLE, 'name', $this->group_id);
             $group['cover'] = ApiFileHelper::getImageSignUrlByFileIdUrl($groupInfo['cover_file_id'], $groupInfo['cover_file_url']);
             $group['allow'] = true;
             // Whether the current member has the right to comment in the group
@@ -503,11 +475,9 @@ class FresnsPostsResource extends BaseAdminResource
             foreach ($FsPluginUsagesArr as $FsPluginUsages) {
                 $manages = [];
                 $manages['plugin'] = $FsPluginUsages['plugin_unikey'];
-                $plugin = FresnsPlugins::where('unikey', $FsPluginUsages['plugin_unikey'])->first();
-                $name = FsService::getLanguageField('name', $FsPluginUsages['id']);
-                $manages['name'] = $name == null ? '' : $name['lang_content'];
+                $manages['name'] = ApiLanguageHelper::getLanguagesByTableId(FresnsPluginUsagesConfig::CFG_TABLE, 'name', $FsPluginUsages['id']);
                 $manages['icon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($FsPluginUsages['icon_file_id'], $FsPluginUsages['icon_file_url']);
-                $manages['url'] = ApiCommonHelper::getPluginUsagesUrl($FsPluginUsages['plugin_unikey'], $FsPluginUsages['id']);
+                $manages['url'] = FresnsPluginsService::getPluginUsagesUrl($FsPluginUsages['plugin_unikey'], $FsPluginUsages['id']);
                 // Is the group administrator dedicated
                 if ($FsPluginUsages['is_group_admin'] != 0) {
                     // Query whether the current member is a group administrator
@@ -562,13 +532,13 @@ class FresnsPostsResource extends BaseAdminResource
                 $postEdit = false;
             }
             // Post top edit permission
-            if ($this->sticky_status != 0) {
+            if ($this->sticky_state != 0) {
                 if (! $editSticky) {
                     $postEdit = false;
                 }
             }
             // Post editing privileges after adding essence
-            if ($this->essence_status != 0) {
+            if ($this->essence_state != 0) {
                 if (! $editEssence) {
                     $postEdit = false;
                 }
@@ -678,7 +648,7 @@ class FresnsPostsResource extends BaseAdminResource
                 'files' => $files,
                 'extends' => $extends,
                 'group' => $group,
-                'manages' => $manages,
+                'manages' => $managesArr,
                 'editStatus' => $editStatus,
                 'followType' => $followType,
             ];
@@ -735,7 +705,7 @@ class FresnsPostsResource extends BaseAdminResource
                     'files' => $files,
                     'extends' => $extends,
                     'group' => $group,
-                    'manages' => $manages,
+                    'manages' => $managesArr,
                     'editStatus' => $editStatus,
                     'followType' => $followType,
                     'hashtag' => $hashtag,
@@ -865,19 +835,19 @@ class FresnsPostsResource extends BaseAdminResource
             // Posts by following hashtags
             $folloHashtagArr = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 3)->where('deleted_at', null)->pluck('follow_id')->toArray();
             $postIdArr = FresnsHashtagLinkeds::where('linked_type', 1)->whereIn('hashtag_id', $folloHashtagArr)->pluck('linked_id')->toArray();
-            $postHashtagIdArr = FresnsPosts::whereIn('id', $postIdArr)->where('essence_status', '!=', 1)->pluck('id')->toArray();
+            $postHashtagIdArr = FresnsPosts::whereIn('id', $postIdArr)->where('essence_state', '!=', 1)->pluck('id')->toArray();
             if (in_array($id, $postHashtagIdArr)) {
                 $followType = 'hashtag';
             }
             // Posts by following groups
             $folloGroupArr = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 2)->where('deleted_at', null)->pluck('follow_id')->toArray();
-            $postGroupIdArr = FresnsPosts::whereIn('group_id', $folloGroupArr)->where('essence_status', '!=', 1)->pluck('id')->toArray();
+            $postGroupIdArr = FresnsPosts::whereIn('group_id', $folloGroupArr)->where('essence_state', '!=', 1)->pluck('id')->toArray();
             if (in_array($id, $postGroupIdArr)) {
                 $followType = 'group';
             }
             // Only posts that have been added to the essence are exported under groups and hashtags
             // Posts set as secondary essence, forced output
-            $essenceIdArr = FresnsPosts::where('essence_status', 3)->pluck('id')->toArray();
+            $essenceIdArr = FresnsPosts::where('essence_state', 3)->pluck('id')->toArray();
             if (in_array($id, $essenceIdArr)) {
                 $followType = 'group';
             }

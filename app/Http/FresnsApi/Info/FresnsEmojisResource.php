@@ -14,7 +14,6 @@ use App\Http\FresnsApi\Helpers\ApiFileHelper;
 use App\Http\FresnsApi\Helpers\ApiLanguageHelper;
 use App\Http\FresnsDb\FresnsEmojis\FresnsEmojis;
 use App\Http\FresnsDb\FresnsEmojis\FresnsEmojisConfig;
-use App\Http\FresnsDb\FresnsLanguages\FresnsLanguagesService;
 
 /**
  * List resource config handle.
@@ -40,7 +39,7 @@ class FresnsEmojisResource extends BaseAdminResource
 
         // Default Field
         $default = [
-            'name' => FresnsLanguagesService::getLanguageByTableId(FresnsEmojisConfig::CFG_TABLE, 'name', $this->id),
+            'name' => ApiLanguageHelper::getLanguagesByTableId(FresnsEmojisConfig::CFG_TABLE, 'name', $this->id),
             'image' => ApiFileHelper::getImageSignUrlByFileIdUrl($this->image_file_id, $this->image_file_url),
             'count' => count($itemArr),
             'emoji' => $itemArr,

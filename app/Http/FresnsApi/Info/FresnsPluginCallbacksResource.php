@@ -69,21 +69,13 @@ class FresnsPluginCallbacksResource extends BaseAdminResource
                                 }
                             }
                             $arr['cover'] = ApiFileHelper::getImageSignUrlByFileIdUrl($extendsInfo['cover_file_id'], $extendsInfo['cover_file_url']);
-                            $title = ApiLanguageHelper::getLanguages(FresnsExtendsConfig::CFG_TABLE, 'title', $extendsInfo['id']);
-                            $title = $title == null ? '' : $title['lang_content'];
-                            $arr['title'] = $title;
+                            $arr['title'] = ApiLanguageHelper::getLanguagesByTableId(FresnsExtendsConfig::CFG_TABLE, 'title', $extendsInfo['id']);
                             $arr['titleColor'] = $extendsInfo['title_color'] ?? '';
-                            $descPrimary = ApiLanguageHelper::getLanguages(FresnsExtendsConfig::CFG_TABLE, 'desc_primary', $extendsInfo['id']);
-                            $descPrimary = $descPrimary == null ? '' : $descPrimary['lang_content'];
-                            $arr['descPrimary'] = $descPrimary;
+                            $arr['descPrimary'] = ApiLanguageHelper::getLanguagesByTableId(FresnsExtendsConfig::CFG_TABLE, 'desc_primary', $extendsInfo['id']);
                             $arr['descPrimaryColor'] = $extendsInfo['desc_primary_color'] ?? '';
-                            $descSecondary = ApiLanguageHelper::getLanguages(FresnsExtendsConfig::CFG_TABLE, 'desc_secondary', $extendsInfo['id']);
-                            $descSecondary = $descSecondary == null ? '' : $descSecondary['lang_content'];
-                            $arr['descSecondary'] = $descSecondary;
+                            $arr['descSecondary'] = ApiLanguageHelper::getLanguagesByTableId(FresnsExtendsConfig::CFG_TABLE, 'desc_secondary', $extendsInfo['id']);
                             $arr['descSecondaryColor'] = $extendsInfo['desc_secondary_color'] ?? '';
-                            $btnName = ApiLanguageHelper::getLanguages(FresnsExtendsConfig::CFG_TABLE, 'btn_name', $extendsInfo['id']);
-                            $btnName = $btnName == null ? '' : $btnName['lang_content'];
-                            $arr['btnName'] = $btnName;
+                            $arr['btnName'] = ApiLanguageHelper::getLanguagesByTableId(FresnsExtendsConfig::CFG_TABLE, 'btn_name', $extendsInfo['id']);
                             $arr['btnColor'] = $extendsInfo['btn_color'] ?? '';
                             $arr['type'] = $extendsInfo['extend_type'] ?? '';
                             $arr['target'] = $extendsInfo['extend_target'] ?? '';

@@ -140,7 +140,7 @@ class FsControllerApi extends FresnsBaseApiController
 
         $langTag = ApiLanguageHelper::getLangTagByHeader();
 
-        $cmd = FresnsCmdWordsConfig::PLG_CMD_UPLOAD_SESSION_LOG;
+        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_UPLOAD_SESSION_LOG;
         $input['platform'] = $request->header('platform');
         $input['version'] = $request->header('version');
         $input['versionInt'] = $request->header('versionInt');
@@ -436,7 +436,7 @@ class FsControllerApi extends FresnsBaseApiController
                 $account = $userInfo['pure_phone'];
             }
         }
-        $cmd = FresnsCmdWordsConfig::PLG_CMD_SEND_CODE;
+        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_SEND_CODE;
         $input = [
             'type' => $type,
             'templateId' => $templateId,

@@ -27,7 +27,7 @@ class FresnsSubPlugin extends BasePlugin
     public function __construct()
     {
         $this->pluginConfig = new FresnsSubPluginConfig();
-        $this->pluginCmdHandlerMap = FresnsSubPluginConfig::PLG_CMD_HANDLE_MAP;
+        $this->pluginCmdHandlerMap = FresnsSubPluginConfig::FRESNS_CMD_HANDLE_MAP;
     }
 
     // Get status code

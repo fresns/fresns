@@ -109,11 +109,11 @@ class BasePluginConfig
     public $settingPath = '';
 
     // Plugin default command word, any plugin must have
-    public const PLG_CMD_DEFAULT = 'plg_cmd_default';
+    public const FRESNS_CMD_DEFAULT = 'fresns_cmd_default';
 
     // Plugin command word callback mapping
-    const PLG_CMD_HANDLE_MAP = [
-        self::PLG_CMD_DEFAULT => 'defaultHandler',
+    const FRESNS_CMD_HANDLE_MAP = [
+        self::FRESNS_CMD_DEFAULT => 'defaultHandler',
     ];
 
     // Plugin Status Code

@@ -87,8 +87,7 @@ class FsControllerApi extends FresnsBaseApiController
         $member_id = GlobalService::getGlobalKey('member_id');
         $type = $request->input('type');
         // Set all the notifications I received under this type to read.
-        $system_count = FresnsNotifies::where('member_id', $member_id)->where('source_type',
-            $type)->update(['status' => FsConfig::READED]);
+        $system_count = FresnsNotifies::where('member_id', $member_id)->where('source_type', $type)->update(['status' => FsConfig::READED]);
         $this->success();
     }
 

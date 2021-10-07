@@ -58,7 +58,7 @@ class FresnsConfigsService extends FsService
         return $common;
     }
 
-    public static function addLikeCounts($key)
+    public static function addMarkCounts($key)
     {
         $item = FsModel::where('item_key', $key)->first();
         if (empty($item)) {
@@ -73,7 +73,7 @@ class FresnsConfigsService extends FsService
         }
     }
 
-    public static function delLikeCounts($key)
+    public static function minusMarkCounts($key)
     {
         FsModel::where('item_key', $key)->decrement('item_value');
     }

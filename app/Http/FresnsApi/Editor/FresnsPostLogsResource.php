@@ -9,6 +9,7 @@
 namespace App\Http\FresnsApi\Editor;
 
 use App\Base\Resources\BaseAdminResource;
+use App\Http\FresnsDb\FresnsPlugins\FresnsPluginsService;
 use App\Http\FresnsDb\FresnsPostLogs\FresnsPostLogsConfig;
 use App\Http\FresnsDb\FresnsPosts\FresnsPosts;
 
@@ -32,10 +33,13 @@ class FresnsPostLogsResource extends BaseAdminResource
         // Default Field
         $default = [
             'id' => $this->id,
-            'pid' => $postInfo['uuid'] ?? '',
+            'pid' => $postInfo['uuid'] ?? null,
+            'isPluginEditor' => $this->is_plugin_editor,
+            'editorUrl' => FresnsPluginsService::getPluginUrlByUnikey($this->editor_unikey),
             'types' => $this->types,
             'title' => $this->title,
             'content' => mb_substr($this->content, 0, 140),
+            'state' => $this->state,
             'reason' => $this->reason,
             'submitTime' => $this->submit_at,
             'time' => $this->created_at,

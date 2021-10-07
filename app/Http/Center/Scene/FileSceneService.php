@@ -12,7 +12,6 @@ use App\Base\Services\BaseService;
 use App\Helpers\CommonHelper;
 use App\Helpers\FileHelper;
 use App\Http\Center\Common\LogService;
-use App\Http\FresnsApi\Helpers\ApiCommonHelper;
 
 class FileSceneService extends BaseService
 {
@@ -239,21 +238,5 @@ class FileSceneService extends BaseService
         array_unshift($suffixArr, 'public');
 
         return implode(DIRECTORY_SEPARATOR, $suffixArr);
-    }
-
-    // Get storage provider (local upload or plugin upload)
-    // Determined by background configuration
-    public static function getUploadProvider()
-    {
-        return FileSceneConfig::UPLOAD_PROVIDER_PLUGIN;
-    }
-
-    public static function getFileUrl($fileUrl)
-    {
-        $domain = ApiCommonHelper::domain();
-
-        $url = $domain.'/storage'.$fileUrl;
-
-        return $url;
     }
 }

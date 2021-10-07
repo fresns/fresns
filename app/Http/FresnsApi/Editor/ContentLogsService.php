@@ -12,7 +12,6 @@ use App\Http\Center\Common\GlobalService;
 use App\Http\Center\Common\LogService;
 use App\Http\Center\Helper\PluginHelper;
 use App\Http\Center\Scene\FileSceneService;
-use App\Http\FresnsApi\Helpers\ApiCommonHelper;
 use App\Http\FresnsApi\Helpers\ApiConfigHelper;
 use App\Http\FresnsApi\Helpers\ApiLanguageHelper;
 use App\Http\FresnsDb\FresnsCommentAppends\FresnsCommentAppends;
@@ -42,8 +41,8 @@ class ContentLogsService
         $postAppend = FresnsPostAppends::findAppend('post_id', $postInfo['id']);
 
         // Get editor config
-        $is_plugin_edit = $postAppend['is_plugin_edit'];
-        $plugin_unikey = $postAppend['plugin_unikey'];
+        $is_plugin_editor = $postAppend['is_plugin_editor'];
+        $editor_unikey = $postAppend['editor_unikey'];
 
         // Members Settings
         $member_list_json = [];
@@ -136,19 +135,19 @@ class ContentLogsService
 
         // Location Settings
         $location_json = [];
-        $location_json['isLbs'] = $postInfo['is_lbs'] ?? '';
-        $location_json['mapId'] = $postInfo['map_id'] ?? '';
-        $location_json['latitude'] = $postInfo['map_latitude'] ?? '';
-        $location_json['longitude'] = $postInfo['map_longitude'] ?? '';
-        $location_json['scale'] = $postAppend['map_scale'] ?? '';
-        $location_json['poi'] = $postAppend['map_poi'] ?? '';
-        $location_json['poiId'] = $postAppend['map_poi_id'] ?? '';
-        $location_json['nation'] = $postAppend['map_nation'] ?? '';
-        $location_json['province'] = $postAppend['map_province'] ?? '';
-        $location_json['city'] = $postAppend['map_city'] ?? '';
-        $location_json['district'] = $postAppend['map_district'] ?? '';
-        $location_json['adcode'] = $postAppend['map_adcode'] ?? '';
-        $location_json['address'] = $postAppend['map_address'] ?? '';
+        $location_json['isLbs'] = $postInfo['is_lbs'] ?? 0;
+        $location_json['mapId'] = $postInfo['map_id'] ?? null;
+        $location_json['latitude'] = $postInfo['map_latitude'] ?? null;
+        $location_json['longitude'] = $postInfo['map_longitude'] ?? null;
+        $location_json['scale'] = $postAppend['map_scale'] ?? null;
+        $location_json['poi'] = $postAppend['map_poi'] ?? null;
+        $location_json['poiId'] = $postAppend['map_poi_id'] ?? null;
+        $location_json['nation'] = $postAppend['map_nation'] ?? null;
+        $location_json['province'] = $postAppend['map_province'] ?? null;
+        $location_json['city'] = $postAppend['map_city'] ?? null;
+        $location_json['district'] = $postAppend['map_district'] ?? null;
+        $location_json['adcode'] = $postAppend['map_adcode'] ?? null;
+        $location_json['address'] = $postAppend['map_address'] ?? null;
 
         // Files Settings
         $more_json = json_decode($postInfo['more_json'], true);
@@ -160,8 +159,7 @@ class ContentLogsService
         // Extends Settings
         $extends_json = [];
         $result = [];
-        $extendLink = DB::table(FresnsExtendLinkedsConfig::CFG_TABLE)->where('linked_type', 1)->where('linked_id',
-            $postInfo['id'])->get()->toArray();
+        $extendLink = DB::table(FresnsExtendLinkedsConfig::CFG_TABLE)->where('linked_type', 1)->where('linked_id', $postInfo['id'])->get()->toArray();
         if ($extendLink) {
             $arr = [];
             foreach ($extendLink as $e) {
@@ -216,8 +214,8 @@ class ContentLogsService
             'content' => $postAppend['content'],
             'is_markdown' => $postAppend['is_markdown'],
             'is_anonymous' => $postInfo['is_anonymous'],
-            'is_plugin_edit' => $is_plugin_edit,
-            'plugin_unikey' => $plugin_unikey,
+            'is_plugin_editor' => $is_plugin_editor,
+            'editor_unikey' => $editor_unikey,
             'member_list_json' => $member_list_json,
             'comment_set_json' => $comment_set_json,
             'allow_json' => $allow_json,
@@ -239,24 +237,24 @@ class ContentLogsService
         $postInfo = FresnsPosts::find($commentInfo['post_id']);
 
         // Get editor config
-        $is_plugin_edit = $commentAppend['is_plugin_edit'];
-        $plugin_unikey = $commentAppend['plugin_unikey'];
+        $is_plugin_editor = $commentAppend['is_plugin_editor'];
+        $editor_unikey = $commentAppend['editor_unikey'];
 
         // Location Settings
         $location_json = [];
-        $location_json['isLbs'] = $commentInfo['is_lbs'];
-        $location_json['mapId'] = $commentAppend['map_id'];
-        $location_json['latitude'] = $commentAppend['map_latitude'];
-        $location_json['longitude'] = $commentAppend['map_longitude'];
-        $location_json['scale'] = $commentAppend['map_scale'];
-        $location_json['poi'] = $commentAppend['map_poi'];
-        $location_json['poiId'] = $commentAppend['map_poi_id'];
-        $location_json['nation'] = $commentAppend['map_nation'];
-        $location_json['province'] = $commentAppend['map_province'];
-        $location_json['city'] = $commentAppend['map_city'];
-        $location_json['district'] = $commentAppend['map_district'];
-        $location_json['adcode'] = $commentAppend['map_adcode'];
-        $location_json['address'] = $commentAppend['map_address'];
+        $location_json['isLbs'] = $commentInfo['is_lbs'] ?? 0;
+        $location_json['mapId'] = $commentAppend['map_id'] ?? null;
+        $location_json['latitude'] = $commentAppend['map_latitude'] ?? null;
+        $location_json['longitude'] = $commentAppend['map_longitude'] ?? null;
+        $location_json['scale'] = $commentAppend['map_scale'] ?? null;
+        $location_json['poi'] = $commentAppend['map_poi'] ?? null;
+        $location_json['poiId'] = $commentAppend['map_poi_id'] ?? null;
+        $location_json['nation'] = $commentAppend['map_nation'] ?? null;
+        $location_json['province'] = $commentAppend['map_province'] ?? null;
+        $location_json['city'] = $commentAppend['map_city'] ?? null;
+        $location_json['district'] = $commentAppend['map_district'] ?? null;
+        $location_json['adcode'] = $commentAppend['map_adcode'] ?? null;
+        $location_json['address'] = $commentAppend['map_address'] ?? null;
 
         // Files Settings
         $more_json = json_decode($commentInfo['more_json'], true);
@@ -304,8 +302,8 @@ class ContentLogsService
             'content' => $commentAppend['content'],
             'is_markdown' => $commentAppend['is_markdown'],
             'is_anonymous' => $commentInfo['is_anonymous'],
-            'is_plugin_edit' => $is_plugin_edit,
-            'plugin_unikey' => $plugin_unikey,
+            'is_plugin_editor' => $is_plugin_editor,
+            'editor_unikey' => $editor_unikey,
             'location_json' => $location_json,
             'files_json' => $files,
             'extends_json' => $extends_json,
@@ -329,8 +327,8 @@ class ContentLogsService
         $content = $request->input('content');
         $isMarkdown = $request->input('isMarkdown', 0);
         $isAnonymous = $request->input('isAnonymous', 0);
-        $is_plugin_edit = $request->input('isPluginEdit', 0);
-        $plugin_unikey = $request->input('pluginUnikey');
+        $is_plugin_editor = $request->input('isPluginEditor', 0);
+        $editor_unikey = $request->input('editorUnikey') ?? null;
         $commentSetJson = $request->input('commentSetJson') ?? null;
         $memberListJson = $request->input('memberListJson') ?? null;
         $allowJson = $request->input('allowJson') ?? null;
@@ -357,8 +355,8 @@ class ContentLogsService
             'content' => trim($content),
             'is_markdown' => $isMarkdown,
             'is_anonymous' => $isAnonymous,
-            'is_plugin_edit' => $is_plugin_edit,
-            'plugin_unikey' => $plugin_unikey,
+            'is_plugin_editor' => $is_plugin_editor,
+            'editor_unikey' => $editor_unikey,
             'comment_set_json' => $commentSetJson,
             'member_list_json' => $memberListJson,
             'allow_json' => $allowJson,
@@ -381,8 +379,8 @@ class ContentLogsService
         $content = $request->input('content');
         $isMarkdown = $request->input('isMarkdown', 0);
         $isAnonymous = $request->input('isAnonymous', 0);
-        $is_plugin_edit = $request->input('isPluginEdit', 0);
-        $plugin_unikey = $request->input('pluginUnikey');
+        $is_plugin_editor = $request->input('isPluginEditor', 0);
+        $editor_unikey = $request->input('editorUnikey');
         $locationJson = $request->input('locationJson');
         $filesJson = $request->input('filesJson');
         $extends_json = json_decode($request->input('extendsJson'), true);
@@ -403,8 +401,8 @@ class ContentLogsService
             'content' => trim($content),
             'is_markdown' => $isMarkdown == 'false' ? 0 : 1,
             'is_anonymous' => $isAnonymous == 'false' ? 0 : 1,
-            'is_plugin_edit' => $is_plugin_edit,
-            'plugin_unikey' => $plugin_unikey,
+            'is_plugin_editor' => $is_plugin_editor,
+            'editor_unikey' => $editor_unikey,
             'location_json' => $locationJson,
             'files_json' => $filesJson,
             'extends_json' => $extendsJson,
@@ -613,7 +611,7 @@ class ContentLogsService
         LogService::info('File Storage Local Success ', $file);
         $t2 = time();
 
-        $file['uuid'] = ApiCommonHelper::createUuid();
+        $file['uuid'] = StrHelper::createUuid();
         // Insert data
         $retId = FresnsFiles::insertGetId($file);
 
@@ -623,7 +621,7 @@ class ContentLogsService
             'file_mime' => $uploadFile->getMimeType(),
             'file_size' => $uploadFile->getSize(),
             'platform_id' => $platformId,
-            'transcoding_status' => 1,
+            'transcoding_state' => 1,
             'user_id' => $uid,
             'member_id' => $mid,
             // 'file_original_path' => Storage::url($path),
@@ -656,7 +654,7 @@ class ContentLogsService
         if (is_array($fileInfo)) {
             foreach ($fileInfo as $v) {
                 $item = [];
-                $item['uuid'] = ApiCommonHelper::createUuid();
+                $item['uuid'] = StrHelper::createUuid();
                 $item['file_name'] = $v['name'];
                 $item['file_type'] = $v['type'];
                 $item['table_type'] = $v['tableType'];
@@ -691,7 +689,7 @@ class ContentLogsService
                 $append['video_cover'] = empty($v['videoCover']) ? null : $v['videoCover'];
                 $append['video_gif'] = empty($v['videoGif']) ? null : $v['videoGif'];
                 $append['audio_time'] = empty($v['audioTime']) ? null : $v['audioTime'];
-                $append['transcoding_status'] = empty($v['transcodingStatus']) ? 1 : $v['transcodingStatus'];
+                $append['transcoding_state'] = empty($v['transcodingState']) ? 1 : $v['transcodingState'];
                 $append['platform_id'] = $platformId;
                 FresnsFileAppends::insert($append);
             }
@@ -742,7 +740,7 @@ class ContentLogsService
                 if ($type == 3) {
                     $item['audioTime'] = $append['audio_time'] ?? '';
                     $item['audioUrl'] = $audiosHost.$file['file_path'];
-                    $item['transcodingStatus'] = $append['transcoding_status'];
+                    $item['transcodingState'] = $append['transcoding_state'];
                 }
                 if ($type == 4) {
                     $item['docUrl'] = $docsHost.$file['file_path'];

@@ -39,14 +39,14 @@ class FsModel extends BaseAdminModel
             ->where('deleted_at', null)
             ->where('member_id', $mid);
         $request = request();
-        // 1.Draft + review rejection (status=1+4)
-        // 2.Under Review (status=2)
+        // 1.Draft + review rejection (state=1+4)
+        // 2.Under Review (state=2)
         $status = $request->input('status');
         if ($status == 1) {
-            $query->where('status', 1);
-            $query->orWhere('status', 4);
+            $query->where('state', 1);
+            $query->orWhere('state', 4);
         } else {
-            $query->where('status', 2);
+            $query->where('state', 2);
         }
         $class = $request->input('class');
 

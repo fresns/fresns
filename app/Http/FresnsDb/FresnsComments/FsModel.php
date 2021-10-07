@@ -148,10 +148,9 @@ class FsModel extends BaseCategoryModel
             $query->where('comment.parent_id', '=', 0);
         }
 
-        // sticky status
+        // sticky state
         $searchSticky = $request->input('searchSticky');
         if (! empty($searchSticky)) {
-            // $searchEssenceType = $searchEssence == false ? 0 : 1;
             $query->where('comment.is_sticky', '=', $searchSticky);
         }
         if ($searchSticky == '0') {

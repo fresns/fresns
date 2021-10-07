@@ -20,7 +20,6 @@ class FsConfig extends BaseConfig
         'ids' => ['field' => 'id', 'op' => 'in'],
         'gid' => ['field' => 'uuid', 'op' => '='],
         'parentId' => ['field' => 'parent_id', 'op' => '='],
-        'pid' => ['field' => 'parent_id', 'op' => '='],
         'recommend' => ['field' => 'is_recommend', 'op' => '='],
         'viewCountGt' => ['field' => 'view_count', 'op' => '>='],
         'viewCountLt' => ['field' => 'view_count', 'op' => '<='],

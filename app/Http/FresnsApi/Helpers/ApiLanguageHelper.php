@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Cache;
 
 class ApiLanguageHelper
 {
-    public static function getLanguages($table, $table_field, $table_id)
+    // table_id
+    public static function getLanguagesByTableId($table, $table_field, $table_id)
     {
         if (! $table_id) {
             return '';
@@ -25,26 +26,27 @@ class ApiLanguageHelper
         $langTag = ApiLanguageHelper::getLangTagByHeader();
         // Leave blank to output the content of the default language, the query does not default language to output the first
         $input = [
-            'lang_tag' => $langTag,
+            'table_name' => $table,
             'table_field' => $table_field,
             'table_id' => $table_id,
-            'table_name' => $table,
+            'lang_tag' => $langTag,
         ];
-        $name = FresnsLanguages::where($input)->first();
-        if (! $name) {
+        $langContent = FresnsLanguages::where($input)->first();
+        if (! $langContent) {
             $input = [
+                'table_name' => $table,
                 'table_field' => $table_field,
                 'table_id' => $table_id,
-                'table_name' => $table,
             ];
-            $name = FresnsLanguages::where($input)->first();
+            $langContent = FresnsLanguages::where($input)->first();
         }
+        $content = $langContent['lang_content'] ?? '';
 
-        return $name;
+        return $content;
     }
 
     // table_key
-    public static function getLanguagesByItemKey($table, $table_field, $table_key)
+    public static function getLanguagesByTableKey($table, $table_field, $table_key)
     {
         if (! $table_key) {
             return '';
@@ -52,21 +54,21 @@ class ApiLanguageHelper
         $langTag = ApiLanguageHelper::getLangTagByHeader();
         // Leave blank to output the content of the default language, the query does not default language to output the first
         $input = [
-            'lang_tag' => $langTag,
+            'table_name' => $table,
             // 'table_field' => 'item_key',
             'table_key' => $table_key,
-            'table_name' => $table,
+            'lang_tag' => $langTag,
         ];
-        $name = FresnsLanguages::where($input)->first();
-        if (! $name) {
+        $langContent = FresnsLanguages::where($input)->first();
+        if (! $langContent) {
             $input = [
+                'table_name' => $table,
                 // 'table_field' => 'item_key',
                 'table_key' => $table_key,
-                'table_name' => $table,
             ];
-            $name = FresnsLanguages::where($input)->first();
+            $langContent = FresnsLanguages::where($input)->first();
         }
-        $content = $name['lang_content'] ?? '';
+        $content = $langContent['lang_content'] ?? '';
 
         return $content;
     }
@@ -154,9 +156,9 @@ class ApiLanguageHelper
         }
 
         $input = [
+            'table_name' => $table,
             'table_field' => $table_field,
             'table_id' => $table_id,
-            'table_name' => $table,
         ];
         $info = FresnsLanguages::where($input)->get();
 

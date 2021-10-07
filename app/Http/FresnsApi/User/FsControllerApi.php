@@ -15,7 +15,6 @@ use App\Http\Center\Common\GlobalService;
 use App\Http\Center\Common\ValidateService;
 use App\Http\Center\Helper\CmdRpcHelper;
 use App\Http\FresnsApi\Base\FresnsBaseApiController;
-use App\Http\FresnsApi\Helpers\ApiCommonHelper;
 use App\Http\FresnsApi\Helpers\ApiConfigHelper;
 use App\Http\FresnsApi\Helpers\ApiLanguageHelper;
 use App\Http\FresnsCmd\FresnsCmdWords;
@@ -187,7 +186,7 @@ class FsControllerApi extends FresnsBaseApiController
                 break;
         }
 
-        $cmd = FresnsCmdWordsConfig::PLG_CMD_USER_REGISTER;
+        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_USER_REGISTER;
         $input = [
             'type' => $type,
             'account' => $account,
@@ -208,7 +207,7 @@ class FsControllerApi extends FresnsBaseApiController
         }
         $data = $resp['output'];
         if ($data) {
-            $cmd = FresnsCmdWordsConfig::PLG_CMD_CREATE_SESSION_TOKEN;
+            $cmd = FresnsCmdWordsConfig::FRESNS_CMD_CREATE_SESSION_TOKEN;
             $input['uid'] = $data['uid'];
             $input['platform'] = $request->header('platform');
             $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
@@ -275,7 +274,7 @@ class FsControllerApi extends FresnsBaseApiController
             $this->error(ErrorCodeService::ACCOUNT_CHECK_ERROR);
         }
 
-        $cmd = FresnsCmdWordsConfig::PLG_CMD_USER_LOGIN;
+        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_USER_LOGIN;
         $input = [
             'type' => $type,
             'account' => $account,
@@ -290,7 +289,7 @@ class FsControllerApi extends FresnsBaseApiController
 
         $data = $resp['output'];
         if ($data) {
-            $cmd = FresnsCmdWordsConfig::PLG_CMD_CREATE_SESSION_TOKEN;
+            $cmd = FresnsCmdWordsConfig::FRESNS_CMD_CREATE_SESSION_TOKEN;
             $input['uid'] = $user->uuid;
             $input['platform'] = $request->header('platform');
             $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
@@ -510,7 +509,7 @@ class FsControllerApi extends FresnsBaseApiController
     public function detail(Request $request)
     {
         $uid = $request->header('uid');
-        $cmd = FresnsCmdWordsConfig::PLG_CMD_USER_DETAIL;
+        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_USER_DETAIL;
         $input = [
             'uid' => $uid,
         ];

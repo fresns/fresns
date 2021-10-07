@@ -191,7 +191,7 @@ class FsService
         }
 
         // Flow 2
-        $postsLogsFilesJson = FresnsPostLogs::where('files_json', '!=', null)->where('id', '!=', $logId)->where('status', 3)->pluck('files_json')->toArray();
+        $postsLogsFilesJson = FresnsPostLogs::where('files_json', '!=', null)->where('id', '!=', $logId)->where('state', 3)->pluck('files_json')->toArray();
         if (! empty($postsLogsFilesJson)) {
             $postLogFidArr = [];
             foreach ($postsLogsFilesJson as $v) {
@@ -250,7 +250,7 @@ class FsService
         }
 
         // Flow 2
-        $commentLogsFilesJson = FresnsCommentLogs::where('files_json', '!=', null)->where('id', '!=', $logId)->where('status', 3)->pluck('files_json')->toArray();
+        $commentLogsFilesJson = FresnsCommentLogs::where('files_json', '!=', null)->where('id', '!=', $logId)->where('state', 3)->pluck('files_json')->toArray();
         if (! empty($commentLogsFilesJson)) {
             $commentLogFidArr = [];
             foreach ($commentLogsFilesJson as $v) {
