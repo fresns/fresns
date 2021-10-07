@@ -161,14 +161,14 @@ class ErrorCodeService
     const DELETE_EXTEND_ERROR = 30814;
 
     // Editor
-    const POST_STATUS_2_ERROR = 30815;
-    const POST_STATUS_3_ERROR = 30816;
-    const COMMENT_STATUS_2_ERROR = 30817;
-    const COMMENT_STATUS_3_ERROR = 30818;
-    const POST_SUBMIT_STATUS_2_ERROR = 30819;
-    const POST_SUBMIT_STATUS_3_ERROR = 30820;
-    const COMMENT_SUBMIT_STATUS_2_ERROR = 30821;
-    const COMMENT_SUBMIT_STATUS_3_ERROR = 30822;
+    const POST_STATE_2_ERROR = 30815;
+    const POST_STATE_3_ERROR = 30816;
+    const COMMENT_STATE_2_ERROR = 30817;
+    const COMMENT_STATE_3_ERROR = 30818;
+    const POST_SUBMIT_STATE_2_ERROR = 30819;
+    const POST_SUBMIT_STATE_3_ERROR = 30820;
+    const COMMENT_SUBMIT_STATE_2_ERROR = 30821;
+    const COMMENT_SUBMIT_STATE_3_ERROR = 30822;
     const POST_REMOKE_ERROR = 30823;
     const COMMENT_REMOKE_ERROR = 30824;
     const CONTENT_AUTHOR_ERROR = 30825;
@@ -356,14 +356,14 @@ class ErrorCodeService
         self::DELETE_EXTEND_ERROR               => 'The extended content is being used by others and can not be deleted',
 
         // Editor
-        self::POST_STATUS_2_ERROR               => 'The post is being reviewed and can not be edited',
-        self::POST_STATUS_3_ERROR               => 'The post has been published and can not be edited',
-        self::COMMENT_STATUS_2_ERROR            => 'The comment is being reviewed and can not be edited',
-        self::COMMENT_STATUS_3_ERROR            => 'The comment has been published and can not be edited',
-        self::POST_SUBMIT_STATUS_2_ERROR        => 'Posts being reviewed can not be submitted again',
-        self::POST_SUBMIT_STATUS_3_ERROR        => 'Posts being published can not be submitted again',
-        self::COMMENT_SUBMIT_STATUS_2_ERROR     => 'Comments being reviewed can not be submitted again',
-        self::COMMENT_SUBMIT_STATUS_3_ERROR     => 'Comments being published can not be submitted again',
+        self::POST_STATE_2_ERROR                => 'The post is being reviewed and can not be edited',
+        self::POST_STATE_3_ERROR                => 'The post has been published and can not be edited',
+        self::COMMENT_STATE_2_ERROR             => 'The comment is being reviewed and can not be edited',
+        self::COMMENT_STATE_3_ERROR             => 'The comment has been published and can not be edited',
+        self::POST_SUBMIT_STATE_2_ERROR         => 'Posts being reviewed can not be submitted again',
+        self::POST_SUBMIT_STATE_3_ERROR         => 'Posts being published can not be submitted again',
+        self::COMMENT_SUBMIT_STATE_2_ERROR      => 'Comments being reviewed can not be submitted again',
+        self::COMMENT_SUBMIT_STATE_3_ERROR      => 'Comments being published can not be submitted again',
         self::POST_REMOKE_ERROR                 => 'There is no need to withdraw the post, for it is not being reviewed',
         self::COMMENT_REMOKE_ERROR              => 'There is no need to withdraw the comment, for it is not being reviewed',
         self::CONTENT_AUTHOR_ERROR              => 'Operation failed. Please confirm that you are the author',

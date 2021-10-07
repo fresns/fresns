@@ -687,10 +687,10 @@ class FsChecker extends BaseChecker
                 }
                 // Editable or not
                 if ($postLogs['status'] == 2) {
-                    return self::checkInfo(ErrorCodeService::POST_STATUS_2_ERROR);
+                    return self::checkInfo(ErrorCodeService::POST_STATE_2_ERROR);
                 }
                 if ($postLogs['status'] == 3) {
-                    return self::checkInfo(ErrorCodeService::POST_STATUS_3_ERROR);
+                    return self::checkInfo(ErrorCodeService::POST_STATE_3_ERROR);
                 }
                 // Check whether the gid is correct, including whether the right to post in the group, whether the group can post (group classification is not allowed)
                 if (! empty($gid)) {
@@ -718,10 +718,10 @@ class FsChecker extends BaseChecker
                 }
                 // Editable or not
                 if ($commentLogs['status'] == 2) {
-                    return self::checkInfo(ErrorCodeService::COMMENT_STATUS_2_ERROR);
+                    return self::checkInfo(ErrorCodeService::COMMENT_STATE_2_ERROR);
                 }
                 if ($commentLogs['status'] == 3) {
-                    return self::checkInfo(ErrorCodeService::COMMENT_STATUS_3_ERROR);
+                    return self::checkInfo(ErrorCodeService::COMMENT_STATE_3_ERROR);
                 }
                 if ($content) {
                     // Get the maximum number of words in a comment
@@ -844,10 +844,10 @@ class FsChecker extends BaseChecker
                     return self::checkInfo(ErrorCodeService::POST_LOG_EXIST_ERROR);
                 }
                 if ($postLog['status'] == 2) {
-                    return self::checkInfo(ErrorCodeService::POST_SUBMIT_STATUS_2_ERROR);
+                    return self::checkInfo(ErrorCodeService::POST_SUBMIT_STATE_2_ERROR);
                 }
                 if ($postLog['status'] == 3) {
-                    return self::checkInfo(ErrorCodeService::POST_SUBMIT_STATUS_3_ERROR);
+                    return self::checkInfo(ErrorCodeService::POST_SUBMIT_STATE_3_ERROR);
                 }
                 // Logs have group values to determine whether the group exists and whether current members have the right to post in the group
                 if ($postLog['group_id']) {
@@ -881,10 +881,10 @@ class FsChecker extends BaseChecker
                     return self::checkInfo(ErrorCodeService::COMMENT_LOG_EXIST_ERROR);
                 }
                 if ($commentLog['status'] == 2) {
-                    return self::checkInfo(ErrorCodeService::COMMENT_SUBMIT_STATUS_2_ERROR);
+                    return self::checkInfo(ErrorCodeService::COMMENT_SUBMIT_STATE_2_ERROR);
                 }
                 if ($commentLog['status'] == 3) {
-                    return self::checkInfo(ErrorCodeService::COMMENT_SUBMIT_STATUS_3_ERROR);
+                    return self::checkInfo(ErrorCodeService::COMMENT_SUBMIT_STATE_3_ERROR);
                 }
                 $postInfo = FresnsPosts::find($commentLog['post_id']);
                 if (! $postInfo) {
