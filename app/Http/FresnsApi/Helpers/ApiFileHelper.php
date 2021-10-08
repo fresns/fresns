@@ -320,11 +320,12 @@ class ApiFileHelper
     }
 
     // get Icons Anti Hotlinking
-    public static function getIconsSignUrl($icons){
-        if($icons){
+    public static function getIconsSignUrl($icons)
+    {
+        if ($icons) {
             foreach ($icons as &$i) {
-                if(isset($i['fileId'])){
-                    if(!empty($i['fileId'])){
+                if (isset($i['fileId'])) {
+                    if (! empty($i['fileId'])) {
                         $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_IMAGE;
                         $input['fid'] = $i['fileId'];
                         $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
@@ -336,6 +337,7 @@ class ApiFileHelper
                 }
             }
         }
+
         return $icons;
     }
 }
