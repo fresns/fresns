@@ -450,7 +450,11 @@ class FresnsCommentsResourceDetail extends BaseAdminResource
         }
 
         FresnsPosts::where('id', $this->id)->increment('view_count');
-
+        $more_json = json_decode($this->more_json, true);
+        $icons = $more_json['icons'] ?? [];
+        if ($more_json) {
+            $icons = ApiFileHelper::getIconsSignUrl($icons);
+        }
         // Default Field
         $default = [
             'pid' => $posts['uuid'],
@@ -483,6 +487,7 @@ class FresnsCommentsResourceDetail extends BaseAdminResource
             'editTime' => $editTime,
             'editTimeFormat' => $editTimeFormat,
             'member' => $member,
+            'icons' => $icons,
             // 'commentSetting' => $commentSetting,
             // 'replyTo' => $replyTo,
             'location' => $location,

@@ -318,4 +318,24 @@ class ApiFileHelper
 
         return $moreJson;
     }
+
+    // get Icons Anti Hotlinking
+    public static function getIconsSignUrl($icons){
+        if($icons){
+            foreach ($icons as &$i) {
+                if(isset($i['fileId'])){
+                    if(!empty($i['fileId'])){
+                        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_IMAGE;
+                        $input['fid'] = $i['fileId'];
+                        $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
+                        if (CmdRpcHelper::isErrorCmdResp($resp)) {
+                            return false;
+                        }
+                        $i['fileUrl'] = $resp['output']['imageRatioUrl'];
+                    }
+                }
+            }
+        }
+        return $icons;
+    }
 }

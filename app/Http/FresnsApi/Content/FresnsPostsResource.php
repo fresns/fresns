@@ -190,14 +190,17 @@ class FresnsPostsResource extends BaseAdminResource
             $member['avatar'] = $anonymousAvatar;
         }
         // The avatar displayed when a member has been deleted
+        $member['deactivate'] = true;
         if ($memberInfo) {
             if ($memberInfo->deleted_at != null) {
                 $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::DEACTIVATE_AVATAR);
                 $member['avatar'] = $deactivateAvatar;
+                $member['deactivate'] = false;
             }
         } else {
             $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::DEACTIVATE_AVATAR);
             $member['avatar'] = $deactivateAvatar;
+            $member['deactivate'] = true;
         }
         $member['avatar'] = ApiFileHelper::getImageSignUrl($member['avatar']);
 
@@ -210,7 +213,6 @@ class FresnsPostsResource extends BaseAdminResource
         if ($this->is_anonymous == 0) {
             if ($memberInfo->deleted_at == null && $memberInfo) {
                 $member['anonymous'] = $this->is_anonymous;
-                $member['deactivate'] = false;
                 $member['mid'] = $memberInfo->uuid ?? '';
                 $member['mname'] = $memberInfo->name ?? '';
                 $member['nickname'] = $memberInfo->nickname ?? '';
@@ -552,7 +554,9 @@ class FresnsPostsResource extends BaseAdminResource
         // more_json
         $more_json = json_decode($this->more_json, true);
         $icons = $more_json['icons'] ?? [];
-
+        if ($more_json) {
+            $icons = ApiFileHelper::getIconsSignUrl($icons);
+        }
         // Default Field
         $default = [
             'pid' => $pid,

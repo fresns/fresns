@@ -849,6 +849,9 @@ class FsChecker extends BaseChecker
                 if ($postLog['state'] == 3) {
                     return self::checkInfo(ErrorCodeService::POST_SUBMIT_STATE_3_ERROR);
                 }
+                if ($mid != $postLog['member_id']) {
+                    return self::checkInfo(ErrorCodeService::CONTENT_AUTHOR_ERROR);
+                }
                 // Logs have group values to determine whether the group exists and whether current members have the right to post in the group
                 if ($postLog['group_id']) {
                     $groupInfo = FresnsGroups::find($postLog['group_id']);
@@ -885,6 +888,9 @@ class FsChecker extends BaseChecker
                 }
                 if ($commentLog['state'] == 3) {
                     return self::checkInfo(ErrorCodeService::COMMENT_SUBMIT_STATE_3_ERROR);
+                }
+                if ($mid != $commentLog['member_id']) {
+                    return self::checkInfo(ErrorCodeService::CONTENT_AUTHOR_ERROR);
                 }
                 $postInfo = FresnsPosts::find($commentLog['post_id']);
                 if (! $postInfo) {
