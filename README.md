@@ -20,8 +20,8 @@ Fresns is a free and open source social network service software, a general-purp
 | Framework | Version | Use |
 | --- | --- | --- |
 | [Composer](https://github.com/composer/composer) | 2.1.8 | Application-Level Package Manager |
-| [Laravel Framework](https://github.com/laravel/framework) | 8.62.0 | Framework |
-| [Bootstrap](https://getbootstrap.com/) | 5.1.0 | Internal Front-end Framework |
+| [Laravel Framework](https://github.com/laravel/framework) | 8.63.0 | Framework |
+| [Bootstrap](https://getbootstrap.com/) | 5.1.3 | Internal Front-end Framework |
 | [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.5.0 | Internal Icon Font Library |
 | [jQuery](https://github.com/jquery/jquery) | 3.6.0 | Internal JS Framework |
 | [Base64 JS](https://github.com/dankogai/js-base64) | 3.6.1 | Internal Base64 Transcoder |
@@ -31,6 +31,26 @@ Fresns is a free and open source social network service software, a general-purp
 | MySQL | 8.x |
 | Collation | utf8mb4_0900_ai_ci |
 | Storage engine | InnoDB |
+
+## Installation and Using
+
+This repository is an R & D code repository without "vendor" reference library files. If you use this repository code package to install, you need to execute the composer command based on the command line to install "vendor" reference library files. If you feel troublesome, you can also download the full version of the installation package from the [official website](https://fresns.org/). The installation package on the official website already contains reference library files, so there is no need to perform command-line installation.
+
+*Please make sure that the Composer package management tool is installed on your server.*
+
+### Development deployment
+
+1. Download the code package of the repository release, upload it to the business server and decompress it;
+2. Execute the command line in the "main program root directory": `composer install`;
+3. Rename the `.env.debug` file in the main program root directory to `.env`, and configure the database information according to [the installation tutorial](https://fresns.org/guide/install.html) on the official website;
+4. The rest of the configuration process is the same as [the installation tutorial](https://fresns.org/guide/install.html) on the official website.
+
+### Production deployment
+
+1. Download the code package of this repository release and upload it to the business server to decompress;
+2. Execute the command line in the "main program root directory": `composer install --optimize-autoloader --no-dev`;
+3. Rename the `.env.example` file in the main program root directory to `.env`, and configure the database information according to [the installation tutorial](https://fresns.org/guide/install.html) on the official website;
+4. The rest of the configuration process is the same as [the installation tutorial](https://fresns.org/guide/install.html) on the official website.
 
 ## Contributing
 
