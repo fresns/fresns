@@ -37,13 +37,14 @@ class ErrorCodeService
     const HEADER_PLATFORM_ERROR = 30104;
     const HEADER_APP_ID_ERROR = 30105;
     const HEADER_KEY_ERROR = 30106;
-    const UID_REQUIRED_ERROR = 30107;
-    const MID_REQUIRED_ERROR = 30108;
-    const USER_CHECK_ERROR = 30109;
-    const MEMBER_CHECK_ERROR = 30110;
-    const USER_TOKEN_ERROR = 30111;
-    const MEMBER_TOKEN_ERROR = 30112;
-    const TOKEN_IS_ENABLE_ERROR = 30113;
+    const LOGIN_ERROR = 30107;
+    const UID_REQUIRED_ERROR = 30108;
+    const MID_REQUIRED_ERROR = 30109;
+    const USER_CHECK_ERROR = 30110;
+    const MEMBER_CHECK_ERROR = 30111;
+    const USER_TOKEN_ERROR = 30112;
+    const MEMBER_TOKEN_ERROR = 30113;
+    const TOKEN_IS_ENABLE_ERROR = 30114;
 
     // User
     const REGISTER_EMAIL_ERROR = 30200;
@@ -112,6 +113,7 @@ class ErrorCodeService
     const ROLE_NO_PERMISSION_UPLOAD_DOC = 30411;
     const ROLE_UPLOAD_FILES_SIZE_ERROR = 30412;
     const ROLE_DIALOG_ERROR = 30413;
+    const ROLE_DOWNLOAD_ERROR = 30414;
 
     // Dialog
     const DIALOG_ERROR = 30500;
@@ -192,11 +194,15 @@ class ErrorCodeService
     const CONTENT_COUNT_ERROR = 30914;
 
     // Console Error Message
-    const BACKEND_PATH_ERROR = 40000;
-    const DELETE_ADMIN_ERROR = 40001;
-    const KEY_NAME_ERROR = 40002;
-    const KEY_PLATFORM_ERROR = 40003;
-    const KEY_PLUGIN_ERROR = 40004;
+    const SETTING_ERROR = 40000;
+    const SAVE_ERROR = 40001;
+    const DELETE_ERROR = 40002;
+    const LANGUAGE_SETTING_ERROR = 40003;
+    const BACKEND_PATH_ERROR = 40004;
+    const DELETE_ADMIN_ERROR = 40005;
+    const KEY_NAME_ERROR = 40006;
+    const KEY_PLATFORM_ERROR = 40007;
+    const KEY_PLUGIN_ERROR = 40008;
 
     // Console Manage Extensions
     const UNINSTALL_EXTENSION_ERROR = 40100;
@@ -232,6 +238,7 @@ class ErrorCodeService
         self::HEADER_PLATFORM_ERROR             => 'Platform ID not exist',
         self::HEADER_APP_ID_ERROR               => 'App ID not exist',
         self::HEADER_KEY_ERROR                  => 'The key does not have the right to request for the interface',
+        self::LOGIN_ERROR                       => 'Not logged in, not authorized to operate',
         self::UID_REQUIRED_ERROR                => 'UID Required',
         self::MID_REQUIRED_ERROR                => 'MID Required',
         self::USER_CHECK_ERROR                  => 'Wrong user or record not exist',
@@ -307,6 +314,7 @@ class ErrorCodeService
         self::ROLE_NO_PERMISSION_UPLOAD_DOC     => 'Current role has no right to upload files',
         self::ROLE_UPLOAD_FILES_SIZE_ERROR      => 'File size exceeded the limit for current role',
         self::ROLE_DIALOG_ERROR                 => 'Current role has no private message permission',
+        self::ROLE_DOWNLOAD_ERROR               => 'The current role has reached the upper limit of today download, please download again tomorrow.',
 
         // Dialog
         self::DIALOG_ERROR                      => 'Abnormal session or the session does not belong to current member',
@@ -387,6 +395,10 @@ class ErrorCodeService
         self::CONTENT_COUNT_ERROR               => 'Number of words exceeded the limit',
 
         // Console Error Message
+        self::SETTING_ERROR                     => 'Setting error',
+        self::SAVE_ERROR                        => 'Save error',
+        self::DELETE_ERROR                      => 'Delete error',
+        self::LANGUAGE_SETTING_ERROR            => 'Language setting error',
         self::BACKEND_PATH_ERROR                => 'Entrance name occupied',
         self::DELETE_ADMIN_ERROR                => 'Deleting oneself is not allowed',
         self::KEY_NAME_ERROR                    => 'Key name is required',
