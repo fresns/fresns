@@ -64,7 +64,7 @@ class FresnsNotifiesResource extends BaseAdminResource
             }
             $avatar = ApiFileHelper::getImageSignUrl($avatar);
             $member = FresnsMembers::find($this->source_member_id);
-            $sourceMember = 
+            $sourceMember =
                 [
                     'mid' => $member['uuid'] ?? '',
                     'mname' => $member->name ?? '',
@@ -73,7 +73,7 @@ class FresnsNotifiesResource extends BaseAdminResource
                     'decorate' => ApiFileHelper::getImageSignUrlByFileIdUrl($member->decorate_file_id, $member->decorate_file_url),
                     'verifiedStatus' => $member->verified_status ?? 1,
                     'verifiedIcon' => ApiFileHelper::getImageSignUrlByFileIdUrl($member->verified_file_id, $member->verified_file_url),
-            ];
+                ];
         }
         $sourceBrief = $this->source_brief;
         $accessUrl = $this->access_url;

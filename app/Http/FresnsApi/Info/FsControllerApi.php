@@ -484,7 +484,7 @@ class FsControllerApi extends FresnsBaseApiController
                     $this->error(ErrorCodeService::FILE_EXIST_ERROR);
                 }
                 // Query the log table id corresponding to the main table
-                $postLogsIdArr = FresnsPostLogs::where('post_id',$typeData['id'])->pluck('id')->toArray();
+                $postLogsIdArr = FresnsPostLogs::where('post_id', $typeData['id'])->pluck('id')->toArray();
                 // dd($typeData);
                 $files = FresnsFiles::where('uuid', $fid)->where('table_name', FresnsPostLogsConfig::CFG_TABLE)->whereIn('table_id', $postLogsIdArr)->first();
                 if (empty($files)) {
@@ -509,7 +509,7 @@ class FsControllerApi extends FresnsBaseApiController
                     $this->error(ErrorCodeService::FILE_EXIST_ERROR);
                 }
                 // Query the log table id corresponding to the main table
-                $commentLogsIdArr = FresnsCommentLogs::where('post_id',$typeData['id'])->pluck('id')->toArray();
+                $commentLogsIdArr = FresnsCommentLogs::where('post_id', $typeData['id'])->pluck('id')->toArray();
                 $files = FresnsFiles::where('uuid', $fid)->where('table_name', FresnsCommentLogsConfig::CFG_TABLE)->whereIn('table_id', $commentLogsIdArr)->first();
                 if (empty($files)) {
                     $this->error(ErrorCodeService::FILE_EXIST_ERROR);
@@ -535,7 +535,7 @@ class FsControllerApi extends FresnsBaseApiController
 
         $roleId = FresnsMemberRoleRelsService::getMemberRoleRels($mid);
         $permission = FresnsMemberRoles::where('id', $roleId)->value('permission');
-        if(empty($permission)){
+        if (empty($permission)) {
             $this->error(ErrorCodeService::ROLE_NO_CONFIG_ERROR);
         }
         $permissionArr = json_decode($permission, true);
@@ -545,14 +545,14 @@ class FsControllerApi extends FresnsBaseApiController
         }
         $downloadFileCount = $permissionMap['download_file_count'];
         // Calculate whether the maximum number of downloads has been reached in the last 24 hours
-        $start = date('Y-m-d H:i:s',strtotime("-1 day"));
-        $end = date('Y-m-d H:i:s',time());
-        $logCount = FresnsFileLogs::where('user_id',$uid)->where('member_id',$mid)->where('created_at','>=',$start)->where('created_at','<=',$end)->count();
-        if($logCount >= $downloadFileCount){
+        $start = date('Y-m-d H:i:s', strtotime('-1 day'));
+        $end = date('Y-m-d H:i:s', time());
+        $logCount = FresnsFileLogs::where('user_id', $uid)->where('member_id', $mid)->where('created_at', '>=', $start)->where('created_at', '<=', $end)->count();
+        if ($logCount >= $downloadFileCount) {
             $this->error(ErrorCodeService::ROLE_DOWNLOAD_ERROR);
         }
 
-        $files = FresnsFiles::where('uuid', $fid)->first(); 
+        $files = FresnsFiles::where('uuid', $fid)->first();
         $uuid = $files['uuid'];
         // If the checksum passes, populate the file_logs table with records
         $input = [
@@ -626,10 +626,9 @@ class FsControllerApi extends FresnsBaseApiController
                 break;
         }
 
-
         $data['downloadUrl'] = $downloadUrl;
-        if($status == false || empty($originalUrl)){
-            $originalUrl = $domain . FresnsFileAppends::where('file_id', $files['id'])->value('file_original_path');
+        if ($status == false || empty($originalUrl)) {
+            $originalUrl = $domain.FresnsFileAppends::where('file_id', $files['id'])->value('file_original_path');
         }
         $data['originalUrl'] = $originalUrl;
 
