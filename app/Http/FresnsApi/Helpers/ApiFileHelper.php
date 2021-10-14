@@ -230,7 +230,8 @@ class ApiFileHelper
         $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
         if (CmdRpcHelper::isErrorCmdResp($resp)) {
             $domain = ApiConfigHelper::getConfigByItemKey('images_bucket_domain');
-            return $domain . $file['file_path'];
+
+            return $domain.$file['file_path'];
         }
         $singUrl = $resp['output']['imageDefaultUrl'];
 

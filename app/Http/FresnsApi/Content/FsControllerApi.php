@@ -47,6 +47,7 @@ use App\Http\FresnsDb\FresnsPluginBadges\FresnsPluginBadges;
 use App\Http\FresnsDb\FresnsPlugins\FresnsPlugins as pluginUnikey;
 use App\Http\FresnsDb\FresnsPluginUsages\FresnsPluginUsages;
 use App\Http\FresnsDb\FresnsPluginUsages\FresnsPluginUsagesService;
+use App\Http\FresnsDb\FresnsPostAppends\FresnsPostAppends;
 use App\Http\FresnsDb\FresnsPostMembers\FresnsPostMembersService;
 use App\Http\FresnsDb\FresnsPosts\FresnsPosts;
 use App\Http\FresnsDb\FresnsPosts\FresnsPostsConfig;
@@ -54,7 +55,6 @@ use App\Http\FresnsDb\FresnsPosts\FresnsPostsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
-use App\Http\FresnsDb\FresnsPostAppends\FresnsPostAppends;
 
 class FsControllerApi extends FresnsBaseApiController
 {
@@ -623,7 +623,7 @@ class FsControllerApi extends FresnsBaseApiController
             $request->offsetSet('searchType', '');
         }
         // Filter Table
-        $idArr = FresnsPostAppends::whereIn('post_id',$idArr)->pluck('post_id')->toArray();
+        $idArr = FresnsPostAppends::whereIn('post_id', $idArr)->pluck('post_id')->toArray();
         $ids = implode(',', $idArr);
 
         $page = $request->input('page', 1);

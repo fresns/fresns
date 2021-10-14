@@ -162,8 +162,8 @@ class FresnsPostsResource extends BaseAdminResource
         $timeFormat = DateHelper::format_date_langTag(strtotime($this->created_at));
         // $editTime = $this->latest_edit_at;
         $editTime = DateHelper::fresnsOutputTimeToTimezone($this->latest_edit_at);
-        $editTimeFormat = NULL;
-        if(!empty($editTime)){
+        $editTimeFormat = null;
+        if (! empty($editTime)) {
             $editTimeFormat = DateHelper::format_date_langTag(strtotime($this->latest_edit_at));
         }
         $allowStatus = $this->is_allow;
@@ -806,28 +806,28 @@ class FresnsPostsResource extends BaseAdminResource
         // Hashtag
         $hashtagShow = ApiConfigHelper::getConfigByItemKey('hashtag_show') ?? 2;
         // Find if a post has a related hashtag
-        $postHash = FresnsHashtagLinkeds::where('linked_type',$postType)->where('linked_id',$postId)->pluck('hashtag_id')->toArray();
-        if($postHash){
-            foreach($postHash as $p){
+        $postHash = FresnsHashtagLinkeds::where('linked_type', $postType)->where('linked_id', $postId)->pluck('hashtag_id')->toArray();
+        if ($postHash) {
+            foreach ($postHash as $p) {
                 // Get hashtag information
                 $hashTagInfo = FresnsHashtags::find($p);
-                if($hashTagInfo){
-                    $onehashName = '#' . $hashTagInfo['name'];
-                    $twohashName = '#' . $hashTagInfo['name'] . '#';
-                    $findCount = strpos($content,$twohashName);
+                if ($hashTagInfo) {
+                    $onehashName = '#'.$hashTagInfo['name'];
+                    $twohashName = '#'.$hashTagInfo['name'].'#';
+                    $findCount = strpos($content, $twohashName);
                     $jumpUrl = ApiConfigHelper::getConfigByItemKey(FsConfig::SITE_DOMAIN)."/hashtag/{$hashTagInfo['slug']}";
-                    if($hashtagShow == 1){
-                        if($findCount !== false){
-                            $content = str_replace($twohashName,"<a href='{$jumpUrl}' class='fresns_content_hashtag'>$onehashName</a>", $content);
-                        }else{
-                            $content = str_replace($onehashName,"<a href='{$jumpUrl}' class='fresns_content_hashtag'>$onehashName</a>", $content);
+                    if ($hashtagShow == 1) {
+                        if ($findCount !== false) {
+                            $content = str_replace($twohashName, "<a href='{$jumpUrl}' class='fresns_content_hashtag'>$onehashName</a>", $content);
+                        } else {
+                            $content = str_replace($onehashName, "<a href='{$jumpUrl}' class='fresns_content_hashtag'>$onehashName</a>", $content);
                         }
-                    }else{
-                        if($findCount !== false){
-                            $content = str_replace($twohashName,"<a href='{$jumpUrl}' class='fresns_content_hashtag'>$twohashName</a>", $content);
-                        }else{
-                            $onehashNameNotrim = '#' . $hashTagInfo['name'] . ' ';
-                            $content = str_replace($onehashNameNotrim,"<a href='{$jumpUrl}' class='fresns_content_hashtag'>$twohashName</a>", $content);
+                    } else {
+                        if ($findCount !== false) {
+                            $content = str_replace($twohashName, "<a href='{$jumpUrl}' class='fresns_content_hashtag'>$twohashName</a>", $content);
+                        } else {
+                            $onehashNameNotrim = '#'.$hashTagInfo['name'].' ';
+                            $content = str_replace($onehashNameNotrim, "<a href='{$jumpUrl}' class='fresns_content_hashtag'>$twohashName</a>", $content);
                         }
                     }
                 }
