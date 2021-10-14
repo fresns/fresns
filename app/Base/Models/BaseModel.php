@@ -151,7 +151,7 @@ class BaseModel extends Model
         if ($this->canDelete($idArr)) {
             $this->hookDestroyBefore($idArr);
             self::whereIn('id', $idArr)->delete();
-            $this->updateDestroyUserId($idArr);
+            // $this->updateDestroyUserId($idArr);
         }
     }
 

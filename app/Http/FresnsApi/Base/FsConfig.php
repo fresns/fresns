@@ -81,7 +81,6 @@ class FsConfig
     // uid required
     const PUBLIC_UID_URI_ARR = [
         '/api/fresns/info/downloadFile',
-        '/api/fresns/info/overview',
         '/api/fresns/user/logout',
         '/api/fresns/user/delete',
         '/api/fresns/user/restore',
@@ -119,7 +118,6 @@ class FsConfig
     // mid required
     const PUBLIC_MID_URI_ARR = [
         '/api/fresns/info/downloadFile',
-        '/api/fresns/info/overview',
         '/api/fresns/member/edit',
         '/api/fresns/member/mark',
         '/api/fresns/member/delete',
@@ -149,7 +147,6 @@ class FsConfig
     // token required
     const PUBLIC_TOKEN_URI_ARR = [
         '/api/fresns/info/downloadFile',
-        '/api/fresns/info/overview',
         '/api/fresns/user/logout',
         '/api/fresns/user/delete',
         '/api/fresns/user/restore',
@@ -205,7 +202,6 @@ class FsConfig
     // uid required
     const PRIVATE_UID_URI_ARR = [
         '/api/fresns/info/extensions',
-        '/api/fresns/info/overview',
         '/api/fresns/info/emojis',
         '/api/fresns/info/stopWords',
         '/api/fresns/info/inputTips',
@@ -262,7 +258,6 @@ class FsConfig
     // mid required
     const PRIVATE_MID_URI_ARR = [
         '/api/fresns/info/extensions',
-        '/api/fresns/info/overview',
         '/api/fresns/info/emojis',
         '/api/fresns/info/stopWords',
         '/api/fresns/info/inputTips',
@@ -311,7 +306,6 @@ class FsConfig
     // Site Mode = private
     // token required
     const PRIVATE_TOKEN_URI_ARR = [
-        '/api/fresns/info/overview',
         '/api/fresns/info/extensions',
         '/api/fresns/info/emojis',
         '/api/fresns/info/stopWords',

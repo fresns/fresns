@@ -100,7 +100,7 @@ class FresnsBaseApiController extends BaseApiController
                     $info = [
                         'missing header' => 'uid',
                     ];
-                    $this->error(ErrorCodeService::HEADER_ERROR, $info);
+                    $this->error(ErrorCodeService::UID_REQUIRED_ERROR, $info);
                 }
             }
 
@@ -109,7 +109,7 @@ class FresnsBaseApiController extends BaseApiController
                     $info = [
                         'missing header' => 'mid',
                     ];
-                    $this->error(ErrorCodeService::HEADER_ERROR, $info);
+                    $this->error(ErrorCodeService::MID_REQUIRED_ERROR, $info);
                 }
             }
             if (empty($token)) {
@@ -118,7 +118,7 @@ class FresnsBaseApiController extends BaseApiController
                         'missing header' => 'token',
                     ];
 
-                    $this->error(ErrorCodeService::HEADER_ERROR, $info);
+                    $this->error(ErrorCodeService::TOKEN_REQUIRED_ERROR, $info);
                 }
             }
             if (empty($deviceInfo)) {
@@ -126,7 +126,7 @@ class FresnsBaseApiController extends BaseApiController
                     $info = [
                         'missing header' => 'deviceInfo',
                     ];
-                    $this->error(ErrorCodeService::HEADER_ERROR, $info);
+                    $this->error(ErrorCodeService::DEVICE_INFO_REQUIRED_ERROR, $info);
                 }
             }
         } else {
@@ -136,7 +136,7 @@ class FresnsBaseApiController extends BaseApiController
                         'missing header' => 'uid',
                     ];
 
-                    $this->error(ErrorCodeService::HEADER_ERROR, $info);
+                    $this->error(ErrorCodeService::UID_REQUIRED_ERROR, $info);
                 }
             }
 
@@ -146,7 +146,7 @@ class FresnsBaseApiController extends BaseApiController
                         'missing header' => 'mid',
                     ];
 
-                    $this->error(ErrorCodeService::HEADER_ERROR, $info);
+                    $this->error(ErrorCodeService::MID_REQUIRED_ERROR, $info);
                 }
             }
             if (empty($token)) {
@@ -155,7 +155,7 @@ class FresnsBaseApiController extends BaseApiController
                         'missing header' => 'token',
                     ];
 
-                    $this->error(ErrorCodeService::HEADER_ERROR, $info);
+                    $this->error(ErrorCodeService::TOKEN_REQUIRED_ERROR, $info);
                 }
             }
             if (empty($deviceInfo)) {
@@ -164,7 +164,7 @@ class FresnsBaseApiController extends BaseApiController
                         'missing header' => 'deviceInfo',
                     ];
 
-                    $this->error(ErrorCodeService::HEADER_ERROR, $info);
+                    $this->error(ErrorCodeService::DEVICE_INFO_REQUIRED_ERROR, $info);
                 }
             }
         }
@@ -176,7 +176,7 @@ class FresnsBaseApiController extends BaseApiController
                 $info = [
                     'deviceInfo' => 'Please pass the reference in json format',
                 ];
-                $this->error(ErrorCodeService::HEADER_INFO_ERROR, $info);
+                $this->error(ErrorCodeService::DEVICE_INFO_ERROR, $info);
             }
         }
 
@@ -190,7 +190,7 @@ class FresnsBaseApiController extends BaseApiController
                         'missing header' => 'token',
                     ];
 
-                    $this->error(ErrorCodeService::HEADER_ERROR, $info);
+                    $this->error(ErrorCodeService::TOKEN_REQUIRED_ERROR, $info);
                 }
                 if (in_array($uri, FsConfig::CHECK_USER_DELETE_URI)) {
                     $user = DB::table(FresnsUsersConfig::CFG_TABLE)->where('uuid', $uid)->first();
