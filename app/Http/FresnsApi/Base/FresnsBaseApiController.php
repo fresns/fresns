@@ -48,7 +48,7 @@ class FresnsBaseApiController extends BaseApiController
 
     // Check Info: Header and Sign (true or false)
     public $checkHeader = true;
-    public $checkSign = false;
+    public $checkSign = true;
 
     public function __construct()
     {
