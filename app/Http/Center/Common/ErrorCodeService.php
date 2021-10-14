@@ -37,14 +37,16 @@ class ErrorCodeService
     const HEADER_PLATFORM_ERROR = 30104;
     const HEADER_APP_ID_ERROR = 30105;
     const HEADER_KEY_ERROR = 30106;
-    const LOGIN_ERROR = 30107;
-    const UID_REQUIRED_ERROR = 30108;
-    const MID_REQUIRED_ERROR = 30109;
-    const USER_CHECK_ERROR = 30110;
-    const MEMBER_CHECK_ERROR = 30111;
-    const USER_TOKEN_ERROR = 30112;
-    const MEMBER_TOKEN_ERROR = 30113;
-    const TOKEN_IS_ENABLE_ERROR = 30114;
+    const UID_REQUIRED_ERROR = 30107;
+    const MID_REQUIRED_ERROR = 30108;
+    const TOKEN_REQUIRED_ERROR = 30109;
+    const DEVICE_INFO_REQUIRED_ERROR = 30110;
+    const USER_CHECK_ERROR = 30111;
+    const MEMBER_CHECK_ERROR = 30112;
+    const USER_TOKEN_ERROR = 30113;
+    const MEMBER_TOKEN_ERROR = 30114;
+    const TOKEN_IS_ENABLE_ERROR = 30115;
+    const DEVICE_INFO_ERROR = 30116;
 
     // User
     const REGISTER_EMAIL_ERROR = 30200;
@@ -238,14 +240,16 @@ class ErrorCodeService
         self::HEADER_PLATFORM_ERROR             => 'Platform ID not exist',
         self::HEADER_APP_ID_ERROR               => 'App ID not exist',
         self::HEADER_KEY_ERROR                  => 'The key does not have the right to request for the interface',
-        self::LOGIN_ERROR                       => 'Not logged in, not authorized to operate',
         self::UID_REQUIRED_ERROR                => 'UID Required',
         self::MID_REQUIRED_ERROR                => 'MID Required',
+        self::TOKEN_REQUIRED_ERROR              => 'Token Required',
+        self::DEVICE_INFO_REQUIRED_ERROR        => 'Device Info Required',
         self::USER_CHECK_ERROR                  => 'Wrong user or record not exist',
         self::MEMBER_CHECK_ERROR                => 'Wrong member or record not exist',
         self::USER_TOKEN_ERROR                  => 'User token error',
         self::MEMBER_TOKEN_ERROR                => 'Member token error',
         self::TOKEN_IS_ENABLE_ERROR             => 'The token not enabled',
+        self::DEVICE_INFO_ERROR                 => 'Wrong format of device information',
 
         // User
         self::REGISTER_EMAIL_ERROR              => 'Registration with E-mail not supported',
