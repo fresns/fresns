@@ -151,9 +151,14 @@ class FresnsPostsResourceDetail extends BaseAdminResource
         $commentCount = $this->comment_count;
         $commentLikeCount = $this->comment_like_count;
         $time = DateHelper::fresnsOutputTimeToTimezone($this->created_at);
-        $timeFormat = DateHelper::format_date_langTag(strtotime($time));
+        // $time = $this->created_at;
+        $timeFormat = DateHelper::format_date_langTag(strtotime($this->created_at));
+        // $editTime = $this->latest_edit_at;
         $editTime = DateHelper::fresnsOutputTimeToTimezone($this->latest_edit_at);
-        $editTimeFormat = DateHelper::format_date_langTag(strtotime($editTime));
+        $editTimeFormat = NULL;
+        if(!empty($editTime)){
+            $editTimeFormat = DateHelper::format_date_langTag(strtotime($this->latest_edit_at));
+        }
         $canDelete = $append['can_delete'];
         $allowStatus = $this->is_allow;
         $allowBtnName = ApiLanguageHelper::getLanguagesByTableId(FresnsPostsConfig::CFG_TABLE, 'allow_btn_name', $this->id);
@@ -162,7 +167,7 @@ class FresnsPostsResourceDetail extends BaseAdminResource
         $memberListCount = Db::table('post_members')->where('post_id', $this->id)->count();
         $member = [];
         $member['anonymous'] = $this->is_anonymous;
-        $member['deactivate'] = false;
+        $member['deactivate'] = false; //Not deactivated = false, Deactivated = true
         $member['mid'] = '';
         $member['mname'] = '';
         $member['nickname'] = '';
@@ -172,22 +177,22 @@ class FresnsPostsResourceDetail extends BaseAdminResource
         $member['roleIcon'] = '';
         $member['roleIconDisplay'] = '';
         $member['avatar'] = $memberInfo->avatar_file_url ?? '';
-
-        // Default avatar when members have no avatar
+        // Default Avatar
         if (empty($member['avatar_file_url'])) {
             $defaultIcon = ApiConfigHelper::getConfigByItemKey(FsConfig::DEFAULT_AVATAR);
             $member['avatar'] = $defaultIcon;
         }
-        // Anonymous content for avatar
+        // Anonymous Avatar
         if ($this->is_anonymous == 1) {
             $anonymousAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::ANONYMOUS_AVATAR);
             $member['avatar'] = $anonymousAvatar;
         }
-        // The avatar displayed when a member has been deleted
+        // Deactivate Avatar
         if ($memberInfo) {
             if ($memberInfo->deleted_at != null) {
                 $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::DEACTIVATE_AVATAR);
                 $member['avatar'] = $deactivateAvatar;
+                $member['deactivate'] = true;
             }
         } else {
             $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::DEACTIVATE_AVATAR);

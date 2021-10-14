@@ -212,9 +212,9 @@ class ApiFileHelper
             $input['fid'] = $uuid;
             $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
             if (CmdRpcHelper::isErrorCmdResp($resp)) {
-                return false;
+                return $url;
             }
-            $singUrl = $resp['output']['imageBigUrl'];
+            $singUrl = $resp['output']['imageDefaultUrl'];
         }
 
         return $singUrl;
@@ -223,14 +223,16 @@ class ApiFileHelper
     // Get image link by fid
     public static function getImageSignUrlByFileId($fileId)
     {
-        $uuid = FresnsFiles::where('id', $fileId)->value('uuid');
+        $file = FresnsFiles::where('id', $fileId)->first();
+        $uuid = $file['uuid'];
         $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_IMAGE;
         $input['fid'] = $uuid;
         $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
         if (CmdRpcHelper::isErrorCmdResp($resp)) {
-            return false;
+            $domain = ApiConfigHelper::getConfigByItemKey('images_bucket_domain');
+            return $domain . $file['file_path'];
         }
-        $singUrl = $resp['output']['imageBigUrl'];
+        $singUrl = $resp['output']['imageDefaultUrl'];
 
         return $singUrl;
     }
@@ -255,7 +257,7 @@ class ApiFileHelper
                 return false;
             }
 
-            return $resp['output']['imageBigUrl'];
+            return $resp['output']['imageDefaultUrl'];
         } else {
             return $fileUrl;
         }

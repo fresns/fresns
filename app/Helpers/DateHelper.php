@@ -220,29 +220,28 @@ class DateHelper
         if (empty($langInfo)) {
             return '';
         }
-        $t = time() - $time;
-        $f = [
-            '2592000' => 'month',
-            '86400' => 'day',
-            '3600' => 'hour',
-            '60' => 'minute',
-        ];
-        foreach ($f as $k=>$v) {
-            if (0 != $c = floor($t / (int) $k)) {
-                // return $c.$v.'ago';
-                if ($v == 'minute') {
-                    return str_replace('{n}', $c, $langInfo['timeFormatMinute']);
-                }
-                if ($v == 'hour') {
-                    return str_replace('{n}', $c, $langInfo['timeFormatHour']);
-                }
-                if ($v == 'day') {
-                    return str_replace('{n}', $c, $langInfo['timeFormatDay']);
-                }
-                if ($v == 'month') {
-                    return str_replace('{n}', $c, $langInfo['timeFormatMonth']);
-                }
-            }
+        // $date1 = $request->input('date1');
+        // $date2 = $request->input('date2');
+
+        $carbon1 = Carbon::parse($time);
+        $carbon2 = Carbon::parse(time());
+
+        $min = $carbon2->diffInMinutes($carbon1, true);
+        $hour = $carbon2->diffInHours($carbon1, true);
+        $day = $carbon2->diffInDays($carbon1, true);
+        $month = $carbon2->diffInMonths($carbon1, true);
+
+        if ($month > 0) {
+            return str_replace('{n}', $month, $langInfo['timeFormatMonth']);
+        }
+        if ($day) {
+            return str_replace('{n}', $day, $langInfo['timeFormatDay']);
+        }
+        if ($hour) {
+            return str_replace('{n}', $hour, $langInfo['timeFormatHour']);
+        }
+        if ($min) {
+            return str_replace('{n}', $min, $langInfo['timeFormatMinute']);
         }
     }
 }

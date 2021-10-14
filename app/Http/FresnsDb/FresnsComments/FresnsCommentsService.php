@@ -669,7 +669,7 @@ class FresnsCommentsService extends FsService
         if ($hashtagShow == 1) {
             preg_match_all("/#.*?\s/", $draftComment['content'], $singlePoundMatches);
         } else {
-            preg_match_all('/#.*?#/', $draftComment['content'], $singlePoundMatches);
+            preg_match_all('/#[\S].*?[\S]#/', $draftComment['content'], $singlePoundMatches);
         }
         if ($type == 2) {
             // Removing Hashtag Associations
@@ -680,7 +680,28 @@ class FresnsCommentsService extends FsService
         }
 
         if ($singlePoundMatches[0]) {
+
             foreach ($singlePoundMatches[0] as $s) {
+                // Double #: single space allowed in between (no consecutive spaces)
+                if($hashtagShow == 2){
+                    preg_match_all("/\s(?=\s)/", $s, $spaceMatchArr);
+                    if(count($spaceMatchArr) > 0  && is_array($spaceMatchArr[0]) && count($spaceMatchArr[0]) > 0){
+                        continue;
+                    }
+                }
+                // Hashtag do not support punctuation
+                // English punctuation
+                $topic = trim($s, "#");
+                $removePunctEnglish = preg_replace("#[[:punct:]]#", "", $topic);
+                $data['topic_a'] = $topic;
+                if(strlen($topic) != strlen($removePunctEnglish)){
+                    continue;
+                }
+                // Chinese punctuation
+                $removePunctChinese = str_replace(['？', '，'], '', $topic);
+                if(strlen($topic) != strlen($removePunctChinese)){
+                    continue;
+                }
                 // Remove the # sign from Hashtag
                 $s = trim(str_replace('#', '', $s));
                 // Existence of Hashtag
@@ -749,7 +770,7 @@ class FresnsCommentsService extends FsService
         if ($hashtagShow == 1) {
             preg_match("/#.*?\s/", $content, $singlePoundMatches, PREG_OFFSET_CAPTURE);
         } else {
-            preg_match('/#.*?#/', $content, $singlePoundMatches, PREG_OFFSET_CAPTURE);
+            preg_match('/#[\S].*?[\S]#/', $content, $singlePoundMatches, PREG_OFFSET_CAPTURE);
         }
         /**
          * preg_match("/<a .*?>.*?<\/a>/",$content,$hrefMatches,PREG_OFFSET_CAPTURE);.

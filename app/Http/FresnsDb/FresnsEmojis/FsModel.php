@@ -26,6 +26,15 @@ class FsModel extends BaseAdminModel
         return FsConfig::ADDED_SEARCHABLE_FIELDS;
     }
 
+    public function initOrderByFields()
+    {
+        $orderByFields = [
+            'rank_num' => 'ASC',
+        ];
+
+        return $orderByFields;
+    }
+
     // hook - after adding
     public function hookStoreAfter($id)
     {

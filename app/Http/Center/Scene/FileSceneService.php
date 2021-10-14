@@ -239,4 +239,113 @@ class FileSceneService extends BaseService
 
         return implode(DIRECTORY_SEPARATOR, $suffixArr);
     }
+
+    // Official file storage path
+    public static function getFormalEditorPath($options)
+    {
+        $t = time();
+        $ym = date('Ym', $t);
+        $day = date('d', $t);
+        $suffixArr = [];
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_1 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_1) {
+            $suffixArr = ['mores'];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_1 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_2) {
+            $suffixArr = ['configs', 'system'];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_1 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_3) {
+            $suffixArr = ['configs', 'operating'];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_1 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_4) {
+            $suffixArr = ['configs', 'emojis'];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_1 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_5) {
+            $suffixArr = ['configs', 'member'];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_1 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_6) {
+            $suffixArr = ['avatars', $ym, $day];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_1 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_7) {
+            $suffixArr = ['images', 'dialogs', $ym, $day];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_1 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_8) {
+            $suffixArr = ['images', 'posts', $ym, $day];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_1 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_9) {
+            $suffixArr = ['images', 'comments', $ym, $day];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_1 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_10) {
+            $suffixArr = ['images', 'extends', $ym, $day];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_1 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_11) {
+            $suffixArr = ['images', 'plugins', $ym, $day];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_2 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_7) {
+            $suffixArr = ['videos', 'dialogs', $ym, $day];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_2 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_8) {
+            $suffixArr = ['videos', 'posts', $ym, $day];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_2 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_9) {
+            $suffixArr = ['videos', 'comments', $ym, $day];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_2 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_10) {
+            $suffixArr = ['videos', 'extends', $ym, $day];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_2 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_11) {
+            $suffixArr = ['videos', 'plugins', $ym, $day];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_3 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_7) {
+            $suffixArr = ['audios', 'dialogs', $ym, $day];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_3 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_8) {
+            $suffixArr = ['audios', 'posts', $ym, $day];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_3 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_9) {
+            $suffixArr = ['audios', 'comments', $ym, $day];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_3 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_10) {
+            $suffixArr = ['audios', 'extends', $ym, $day];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_3 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_11) {
+            $suffixArr = ['audios', 'plugins', $ym, $day];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_4 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_7) {
+            $suffixArr = ['docs', 'dialogs', $ym, $day];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_4 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_8) {
+            $suffixArr = ['docs', 'posts', $ym, $day];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_4 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_9) {
+            $suffixArr = ['docs', 'comments', $ym, $day];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_4 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_10) {
+            $suffixArr = ['docs', 'extends', $ym, $day];
+        }
+        if ($options['file_type'] == FileSceneConfig::FILE_TYPE_4 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_11) {
+            $suffixArr = ['docs', 'plugins', $ym, $day];
+        }
+
+        if (empty($suffixArr)) {
+            // Test Path /avatars/{YYYYMM}/{DD}
+            $suffixArr = ['avatars', $ym, $day];
+        }
+
+        $basePathArr = [
+            base_path(),
+            'storage', 'app', 'public',
+        ];
+        $realPath = implode(DIRECTORY_SEPARATOR, array_merge($basePathArr, $suffixArr));
+        // Create a directory
+        if (! FileHelper::assetDir($realPath)) {
+            LogService::error('Failed to create a directory:', $realPath);
+
+            return false;
+        }
+
+        // Spliced as:
+        // array_unshift($suffixArr, 'public');
+
+        return implode(DIRECTORY_SEPARATOR, $suffixArr);
+    }
 }

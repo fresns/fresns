@@ -158,9 +158,14 @@ class FresnsPostsResource extends BaseAdminResource
         $commentCount = $this->comment_count;
         $commentLikeCount = $this->comment_like_count;
         $time = DateHelper::fresnsOutputTimeToTimezone($this->created_at);
-        $timeFormat = DateHelper::format_date_langTag(strtotime($time));
+        // $time = $this->created_at;
+        $timeFormat = DateHelper::format_date_langTag(strtotime($this->created_at));
+        // $editTime = $this->latest_edit_at;
         $editTime = DateHelper::fresnsOutputTimeToTimezone($this->latest_edit_at);
-        $editTimeFormat = DateHelper::format_date_langTag(strtotime($editTime));
+        $editTimeFormat = NULL;
+        if(!empty($editTime)){
+            $editTimeFormat = DateHelper::format_date_langTag(strtotime($this->latest_edit_at));
+        }
         $allowStatus = $this->is_allow;
         $allowBtnName = ApiLanguageHelper::getLanguagesByTableId(FresnsPostsConfig::CFG_TABLE, 'allow_btn_name', $this->id);
         $allowBtnUrl = $append['allow_plugin_unikey'] ?? '';
@@ -168,7 +173,7 @@ class FresnsPostsResource extends BaseAdminResource
         $memberListCount = Db::table('post_members')->where('post_id', $this->id)->count();
         $member = [];
         $member['anonymous'] = $this->is_anonymous;
-        $member['deactivate'] = false;
+        $member['deactivate'] = false; //Not deactivated = false, Deactivated = true
         $member['mid'] = '';
         $member['mname'] = '';
         $member['nickname'] = '';
@@ -178,29 +183,26 @@ class FresnsPostsResource extends BaseAdminResource
         $member['roleIcon'] = '';
         $member['roleIconDisplay'] = '';
         $member['avatar'] = $memberInfo->avatar_file_url ?? '';
-
-        // Default avatar when members have no avatar
+        // Default Avatar
         if (empty($member['avatar'])) {
             $defaultIcon = ApiConfigHelper::getConfigByItemKey(FsConfig::DEFAULT_AVATAR);
             $member['avatar'] = $defaultIcon;
         }
-        // Anonymous content for avatar
+        // Anonymous Avatar
         if ($this->is_anonymous == 1) {
             $anonymousAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::ANONYMOUS_AVATAR);
             $member['avatar'] = $anonymousAvatar;
         }
-        // The avatar displayed when a member has been deleted
-        $member['deactivate'] = true;
+        // Deactivate Avatar
         if ($memberInfo) {
             if ($memberInfo->deleted_at != null) {
                 $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::DEACTIVATE_AVATAR);
                 $member['avatar'] = $deactivateAvatar;
-                $member['deactivate'] = false;
+                $member['deactivate'] = true;
             }
         } else {
             $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::DEACTIVATE_AVATAR);
             $member['avatar'] = $deactivateAvatar;
-            $member['deactivate'] = true;
         }
         $member['avatar'] = ApiFileHelper::getImageSignUrl($member['avatar']);
 
@@ -213,6 +215,7 @@ class FresnsPostsResource extends BaseAdminResource
         if ($this->is_anonymous == 0) {
             if ($memberInfo->deleted_at == null && $memberInfo) {
                 $member['anonymous'] = $this->is_anonymous;
+                $member['deactivate'] = false;
                 $member['mid'] = $memberInfo->uuid ?? '';
                 $member['mname'] = $memberInfo->name ?? '';
                 $member['nickname'] = $memberInfo->nickname ?? '';
@@ -802,24 +805,30 @@ class FresnsPostsResource extends BaseAdminResource
 
         // Hashtag
         $hashtagShow = ApiConfigHelper::getConfigByItemKey('hashtag_show') ?? 2;
-        if ($hashtagShow == 1) {
-            preg_match_all("/#.*?\s/", $content, $singlePoundMatches);
-        } else {
-            preg_match_all('/#.*?#/', $content, $singlePoundMatches);
-        }
-        if ($singlePoundMatches[0]) {
-            foreach ($singlePoundMatches[0] as $s) {
-                // no trim hashtag
-                $noTrimHashTags = rtrim($s);
-                $hashTags = trim(str_replace('#', '', $s));
-                $hashtagsInfo = FresnsHashtags::where('name', $hashTags)->first();
-                // hashtag info
-                if ($hashtagsInfo) {
-                    $jumpUrl = ApiConfigHelper::getConfigByItemKey(FsConfig::SITE_DOMAIN)."/hashtag/{$hashtagsInfo['slug']}";
-                    if ($hashtagShow == 1) {
-                        $content = str_replace($s, "<a href='{$jumpUrl}' class='fresns_content_hashtag'>$noTrimHashTags</a> ", $content);
-                    } else {
-                        $content = str_replace($s, "<a href='{$jumpUrl}' class='fresns_content_hashtag'>$s</a>", $content);
+        // Find if a post has a related hashtag
+        $postHash = FresnsHashtagLinkeds::where('linked_type',$postType)->where('linked_id',$postId)->pluck('hashtag_id')->toArray();
+        if($postHash){
+            foreach($postHash as $p){
+                // Get hashtag information
+                $hashTagInfo = FresnsHashtags::find($p);
+                if($hashTagInfo){
+                    $onehashName = '#' . $hashTagInfo['name'];
+                    $twohashName = '#' . $hashTagInfo['name'] . '#';
+                    $findCount = strpos($content,$twohashName);
+                    $jumpUrl = ApiConfigHelper::getConfigByItemKey(FsConfig::SITE_DOMAIN)."/hashtag/{$hashTagInfo['slug']}";
+                    if($hashtagShow == 1){
+                        if($findCount !== false){
+                            $content = str_replace($twohashName,"<a href='{$jumpUrl}' class='fresns_content_hashtag'>$onehashName</a>", $content);
+                        }else{
+                            $content = str_replace($onehashName,"<a href='{$jumpUrl}' class='fresns_content_hashtag'>$onehashName</a>", $content);
+                        }
+                    }else{
+                        if($findCount !== false){
+                            $content = str_replace($twohashName,"<a href='{$jumpUrl}' class='fresns_content_hashtag'>$twohashName</a>", $content);
+                        }else{
+                            $onehashNameNotrim = '#' . $hashTagInfo['name'] . ' ';
+                            $content = str_replace($onehashNameNotrim,"<a href='{$jumpUrl}' class='fresns_content_hashtag'>$twohashName</a>", $content);
+                        }
                     }
                 }
             }

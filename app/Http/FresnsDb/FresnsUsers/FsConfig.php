@@ -20,6 +20,10 @@ class FsConfig extends BaseConfig
 
     ];
 
+    // Wallet Type
+    const PLUGIN_USAGERS_TYPE_1 = 1;
+    const PLUGIN_USAGERS_TYPE_2 = 2;
+
     // Model Usage - Form Mapping
     const FORM_FIELDS_MAP = [
         'id' => 'id',
