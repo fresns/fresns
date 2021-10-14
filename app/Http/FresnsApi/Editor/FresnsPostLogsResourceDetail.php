@@ -13,10 +13,10 @@ use App\Http\FresnsApi\Helpers\ApiFileHelper;
 use App\Http\FresnsApi\Helpers\ApiLanguageHelper;
 use App\Http\FresnsDb\FresnsExtends\FresnsExtends;
 use App\Http\FresnsDb\FresnsExtends\FresnsExtendsConfig;
+use App\Http\FresnsDb\FresnsGroups\FresnsGroups;
 use App\Http\FresnsDb\FresnsPlugins\FresnsPluginsService;
 use App\Http\FresnsDb\FresnsPostLogs\FresnsPostLogsConfig;
 use App\Http\FresnsDb\FresnsPosts\FresnsPosts;
-use App\Http\FresnsDb\FresnsGroups\FresnsGroups;
 
 /**
  * Detail resource config handle.
