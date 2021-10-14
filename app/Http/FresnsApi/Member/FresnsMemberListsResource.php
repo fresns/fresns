@@ -81,8 +81,23 @@ class FresnsMemberListsResource extends BaseAdminResource
         }
         $memberStats = FresnsMemberStats::where('member_id', $this->id)->first();
         $stats['likeMemberCount'] = $memberStats['like_member_count'] ?? 0;
+        $stats['likeGroupCount'] = $memberStats['like_group_count'] ?? 0;
+        $stats['likeHashtagCount'] = $memberStats['like_hashtag_count'] ?? 0;
+        $stats['likePostCount'] = $memberStats['like_post_count'] ?? 0;
+        $stats['likeCommentCount'] = $memberStats['like_comment_count'] ?? 0;
         $stats['followMemberCount'] = $memberStats['follow_member_count'] ?? 0;
+        $stats['followGroupCount'] = $memberStats['follow_group_count'] ?? 0;
+        $stats['followHashtagCount'] = $memberStats['follow_hashtag_count'] ?? 0;
+        $stats['followPostCount'] = $memberStats['follow_post_count'] ?? 0;
+        $stats['followCommentCount'] = $memberStats['follow_comment_count'] ?? 0;
         $stats['shieldMemberCount'] = $memberStats['shield_member_count'] ?? 0;
+        $stats['shieldGroupCount'] = $memberStats['shield_group_count'] ?? 0;
+        $stats['shieldHashtagCount'] = $memberStats['shield_hashtag_count'] ?? 0;
+        $stats['shieldPostCount'] = $memberStats['shield_post_count'] ?? 0;
+        $stats['shieldCommentCount'] = $memberStats['shield_comment_count'] ?? 0;
+        $stats['likeMeCount'] = $memberStats['like_me_count'] ?? 0;
+        $stats['followMeCount'] = $memberStats['follow_me_count'] ?? 0;
+        $stats['shieldMeCount'] = $memberStats['shield_me_count'] ?? 0;
         $stats['postPublishCount'] = $memberStats['post_publish_count'] ?? 0;
         $stats['postLikeCount'] = $memberStats['post_like_count'] ?? 0;
         $stats['commentPublishCount'] = $memberStats['comment_publish_count'] ?? 0;

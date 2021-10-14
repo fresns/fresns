@@ -32,6 +32,7 @@ use App\Http\FresnsDb\FresnsUserConnects\FresnsUserConnects;
 use App\Http\FresnsDb\FresnsUserConnects\FresnsUserConnectsConfig;
 use App\Http\FresnsDb\FresnsUsers\FresnsUsers;
 use App\Http\FresnsDb\FresnsUsers\FresnsUsersConfig;
+use App\Http\FresnsDb\FresnsUsers\FresnsUsersService;
 use App\Http\FresnsDb\FresnsUserWalletLogs\FresnsUserWalletLogsService;
 use App\Http\FresnsDb\FresnsUserWallets\FresnsUserWallets;
 use App\Http\FresnsDb\FresnsVerifyCodes\FresnsVerifyCodes;
@@ -369,8 +370,8 @@ class FsControllerApi extends FresnsBaseApiController
         DB::table(FresnsMembersConfig::CFG_TABLE)->where('user_id', $user->id)->update($memberInput);
 
         $langTag = $this->langTag;
-
-        $data = $this->service->getUserDetail($user->id, $langTag);
+        $service = new FresnsUsersService();
+        $data = $service->getUserDetail($user->id, $langTag);
         $this->success($data);
     }
 

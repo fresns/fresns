@@ -20,6 +20,8 @@ use App\Http\FresnsApi\Helpers\ApiFileHelper;
 use App\Http\FresnsApi\Helpers\ApiLanguageHelper;
 use App\Http\FresnsCmd\FresnsCmdWords;
 use App\Http\FresnsCmd\FresnsCmdWordsConfig;
+use App\Http\FresnsDb\FresnsCommentLogs\FresnsCommentLogs;
+use App\Http\FresnsDb\FresnsCommentLogs\FresnsCommentLogsConfig;
 use App\Http\FresnsDb\FresnsComments\FresnsComments;
 use App\Http\FresnsDb\FresnsComments\FresnsCommentsConfig;
 use App\Http\FresnsDb\FresnsDialogMessages\FresnsDialogMessages;
@@ -37,12 +39,17 @@ use App\Http\FresnsDb\FresnsHashtags\FresnsHashtags;
 use App\Http\FresnsDb\FresnsLanguages\FresnsLanguages;
 use App\Http\FresnsDb\FresnsMemberFollows\FresnsMemberFollows;
 use App\Http\FresnsDb\FresnsMemberRoleRels\FresnsMemberRoleRels;
+use App\Http\FresnsDb\FresnsMemberRoleRels\FresnsMemberRoleRelsService;
+use App\Http\FresnsDb\FresnsMemberRoles\FresnsMemberRoles;
+use App\Http\FresnsDb\FresnsMemberRoles\FresnsMemberRolesService;
 use App\Http\FresnsDb\FresnsMembers\FresnsMembers;
 use App\Http\FresnsDb\FresnsNotifies\FresnsNotifies;
 use App\Http\FresnsDb\FresnsPluginCallbacks\FresnsPluginCallbacks;
 use App\Http\FresnsDb\FresnsPluginCallbacks\FresnsPluginCallbacksService;
 use App\Http\FresnsDb\FresnsPluginUsages\FresnsPluginUsages;
 use App\Http\FresnsDb\FresnsPluginUsages\FresnsPluginUsagesService;
+use App\Http\FresnsDb\FresnsPostLogs\FresnsPostLogs;
+use App\Http\FresnsDb\FresnsPostLogs\FresnsPostLogsConfig;
 use App\Http\FresnsDb\FresnsPosts\FresnsPosts;
 use App\Http\FresnsDb\FresnsPosts\FresnsPostsConfig;
 use App\Http\FresnsDb\FresnsStopWords\FresnsStopWordsService;
@@ -476,8 +483,10 @@ class FsControllerApi extends FresnsBaseApiController
                 if (empty($typeData)) {
                     $this->error(ErrorCodeService::FILE_EXIST_ERROR);
                 }
-
-                $files = FresnsFiles::where('uuid', $fid)->where('table_name', FresnsPostsConfig::CFG_TABLE)->where('table_id', $typeData['id'])->first();
+                // Query the log table id corresponding to the main table
+                $postLogsIdArr = FresnsPostLogs::where('post_id',$typeData['id'])->pluck('id')->toArray();
+                // dd($typeData);
+                $files = FresnsFiles::where('uuid', $fid)->where('table_name', FresnsPostLogsConfig::CFG_TABLE)->whereIn('table_id', $postLogsIdArr)->first();
                 if (empty($files)) {
                     $this->error(ErrorCodeService::FILE_EXIST_ERROR);
                 }
@@ -499,8 +508,9 @@ class FsControllerApi extends FresnsBaseApiController
                 if (empty($typeData)) {
                     $this->error(ErrorCodeService::FILE_EXIST_ERROR);
                 }
-
-                $files = FresnsFiles::where('uuid', $fid)->where('table_name', FresnsCommentsConfig::CFG_TABLE)->where('table_id', $typeData['id'])->first();
+                // Query the log table id corresponding to the main table
+                $commentLogsIdArr = FresnsCommentLogs::where('post_id',$typeData['id'])->pluck('id')->toArray();
+                $files = FresnsFiles::where('uuid', $fid)->where('table_name', FresnsCommentLogsConfig::CFG_TABLE)->whereIn('table_id', $commentLogsIdArr)->first();
                 if (empty($files)) {
                     $this->error(ErrorCodeService::FILE_EXIST_ERROR);
                 }
@@ -523,10 +533,31 @@ class FsControllerApi extends FresnsBaseApiController
             $this->error(ErrorCodeService::FILE_EXIST_ERROR);
         }
 
-        $files = FresnsFiles::where('uuid', $fid)->first();
+        $roleId = FresnsMemberRoleRelsService::getMemberRoleRels($mid);
+        $permission = FresnsMemberRoles::where('id', $roleId)->value('permission');
+        if(empty($permission)){
+            $this->error(ErrorCodeService::ROLE_NO_CONFIG_ERROR);
+        }
+        $permissionArr = json_decode($permission, true);
+        $permissionMap = FresnsMemberRolesService::getPermissionMap($permissionArr);
+        if (empty($permissionMap)) {
+            $this->error(ErrorCodeService::ROLE_NO_CONFIG_ERROR);
+        }
+        $downloadFileCount = $permissionMap['download_file_count'];
+        // Calculate whether the maximum number of downloads has been reached in the last 24 hours
+        $start = date('Y-m-d H:i:s',strtotime("-1 day"));
+        $end = date('Y-m-d H:i:s',time());
+        $logCount = FresnsFileLogs::where('user_id',$uid)->where('member_id',$mid)->where('created_at','>=',$start)->where('created_at','<=',$end)->count();
+        if($logCount >= $downloadFileCount){
+            $this->error(ErrorCodeService::ROLE_DOWNLOAD_ERROR);
+        }
+
+        $files = FresnsFiles::where('uuid', $fid)->first(); 
+        $uuid = $files['uuid'];
         // If the checksum passes, populate the file_logs table with records
         $input = [
-            'file_id' => $files['file_type'],
+            'file_id' => $files['id'],
+            'file_type' => $files['file_type'],
             'user_id' => $uid,
             'member_id' => $mid,
             'object_type' => $type,
@@ -535,27 +566,72 @@ class FsControllerApi extends FresnsBaseApiController
         FresnsFileLogs::insert($input);
         $data = [];
         $filePath = $files['file_path'];
+        $downloadUrl = '';
         switch ($files['file_type']) {
             case 1:
-                $host = ApiConfigHelper::getConfigByItemKey('images_bucket_domain');
-                $downloadUrl = $host.$filePath;
+                $status = ApiConfigHelper::getConfigByItemKey('images_url_status');
+                $domain = ApiConfigHelper::getConfigByItemKey('images_bucket_domain');
+                $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_IMAGE;
+                $input['fid'] = $uuid;
+                $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
+                if (CmdRpcHelper::isErrorCmdResp($resp)) {
+                    $downloadUrl = $domain.$filePath;
+                } else {
+                    $output = $resp['output'];
+                    $downloadUrl = $output['imageDefaultUrl'];
+                    $originalUrl = $output['originalUrl'];
+                }
                 break;
             case 2:
-                $host = ApiConfigHelper::getConfigByItemKey('videos_bucket_domain');
-                $downloadUrl = $host.$filePath;
+                $status = ApiConfigHelper::getConfigByItemKey('videos_url_status');
+                $domain = ApiConfigHelper::getConfigByItemKey('videos_bucket_domain');
+                $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_VIDEO;
+                $input['fid'] = $uuid;
+                $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
+                if (CmdRpcHelper::isErrorCmdResp($resp)) {
+                    $downloadUrl = $domain.$filePath;
+                } else {
+                    $output = $resp['output'];
+                    $downloadUrl = $output['videoUrl'];
+                    $originalUrl = $output['originalUrl'];
+                }
                 break;
             case 3:
-                $host = ApiConfigHelper::getConfigByItemKey('audios_bucket_domain');
-                $downloadUrl = $host.$filePath;
+                $status = ApiConfigHelper::getConfigByItemKey('audios_url_status');
+                $domain = ApiConfigHelper::getConfigByItemKey('audios_bucket_domain');
+                $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_AUDIO;
+                $input['fid'] = $uuid;
+                $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
+                if (CmdRpcHelper::isErrorCmdResp($resp)) {
+                    $downloadUrl = $domain.$filePath;
+                } else {
+                    $output = $resp['output'];
+                    $downloadUrl = $output['audioUrl'];
+                    $originalUrl = $output['originalUrl'];
+                }
                 break;
             default:
-                $host = ApiConfigHelper::getConfigByItemKey('docs_bucket_domain');
-                $downloadUrl = $host.$filePath;
+                $status = ApiConfigHelper::getConfigByItemKey('docs_url_status');
+                $domain = ApiConfigHelper::getConfigByItemKey('docs_bucket_domain');
+                $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_DOC;
+                $input['fid'] = $uuid;
+                $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
+                if (CmdRpcHelper::isErrorCmdResp($resp)) {
+                    $downloadUrl = $domain.$filePath;
+                } else {
+                    $output = $resp['output'];
+                    $downloadUrl = $output['docUrl'];
+                    $originalUrl = $output['originalUrl'];
+                }
                 break;
         }
 
+
         $data['downloadUrl'] = $downloadUrl;
-        $data['originalUrl'] = FresnsFileAppends::where('file_id', $files['id'])->value('file_original_path');
+        if($status == false || empty($originalUrl)){
+            $originalUrl = $domain . FresnsFileAppends::where('file_id', $files['id'])->value('file_original_path');
+        }
+        $data['originalUrl'] = $originalUrl;
 
         $this->success($data);
     }

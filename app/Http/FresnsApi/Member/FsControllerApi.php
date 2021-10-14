@@ -731,7 +731,7 @@ class FsControllerApi extends FresnsBaseApiController
         // Comment
         if ($markTarget == 5) {
             $comment = FresnsComments::where('uuid', $markId)->where('is_enable', 1)->first();
-            if (empty($markId)) {
+            if (empty($comment)) {
                 $info = [
                     'markId' => 'null',
                 ];
