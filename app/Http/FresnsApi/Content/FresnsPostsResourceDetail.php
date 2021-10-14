@@ -155,8 +155,8 @@ class FresnsPostsResourceDetail extends BaseAdminResource
         $timeFormat = DateHelper::format_date_langTag(strtotime($this->created_at));
         // $editTime = $this->latest_edit_at;
         $editTime = DateHelper::fresnsOutputTimeToTimezone($this->latest_edit_at);
-        $editTimeFormat = NULL;
-        if(!empty($editTime)){
+        $editTimeFormat = null;
+        if (! empty($editTime)) {
             $editTimeFormat = DateHelper::format_date_langTag(strtotime($this->latest_edit_at));
         }
         $canDelete = $append['can_delete'];
