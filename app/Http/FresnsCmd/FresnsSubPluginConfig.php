@@ -14,6 +14,7 @@ use Illuminate\Validation\Rule;
 class FresnsSubPluginConfig extends BasePluginConfig
 {
     const SUB_ADD_TABLE_PLUGINS = 'subscribe_plugins';
+    const SUBSCRITE_TYPE1 = 1;
     const SUBSCRITE_TYPE2 = 2;
     const SUBSCRITE_TYPE3 = 3;
     const SUBSCRITE_TYPE4 = 4;
@@ -22,12 +23,16 @@ class FresnsSubPluginConfig extends BasePluginConfig
     // Scan for specified subscription information
     public const FRESNS_CMD_SUB_ADD_TABLE = 'fresns_cmd_sub_add_table';
 
-    // Subscribe to user activity status
+    // Subscribe to user active status
     public const FRESNS_CMD_SUB_USER_ACTIVE = 'fresns_cmd_sub_user_active';
+
+    // Subscribe to command word active status
+    public const FRESNS_CMD_SUB_ACTIVE_COMMAND_WORD = 'fresns_cmd_sub_active_command_word';
 
     const FRESNS_CMD_HANDLE_MAP = [
         self::FRESNS_CMD_SUB_ADD_TABLE => 'subAddTableHandler',
         self::FRESNS_CMD_SUB_USER_ACTIVE => 'subUserActiveHandler',
+        self::FRESNS_CMD_SUB_ACTIVE_COMMAND_WORD => 'subActiveCmdHandler',
     ];
 
     public function subAddTableHandlerRule()

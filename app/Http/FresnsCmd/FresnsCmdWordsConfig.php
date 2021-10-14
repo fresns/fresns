@@ -52,10 +52,11 @@ class FresnsCmdWordsConfig extends BasePluginConfig
     public const FRESNS_CMD_ANTI_LINK_AUDIO = 'fresns_cmd_anti_link_audio';
     public const FRESNS_CMD_ANTI_LINK_DOC = 'fresns_cmd_anti_link_doc';
     public const FRESNS_CMD_PHYSICAL_DELETION_FILE = 'fresns_cmd_physical_deletion_file';
+    public const FRESNS_CMD_PHYSICAL_DELETION_TEMP_FILE = 'fresns_cmd_physical_deletion_temp_file';
 
     // Command Word: Content
     public const FRESNS_CMD_DIRECT_RELEASE_CONTENT = 'fresns_cmd_direct_release_content';
-    public const FRESNS_CMD_DELETE_CONTENT = 'fresns_cmd_delete_content';
+    public const FRESNS_CMD_DELETE_CONTENT = 'fresns_cmd_delete_content'; //Logical Deletion
 
     // Command word callback mapping
     const FRESNS_CMD_HANDLE_MAP = [
@@ -86,6 +87,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
         self::FRESNS_CMD_ANTI_LINK_AUDIO => 'antiLinkAudioHandler',
         self::FRESNS_CMD_ANTI_LINK_DOC => 'antiLinkDocHandler',
         self::FRESNS_CMD_PHYSICAL_DELETION_FILE => 'physicalDeletionFileHandler',
+        self::FRESNS_CMD_PHYSICAL_DELETION_TEMP_FILE => 'physicalDeletionTempFileHandler',
         // Content
         self::FRESNS_CMD_DIRECT_RELEASE_CONTENT => 'directReleaseContentHandler',
         self::FRESNS_CMD_DELETE_CONTENT => 'deleteContentHandler',

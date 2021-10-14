@@ -45,15 +45,8 @@ class FresnsSubPlugin extends BasePlugin
         $subscribe = FresnsConfigs::where('item_key', FresnsSubPluginConfig::SUB_ADD_TABLE_PLUGINS)->where('is_enable', 1)->first();
         $subscribeArr = '';
         if ($subscribe) {
-            $subscribeInfo = json_decode($subscribe['item_value'], true);
-            LogService::Info('subscribeInfo', $subscribeInfo);
-            if ($subscribeInfo) {
-                foreach ($subscribeInfo as $s) {
-                    if ($tableName == $s['subscribe_table_name']) {
-                        $subscribeArr = $s;
-                    }
-                }
-            }
+            // $subscribeArr = $subscribe['item_value'];
+            $subscribeArr = json_decode($subscribe['item_value'], true);
         }
         // Get the cmd and unikey of the sent command word
         $cmd = '';
@@ -61,68 +54,95 @@ class FresnsSubPlugin extends BasePlugin
         if (! empty($subscribeArr)) {
             // Subscription type: 2
             // Execute anget_plugin_cmd for anget_plugin_unikey
-            if ($subscribeArr['subscribe_type'] == FresnsSubPluginConfig::SUBSCRITE_TYPE2) {
-                $cmd = $subscribeArr['anget_plugin_cmd'];
-                $unikey = $subscribeArr['anget_plugin_unikey'];
+            foreach($subscribeArr as $s){
+                // if ($s['subscribe_type'] == FresnsSubPluginConfig::SUBSCRITE_TYPE2) {
+                //     $cmd = $s['anget_plugin_cmd'];
+                //     $unikey = $s['anget_plugin_unikey'];
+                // }
+                // Subscription type: 3
+                // Execute subscribe_plugin_cmd for subscribe_plugin_unikey
+                if ($s['subscribe_type'] == FresnsSubPluginConfig::SUBSCRITE_TYPE3 && $s['subscribe_table_name'] == $tableName) {
+                    $cmd = $s['subscribe_plugin_cmd'];
+                    $unikey = $s['subscribe_plugin_unikey'];
+                    $pluginClass = PluginHelper::findPluginClass($unikey);
+                    if(!$pluginClass){
+                        return $this->pluginSuccess();
+                    }
+                    $input = [
+                        'tableName' => $tableName,
+                        'insertId' => $insertId,
+                    ];
+                    $resp = CmdRpcHelper::call($pluginClass, $cmd, $input);
+                }
             }
-            // Subscription type: 3
-            // Execute subscribe_plugin_cmd for subscribe_plugin_unikey
-            if ($subscribeArr['subscribe_type'] == FresnsSubPluginConfig::SUBSCRITE_TYPE3) {
-                $cmd = $subscribeArr['subscribe_plugin_cmd'];
-                $unikey = $subscribeArr['subscribe_plugin_unikey'];
-            }
-            // Subscription type: 5
-            // Execute subscribe_plugin_cmd for subscribe_plugin_unikey
-            if ($subscribeArr['subscribe_type'] == FresnsSubPluginConfig::SUBSCRITE_TYPE5) {
-                $cmd = $subscribeArr['subscribe_plugin_cmd'];
-                $unikey = $subscribeArr['subscribe_plugin_unikey'];
-            }
+            
         }
-        if (empty($cmd)) {
-            return $this->pluginError(BasePluginConfig::CODE_PARAMS_ERROR);
-        }
-        if (empty($unikey)) {
-            return $this->pluginError(BasePluginConfig::CODE_PARAMS_ERROR);
-        }
-        $pluginClass = PluginHelper::findPluginClass($unikey);
-        $input = [
-            'tableName' => $tableName,
-            'insertId' => $insertId,
-        ];
-        $resp = CmdRpcHelper::call($pluginClass, $cmd, $input);
-        if (CmdRpcHelper::isErrorCmdResp($resp)) {
-            return $this->pluginError($resp);
-        }
+        
 
-        return $this->pluginSuccess($resp);
+        return $this->pluginSuccess();
     }
 
     // Subscribe to user activity status
     protected function subUserActiveHandler($input)
     {
         // Query subscription information (configs > item_key: subscribe_plugins)
-        $subscribe = FresnsConfigs::where('item_key', FresnsSubPluginConfig::SUB_ADD_TABLE_PLUGINS)->where('is_enable',
-            1)->first();
+        $subscribe = FresnsConfigs::where('item_key', FresnsSubPluginConfig::SUB_ADD_TABLE_PLUGINS)->where('is_enable', 1)->first();
         if (! empty($subscribe)) {
-            $subscribeInfo = json_decode($subscribe['item_value'], true);
+            // $subscribeInfo = json_decode($subscribe['item_value'], true);
+            $subscribeInfo = json_decode($subscribe['item_value'],true);
+            // dd($subscribeInfo);
             if ($subscribeInfo) {
-                foreach ($subscribe as $s) {
-                    // Subscription type: 4
-                    // Execute subscribe_plugin_cmd for subscribe_plugin_unikey
+                foreach ($subscribeInfo as $s) {
                     if ($s['subscribe_type'] == FresnsSubPluginConfig::SUBSCRITE_TYPE4) {
                         $cmd = $s['subscribe_plugin_cmd'];
                         $unikey = $s['subscribe_plugin_unikey'];
                         $pluginClass = PluginHelper::findPluginClass($unikey);
-                        $input = [];
-                        $resp = CmdRpcHelper::call($pluginClass, $cmd, $input);
-                        if (CmdRpcHelper::isErrorCmdResp($resp)) {
-                            return $this->pluginError($resp);
+                        if(!$pluginClass){
+                            return $this->pluginSuccess();
                         }
+                        $input = [
+                            'uid' => request()->header('uid'),
+                            'mid' => request()->header('mid'),
+                        ];
+                        $resp = CmdRpcHelper::call($pluginClass, $cmd, $input);
                     }
                 }
             }
         }
 
+        return $this->pluginSuccess();
+    }
+
+    protected function subActiveCmdHandler($input){
+        $tableName = $input['tableName'];
+        $insertId = $input['insertId'];
+        $commandWord = $input['commandWord'];
+        // Query subscription information (configs > item_key: subscribe_plugins)
+        $subscribe = FresnsConfigs::where('item_key', FresnsSubPluginConfig::SUB_ADD_TABLE_PLUGINS)->where('is_enable', 1)->first();
+        if (! empty($subscribe)) {
+            $subscribeInfo = json_decode($subscribe['item_value'], true);
+            // $subscribeInfo = $subscribe['item_value'];
+
+            if ($subscribeInfo) {
+                foreach ($subscribeInfo as $s) {
+                    // Subscription type: 5
+                    // Execute subscribe_plugin_cmd for subscribe_plugin_unikey
+                    if ($s['subscribe_type'] == FresnsSubPluginConfig::SUBSCRITE_TYPE5 && $s['subscribe_command_word'] == $commandWord) {
+                        $cmd = $s['subscribe_plugin_cmd'];
+                        $unikey = $s['subscribe_plugin_unikey'];
+                        $pluginClass = PluginHelper::findPluginClass($unikey);
+                        if(!$pluginClass){
+                            return $this->pluginSuccess();
+                        }
+                        $input = [
+                            'tableName' => $tableName,
+                            'insertId' => $insertId,
+                        ];
+                        $resp = CmdRpcHelper::call($pluginClass, $cmd, $input);
+                    }
+                }
+            }
+        }
         return $this->pluginSuccess();
     }
 }

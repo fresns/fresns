@@ -54,18 +54,39 @@ class FresnsCrontabPlugin extends BasePlugin
     protected function addSubPluginItemHandler($input)
     {
         $item = $input['sub_table_plugin_item'];
+        $itemSubscribeType = $item['subscribe_type'] ?? null;
+        $itemSubscribePluginUnikey = $item['subscribe_plugin_unikey'] ?? null;
+        $itemSubscribeTableName = $item['subscribe_table_name'] ?? null;
+        $itemSubscribeCommandWord = $item['subscribe_command_word'] ?? null;
         $config = FresnsConfigs::where('item_key', FresnsSubPluginConfig::SUB_ADD_TABLE_PLUGINS)->first();
         if (! empty($config)) {
             $configArr = json_decode($config['item_value'], true);
-            foreach ($item as $v) {
-                foreach ($configArr as $value) {
-                    if ($v['subscribe_plugin_unikey'] == $value['subscribe_plugin_unikey'] && $v['subscribe_plugin_cmd'] == $value['subscribe_plugin_cmd'] && $v['subscribe_table_name'] == $value['subscribe_table_name']) {
-                        return $this->pluginError(ErrorCodeService::DATA_EXCEPTION_ERROR, 'There are duplicate data');
+            $newConfigArr = [];
+            foreach ($configArr as $value) {
+                $subscribeType = $value['subscribe_type'] ?? null;
+                $subscribePluginUnikey = $value['subscribe_plugin_unikey'] ?? null;
+                $subscribeTableName = $value['subscribe_table_name'] ?? null;
+                $subscribeCommandWord = $value['subscribe_command_word'] ?? null;
+                if($itemSubscribeType == 3){
+                    if($itemSubscribeType == $subscribeType && $itemSubscribePluginUnikey == $subscribePluginUnikey && $itemSubscribeTableName == $subscribeTableName){
+                        continue;
                     }
                 }
+                if($itemSubscribeType == 4){
+                    if($itemSubscribeType == $subscribeType && $itemSubscribePluginUnikey == $subscribePluginUnikey){
+                        continue;
+                    }
+                }
+                if($itemSubscribeType == 5){
+                    if($itemSubscribeType == $subscribeType && $itemSubscribePluginUnikey == $subscribePluginUnikey && $itemSubscribeCommandWord == $subscribeCommandWord){
+                        continue;
+                    }
+                }
+                $newConfigArr[] = $value;
             }
 
-            $data = array_merge($item, $configArr);
+            $data = array_merge([$item], $newConfigArr);
+
             FresnsConfigs::where('item_key', FresnsSubPluginConfig::SUB_ADD_TABLE_PLUGINS)->update(['item_value' => $data]);
         } else {
             $input = [
@@ -93,7 +114,8 @@ class FresnsCrontabPlugin extends BasePlugin
         foreach ($configArr as $v) {
             $isDel = 0;
             foreach ($item as $value) {
-                if ($v['subscribe_plugin_unikey'] == $value['subscribe_plugin_unikey'] && $v['subscribe_plugin_cmd'] == $value['subscribe_plugin_cmd'] && $v['subscribe_table_name'] == $value['subscribe_table_name']) {
+                if ($v['subscribe_plugin_unikey'] == $value['subscribe_plugin_unikey']) {
+                // if ($v['subscribe_plugin_unikey'] == $value['subscribe_plugin_unikey'] && $v['subscribe_plugin_cmd'] == $value['subscribe_plugin_cmd'] && $v['subscribe_table_name'] == $value['subscribe_table_name']) {
                     $isDel = 1;
                     break;
                 }
