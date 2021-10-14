@@ -109,7 +109,7 @@
                         <div class="input-group">
                             <span class="input-group-text">@lang('fresns.folderName')</span>
                             <input type="text" class="form-control installDirName" placeholder="@lang('fresns.folderName')">
-                            <button type="button" class="btn btn-outline-secondary installLocal" data-bs-dismiss="modal" id="folderInstall-button">@lang('fresns.localInstallBtn')</button>
+                            <button type="button" class="btn btn-outline-secondary installLocal"  data-bs-dismiss="modal">@lang('fresns.localInstallBtn')</button>
                         </div>
                         <div class="form-text"><i class="bi bi-info-circle"></i> @lang('fresns.localInstallInfo')</div>
                     </form>

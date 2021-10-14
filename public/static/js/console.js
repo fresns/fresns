@@ -1,10 +1,6 @@
 //install extensions
 $(".installLocal").click(function(){
     var dirName = $(".installDirName").val();
-    $('#localInstallActionModal').addClass('show');
-    $('#localInstallActionModal').css({
-        'display': 'block'
-    });
     var isAdd = true;
     $.ajax({
         async: false,
@@ -16,6 +12,10 @@ $(".installLocal").click(function(){
         },
         success: function (data) {
             if(data.code == 0){
+                $('#localInstallActionModal').addClass('show');
+                $('#localInstallActionModal').css({
+                    'display':'block',
+                });
                 setTimeout(function(){
                     $('.step1').removeClass("spinner-border spinner-border-sm")
                     $('.step1').addClass("bi bi-check-lg text-success")
@@ -48,7 +48,6 @@ $(".installLocal").click(function(){
                     window.location.reload();
                 },1800)
             }else{
-                $('#localInstallActionModal').removeClass('show');
                 alert(data.message);
             }
         }
