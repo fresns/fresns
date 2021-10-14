@@ -404,7 +404,17 @@ class FsControllerApi extends FresnsBaseApiController
                     $this->success();
                 }
                 // Call Release
-                $result = $FresnsPostsService->releaseByDraft($draftId, $logsId);
+                // $result = $FresnsPostsService->releaseByDraft($draftId, $logsId);
+                $cmd = FresnsCmdWordsConfig::FRESNS_CMD_DIRECT_RELEASE_CONTENT;
+                $input = [
+                    'type' => $type,
+                    'logId' => $draftId,
+                    'sessionLogsId' => $logsId,
+                ];
+                $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
+                if (CmdRpcHelper::isErrorCmdResp($resp)) {
+                    $this->errorCheckInfo($resp);
+                }
                 break;
             case 2:
                 // Determine if it is an update or a new addition
@@ -448,8 +458,18 @@ class FsControllerApi extends FresnsBaseApiController
                     }
                     $this->success();
                 }
-                $result = $fresnsCommentService->releaseByDraft($draftId, 0, $logsId);
-
+                // $result = $fresnsCommentService->releaseByDraft($draftId, 0, $logsId);
+                $cmd = FresnsCmdWordsConfig::FRESNS_CMD_DIRECT_RELEASE_CONTENT;
+                $input = [
+                    'type' => $type,
+                    'logId' => $draftId,
+                    'commentCid' => 0,
+                    'sessionLogsId' => $logsId,
+                ];
+                $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
+                if (CmdRpcHelper::isErrorCmdResp($resp)) {
+                    $this->errorCheckInfo($resp);
+                }
                 break;
         }
         $this->success();
@@ -539,7 +559,18 @@ class FsControllerApi extends FresnsBaseApiController
                     $this->success();
                 }
                 // Call Release
-                $FresnsPostsService->releaseByDraft($draftId, $logsId);
+                // $data = $FresnsPostsService->releaseByDraft($draftId, $logsId);
+                $cmd = FresnsCmdWordsConfig::FRESNS_CMD_DIRECT_RELEASE_CONTENT;
+                $input = [
+                    'type' => $type,
+                    'logId' => $draftId,
+                    'sessionLogsId' => $logsId,
+                ];
+                $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
+                if (CmdRpcHelper::isErrorCmdResp($resp)) {
+                    $this->errorCheckInfo($resp);
+                }
+                // dd($data);
                 break;
             default:
                 if ($commentCid) {
@@ -557,7 +588,18 @@ class FsControllerApi extends FresnsBaseApiController
                     ]);
                     $this->success();
                 }
-                $fresnsCommentService->releaseByDraft($draftId, $commentCid, $logsId);
+                // $fresnsCommentService->releaseByDraft($draftId, $commentCid, $logsId);
+                $cmd = FresnsCmdWordsConfig::FRESNS_CMD_DIRECT_RELEASE_CONTENT;
+                $input = [
+                    'type' => $type,
+                    'logId' => $draftId,
+                    'commentCid' => $commentCid,
+                    'sessionLogsId' => $logsId,
+                ];
+                $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
+                if (CmdRpcHelper::isErrorCmdResp($resp)) {
+                    $this->errorCheckInfo($resp);
+                }
                 break;
         }
         $this->success();

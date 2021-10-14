@@ -1083,6 +1083,11 @@ class FsChecker extends BaseChecker
             return ErrorCodeService::ROLE_NO_PERMISSION;
         }
 
+        // Change file extensions to lowercase letters
+        if(!empty($suffix)){
+            $suffix = mb_strtolower($suffix);
+        }
+
         $memberRole = FresnsMemberRoles::where('id', $roleId)->first();
         if (! empty($memberRole)) {
             $permission = $memberRole['permission'];
