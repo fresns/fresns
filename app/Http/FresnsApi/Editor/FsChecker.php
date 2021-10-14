@@ -1084,7 +1084,7 @@ class FsChecker extends BaseChecker
         }
 
         // Change file extensions to lowercase letters
-        if(!empty($suffix)){
+        if (! empty($suffix)) {
             $suffix = mb_strtolower($suffix);
         }
 

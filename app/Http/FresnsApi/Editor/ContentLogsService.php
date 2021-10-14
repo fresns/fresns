@@ -8,6 +8,7 @@
 
 namespace App\Http\FresnsApi\Editor;
 
+use App\Helpers\StrHelper;
 use App\Http\Center\Common\GlobalService;
 use App\Http\Center\Common\LogService;
 use App\Http\Center\Helper\PluginHelper;
@@ -31,7 +32,7 @@ use App\Http\FresnsDb\FresnsPosts\FresnsPosts;
 use App\Http\FresnsDb\FresnsPosts\FresnsPostsConfig;
 use App\Http\FresnsDb\FresnsStopWords\FresnsStopWords;
 use Illuminate\Support\Facades\DB;
-use App\Helpers\StrHelper;
+
 class ContentLogsService
 {
     // Get the existing content of the post to create a draft.
