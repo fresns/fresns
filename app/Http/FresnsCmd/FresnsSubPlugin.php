@@ -54,7 +54,7 @@ class FresnsSubPlugin extends BasePlugin
         if (! empty($subscribeArr)) {
             // Subscription type: 2
             // Execute anget_plugin_cmd for anget_plugin_unikey
-            foreach($subscribeArr as $s){
+            foreach ($subscribeArr as $s) {
                 // if ($s['subscribe_type'] == FresnsSubPluginConfig::SUBSCRITE_TYPE2) {
                 //     $cmd = $s['anget_plugin_cmd'];
                 //     $unikey = $s['anget_plugin_unikey'];
@@ -65,7 +65,7 @@ class FresnsSubPlugin extends BasePlugin
                     $cmd = $s['subscribe_plugin_cmd'];
                     $unikey = $s['subscribe_plugin_unikey'];
                     $pluginClass = PluginHelper::findPluginClass($unikey);
-                    if(!$pluginClass){
+                    if (! $pluginClass) {
                         return $this->pluginSuccess();
                     }
                     $input = [
@@ -75,9 +75,7 @@ class FresnsSubPlugin extends BasePlugin
                     $resp = CmdRpcHelper::call($pluginClass, $cmd, $input);
                 }
             }
-            
         }
-        
 
         return $this->pluginSuccess();
     }
@@ -89,7 +87,7 @@ class FresnsSubPlugin extends BasePlugin
         $subscribe = FresnsConfigs::where('item_key', FresnsSubPluginConfig::SUB_ADD_TABLE_PLUGINS)->where('is_enable', 1)->first();
         if (! empty($subscribe)) {
             // $subscribeInfo = json_decode($subscribe['item_value'], true);
-            $subscribeInfo = json_decode($subscribe['item_value'],true);
+            $subscribeInfo = json_decode($subscribe['item_value'], true);
             // dd($subscribeInfo);
             if ($subscribeInfo) {
                 foreach ($subscribeInfo as $s) {
@@ -97,7 +95,7 @@ class FresnsSubPlugin extends BasePlugin
                         $cmd = $s['subscribe_plugin_cmd'];
                         $unikey = $s['subscribe_plugin_unikey'];
                         $pluginClass = PluginHelper::findPluginClass($unikey);
-                        if(!$pluginClass){
+                        if (! $pluginClass) {
                             return $this->pluginSuccess();
                         }
                         $input = [
@@ -113,7 +111,8 @@ class FresnsSubPlugin extends BasePlugin
         return $this->pluginSuccess();
     }
 
-    protected function subActiveCmdHandler($input){
+    protected function subActiveCmdHandler($input)
+    {
         $tableName = $input['tableName'];
         $insertId = $input['insertId'];
         $commandWord = $input['commandWord'];
@@ -131,7 +130,7 @@ class FresnsSubPlugin extends BasePlugin
                         $cmd = $s['subscribe_plugin_cmd'];
                         $unikey = $s['subscribe_plugin_unikey'];
                         $pluginClass = PluginHelper::findPluginClass($unikey);
-                        if(!$pluginClass){
+                        if (! $pluginClass) {
                             return $this->pluginSuccess();
                         }
                         $input = [
@@ -143,6 +142,7 @@ class FresnsSubPlugin extends BasePlugin
                 }
             }
         }
+
         return $this->pluginSuccess();
     }
 }

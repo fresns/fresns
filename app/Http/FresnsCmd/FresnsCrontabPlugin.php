@@ -67,18 +67,18 @@ class FresnsCrontabPlugin extends BasePlugin
                 $subscribePluginUnikey = $value['subscribe_plugin_unikey'] ?? null;
                 $subscribeTableName = $value['subscribe_table_name'] ?? null;
                 $subscribeCommandWord = $value['subscribe_command_word'] ?? null;
-                if($itemSubscribeType == 3){
-                    if($itemSubscribeType == $subscribeType && $itemSubscribePluginUnikey == $subscribePluginUnikey && $itemSubscribeTableName == $subscribeTableName){
+                if ($itemSubscribeType == 3) {
+                    if ($itemSubscribeType == $subscribeType && $itemSubscribePluginUnikey == $subscribePluginUnikey && $itemSubscribeTableName == $subscribeTableName) {
                         continue;
                     }
                 }
-                if($itemSubscribeType == 4){
-                    if($itemSubscribeType == $subscribeType && $itemSubscribePluginUnikey == $subscribePluginUnikey){
+                if ($itemSubscribeType == 4) {
+                    if ($itemSubscribeType == $subscribeType && $itemSubscribePluginUnikey == $subscribePluginUnikey) {
                         continue;
                     }
                 }
-                if($itemSubscribeType == 5){
-                    if($itemSubscribeType == $subscribeType && $itemSubscribePluginUnikey == $subscribePluginUnikey && $itemSubscribeCommandWord == $subscribeCommandWord){
+                if ($itemSubscribeType == 5) {
+                    if ($itemSubscribeType == $subscribeType && $itemSubscribePluginUnikey == $subscribePluginUnikey && $itemSubscribeCommandWord == $subscribeCommandWord) {
                         continue;
                     }
                 }
@@ -115,7 +115,7 @@ class FresnsCrontabPlugin extends BasePlugin
             $isDel = 0;
             foreach ($item as $value) {
                 if ($v['subscribe_plugin_unikey'] == $value['subscribe_plugin_unikey']) {
-                // if ($v['subscribe_plugin_unikey'] == $value['subscribe_plugin_unikey'] && $v['subscribe_plugin_cmd'] == $value['subscribe_plugin_cmd'] && $v['subscribe_table_name'] == $value['subscribe_table_name']) {
+                    // if ($v['subscribe_plugin_unikey'] == $value['subscribe_plugin_unikey'] && $v['subscribe_plugin_cmd'] == $value['subscribe_plugin_cmd'] && $v['subscribe_table_name'] == $value['subscribe_table_name']) {
                     $isDel = 1;
                     break;
                 }

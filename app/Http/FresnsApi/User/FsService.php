@@ -29,5 +29,4 @@ use Illuminate\Support\Facades\DB;
 
 class FsService
 {
-    
 }
