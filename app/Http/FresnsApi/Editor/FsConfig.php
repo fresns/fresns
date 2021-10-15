@@ -31,7 +31,7 @@ class FsConfig
     ];
 
     // Update Log Config
-    CONST FORM_FIELDS_UPDATE_LOGS_MAP = [
+    const FORM_FIELDS_UPDATE_LOGS_MAP = [
         'gid' => 'group_id',
         'types' => 'types',
         'title' => 'title',
