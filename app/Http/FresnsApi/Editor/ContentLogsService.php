@@ -319,54 +319,36 @@ class ContentLogsService
     public static function updatePostLog($mid)
     {
         $request = request();
-        $mid = $mid;
         $logId = $request->input('logId');
-        $types = $request->input('types', 'text') ?? 'text';
-        $gid = $request->input('gid');
-        $gid = FresnsGroups::where('uuid', $gid)->first();
-        $title = $request->input('title');
-        $content = $request->input('content');
-        $isMarkdown = $request->input('isMarkdown', 0);
-        $isAnonymous = $request->input('isAnonymous', 0);
-        $is_plugin_editor = $request->input('isPluginEditor', 0);
-        $editor_unikey = $request->input('editorUnikey') ?? null;
-        $commentSetJson = $request->input('commentSetJson') ?? null;
-        $memberListJson = $request->input('memberListJson') ?? null;
-        $allowJson = $request->input('allowJson') ?? null;
-        $locationJson = $request->input('locationJson') ?? null;
-        $filesJson = $request->input('filesJson') ?? null;
-        $extends_json = json_decode($request->input('extendsJson'), true);
-        $extends = [];
-        if ($extends_json) {
-            $arr = [];
-            foreach ($extends_json as $v) {
-                $arr['eid'] = $v['eid'];
-                $arr['rankNum'] = $v['rankNum'] ?? 9;
-                $arr['canDelete'] = $v['canDelete'] ?? true;
-                $extends[] = $arr;
+        $input = self::convertFormRequestToInput();
+        if($input){
+            foreach($input as $k => &$i){
+                if($k == 'group_id'){
+                    $gid = $request->input('gid');
+                    $groupInfo = FresnsGroups::where('uuid', $gid)->first();
+                    $i = $groupInfo['id'];
+                }
+                if($k == 'extends_json'){
+                    $extends_json = json_decode($request->input('extendsJson'), true);
+                    $extends = [];
+                    if ($extends_json) {
+                        $arr = [];
+                        foreach ($extends_json as $v) {
+                            $arr['eid'] = $v['eid'];
+                            $arr['rankNum'] = $v['rankNum'] ?? 9;
+                            $arr['canDelete'] = $v['canDelete'] ?? true;
+                            $extends[] = $arr;
+                        }
+                    }
+                    $i = json_encode($extends);
+                }
+                if($k == 'content'){
+                    $content = $request->input('content');
+                    $i = self::stopWords($content);
+                }
             }
+            FresnsPostLogs::where('id', $logId)->update($input);
         }
-        $extendsJson = json_encode($extends);
-        $content = self::stopWords($content);
-        $input = [
-            'group_id' => $gid,
-            'types' => $types,
-            'title' => $title,
-            'group_id' => $gid['id'] ?? null,
-            'content' => trim($content),
-            'is_markdown' => $isMarkdown,
-            'is_anonymous' => $isAnonymous,
-            'is_plugin_editor' => $is_plugin_editor,
-            'editor_unikey' => $editor_unikey,
-            'comment_set_json' => $commentSetJson,
-            'member_list_json' => $memberListJson,
-            'allow_json' => $allowJson,
-            'location_json' => $locationJson,
-            'files_json' => $filesJson,
-            'extends_json' => $extendsJson,
-        ];
-        FresnsPostLogs::where('id', $logId)->update($input);
-
         return true;
     }
 
@@ -374,42 +356,31 @@ class ContentLogsService
     public static function updateCommentLog($mid)
     {
         $request = request();
-        $mid = $mid;
         $logId = $request->input('logId');
-        $types = $request->input('types', 'text') ?? 'text';
-        $content = $request->input('content');
-        $isMarkdown = $request->input('isMarkdown', 0);
-        $isAnonymous = $request->input('isAnonymous', 0);
-        $is_plugin_editor = $request->input('isPluginEditor', 0);
-        $editor_unikey = $request->input('editorUnikey');
-        $locationJson = $request->input('locationJson');
-        $filesJson = $request->input('filesJson');
-        $extends_json = json_decode($request->input('extendsJson'), true);
-        $content = self::stopWords($content);
-        $extends = [];
-        if ($extends_json) {
-            $arr = [];
-            foreach ($extends_json as $v) {
-                $arr['eid'] = $v['eid'];
-                $arr['rankNum'] = $v['rankNum'] ?? 9;
-                $arr['canDelete'] = $v['canDelete'] ?? true;
-                $extends[] = $arr;
+        $input = self::convertFormRequestToInput();
+        if($input){
+            foreach($input as $k => &$i){
+                if($k == 'extends_json'){
+                    $extends_json = json_decode($request->input('extendsJson'), true);
+                    $extends = [];
+                    if ($extends_json) {
+                        $arr = [];
+                        foreach ($extends_json as $v) {
+                            $arr['eid'] = $v['eid'];
+                            $arr['rankNum'] = $v['rankNum'] ?? 9;
+                            $arr['canDelete'] = $v['canDelete'] ?? true;
+                            $extends[] = $arr;
+                        }
+                    }
+                    $i = json_encode($extends);
+                }
+                if($k == 'content'){
+                    $content = $request->input('content');
+                    $i = self::stopWords($content);
+                }
             }
+            FresnsCommentLogs::where('id', $logId)->update($input);
         }
-        $extendsJson = json_encode($extends);
-        $input = [
-            'types' => $types,
-            'content' => trim($content),
-            'is_markdown' => $isMarkdown == 'false' ? 0 : 1,
-            'is_anonymous' => $isAnonymous == 'false' ? 0 : 1,
-            'is_plugin_editor' => $is_plugin_editor,
-            'editor_unikey' => $editor_unikey,
-            'location_json' => $locationJson,
-            'files_json' => $filesJson,
-            'extends_json' => $extendsJson,
-        ];
-        FresnsCommentLogs::where('id', $logId)->update($input);
-
         return true;
     }
 
@@ -421,7 +392,7 @@ class ContentLogsService
         $postGid = $request->input('postGid');
         $postTitle = $request->input('postTitle');
         $isMarkdown = $request->input('isMarkdown');
-        // $isAnonymous = $request->input('isAnonymous',0);
+        $isAnonymous = $request->input('isAnonymous',0);
         $file = request()->file('file');
         $fileInfo = $request->input('fileInfo');
         $eid = $request->input('eid');
@@ -478,7 +449,7 @@ class ContentLogsService
             'content' => strip_tags(trim($content)),
             'types' => $types,
             'is_markdown' => $isMarkdown,
-            // 'is_anonymous' => $isAnonymous,
+            'is_anonymous' => $isAnonymous,
             'files_json' => json_encode($fileArr),
             'extends_json' => json_encode($extends),
         ];
@@ -498,7 +469,7 @@ class ContentLogsService
         $commentPid = $request->input('commentPid');
         $commentCid = $request->input('commentCid');
         $content = $request->input('content');
-        // $isAnonymous = $request->input('isAnonymous',0);
+        $isAnonymous = $request->input('isAnonymous',0);
         $isMarkdown = $request->input('isMarkdown');
         $file = request()->file('file');
 
@@ -551,7 +522,7 @@ class ContentLogsService
             'post_id' => $postInfo['id'],
             'content' => strip_tags(trim($content)),
             'is_markdown' => $isMarkdown,
-            // 'is_anonymous' => $isAnonymous,
+            'is_anonymous' => $isAnonymous,
             'files_json' => json_encode($fileArr),
             'extends_json' => json_encode($extends),
         ];
@@ -801,5 +772,28 @@ class ContentLogsService
         }
 
         return $text;
+    }
+
+    public static function convertFormRequestToInput()
+    {
+
+        $req = request();
+        $fieldMap = FsConfig::FORM_FIELDS_UPDATE_LOGS_MAP;
+        // dd($fieldMap);
+        $input = [];
+        foreach ($fieldMap as $inputField => $tbField) {
+            if ($req->has($inputField)) {
+                $srcValue = $req->input($inputField);
+                if ($srcValue == 0 || $srcValue == '0') {
+                    $input[$tbField] = $srcValue;
+                }
+
+
+                if ($srcValue === false || !empty($req->input($inputField, ''))) {
+                    $input[$tbField] = $req->input($inputField);
+                }
+            }
+        }
+        return $input;
     }
 }

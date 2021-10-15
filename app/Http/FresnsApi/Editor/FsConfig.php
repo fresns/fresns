@@ -29,4 +29,22 @@ class FsConfig
         '/api/fresns/editor/publish',
         '/api/fresns/editor/submit',
     ];
+
+    // Update Log Config
+    CONST FORM_FIELDS_UPDATE_LOGS_MAP = [
+        'gid' => 'group_id',
+        'types' => 'types',
+        'title' => 'title',
+        'content' => 'content',
+        'isMarkdown' => 'is_markdown',
+        'isAnonymous' => 'is_anonymous',
+        'isPluginEditor' => 'is_plugin_editor',
+        'editorUnikey' => 'editor_unikey',
+        'memberListJson' => 'member_list_json',
+        'commentSetJson' => 'comment_set_json',
+        'allowJson' => 'allow_json',
+        'locationJson' => 'location_json',
+        'filesJson' => 'files_json',
+        'extendsJson' => 'extends_json',
+    ];
 }
