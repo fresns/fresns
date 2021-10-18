@@ -6,7 +6,7 @@
             <div class="card mt-4 mb-4 p-2 p-lg-4">
                 <div class="card-body">
                     <h1 class="fs-3 fw-normal">@lang('fresns.welcome')</h1>
-                    <p class="text-secondary pb-4">@lang('fresns.currentVersion') <span data-bs-toggle="tooltip" data-bs-placement="top" title="Database: v{{$version}}">v1.0.0</span></p>
+                    <p class="text-secondary pb-4">@lang('fresns.currentVersion') <span data-bs-toggle="tooltip" data-bs-placement="top" title="Database: v{{$version}}">v1.0.1</span></p>
                     <div class="row">
                         <div class="col-md mb-4 pe-lg-5">
                             <h3 class="h6">@lang('fresns.overview')</h3>
