@@ -37,7 +37,6 @@ class FsConfig extends BaseConfig
         'searchEssenceType' => ['field' => 'essence_state', 'op' => 'in'],
         'searchStickyType' => ['field' => 'sticky_state', 'op' => 'in'],
         'searchMid' => ['field' => 'member_id', 'op' => '='],
-        'searchMid' => ['field' => 'member_id', 'op' => '='],
         'searchGid' => ['field' => 'group_id', 'op' => '='],
         'mapId' => ['field' => 'map_id', 'op' => '='],
         'viewCountGt' => ['field' => 'view_count', 'op' => '>='],

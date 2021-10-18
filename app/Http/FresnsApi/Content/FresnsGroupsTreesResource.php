@@ -54,7 +54,7 @@ class FresnsGroupsTreesResource extends BaseAdminResource
         $FresnsGroups = FresnsGroups::where('type_mode', 2)->where('type_find', 2)->pluck('id')->toArray();
         $groupMember = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 2)->pluck('follow_id')->toArray();
         $noGroupArr = array_diff($FresnsGroups, $groupMember);
-        $TreesGroups = FresnsGroups::where('parent_id', $this->id)->whereNotIn('id', $noGroupArr)->limit($groupSize)->orderby('rank_num', 'asc')->get()->toArray();
+        $TreesGroups = FresnsGroups::where('parent_id', $this->id)->where('is_enable',1)->whereNotIn('id', $noGroupArr)->limit($groupSize)->orderby('rank_num', 'asc')->get()->toArray();
         $groupCount = count($TreesGroups);
 
         if ($TreesGroups) {

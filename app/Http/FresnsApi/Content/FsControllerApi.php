@@ -86,6 +86,7 @@ class FsControllerApi extends FresnsBaseApiController
         $FresnsDialogsService = new FresnsGroupsService();
         $request->offsetSet('currentPage', $page);
         $request->offsetSet('pageSize', $pageSize);
+        $request->offsetSet('is_enable', 1);
         $FresnsDialogsService->setResource(FresnsGroupsTreesResource::class);
         $data = $FresnsDialogsService->searchData();
         $data = [
@@ -139,6 +140,7 @@ class FsControllerApi extends FresnsBaseApiController
         $FresnsDialogsService = new FresnsGroupsService();
         $request->offsetSet('currentPage', $page);
         $request->offsetSet('pageSize', $pageSize);
+        $request->offsetSet('is_enable', 1);
         $FresnsDialogsService->setResource(FresnsGroupsResource::class);
         $data = $FresnsDialogsService->searchData();
         $data = [

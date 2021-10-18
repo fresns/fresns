@@ -139,7 +139,12 @@ class FsModel extends BaseAdminModel
         // Specify the range: Group
         $searchGid = $request->input('searchGid');
         if ($searchGid) {
-            $query->where('post.group_id', '=', $searchGid);
+            $groupInfo = FresnsGroups::where('uuid',$searchGid)->first();
+            if($groupInfo){
+                $query->where('post.group_id', '=', $groupInfo['id']);
+            }else{
+                $query->where('post.group_id', '=', 0);
+            }
         }
         // Specify the range: Hashtag
         $searchHuri = $request->input('searchHuri');
