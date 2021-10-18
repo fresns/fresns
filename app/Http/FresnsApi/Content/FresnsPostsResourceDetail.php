@@ -97,7 +97,7 @@ class FresnsPostsResourceDetail extends BaseAdminResource
         $count = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where($input)->count();
         $isLike = $count == 0 ? false : true;
         $title = $this->title;
-        $content = FresnsPostsResource::getContentView(($this->content), ($this->id), 1);
+        $content = FresnsPostsResource::getContentView(($append['content']), ($this->id), 1);
         // Read permission required or not
         $allowStatus = $this->is_allow;
         $allowProportion = 10;
@@ -118,7 +118,7 @@ class FresnsPostsResourceDetail extends BaseAdminResource
                 $FresnsPostsService = new FresnsPostsService();
                 // Prevent @, hashtags, emojis, links and other messages from being truncated
                 $contentInfo = $FresnsPostsService->truncatedContentInfo($append['content']);
-                $content = FresnsPostsResource::getContentView(($this->content), ($this->id), 1);
+                $content = FresnsPostsResource::getContentView(($append['content']), ($this->id), 1);
 
                 $allowStatus = 0;
             }

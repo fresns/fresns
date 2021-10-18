@@ -96,7 +96,7 @@ class FresnsCommentsResourceDetail extends BaseAdminResource
         $shieldsCount = DB::table(FresnsMemberShieldsConfig::CFG_TABLE)->where('member_id', $mid)->where('shield_type', 5)->where('shield_id', $this->id)->count();
         $isShield = $shieldsCount == 0 ? false : true;
 
-        $content = FresnsPostsResource::getContentView($this->content, $this->id, 2);
+        $content = FresnsPostsResource::getContentView($append->content, $this->id, 2);
         $brief = $this->is_brief;
         $sticky = $this->is_sticky;
         $likeCount = $this->like_count;
@@ -230,7 +230,7 @@ class FresnsCommentsResourceDetail extends BaseAdminResource
         /*
          * replyTo is output when searchCid has a value.
          * Represents the output of sub-level comments, and only sub-level comments have replyTo information, representing that A replied to B.
-         * https://fresns.org/api/content/comment-lists.html
+         * https://fresns.cn/api/content/comment-lists.html
          * If the parent_id of the comment is the current comment (parameter searchCid) and represents a secondary comment, the following information is not output.
          * The parent_id of the comment is not the current comment (parameter searchCid), representing three or more levels, showing the interaction under the comment and outputting the following information about his parent's comment.
          */
