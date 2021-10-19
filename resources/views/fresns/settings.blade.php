@@ -165,6 +165,7 @@
                 },
                 success: function(data) {
                     if (data.code == 0) {
+                        alert(data.message)
                         window.location.reload();
                     } else {
                         alert(data.message)
