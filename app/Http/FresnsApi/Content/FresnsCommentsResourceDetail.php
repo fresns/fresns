@@ -96,7 +96,7 @@ class FresnsCommentsResourceDetail extends BaseAdminResource
         $shieldsCount = DB::table(FresnsMemberShieldsConfig::CFG_TABLE)->where('member_id', $mid)->where('shield_type', 5)->where('shield_id', $this->id)->count();
         $isShield = $shieldsCount == 0 ? false : true;
 
-        $content = FresnsPostsResource::getContentView($append->content, $this->id, 2);
+        $content = FresnsPostsResource::getContentView($append->content, $this->id, 2,$append->is_markdown);
         $brief = $this->is_brief;
         $sticky = $this->is_sticky;
         $likeCount = $this->like_count;

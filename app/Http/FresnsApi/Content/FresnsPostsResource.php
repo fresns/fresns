@@ -753,25 +753,26 @@ class FresnsPostsResource extends BaseAdminResource
     }
 
     // Content Data Export Operations
-    public static function getContentView($content, $postId, $postType)
+    public static function getContentView($content, $postId, $postType, $content_markdown=0)
     {
         $request = request();
-
-        // Link
-        preg_match_all("/http[s]{0,1}:\/\/.*?\s/", $content, $hrefMatches);
-        if ($hrefMatches[0]) {
-            foreach ($hrefMatches[0] as &$h) {
-                $h = trim($h);
-                // Does the link association table exist title
-                $domainLinked = DB::table(FresnsDomainLinksConfig::CFG_TABLE)->where('link_url',
-                    $h)->where('linked_type', $postType)->where('linked_id', $postId)->first();
-                $title = $h;
-                if (! empty($domainLinked)) {
-                    if ($domainLinked->link_title) {
-                        $title = $domainLinked->link_title;
+        if(!$content_markdown){
+            // Link
+            preg_match_all("/http[s]{0,1}:\/\/.*?\s/", $content, $hrefMatches);
+            if ($hrefMatches[0]) {
+                foreach ($hrefMatches[0] as &$h) {
+                    $h = trim($h);
+                    // Does the link association table exist title
+                    $domainLinked = DB::table(FresnsDomainLinksConfig::CFG_TABLE)->where('link_url',
+                        $h)->where('linked_type', $postType)->where('linked_id', $postId)->first();
+                    $title = $h;
+                    if (! empty($domainLinked)) {
+                        if ($domainLinked->link_title) {
+                            $title = $domainLinked->link_title;
+                        }
                     }
+                    $content = str_replace($h, "<a href='$h' target='_blank' class='fresns_content_link'>$title</a>", $content);
                 }
-                $content = str_replace($h, "<a href='$h' target='_blank' class='fresns_content_link'>$title</a>", $content);
             }
         }
 
