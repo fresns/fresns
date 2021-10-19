@@ -178,7 +178,7 @@ class FresnsPostsResourceDetail extends BaseAdminResource
         $member['roleIconDisplay'] = '';
         $member['avatar'] = $memberInfo->avatar_file_url ?? '';
         // Default Avatar
-        if (empty($member['avatar_file_url'])) {
+        if (empty($member['avatar'])) {
             $defaultIcon = ApiConfigHelper::getConfigByItemKey(FsConfig::DEFAULT_AVATAR);
             $member['avatar'] = $defaultIcon;
         }
