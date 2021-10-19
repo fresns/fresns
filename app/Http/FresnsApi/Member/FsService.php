@@ -326,43 +326,75 @@ class FsService
             $data['memberRoleName'] = FresnsLanguagesService::getLanguageByTableKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', 'member_role_name', $langTag);
             $data['followSetting'] = ApiConfigHelper::getConfigByItemKey('follow_member_setting');
             $data['followName'] = FresnsLanguagesService::getLanguageByTableKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', 'follow_member_name', $langTag);
-            if ($isMe == false) {
-                $follow = FresnsMemberFollows::where('member_id', $mid)->where('follow_type', 1)->where('follow_id', $viewMid)->first();
-                $isFollow = 0;
-                if (empty($follow)) {
-                    $follow = FresnsMemberFollows::where('member_id', $viewMid)->where('follow_type', 1)->where('follow_id', $mid)->first();
-                    if ($follow) {
-                        $isFollow = 2;
-                    }
-                } else {
-                    if ($follow['is_mutual'] == 1) {
-                        $isFollow = 3;
-                    } else {
-                        $isFollow = 1;
-                    }
+            // If the viewer is yourself, no output
+            // if ($isMe == false) {
+            //     $follow = FresnsMemberFollows::where('member_id', $mid)->where('follow_type', 1)->where('follow_id', $viewMid)->first();
+            //     $isFollow = 0;
+            //     if (empty($follow)) {
+            //         $follow = FresnsMemberFollows::where('member_id', $viewMid)->where('follow_type', 1)->where('follow_id', $mid)->first();
+            //         if ($follow) {
+            //             $isFollow = 2;
+            //         }
+            //     } else {
+            //         if ($follow['is_mutual'] == 1) {
+            //             $isFollow = 3;
+            //         } else {
+            //             $isFollow = 1;
+            //         }
+            //     }
+            //     $data['followStatus'] = $isFollow;
+            // }
+            $follow = FresnsMemberFollows::where('member_id', $mid)->where('follow_type', 1)->where('follow_id', $viewMid)->first();
+            $isFollow = 0;
+            if (empty($follow)) {
+                $follow = FresnsMemberFollows::where('member_id', $viewMid)->where('follow_type', 1)->where('follow_id', $mid)->first();
+                if ($follow) {
+                    $isFollow = 2;
                 }
-                $data['followStatus'] = $isFollow;
+            } else {
+                if ($follow['is_mutual'] == 1) {
+                    $isFollow = 3;
+                } else {
+                    $isFollow = 1;
+                }
             }
+            $data['followStatus'] = $isFollow;
+
             $data['likeSetting'] = ApiConfigHelper::getConfigByItemKey('like_member_setting');
             $data['likeName'] = FresnsLanguagesService::getLanguageByTableKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', 'like_member_name', $langTag);
-            if ($isMe == false) {
-                $isLike = 0;
-                $count = FresnsMemberLikes::where('member_id', $mid)->where('like_type', 1)->where('like_id', $viewMid)->count();
-                if ($count > 0) {
-                    $isLike = 1;
-                }
-                $data['likeStatus'] = $isLike;
+            // If the viewer is yourself, no output
+            // if ($isMe == false) {
+            //     $isLike = 0;
+            //     $count = FresnsMemberLikes::where('member_id', $mid)->where('like_type', 1)->where('like_id', $viewMid)->count();
+            //     if ($count > 0) {
+            //         $isLike = 1;
+            //     }
+            //     $data['likeStatus'] = $isLike;
+            // }
+            $isLike = 0;
+            $count = FresnsMemberLikes::where('member_id', $mid)->where('like_type', 1)->where('like_id', $viewMid)->count();
+            if ($count > 0) {
+                $isLike = 1;
             }
+            $data['likeStatus'] = $isLike;
+
             $data['shieldSetting'] = ApiConfigHelper::getConfigByItemKey('shield_member_setting');
             $data['shieldName'] = FresnsLanguagesService::getLanguageByTableKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', 'shield_member_name', $langTag);
-            if ($isMe == false) {
-                $isShield = 0;
-                $count = FresnsMemberShields::where('member_id', $mid)->where('shield_type', 1)->where('shield_id', $viewMid)->count();
-                if ($count > 0) {
-                    $isShield = 1;
-                }
-                $data['shieldStatus'] = $isShield;
+            // If the viewer is yourself, no output
+            // if ($isMe == false) {
+            //     $isShield = 0;
+            //     $count = FresnsMemberShields::where('member_id', $mid)->where('shield_type', 1)->where('shield_id', $viewMid)->count();
+            //     if ($count > 0) {
+            //         $isShield = 1;
+            //     }
+            //     $data['shieldStatus'] = $isShield;
+            // }
+            $isShield = 0;
+            $count = FresnsMemberShields::where('member_id', $mid)->where('shield_type', 1)->where('shield_id', $viewMid)->count();
+            if ($count > 0) {
+                $isShield = 1;
             }
+            $data['shieldStatus'] = $isShield;
 
             if ($isMe = false) {
                 $unikeyArr = FresnsPluginBadges::where('member_id', $mid)->pluck('plugin_unikey')->toArray();
