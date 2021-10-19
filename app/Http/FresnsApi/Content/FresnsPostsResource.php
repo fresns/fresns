@@ -753,10 +753,10 @@ class FresnsPostsResource extends BaseAdminResource
     }
 
     // Content Data Export Operations
-    public static function getContentView($content, $postId, $postType, $content_markdown=0)
+    public static function getContentView($content, $postId, $postType, $content_markdown = 0)
     {
         $request = request();
-        if(!$content_markdown){
+        if (! $content_markdown) {
             // Link
             preg_match_all("/http[s]{0,1}:\/\/.*?\s/", $content, $hrefMatches);
             if ($hrefMatches[0]) {

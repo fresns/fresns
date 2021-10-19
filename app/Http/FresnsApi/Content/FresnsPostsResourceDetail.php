@@ -97,7 +97,7 @@ class FresnsPostsResourceDetail extends BaseAdminResource
         $count = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where($input)->count();
         $isLike = $count == 0 ? false : true;
         $title = $this->title;
-        $content = FresnsPostsResource::getContentView(($append['content']), ($this->id), 1,$append['is_markdown']);
+        $content = FresnsPostsResource::getContentView(($append['content']), ($this->id), 1, $append['is_markdown']);
         // Read permission required or not
         $allowStatus = $this->is_allow;
         $allowProportion = 10;
