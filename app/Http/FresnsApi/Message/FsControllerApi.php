@@ -172,10 +172,8 @@ class FsControllerApi extends FresnsBaseApiController
         $mid = GlobalService::getGlobalKey('member_id');
         $dialogId = $request->input('dialogId');
         // Query the set of dialog ids that the member is in
-        $send_member_idArr = FresnsDialogMessages::where('dialog_id', $dialogId)->where('send_member_id',
-            $mid)->where('send_deleted_at', null)->pluck('id')->toArray();
-        $recv_member_idArr = FresnsDialogMessages::where('dialog_id', $dialogId)->where('recv_member_id',
-            $mid)->where('recv_deleted_at', null)->pluck('id')->toArray();
+        $send_member_idArr = FresnsDialogMessages::where('dialog_id', $dialogId)->where('send_member_id', $mid)->where('send_deleted_at', null)->pluck('id')->toArray();
+        $recv_member_idArr = FresnsDialogMessages::where('dialog_id', $dialogId)->where('recv_member_id', $mid)->where('recv_deleted_at', null)->pluck('id')->toArray();
         $idArr = array_merge($send_member_idArr, $recv_member_idArr);
         $ids = implode(',', $idArr);
         // Get whether the membership is A or B
