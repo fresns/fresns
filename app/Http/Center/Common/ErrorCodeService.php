@@ -274,7 +274,7 @@ class ErrorCodeService
         self::CONNECT_TOKEN_ERROR               => 'Connect token error',
 
         self::ACCOUNT_IS_EMPTY_ERROR            => 'Account cannot be empty',
-        self::ACCOUNT_CHECK_ERROR               => 'Wrong account or record not exist',
+        self::ACCOUNT_CHECK_ERROR               => 'Account password or verification code cannot be empty',
         self::ACCOUNT_PASSWORD_INVALID          => 'Incorrect account password',
         self::ACCOUNT_ERROR                     => 'Incorrect account or wrong password',
         self::ACCOUNT_COUNT_ERROR               => 'The error has exceeded the system limit. Please log in again 1 hour later',
