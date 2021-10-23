@@ -548,7 +548,6 @@ class FsControllerApi extends FresnsBaseApiController
     // Get posts to follow [list]
     public function postFollows(Request $request)
     {
-        
         $site_mode = ApiConfigHelper::getConfigByItemKey(FsConfig::SITE_MODEL);
 
         // Data source: whether provided by the plugin

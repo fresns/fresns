@@ -155,10 +155,10 @@ class FresnsCommentsService extends FsService
                     $parentCommentInfo = FresnsComments::find($c['parent_id']);
                     if ($parentCommentInfo) {
                         $parentMemberInfo = DB::table(FresnsMembersConfig::CFG_TABLE)->where('id', $parentCommentInfo['member_id'])->first();
-                        if(!$parentMemberInfo){
+                        if (! $parentMemberInfo) {
                             $reply['deactivate'] = true;
-                        }else{
-                            if($parentMemberInfo->deleted_at != null){
+                        } else {
+                            if ($parentMemberInfo->deleted_at != null) {
                                 $reply['deactivate'] = true;
                             }
                         }
@@ -174,7 +174,7 @@ class FresnsCommentsService extends FsService
                             $reply['mid'] = $parentMemberInfo->uuid ?? '';
                             $reply['mname'] = $parentMemberInfo->name ?? '';
                             $reply['nickname'] = $parentMemberInfo->nickname ?? '';
-                        }else{
+                        } else {
                             $reply['deactivate'] = true;
                         }
                     }
@@ -471,7 +471,7 @@ class FresnsCommentsService extends FsService
         FresnsCommentLogs::where('id', $draftId)->update(['state' => 3, 'comment_id' => $commentId, 'content' => $content]);
         // Notification
         $this->sendAtMessages($commentId, $draftId);
-        $this->sendCommentMessages($commentId, $draftId,1);
+        $this->sendCommentMessages($commentId, $draftId, 1);
         // Add stats: member_stats > post_publish_count
         $this->memberStats($draftId);
         // Analyze the hashtag and domain
@@ -497,10 +497,10 @@ class FresnsCommentsService extends FsService
 
         // Log updated to published
         FresnsCommentLogs::where('id', $draftId)->update(['state' => 3, 'content'=> $content]);
-        FresnsCommentAppends::where('comment_id', $commentId)->increment('edit_count'); 
+        FresnsCommentAppends::where('comment_id', $commentId)->increment('edit_count');
         // Notification
         $this->sendAtMessages($commentId, $draftId, 2);
-        $this->sendCommentMessages($commentId, $draftId,1);
+        $this->sendCommentMessages($commentId, $draftId, 1);
         // Add stats: member_stats > post_publish_count
         // Analyze the hashtag
         $this->analisisHashtag($draftId, 2);
@@ -587,15 +587,15 @@ class FresnsCommentsService extends FsService
     // The comment then determines whether the parent is itself, and generates a notification for the other party if it is not itself.
     // A first-level comment generates a notification for the author of the post (the author of the post is not himself).
     // Call MessageService to process
-    public function sendCommentMessages($commentId, $draftId,$type = 1)
+    public function sendCommentMessages($commentId, $draftId, $type = 1)
     {
         $draftComment = FresnsCommentLogs::find($draftId);
         $postInfo = FresnsPosts::find($draftComment['post_id']);
-        if($type == 1){
-            FresnsPosts::where('id',$draftComment['post_id'])->increment('comment_count');
+        if ($type == 1) {
+            FresnsPosts::where('id', $draftComment['post_id'])->increment('comment_count');
         }
         $comment = FresnsComments::where('id', $draftComment['comment_id'])->first();
-        if($comment && $comment['parent_id'] != 0){
+        if ($comment && $comment['parent_id'] != 0) {
             FresnsComments::where('id', $comment['parent_id'])->increment('comment_count');
         }
         // First-level comments to post authors (post authors who are not themselves) generate notifications.

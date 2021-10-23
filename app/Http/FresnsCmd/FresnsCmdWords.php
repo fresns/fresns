@@ -747,10 +747,10 @@ class FresnsCmdWords extends BasePlugin
             // Storage
             $path = $uploadFile->store($storePath);
             $basePath = base_path();
-            $basePath = $basePath .'/storage/app/';
-            $newPath = $storePath . '/' . StrHelper::createToken(8) . '.' . $uploadFile->getClientOriginalExtension();
-            copy($basePath . $path, $basePath . $newPath);
-            unlink($basePath . $path);
+            $basePath = $basePath.'/storage/app/';
+            $newPath = $storePath.'/'.StrHelper::createToken(8).'.'.$uploadFile->getClientOriginalExtension();
+            copy($basePath.$path, $basePath.$newPath);
+            unlink($basePath.$path);
             $file['file_name'] = $uploadFile->getClientOriginalName();
             $file['file_extension'] = $uploadFile->getClientOriginalExtension();
             $file['file_path'] = str_replace('public', '', $newPath);

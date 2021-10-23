@@ -445,9 +445,9 @@ class ContentLogsService
         }
         $content = self::stopWords($content);
         $rtrimContent = rtrim($content);
-        if(mb_strlen($rtrimContent) != mb_strlen($content)){
-            $content = $rtrimContent . ' ';
-        } 
+        if (mb_strlen($rtrimContent) != mb_strlen($content)) {
+            $content = $rtrimContent.' ';
+        }
         $input = [
             'group_id' => $group_id,
             'platform_id' => $request->header('platform'),
@@ -523,9 +523,9 @@ class ContentLogsService
         }
         $content = self::stopWords($content);
         $rtrimContent = rtrim($content);
-        if(mb_strlen($rtrimContent) != mb_strlen($content)){
-            $content = $rtrimContent . ' ';
-        } 
+        if (mb_strlen($rtrimContent) != mb_strlen($content)) {
+            $content = $rtrimContent.' ';
+        }
         $input = [
             'platform_id' => $request->header('platform'),
             'member_id' => $member_id,
@@ -583,10 +583,10 @@ class ContentLogsService
         // Storage
         $path = $uploadFile->store($storePath);
         $basePath = base_path();
-        $basePath = $basePath .'/storage/app/';
-        $newPath = $storePath . '/' . StrHelper::createToken(8) . '.' . $uploadFile->getClientOriginalExtension();
-        copy($basePath . $path, $basePath . $newPath);
-        unlink($basePath . $path);
+        $basePath = $basePath.'/storage/app/';
+        $newPath = $storePath.'/'.StrHelper::createToken(8).'.'.$uploadFile->getClientOriginalExtension();
+        copy($basePath.$path, $basePath.$newPath);
+        unlink($basePath.$path);
         $file['file_name'] = $uploadFile->getClientOriginalName();
         $file['file_extension'] = $uploadFile->getClientOriginalExtension();
         $file['file_path'] = str_replace('public', '', $newPath);
@@ -621,12 +621,11 @@ class ContentLogsService
         $input['image_height'] = $imageSize[1] ?? null;
         $input['image_is_long'] = 0;
         if (! empty($input['image_width']) && ! empty($input['image_height'])) {
-            if($input['image_width'] >= 700){
+            if ($input['image_width'] >= 700) {
                 if ($input['image_height'] >= $input['image_width'] * 3) {
                     $input['image_is_long'] = 1;
                 }
             }
-            
         }
 
         $file['file_size'] = $input['file_size'];
@@ -639,7 +638,6 @@ class ContentLogsService
             $input['mode'] = 1;
             $resp = CmdRpcHelper::call($pluginClass, $cmd, $input);
             if (CmdRpcHelper::isErrorCmdResp($resp)) {
-                
             }
         }
 
@@ -714,7 +712,6 @@ class ContentLogsService
             $input['mode'] = 1;
             $resp = CmdRpcHelper::call($pluginClass, $cmd, $input);
             if (CmdRpcHelper::isErrorCmdResp($resp)) {
-                
             }
         }
 

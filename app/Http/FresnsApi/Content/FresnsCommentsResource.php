@@ -108,9 +108,9 @@ class FresnsCommentsResource extends BaseAdminResource
         $commentLikeCount = $this->comment_like_count;
 
         // Operation behavior status
-        $likeStatus = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where('member_id', $mid)->where('like_type', 5)->where('like_id', $this->id)->where('deleted_at',NULL)->count();
-        $followStatus = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 5)->where('follow_id', $this->id)->where('deleted_at',NULL)->count();
-        $shieldStatus = DB::table(FresnsMemberShieldsConfig::CFG_TABLE)->where('member_id', $mid)->where('shield_type', 5)->where('shield_id', $this->id)->where('deleted_at',NULL)->count();
+        $likeStatus = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where('member_id', $mid)->where('like_type', 5)->where('like_id', $this->id)->where('deleted_at', null)->count();
+        $followStatus = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 5)->where('follow_id', $this->id)->where('deleted_at', null)->count();
+        $shieldStatus = DB::table(FresnsMemberShieldsConfig::CFG_TABLE)->where('member_id', $mid)->where('shield_type', 5)->where('shield_id', $this->id)->where('deleted_at', null)->count();
         // Operation behavior settings
         $likeSetting = ApiConfigHelper::getConfigByItemKey(FsConfig::LIKE_COMMENT_SETTING);
         $followSetting = ApiConfigHelper::getConfigByItemKey(FsConfig::FOLLOW_COMMENT_SETTING);
@@ -377,10 +377,10 @@ class FresnsCommentsResource extends BaseAdminResource
         $searchPid = request()->input('searchPid');
         $post = [];
         if (! $searchPid) {
-            $post['pid'] = $posts['uuid'] ?? "";
-            $post['title'] = $posts['title'] ?? "";
-            $post['content'] = $posts['content'] ?? "";
-            $post['status'] = $posts['is_enable'] ?? "";
+            $post['pid'] = $posts['uuid'] ?? '';
+            $post['title'] = $posts['title'] ?? '';
+            $post['content'] = $posts['content'] ?? '';
+            $post['status'] = $posts['is_enable'] ?? '';
             $post['gname'] = '';
             $post['gid'] = '';
             $post['cover'] = '';
