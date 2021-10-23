@@ -247,7 +247,7 @@ class FresnsBaseApiController extends BaseApiController
                     'missing header' => 'uid or mid or token',
                 ];
 
-                $this->error(ErrorCodeService::CODE_PARAM_ERROR, $info);
+                $this->error(ErrorCodeService::ACCOUNT_CHECK_ERROR, $info);
 
                 $this->error(ErrorCodeService::HEADER_ERROR, $info);
             }

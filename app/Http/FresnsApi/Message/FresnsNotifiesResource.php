@@ -47,12 +47,12 @@ class FresnsNotifiesResource extends BaseAdminResource
         $sourceMember = [];
         $avatar = $member->avatar_file_url ?? '';
         if ($member) {
-            // Default avatar when members have no avatar
+            // Default Avatar
             if (empty($avatar)) {
                 $defaultIcon = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEFAULT_AVATAR);
                 $avatar = $defaultIcon;
             }
-            // The avatar displayed when a member has been deleted
+            // Deactivate Avatar
             if ($member) {
                 if ($member->deleted_at != null) {
                     $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEACTIVATE_AVATAR);
@@ -73,6 +73,7 @@ class FresnsNotifiesResource extends BaseAdminResource
                     'decorate' => ApiFileHelper::getImageSignUrlByFileIdUrl($member->decorate_file_id, $member->decorate_file_url),
                     'verifiedStatus' => $member->verified_status ?? 1,
                     'verifiedIcon' => ApiFileHelper::getImageSignUrlByFileIdUrl($member->verified_file_id, $member->verified_file_url),
+                    'verifiedDesc' => $member->verified_desc ?? '',
                 ];
         }
         $sourceBrief = $this->source_brief;

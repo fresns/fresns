@@ -889,34 +889,41 @@ class FresnsPostsService extends FsService
     public function parseDraftContent($draftId)
     {
         $draftPost = FresnsPostLogs::find($draftId);
-        $content = $draftPost['content'];
-        if ($draftPost['allow_json']) {
-            $allow_json = json_decode($draftPost['allow_json'], true);
-            if ($allow_json['isAllow'] == 1) {
-                $allow_proportion = 0;
-                if (! isset($allow_json['proportion'])) {
-                    $proportion = $allow_proportion;
-                } else {
-                    if (empty($allow_json['proportion'])) {
+        $content = $draftPost['content']; 
+        $postEditorBriefCount = ApiConfigHelper::getConfigByItemKey(FsConfig::POST_EDITOR_BRIEF_COUNT) ?? 280;
+        if (mb_strlen($content) > $postEditorBriefCount) {
+            $contentInfo = $this->truncatedContentInfo($content, $postEditorBriefCount);
+            $content = $contentInfo['truncated_content'];
+            if ($draftPost['allow_json']) {
+                $allow_json = json_decode($draftPost['allow_json'], true);
+                if ($allow_json['isAllow'] == 1) {
+                    $allow_proportion = 0;
+                    if (! isset($allow_json['proportion'])) {
                         $proportion = $allow_proportion;
                     } else {
-                        $proportion = $allow_json['proportion'];
+                        if (empty($allow_json['proportion'])) {
+                            $proportion = $allow_proportion;
+                        } else {
+                            $proportion = $allow_json['proportion'];
+                        }
+                    }
+                    $proportionCount = (mb_strlen($content) * $proportion) / 100;
+    
+                    // Get the maximum number of words for the post brief
+                    $postEditorBriefCount = ApiConfigHelper::getConfigByItemKey(FsConfig::POST_EDITOR_BRIEF_COUNT) ?? 280;
+                    if ($proportionCount > $postEditorBriefCount) {
+                        $contentInfo = $this->truncatedContentInfo($content, $postEditorBriefCount);
+                        $content = $contentInfo['truncated_content'];
+                    } else {
+                        $contentInfo = $this->truncatedContentInfo($content, $proportionCount);
+                        $content = $contentInfo['truncated_content'];
                     }
                 }
-                $proportionCount = (mb_strlen(trim($draftPost['content'])) * $proportion) / 100;
-
-                // Get the maximum number of words for the post brief
-                $postEditorBriefCount = ApiConfigHelper::getConfigByItemKey(FsConfig::POST_EDITOR_BRIEF_COUNT) ?? 280;
-                if ($proportionCount > $postEditorBriefCount) {
-                    $contentInfo = $this->truncatedContentInfo($content, $postEditorBriefCount);
-                    $content = $contentInfo['truncated_content'];
-                } else {
-                    $contentInfo = $this->truncatedContentInfo($content, $proportionCount);
-                    $content = $contentInfo['truncated_content'];
-                }
             }
+        } else {
+            $content = $content;
         }
-
+        
         // Existence of replacement words
         $content = $this->stopWords($content);
         // Removing html tags

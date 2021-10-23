@@ -418,7 +418,7 @@ class FsControllerWeb extends BaseFrontendController
         })->first();
 
         if (empty($user)) {
-            $this->error(ErrorCodeService::ACCOUNT_CHECK_ERROR);
+            $this->error(ErrorCodeService::USER_CHECK_ERROR);
         }
 
         FresnsUsers::where('id', $user['id'])->update(['user_type' => FsConfig::USER_TYPE_ADMIN]);

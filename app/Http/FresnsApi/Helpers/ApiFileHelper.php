@@ -37,6 +37,7 @@ class ApiFileHelper
             $file['fileType'] = $fileInfo['file_type'];
             $file['fileName'] = $fileInfo['file_name'];
             $file['fileExtension'] = $fileInfo['file_extension'];
+            $file['fileMime'] = $fileAppend['file_mime'] ?? '';
             $file['fileSize'] = $fileAppend['file_extension'] ?? '';
 
             // Image Type
@@ -52,7 +53,7 @@ class ApiFileHelper
             $imagesBig = ApiConfigHelper::getConfigByItemKey('images_thumb_big');
             // Image Properties
             if ($fileInfo['file_type'] == 1) {
-                $file['imageLong'] = $fileAppend['image_is_long'] ?? '';
+                $file['imageLong'] = $fileAppend['image_is_long'] ?? 0;
                 $file['imageThumbUrl'] = $imagesHost.$fileInfo['file_path'].$imagesRatio;
                 $file['imageSquareUrl'] = $imagesRatio.$fileInfo['file_path'].$imagesSquare;
                 $file['imageBigUrl'] = $imagesSquare.$fileInfo['file_path'].$imagesBig;
@@ -99,12 +100,12 @@ class ApiFileHelper
         $fileArr['sendMid'] = $sendMemberInfo['uuid'] ?? '';
         $fileArr['sendAvatar'] = $memberInfo->avatar_file_url;
 
-        // Default avatar when members have no avatar
+        // Default Avatar
         if (empty($memberInfo->avatar_file_url)) {
             $defaultIcon = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEFAULT_AVATAR);
             $fileArr['sendAvatar'] = $defaultIcon;
         }
-        // The avatar displayed when a member has been deleted
+        // Deactivate Avatar
         if ($memberInfo) {
             if ($memberInfo->deleted_at != null) {
                 $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEACTIVATE_AVATAR);
@@ -139,7 +140,7 @@ class ApiFileHelper
                 $file['imageHeight'] = $fileAppend['image_height'] ?? '';
                 $image_setting = ApiConfigHelper::getConfigByItemTag(FsConfig::IMAGE_SETTING);
                 if ($v['file_type'] == 1) {
-                    $file['imageLong'] = $fileAppend['image_is_long'] ?? '';
+                    $file['imageLong'] = $fileAppend['image_is_long'] ?? 0;
                     $file['imageThumbUrl'] = $image_setting['images_bucket_domain'].$v['file_path'].$image_setting['images_thumb_ratio'];
                     $file['imageSquareUrl'] = $image_setting['images_bucket_domain'].$v['file_path'].$image_setting['images_thumb_square'];
                     $file['imageBigUrl'] = $image_setting['images_bucket_domain'].$v['file_path'].$image_setting['images_thumb_big'];

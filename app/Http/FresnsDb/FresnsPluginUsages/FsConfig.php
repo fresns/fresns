@@ -41,7 +41,7 @@ class FsConfig extends BaseConfig
     const SCONE_OPTION = [
         // ['key' => 0,'value' =>0,'name'=>'All', 'title' => 'All'],
         ['key' => '1', 'value' => '1', 'name' => 'Posts', 'title' => 'Posts'],
-        ['key' => '2', 'value' => '2', 'name' => 'Comments ', 'title' => 'Comments '],
+        ['key' => '2', 'value' => '2', 'name' => 'Comments ', 'title' => 'Comments'],
         ['key' => '3', 'value' => '3', 'name' => 'Members', 'title' => 'Members'],
 
     ];

@@ -108,9 +108,9 @@ class FresnsCommentsResource extends BaseAdminResource
         $commentLikeCount = $this->comment_like_count;
 
         // Operation behavior status
-        $likeStatus = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where('member_id', $mid)->where('like_type', 5)->where('like_id', $this->id)->count();
-        $followStatus = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 5)->where('follow_id', $this->id)->count();
-        $shieldStatus = DB::table(FresnsMemberShieldsConfig::CFG_TABLE)->where('member_id', $mid)->where('shield_type', 5)->where('shield_id', $this->id)->count();
+        $likeStatus = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where('member_id', $mid)->where('like_type', 5)->where('like_id', $this->id)->where('deleted_at',NULL)->count();
+        $followStatus = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 5)->where('follow_id', $this->id)->where('deleted_at',NULL)->count();
+        $shieldStatus = DB::table(FresnsMemberShieldsConfig::CFG_TABLE)->where('member_id', $mid)->where('shield_type', 5)->where('shield_id', $this->id)->where('deleted_at',NULL)->count();
         // Operation behavior settings
         $likeSetting = ApiConfigHelper::getConfigByItemKey(FsConfig::LIKE_COMMENT_SETTING);
         $followSetting = ApiConfigHelper::getConfigByItemKey(FsConfig::FOLLOW_COMMENT_SETTING);
@@ -141,7 +141,7 @@ class FresnsCommentsResource extends BaseAdminResource
         $member = [];
         $member['anonymous'] = $this->is_anonymous;
         $member['deactivate'] = false; //Not deactivated = false, Deactivated = true
-        $member['isAuthor'] = '';
+        $member['isAuthor'] = false;
         $member['mid'] = '';
         $member['mname'] = '';
         $member['nickname'] = '';
@@ -174,18 +174,18 @@ class FresnsCommentsResource extends BaseAdminResource
         }
         $member['avatar'] = ApiFileHelper::getImageSignUrl($member['avatar']);
 
-        $member['decorate'] = '';
         $member['gender'] = 0;
         $member['bio'] = '';
         $member['verifiedStatus'] = 1;
         $member['verifiedIcon'] = '';
+        $member['verifiedDesc'] = '';
         $member['icons'] = [];
         if ($this->is_anonymous == 0) {
             if ($memberInfo) {
                 if ($memberInfo->deleted_at == null && $memberInfo) {
                     $member['anonymous'] = $this->is_anonymous;
                     $member['deactivate'] = false;
-                    $member['isAuthor'] = $this->member_id == $mid ? true : false;
+                    $member['isAuthor'] = ($this->member_id == $posts['member_id']) ? true : false;
                     $member['mid'] = $memberInfo->uuid ?? '';
                     $member['mname'] = $memberInfo->name ?? '';
                     $member['nickname'] = $memberInfo->nickname ?? '';
@@ -199,8 +199,9 @@ class FresnsCommentsResource extends BaseAdminResource
                     $member['bio'] = $memberInfo->bio ?? '';
                     $member['verifiedStatus'] = $memberInfo->verified_status ?? 1;
                     $member['verifiedIcon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($memberInfo->verified_file_id, $memberInfo->verified_file_url);
+                    $member['verifiedDesc'] = $memberInfo->verified_desc ?? '';
 
-                    $memberIconsArr = FresnsMemberIcons::where('member_id', $mid)->get()->toArray();
+                    $memberIconsArr = FresnsMemberIcons::where('member_id', $memberInfo->id)->get()->toArray();
                     $iconsArr = [];
                     foreach ($memberIconsArr as $v) {
                         $item = [];
@@ -221,7 +222,7 @@ class FresnsCommentsResource extends BaseAdminResource
         // If the configuration table key name comment_preview is not 0, it means the output is on
         // The number represents the number of output bars, up to 3 bars (in reverse order according to the number of likes)
         $previewStatus = ApiConfigHelper::getConfigByItemKey(FsConfig::COMMENT_PREVIEW);
-        $commentSetting['status'] = $previewStatus;
+        $commentSetting['preview'] = intval($previewStatus);
         // Calculate how many sub-level comments there are under this comment
         $commentSetting['count'] = FresnsComments::where('parent_id', $this->id)->count();
         $commentSetting['lists'] = [];
@@ -376,10 +377,10 @@ class FresnsCommentsResource extends BaseAdminResource
         $searchPid = request()->input('searchPid');
         $post = [];
         if (! $searchPid) {
-            $post['pid'] = $posts['uuid'];
-            $post['title'] = $posts['title'];
-            $post['content'] = $posts['content'];
-            $post['status'] = $posts['is_enable'];
+            $post['pid'] = $posts['uuid'] ?? "";
+            $post['title'] = $posts['title'] ?? "";
+            $post['content'] = $posts['content'] ?? "";
+            $post['status'] = $posts['is_enable'] ?? "";
             $post['gname'] = '';
             $post['gid'] = '';
             $post['cover'] = '';
@@ -388,24 +389,32 @@ class FresnsCommentsResource extends BaseAdminResource
                 $post['gid'] = $groupInfo['uuid'];
                 $post['cover'] = ApiFileHelper::getImageSignUrlByFileIdUrl($groupInfo['cover_file_id'], $groupInfo['cover_file_url']);
             }
-            $post['mid'] = $memberInfo->uuid ?? '';
-            $post['mname'] = $memberInfo->name ?? '';
-            $post['nickname'] = $memberInfo->nickname ?? '';
-            $post['avatar'] = $memberInfo->avatar_file_url ?? '';
-            // Default avatar when members have no avatar
+            $post['anonymous'] = $posts['is_anonymous'] ?? 0;
+            $post['deactivate'] = false; //Not deactivated = false, Deactivated = true
+            $postMemberInfo = DB::table(FresnsMembersConfig::CFG_TABLE)->where('id', $posts['member_id'])->first();
+            $post['mid'] = $postMemberInfo->uuid ?? '';
+            $post['mname'] = $postMemberInfo->name ?? '';
+            $post['nickname'] = $postMemberInfo->nickname ?? '';
+            $post['avatar'] = $postMemberInfo->avatar_file_url ?? '';
+            // Default Avatar
             if (empty($post['avatar'])) {
                 $defaultIcon = ApiConfigHelper::getConfigByItemKey(FsConfig::DEFAULT_AVATAR);
                 $post['avatar'] = $defaultIcon;
             }
-            // Anonymous content for avatar
+            // Anonymous Avatar
             if ($this->is_anonymous == 1) {
+                $post['anonymous'] = $this->is_anonymous;
+                $post['mid'] = '';
+                $post['mname'] = '';
+                $post['nickname'] = '';
                 $anonymousAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::ANONYMOUS_AVATAR);
                 $post['avatar'] = $anonymousAvatar;
             }
-            // The avatar displayed when a member has been deleted
+            // Deactivate Avatar
             if ($memberInfo->deleted_at != null) {
                 $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::DEACTIVATE_AVATAR);
                 $post['avatar'] = $deactivateAvatar;
+                $post['deactivate'] = true;
             }
             $post['avatar'] = ApiFileHelper::getImageSignUrl($post['avatar']);
         }

@@ -60,12 +60,12 @@ class FresnsDialogMessagesResource extends BaseAdminResource
             $messageArr['sendMid'] = $sendMemberInfo['uuid'] ?? '';
             $messageArr['sendAvatar'] = $memberInfo->avatar_file_url ?? '';
 
-            // Default avatar when members have no avatar
+            // Default Avatar
             if (empty($messageArr['sendAvatar'])) {
                 $defaultIcon = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEFAULT_AVATAR);
                 $messageArr['sendAvatar'] = $defaultIcon;
             }
-            // The avatar displayed when a member has been deleted
+            // Deactivate Avatar
             if ($memberInfo) {
                 if ($memberInfo->deleted_at != null) {
                     $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEACTIVATE_AVATAR);

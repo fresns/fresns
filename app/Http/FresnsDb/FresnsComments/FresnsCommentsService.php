@@ -74,16 +74,15 @@ class FresnsCommentsService extends FsService
                     $arr['mid'] = $memberInfo['uuid'];
                     $arr['mname'] = $memberInfo['name'];
                     $arr['nickname'] = $memberInfo['nickname'];
-                    $arr['avatar'] = $memberInfo['avatar_file_url'];
-                    $arr['cid '] = $v['uuid'];
-                    $arr['content '] = FresnsPostsResource::getContentView($v['content'], $comment_id, 2);
+                    $arr['cid'] = $v['uuid'];
+                    $arr['content'] = FresnsPostsResource::getContentView($v['content'], $comment_id, 2);
                     $attachCount = [];
                     $attachCount['images'] = 0;
                     $attachCount['videos'] = 0;
                     $attachCount['audios'] = 0;
                     $attachCount['docs'] = 0;
-                    $attachCount['extends'] = DB::table(FresnsExtendLinkedsConfig::CFG_TABLE)->where('linked_type', 2)->where('linked_id', $this->id)->count();
-                    $more_json_decode = json_decode($this->more_json, true);
+                    $attachCount['extends'] = DB::table(FresnsExtendLinkedsConfig::CFG_TABLE)->where('linked_type', 2)->where('linked_id', $v['id'])->count();
+                    $more_json_decode = json_decode($v['more_json'], true);
                     if ($more_json_decode) {
                         if (isset($more_json_decode['files'])) {
                             foreach ($more_json_decode['files'] as $m) {
@@ -113,7 +112,7 @@ class FresnsCommentsService extends FsService
                     if (! empty($replyComment) && ($v['parent_id'] != $comment_id)) {
                         $replyMEmberInfo = FresnsMembers::find($replyComment['member_id']);
                         $replyTo['cid'] = $replyComment['uuid'] ?? '';
-                        $replyTo['anonymous'] = $replyComment['uuid'] ?? '';
+                        $replyTo['anonymous'] = $replyComment['is_anonymous'] ?? '';
                         $replyTo['deactivate'] = $replyComment['deleted_at'] == null ? true : false;
                         $replyTo['mid'] = $replyMEmberInfo['uuid'] ?? '';
                         $replyTo['mname'] = $replyMEmberInfo['name'] ?? '';
@@ -151,26 +150,35 @@ class FresnsCommentsService extends FsService
         if ($comments) {
             foreach ($comments as $c) {
                 $reply = [];
+                $reply['deactivate'] = false;
                 if ($c['parent_id'] != $comment_id) {
                     $parentCommentInfo = FresnsComments::find($c['parent_id']);
                     if ($parentCommentInfo) {
                         $parentMemberInfo = DB::table(FresnsMembersConfig::CFG_TABLE)->where('id', $parentCommentInfo['member_id'])->first();
+                        if(!$parentMemberInfo){
+                            $reply['deactivate'] = true;
+                        }else{
+                            if($parentMemberInfo->deleted_at != null){
+                                $reply['deactivate'] = true;
+                            }
+                        }
                     }
                     $reply['cid'] = $parentCommentInfo['uuid'] ?? '';
                     $reply['anonymous'] = $parentCommentInfo['is_anonymous'];
-                    $reply['deactivate'] = false;
                     $reply['mid'] = '';
                     $reply['mname'] = '';
                     $reply['nickname'] = '';
                     if ($parentCommentInfo['is_anonymous'] == 0) {
                         if ($parentMemberInfo->deleted_at == null) {
-                            $reply['deactivate'] = true;
+                            $reply['deactivate'] = false;
                             $reply['mid'] = $parentMemberInfo->uuid ?? '';
                             $reply['mname'] = $parentMemberInfo->name ?? '';
                             $reply['nickname'] = $parentMemberInfo->nickname ?? '';
+                        }else{
+                            $reply['deactivate'] = true;
                         }
                     }
-                    $replyTo[] = $reply;
+                    $replyTo = $reply;
                 }
             }
         }
@@ -463,7 +471,7 @@ class FresnsCommentsService extends FsService
         FresnsCommentLogs::where('id', $draftId)->update(['state' => 3, 'comment_id' => $commentId, 'content' => $content]);
         // Notification
         $this->sendAtMessages($commentId, $draftId);
-        $this->sendCommentMessages($commentId, $draftId);
+        $this->sendCommentMessages($commentId, $draftId,1);
         // Add stats: member_stats > post_publish_count
         $this->memberStats($draftId);
         // Analyze the hashtag and domain
@@ -489,10 +497,10 @@ class FresnsCommentsService extends FsService
 
         // Log updated to published
         FresnsCommentLogs::where('id', $draftId)->update(['state' => 3, 'content'=> $content]);
-        FresnsCommentAppends::where('comment_id', $commentId)->increment('edit_count');
+        FresnsCommentAppends::where('comment_id', $commentId)->increment('edit_count'); 
         // Notification
         $this->sendAtMessages($commentId, $draftId, 2);
-        $this->sendCommentMessages($commentId, $draftId);
+        $this->sendCommentMessages($commentId, $draftId,1);
         // Add stats: member_stats > post_publish_count
         // Analyze the hashtag
         $this->analisisHashtag($draftId, 2);
@@ -579,14 +587,19 @@ class FresnsCommentsService extends FsService
     // The comment then determines whether the parent is itself, and generates a notification for the other party if it is not itself.
     // A first-level comment generates a notification for the author of the post (the author of the post is not himself).
     // Call MessageService to process
-    public function sendCommentMessages($commentId, $draftId)
+    public function sendCommentMessages($commentId, $draftId,$type = 1)
     {
         $draftComment = FresnsCommentLogs::find($draftId);
         $postInfo = FresnsPosts::find($draftComment['post_id']);
+        if($type == 1){
+            FresnsPosts::where('id',$draftComment['post_id'])->increment('comment_count');
+        }
         $comment = FresnsComments::where('id', $draftComment['comment_id'])->first();
+        if($comment && $comment['parent_id'] != 0){
+            FresnsComments::where('id', $comment['parent_id'])->increment('comment_count');
+        }
         // First-level comments to post authors (post authors who are not themselves) generate notifications.
         if (($draftComment['member_id'] != $postInfo['member_id']) && $comment['parent_id'] == 0) {
-            FresnsComments::where('id', $commentId)->increment('comment_count');
             $input = [
                 'source_id' => $commentId,
                 'source_brief' => $draftComment['content'],
@@ -599,7 +612,6 @@ class FresnsCommentsService extends FsService
         }
         // The comment determines whether the parent is itself, and if not, generates a notification for the other party
         if ($comment['parent_id'] != 0 && ($comment['parent_id'] != $draftComment['member_id'])) {
-            FresnsComments::where('id', $comment['parent_id'])->increment('comment_count');
             $input = [
                 'source_id' => $commentId,
                 'source_brief' => $draftComment['content'],
@@ -745,7 +757,7 @@ class FresnsCommentsService extends FsService
 
         // Get the maximum number of words for the comment brief
         $commentEditorBriefCount = ApiConfigHelper::getConfigByItemKey(FsConfig::COMMENT_EDITOR_BRIEF_COUNT) ?? 280;
-        if (mb_strlen(trim($draftComment['content'])) > $commentEditorBriefCount) {
+        if (mb_strlen($draftComment['content']) > $commentEditorBriefCount) {
             $contentInfo = $this->truncatedContentInfo($content, $commentEditorBriefCount);
             $content = $contentInfo['truncated_content'];
         } else {

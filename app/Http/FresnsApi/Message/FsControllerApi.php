@@ -193,12 +193,12 @@ class FsControllerApi extends FresnsBaseApiController
         $member['mname'] = '';
         $member['nickname'] = '';
         $member['avatar'] = $memberInfo->avatar_file_url ?? '';
-        // Default avatar when members have no avatar
+        // Default Avatar
         if (empty($member['avatar'])) {
             $defaultIcon = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEFAULT_AVATAR);
             $member['avatar'] = $defaultIcon;
         }
-        // The avatar displayed when a member has been deleted
+        // Deactivate Avatar
         if ($memberInfo->deleted_at != null) {
             $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEACTIVATE_AVATAR);
             $member['avatar'] = $deactivateAvatar;
@@ -207,6 +207,7 @@ class FsControllerApi extends FresnsBaseApiController
         $member['decorate'] = '';
         $member['verifiedStatus'] = '';
         $member['verifiedIcon'] = '';
+        $member['verifiedDesc'] = '';
         if ($memberInfo) {
             if ($memberInfo->deleted_at == null) {
                 $member['deactivate'] = true;
@@ -216,6 +217,7 @@ class FsControllerApi extends FresnsBaseApiController
                 $member['decorate'] = ApiFileHelper::getImageSignUrlByFileIdUrl($memberInfo->decorate_file_id, $memberInfo->decorate_file_url);
                 $member['verifiedStatus'] = $memberInfo->verified_status;
                 $member['verifiedIcon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($memberInfo->verified_file_id, $memberInfo->verified_file_url);
+                $member['verifiedDesc'] = $memberInfo->verified_desc;
             }
         }
 

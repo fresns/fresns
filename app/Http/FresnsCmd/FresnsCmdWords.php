@@ -746,10 +746,14 @@ class FresnsCmdWords extends BasePlugin
             }
             // Storage
             $path = $uploadFile->store($storePath);
-
+            $basePath = base_path();
+            $basePath = $basePath .'/storage/app/';
+            $newPath = $storePath . '/' . StrHelper::createToken(8) . '.' . $uploadFile->getClientOriginalExtension();
+            copy($basePath . $path, $basePath . $newPath);
+            unlink($basePath . $path);
             $file['file_name'] = $uploadFile->getClientOriginalName();
             $file['file_extension'] = $uploadFile->getClientOriginalExtension();
-            $file['file_path'] = str_replace('public', '', $path);
+            $file['file_path'] = str_replace('public', '', $newPath);
             $file['rank_num'] = 9;
             $file['table_type'] = $tableType;
             $file['table_name'] = $tableName;
@@ -765,7 +769,7 @@ class FresnsCmdWords extends BasePlugin
             $retId = FresnsFiles::insertGetId($file);
             FresnsSubPluginService::addSubTablePluginItem(FresnsFilesConfig::CFG_TABLE, $retId);
 
-            $file['real_path'] = $path;
+            $file['real_path'] = $newPath;
             $input = [
                 'file_id' => $retId,
                 'file_mime' => $uploadFile->getMimeType(),
@@ -781,7 +785,7 @@ class FresnsCmdWords extends BasePlugin
                 $input['image_width'] = $imageSize[0] ?? null;
                 $input['image_height'] = $imageSize[1] ?? null;
                 if (! empty($input['image_width']) >= 700) {
-                    if ($input['image_height'] >= $input['image_width'] * 4) {
+                    if ($input['image_height'] >= $input['image_width'] * 3) {
                         $input['image_is_long'] = 1;
                     }
                 }
@@ -830,7 +834,7 @@ class FresnsCmdWords extends BasePlugin
                     $imageLong = 0;
                     if (! empty($fileInfo['image_width'])) {
                         if ($fileInfo['image_width'] >= 700) {
-                            if ($fileInfo['image_height'] >= $fileInfo['image_width'] * 4) {
+                            if ($fileInfo['image_height'] >= $fileInfo['image_width'] * 3) {
                                 $imageLong = 1;
                             } else {
                                 $imageLong = 0;
@@ -874,11 +878,12 @@ class FresnsCmdWords extends BasePlugin
                 $item['type'] = $file['file_type'];
                 $item['name'] = $file['file_name'];
                 $item['extension'] = $file['file_extension'];
+                $item['mime'] = $append['file_mime'];
                 $item['size'] = $append['file_size'];
                 if ($type == 1) {
                     $item['imageWidth'] = $append['image_width'] ?? '';
                     $item['imageHeight'] = $append['image_height'] ?? '';
-                    $item['imageLong'] = $append['image_long'] ?? 0;
+                    $item['imageLong'] = $append['image_is_long'] ?? 0;
                     $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_IMAGE;
                     $input['fid'] = $uuid;
                     $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
@@ -2180,7 +2185,7 @@ class FresnsCmdWords extends BasePlugin
         }
         // One of the password or verification code is required
         if (empty($password) && empty($verifyCode)) {
-            return $this->pluginError(ErrorCodeService::CODE_PARAM_ERROR);
+            return $this->pluginError(ErrorCodeService::ACCOUNT_CHECK_ERROR);
         }
 
         $time = date('Y-m-d H:i:s', time());

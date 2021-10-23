@@ -548,6 +548,7 @@ class FsControllerApi extends FresnsBaseApiController
     // Get posts to follow [list]
     public function postFollows(Request $request)
     {
+        
         $site_mode = ApiConfigHelper::getConfigByItemKey(FsConfig::SITE_MODEL);
 
         // Data source: whether provided by the plugin
@@ -563,19 +564,19 @@ class FsControllerApi extends FresnsBaseApiController
                 // $followMemberArr = FresnsMemberFollows::where('member_id',$mid)->where('follow_type',1)->pluck('follow_id')->toArray();
                 $followMemberArr = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 1)->where('deleted_at', null)->pluck('follow_id')->toArray();
                 $postIdArr = FresnsPosts::whereIn('member_id', $followMemberArr)->pluck('id')->toArray();
-                $postIdArr = array_merge($mePostsArr, $postIdArr);
+                $idArr = array_merge($mePostsArr, $postIdArr);
                 // $ids = implode(',', $postIdArr);
                 break;
             case 'group':
                 // $folloGroupArr = FresnsMemberFollows::where('member_id',$mid)->where('follow_type',2)->pluck('follow_id')->toArray();
                 $folloGroupArr = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 2)->where('deleted_at', null)->pluck('follow_id')->toArray();
-                $postIdArr = FresnsPosts::whereIn('group_id', $folloGroupArr)->pluck('id')->toArray();
+                $idArr = FresnsPosts::whereIn('group_id', $folloGroupArr)->pluck('id')->toArray();
                 // $ids = implode(',', $postIdArr);
                 break;
             case 'hashtag':
                 // $folloHashtagArr = FresnsMemberFollows::where('member_id',$mid)->where('follow_type',3)->pluck('follow_id')->toArray();
                 $folloHashtagArr = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 3)->where('deleted_at', null)->pluck('follow_id')->toArray();
-                $postIdArr = FresnsHashtagLinkeds::where('linked_type', 1)->whereIn('hashtag_id', $folloHashtagArr)->pluck('linked_id')->toArray();
+                $idArr = FresnsHashtagLinkeds::where('linked_type', 1)->whereIn('hashtag_id', $folloHashtagArr)->pluck('linked_id')->toArray();
                 // $ids = implode(',', $postIdArr);
                 break;
             default:

@@ -230,7 +230,6 @@ class DateHelper
         $hour = $carbon2->diffInHours($carbon1, true);
         $day = $carbon2->diffInDays($carbon1, true);
         $month = $carbon2->diffInMonths($carbon1, true);
-
         if ($month > 0) {
             return str_replace('{n}', $month, $langInfo['timeFormatMonth']);
         }
@@ -243,5 +242,7 @@ class DateHelper
         if ($min) {
             return str_replace('{n}', $min, $langInfo['timeFormatMinute']);
         }
+
+        return str_replace('{n}', 1, $langInfo['timeFormatMinute']);
     }
 }

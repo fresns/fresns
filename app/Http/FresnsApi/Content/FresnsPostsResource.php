@@ -137,9 +137,9 @@ class FresnsPostsResource extends BaseAdminResource
         $essence = $this->essence_state;
 
         // Operation behavior status
-        $likeStatus = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where('member_id', $mid)->where('like_type', 4)->where('like_id', $this->id)->count();
-        $followStatus = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 4)->where('follow_id', $this->id)->count();
-        $shieldStatus = DB::table(FresnsMemberShieldsConfig::CFG_TABLE)->where('member_id', $mid)->where('shield_type', 4)->where('shield_id', $this->id)->count();
+        $likeStatus = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where('member_id', $mid)->where('like_type', 4)->where('like_id', $this->id)->where('deleted_at',NULL)->count();
+        $followStatus = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 4)->where('follow_id', $this->id)->where('deleted_at',NULL)->count();
+        $shieldStatus = DB::table(FresnsMemberShieldsConfig::CFG_TABLE)->where('member_id', $mid)->where('shield_type', 4)->where('shield_id', $this->id)->where('deleted_at',NULL)->count();
         // Operation behavior settings
         $likeSetting = ApiConfigHelper::getConfigByItemKey(FsConfig::LIKE_POST_SETTING);
         $followSetting = ApiConfigHelper::getConfigByItemKey(FsConfig::FOLLOW_POST_SETTING);
@@ -166,11 +166,15 @@ class FresnsPostsResource extends BaseAdminResource
         if (! empty($editTime)) {
             $editTimeFormat = DateHelper::format_date_langTag(strtotime($this->latest_edit_at));
         }
+
         $allowStatus = $this->is_allow;
         $allowBtnName = ApiLanguageHelper::getLanguagesByTableId(FresnsPostsConfig::CFG_TABLE, 'allow_btn_name', $this->id);
-        $allowBtnUrl = $append['allow_plugin_unikey'] ?? '';
+        $allowBtnUrl = FresnsPluginsService::getPluginUrlByUnikey($append['allow_plugin_unikey']);
+        
         $memberListName = ApiLanguageHelper::getLanguagesByTableId(FresnsPostsConfig::CFG_TABLE, 'member_list_name', $this->id);
         $memberListCount = Db::table('post_members')->where('post_id', $this->id)->count();
+        $memberListUrl = FresnsPluginsService::getPluginUrlByUnikey($append['member_list_plugin_unikey']);
+
         $member = [];
         $member['anonymous'] = $this->is_anonymous;
         $member['deactivate'] = false; //Not deactivated = false, Deactivated = true
@@ -211,6 +215,7 @@ class FresnsPostsResource extends BaseAdminResource
         $member['bio'] = '';
         $member['verifiedStatus'] = '';
         $member['verifiedIcon'] = '';
+        $member['verifiedDesc'] = '';
         $member['icons'] = [];
         if ($this->is_anonymous == 0) {
             if ($memberInfo->deleted_at == null && $memberInfo) {
@@ -230,8 +235,9 @@ class FresnsPostsResource extends BaseAdminResource
                 $member['bio'] = $memberInfo->bio ?? '';
                 $member['verifiedStatus'] = $memberInfo->verified_status ?? 1;
                 $member['verifiedIcon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($memberInfo->verified_file_id, $memberInfo->verified_file_url);
+                $member['verifiedDesc'] = $memberInfo->verified_desc ?? '';
 
-                $memberIconsArr = FresnsMemberIcons::where('member_id', $memberInfo->id)->get()->toArray();
+                $memberIconsArr = FresnsMemberIcons::where('member_id', $this->member_id)->get()->toArray();
                 $iconsArr = [];
                 foreach ($memberIconsArr as $v) {
                     $item = [];
@@ -264,12 +270,12 @@ class FresnsPostsResource extends BaseAdminResource
                 $comment['nickname'] = $commentMemberInfo['nickname'] ?? '';
             }
 
-            // Default avatar when members have no avatar
+            // Default Avatar
             if (empty($commentStatus['avatar'])) {
                 $defaultIcon = ApiConfigHelper::getConfigByItemKey(FsConfig::DEFAULT_AVATAR);
                 $comment['avatar'] = $defaultIcon;
             }
-            // Anonymous content for avatar
+            // Anonymous Avatar
             if ($comments->is_anonymous == 1) {
                 $anonymousAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::ANONYMOUS_AVATAR);
                 $comment['avatar'] = $anonymousAvatar;
@@ -581,7 +587,7 @@ class FresnsPostsResource extends BaseAdminResource
             'memberListStatus' => $append['member_list_status'],
             'memberListName' => $memberListName,
             'memberListCount' => $memberListCount,
-            'memberListUrl' => $append['member_list_plugin_unikey'],
+            'memberListUrl' => $memberListUrl,
             'viewCount' => $viewCount,
             'likeCount' => $likeCount,
             'followCount' => $followCount,
@@ -632,7 +638,7 @@ class FresnsPostsResource extends BaseAdminResource
                 'memberListStatus' => $append['member_list_status'],
                 'memberListName' => $memberListName,
                 'memberListCount' => $memberListCount,
-                'memberListUrl' => $append['member_list_plugin_unikey'],
+                'memberListUrl' => $memberListUrl,
                 'viewCount' => $viewCount,
                 'likeCount' => $likeCount,
                 'followCount' => $followCount,
@@ -689,7 +695,7 @@ class FresnsPostsResource extends BaseAdminResource
                     'memberListStatus' => $append['member_list_status'],
                     'memberListName' => $memberListName,
                     'memberListCount' => $memberListCount,
-                    'memberListUrl' => $append['member_list_plugin_unikey'],
+                    'memberListUrl' => $memberListUrl,
                     'viewCount' => $viewCount,
                     'likeCount' => $likeCount,
                     'followCount' => $followCount,
@@ -753,10 +759,10 @@ class FresnsPostsResource extends BaseAdminResource
     }
 
     // Content Data Export Operations
-    public static function getContentView($content, $postId, $postType, $content_markdown = 0)
+    public static function getContentView($content, $postId, $postType, $content_markdown=0)
     {
         $request = request();
-        if (! $content_markdown) {
+        if(!$content_markdown){
             // Link
             preg_match_all("/http[s]{0,1}:\/\/.*?\s/", $content, $hrefMatches);
             if ($hrefMatches[0]) {

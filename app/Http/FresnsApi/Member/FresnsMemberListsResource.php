@@ -175,6 +175,7 @@ class FresnsMemberListsResource extends BaseAdminResource
             'shieldStatus' => $isShield,
             'verifiedStatus' => $this->verified_status,
             'verifiedIcon' => ApiFileHelper::getImageSignUrlByFileIdUrl($this->verified_file_id, $this->verified_file_url),
+            'verifiedDesc' => $this->verified_desc,
             'stats' => $stats,
             'icons' => $iconsArr,
         ];

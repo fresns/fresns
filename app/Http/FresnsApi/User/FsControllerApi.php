@@ -272,7 +272,7 @@ class FsControllerApi extends FresnsBaseApiController
         ValidateService::validateRule($request, $rule);
 
         if (empty($user)) {
-            $this->error(ErrorCodeService::ACCOUNT_CHECK_ERROR);
+            $this->error(ErrorCodeService::USER_CHECK_ERROR);
         }
 
         $cmd = FresnsCmdWordsConfig::FRESNS_CMD_USER_LOGIN;
@@ -451,7 +451,7 @@ class FsControllerApi extends FresnsBaseApiController
         }
 
         if (empty($user)) {
-            $this->error(ErrorCodeService::ACCOUNT_CHECK_ERROR);
+            $this->error(ErrorCodeService::USER_CHECK_ERROR);
         }
         $password = str_replace(' ', '', $newPassword);
         $passwordLength = ApiConfigHelper::getConfigByItemKey('password_length');

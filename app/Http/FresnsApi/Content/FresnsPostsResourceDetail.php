@@ -97,7 +97,7 @@ class FresnsPostsResourceDetail extends BaseAdminResource
         $count = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where($input)->count();
         $isLike = $count == 0 ? false : true;
         $title = $this->title;
-        $content = FresnsPostsResource::getContentView(($append['content']), ($this->id), 1, $append['is_markdown']);
+        $content = FresnsPostsResource::getContentView(($append['content']), ($this->id), 1,$append['is_markdown']);
         // Read permission required or not
         $allowStatus = $this->is_allow;
         $allowProportion = 10;
@@ -130,9 +130,9 @@ class FresnsPostsResourceDetail extends BaseAdminResource
         $essence = $this->essence_state;
 
         // Operation behavior status
-        $likeStatus = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where('member_id', $mid)->where('like_type', 4)->where('like_id', $this->id)->count();
-        $followStatus = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 4)->where('follow_id', $this->id)->count();
-        $shieldStatus = DB::table(FresnsMemberShieldsConfig::CFG_TABLE)->where('member_id', $mid)->where('shield_type', 4)->where('shield_id', $this->id)->count();
+        $likeStatus = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where('member_id', $mid)->where('like_type', 4)->where('like_id', $this->id)->where('deleted_at',NULL)->count();
+        $followStatus = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 4)->where('follow_id', $this->id)->where('deleted_at',NULL)->count();
+        $shieldStatus = DB::table(FresnsMemberShieldsConfig::CFG_TABLE)->where('member_id', $mid)->where('shield_type', 4)->where('shield_id', $this->id)->where('deleted_at',NULL)->count();
         // Operation behavior settings
         $likeSetting = ApiConfigHelper::getConfigByItemKey(FsConfig::LIKE_POST_SETTING);
         $followSetting = ApiConfigHelper::getConfigByItemKey(FsConfig::FOLLOW_POST_SETTING);
@@ -160,11 +160,15 @@ class FresnsPostsResourceDetail extends BaseAdminResource
             $editTimeFormat = DateHelper::format_date_langTag(strtotime($this->latest_edit_at));
         }
         $canDelete = $append['can_delete'];
+
         $allowStatus = $this->is_allow;
         $allowBtnName = ApiLanguageHelper::getLanguagesByTableId(FresnsPostsConfig::CFG_TABLE, 'allow_btn_name', $this->id);
-        $allowBtnUrl = $append['allow_plugin_unikey'];
+        $allowBtnUrl = FresnsPluginsService::getPluginUrlByUnikey($append['allow_plugin_unikey']);
+
         $memberListName = ApiLanguageHelper::getLanguagesByTableId(FresnsPostsConfig::CFG_TABLE, 'member_list_name', $this->id);
         $memberListCount = Db::table('post_members')->where('post_id', $this->id)->count();
+        $memberListUrl = FresnsPluginsService::getPluginUrlByUnikey($append['member_list_plugin_unikey']);
+
         $member = [];
         $member['anonymous'] = $this->is_anonymous;
         $member['deactivate'] = false; //Not deactivated = false, Deactivated = true
@@ -205,6 +209,7 @@ class FresnsPostsResourceDetail extends BaseAdminResource
         $member['bio'] = '';
         $member['verifiedStatus'] = '';
         $member['verifiedIcon'] = '';
+        $member['verifiedDesc'] = '';
         $member['icons'] = [];
         if ($this->is_anonymous == 0) {
             if ($memberInfo->deleted_at == null && $memberInfo) {
@@ -223,8 +228,9 @@ class FresnsPostsResourceDetail extends BaseAdminResource
                 $member['bio'] = $memberInfo->bio ?? '';
                 $member['verifiedStatus'] = $memberInfo->verified_status ?? 1;
                 $member['verifiedIcon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($memberInfo->verified_file_id, $memberInfo->verified_file_url);
+                $member['verifiedDesc'] = $memberInfo->verified_desc ?? '';
 
-                $memberIconsArr = FresnsMemberIcons::where('member_id', $mid)->get()->toArray();
+                $memberIconsArr = FresnsMemberIcons::where('member_id', $this->member_id)->get()->toArray();
                 $iconsArr = [];
                 foreach ($memberIconsArr as $v) {
                     $item = [];
@@ -524,7 +530,7 @@ class FresnsPostsResourceDetail extends BaseAdminResource
             'memberListStatus' => $append['member_list_status'],
             'memberListName' => $memberListName,
             'memberListCount' => $memberListCount,
-            'memberListUrl' => $append['member_list_plugin_unikey'],
+            'memberListUrl' => $memberListUrl,
             'viewCount' => $viewCount,
             'likeCount' => $likeCount,
             'followCount' => $followCount,

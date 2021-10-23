@@ -1013,7 +1013,7 @@ class FsControllerApi extends FresnsBaseApiController
             $info = [
                 'null body' => 'mid or mname is empty',
             ];
-            $this->error(ErrorCodeService::CODE_PARAM_ERROR, $info);
+            $this->error(ErrorCodeService::MEMBER_CHECK_ERROR, $info);
         }
         if (empty($viewMid)) {
             $mid = FresnsMembers::where('name', $viewMname)->value('id');
@@ -1087,7 +1087,7 @@ class FsControllerApi extends FresnsBaseApiController
                 $data = $FresnsPostsService->searchData();
                 break;
             default:
-                $commentArr = FsService::getPostList($request);
+                $commentArr = FsService::getCommentList($request);
                 $commentIds = implode(',', $commentArr);
                 $FresnsCommentsService = new FresnsCommentsService();
                 $request->offsetSet('ids', $commentIds);
