@@ -163,6 +163,7 @@ class FresnsPostsResourceDetail extends BaseAdminResource
         $member['mid'] = '';
         $member['mname'] = '';
         $member['nickname'] = '';
+        $member['rid'] = '';
         $member['nicknameColor'] = '';
         $member['roleName'] = '';
         $member['roleNameDisplay'] = '';
@@ -206,6 +207,7 @@ class FresnsPostsResourceDetail extends BaseAdminResource
                 $member['mid'] = $memberInfo->uuid ?? '';
                 $member['mname'] = $memberInfo->name ?? '';
                 $member['nickname'] = $memberInfo->nickname ?? '';
+                $member['rid'] = $memberRole['id'] ?? '';
                 $member['nicknameColor'] = $memberRole['nickname_color'] ?? '';
                 $member['roleName'] = ApiLanguageHelper::getLanguagesByTableId(FresnsMemberRolesConfig::CFG_TABLE, 'name', $memberRole['id']);
                 $member['roleNameDisplay'] = $memberRole['is_display_name'] ?? 0;

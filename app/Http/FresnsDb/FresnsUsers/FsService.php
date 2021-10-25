@@ -122,12 +122,14 @@ class FsService extends BaseAdminService
             $item['nickname'] = $v->nickname;
             $roleId = FresnsMemberRoleRelsService::getMemberRoleRels($v->id);
             $memberRole = FresnsMemberRoles::where('id', $roleId)->first();
+            $item['rid'] = '';
             $item['nicknameColor'] = '';
             $item['roleName'] = '';
             $item['roleNameDisplay'] = '';
             $item['roleIcon'] = '';
             $item['roleIconDisplay'] = '';
             if ($memberRole) {
+                $item['rid'] = $memberRole['id'];
                 $item['nicknameColor'] = $memberRole['nickname_color'];
                 $item['roleName'] = FresnsLanguagesService::getLanguageByTableId(FresnsMemberRolesConfig::CFG_TABLE, 'name', $memberRole['id'], $langTag);
                 $item['roleNameDisplay'] = $memberRole['is_display_name'];

@@ -186,12 +186,14 @@ class FsService
             $roleIdArr = FresnsMemberRoleRels::where('member_id', $member['id'])->pluck('role_id')->toArray();
             $roleId = FresnsMemberRoleRelsService::getMemberRoleRels($member['id']);
             $memberRole = FresnsMemberRoles::where('id', $roleId)->first();
+            $data['rid'] = '';
             $data['nicknameColor'] = '';
             $data['roleName'] = '';
             $data['roleNameDisplay'] = '';
             $data['roleIcon'] = '';
             $data['roleIconDisplay'] = '';
             if ($memberRole) {
+                $data['rid'] = $memberRole['id'];
                 $data['nicknameColor'] = $memberRole['nickname_color'];
                 $data['roleName'] = FresnsLanguagesService::getLanguageByTableId(FresnsMemberRolesConfig::CFG_TABLE, 'name', $memberRole['id'], $langTag);
                 $data['roleNameDisplay'] = $memberRole['is_display_name'];
@@ -232,6 +234,7 @@ class FsService
             foreach ($memberRolesArr as $v) {
                 $item = [];
                 $item['type'] = FresnsMemberRoleRels::where('member_id', $mid)->where('role_id', $v['id'])->value('type');
+                $item['rid'] = $v['id'];
                 $item['name'] = FresnsLanguagesService::getLanguageByTableId(FresnsMemberRolesConfig::CFG_TABLE, 'name', $v['id'], $langTag);
                 $item['icon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($v['icon_file_id'], $v['icon_file_url']);
                 $item['nicknameColor'] = $v['nickname_color'];
