@@ -40,6 +40,7 @@ use App\Http\FresnsDb\FresnsMemberLikes\FresnsMemberLikes;
 use App\Http\FresnsDb\FresnsMemberLikes\FresnsMemberLikesService;
 use App\Http\FresnsDb\FresnsMemberRoles\FresnsMemberRolesService;
 use App\Http\FresnsDb\FresnsMembers\FresnsMembers;
+use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShields;
 use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShieldsService;
 use App\Http\FresnsDb\FresnsMemberStats\FresnsMemberStats;
 use App\Http\FresnsDb\FresnsMemberStats\FresnsMemberStatsConfig;
@@ -502,7 +503,6 @@ class FsControllerApi extends FresnsBaseApiController
                         if ($it_like_hashtags == true) {
                             $likeId = $objectId;
                         }
-
                         break;
                     case 4:
                         $it_like_posts = ApiConfigHelper::getConfigByItemKey('it_like_posts');
@@ -517,8 +517,7 @@ class FsControllerApi extends FresnsBaseApiController
                         }
                         break;
                 }
-                $idArr = FresnsMemberLikes::where('like_type', $objectType)->where('like_id',
-                    $likeId)->pluck('member_id')->toArray();
+                $idArr = FresnsMemberLikes::where('like_type', $objectType)->where('like_id', $likeId)->pluck('member_id')->toArray();
                 break;
             case 2:
                 $followId = 0;
@@ -554,9 +553,7 @@ class FsControllerApi extends FresnsBaseApiController
                         }
                         break;
                 }
-                $idArr = FresnsMemberFollows::where('follow_type', $objectType)->where('follow_id',
-                    $followId)->pluck('member_id')->toArray();
-
+                $idArr = FresnsMemberFollows::where('follow_type', $objectType)->where('follow_id', $followId)->pluck('member_id')->toArray();
                 break;
             case 3:
                 $shieldId = 0;
@@ -592,9 +589,7 @@ class FsControllerApi extends FresnsBaseApiController
                         }
                         break;
                 }
-                $idArr = FresnsMemberFollows::where('follow_type', $objectType)->where('follow_id',
-                    $shieldId)->pluck('member_id')->toArray();
-
+                $idArr = FresnsMemberShields::where('shield_type', $objectType)->where('shield_id', $shieldId)->pluck('member_id')->toArray();
                 break;
             case 4:
                 if ($objectType == 4) {
@@ -604,9 +599,7 @@ class FsControllerApi extends FresnsBaseApiController
                 }
                 break;
             default:
-                $idArr = DB::table(FresnsFileLogsConfig::CFG_TABLE)->where('file_id',
-                    $objectId)->pluck('member_id')->toArray();
-
+                $idArr = DB::table(FresnsFileLogsConfig::CFG_TABLE)->where('file_id', $objectId)->pluck('member_id')->toArray();
                 break;
         }
 

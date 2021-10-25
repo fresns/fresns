@@ -209,9 +209,9 @@ class FsControllerApi extends FresnsBaseApiController
                     $item['followStatus'] = $followStatus;
                     if (empty($v['avatar_file_url']) && empty($v['avatar_file_id'])) {
                         $defaultAvatar = ApiConfigHelper::getConfigByItemKey('default_avatar');
-                        $memberAvatar = ApiFileHelper::getImageSignUrl($defaultAvatar);
+                        $memberAvatar = ApiFileHelper::getImageAvatarUrl($defaultAvatar);
                     } else {
-                        $memberAvatar = ApiFileHelper::getImageSignUrlByFileIdUrl($v['avatar_file_id'], $v['avatar_file_url']);
+                        $memberAvatar = ApiFileHelper::getImageAvatarUrlByFileIdUrl($v['avatar_file_id'], $v['avatar_file_url']);
                     }
                     $item['image'] = $memberAvatar;
                     $item['title'] = '';
@@ -578,7 +578,7 @@ class FsControllerApi extends FresnsBaseApiController
                     $downloadUrl = $domain.$filePath;
                 } else {
                     $output = $resp['output'];
-                    $downloadUrl = $output['imageDefaultUrl'];
+                    $downloadUrl = $output['imageBigUrl'];
                     $originalUrl = $output['originalUrl'];
                 }
                 break;

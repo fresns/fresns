@@ -234,7 +234,7 @@ class FresnsCommentsService extends FsService
         // Removing html tags
         $contentBrief = strip_tags($contentBrief);
         // Get the number of words in the brief of the comment
-        $commentEditorBriefCount = ApiConfigHelper::getConfigByItemKey(FsConfig::COMMENT_EDITOR_WORD_COUNT) ?? 280;
+        $commentEditorBriefCount = ApiConfigHelper::getConfigByItemKey(FsConfig::COMMENT_EDITOR_BRIEF_COUNT) ?? 280;
         if (mb_strlen($draftComment['content']) > $commentEditorBriefCount) {
             $isBrief = 1;
         } else {

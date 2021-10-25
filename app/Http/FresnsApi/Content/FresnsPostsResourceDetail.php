@@ -14,38 +14,26 @@ use App\Http\Center\Common\GlobalService;
 use App\Http\FresnsApi\Helpers\ApiConfigHelper;
 use App\Http\FresnsApi\Helpers\ApiFileHelper;
 use App\Http\FresnsApi\Helpers\ApiLanguageHelper;
-use App\Http\FresnsDb\FresnsComments\FresnsComments;
-use App\Http\FresnsDb\FresnsComments\FresnsCommentsConfig;
 use App\Http\FresnsDb\FresnsConfigs\FresnsConfigsConfig;
-use App\Http\FresnsDb\FresnsDomainLinks\FresnsDomainLinksConfig;
-use App\Http\FresnsDb\FresnsExtendLinkeds\FresnsExtendLinkeds;
 use App\Http\FresnsDb\FresnsExtendLinkeds\FresnsExtendLinkedsConfig;
 use App\Http\FresnsDb\FresnsExtends\FresnsExtends;
 use App\Http\FresnsDb\FresnsExtends\FresnsExtendsConfig;
-use App\Http\FresnsDb\FresnsFiles\FresnsFiles;
 use App\Http\FresnsDb\FresnsGroups\FresnsGroups;
 use App\Http\FresnsDb\FresnsGroups\FresnsGroupsConfig;
-use App\Http\FresnsDb\FresnsImplants\FresnsImplants;
-use App\Http\FresnsDb\FresnsImplants\FresnsImplantsConfig;
-use App\Http\FresnsDb\FresnsMemberFollows\FresnsMemberFollows;
 use App\Http\FresnsDb\FresnsMemberFollows\FresnsMemberFollowsConfig;
 use App\Http\FresnsDb\FresnsMemberIcons\FresnsMemberIcons;
 use App\Http\FresnsDb\FresnsMemberIcons\FresnsMemberIconsConfig;
-use App\Http\FresnsDb\FresnsMemberLikes\FresnsMemberLikes;
 use App\Http\FresnsDb\FresnsMemberLikes\FresnsMemberLikesConfig;
 use App\Http\FresnsDb\FresnsMemberRoleRels\FresnsMemberRoleRels;
 use App\Http\FresnsDb\FresnsMemberRoles\FresnsMemberRoles;
 use App\Http\FresnsDb\FresnsMemberRoles\FresnsMemberRolesConfig;
-use App\Http\FresnsDb\FresnsMembers\FresnsMembers;
 use App\Http\FresnsDb\FresnsMembers\FresnsMembersConfig;
-use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShields;
 use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShieldsConfig;
 use App\Http\FresnsDb\FresnsPlugins\FresnsPluginsService;
 use App\Http\FresnsDb\FresnsPluginUsages\FresnsPluginUsages;
 use App\Http\FresnsDb\FresnsPluginUsages\FresnsPluginUsagesConfig;
 use App\Http\FresnsDb\FresnsPluginUsages\FresnsPluginUsagesService;
 use App\Http\FresnsDb\FresnsPostAllows\FresnsPostAllowsConfig;
-use App\Http\FresnsDb\FresnsPostAppends\FresnsPostAppends;
 use App\Http\FresnsDb\FresnsPostAppends\FresnsPostAppendsConfig;
 use App\Http\FresnsDb\FresnsPosts\FresnsPostsConfig;
 use App\Http\FresnsDb\FresnsPosts\FresnsPostsService;
@@ -118,7 +106,7 @@ class FresnsPostsResourceDetail extends BaseAdminResource
                 $FresnsPostsService = new FresnsPostsService();
                 // Prevent @, hashtags, emojis, links and other messages from being truncated
                 $contentInfo = $FresnsPostsService->truncatedContentInfo($append['content']);
-                $content = FresnsPostsResource::getContentView(($append['content']), ($this->id), 1, $append['is_markdown']);
+                $content = FresnsPostsResource::getContentView(($contentInfo['truncated_content']), ($this->id), 1, $append['is_markdown']);
 
                 $allowStatus = 0;
             }
@@ -202,7 +190,7 @@ class FresnsPostsResourceDetail extends BaseAdminResource
             $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::DEACTIVATE_AVATAR);
             $member['avatar'] = $deactivateAvatar;
         }
-        $member['avatar'] = ApiFileHelper::getImageSignUrl($member['avatar']);
+        $member['avatar'] = ApiFileHelper::getImageAvatarUrl($member['avatar']);
 
         $member['decorate'] = '';
         $member['gender'] = '';
@@ -509,12 +497,9 @@ class FresnsPostsResourceDetail extends BaseAdminResource
         // Default Field
         $default = [
             'pid' => $pid,
-            // 'titleIcon' => $titleIcon,
-            // 'isLike' => $isLike,
             'title' => $title,
             'content' => $content,
             'isMarkdown' => $append['is_markdown'],
-            // 'brief' => $brief,
             'sticky' => $sticky,
             'essence' => $essence,
             'postName' => $PostName,
@@ -542,14 +527,12 @@ class FresnsPostsResourceDetail extends BaseAdminResource
             'editTime' => $editTime,
             'editTimeFormat' => $editTimeFormat,
             'editCount' => $append['edit_count'],
-            // 'canDelete' => $canDelete,
             'allowStatus' => $allowStatus,
             'allowProportion' => $allowProportion,
             'allowBtnName' => $allowBtnName,
             'allowBtnUrl' => $allowBtnUrl,
             'member' => $member,
             'icons' => $icons,
-            // 'commentSetting' => $comment,
             'location' => $location,
             'attachCount' => $attachCount,
             'files' => $files,
@@ -557,7 +540,6 @@ class FresnsPostsResourceDetail extends BaseAdminResource
             'group' => $group,
             'manages' => $managesArr,
             'editStatus' => $editStatus,
-            // 'seoInfo' => $seoInfo
         ];
 
         // Merger

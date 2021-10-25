@@ -72,7 +72,7 @@ class FresnsDialogsResource extends BaseAdminResource
                 $member['mid'] = $memberInfo->uuid;
                 $member['mname'] = $memberInfo->name;
                 $member['nickname'] = $memberInfo->nickname;
-                $member['avatar'] = ApiFileHelper::getImageSignUrl($member['avatar']);
+                $member['avatar'] = ApiFileHelper::getImageAvatarUrl($member['avatar']);
                 $member['decorate'] = ApiFileHelper::getImageSignUrlByFileIdUrl($memberInfo->decorate_file_id, $memberInfo->decorate_file_url);
                 $member['verifiedStatus'] = $memberInfo->verified_status;
                 $member['verifiedIcon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($memberInfo->verified_file_id, $memberInfo->verified_file_url);

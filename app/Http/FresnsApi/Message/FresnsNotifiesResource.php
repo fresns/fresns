@@ -62,7 +62,7 @@ class FresnsNotifiesResource extends BaseAdminResource
                 $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEACTIVATE_AVATAR);
                 $avatar = $deactivateAvatar;
             }
-            $avatar = ApiFileHelper::getImageSignUrl($avatar);
+            $avatar = ApiFileHelper::getImageAvatarUrl($avatar);
             $member = FresnsMembers::find($this->source_member_id);
             $sourceMember =
                 [

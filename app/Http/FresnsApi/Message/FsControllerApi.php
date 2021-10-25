@@ -203,7 +203,7 @@ class FsControllerApi extends FresnsBaseApiController
             $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEACTIVATE_AVATAR);
             $member['avatar'] = $deactivateAvatar;
         }
-        $member['avatar'] = ApiFileHelper::getImageSignUrl($member['avatar']);
+        $member['avatar'] = ApiFileHelper::getImageAvatarUrl($member['avatar']);
         $member['decorate'] = '';
         $member['verifiedStatus'] = '';
         $member['verifiedIcon'] = '';

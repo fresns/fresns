@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\DB;
 class ApiFileHelper
 {
     // Dialog File Message
-    public static function getFileInfo($messageId, $file_id, $mid)
+    public static function getMessageFileInfo($messageId, $file_id, $mid)
     {
         $messageInfo = FresnsDialogMessages::find($messageId);
         $fileInfo = FresnsFiles::find($file_id);
@@ -34,54 +34,44 @@ class ApiFileHelper
         $file = [];
         if ($fileInfo) {
             $file['fileId'] = $file_id;
-            $file['fileType'] = $fileInfo['file_type'];
-            $file['fileName'] = $fileInfo['file_name'];
-            $file['fileExtension'] = $fileInfo['file_extension'];
-            $file['fileMime'] = $fileAppend['file_mime'] ?? '';
-            $file['fileSize'] = $fileAppend['file_extension'] ?? '';
-
-            // Image Type
-            $file['imageWidth'] = $fileAppend['image_width'] ?? '';
-            $file['imageHeight'] = $fileAppend['image_height'] ?? '';
-            $file['imageThumbUrl'] = '';
-            $file['imageSquareUrl'] = '';
-            $file['imageBigUrl'] = '';
+            $file['type'] = $fileInfo['file_type'];
+            $file['name'] = $fileInfo['file_name'];
+            $file['extension'] = $fileInfo['file_extension'];
+            $file['mime'] = $fileAppend['file_mime'] ?? '';
+            $file['size'] = $fileAppend['file_extension'] ?? '';
             // Image Config
             $imagesHost = ApiConfigHelper::getConfigByItemKey('images_bucket_domain');
             $imagesRatio = ApiConfigHelper::getConfigByItemKey('images_thumb_ratio');
             $imagesSquare = ApiConfigHelper::getConfigByItemKey('images_thumb_square');
             $imagesBig = ApiConfigHelper::getConfigByItemKey('images_thumb_big');
-            // Image Properties
+            // Image Type
             if ($fileInfo['file_type'] == 1) {
+                $file['imageWidth'] = $fileAppend['image_width'] ?? '';
+                $file['imageHeight'] = $fileAppend['image_height'] ?? '';
                 $file['imageLong'] = $fileAppend['image_is_long'] ?? 0;
                 $file['imageThumbUrl'] = $imagesHost.$fileInfo['file_path'].$imagesRatio;
                 $file['imageSquareUrl'] = $imagesRatio.$fileInfo['file_path'].$imagesSquare;
                 $file['imageBigUrl'] = $imagesSquare.$fileInfo['file_path'].$imagesBig;
             }
-
             // Video Type
             $video_setting = ApiConfigHelper::getConfigByItemTag(FsConfig::VIDEO_SETTING);
-            // Video Properties
             if ($fileInfo['file_type'] == 2) {
                 $file['videoTime'] = $fileInfo['video_time'];
                 $file['videoCover'] = $fileInfo['video_cover'];
                 $file['videoGif'] = $fileInfo['video_gif'];
                 $file['videoUrl'] = $video_setting['videos_bucket_domain'].$fileInfo['file_path'];
+                $file['transcodingState'] = $fileAppend['transcoding_state'] ?? 1;
             }
-
             // Audio Type
             $audio_setting = ApiConfigHelper::getConfigByItemTag(FsConfig::AUDIO_SETTING);
-            // Audio Properties
             if ($fileInfo['file_type'] == 3) {
                 $file['audioTime'] = $fileInfo['audio_time'];
                 $file['audioUrl'] = $audio_setting['audios_bucket_domain'].$fileInfo['file_path'];
+                $file['transcodingState'] = $fileAppend['transcoding_state'] ?? 1;
             }
-
             // Doc Type
             $doc_setting = ApiConfigHelper::getConfigByItemTag(FsConfig::DOC_SETTING);
-            // Doc Properties
             if ($fileInfo['file_type'] == 4) {
-                $file['docPreviewUrl'] = $doc_setting['docs_online_preview'].$doc_setting['docs_bucket_domain'].$fileInfo['file_path'];
                 $file['docUrl'] = $doc_setting['docs_bucket_domain'].$fileInfo['file_path'];
             }
 
@@ -118,63 +108,6 @@ class ApiFileHelper
         $fileArr['sendTime'] = $messageInfo['created_at'];
 
         return $fileArr;
-    }
-
-    // File Data Table Info
-    public static function getFileInfoByTable($table, $table_id)
-    {
-        $fileIdArr = FresnsFiles::where('table_name', $table)->where('table_id', $table_id)->get()->toArray();
-        $result = [];
-        if ($fileIdArr) {
-            $file = [];
-            foreach ($fileIdArr as $v) {
-                $fileAppend = FresnsFileAppends::findAppend('file_id', $v['id']);
-                $file['fid'] = $v['uuid'];
-                $file['type'] = $v['file_type'];
-                $file['name'] = $v['file_name'];
-                $file['extension'] = $v['file_extension'];
-                $file['fileSize'] = $fileAppend['file_extension'] ?? '';
-
-                // Image Type
-                $file['imageWidth'] = $fileAppend['image_width'] ?? '';
-                $file['imageHeight'] = $fileAppend['image_height'] ?? '';
-                $image_setting = ApiConfigHelper::getConfigByItemTag(FsConfig::IMAGE_SETTING);
-                if ($v['file_type'] == 1) {
-                    $file['imageLong'] = $fileAppend['image_is_long'] ?? 0;
-                    $file['imageThumbUrl'] = $image_setting['images_bucket_domain'].$v['file_path'].$image_setting['images_thumb_ratio'];
-                    $file['imageSquareUrl'] = $image_setting['images_bucket_domain'].$v['file_path'].$image_setting['images_thumb_square'];
-                    $file['imageBigUrl'] = $image_setting['images_bucket_domain'].$v['file_path'].$image_setting['images_thumb_big'];
-                }
-
-                // Video Type
-                $video_setting = ApiConfigHelper::getConfigByItemTag(FsConfig::VIDEO_SETTING);
-                if ($v['file_type'] == 2) {
-                    $file['videoTime'] = $fileAppend['video_time'];
-                    $file['videoCover'] = $fileAppend['video_cover'];
-                    $file['videoGif'] = $fileAppend['video_gif'];
-                    $file['videoUrl'] = $video_setting['videos_bucket_domain'].$v['file_path'];
-                }
-
-                // Audio Type
-                $audio_setting = ApiConfigHelper::getConfigByItemTag(FsConfig::AUDIO_SETTING);
-                if ($v['file_type'] == 3) {
-                    $file['audioTime'] = $fileAppend['audio_time'];
-                    $file['audioUrl'] = $audio_setting['audios_bucket_domain'].$v['file_path'];
-                }
-
-                // Doc Type
-                $doc_setting = ApiConfigHelper::getConfigByItemTag(FsConfig::DOC_SETTING);
-                if ($v['file_type'] == 4) {
-                    $file['docPreviewUrl'] = $doc_setting['docs_online_preview'].$doc_setting['docs_bucket_domain'].$v['file_path'];
-                    $file['docUrl'] = $doc_setting['docs_bucket_domain'].$v['file_path'];
-                }
-
-                $file['more_json'] = [];
-                $result[] = $file;
-            }
-        }
-
-        return $result;
     }
 
     // Anti Hotlinking (images)
@@ -215,10 +148,29 @@ class ApiFileHelper
             if (CmdRpcHelper::isErrorCmdResp($resp)) {
                 return $url;
             }
-            $singUrl = $resp['output']['imageDefaultUrl'];
+            $singUrl = $resp['output']['imageConfigUrl'];
         }
 
         return $singUrl;
+    }
+
+    // Get avatar image link by fid
+    public static function getImageAvatarUrl($url)
+    {
+        if (! is_numeric($url)) {
+            $avatarUrl = $url;
+        } else {
+            $uuid = FresnsFiles::where('id', $url)->value('uuid');
+            $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_IMAGE;
+            $input['fid'] = $uuid;
+            $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
+            if (CmdRpcHelper::isErrorCmdResp($resp)) {
+                return $url;
+            }
+            $avatarUrl = $resp['output']['imageAvatarUrl'];
+        }
+
+        return $avatarUrl;
     }
 
     // Get image link by fid
@@ -234,7 +186,7 @@ class ApiFileHelper
 
             return $domain.$file['file_path'];
         }
-        $singUrl = $resp['output']['imageDefaultUrl'];
+        $singUrl = $resp['output']['imageConfigUrl'];
 
         return $singUrl;
     }
@@ -259,7 +211,30 @@ class ApiFileHelper
                 return false;
             }
 
-            return $resp['output']['imageDefaultUrl'];
+            return $resp['output']['imageConfigUrl'];
+        } else {
+            return $fileUrl;
+        }
+    }
+
+    // imageAvatarUrl
+    public static function getImageAvatarUrlByFileIdUrl($fileId, $fileUrl)
+    {
+        // Determine whether to open the anti-hotlinking chain
+        $imageStatus = ApiConfigHelper::getConfigByItemKey('images_url_status');
+        if ($imageStatus == true) {
+            if (empty($fileId)) {
+                return $fileUrl;
+            }
+            $uuid = FresnsFiles::where('id', $fileId)->value('uuid');
+            $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_IMAGE;
+            $input['fid'] = $uuid;
+            $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
+            if (CmdRpcHelper::isErrorCmdResp($resp)) {
+                return false;
+            }
+
+            return $resp['output']['imageAvatarUrl'];
         } else {
             return $fileUrl;
         }
@@ -331,12 +306,13 @@ class ApiFileHelper
                 if (isset($i['fileId'])) {
                     if (! empty($i['fileId'])) {
                         $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_IMAGE;
-                        $input['fid'] = $i['fileId'];
+                        $fid = FresnsFiles::where('id',$i['fileId'])->value('uuid');
+                        $input['fid'] = $fid;
                         $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
                         if (CmdRpcHelper::isErrorCmdResp($resp)) {
                             return false;
                         }
-                        $i['fileUrl'] = $resp['output']['imageRatioUrl'];
+                        $i['fileUrl'] = $resp['output']['imageConfigUrl'];
                     }
                 }
             }

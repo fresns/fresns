@@ -208,7 +208,7 @@ class FresnsPostsResource extends BaseAdminResource
             $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::DEACTIVATE_AVATAR);
             $member['avatar'] = $deactivateAvatar;
         }
-        $member['avatar'] = ApiFileHelper::getImageSignUrl($member['avatar']);
+        $member['avatar'] = ApiFileHelper::getImageAvatarUrl($member['avatar']);
 
         $member['decorate'] = '';
         $member['gender'] = '';
@@ -280,7 +280,7 @@ class FresnsPostsResource extends BaseAdminResource
                 $anonymousAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::ANONYMOUS_AVATAR);
                 $comment['avatar'] = $anonymousAvatar;
             }
-            $comment['avatar'] = ApiFileHelper::getImageSignUrl($comment['avatar']);
+            $comment['avatar'] = ApiFileHelper::getImageAvatarUrl($comment['avatar']);
 
             $comment['cid'] = $comments->uuid ?? '';
             $comment['content'] = self::getContentView(($comments->content), ($comments->id), 2);

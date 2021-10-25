@@ -237,7 +237,7 @@ class FresnsGroupsService extends FresnsBaseService
                         $defaultIcon = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEFAULT_AVATAR);
                         $avatar = $defaultIcon;
                     }
-                    $avatar = ApiFileHelper::getImageSignUrl($avatar);
+                    $avatar = ApiFileHelper::getImageAvatarUrl($avatar);
                     $array['avatar'] = $avatar;
                     $adminMemberArr[] = $array;
                 }

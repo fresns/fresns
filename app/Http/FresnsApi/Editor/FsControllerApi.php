@@ -534,6 +534,14 @@ class FsControllerApi extends FresnsBaseApiController
                 FresnsSessionLogs::where('id', $logsId)->update(['object_result' => FsConfig::OBJECT_DEFAIL]);
                 $this->error(ErrorCodeService::PLUGINS_PARAM_ERROR);
             }
+            $uploadFile = $request->file('file');
+            $suffix = $uploadFile->getClientOriginalExtension();
+            $suffix = mb_strtolower($suffix);
+            $images_ext = ApiConfigHelper::getConfigByItemKey('images_ext');
+            $imagesExtArr = explode(',', $images_ext);
+            if (! in_array($suffix, $imagesExtArr)) {
+                $this->error(ErrorCodeService::UPLOAD_FILES_SUFFIX_ERROR);
+            }
         }
 
         // In case of private mode, this feature is not available when it expires (members > expired_at).

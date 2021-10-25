@@ -91,7 +91,7 @@ class FresnsPostsService extends FsService
         $uuid = strtolower(StrHelper::randString(8));
 
         // Get the number of words in the brief of the post
-        $postEditorBriefCount = ApiConfigHelper::getConfigByItemKey(FsConfig::POST_EDITOR_WORD_COUNT) ?? 280;
+        $postEditorBriefCount = ApiConfigHelper::getConfigByItemKey(FsConfig::POST_EDITOR_BRIEF_COUNT) ?? 280;
         if (mb_strlen($draftPost['content']) > $postEditorBriefCount) {
             $isBrief = 1;
         } else {

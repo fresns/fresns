@@ -144,13 +144,13 @@ class FsService extends BaseAdminService
             if (empty($users->deleted_at)) {
                 if (empty($v->avatar_file_url) && empty($v->avatar_file_id)) {
                     $defaultAvatar = ApiConfigHelper::getConfigByItemKey('default_avatar');
-                    $memberAvatar = ApiFileHelper::getImageSignUrl($defaultAvatar);
+                    $memberAvatar = ApiFileHelper::getImageAvatarUrl($defaultAvatar);
                 } else {
-                    $memberAvatar = ApiFileHelper::getImageSignUrlByFileIdUrl($v->avatar_file_id, $v->avatar_file_url);
+                    $memberAvatar = ApiFileHelper::getImageAvatarUrlByFileIdUrl($v->avatar_file_id, $v->avatar_file_url);
                 }
             } else {
                 $deactivateAvatar = ApiConfigHelper::getConfigByItemKey('deactivate_avatar');
-                $memberAvatar = ApiFileHelper::getImageSignUrl($deactivateAvatar);
+                $memberAvatar = ApiFileHelper::getImageAvatarUrl($deactivateAvatar);
             }
             $item['avatar'] = $memberAvatar;
             $item['verifiedStatus'] = $v->verified_status;
