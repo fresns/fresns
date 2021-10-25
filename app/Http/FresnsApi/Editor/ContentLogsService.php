@@ -759,7 +759,6 @@ class ContentLogsService
                     $item['videoGif'] = $append['video_gif'] ?? '';
                     $item['videoUrl'] = $videosHost.$file['file_path'];
                     $item['transcodingState'] = $append['transcoding_state'];
-                    
                 }
                 if ($type == 3) {
                     $item['audioTime'] = $append['audio_time'] ?? '';
