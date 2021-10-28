@@ -15,16 +15,17 @@ use App\Http\FresnsApi\Helpers\ApiConfigHelper;
 use App\Http\FresnsApi\Helpers\ApiFileHelper;
 use App\Http\FresnsDb\FresnsConfigs\FresnsConfigsConfig;
 use App\Http\FresnsDb\FresnsLanguages\FresnsLanguagesService;
-use App\Http\FresnsDb\FresnsMemberFollows\FresnsMemberFollows;
+use App\Http\FresnsDb\FresnsMemberFollows\FresnsMemberFollowsConfig;
 use App\Http\FresnsDb\FresnsMemberIcons\FresnsMemberIcons;
 use App\Http\FresnsDb\FresnsMemberIcons\FresnsMemberIconsConfig;
-use App\Http\FresnsDb\FresnsMemberLikes\FresnsMemberLikes;
+use App\Http\FresnsDb\FresnsMemberLikes\FresnsMemberLikesConfig;
 use App\Http\FresnsDb\FresnsMemberRoleRels\FresnsMemberRoleRelsService;
 use App\Http\FresnsDb\FresnsMemberRoles\FresnsMemberRoles;
 use App\Http\FresnsDb\FresnsMemberRoles\FresnsMemberRolesConfig;
 use App\Http\FresnsDb\FresnsMembers\FresnsMembers;
-use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShields;
+use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShieldsConfig;
 use App\Http\FresnsDb\FresnsMemberStats\FresnsMemberStats;
+use Illuminate\Support\Facades\DB;
 
 /**
  * List resource config handle.
@@ -55,32 +56,12 @@ class FresnsMemberListsResource extends BaseAdminResource
             $roleIcon = ApiFileHelper::getImageSignUrlByFileIdUrl($memberRole['icon_file_id'], $memberRole['icon_file_url']);
             $roleIconDisplay = $memberRole['is_display_icon'];
         }
-        $follow = FresnsMemberFollows::where('member_id', $mid)->where('follow_type', 1)->where('follow_id', $this->id)->first();
-        $isFollow = 0;
-        if (empty($follow)) {
-            $follow = FresnsMemberFollows::where('member_id', $this->id)->where('follow_type', 1)->where('follow_id',
-                $mid)->first();
-            if ($follow) {
-                $isFollow = 2;
-            }
-        } else {
-            if ($follow['is_mutual'] == 1) {
-                $isFollow = 3;
-            } else {
-                $isFollow = 1;
-            }
-        }
 
-        $isLike = 0;
-        $count = FresnsMemberLikes::where('member_id', $mid)->where('like_type', 1)->where('like_id', $this->id)->count();
-        if ($count > 0) {
-            $isLike = 1;
-        }
-        $isShield = 0;
-        $count = FresnsMemberShields::where('member_id', $mid)->where('shield_type', 1)->where('shield_id', $this->id)->count();
-        if ($count > 0) {
-            $isShield = 1;
-        }
+        $likeStatus = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where('member_id', $mid)->where('like_type', 1)->where('like_id', $this->id)->where('deleted_at', null)->count();
+        $followStatus = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 1)->where('follow_id', $this->id)->where('deleted_at', null)->count();
+        $followMeStatus = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $this->id)->where('follow_type', 1)->where('follow_id', $mid)->where('deleted_at', null)->count();
+        $shieldStatus = DB::table(FresnsMemberShieldsConfig::CFG_TABLE)->where('member_id', $mid)->where('shield_type', 1)->where('shield_id', $this->id)->where('deleted_at', null)->count();
+
         $memberStats = FresnsMemberStats::where('member_id', $this->id)->first();
         $stats['likeMemberCount'] = $memberStats['like_member_count'] ?? 0;
         $stats['likeGroupCount'] = $memberStats['like_group_count'] ?? 0;
@@ -169,13 +150,14 @@ class FresnsMemberListsResource extends BaseAdminResource
             'bio' => $this->bio,
             'likeSetting' => ApiConfigHelper::getConfigByItemKey('like_member_setting'),
             'likeName' => FresnsLanguagesService::getLanguageByTableKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', 'like_member_name', $langTag),
-            'likeStatus' => $isLike,
+            'likeStatus' => $likeStatus,
             'followSetting' => ApiConfigHelper::getConfigByItemKey('follow_member_setting'),
             'followName' => FresnsLanguagesService::getLanguageByTableKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', 'follow_member_name', $langTag),
-            'followStatus' => $isFollow,
+            'followStatus' => $followStatus,
+            'followMeStatus' => $followMeStatus,
             'shieldSetting' => ApiConfigHelper::getConfigByItemKey('shield_member_setting'),
             'shieldName' => FresnsLanguagesService::getLanguageByTableKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', 'shield_member_name', $langTag),
-            'shieldStatus' => $isShield,
+            'shieldStatus' => $shieldStatus,
             'verifiedStatus' => $this->verified_status,
             'verifiedIcon' => ApiFileHelper::getImageSignUrlByFileIdUrl($this->verified_file_id, $this->verified_file_url),
             'verifiedDesc' => $this->verified_desc,

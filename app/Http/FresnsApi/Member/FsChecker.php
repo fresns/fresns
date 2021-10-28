@@ -26,22 +26,19 @@ class FsChecker extends FresnsBaseChecker
     {
         switch ($markType) {
             case 1:
-                $likeCount = FresnsMemberLikes::where('member_id', $memberId)->where('like_type',
-                    $markTarget)->where('like_id', $toMemberId)->count();
+                $likeCount = FresnsMemberLikes::where('member_id', $memberId)->where('like_type', $markTarget)->where('like_id', $toMemberId)->count();
                 if ($likeCount > 0) {
                     return true;
                 }
                 break;
             case 2:
-                $followCount = FresnsMemberFollows::where('member_id', $memberId)->where('follow_type',
-                    $markTarget)->where('follow_id', $toMemberId)->count();
+                $followCount = FresnsMemberFollows::where('member_id', $memberId)->where('follow_type', $markTarget)->where('follow_id', $toMemberId)->count();
                 if ($followCount > 0) {
                     return true;
                 }
                 break;
             default:
-                $shieldCount = FresnsMemberShields::where('member_id', $memberId)->where('shield_type',
-                    $markTarget)->where('shield_id', $toMemberId)->count();
+                $shieldCount = FresnsMemberShields::where('member_id', $memberId)->where('shield_type', $markTarget)->where('shield_id', $toMemberId)->count();
                 if ($shieldCount > 0) {
                     return true;
                 }
@@ -184,7 +181,7 @@ class FsChecker extends FresnsBaseChecker
                         $isMark = ApiConfigHelper::getConfigByItemKey('it_shield_groups');
                         break;
                     case 3:
-                        $isMark = ApiConfigHelper::getConfigByItemKey('it_shield_hashtags	');
+                        $isMark = ApiConfigHelper::getConfigByItemKey('it_shield_hashtags');
                         break;
                     case 4:
                         $isMark = ApiConfigHelper::getConfigByItemKey('it_shield_posts');

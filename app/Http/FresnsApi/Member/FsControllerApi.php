@@ -487,8 +487,8 @@ class FsControllerApi extends FresnsBaseApiController
                 $likeId = 0;
                 switch ($objectType) {
                     case 1:
-                        $it_like_members = ApiConfigHelper::getConfigByItemKey('it_like_members');
-                        if ($it_like_members == true) {
+                        $it_likers = ApiConfigHelper::getConfigByItemKey('it_likers');
+                        if ($it_likers == true) {
                             $likeId = FresnsMembers::where('uuid', $objectId)->value('id');
                         }
                         break;
@@ -501,7 +501,7 @@ class FsControllerApi extends FresnsBaseApiController
                     case 3:
                         $it_like_hashtags = ApiConfigHelper::getConfigByItemKey('it_like_hashtags');
                         if ($it_like_hashtags == true) {
-                            $likeId = $objectId;
+                            $likeId = FresnsHashtags::where('slug', $objectId)->value('id');
                         }
                         break;
                     case 4:
@@ -523,8 +523,8 @@ class FsControllerApi extends FresnsBaseApiController
                 $followId = 0;
                 switch ($objectType) {
                     case 1:
-                        $it_follow_members = ApiConfigHelper::getConfigByItemKey('it_follow_members');
-                        if ($it_follow_members == true) {
+                        $it_followers = ApiConfigHelper::getConfigByItemKey('it_followers');
+                        if ($it_followers == true) {
                             $followId = FresnsMembers::where('uuid', $objectId)->value('id');
                         }
                         break;
@@ -537,7 +537,7 @@ class FsControllerApi extends FresnsBaseApiController
                     case 3:
                         $it_follow_hashtags = ApiConfigHelper::getConfigByItemKey('it_follow_hashtags');
                         if ($it_follow_hashtags == true) {
-                            $followId = $objectId;
+                            $followId = FresnsHashtags::where('slug', $objectId)->value('id');
                         }
                         break;
                     case 4:
@@ -559,8 +559,8 @@ class FsControllerApi extends FresnsBaseApiController
                 $shieldId = 0;
                 switch ($objectType) {
                     case 1:
-                        $it_shield_members = ApiConfigHelper::getConfigByItemKey('it_shield_members');
-                        if ($it_shield_members == true) {
+                        $it_shielders = ApiConfigHelper::getConfigByItemKey('it_shielders');
+                        if ($it_shielders == true) {
                             $shieldId = FresnsMembers::where('uuid', $objectId)->value('id');
                         }
                         break;
@@ -573,7 +573,7 @@ class FsControllerApi extends FresnsBaseApiController
                     case 3:
                         $it_shield_hashtags = ApiConfigHelper::getConfigByItemKey('it_shield_hashtags');
                         if ($it_shield_hashtags == true) {
-                            $shieldId = $objectId;
+                            $shieldId = FresnsHashtags::where('slug', $objectId)->value('id');
                         }
                         break;
                     case 4:
@@ -594,8 +594,7 @@ class FsControllerApi extends FresnsBaseApiController
             case 4:
                 if ($objectType == 4) {
                     $postUuidArr = FresnsPosts::where('uuid', $objectId)->pluck('id')->toArray();
-                    $idArr = DB::table(FresnsPostMembersConfig::CFG_TABLE)->whereIn('post_id',
-                        $postUuidArr)->pluck('member_id')->toArray();
+                    $idArr = DB::table(FresnsPostMembersConfig::CFG_TABLE)->whereIn('post_id', $postUuidArr)->pluck('member_id')->toArray();
                 }
                 break;
             default:
@@ -862,12 +861,12 @@ class FsControllerApi extends FresnsBaseApiController
                         break;
                     default:
                         if ($type == 1) {
-                            FresnsMemberFollowsService::addMemberFollow($mid, $markTarget, $markId);
+                            FresnsMemberShieldsService::addMemberShield($mid, $markTarget, $markId);
                             FresnsHashtags::where('id', $markId)->increment('shield_count');
                             // Inserting data into the configs table
                             FresnsConfigsService::addMarkCounts('hashtag_shield_counts');
                         } else {
-                            FresnsMemberFollowsService::deleMemberFollow($mid, $markTarget, $markId);
+                            FresnsMemberShieldsService::deleMemberShield($mid, $markTarget, $markId);
                             FresnsHashtags::where('id', $markId)->decrement('shield_count');
                             FresnsConfigsService::minusMarkCounts('hashtag_shield_counts');
                         }
@@ -908,12 +907,12 @@ class FsControllerApi extends FresnsBaseApiController
                         break;
                     default:
                         if ($type == 1) {
-                            FresnsMemberFollowsService::addMemberFollow($mid, $markTarget, $markId);
+                            FresnsMemberShieldsService::addMemberShield($mid, $markTarget, $markId);
                             FresnsPosts::where('id', $markId)->increment('shield_count');
                             // Inserting data into the configs table
                             FresnsConfigsService::addMarkCounts('post_shield_counts');
                         } else {
-                            FresnsMemberFollowsService::deleMemberFollow($mid, $markTarget, $markId);
+                            FresnsMemberShieldsService::deleMemberShield($mid, $markTarget, $markId);
                             FresnsPosts::where('id', $markId)->decrement('shield_count');
                             FresnsConfigsService::minusMarkCounts('post_shield_counts');
                         }
@@ -949,7 +948,7 @@ class FsControllerApi extends FresnsBaseApiController
                         break;
                     case 2:
                         if ($type == 1) {
-                            FresnsMemberLikesService::addMemberLike($mid, $markTarget, $markId);
+                            FresnsMemberFollowsService::addMemberFollow($mid, $markTarget, $markId);
                             FresnsComments::where('id', $markId)->increment('follow_count');
                             // Inserting data into the configs table
                             FresnsConfigsService::addMarkCounts('comment_follow_counts');
@@ -957,7 +956,7 @@ class FsControllerApi extends FresnsBaseApiController
                             FresnsNotifiesService::markNotifies($comment['member_id'], $mid, 2, $markTarget,
                                 $comment['content'], 2, $markId);
                         } else {
-                            FresnsMemberLikesService::deleMemberLike($mid, $markTarget, $markId);
+                            FresnsMemberFollowsService::deleMemberFollow($mid, $markTarget, $markId);
                             FresnsComments::where('id', $markId)->decrement('follow_count');
                             // Inserting data into the configs table
                             FresnsConfigsService::minusMarkCounts('comment_follow_counts');
@@ -965,12 +964,12 @@ class FsControllerApi extends FresnsBaseApiController
                         break;
                     default:
                         if ($type == 1) {
-                            FresnsMemberLikesService::addMemberLike($mid, $markTarget, $markId);
+                            FresnsMemberShieldsService::addMemberShield($mid, $markTarget, $markId);
                             FresnsComments::where('id', $markId)->increment('shield_count');
                             // Inserting data into the configs table
                             FresnsConfigsService::addMarkCounts('comment_shield_counts');
                         } else {
-                            FresnsMemberLikesService::deleMemberLike($mid, $markTarget, $markId);
+                            FresnsMemberShieldsService::deleMemberShield($mid, $markTarget, $markId);
                             FresnsComments::where('id', $markId)->decrement('shield_count');
                             // Inserting data into the configs table
                             FresnsConfigsService::minusMarkCounts('comment_shield_counts');

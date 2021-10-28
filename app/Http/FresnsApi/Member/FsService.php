@@ -17,15 +17,18 @@ use App\Http\FresnsDb\FresnsComments\FresnsComments;
 use App\Http\FresnsDb\FresnsConfigs\FresnsConfigsConfig;
 use App\Http\FresnsDb\FresnsLanguages\FresnsLanguagesService;
 use App\Http\FresnsDb\FresnsMemberFollows\FresnsMemberFollows;
+use App\Http\FresnsDb\FresnsMemberFollows\FresnsMemberFollowsConfig;
 use App\Http\FresnsDb\FresnsMemberIcons\FresnsMemberIcons;
 use App\Http\FresnsDb\FresnsMemberIcons\FresnsMemberIconsConfig;
 use App\Http\FresnsDb\FresnsMemberLikes\FresnsMemberLikes;
+use App\Http\FresnsDb\FresnsMemberLikes\FresnsMemberLikesConfig;
 use App\Http\FresnsDb\FresnsMemberRoleRels\FresnsMemberRoleRels;
 use App\Http\FresnsDb\FresnsMemberRoleRels\FresnsMemberRoleRelsService;
 use App\Http\FresnsDb\FresnsMemberRoles\FresnsMemberRoles;
 use App\Http\FresnsDb\FresnsMemberRoles\FresnsMemberRolesConfig;
 use App\Http\FresnsDb\FresnsMembers\FresnsMembers;
 use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShields;
+use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShieldsConfig;
 use App\Http\FresnsDb\FresnsMemberStats\FresnsMemberStats;
 use App\Http\FresnsDb\FresnsPluginBadges\FresnsPluginBadges;
 use App\Http\FresnsDb\FresnsPluginBadges\FresnsPluginBadgesService;
@@ -317,8 +320,8 @@ class FsService
 
             $data['draftCount'] = null;
             if ($isMe == true) {
-                $draftCount['posts'] = FresnsPostLogs::whereIn('state', [1, 4])->count();
-                $draftCount['comments'] = FresnsCommentLogs::whereIn('state', [1, 4])->count();
+                $draftCount['posts'] = FresnsPostLogs::where('member_id',$member['id'])->whereIn('state', [1, 4])->count();
+                $draftCount['comments'] = FresnsCommentLogs::where('member_id',$member['id'])->whereIn('state', [1, 4])->count();
                 $data['draftCount'] = $draftCount;
             }
 
@@ -327,41 +330,19 @@ class FsService
             $data['memberNameName'] = FresnsLanguagesService::getLanguageByTableKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', 'member_name_name', $langTag);
             $data['memberNicknameName'] = FresnsLanguagesService::getLanguageByTableKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', 'member_nickname_name', $langTag);
             $data['memberRoleName'] = FresnsLanguagesService::getLanguageByTableKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', 'member_role_name', $langTag);
+
             $data['followSetting'] = ApiConfigHelper::getConfigByItemKey('follow_member_setting');
             $data['followName'] = FresnsLanguagesService::getLanguageByTableKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', 'follow_member_name', $langTag);
-            $follow = FresnsMemberFollows::where('member_id', $mid)->where('follow_type', 1)->where('follow_id', $viewMid)->first();
-            $isFollow = 0;
-            if (empty($follow)) {
-                $follow = FresnsMemberFollows::where('member_id', $viewMid)->where('follow_type', 1)->where('follow_id', $mid)->first();
-                if ($follow) {
-                    $isFollow = 2;
-                }
-            } else {
-                if ($follow['is_mutual'] == 1) {
-                    $isFollow = 3;
-                } else {
-                    $isFollow = 1;
-                }
-            }
-            $data['followStatus'] = $isFollow;
+            $data['followStatus'] = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 1)->where('follow_id', $viewMid)->where('deleted_at', null)->count();
+            $data['followMeStatus'] = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $viewMid)->where('follow_type', 1)->where('follow_id', $mid)->where('deleted_at', null)->count();
 
             $data['likeSetting'] = ApiConfigHelper::getConfigByItemKey('like_member_setting');
             $data['likeName'] = FresnsLanguagesService::getLanguageByTableKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', 'like_member_name', $langTag);
-            $isLike = 0;
-            $count = FresnsMemberLikes::where('member_id', $mid)->where('like_type', 1)->where('like_id', $viewMid)->count();
-            if ($count > 0) {
-                $isLike = 1;
-            }
-            $data['likeStatus'] = $isLike;
+            $data['likeStatus'] = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where('member_id', $mid)->where('like_type', 1)->where('like_id', $viewMid)->where('deleted_at', null)->count();
 
             $data['shieldSetting'] = ApiConfigHelper::getConfigByItemKey('shield_member_setting');
             $data['shieldName'] = FresnsLanguagesService::getLanguageByTableKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', 'shield_member_name', $langTag);
-            $isShield = 0;
-            $count = FresnsMemberShields::where('member_id', $mid)->where('shield_type', 1)->where('shield_id', $viewMid)->count();
-            if ($count > 0) {
-                $isShield = 1;
-            }
-            $data['shieldStatus'] = $isShield;
+            $data['shieldStatus'] = DB::table(FresnsMemberShieldsConfig::CFG_TABLE)->where('member_id', $mid)->where('shield_type', 1)->where('shield_id', $viewMid)->where('deleted_at', null)->count();
 
             if ($isMe = false) {
                 $unikeyArr = FresnsPluginBadges::where('member_id', $mid)->pluck('plugin_unikey')->toArray();
