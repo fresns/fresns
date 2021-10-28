@@ -9,6 +9,7 @@
 namespace App\Http\FresnsApi\Content;
 
 use App\Base\Resources\BaseAdminResource;
+use App\Helpers\ArrayHelper;
 use App\Helpers\DateHelper;
 use App\Http\Center\Common\GlobalService;
 use App\Http\Center\Common\LogService;
@@ -57,7 +58,7 @@ use App\Http\FresnsDb\FresnsPosts\FresnsPostsService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
-use App\Helpers\ArrayHelper;
+
 /**
  * List resource config handle.
  */
@@ -392,8 +393,8 @@ class FresnsPostsResource extends BaseAdminResource
             $more_json = json_decode($this->more_json, true);
             if ($more_json) {
                 $files = ApiFileHelper::getMoreJsonSignUrl($more_json['files']);
-                if($files){
-                    $files =  ArrayHelper::arraySort($files,'rank_num',SORT_ASC);
+                if ($files) {
+                    $files = ArrayHelper::arraySort($files, 'rank_num', SORT_ASC);
                 }
             }
             if (! empty($extendsInfo)) {
@@ -614,7 +615,7 @@ class FresnsPostsResource extends BaseAdminResource
             'attachCount' => $attachCount,
             'files' => $files,
             'extends' => $extends,
-            'group' => (object)$group,
+            'group' => (object) $group,
             'manages' => $managesArr,
             'editStatus' => $editStatus,
         ];
@@ -666,8 +667,8 @@ class FresnsPostsResource extends BaseAdminResource
                 'attachCount' => $attachCount,
                 'files' => $files,
                 'extends' => $extends,
-                'group' => (object)$group,
-                'hashtag' => (object)[],
+                'group' => (object) $group,
+                'hashtag' => (object) [],
                 'manages' => $managesArr,
                 'editStatus' => $editStatus,
             ];
@@ -724,8 +725,8 @@ class FresnsPostsResource extends BaseAdminResource
                     'attachCount' => $attachCount,
                     'files' => $files,
                     'extends' => $extends,
-                    'group' => (object)$group,
-                    'hashtag' => (object)$hashtag,
+                    'group' => (object) $group,
+                    'hashtag' => (object) $hashtag,
                     'manages' => $managesArr,
                     'editStatus' => $editStatus,
                 ];
