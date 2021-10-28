@@ -578,7 +578,6 @@ class FsControllerApi extends FresnsBaseApiController
                 if (CmdRpcHelper::isErrorCmdResp($resp)) {
                     $this->errorCheckInfo($resp);
                 }
-                // dd($data);
                 break;
             default:
                 if ($commentCid) {

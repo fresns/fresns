@@ -70,7 +70,7 @@ class FsControllerApi extends FresnsBaseApiController
             case 2:
                 $rule = [
                     'type' => 'required|numeric|in:1,2',
-                    'account' => 'required|numeric|regex:/^1[^0-2]\d{9}$/',
+                    'account' => 'required|numeric',
                     'nickname' => 'required',
                     'countryCode' => 'required|numeric',
                 ];
@@ -123,6 +123,8 @@ class FsControllerApi extends FresnsBaseApiController
 
         // Verify Password
         if ($password) {
+            $password = base64_decode($password, true);
+
             $passwordLength = ApiConfigHelper::getConfigByItemKey('password_length');
             if ($passwordLength > 0) {
                 if ($passwordLength > strlen($password)) {
@@ -453,6 +455,7 @@ class FsControllerApi extends FresnsBaseApiController
         if (empty($user)) {
             $this->error(ErrorCodeService::USER_CHECK_ERROR);
         }
+        $newPassword = base64_decode($newPassword, true);
         $password = str_replace(' ', '', $newPassword);
         $passwordLength = ApiConfigHelper::getConfigByItemKey('password_length');
         if ($passwordLength > 0) {
@@ -578,6 +581,18 @@ class FsControllerApi extends FresnsBaseApiController
         $editLastLoginTime = $request->input('editLastLoginTime');
         $deleteConnectId = $request->input('deleteConnectId');
 
+        if($password){
+            $password = base64_decode($password, true);
+        }
+        if($walletPassword){
+            $walletPassword = base64_decode($walletPassword, true);
+        }
+        if($editPassword){
+            $editPassword = base64_decode($editPassword, true);
+        }
+        if($editWalletPassword){
+            $editWalletPassword = base64_decode($editWalletPassword, true);
+        }
         $user = FresnsUsers::where('id', $uid)->first();
 
         $email = $user['email'];

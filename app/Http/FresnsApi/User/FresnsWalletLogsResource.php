@@ -39,7 +39,7 @@ class FresnsWalletLogsResource extends BaseAdminResource
         $default = [
             'type' => $this->object_type,
             'amount' => $this->amount,
-            'transactionFsount' => $this->transaction_amount,
+            'transactionAmount' => $this->transaction_amount,
             'systemFee' => $this->system_fee,
             'openingBalance' => $this->opening_balance,
             'closingBalance' => $this->closing_balance,

@@ -829,7 +829,6 @@ class ContentLogsService
     {
         $req = request();
         $fieldMap = FsConfig::FORM_FIELDS_UPDATE_LOGS_MAP;
-        // dd($fieldMap);
         $input = [];
         foreach ($fieldMap as $inputField => $tbField) {
             if ($req->has($inputField)) {

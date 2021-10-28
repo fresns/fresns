@@ -94,7 +94,7 @@ class FsConfig extends BaseConfig
 
     // Hide Group
     // 1.Visible: Anyone can find this group.
-    // 1.Hidden: Only members can find this group.
+    // 2.Hidden: Only members can find this group.
     const TYPE_FIND = [
         ['key' => 1, 'text' => 'Visible'],
         ['key' => 2, 'text' => 'Hidden'],

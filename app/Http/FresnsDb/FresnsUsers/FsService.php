@@ -100,7 +100,7 @@ class FsService extends BaseAdminService
         $userWallets = FresnsUserWallets::where('user_id', $uid)->first();
         $wallet['status'] = $userWallets['is_enable'] ?? '';
         $wallet['balance'] = $userWallets['balance'] ?? '';
-        $wallet['freezeFsount'] = $userWallets['freeze_amount'] ?? '';
+        $wallet['freezeAmount'] = $userWallets['freeze_amount'] ?? '';
         $wallet['bankName'] = $userWallets['bank_name'] ?? '';
         $wallet['swiftCode'] = $userWallets['swift_code'] ?? '';
         $wallet['bankAddress'] = $userWallets['bank_address'] ?? '';
