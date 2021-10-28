@@ -24,6 +24,7 @@ use App\Http\FresnsDb\FresnsMemberLikes\FresnsMemberLikesConfig;
 use App\Http\FresnsDb\FresnsMemberRoleRels\FresnsMemberRoleRels;
 use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShields;
 use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShieldsConfig;
+use App\Http\FresnsDb\FresnsPlugins\FresnsPluginsService;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -51,7 +52,9 @@ class FresnsGroupsTreesResource extends BaseAdminResource
         $cover = ApiFileHelper::getImageSignUrlByFileIdUrl($this->cover_file_id, $this->cover_file_url);
         $banner = ApiFileHelper::getImageSignUrlByFileIdUrl($this->banner_file_id, $this->banner_file_url);
         $groups = [];
-        $FresnsGroups = FresnsGroups::where('type_mode', 2)->where('type_find', 2)->pluck('id')->toArray();
+        // type_find = 2 (Hidden: Only members can find this group.)
+        $FresnsGroups = FresnsGroups::where('type_find', 2)->pluck('id')->toArray();
+        // $FresnsGroups = FresnsGroups::where('type_mode', 2)->where('type_find', 2)->pluck('id')->toArray();
         $groupMember = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 2)->pluck('follow_id')->toArray();
         $noGroupArr = array_diff($FresnsGroups, $groupMember);
         $TreesGroups = FresnsGroups::where('parent_id', $this->id)->where('is_enable', 1)->whereNotIn('id', $noGroupArr)->limit($groupSize)->orderby('rank_num', 'asc')->get()->toArray();
@@ -67,8 +70,10 @@ class FresnsGroupsTreesResource extends BaseAdminResource
                 $arr['cover'] = ApiFileHelper::getImageSignUrlByFileIdUrl($c['cover_file_id'], $c['cover_file_url']);
                 $arr['banner'] = ApiFileHelper::getImageSignUrlByFileIdUrl($c['banner_file_id'], $c['banner_file_url']);
                 $arr['recommend'] = $c['is_recommend'];
+                $arr['mode'] = $c['type_mode'];
+                $arr['find'] = $c['type_find'];
                 $arr['followType'] = $c['type_follow'];
-                $arr['followUrl'] = $c['plugin_unikey'];
+                $arr['followUrl'] = FresnsPluginsService::getPluginUrlByUnikey($c['plugin_unikey']);
 
                 // Operation behavior status
                 $arr['likeStatus'] = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where('member_id', $mid)->where('like_type', 2)->where('like_id', $c['id'])->where('deleted_at', null)->count();

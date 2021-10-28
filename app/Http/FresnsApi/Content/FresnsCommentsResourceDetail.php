@@ -47,6 +47,7 @@ use App\Http\FresnsDb\FresnsPostAppends\FresnsPostAppendsConfig;
 use App\Http\FresnsDb\FresnsPosts\FresnsPosts;
 use App\Http\FresnsDb\FresnsPosts\FresnsPostsConfig;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\ArrayHelper;
 
 /**
  * Detail resource config handle.
@@ -244,6 +245,9 @@ class FresnsCommentsResourceDetail extends BaseAdminResource
         $more_json = json_decode($this->more_json, true);
         if ($more_json) {
             $files = ApiFileHelper::getMoreJsonSignUrl($more_json['files']);
+            if($files){
+                $files =  ArrayHelper::arraySort($files,'rank_num',SORT_ASC);
+            }
         }
 
         // Extends

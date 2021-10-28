@@ -26,6 +26,7 @@ use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShields;
 use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShieldsConfig;
 use App\Http\FresnsDb\FresnsPluginBadges\FresnsPluginBadges;
 use App\Http\FresnsDb\FresnsPlugins\FresnsPlugins;
+use App\Http\FresnsDb\FresnsPlugins\FresnsPluginsService;
 use App\Http\FresnsDb\FresnsPluginUsages\FresnsPluginUsages;
 use App\Http\FresnsDb\FresnsPluginUsages\FresnsPluginUsagesService;
 use Illuminate\Support\Facades\DB;
@@ -54,15 +55,7 @@ class FresnsGroupsResourceDetail extends BaseAdminResource
         $description = ApiLanguageHelper::getLanguagesByTableId(FresnsGroupsConfig::CFG_TABLE, 'description', $this->id);
         $cover = ApiFileHelper::getImageSignUrlByFileIdUrl($this->cover_file_id, $this->cover_file_url);
         $banner = ApiFileHelper::getImageSignUrlByFileIdUrl($this->banner_file_id, $this->banner_file_url);
-        $recommend = $this->is_recommend;
-        $followType = $this->type_follow;
-        $followUrl = $this->plugin_unikey;
-        $viewCount = $this->view_count;
-        $likeCount = $this->like_count;
-        $followCount = $this->follow_count;
-        $shieldCount = $this->shield_count;
-        $postCount = $this->post_count;
-        $essenceCount = $this->essence_count;
+        $followUrl = FresnsPluginsService::getPluginUrlByUnikey($this->plugin_unikey);
 
         // Operation behavior status
         $likeStatus = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where('member_id', $mid)->where('like_type', 2)->where('like_id', $this->id)->where('deleted_at', null)->count();
@@ -106,20 +99,18 @@ class FresnsGroupsResourceDetail extends BaseAdminResource
         // Default Field
         $default = [
             'gid' => $gid,
-            // 'type' => $type,
-            // 'parentId' => $parentId,
             'gname' => $gname,
+            'type' => $type,
             'description' => $description,
             'cover' => $cover,
             'banner' => $banner,
+            'recommend' => $this->is_recommend,
             'mode' => $this->type_mode,
             'find' => $this->type_find,
-            'recommend' => $recommend,
-            'groupName' => $groupName,
             'followSetting' => $followSetting,
             'followName' => $followName,
             'followStatus' => $followStatus,
-            'followType' => $followType,
+            'followType' => $this->type_follow,
             'followUrl' => $followUrl,
             'likeSetting' => $likeSetting,
             'likeName' => $likeName,
@@ -127,22 +118,17 @@ class FresnsGroupsResourceDetail extends BaseAdminResource
             'shieldSetting' => $shieldSetting,
             'shieldName' => $shieldName,
             'shieldStatus' => $shieldStatus,
-            'viewCount' => $viewCount,
-            'likeCount' => $likeCount,
-            'followCount' => $followCount,
-            'shieldCount' => $shieldCount,
-            'postCount' => $postCount,
-            'essenceCount' => $essenceCount,
-            'followSetting' => $followSetting,
-            'followName' => $followName,
-            'likeName' => $likeName,
-            'shieldName' => $shieldName,
+            'groupName' => $groupName,
+            'viewCount' => $this->view_count,
+            'likeCount' => $this->like_count,
+            'followCount' => $this->follow_count,
+            'shieldCount' => $this->shield_count,
+            'postCount' => $this->post_count,
+            'essenceCount' => $this->essence_count,
             'parentInfo' => $parentInfo,
             'admins' => $admins,
             'publishRule' => $publishRule,
             'permission' => $permission,
-            // 'extends' => $extends,
-            // 'seoInfo' => $seoInfo
         ];
 
         // Merger

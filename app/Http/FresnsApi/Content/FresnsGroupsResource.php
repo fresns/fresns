@@ -23,6 +23,7 @@ use App\Http\FresnsDb\FresnsMemberLikes\FresnsMemberLikes;
 use App\Http\FresnsDb\FresnsMemberLikes\FresnsMemberLikesConfig;
 use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShields;
 use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShieldsConfig;
+use App\Http\FresnsDb\FresnsPlugins\FresnsPluginsService;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -50,15 +51,7 @@ class FresnsGroupsResource extends BaseAdminResource
         $description = ApiLanguageHelper::getLanguagesByTableId(FresnsGroupsConfig::CFG_TABLE, 'description', $this->id);
         $cover = ApiFileHelper::getImageSignUrlByFileIdUrl($this->cover_file_id, $this->cover_file_url);
         $banner = ApiFileHelper::getImageSignUrlByFileIdUrl($this->banner_file_id, $this->banner_file_url);
-        $recommend = $this->is_recommend;
-        $followType = $this->type_follow;
-        $followUrl = $this->plugin_unikey;
-        $viewCount = $this->view_count;
-        $likeCount = $this->like_count;
-        $followCount = $this->follow_count;
-        $shieldCount = $this->shield_count;
-        $postCount = $this->post_count;
-        $essenceCount = $this->essence_count;
+        $followUrl = FresnsPluginsService::getPluginUrlByUnikey($this->plugin_unikey);
 
         // Operation behavior status
         $likeStatus = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where('member_id', $mid)->where('like_type', 2)->where('like_id', $this->id)->where('deleted_at', null)->count();
@@ -100,16 +93,16 @@ class FresnsGroupsResource extends BaseAdminResource
             'gid' => $gid,
             'gname' => $gname,
             'type' => $type,
-            // 'parentId' => $parentId,
             'description' => $description,
             'cover' => $cover,
             'banner' => $banner,
-            'recommend' => $recommend,
-            'groupName' => $groupName,
+            'recommend' => $this->is_recommend,
+            'mode' => $this->type_mode,
+            'find' => $this->type_find,
             'followSetting' => $followSetting,
             'followName' => $followName,
             'followStatus' => $followStatus,
-            'followType' => $followType,
+            'followType' => $this->type_follow,
             'followUrl' => $followUrl,
             'likeSetting' => $likeSetting,
             'likeName' => $likeName,
@@ -117,12 +110,13 @@ class FresnsGroupsResource extends BaseAdminResource
             'shieldSetting' => $shieldSetting,
             'shieldName' => $shieldName,
             'shieldStatus' => $shieldStatus,
-            'viewCount' => $viewCount,
-            'likeCount' => $likeCount,
-            'followCount' => $followCount,
-            'shieldCount' => $shieldCount,
-            'postCount' => $postCount,
-            'essenceCount' => $essenceCount,
+            'groupName' => $groupName,
+            'viewCount' => $this->view_count,
+            'likeCount' => $this->like_count,
+            'followCount' => $this->follow_count,
+            'shieldCount' => $this->shield_count,
+            'postCount' => $this->post_count,
+            'essenceCount' => $this->essence_count,
             'parentInfo' => $parentInfo,
             'admins' => $admins,
             'publishRule' => $publishRule,

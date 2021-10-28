@@ -18,7 +18,7 @@ use App\Http\FresnsDb\FresnsGroups\FresnsGroupsConfig;
 use App\Http\FresnsDb\FresnsHashtags\FresnsHashtagsConfig;
 use App\Http\FresnsDb\FresnsMemberFollows\FresnsMemberFollows;
 use App\Http\FresnsDb\FresnsMemberFollows\FresnsMemberFollowsConfig;
-use App\Http\FresnsDb\FresnsMemberLikes\FresnsMemberLikes;
+use App\Http\FresnsDb\FresnsMemberLikes\FresnsMemberLikesConfig;
 use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShields;
 use App\Http\FresnsDb\FresnsMemberShields\FresnsMemberShieldsConfig;
 use Illuminate\Support\Facades\DB;
@@ -43,9 +43,9 @@ class FresnsHashtagsResource extends BaseAdminResource
         $cover = ApiFileHelper::getImageSignUrlByFileIdUrl($this->cover_file_id, $this->cover_file_url);
 
         // Operation behavior status
-        $likeStatus = FresnsMemberLikes::where('member_id', $mid)->where('like_type', 3)->where('like_id', $this->id)->count();
-        $followStatus = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 3)->where('follow_id', $this->id)->count();
-        $shieldStatus = DB::table(FresnsMemberShieldsConfig::CFG_TABLE)->where('member_id', $mid)->where('shield_type', 3)->where('shield_id', $this->id)->count();
+        $likeStatus = DB::table(FresnsMemberLikesConfig::CFG_TABLE)->where('member_id', $mid)->where('like_type', 3)->where('like_id', $this->id)->where('deleted_at', null)->count();
+        $followStatus = DB::table(FresnsMemberFollowsConfig::CFG_TABLE)->where('member_id', $mid)->where('follow_type', 3)->where('follow_id', $this->id)->where('deleted_at', null)->count();
+        $shieldStatus = DB::table(FresnsMemberShieldsConfig::CFG_TABLE)->where('member_id', $mid)->where('shield_type', 3)->where('shield_id', $this->id)->where('deleted_at', null)->count();
         // Operation behavior settings
         $likeSetting = ApiConfigHelper::getConfigByItemKey(FsConfig::LIKE_HASHTAG_SETTING);
         $shieldSetting = ApiConfigHelper::getConfigByItemKey(FsConfig::SHIELD_HASHTAG_SETTING);

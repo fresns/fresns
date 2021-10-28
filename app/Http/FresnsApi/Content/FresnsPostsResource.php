@@ -57,7 +57,7 @@ use App\Http\FresnsDb\FresnsPosts\FresnsPostsService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
-
+use App\Helpers\ArrayHelper;
 /**
  * List resource config handle.
  */
@@ -392,6 +392,9 @@ class FresnsPostsResource extends BaseAdminResource
             $more_json = json_decode($this->more_json, true);
             if ($more_json) {
                 $files = ApiFileHelper::getMoreJsonSignUrl($more_json['files']);
+                if($files){
+                    $files =  ArrayHelper::arraySort($files,'rank_num',SORT_ASC);
+                }
             }
             if (! empty($extendsInfo)) {
                 $extends = [];
@@ -611,7 +614,7 @@ class FresnsPostsResource extends BaseAdminResource
             'attachCount' => $attachCount,
             'files' => $files,
             'extends' => $extends,
-            'group' => $group,
+            'group' => (object)$group,
             'manages' => $managesArr,
             'editStatus' => $editStatus,
         ];
@@ -621,6 +624,7 @@ class FresnsPostsResource extends BaseAdminResource
         if ($uri == '/api/fresns/post/follows') {
             $followType = $this->contentByType($this->id);
             $default = [
+                'followType' => $followType,
                 'pid' => $pid,
                 'title' => $title,
                 'content' => $content,
@@ -662,10 +666,10 @@ class FresnsPostsResource extends BaseAdminResource
                 'attachCount' => $attachCount,
                 'files' => $files,
                 'extends' => $extends,
-                'group' => $group,
+                'group' => (object)$group,
+                'hashtag' => (object)[],
                 'manages' => $managesArr,
                 'editStatus' => $editStatus,
-                'followType' => $followType,
             ];
             if ($followType == 'hashtag') {
                 $hashtagId = FresnsHashtagLinkeds::where('linked_type', 1)->where('linked_id', $this->id)->first();
@@ -678,6 +682,7 @@ class FresnsPostsResource extends BaseAdminResource
                 $hashtag['hname'] = $hashTagInfo['name'] ?? '';
                 $hashtag['cover'] = $hashTagInfo['cover_file_url'] ?? '';
                 $default = [
+                    'followType' => $followType,
                     'pid' => $pid,
                     'title' => $title,
                     'content' => $content,
@@ -719,11 +724,10 @@ class FresnsPostsResource extends BaseAdminResource
                     'attachCount' => $attachCount,
                     'files' => $files,
                     'extends' => $extends,
-                    'group' => $group,
+                    'group' => (object)$group,
+                    'hashtag' => (object)$hashtag,
                     'manages' => $managesArr,
                     'editStatus' => $editStatus,
-                    'followType' => $followType,
-                    'hashtag' => $hashtag,
                 ];
             }
         }
