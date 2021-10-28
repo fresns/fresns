@@ -1,5 +1,23 @@
 # Release Notes
 
+## 1.1.0 (2021-10-28)
+
+**Bug Fixes**
+
+- API: correct posts and comments, icons output error
+- API: correct comments list and details page, main posts anonymous information error
+- API: corrected publication summary status change
+- API: repair the post output of authority requirements, cut off according to percentage
+- API: quickly publish a single image file, repair the suffix judgment
+- API: fix transactionAmount parameter error
+
+**Features**
+
+- API: modify comment list interface child comment preview structure
+- API: for interfaces involving member information, add the member's primary role "rid" parameter
+- API: member list and detail add "followMeStatus" parameter
+- frame: upgrade to laravel framework 8.68.1
+
 ## 1.0.2 (2021-10-23)
 
 **Bug Fixes**
