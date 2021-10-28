@@ -207,6 +207,7 @@ class FresnsCmdWords extends BasePlugin
                 $resp = CmdRpcHelper::call(FresnsSubPlugin::class, $cmd, $input);
                 break;
         }
+
         return $this->pluginSuccess();
     }
 

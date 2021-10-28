@@ -581,16 +581,16 @@ class FsControllerApi extends FresnsBaseApiController
         $editLastLoginTime = $request->input('editLastLoginTime');
         $deleteConnectId = $request->input('deleteConnectId');
 
-        if($password){
+        if ($password) {
             $password = base64_decode($password, true);
         }
-        if($walletPassword){
+        if ($walletPassword) {
             $walletPassword = base64_decode($walletPassword, true);
         }
-        if($editPassword){
+        if ($editPassword) {
             $editPassword = base64_decode($editPassword, true);
         }
-        if($editWalletPassword){
+        if ($editWalletPassword) {
             $editWalletPassword = base64_decode($editWalletPassword, true);
         }
         $user = FresnsUsers::where('id', $uid)->first();
