@@ -22,7 +22,7 @@ class FsResource extends BaseAdminResource
     {
         // Default Field
         $arr = [
-            'id' => $this->id,
+            'rid' => $this->id,
             'type' => $this->type,
             'name' => FresnsLanguagesService::getLanguageByTableId(FresnsMemberRolesConfig::CFG_TABLE, 'name', $this->id),
             'icon' => ApiFileHelper::getImageSignUrlByFileIdUrl($this->icon_file_id, $this->icon_file_url),

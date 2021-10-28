@@ -14,6 +14,7 @@ use App\Http\FresnsApi\Helpers\ApiConfigHelper;
 use App\Http\FresnsDb\FresnsGroups\FresnsGroups;
 use App\Http\FresnsDb\FresnsHashtagLinkeds\FresnsHashtagLinkeds;
 use App\Http\FresnsDb\FresnsHashtagLinkeds\FresnsHashtagLinkedsConfig;
+use App\Http\FresnsDb\FresnsHashtags\FresnsHashtags;
 use App\Http\FresnsDb\FresnsMemberFollows\FresnsMemberFollows;
 use App\Http\FresnsDb\FresnsMemberFollows\FresnsMemberFollowsConfig;
 use App\Http\FresnsDb\FresnsMembers\FresnsMembers;
@@ -56,8 +57,9 @@ class FsModel extends BaseAdminModel
         $request = request();
         $mid = GlobalService::getGlobalKey('member_id');
 
-        // If it is a non-public group post, it is not a member of the group and is not displayed.
-        $FresnsGroups = FresnsGroups::where('type_mode', 2)->where('type_find', 2)->pluck('id')->toArray();
+        // type_mode = 2 (Private: Only members can see who's in the group and what they post.)
+        $FresnsGroups = FresnsGroups::where('type_mode', 2)->pluck('id')->toArray();
+        // $FresnsGroups = FresnsGroups::where('type_mode', 2)->where('type_find', 2)->pluck('id')->toArray();
         $groupMember = DB::table($memberFollowTable)->where('member_id', $mid)->where('deleted_at', null)->where('follow_type', 2)->pluck('follow_id')->toArray();
         $noGroupArr = array_diff($FresnsGroups, $groupMember);
 
@@ -84,7 +86,9 @@ class FsModel extends BaseAdminModel
 
         // Posts from the blocking group
         if (! empty($GroupShields)) {
-            $postIdArr = FresnsPosts::whereNotIn('group_id', $GroupShields)->pluck('id')->toArray();
+            $postgroupIdArr = FresnsPosts::whereNotIn('group_id', $GroupShields)->pluck('id')->toArray();
+            $noPostgroupIdArr = FresnsPosts::where('group_id', null)->pluck('id')->toArray();
+            $postIdArr = array_merge($postgroupIdArr, $noPostgroupIdArr);
             $query->whereIn('post.id', $postIdArr);
         }
 
@@ -149,8 +153,13 @@ class FsModel extends BaseAdminModel
         // Specify the range: Hashtag
         $searchHuri = $request->input('searchHuri');
         if ($searchHuri) {
-            $topicLinkArr = Db::table('hashtag_linkeds')->where('hashtag_id', $searchHuri)->where('linked_type', 1)->pluck('linked_id')->toArray();
-            $query->whereIn('post.id', $topicLinkArr);
+            $hashtagInfo = FresnsHashtags::where('slug', $searchHuri)->first();
+            if($hashtagInfo){
+                $hashtagLinkedArr = Db::table('hashtag_linkeds')->where('hashtag_id', $hashtagInfo['id'])->where('linked_type', 1)->pluck('linked_id')->toArray();
+                $query->whereIn('post.id', $hashtagLinkedArr);
+            }else{
+                $query->where('post.id', 0);
+            }
         }
         // essence_state
         $searchEssence = $request->input('searchEssence');

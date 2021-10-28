@@ -192,8 +192,7 @@ class FsControllerApi extends FresnsBaseApiController
         switch ($queryType) {
 
             case 1:
-                $idArr = FresnsMembers::where('name', 'LIKE', "%$queryKey%")->orWhere('nickname', 'LIKE',
-                    "%$queryKey%")->pluck('id')->toArray();
+                $idArr = FresnsMembers::where('name', 'LIKE', "%$queryKey%")->orWhere('nickname', 'LIKE', "%$queryKey%")->pluck('id')->toArray();
                 $idArr = FsService::getMemberFollows($queryType, $idArr, $mid);
                 $memberArr = FresnsMembers::whereIn('id', $idArr)->where('is_enable', 1)->get()->toArray();
 
@@ -224,14 +223,10 @@ class FsControllerApi extends FresnsBaseApiController
                 }
                 break;
             case 2:
-                $langIdArr = FresnsLanguages::where('table_name', FresnsGroupsConfig::CFG_TABLE)->where('table_field',
-                    'name')->where('lang_content', 'LIKE', "%$queryKey%")->where('lang_tag',
-                    $langTag)->pluck('table_id')->toArray();
+                $langIdArr = FresnsLanguages::where('table_name', FresnsGroupsConfig::CFG_TABLE)->where('table_field', 'name')->where('lang_content', 'LIKE', "%$queryKey%")->where('lang_tag', $langTag)->pluck('table_id')->toArray();
                 $idArr = FsService::getMemberFollows($queryType, $langIdArr, $mid);
                 $groupsArr = FresnsGroups::whereIn('id', $idArr)->where('is_enable', 1)->get()->toArray();
-                $lenguagesMap = FresnsLanguages::where('table_name',
-                    FresnsGroupsConfig::CFG_TABLE)->where('table_field', 'name')->where('lang_tag',
-                    $langTag)->whereIn('table_id', $idArr)->pluck('lang_content', 'table_id')->toArray();
+                $lenguagesMap = FresnsLanguages::where('table_name', FresnsGroupsConfig::CFG_TABLE)->where('table_field', 'name')->where('lang_tag', $langTag)->whereIn('table_id', $idArr)->pluck('lang_content', 'table_id')->toArray();
 
                 foreach ($groupsArr as $v) {
                     $item = [];
@@ -243,8 +238,7 @@ class FsControllerApi extends FresnsBaseApiController
                         $followStatus = 1;
                     }
                     $item['followStatus'] = $followStatus;
-                    $item['image'] = ApiFileHelper::getImageSignUrlByFileIdUrl($v['cover_file_id'],
-                        $v['cover_file_url']);
+                    $item['image'] = ApiFileHelper::getImageSignUrlByFileIdUrl($v['cover_file_id'], $v['cover_file_url']);
                     $item['title'] = '';
                     $item['titleColor'] = '';
                     $item['descPrimary'] = '';
@@ -268,8 +262,7 @@ class FsControllerApi extends FresnsBaseApiController
                         $followStatus = 1;
                     }
                     $item['followStatus'] = $followStatus;
-                    $item['image'] = ApiFileHelper::getImageSignUrlByFileIdUrl($v['cover_file_id'],
-                        $v['cover_file_url']);
+                    $item['image'] = ApiFileHelper::getImageSignUrlByFileIdUrl($v['cover_file_id'], $v['cover_file_url']);
                     $item['title'] = '';
                     $item['titleColor'] = '';
                     $item['descPrimary'] = '';
@@ -304,29 +297,19 @@ class FsControllerApi extends FresnsBaseApiController
                 }
                 break;
             case 5:
-                $langIdArr = FresnsLanguages::where('table_name', FresnsExtendsConfig::CFG_TABLE)->where('table_field',
-                    'title')->where('lang_content', 'LIKE', "%$queryKey%")->where('lang_tag',
-                    $langTag)->pluck('table_id')->toArray();
-
+                $langIdArr = FresnsLanguages::where('table_name', FresnsExtendsConfig::CFG_TABLE)->where('table_field', 'title')->where('lang_content', 'LIKE', "%$queryKey%")->where('lang_tag', $langTag)->pluck('table_id')->toArray();
                 $idArr = FsService::getMemberFollows($queryType, $langIdArr, $mid);
                 $extendArr = FresnsExtends::whereIn('id', $idArr)->get()->toArray();
-                $lenguagesMap = FresnsLanguages::where('table_name',
-                    FresnsExtendsConfig::CFG_TABLE)->where('table_field', 'title')->whereIn('table_id',
-                    $idArr)->where('lang_tag', $langTag)->pluck('lang_content', 'table_id')->toArray();
-                $descSecondaryMap = FresnsLanguages::where('table_name',
-                    FresnsExtendsConfig::CFG_TABLE)->where('table_field', 'desc_secondary')->whereIn('table_id',
-                    $idArr)->where('lang_tag', $langTag)->pluck('lang_content', 'table_id')->toArray();
-                $descPrimaryMap = FresnsLanguages::where('table_name',
-                    FresnsExtendsConfig::CFG_TABLE)->where('table_field', 'desc_primary')->whereIn('table_id',
-                    $idArr)->where('lang_tag', $langTag)->pluck('lang_content', 'table_id')->toArray();
+                $lenguagesMap = FresnsLanguages::where('table_name', FresnsExtendsConfig::CFG_TABLE)->where('table_field', 'title')->whereIn('table_id', $idArr)->where('lang_tag', $langTag)->pluck('lang_content', 'table_id')->toArray();
+                $descSecondaryMap = FresnsLanguages::where('table_name', FresnsExtendsConfig::CFG_TABLE)->where('table_field', 'desc_secondary')->whereIn('table_id', $idArr)->where('lang_tag', $langTag)->pluck('lang_content', 'table_id')->toArray();
+                $descPrimaryMap = FresnsLanguages::where('table_name', FresnsExtendsConfig::CFG_TABLE)->where('table_field', 'desc_primary')->whereIn('table_id', $idArr)->where('lang_tag', $langTag)->pluck('lang_content', 'table_id')->toArray();
 
                 foreach ($extendArr as $v) {
                     $item = [];
                     $item['id'] = $v['uuid'];
                     $item['name'] = '';
                     $item['nickname'] = '';
-                    $item['image'] = ApiFileHelper::getImageSignUrlByFileIdUrl($v['cover_file_id'],
-                        $v['cover_file_url']);
+                    $item['image'] = ApiFileHelper::getImageSignUrlByFileIdUrl($v['cover_file_id'], $v['cover_file_url']);
                     $item['title'] = $lenguagesMap[$v['id']] ?? '';
                     $item['titleColor'] = $v['title_color'];
                     $item['descPrimary'] = $descPrimaryMap[$v['id']] ?? '';
@@ -485,22 +468,21 @@ class FsControllerApi extends FresnsBaseApiController
                 }
                 // Query the log table id corresponding to the main table
                 $postLogsIdArr = FresnsPostLogs::where('post_id', $typeData['id'])->pluck('id')->toArray();
-                // dd($typeData);
                 $files = FresnsFiles::where('uuid', $fid)->where('table_name', FresnsPostLogsConfig::CFG_TABLE)->whereIn('table_id', $postLogsIdArr)->first();
                 if (empty($files)) {
                     $this->error(ErrorCodeService::FILE_EXIST_ERROR);
                 }
                 // Post attachments need to determine if the post has permission enabled posts > is_allow
                 if (! empty($typeData)) {
-                    if ($typeData['is_allow'] != FresnsPostsConfig::IS_ALLOW_1) {
-                        $this->error(ErrorCodeService::POST_BROWSE_ERROR);
+                    if ($typeData['is_allow'] == FresnsPostsConfig::IS_ALLOW_1) {
+                        // If the post has read access, determine if the member requesting the download itself and the member's primary role are in the authorization list post_allows table
+                        $count = DB::table('post_allows')->where('post_id', $typeData['id'])->where('type', 2)->where('object_id', $mid)->count();
+                        if (empty($count)) {
+                            $this->error(ErrorCodeService::POST_BROWSE_ERROR);
+                        }
                     }
                 }
-                // If the post has read access, determine if the member requesting the download itself and the member's primary role are in the authorization list post_allows table
-                $count = DB::table('post_allows')->where('post_id', $typeData['id'])->where('type', 2)->where('object_id', $mid)->count();
-                if (empty($count)) {
-                    $this->error(ErrorCodeService::POST_BROWSE_ERROR);
-                }
+                
                 break;
             case 2:
                 // It is necessary to verify that the file belongs to the corresponding source target, such as whether the file belongs to the post.

@@ -679,7 +679,7 @@ class FresnsCommentsService extends FsService
         // The currently configured Hashtag display mode
         $hashtagShow = ApiConfigHelper::getConfigByItemKey(FsConfig::HASHTAG_SHOW) ?? 2;
         if ($hashtagShow == 1) {
-            preg_match_all("/#.*?\s/", $draftComment['content'], $singlePoundMatches);
+            preg_match_all("/#[\S].*?\s/", $draftComment['content'], $singlePoundMatches);
         } else {
             preg_match_all('/#[\S].*?[\S]#/', $draftComment['content'], $singlePoundMatches);
         }
@@ -690,7 +690,6 @@ class FresnsCommentsService extends FsService
             FresnsHashtags::whereIn('id', $hashtagIdArr)->decrement('comment_count');
             FresnsHashtagLinkeds::where('linked_type', 2)->where('linked_id', $draftComment['post_id'])->delete();
         }
-
         if ($singlePoundMatches[0]) {
             foreach ($singlePoundMatches[0] as $s) {
                 // Double #: single space allowed in between (no consecutive spaces)
@@ -715,6 +714,9 @@ class FresnsCommentsService extends FsService
                 }
                 // Remove the # sign from Hashtag
                 $s = trim(str_replace('#', '', $s));
+                if(empty($s)){
+                    continue;
+                }
                 // Existence of Hashtag
                 $hashInfo = FresnsHashtags::where('name', $s)->first();
                 if ($hashInfo) {
