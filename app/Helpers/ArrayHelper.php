@@ -55,7 +55,7 @@ class ArrayHelper
     {
         $keysValue = [];
         foreach ($array as $k => $v) {
-            if(!isset($v[$keys])){
+            if (! isset($v[$keys])) {
                 return $array;
             }
             $keysValue[$k] = intval($v[$keys]);

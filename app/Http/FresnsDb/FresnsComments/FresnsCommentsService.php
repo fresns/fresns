@@ -714,7 +714,7 @@ class FresnsCommentsService extends FsService
                 }
                 // Remove the # sign from Hashtag
                 $s = trim(str_replace('#', '', $s));
-                if(empty($s)){
+                if (empty($s)) {
                     continue;
                 }
                 // Existence of Hashtag

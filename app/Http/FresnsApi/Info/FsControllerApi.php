@@ -482,7 +482,7 @@ class FsControllerApi extends FresnsBaseApiController
                         }
                     }
                 }
-                
+
                 break;
             case 2:
                 // It is necessary to verify that the file belongs to the corresponding source target, such as whether the file belongs to the post.

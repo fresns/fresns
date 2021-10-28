@@ -818,7 +818,7 @@ class FresnsPostsService extends FsService
             preg_match_all("/#[\S].*?\s/", $draftPost['content'], $singlePoundMatches);
         } else {
             preg_match_all('/#[\S].*?[\S]#/', $draftPost['content'], $singlePoundMatches);
-        }   
+        }
 
         if ($singlePoundMatches[0]) {
             foreach ($singlePoundMatches[0] as $s) {
@@ -844,7 +844,7 @@ class FresnsPostsService extends FsService
                 }
                 // Remove the # sign from Hashtag
                 $s = trim(str_replace('#', '', $s));
-                if(empty($s)){
+                if (empty($s)) {
                     continue;
                 }
                 // Existence of Hashtag
