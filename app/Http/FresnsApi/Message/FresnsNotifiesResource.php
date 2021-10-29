@@ -79,6 +79,7 @@ class FresnsNotifiesResource extends BaseAdminResource
         $sourceBrief = $this->source_brief;
         $accessUrl = $this->access_url;
         $status = $this->status;
+        $time = $this->created_at;
 
         // Default Field
         $default = [
@@ -90,6 +91,7 @@ class FresnsNotifiesResource extends BaseAdminResource
             'sourceBrief' => $sourceBrief,
             'accessUrl' => $accessUrl,
             'status' => $status,
+            'time' => $time,
         ];
 
         // Merger
