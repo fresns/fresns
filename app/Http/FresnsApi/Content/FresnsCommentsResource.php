@@ -471,13 +471,13 @@ class FresnsCommentsResource extends BaseAdminResource
         $editStatus = [];
         // Is the current member an author
         $editStatus['isMe'] = $this->member_id == $mid ? true : false;
-        // Comment editing privileges
+        // Edit Status
         $commentEdit = ApiConfigHelper::getConfigByItemKey(FsConfig::COMMENT_EDIT) ?? false;
         $editTimeRole = ApiConfigHelper::getConfigByItemKey(FsConfig::COMMENT_EDIT_TIMELIMIT) ?? 5;
         $editSticky = ApiConfigHelper::getConfigByItemKey(FsConfig::COMMENT_EDIT_STICKY) ?? false;
         if ($commentEdit) {
             // How long you can edit
-            if (strtotime($this->created_at) + ($editTimeRole * 60) > time()) {
+            if (strtotime($this->created_at) + ($editTimeRole * 60) < time()) {
                 $commentEdit = false;
             }
             // Comment top edit permission
@@ -488,18 +488,19 @@ class FresnsCommentsResource extends BaseAdminResource
             }
         }
         $editStatus['canEdit'] = $commentEdit;
-
         // Delete Status
         if ($append) {
             $editStatus['canDelete'] = $append->can_delete == 1 ? true : false;
         } else {
             $editStatus['canDelete'] = false;
         }
+
         $more_json = json_decode($this->more_json, true);
         $icons = $more_json['icons'] ?? [];
         if ($more_json) {
             $icons = ApiFileHelper::getIconsSignUrl($icons);
         }
+
         // Default Field
         $default = [
             'pid' => $posts['uuid'],

@@ -458,33 +458,33 @@ class FresnsPostsResourceDetail extends BaseAdminResource
         $editStatus = [];
         // Is the current member an author
         $editStatus['isMe'] = $this->member_id == $mid ? true : false;
-        // Post editing privileges
+        // Edit Status
         $postEdit = ApiConfigHelper::getConfigByItemKey(FsConfig::POST_EDIT) ?? false;
         $editTimes = ApiConfigHelper::getConfigByItemKey(FsConfig::POST_EDIT_TIMELIMIT) ?? 5;
         $editSticky = ApiConfigHelper::getConfigByItemKey(FsConfig::POST_EDIT_STICKY) ?? false;
         $editEssence = ApiConfigHelper::getConfigByItemKey(FsConfig::POST_EDIT_ESSENCE) ?? false;
         if ($postEdit) {
             // How long you can edit
-            if (strtotime($this->created_at) + ($editTimes * 60) > time()) {
+            if (strtotime($this->created_at) + ($editTimes * 60) < time()) {
                 $postEdit = false;
             }
             // Post top edit permission
-            if ($this->sticky_state != 0) {
+            if ($this->sticky_state != 1) {
                 if (! $editSticky) {
                     $postEdit = false;
                 }
             }
             // Post editing privileges after adding essence
-            if ($this->essence_state != 0) {
+            if ($this->essence_state != 1) {
                 if (! $editEssence) {
                     $postEdit = false;
                 }
             }
         }
         $editStatus['canEdit'] = $postEdit;
-
         // Delete Status
         $editStatus['canDelete'] = $append['can_delete'] == 1 ? true : false;
+
         if (! $langTag) {
             $langTag = FresnsPluginUsagesService::getDefaultLanguage();
         }
@@ -504,6 +504,7 @@ class FresnsPostsResourceDetail extends BaseAdminResource
         if ($more_json) {
             $icons = ApiFileHelper::getIconsSignUrl($icons);
         }
+
         // Default Field
         $default = [
             'pid' => $pid,
