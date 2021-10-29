@@ -167,9 +167,6 @@ $('.uninstallUnikey').on('click', function () {
 $("#btn-danger-delete").click(function () {
     var unikey = $(this).attr('unikey');
     var clear_plugin_data = $('#is-delete-data').is(':checked') ? 1 : 0;
-
-
-
     $.ajax({
         async: false,
         type: "post",
