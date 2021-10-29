@@ -61,6 +61,11 @@ class FsService extends BaseAdminService
         $data['purePhone'] = StrHelper::encryptPhone($users->pure_phone ?? '');
         $data['phone'] = StrHelper::encryptPhone($phone, 5, 6) ?? '';
         $data['email'] = StrHelper::encryptEmail($email) ?? '';
+        $isPassword = false;
+        if (! empty($users->password)) {
+            $isPassword = true;
+        }
+        $data['password'] = $isPassword;
         // Configs the plugin associated with the table account_prove_service and output the plugin URL
         $proveSupportUnikey = ApiConfigHelper::getConfigByItemKey('account_prove_service');
         $proveSupportUrl = FresnsPluginsService::getPluginUrlByUnikey($proveSupportUnikey);
@@ -99,6 +104,11 @@ class FsService extends BaseAdminService
         // Wallet
         $userWallets = FresnsUserWallets::where('user_id', $uid)->first();
         $wallet['status'] = $userWallets['is_enable'] ?? '';
+        $isPassword = false;
+        if (! empty($userWallets['password'])) {
+            $isPassword = true;
+        }
+        $wallet['password'] = $isPassword;
         $wallet['balance'] = $userWallets['balance'] ?? '';
         $wallet['freezeAmount'] = $userWallets['freeze_amount'] ?? '';
         $wallet['bankName'] = $userWallets['bank_name'] ?? '';
