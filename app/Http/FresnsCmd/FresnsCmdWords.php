@@ -1649,7 +1649,7 @@ class FresnsCmdWords extends BasePlugin
         }
         $dataMap['sign'] = $sign;
 
-        // Jarvis Tang: Signature Expiration Date
+        // Header Signature Expiration Date
         $min = 5; //Expiration time limit (unit: minutes)
         //Determine the timestamp type
         $timestampNum = strlen($timestamp);
@@ -1991,7 +1991,7 @@ class FresnsCmdWords extends BasePlugin
         $password = $inputData['password'] ?? null;
         $nickname = $inputData['nickname'];
         $avatarFid = $inputData['avatarFid'] ?? null;
-        $avatarFileUrl = $inputData['avatarFileUrl'] ?? null;
+        $avatarUrl = $inputData['avatarUrl'] ?? null;
         $gender = $inputData['gender'] ?? 0;
         $birthday = $inputData['birthday'] ?? null;
         $timezone = $inputData['timezone'] ?? null;
@@ -2052,8 +2052,8 @@ class FresnsCmdWords extends BasePlugin
             'name' => StrHelper::createToken(rand(6, 8)),
             'nickname' => $nickname,
             'uuid' => ApiCommonHelper::createMemberUuid(),
-            'verified_file_id' => $fileId,
-            'verified_file_url' => $avatarFileUrl,
+            'avatar_file_id' => $fileId,
+            'avatar_file_url' => $avatarUrl,
             'gender' => $gender,
             'birthday' => $birthday,
             'timezone' => $timezone,

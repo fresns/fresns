@@ -14,8 +14,7 @@ class FsConfig
     const MEMBER_EDIT = [
         'mname' => 'name',
         'nickname' => 'nickname',
-        'avatarFileId' => 'avatar_file_id',
-        'avatarFileUrl' => 'avatar_file_url',
+        'avatarUrl' => 'avatar_file_url',
         'gender' => 'gender',
         'birthday' => 'birthday',
         'bio' => 'bio',

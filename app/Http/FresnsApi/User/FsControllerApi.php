@@ -87,7 +87,7 @@ class FsControllerApi extends FresnsBaseApiController
         $password = $request->input('password');
         $nickname = $request->input('nickname');
         $avatarFid = $request->input('avatarFid');
-        $avatarFileUrl = $request->input('avatarFileUrl');
+        $avatarUrl = $request->input('avatarUrl');
         $gender = $request->input('gender');
         $birthday = $request->input('birthday');
         $timezone = $request->input('timezone');
@@ -198,7 +198,7 @@ class FsControllerApi extends FresnsBaseApiController
             'password' => $password,
             'nickname' => $nickname,
             'avatarFid' => $avatarFid,
-            'avatarFileUrl' => $avatarFileUrl,
+            'avatarUrl' => $avatarUrl,
             'gender' => $gender,
             'birthday' => $birthday,
             'timezone' => $timezone,

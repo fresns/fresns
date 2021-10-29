@@ -29,6 +29,7 @@ use App\Http\FresnsDb\FresnsConfigs\FresnsConfigs;
 use App\Http\FresnsDb\FresnsConfigs\FresnsConfigsConfig;
 use App\Http\FresnsDb\FresnsConfigs\FresnsConfigsService;
 use App\Http\FresnsDb\FresnsFileLogs\FresnsFileLogsConfig;
+use App\Http\FresnsDb\FresnsFiles\FresnsFiles;
 use App\Http\FresnsDb\FresnsGroups\FresnsGroups;
 use App\Http\FresnsDb\FresnsGroups\FresnsGroupsConfig;
 use App\Http\FresnsDb\FresnsGroups\FresnsGroupsService;
@@ -293,7 +294,7 @@ class FsControllerApi extends FresnsBaseApiController
         $rule = [
             'gender' => 'numeric|in:0,1,2',
             'dialogLimit' => 'numeric',
-            'birthday' => 'date_format:"Y-m-n"',
+            'birthday' => 'date_format:"Y-m-d H:i:s"',
         ];
         ValidateService::validateRule($request, $rule);
 
@@ -307,13 +308,14 @@ class FsControllerApi extends FresnsBaseApiController
 
         $mname = $request->input('mname');
         $nickname = $request->input('nickname');
+        $avatarFid = $request->input('avatarFid');
         $bio = $request->input('bio');
         $member = FresnsMembers::where('id', $mid)->first();
         if (empty($member)) {
             $this->error(ErrorCodeService::MEMBER_CHECK_ERROR);
         }
+
         $last_name_at = $member['last_name_at'];
-        $last_nickname_at = $member['last_nickname_at'];
         if ($mname) {
             $itemValue = FresnsConfigs::where('item_key', FresnsConfigsConfig::MNAME_EDIT)->value('item_value');
             if ($itemValue > 0) {
@@ -338,10 +340,11 @@ class FsControllerApi extends FresnsBaseApiController
             }
         }
 
+        $last_nickname_at = $member['last_nickname_at'];
         if ($nickname) {
             $itemValue = FresnsConfigs::where('item_key', FresnsConfigsConfig::NICKNAME_EDIT)->value('item_value');
             if ($itemValue > 0) {
-                if ($last_name_at) {
+                if ($last_nickname_at) {
                     $begin_date = strtotime($last_nickname_at);
                     $end_date = strtotime(date('Y-m-d', time()));
                     $days = round(($end_date - $begin_date) / 3600 / 24);
@@ -365,6 +368,11 @@ class FsControllerApi extends FresnsBaseApiController
                     }
                 }
             }
+        }
+
+        if ($avatarFid) {
+            $avatarFileId = FresnsFiles::where('uuid', $avatarFid)->value('id');
+            FresnsMembers::where('id', $mid)->update(['avatar_file_id' => $avatarFileId]);
         }
 
         if ($bio) {
