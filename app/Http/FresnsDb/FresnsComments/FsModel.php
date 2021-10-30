@@ -62,6 +62,7 @@ class FsModel extends BaseCategoryModel
             ->join('posts as p', 'comment.post_id', '=', 'p.id')
             ->whereNotIn('comment.member_id', $memberShields)
             ->whereNotIn('comment.id', $commentShields)
+            ->where('p.deleted_at', null)
             ->where('comment.deleted_at', null);
 
         // Whether the member > expired_at is valid (null means permanent).
