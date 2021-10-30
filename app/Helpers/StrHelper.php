@@ -171,13 +171,13 @@ class StrHelper
     public static function SearchIntersect($intersectArr)
     {
         $arr = [];
-        foreach($intersectArr as $v){
-            $arr = array_merge($arr,$v);
+        foreach ($intersectArr as $v) {
+            $arr = array_merge($arr, $v);
         }
-        if(empty($arr)){
+        if (empty($arr)) {
             return 0;
         }
-        
+
         $idArr = implode(',', array_unique($arr));
 
         return $idArr;

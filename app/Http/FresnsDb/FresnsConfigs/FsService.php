@@ -13,7 +13,7 @@ use App\Base\Services\BaseAdminService;
 class FsService extends BaseAdminService
 {
     protected $needCommon = false;
-    
+
     public function __construct()
     {
         $this->model = new FsModel();

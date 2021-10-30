@@ -75,20 +75,20 @@ class FsControllerApi extends FresnsBaseApiController
         $pageSize = $request->input('pageSize', 100);
         $currentPage = $request->input('page', 1);
 
-        $request->offsetSet('is_restful',1);
-        if (!empty($itemTag) || !empty($itemKey)) {
+        $request->offsetSet('is_restful', 1);
+        if (! empty($itemTag) || ! empty($itemKey)) {
             $intersectIdArr = [];
-            if(!empty($itemTag)){
+            if (! empty($itemTag)) {
                 $itemTagArr = explode(',', $itemTag);
-                $intersectIdArr[] = FresnsConfigs::whereIn('item_tag',$itemTagArr)->pluck('id')->toArray();
+                $intersectIdArr[] = FresnsConfigs::whereIn('item_tag', $itemTagArr)->pluck('id')->toArray();
             }
-            if(!empty($itemKey)){
+            if (! empty($itemKey)) {
                 $itemKeyArr = explode(',', $itemKey);
-                $intersectIdArr[] = FresnsConfigs::whereIn('item_key',$itemKeyArr)->pluck('id')->toArray();
+                $intersectIdArr[] = FresnsConfigs::whereIn('item_key', $itemKeyArr)->pluck('id')->toArray();
             }
             $idArr = StrHelper::SearchIntersect($intersectIdArr);
 
-            $request->offsetSet('ids',$idArr);
+            $request->offsetSet('ids', $idArr);
         }
         $request->offsetSet('currentPage', $currentPage);
         $request->offsetSet('pageSize', $pageSize);
@@ -98,8 +98,6 @@ class FsControllerApi extends FresnsBaseApiController
         $data = $FresnsConfigsService->searchData();
 
         $this->success($data);
-
-
     }
 
     // Emojis
