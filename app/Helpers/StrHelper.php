@@ -170,22 +170,15 @@ class StrHelper
     // Filter Data
     public static function SearchIntersect($intersectArr)
     {
-        if (empty($intersectArr[0])) {
+        $arr = [];
+        foreach($intersectArr as $v){
+            $arr = array_merge($arr,$v);
+        }
+        if(empty($arr)){
             return 0;
         }
-        $count = count($intersectArr);
-
-        if ($count > 1) {
-            $intersect = $intersectArr[0];
-
-            for ($i = 1; $i < $count; $i++) {
-                $intersect = array_intersect($intersect, $intersectArr[$i]);
-            }
-
-            $idArr = implode(',', $intersect);
-        } else {
-            $idArr = implode(',', $intersectArr[0]);
-        }
+        
+        $idArr = implode(',', array_unique($arr));
 
         return $idArr;
     }

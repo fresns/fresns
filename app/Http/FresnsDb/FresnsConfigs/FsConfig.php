@@ -22,6 +22,7 @@ class FsConfig extends BaseConfig
         'item_key_no' => ['field' => 'item_key', 'op' => '<>'],
         'item_keys' => ['field' => 'item_key', 'op' => 'IN'],
         'item_tag' => ['field' => 'item_tag', 'op' => '='],
+        'is_restful' => ['field' => 'is_restful', 'op' => '='],
     ];
 
     // Subscription History

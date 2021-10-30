@@ -24,6 +24,8 @@ use App\Http\FresnsDb\FresnsCommentLogs\FresnsCommentLogs;
 use App\Http\FresnsDb\FresnsCommentLogs\FresnsCommentLogsConfig;
 use App\Http\FresnsDb\FresnsComments\FresnsComments;
 use App\Http\FresnsDb\FresnsComments\FresnsCommentsConfig;
+use App\Http\FresnsDb\FresnsConfigs\FresnsConfigs;
+use App\Http\FresnsDb\FresnsConfigs\FresnsConfigsService;
 use App\Http\FresnsDb\FresnsDialogMessages\FresnsDialogMessages;
 use App\Http\FresnsDb\FresnsDialogs\FresnsDialogs;
 use App\Http\FresnsDb\FresnsEmojis\FresnsEmojisConfig;
@@ -70,33 +72,34 @@ class FsControllerApi extends FresnsBaseApiController
     {
         $itemTag = $request->input('itemTag');
         $itemKey = $request->input('itemKey');
-        $data = [];
-        if (empty($itemTag) && empty($itemKey)) {
-            $data = ApiConfigHelper::getConfigsListsApi();
-        } else {
-            if (! empty($itemTag)) {
+        $pageSize = $request->input('pageSize', 100);
+        $currentPage = $request->input('page', 1);
+
+        $request->offsetSet('is_restful',1);
+        if (!empty($itemTag) || !empty($itemKey)) {
+            $intersectIdArr = [];
+            if(!empty($itemTag)){
                 $itemTagArr = explode(',', $itemTag);
-                foreach ($itemTagArr as $v) {
-                    $data = array_merge($data, ApiConfigHelper::getConfigByItemTagApi($v));
-                }
+                $intersectIdArr[] = FresnsConfigs::whereIn('item_tag',$itemTagArr)->pluck('id')->toArray();
             }
-            if (! empty($itemKey)) {
+            if(!empty($itemKey)){
                 $itemKeyArr = explode(',', $itemKey);
-                foreach ($itemKeyArr as $v) {
-                    $data = array_merge($data, ApiConfigHelper::getConfigByItemKeyApi($v));
-                }
+                $intersectIdArr[] = FresnsConfigs::whereIn('item_key',$itemKeyArr)->pluck('id')->toArray();
             }
+            $idArr = StrHelper::SearchIntersect($intersectIdArr);
+
+            $request->offsetSet('ids',$idArr);
         }
+        $request->offsetSet('currentPage', $currentPage);
+        $request->offsetSet('pageSize', $pageSize);
+        $FresnsConfigsService = new FresnsConfigsService();
 
-        $item = [];
-        $item['list'] = $data;
-        $pagination['total'] = count($data);
-        $pagination['current'] = 1;
-        $pagination['pageSize'] = count($data);
-        $pagination['lastPage'] = 1;
-        $item['pagination'] = $pagination;
+        $FresnsConfigsService->setResource(FresnsConfigsResource::class);
+        $data = $FresnsConfigsService->searchData();
 
-        $this->success($item);
+        $this->success($data);
+
+
     }
 
     // Emojis
