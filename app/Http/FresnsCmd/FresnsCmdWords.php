@@ -893,6 +893,8 @@ class FresnsCmdWords extends BasePlugin
                     }
                     $output = $resp['output'];
                     $item['imageDefaultUrl'] = $output['imageDefaultUrl'];
+                    $item['imageConfigUrl'] = $output['imageConfigUrl'];
+                    $item['imageAvatarUrl'] = $output['imageAvatarUrl'];
                     $item['imageRatioUrl'] = $output['imageRatioUrl'];
                     $item['imageSquareUrl'] = $output['imageSquareUrl'];
                     $item['imageBigUrl'] = $output['imageBigUrl'];
