@@ -641,36 +641,36 @@ class FsControllerApi extends FresnsBaseApiController
                 'type' => 1,
                 'account' => $user['email'],
                 'countryCode' => null,
-                'verifyCode' => $verifyCode
+                'verifyCode' => $verifyCode,
             ];
             $verify_input_new = [
                 'type' => 1,
                 'account' => $editEmail,
                 'countryCode' => null,
-                'verifyCode' => $newVerifyCode
+                'verifyCode' => $newVerifyCode,
             ];
         } else {
             $verify_input = [
                 'type' => 2,
                 'account' => $user['pure_phone'],
                 'countryCode' => $user['country_code'],
-                'verifyCode' => $verifyCode
+                'verifyCode' => $verifyCode,
             ];
             $verify_input_new = [
                 'type' => 2,
                 'account' => $editPhone,
                 'countryCode' => $editCountryCode,
-                'verifyCode' => $newVerifyCode
+                'verifyCode' => $newVerifyCode,
             ];
         }
 
-        if($editEmail){
+        if ($editEmail) {
             // Verify Parameters
             $rule = [
                 'newVerifyCode' => 'required',
             ];
             ValidateService::validateRule($request, $rule);
-            if($user['email']){
+            if ($user['email']) {
                 // verify old email
                 $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $verify_input);
                 if (CmdRpcHelper::isErrorCmdResp($resp)) {
@@ -686,7 +686,7 @@ class FsControllerApi extends FresnsBaseApiController
             FresnsUsers::where('id', $user['id'])->update(['email' => $editEmail]);
         }
 
-        if($editPhone){
+        if ($editPhone) {
             // Verify Parameters
             $rule = [
                 'newVerifyCode' => 'required',
@@ -715,12 +715,12 @@ class FsControllerApi extends FresnsBaseApiController
         }
 
         if ($editPassword) {
-            if (!empty($password)) {
+            if (! empty($password)) {
                 //password check type
                 if (! Hash::check($password, $user['password'])) {
                     $this->error(ErrorCodeService::ACCOUNT_PASSWORD_INVALID);
                 }
-            }elseif ($codeType && $verifyCode){
+            } elseif ($codeType && $verifyCode) {
                 //verify code check type
                 $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $verify_input);
                 if (CmdRpcHelper::isErrorCmdResp($resp)) {
@@ -735,12 +735,12 @@ class FsControllerApi extends FresnsBaseApiController
             if (empty($wallet)) {
                 $this->error(ErrorCodeService::MEMBER_CHECK_ERROR);
             }
-            if(!empty($walletPassword)){
+            if (! empty($walletPassword)) {
                 //password check type
                 if (! Hash::check($walletPassword, $wallet['password'])) {
                     $this->error(ErrorCodeService::ACCOUNT_PASSWORD_INVALID);
                 }
-            }elseif ($codeType && $verifyCode){
+            } elseif ($codeType && $verifyCode) {
                 //verify code check type
                 $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $verify_input);
                 if (CmdRpcHelper::isErrorCmdResp($resp)) {
