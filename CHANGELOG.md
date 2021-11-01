@@ -1,5 +1,25 @@
 # Release Notes
 
+## 1.2.0 (2021-11-01)
+
+**Bug Fixes**
+
+- API: fix the configuration interface can not turn the page problem
+- API: fix the problem of wrong judgment of content editing permission
+- API: fix the problem that the configuration information interface can't turn the page
+- API: fix the problem of error in the comment list caused by the deletion of the main post
+
+**Features**
+
+- API: user profile interface, add user password and wallet password status parameters
+- API: add time parameter to messages api
+- API: add user verification
+- API: member to modify the information interface, the avatar to pass the reference name change
+    - avatarFileId modify to avatarFid
+    - avatarFileUrl modify to avatarUrl
+- API: uploading images to return to the reference increases imageConfigUrl and imageAvatarUrl
+- Command word: user register avatarFileUrl modify to avatarUrl
+
 ## 1.1.0 (2021-10-28)
 
 **Bug Fixes**
