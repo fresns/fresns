@@ -12,23 +12,6 @@ class ErrorCodeService
 {
     const CODE_OK = 0;
 
-    // Extensions
-    const PLUGINS_CONFIG_ERROR = 30000;
-    const PLUGINS_CLASS_ERROR = 30001;
-    const PLUGINS_TIMEOUT_ERROR = 30002;
-    const PLUGINS_IS_ENABLE_ERROR = 30003;
-    const PLUGINS_PARAM_ERROR = 30004;
-    const PLUGINS_HANDLE_ERROR = 30005;
-    const CODE_PARAM_ERROR = 30006;
-    const DATA_EXCEPTION_ERROR = 30007;
-    const HELPER_EXCEPTION_ERROR = 30008;
-    const VERIFY_CODE_CHECK_ERROR = 30009;
-    const PRIVATE_MODE_ERROR = 30010;
-    const CALLBACK_ERROR = 30011;
-    const CALLBACK_UUID_ERROR = 30012;
-    const CALLBACK_TIME_ERROR = 30013;
-    const CALLBACK_STATUS_ERROR = 30014;
-
     // Header
     const HEADER_ERROR = 30100;
     const HEADER_SIGN_ERROR = 30101;
@@ -47,6 +30,24 @@ class ErrorCodeService
     const MEMBER_TOKEN_ERROR = 30114;
     const TOKEN_IS_ENABLE_ERROR = 30115;
     const DEVICE_INFO_ERROR = 30116;
+
+    // Extensions
+    const PLUGINS_CONFIG_ERROR = 30000;
+    const PLUGINS_CLASS_ERROR = 30001;
+    const PLUGINS_TIMEOUT_ERROR = 30002;
+    const PLUGINS_IS_ENABLE_ERROR = 30003;
+    const PLUGINS_PARAM_ERROR = 30004;
+    const PLUGINS_HANDLE_ERROR = 30005;
+    const DATA_EXCEPTION_ERROR = 30006;
+    const HELPER_EXCEPTION_ERROR = 30007;
+    const VERIFY_CODE_CHECK_ERROR = 30008;
+    const PRIVATE_MODE_ERROR = 30009;
+    const CALLBACK_ERROR = 30010;
+    const CALLBACK_UUID_ERROR = 30011;
+    const CALLBACK_TIME_ERROR = 30012;
+    const CALLBACK_STATUS_ERROR = 30013;
+    const CODE_PARAM_ERROR = 30014;
+    const EMPTY_ERROR = 30015;
 
     // User
     const REGISTER_EMAIL_ERROR = 30200;
@@ -91,14 +92,18 @@ class ErrorCodeService
     const MEMBER_PASSWORD_INVALID = 30303;
     const MEMBER_EXPIRED_ERROR = 30304;
     const MEMBER_NO_PERMISSION = 30305;
-    const MEMBER_NAME_ERROR = 30306;
-    const UPDATE_TIME_ERROR = 30307;
-    const DISABLE_NAME_ERROR = 30308;
+    const MEMBER_NICKNAME_ERROR = 30306;
+    const MEMBER_NICKNAME_LENGTH_ERROR = 30307;
+    const MEMBER_NAME_ERROR = 30308;
+    const MEMBER_NAME_USED_ERROR = 30309;
+    const MEMBER_NAME_LENGTH_ERROR = 30310;
+    const UPDATE_TIME_ERROR = 30311;
+    const DISABLE_NAME_ERROR = 30312;
 
     // Member Mark
-    const MARK_NOT_ENABLE = 30309;
-    const MARK_FOLLOW_ERROR = 30310;
-    const MARK_REPEAT_ERROR = 30311;
+    const MARK_NOT_ENABLE = 30330;
+    const MARK_FOLLOW_ERROR = 30331;
+    const MARK_REPEAT_ERROR = 30332;
 
     // Member Role
     const ROLE_NO_CONFIG_ERROR = 30400;
@@ -215,23 +220,6 @@ class ErrorCodeService
     private static $CODE_MSG_MAP = [
         self::CODE_OK                           => 'ok',
 
-        // Extensions
-        self::PLUGINS_CONFIG_ERROR              => 'No service provider configured',
-        self::PLUGINS_CLASS_ERROR               => 'The service provider not exist',
-        self::PLUGINS_TIMEOUT_ERROR             => 'No response from the service provider',
-        self::PLUGINS_IS_ENABLE_ERROR           => 'The service provider not enabled',
-        self::PLUGINS_PARAM_ERROR               => 'Service provider config parameter is empty',
-        self::PLUGINS_HANDLE_ERROR              => 'Service provider processing failed',
-        self::CODE_PARAM_ERROR                  => 'Parameter error',
-        self::DATA_EXCEPTION_ERROR              => 'Abnormal data: failed to be queried or data duplicated.',
-        self::HELPER_EXCEPTION_ERROR            => 'Abnormal execution: file lost or wrong record',
-        self::VERIFY_CODE_CHECK_ERROR           => 'Verification code incorrect or expired',
-        self::PRIVATE_MODE_ERROR                => 'Request for the interface is forbidden under private mode',
-        self::CALLBACK_ERROR                    => 'Callback error',
-        self::CALLBACK_UUID_ERROR               => 'Wrong UUID or record not exist',
-        self::CALLBACK_TIME_ERROR               => 'Record expired and invalid',
-        self::CALLBACK_STATUS_ERROR             => 'Record used. Please try again.',
-
         // Header
         self::HEADER_ERROR                      => 'Header error',
         self::HEADER_SIGN_ERROR                 => 'Signature error',
@@ -250,6 +238,24 @@ class ErrorCodeService
         self::MEMBER_TOKEN_ERROR                => 'Member token error',
         self::TOKEN_IS_ENABLE_ERROR             => 'The token not enabled',
         self::DEVICE_INFO_ERROR                 => 'Wrong format of device information',
+
+        // Extensions
+        self::PLUGINS_CONFIG_ERROR              => 'No service provider configured',
+        self::PLUGINS_CLASS_ERROR               => 'The service provider not exist',
+        self::PLUGINS_TIMEOUT_ERROR             => 'No response from the service provider',
+        self::PLUGINS_IS_ENABLE_ERROR           => 'The service provider not enabled',
+        self::PLUGINS_PARAM_ERROR               => 'Service provider config parameter is empty',
+        self::PLUGINS_HANDLE_ERROR              => 'Service provider processing failed',
+        self::DATA_EXCEPTION_ERROR              => 'Abnormal data: failed to be queried or data duplicated.',
+        self::HELPER_EXCEPTION_ERROR            => 'Abnormal execution: file lost or wrong record',
+        self::VERIFY_CODE_CHECK_ERROR           => 'Verification code incorrect or expired',
+        self::PRIVATE_MODE_ERROR                => 'Request for the interface is forbidden under private mode',
+        self::CALLBACK_ERROR                    => 'Callback error',
+        self::CALLBACK_UUID_ERROR               => 'Wrong UUID or record not exist',
+        self::CALLBACK_TIME_ERROR               => 'Record expired and invalid',
+        self::CALLBACK_STATUS_ERROR             => 'Record used. Please try again.',
+        self::CODE_PARAM_ERROR                  => 'Parameter error',
+        self::EMPTY_ERROR                       => 'Cannot be empty',
 
         // User
         self::REGISTER_EMAIL_ERROR              => 'Registration with E-mail not supported',
@@ -294,7 +300,11 @@ class ErrorCodeService
         self::MEMBER_PASSWORD_INVALID           => 'Incorrect password',
         self::MEMBER_EXPIRED_ERROR              => 'The member has expired and has no right to use the function',
         self::MEMBER_NO_PERMISSION              => 'Current member has no right to request',
-        self::MEMBER_NAME_ERROR                 => 'Member names should all be different',
+        self::MEMBER_NICKNAME_ERROR             => 'Consider using a name without special characters so it’s accessible to even more people, including people who are blind or have low vision.',
+        self::MEMBER_NICKNAME_LENGTH_ERROR      => 'Nickname length incorrect',
+        self::MEMBER_NAME_ERROR                 => 'Your name can only contain letters, numbers and single hyphens',
+        self::MEMBER_NAME_USED_ERROR            => 'That name has been taken. Please choose another.',
+        self::MEMBER_NAME_LENGTH_ERROR          => 'Name length incorrect',
         self::UPDATE_TIME_ERROR                 => 'Could only be modified once within the specified number of days',
         self::DISABLE_NAME_ERROR                => 'The name contains stop words',
 
