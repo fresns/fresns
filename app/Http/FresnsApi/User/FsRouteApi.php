@@ -14,6 +14,7 @@ Route::group(['prefix' => 'fresns/user', 'namespace' => '\App\Http\FresnsApi\Use
     Route::post('/delete', 'FsControllerApi@delete')->name('api.user.delete');
     Route::post('/restore', 'FsControllerApi@restore')->name('api.user.restore');
     Route::post('/reset', 'FsControllerApi@reset')->name('api.user.reset');
+    Route::post('/verification', 'FsControllerApi@verification')->name('api.user.verification');
     Route::post('/detail', 'FsControllerApi@detail')->name('api.user.detail');
     Route::post('/edit', 'FsControllerApi@edit')->name('api.user.edit');
     Route::post('/walletLogs', 'FsControllerApi@walletLogs')->name('api.user.walletLogs');
