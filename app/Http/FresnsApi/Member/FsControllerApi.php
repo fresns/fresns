@@ -336,7 +336,7 @@ class FsControllerApi extends FresnsBaseApiController
             // Determine if the name is duplicated
             $memberCount = FresnsMembers::where('name', $mname)->count();
             if ($memberCount > 0) {
-                $this->error(ErrorCodeService::MEMBER_NAME_ERROR);
+                $this->error(ErrorCodeService::MEMBER_NAME_USED_ERROR);
             }
         }
 

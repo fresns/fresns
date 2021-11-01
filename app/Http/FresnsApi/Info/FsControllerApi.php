@@ -425,6 +425,7 @@ class FsControllerApi extends FresnsBaseApiController
                 $account = $userInfo['email'];
             } else {
                 $account = $userInfo['pure_phone'];
+                $countryCode = $userInfo['country_code'];
             }
         }
         $cmd = FresnsCmdWordsConfig::FRESNS_CMD_SEND_CODE;

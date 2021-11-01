@@ -28,7 +28,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
     public const FRESNS_CMD_VERIFY_SIGN = 'fresns_cmd_verify_sign';
     public const FRESNS_CMD_UPLOAD_SESSION_LOG = 'fresns_cmd_upload_session_log';
     public const FRESNS_CMD_SEND_CODE = 'fresns_cmd_send_code';
-    public const FRESNS_CMD_CHECKED_CODE = 'fresns_cmd_checked_code';
+    public const FRESNS_CMD_CHECK_CODE = 'fresns_cmd_check_code';
     public const FRESNS_CMD_SEND_EMAIL = 'fresns_cmd_send_email';
     public const FRESNS_CMD_SEND_SMS = 'fresns_cmd_send_sms';
     public const FRESNS_CMD_SEND_IOS = 'fresns_cmd_send_ios';
@@ -65,7 +65,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
         self::FRESNS_CMD_VERIFY_SIGN => 'verifySignHandler',
         self::FRESNS_CMD_UPLOAD_SESSION_LOG => 'uploadSessionLogHandler',
         self::FRESNS_CMD_SEND_CODE => 'sendCodeHandler',
-        self::FRESNS_CMD_CHECKED_CODE => 'checkedCodeHandler',
+        self::FRESNS_CMD_CHECK_CODE => 'checkCodeHandler',
         self::FRESNS_CMD_SEND_EMAIL => 'sendEmailHandler',
         self::FRESNS_CMD_SEND_SMS => 'sendSmsHandler',
         self::FRESNS_CMD_SEND_IOS => 'sendIosHandler',
@@ -139,7 +139,7 @@ class FresnsCmdWordsConfig extends BasePluginConfig
     }
 
     // Verify the verification code
-    public function checkedCodeHandlerRule()
+    public function checkCodeHandlerRule()
     {
         $request = request();
         $rule = [

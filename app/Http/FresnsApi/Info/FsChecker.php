@@ -79,13 +79,6 @@ class FsChecker extends FresnsBaseChecker
                         return self::checkInfo(ErrorCodeService::EMAIL_ERROR);
                     }
                 } else {
-                    // if ($countryCode != FsConfig::COUNTRYCODE) {
-                    //     return self::checkInfo(ErrorCodeService::COUNTRY_CODE_ERROR);
-                    // }
-                    // $result = self::RulePhone($account);
-                    // if (! $result) {
-                    //     return self::checkInfo(ErrorCodeService::PHONE_REGEX_ERROR);
-                    // }
                     $count = FresnsUsers::where('pure_phone', $account)->count();
                     if ($count > 0) {
                         return self::checkInfo(ErrorCodeService::PHONE_ERROR);
@@ -104,13 +97,6 @@ class FsChecker extends FresnsBaseChecker
                         return self::checkInfo(ErrorCodeService::EMAIL_EXIST_ERROR);
                     }
                 } else {
-                    // if ($countryCode != FsConfig::COUNTRYCODE) {
-                    //     return self::checkInfo(ErrorCodeService::COUNTRY_CODE_ERROR);
-                    // }
-                    // $result = self::RulePhone($account);
-                    // if (! $result) {
-                    //     return self::checkInfo(ErrorCodeService::PHONE_REGEX_ERROR);
-                    // }
                     $count = FresnsUsers::where('pure_phone', $account)->count();
                     if ($count == 0) {
                         return self::checkInfo(ErrorCodeService::PHONE_EXIST_ERROR);
@@ -135,13 +121,6 @@ class FsChecker extends FresnsBaseChecker
                         return self::checkInfo(ErrorCodeService::EMAIL_BAND_ERROR);
                     }
                 } else {
-                    // if ($countryCode != FsConfig::COUNTRYCODE) {
-                    //     return self::checkInfo(ErrorCodeService::COUNTRY_CODE_ERROR);
-                    // }
-                    // $result = self::RulePhone($account);
-                    // if (! $result) {
-                    //     return self::checkInfo(ErrorCodeService::PHONE_REGEX_ERROR);
-                    // }
                     $userInfo = FresnsUsers::where('uuid', request()->header('uid'))->first();
                     if (empty($userInfo)) {
                         return self::checkInfo(ErrorCodeService::USER_ERROR);
@@ -178,13 +157,7 @@ class FsChecker extends FresnsBaseChecker
                         return self::checkInfo(ErrorCodeService::EMAIL_REGEX_ERROR);
                     }
                 } else {
-                    // if ($countryCode != FsConfig::COUNTRYCODE) {
-                    //     return self::checkInfo(ErrorCodeService::COUNTRY_CODE_ERROR);
-                    // }
-                    // $result = self::RulePhone($account);
-                    // if (! $result) {
-                    //     return self::checkInfo(ErrorCodeService::PHONE_REGEX_ERROR);
-                    // }
+                    // code
                 }
                 break;
         }

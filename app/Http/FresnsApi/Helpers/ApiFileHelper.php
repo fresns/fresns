@@ -54,25 +54,25 @@ class ApiFileHelper
                 $file['imageBigUrl'] = $imagesSquare.$fileInfo['file_path'].$imagesBig;
             }
             // Video Type
-            $video_setting = ApiConfigHelper::getConfigByItemTag(FsConfig::VIDEO_SETTING);
+            $videosHost = ApiConfigHelper::getConfigByItemKey('videos_bucket_domain');
             if ($fileInfo['file_type'] == 2) {
                 $file['videoTime'] = $fileInfo['video_time'];
                 $file['videoCover'] = $fileInfo['video_cover'];
                 $file['videoGif'] = $fileInfo['video_gif'];
-                $file['videoUrl'] = $video_setting['videos_bucket_domain'].$fileInfo['file_path'];
+                $file['videoUrl'] = $videosHost.$fileInfo['file_path'];
                 $file['transcodingState'] = $fileAppend['transcoding_state'] ?? 1;
             }
             // Audio Type
-            $audio_setting = ApiConfigHelper::getConfigByItemTag(FsConfig::AUDIO_SETTING);
+            $audiosHost = ApiConfigHelper::getConfigByItemKey('audios_bucket_domain');
             if ($fileInfo['file_type'] == 3) {
                 $file['audioTime'] = $fileInfo['audio_time'];
-                $file['audioUrl'] = $audio_setting['audios_bucket_domain'].$fileInfo['file_path'];
+                $file['audioUrl'] = $audiosHost.$fileInfo['file_path'];
                 $file['transcodingState'] = $fileAppend['transcoding_state'] ?? 1;
             }
             // Doc Type
-            $doc_setting = ApiConfigHelper::getConfigByItemTag(FsConfig::DOC_SETTING);
+            $docsHost = ApiConfigHelper::getConfigByItemKey('docs_bucket_domain');
             if ($fileInfo['file_type'] == 4) {
-                $file['docUrl'] = $doc_setting['docs_bucket_domain'].$fileInfo['file_path'];
+                $file['docUrl'] = $docsHost.$fileInfo['file_path'];
             }
 
             $file['moreJson'] = [];

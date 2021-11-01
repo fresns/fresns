@@ -16,6 +16,7 @@ use App\Http\FresnsApi\Helpers\ApiLanguageHelper;
 use App\Http\FresnsDb\FresnsConfigs\FresnsConfigsConfig;
 use App\Http\FresnsDb\FresnsLanguages\FresnsLanguagesService;
 use App\Http\FresnsDb\FresnsPlugins\FresnsPlugins;
+use App\Http\FresnsDb\FresnsPlugins\FresnsPluginsService;
 
 /**
  * List resource config handle.
@@ -58,40 +59,19 @@ class FresnsConfigsResource extends BaseAdminResource
 
         // When item_type=plugin means it is a plugin unikey value, the plugin URL is output with unikey.
         if ($itemType == 'plugin') {
-            $plugin = FresnsPlugins::where('unikey', $itemValue)->first();
-            if ($plugin) {
-                if (! empty($plugin['plugin_domain'])) {
-                    $domain = $plugin['plugin_domain'];
-                } else {
-                    $domain = ApiConfigHelper::getConfigByItemKey('backend_domain');
-                }
-                $value['unikey'] = $plugin['unikey'];
-                $value['url'] = $domain.$plugin['access_path'];
-                $itemValue = $value;
-            }
+            $itemValue = FresnsPluginsService::getPluginUrlByUnikey($itemValue);
         }
 
         // When item_type=plugins means it is a multi-select plugin, separated by English commas.
         if ($itemType == 'plugins') {
-            $unikeyArr = explode(',', $itemValue);
-            $pluginArr = FresnsPlugins::whereIn('unikey', $unikeyArr)->get([
-                'unikey',
-                'plugin_domain',
-                'access_path',
-            ])->toArray();
-            if ($pluginArr) {
-                $domain = ApiConfigHelper::getConfigByItemKey('backend_domain');
-                $itArr = [];
-                foreach ($pluginArr as $v) {
-                    $it = [];
-                    $it['unikey'] = $v['unikey'];
-                    if (! empty($v['plugin_domain'])) {
-                        $domain = $v['plugin_domain'];
-                    }
-                    $it['url'] = $domain.$v['access_path'] ?? '';
-                    $itArr[] = $it;
+            if ($itemValue) {
+                foreach ($itemValue as $plugin) {
+                    $item = [];
+                    $item['code'] = $plugin['code'];
+                    $item['url'] = FresnsPluginsService::getPluginUrlByUnikey($plugin['unikey']);
+                    $itemArr[] = $item;
                 }
-                $itemValue = $itArr;
+                $itemValue = $itemArr;
             }
         }
 

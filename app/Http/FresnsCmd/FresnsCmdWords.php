@@ -141,7 +141,7 @@ class FresnsCmdWords extends BasePlugin
     }
 
     // Verify the verification code
-    public function checkedCodeHandler($input)
+    public function checkCodeHandler($input)
     {
         $type = $input['type'];
         $account = $input['account'];
