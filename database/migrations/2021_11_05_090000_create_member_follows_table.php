@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateMemberFollowsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('member_follows', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('member_id');
+            $table->unsignedTinyInteger('follow_type');
+            $table->unsignedBigInteger('follow_id');
+            $table->unsignedTinyInteger('is_mutual')->default('0');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
+            $table->softDeletes();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('member_follows');
+    }
+}
