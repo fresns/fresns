@@ -19,7 +19,7 @@ class CreatePostAppendsTable extends Migration
             $table->unsignedTinyInteger('platform_id');
             $table->unsignedTinyInteger('is_plugin_editor')->default('0');
             $table->string('editor_unikey', 64)->nullable();
-            $table->longText('content')->nullable()->index('content');
+            $table->longText('content')->nullable();
             $table->unsignedTinyInteger('is_markdown')->default('0');
             $table->unsignedTinyInteger('can_delete')->default('1');
             $table->string('allow_plugin_unikey', 64)->nullable();
