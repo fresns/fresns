@@ -17,20 +17,22 @@ use Illuminate\Support\Facades\Response;
 
 class FsControllerWeb
 {
-
     private $lock_file = '';
 
     // check install
-    public function __construct(){
+    public function __construct()
+    {
         defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
 
         $this->lock_file = base_path('install.lock');
-        if(is_file($this->lock_file)){
-            header('Location: /');exit;
-        }else{
+        if (is_file($this->lock_file)) {
+            header('Location: /');
+            exit;
+        } else {
             $result = InstallService::checkPermission();
-            if($result['code'] != '000000'){
-                header('Location: '.$result['url']);exit;
+            if ($result['code'] != '000000') {
+                header('Location: '.$result['url']);
+                exit;
             }
         }
     }
@@ -38,33 +40,37 @@ class FsControllerWeb
     // choose language
     public function index()
     {
-        Cache::put('install_index',1);
+        Cache::put('install_index', 1);
+
         return view('install.index');
     }
 
     // check env
     public function step1(Request $request)
     {
-        Cache::put('install_lang',$request->input('lang'));
-        Cache::put('install_step1',1);
+        Cache::put('install_lang', $request->input('lang'));
+        Cache::put('install_step1', 1);
+
         return view('install.step1');
     }
 
     // check mysql
     public function step2()
     {
-        Cache::put('install_step2',1);
+        Cache::put('install_step2', 1);
         $lang = Cache::get('install_lang');
         App::setLocale($lang);
+
         return view('install.step2');
     }
 
     // init manager
     public function step3()
     {
-        Cache::put('install_step3',1);
+        Cache::put('install_step3', 1);
         $lang = Cache::get('install_lang');
         App::setLocale($lang);
+
         return view('install.step3');
     }
 
@@ -73,7 +79,7 @@ class FsControllerWeb
     {
         $lang = Cache::get('install_lang');
         App::setLocale($lang);
-        file_put_contents($this->lock_file,date('Y-m-d H:i:s'));
+        file_put_contents($this->lock_file, date('Y-m-d H:i:s'));
         Cache::forget('install_index');
         Cache::forget('install_step1');
         Cache::forget('install_step2');
@@ -91,11 +97,13 @@ class FsControllerWeb
     {
         $name = $request->input('name');
         $result = InstallService::envDetect($name);
+
         return Response::json($result);
     }
 
     // register manager
-    public function initManage(Request $request){
+    public function initManage(Request $request)
+    {
         $back_host = $request->input('backend_host');
         $email = $request->input('email');
         $pure_phone = $request->input('pure_phone');
@@ -103,28 +111,28 @@ class FsControllerWeb
         $password = $request->input('password');
         $nickname = $request->input('nickname');
 
-        if($email){
+        if ($email) {
             $preg_email = '/^[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*@([a-zA-Z0-9]+[-.])+([a-z]{2,5})$/ims';
-            if(preg_match($preg_email, $email) == false){
-                return Response::json(['code'=>'200000','message'=>'email type error']);
+            if (preg_match($preg_email, $email) == false) {
+                return Response::json(['code'=>'200000', 'message'=>'email type error']);
             }
         }
 
         // register config
-        $result = InstallService::updateOrInsertConfig('backend_domain',$back_host,'string','backends');
-        if($result['code'] != '000000'){
+        $result = InstallService::updateOrInsertConfig('backend_domain', $back_host, 'string', 'backends');
+        if ($result['code'] != '000000') {
             return Response::json($result);
         }
-        $result = InstallService::updateOrInsertConfig('install_time',date('Y-m-d H:i:s'),'string','systems');
-        if($result['code'] != '000000'){
+        $result = InstallService::updateOrInsertConfig('install_time', date('Y-m-d H:i:s'), 'string', 'systems');
+        if ($result['code'] != '000000') {
             return Response::json($result);
         }
-        $result = InstallService::updateOrInsertConfig('fresns_version',UpgradeController::$version,'string','systems');
-        if($result['code'] != '000000'){
+        $result = InstallService::updateOrInsertConfig('fresns_version', UpgradeController::$version, 'string', 'systems');
+        if ($result['code'] != '000000') {
             return Response::json($result);
         }
-        $result = InstallService::updateOrInsertConfig('fresns_version_int',UpgradeController::$versionInt,'number','systems');
-        if($result['code'] != '000000'){
+        $result = InstallService::updateOrInsertConfig('fresns_version_int', UpgradeController::$versionInt, 'number', 'systems');
+        if ($result['code'] != '000000') {
             return Response::json($result);
         }
 
@@ -137,10 +145,10 @@ class FsControllerWeb
             'nickname' => $nickname,
         ];
         $result = InstallService::registerUser($input);
-        if($result['code'] != '000000'){
+        if ($result['code'] != '000000') {
             return Response::json($result);
         }
 
-        return Response::json(['code'=>'000000','message'=>'success']);
+        return Response::json(['code'=>'000000', 'message'=>'success']);
     }
 }

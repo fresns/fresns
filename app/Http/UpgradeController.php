@@ -15,7 +15,8 @@ class UpgradeController
     public static $versionInt = 4;
 
     // do some special script
-    public function init(){
+    public function init()
+    {
         //
     }
 }
