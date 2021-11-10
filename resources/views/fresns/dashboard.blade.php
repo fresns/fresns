@@ -6,7 +6,13 @@
             <div class="card mt-4 mb-4 p-2 p-lg-4">
                 <div class="card-body">
                     <h1 class="fs-3 fw-normal">@lang('fresns.welcome')</h1>
-                    <p class="text-secondary pb-4">@lang('fresns.currentVersion') <span data-bs-toggle="tooltip" data-bs-placement="top" title="Database: v{{$version}}">v1.2.0</span></p>
+                    <p class="text-secondary pb-4">
+                        @lang('fresns.currentVersion')
+                        <span data-bs-toggle="tooltip" data-bs-placement="top" title="Database: v{{$version}}">v{{ $appVersion['currentVersion'] }}</span>
+                        @if($appVersion['canUpgrade'])
+                            <a href="/fresns/iframe?url=https://fresns.cn/guide/upgrade.html" class="btn btn-outline-danger btn-sm" role="button">@lang('fresns.updateBtn') v{{ $appVersion['upgradeVersion'] }}</a>
+                        @endif
+                    </p>
                     <div class="row">
                         <div class="col-md mb-4 pe-lg-5">
                             <h3 class="h6">@lang('fresns.overview')</h3>
@@ -33,12 +39,12 @@
                         <div class="col-md mb-4 pe-lg-5">
                             <h3 class="h6">@lang('fresns.support')</h3>
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item"><a href="https://fresns.org/" target="_blank" class="fresns-link">@lang('fresns.fresnsSite')</a></li>
-                                <li class="list-group-item"><a href="https://fresns.org/community/team.html" target="_blank" class="fresns-link">@lang('fresns.fresnsTeam')</a></li>
-                                <li class="list-group-item"><a href="https://fresns.org/community/partners.html" target="_blank" class="fresns-link">@lang('fresns.fresnsPartners')</a></li>
-                                <li class="list-group-item"><a href="https://fresns.org/community/join.html" target="_blank" class="fresns-link">@lang('fresns.fresnsJoin')</a></li>
-                                <li class="list-group-item"><a href="https://discuss.fresns.org/" target="_blank" class="fresns-link">@lang('fresns.fresnsCommunity')</a></li>
-                                <li class="list-group-item"><a href="https://apps.fresns.org/" target="_blank" class="fresns-link">@lang('fresns.fresnsAppStore')</a></li>
+                                <li class="list-group-item"><a href="https://fresns.cn/" target="_blank" class="fresns-link">@lang('fresns.fresnsSite')</a></li>
+                                <li class="list-group-item"><a href="https://fresns.cn/community/team.html" target="_blank" class="fresns-link">@lang('fresns.fresnsTeam')</a></li>
+                                <li class="list-group-item"><a href="https://fresns.cn/community/partners.html" target="_blank" class="fresns-link">@lang('fresns.fresnsPartners')</a></li>
+                                <li class="list-group-item"><a href="https://fresns.cn/community/join.html" target="_blank" class="fresns-link">@lang('fresns.fresnsJoin')</a></li>
+                                <li class="list-group-item"><a href="https://discuss.fresns.cn/" target="_blank" class="fresns-link">@lang('fresns.fresnsCommunity')</a></li>
+                                <li class="list-group-item"><a href="https://apps.fresns.cn/" target="_blank" class="fresns-link">@lang('fresns.fresnsAppStore')</a></li>
                             </ul>
                         </div>
                     </div>
@@ -140,7 +146,7 @@
         </div>
     </div>
 
-@include('fresns.footer')
+    @include('fresns.footer')
 
 </body>
 </html>
