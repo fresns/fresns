@@ -2758,7 +2758,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'plugin_unikey' => 'Fresns',
                 'code' => 30310,
                 'lang_tag' => 'zh-Hans',
-                'message' => '名称长度超出限制',
+                'message' => '名称长度不符合要求',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
                 'deleted_at' => NULL,

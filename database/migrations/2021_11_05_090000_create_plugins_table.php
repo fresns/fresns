@@ -32,8 +32,8 @@ class CreatePluginsTable extends Migration
             $table->string('author_link', 128)->nullable();
             $table->json('scene')->nullable();
             $table->string('plugin_domain', 128)->nullable();
-            $table->string('access_path', 128)->nullable();
-            $table->string('setting_path', 128)->nullable();
+            $table->string('access_path', 255)->nullable();
+            $table->string('setting_path', 255)->nullable();
             $table->json('more_json')->nullable();
             $table->char('install_code', 16)->nullable();
             $table->unsignedTinyInteger('is_upgrade')->default('0');
