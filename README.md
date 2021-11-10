@@ -2,7 +2,7 @@
 
 <p align="center">
 <img src="https://img.shields.io/badge/Fresns-1.x-yellow" alt="Fresns">
-<img src="https://img.shields.io/badge/PHP-%5E7.3%7C%5E8.0-blue" alt="PHP">
+<img src="https://img.shields.io/badge/PHP-%5E8.0-blue" alt="PHP">
 <img src="https://img.shields.io/badge/MySQL-%5E5.7%7C%5E8.0-orange" alt="MySQL">
 <img src="https://img.shields.io/badge/License-Apache--2.0-green" alt="License">
 </p>
@@ -19,18 +19,22 @@ Fresns is a free and open source social network service software, a general-purp
 
 | Framework | Version | Use |
 | --- | --- | --- |
-| [Composer](https://github.com/composer/composer) | 2.1.11 | Application-Level Package Manager |
-| [Laravel Framework](https://github.com/laravel/framework) | 8.69.0 | Framework |
+| [Composer](https://github.com/composer/composer) | 2.1.12 | Application-Level Package Manager |
+| [Laravel Framework](https://github.com/laravel/framework) | 8.70.2 | Framework |
 | [Bootstrap](https://getbootstrap.com/) | 5.1.3 | Internal Front-end Framework |
 | [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.7.0 | Internal Icon Font Library |
 | [jQuery](https://github.com/jquery/jquery) | 3.6.0 | Internal JS Framework |
 | [Base64 JS](https://github.com/dankogai/js-base64) | 3.7.2 | Internal Base64 Transcoder |
 
-| Database | Version |
+| Environment | Requirements |
 | --- | --- |
-| MySQL | 5.7 or 8.x |
-| Collation | MySQL 5.7 `utf8mb4_unicode_520_ci`<br>MySQL 8.x `utf8mb4_0900_ai_ci` |
-| Storage engine | InnoDB |
+| PHP Extensions | `fileinfo` |
+| PHP Functions | `putenv` `symlink` `readlink` `proc_open` |
+
+| Database | MySQL 5.7 | MySQL 8.x |
+| --- | --- | --- |
+| Collation | `utf8mb4_unicode_520_ci` | `utf8mb4_0900_ai_ci` |
+| Storage engine | InnoDB | InnoDB |
 
 ## Installation and Using
 
@@ -41,15 +45,15 @@ This repository is an R & D code repository without "vendor" reference library f
 ### Development deployment
 
 1. Download the code package of the repository release, upload it to the business server and decompress it;
-2. Execute the command line in the "main program root directory": `composer install`;
-3. Rename the `.env.debug` file in the main program root directory to `.env`, and configure the database information according to [the installation tutorial](https://fresns.org/guide/install.html) on the official website;
+2. Rename the `.env.debug` file in the main program root directory to `.env`, and configure the database information according to [the installation tutorial](https://fresns.org/guide/install.html) on the official website;
+3. Execute the command line in the "main program root directory": `composer install`;
 4. The rest of the configuration process is the same as [the installation tutorial](https://fresns.org/guide/install.html) on the official website.
 
 ### Production deployment
 
 1. Download the code package of this repository release and upload it to the business server to decompress;
-2. Execute the command line in the "main program root directory": `composer install --optimize-autoloader --no-dev`;
-3. Rename the `.env.example` file in the main program root directory to `.env`, and configure the database information according to [the installation tutorial](https://fresns.org/guide/install.html) on the official website;
+2. Rename the `.env.example` file in the main program root directory to `.env`, and configure the database information according to [the installation tutorial](https://fresns.org/guide/install.html) on the official website;
+3. Execute the command line in the "main program root directory": `composer install --optimize-autoloader --no-dev`;
 4. The rest of the configuration process is the same as [the installation tutorial](https://fresns.org/guide/install.html) on the official website.
 
 ## Contributing
