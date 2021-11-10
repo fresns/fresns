@@ -684,7 +684,7 @@ class FsControllerApi extends FresnsBaseApiController
             }
             //check new email
             $countUser = FresnsUsers::where('email', $editEmail)->count();
-            if($countUser){
+            if ($countUser) {
                 $this->error(ErrorCodeService::EMAIL_ERROR);
             }
             //update userinfo
@@ -712,7 +712,7 @@ class FsControllerApi extends FresnsBaseApiController
             }
             // check new phone
             $countUser = FresnsUsers::where('phone', $editCountryCode.$editPhone)->count();
-            if($countUser){
+            if ($countUser) {
                 $this->error(ErrorCodeService::PHONE_ERROR);
             }
 
