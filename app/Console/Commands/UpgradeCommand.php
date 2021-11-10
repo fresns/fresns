@@ -50,55 +50,56 @@ class UpgradeCommand extends Command
     public function handle()
     {
         $this->info('upgrade start');
-        $this->line("step1: check version");
+        $this->line('step1: check version');
         $versionInfo = FsService::getVersionInfo();
-        if(!$versionInfo['canUpgrade']){
-            $this->error("there is no new version");
+        if (! $versionInfo['canUpgrade']) {
+            $this->error('there is no new version');
         }
-        $this->line("step2: download package");
-        $downloadDir  = storage_path('app/upgrade/v_'.$versionInfo['upgradeVersion'].'/');
+        $this->line('step2: download package');
+        $downloadDir = storage_path('app/upgrade/v_'.$versionInfo['upgradeVersion'].'/');
         $filename = date('YmdH').'.zip';
         $downloadFile = $downloadDir.$filename;
         FileHelper::assetDir($downloadFile);
-        FsService::downFile($versionInfo['upgradePackage'],$downloadFile);
+        FsService::downFile($versionInfo['upgradePackage'], $downloadFile);
         $fileSize = File::size($downloadFile);
         if ($fileSize < 10) {
-            $this->error("download package fail");
+            $this->error('download package fail');
         }
-        $this->line("step3: unzip package");
+        $this->line('step3: unzip package');
         $status = FileHelper::unzip($downloadFile, $downloadDir);
-        if ($status == false){
+        if ($status == false) {
             $this->error('unzip package fail');
         }
-        $this->line("step4: copy document");
-        $coverPath = ['Base','Console','Exceptions','Helpers','Http','Listeners','Providers','Traits', 'static', 'views','lang','migrations','seeders'];
+        $this->line('step4: copy document');
+        $coverPath = ['Base', 'Console', 'Exceptions', 'Helpers', 'Http', 'Listeners', 'Providers', 'Traits', 'static', 'views', 'lang', 'migrations', 'seeders'];
         foreach ($coverPath as $subDir) {
-            if(in_array($subDir,['Base','Console','Exceptions','Helpers','Http','Listeners','Providers','Traits'])){
+            if (in_array($subDir, ['Base', 'Console', 'Exceptions', 'Helpers', 'Http', 'Listeners', 'Providers', 'Traits'])) {
                 $upDir = implode(DIRECTORY_SEPARATOR, [$downloadDir, $subDir]);
-                (new Filesystem)->copyDirectory($upDir,app_path($subDir));
-            }elseif ($subDir == 'static'){
+                (new Filesystem)->copyDirectory($upDir, app_path($subDir));
+            } elseif ($subDir == 'static') {
                 $upDir = implode(DIRECTORY_SEPARATOR, [$downloadDir, $subDir]);
-                (new Filesystem)->copyDirectory($upDir,public_path($subDir));
-            }elseif (in_array($subDir,['views','lang'])){
+                (new Filesystem)->copyDirectory($upDir, public_path($subDir));
+            } elseif (in_array($subDir, ['views', 'lang'])) {
                 $upDir = implode(DIRECTORY_SEPARATOR, [$downloadDir, $subDir]);
-                (new Filesystem)->copyDirectory($upDir,resource_path($subDir));
-            }elseif (in_array($subDir,['migrations','seeders'])){
+                (new Filesystem)->copyDirectory($upDir, resource_path($subDir));
+            } elseif (in_array($subDir, ['migrations', 'seeders'])) {
                 $upDir = implode(DIRECTORY_SEPARATOR, [$downloadDir, $subDir]);
-                (new Filesystem)->copyDirectory($upDir,database_path($subDir));
+                (new Filesystem)->copyDirectory($upDir, database_path($subDir));
             }
         }
-        $this->line("step5: clear file cache");
+        $this->line('step5: clear file cache');
         InstallHelper::freshSystem();
-        $this->line("step6: run database migrate");
+        $this->line('step6: run database migrate');
         //Artisan::call('migrate', ['--force' => true]);
-        $this->line("step7: run database seed");
-        Artisan::call('db:seed', ['--force' => true,'--class'=>'Database\Seeders\UpgradeSeeder']);
-        $this->line("step8: run program script");
-        $upClass = "\\App\\Http\\UpgradeController";
+        $this->line('step7: run database seed');
+        Artisan::call('db:seed', ['--force' => true, '--class'=>'Database\Seeders\UpgradeSeeder']);
+        $this->line('step8: run program script');
+        $upClass = '\\App\\Http\\UpgradeController';
         if (class_exists($upClass)) {
             (new $upClass)->init();
         }
         $this->info('upgrade end');
+
         return Command::SUCCESS;
     }
 }
