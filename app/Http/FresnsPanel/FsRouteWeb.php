@@ -7,13 +7,13 @@
  */
 
 use App\Http\Center\Common\GlobalService;
-use App\Http\FresnsApi\Base\FresnsBaseApiController;
 use App\Http\FresnsApi\Helpers\ApiConfigHelper;
 use App\Http\FresnsDb\FresnsConfigs\FresnsConfigsConfig;
+use App\Http\FresnsInstall\InstallService;
 
 $appName = env('APP_NAME');
 
-if ($appName == 'Fresns') {
+if ($appName == 'Fresns' && InstallService::mode() === false) {
     GlobalService::loadGlobalData();
     $adminPath = ApiConfigHelper::getConfigByItemKey(FresnsConfigsConfig::BACKEND_PATH) ?? 'admin';
     $adminPath = '/fresns'."/$adminPath";

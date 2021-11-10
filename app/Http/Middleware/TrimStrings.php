@@ -11,6 +11,7 @@ namespace App\Http\Middleware;
 use App\Helpers\DateHelper;
 use App\Helpers\LangHelper;
 use App\Http\Center\Common\GlobalService;
+use App\Http\FresnsInstall\InstallService;
 use Closure;
 use Illuminate\Foundation\Http\Middleware\TrimStrings as Middleware;
 
@@ -50,15 +51,16 @@ class TrimStrings extends Middleware
             }
             $request->offsetSet('is_enable', $isEnable);
         }
-
         // Switching time
         DateHelper::initTimezone();
 
         // Switching languages
         LangHelper::initLocale();
 
-        // Initialize global data
-        GlobalService::loadData();
+        if(InstallService::mode() === false){
+            // Initialize global data
+            GlobalService::loadData();
+        }
 
         return $next($request);
     }

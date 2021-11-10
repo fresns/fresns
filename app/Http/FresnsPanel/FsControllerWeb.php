@@ -9,6 +9,7 @@
 namespace App\Http\FresnsPanel;
 
 use App\Base\Controllers\BaseFrontendController;
+use App\Helpers\FileHelper;
 use App\Helpers\HttpHelper;
 use App\Helpers\StrHelper;
 use App\Http\Auth\User;
@@ -33,11 +34,14 @@ use App\Http\FresnsDb\FresnsSessionLogs\FresnsSessionLogs;
 use App\Http\FresnsDb\FresnsSessionLogs\FresnsSessionLogsConfig;
 use App\Http\FresnsDb\FresnsSessionLogs\FresnsSessionLogsService;
 use App\Http\FresnsDb\FresnsUsers\FresnsUsers;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 
 class FsControllerWeb extends BaseFrontendController
@@ -285,6 +289,7 @@ class FsControllerWeb extends BaseFrontendController
             'total' => $total,
             'notice_arr' => $noticeArr,
             'lang_desc' => FsService::getLanguage($langTag),
+            'appVersion' => FsService::getVersionInfo(),
         ];
 
         return view('fresns.dashboard', $data);
@@ -889,7 +894,7 @@ class FsControllerWeb extends BaseFrontendController
                     'item_key' => $websiteUnikey.'_Pc',
                     'item_tag' => 'themes',
                     'item_value' => $subjectUnikeyPc,
-                    'item_type' => 'plugin',
+                    'item_type' => 'string',
                 ];
                 FresnsConfigs::insert($input);
             }
@@ -906,7 +911,7 @@ class FsControllerWeb extends BaseFrontendController
                     'item_key' => $websiteUnikey.'_Mobile',
                     'item_tag' => 'themes',
                     'item_value' => $subjectUnikeyMobile,
-                    'item_type' => 'plugin',
+                    'item_type' => 'string',
                 ];
                 FresnsConfigs::insert($input);
             }

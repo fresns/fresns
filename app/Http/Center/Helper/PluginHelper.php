@@ -8,17 +8,14 @@
 
 namespace App\Http\Center\Helper;
 
-use App\Helpers\CommonHelper;
 use App\Helpers\FileHelper;
 use App\Http\Center\Base\BaseInstaller;
-use App\Http\Center\Base\BasePlugin;
 use App\Http\Center\Base\BasePluginConfig;
 use App\Http\Center\Base\PluginConst;
 use App\Http\Center\Common\LogService;
 use App\Http\FresnsDb\FresnsPlugins\FresnsPlugins;
+use App\Http\FresnsInstall\InstallService;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
-use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 class PluginHelper
 {
@@ -224,6 +221,9 @@ class PluginHelper
     // Whether the plugin is installed or enabled
     public static function pluginCanUse($uniKey)
     {
+        if(InstallService::mode()){
+            return false;
+        }
         // Get installation class
         $installer = InstallHelper::findInstaller($uniKey);
         if (empty($installer)) {

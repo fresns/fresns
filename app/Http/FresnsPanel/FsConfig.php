@@ -15,6 +15,7 @@ class FsConfig extends BaseConfig
     const ENABLE_FALSE = 0;
 
     const NOTICE_URL = 'https://fresns.org/news.json';
+    const VERSION_URL = 'https://fresns.org/version.json';
 
     const PLUGIN_TYPE1 = 1;
     const PLUGIN_TYPE2 = 2;
