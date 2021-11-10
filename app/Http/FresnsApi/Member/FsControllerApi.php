@@ -328,6 +328,32 @@ class FsControllerApi extends FresnsBaseApiController
                     }
                 }
             }
+
+            $isError = preg_match('/^[A-Za-z0-9-]+$/', $mname);
+            if($isError == 0){
+                $this->error(ErrorCodeService::MEMBER_NAME_ERROR);
+            }
+
+            $isNumeric = is_numeric($mname);
+            if($isNumeric == true){
+                $this->error(ErrorCodeService::MEMBER_NAME_ERROR);
+            }
+
+            $substrCount = substr_count($mname,'-');
+            if($substrCount > 1){
+                $this->error(ErrorCodeService::MEMBER_NAME_ERROR);
+            }
+
+            $mnameMin = FresnsConfigs::where('item_key', FresnsConfigsConfig::MNAME_MIN)->value('item_value');
+            $mnameMax = FresnsConfigs::where('item_key', FresnsConfigsConfig::MNAME_MAX)->value('item_value');
+            $count = strlen($mname);
+            if($count < $mnameMin){
+                $this->error(ErrorCodeService::MEMBER_NAME_LENGTH_ERROR);
+            }
+            if($count > $mnameMax){
+                $this->error(ErrorCodeService::MEMBER_NAME_LENGTH_ERROR);
+            }
+
             $disableNames = FresnsConfigs::where('item_key', 'disable_names')->value('item_value');
             $disableNamesArr = json_decode($disableNames, true);
             if (in_array($mname, $disableNamesArr)) {
@@ -335,6 +361,7 @@ class FsControllerApi extends FresnsBaseApiController
             }
             // Determine if the name is duplicated
             $memberCount = FresnsMembers::where('name', $mname)->count();
+
             if ($memberCount > 0) {
                 $this->error(ErrorCodeService::MEMBER_NAME_USED_ERROR);
             }
@@ -354,6 +381,27 @@ class FsControllerApi extends FresnsBaseApiController
                 }
             }
 
+            trim($nickname);
+            $isError = preg_match('/^[\x{4e00}-\x{9fa5} A-Za-z0-9]+$/u', $nickname);
+            if($isError == 0){
+                $this->error(ErrorCodeService::MEMBER_NICKNAME_ERROR);
+            }
+            $nicknameExplodeArr = explode(' ',$nickname);
+            $nicknameArr = [];
+            foreach($nicknameExplodeArr as $v){
+                if(empty($v)){
+                    continue;
+                }
+                $nicknameArr[] = $v;
+            }
+            
+            $nickname = implode(' ',$nicknameArr);
+
+            $count = strlen($nickname);
+            if($count > 64){
+                $this->error(ErrorCodeService::MEMBER_NICKNAME_LENGTH_ERROR);
+            }
+
             $stopWordsArr = FresnsStopWords::get()->toArray();
 
             foreach ($stopWordsArr as $v) {
@@ -368,6 +416,7 @@ class FsControllerApi extends FresnsBaseApiController
                     }
                 }
             }
+            
         }
 
         if ($avatarFid) {

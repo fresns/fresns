@@ -44,6 +44,8 @@ class FsConfig extends BaseConfig
 
     // Number of days between member name changes
     const MNAME_EDIT = 'mname_edit';
+    const MNAME_MIN = 'mname_min';
+    const MNAME_MAX = 'mname_max';
 
     // Number of days between member nickname changes
     const NICKNAME_EDIT = 'nickname_edit';

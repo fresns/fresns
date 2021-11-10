@@ -43,6 +43,13 @@ class FresnsConfigsResource extends BaseAdminResource
         if ($isMultilingual == 1) {
             $itemValue = FresnsLanguagesService::getLanguageByTableKey(FresnsConfigsConfig::CFG_TABLE, 'item_value', $itemKey, $langTag);
         }
+
+        if ($itemType == 'boolean') {
+            if (is_string($itemValue)) {
+                $itemValue = boolval($itemValue);
+            }
+        }
+
         if ($itemType == 'number') {
             if (is_numeric($itemValue)) {
                 $itemValue = intval($itemValue);
