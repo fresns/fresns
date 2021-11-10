@@ -221,7 +221,7 @@ class PluginHelper
     // Whether the plugin is installed or enabled
     public static function pluginCanUse($uniKey)
     {
-        if(InstallService::mode()){
+        if (InstallService::mode()) {
             return false;
         }
         // Get installation class

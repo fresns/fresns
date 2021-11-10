@@ -23,17 +23,18 @@ class FsService extends BaseAdminService
     }
 
     /**
-     * version check
+     * version check.
      */
-    public static function getVersionInfo(){
+    public static function getVersionInfo()
+    {
         $url = FsConfig::VERSION_URL;
         $rs = self::httpGet($url);
-        $api_version =  !empty($rs) ? json_decode($rs,true) : [];
+        $api_version = ! empty($rs) ? json_decode($rs, true) : [];
         $current_version = UpgradeController::$versionInt;
-        if(isset($api_version['versionInt']) && $api_version['versionInt'] > $current_version){
-            return ['currentVersion'=>UpgradeController::$version,'canUpgrade'=>true,'upgradeVersion'=>$api_version['version'],'upgradePackage'=>$api_version['upgradePackage']];
-        }else{
-            return ['currentVersion'=>UpgradeController::$version,'canUpgrade'=>false,'upgradeVersion'=>UpgradeController::$version,'upgradePackage'=>''];
+        if (isset($api_version['versionInt']) && $api_version['versionInt'] > $current_version) {
+            return ['currentVersion'=>UpgradeController::$version, 'canUpgrade'=>true, 'upgradeVersion'=>$api_version['version'], 'upgradePackage'=>$api_version['upgradePackage']];
+        } else {
+            return ['currentVersion'=>UpgradeController::$version, 'canUpgrade'=>false, 'upgradeVersion'=>UpgradeController::$version, 'upgradePackage'=>''];
         }
     }
 
@@ -52,12 +53,12 @@ class FsService extends BaseAdminService
         $log['status'] = 0;
         $httpheader = [];
         foreach ($headers as $k => $v) {
-            array_push($httpheader, $k . ': ' . $v);
+            array_push($httpheader, $k.': '.$v);
         }
         $oCurl = curl_init();
-        if (stripos($url, "https://") !== FALSE) {
-            curl_setopt($oCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
-            curl_setopt($oCurl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        if (stripos($url, 'https://') !== false) {
+            curl_setopt($oCurl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($oCurl, CURLOPT_SSL_VERIFYHOST, false);
         }
         curl_setopt($oCurl, CURLOPT_URL, $url);
         curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1);
@@ -77,16 +78,17 @@ class FsService extends BaseAdminService
         $log['speed'] = number_format(microtime(true) - $starttime, 5);
         $log['datetime'] = $starttime;
         $log['status'] = 1;
-        Log::info('upgrate-http',$log);
+        Log::info('upgrate-http', $log);
+
         return $sContent;
     }
 
-    public static function downFile($url,$filePath,$timeout=600)
+    public static function downFile($url, $filePath, $timeout = 600)
     {
         $ch = curl_init();
-        if (stripos($url, "https://") !== FALSE) {
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        if (stripos($url, 'https://') !== false) {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         }
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -96,8 +98,7 @@ class FsService extends BaseAdminService
 
         file_put_contents($filePath, $content);
         unset($content);
+
         return true;
     }
-
-
 }
