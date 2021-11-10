@@ -10,7 +10,7 @@
                         @lang('fresns.currentVersion')
                         <span data-bs-toggle="tooltip" data-bs-placement="top" title="Database: v{{$version}}">v{{ $appVersion['currentVersion'] }}</span>
                         @if($appVersion['canUpgrade'])
-                            <a href="/fresns/iframe?url=https://fresns.cn/guide/upgrade.html" class="btn btn-outline-danger btn-sm" role="button">@lang('fresns.updateBtn') v{{ $appVersion['upgradeVersion'] }}</a>
+                            <a href="/fresns/iframe?url=https://fresns.org/guide/upgrade.html" class="btn btn-outline-danger btn-sm" role="button">@lang('fresns.updateBtn') v{{ $appVersion['upgradeVersion'] }}</a>
                         @endif
                     </p>
                     <div class="row">
