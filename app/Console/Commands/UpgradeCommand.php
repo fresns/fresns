@@ -9,7 +9,7 @@
 namespace App\Console\Commands;
 
 use App\Helpers\FileHelper;
-use App\Helpers\Http;
+use App\Helpers\NetworkHelper;
 use App\Http\Center\Helper\InstallHelper;
 use App\Http\FresnsPanel\FsService;
 use Illuminate\Console\Command;
@@ -63,7 +63,7 @@ class UpgradeCommand extends Command
         $downloadDir = storage_path('app/upgrade');
         FileHelper::assetDir($downloadDir);
         $downloadFile = $downloadDir.'/upgrade_'.md5(time()).'.zip';
-        $result = Http::get($versionInfo['upgradePackage'], function ($http) use ($downloadFile) {
+        $result = NetworkHelper::get($versionInfo['upgradePackage'], function ($http) use ($downloadFile) {
             $http->timeout(600);
             $http->toFile($downloadFile);
         });
