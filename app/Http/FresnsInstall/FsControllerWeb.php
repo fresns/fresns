@@ -104,7 +104,7 @@ class FsControllerWeb
     // register manager
     public function initManage(Request $request)
     {
-        $back_host = $request->input('backend_host');
+        $backend_host = rtrim($request->input('backend_host'),'/');
         $email = $request->input('email');
         $pure_phone = $request->input('pure_phone');
         $country_code = $request->input('country_code');
@@ -119,7 +119,7 @@ class FsControllerWeb
         }
 
         // register config
-        $result = InstallService::updateOrInsertConfig('backend_domain', $back_host, 'string', 'backends');
+        $result = InstallService::updateOrInsertConfig('backend_domain', $backend_host, 'string', 'backends');
         if ($result['code'] != '000000') {
             return Response::json($result);
         }

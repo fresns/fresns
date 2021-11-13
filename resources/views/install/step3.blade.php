@@ -32,7 +32,7 @@
                 <form class="my-4">
                     <div class="row mb-3">
                         <label class="col-sm-3 col-form-label">@lang('install.step3BackendHost')</label>
-                        <div class="col-sm-9"><input type="url" name="backend_host" class="form-control" placeholder="https://fresns.org" required></div>
+                        <div class="col-sm-9"><input type="url" value="{{ request()->getSchemeAndHttpHost() }}" name="backend_host" class="form-control" placeholder="https://fresns.org" required></div>
                     </div>
                     <div class="row mb-3">
                         <label class="col-sm-3 col-form-label">@lang('install.step3MemberNickname')</label>
