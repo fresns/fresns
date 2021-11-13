@@ -62,7 +62,7 @@ class UpgradeCommand extends Command
         $this->line('step2: download package');
         $downloadDir = storage_path('app/upgrade');
         FileHelper::assetDir($downloadDir);
-        $downloadFile = $downloadDir.'/upgrade_'.md5(time()).'.zip';
+        $downloadFile = $downloadDir.'/fresns-'.$versionInfo['upgradeVersion'].'.zip';
         $result = NetworkHelper::get($versionInfo['upgradePackage'], function ($http) use ($downloadFile) {
             $http->timeout(600);
             $http->toFile($downloadFile);
@@ -85,20 +85,28 @@ class UpgradeCommand extends Command
         }
         //Step 4
         $this->line('step4: copy file');
+        $unzipDir = storage_path('app/upgrade/fresns-'.$versionInfo['upgradeVersion']);
         $coverPath = ['Base', 'Console', 'Exceptions', 'Helpers', 'Http', 'Listeners', 'Providers', 'Traits', 'static', 'views', 'lang', 'migrations', 'seeders'];
         foreach ($coverPath as $subDir) {
             if (in_array($subDir, ['Base', 'Console', 'Exceptions', 'Helpers', 'Http', 'Listeners', 'Providers', 'Traits'])) {
-                $upDir = implode(DIRECTORY_SEPARATOR, [$downloadDir, $subDir]);
-                (new Filesystem)->copyDirectory($upDir, app_path($subDir));
+                $upDir = implode(DIRECTORY_SEPARATOR, [$unzipDir,'app', $subDir]);
+                $copyStatus = (new Filesystem)->copyDirectory($upDir, app_path($subDir));
             } elseif ($subDir == 'static') {
-                $upDir = implode(DIRECTORY_SEPARATOR, [$downloadDir, $subDir]);
-                (new Filesystem)->copyDirectory($upDir, public_path($subDir));
+                $upDir = implode(DIRECTORY_SEPARATOR, [$unzipDir, 'public', $subDir]);
+                $copyStatus = (new Filesystem)->copyDirectory($upDir, public_path($subDir));
             } elseif (in_array($subDir, ['views', 'lang'])) {
-                $upDir = implode(DIRECTORY_SEPARATOR, [$downloadDir, $subDir]);
-                (new Filesystem)->copyDirectory($upDir, resource_path($subDir));
+                $upDir = implode(DIRECTORY_SEPARATOR, [$unzipDir, 'resources', $subDir]);
+                $copyStatus = (new Filesystem)->copyDirectory($upDir, resource_path($subDir));
             } elseif (in_array($subDir, ['migrations', 'seeders'])) {
-                $upDir = implode(DIRECTORY_SEPARATOR, [$downloadDir, $subDir]);
-                (new Filesystem)->copyDirectory($upDir, database_path($subDir));
+                $upDir = implode(DIRECTORY_SEPARATOR, [$unzipDir, 'database', $subDir]);
+                $copyStatus = (new Filesystem)->copyDirectory($upDir, database_path($subDir));
+            }else{
+                $copyStatus = true;
+            }
+
+            if($copyStatus === false){
+                $this->error('copy file fail');
+                exit;
             }
         }
         //Step 5
