@@ -89,7 +89,7 @@ class UpgradeCommand extends Command
         $coverPath = ['Base', 'Console', 'Exceptions', 'Helpers', 'Http', 'Listeners', 'Providers', 'Traits', 'static', 'views', 'lang', 'migrations', 'seeders'];
         foreach ($coverPath as $subDir) {
             if (in_array($subDir, ['Base', 'Console', 'Exceptions', 'Helpers', 'Http', 'Listeners', 'Providers', 'Traits'])) {
-                $upDir = implode(DIRECTORY_SEPARATOR, [$unzipDir,'app', $subDir]);
+                $upDir = implode(DIRECTORY_SEPARATOR, [$unzipDir, 'app', $subDir]);
                 $copyStatus = (new Filesystem)->copyDirectory($upDir, app_path($subDir));
             } elseif ($subDir == 'static') {
                 $upDir = implode(DIRECTORY_SEPARATOR, [$unzipDir, 'public', $subDir]);
@@ -100,11 +100,11 @@ class UpgradeCommand extends Command
             } elseif (in_array($subDir, ['migrations', 'seeders'])) {
                 $upDir = implode(DIRECTORY_SEPARATOR, [$unzipDir, 'database', $subDir]);
                 $copyStatus = (new Filesystem)->copyDirectory($upDir, database_path($subDir));
-            }else{
+            } else {
                 $copyStatus = true;
             }
 
-            if($copyStatus === false){
+            if ($copyStatus === false) {
                 $this->error('copy file fail');
                 exit;
             }
