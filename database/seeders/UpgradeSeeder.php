@@ -19,6 +19,6 @@ class UpgradeSeeder extends Seeder
      */
     public function run()
     {
-        //$this->call(CodeMessagesTableSeeder::class);
+        $this->call(UpdateConfigTableSeeder::class);
     }
 }

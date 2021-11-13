@@ -1,5 +1,26 @@
 # Release Notes
 
+All notable changes to this project will be documented in this file.
+
+## 1.3.0 (2021-11-13)
+
+**Bug Fixes**
+
+- API: repair the problem of uploading file tableId without conversion
+
+**Features**
+
+- Visual installation and upgrade
+- Implement rules requirements for member nicknames and names
+- Frame: Composer upgrade to v2.1.12
+- Frame: Laravel Framework upgrade to v8.70.2
+- Frame: Bootstrap Icons upgrade to v1.7.0
+
+**BREAKING CHANGES**
+
+- build: laravel migrations
+- build: laravel seeders
+
 ## 1.2.0 (2021-11-01)
 
 **Bug Fixes**
@@ -36,7 +57,7 @@
 - API: modify comment list interface child comment preview structure
 - API: for interfaces involving member information, add the member's primary role "rid" parameter
 - API: member list and detail add "followMeStatus" parameter
-- frame: upgrade to laravel framework 8.68.1
+- Frame: upgrade to laravel framework 8.68.1
 
 ## 1.0.2 (2021-10-23)
 
