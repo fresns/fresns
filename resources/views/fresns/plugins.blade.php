@@ -44,9 +44,7 @@
                                         <td>
                                             @if ($item['is_enable'] == 1)
                                                 <button type="button" class="btn btn-outline-success btn-sm btn_enable1" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('fresns.deactivateInfo')" data_id="{{$item['id']}}">@lang('fresns.deactivate')</button>
-                                                @if ($item['setting_path'] == '')
-                                                    <a href="#" class="btn btn-primary btn-sm disabled">@lang('fresns.setting')</a>
-                                                @else
+                                                @if ($item['setting_path'])
                                                     <a href="/fresns/iframe?url={{$item['setting_path']}}?lang={{$lang}}" class="btn btn-primary btn-sm"  title="@lang('fresns.settingInfo')" data-bs-toggle="tooltip" data-bs-placement="top">@lang('fresns.setting')</a>
                                                 @endif
                                             @else

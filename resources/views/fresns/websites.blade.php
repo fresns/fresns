@@ -52,9 +52,7 @@
                                             @if ($item['is_enable'] == 1)
                                                 <button type="button" class="btn btn-outline-success btn-sm btn_enable1" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('fresns.deactivateInfo')" data_id="{{$item['id']}}">@lang('fresns.deactivate')</button> 
                                                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#themeSetting" id="linkSubject" unikey="{{$item['unikey']}}" subectUnikeyPc="{{$item['websitePc']}}" subectUnikeyMobile="{{$item['websiteMobile']}}">@lang('fresns.enginesTableOptionsTheme')</button>
-                                                @if ($item['setting_path'] == '')
-                                                    <a href="#" class="btn btn-primary btn-sm disabled">@lang('fresns.setting')</a>
-                                                @else
+                                                @if ($item['setting_path'])
                                                     <a href="/fresns/iframe?url={{$item['setting_path']}}?lang={{$lang}}" class="btn btn-primary btn-sm"  title="@lang('fresns.settingInfo')" data-bs-toggle="tooltip" data-bs-placement="top">@lang('fresns.setting')</a>
                                                 @endif
                                             @else
