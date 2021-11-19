@@ -50,40 +50,41 @@ class ErrorCodeService
     const DEVICE_INFO_ERROR = 30116;
 
     // User
-    const REGISTER_EMAIL_ERROR = 30200;
-    const REGISTER_PHONE_ERROR = 30201;
-    const REGISTER_USER_ERROR = 30202;
-    const PASSWORD_LENGTH_ERROR = 30203;
-    const PASSWORD_NUMBER_ERROR = 30204;
-    const PASSWORD_LOWERCASE_ERROR = 30205;
-    const PASSWORD_CAPITAL_ERROR = 30206;
-    const PASSWORD_SYMBOL_ERROR = 30207;
+    const REGISTER_ERROR = 30200;
+    const REGISTER_EMAIL_ERROR = 30201;
+    const REGISTER_PHONE_ERROR = 30202;
+    const REGISTER_USER_ERROR = 30203;
+    const PASSWORD_LENGTH_ERROR = 30204;
+    const PASSWORD_NUMBER_ERROR = 30205;
+    const PASSWORD_LOWERCASE_ERROR = 30206;
+    const PASSWORD_CAPITAL_ERROR = 30207;
+    const PASSWORD_SYMBOL_ERROR = 30208;
 
-    const EMAIL_ERROR = 30208;
-    const EMAIL_REGEX_ERROR = 30209;
-    const EMAIL_EXIST_ERROR = 30210;
-    const EMAIL_BAND_ERROR = 30211;
-    const PHONE_ERROR = 30212;
-    const PHONE_REGEX_ERROR = 30213;
-    const PHONE_EXIST_ERROR = 30214;
-    const PHONE_BAND_ERROR = 30215;
-    const COUNTRY_CODE_ERROR = 30216;
-    const CODE_TEMPLATE_ERROR = 30217;
-    const CONNECT_TOKEN_ERROR = 30218;
+    const EMAIL_ERROR = 30220;
+    const EMAIL_REGEX_ERROR = 30221;
+    const EMAIL_EXIST_ERROR = 30222;
+    const EMAIL_BAND_ERROR = 30223;
+    const PHONE_ERROR = 30224;
+    const PHONE_REGEX_ERROR = 30225;
+    const PHONE_EXIST_ERROR = 30226;
+    const PHONE_BAND_ERROR = 30227;
+    const COUNTRY_CODE_ERROR = 30228;
+    const CODE_TEMPLATE_ERROR = 30229;
+    const CONNECT_TOKEN_ERROR = 30230;
 
-    const ACCOUNT_IS_EMPTY_ERROR = 30219;
-    const ACCOUNT_CHECK_ERROR = 30220;
-    const ACCOUNT_PASSWORD_INVALID = 30221;
-    const ACCOUNT_ERROR = 30222;
-    const ACCOUNT_COUNT_ERROR = 30223;
+    const ACCOUNT_IS_EMPTY_ERROR = 30240;
+    const ACCOUNT_CHECK_ERROR = 30241;
+    const ACCOUNT_PASSWORD_INVALID = 30242;
+    const ACCOUNT_ERROR = 30243;
+    const ACCOUNT_COUNT_ERROR = 30244;
 
-    const USER_ERROR = 30224;
-    const USER_IS_ENABLE_ERROR = 30225;
-    const USER_WALLETS_ERROR = 30226;
-    const USER_BALANCE_ERROR = 30227;
-    const BALANCE_CLOSING_BALANCE_ERROR = 30228;
-    const TO_USER_WALLETS_ERROR = 30229;
-    const TO_BALANCE_CLOSING_BALANCE_ERROR = 30230;
+    const USER_ERROR = 30260;
+    const USER_IS_ENABLE_ERROR = 30261;
+    const USER_WALLETS_ERROR = 30262;
+    const USER_BALANCE_ERROR = 30263;
+    const BALANCE_CLOSING_BALANCE_ERROR = 30264;
+    const TO_USER_WALLETS_ERROR = 30265;
+    const TO_BALANCE_CLOSING_BALANCE_ERROR = 30266;
 
     // Member
     const MEMBER_FAIL = 30300;
@@ -258,6 +259,7 @@ class ErrorCodeService
         self::EMPTY_ERROR                       => 'Cannot be empty',
 
         // User
+        self::REGISTER_ERROR                    => 'This registration channel has been closed and account registration through this function is prohibited',
         self::REGISTER_EMAIL_ERROR              => 'Registration with E-mail not supported',
         self::REGISTER_PHONE_ERROR              => 'Registration with mobile phone number not supported',
         self::REGISTER_USER_ERROR               => 'The user has registered',

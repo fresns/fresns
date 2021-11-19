@@ -100,11 +100,11 @@ class FsControllerApi extends FresnsBaseApiController
 
         $sitePublicClose = ApiConfigHelper::getConfigByItemKey('site_public_close');
         if ($sitePublicClose === false) {
-            $this->error(ErrorCodeService::PRIVATE_MODE_ERROR);
+            $this->error(ErrorCodeService::REGISTER_ERROR);
         }
         $sitePublicService = ApiConfigHelper::getConfigByItemKey('site_public_service');
         if (! empty($sitePublicService)) {
-            $this->error(ErrorCodeService::PRIVATE_MODE_ERROR);
+            $this->error(ErrorCodeService::REGISTER_ERROR);
         }
         if ($type == 1) {
             $codeAccount = $account;
