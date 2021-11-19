@@ -980,7 +980,7 @@ class ConfigsTableSeeder extends Seeder
             array (
                 'id' => 69,
                 'item_key' => 'send_sms_code',
-                'item_value' => '+86',
+                'item_value' => '+1',
                 'item_type' => 'string',
                 'item_tag' => 'sends',
                 'is_multilingual' => 0,
@@ -994,7 +994,7 @@ class ConfigsTableSeeder extends Seeder
             array (
                 'id' => 70,
                 'item_key' => 'send_sms_code_more',
-                'item_value' => '[]',
+                'item_value' => '["+1"]',
                 'item_type' => 'array',
                 'item_tag' => 'sends',
                 'is_multilingual' => 0,
