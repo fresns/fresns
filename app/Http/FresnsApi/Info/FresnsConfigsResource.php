@@ -46,7 +46,7 @@ class FresnsConfigsResource extends BaseAdminResource
 
         if ($itemType == 'boolean') {
             if (is_string($itemValue)) {
-                $itemValue = $itemValue === "true";
+                $itemValue = $itemValue === 'true';
             }
         }
 
