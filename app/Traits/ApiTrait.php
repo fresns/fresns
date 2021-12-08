@@ -41,7 +41,7 @@ trait ApiTrait
 
         $this->errorCode = ErrorCodeService::CODE_OK;
         $this->errorMsg = $message;
-        $this->data = $data;
+        $this->data = $data == [] ? null : $data;
         $this->respond($header);
     }
 

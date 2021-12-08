@@ -682,12 +682,12 @@ class FsControllerApi extends FresnsBaseApiController
             if (CmdRpcHelper::isErrorCmdResp($resp)) {
                 $this->errorCheckInfo($resp);
             }
-            //check new email
+            // check new email
             $countUser = FresnsUsers::where('email', $editEmail)->count();
             if ($countUser) {
                 $this->error(ErrorCodeService::EMAIL_ERROR);
             }
-            //update userinfo
+            // update userinfo
             FresnsUsers::where('id', $user['id'])->update(['email' => $editEmail]);
         }
 
@@ -705,7 +705,7 @@ class FsControllerApi extends FresnsBaseApiController
                     $this->errorCheckInfo($resp);
                 }
             }
-            //verify new phone
+            // verify new phone
             $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $verify_input_new);
             if (CmdRpcHelper::isErrorCmdResp($resp)) {
                 $this->errorCheckInfo($resp);
