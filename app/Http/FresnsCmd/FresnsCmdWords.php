@@ -657,8 +657,8 @@ class FresnsCmdWords extends BasePlugin
         $userId = $input['uid'] ?? null;
         $memberId = $input['mid'] ?? null;
 
-        if($tableId) {
-            if(Schema::hasColumn($tableName, 'uuid')) {
+        if ($tableId) {
+            if (Schema::hasColumn($tableName, 'uuid')) {
                 $tableId = DB::table($tableName)->where('uuid', $tableId)->value('id');
             }
         }
