@@ -23,7 +23,7 @@ class CreatePluginCallbacksTable extends Migration
             $table->bigInteger('id', true);
             $table->string('plugin_unikey', 64);
             $table->bigInteger('member_id');
-            $table->string('uuid', 32)->unique('uuid');
+            $table->string('uuid', 64)->unique('uuid');
             $table->string('types', 32);
             $table->json('content');
             $table->tinyInteger('status')->default(1);
