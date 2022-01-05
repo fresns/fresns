@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.4.0 (2022-01-05)
+
+**Bug Fixes**
+
+- API: Inaccurate prompts when modifying registration closures
+- API: Fix the boolean error problem of configuration parameters
+- API: Data returns null by default when error is reported
+- API: Uploading file tableId pass parameter processing problem
+
+**Features**
+
+- Frame: Composer upgrade to v2.2.3
+- Frame: Laravel Framework upgrade to v8.78.0
+- Frame: Bootstrap Icons upgrade to v1.7.2
+- Database: Migrations and Seeders
+
 ## 1.3.0 (2021-11-13)
 
 **Bug Fixes**

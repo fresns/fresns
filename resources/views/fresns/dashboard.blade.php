@@ -8,7 +8,7 @@
                     <h1 class="fs-3 fw-normal">@lang('fresns.welcome')</h1>
                     <p class="text-secondary pb-4">
                         @lang('fresns.currentVersion')
-                        <span data-bs-toggle="tooltip" data-bs-placement="top" title="Database: v{{$version}}">v{{ $appVersion['currentVersion'] }}</span>
+                        <span>v{{ $appVersion['currentVersion'] }}</span>
                         @if($appVersion['canUpgrade'])
                             <a href="/fresns/iframe?url=https://fresns.org/guide/upgrade.html" class="btn btn-outline-danger btn-sm" role="button">@lang('fresns.updateBtn') v{{ $appVersion['upgradeVersion'] }}</a>
                         @endif
