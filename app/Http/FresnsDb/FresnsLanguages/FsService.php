@@ -31,8 +31,7 @@ class FsService extends BaseAdminService
     // Get the corresponding multilingual
     public static function getLanguageByTableId($table, $field, $tableId, $langTag = null)
     {
-        $lang_content = FresnsLanguages::where('table_name', $table)->where('table_field', $field)->where('table_id',
-        $tableId)->where('lang_tag', $langTag)->value('lang_content');
+        $lang_content = FresnsLanguages::where('table_name', $table)->where('table_field', $field)->where('table_id', $tableId)->where('lang_tag', $langTag)->value('lang_content');
         if (empty($lang_content)) {
             $langTag = ApiLanguageHelper::getDefaultLanguage();
             $lang_content = FresnsLanguages::where('table_name', $table)->where('table_field', $field)->where('table_id',

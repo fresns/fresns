@@ -34,7 +34,7 @@ class FresnsMemberListsResource extends BaseAdminResource
 {
     public function toArray($request)
     {
-        $langTag = request()->input('langTag');
+        $langTag = request()->header('langTag');
         $mid = request()->header('mid');
         if ($mid) {
             $mid = FresnsMembers::where('uuid', $mid)->value('id');
