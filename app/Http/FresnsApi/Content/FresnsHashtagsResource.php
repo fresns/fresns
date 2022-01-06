@@ -65,7 +65,7 @@ class FresnsHashtagsResource extends BaseAdminResource
             'huri' => $this->slug,
             'hname' => $this->name,
             'cover' => $cover,
-            'description' => $description == null ? '' : $description['lang_content'],
+            'description' => $description,
             'hashtagName' => $hashtagName,
             'likeSetting' => $likeSetting,
             'likeName' => $likeName,
