@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -14,7 +20,6 @@ class LanguagesTableSeeder extends Seeder
      */
     public function run()
     {
-        
 
         \DB::table('languages')->delete();
         
@@ -5035,164 +5040,7 @@ To be edited',
                 'table_name' => 'plugin_usages',
                 'updated_at' => '2021-10-08 10:00:00',
             ),
-            384 => 
-            array (
-                'created_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-                'id' => 385,
-                'lang_content' => 'Default',
-                'lang_tag' => 'en',
-                'table_field' => 'name',
-                'table_id' => 1,
-                'table_key' => NULL,
-                'table_name' => 'emojis',
-                'updated_at' => '2021-10-08 10:00:00',
-            ),
-            385 => 
-            array (
-                'created_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-                'id' => 386,
-                'lang_content' => 'Cool Monkey',
-                'lang_tag' => 'en',
-                'table_field' => 'name',
-                'table_id' => 2,
-                'table_key' => NULL,
-                'table_name' => 'emojis',
-                'updated_at' => '2021-10-08 10:00:00',
-            ),
-            386 => 
-            array (
-                'created_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-                'id' => 387,
-                'lang_content' => 'Grape Man',
-                'lang_tag' => 'en',
-                'table_field' => 'name',
-                'table_id' => 3,
-                'table_key' => NULL,
-                'table_name' => 'emojis',
-                'updated_at' => '2021-10-08 10:00:00',
-            ),
-            387 => 
-            array (
-                'created_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-                'id' => 388,
-                'lang_content' => 'Face',
-                'lang_tag' => 'en',
-                'table_field' => 'name',
-                'table_id' => 4,
-                'table_key' => NULL,
-                'table_name' => 'emojis',
-                'updated_at' => '2021-10-08 10:00:00',
-            ),
-            388 => 
-            array (
-                'created_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-                'id' => 389,
-                'lang_content' => '默认',
-                'lang_tag' => 'zh-Hans',
-                'table_field' => 'name',
-                'table_id' => 1,
-                'table_key' => NULL,
-                'table_name' => 'emojis',
-                'updated_at' => '2021-10-08 10:00:00',
-            ),
-            389 => 
-            array (
-                'created_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-                'id' => 390,
-                'lang_content' => '酷猴',
-                'lang_tag' => 'zh-Hans',
-                'table_field' => 'name',
-                'table_id' => 2,
-                'table_key' => NULL,
-                'table_name' => 'emojis',
-                'updated_at' => '2021-10-08 10:00:00',
-            ),
-            390 => 
-            array (
-                'created_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-                'id' => 391,
-                'lang_content' => '呆呆男',
-                'lang_tag' => 'zh-Hans',
-                'table_field' => 'name',
-                'table_id' => 3,
-                'table_key' => NULL,
-                'table_name' => 'emojis',
-                'updated_at' => '2021-10-08 10:00:00',
-            ),
-            391 => 
-            array (
-                'created_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-                'id' => 392,
-                'lang_content' => '小黄脸',
-                'lang_tag' => 'zh-Hans',
-                'table_field' => 'name',
-                'table_id' => 4,
-                'table_key' => NULL,
-                'table_name' => 'emojis',
-                'updated_at' => '2021-10-08 10:00:00',
-            ),
-            392 => 
-            array (
-                'created_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-                'id' => 393,
-                'lang_content' => '默認',
-                'lang_tag' => 'zh-Hant',
-                'table_field' => 'name',
-                'table_id' => 1,
-                'table_key' => NULL,
-                'table_name' => 'emojis',
-                'updated_at' => '2021-10-08 10:00:00',
-            ),
-            393 => 
-            array (
-                'created_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-                'id' => 394,
-                'lang_content' => '酷猴',
-                'lang_tag' => 'zh-Hant',
-                'table_field' => 'name',
-                'table_id' => 2,
-                'table_key' => NULL,
-                'table_name' => 'emojis',
-                'updated_at' => '2021-10-08 10:00:00',
-            ),
-            394 => 
-            array (
-                'created_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-                'id' => 395,
-                'lang_content' => '呆呆男',
-                'lang_tag' => 'zh-Hant',
-                'table_field' => 'name',
-                'table_id' => 3,
-                'table_key' => NULL,
-                'table_name' => 'emojis',
-                'updated_at' => '2021-10-08 10:00:00',
-            ),
-            395 => 
-            array (
-                'created_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-                'id' => 396,
-                'lang_content' => '小黃臉',
-                'lang_tag' => 'zh-Hant',
-                'table_field' => 'name',
-                'table_id' => 4,
-                'table_key' => NULL,
-                'table_name' => 'emojis',
-                'updated_at' => '2021-10-08 10:00:00',
-            ),
         ));
-        
-        
+
     }
 }
