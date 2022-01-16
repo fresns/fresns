@@ -33,6 +33,7 @@ class CreateMembersTable extends Migration
             $table->unsignedTinyInteger('gender')->default('0');
             $table->timestamp('birthday')->nullable();
             $table->string('bio')->nullable();
+            $table->string('location', 128)->nullable();
             $table->unsignedTinyInteger('verified_status')->default('1');
             $table->unsignedBigInteger('verified_file_id')->nullable();
             $table->string('verified_file_url')->nullable();

@@ -221,6 +221,7 @@ class FsService
             $data['gender'] = $member['gender'];
             $data['birthday'] = DateHelper::fresnsOutputTimeToTimezone($member['birthday']);
             $data['bio'] = $member['bio'];
+            $data['location'] = $member['location'];
             $data['dialogLimit'] = $member['dialog_limit'];
             $data['timezone'] = $member['timezone'];
             $data['language'] = $member['language'];
