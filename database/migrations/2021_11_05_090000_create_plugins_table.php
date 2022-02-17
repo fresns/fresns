@@ -24,7 +24,6 @@ class CreatePluginsTable extends Migration
             $table->string('unikey', 64)->unique('unikey');
             $table->string('name', 64);
             $table->unsignedTinyInteger('type');
-            $table->string('image', 128);
             $table->string('description');
             $table->string('version', 16);
             $table->unsignedInteger('version_int');
@@ -34,7 +33,6 @@ class CreatePluginsTable extends Migration
             $table->string('plugin_domain', 128)->nullable();
             $table->string('access_path', 255)->nullable();
             $table->string('setting_path', 255)->nullable();
-            $table->json('more_json')->nullable();
             $table->char('install_code', 16)->nullable();
             $table->unsignedTinyInteger('is_upgrade')->default('0');
             $table->string('upgrade_version', 16)->nullable();

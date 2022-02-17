@@ -34,6 +34,7 @@ class CreateUsersTable extends Migration
             $table->string('prove_number', 128)->nullable();
             $table->unsignedTinyInteger('prove_verify')->default('1');
             $table->string('verify_plugin_unikey', 32)->nullable();
+            $table->unsignedTinyInteger('verify_type')->nullable();
             $table->text('verify_log')->nullable();
             $table->unsignedTinyInteger('user_type')->default('2');
             $table->string('api_token', 64)->nullable();
