@@ -434,7 +434,7 @@ class FsControllerApi extends FsApiController
             'countryCode' => $countryCode,
         ];
         $resp = \FresnsCmdWord::plugin('Fresns')->sendCode($input);
-        if ($resp->getCode() !=0) {
+        if ($resp->getCode() != 0) {
             $this->errorCheckInfo($resp);
         }
         $this->success($resp->getMessage());
