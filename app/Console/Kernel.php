@@ -2,8 +2,10 @@
 
 namespace App\Console;
 
+use App\Helpers\ConfigHelper;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Cache;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,7 +17,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $cronArr = Cache::rememberForever('cronArr',function (){
+            return ConfigHelper::fresnsConfigByItemKey('crontab_items');
+        });
+        foreach ($cronArr as $cron)
+        {
+            $schedule->call(function () use ($cron) {
+                \FresnsCmdWord::plugin($cron['unikey'])->$cron['cmdWord']();
+            })->cron($cron['taskPeriod']);
+        }
     }
 
     /**
@@ -27,6 +37,12 @@ class Kernel extends ConsoleKernel
     {
         $this->load(__DIR__.'/Commands');
 
-        require base_path('routes/console.php');
+        //require base_path('routes/console.php');
     }
+
+    public function has($command)
+    {
+        return $this->getArtisan()->has($command);
+    }
+
 }
