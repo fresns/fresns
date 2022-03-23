@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Fresns\Panel\Exports;
+
+use App\Models\BlockWord;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+
+class BlockWordsExport implements FromCollection,WithHeadings,WithMapping
+{
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function collection()
+    {
+        return BlockWord::all();
+    }
+
+    public function headings(): array
+    {
+        return [
+            'word',
+            'content_mode',
+            'user_mode',
+            'dialog_mode',
+            'replace_word',
+        ];
+    }
+
+    public function map($word): array
+    {
+        return [
+            $word->word,
+            $word->content_mode,
+            $word->user_mode,
+            $word->dialog_mode,
+            $word->replace_word,
+        ];
+    }
+}
