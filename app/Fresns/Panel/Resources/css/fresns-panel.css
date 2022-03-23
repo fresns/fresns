@@ -1,0 +1,172 @@
+@charset "UTF-8";
+/*!
+ * Fresns (https://fresns.org)
+ * Copyright 2021-Present Jarvis Tang
+ * Licensed under the Apache-2.0 license
+ */
+body {
+    background-color: #F0F2F5;
+}
+
+.fs-7 {
+    font-size: 0.9rem;
+}
+
+.fs-8 {
+    font-size: 0.85rem;
+}
+
+.fs-9 {
+    font-size: 0.5rem;
+}
+
+.fresns-link {
+    text-decoration: none;
+}
+
+.fresns-link:hover {
+    text-decoration: underline;
+}
+
+.btn-link {
+    text-decoration: none;
+    padding: 0rem;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+}
+
+.input-number::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+.input-number::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+.rounded-top-0 {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.rounded-bottom-0 {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+}
+
+.fresns-navbar {
+    background-color: #7952b3!important;
+}
+@media (min-width: 768px) {
+    .fresns-navbar {
+        height: 80px;
+    }
+    .nav-item {
+        margin: 0 10px;
+    }
+}
+
+.form-setting {
+    width: 100%;
+    max-width: 880px;
+}
+
+.fresns-copyright {
+    width: 100%;
+    position: absolute;
+    bottom: 30px;
+    text-align: center;
+    color: rgba(0,0,0,.45);
+}
+
+.rename-label {
+    width: 40%;
+}
+.rename-btn {
+    width: 60%;
+    border-color: #ced4da;
+    color: #212529;
+}
+.btn-modal {
+    border-color: #ced4da;
+    color: #212529;
+}
+.fresns-label {
+    width: 30%;
+}
+.fresns-control {
+    width: 70%;
+    border-color: #ced4da;
+    color: #212529;
+}
+
+.text-height {
+    height: 3rem;
+    overflow: hidden;
+    color: #6c757d!important;
+}
+
+.iframe-preview {
+    position: absolute;
+    border: none;
+    width: 100%;
+    height: calc(100% - 0px);
+}
+
+.iframe-sidebar-preview {
+    position: absolute;
+    border: none;
+    width: calc(100% - 24px);
+    height: calc(100% - 0px);
+}
+
+@media (min-width: 992px) {
+    .fresns-sidebar .navbar {
+        overflow-y: auto;
+        height: calc(100vh - 80px);
+        align-items: start;
+    }
+    .fresns-setting {
+        height: calc(100vh - 80px);
+        overflow-y: auto;
+    }
+    .fresns-sidebar .navbar-brand {
+        width: 100%;
+        text-align: center;
+        font-weight: 500;
+        padding-bottom: 0.5rem;
+        margin-left: 0.8rem;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid rgba(0,0,0,.125);
+    }
+    .fresns-sidebar {
+        margin-left: -.75rem;
+    }
+    .offcanvas-start {
+        width: 580px;
+    }
+    .iframe-preview {
+        height: calc(100% - 80px);
+    }
+    .iframe-sidebar-preview {
+        height: calc(100% - 80px);
+        width: calc(100% - 240px);
+    }
+}
+
+.input-group > .select2-container--bootstrap-5 {
+    width: auto;
+    flex: 1 1 auto;
+}
+
+.input-group > .select2-container--bootstrap-5 .select2-selection--single {
+    height: 100%;
+    line-height: inherit;
+    padding: 0.5rem 1rem;
+}
