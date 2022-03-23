@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Helpers;
 
 use App\Fresns\Words\File\DTO\GetFileUrlOfAntiLink;
@@ -13,9 +19,9 @@ class FileHelper
     protected static $fileType = [1 => 'imageFile', 2 => 'videoFile', 3 => 'audioFile', 4 => 'documentFile'];
 
     /**
-     * Get link based on file FID
-     * 
-     * @param string $fid
+     * Get link based on file FID.
+     *
+     * @param  string  $fid
      * @return array|string
      */
     public static function fresnsFileUrlByFid(string $fid)
@@ -26,9 +32,9 @@ class FileHelper
     }
 
     /**
-     * Get link based on file ID
-     * 
-     * @param int $fileId
+     * Get link based on file ID.
+     *
+     * @param  int  $fileId
      * @return array|string
      */
     public static function fresnsFileUrlById(int $fileId)
@@ -36,14 +42,12 @@ class FileHelper
         $fileData = (new self())->getFile('id', $fileId);
 
         return $fileData;
-
-
     }
 
     /**
-     * Get file info based on file ID
-     * 
-     * @param int $filedId
+     * Get file info based on file ID.
+     *
+     * @param  int  $filedId
      * @return array|string
      */
     public static function fresnsFileInfoById(int $filedId)
@@ -54,9 +58,9 @@ class FileHelper
     }
 
     /**
-     * Get file info based on file FID
-     * 
-     * @param string $fid
+     * Get file info based on file FID.
+     *
+     * @param  string  $fid
      * @return array|string
      */
     public static function fresnsFileInfoByFid(string $fid)
@@ -67,13 +71,13 @@ class FileHelper
     }
 
     /**
-     * @param string $column
+     * @param  string  $column
      * @param $value
      * @return array|string
      */
     protected function getFileInfo(string $column, $value)
     {
-        $fileData = DB::table('files as f')->leftJoin('file_appends as a', 'f.id', '=', 'a.file_id')->where('f.' . $column, '=', $value)->first();
+        $fileData = DB::table('files as f')->leftJoin('file_appends as a', 'f.id', '=', 'a.file_id')->where('f.'.$column, '=', $value)->first();
         if (empty($fileData)) {
             return [];
         } else {
@@ -86,28 +90,28 @@ class FileHelper
     }
 
     /**
-     * @param string $fileType
-     * @param array $fileData
+     * @param  string  $fileType
+     * @param  array  $fileData
      * @return array|string
      */
     protected function getFileResult(string $fileType, array $fileData)
     {
         $fileResult = self::getFile('id', $fileData['id']);
         switch ($fileType) {
-            case "imageFile":
+            case 'imageFile':
                 $fileResult['imageWidth'] = $fileData['image_width'] ?? 0;
                 $fileResult['imageHeight'] = $fileData['image_height'] ?? 0;
                 $fileResult['imageLong'] = $fileData['image_is_long'] ?? 0;
                 break;
-            case "videoFile":
+            case 'videoFile':
                 $fileResult['videoTime'] = $fileData['video_time'] ?? 0;
                 $fileResult['transcodingState'] = $fileData['transcoding_state'] ?? 0;
                 break;
-            case "audioFile":
+            case 'audioFile':
                 $fileResult['audioTime'] = $fileData['audio_time'] ?? 0;
                 $fileResult['transcodingState'] = $fileData['transcoding_state'] ?? 0;
                 break;
-            case "documentFile":
+            case 'documentFile':
                 break;
         }
         $fileResult['fid'] = $fileData['fid'] ?? 0;
@@ -122,9 +126,8 @@ class FileHelper
         return $fileResult;
     }
 
-
     /**
-     * @param string $column
+     * @param  string  $column
      * @param $value
      * @return array|string
      */
@@ -138,12 +141,11 @@ class FileHelper
         $path = (new self())->getFileUrl($fileType, $fileData->toArray());
 
         return $path;
-
     }
 
     /**
-     * @param string $fileType
-     * @param array $fileData
+     * @param  string  $fileType
+     * @param  array  $fileData
      * @return array
      */
     protected function getFileUrl(string $fileType, array $fileData)
@@ -152,28 +154,28 @@ class FileHelper
         $urlArr['file_type'] = $fileData['file_type'];
         $fileAppend = FileAppend::where('file_id', $fileData['id'])->first();
         switch ($fileType) {
-            case "imageFile":
-                $urlArr['imageDefaultUrl'] = ConfigHelper::fresnsConfigByItemKey('image_bucket_domain') . $fileData['file_path'] ?? '';
-                $urlArr['imageConfigUrl'] = ConfigHelper::fresnsConfigByItemKey('image_bucket_domain') . $fileData['file_path'] ?? '' . ConfigHelper::fresnsConfigByItemKey('image_thumb_config');
-                $urlArr['imageAvatarUrl'] = ConfigHelper::fresnsConfigByItemKey('image_bucket_domain') . $fileData['file_path'] ?? '' . ConfigHelper::fresnsConfigByItemKey('image_thumb_avatar');
-                $urlArr['imageRatioUrl'] = ConfigHelper::fresnsConfigByItemKey('image_bucket_domain') . $fileData['file_path'] ?? '' . ConfigHelper::fresnsConfigByItemKey('image_thumb_ratio');
-                $urlArr['imageSquareUrl'] = ConfigHelper::fresnsConfigByItemKey('image_bucket_domain') . $fileData['file_path'] ?? '' . ConfigHelper::fresnsConfigByItemKey('image_thumb_square');
-                $urlArr['imageBigUrl'] = ConfigHelper::fresnsConfigByItemKey('image_bucket_domain') . $fileData['file_path'] ?? '' . ConfigHelper::fresnsConfigByItemKey('image_thumb_big');
-                $urlArr['imageOriginalUrl'] = ConfigHelper::fresnsConfigByItemKey('image_bucket_domain') . $fileAppend['file_original_path'];
+            case 'imageFile':
+                $urlArr['imageDefaultUrl'] = ConfigHelper::fresnsConfigByItemKey('image_bucket_domain').$fileData['file_path'] ?? '';
+                $urlArr['imageConfigUrl'] = ConfigHelper::fresnsConfigByItemKey('image_bucket_domain').$fileData['file_path'] ?? ''.ConfigHelper::fresnsConfigByItemKey('image_thumb_config');
+                $urlArr['imageAvatarUrl'] = ConfigHelper::fresnsConfigByItemKey('image_bucket_domain').$fileData['file_path'] ?? ''.ConfigHelper::fresnsConfigByItemKey('image_thumb_avatar');
+                $urlArr['imageRatioUrl'] = ConfigHelper::fresnsConfigByItemKey('image_bucket_domain').$fileData['file_path'] ?? ''.ConfigHelper::fresnsConfigByItemKey('image_thumb_ratio');
+                $urlArr['imageSquareUrl'] = ConfigHelper::fresnsConfigByItemKey('image_bucket_domain').$fileData['file_path'] ?? ''.ConfigHelper::fresnsConfigByItemKey('image_thumb_square');
+                $urlArr['imageBigUrl'] = ConfigHelper::fresnsConfigByItemKey('image_bucket_domain').$fileData['file_path'] ?? ''.ConfigHelper::fresnsConfigByItemKey('image_thumb_big');
+                $urlArr['imageOriginalUrl'] = ConfigHelper::fresnsConfigByItemKey('image_bucket_domain').$fileAppend['file_original_path'];
                 break;
-            case "videoFile":
-                $urlArr['videoCover'] = ConfigHelper::fresnsConfigByItemKey('video_bucket_domain') . Arr::get($fileAppend, 'video_cover');
-                $urlArr['videoGif'] = ConfigHelper::fresnsConfigByItemKey('video_bucket_domain') . Arr::get($fileAppend, 'video_gif') . ConfigHelper::fresnsConfigByItemKey('image_thumb_config');
-                $urlArr['videoUrl'] = ConfigHelper::fresnsConfigByItemKey('video_bucket_domain') . $fileData['file_path'] ?? '' . ConfigHelper::fresnsConfigByItemKey('image_thumb_avatar');
-                $urlArr['videoOriginalUrl'] = ConfigHelper::fresnsConfigByItemKey('video_bucket_domain') . $fileAppend['file_original_path'];
+            case 'videoFile':
+                $urlArr['videoCover'] = ConfigHelper::fresnsConfigByItemKey('video_bucket_domain').Arr::get($fileAppend, 'video_cover');
+                $urlArr['videoGif'] = ConfigHelper::fresnsConfigByItemKey('video_bucket_domain').Arr::get($fileAppend, 'video_gif').ConfigHelper::fresnsConfigByItemKey('image_thumb_config');
+                $urlArr['videoUrl'] = ConfigHelper::fresnsConfigByItemKey('video_bucket_domain').$fileData['file_path'] ?? ''.ConfigHelper::fresnsConfigByItemKey('image_thumb_avatar');
+                $urlArr['videoOriginalUrl'] = ConfigHelper::fresnsConfigByItemKey('video_bucket_domain').$fileAppend['file_original_path'];
                 break;
-            case "audioFile":
-                $urlArr['audioUrl'] = ConfigHelper::fresnsConfigByItemKey('audio_bucket_domain') . $fileData['file_path'] ?? '';
-                $urlArr['audioOriginalUrl'] = ConfigHelper::fresnsConfigByItemKey('audio_bucket_domain') . $fileAppend['file_original_path'];
+            case 'audioFile':
+                $urlArr['audioUrl'] = ConfigHelper::fresnsConfigByItemKey('audio_bucket_domain').$fileData['file_path'] ?? '';
+                $urlArr['audioOriginalUrl'] = ConfigHelper::fresnsConfigByItemKey('audio_bucket_domain').$fileAppend['file_original_path'];
                 break;
-            case "documentFile":
-                $urlArr['documentUrl'] = ConfigHelper::fresnsConfigByItemKey('document_bucket_domain') . $fileData['file_path'] ?? '';
-                $urlArr['documentOriginalUrl'] = ConfigHelper::fresnsConfigByItemKey('document_bucket_domain') . $fileAppend['file_original_path'];
+            case 'documentFile':
+                $urlArr['documentUrl'] = ConfigHelper::fresnsConfigByItemKey('document_bucket_domain').$fileData['file_path'] ?? '';
+                $urlArr['documentOriginalUrl'] = ConfigHelper::fresnsConfigByItemKey('document_bucket_domain').$fileAppend['file_original_path'];
                 break;
         }
 
@@ -182,12 +184,11 @@ class FileHelper
 
     /**
      * Output image links based on file column
-     * This function is used to get the file url of the anti-link
-     * 
+     * This function is used to get the file url of the anti-link.
+     *
      * @param fileId The file id of the file.
      * @param fileUrl the original file url
-     * @param urlType 
-     * 
+     * @param urlType
      * @return The file url of the file.
      */
     public static function fresnsFileImageUrlByColumn($fileId, $fileUrl, $urlType)
@@ -196,11 +197,11 @@ class FileHelper
             return $fileUrl;
         }
         $imageUrlStatus = ConfigHelper::fresnsConfigByItemKey('image_url_status');
-        if (!$imageUrlStatus) {
+        if (! $imageUrlStatus) {
             return $fileUrl;
         }
         $data = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink(new GetFileUrlOfAntiLink($fileId));
 
-        return Arr::get($data, 'data.' . $urlType, '');
+        return Arr::get($data, 'data.'.$urlType, '');
     }
 }

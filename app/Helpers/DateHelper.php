@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Helpers;
 
 use Carbon\Carbon;
@@ -7,11 +13,11 @@ use Illuminate\Support\Facades\DB;
 
 class DateHelper
 {
-    private static $langTagFormat = ['en' => ['diffyear' => 'm/d/Y h:m', 'sameyear' => 'm/d h:m'], 'zh-Hans' => ['diffyear' => 'Y-m-d h:m', 'sameyear' => 'm-d h:m'],'zh-Hant' => ['diffyear' => 'Y-m-d h:m', 'sameyear' => 'm-d h:m']];
+    private static $langTagFormat = ['en' => ['diffyear' => 'm/d/Y h:m', 'sameyear' => 'm/d h:m'], 'zh-Hans' => ['diffyear' => 'Y-m-d h:m', 'sameyear' => 'm-d h:m'], 'zh-Hant' => ['diffyear' => 'Y-m-d h:m', 'sameyear' => 'm-d h:m']];
 
     /**
-     * Get database time zone
-     * 
+     * Get database time zone.
+     *
      * @return string
      */
     public static function fresnsSqlTimezone()
@@ -20,8 +26,8 @@ class DateHelper
     }
 
     /**
-     * Get the current database time
-     * 
+     * Get the current database time.
+     *
      * @return string
      */
     public static function fresnsSqlCurrentTimestamp()
@@ -30,11 +36,12 @@ class DateHelper
     }
 
     /**
-     * The conversion time is the current database time
-     * 
+     * The conversion time is the current database time.
+     *
      * @param $datetime
      * @param $timezone
      * @return string
+     *
      * @throws \Exception
      */
     public static function fresnsConversionToSqlDatetime($datetime, $timezone)
@@ -42,37 +49,40 @@ class DateHelper
         $datetime = new \DateTime($datetime);
         $datetime = $datetime->setTimezone(new \DateTimeZone($timezone));
         $result = $datetime->setTimezone(new \DateTimeZone(self::fresnsSqlTimezone()));
+
         return $result->format('Y-m-d H:i:s');
     }
 
     /**
-     * Output time values by time zone
-     * 
+     * Output time values by time zone.
+     *
      * @param $datetime
-     * @param string $timezone
+     * @param  string  $timezone
      * @return \DateTime|string
+     *
      * @throws \Exception
      */
-    public static function fresnsOutputTimeToTimezone($datetime, $timezone ='')
+    public static function fresnsOutputTimeToTimezone($datetime, $timezone = '')
     {
         $mysqlZone = self::fresnsSqlTimezone();
         if ($mysqlZone == $timezone) {
             return $datetime;
         }
-        if (empty($timezone)){
+        if (empty($timezone)) {
             $timezone = request()->header('timezone');
         }
         $datetime = (new \DateTime($datetime))->setTimezone(new \DateTimeZone($mysqlZone));   //传参的时间timezone转成数据库的
         $time = $datetime->setTimezone(new \DateTimeZone($timezone));
+
         return $time->format('Y-m-d H:i:s');
     }
 
     /**
-     * Formatted time output by time zone and language tag
-     * 
-     * @param string $datetime
-     * @param string $timezone
-     * @param string $langTag
+     * Formatted time output by time zone and language tag.
+     *
+     * @param  string  $datetime
+     * @param  string  $timezone
+     * @param  string  $langTag
      * @return string
      */
     public static function fresnsOutputFormattingTime($datetime, $timezone, $langTag = '')
@@ -93,13 +103,13 @@ class DateHelper
     }
 
     /**
-     * Processing output by language humanization time
-     * 
+     * Processing output by language humanization time.
+     *
      * @param $dateTime
-     * @param string $langTag
+     * @param  string  $langTag
      * @return string
      */
-    public static function fresnsOutputHumanizationTime($dateTime, $langTag = "")
+    public static function fresnsOutputHumanizationTime($dateTime, $langTag = '')
     {
         $langTag = $langTag ?: $langTag = ConfigHelper::fresnsConfigByItemKey('default_language');
         $currentTime = DateHelper::fresnsSqlCurrentTimestamp();
@@ -119,15 +129,13 @@ class DateHelper
             }
         }
         $timeFormat = ConfigHelper::fresnsConfigByItemKey('language_menus');
-        foreach ($timeFormat as $item)
-        {
-            if ($item['langTag'] == $langTag)
-            {
+        foreach ($timeFormat as $item) {
+            if ($item['langTag'] == $langTag) {
                 $timeFormat = $item[$symbol];
-                $timeFormat = mb_substr($timeFormat,'4');
+                $timeFormat = mb_substr($timeFormat, '4');
             }
         }
 
-        return $diff . $timeFormat;
+        return $diff.$timeFormat;
     }
 }

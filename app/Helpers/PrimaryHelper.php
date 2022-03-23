@@ -1,7 +1,12 @@
 <?php
 
-namespace App\Helpers;
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
 
+namespace App\Helpers;
 
 use App\Models\Account;
 use App\Models\Comment;
@@ -14,7 +19,7 @@ use App\Models\User;
 class PrimaryHelper
 {
     /**
-     * @param string $aid
+     * @param  string  $aid
      * @return int |null
      */
     public static function fresnsAccountIdByAid(string $aid)
@@ -25,7 +30,7 @@ class PrimaryHelper
     }
 
     /**
-     * @param string $aid
+     * @param  string  $aid
      * @return int |null
      */
     public static function fresnsUserIdByUid(string $aid)
@@ -36,7 +41,7 @@ class PrimaryHelper
     }
 
     /**
-     * @param string $username
+     * @param  string  $username
      * @return int |null
      */
     public static function fresnsUserIdByUsername(string $username)
@@ -47,7 +52,7 @@ class PrimaryHelper
     }
 
     /**
-     * @param string $gid
+     * @param  string  $gid
      * @return int |null
      */
     public static function fresnsGroupIdByGid(string $gid)
@@ -58,7 +63,7 @@ class PrimaryHelper
     }
 
     /**
-     * @param string $huri
+     * @param  string  $huri
      * @return int |null
      */
     public static function fresnsHashtagIdByHuri(string $huri)
@@ -69,7 +74,7 @@ class PrimaryHelper
     }
 
     /**
-     * @param string $pid
+     * @param  string  $pid
      * @return int |null
      */
     public static function fresnsPostIdByPid(string $pid)
@@ -80,7 +85,7 @@ class PrimaryHelper
     }
 
     /**
-     * @param string $cid
+     * @param  string  $cid
      * @return int |null
      */
     public static function fresnsCommentIdByCid(string $cid)
@@ -91,7 +96,7 @@ class PrimaryHelper
     }
 
     /**
-     * @param string $fid
+     * @param  string  $fid
      * @return int |null
      */
     public static function fresnsFileIdByFid(string $fid)
@@ -102,7 +107,7 @@ class PrimaryHelper
     }
 
     /**
-     * @param string $eid
+     * @param  string  $eid
      * @return int |null
      */
     public static function fresnsExtendIdByEid(string $eid)
@@ -111,7 +116,4 @@ class PrimaryHelper
 
         return $id ?? null;
     }
-
 }
-
-

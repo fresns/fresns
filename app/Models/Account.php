@@ -9,9 +9,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Account extends Authenticatable
 {
@@ -25,9 +25,8 @@ class Account extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'phone','email'
+        'phone', 'email',
     ];
-
 
     /**
      * The attributes that should be hidden for arrays.
@@ -45,21 +44,23 @@ class Account extends Authenticatable
 
     public function getSecretPurePhoneAttribute(): string
     {
-        if (!$this->pure_phone) {
+        if (! $this->pure_phone) {
             return '';
         }
+
         return \Str::mask($this->pure_phone, '*', -8, 4);
     }
 
     public function getSecretEmailAttribute(): string
     {
-        if (!$this->email) {
+        if (! $this->email) {
             return '';
         }
 
-        list($prefix, $end) = explode('@', $this->email);
+        [$prefix, $end] = explode('@', $this->email);
         $len = ceil(strlen($prefix) / 2);
-        return \Str::mask($prefix, '*', -1 * $len, $len) .'@'. $end;
+
+        return \Str::mask($prefix, '*', -1 * $len, $len).'@'.$end;
     }
 
     public function isAdmin()

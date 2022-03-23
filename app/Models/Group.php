@@ -14,7 +14,7 @@ class Group extends Model
     use Traits\LangDescription;
 
     protected $casts = [
-        'permission' => 'array'
+        'permission' => 'array',
     ];
 
     public function scopeTypeCategory($query)
@@ -53,5 +53,4 @@ class Group extends Model
     {
         return $this->belongsTo(Plugin::class, 'plugin_unikey', 'unikey');
     }
-
 }

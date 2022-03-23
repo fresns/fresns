@@ -1,7 +1,12 @@
 <?php
 
-namespace App\Helpers;
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
 
+namespace App\Helpers;
 
 use App\Models\Config;
 use App\Models\Plugin;
@@ -10,11 +15,10 @@ use Illuminate\Support\Arr;
 
 class PluginHelper
 {
-
     /**
-     * Get the plugin access url
-     * 
-     * @param string $unikey
+     * Get the plugin access url.
+     *
+     * @param  string  $unikey
      * @return string
      */
     public static function fresnsPluginUrlByUnikey(string $unikey)
@@ -25,14 +29,15 @@ class PluginHelper
         }
         $backend_domain = self::getConfigByItemKey('backend_domain')['item_value'] ?? '';
         $plugin_domain = empty($plugin->plugin_domain) ? $backend_domain : $plugin->plugin_domain;
-        $url = $plugin_domain . $plugin->access_path ?? '';
+        $url = $plugin_domain.$plugin->access_path ?? '';
 
         return $url;
     }
 
     /**
-     * Get config table data
-     * @param string $itemKey
+     * Get config table data.
+     *
+     * @param  string  $itemKey
      * @return array
      */
     public static function getConfigByItemKey(string $itemKey)
@@ -42,13 +47,11 @@ class PluginHelper
         return $config[0] ?? [];
     }
 
-
-
     /**
      * Get the url of the plugin that has replaced the custom parameters.
-     * 
-     * @param string $unikey
-     * @param int $pluginUsagesId
+     *
+     * @param  string  $unikey
+     * @param  int  $pluginUsagesId
      * @return mixed|string
      */
     public static function fresnsPluginUsageUrl(string $unikey, int $pluginUsagesId)
@@ -62,6 +65,4 @@ class PluginHelper
 
         return $replaceUrl;
     }
-
-
 }

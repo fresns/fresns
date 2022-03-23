@@ -14,30 +14,28 @@ class ConfigUtility
 {
     /**
      * This function adds the fresns config items to the database.
-     * 
+     *
      * @param fresnsConfigItems an array of items to be added to the config table.
      */
     public static function addFresnsConfigItems($fresnsConfigItems)
     {
-        foreach($fresnsConfigItems as $item)
-        {
-            $config = Config::where('item_key','=',$item['item_key'])->first();
-            if (empty($config)){
+        foreach ($fresnsConfigItems as $item) {
+            $config = Config::where('item_key', '=', $item['item_key'])->first();
+            if (empty($config)) {
                 Config::insert($item);
             }
         }
     }
 
     /**
-     * This function removes the fresns config items from the database
-     * 
+     * This function removes the fresns config items from the database.
+     *
      * @param fresnsConfigKeys an array of the keys of the fresns config items to be removed.
      */
     public static function removeFresnsConfigItems($fresnsConfigKeys)
     {
-        foreach ($fresnsConfigKeys as $item)
-        {
-            Config::where('item_key','=',$item)->forceDelete();
+        foreach ($fresnsConfigKeys as $item) {
+            Config::where('item_key', '=', $item)->forceDelete();
         }
     }
 }

@@ -13,5 +13,4 @@ use Illuminate\Database\Eloquent\Model;
 
 class SessionLog extends Model
 {
-
 }

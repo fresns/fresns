@@ -12,54 +12,49 @@ use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
 {
-
     /**
-     * Auto generated seed file
+     * Auto generated seed file.
      *
      * @return void
      */
     public function run()
     {
-
         \DB::table('users')->delete();
-        
-        \DB::table('users')->insert(array (
-            0 => 
-            array (
+
+        \DB::table('users')->insert([
+            0 => [
                 'id' => 1,
                 'account_id' => 1,
                 'uid' => 123456,
                 'username' => 'fresns',
                 'nickname' => 'Fresns Test',
-                'password' => NULL,
-                'avatar_file_id' => NULL,
-                'avatar_file_url' => NULL,
-                'decorate_file_id' => NULL,
-                'decorate_file_url' => NULL,
+                'password' => null,
+                'avatar_file_id' => null,
+                'avatar_file_url' => null,
+                'decorate_file_id' => null,
+                'decorate_file_url' => null,
                 'gender' => 0,
-                'birthday' => NULL,
-                'bio' => NULL,
-                'location' => NULL,
+                'birthday' => null,
+                'bio' => null,
+                'location' => null,
                 'verified_status' => 1,
-                'verified_file_id' => NULL,
-                'verified_file_url' => NULL,
-                'verified_desc' => NULL,
+                'verified_file_id' => null,
+                'verified_file_url' => null,
+                'verified_desc' => null,
                 'dialog_limit' => 1,
                 'comment_limit' => 1,
-                'timezone' => NULL,
-                'language' => NULL,
-                'last_post_at' => NULL,
-                'last_comment_at' => NULL,
-                'last_username_at' => NULL,
-                'last_nickname_at' => NULL,
+                'timezone' => null,
+                'language' => null,
+                'last_post_at' => null,
+                'last_comment_at' => null,
+                'last_username_at' => null,
+                'last_nickname_at' => null,
                 'is_enable' => 1,
-                'expired_at' => NULL,
+                'expired_at' => null,
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-        ));
-        
-        
+                'deleted_at' => null,
+            ],
+        ]);
     }
 }

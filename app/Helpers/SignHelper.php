@@ -52,6 +52,7 @@ class SignHelper
         } elseif ($token && empty($uid)) {
             return true;
         }
+
         return false;
     }
 }

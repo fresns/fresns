@@ -15,7 +15,7 @@ class Role extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'permission' => 'array'
+        'permission' => 'array',
     ];
 
     public function users()

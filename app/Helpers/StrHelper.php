@@ -1,11 +1,17 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Helpers;
 
 class StrHelper
 {
     /**
-     * @param string $email
+     * @param  string  $email
      * @return string
      */
     public static function encryptEmail(string $email)
@@ -16,13 +22,13 @@ class StrHelper
         }
         $mid = str_repeat('*', strlen($emailArr[0]) - 3);
         $emailStr = substr_replace($emailArr[0], $mid, 3);
-        $email = $emailStr . '@' . $emailArr[1];
+        $email = $emailStr.'@'.$emailArr[1];
+
         return $email;
     }
 
-
     /**
-     * @param int $number
+     * @param  int  $number
      * @return mixed
      */
     public static function encryptNumber(int $number)
@@ -31,11 +37,12 @@ class StrHelper
         $tail = substr($number, -2);
         $starCount = strlen($number) - 4;
         $star = str_repeat('*', $starCount);
-        return $head . $star . $tail;
+
+        return $head.$star.$tail;
     }
 
     /**
-     * @param string $name
+     * @param  string  $name
      * @return string
      */
     public static function encryptName(string $name)
@@ -43,16 +50,15 @@ class StrHelper
         $len = mb_strlen($name);
         $last = mb_substr($name, -1, 1);
         $lastName = str_repeat('*', $len - 1);
-        return $lastName . $last;
 
+        return $lastName.$last;
     }
 
-
     /**
-     * @param int $length
+     * @param  int  $length
      * @return int
      */
-    public static function generateDigital(int $length=6)
+    public static function generateDigital(int $length = 6)
     {
         return rand(pow(10, ($length - 1)), pow(10, $length) - 1);
     }

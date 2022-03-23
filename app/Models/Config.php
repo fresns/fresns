@@ -12,9 +12,9 @@ class Config extends Model
 {
     public function getItemValueAttribute($value)
     {
-        if (in_array($this->item_type,  ['array', 'plugins', 'object'])) {
+        if (in_array($this->item_type, ['array', 'plugins', 'object'])) {
             $value = json_decode($value, true) ?: [];
-        } else if ($this->item_type == 'boolean') {
+        } elseif ($this->item_type == 'boolean') {
             $value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
         }
 
@@ -47,12 +47,12 @@ class Config extends Model
     {
         if ($this->item_type == 'boolean') {
             $this->item_value = false;
-        }  else if ($this->item_type == 'number') {
+        } elseif ($this->item_type == 'number') {
             $this->item_value = 0;
-        }  else if ($this->item_type == 'array') {
+        } elseif ($this->item_type == 'array') {
             $this->item_value = [];
         } else {
-            $this->item_value = NULl;
+            $this->item_value = null;
         }
 
         return $this;

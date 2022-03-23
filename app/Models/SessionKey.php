@@ -19,23 +19,24 @@ class SessionKey extends Model
         'is_enable',
         'plugin_unikey',
     ];
+
     /**
-     * get config platform name
+     * get config platform name.
      *
-     * @param array $platforms
-     * @access public
+     * @param  array  $platforms
      * @return string
      */
     public function platformName($platforms = []): string
     {
-        if (!$platforms instanceof Collection) {
+        if (! $platforms instanceof Collection) {
             $platforms = collect($platforms);
         }
 
         $platform = $platforms->where('id', $this->platform_id)->first();
-        if (!$platform) {
+        if (! $platform) {
             return '';
         }
+
         return $platform['name'] ?? '';
     }
 
@@ -43,5 +44,4 @@ class SessionKey extends Model
     {
         return $this->belongsTo(Plugin::class, 'plugin_unikey', 'unikey');
     }
-
 }

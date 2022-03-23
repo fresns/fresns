@@ -11,7 +11,7 @@ namespace App\Models;
 class Plugin extends Model
 {
     protected $casts = [
-        'scene' => 'array'
+        'scene' => 'array',
     ];
 
     public function scopeType($query, $value)
