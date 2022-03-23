@@ -5,7 +5,7 @@
  * Licensed under the Apache-2.0 license
  */
 body {
-    background-color: #F0F2F5;
+    background-color: #f0f2f5;
 }
 
 .fs-7 {
@@ -61,7 +61,7 @@ body {
 }
 
 .fresns-navbar {
-    background-color: #7952b3!important;
+    background-color: #7952b3 !important;
 }
 @media (min-width: 768px) {
     .fresns-navbar {
@@ -82,7 +82,7 @@ body {
     position: absolute;
     bottom: 30px;
     text-align: center;
-    color: rgba(0,0,0,.45);
+    color: rgba(0, 0, 0, 0.45);
 }
 
 .rename-label {
@@ -109,7 +109,7 @@ body {
 .text-height {
     height: 3rem;
     overflow: hidden;
-    color: #6c757d!important;
+    color: #6c757d !important;
 }
 
 .iframe-preview {
@@ -143,10 +143,10 @@ body {
         padding-bottom: 0.5rem;
         margin-left: 0.8rem;
         margin-bottom: 1rem;
-        border-bottom: 1px solid rgba(0,0,0,.125);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
     }
     .fresns-sidebar {
-        margin-left: -.75rem;
+        margin-left: -0.75rem;
     }
     .offcanvas-start {
         width: 580px;
