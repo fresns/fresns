@@ -4,21 +4,32 @@
     "description": "Cross-platform general-purpose multiple content forms social network service software.",
     "keywords": ["fresns", "sns", "bbs", "forum", "community"],
     "license": "Apache-2.0",
+    "homepage": "https://fresns.org",
+    "support": {
+        "issues": "https://github.com/fresns/fresns/issues",
+        "source": "https://github.com/fresns/fresns"
+    },
     "authors": [
         {
             "name": "Jarvis Tang",
             "email": "jarvis.okay@gmail.com",
-            "homepage": "https://github.com/jarvis-tang"
+            "homepage": "https://github.com/jarvis-tang",
+            "role": "Creator"
         }
     ],
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^8.0.2",
+        "fresns/cmd-word-manager": "^1.0",
+        "fresns/dto": "^1.0",
+        "fresns/plugin-manager": "^1.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.4.1",
-        "laravel/framework": "^8.78",
+        "laravel/framework": "^8.83",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.4"
+        "laravel/ui": "^3.4",
+        "maatwebsite/excel": "^3.1",
+        "nelexa/zip": "^4.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

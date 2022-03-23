@@ -1,10 +1,9 @@
-<p align="center"><a href="https://fresns.org" target="_blank"><img src="https://raw.githubusercontent.com/fresns/docs/main/images/Fresns%20Logo.png" width="300"></a></p>
+<p align="center"><a href="https://fresns.org" target="_blank"><img src="https://raw.githubusercontent.com/fresns/docs/main/images/Fresns-Logo(orange).png" width="300"></a></p>
 
 <p align="center">
-<img src="https://img.shields.io/badge/Fresns-1.x-yellow" alt="Fresns">
-<img src="https://img.shields.io/badge/PHP-%5E8.0-blue" alt="PHP">
-<img src="https://img.shields.io/badge/MySQL-%5E5.7%7C%5E8.0-orange" alt="MySQL">
-<img src="https://img.shields.io/badge/License-Apache--2.0-green" alt="License">
+<img src="https://img.shields.io/badge/PHP-%5E8.0-green" alt="PHP">
+<img src="https://img.shields.io/badge/MySQL-%5E8.0-orange" alt="MySQL">
+<img src="https://img.shields.io/badge/License-Apache--2.0-blue" alt="License">
 </p>
 
 ## About Fresns
@@ -19,11 +18,13 @@ Fresns is a free and open source social network service software, a general-purp
 
 | Framework | Version | Use |
 | --- | --- | --- |
-| [Composer](https://github.com/composer/composer) | 2.2.5 | Application-Level Package Manager |
-| [Laravel Framework](https://github.com/laravel/framework) | 8.82.0 | Framework |
-| [Laravel Lang](https://github.com/Laravel-Lang/lang) | 10.4.1 | Framework Lang Resources |
+| [Composer](https://github.com/composer/composer) | 2.2.9 | Application-Level Package Manager |
+| [Laravel Framework](https://github.com/laravel/framework) | 8.83.5 | Framework |
+| [Laravel Lang](https://github.com/Laravel-Lang/lang) | 10.4.11 | Framework Lang Resources |
+| [Laravel Excel](https://github.com/SpartnerNL/Laravel-Excel) | 3.1.37 | Excel exports and imports |
+| [PhpZip](https://github.com/Ne-Lexa/php-zip) | 4.0.1 | ZIP archives php library |
 | [Bootstrap](https://getbootstrap.com/) | 5.1.3 | Internal Front-end Framework |
-| [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.8.0 | Internal Icon Font Library |
+| [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.8.1 | Internal Icon Font Library |
 | [jQuery](https://github.com/jquery/jquery) | 3.6.0 | Internal JS Framework |
 | [Select2](https://github.com/select2/select2) | 4.1.0 | Internal Select2 Boxes |
 | [Base64 JS](https://github.com/dankogai/js-base64) | 3.7.2 | Internal Base64 Transcoder |
@@ -31,12 +32,12 @@ Fresns is a free and open source social network service software, a general-purp
 | Environment | Requirements |
 | --- | --- |
 | PHP Extensions | `fileinfo` |
-| PHP Functions | `putenv` `symlink` `readlink` `proc_open` |
+| PHP Functions | `putenv` `symlink` `readlink` `proc_open` `shell_exec` `exec` |
 
-| Database | MySQL 5.7 | MySQL 8.x |
-| --- | --- | --- |
-| Collation | `utf8mb4_unicode_520_ci` | `utf8mb4_0900_ai_ci` |
-| Storage engine | InnoDB | InnoDB |
+| Database | MySQL 8.x |
+| --- | --- |
+| Collation | `utf8mb4_0900_ai_ci` |
+| Storage engine | InnoDB |
 
 ## Installation and Using
 
