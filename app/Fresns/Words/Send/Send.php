@@ -23,6 +23,7 @@ class Send
     /**
      * @param $wordBody
      * @return string
+     *
      * @throws \Throwable
      */
     public function sendEmail($wordBody)
@@ -36,10 +37,10 @@ class Send
         return \FresnsCmdWord::plugin($pluginUniKey)->sendEmail($wordBody)->getCode();
     }
 
-
     /**
      * @param $wordBody
      * @return mixed
+     *
      * @throws \Throwable
      */
     public function sendSms($wordBody)
@@ -53,10 +54,10 @@ class Send
         return \FresnsCmdWord::plugin($pluginUniKey)->sendSms($wordBody);
     }
 
-
     /**
      * @param $wordBody
      * @return string
+     *
      * @throws \Throwable
      */
     public function sendAppNotification($wordBody)
@@ -65,7 +66,7 @@ class Send
 
         $channelMap = [
             1 => 'send_ios_service',
-            2 => 'send_android_service'
+            2 => 'send_android_service',
         ];
 
         $itemKey = $channelMap[$wordBody->channel];
@@ -80,6 +81,7 @@ class Send
     /**
      * @param $wordBody
      * @return string
+     *
      * @throws \Throwable
      */
     public function sendWechatMessage($wordBody)
@@ -99,5 +101,4 @@ class Send
             ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20004)::throw();
         }
     }
-
 }

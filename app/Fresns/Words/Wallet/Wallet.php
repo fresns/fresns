@@ -10,16 +10,16 @@ namespace App\Fresns\Words\Wallet;
 
 use App\Fresns\Words\Wallet\DTO\WalletDecrease;
 use App\Fresns\Words\Wallet\DTO\WalletIncrease;
+use App\Helpers\PrimaryHelper;
 use App\Models\Account;
 use App\Models\AccountWallet;
 use App\Models\AccountWalletLog;
 use App\Models\User;
-use App\Helpers\PrimaryHelper;
 
 class Wallet
 {
     /**
-     * @param WalletIncrease $wordBody
+     * @param  WalletIncrease  $wordBody
      * @return array
      */
     public function walletIncrease(WalletIncrease $wordBody)
@@ -43,7 +43,7 @@ class Wallet
     }
 
     /**
-     * @param WalletDecrease $wordBody
+     * @param  WalletDecrease  $wordBody
      * @return array
      */
     public function walletDecrease(WalletDecrease $wordBody)
@@ -61,6 +61,7 @@ class Wallet
         } else {
             $result = $this->existOriginAidDecrease($wordBody, $accountId, $userId);
         }
+
         return $result;
     }
 
@@ -78,6 +79,7 @@ class Wallet
         if ($balance != $closingBalance || $balance === null) {
             return [];
         }
+
         return ['balance' => $balance, 'closingBalance' => $closingBalance];
     }
 
@@ -107,6 +109,7 @@ class Wallet
                 $decreaseType = 3;
                 break;
         }
+
         return $decreaseType;
     }
 
@@ -129,7 +132,6 @@ class Wallet
         ];
         AccountWallet::where('account_id', $accountId)->update($userWalletsArr);
 
-
         return ['code' => 200, 'msg' => 'success'];
     }
 
@@ -151,7 +153,6 @@ class Wallet
             'balance' => $verifyWalletBalance['balance'] - $wordBody->amount,
         ];
         AccountWallet::where('account_id', $accountId)->update($userWalletsArr);
-
 
         return ['code' => 200, 'msg' => 'success'];
     }
@@ -183,14 +184,13 @@ class Wallet
         $objectType = $this->walletLogObjType($wordBody->type);
         $reduceOriginAccountWallet = $this->AddAccountWallet($wordBody, $verifyOriginWalletBalance['balance'], $objectType, $originAccountId, $accountId, $originUserId, $userId);
         $addAccountWallet = $this->reduceAccountWallet($wordBody, $verifyWalletBalance['balance'], $wordBody->type, $accountId, $userId, $originAccountId, $originUserId);
-        $userWalletArr = ['balance' => $verifyWalletBalance['balance'] + $wordBody->transactionAmount,];
+        $userWalletArr = ['balance' => $verifyWalletBalance['balance'] + $wordBody->transactionAmount];
         AccountWallet::where('account_id', $accountId)->update($userWalletArr);
         $OriginWallet = ['balance' => $verifyOriginWalletBalance['balance'] - $wordBody->amount];
         AccountWallet::where('account_id', $originAccountId)->update($OriginWallet);
 
         return ['code' => 200, 'msg' => 'success'];
     }
-
 
     /**
      * @param $wordBody
@@ -241,8 +241,8 @@ class Wallet
         if ($balance >= $amount) {
             return ['balance' => $balance];
         }
-        return [];
 
+        return [];
     }
 
     /**
@@ -250,9 +250,9 @@ class Wallet
      * @param $balance
      * @param $objectType
      * @param $accountId
-     * @param null $userId
-     * @param null $originAccountId
-     * @param null $originUserId
+     * @param  null  $userId
+     * @param  null  $originAccountId
+     * @param  null  $originUserId
      * @return bool
      */
     protected function AddAccountWallet($wordBody, $balance, $objectType, $accountId, $userId = null, $originAccountId = null, $originUserId = null)
@@ -273,6 +273,7 @@ class Wallet
         ];
 
         AccountWalletLog::insert($walletArr);
+
         return true;
     }
 
@@ -281,14 +282,13 @@ class Wallet
      * @param $balance
      * @param $objectType
      * @param $accountId
-     * @param null $originAccountId
-     * @param null $userId
-     * @param null $originUserId
+     * @param  null  $originAccountId
+     * @param  null  $userId
+     * @param  null  $originUserId
      * @return bool
      */
     protected function reduceAccountWallet($wordBody, $balance, $objectType, $accountId, $originAccountId = null, $userId = null, $originUserId = null)
     {
-
         $input = [
             'account_id' => $accountId,
             'user_id' => $userId,
@@ -308,5 +308,4 @@ class Wallet
 
         return true;
     }
-
 }

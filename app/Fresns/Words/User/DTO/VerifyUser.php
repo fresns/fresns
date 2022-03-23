@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Words\User\DTO;
 
 use Fresns\DTO\DTO;
@@ -7,13 +13,13 @@ use Fresns\DTO\DTO;
 class VerifyUser extends DTO
 {
     /**
-    * @return array
-    */
+     * @return array
+     */
     public function rules(): array
     {
         return [
-            'uid' => ['integer','required'],
-            'password' => 'string'
+            'uid' => ['integer', 'required'],
+            'password' => 'string',
         ];
     }
 }

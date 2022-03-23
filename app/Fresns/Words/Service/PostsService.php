@@ -11,6 +11,7 @@ namespace App\Fresns\Words\Service;
 use App\Fresns\Api\Http\Center\Helper\CmdRpcHelper;
 use App\Fresns\Api\Http\FsCmd\FresnsSubPlugin;
 use App\Fresns\Words\File\File;
+use App\Helpers\ConfigHelper;
 use App\Models\BlockWord;
 use App\Models\Config;
 use App\Models\Domain;
@@ -31,7 +32,6 @@ use App\Models\SessionLog;
 use App\Models\User;
 use App\Models\UserRole;
 use App\Models\UserStat;
-use App\Helpers\ConfigHelper;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -44,7 +44,6 @@ class PostsService
         $draftPost = PostLog::find($draftId);
         $releaseResult = $this->doRelease($draftId, $sessionLogsId);
         if (! $releaseResult) {
-
             return false;
         }
 
@@ -57,7 +56,7 @@ class PostsService
         // Determine if it is an update or a new addition
         $draftPost = PostLog::find($draftId);
         if (! $draftPost) {
-           Log::info('Post log does not exist');
+            Log::info('Post log does not exist');
 
             return false;
         }
@@ -81,10 +80,10 @@ class PostsService
 
         // Parse content information (determine whether the content needs to be truncated)
         $contentBrief = $this->parseDraftContent($draftId);
-        $uuid = strtolower( Str::random(8));
+        $uuid = strtolower(Str::random(8));
 
         // Get the number of words in the brief of the post
-        $postEditorBriefCount = ConfigHelper::getConfigByItemKey("post_editor_brief_count") ?? 280;
+        $postEditorBriefCount = ConfigHelper::getConfigByItemKey('post_editor_brief_count') ?? 280;
         if (mb_strlen($draftPost['content']) > $postEditorBriefCount) {
             $isBrief = 1;
         } else {
@@ -156,7 +155,7 @@ class PostsService
         $contentBrief = $this->parseDraftContent($draftId);
 
         // Get the number of words in the brief of the post
-        $postEditorBriefCount = ConfigHelper::fresnsConfigByItemKey("post_editor_word_count") ?? 280;
+        $postEditorBriefCount = ConfigHelper::fresnsConfigByItemKey('post_editor_word_count') ?? 280;
         if (mb_strlen($draftPost['content']) > $postEditorBriefCount) {
             $isBrief = 1;
         } else {
@@ -235,7 +234,7 @@ class PostsService
                     $item['lang_content'] = $v['name'];
                     $item['table_column'] = 'member_list_name';
                     $item['table_id'] = $postId;
-                    $item['table_name'] = "posts";
+                    $item['table_name'] = 'posts';
                     $count = Language::where($item)->count();
                     if ($count == 0) {
                         Language::insert($item);
@@ -262,7 +261,7 @@ class PostsService
                     $item['lang_content'] = $v['name'];
                     $item['table_column'] = 'comment_btn_name';
                     $item['table_id'] = $postId;
-                    $item['table_name'] = "posts";
+                    $item['table_name'] = 'posts';
                     $count = Language::where($item)->count();
                     if ($count == 0) {
                         Language::insert($item);
@@ -289,7 +288,7 @@ class PostsService
                     $item['lang_content'] = $v['name'];
                     $item['table_column'] = 'allow_btn_name';
                     $item['table_id'] = $postId;
-                    $item['table_name'] = "posts";
+                    $item['table_name'] = 'posts';
                     $count = Language::where($item)->count();
                     if ($count == 0) {
                         Language::insert($item);
@@ -439,7 +438,7 @@ class PostsService
         $memberListName = [];
         if ($memberListJson) {
             // Delete the old data first (empty the multilingual table)
-            Language::where('table_name', "posts")->where('table_id', $postId)->where('table_column', 'member_list_name')->delete();
+            Language::where('table_name', 'posts')->where('table_id', $postId)->where('table_column', 'member_list_name')->delete();
             $memberListDecode = json_decode($memberListJson, true);
             $memberListStatus = $memberListDecode['memberListStatus'] ?? 0;
             $memberListPluginUnikey = $memberListDecode['pluginUnikey'] ?? null;
@@ -452,7 +451,7 @@ class PostsService
                     $item['lang_content'] = $v['name'];
                     $item['table_column'] = 'member_list_name';
                     $item['table_id'] = $postId;
-                    $item['table_name'] = "posts";
+                    $item['table_name'] = 'posts';
                     $count = Language::where($item)->count();
                     if ($count == 0) {
                         Language::insert($item);
@@ -474,14 +473,14 @@ class PostsService
             // Btn names multilingual
             if ($commentBtnName) {
                 // Delete the old data first (empty the multilingual table)
-                Language::where('table_name', "posts")->where('table_id', $postId)->where('table_column', 'comment_btn_name')->delete();
+                Language::where('table_name', 'posts')->where('table_id', $postId)->where('table_column', 'comment_btn_name')->delete();
                 foreach ($commentBtnName as $v) {
                     $item = [];
                     $item['lang_tag'] = $v['langTag'];
                     $item['lang_content'] = $v['name'];
                     $item['table_column'] = 'comment_btn_name';
                     $item['table_id'] = $postId;
-                    $item['table_name'] = "posts";
+                    $item['table_name'] = 'posts';
                     $count = Language::where($item)->count();
                     if ($count == 0) {
                         Language::insert($item);
@@ -503,14 +502,14 @@ class PostsService
             // Btn names multilingual
             if ($allowBtnName) {
                 // Delete the old data first (empty the multilingual table)
-                Language::where('table_name', "posts")->where('table_id', $postId)->where('table_column', 'allow_btn_name')->delete();
+                Language::where('table_name', 'posts')->where('table_id', $postId)->where('table_column', 'allow_btn_name')->delete();
                 foreach ($allowBtnName as $v) {
                     $item = [];
                     $item['lang_tag'] = $v['langTag'];
                     $item['lang_content'] = $v['name'];
                     $item['table_column'] = 'allow_btn_name';
                     $item['table_id'] = $postId;
-                    $item['table_name'] = "posts";
+                    $item['table_name'] = 'posts';
                     $count = Language::where($item)->count();
                     if ($count == 0) {
                         Language::insert($item);
@@ -660,9 +659,9 @@ class PostsService
     public function afterStoreToDb($postId, $draftId)
     {
         // Call the plugin to subscribe to the command word
-        $cmd = "fresns_cmd_sub_add_table";
+        $cmd = 'fresns_cmd_sub_add_table';
         $input = [
-            'tableName' => "posts",
+            'tableName' => 'posts',
             'insertId' => $postId,
         ];
         Log::info('table_input', $input);
@@ -689,9 +688,9 @@ class PostsService
     public function afterUpdateToDb($postId, $draftId)
     {
         // Call the plugin to subscribe to the command word
-        $cmd = "fresns_cmd_sub_add_table";
+        $cmd = 'fresns_cmd_sub_add_table';
         $input = [
-            'tableName' => "posts",
+            'tableName' => 'posts',
             'insertId' => $postId,
         ];
         Log::info('table_input', $input);
@@ -782,9 +781,9 @@ class PostsService
         if ($memberStats) {
             UserStat::where('id', $memberStats['id'])->increment('post_publish_count');
         } else {
-             UserStat::insert(['member_id' => $draftPost['member_id'], 'post_publish_count' => 1]);
+            UserStat::insert(['member_id' => $draftPost['member_id'], 'post_publish_count' => 1]);
         }
-        Config::where('item_key', "post_counts")->increment('item_value');
+        Config::where('item_key', 'post_counts')->increment('item_value');
 
         return true;
     }
@@ -806,7 +805,7 @@ class PostsService
             // HashtagLinked::where('linked_type', 1)->where('linked_id',$draftPost['post_id'])->delete();
         }
         // The currently configured Hashtag display mode
-        $hashtagShow = ConfigHelper::fresnsConfigByItemKey("hashtag_show") ?? 2;
+        $hashtagShow = ConfigHelper::fresnsConfigByItemKey('hashtag_show') ?? 2;
         if ($hashtagShow == 1) {
             preg_match_all("/#[\S].*?\s/", $draftPost['content'], $singlePoundMatches);
         } else {
@@ -873,7 +872,7 @@ class PostsService
                         'linked_id' => $draftPost['post_id'],
                         'hashtag_id' => $hashtagId,
                     ]);
-                   Config::where('item_key', "hashtag_counts")->increment('item_value');
+                    Config::where('item_key', 'hashtag_counts')->increment('item_value');
                 }
             }
         }
@@ -886,7 +885,7 @@ class PostsService
     {
         $draftPost = PostLog::find($draftId);
         $content = $draftPost['content'];
-        $postEditorBriefCount = ConfigHelper::fresnsConfigByItemKey("post_editor_brief_count") ?? 280;
+        $postEditorBriefCount = ConfigHelper::fresnsConfigByItemKey('post_editor_brief_count') ?? 280;
         if (mb_strlen($content) > $postEditorBriefCount) {
             $contentInfo = $this->truncatedContentInfo($content, $postEditorBriefCount);
             $content = $contentInfo['truncated_content'];
@@ -906,7 +905,7 @@ class PostsService
                     $proportionCount = (mb_strlen($content) * $proportion) / 100;
 
                     // Get the maximum number of words for the post brief
-                    $postEditorBriefCount = ConfigHelper::fresnsConfigByItemKey("post_editor_brief_count") ?? 280;
+                    $postEditorBriefCount = ConfigHelper::fresnsConfigByItemKey('post_editor_brief_count') ?? 280;
                     if ($proportionCount > $postEditorBriefCount) {
                         $contentInfo = $this->truncatedContentInfo($content, $postEditorBriefCount);
                         $content = $contentInfo['truncated_content'];
@@ -988,7 +987,7 @@ class PostsService
     public function truncatedContentInfo($content, $wordCount = 280)
     {
         // The currently configured Hashtag display mode
-        $hashtagShow = ConfigHelper::fresnsConfigByItemKey("post_editor_brief_count") ?? 2;
+        $hashtagShow = ConfigHelper::fresnsConfigByItemKey('post_editor_brief_count') ?? 2;
         // Match the location information in $content, where the rule is placed in the configuration file
         if ($hashtagShow == 1) {
             preg_match("/#.*?\s/", $content, $singlePoundMatches, PREG_OFFSET_CAPTURE);
@@ -1218,6 +1217,4 @@ class PostsService
 
         return $text;
     }
-
-
 }

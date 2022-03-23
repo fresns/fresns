@@ -8,7 +8,6 @@
 
 namespace App\Fresns\Words\Content;
 
-
 use App\Fresns\Api\Http\Center\Helper\CmdRpcHelper;
 use App\Fresns\Api\Http\FsCmd\FresnsSubPlugin;
 use App\Fresns\Api\Http\FsDb\FresnsComments\FresnsCommentsService;
@@ -33,7 +32,7 @@ class Content
 //            unlink($basePath);
 //        }
 
-        return ['code'=>200,'message'=>'success'];
+        return ['code'=>200, 'message'=>'success'];
     }
 
     /**
@@ -52,7 +51,7 @@ class Content
             case 1:
                 $result = $FresnsPostsService->releaseByDraft($logId, $sessionLogsId);
                 $postId = PostLog::find($logId);
-                $cmd = "fresns_cmd_sub_active_command_word";
+                $cmd = 'fresns_cmd_sub_active_command_word';
                 $wordBody = [
                     'tableName' => 'posts',
                     'insertId' => $postId['post_id'],
@@ -73,6 +72,6 @@ class Content
                 break;
         }
 
-        return ['code'=>200,'message'=>'success'];
+        return ['code'=>200, 'message'=>'success'];
     }
 }

@@ -8,24 +8,24 @@
 
 namespace App\Fresns\Words\Basis;
 
-use App\Models\User;
+use App\Fresns\Words\Basis\DTO\CheckCodeDTO;
+use App\Fresns\Words\Basis\DTO\DecodeSignDTO;
+use App\Fresns\Words\Basis\DTO\SendCodeDTO;
+use App\Fresns\Words\Basis\DTO\UploadSessionLogDTO;
+use App\Fresns\Words\Basis\DTO\VerifySignDTO;
+use App\Helpers\ConfigHelper;
+use App\Helpers\SignHelper;
 use App\Models\Account;
 use App\Models\SessionKey;
 use App\Models\SessionLog;
+use App\Models\User;
 use App\Models\VerifyCode;
-use App\Helpers\SignHelper;
-use App\Helpers\ConfigHelper;
-use App\Fresns\Words\Basis\DTO\SendCodeDTO;
-use App\Fresns\Words\Basis\DTO\CheckCodeDTO;
-use App\Fresns\Words\Basis\DTO\DecodeSignDTO;
-use App\Fresns\Words\Basis\DTO\VerifySignDTO;
-use App\Fresns\Words\Basis\DTO\UploadSessionLogDTO;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 
 class Basis
 {
     /**
-     * @param DecodeSignDTO $urlSign
+     * @param  DecodeSignDTO  $urlSign
      * @return mixed
      */
     public function decodeSign(DecodeSignDTO $urlSign)
@@ -38,7 +38,7 @@ class Basis
     public function verifySign(VerifySignDTO $wordBody)
     {
         $checkTokenParam = SignHelper::checkTokenParam($wordBody->token, $wordBody->aid, $wordBody->uid);
-        if (!$checkTokenParam) {
+        if (! $checkTokenParam) {
             return 'verify not passed';
         }
 
@@ -50,7 +50,7 @@ class Basis
             'timestamp' => $wordBody->timestamp,
             'aid' => $wordBody->aid,
             'uid' => $wordBody->uid,
-            'token' => $wordBody->token
+            'token' => $wordBody->token,
         ];
 
         $withoutEmptycheckArr = array_filter($includeEmptyCheckArr);
@@ -75,9 +75,9 @@ class Basis
         if ($checkArr !== true || $emptyCheckArr != true) {
             return 'wrong key';
         }
+
         return 'success';
     }
-
 
     public function uploadSessionLog(UploadSessionLogDTO $wordBody)
     {
@@ -114,7 +114,6 @@ class Basis
         return 'success';
     }
 
-
     public function sendCode($wordBody)
     {
         $dtoWordBody = new SendCodeDTO($wordBody);
@@ -135,17 +134,16 @@ class Basis
         $term = [
             'type' => $wordBody->type,
             'account' => $wordBody->account,
-            'code' => $wordBody->type == 1 ? $wordBody->verifyCode : $wordBody->countryCode . $wordBody->account,
+            'code' => $wordBody->type == 1 ? $wordBody->verifyCode : $wordBody->countryCode.$wordBody->account,
             'is_enable' => 1,
         ];
         $verifyInfo = VerifyCode::where($term)->where('expired_at', '>', date('Y-m-d H:i:s'))->first();
         if ($verifyInfo) {
             VerifyCode::where('id', $verifyInfo['id'])->update(['is_enable' => 0]);
 
-            return ['message'=>'success','code'=>200,'data'=>[]];
+            return ['message'=>'success', 'code'=>200, 'data'=>[]];
         } else {
-            return ['message'=>'error','code'=>200,'data'=>[]];
+            return ['message'=>'error', 'code'=>200, 'data'=>[]];
         }
     }
-
 }

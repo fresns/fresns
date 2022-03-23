@@ -8,8 +8,9 @@
 
 namespace App\Fresns\Words\Service;
 
-
 use App\Fresns\Api\Helpers\StrHelper;
+use App\Helpers\ConfigHelper;
+use App\Helpers\DateHelper;
 use App\Models\Account;
 use App\Models\AccountConnect;
 use App\Models\AccountWallet;
@@ -19,10 +20,9 @@ use App\Models\Plugin;
 use App\Models\PluginBadge;
 use App\Models\PluginUsage;
 use App\Models\User;
-use App\Helpers\ConfigHelper;
-use App\Helpers\DateHelper;
 
-class AccountService{
+class AccountService
+{
     // Get User Detail
     public function getUserDetail($aid, $langTag, $mid = null)
     {
@@ -186,7 +186,6 @@ class AccountService{
         return $data;
     }
 
-
     public static function getLanguageByTableKey($table, $field, $tableKey, $langTag)
     {
         $lang_content = Language::where('table_name', $table)->where('table_column', $field)->where('table_key', $tableKey)->where('lang_tag', $langTag)->value('lang_content');
@@ -206,7 +205,7 @@ class AccountService{
         $langTag = null;
         if (! empty($langTagHeader)) {
             // If it is not empty, check if the language exists
-            $langSetting = Config::where('item_key','language_menus')->value('item_value');
+            $langSetting = Config::where('item_key', 'language_menus')->value('item_value');
             if (! empty($langSetting)) {
                 $langSettingArr = json_decode($langSetting, true);
                 foreach ($langSettingArr as $v) {
@@ -219,8 +218,6 @@ class AccountService{
 
         // If no multiple languages are passed or not queried, the default language is queried
         if (empty($langTag)) {
-
-
             $langTag = ConfigHelper::fresnsConfigByItemKey('default_language');
         }
 
@@ -267,19 +264,19 @@ class AccountService{
         return $expandsArr;
     }
 
-
     // Get the corresponding multilingual
     public static function getLanguageByTableId($table, $field, $tableId, $langTag = null)
     {
         $lang_content = Language::where('table_name', $table)->where('table_column', $field)->where('table_id', $tableId)->where('lang_tag', $langTag)->value('lang_content');
         if (empty($lang_content)) {
-            $langTag =ConfigHelper::fresnsConfigByItemKey('default_language');
+            $langTag = ConfigHelper::fresnsConfigByItemKey('default_language');
             $lang_content = Language::where('table_name', $table)->where('table_column', $field)->where('table_id',
                 $tableId)->where('lang_tag', $langTag)->value('lang_content');
         }
 
         return $lang_content;
     }
+
     public static function getPluginUsagesUrl($pluginUnikey, $pluginUsagesid)
     {
         $bucketDomain = ConfigHelper::fresnsConfigByItemKey('backend_domain');

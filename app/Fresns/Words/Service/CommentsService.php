@@ -8,11 +8,11 @@
 
 namespace App\Fresns\Words\Service;
 
+use App\Fresns\Api\Helpers\ApiConfigHelper;
 use App\Fresns\Api\Helpers\StrHelper;
 use App\Fresns\Api\Http\Center\Common\LogService;
 use App\Fresns\Api\Http\Center\Helper\CmdRpcHelper;
 use App\Fresns\Api\Http\FsApi\Content\FresnsPostsResource;
-use App\Fresns\Api\Helpers\ApiConfigHelper;
 use App\Fresns\Api\Http\FsCmd\FresnsSubPlugin;
 use App\Fresns\Api\Http\FsCmd\FresnsSubPluginConfig;
 use App\Fresns\Api\Http\FsDb\FresnsCommentAppends\FresnsCommentAppends;

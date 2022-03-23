@@ -1,12 +1,17 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Words\Crontab\DTO;
 
 use Fresns\DTO\DTO;
 
 /**
- * Class AddCrontabItem
- * @package App\Fresns\Words\File\DTO
+ * Class AddCrontabItem.
  */
 class DeleteCrontabItem extends DTO
 {
@@ -18,7 +23,7 @@ class DeleteCrontabItem extends DTO
         return [
             'unikey'=>'string',
             'cmdWord'=>'string',
-            'taskPeriod' => 'string'
+            'taskPeriod' => 'string',
         ];
     }
 }

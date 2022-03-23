@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 return [
     'fileTempPath' => [
         '11' => 'temp_files/mores',
@@ -28,5 +34,5 @@ return [
         '49' => 'temp_files/documents/comments/{ym}/{day}',
         '410' => 'temp_files/documents/extends/{ym}/{day}',
         '411' => 'temp_files/documents/plugins/{ym}/{day}',
-    ]
+    ],
 ];

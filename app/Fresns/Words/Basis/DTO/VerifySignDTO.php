@@ -1,29 +1,33 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Words\Basis\DTO;
 
 use Fresns\DTO\DTO;
 
 /**
- * Class VerifySignDTO
- * @property  integer $platform
- * @property  string $version
- * @property  integer $versionInt
- * @package App\Fresns\Words\Basis\DTO
+ * Class VerifySignDTO.
+ *
+ * @property int $platform
+ * @property string $version
+ * @property int $versionInt
  */
-
 class VerifySignDTO extends DTO
 {
-
     /**
      * @return array
      */
     public function rules(): array
     {
         return [
-            'platform' => ['required','integer'],
+            'platform' => ['required', 'integer'],
             'version' => ['required'],
-            'versionInt' => ['required','integer'],
+            'versionInt' => ['required', 'integer'],
             'appId' => ['required'],
             'timestamp' => ['required'],
             'sign' => ['required'],
