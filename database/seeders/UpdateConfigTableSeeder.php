@@ -13,9 +13,8 @@ use Illuminate\Support\Facades\DB;
 
 class UpdateConfigTableSeeder extends Seeder
 {
-
     /**
-     * Auto generated seed file
+     * Auto generated seed file.
      *
      * @return void
      */
@@ -36,8 +35,7 @@ class UpdateConfigTableSeeder extends Seeder
             DB::table('configs')->updateOrInsert($cond, $upInfo);
 
             return ['code' => '000000', 'message' => 'success'];
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return ['code' => $e->getCode(), 'message' => $e->getMessage()];
         }
     }
