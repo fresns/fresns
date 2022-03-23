@@ -1,15 +1,10 @@
 <?php
 
 /*
-|--------------------------------------------------------------------------
-| Authentication Language Lines
-|--------------------------------------------------------------------------
-|
-| The following language lines are used during authentication for various
-| messages that we need to display to the user. You are free to modify
-| these language lines according to your application's requirements.
-|
-*/
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
 
 return [
     'failed'   => 'Estas credenciales no coinciden con nuestros registros.',
