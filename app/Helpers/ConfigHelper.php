@@ -42,7 +42,7 @@ class ConfigHelper
             return self::getLangContent('configs', $langTag, $item);
         }
 
-        return $itemValue->item_type;
+        return $itemValue->item_value;
     }
 
     /**
