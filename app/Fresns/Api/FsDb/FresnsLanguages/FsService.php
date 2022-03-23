@@ -9,8 +9,8 @@
 namespace App\Fresns\Api\FsDb\FresnsLanguages;
 
 use App\Fresns\Api\Base\Services\BaseAdminService;
-use App\Fresns\Api\Helpers\ApiLanguageHelper;
 use App\Fresns\Api\FsDb\FresnsConfigs\FresnsConfigsService;
+use App\Fresns\Api\Helpers\ApiLanguageHelper;
 
 class FsService extends BaseAdminService
 {

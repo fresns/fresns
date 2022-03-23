@@ -10,9 +10,9 @@ namespace App\Fresns\Api\Http\Base;
 
 use App\Fresns\Api\Base\Checkers\BaseChecker;
 use App\Fresns\Api\Center\Common\ErrorCodeService;
-use App\Fresns\Api\Helpers\ApiConfigHelper;
-use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
 use App\Fresns\Api\FsDb\FresnsSessionTokens\FresnsSessionTokens;
+use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
+use App\Fresns\Api\Helpers\ApiConfigHelper;
 
 class FsApiChecker extends BaseChecker
 {

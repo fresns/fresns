@@ -8,15 +8,13 @@
 
 namespace App\Fresns\Api\Http\Editor;
 
-use App\Fresns\Api\Helpers\StrHelper;
 use App\Fresns\Api\Center\Common\GlobalService;
 use App\Fresns\Api\Center\Common\LogService;
 use App\Fresns\Api\Center\Helper\CmdRpcHelper;
 use App\Fresns\Api\Center\Helper\PluginHelper;
 use App\Fresns\Api\Center\Scene\FileSceneService;
-use App\Fresns\Api\Helpers\ApiConfigHelper;
-use App\Fresns\Api\Helpers\ApiLanguageHelper;
 use App\Fresns\Api\FsCmd\FresnsCmdWordsConfig;
+use App\Fresns\Api\FsDb\FresnsBlockWords\FresnsBlockWords;
 use App\Fresns\Api\FsDb\FresnsCommentAppends\FresnsCommentAppends;
 use App\Fresns\Api\FsDb\FresnsCommentLogs\FresnsCommentLogs;
 use App\Fresns\Api\FsDb\FresnsComments\FresnsComments;
@@ -25,14 +23,16 @@ use App\Fresns\Api\FsDb\FresnsExtends\FresnsExtends;
 use App\Fresns\Api\FsDb\FresnsFileAppends\FresnsFileAppends;
 use App\Fresns\Api\FsDb\FresnsFiles\FresnsFiles;
 use App\Fresns\Api\FsDb\FresnsGroups\FresnsGroups;
-use App\Fresns\Api\FsDb\FresnsRoles\FresnsRoles;
-use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
 use App\Fresns\Api\FsDb\FresnsPostAllows\FresnsPostAllowsConfig;
 use App\Fresns\Api\FsDb\FresnsPostAppends\FresnsPostAppends;
 use App\Fresns\Api\FsDb\FresnsPostLogs\FresnsPostLogs;
 use App\Fresns\Api\FsDb\FresnsPosts\FresnsPosts;
 use App\Fresns\Api\FsDb\FresnsPosts\FresnsPostsConfig;
-use App\Fresns\Api\FsDb\FresnsBlockWords\FresnsBlockWords;
+use App\Fresns\Api\FsDb\FresnsRoles\FresnsRoles;
+use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
+use App\Fresns\Api\Helpers\ApiConfigHelper;
+use App\Fresns\Api\Helpers\ApiLanguageHelper;
+use App\Fresns\Api\Helpers\StrHelper;
 use Illuminate\Support\Facades\DB;
 
 class ContentLogsService

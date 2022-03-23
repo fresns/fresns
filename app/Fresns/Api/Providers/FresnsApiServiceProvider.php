@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Api\Providers;
 
 use Illuminate\Support\Facades\Route;
@@ -17,7 +23,6 @@ class FresnsApiServiceProvider extends ServiceProvider
         Route::prefix('api/v1/')->group(function () {
             $this->registerRoutes();
         });
-
     }
 
     private function registerRoutes()
@@ -32,7 +37,7 @@ class FresnsApiServiceProvider extends ServiceProvider
         ];
 
         foreach ($routePaths as $path) {
-            $this->loadRoutesFrom(__DIR__ . '/../Http/' . $path . '/FsRouteApi.php');
+            $this->loadRoutesFrom(__DIR__.'/../Http/'.$path.'/FsRouteApi.php');
         }
     }
 }

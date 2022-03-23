@@ -9,22 +9,22 @@
 namespace App\Fresns\Api\FsDb\FresnsAccounts;
 
 use App\Fresns\Api\Base\Services\BaseAdminService;
-use App\Fresns\Api\Helpers\DateHelper;
-use App\Fresns\Api\Helpers\StrHelper;
+use App\Fresns\Api\FsDb\FresnsAccountConnects\FresnsAccountConnectsConfig;
+use App\Fresns\Api\FsDb\FresnsAccountWallets\FresnsAccountWallets;
+use App\Fresns\Api\FsDb\FresnsConfigs\FresnsConfigsConfig;
+use App\Fresns\Api\FsDb\FresnsLanguages\FresnsLanguagesService;
+use App\Fresns\Api\FsDb\FresnsPluginBadges\FresnsPluginBadgesService;
+use App\Fresns\Api\FsDb\FresnsPlugins\FresnsPluginsService;
+use App\Fresns\Api\FsDb\FresnsRoles\FresnsRoles;
+use App\Fresns\Api\FsDb\FresnsRoles\FresnsRolesConfig;
+use App\Fresns\Api\FsDb\FresnsUserRoles\FresnsUserRoles;
+use App\Fresns\Api\FsDb\FresnsUserRoles\FresnsUserRolesService;
+use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsersConfig;
 use App\Fresns\Api\Helpers\ApiConfigHelper;
 use App\Fresns\Api\Helpers\ApiFileHelper;
 use App\Fresns\Api\Helpers\ApiLanguageHelper;
-use App\Fresns\Api\FsDb\FresnsConfigs\FresnsConfigsConfig;
-use App\Fresns\Api\FsDb\FresnsLanguages\FresnsLanguagesService;
-use App\Fresns\Api\FsDb\FresnsUserRoles\FresnsUserRoles;
-use App\Fresns\Api\FsDb\FresnsUserRoles\FresnsUserRolesService;
-use App\Fresns\Api\FsDb\FresnsRoles\FresnsRoles;
-use App\Fresns\Api\FsDb\FresnsRoles\FresnsRolesConfig;
-use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsersConfig;
-use App\Fresns\Api\FsDb\FresnsPluginBadges\FresnsPluginBadgesService;
-use App\Fresns\Api\FsDb\FresnsPlugins\FresnsPluginsService;
-use App\Fresns\Api\FsDb\FresnsAccountConnects\FresnsAccountConnectsConfig;
-use App\Fresns\Api\FsDb\FresnsAccountWallets\FresnsAccountWallets;
+use App\Fresns\Api\Helpers\DateHelper;
+use App\Fresns\Api\Helpers\StrHelper;
 use Illuminate\Support\Facades\DB;
 
 class FsService extends BaseAdminService
@@ -111,7 +111,7 @@ class FsService extends BaseAdminService
         }
         $wallet['password'] = $isPassword;
         $wallet['balance'] = $accountWallets['balance'] ?? null;
-        $wallet['freezeAmount'] = $accountWallets['freeze_amount'] ??null;
+        $wallet['freezeAmount'] = $accountWallets['freeze_amount'] ?? null;
         $wallet['bankName'] = $accountWallets['bank_name'] ?? null;
         $wallet['swiftCode'] = $accountWallets['swift_code'] ?? null;
         $wallet['bankAddress'] = $accountWallets['bank_address'] ?? null;

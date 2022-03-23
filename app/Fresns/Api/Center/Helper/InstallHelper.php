@@ -8,10 +8,10 @@
 
 namespace App\Fresns\Api\Center\Helper;
 
-use App\Fresns\Api\Helpers\FileHelper;
 use App\Fresns\Api\Center\Base\BaseInstaller;
 use App\Fresns\Api\Center\Base\PluginConst;
 use App\Fresns\Api\Center\Common\LogService;
+use App\Fresns\Api\Helpers\FileHelper;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;

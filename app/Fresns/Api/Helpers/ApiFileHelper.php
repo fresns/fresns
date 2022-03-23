@@ -9,7 +9,6 @@
 namespace App\Fresns\Api\Helpers;
 
 use App\Fresns\Api\Center\Helper\CmdRpcHelper;
-use App\Fresns\Api\Http\Content\FsConfig as ContentConfig;
 use App\Fresns\Api\FsCmd\FresnsCmdWords;
 use App\Fresns\Api\FsCmd\FresnsCmdWordsConfig;
 use App\Fresns\Api\FsDb\FresnsDialogMessages\FresnsDialogMessages;
@@ -17,6 +16,7 @@ use App\Fresns\Api\FsDb\FresnsFileAppends\FresnsFileAppends;
 use App\Fresns\Api\FsDb\FresnsFiles\FresnsFiles;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsersConfig;
+use App\Fresns\Api\Http\Content\FsConfig as ContentConfig;
 use Illuminate\Support\Facades\DB;
 
 class ApiFileHelper

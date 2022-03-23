@@ -9,10 +9,10 @@
 namespace App\Fresns\Api\Http\Info;
 
 use App\Fresns\Api\Center\Common\ErrorCodeService;
-use App\Fresns\Api\Http\Base\FsApiChecker;
-use App\Fresns\Api\Helpers\ApiConfigHelper;
-use App\Fresns\Api\FsDb\FresnsPluginCallbacks\FresnsPluginCallbacks;
 use App\Fresns\Api\FsDb\FresnsAccounts\FresnsAccounts;
+use App\Fresns\Api\FsDb\FresnsPluginCallbacks\FresnsPluginCallbacks;
+use App\Fresns\Api\Helpers\ApiConfigHelper;
+use App\Fresns\Api\Http\Base\FsApiChecker;
 
 class FsChecker extends FsApiChecker
 {

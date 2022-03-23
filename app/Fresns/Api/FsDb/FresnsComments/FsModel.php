@@ -10,12 +10,12 @@ namespace App\Fresns\Api\FsDb\FresnsComments;
 
 use App\Fresns\Api\Base\Models\BaseCategoryModel;
 use App\Fresns\Api\Center\Common\GlobalService;
-use App\Fresns\Api\Helpers\ApiConfigHelper;
 use App\Fresns\Api\FsDb\FresnsCommentAppends\FresnsCommentAppendsConfig;
-use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
-use App\Fresns\Api\FsDb\FresnsUserBlocks\FresnsUserBlocksConfig;
 use App\Fresns\Api\FsDb\FresnsPosts\FresnsPosts;
 use App\Fresns\Api\FsDb\FresnsPosts\FresnsPostsConfig;
+use App\Fresns\Api\FsDb\FresnsUserBlocks\FresnsUserBlocksConfig;
+use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
+use App\Fresns\Api\Helpers\ApiConfigHelper;
 use Illuminate\Support\Facades\DB;
 
 class FsModel extends BaseCategoryModel

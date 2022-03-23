@@ -9,8 +9,8 @@
 namespace App\Fresns\Api\FsDb\FresnsRoles;
 
 use App\Fresns\Api\Base\Resources\BaseAdminResource;
-use App\Fresns\Api\Helpers\ApiFileHelper;
 use App\Fresns\Api\FsDb\FresnsLanguages\FresnsLanguagesService;
+use App\Fresns\Api\Helpers\ApiFileHelper;
 
 /**
  * List resource config handle.

@@ -8,8 +8,8 @@
 
 namespace App\Fresns\Api\FsDb\FresnsHashtags;
 
-use App\Fresns\Api\Http\Base\FsApiService;
 use App\Fresns\Api\FsDb\FresnsPluginUsages\FresnsPluginUsagesService;
+use App\Fresns\Api\Http\Base\FsApiService;
 use Illuminate\Support\Facades\DB;
 
 class FresnsHashtagsService extends FsApiService

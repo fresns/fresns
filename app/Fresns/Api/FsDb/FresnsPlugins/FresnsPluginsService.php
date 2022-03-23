@@ -8,8 +8,8 @@
 
 namespace App\Fresns\Api\FsDb\FresnsPlugins;
 
-use App\Fresns\Api\Helpers\ApiConfigHelper;
 use App\Fresns\Api\FsDb\FresnsPluginUsages\FresnsPluginUsages;
+use App\Fresns\Api\Helpers\ApiConfigHelper;
 
 class FresnsPluginsService extends FsService
 {

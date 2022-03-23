@@ -8,11 +8,11 @@
 
 namespace App\Fresns\Api\Http\User;
 
-use App\Fresns\Api\Http\Base\FsApiChecker;
-use App\Fresns\Api\Helpers\ApiConfigHelper;
+use App\Fresns\Api\FsDb\FresnsUserBlocks\FresnsUserBlocks;
 use App\Fresns\Api\FsDb\FresnsUserFollows\FresnsUserFollows;
 use App\Fresns\Api\FsDb\FresnsUserLikes\FresnsUserLikes;
-use App\Fresns\Api\FsDb\FresnsUserBlocks\FresnsUserBlocks;
+use App\Fresns\Api\Helpers\ApiConfigHelper;
+use App\Fresns\Api\Http\Base\FsApiChecker;
 
 class FsChecker extends FsApiChecker
 {

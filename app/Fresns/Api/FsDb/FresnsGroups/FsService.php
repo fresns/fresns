@@ -11,9 +11,9 @@ namespace App\Fresns\Api\FsDb\FresnsGroups;
 use App\Fresns\Api\Base\Services\BaseAdminService;
 use App\Fresns\Api\FsDb\FresnsConfigs\FresnsConfigsService;
 use App\Fresns\Api\FsDb\FresnsLanguages\FresnsLanguages;
+use App\Fresns\Api\FsDb\FresnsPlugins\FresnsPlugins;
 use App\Fresns\Api\FsDb\FresnsRoles\FresnsRoles;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
-use App\Fresns\Api\FsDb\FresnsPlugins\FresnsPlugins;
 
 class FsService extends BaseAdminService
 {

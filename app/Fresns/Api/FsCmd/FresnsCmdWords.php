@@ -8,8 +8,6 @@
 
 namespace App\Fresns\Api\FsCmd;
 
-use App\Fresns\Api\Helpers\SignHelper;
-use App\Fresns\Api\Helpers\StrHelper;
 use App\Fresns\Api\Center\Base\BasePlugin;
 use App\Fresns\Api\Center\Common\ErrorCodeService;
 use App\Fresns\Api\Center\Common\GlobalService;
@@ -19,8 +17,13 @@ use App\Fresns\Api\Center\Helper\CmdRpcHelper;
 use App\Fresns\Api\Center\Helper\PluginHelper;
 use App\Fresns\Api\Center\Scene\FileSceneConfig;
 use App\Fresns\Api\Center\Scene\FileSceneService;
-use App\Fresns\Api\Helpers\ApiCommonHelper;
-use App\Fresns\Api\Helpers\ApiConfigHelper;
+use App\Fresns\Api\FsDb\FresnsAccountConnects\FresnsAccountConnects;
+use App\Fresns\Api\FsDb\FresnsAccountConnects\FresnsAccountConnectsConfig;
+use App\Fresns\Api\FsDb\FresnsAccounts\FresnsAccounts;
+use App\Fresns\Api\FsDb\FresnsAccounts\FresnsAccountsConfig;
+use App\Fresns\Api\FsDb\FresnsAccounts\FresnsAccountsService;
+use App\Fresns\Api\FsDb\FresnsAccountWalletLogs\FresnsAccountWalletLogs;
+use App\Fresns\Api\FsDb\FresnsAccountWallets\FresnsAccountWallets;
 use App\Fresns\Api\FsDb\FresnsCommentAppends\FresnsCommentAppendsConfig;
 use App\Fresns\Api\FsDb\FresnsCommentLogs\FresnsCommentLogs;
 use App\Fresns\Api\FsDb\FresnsCommentLogs\FresnsCommentLogsConfig;
@@ -40,10 +43,6 @@ use App\Fresns\Api\FsDb\FresnsGroups\FresnsGroups;
 use App\Fresns\Api\FsDb\FresnsHashtagLinkeds\FresnsHashtagLinkedsConfig;
 use App\Fresns\Api\FsDb\FresnsHashtags\FresnsHashtags;
 use App\Fresns\Api\FsDb\FresnsLanguages\FresnsLanguagesConfig;
-use App\Fresns\Api\FsDb\FresnsUserRoles\FresnsUserRoles;
-use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
-use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsersConfig;
-use App\Fresns\Api\FsDb\FresnsUserStats\FresnsUserStats;
 use App\Fresns\Api\FsDb\FresnsMentions\FresnsMentionsConfig;
 use App\Fresns\Api\FsDb\FresnsPostAllows\FresnsPostAllowsConfig;
 use App\Fresns\Api\FsDb\FresnsPostAppends\FresnsPostAppendsConfig;
@@ -57,14 +56,15 @@ use App\Fresns\Api\FsDb\FresnsSessionLogs\FresnsSessionLogs;
 use App\Fresns\Api\FsDb\FresnsSessionLogs\FresnsSessionLogsConfig;
 use App\Fresns\Api\FsDb\FresnsSessionLogs\FresnsSessionLogsService;
 use App\Fresns\Api\FsDb\FresnsSessionTokens\FresnsSessionTokensConfig;
-use App\Fresns\Api\FsDb\FresnsAccountConnects\FresnsAccountConnects;
-use App\Fresns\Api\FsDb\FresnsAccountConnects\FresnsAccountConnectsConfig;
-use App\Fresns\Api\FsDb\FresnsAccounts\FresnsAccounts;
-use App\Fresns\Api\FsDb\FresnsAccounts\FresnsAccountsConfig;
-use App\Fresns\Api\FsDb\FresnsAccounts\FresnsAccountsService;
-use App\Fresns\Api\FsDb\FresnsAccountWalletLogs\FresnsAccountWalletLogs;
-use App\Fresns\Api\FsDb\FresnsAccountWallets\FresnsAccountWallets;
+use App\Fresns\Api\FsDb\FresnsUserRoles\FresnsUserRoles;
+use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
+use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsersConfig;
+use App\Fresns\Api\FsDb\FresnsUserStats\FresnsUserStats;
 use App\Fresns\Api\FsDb\FresnsVerifyCodes\FresnsVerifyCodes;
+use App\Fresns\Api\Helpers\ApiCommonHelper;
+use App\Fresns\Api\Helpers\ApiConfigHelper;
+use App\Fresns\Api\Helpers\SignHelper;
+use App\Fresns\Api\Helpers\StrHelper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request;
@@ -657,8 +657,8 @@ class FresnsCmdWords extends BasePlugin
         $accountId = $input['aid'] ?? null;
         $userId = $input['uid'] ?? null;
 
-        if($tableId) {
-            if(Schema::hasColumn($tableName, 'uuid')) {
+        if ($tableId) {
+            if (Schema::hasColumn($tableName, 'uuid')) {
                 $tableId = DB::table($tableName)->where('uuid', $tableId)->value('id');
             }
         }

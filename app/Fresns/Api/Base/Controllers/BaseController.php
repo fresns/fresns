@@ -9,9 +9,9 @@
 namespace App\Fresns\Api\Base\Controllers;
 
 use App\Fresns\Api\Base\Config\BaseConfig;
-use App\Fresns\Api\Helpers\CommonHelper;
 use App\Fresns\Api\Center\Common\ErrorCodeService;
 use App\Fresns\Api\Center\Common\ValidateService;
+use App\Fresns\Api\Helpers\CommonHelper;
 use App\Fresns\Api\Traits\ApiTrait;
 use App\Fresns\Api\Traits\HookControllerTrait;
 use Illuminate\Http\Request;
