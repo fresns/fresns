@@ -1,9 +1,15 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
-use App\Models\Plugin;
 use App\Models\Config;
+use App\Models\Plugin;
 use Illuminate\Http\Request;
 
 class PluginController extends Controller
@@ -34,14 +40,14 @@ class PluginController extends Controller
         $engines = Plugin::type(3)->get();
 
         $configKeys = [];
-        $engines->each(function($engine) use (&$configKeys) {
+        $engines->each(function ($engine) use (&$configKeys) {
             $configKeys[] = $engine->unikey.'_Pc';
             $configKeys[] = $engine->unikey.'_Mobile';
         });
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
         $pluginKeys = $configs->pluck('item_value')->filter();
-        $plugins = Plugin::whereIn('unikey', $pluginKeys)->get()->mapWithKeys(function($plugin, $key) {
+        $plugins = Plugin::whereIn('unikey', $pluginKeys)->get()->mapWithKeys(function ($plugin, $key) {
             return [$plugin->unikey => $plugin->name];
         })->toArray();
 
@@ -59,7 +65,7 @@ class PluginController extends Controller
 
         $pcConfig = Config::where('item_key', $pcKey)->first();
         if ($request->has($pcKey)) {
-            if (!$pcConfig) {
+            if (! $pcConfig) {
                 $pcConfig = new Config();
                 $pcConfig->item_key = $pcKey;
                 $pcConfig->item_type = 'string';
@@ -78,7 +84,7 @@ class PluginController extends Controller
 
         $mobileConfig = Config::where('item_key', $mobileKey)->first();
         if ($request->has($mobileKey)) {
-            if (!$mobileConfig) {
+            if (! $mobileConfig) {
                 $mobileConfig = new Config();
                 $mobileConfig->item_key = $mobileKey;
                 $mobileConfig->item_type = 'string';
@@ -123,12 +129,14 @@ class PluginController extends Controller
             $plugin->is_enable = $request->is_enable;
         }
         $plugin->save();
+
         return $this->updateSuccess();
     }
 
     public function destroy(Plugin $plugin)
     {
         $plugin->delete();
+
         return $this->deleteSuccess();
     }
 }

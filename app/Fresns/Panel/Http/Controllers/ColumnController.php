@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Models\Config;
@@ -73,7 +79,7 @@ class ColumnController extends Controller
 
         foreach ($configKeys as $configKey) {
             $config = Config::where('item_tag', 'menus')->where('item_key', $configKey)->first();
-            if (!$config) {
+            if (! $config) {
                 $config = new Config();
                 $config->item_key = $configKey;
                 $config->item_type = 'string';

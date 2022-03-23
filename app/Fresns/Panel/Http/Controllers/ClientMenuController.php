@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Models\Config;
@@ -98,55 +104,54 @@ class ClientMenuController extends Controller
             'user' => [
                 'name' => __('FsLang::panel.user'),
                 'url' => 'users',
-                'select' => true
+                'select' => true,
             ],
             'group' => [
                 'name' => __('FsLang::panel.group'),
                 'url' => 'groups',
-                'select' => true
+                'select' => true,
             ],
             'hashtag' => [
                 'name' => __('FsLang::panel.hashtag'),
                 'url' => 'hashtags',
-                'select' => true
+                'select' => true,
             ],
             'post' => [
                 'name' => __('FsLang::panel.post'),
                 'url' => 'posts',
-                'select' => true
+                'select' => true,
             ],
             'comment' => [
                 'name' => __('FsLang::panel.comment'),
                 'url' => 'comments',
-                'select' => true
+                'select' => true,
             ],
             'user_list' => [
                 'name' => __('FsLang::panel.menu_user_list'),
                 'url' => 'users/list',
-                'select' => false
+                'select' => false,
             ],
             'group_list' => [
                 'name' => __('FsLang::panel.menu_group_list'),
                 'url' => 'groups/list',
-                'select' => false
+                'select' => false,
             ],
             'hashtag_list' => [
                 'name' => __('FsLang::panel.menu_hashtag_list'),
                 'url' => 'hashtags/list',
-                'select' => false
+                'select' => false,
             ],
             'post_list' => [
                 'name' => __('FsLang::panel.menu_post_list'),
                 'url' => 'posts/list',
-                'select' => false
+                'select' => false,
             ],
             'comment_list' => [
                 'name' => __('FsLang::panel.menu_comment_list'),
                 'url' => 'comments/list',
-                'select' => false
+                'select' => false,
             ],
         ];
-
 
         return view('FsView::clients.menus', compact('menus', 'configs'));
     }
@@ -158,7 +163,7 @@ class ClientMenuController extends Controller
 
         if ($key != 'portal' && $request->has('config')) {
             $config = Config::where('item_key', $configKey)->first();
-            if (!$config) {
+            if (! $config) {
                 $config = new Config;
                 $config->item_key = $enableKey;
                 $config->item_type = 'object';
@@ -172,7 +177,7 @@ class ClientMenuController extends Controller
 
         if ($request->has('is_enable')) {
             $config = Config::where('item_key', $enableKey)->first();
-            if (!$config) {
+            if (! $config) {
                 $config = new Config;
                 $config->item_key = $enableKey;
                 $config->item_type = 'boolean';

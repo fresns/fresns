@@ -1,10 +1,16 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Models\Language;
 use App\Models\Plugin;
 use App\Models\PluginUsage;
-use App\Models\Language;
 use Illuminate\Http\Request;
 
 class ExpandContentTypeController extends Controller
@@ -57,9 +63,9 @@ class ExpandContentTypeController extends Controller
                     ->where('lang_tag', $langTag)
                     ->first();
 
-                if (!$language) {
+                if (! $language) {
                     // create but no content
-                    if (!$content) {
+                    if (! $content) {
                         continue;
                     }
                     $language = new Language();
@@ -102,7 +108,6 @@ class ExpandContentTypeController extends Controller
             ];
         }
 
-
         if ($request->post_nearby != ($dataSources['postNearbys']['pluginUnikey'] ?? null)) {
             $dataSources['postNearbys'] = [
                 'pluginUnikey' => $request->post_nearby,
@@ -120,9 +125,9 @@ class ExpandContentTypeController extends Controller
                     ->where('lang_tag', $langTag)
                     ->first();
 
-                if (!$language) {
+                if (! $language) {
                     // create but no content
-                    if (!$content) {
+                    if (! $content) {
                         continue;
                     }
                     $language = new Language();
@@ -141,7 +146,6 @@ class ExpandContentTypeController extends Controller
 
         return $this->createSuccess();
     }
-
 
     public function destroy($id)
     {
@@ -176,7 +180,7 @@ class ExpandContentTypeController extends Controller
             foreach ($this->optionalLanguages as $language) {
                 $title = $titles[$language['langTag']] ?? '';
                 $description = $descriptions[$language['langTag']] ?? '';
-                if (!$title && !$description) {
+                if (! $title && ! $description) {
                     continue;
                 }
                 $intro[] = [
@@ -188,13 +192,14 @@ class ExpandContentTypeController extends Controller
 
             $data[] = [
                 'id' => $id,
-                'intro' => $intro
+                'intro' => $intro,
             ];
         }
 
         $dataSources[$key]['sortNumber'] = $data;
         $pluginUsage->data_sources = $dataSources;
         $pluginUsage->save();
+
         return $this->updateSuccess();
     }
 }

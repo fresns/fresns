@@ -1,10 +1,16 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Fresns\Panel\Http\Requests\UpdateStickerRequest;
 use App\Models\Sticker;
 use Illuminate\Http\Request;
-use App\Fresns\Panel\Http\Requests\UpdateStickerRequest;
 
 class StickerController extends Controller
 {
@@ -55,9 +61,9 @@ class StickerController extends Controller
             $group->stickers()->whereIn('id', $deleteIds)->delete();
         }
 
-        foreach($request->rank_num ?? [] as $id => $rank) {
+        foreach ($request->rank_num ?? [] as $id => $rank) {
             $stickerImage = $stickerImages->where('id', $id)->first();
-            if (!$stickerImage) {
+            if (! $stickerImage) {
                 continue;
             }
             $stickerImage->rank_num = $rank;

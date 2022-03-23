@@ -1,48 +1,52 @@
 <?php
 
-use App\Fresns\Panel\Http\Controllers\{
-    UserSearchController,
-    GeneralController,
-    SendController,
-    LoginController,
-    AdminController,
-    ConfigController,
-    SettingController,
-    PolicyController,
-    StorageController,
-    LanguageController,
-    DashboardController,
-    UpgradeController,
-    MapController,
-    SessionKeyController,
-    VerifyCodeController,
-    UserController,
-    LanguageMenuController,
-    WalletController,
-	PluginUsageController,
-	ClientMenuController,
-	ColumnController,
-	LanguagePackController,
-    BlockWordController,
-    RoleController,
-    GroupController,
-	RenameController,
-	InteractiveController,
-    StickerController,
-    StickerGroupController,
-    PublishController,
-	PluginController,
-	ExpandEditorController,
-	ExpandContentTypeController,
-	ExpandPostDetailController,
-	ExpandManageController,
-	ExpandGroupController,
-	ExpandUserFeatureController,
-	ExpandUserProfileController,
-	IframeController,
-};
-use Illuminate\Support\Facades\Route;
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
+use App\Fresns\Panel\Http\Controllers\AdminController;
+use App\Fresns\Panel\Http\Controllers\BlockWordController;
+use App\Fresns\Panel\Http\Controllers\ClientMenuController;
+use App\Fresns\Panel\Http\Controllers\ColumnController;
+use App\Fresns\Panel\Http\Controllers\ConfigController;
+use App\Fresns\Panel\Http\Controllers\DashboardController;
+use App\Fresns\Panel\Http\Controllers\ExpandContentTypeController;
+use App\Fresns\Panel\Http\Controllers\ExpandEditorController;
+use App\Fresns\Panel\Http\Controllers\ExpandGroupController;
+use App\Fresns\Panel\Http\Controllers\ExpandManageController;
+use App\Fresns\Panel\Http\Controllers\ExpandPostDetailController;
+use App\Fresns\Panel\Http\Controllers\ExpandUserFeatureController;
+use App\Fresns\Panel\Http\Controllers\ExpandUserProfileController;
+use App\Fresns\Panel\Http\Controllers\GeneralController;
+use App\Fresns\Panel\Http\Controllers\GroupController;
+use App\Fresns\Panel\Http\Controllers\IframeController;
+use App\Fresns\Panel\Http\Controllers\InteractiveController;
+use App\Fresns\Panel\Http\Controllers\LanguageController;
+use App\Fresns\Panel\Http\Controllers\LanguageMenuController;
+use App\Fresns\Panel\Http\Controllers\LanguagePackController;
+use App\Fresns\Panel\Http\Controllers\LoginController;
+use App\Fresns\Panel\Http\Controllers\MapController;
+use App\Fresns\Panel\Http\Controllers\PluginController;
+use App\Fresns\Panel\Http\Controllers\PluginUsageController;
+use App\Fresns\Panel\Http\Controllers\PolicyController;
+use App\Fresns\Panel\Http\Controllers\PublishController;
+use App\Fresns\Panel\Http\Controllers\RenameController;
+use App\Fresns\Panel\Http\Controllers\RoleController;
+use App\Fresns\Panel\Http\Controllers\SendController;
+use App\Fresns\Panel\Http\Controllers\SessionKeyController;
+use App\Fresns\Panel\Http\Controllers\SettingController;
+use App\Fresns\Panel\Http\Controllers\StickerController;
+use App\Fresns\Panel\Http\Controllers\StickerGroupController;
+use App\Fresns\Panel\Http\Controllers\StorageController;
+use App\Fresns\Panel\Http\Controllers\UpgradeController;
+use App\Fresns\Panel\Http\Controllers\UserController;
+use App\Fresns\Panel\Http\Controllers\UserSearchController;
+use App\Fresns\Panel\Http\Controllers\VerifyCodeController;
+use App\Fresns\Panel\Http\Controllers\WalletController;
 use App\Models\Config;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,14 +62,14 @@ use App\Models\Config;
 try {
     $loginConfig = Config::where('item_key', 'panel_path')->first();
     $loginUrl = $loginConfig ? $loginConfig->item_value : 'admin';
-} catch(\Exception $e) {
+} catch (\Exception $e) {
     $loginUrl = 'admin';
 }
 
 Route::get($loginUrl, [LoginController::class, 'showLoginForm'])->name('login.form');
 Route::post($loginUrl, [LoginController::class, 'login'])->name('login');
 
-Route::middleware(['panelAuth'])->group(function() {
+Route::middleware(['panelAuth'])->group(function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
     // update config
@@ -73,9 +77,9 @@ Route::middleware(['panelAuth'])->group(function() {
     // plugin usage
     Route::put('plugin-usages/{pluginUsage}/rank', [PluginUsageController::class, 'updateRank'])->name('plugin-usages.rank.update');
     Route::resource('plugin-usages', PluginUsageController::class)->only([
-        'store', 'update', 'destroy'
+        'store', 'update', 'destroy',
     ])->parameters([
-        'plugin-usages' => 'pluginUsage'
+        'plugin-usages' => 'pluginUsage',
     ]);
     // update language
     Route::put('batch/languages/{itemKey}', [LanguageController::class, 'batchUpdate'])->name('languages.batch.update');
@@ -92,14 +96,14 @@ Route::middleware(['panelAuth'])->group(function() {
 
     // dashboard-admins
     Route::resource('admins', AdminController::class)->only([
-        'index', 'store', 'destroy'
+        'index', 'store', 'destroy',
     ]);
     // dashboard-settings
     Route::get('settings', [SettingController::class, 'show'])->name('settings');
     Route::put('settings/update', [SettingController::class, 'update'])->name('settings.update');
 
     // systems
-    Route::prefix('systems')->group(function() {
+    Route::prefix('systems')->group(function () {
         // languages
         Route::get('languages', [LanguageMenuController::class, 'index'])->name('languages.index');
         Route::post('languageMenus', [LanguageMenuController::class, 'store'])->name('languageMenus.store');
@@ -135,26 +139,26 @@ Route::middleware(['panelAuth'])->group(function() {
         // storage-image
         Route::get('storage/image', [StorageController::class, 'imageShow'])->name('storage.image.index');
         Route::put('storage/image', [StorageController::class, 'imageUpdate'])->name('storage.image.update');
-		// storage-video
-		Route::get('storage/video', [StorageController::class, 'videoShow'])->name('storage.video.index');
+        // storage-video
+        Route::get('storage/video', [StorageController::class, 'videoShow'])->name('storage.video.index');
         Route::put('storage/video', [StorageController::class, 'videoUpdate'])->name('storage.video.update');
-		// storage-audio
-		Route::get('storage/audio', [StorageController::class, 'audioShow'])->name('storage.audio.index');
-		Route::put('storage/audio', [StorageController::class, 'audioUpdate'])->name('storage.audio.update');
-		// storage-document
-		Route::get('storage/document', [StorageController::class, 'docShow'])->name('storage.document.index');
-		Route::put('storage/document', [StorageController::class, 'docUpdate'])->name('storage.document.update');
-		// storage-substitution
-		Route::get('storage/substitution', [StorageController::class, 'substitutionShow'])->name('storage.substitution.index');
-		Route::put('storage/substitution', [StorageController::class, 'substitutionUpdate'])->name('storage.substitution.update');
+        // storage-audio
+        Route::get('storage/audio', [StorageController::class, 'audioShow'])->name('storage.audio.index');
+        Route::put('storage/audio', [StorageController::class, 'audioUpdate'])->name('storage.audio.update');
+        // storage-document
+        Route::get('storage/document', [StorageController::class, 'docShow'])->name('storage.document.index');
+        Route::put('storage/document', [StorageController::class, 'docUpdate'])->name('storage.document.update');
+        // storage-substitution
+        Route::get('storage/substitution', [StorageController::class, 'substitutionShow'])->name('storage.substitution.index');
+        Route::put('storage/substitution', [StorageController::class, 'substitutionUpdate'])->name('storage.substitution.update');
         // maps
         Route::resource('maps', MapController::class)->only([
-            'index', 'store', 'update'
+            'index', 'store', 'update',
         ]);
     });
 
     // operatings
-    Route::prefix('operations')->group(function() {
+    Route::prefix('operations')->group(function () {
         // rename
         Route::get('rename', [RenameController::class, 'show'])->name('rename.index');
         // interactive
@@ -162,14 +166,14 @@ Route::middleware(['panelAuth'])->group(function() {
         Route::put('interactive', [InteractiveController::class, 'update'])->name('interactive.update');
         // stickers
         Route::resource('stickers', StickerGroupController::class)->only([
-            'index', 'store', 'update', 'destroy'
+            'index', 'store', 'update', 'destroy',
         ]);
-		Route::put('stickers/{sticker}/rank', [StickerController::class, 'updateRank'])->name('stickers.rank');
-		Route::put('sticker-images/batch', [StickerController::class, 'batchUpdate'])->name('sticker-images.batch.update');
+        Route::put('stickers/{sticker}/rank', [StickerController::class, 'updateRank'])->name('stickers.rank');
+        Route::put('sticker-images/batch', [StickerController::class, 'batchUpdate'])->name('sticker-images.batch.update');
         Route::resource('sticker-images', StickerController::class)->only([
-            'index', 'store', 'update', 'destroy'
+            'index', 'store', 'update', 'destroy',
         ])->parameters([
-            'sticker-images' => 'stickerImage'
+            'sticker-images' => 'stickerImage',
         ]);
         // publish-post
         Route::get('publish/post', [PublishController::class, 'postShow'])->name('publish.post.index');
@@ -179,22 +183,22 @@ Route::middleware(['panelAuth'])->group(function() {
         Route::put('publish/comment', [PublishController::class, 'commentUpdate'])->name('publish.comment.update');
         // block-words
         Route::resource('block-words', BlockWordController::class)->only([
-            'index', 'store', 'update', 'destroy'
+            'index', 'store', 'update', 'destroy',
         ])->parameters([
-            'block-words' => 'blockWord'
+            'block-words' => 'blockWord',
         ]);
         Route::post('block-words/export', [BlockWordController::class, 'export'])->name('block-words.export');
         Route::post('block-words/import', [BlockWordController::class, 'import'])->name('block-words.import');
         // roles
         Route::resource('roles', RoleController::class)->only([
-            'index', 'store', 'update', 'destroy'
+            'index', 'store', 'update', 'destroy',
         ]);
-		Route::put('roles/{role}/rank', [RoleController::class, 'updateRank'])->name('roles.rank');
+        Route::put('roles/{role}/rank', [RoleController::class, 'updateRank'])->name('roles.rank');
         Route::get('roles/{role}/permissions', [RoleController::class, 'showPermissions'])->name('roles.permissions.index');
         Route::put('roles/{role}/permissions', [RoleController::class, 'updatePermissions'])->name('roles.permissions.update');
         // groups
         Route::resource('groups', GroupController::class)->only([
-            'index', 'store', 'update', 'destroy'
+            'index', 'store', 'update', 'destroy',
         ]);
         Route::get('groups/recommend', [GroupController::class, 'recommendIndex'])->name('groups.recommend.index');
         Route::get('groups/inactive', [GroupController::class, 'disableIndex'])->name('groups.inactive.index');
@@ -205,81 +209,81 @@ Route::middleware(['panelAuth'])->group(function() {
         Route::get('groups/categories', [GroupController::class, 'groupIndex'])->name('groups.categories.index');
     });
 
-	// expands
-	Route::prefix('expands')->group(function() {
-		// editor
-		Route::resource('editor', ExpandEditorController::class)->only([
-			'index', 'store', 'update', 'destroy'
-		]);
-		Route::put('editor/{id}/rank', [ExpandEditorController::class, 'updateRank'])->name('editor.rank');
-		// content-type
-		Route::resource('content-type', ExpandContentTypeController::class)->only([
-			'index', 'store', 'update', 'destroy'
-		]);
-		Route::put('content-type/{id}/dataSources/{key}', [ExpandContentTypeController::class, 'updateSource'])->name('content-type.source');
-		Route::put('content-type/{id}/rank', [ExpandContentTypeController::class, 'updateRank'])->name('content-type.rank');
-		// post-detail
-		Route::resource('post-detail', ExpandPostDetailController::class)->only([
-			'index', 'update'
-		]);
-		// manage
-		Route::resource('manage', ExpandManageController::class)->only([
-			'index', 'store', 'update', 'destroy'
-		]);
-		Route::put('manage/{id}/rank', [ExpandManageController::class, 'updateRank'])->name('manage.rank');
-		// group
-		Route::resource('group', ExpandGroupController::class)->only([
-			'index', 'store', 'update', 'destroy'
-		]);
-		Route::put('group/{id}/rank', [ExpandGroupController::class, 'updateRank'])->name('group.rank');
-		// user-feature
-		Route::resource('user-feature', ExpandUserFeatureController::class)->only([
-			'index', 'store', 'update', 'destroy'
-		]);
-		Route::put('user-feature/{id}/rank', [ExpandUserFeatureController::class, 'updateRank'])->name('user-feature.rank');
-		// user-profile
-		Route::resource('user-profile', ExpandUserProfileController::class)->only([
-			'index', 'store', 'update', 'destroy'
-		]);
-		Route::put('user-profile/{id}/rank', [ExpandUserProfileController::class, 'updateRank'])->name('user-profile.rank');
-	});
+    // expands
+    Route::prefix('expands')->group(function () {
+        // editor
+        Route::resource('editor', ExpandEditorController::class)->only([
+            'index', 'store', 'update', 'destroy',
+        ]);
+        Route::put('editor/{id}/rank', [ExpandEditorController::class, 'updateRank'])->name('editor.rank');
+        // content-type
+        Route::resource('content-type', ExpandContentTypeController::class)->only([
+            'index', 'store', 'update', 'destroy',
+        ]);
+        Route::put('content-type/{id}/dataSources/{key}', [ExpandContentTypeController::class, 'updateSource'])->name('content-type.source');
+        Route::put('content-type/{id}/rank', [ExpandContentTypeController::class, 'updateRank'])->name('content-type.rank');
+        // post-detail
+        Route::resource('post-detail', ExpandPostDetailController::class)->only([
+            'index', 'update',
+        ]);
+        // manage
+        Route::resource('manage', ExpandManageController::class)->only([
+            'index', 'store', 'update', 'destroy',
+        ]);
+        Route::put('manage/{id}/rank', [ExpandManageController::class, 'updateRank'])->name('manage.rank');
+        // group
+        Route::resource('group', ExpandGroupController::class)->only([
+            'index', 'store', 'update', 'destroy',
+        ]);
+        Route::put('group/{id}/rank', [ExpandGroupController::class, 'updateRank'])->name('group.rank');
+        // user-feature
+        Route::resource('user-feature', ExpandUserFeatureController::class)->only([
+            'index', 'store', 'update', 'destroy',
+        ]);
+        Route::put('user-feature/{id}/rank', [ExpandUserFeatureController::class, 'updateRank'])->name('user-feature.rank');
+        // user-profile
+        Route::resource('user-profile', ExpandUserProfileController::class)->only([
+            'index', 'store', 'update', 'destroy',
+        ]);
+        Route::put('user-profile/{id}/rank', [ExpandUserProfileController::class, 'updateRank'])->name('user-profile.rank');
+    });
 
     // clients
-	Route::prefix('clients')->group(function() {
-		// menus
-		Route::get('menus', [ClientMenuController::class, 'index'])->name('menus.index');
-		Route::put('menus/{key}/update', [ClientMenuController::class, 'update'])->name('menus.update');
-		// columns
-		Route::get('columns', [ColumnController::class, 'index'])->name('columns.index');
-		// language pack
-		Route::get('language-packs', [LanguagePackController::class, 'index'])->name('language.packs.index');
-		Route::get('language-packs/{langTag}/edit', [LanguagePackController::class, 'edit'])->name('language.packs.edit');
-		Route::put('language-packs/{langTag}', [LanguagePackController::class, 'update'])->name('language.packs.update');
+    Route::prefix('clients')->group(function () {
+        // menus
+        Route::get('menus', [ClientMenuController::class, 'index'])->name('menus.index');
+        Route::put('menus/{key}/update', [ClientMenuController::class, 'update'])->name('menus.update');
+        // columns
+        Route::get('columns', [ColumnController::class, 'index'])->name('columns.index');
+        // language pack
+        Route::get('language-packs', [LanguagePackController::class, 'index'])->name('language.packs.index');
+        Route::get('language-packs/{langTag}/edit', [LanguagePackController::class, 'edit'])->name('language.packs.edit');
+        Route::put('language-packs/{langTag}', [LanguagePackController::class, 'update'])->name('language.packs.update');
         // session key
         Route::resource('keys', SessionKeyController::class)->only([
-            'index', 'store', 'update', 'destroy'
+            'index', 'store', 'update', 'destroy',
         ]);
         Route::put('keys/{key}/reset', [SessionKeyController::class, 'reset'])->name('keys.reset');
-		// engines
-		Route::get('engines', [PluginController::class, 'engineIndex'])->name('engines.index');
-		Route::put('engines/{engine}/theme', [PluginController::class, 'updateEngineTheme'])->name('engines.theme.update');
-		// themes
-		Route::get('themes', [PluginController::class, 'themeIndex'])->name('themes.index');
-		// apps
-		Route::get('apps', [PluginController::class, 'appIndex'])->name('apps.index');
-	});
+        // engines
+        Route::get('engines', [PluginController::class, 'engineIndex'])->name('engines.index');
+        Route::put('engines/{engine}/theme', [PluginController::class, 'updateEngineTheme'])->name('engines.theme.update');
+        // themes
+        Route::get('themes', [PluginController::class, 'themeIndex'])->name('themes.index');
+        // apps
+        Route::get('apps', [PluginController::class, 'appIndex'])->name('apps.index');
+    });
 
-	// plugins
-	Route::prefix('plugins')->group(function() {
-		// plugin list
-		Route::resource('list', PluginController::class)->only([
-			'index'
-		]);
-	});
+    // plugins
+    Route::prefix('plugins')->group(function () {
+        // plugin list
+        Route::resource('list', PluginController::class)->only([
+            'index',
+        ]);
+    });
 
-	// plugin manage
-	Route::resource('plugin', PluginController::class)->only([
-        'update', 'destroy'
+    // plugin manage
+    Route::resource('plugin', PluginController::class)->only([
+        'update', 'destroy',
     ]);
 
     // iframe
@@ -291,15 +295,16 @@ Route::middleware(['panelAuth'])->group(function() {
 // FsLang
 Route::get('js/{locale}/translations', function ($locale) {
     $langPath = app_path('Fresns/Panel/Resources/lang/'.$locale);
-    $strings = Cache::rememberForever('translations.'.$locale, function () use($langPath) {
+    $strings = Cache::rememberForever('translations.'.$locale, function () use ($langPath) {
         return collect(File::allFiles($langPath))->flatMap(function ($file) {
             $name = basename($file, '.php');
             $strings[$name] = require $file;
+
             return $strings;
         })->toJson();
     });
 
-    return response('window.translations= ' . $strings . ';', 200) ->header('Content-Type', 'text/javascript');
+    return response('window.translations= '.$strings.';', 200)->header('Content-Type', 'text/javascript');
 })->name('translations');
 
 // empty page

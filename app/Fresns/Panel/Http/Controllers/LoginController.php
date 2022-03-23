@@ -1,9 +1,15 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -47,7 +53,7 @@ class LoginController extends Controller
     {
         // check account type
         $account = $this->guard()->getProvider()->retrieveByCredentials($this->credentials($request));
-        if (!$account || $account->type != 1) {
+        if (! $account || $account->type != 1) {
             return false;
         }
 

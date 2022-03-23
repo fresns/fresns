@@ -1,12 +1,18 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Fresns\Panel\Exports\BlockWordsExport;
+use App\Fresns\Panel\Http\Requests\UpdateBlockWordRequest;
+use App\Fresns\Panel\Imports\BlockWordsImport;
 use App\Models\BlockWord;
 use Illuminate\Http\Request;
-use App\Fresns\Panel\Exports\BlockWordsExport;
-use App\Fresns\Panel\Imports\BlockWordsImport;
-use App\Fresns\Panel\Http\Requests\UpdateBlockWordRequest;
 
 class BlockWordController extends Controller
 {
@@ -55,12 +61,14 @@ class BlockWordController extends Controller
     public function update(BlockWord $blockWord, UpdateBlockWordRequest $request)
     {
         $blockWord->update($request->all());
+
         return $this->updateSuccess();
     }
 
     public function destroy(BlockWord $blockWord)
     {
         $blockWord->delete();
+
         return $this->deleteSuccess();
     }
 

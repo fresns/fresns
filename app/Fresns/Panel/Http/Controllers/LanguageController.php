@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Models\Config;
@@ -15,7 +21,7 @@ class LanguageController extends Controller
             ->where('lang_tag', $request->lang_tag)
             ->first();
 
-        if (!$language) {
+        if (! $language) {
             // create but no content
             $language = new Language();
             $language->fill([
@@ -36,14 +42,14 @@ class LanguageController extends Controller
     {
         $configContent = null;
 
-        foreach($request->languages as $langTag => $content) {
+        foreach ($request->languages as $langTag => $content) {
             $language = Language::ofConfig()
                 ->where('table_key', $itemKey)
                 ->where('lang_tag', $langTag)
                 ->first();
-            if (!$language) {
+            if (! $language) {
                 // create but no content
-                if (!$content){
+                if (! $content) {
                     continue;
                 }
                 $language = new Language();

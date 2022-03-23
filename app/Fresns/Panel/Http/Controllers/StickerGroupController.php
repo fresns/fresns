@@ -1,10 +1,16 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
-use App\Models\Sticker;
-use App\Models\Language;
 use App\Fresns\Panel\Http\Requests\UpdateStickerGroupRequest;
+use App\Models\Language;
+use App\Models\Sticker;
 
 class StickerGroupController extends Controller
 {
@@ -13,7 +19,7 @@ class StickerGroupController extends Controller
         $groups = Sticker::group()
             ->orderBy('rank_num')
             ->with('names')
-            ->with(['stickers' => function($query) {
+            ->with(['stickers' => function ($query) {
                 $query->orderBy('rank_num');
             }])
             ->get();
@@ -37,9 +43,9 @@ class StickerGroupController extends Controller
                 ->where('lang_tag', $langTag)
                 ->first();
 
-            if (!$language) {
+            if (! $language) {
                 // create but no content
-                if (!$content) {
+                if (! $content) {
                     continue;
                 }
                 $language = new Language();
@@ -54,9 +60,9 @@ class StickerGroupController extends Controller
             $language->lang_content = $content;
             $language->save();
         }
+
         return $this->createSuccess();
     }
-
 
     public function update(Sticker $sticker, UpdateStickerGroupRequest $request)
     {
@@ -73,9 +79,9 @@ class StickerGroupController extends Controller
                 ->where('lang_tag', $langTag)
                 ->first();
 
-            if (!$language) {
+            if (! $language) {
                 // create but no content
-                if (!$content) {
+                if (! $content) {
                     continue;
                 }
                 $language = new Language();
@@ -90,6 +96,7 @@ class StickerGroupController extends Controller
             $language->lang_content = $content;
             $language->save();
         }
+
         return $this->updateSuccess();
     }
 
@@ -99,5 +106,4 @@ class StickerGroupController extends Controller
 
         return $this->deleteSuccess();
     }
-
 }

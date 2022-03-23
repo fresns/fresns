@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Models\Config;
@@ -21,8 +27,8 @@ class LanguagePackController extends Controller
         $languages = $config ? $config->item_value : [];
 
         $languages = collect($languages)
-            ->mapWithKeys(function($language) {
-                return [ $language['name'] => $language['content']];
+            ->mapWithKeys(function ($language) {
+                return [$language['name'] => $language['content']];
             });
 
         if ($langTag != $this->defaultLanguage) {
@@ -30,7 +36,7 @@ class LanguagePackController extends Controller
             $defaultLanguages = $defaultConfig ? $defaultConfig->item_value : [];
 
             $defaultLanguages = collect($defaultLanguages)
-                ->mapWithKeys(function($language) {
+                ->mapWithKeys(function ($language) {
                     return [$language['name'] => $language['content']];
                 });
         } else {
@@ -42,7 +48,7 @@ class LanguagePackController extends Controller
         ));
     }
 
-    public function update($langTag ,Request $request)
+    public function update($langTag, Request $request)
     {
         $languagePack = Config::tag('languages')->where('item_key', 'language_pack')->first();
         $defaultKeys = $languagePack->item_value;
@@ -51,15 +57,15 @@ class LanguagePackController extends Controller
         $contents = $request->contents;
 
         // delete keys
-        $defaultKeys = collect($defaultKeys)->reject(function($defaultKey) use ($keys) {
-            return $defaultKey['canDelete'] && !in_array($defaultKey['name'], $keys);
+        $defaultKeys = collect($defaultKeys)->reject(function ($defaultKey) use ($keys) {
+            return $defaultKey['canDelete'] && ! in_array($defaultKey['name'], $keys);
         });
         $defaultKeyNames = $defaultKeys->pluck('name');
 
         $languages = [];
 
         $config = Config::tag('languages')->where('item_key', $langTag)->first();
-        if (!$config) {
+        if (! $config) {
             $config = new Config;
             $config->item_key = $langTag;
             $config->item_type = 'array';
@@ -67,14 +73,14 @@ class LanguagePackController extends Controller
             $config->is_enable = 1;
         }
 
-        foreach($request->keys as $key => $langKey) {
-            if (!$defaultKeyNames->contains($langKey)) {
+        foreach ($request->keys as $key => $langKey) {
+            if (! $defaultKeyNames->contains($langKey)) {
                 $defaultKeys->push([
                     'name' => $langKey,
                     'canDelete' => true,
                 ]);
             }
-            if (!isset($contents[$key]) || !$contents[$key]) {
+            if (! isset($contents[$key]) || ! $contents[$key]) {
                 continue;
             }
 

@@ -1,10 +1,16 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Fresns\Panel\Http\Requests\UpdatePolicyRequest;
 use App\Models\Config;
 use App\Models\Language;
-use App\Fresns\Panel\Http\Requests\UpdatePolicyRequest;
 
 class PolicyController extends Controller
 {
@@ -17,7 +23,7 @@ class PolicyController extends Controller
             'account_cookie_close',
             'account_delete_close',
             'delete_account',
-            'delete_account_todo'
+            'delete_account_todo',
         ];
 
         // language keys
@@ -31,12 +37,12 @@ class PolicyController extends Controller
 
         $languages = Language::ofConfig()->whereIn('table_key', $langKeys)->get();
 
-        foreach($configs as $config) {
+        foreach ($configs as $config) {
             $params[$config->item_key] = $config->item_value;
         }
 
         $langParams = [];
-        foreach($langKeys as $langKey) {
+        foreach ($langKeys as $langKey) {
             $langParams[$langKey] = $languages->where('table_key', $langKey)->pluck('lang_content', 'lang_tag')->toArray();
         }
 
@@ -56,10 +62,9 @@ class PolicyController extends Controller
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
 
-        foreach($configKeys as $configKey) {
+        foreach ($configKeys as $configKey) {
             $config = $configs->where('item_key', $configKey)->first();
-            if (!$config) {
-                $continue;
+            if (! $config) {
             }
 
             $config->item_value = $request->$configKey;

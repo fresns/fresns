@@ -1,12 +1,18 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Plugin;
 use App\Models\Language;
+use App\Models\Plugin;
 use App\Models\PluginUsage;
 use App\Models\Role;
+use Illuminate\Http\Request;
 
 class ExpandManageController extends Controller
 {
@@ -51,9 +57,9 @@ class ExpandManageController extends Controller
                     ->where('lang_tag', $langTag)
                     ->first();
 
-                if (!$language) {
+                if (! $language) {
                     // create but no content
-                    if (!$content) {
+                    if (! $content) {
                         continue;
                     }
                     $language = new Language();
@@ -69,7 +75,6 @@ class ExpandManageController extends Controller
                 $language->save();
             }
         }
-
 
         return $this->createSuccess();
     }
@@ -96,9 +101,9 @@ class ExpandManageController extends Controller
                     ->where('lang_tag', $langTag)
                     ->first();
 
-                if (!$language) {
+                if (! $language) {
                     // create but no content
-                    if (!$content) {
+                    if (! $content) {
                         continue;
                     }
                     $language = new Language();

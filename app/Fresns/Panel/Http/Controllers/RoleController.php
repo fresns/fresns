@@ -1,12 +1,18 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Fresns\Panel\Http\Requests\UpdateRoleRequest;
 use App\Models\Language;
 use App\Models\Role;
-use Illuminate\Http\Request;
 use App\Models\UserRole;
-use App\Fresns\Panel\Http\Requests\UpdateRoleRequest;
+use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
@@ -42,9 +48,9 @@ class RoleController extends Controller
                 ->where('lang_tag', $langTag)
                 ->first();
 
-            if (!$language) {
+            if (! $language) {
                 // create but no content
-                if (!$content) {
+                if (! $content) {
                     continue;
                 }
                 $language = new Language();
@@ -78,9 +84,9 @@ class RoleController extends Controller
                 ->where('lang_tag', $langTag)
                 ->first();
 
-            if (!$language) {
+            if (! $language) {
                 // create but no content
-                if (!$content) {
+                if (! $content) {
                     continue;
                 }
                 $language = new Language();
@@ -95,6 +101,7 @@ class RoleController extends Controller
             $language->lang_content = $content;
             $language->save();
         }
+
         return $this->updateSuccess();
     }
 
@@ -105,9 +112,9 @@ class RoleController extends Controller
         }
 
         $role->delete();
+
         return $this->deleteSuccess();
     }
-
 
     public function updateRank($id, Request $request)
     {
@@ -120,13 +127,13 @@ class RoleController extends Controller
 
     public function showPermissions(Role $role)
     {
-        $permission = collect($role->permission)->mapWithKeys(function($perm) {
+        $permission = collect($role->permission)->mapWithKeys(function ($perm) {
             return [$perm['permKey'] => $perm];
         })->toArray();
 
-        $customPermission = collect($role->permission)->filter(function($perm) {
+        $customPermission = collect($role->permission)->filter(function ($perm) {
             return $perm['isCustom'] ?? false;
-        })->mapWithKeys(function($perm) {
+        })->mapWithKeys(function ($perm) {
             return [$perm['permKey'] => $perm];
         })->toArray();
 
@@ -135,18 +142,19 @@ class RoleController extends Controller
 
     public function updatePermissions(Role $role, Request $request)
     {
-        $permission = collect($request->permission)->map(function($value, $key) {
+        $permission = collect($request->permission)->map(function ($value, $key) {
             $boolPerms = [
                 'content_view', 'dialog', 'post_publish', 'post_review',
                 'post_email_verify', 'post_phone_verify', 'post_prove_verify', 'post_limit_status',
                 'comment_publish', 'comment_review', 'comment_email_verify', 'comment_phone_verify',
                 'comment_prove_verify', 'post_editor_image', 'post_editor_video', 'post_editor_audio',
                 'post_editor_document', 'comment_editor_image', 'comment_editor_video', 'comment_editor_audio',
-                'comment_editor_document'
+                'comment_editor_document',
             ];
             if (in_array($key, $boolPerms)) {
                 $value = (bool) $value;
             }
+
             return [
                 'permKey' => $key,
                 'permValue' => $value,
@@ -154,7 +162,7 @@ class RoleController extends Controller
                 'isCustom' => false,
             ];
         });
-        $customPermission = collect($request->custom_permissions['permKey'] ?? [])->filter()->map(function($value, $key) use ($request) {
+        $customPermission = collect($request->custom_permissions['permKey'] ?? [])->filter()->map(function ($value, $key) use ($request) {
             return [
                 'permKey' => $value,
                 'permValue' => $request->custom_permissions['permValue'][$key] ?? '',

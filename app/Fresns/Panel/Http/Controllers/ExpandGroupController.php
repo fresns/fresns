@@ -1,13 +1,19 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Plugin;
+use App\Models\Group;
 use App\Models\Language;
+use App\Models\Plugin;
 use App\Models\PluginUsage;
 use App\Models\Role;
-use App\Models\Group;
+use Illuminate\Http\Request;
 
 class ExpandGroupController extends Controller
 {
@@ -48,7 +54,7 @@ class ExpandGroupController extends Controller
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rank_num = $request->rank_num;
-        $pluginUsage->roles = $request->roles?implode(',', $request->roles):$pluginUsage->roles;
+        $pluginUsage->roles = $request->roles ? implode(',', $request->roles) : $pluginUsage->roles;
         $pluginUsage->group_id = $request->group_id;
         $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->save();
@@ -60,9 +66,9 @@ class ExpandGroupController extends Controller
                     ->where('lang_tag', $langTag)
                     ->first();
 
-                if (!$language) {
+                if (! $language) {
                     // create but no content
-                    if (!$content) {
+                    if (! $content) {
                         continue;
                     }
                     $language = new Language();
@@ -78,13 +84,14 @@ class ExpandGroupController extends Controller
                 $language->save();
             }
         }
+
         return $this->createSuccess();
     }
 
     public function update($id, Request $request)
     {
         $pluginUsage = PluginUsage::find($id);
-        if (!$pluginUsage) {
+        if (! $pluginUsage) {
             return $this->updateSuccess();
         }
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
@@ -92,7 +99,7 @@ class ExpandGroupController extends Controller
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rank_num = $request->rank_num;
-        $pluginUsage->roles = $request->roles?implode(',', $request->roles):$pluginUsage->roles;
+        $pluginUsage->roles = $request->roles ? implode(',', $request->roles) : $pluginUsage->roles;
         $pluginUsage->group_id = $request->group_id;
         $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->save();
@@ -104,9 +111,9 @@ class ExpandGroupController extends Controller
                     ->where('lang_tag', $langTag)
                     ->first();
 
-                if (!$language) {
+                if (! $language) {
                     // create but no content
-                    if (!$content) {
+                    if (! $content) {
                         continue;
                     }
                     $language = new Language();
@@ -122,6 +129,7 @@ class ExpandGroupController extends Controller
                 $language->save();
             }
         }
+
         return $this->updateSuccess();
     }
 

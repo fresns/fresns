@@ -1,12 +1,18 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Plugin;
 use App\Models\Language;
+use App\Models\Plugin;
 use App\Models\PluginUsage;
 use App\Models\Role;
+use Illuminate\Http\Request;
 
 class ExpandEditorController extends Controller
 {
@@ -38,8 +44,8 @@ class ExpandEditorController extends Controller
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rank_num = $request->rank_num;
         $pluginUsage->editor_number = $request->editor_number;
-        $pluginUsage->roles = $request->roles?implode(',', $request->roles):'';
-        $pluginUsage->scene = $request->scene?implode(',', $request->scene):'';
+        $pluginUsage->roles = $request->roles ? implode(',', $request->roles) : '';
+        $pluginUsage->scene = $request->scene ? implode(',', $request->scene) : '';
         $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->can_delete = 1;
         $pluginUsage->save();
@@ -51,9 +57,9 @@ class ExpandEditorController extends Controller
                     ->where('lang_tag', $langTag)
                     ->first();
 
-                if (!$language) {
+                if (! $language) {
                     // create but no content
-                    if (!$content) {
+                    if (! $content) {
                         continue;
                     }
                     $language = new Language();
@@ -82,8 +88,8 @@ class ExpandEditorController extends Controller
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rank_num = $request->rank_num;
         $pluginUsage->editor_number = $request->editor_number;
-        $pluginUsage->roles = $request->roles?implode(',', $request->roles):'';
-        $pluginUsage->scene = $request->scene?implode(',', $request->scene):'';
+        $pluginUsage->roles = $request->roles ? implode(',', $request->roles) : '';
+        $pluginUsage->scene = $request->scene ? implode(',', $request->scene) : '';
         $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->save();
 
@@ -94,9 +100,9 @@ class ExpandEditorController extends Controller
                     ->where('lang_tag', $langTag)
                     ->first();
 
-                if (!$language) {
+                if (! $language) {
                     // create but no content
-                    if (!$content) {
+                    if (! $content) {
                         continue;
                     }
                     $language = new Language();

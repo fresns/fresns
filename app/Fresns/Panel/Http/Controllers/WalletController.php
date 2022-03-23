@@ -1,10 +1,16 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Models\Config;
-use App\Models\Plugin;
 use App\Models\Language;
+use App\Models\Plugin;
 use App\Models\PluginUsage;
 use Illuminate\Http\Request;
 
@@ -29,7 +35,7 @@ class WalletController extends Controller
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
 
-        foreach($configs as $config) {
+        foreach ($configs as $config) {
             $params[$config->item_key] = $config->item_value;
         }
 
@@ -53,13 +59,12 @@ class WalletController extends Controller
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
 
-        foreach($configKeys as $configKey) {
+        foreach ($configKeys as $configKey) {
             $config = $configs->where('item_key', $configKey)->first();
-            if (!$config) {
-                $continue;
+            if (! $config) {
             }
 
-            if (!$request->has($configKey)) {
+            if (! $request->has($configKey)) {
                 $config->setDefaultValue();
             } else {
                 $config->item_value = $request->$configKey;
@@ -70,7 +75,6 @@ class WalletController extends Controller
 
         return $this->updateSuccess();
     }
-
 
     public function rechargeIndex()
     {
@@ -101,16 +105,15 @@ class WalletController extends Controller
         $pluginUsage->save();
 
         if ($request->update_name) {
-            foreach($request->names as $langTag => $content) {
-
+            foreach ($request->names as $langTag => $content) {
                 $language = Language::tableName('plugin_usages')
                     ->where('table_id', $pluginUsage->id)
                     ->where('lang_tag', $langTag)
                     ->first();
 
-                if (!$language) {
+                if (! $language) {
                     // create but no content
-                    if (!$content){
+                    if (! $content) {
                         continue;
                     }
                     $language = new Language();
@@ -141,16 +144,15 @@ class WalletController extends Controller
         $pluginUsage->save();
 
         if ($request->update_name) {
-            foreach($request->names as $langTag => $content) {
-
+            foreach ($request->names as $langTag => $content) {
                 $language = Language::tableName('plugin_usages')
                     ->where('table_id', $pluginUsage->id)
                     ->where('lang_tag', $langTag)
                     ->first();
 
-                if (!$language) {
+                if (! $language) {
                     // create but no content
-                    if (!$content){
+                    if (! $content) {
                         continue;
                     }
                     $language = new Language();
@@ -198,16 +200,15 @@ class WalletController extends Controller
         $pluginUsage->save();
 
         if ($request->update_name) {
-            foreach($request->names as $langTag => $content) {
-
+            foreach ($request->names as $langTag => $content) {
                 $language = Language::tableName('plugin_usages')
                     ->where('table_id', $pluginUsage->id)
                     ->where('lang_tag', $langTag)
                     ->first();
 
-                if (!$language) {
+                if (! $language) {
                     // create but no content
-                    if (!$content){
+                    if (! $content) {
                         continue;
                     }
                     $language = new Language();
@@ -238,16 +239,15 @@ class WalletController extends Controller
         $pluginUsage->save();
 
         if ($request->update_name) {
-            foreach($request->names as $langTag => $content) {
-
+            foreach ($request->names as $langTag => $content) {
                 $language = Language::tableName('plugin_usages')
                     ->where('table_id', $pluginUsage->id)
                     ->where('lang_tag', $langTag)
                     ->first();
 
-                if (!$language) {
+                if (! $language) {
                     // create but no content
-                    if (!$content){
+                    if (! $content) {
                         continue;
                     }
                     $language = new Language();

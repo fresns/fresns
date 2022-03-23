@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Models\Config;
@@ -41,7 +47,7 @@ class SendController extends Controller
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
 
-        foreach($configs as $config) {
+        foreach ($configs as $config) {
             $params[$config->item_key] = $config->item_value;
         }
 
@@ -58,13 +64,11 @@ class SendController extends Controller
         $plugins = Plugin::all();
 
         $pluginParams = [];
-        foreach($pluginScenes as $scene) {
-            $pluginParams[$scene] = $plugins->filter(function($plugin) use ($scene) {
+        foreach ($pluginScenes as $scene) {
+            $pluginParams[$scene] = $plugins->filter(function ($plugin) use ($scene) {
                 return in_array($scene, $plugin->scene);
             });
         }
-
-
 
         return view('FsView::systems.send', compact('params', 'pluginParams', 'templateConfigKeys', 'codeParams'));
     }
@@ -83,10 +87,9 @@ class SendController extends Controller
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
 
-        foreach($configKeys as $configKey) {
+        foreach ($configKeys as $configKey) {
             $config = $configs->where('item_key', $configKey)->first();
-            if (!$config) {
-                $continue;
+            if (! $config) {
             }
 
             $value = $request->$configKey;

@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Requests;
 
 class UpdateUserConfigRequest extends FormRequest
@@ -19,9 +25,9 @@ class UpdateUserConfigRequest extends FormRequest
             'multi_user_service' => 'nullable|string',
             'multi_user_roles' => 'array',
             'default_role' => 'int',
-             //'default_avatar' => 'required|int',
-             //'anonymous_avatar' => 'required|int',
-             //'deactivate_avatar' => 'required|int',
+            //'default_avatar' => 'required|int',
+            //'anonymous_avatar' => 'required|int',
+            //'deactivate_avatar' => 'required|int',
             'password_length' => 'int',
             'password_strength' => 'array',
             'username_min' => 'int',

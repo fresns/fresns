@@ -36,7 +36,7 @@
                         $langWriting = $lang['writingDirection'];
                         $isEnable = $lang['isEnable'];
                         if ($lang['areaCode']) {
-                            $langName .= '(' . optional($areaCodes->where('code', $lang['areaCode'])->first())['localName'] . ')';
+                            $langName .= '('.optional($areaCodes->where('code', $lang['areaCode'])->first())['localName'].')';
                         }
                     ?>
                     <tr>

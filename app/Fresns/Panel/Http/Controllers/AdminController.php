@@ -1,10 +1,16 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Fresns\Panel\Http\Requests\StoreAdminRequest;
 use App\Models\Account;
 use Illuminate\Http\Request;
-use App\Fresns\Panel\Http\Requests\StoreAdminRequest;
 
 class AdminController extends Controller
 {
@@ -25,7 +31,7 @@ class AdminController extends Controller
 
         $admin = Account::where($credentials)->where('is_enable', 1)->first();
 
-        if (!$admin) {
+        if (! $admin) {
             return back()->with('failure', __('FsLang::tips.account_not_found'));
         }
 

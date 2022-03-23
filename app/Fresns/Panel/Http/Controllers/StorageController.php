@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Models\Config;
@@ -77,7 +83,7 @@ class StorageController extends Controller
 
         foreach ($configKeys as $configKey) {
             $config = $configs->where('item_key', $configKey)->first();
-            if (!$config) {
+            if (! $config) {
                 continue;
             }
 
@@ -88,7 +94,6 @@ class StorageController extends Controller
 
         return $this->updateSuccess();
     }
-
 
     public function videoShow()
     {
@@ -159,8 +164,7 @@ class StorageController extends Controller
 
         foreach ($configKeys as $configKey) {
             $config = $configs->where('item_key', $configKey)->first();
-            if (!$config) {
-                $continue;
+            if (! $config) {
             }
 
             $value = $request->$configKey;
@@ -170,7 +174,6 @@ class StorageController extends Controller
 
         return $this->updateSuccess();
     }
-
 
     public function audioShow()
     {
@@ -235,7 +238,7 @@ class StorageController extends Controller
 
         foreach ($configKeys as $configKey) {
             $config = $configs->where('item_key', $configKey)->first();
-            if (!$config) {
+            if (! $config) {
                 $config = new Config();
                 $config->item_key = $configKey;
                 $config->item_type = 'number';
@@ -251,7 +254,6 @@ class StorageController extends Controller
 
         return $this->updateSuccess();
     }
-
 
     public function docShow()
     {
@@ -314,8 +316,7 @@ class StorageController extends Controller
 
         foreach ($configKeys as $configKey) {
             $config = $configs->where('item_key', $configKey)->first();
-            if (!$config) {
-                $continue;
+            if (! $config) {
             }
 
             $value = $request->$configKey;
@@ -325,7 +326,6 @@ class StorageController extends Controller
 
         return $this->updateSuccess();
     }
-
 
     public function substitutionShow()
     {
@@ -359,8 +359,7 @@ class StorageController extends Controller
 
         foreach ($configKeys as $configKey) {
             $config = $configs->where('item_key', $configKey)->first();
-            if (!$config) {
-                $continue;
+            if (! $config) {
             }
 
             $value = $request->$configKey;

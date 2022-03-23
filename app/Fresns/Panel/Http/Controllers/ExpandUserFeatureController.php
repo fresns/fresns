@@ -1,12 +1,18 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Plugin;
 use App\Models\Language;
+use App\Models\Plugin;
 use App\Models\PluginUsage;
 use App\Models\Role;
+use Illuminate\Http\Request;
 
 class ExpandUserFeatureController extends Controller
 {
@@ -37,7 +43,7 @@ class ExpandUserFeatureController extends Controller
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rank_num = $request->rank_num;
-        $pluginUsage->roles = $request->roles?implode(',', $request->roles):$pluginUsage->roles;
+        $pluginUsage->roles = $request->roles ? implode(',', $request->roles) : $pluginUsage->roles;
         $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->save();
 
@@ -48,9 +54,9 @@ class ExpandUserFeatureController extends Controller
                     ->where('lang_tag', $langTag)
                     ->first();
 
-                if (!$language) {
+                if (! $language) {
                     // create but no content
-                    if (!$content) {
+                    if (! $content) {
                         continue;
                     }
                     $language = new Language();
@@ -73,7 +79,7 @@ class ExpandUserFeatureController extends Controller
     public function update($id, Request $request)
     {
         $pluginUsage = PluginUsage::find($id);
-        if (!$pluginUsage) {
+        if (! $pluginUsage) {
             return $this->updateSuccess();
         }
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
@@ -81,7 +87,7 @@ class ExpandUserFeatureController extends Controller
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rank_num = $request->rank_num;
-        $pluginUsage->roles = $request->roles?implode(',', $request->roles):$pluginUsage->roles;
+        $pluginUsage->roles = $request->roles ? implode(',', $request->roles) : $pluginUsage->roles;
         $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->save();
 
@@ -92,9 +98,9 @@ class ExpandUserFeatureController extends Controller
                     ->where('lang_tag', $langTag)
                     ->first();
 
-                if (!$language) {
+                if (! $language) {
                     // create but no content
-                    if (!$content) {
+                    if (! $content) {
                         continue;
                     }
                     $language = new Language();
@@ -110,7 +116,6 @@ class ExpandUserFeatureController extends Controller
                 $language->save();
             }
         }
-
 
         return $this->updateSuccess();
     }

@@ -16,14 +16,14 @@ return [
 
     'fresns_panel' => 'Pannello di controllo fresns.',
     'fresns_core' => 'Fresns core.',
-// Login page
+    // Login page
     'language' => 'Lingua',
     'login' => 'Login',
     'account' => 'Account',
     'password' => 'Parola d\'ordine',
     'enter' => 'accedere',
     'logout' => 'Disconnettersi',
-// Header menus
+    // Header menus
     'menu_dashboard' => 'Pannello',
     'menu_systems' => 'Sistemi',
     'menu_operations' => 'Operazioni',
@@ -31,7 +31,7 @@ return [
     'menu_plugins' => 'Plugins.',
     'menu_clients' => 'Clienti',
     'menu_market' => 'Mercato',
-// Sidebar menus
+    // Sidebar menus
     'sidebar_home' => 'Casa',
     'sidebar_upgrades' => 'Aggiornamenti',
     'sidebar_admins' => 'Ammonire',
@@ -88,7 +88,7 @@ return [
     'sidebar_website_tab_engines' => 'Motori',
     'sidebar_website_tab_themes' => 'Temi',
     'sidebar_apps' => 'Apps.',
-// Sidebar intro
+    // Sidebar intro
     'sidebar_upgrades_intro' => 'Finalmente',
     'sidebar_admins_intro' => 'Utenti che hanno il diritto di accedere al pannello di controllo',
     'sidebar_settings_intro' => 'FRESNS backend informazioni di configurazione del sistema è molto importante',
@@ -124,7 +124,7 @@ return [
     'sidebar_website_engines_intro' => 'Seleziona diversi motori per ottenere funzionalità e servizi più personalizzati.',
     'sidebar_website_themes_intro' => 'Seleziona diversi argomenti per ottenere uno stile e un\'interazione più personalizzati.',
     'sidebar_apps_intro' => 'Diverse applicazioni, creare diversi scenari operativi e modalità di applicazione.',
-// Page button
+    // Page button
     'button_support' => 'Supporto',
     'button_upgrade' => 'Aggiornamento',
     'button_search' => 'Ricerca',
@@ -168,7 +168,7 @@ return [
     'button_add_key' => 'Aggiungi chiave',
     'button_reset_secret' => 'Reset Secret.',
     'button_linked_theme' => 'Tema collegato',
-// Page table
+    // Page table
     'table_order' => 'Ordine',
     'table_number' => 'Numero',
     'table_lang_tag' => 'Lang Tag.',
@@ -201,7 +201,7 @@ return [
     'table_parameter' => 'Parametro',
     'table_status' => 'Stato',
     'table_options' => 'Opzioni',
-// Config option
+    // Config option
     'select_box_tip_plugin' => 'Seleziona Plugin.',
     'select_box_tip_data_source' => 'Seleziona il plugin che fornisce i dati',
     'select_box_tip_role' => 'Seleziona un ruolo',
@@ -229,7 +229,7 @@ return [
     'uninstall_step_3' => 'Cancella file',
     'uninstall_step_4' => 'Cancella cache',
     'uninstall_step_5' => 'Fatto',
-// Commons
+    // Commons
     'portal' => 'Portale',
     'user' => 'Utente',
     'group' => 'Gruppo',
@@ -249,7 +249,7 @@ return [
     'unit_kilometer' => 'Chilometro',
     'unit_mile' => 'Miglio',
     'delete_desc' => 'Sicuro di eliminare?',
-// Dashboard-Home
+    // Dashboard-Home
     'welcome' => 'Benvenuti a Fresns.',
     'current_version' => 'La versione corrente utilizzata è',
     'overview' => 'Dati del sito.',
@@ -283,7 +283,7 @@ return [
     'system_info_database_collation' => 'Regole di ordinamento del database',
     'system_info_database_size' => 'Dimensioni del database corrente',
     'news' => 'Attività e notizie di Fresns',
-// Dashboard-Upgrade
+    // Dashboard-Upgrade
     'upgrade_null' => 'Nessun aggiornamento',
     'upgrade_fresns' => 'C\'è una nuova versione di Fresns disponibile per l\'aggiornamento.',
     'upgrade_fresns_desc' => 'Puoi aggiornare a',
@@ -295,13 +295,13 @@ return [
     'upgrade_step_4' => 'Aggiorna applicazione',
     'upgrade_step_5' => 'Svuotare la cache',
     'upgrade_step_6' => 'Fine',
-// Dashboard-Admins
+    // Dashboard-Admins
     'admin_add_title' => 'Nuovo amministratore di sistema.',
     'admin_add_form_account' => 'account',
     'admin_add_form_account_placeholder' => 'Email o numero di cellulare',
     'admin_add_form_account_desc' => 'Il numero di telefono del cellulare deve essere un numero intero con il prefisso internazionale.',
     'admin_add_form_account_btn' => 'Ricerca e aumento',
-// Dashboard-Settings
+    // Dashboard-Settings
     'setting_backend_domain' => 'URL di back-end',
     'setting_backend_domain_desc' => 'API del programma principale e indirizzo di accesso predefinito plugin, senza /',
     'setting_panel_path' => 'Ingresso sicuro.',
@@ -309,7 +309,7 @@ return [
     'setting_panel_url' => 'Ingresso Indirizzo completo',
     'setting_panel_url_desc' => 'Pannello di controllo Login Entry URL completo',
     'setting_panel_url_copy' => 'copia',
-// System-Languages
+    // System-Languages
     'language_multilingual' => 'multi lingua',
     'language_table_default' => 'lingua di default',
     'language_table_langCode' => 'Codice linguistico',
@@ -326,7 +326,7 @@ return [
     'language_select_langCode' => 'Seleziona il codice della lingua',
     'language_select_continent' => 'Continente',
     'language_select_areaCode' => 'Seleziona il codice regionale',
-// System-General
+    // System-General
     'site_url' => 'URL del sito',
     'site_url_desc' => 'Fine senza / simbolo',
     'site_name' => 'Nome del sito',
@@ -354,7 +354,7 @@ return [
     'site_mode_private_content_policy_2' => 'Contenuto Prima della scadenza, il nuovo contenuto è invisibile',
     'site_email' => 'Mailbox dell\'amministratore.',
     'site_email_desc' => 'Quando si esegue un errore, mostra all\'utente per facilitare il feedback dell\'utente.',
-// System-Policy
+    // System-Policy
     'policy_terms' => 'Termini di servizio',
     'policy_privacy' => 'politica sulla riservatezza',
     'policy_cookie' => 'Gestione dei Cookie',
@@ -368,7 +368,7 @@ return [
     'policy_delete_option_3_desc' => 'Logout fisico: dati di cancellazione fisica, dati utente e contenuti pubblicati saranno veramente cancellati.',
     'policy_delete_crontab' => 'Ciclo di disconnessione',
     'policy_editor_desc' => 'Il contenuto supporta la sintassi di markdown, ma la casella di ingresso non supporta l\'anteprima, si prega di salvare sull\'effetto di visualizzazione front-end.',
-// System-Send
+    // System-Send
     'send_email_config' => 'Configurazione della cassetta postale',
     'send_sms_config' => 'Configurazione SMS.',
     'send_sms_default_code' => 'Predefinito prefisso internazionale',
@@ -392,7 +392,7 @@ return [
     'send_code_template_table_sms_code' => 'parametri del modello',
     'send_code_template_table_sms_code_desc' => 'È possibile configurare l\'ID del modello. Per ulteriori informazioni, si prega di fare riferimento alla descrizione del plugin associato.',
     'send_code_template_table_sms_param' => 'Nome della variabile del codice di verifica',
-// System-User
+    // System-User
     'user_account_connect_services' => 'Supporto di interconnessione di terze parti',
     'user_account_connect_services_desc' => 'Selezionare la piattaforma di interconnessione e i plugin associati per effettuare la registrazione rapida o il login.',
     'user_account_prove_services' => 'Supporto di certificazione del nome reale',
@@ -428,7 +428,7 @@ return [
     'user_edit_username_length_desc' => 'Nome utente Lunghezza minima e lunghezza massima',
     'user_edit_username_periodicity' => 'Numero di intervallo di modifica del nome utente',
     'user_edit_nickname_periodicity' => 'Numero di intervallo di modificazione del nickname dell\'utente',
-// System-Wallet
+    // System-Wallet
     'wallet_functions' => 'Funzione del portafoglio',
     'wallet_functions_desc' => 'Se abilitare il pacchetto di denaro francese',
     'wallet_currency_code' => 'Codice valuta',
@@ -445,7 +445,7 @@ return [
     'wallet_withdraw_min' => 'Importo minimo di estradizione singola',
     'wallet_withdraw_max' => 'Importo massimo di ritiro unico',
     'wallet_withdraw_sum_limit' => 'Tappo giornaliero di ritiro',
-// System-Storage
+    // System-Storage
     'storage_service_config' => 'Configurazione di archiviazione',
     'storage_service_config_desc' => 'fornitori di servizi di storage possono installare più scelte in App Store',
     'storage_function_config' => 'Configurazione della funzione',
@@ -490,7 +490,7 @@ return [
     'storage_audio_transcode' => 'parametri di transcodifica audio',
     'storage_document_online_preview' => 'Anteprima regola dell\'indirizzo',
     'storage_document_preview_ext' => 'Supporta l\'estensione di anteprima.',
-// Operating-Rename
+    // Operating-Rename
     'rename_user_config' => 'Impostazione della denominazione dell\'utente',
     'rename_content_config' => 'Impostazione della denominazione dei contenuti',
     'rename_publish_config' => 'Impostazioni di denominazione del comportamento post',
@@ -549,7 +549,7 @@ return [
     'rename_block_post_name_desc' => 'Ad esempio, "non piace", "non interessato", "passo avanti" e altri nomi',
     'rename_block_comment_name' => 'Scudo Commentary.',
     'rename_block_comment_name_desc' => 'Ad esempio, "non piace", "non interessato", "passo avanti" e altri nomi',
-// Operating-Interactive
+    // Operating-Interactive
     'interactive_content_config' => 'Impostazioni della funzione di contenuto',
     'interactive_dialog_config' => 'Impostazioni della funzione di sessione',
     'interactive_function_config' => 'Impostazione del comportamento interattivo',
@@ -606,7 +606,7 @@ return [
     'interactive_it_block_hashtags' => 'Argomento di TA Scudo',
     'interactive_it_block_posts' => 'Ta post schermati',
     'interactive_it_block_comments' => 'Tasti schermimenti',
-// Operating-Sticker
+    // Operating-Sticker
     'sticker_group' => 'gruppo Expression',
     'sticker_table_group_name' => 'Nome del gruppo di emozioni',
     'sticker_table_group_image' => 'Icona del gruppo di emozioni',
@@ -615,7 +615,7 @@ return [
     'sticker_manage' => 'Gestione dell\'espressione',
     'sticker_table_image' => 'Grafico di espressione',
     'sticker_table_code' => 'Emoticon',
-// Operating-Editor
+    // Operating-Editor
     'editor_group' => 'gruppo',
     'editor_title' => 'titolo',
     'editor_sticker' => 'espressione',
@@ -628,7 +628,7 @@ return [
     'editor_expand' => 'estensioni',
     'editor_location' => 'posizione',
     'editor_anonymous' => 'anonimo',
-// Operating-Publish
+    // Operating-Publish
     'publish_editor_config' => 'Selezione editor',
     'publish_editor_function_status' => 'Funzione editor',
     'publish_editor_function_options' => 'Configurazione della funzione dell\'editor.',
@@ -667,7 +667,7 @@ return [
     'publish_editor_comment_word_count_desc' => 'Il numero di commenti non deve superare il numero di impostazioni, il limite minimo di 140 caratteri',
     'publish_editor_comment_brief_word_count' => 'Commento Summary.',
     'publish_editor_comment_brief_word_count_desc' => 'Commento prima del valore impostato adotterà un riepilogo, riepilogo del contenuto di lunghezza superiore',
-// Operating-Permission
+    // Operating-Permission
     'permission_option_email' => 'Ha una cassetta postale vincolante',
     'permission_option_phone' => 'Numero di cellulare vincolante',
     'permission_option_prove' => 'Autenticazione davvero nominata',
@@ -681,7 +681,7 @@ return [
     'permission_option_required_review' => 'Bisogno di rivedere.',
     'permission_option_title_optional_display' => 'Display debole',
     'permission_option_title_direct_display' => 'Forte display',
-// Operating-Block Words
+    // Operating-Block Words
     'block_word' => 'Prevenuto parole',
     'replace_word' => 'Parola alternativa',
     'block_word_content_mode' => 'Elaborazione dei contenuti',
@@ -700,7 +700,7 @@ return [
     'block_word_dialog_mode_1' => 'Non elaborare',
     'block_word_dialog_mode_2' => 'Sostituzione automatica',
     'block_word_dialog_mode_3' => 'Proibire il mandato',
-// Operating-Roles
+    // Operating-Roles
     'role_type_admin' => 'personale amministrativo',
     'role_type_system' => 'Impostazioni di sistema',
     'role_type_user' => 'Operatore utente',
@@ -736,7 +736,7 @@ return [
     'role_perm_download_file_count' => 'Scarica il limite superiore entro 24 ore',
     'role_perm_table_name' => 'Nome dell\'autorità',
     'role_perm_table_value' => 'Valore del permesso',
-// Operating-Groups
+    // Operating-Groups
     'group_category' => 'Classificazione del gruppo',
     'group_table_recommend_order' => 'Ordine consigliato',
     'group_table_mode' => 'Modalità di gruppo',
@@ -763,14 +763,14 @@ return [
     'group_current' => 'Gruppo attuale',
     'group_target' => 'Gruppo target.',
     'group_target_desc' => 'Dopo la fusione, il vecchio gruppo verrà cancellato e il contenuto del vecchio gruppo sarà migrato al nome del team di destinazione selezionato.',
-// Expands
+    // Expands
     'expand_editor_number_of_uses_desc' => 'Esempi di plugin "votanti", il numero è 2, che rappresenta un singolo post, 2 voti possono essere inclusi',
     'expand_content_type_option_post_list' => 'Elenco totale dei post',
     'expand_content_type_option_post_follow' => 'Concentrarsi sul post dell\'oggetto',
     'expand_content_type_option_post_nearby' => 'Post nelle vicinanze',
     'expand_content_type_sort_number' => 'Configurazione del numero di ordinamento.',
     'expand_content_type_sort_number_desc' => 'Come compilare, si prega di consultare la documentazione del "Data Source" plugin associato',
-// Client-Menus
+    // Client-Menus
     'menu_table_home' => 'prima pagina',
     'menu_table_menu' => 'menù',
     'menu_table_path' => 'sentiero',
@@ -784,7 +784,7 @@ return [
     'menu_hashtag_list' => 'Elenco degli argomenti',
     'menu_post_list' => 'Pagina della lista dei post',
     'menu_comment_list' => 'Elenco dei commenti',
-// Client-Columns
+    // Client-Columns
     'columns_user_rename' => 'Colonna utente denominata',
     'columns_group_rename' => 'Colonna di gruppo denominata',
     'columns_hashtag_rename' => 'Colonna Argomento denominata',
@@ -838,19 +838,19 @@ return [
     'menu_search' => 'ricerca',
     'menu_editor_functions' => 'editor',
     'menu_editor_drafts' => 'Bozza',
-// Client-Language Packs
+    // Client-Language Packs
     'language_pack_name' => 'Nome identificativo',
     'language_pack_default' => 'Configurazione della lingua predefinita',
     'language_pack_default_desc' => 'Configurazione della lingua predefinita per riferimento',
     'language_pack_current' => 'Configurazione della lingua corrente',
-// Client-Keys
+    // Client-Keys
     'key_select_platform' => 'Seleziona la piattaforma di applicazione chiave',
     'key_option_main_api' => 'API principale',
     'key_option_manage_api' => 'API DI GESTIONE',
     'key_option_plugin_api' => 'API del plugin',
     'key_option_plugin_api_select' => 'Seleziona quale plugin per l\'uso',
     'key_option_plugin_api_select_desc' => 'Questa chiave può richiedere solo l\'API del plugin associato',
-// Client-Website
+    // Client-Website
     'engine_table_name_desc' => 'Se si desidera distribuire un sito Web in modo indipendente, oppure non è necessario un\'app mobile sitifica. Semplicemente "disattivare" o "Disinstalla" il motore del sito Web in modo da Fresns sarà solo un sistema di back-rend che viene eseguito su API e plugin.',
     'engine_table_options_desc' => 'Supporto Per abilitare più motori, devi solo passare l\'un l\'altro, consultare lo sviluppatore del motore per i dettagli.',
     'engine_table_theme_null' => 'Non impostato',

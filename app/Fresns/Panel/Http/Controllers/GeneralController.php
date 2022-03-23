@@ -1,11 +1,17 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
-use App\Models\Config;
-use App\Models\Plugin;
-use App\Models\Language;
 use App\Fresns\Panel\Http\Requests\UpdateGeneralRequest;
+use App\Models\Config;
+use App\Models\Language;
+use App\Models\Plugin;
 
 class GeneralController extends Controller
 {
@@ -89,11 +95,10 @@ class GeneralController extends Controller
 
         foreach ($configKeys as $configKey) {
             $config = $configs->where('item_key', $configKey)->first();
-            if (!$config) {
-                $continue;
+            if (! $config) {
             }
 
-            if (!$request->has($configKey)) {
+            if (! $request->has($configKey)) {
                 $config->setDefaultValue();
                 $config->save();
                 continue;

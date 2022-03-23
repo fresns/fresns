@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Requests;
 
 class UpdateLanguageMenuRequest extends FormRequest
@@ -28,7 +34,7 @@ class UpdateLanguageMenuRequest extends FormRequest
 
         if ($this->method() == 'POST') {
             $rules['lang_code'] = 'required|string';
-        } else if ($this->method() == 'PUT') {
+        } elseif ($this->method() == 'PUT') {
             $rules['lang_code'] = 'string';
         }
 

@@ -1,11 +1,17 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Fresns\Panel\Http\Requests\UpdateSessionKeyRequest;
 use App\Models\Config;
 use App\Models\Plugin;
 use App\Models\SessionKey;
-use App\Fresns\Panel\Http\Requests\UpdateSessionKeyRequest;
 
 class SessionKeyController extends Controller
 {

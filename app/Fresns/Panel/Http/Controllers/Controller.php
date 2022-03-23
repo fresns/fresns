@@ -1,12 +1,18 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Models\Config;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-use App\Models\Config;
 use Illuminate\Support\Facades\View;
 
 class Controller extends BaseController
@@ -29,14 +35,13 @@ class Controller extends BaseController
             $this->defaultLanguage = $defaultLanguage;
             View::share('defaultLanguage', $defaultLanguage);
 
-
             // Available languages
             $stats = Config::where('item_key', 'language_status')->first();
 
             $languageConfig = Config::where('item_key', 'language_menus')->first();
             $optionalLanguages = $languageConfig ? $languageConfig->item_value : [];
 
-            if (!$stats || !$stats->item_value) {
+            if (! $stats || ! $stats->item_value) {
                 $optionalLanguages = collect($optionalLanguages)->where('langTag', $defaultLanguage)->all();
             }
             $this->optionalLanguages = $optionalLanguages;

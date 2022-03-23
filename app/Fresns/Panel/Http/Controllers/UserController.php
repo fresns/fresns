@@ -1,11 +1,17 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Fresns\Panel\Http\Requests\UpdateUserConfigRequest;
 use App\Models\Config;
 use App\Models\Plugin;
 use App\Models\Role;
-use App\Fresns\Panel\Http\Requests\UpdateUserConfigRequest;
 
 class UserController extends Controller
 {
@@ -85,11 +91,10 @@ class UserController extends Controller
 
         foreach ($configKeys as $configKey) {
             $config = $configs->where('item_key', $configKey)->first();
-            if (!$config) {
-                $continue;
+            if (! $config) {
             }
 
-            if (!$request->has($configKey)) {
+            if (! $request->has($configKey)) {
                 $config->setDefaultValue();
                 $config->save();
                 continue;
@@ -114,7 +119,7 @@ class UserController extends Controller
         $services = [];
         if ($request->connects) {
             $services = [];
-            foreach($request->connects as $key => $connect) {
+            foreach ($request->connects as $key => $connect) {
                 if (array_key_exists($key, $services)) {
                     continue;
                 }

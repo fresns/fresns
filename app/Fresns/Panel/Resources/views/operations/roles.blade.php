@@ -203,7 +203,7 @@
                                         <?php
                                         $langName = $lang['langName'];
                                         if ($lang['areaCode']) {
-                                            $langName .= '(' . optional($areaCodes->where('code', $lang['areaCode'])->first())['localName'] . ')';
+                                            $langName .= '('.optional($areaCodes->where('code', $lang['areaCode'])->first())['localName'].')';
                                         }
                                         ?>
                                         <tr>

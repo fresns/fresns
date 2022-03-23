@@ -1,14 +1,20 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
-use App\Models\Post;
-use App\Models\User;
-use App\Models\Role;
 use App\Models\Group;
-use App\Models\Plugin;
-use App\Models\PostLog;
 use App\Models\Language;
+use App\Models\Plugin;
+use App\Models\Post;
+use App\Models\PostLog;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller
@@ -52,7 +58,7 @@ class GroupController extends Controller
                 ->with('user', 'plugin', 'names', 'descriptions')
                 ->paginate();
 
-            $groups->map(function($group) {
+            $groups->map(function ($group) {
                 $userIds = $group->permission['admin_users'] ?? [];
                 $group->admin_users = User::whereIn('id', $userIds)->get();
             });
@@ -103,7 +109,7 @@ class GroupController extends Controller
             ->where('is_enable', 1)
             ->paginate();
 
-        $groups->map(function($group) {
+        $groups->map(function ($group) {
             $userIds = $group->permission['admin_users'] ?? [];
             $group->admin_users = User::whereIn('id', $userIds)->get();
         });
@@ -116,6 +122,7 @@ class GroupController extends Controller
         $roles = Role::with('names')->get();
 
         extract(get_object_vars($this));
+
         return view('FsView::operations.groups-recommend', compact(
             'categories',
             'groups',
@@ -137,6 +144,7 @@ class GroupController extends Controller
             ->paginate();
 
         extract(get_object_vars($this));
+
         return view('FsView::operations.groups-inactive', compact(
             'groups',
             'typeModeLabels',
@@ -168,8 +176,8 @@ class GroupController extends Controller
             $group->is_recommend = $request->is_recommend;
             $group->plugin_unikey = $request->plugin_unikey;
             $permission = $request->permission;
-            $permission['publish_post_review'] = (bool)($permission['publish_post_review'] ?? 0);
-            $permission['publish_comment_review'] = (bool)($permission['publish_comment_review'] ?? 0);
+            $permission['publish_post_review'] = (bool) ($permission['publish_post_review'] ?? 0);
+            $permission['publish_comment_review'] = (bool) ($permission['publish_comment_review'] ?? 0);
             $group->permission = $permission;
             $group->type = 2;
         }
@@ -183,9 +191,9 @@ class GroupController extends Controller
                     ->where('lang_tag', $langTag)
                     ->first();
 
-                if (!$language) {
+                if (! $language) {
                     // create but no content
-                    if (!$content) {
+                    if (! $content) {
                         continue;
                     }
                     $language = new Language();
@@ -202,7 +210,6 @@ class GroupController extends Controller
             }
         }
 
-
         if ($request->update_description) {
             foreach ($request->descriptions as $langTag => $content) {
                 $language = Language::tableName('groups')
@@ -211,9 +218,9 @@ class GroupController extends Controller
                     ->where('lang_tag', $langTag)
                     ->first();
 
-                if (!$language) {
+                if (! $language) {
                     // create but no content
-                    if (!$content) {
+                    if (! $content) {
                         continue;
                     }
                     $language = new Language();
@@ -254,8 +261,8 @@ class GroupController extends Controller
             $group->is_recommend = $request->is_recommend;
             $group->plugin_unikey = $request->plugin_unikey;
             $permission = $request->permission;
-            $permission['publish_post_review'] = (bool)($permission['publish_post_review'] ?? 0);
-            $permission['publish_comment_review'] = (bool)($permission['publish_comment_review'] ?? 0);
+            $permission['publish_post_review'] = (bool) ($permission['publish_post_review'] ?? 0);
+            $permission['publish_comment_review'] = (bool) ($permission['publish_comment_review'] ?? 0);
             $group->permission = $permission;
         }
         $group->save();
@@ -268,9 +275,9 @@ class GroupController extends Controller
                     ->where('lang_tag', $langTag)
                     ->first();
 
-                if (!$language) {
+                if (! $language) {
                     // create but no content
-                    if (!$content) {
+                    if (! $content) {
                         continue;
                     }
                     $language = new Language();
@@ -295,9 +302,9 @@ class GroupController extends Controller
                     ->where('lang_tag', $langTag)
                     ->first();
 
-                if (!$language) {
+                if (! $language) {
                     // create but no content
-                    if (!$content) {
+                    if (! $content) {
                         continue;
                     }
                     $language = new Language();
@@ -314,7 +321,6 @@ class GroupController extends Controller
             }
         }
 
-
         return $this->updateSuccess();
     }
 
@@ -322,6 +328,7 @@ class GroupController extends Controller
     {
         $group->is_enable = $request->is_enable ?: 0;
         $group->save();
+
         return $this->updateSuccess();
     }
 
@@ -332,6 +339,7 @@ class GroupController extends Controller
             abort(403, __('FsLang::tips.delete_group_category_error'));
         }
         $group->delete();
+
         return $this->deleteSuccess();
     }
 

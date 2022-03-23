@@ -1,12 +1,18 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Panel\Providers;
 
 use App\Fresns\Panel\Http\Exceptions\Handler;
 use App\Fresns\Panel\Http\Middleware\Authenticate;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Contracts\Debug\ExceptionHandler;
 
 class PanelServiceProvider extends ServiceProvider
 {
