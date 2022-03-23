@@ -19,7 +19,7 @@ class ChangeLocale
 
             return back()->exceptInput('lang')->withCookie($cookie);
         }
-        $locale = \Cookie::get('lang', 'zh-Hans');
+        $locale = \Cookie::get('lang', 'en');
 
         \App::setLocale($locale);
 
