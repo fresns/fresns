@@ -621,14 +621,13 @@ class FsControllerApi extends FsApiController
         ];
         ValidateService::validateRule($request, $rule);
 
-        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_GET_UPLOAD_TOKEN;
         $input['type'] = $request->input('type');
         $input['scene'] = $request->input('scene');
-        $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-        if (CmdRpcHelper::isErrorCmdResp($resp)) {
+        $resp = \FresnsCmdWord::plugin('Fresns')->getUploadToken($input);
+        if ($resp->getCode() != 0) {
             $this->errorCheckInfo($resp);
         }
-        $output = $resp['output'];
+        $output = $resp->getData();
 
         $data['storageId'] = $output['storageId'] ?? 1;
         $data['token'] = $output['token'] ?? null;

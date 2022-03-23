@@ -426,7 +426,6 @@ class FsControllerApi extends FsApiController
                 $countryCode = $accountInfo['country_code'];
             }
         }
-        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_SEND_CODE;
         $input = [
             'type' => $type,
             'templateId' => $templateId,
@@ -434,11 +433,11 @@ class FsControllerApi extends FsApiController
             'langTag' => $langTag,
             'countryCode' => $countryCode,
         ];
-        $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-        if (CmdRpcHelper::isErrorCmdResp($resp)) {
+        $resp = \FresnsCmdWord::plugin('Fresns')->sendCode($input);
+        if ($resp->getCode() !=0) {
             $this->errorCheckInfo($resp);
         }
-        $this->success($resp['output']);
+        $this->success($resp->getMessage());
     }
 
     // Download File
