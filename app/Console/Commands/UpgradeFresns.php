@@ -9,8 +9,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\Process\Process;
 
 class UpgradeFresns extends Command
@@ -69,7 +69,7 @@ class UpgradeFresns extends Command
     {
         $this->updateStep(self::STEP_START);
         // Check if an upgrade is needed
-        if (!$this->checkVersion()) {
+        if (! $this->checkVersion()) {
             return $this->info('Already the latest version of Fresns');
         }
 
@@ -78,7 +78,7 @@ class UpgradeFresns extends Command
             $this->extractFile();
             $this->install();
             $this->migrate();
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->info($e->getMessage());
         }
 
@@ -91,7 +91,7 @@ class UpgradeFresns extends Command
 
     public function getRemoteVersion(): array
     {
-        if (!$this->remoteVersion) {
+        if (! $this->remoteVersion) {
             $upgradeUrl = config('FsConfig.version_url');
             $client = new \GuzzleHttp\Client();
             $response = $client->request('GET', $upgradeUrl);
@@ -104,7 +104,7 @@ class UpgradeFresns extends Command
 
     public function getCurrentVersion(): array
     {
-        if (!$this->currentVersion) {
+        if (! $this->currentVersion) {
             $this->currentVersion = json_decode(file_get_contents(base_path('fresns.json')), true);
         }
 
@@ -144,7 +144,7 @@ class UpgradeFresns extends Command
         $filename = basename($downloadUrl);
 
         $path = \Storage::path($this->path);
-        if (!file_exists($path)) {
+        if (! file_exists($path)) {
             \File::makeDirectory($path, 0775, true);
         }
 
@@ -163,7 +163,7 @@ class UpgradeFresns extends Command
     {
         $this->updateStep(self::STEP_EXTRACT);
 
-        if (!$this->file){
+        if (! $this->file) {
             return false;
         }
 
@@ -173,7 +173,7 @@ class UpgradeFresns extends Command
 
         $zipFile = new \PhpZip\ZipFile();
 
-        if (!file_exists(\Storage::path($extractPath))) {
+        if (! file_exists(\Storage::path($extractPath))) {
             \File::makeDirectory(\Storage::path($extractPath), 0775, true);
         }
         $zipFile->openFile($this->file)->extractTo(\Storage::path($extractPath));
@@ -188,7 +188,6 @@ class UpgradeFresns extends Command
         logger('upgrade:install');
         $this->updateStep(self::STEP_INSTALL);
 
-
         $this->composerInstall();
         $this->migrate();
         $this->upgradeCommand();
@@ -199,7 +198,7 @@ class UpgradeFresns extends Command
         logger('upgrade:composer install');
         $composerPath = 'composer';
 
-        if (!$this->commandExists($composerPath)) {
+        if (! $this->commandExists($composerPath)) {
             $composerPath = '/usr/bin/composer';
         }
 
@@ -250,13 +249,13 @@ class UpgradeFresns extends Command
         $currentVersionInt = $this->currentVersion['versionInt'] ?? 0;
         $remoteVersionInt = $this->remoteVersion['versionInt'] ?? 0;
 
-        if (!$currentVersionInt || !$remoteVersionInt) {
+        if (! $currentVersionInt || ! $remoteVersionInt) {
             return false;
         }
 
         $version = $currentVersionInt;
-        while($version < $remoteVersionInt) {
-            $version ++;
+        while ($version < $remoteVersionInt) {
+            $version++;
             $command = 'fresns:upgrade-'.$version;
             if (\Artisan::has($command)) {
                 $this->call($command);
@@ -274,29 +273,29 @@ class UpgradeFresns extends Command
     public function copyMerge($source, $target)
     {
         // Path processing
-        $source = preg_replace( '#/\\\\#', DIRECTORY_SEPARATOR, $source );
-        $target = preg_replace( '#\/#', DIRECTORY_SEPARATOR, $target );
-        $source = rtrim ( $source, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR;
-        $target = rtrim ( $target, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR;
+        $source = preg_replace('#/\\\\#', DIRECTORY_SEPARATOR, $source);
+        $target = preg_replace('#\/#', DIRECTORY_SEPARATOR, $target);
+        $source = rtrim($source, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+        $target = rtrim($target, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
         // Record how many documents were processed
         $count = 0;
         // If the target directory does not exist, it is created.
         if (! is_dir($target)) {
-            mkdir ( $target, 0777, true );
-            $count ++;
+            mkdir($target, 0777, true);
+            $count++;
         }
         // Search all files in the directory
-        foreach ( glob( $source . '*' ) as $filename ) {
-            if (is_dir( $filename)) {
+        foreach (glob($source.'*') as $filename) {
+            if (is_dir($filename)) {
                 // If it is a directory, recursively merge the files in the subdirectory.
-                $count += $this->copyMerge( $filename, $target . basename($filename));
+                $count += $this->copyMerge($filename, $target.basename($filename));
             } elseif (is_file($filename)) {
                 // If it is a file, determine whether the current file is the same as the target file, and copy and overwrite if it is not.
                 // The consistency judgment used here is the file md5.
                 // md5 is reliable but low performance, and should be adjusted to the actual situation.
-                if (!file_exists($target . basename($filename)) || md5(file_get_contents($filename)) != md5( file_get_contents($target . basename($filename)))) {
-                    copy($filename, $target . basename($filename));
-                    $count ++;
+                if (! file_exists($target.basename($filename)) || md5(file_get_contents($filename)) != md5(file_get_contents($target.basename($filename)))) {
+                    copy($filename, $target.basename($filename));
+                    $count++;
                 }
             }
         }

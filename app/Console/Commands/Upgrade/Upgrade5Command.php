@@ -44,7 +44,7 @@ class Upgrade6Command extends Command
     public function handle()
     {
         $this->call('db:seed', [
-            '--class' => 'UserRolesTableSeeder'
+            '--class' => 'UserRolesTableSeeder',
         ]);
 
         return Command::SUCCESS;
