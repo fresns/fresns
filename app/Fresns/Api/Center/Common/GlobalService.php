@@ -8,19 +8,11 @@
 
 namespace App\Fresns\Api\Center\Common;
 
-use App\Fresns\Api\Center\Helper\CmdRpcHelper;
-use App\Fresns\Api\FsCmd\FresnsCrontabPlugin;
-use App\Fresns\Api\FsCmd\FresnsCrontabPluginConfig;
-use App\Fresns\Api\FsCmd\FresnsSubPlugin;
-use App\Fresns\Api\FsCmd\FresnsSubPluginConfig;
 use App\Fresns\Api\FsDb\FresnsAccounts\FresnsAccounts;
 use App\Fresns\Api\FsDb\FresnsConfigs\FresnsConfigs;
 use App\Fresns\Api\FsDb\FresnsConfigs\FresnsConfigsConfig;
-use App\Fresns\Api\FsDb\FresnsSessionLogs\FresnsSessionLogs;
-use App\Fresns\Api\FsDb\FresnsSessionLogs\FresnsSessionLogsConfig;
 use App\Fresns\Api\FsDb\FresnsSessionLogs\FresnsSessionLogsService;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
-use App\Fresns\Api\Helpers\ApiConfigHelper;
 use App\Fresns\Api\Helpers\ApiLanguageHelper;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Schema;
@@ -33,7 +25,6 @@ class GlobalService
         self::initSessionLog();
         self::loadGlobal();
         self::loadGlobalData();
-        self::crontabCheck();
     }
 
     // Initial Configuration
@@ -198,84 +189,4 @@ class GlobalService
         // config(["lang.{key}_{lang_tag}", "{value}"]);
     }
 
-    /**
-     * Timed tasks
-     * Perform user role expiration time detection every 10 minutes.
-     * Perform account logout tasks every 8 hours.
-     * Subscription account daily activity command word.
-     */
-    public static function crontabCheck()
-    {
-        // Subscribe to the account's daily activity command word (called only when logged in)
-        $aid = request()->header('aid');
-        if ($aid) {
-            $cmd = FresnsSubPluginConfig::FRESNS_CMD_SUB_ACCOUNT_ACTIVE;
-            $input = [];
-            $resp = CmdRpcHelper::call(FresnsSubPlugin::class, $cmd, $input);
-        }
-        $time = date('Y-m-d H:i:s', time());
-        $isCheckRole = true;
-
-        // User role expiration time detection
-        $checkRoleTime = FresnsSessionLogs::where('object_name', FresnsCrontabPluginConfig::FRESNS_CMD_CRONTAB_CHECK_ROLE_EXPIRED)
-        ->where('object_type', FresnsSessionLogsConfig::OBJECT_TYPE_PLUGIN)
-        ->orderByDesc('id')
-        ->value('created_at');
-
-        // Timed Task Plugin
-        $crontabPlugins = ApiConfigHelper::getConfigByItemKey('crontab_plugins');
-        $checkRole = null;
-        $checkDelete = null;
-        if ($crontabPlugins) {
-            $crontabPluginsArr = json_decode($crontabPlugins, true);
-            foreach ($crontabPluginsArr as $v) {
-                if ($v['crontab_plugin_cmd'] == FresnsCrontabPluginConfig::FRESNS_CMD_CRONTAB_CHECK_ROLE_EXPIRED) {
-                    $checkRole = $v['crontab_task_period'];
-                }
-                if ($v['crontab_plugin_cmd'] == FresnsCrontabPluginConfig::FRESNS_CMD_CRONTAB_CHECK_DELETE_ACCOUNT) {
-                    $checkDelete = $v['crontab_task_period'];
-                }
-            }
-        }
-        if ($checkRoleTime) {
-            if ($checkRole > 0) {
-                $checkRoleExpiredAt = date('Y-m-d H:i:s', strtotime("+$checkRole min", strtotime($checkRoleTime)));
-                if ($checkRoleExpiredAt > $time) {
-                    $isCheckRole = false;
-                }
-            } else {
-                $isCheckRole = false;
-            }
-        }
-
-        if ($isCheckRole == true) {
-            $cmd = FresnsCrontabPluginConfig::FRESNS_CMD_CRONTAB_CHECK_ROLE_EXPIRED;
-            $input = [];
-            $resp = CmdRpcHelper::call(FresnsCrontabPlugin::class, $cmd, $input);
-        }
-        $isCheckDelete = true;
-
-        // Delete account tasks
-        $checkDeleteTime = FresnsSessionLogs::where('object_name', FresnsCrontabPluginConfig::FRESNS_CMD_CRONTAB_CHECK_DELETE_ACCOUNT)
-        ->where('object_type', FresnsSessionLogsConfig::OBJECT_TYPE_PLUGIN)
-        ->orderByDesc('id')
-        ->value('created_at');
-
-        if ($checkDeleteTime) {
-            if ($checkDelete > 0) {
-                $checkDeleteExpiredAt = date('Y-m-d H:i:s', strtotime('+8 hours', strtotime($checkDeleteTime)));
-                if ($checkDeleteExpiredAt > $time) {
-                    $isCheckDelete = false;
-                }
-            } else {
-                $isCheckDelete = false;
-            }
-        }
-
-        if ($isCheckDelete == true) {
-            $cmd = FresnsCrontabPluginConfig::FRESNS_CMD_CRONTAB_CHECK_DELETE_ACCOUNT;
-            $input = [];
-            $resp = CmdRpcHelper::call(FresnsCrontabPlugin::class, $cmd, $input);
-        }
-    }
 }
