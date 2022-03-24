@@ -623,11 +623,11 @@ class FsControllerApi extends FsApiController
 
         $input['type'] = $request->input('type');
         $input['scene'] = $request->input('scene');
-        $resp = \FresnsCmdWord::plugin('Fresns')->getUploadToken($input);
-        if ($resp->getCode() != 0) {
-            $this->errorCheckInfo($resp);
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getUploadToken($input);
+        if ($fresnsResp->isErrorResponse) {
+            return $fresnsResp->errorResponse();
         }
-        $output = $resp->getData();
+        $output = $fresnsResp->getData();
 
         $data['storageId'] = $output['storageId'] ?? 1;
         $data['token'] = $output['token'] ?? null;
@@ -754,7 +754,6 @@ class FsControllerApi extends FsApiController
             }
         }
 
-        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_UPLOAD_FILE;
         $input['type'] = $request->input('type');
         $input['tableType'] = $request->input('tableType');
         $input['tableName'] = $request->input('tableName');
@@ -767,12 +766,12 @@ class FsControllerApi extends FsApiController
         $input['platform'] = $request->header('platform');
         $input['aid'] = $request->header('aid');
         $input['uid'] = $request->header('uid');
-        $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-        if (CmdRpcHelper::isErrorCmdResp($resp)) {
-            $this->errorCheckInfo($resp);
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($input);
+        if ($fresnsResp->isErrorResponse()) {
+            return $fresnsResp->errorResponse();
         }
 
-        $data = $resp['output'];
+        $data = $fresnsResp->getData();
 
         $this->success($data);
     }

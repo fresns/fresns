@@ -553,55 +553,52 @@ class FsControllerApi extends FsApiController
                 $domain = ApiConfigHelper::getConfigByItemKey('image_bucket_domain');
                 $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_IMAGE;
                 $input['fid'] = $fid;
-                $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-                if (CmdRpcHelper::isErrorCmdResp($resp)) {
+                $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink($input);
+                if ($fresnsResp->isErrorResponse()) {
                     $downloadUrl = $domain.$filePath;
                 } else {
-                    $output = $resp['output'];
+                    $output = $fresnsResp->getData();
                     $downloadUrl = $output['imageBigUrl'];
-                    $originalUrl = $output['originalUrl'];
+                    $originalUrl = $output['imageOriginalUrl'];
                 }
                 break;
             case 2:
                 $status = ApiConfigHelper::getConfigByItemKey('video_url_status');
                 $domain = ApiConfigHelper::getConfigByItemKey('video_bucket_domain');
-                $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_VIDEO;
                 $input['fid'] = $fid;
-                $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-                if (CmdRpcHelper::isErrorCmdResp($resp)) {
+                $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink($input);
+                if ($fresnsResp->isErrorResponse()) {
                     $downloadUrl = $domain.$filePath;
                 } else {
-                    $output = $resp['output'];
+                    $output = $fresnsResp->getData();
                     $downloadUrl = $output['videoUrl'];
-                    $originalUrl = $output['originalUrl'];
+                    $originalUrl = $output['videoOriginalUrl'];
                 }
                 break;
             case 3:
                 $status = ApiConfigHelper::getConfigByItemKey('audio_url_status');
                 $domain = ApiConfigHelper::getConfigByItemKey('audio_bucket_domain');
-                $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_AUDIO;
                 $input['fid'] = $fid;
-                $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-                if (CmdRpcHelper::isErrorCmdResp($resp)) {
+                $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink($input);
+                if ($fresnsResp->isErrorResponse()) {
                     $downloadUrl = $domain.$filePath;
                 } else {
-                    $output = $resp['output'];
+                    $output = $fresnsResp->getData();
                     $downloadUrl = $output['audioUrl'];
-                    $originalUrl = $output['originalUrl'];
+                    $originalUrl = $output['audioOriginalUrl'];
                 }
                 break;
             default:
                 $status = ApiConfigHelper::getConfigByItemKey('document_url_status');
                 $domain = ApiConfigHelper::getConfigByItemKey('document_bucket_domain');
-                $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_DOC;
                 $input['fid'] = $fid;
-                $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-                if (CmdRpcHelper::isErrorCmdResp($resp)) {
+                $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink($input);
+                if ($fresnsResp->isErrorResponse()) {
                     $downloadUrl = $domain.$filePath;
                 } else {
-                    $output = $resp['output'];
-                    $downloadUrl = $output['docUrl'];
-                    $originalUrl = $output['originalUrl'];
+                    $output = $fresnsResp->getData();
+                    $downloadUrl = $output['documentUrl'];
+                    $originalUrl = $output['documentOriginalUrl'];
                 }
                 break;
         }

@@ -40,7 +40,7 @@ class FsApiController extends BaseApiController
     public $token;
 
     // Site Mode: Default Private
-    public $viewMode = FsConfig::VIEW_MODE_PRIVATE;
+    public $viewMode = FsApiConfig::VIEW_MODE_PRIVATE;
 
     // Check Info: Header and Sign (true or false)
     public $checkHeader = true;
@@ -93,7 +93,7 @@ class FsApiController extends BaseApiController
         $platform = request()->header('platform');
         if ($siteMode == 'public') {
             if (empty($aid)) {
-                if (in_array($uri, FsConfig::PUBLIC_UID_URI_ARR)) {
+                if (in_array($uri, FsApiConfig::PUBLIC_AID_URI_ARR)) {
                     $info = [
                         'missing header' => 'aid',
                     ];
@@ -102,7 +102,7 @@ class FsApiController extends BaseApiController
             }
 
             if (empty($uid)) {
-                if (in_array($uri, FsConfig::PUBLIC_MID_URI_ARR)) {
+                if (in_array($uri, FsApiConfig::PUBLIC_UID_URI_ARR)) {
                     $info = [
                         'missing header' => 'uid',
                     ];
@@ -110,7 +110,7 @@ class FsApiController extends BaseApiController
                 }
             }
             if (empty($token)) {
-                if (in_array($uri, FsConfig::PUBLIC_TOKEN_URI_ARR)) {
+                if (in_array($uri, FsApiConfig::PUBLIC_TOKEN_URI_ARR)) {
                     $info = [
                         'missing header' => 'token',
                     ];
@@ -119,7 +119,7 @@ class FsApiController extends BaseApiController
                 }
             }
             if (empty($deviceInfo)) {
-                if (in_array($uri, FsConfig::PUBLIC_DEVICEINFO_URI_ARR)) {
+                if (in_array($uri, FsApiConfig::PUBLIC_DEVICEINFO_URI_ARR)) {
                     $info = [
                         'missing header' => 'deviceInfo',
                     ];
@@ -128,7 +128,7 @@ class FsApiController extends BaseApiController
             }
         } else {
             if (empty($aid)) {
-                if (in_array($uri, FsConfig::PRIVATE_UID_URI_ARR)) {
+                if (in_array($uri, FsApiConfig::PRIVATE_AID_URI_ARR)) {
                     $info = [
                         'missing header' => 'aid',
                     ];
@@ -138,7 +138,7 @@ class FsApiController extends BaseApiController
             }
 
             if (empty($uid)) {
-                if (in_array($uri, FsConfig::PRIVATE_MID_URI_ARR)) {
+                if (in_array($uri, FsApiConfig::PRIVATE_UID_URI_ARR)) {
                     $info = [
                         'missing header' => 'uid',
                     ];
@@ -147,7 +147,7 @@ class FsApiController extends BaseApiController
                 }
             }
             if (empty($token)) {
-                if (in_array($uri, FsConfig::PRIVATE_TOKEN_URI_ARR)) {
+                if (in_array($uri, FsApiConfig::PRIVATE_TOKEN_URI_ARR)) {
                     $info = [
                         'missing header' => 'token',
                     ];
@@ -156,7 +156,7 @@ class FsApiController extends BaseApiController
                 }
             }
             if (empty($deviceInfo)) {
-                if (in_array($uri, FsConfig::PRIVATE_DEVICEINFO_URI_ARR)) {
+                if (in_array($uri, FsApiConfig::PRIVATE_DEVICEINFO_URI_ARR)) {
                     $info = [
                         'missing header' => 'deviceInfo',
                     ];
@@ -189,7 +189,7 @@ class FsApiController extends BaseApiController
 
                     $this->error(ErrorCodeService::TOKEN_REQUIRED_ERROR, $info);
                 }
-                if (in_array($uri, FsConfig::CHECK_ACCOUNT_DELETE_URI)) {
+                if (in_array($uri, FsApiConfig::CHECK_ACCOUNT_DELETE_URI)) {
                     $account = DB::table(FresnsAccountsConfig::CFG_TABLE)->where('aid', $aid)->first();
                 } else {
                     $account = FresnsAccounts::where('aid', $aid)->first();
@@ -221,7 +221,7 @@ class FsApiController extends BaseApiController
                     }
                 }
                 if ($account->is_enable == 0) {
-                    if (! in_array($uri, FsConfig::CHECK_ACCOUNT_IS_ENABLE_URI)) {
+                    if (! in_array($uri, FsApiConfig::CHECK_ACCOUNT_IS_ENABLE_URI)) {
                         $this->error(ErrorCodeService::ACCOUNT_IS_ENABLE_ERROR);
                     }
                 }
@@ -249,7 +249,7 @@ class FsApiController extends BaseApiController
                 $this->error(ErrorCodeService::HEADER_ERROR, $info);
             }
             // Check if uid belongs to aid
-            if (in_array($uri, FsConfig::CHECK_ACCOUNT_DELETE_URI)) {
+            if (in_array($uri, FsApiConfig::CHECK_ACCOUNT_DELETE_URI)) {
                 $account = DB::table(FresnsAccountsConfig::CFG_TABLE)->where('aid', $aid)->first();
             } else {
                 $account = FresnsAccounts::where('aid', $aid)->first();
@@ -281,7 +281,7 @@ class FsApiController extends BaseApiController
             }
 
             if ($account->is_enable == 0) {
-                if (! in_array($uri, FsConfig::CHECK_ACCOUNT_IS_ENABLE_URI)) {
+                if (! in_array($uri, FsApiConfig::CHECK_ACCOUNT_IS_ENABLE_URI)) {
                     $this->error(ErrorCodeService::ACCOUNT_IS_ENABLE_ERROR);
                 }
             }
@@ -318,7 +318,7 @@ class FsApiController extends BaseApiController
             }
 
             // Querying Role Permissions
-            if (in_array($uri, FsConfig::NOTICE_CONTENT_URI)) {
+            if (in_array($uri, FsApiConfig::NOTICE_CONTENT_URI)) {
                 /*
                  * User Master Role Permission
                  * https://fresns.org/api/header.html
@@ -365,7 +365,7 @@ class FsApiController extends BaseApiController
 
     public function checkHeaderParams()
     {
-        if ($this->viewMode == FsConfig::VIEW_MODE_PRIVATE) {
+        if ($this->viewMode == FsApiConfig::VIEW_MODE_PRIVATE) {
             return $this->checkPrivateModeHeaders();
         } else {
             return $this->checkPublicModeHeaders();
@@ -383,7 +383,7 @@ class FsApiController extends BaseApiController
     // Private mode header checksum
     public function checkPrivateModeHeaders()
     {
-        $headerFieldArr = FsConfig::HEADER_FIELD_ARR;
+        $headerFieldArr = FsApiConfig::HEADER_FIELD_ARR;
         foreach ($headerFieldArr as $headerField) {
             $headerContent = request()->header($headerField);
             if (empty($headerContent)) {
@@ -444,7 +444,7 @@ class FsApiController extends BaseApiController
         }
         $signKey = $sessionKeys['app_secret'];
         $dataMap = [];
-        foreach (FsConfig::SIGN_FIELD_ARR as $signField) {
+        foreach (FsApiConfig::SIGN_FIELD_ARR as $signField) {
             $signFieldValue = request()->header($signField);
             if (! empty($signFieldValue)) {
                 $dataMap[$signField] = $signFieldValue;

@@ -77,7 +77,7 @@ class FsApiConfig
 
     // Site Mode = public
     // aid required
-    const PUBLIC_UID_URI_ARR = [
+    const PUBLIC_AID_URI_ARR = [
         '/api/v1/info/downloadFile',
         '/api/v1/account/logout',
         '/api/v1/account/delete',
@@ -115,7 +115,7 @@ class FsApiConfig
 
     // Site Mode = public
     // uid required
-    const PUBLIC_MID_URI_ARR = [
+    const PUBLIC_UID_URI_ARR = [
         '/api/v1/info/downloadFile',
         '/api/v1/user/edit',
         '/api/v1/user/mark',
@@ -200,7 +200,7 @@ class FsApiConfig
 
     // Site Mode = private
     // aid required
-    const PRIVATE_UID_URI_ARR = [
+    const PRIVATE_AID_URI_ARR = [
         '/api/v1/info/extensions',
         '/api/v1/info/stickers',
         '/api/v1/info/blockWords',
@@ -257,7 +257,7 @@ class FsApiConfig
 
     // Site Mode = private
     // uid required
-    const PRIVATE_MID_URI_ARR = [
+    const PRIVATE_UID_URI_ARR = [
         '/api/v1/info/extensions',
         '/api/v1/info/stickers',
         '/api/v1/info/blockWords',
