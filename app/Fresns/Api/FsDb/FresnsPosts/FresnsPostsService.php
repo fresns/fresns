@@ -664,13 +664,13 @@ class FresnsPostsService extends FsService
     public function afterStoreToDb($postId, $draftId)
     {
         // Call the plugin to subscribe to the command word
-        $cmd = FresnsSubPluginConfig::FRESNS_CMD_SUB_ADD_TABLE;
-        $input = [
-            'tableName' => FresnsPostsConfig::CFG_TABLE,
-            'insertId' => $postId,
-        ];
-        LogService::info('table_input', $input);
-        CmdRpcHelper::call(FresnsSubPlugin::class, $cmd, $input);
+        // $cmd = FresnsSubPluginConfig::FRESNS_CMD_SUB_ADD_TABLE;
+        // $input = [
+        //     'tableName' => FresnsPostsConfig::CFG_TABLE,
+        //     'insertId' => $postId,
+        // ];
+        // LogService::info('table_input', $input);
+        // CmdRpcHelper::call(FresnsSubPlugin::class, $cmd, $input);
         $draftPost = FresnsPostLogs::find($draftId);
         $content = $this->blockWords($draftPost['content']);
 
@@ -693,13 +693,13 @@ class FresnsPostsService extends FsService
     public function afterUpdateToDb($postId, $draftId)
     {
         // Call the plugin to subscribe to the command word
-        $cmd = FresnsSubPluginConfig::FRESNS_CMD_SUB_ADD_TABLE;
-        $input = [
-            'tableName' => FresnsPostsConfig::CFG_TABLE,
-            'insertId' => $postId,
-        ];
-        LogService::info('table_input', $input);
-        CmdRpcHelper::call(FresnsSubPlugin::class, $cmd, $input);
+        // $cmd = FresnsSubPluginConfig::FRESNS_CMD_SUB_ADD_TABLE;
+        // $input = [
+        //     'tableName' => FresnsPostsConfig::CFG_TABLE,
+        //     'insertId' => $postId,
+        // ];
+        // LogService::info('table_input', $input);
+        // CmdRpcHelper::call(FresnsSubPlugin::class, $cmd, $input);
         $draftPost = FresnsPostLogs::find($draftId);
         $content = $this->blockWords($draftPost['content']);
 

@@ -29,9 +29,9 @@ class FresnsSubPluginConfig extends BasePluginConfig
     public const FRESNS_CMD_SUB_ACTIVE_COMMAND_WORD = 'fresns_cmd_sub_active_command_word';
 
     const FRESNS_CMD_HANDLE_MAP = [
-        self::FRESNS_CMD_SUB_ADD_TABLE => 'subAddTableHandler',
-        self::FRESNS_CMD_SUB_ACCOUNT_ACTIVE => 'subAccountActiveHandler',
-        self::FRESNS_CMD_SUB_ACTIVE_COMMAND_WORD => 'subActiveCmdHandler',
+        // self::FRESNS_CMD_SUB_ADD_TABLE => 'subAddTableHandler',
+        // self::FRESNS_CMD_SUB_ACCOUNT_ACTIVE => 'subAccountActiveHandler',
+        // self::FRESNS_CMD_SUB_ACTIVE_COMMAND_WORD => 'subActiveCmdHandler',
     ];
 
     public function subAddTableHandlerRule()

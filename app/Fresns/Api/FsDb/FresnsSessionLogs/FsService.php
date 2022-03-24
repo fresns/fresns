@@ -83,7 +83,7 @@ class FsService extends BaseAdminService
         ];
 
         $id = FresnsSessionLogs::insertGetId($input);
-        FresnsSubPluginService::addSubTablePluginItem(FresnsSessionLogsConfig::CFG_TABLE, $id);
+        // FresnsSubPluginService::addSubTablePluginItem(FresnsSessionLogsConfig::CFG_TABLE, $id);
 
         return $id;
     }

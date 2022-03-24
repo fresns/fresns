@@ -187,25 +187,25 @@ class FresnsCmdWords extends BasePlugin
         switch ($type) {
             case 1:
                 $result = $FresnsPostsService->releaseByDraft($logId, $sessionLogsId);
-                $postId = FresnsPostLogs::find($logId);
-                $cmd = FresnsSubPluginConfig::FRESNS_CMD_SUB_ACTIVE_COMMAND_WORD;
-                $input = [
-                    'tableName' => 'posts',
-                    'insertId' => $postId['post_id'],
-                    'commandWord' => 'fresns_cmd_direct_release_content',
-                ];
-                $resp = CmdRpcHelper::call(FresnsSubPlugin::class, $cmd, $input);
+                // $postId = FresnsPostLogs::find($logId);
+                // $cmd = FresnsSubPluginConfig::FRESNS_CMD_SUB_ACTIVE_COMMAND_WORD;
+                // $input = [
+                //     'tableName' => 'posts',
+                //     'insertId' => $postId['post_id'],
+                //     'commandWord' => 'fresns_cmd_direct_release_content',
+                // ];
+                // $resp = CmdRpcHelper::call(FresnsSubPlugin::class, $cmd, $input);
                 break;
             case 2:
                 $result = $fresnsCommentService->releaseByDraft($logId, $commentCid, $sessionLogsId);
-                $commentInfo = FresnsCommentLogs::find($logId);
-                $cmd = FresnsSubPluginConfig::FRESNS_CMD_SUB_ACTIVE_COMMAND_WORD;
-                $input = [
-                    'tableName' => 'comments',
-                    'insertId' => $commentInfo['comment_id'],
-                    'commandWord' => 'fresns_cmd_direct_release_content',
-                ];
-                $resp = CmdRpcHelper::call(FresnsSubPlugin::class, $cmd, $input);
+                // $commentInfo = FresnsCommentLogs::find($logId);
+                // $cmd = FresnsSubPluginConfig::FRESNS_CMD_SUB_ACTIVE_COMMAND_WORD;
+                // $input = [
+                //     'tableName' => 'comments',
+                //     'insertId' => $commentInfo['comment_id'],
+                //     'commandWord' => 'fresns_cmd_direct_release_content',
+                // ];
+                // $resp = CmdRpcHelper::call(FresnsSubPlugin::class, $cmd, $input);
                 break;
         }
 
@@ -771,7 +771,7 @@ class FresnsCmdWords extends BasePlugin
             $file['fid'] = StrHelper::createFsid();
             // Insert
             $retId = FresnsFiles::insertGetId($file);
-            FresnsSubPluginService::addSubTablePluginItem(FresnsFilesConfig::CFG_TABLE, $retId);
+            // FresnsSubPluginService::addSubTablePluginItem(FresnsFilesConfig::CFG_TABLE, $retId);
 
             $file['real_path'] = $newPath;
             $input = [
@@ -821,7 +821,7 @@ class FresnsCmdWords extends BasePlugin
                     $item['table_id'] = $tableId ?? null;
                     $item['table_key'] = $tableKey ?? null;
                     $fieldId = FresnsFiles::insertGetId($item);
-                    FresnsSubPluginService::addSubTablePluginItem(FresnsFilesConfig::CFG_TABLE, $fieldId);
+                    // FresnsSubPluginService::addSubTablePluginItem(FresnsFilesConfig::CFG_TABLE, $fieldId);
                     $fileIdArr[] = $fieldId;
                     $fidArr[] = $item['fid'];
                     $append = [];
@@ -2039,7 +2039,7 @@ class FresnsCmdWords extends BasePlugin
         }
 
         $aid = FresnsAccounts::insertGetId($input);
-        FresnsSubPluginService::addSubTablePluginItem(FresnsAccountsConfig::CFG_TABLE, $aid);
+        // FresnsSubPluginService::addSubTablePluginItem(FresnsAccountsConfig::CFG_TABLE, $aid);
 
         $fileId = null;
         if ($avatarFid) {
@@ -2048,7 +2048,7 @@ class FresnsCmdWords extends BasePlugin
 
         $userInput = [
             'account_id' => $aid,
-            'name' => StrHelper::createToken(rand(6, 8)),
+            'username' => StrHelper::createToken(rand(6, 8)),
             'nickname' => $nickname,
             'uid' => ApiCommonHelper::createUserUid(),
             'avatar_file_id' => $fileId,
@@ -2060,7 +2060,7 @@ class FresnsCmdWords extends BasePlugin
         ];
 
         $uid = FresnsUsers::insertGetId($userInput);
-        FresnsSubPluginService::addSubTablePluginItem(FresnsUsersConfig::CFG_TABLE, $uid);
+        // FresnsSubPluginService::addSubTablePluginItem(FresnsUsersConfig::CFG_TABLE, $uid);
 
         $langTag = request()->header('langTag');
 
