@@ -1,9 +1,15 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Subscribe\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Fresns\Subscribe\SubscribeService;
+use Illuminate\Support\ServiceProvider;
 
 class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordManager\Contracts\CmdWordProviderContract
 {
@@ -12,7 +18,6 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
     protected $unikeyName = 'Fresns';
 
     /**
-     *
      * @var array[]
      */
     protected $cmdWordsMap = [

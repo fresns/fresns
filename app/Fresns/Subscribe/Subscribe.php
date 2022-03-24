@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Subscribe;
 
 use App\Models\Config;
@@ -10,7 +16,7 @@ class Subscribe
 
     const SUBSCRIBE_TYPE_TABLE_DATA_CHANGE = 1;
     const SUBSCRIBE_TYPE_USER_ACTIVATE = 2;
-    
+
     protected int $type;
     protected string $unikey;
     protected string $cmdWord;
@@ -22,7 +28,7 @@ class Subscribe
             $this->validate($wordBody);
 
             $this->wordBody = $wordBody;
-    
+
             $this->type = $this->getItem('type');
             $this->unikey = $this->getItem('unikey');
             $this->cmdWord = $this->getItem('cmdWord');
@@ -79,9 +85,8 @@ class Subscribe
      * Table name verification: support for subscribed table names.
      *
      * @param  string  $table
-     * 
-     * @return boolean
-     * 
+     * @return bool
+     *
      * @see https://fresns.org/extensions/command-word/subscribe.html
      */
     protected function isAvaliableTableName(): bool
@@ -107,7 +112,7 @@ class Subscribe
 
     public function isNotSupportSubscribe()
     {
-        return !$this->supportSubscribe();
+        return ! $this->supportSubscribe();
     }
 
     public function same(Subscribe $subscribe)
@@ -115,8 +120,7 @@ class Subscribe
         return $this->getType() === $subscribe->getType()
             && $this->getUnikey() === $subscribe->getUnikey()
             && $this->getCmdWord() === $subscribe->getCmdWord()
-            && $this->getSubTableName() === $subscribe->getSubTableName()
-            ;
+            && $this->getSubTableName() === $subscribe->getSubTableName();
     }
 
     public function notSame(Subscribe $subscribe)
@@ -133,7 +137,6 @@ class Subscribe
 
     public function ensureSubscribeNotExists()
     {
-
         return ! $this->ensureSubscribeExists();
     }
 
@@ -188,8 +191,8 @@ class Subscribe
         array_push($subscribes, $this->toArray());
 
         return $this->getSubscribeItemConfig()->update([
-                'item_value' => $subscribes,
-            ]);
+            'item_value' => $subscribes,
+        ]);
     }
 
     public function remove()

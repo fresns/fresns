@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Subscribe;
 
 class UserActivateEvent
@@ -9,13 +15,13 @@ class UserActivateEvent
     protected int $uid;
     protected string $uri;
     protected array $body;
-    
+
     public function __construct(object $event)
     {
         $this->validate((array) $event);
 
         $this->event = $event;
-        
+
         $this->aid = $event->aid;
         $this->uid = $event->uid;
         $this->uri = $event->uri;
@@ -42,7 +48,7 @@ class UserActivateEvent
         $unikey = $subscribe->getUnikey();
         $cmdWord = $subscribe->getCmdWord();
 
-        return \FresnsCmdWord::plugin($unikey)->$cmdWord($this->toArray()); 
+        return \FresnsCmdWord::plugin($unikey)->$cmdWord($this->toArray());
     }
 
     public function toArray()
