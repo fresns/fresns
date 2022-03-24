@@ -1,5 +1,18 @@
 * text=auto
-*.css linguist-vendored
-*.scss linguist-vendored
-*.js linguist-vendored
+
+*.blade.php diff=html
+*.css diff=css
+*.html diff=html
+*.md diff=markdown
+*.php diff=php
+
+/.github export-ignore
+/tests export-ignore
+.editorconfig export-ignore
+.gitattributes export-ignore
+.gitignore export-ignore
 CHANGELOG.md export-ignore
+package.json export-ignore
+phpunit.xml export-ignore
+webpack.mix.js export-ignore
+server.php export-ignore
