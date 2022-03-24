@@ -24,7 +24,6 @@ class CreateSessionLogsTable extends Migration
             $table->string('plugin_unikey', 64)->default('Fresns');
             $table->unsignedTinyInteger('platform_id');
             $table->string('version', 16);
-            $table->unsignedInteger('version_int');
             $table->char('lang_tag', 16)->nullable();
             $table->unsignedTinyInteger('object_type')->default('1')->index('object_type');
             $table->string('object_name', 128);

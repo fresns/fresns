@@ -44,7 +44,7 @@ class GlobalService
         $aid = request()->header('aid');
         $uid = request()->header('uid');
 
-        $arr = ['platform', 'version', 'versionInt', 'appId', 'aid', 'uid'];
+        $arr = ['platform', 'version', 'appId', 'aid', 'uid'];
         foreach ($arr as $field) {
             $fresns[$field] = request()->header($field);
         }

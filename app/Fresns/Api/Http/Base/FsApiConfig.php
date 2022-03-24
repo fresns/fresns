@@ -59,7 +59,6 @@ class FsApiConfig
     const HEADER_FIELD_ARR = [
         'platform',
         'version',
-        'versionInt',
         'timestamp',
         'appId',
         'sign',
@@ -69,7 +68,6 @@ class FsApiConfig
     const SIGN_FIELD_ARR = [
         'platform',
         'version',
-        'versionInt',
         'timestamp',
         'aid',
         'uid',

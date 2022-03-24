@@ -44,9 +44,8 @@ class FsService extends BaseAdminService
         $deviceInfo = request()->header('deviceInfo');
         $platform_id = request()->header('platform');
         $version = request()->header('version');
-        $versionInt = request()->header('versionInt');
         $langTag = ApiLanguageHelper::getLangTagByHeader();
-        if (empty($platform_id) || empty($version) || empty($versionInt)) {
+        if (empty($platform_id) || empty($version)) {
             return true;
         }
 
@@ -72,7 +71,6 @@ class FsService extends BaseAdminService
         $input = [
             'platform_id' => $platform_id,
             'version' => $version,
-            'version_int' => $versionInt,
             'lang_tag' => $langTag,
             'object_type' => $objectType ?? 1,
             'object_name' => $objectName,

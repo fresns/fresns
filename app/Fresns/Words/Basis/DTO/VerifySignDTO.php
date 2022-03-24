@@ -15,7 +15,6 @@ use Fresns\DTO\DTO;
  *
  * @property int $platform
  * @property string $version
- * @property int $versionInt
  */
 class VerifySignDTO extends DTO
 {
@@ -27,7 +26,6 @@ class VerifySignDTO extends DTO
         return [
             'platform' => ['required', 'integer'],
             'version' => ['required'],
-            'versionInt' => ['required', 'integer'],
             'appId' => ['required'],
             'timestamp' => ['required'],
             'sign' => ['required'],

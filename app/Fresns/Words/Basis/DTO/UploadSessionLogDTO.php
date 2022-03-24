@@ -15,7 +15,6 @@ use Fresns\DTO\DTO;
  *
  * @property int $platform
  * @property string $version
- * @property int $versionInt
  */
 class UploadSessionLogDTO extends DTO
 {
@@ -27,7 +26,6 @@ class UploadSessionLogDTO extends DTO
         return [
             'platform' => ['required', 'integer'],
             'version' => ['required'],
-            'versionInt' => ['required', 'integer'],
             'langTag' => ['string'],
             'aid' => ['string'],
             'uid' => ['integer'],

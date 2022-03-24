@@ -32,7 +32,6 @@ class FsApiController extends BaseApiController
 {
     public $platform;
     public $version;
-    public $versionInt;
     public $langTag;
     public $appId;
     public $sign;
@@ -407,16 +406,9 @@ class FsApiController extends BaseApiController
     {
         $appId = request()->header('appId');
         $platform = request()->header('platform');
-        $versionInt = request()->header('versionInt');
         if (! is_numeric($platform)) {
             $info = [
                 'platform' => 'Please enter an integer',
-            ];
-            $this->error(ErrorCodeService::HEADER_INFO_ERROR, $info);
-        }
-        if (! is_numeric($versionInt)) {
-            $info = [
-                'versionInt' => 'Please enter an integer',
             ];
             $this->error(ErrorCodeService::HEADER_INFO_ERROR, $info);
         }

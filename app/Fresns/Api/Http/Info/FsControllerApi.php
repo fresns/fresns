@@ -149,7 +149,6 @@ class FsControllerApi extends FsApiController
         $cmd = FresnsCmdWordsConfig::FRESNS_CMD_UPLOAD_SESSION_LOG;
         $input['platform'] = $request->header('platform');
         $input['version'] = $request->header('version');
-        $input['versionInt'] = $request->header('versionInt');
         $input['objectName'] = $request->input('objectName');
         $input['objectAction'] = $request->input('objectAction');
         $input['objectResult'] = $request->input('objectResult');

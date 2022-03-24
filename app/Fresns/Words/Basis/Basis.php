@@ -45,7 +45,6 @@ class Basis
         $includeEmptyCheckArr = [
             'platform' => $wordBody->platform,
             'version' => $wordBody->version,
-            'versionInt' => $wordBody->versionInt,
             'appId' => $wordBody->appId,
             'timestamp' => $wordBody->timestamp,
             'aid' => $wordBody->aid,
@@ -95,7 +94,6 @@ class Basis
             'plugin_unikey' => $wordBody->pluginUnikey ?? 'Fresns',
             'platform_id' => $wordBody->platform,
             'version' => $wordBody->version,
-            'version_int' => $wordBody->versionInt,
             'lang_tag' => $wordBody->langTag ?? null,
             'account_id' => $wordBody->accountId ?? null,
             'user_id' => $wordBody->userId ?? null,

@@ -111,7 +111,6 @@ class FresnsCmdWordsConfig extends BasePluginConfig
         $rule = [
             'platform' => 'required',
             'version' => 'required',
-            'versionInt' => 'required',
             'langTag' => 'required',
             'objectName' => 'required',
             'objectAction' => 'required',

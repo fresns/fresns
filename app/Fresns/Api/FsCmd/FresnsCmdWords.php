@@ -528,7 +528,6 @@ class FresnsCmdWords extends BasePlugin
     {
         $platform = $input['platform'];
         $version = $input['version'];
-        $versionInt = $input['versionInt'];
         $objectName = $input['objectName'];
         $objectAction = $input['objectAction'];
         $objectResult = $input['objectResult'];
@@ -549,7 +548,6 @@ class FresnsCmdWords extends BasePlugin
         $input = [
             'platform_id' => $platform,
             'version' => $version,
-            'version_int' => $versionInt,
             'lang_tag' => $langTag,
             'object_name' => $objectName,
             'object_action' => $objectAction,
@@ -1627,7 +1625,6 @@ class FresnsCmdWords extends BasePlugin
     {
         $platform = $input['platform'];
         $version = $input['version'] ?? null;
-        $versionInt = $input['versionInt'] ?? null;
         $appId = $input['appId'];
         $timestamp = $input['timestamp'];
         $sign = $input['sign'];
@@ -1638,9 +1635,6 @@ class FresnsCmdWords extends BasePlugin
         $dataMap['platform'] = $platform;
         if ($version) {
             $dataMap['version'] = $version;
-        }
-        if ($versionInt) {
-            $dataMap['versionInt'] = $versionInt;
         }
         $dataMap['appId'] = $appId;
         $dataMap['timestamp'] = $timestamp;
