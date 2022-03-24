@@ -188,5 +188,4 @@ class GlobalService
         }
         // config(["lang.{key}_{lang_tag}", "{value}"]);
     }
-
 }
