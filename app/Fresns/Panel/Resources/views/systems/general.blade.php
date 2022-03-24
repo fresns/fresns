@@ -126,8 +126,8 @@
                             <div class="input-group mb-3">
                                 <label class="input-group-text" for="register_close">{{ __('FsLang::panel.site_mode_public_register_status') }}</label>
                                 <select class="form-select" id="register_close" name="site_public_close">
-                                    <option value="false" {{ $params['site_public_close'] == 'false' ? 'selected' : '' }}>{{ __('FsLang::panel.option_open') }}</option>
-                                    <option value="true" {{ $params['site_public_close'] == 'true' ? 'selected' : '' }}>{{ __('FsLang::panel.option_close') }}</option>
+                                    <option value="false" {{ $params['site_public_close'] == 'false' ? 'selected' : '' }}>{{ __('FsLang::panel.option_close') }}</option>
+                                    <option value="true" {{ $params['site_public_close'] == 'true' ? 'selected' : '' }}>{{ __('FsLang::panel.option_open') }}</option>
                                 </select>
                             </div>
                             <div class="input-group mb-3">
