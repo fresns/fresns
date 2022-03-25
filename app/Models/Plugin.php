@@ -8,11 +8,27 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 class Plugin extends Model
 {
+    use HasFactory;
+    use SoftDeletes;
+
     protected $casts = [
         'scene' => 'array',
     ];
+
+    public function getSceneAttribute($value)
+    {
+        if (is_string($value)) {
+            $value = json_decode($value, true);
+        }
+
+        return $value ?? [];
+    }
 
     public function scopeType($query, $value)
     {

@@ -43,4 +43,19 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    /**
+     * If the exception is a validation exception, throw a runtime exception with the first validation
+     * error
+     * 
+     * @param Throwable e The exception that was thrown.
+     */
+    public function report(Throwable $e)
+    {
+        if ($e instanceof \Illuminate\Validation\ValidationException) {
+            throw new \RuntimeException($e->validator->errors()->first());
+        }
+
+        parent::report($e);
+    }
 }
