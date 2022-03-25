@@ -11,10 +11,10 @@ namespace App\Fresns\Words\File\DTO;
 use Fresns\DTO\DTO;
 
 /***
- * Class GetFileUrlOfAntiLink
+ * Class GetFileUrlOfAntiLinkDTO
  * @package App\Fresns\Words\File\DTO
  */
-class GetFileInfoOfAntiLink extends DTO
+class GetFileUrlOfAntiLinkDTO extends DTO
 {
     /**
      * @return array

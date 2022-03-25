@@ -8,34 +8,36 @@
 
 namespace App\Fresns\Words\File;
 
-use App\Fresns\Words\File\DTO\GetFileInfoOfAntiLink;
-use App\Fresns\Words\File\DTO\GetFileUrlOfAntiLink;
-use App\Fresns\Words\File\DTO\GetUploadToken;
-use App\Fresns\Words\File\DTO\LogicalDeletionFile;
-use App\Fresns\Words\File\DTO\PhysicalDeletionFile;
+use App\Fresns\Words\Config\WordConfig;
+use App\Fresns\Words\File\DTO\GetFileInfoOfAntiLinkDTO;
+use App\Fresns\Words\File\DTO\GetFileUrlOfAntiLinkDTO;
+use App\Fresns\Words\File\DTO\GetUploadTokenDTO;
+use App\Fresns\Words\File\DTO\LogicalDeletionFileDTO;
+use App\Fresns\Words\File\DTO\PhysicalDeletionFileDTO;
 use App\Fresns\Words\File\DTO\UploadFile;
-use App\Fresns\Words\File\DTO\UploadFileInfo;
+use App\Fresns\Words\File\DTO\UploadFileInfoDTO;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Config;
 use App\Models\FileAppend;
 use App\Models\Plugin;
+use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 
 class File
 {
     public function getUploadToken($wordBody)
     {
-        $dtoWordBody = new GetUploadToken($wordBody);
-        $pluginUniKey = match ($dtoWordBody->type) {
-            1 => ConfigHelper::fresnsConfigByItemKey('image_service'),
+        $dtoWordBody = new GetUploadTokenDTO($wordBody);
+        $pluginUniKey = match($dtoWordBody->type){
+        1 => ConfigHelper::fresnsConfigByItemKey('image_service'),
             2 => ConfigHelper::fresnsConfigByItemKey('video_service'),
             3 => ConfigHelper::fresnsConfigByItemKey('audio_service'),
             default => ConfigHelper::fresnsConfigByItemKey('document_service'),
         };
 
         if (empty($pluginUniKey)) {
-            return ['code' => 50000, 'message' => 'plugin config not found'];
+            return ['code' => 20001, 'message' => 'plugin config not found'];
         }
 
         return \FresnsCmdWord::plugin($pluginUniKey)->getUploadToken($wordBody);
@@ -51,13 +53,13 @@ class File
         if ($paramsExist == false) {
             return ['message' => 'Unconfigured Plugin', 'code' => 500];
         }
-        $storePath = $this->getFileTempPath($dtoWordBody->type.$dtoWordBody->tableType);
+        $storePath = $this->getFileTempPath($dtoWordBody->type . $dtoWordBody->tableType);
         $path = $uploadFile->store($storePath);
         $basePath = base_path();
-        $basePath = $basePath.'/storage/app/';
-        $newPath = $storePath.'/'.\Str::random(8).'.'.$uploadFile->getClientOriginalExtension();
-        copy($basePath.$path, $basePath.$newPath);
-        unlink($basePath.$path);
+        $basePath = $basePath . '/storage/app/';
+        $newPath = $storePath . '/' . \Str::random(8) . '.' . $uploadFile->getClientOriginalExtension();
+        copy($basePath . $path, $basePath . $newPath);
+        unlink($basePath . $path);
         $fileArr['file_type'] = $dtoWordBody->type;
         $fileArr['file_name'] = $uploadFile->getClientOriginalName();
         $fileArr['file_extension'] = $uploadFile->getClientOriginalExtension();
@@ -87,7 +89,7 @@ class File
             $imageSize = getimagesize($uploadFile);
             $input['image_width'] = $imageSize[0] ?? null;
             $input['image_height'] = $imageSize[1] ?? null;
-            if (! empty($input['image_width']) >= 700) {
+            if (!empty($input['image_width']) >= 700) {
                 if ($input['image_height'] >= $input['image_width'] * 3) {
                     $input['image_is_long'] = 1;
                 }
@@ -98,7 +100,7 @@ class File
 
         $fidArr = [$fileArr['fid']];
         $fileIdArr = [$retId];
-        if (! empty($unikey)) {
+        if (!empty($unikey)) {
             $input = [];
             $input['fid'] = json_encode($fidArr);
             \FresnsCmdWord::plugin($unikey)->physicalDeletionFile($input);
@@ -110,12 +112,12 @@ class File
             $data['files'][] = $this->getFileData($fileIdArr, $type);
         }
 
-        return ['code' => 200, 'message' => 'success', 'data' => $data];
+        return ['code' => 0, 'message' => 'success', 'data' => $data];
     }
 
     public function uploadFileInfo($wordBody)
     {
-        $wordBody = new UploadFileInfo($wordBody);
+        $wordBody = new UploadFileInfoDTO($wordBody);
         $unikey = $this->getFileUniKey($wordBody->tableType)['unikey'] ?? '';
         $type = $wordBody->type ?? 0;
         $fileInfo = $wordBody->fileInfo ?? null;
@@ -156,7 +158,7 @@ class File
                 $append['image_width'] = $fileInfo['imageWidth'] == '' ? null : $fileInfo['imageWidth'];
                 $append['image_height'] = $fileInfo['imageHeight'] == '' ? null : $fileInfo['imageHeight'];
                 $imageLong = 0;
-                if (! empty($fileInfo['image_width'])) {
+                if (!empty($fileInfo['image_width'])) {
                     if ($fileInfo['image_width'] >= 700) {
                         if ($fileInfo['image_height'] >= $fileInfo['image_width'] * 3) {
                             $imageLong = 1;
@@ -178,7 +180,7 @@ class File
             }
         }
 
-        if (! empty($unikey)) {
+        if (!empty($unikey)) {
             $input = [];
             $input['fid'] = json_encode($fidArr);
             //          \FresnsCmdWord::plugin($unikey)->fresns_cmd_upload_file($input);
@@ -190,7 +192,7 @@ class File
             $data['files'][] = $this->getFileData($fileIdArr, $type);
         }
 
-        return ['code' => 200, 'message' => 'success', 'data' => $data];
+        return ['code' => 0, 'message' => 'success', 'data' => $data];
     }
 
     protected function getFileData($fileIdArr, $type)
@@ -249,18 +251,18 @@ class File
 
     public function getFileTempPath($options)
     {
-        $basePath = base_path().'/storage/app/public/';
-        $fileTempPath = config('CmdWordConfig.fileTempPath.'.$options);
+        $basePath = base_path() . '/storage/app/public/';
+        $fileTempPath = WordConfig::FILE_TEMP_PATH[$options] ?? '';
         if (empty($fileTempPath)) {
             $fileTempPath = '/temp_files/unknown/{ym}/{day}';
         }
         $fileTempPath = str_replace(['{ym}', '{day}'], [date('Ym', time()), date('d', time())], $fileTempPath);
-        $realPath = $basePath.$fileTempPath;
-        if (! is_dir($realPath)) {
+        $realPath = $basePath . $fileTempPath;
+        if (!is_dir($realPath)) {
             \Illuminate\Support\Facades\File::makeDirectory($realPath, 0755, true, true);
         }
 
-        return 'public'.$fileTempPath;
+        return 'public' . $fileTempPath;
     }
 
     public function validParamExist(int $fileType)
@@ -285,7 +287,7 @@ class File
         }
         $configMapInDB = Config::whereIn('item_key', $configQuery)->pluck('item_value', 'item_key')->toArray();
         foreach ($validParam as $v) {
-            if (! isset($configMapInDB[$v]) || $configMapInDB[$v] == '') {
+            if (!isset($configMapInDB[$v]) || $configMapInDB[$v] == '') {
                 return false;
             }
         }
@@ -294,7 +296,7 @@ class File
     }
 
     /**
-     * @param  int  $type
+     * @param int $type
      * @return array
      */
     protected function getFileUniKey(int $type)
@@ -330,22 +332,22 @@ class File
      */
     public function getFileUrlOfAntiLink($wordBody)
     {
-        $dtoWordBody = new GetFileUrlOfAntiLink($wordBody);
+        $dtoWordBody = new GetFileUrlOfAntiLinkDTO($wordBody);
         if (isset($dtoWordBody->fileId)) {
             $file = \App\Models\File::where('id', $dtoWordBody->fileId)->first();
         } else {
             $file = \App\Models\File::where('fid', $dtoWordBody->fid)->first();
         }
         if (empty($file)) {
-            return ['code' => 500, 'message' => 'file not found', 'data' => []];
+            return ['code' => 20009, 'message' => 'file not found', 'data' => []];
         }
         $fileUniKey = $this->getFileUniKey($file->file_type);
         if ($fileUniKey['status'] == false) {
             $fileContent = FileHelper::fresnsFileInfoById($dtoWordBody->fileId);
             $fileContent = array_diff_key($fileContent, ['fid' => 0, 'rankNum' => 0, 'name' => 0, 'extension' => 0, 'mime' => 0, 'size' => 0,
-                'moreJson' => 0, 'imageWidth' => 0, 'imageHeight' => 0, 'imageLong' => 0, 'videoTime' => 0, 'audioTime' => 0, 'transcodingState' => 0, 'file_type' => 0, ]);
+                'moreJson' => 0, 'imageWidth' => 0, 'imageHeight' => 0, 'imageLong' => 0, 'videoTime' => 0, 'audioTime' => 0, 'transcodingState' => 0, 'file_type' => 0,]);
 
-            return ['code' => 200, 'data' => $fileContent, 'message' => 'success'];
+            return ['code' => 0, 'data' => $fileContent, 'message' => 'success'];
         }
 
         return \FresnsCmdWord::plugin($fileUniKey['unikey'])->getFileUrlOfAntiLink($wordBody);
@@ -359,38 +361,38 @@ class File
      */
     public function getFileInfoOfAntiLink($wordBody)
     {
-        $dtoWordBody = new GetFileInfoOfAntiLink($wordBody);
+        $dtoWordBody = new GetFileInfoOfAntiLinkDTO($wordBody);
         if (isset($dtoWordBody->fileId)) {
             $file = \App\Models\File::where('id', $dtoWordBody->fileId)->first();
         } else {
             $file = \App\Models\File::where('fid', $dtoWordBody->fid)->first();
         }
         if (empty($file)) {
-            return ['code' => 500, 'message' => 'file not found', 'data' => []];
+            return ['code' => 20009, 'message' => 'file not found', 'data' => []];
         }
         $fileUniKey = $this->getFileUniKey($file->file_type);
         if ($fileUniKey['status'] == false) {
             $fileContent = FileHelper::fresnsFileInfoById($dtoWordBody->fileId);
-            $fileContent = array_diff_key($fileContent, ['documentOriginalUrl'=>0, 'audioOriginalUrl'=>0, 'imageOriginalUrl'=>0]);
+            $fileContent = array_diff_key($fileContent, ['documentOriginalUrl' => 0, 'audioOriginalUrl' => 0, 'imageOriginalUrl' => 0]);
 
-            return ['code' => 200, 'data' => $fileContent, 'message' => 'success'];
+            return ['code' => 0, 'data' => $fileContent, 'message' => 'success'];
         }
 
         return \FresnsCmdWord::plugin($fileUniKey['unikey'])->getFileUrlOfAntiLink($wordBody);
     }
 
     /**
-     * @param  string  $uniKey
+     * @param string $uniKey
      * @return bool|null
      */
     protected function findPluginClass(string $uniKey)
     {
         $pluginClass = "\\App\\Plugins\\{$uniKey}";
-        if (! class_exists($pluginClass)) {
+        if (!class_exists($pluginClass)) {
             return null;
         }
         $installClass = "\\App\\Plugins\\{$uniKey}\\Installer";
-        if (! class_exists($installClass)) {
+        if (!class_exists($installClass)) {
             return false;
         }
         $plugin = Plugin::where('unikey', $uniKey)->where('is_enable', 1)->first();
@@ -409,7 +411,7 @@ class File
      */
     public function logicalDeletionFile($wordBody)
     {
-        $wordBody = new LogicalDeletionFile($wordBody);
+        $wordBody = new LogicalDeletionFileDTO($wordBody);
         if (isset($wordBody->fileId)) {
             $query = ['id' => $wordBody->fileId, 'is_enable' => 1];
         } else {
@@ -417,11 +419,11 @@ class File
         }
         $file = \App\Models\File::where($query)->first();
         if (empty($file)) {
-            return ['message' => 'file not found', 'code' => 500];
+            return ['message' => 'file not found', 'code' => 20009];
         }
         \App\Models\File::where($query)->update(['deleted_at' => date('Y-m-d H:i:s'), 'is_enable' => 0]);
 
-        return ['message' => 'success', 'code' => 200];
+        return ['message' => 'success', 'code' => 0];
     }
 
     /**
@@ -432,7 +434,7 @@ class File
      */
     public function physicalDeletionFile($wordBody)
     {
-        $dtoWordBody = new PhysicalDeletionFile($wordBody);
+        $dtoWordBody = new PhysicalDeletionFileDTO($wordBody);
         if (isset($dtoWordBody->fileId)) {
             $query = ['id' => $dtoWordBody->fileId];
         } else {
@@ -440,17 +442,17 @@ class File
         }
         $file = \App\Models\File::where($query)->first();
         if (empty($file)) {
-            return ['message' => 'file not found', 'code' => 500];
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
         }
 
-        $pluginUniKey = match ($file['file_type']) {
-            1 => ConfigHelper::fresnsConfigByItemKey('image_service'),
+        $pluginUniKey = match($file['file_type']){
+        1 => ConfigHelper::fresnsConfigByItemKey('image_service'),
             2 => ConfigHelper::fresnsConfigByItemKey('video_service'),
             3 => ConfigHelper::fresnsConfigByItemKey('audio_service'),
             default => ConfigHelper::fresnsConfigByItemKey('document_service'),
         };
         if (empty($pluginUniKey)) {
-            return ['message' => 'plugin config not found', 'code' => 500];
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20004)::throw();
         }
 
         return \FresnsCmdWord::plugin($pluginUniKey)->physicalDeletionFile($wordBody);
@@ -458,8 +460,8 @@ class File
 
     protected function getTableId($tableName, $tableId)
     {
-        $tableId = match ($tableName) {
-            'accounts'=>PrimaryHelper::fresnsAccountIdByAid($tableId),
+        $tableId = match($tableName){
+             'accounts'=>PrimaryHelper::fresnsAccountIdByAid($tableId),
             'users'=>PrimaryHelper::fresnsUserIdByUid($tableId),
             'posts'=>PrimaryHelper::fresnsPostIdByPid($tableId),
             'comments'=>PrimaryHelper::fresnsCommentIdByCid($tableId),

@@ -11,9 +11,9 @@ namespace App\Fresns\Words\Send\DTO;
 use Fresns\DTO\DTO;
 
 /**
- * Class SendAppNotification.
+ * Class SendAppNotificationDTO.
  */
-class SendAppNotification extends DTO
+class SendAppNotificationDTO extends DTO
 {
     /**
      * @return array

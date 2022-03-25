@@ -9,34 +9,36 @@
 namespace App\Fresns\Words\Wallet;
 
 use App\Fresns\Words\Wallet\DTO\WalletDecrease;
-use App\Fresns\Words\Wallet\DTO\WalletIncrease;
+use App\Fresns\Words\Wallet\DTO\WalletIncreaseDTO;
 use App\Helpers\PrimaryHelper;
 use App\Models\Account;
 use App\Models\AccountWallet;
 use App\Models\AccountWalletLog;
 use App\Models\User;
+use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 
 class Wallet
 {
     /**
-     * @param  WalletIncrease  $wordBody
+     * @param  WalletIncreaseDTO  $wordBody
      * @return array
      */
-    public function walletIncrease(WalletIncrease $wordBody)
+    public function walletIncrease(WalletIncreaseDTO $wordBody)
     {
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($wordBody->aid);
+        $dtoWordBody = new WalletIncreaseDTO($wordBody);
+        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         $userId = null;
-        if (isset($wordBody->uid)) {
-            $userId = PrimaryHelper::fresnsUserIdByUid($wordBody->uid);
+        if (isset($dtoWordBody->uid)) {
+            $userId = PrimaryHelper::fresnsUserIdByUid($dtoWordBody->uid);
         }
         if (empty($accountId) || (isset($userId) && empty($userId))) {
-            return ['msg' => 'error'];
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
         }
 
-        if (empty($wordBody->originAid)) {
-            $result = $this->emptyOriginAidIncrease($wordBody, $accountId, $userId);
+        if (empty($dtoWordBody->originAid)) {
+            $result = $this->emptyOriginAidIncrease($dtoWordBody, $accountId, $userId);
         } else {
-            $result = $this->existOriginAidIncrease($wordBody, $accountId, $userId);
+            $result = $this->existOriginAidIncrease($dtoWordBody, $accountId, $userId);
         }
 
         return $result;
@@ -48,18 +50,19 @@ class Wallet
      */
     public function walletDecrease(WalletDecrease $wordBody)
     {
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($wordBody->aid);
+        $dtoWordBody = new WalletDecrease($wordBody);
+        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         $userId = null;
-        if (isset($wordBody->uid)) {
-            $userId = PrimaryHelper::fresnsUserIdByUid($wordBody->uid);
+        if (isset($dtoWordBody->uid)) {
+            $userId = PrimaryHelper::fresnsUserIdByUid($dtoWordBody->uid);
         }
         if (empty($accountId) || (isset($userId) && empty($userId))) {
             return ['msg' => 'error'];
         }
-        if (empty($wordBody->originAid)) {
-            $result = $this->emptyOriginAidDecrease($wordBody, $accountId, $userId);
+        if (empty($dtoWordBody->originAid)) {
+            $result = $this->emptyOriginAidDecrease($dtoWordBody, $accountId, $userId);
         } else {
-            $result = $this->existOriginAidDecrease($wordBody, $accountId, $userId);
+            $result = $this->existOriginAidDecrease($dtoWordBody, $accountId, $userId);
         }
 
         return $result;
@@ -132,7 +135,7 @@ class Wallet
         ];
         AccountWallet::where('account_id', $accountId)->update($userWalletsArr);
 
-        return ['code' => 200, 'msg' => 'success'];
+        return ['code' => 0, 'msg' => 'success'];
     }
 
     /**
@@ -145,7 +148,7 @@ class Wallet
     {
         $verifyWalletBalance = $this->verifyWalletBalance($accountId);
         if (empty($verifyWalletBalance)) {
-            return ['code' => 500, 'msg' => 'Balance Error'];
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
         }
         $objectType = $this->walletLogObjType($wordBody->type);
         $addAccountWallet = $this->reduceAccountWallet($wordBody, $verifyWalletBalance['balance'], $objectType, $accountId, $userId);
@@ -154,7 +157,7 @@ class Wallet
         ];
         AccountWallet::where('account_id', $accountId)->update($userWalletsArr);
 
-        return ['code' => 200, 'msg' => 'success'];
+        return ['code' => 0, 'msg' => 'success'];
     }
 
     /**
@@ -172,14 +175,14 @@ class Wallet
         $originAccountId = Account::where('aid', $wordBody->originAid)->value('id');
         $verifyWalletBalance = $this->verifyWalletBalance($accountId);
         if (empty($verifyWalletBalance)) {
-            return ['code' => 500, 'msg' => 'Balance Error'];
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
         }
         $verifyOriginWalletBalance = $this->verifyOriginWalletBalance($originAccountId, $wordBody->amount);
         if (empty($verifyOriginWalletBalance)) {
-            return ['code' => 500, 'msg' => 'OriginAig Balance Error'];
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
         }
         if (empty($originAccountId) || (isset($originUserId) && empty($originUserId))) {
-            return ['code' => 500, 'msg' => 'OriginUser or OriginAccount is not exist'];
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
         }
         $objectType = $this->walletLogObjType($wordBody->type);
         $reduceOriginAccountWallet = $this->AddAccountWallet($wordBody, $verifyOriginWalletBalance['balance'], $objectType, $originAccountId, $accountId, $originUserId, $userId);
@@ -189,7 +192,7 @@ class Wallet
         $OriginWallet = ['balance' => $verifyOriginWalletBalance['balance'] - $wordBody->amount];
         AccountWallet::where('account_id', $originAccountId)->update($OriginWallet);
 
-        return ['code' => 200, 'msg' => 'success'];
+        return ['code' => 0, 'msg' => 'success'];
     }
 
     /**
@@ -208,15 +211,15 @@ class Wallet
         //校验收款方余额
         $ReceivingBalance = $this->verifyWalletBalance($originAccountId);
         if (empty($ReceivingBalance)) {
-            return ['code' => 500, 'msg' => 'Balance Error'];
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
         }
         //验证支出方余额
         $WalletBalance = $this->verifyOriginWalletBalance($accountId, $wordBody->amount);
         if (empty($WalletBalance)) {
-            return ['code' => 500, 'msg' => 'OriginAig Balance Error'];
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
         }
         if (empty($originAccountId) || (isset($originUserId) && empty($originUserId))) {
-            return ['code' => 500, 'msg' => 'OriginUser or OriginAccount is not exist'];
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
         }
         $objectType = $this->walletLogObjType($wordBody->type);
         $reduceOriginAccountWallet = $this->reduceAccountWallet($wordBody, $WalletBalance['balance'], $objectType, $originAccountId, $accountId, $originUserId, $userId);
@@ -226,7 +229,7 @@ class Wallet
         $OriginWallet = ['balance' => $WalletBalance['balance'] - $wordBody->amount];
         AccountWallet::where('account_id', $accountId)->update($OriginWallet);
 
-        return ['code' => 200, 'msg' => 'success'];
+        return ['code' => 0, 'msg' => 'success','data'=>[]];
     }
 
     /**

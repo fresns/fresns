@@ -8,8 +8,8 @@
 
 namespace App\Fresns\Words\Crontab;
 
-use App\Fresns\Words\Crontab\DTO\AddCrontabItem;
-use App\Fresns\Words\Crontab\DTO\DeleteCrontabItem;
+use App\Fresns\Words\Crontab\DTO\AddCrontabItemDTO;
+use App\Fresns\Words\Crontab\DTO\DeleteCrontabItemDTO;
 use App\Helpers\ConfigHelper;
 use App\Models\Account;
 use App\Models\AccountConnect;
@@ -29,7 +29,7 @@ class Crontab
      */
     public function addCrontabItem($wordBody)
     {
-        $dtoWordBody = new AddCrontabItem($wordBody);
+        $dtoWordBody = new AddCrontabItemDTO($wordBody);
         $cronArr = ConfigHelper::fresnsConfigByItemKey('crontab_items');
         foreach ($cronArr as $k => $v) {
             if ($v['unikey'] == $dtoWordBody->unikey && $v['cmdWord'] == $dtoWordBody->cmdWord) {
@@ -52,7 +52,7 @@ class Crontab
      */
     public function deleteCrontabItem($wordBody)
     {
-        $dtoWordBody = new DeleteCrontabItem($wordBody);
+        $dtoWordBody = new DeleteCrontabItemDTO($wordBody);
         $cronArr = ConfigHelper::fresnsConfigByItemKey('crontab_items');
         foreach ($cronArr as $k => $v) {
             if ($v['unikey'] == $dtoWordBody->unikey && $v['cmdWord'] == $dtoWordBody->cmdWord) {

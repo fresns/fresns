@@ -10,7 +10,10 @@ namespace App\Fresns\Words\Account\DTO;
 
 use Fresns\DTO\DTO;
 
-class LogicalDeletionAccount extends DTO
+/**
+ * Class VerifySessionTokenDTO.
+ */
+class VerifySessionTokenDTO extends DTO
 {
     /**
      * @return array
@@ -18,7 +21,10 @@ class LogicalDeletionAccount extends DTO
     public function rules(): array
     {
         return [
-            'accountId' => ['required', 'integer'],
+            'platform' => ['required', 'integer'],
+            'aid' => ['required', 'string'],
+            'uid' => 'integer',
+            'token' => ['required', 'string'],
         ];
     }
 }

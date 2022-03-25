@@ -6,23 +6,20 @@
  * Released under the Apache-2.0 License.
  */
 
-namespace App\Fresns\Words\File\DTO;
+namespace App\Fresns\Words\Basis\DTO;
 
 use Fresns\DTO\DTO;
 
 /**
- * Class GetUploadToken.
+ * Class VerifyUrlSignDTO.
  */
-class GetUploadToken extends DTO
+class VerifyUrlSignDTO extends DTO
 {
     /**
      * @return array
      */
     public function rules(): array
     {
-        return [
-            'type' => 'integer',
-            'scene' => 'integer',
-        ];
+        return ['urlSign'=> 'required'];
     }
 }

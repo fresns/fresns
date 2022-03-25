@@ -11,7 +11,7 @@ namespace App\Fresns\Words\File\DTO;
 use Fresns\DTO\DTO;
 
 /**
- * Class LogicalDeletionFile.
+ * Class LogicalDeletionFileDTO.
  */
 class UploadFile extends DTO
 {

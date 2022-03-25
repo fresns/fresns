@@ -6,15 +6,14 @@
  * Released under the Apache-2.0 License.
  */
 
-namespace App\Fresns\Words\File\DTO;
+namespace App\Fresns\Words\Crontab\DTO;
 
 use Fresns\DTO\DTO;
 
-/***
- * Class GetFileUrlOfAntiLink
- * @package App\Fresns\Words\File\DTO
+/**
+ * Class AddCrontabItemDTO.
  */
-class GetFileUrlOfAntiLink extends DTO
+class DeleteCrontabItemDTO extends DTO
 {
     /**
      * @return array
@@ -22,8 +21,9 @@ class GetFileUrlOfAntiLink extends DTO
     public function rules(): array
     {
         return [
-            'fileId' => ['integer', 'required_without:fid'],
-            'fid' => ['integer', 'required_without:fileId'],
+            'unikey'=>'string',
+            'cmdWord'=>'string',
+            'taskPeriod' => 'string',
         ];
     }
 }

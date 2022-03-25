@@ -11,7 +11,7 @@ namespace App\Fresns\Words\Account\DTO;
 use Fresns\DTO\DTO;
 
 /**
- * Class AddAccount.
+ * Class AddAccountDTO.
  *
  * @property int $type
  * @property string $account
@@ -19,7 +19,7 @@ use Fresns\DTO\DTO;
  * @property int $connectInfo
  * @property string $password
  */
-class AddAccount extends DTO
+class AddAccountDTO extends DTO
 {
     /**
      * @return array

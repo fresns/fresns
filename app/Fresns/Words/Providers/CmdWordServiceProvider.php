@@ -31,7 +31,7 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
      */
     protected $cmdWordsMap = [
         // Basic
-        ['word' => 'decodeUrlSign', 'provider' => [Basis::class, 'decodeUrlSign']],
+        ['word' => 'verifyUrlSign', 'provider' => [Basis::class, 'verifyUrlSign']],
         ['word' => 'verifySign', 'provider' => [Basis::class, 'verifySign']],
         ['word' => 'uploadSessionLog', 'provider' => [Basis::class, 'uploadSessionLog']],
         ['word' => 'sendCode', 'provider' => [Basis::class, 'sendCode']],

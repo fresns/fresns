@@ -8,11 +8,11 @@
 
 namespace App\Fresns\Words\User;
 
-use App\Fresns\Words\User\DTO\AddUser;
-use App\Fresns\Words\User\DTO\DeactivateUserDialog;
-use App\Fresns\Words\User\DTO\GetUserDetail;
-use App\Fresns\Words\User\DTO\LogicalDeletionUser;
-use App\Fresns\Words\User\DTO\VerifyUser;
+use App\Fresns\Words\User\DTO\AddUserDTO;
+use App\Fresns\Words\User\DTO\DeactivateUserDialogDTO;
+use App\Fresns\Words\User\DTO\GetUserDetailDTO;
+use App\Fresns\Words\User\DTO\LogicalDeletionUserDTO;
+use App\Fresns\Words\User\DTO\VerifyUserDTO;
 use App\Helpers\ConfigHelper;
 use App\Helpers\StrHelper;
 use App\Models\Account;
@@ -20,35 +20,37 @@ use App\Models\Dialog;
 use App\Models\File;
 use App\Models\UserRole;
 use App\Models\UserStat;
+use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 use Illuminate\Support\Facades\Hash;
 
 class User
 {
     /**
-     * @param  AddUser  $wordBody
+     * @param AddUserDTO $dtoWordBody
      * @return array
      */
-    public function addUser(AddUser $wordBody)
+    public function addUser(AddUserDTO $wordBody)
     {
-        if (! empty($wordBody->avatarFid) && empty($wordBody->avatar_file_url)) {
-            $wordBody->avatar_file_url = File::where('uuid', $wordBody->avatarFid)->value('file_path');
+        $dtoWordBody = new AddUserDTO($wordBody);
+        if (!empty($dtoWordBody->avatarFid) && empty($dtoWordBody->avatar_file_url)) {
+            $dtoWordBody->avatar_file_url = File::where('uuid', $dtoWordBody->avatarFid)->value('file_path');
         }
-        $account_id = Account::where('aid', $wordBody->aid)->value('id');
+        $account_id = Account::where('aid', $dtoWordBody->aid)->value('id');
         if (empty($account_id)) {
-            return ['error'];
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
         }
         $userArr = [
             'account_id' => $account_id,
             'uid' => StrHelper::generateDigital(8),
-            'username' => $wordBody->username,
-            'nickname' => $wordBody->nickname,
-            'password' => isset($wordBody->password) ?? null,
-            'avatarFid' => isset($wordBody->avatarFid) ? File::where('uuid', $wordBody->avatarFid)->value('id') : null,
-            'avatarUrl' => $wordBody->avatar_file_url ?? null,
-            'gender' => $wordBody->gender ?? 0,
-            'birthday' => $wordBody->birthday ?? '',
-            'timezone' => $wordBody->timezone ?? '',
-            'language' => $wordBody->language ?? '',
+            'username' => $dtoWordBody->username,
+            'nickname' => $dtoWordBody->nickname,
+            'password' => isset($dtoWordBody->password) ?? null,
+            'avatarFid' => isset($dtoWordBody->avatarFid) ? File::where('uuid', $dtoWordBody->avatarFid)->value('id') : null,
+            'avatarUrl' => $dtoWordBody->avatar_file_url ?? null,
+            'gender' => $dtoWordBody->gender ?? 0,
+            'birthday' => $dtoWordBody->birthday ?? '',
+            'timezone' => $dtoWordBody->timezone ?? '',
+            'language' => $dtoWordBody->language ?? '',
         ];
         $uid = \App\Models\User::insertGetId(array_filter($userArr));
         $defaultRoleId = ConfigHelper::fresnsConfigByItemKey('default_role');
@@ -62,18 +64,19 @@ class User
         UserStat::insert($statArr);
         $countAdd = ConfigHelper::fresnsCountAdd('users_count');
 
-        return [];
+        return ['code' => 0, 'message' => 'success', 'data' => []];
     }
 
     /**
-     * @param  VerifyUser  $wordBody
+     * @param VerifyUserDTO $wordBody
      * @return array
      */
-    public function verifyUser(VerifyUser $wordBody)
+    public function verifyUser(VerifyUserDTO $wordBody)
     {
-        $user = User::where('uid', '=', $wordBody->uid)->first();
+        $dtoWordBody = new VerifyUserDTO($wordBody);
+        $user = User::where('uid', '=', $dtoWordBody->uid)->first();
         if ($user) {
-            $result = ! Hash::check($wordBody->password, $user->password);
+            $result = !Hash::check($dtoWordBody->password, $user->password);
         }
         $result = false;
         $data = ['aid' => $user->aid, 'uid' => $user->account_id];
@@ -82,36 +85,47 @@ class User
     }
 
     /**
-     * @param  GetUserDetail  $wordBody
+     * @param GetUserDetailDTO $wordBody
      * @return mixed
      */
-    public function getUserDetail(GetUserDetail $wordBody)
+    public function getUserDetail($wordBody)
     {
+        $dtoWordBody = new GetUserDetailDTO($wordBody);
         if (isset($wordBody->uid)) {
-            $condition = ['uid' => $wordBody->uid];
+            $condition = ['uid' => $dtoWordBody->uid];
         } else {
-            $condition = ['username' => $wordBody->username];
+            $condition = ['username' => $dtoWordBody->username];
         }
         $detail = User::where($condition)->first();
 
         return $detail;
     }
 
+    /**
+     * @param $wordBody
+     * @return array
+     * @throws \Throwable
+     */
     public function logicalDeletionUser($wordBody)
     {
-        $wordBody = new LogicalDeletionUser($wordBody);
-        \App\Models\User::where('account_id', $wordBody->accountId)->update(['deleted_at'=>now()]);
+        $dtoWordBody = new LogicalDeletionUserDTO($wordBody);
+        \App\Models\User::where('account_id', $dtoWordBody->accountId)->update(['deleted_at' => now()]);
 
-        return ['code'=>200, 'message'=>'success', 'data'=>[]];
+        return ['code' => 0, 'message' => 'success', 'data' => []];
     }
 
+    /**
+     * @param $wordBody
+     * @return array
+     * @throws \Throwable
+     */
     public function deactivateUserDialog($wordBody)
     {
-        $wordBody = new DeactivateUserDialog($wordBody);
+        $wordBody = new DeactivateUserDialogDTO($wordBody);
         $user = \App\Models\User::where('id', '=', $wordBody->userId)->first();
-        Dialog::where('a_user_id', '=', $user['id'])->update(['a_is_deactivate'=>0]);
-        Dialog::where('b_user_id', '=', $user['id'])->update(['b_is_deactivate'=>0]);
+        Dialog::where('a_user_id', '=', $user['id'])->update(['a_is_deactivate' => 0]);
+        Dialog::where('b_user_id', '=', $user['id'])->update(['b_is_deactivate' => 0]);
 
-        return ['code'=>200, 'message'=>'success', 'data'=>[]];
+        return ['code' => 0, 'message' => 'success', 'data' => []];
     }
 }

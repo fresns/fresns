@@ -11,9 +11,9 @@ namespace App\Fresns\Words\Send\DTO;
 use Fresns\DTO\DTO;
 
 /**
- * Class SendWechatMessage.
+ * Class SendWechatMessageDTO.
  */
-class SendWechatMessage extends DTO
+class SendWechatMessageDTO extends DTO
 {
     /**
      * @return array

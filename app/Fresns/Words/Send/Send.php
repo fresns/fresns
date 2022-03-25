@@ -8,10 +8,10 @@
 
 namespace App\Fresns\Words\Send;
 
-use App\Fresns\Words\Send\DTO\SendAppNotification;
+use App\Fresns\Words\Send\DTO\SendAppNotificationDTO;
 use App\Fresns\Words\Send\DTO\SendEmailDTO;
 use App\Fresns\Words\Send\DTO\SendSmsDTO;
-use App\Fresns\Words\Send\DTO\SendWechatMessage;
+use App\Fresns\Words\Send\DTO\SendWechatMessageDTO;
 use App\Helpers\ConfigHelper;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
@@ -62,7 +62,7 @@ class Send
      */
     public function sendAppNotification($wordBody)
     {
-        $wordBody = new SendAppNotification($wordBody);
+        $wordBody = new SendAppNotificationDTO($wordBody);
 
         $channelMap = [
             1 => 'send_ios_service',
@@ -86,7 +86,7 @@ class Send
      */
     public function sendWechatMessage($wordBody)
     {
-        $wordBody = new SendWechatMessage($wordBody);
+        $wordBody = new SendWechatMessageDTO($wordBody);
 
         $this->ensureUnikeyIsNotEmpry(
             $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('send_wechat_service')

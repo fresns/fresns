@@ -10,7 +10,7 @@ namespace App\Fresns\Words\User\DTO;
 
 use Fresns\DTO\DTO;
 
-class AddUser extends DTO
+class VerifyUserDTO extends DTO
 {
     /**
      * @return array
@@ -18,15 +18,8 @@ class AddUser extends DTO
     public function rules(): array
     {
         return [
-            'aid' => ['required', 'string'],
-            'nickname' => ['required', 'string'],
-            'username' => 'string',
+            'uid' => ['integer', 'required'],
             'password' => 'string',
-            'avatarUrl' => 'sring',
-            'gender' => 'integer',
-            'birthday' => 'string',
-            'timezone' => 'string',
-            'language' => 'string',
         ];
     }
 }

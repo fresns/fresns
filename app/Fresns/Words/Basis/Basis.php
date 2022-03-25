@@ -25,31 +25,39 @@ use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 class Basis
 {
     /**
-     * @param  DecodeSignDTO  $urlSign
+     * @param $wordBody
      * @return mixed
      */
-    public function decodeSign(DecodeSignDTO $urlSign)
+    public function verifyUrlSign($wordBody)
     {
-        $decodeSign = url_decode(base64_decode($urlSign['decodeSignDTO']));
+        $dtoWordBody = new VerifyUrlSignDTO($wordBody);
+        $verifyUrlSign = url_decode(base64_decode($dtoWordBody->VerifyUrlSignDTO));
 
-        return $decodeSign;
+        return $verifyUrlSign;
     }
 
+
+    /**
+     * @param VerifySignDTO $wordBody
+     * @return array|string
+     * @throws \Throwable
+     */
     public function verifySign(VerifySignDTO $wordBody)
     {
-        $checkTokenParam = SignHelper::checkTokenParam($wordBody->token, $wordBody->aid, $wordBody->uid);
+        $dtoWordBody = new VerifySignDTO($wordBody);
+        $checkTokenParam = SignHelper::checkTokenParam($dtoWordBody->token, $dtoWordBody->aid, $dtoWordBody->uid);
         if (! $checkTokenParam) {
             return 'verify not passed';
         }
 
         $includeEmptyCheckArr = [
-            'platform' => $wordBody->platform,
-            'version' => $wordBody->version,
-            'appId' => $wordBody->appId,
-            'timestamp' => $wordBody->timestamp,
-            'aid' => $wordBody->aid,
-            'uid' => $wordBody->uid,
-            'token' => $wordBody->token,
+            'platform' => $dtoWordBody->platform,
+            'version' => $dtoWordBody->version,
+            'appId' => $dtoWordBody->appId,
+            'timestamp' => $dtoWordBody->timestamp,
+            'aid' => $dtoWordBody->aid,
+            'uid' => $dtoWordBody->uid,
+            'token' => $dtoWordBody->token,
         ];
 
         $withoutEmptycheckArr = array_filter($includeEmptyCheckArr);
@@ -57,7 +65,7 @@ class Basis
         // Header Signature Expiration Date
         $min = 5; //Expiration time limit (unit: minutes)
         //Determine the timestamp type
-        $timestampNum = strlen($wordBody->timestamp);
+        $timestampNum = strlen($dtoWordBody->timestamp);
         if ($timestampNum == 10) {
             $now = time();
             $expiredMin = $min * 60;
@@ -65,53 +73,64 @@ class Basis
             $now = intval(microtime(true) * 1000);
             $expiredMin = $min * 60 * 1000;
         }
-        if ($now - $wordBody->timestamp > $expiredMin) {
+        if ($now - $dtoWordBody->timestamp > $expiredMin) {
             return 'wrong timestamp';
         }
-        $signKey = SessionKey::where('app_id', $wordBody->appId)->first()->app_secret;
+        $signKey = SessionKey::where('app_id', $dtoWordBody->appId)->first()->app_secret;
         $emptyCheckArr = SignHelper::checkSign($includeEmptyCheckArr, $signKey);
         $checkArr = SignHelper::checkSign($withoutEmptycheckArr, $signKey);
         if ($checkArr !== true || $emptyCheckArr != true) {
             return 'wrong key';
         }
 
-        return 'success';
+        return ['message'=>'success','code'=>0,'data'=>[]];
     }
 
-    public function uploadSessionLog(UploadSessionLogDTO $wordBody)
+    /**
+     * @param $wordBody
+     * @return array
+     * @throws \Throwable
+     */
+    public function uploadSessionLog($wordBody)
     {
-        if (isset($wordBody->aid)) {
-            $accountId = Account::where('aid', '=', $wordBody->aid)->value('id');
-            $wordBody->accountId = $accountId;
+        $dtoWordBody = new UploadSessionLogDTO($wordBody);
+        if (isset($dtoWordBody->aid)) {
+            $accountId = Account::where('aid', '=', $dtoWordBody->aid)->value('id');
+            $dtoWordBody->accountId = $accountId;
         }
 
-        if (isset($wordBody->uid)) {
-            $userId = User::where('uid', '=', $wordBody->uid)->value('id');
-            $wordBody->userId = $userId;
+        if (isset($dtoWordBody->uid)) {
+            $userId = User::where('uid', '=', $dtoWordBody->uid)->value('id');
+            $dtoWordBody->userId = $userId;
         }
 
         $input = [
-            'plugin_unikey' => $wordBody->pluginUnikey ?? 'Fresns',
-            'platform_id' => $wordBody->platform,
-            'version' => $wordBody->version,
-            'lang_tag' => $wordBody->langTag ?? null,
-            'account_id' => $wordBody->accountId ?? null,
-            'user_id' => $wordBody->userId ?? null,
-            'object_type' => $wordBody->objectType,
-            'object_name' => $wordBody->objectName,
-            'object_action' => $wordBody->objectAction,
-            'object_result' => $wordBody->objectResult,
-            'object_order_id' => $wordBody->objectOrderId ?? null,
-            'device_info' => $wordBody->deviceInfo ?? null,
-            'device_token' => $wordBody->deviceToken ?? null,
-            'more_json' => $wordBody->moreJson ?? null,
+            'plugin_unikey' => $dtoWordBody->pluginUnikey ?? 'Fresns',
+            'platform_id' => $dtoWordBody->platform,
+            'version' => $dtoWordBody->version,
+            'lang_tag' => $dtoWordBody->langTag ?? null,
+            'account_id' => $dtoWordBody->accountId ?? null,
+            'user_id' => $dtoWordBody->userId ?? null,
+            'object_type' => $dtoWordBody->objectType,
+            'object_name' => $dtoWordBody->objectName,
+            'object_action' => $dtoWordBody->objectAction,
+            'object_result' => $dtoWordBody->objectResult,
+            'object_order_id' => $dtoWordBody->objectOrderId ?? null,
+            'device_info' => $dtoWordBody->deviceInfo ?? null,
+            'device_token' => $dtoWordBody->deviceToken ?? null,
+            'more_json' => $dtoWordBody->moreJson ?? null,
         ];
 
         SessionLog::insert($input);
 
-        return 'success';
+        return ['message'=>'success','code'=>0,'data'=>[]];
     }
 
+    /**
+     * @param $wordBody
+     * @return mixed
+     * @throws \Throwable
+     */
     public function sendCode($wordBody)
     {
         $dtoWordBody = new SendCodeDTO($wordBody);
@@ -127,21 +146,26 @@ class Basis
         return \FresnsCmdWord::plugin($pluginUniKey)->sendCode($wordBody);
     }
 
+    /**
+     * @param CheckCodeDTO $wordBody
+     * @return array
+     */
     public function checkCode(CheckCodeDTO $wordBody)
     {
+        $dtowordBody = $wordBody;
         $term = [
-            'type' => $wordBody->type,
-            'account' => $wordBody->account,
-            'code' => $wordBody->type == 1 ? $wordBody->verifyCode : $wordBody->countryCode.$wordBody->account,
+            'type' => $dtowordBody->type,
+            'account' => $dtowordBody->account,
+            'code' => $dtowordBody->type == 1 ? $dtowordBody->verifyCode : $dtowordBody->countryCode.$dtowordBody->account,
             'is_enable' => 1,
         ];
         $verifyInfo = VerifyCode::where($term)->where('expired_at', '>', date('Y-m-d H:i:s'))->first();
         if ($verifyInfo) {
             VerifyCode::where('id', $verifyInfo['id'])->update(['is_enable' => 0]);
 
-            return ['message'=>'success', 'code'=>200, 'data'=>[]];
+            return ['message'=>'success', 'code'=>0, 'data'=>[]];
         } else {
-            return ['message'=>'error', 'code'=>200, 'data'=>[]];
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
         }
     }
 }

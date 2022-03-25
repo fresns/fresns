@@ -8,12 +8,12 @@
 
 namespace App\Fresns\Words\Account;
 
-use App\Fresns\Words\Account\DTO\AddAccount;
-use App\Fresns\Words\Account\DTO\CreateSessionToken;
-use App\Fresns\Words\Account\DTO\GetAccountDetail;
-use App\Fresns\Words\Account\DTO\LogicalDeletionAccount;
-use App\Fresns\Words\Account\DTO\VerifyAccount;
-use App\Fresns\Words\Account\DTO\VerifySessionToken;
+use App\Fresns\Words\Account\DTO\AddAccountDTO;
+use App\Fresns\Words\Account\DTO\CreateSessionTokenDTO;
+use App\Fresns\Words\Account\DTO\GetAccountDetailDTO;
+use App\Fresns\Words\Account\DTO\LogicalDeletionAccountDTO;
+use App\Fresns\Words\Account\DTO\VerifyAccountDTO;
+use App\Fresns\Words\Account\DTO\VerifySessionTokenDTO;
 use App\Fresns\Words\Service\AccountService;
 use App\Helpers\ConfigHelper;
 use App\Models\AccountConnect;
@@ -22,44 +22,47 @@ use App\Models\SessionLog;
 use App\Models\SessionToken;
 use App\Models\User;
 use App\Models\VerifyCode;
+use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 
 class Account
 {
     /**
-     * @param  AddAccount  $wordBody
-     * @return string | array
+     * @param $wordBody
+     * @return array|string
+     * @throws \Throwable
      */
-    public function addAccount(AddAccount $wordBody)
+    public function addAccount($wordBody)
     {
+        $dtoWordBody = new AddAccountDTO($wordBody);
         $connectInfoArr = [];
         // Whether the same token exists
-        if (isset($wordBody->connectInfo)) {
-            $connectInfoArr = json_decode($wordBody->connectInfo, true);
+        if (isset($dtoWordBody->connectInfo)) {
+            $connectInfoArr = json_decode($dtoWordBody->connectInfo, true);
             $connectTokenArr = [];
             foreach ($connectInfoArr as $v) {
                 $connectTokenArr[] = $v['connectToken'];
             }
             $count = AccountConnect::whereIn('connect_token', $connectTokenArr)->count();
             if ($count > 0) {
-                return 'error';
+                ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
             }
         }
         $inputArr = [];
 
-        $inputArr = match ($wordBody->type) {
-            1 => ['email' => $wordBody->account],
+        $inputArr = match ($dtoWordBody->type) {
+            1 => ['email' => $dtoWordBody->account],
             2 => [
-                'country_code' => $wordBody->countryCode,
-                'pure_phone' => $wordBody->account,
-                'phone' => $wordBody->countryCode.$wordBody->account,
+                'country_code' => $dtoWordBody->countryCode,
+                'pure_phone' => $dtoWordBody->account,
+                'phone' => $dtoWordBody->countryCode.$dtoWordBody->account,
             ],
             default => [],
         };
         $inputArr['aid'] = \Str::random(12);
         $inputArr['last_login_at'] = date('Y-m-d H:i:s');
-        // if ($wordBody->password) {
-        //     $inputArr['password'] = StrHelper::createPassword($wordBody->password);
-        // }
+         if ($dtoWordBody->password) {
+             $inputArr['password'] =  password_hash($dtoWordBody->password, PASSWORD_BCRYPT);
+         }
         $accountId = \App\Models\Account::insertGetId($inputArr);
         // Account Wallet Table
         $accountWalletsInput = [
@@ -74,7 +77,7 @@ class Account
             $itemArr = [];
             foreach ($connectInfoArr as $info) {
                 $item = [];
-                $item['accountId'] = $accountId;
+                $item['account_id'] = $accountId;
                 $item['connect_id'] = $info['connectId'];
                 $item['connect_token'] = $info['connectToken'];
                 $item['connect_name'] = $info['connectName'];
@@ -87,52 +90,69 @@ class Account
             AccountConnect::insert($itemArr);
         }
 
-        return ['data'=>['aid'=>$aid, 'type'=>$wordBody->type], 'message'=>'success', 'code'=>200];
+        return ['data'=>['aid'=>$inputArr['aid'], 'type'=>$dtoWordBody->type], 'message'=>'success', 'code'=>0];
     }
 
+
     /**
-     * @param  VerifyAccount  $wordBody
+     * @param $wordBody
+     * @return array
+     * @throws \Throwable
      */
-    public function verifyAccount(VerifyAccount $wordBody)
+    public function verifyAccount($wordBody)
     {
+        $dtoWordBody = new VerifyAccountDTO($wordBody);
         $where = [
-            'type' => $wordBody->type,
-            'account' => $wordBody->type == 1 ? $wordBody->type : $wordBody->countryCode.$wordBody->account,
-            'code' => $wordBody->verifyCode,
+            'type' => $dtoWordBody->type,
+            'account' => $dtoWordBody->type == 1 ? $dtoWordBody->type : $dtoWordBody->countryCode.$dtoWordBody->account,
+            'code' => $dtoWordBody->verifyCode,
             'is_enable' => 1,
         ];
         $verifyInfo = VerifyCode::where($where)->where('expired_at', '>', date('Y-m-d H:i:s'))->first();
         if ($verifyInfo) {
             VerifyCode::where('id', $verifyInfo['id'])->update(['is_enable' => 0]);
 
-            return ['message' => 'success', 'code'=>200];
+            return ['message' => 'success', 'code'=>0];
         } else {
-            return ['message' => 'error', 'code'=>200];
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
         }
     }
 
-    public function getAccountDetail(GetAccountDetail $wordBody)
+    /**
+     * @param $wordBody
+     * @return array
+     * @throws \Throwable
+     */
+    public function getAccountDetail($wordBody)
     {
-        $aid = \App\Models\Account::where('aid', '=', $wordBody->aid)->value('id');
+        $dtoWordBody = new GetAccountDetailDTO($wordBody);
+        $accountId = \App\Models\Account::where('aid', '=', $dtoWordBody->aid)->value('id');
         $langTag = request()->header('langTag');
         $service = new AccountService();
-        $data = $service->getUserDetail($aid, $langTag);
+        $data = $service->getUserDetail($accountId, $langTag);
 
-        return ['message'=>'success', 'code'=>200, 'data'=>$data];
+        return ['message'=>'success', 'code'=>0, 'data'=>$data];
     }
 
-    public function createSessionToken(CreateSessionToken $wordBody)
+
+    /**
+     * @param CreateSessionTokenDTO $wordBody
+     * @return array
+     * @throws \Throwable
+     */
+    public function createSessionToken(CreateSessionTokenDTO $wordBody)
     {
-        if ($wordBody->aid) {
-            $accountId = \App\Models\Account::where('id', '=', $wordBody->aid)->value('id');
+        $dtoWordBody = new CreateSessionTokenDTO($wordBody);
+        if ($dtoWordBody->aid) {
+            $accountId = \App\Models\Account::where('id', '=', $dtoWordBody->aid)->value('id');
         }
-        if ($wordBody->uid) {
-            $userId = User::where('uid', '=', $wordBody->uid)->value('id');
+        if ($dtoWordBody->uid) {
+            $userId = User::where('uid', '=', $dtoWordBody->uid)->value('id');
         }
         $condition = [
             'account_id' => $accountId,
             'user_id' => $userId ?? null,
-            'platform_id' => $wordBody->platform,
+            'platform_id' => $dtoWordBody->platform,
 
         ];
         $tokenCount = SessionToken::where($condition)->first();
@@ -141,38 +161,39 @@ class Account
         }
         $token = \Str::random(12);
         $condition['token'] = $token;
-        $condition['expired_at'] = $wordBody->expiredTime ?? null;
+        $condition['expired_at'] = $dtoWordBody->expiredTime ?? null;
         SessionToken::insert($condition);
 
-        return ['code' => 200, 'message' => 'success', 'data' => ['token' => $token]];
+        return ['code' => 0, 'message' => 'success', 'data' => ['token' => $token]];
     }
 
-    public function verifySessionToken(VerifySessionToken $wordBody)
+    public function verifySessionToken(VerifySessionTokenDTO $wordBody)
     {
-        if ($wordBody->aid) {
-            $accountId = \App\Models\Account::where('aid', '=', $wordBody->aid)->value('id');
+        $dtoWordBody = new VerifySessionTokenDTO($wordBody);
+        if ($dtoWordBody->aid) {
+            $accountId = \App\Models\Account::where('aid', '=', $dtoWordBody->aid)->value('id');
         }
-        if ($wordBody->uid) {
-            $userId = User::where('uid', '=', $wordBody->uid)->value('id');
+        if ($dtoWordBody->uid) {
+            $userId = User::where('uid', '=', $dtoWordBody->uid)->value('id');
         }
         $condition = [
             'user_id' => $userId ?? null,
             'account_id' => $accountId,
-            'platform_id' => $wordBody->platform,
+            'platform_id' => $dtoWordBody->platform,
         ];
         $session = SessionToken::where($condition)->first();
-        if (empty($session) || $session->token != $wordBody->token || ($session->expired_at < date('Y-m-d H:i:s', time()))) {
-            return ['message'=>'error', 'code'=>200, 'data'=>[]];
+        if (empty($session) || $session->token != $dtoWordBody->token || ($session->expired_at < date('Y-m-d H:i:s', time()))) {
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
         }
 
-        return ['message'=>'success', 'code'=>200, 'data'=>[]];
+        return ['message'=>'success', 'code'=>0, 'data'=>[]];
     }
 
     public function logicalDeletionAccount($wordBody)
     {
-        $wordBody = new LogicalDeletionAccount($wordBody);
-        \App\Models\User::where('account_id', $wordBody->accountId)->update(['deleted_at'=>now()]);
+        $dtoWordBody = new LogicalDeletionAccountDTO($wordBody);
+        \App\Models\User::where('account_id', $dtoWordBody->accountId)->update(['deleted_at'=>now()]);
 
-        return ['code'=>200, 'message'=>'success', 'data'=>[]];
+        return ['code'=>0, 'message'=>'success', 'data'=>[]];
     }
 }

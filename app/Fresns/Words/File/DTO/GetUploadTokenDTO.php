@@ -6,14 +6,14 @@
  * Released under the Apache-2.0 License.
  */
 
-namespace App\Fresns\Words\User\DTO;
+namespace App\Fresns\Words\File\DTO;
 
 use Fresns\DTO\DTO;
 
 /**
- * Class GetUserDetail.
+ * Class GetUploadTokenDTO.
  */
-class GetUserDetail extends DTO
+class GetUploadTokenDTO extends DTO
 {
     /**
      * @return array
@@ -21,8 +21,8 @@ class GetUserDetail extends DTO
     public function rules(): array
     {
         return [
-            'uid' => ['integer', 'required_without:username'],
-            'username' => ['string', 'required_without:uid'],
+            'type' => 'integer',
+            'expireTime' => 'integer',
         ];
     }
 }

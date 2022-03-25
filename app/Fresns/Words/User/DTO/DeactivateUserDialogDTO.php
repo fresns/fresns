@@ -10,7 +10,7 @@ namespace App\Fresns\Words\User\DTO;
 
 use Fresns\DTO\DTO;
 
-class LogicalDeletionUser extends DTO
+class DeactivateUserDialogDTO extends DTO
 {
     /**
      * @return array
@@ -18,7 +18,7 @@ class LogicalDeletionUser extends DTO
     public function rules(): array
     {
         return [
-            'accountId' => 'integer',
+            'userId' => 'integer',
         ];
     }
 }

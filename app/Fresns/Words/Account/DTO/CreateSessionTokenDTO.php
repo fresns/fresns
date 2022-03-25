@@ -11,9 +11,9 @@ namespace App\Fresns\Words\Account\DTO;
 use Fresns\DTO\DTO;
 
 /**
- * Class CreateSessionToken.
+ * Class CreateSessionTokenDTO.
  */
-class CreateSessionToken extends DTO
+class CreateSessionTokenDTO extends DTO
 {
     /**
      * @return array

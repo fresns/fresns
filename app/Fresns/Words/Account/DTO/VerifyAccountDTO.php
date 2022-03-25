@@ -10,10 +10,7 @@ namespace App\Fresns\Words\Account\DTO;
 
 use Fresns\DTO\DTO;
 
-/**
- * Class VerifySessionToken.
- */
-class VerifySessionToken extends DTO
+class VerifyAccountDTO extends DTO
 {
     /**
      * @return array
@@ -21,10 +18,11 @@ class VerifySessionToken extends DTO
     public function rules(): array
     {
         return [
-            'platform' => ['required', 'integer'],
-            'aid' => ['required', 'string'],
-            'uid' => 'integer',
-            'token' => ['required', 'string'],
+            'type' => ['integer', 'in:1,2'],
+            'account' => 'string',
+            'countryCode' => ['required_if:type,2'],
+            'password' => 'string',
+            'verifyCode' => 'string',
         ];
     }
 }

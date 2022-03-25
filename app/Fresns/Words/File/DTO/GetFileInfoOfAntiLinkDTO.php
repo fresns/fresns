@@ -10,10 +10,11 @@ namespace App\Fresns\Words\File\DTO;
 
 use Fresns\DTO\DTO;
 
-/**
- * Class PhysicalDeletionFile.
+/***
+ * Class GetFileUrlOfAntiLinkDTO
+ * @package App\Fresns\Words\File\DTO
  */
-class PhysicalDeletionFile extends DTO
+class GetFileInfoOfAntiLinkDTO extends DTO
 {
     /**
      * @return array

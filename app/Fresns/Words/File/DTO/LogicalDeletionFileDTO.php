@@ -6,11 +6,14 @@
  * Released under the Apache-2.0 License.
  */
 
-namespace App\Fresns\Words\User\DTO;
+namespace App\Fresns\Words\File\DTO;
 
 use Fresns\DTO\DTO;
 
-class DeactivateUserDialog extends DTO
+/**
+ * Class LogicalDeletionFileDTO.
+ */
+class LogicalDeletionFileDTO extends DTO
 {
     /**
      * @return array
@@ -18,7 +21,8 @@ class DeactivateUserDialog extends DTO
     public function rules(): array
     {
         return [
-            'userId' => 'integer',
+            'fileId' => ['integer', 'required_without:fid'],
+            'fid' => ['integer', 'required_without:fileId'],
         ];
     }
 }
