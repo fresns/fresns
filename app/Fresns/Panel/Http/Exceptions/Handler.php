@@ -46,8 +46,8 @@ class Handler extends ExceptionHandler
 
     /**
      * If the exception is a validation exception, throw a runtime exception with the first validation
-     * error
-     * 
+     * error.
+     *
      * @param Throwable e The exception that was thrown.
      */
     public function report(Throwable $e)
