@@ -16,7 +16,7 @@ class DateHelper
     const DateFormat = [
         'yyyy-mm-dd' => 'Y-m-d', 'yyyy/mm/dd' => 'Y/m/d', 'yyyy.mm.dd' => 'Y.m.d',
         'mm-dd-yyyy' => 'm-d-Y', 'mm/dd/yyyy' => 'm/d/Y', 'mm.dd.yyyy' => 'm.d.Y',
-        'dd-mm-yyyy' => 'd-m-Y', 'dd/mm/yyyy' => 'd/m/Y', 'dd.mm.yyyy' => 'd.m.Y'];
+        'dd-mm-yyyy' => 'd-m-Y', 'dd/mm/yyyy' => 'd/m/Y', 'dd.mm.yyyy' => 'd.m.Y', ];
 
     /**
      * Get database time zone.
@@ -60,7 +60,7 @@ class DateHelper
      * Output time values by time zone.
      *
      * @param $datetime
-     * @param string $timezone
+     * @param  string  $timezone
      * @return \DateTime|string
      *
      * @throws \Exception
@@ -83,9 +83,9 @@ class DateHelper
     /**
      * Formatted time output by time zone and language tag.
      *
-     * @param string $datetime
-     * @param string $timezone
-     * @param string $langTag
+     * @param  string  $datetime
+     * @param  string  $timezone
+     * @param  string  $langTag
      * @return string
      */
     public static function fresnsOutputFormattingTime($datetime, $timezone, $langTag)
@@ -111,7 +111,7 @@ class DateHelper
      * Processing output by language humanization time.
      *
      * @param $dateTime
-     * @param string $langTag
+     * @param  string  $langTag
      * @return string
      */
     public static function fresnsOutputHumanizationTime($dateTime, $langTag = '')
@@ -141,6 +141,6 @@ class DateHelper
             }
         }
 
-        return $diff . $timeFormat;
+        return $diff.$timeFormat;
     }
 }
