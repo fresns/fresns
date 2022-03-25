@@ -8,7 +8,6 @@
 
 namespace App\Helpers;
 
-use App\Models\Config;
 use App\Models\Plugin;
 use App\Models\PluginUsage;
 use Illuminate\Support\Arr;
@@ -27,24 +26,11 @@ class PluginHelper
         if (empty($plugin)) {
             return '';
         }
-        $backend_domain = self::getConfigByItemKey('backend_domain')['item_value'] ?? '';
+        $backend_domain = ConfigHelper::fresnsConfigByItemKey('backend_domain');
         $plugin_domain = empty($plugin->plugin_domain) ? $backend_domain : $plugin->plugin_domain;
         $url = $plugin_domain.$plugin->access_path ?? '';
 
         return $url;
-    }
-
-    /**
-     * Get config table data.
-     *
-     * @param  string  $itemKey
-     * @return array
-     */
-    public static function getConfigByItemKey(string $itemKey)
-    {
-        $config = Config::where('item_key', '=', $itemKey)->get()->toArray();
-
-        return $config[0] ?? [];
     }
 
     /**

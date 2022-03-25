@@ -46,6 +46,24 @@ class ConfigHelper
     }
 
     /**
+     * Get multiple values based on multiple keys
+     *
+     * @param  string  $itemKey
+     * @param  string  $langTag
+     * @return mixed
+     */
+    public static function fresnsConfigByItemKeys(array $itemKeys, string $langTag = ''): array
+    {
+        $data = [];
+        
+        foreach ($itemKeys as $key) {
+            $data[$key] = ConfigHelper::fresnsConfigByItemKey($key, $langTag);
+        }
+
+        return $data;
+    }
+
+    /**
      * Get config value based on Tag.
      *
      * @param  string  $itemTag

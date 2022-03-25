@@ -13,7 +13,10 @@ use Illuminate\Support\Facades\DB;
 
 class DateHelper
 {
-    private static $langTagFormat = ['en' => ['diffyear' => 'm/d/Y h:m', 'sameyear' => 'm/d h:m'], 'zh-Hans' => ['diffyear' => 'Y-m-d h:m', 'sameyear' => 'm-d h:m'], 'zh-Hant' => ['diffyear' => 'Y-m-d h:m', 'sameyear' => 'm-d h:m']];
+    const DateFormat = [
+        'yyyy-mm-dd' => 'Y-m-d', 'yyyy/mm/dd' => 'Y/m/d', 'yyyy.mm.dd' => 'Y.m.d',
+        'mm-dd-yyyy' => 'm-d-Y', 'mm/dd/yyyy' => 'm/d/Y', 'mm.dd.yyyy' => 'm.d.Y',
+        'dd-mm-yyyy' => 'd-m-Y', 'dd/mm/yyyy' => 'd/m/Y', 'dd.mm.yyyy' => 'd.m.Y'];
 
     /**
      * Get database time zone.
@@ -57,7 +60,7 @@ class DateHelper
      * Output time values by time zone.
      *
      * @param $datetime
-     * @param  string  $timezone
+     * @param string $timezone
      * @return \DateTime|string
      *
      * @throws \Exception
@@ -80,12 +83,12 @@ class DateHelper
     /**
      * Formatted time output by time zone and language tag.
      *
-     * @param  string  $datetime
-     * @param  string  $timezone
-     * @param  string  $langTag
+     * @param string $datetime
+     * @param string $timezone
+     * @param string $langTag
      * @return string
      */
-    public static function fresnsOutputFormattingTime($datetime, $timezone, $langTag = '')
+    public static function fresnsOutputFormattingTime($datetime, $timezone, $langTag)
     {
         $datetime = self::fresnsOutputTimeToTimezone($datetime, $timezone);
         $datetime = Carbon::parse($datetime);
@@ -94,19 +97,21 @@ class DateHelper
         if ($diff == 0) {
             return Carbon::parse($datetime)->format('h:m');
         }
-        $year = $datetime->diffInYears($mysqlTime);
-        $sign = $year != 0 ? 'sameyear' : 'diffyear';
-        $langTag = $langTag ?: $langTag = ConfigHelper::fresnsConfigByItemKey('default_language');
-        $reslutFormat = self::$langTagFormat[$langTag][$sign];
+        $languageMenus = ConfigHelper::fresnsConfigByItemKey('language_menus');
+        foreach ($languageMenus as $languageMenu) {
+            if ($languageMenu['langCode'] == $langTag) {
+                $dateFormat = $languageMenu['dateFormat'];
+            }
+        }
 
-        return Carbon::parse($datetime)->format($reslutFormat);
+        return $datetime->format(self::DateFormat[$dateFormat]);
     }
 
     /**
      * Processing output by language humanization time.
      *
      * @param $dateTime
-     * @param  string  $langTag
+     * @param string $langTag
      * @return string
      */
     public static function fresnsOutputHumanizationTime($dateTime, $langTag = '')
@@ -136,6 +141,6 @@ class DateHelper
             }
         }
 
-        return $diff.$timeFormat;
+        return $diff . $timeFormat;
     }
 }

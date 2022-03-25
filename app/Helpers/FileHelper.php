@@ -8,7 +8,7 @@
 
 namespace App\Helpers;
 
-use App\Fresns\Words\File\DTO\GetFileUrlOfAntiLink;
+use App\Fresns\Words\File\DTO\GetFileUrlOfAntiLinkDTO;
 use App\Models\File;
 use App\Models\FileAppend;
 use Illuminate\Support\Arr;
@@ -200,7 +200,7 @@ class FileHelper
         if (! $imageUrlStatus) {
             return $fileUrl;
         }
-        $data = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink(new GetFileUrlOfAntiLink($fileId));
+        $data = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink(new GetFileUrlOfAntiLinkDTO($fileId));
 
         return Arr::get($data, 'data.'.$urlType, '');
     }
