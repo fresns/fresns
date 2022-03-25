@@ -36,10 +36,10 @@ class Basis
         return $verifyUrlSign;
     }
 
-
     /**
-     * @param VerifySignDTO $wordBody
+     * @param  VerifySignDTO  $wordBody
      * @return array|string
+     *
      * @throws \Throwable
      */
     public function verifySign(VerifySignDTO $wordBody)
@@ -83,12 +83,13 @@ class Basis
             return 'wrong key';
         }
 
-        return ['message'=>'success','code'=>0,'data'=>[]];
+        return ['message'=>'success', 'code'=>0, 'data'=>[]];
     }
 
     /**
      * @param $wordBody
      * @return array
+     *
      * @throws \Throwable
      */
     public function uploadSessionLog($wordBody)
@@ -123,12 +124,13 @@ class Basis
 
         SessionLog::insert($input);
 
-        return ['message'=>'success','code'=>0,'data'=>[]];
+        return ['message'=>'success', 'code'=>0, 'data'=>[]];
     }
 
     /**
      * @param $wordBody
      * @return mixed
+     *
      * @throws \Throwable
      */
     public function sendCode($wordBody)
@@ -147,7 +149,7 @@ class Basis
     }
 
     /**
-     * @param CheckCodeDTO $wordBody
+     * @param  CheckCodeDTO  $wordBody
      * @return array
      */
     public function checkCode(CheckCodeDTO $wordBody)

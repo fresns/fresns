@@ -19,8 +19,9 @@ use App\Models\PostLog;
 class Content
 {
     /**
-     * @param PhysicalDeletionFileDTO $wordBody
+     * @param  PhysicalDeletionFileDTO  $wordBody
      * @return array
+     *
      * @throws \Throwable
      */
     public function physicalDeletionContent(PhysicalDeletionFileDTO $wordBody)
@@ -29,7 +30,7 @@ class Content
         $fid = $dtoWordBody->fid;
         $files = File::where('uuid', $fid)->first();
         if (empty($files)) {
-            return ['code'=>30808,'message'=>'FILE_EXIST_ERROR'];
+            return ['code'=>30808, 'message'=>'FILE_EXIST_ERROR'];
         }
 
         $basePath = base_path().'/storage/app/public'.$files['file_path'];
@@ -40,6 +41,4 @@ class Content
 
         return ['code'=>0, 'message'=>'success'];
     }
-
-
 }

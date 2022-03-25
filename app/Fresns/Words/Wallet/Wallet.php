@@ -229,7 +229,7 @@ class Wallet
         $OriginWallet = ['balance' => $WalletBalance['balance'] - $wordBody->amount];
         AccountWallet::where('account_id', $accountId)->update($OriginWallet);
 
-        return ['code' => 0, 'msg' => 'success','data'=>[]];
+        return ['code' => 0, 'msg' => 'success', 'data'=>[]];
     }
 
     /**

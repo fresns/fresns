@@ -29,6 +29,7 @@ class Account
     /**
      * @param $wordBody
      * @return array|string
+     *
      * @throws \Throwable
      */
     public function addAccount($wordBody)
@@ -60,9 +61,9 @@ class Account
         };
         $inputArr['aid'] = \Str::random(12);
         $inputArr['last_login_at'] = date('Y-m-d H:i:s');
-         if ($dtoWordBody->password) {
-             $inputArr['password'] =  password_hash($dtoWordBody->password, PASSWORD_BCRYPT);
-         }
+        if ($dtoWordBody->password) {
+            $inputArr['password'] = password_hash($dtoWordBody->password, PASSWORD_BCRYPT);
+        }
         $accountId = \App\Models\Account::insertGetId($inputArr);
         // Account Wallet Table
         $accountWalletsInput = [
@@ -93,10 +94,10 @@ class Account
         return ['data'=>['aid'=>$inputArr['aid'], 'type'=>$dtoWordBody->type], 'message'=>'success', 'code'=>0];
     }
 
-
     /**
      * @param $wordBody
      * @return array
+     *
      * @throws \Throwable
      */
     public function verifyAccount($wordBody)
@@ -121,6 +122,7 @@ class Account
     /**
      * @param $wordBody
      * @return array
+     *
      * @throws \Throwable
      */
     public function getAccountDetail($wordBody)
@@ -134,10 +136,10 @@ class Account
         return ['message'=>'success', 'code'=>0, 'data'=>$data];
     }
 
-
     /**
-     * @param CreateSessionTokenDTO $wordBody
+     * @param  CreateSessionTokenDTO  $wordBody
      * @return array
+     *
      * @throws \Throwable
      */
     public function createSessionToken(CreateSessionTokenDTO $wordBody)

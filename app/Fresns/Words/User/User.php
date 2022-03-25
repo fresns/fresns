@@ -26,13 +26,13 @@ use Illuminate\Support\Facades\Hash;
 class User
 {
     /**
-     * @param AddUserDTO $dtoWordBody
+     * @param  AddUserDTO  $dtoWordBody
      * @return array
      */
     public function addUser(AddUserDTO $wordBody)
     {
         $dtoWordBody = new AddUserDTO($wordBody);
-        if (!empty($dtoWordBody->avatarFid) && empty($dtoWordBody->avatar_file_url)) {
+        if (! empty($dtoWordBody->avatarFid) && empty($dtoWordBody->avatar_file_url)) {
             $dtoWordBody->avatar_file_url = File::where('uuid', $dtoWordBody->avatarFid)->value('file_path');
         }
         $account_id = Account::where('aid', $dtoWordBody->aid)->value('id');
@@ -68,7 +68,7 @@ class User
     }
 
     /**
-     * @param VerifyUserDTO $wordBody
+     * @param  VerifyUserDTO  $wordBody
      * @return array
      */
     public function verifyUser(VerifyUserDTO $wordBody)
@@ -76,7 +76,7 @@ class User
         $dtoWordBody = new VerifyUserDTO($wordBody);
         $user = User::where('uid', '=', $dtoWordBody->uid)->first();
         if ($user) {
-            $result = !Hash::check($dtoWordBody->password, $user->password);
+            $result = ! Hash::check($dtoWordBody->password, $user->password);
         }
         $result = false;
         $data = ['aid' => $user->aid, 'uid' => $user->account_id];
@@ -85,7 +85,7 @@ class User
     }
 
     /**
-     * @param GetUserDetailDTO $wordBody
+     * @param  GetUserDetailDTO  $wordBody
      * @return mixed
      */
     public function getUserDetail($wordBody)
@@ -104,6 +104,7 @@ class User
     /**
      * @param $wordBody
      * @return array
+     *
      * @throws \Throwable
      */
     public function logicalDeletionUser($wordBody)
@@ -117,6 +118,7 @@ class User
     /**
      * @param $wordBody
      * @return array
+     *
      * @throws \Throwable
      */
     public function deactivateUserDialog($wordBody)
