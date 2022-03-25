@@ -33,13 +33,14 @@ class CreateFileAppendsTable extends Migration
             $table->unsignedSmallInteger('image_width')->nullable();
             $table->unsignedSmallInteger('image_height')->nullable();
             $table->unsignedTinyInteger('image_is_long')->nullable();
-            $table->unsignedTinyInteger('transcoding_state')->nullable();
-            $table->string('transcoding_reason')->nullable();
             $table->unsignedSmallInteger('audio_time')->nullable();
             $table->unsignedSmallInteger('video_time')->nullable();
             $table->string('video_cover')->nullable();
             $table->string('video_gif')->nullable();
             $table->json('more_json')->nullable();
+            $table->unsignedTinyInteger('transcoding_state')->nullable();
+            $table->string('transcoding_reason')->nullable();
+            $table->unsignedTinyInteger('physical_deletion')->default('0');
             $table->text('remark')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
