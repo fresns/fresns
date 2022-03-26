@@ -22,9 +22,9 @@
     <div class="card mb-4">
         <div class="card-header">{{ __('FsLang::panel.fresns_core') }}</div>
         <div class="card-body">
-            @if ($currentVersion['versionInt'] < $version['versionInt'])
+            @if (($currentVersion['versionInt'] ?? 0 ) < ($version['versionInt'] ?? 0))
                 <h5 class="card-title">{{ __('FsLang::panel.upgrade_fresns') }}</h5>
-                <p class="card-text">{{ __('FsLang::panel.upgrade_fresns_desc') }} v{{ $version['version']}}</p>
+                <p class="card-text">{{ __('FsLang::panel.upgrade_fresns_desc') }} v{{ $version['version'] ?? ''}}</p>
                 @if ($upgradeStep)
                     <button id="upgradeButton"
                         type="button" class="btn btn-info"
@@ -131,7 +131,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title"><i class="bi bi-laptop"></i> {{ __('FsLang::panel.fresns_core') }}
-                        <span class="badge bg-secondary">{{ $currentVersion['version'] }}</span> to <span class="badge bg-danger">{{ $version['version'] }}</span>
+                        <span class="badge bg-secondary">{{ $currentVersion['version'] ?? '' }}</span> to <span class="badge bg-danger">{{ $version['version'] ?? '' }}</span>
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>

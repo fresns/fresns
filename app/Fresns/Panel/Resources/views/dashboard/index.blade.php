@@ -9,7 +9,7 @@
     <h1 class="fs-3 fw-normal">{{ __('FsLang::panel.welcome') }}</h1>
     <p class="text-secondary pb-4">
         {{ __('FsLang::panel.current_version') }} v{{$currentVersion['version'] ?? ''}}
-        @if ($currentVersion['versionInt'] < $version['versionInt'])
+        @if (($currentVersion['versionInt'] ?? 0) < ($version['versionInt'] ?? 0))
             <a href="{{ route('panel.upgrades') }}" class="badge rounded-pill bg-danger ms-2 text-decoration-none">{{ __('FsLang::panel.new_version') }}</a>
         @endif
     </p>
@@ -119,7 +119,7 @@
             <div class="card">
                 <div class="card-header">{{ __('FsLang::panel.news') }}</div>
                 <div class="card-body">
-                    {!! $news['content'] !!}
+                    {!! $news['content'] ?? '' !!}
                 </div>
             </div>
         </div>

@@ -18,10 +18,14 @@ class DashboardController extends Controller
     public function show()
     {
         $news = \Cache::remember('news', 86400, function () {
-            $newUrl = config('FsConfig.news_url');
-            $client = new \GuzzleHttp\Client();
-            $response = $client->request('GET', $newUrl);
-            $news = json_decode($response->getBody(), true);
+            try {
+                $newUrl = config('FsConfig.news_url');
+                $client = new \GuzzleHttp\Client();
+                $response = $client->request('GET', $newUrl);
+                $news = json_decode($response->getBody(), true);
+            } catch (\Exception $e) {
+                $news = [];
+            }
 
             return $news;
         });
