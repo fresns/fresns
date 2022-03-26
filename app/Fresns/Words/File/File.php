@@ -420,7 +420,7 @@ class File
         }
         $file = \App\Models\File::where($query)->first();
         if (empty($file)) {
-            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
         }
 
         $pluginUniKey = match ($file['file_type']) {
@@ -430,7 +430,7 @@ class File
             default => ConfigHelper::fresnsConfigByItemKey('document_service'),
         };
         if (empty($pluginUniKey)) {
-            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20004)::throw();
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::PLUGIN_CONFIG_ERROR)::throw();
         }
 
         return \FresnsCmdWord::plugin($pluginUniKey)->physicalDeletionFile($wordBody);

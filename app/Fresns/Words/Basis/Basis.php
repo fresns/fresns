@@ -142,7 +142,7 @@ class Basis
             $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('send_sms_service');
         }
         if (empty($pluginUniKey)) {
-            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20004)::throw();
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::PLUGIN_CONFIG_ERROR)::throw();
         }
 
         return \FresnsCmdWord::plugin($pluginUniKey)->sendCode($wordBody);
@@ -167,7 +167,7 @@ class Basis
 
             return ['message'=>'success', 'code'=>0, 'data'=>[]];
         } else {
-            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
         }
     }
 }

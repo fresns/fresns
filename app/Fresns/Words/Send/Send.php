@@ -98,7 +98,7 @@ class Send
     protected function ensureUnikeyIsNotEmpry(string $string)
     {
         if (empty($pluginUniKey)) {
-            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20004)::throw();
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::PLUGIN_CONFIG_ERROR)::throw();
         }
     }
 }

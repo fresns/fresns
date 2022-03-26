@@ -37,7 +37,7 @@ class User
         }
         $account_id = Account::where('aid', $dtoWordBody->aid)->value('id');
         if (empty($account_id)) {
-            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
         }
         $userArr = [
             'account_id' => $account_id,

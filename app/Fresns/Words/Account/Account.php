@@ -44,7 +44,7 @@ class Account
             }
             $count = AccountConnect::whereIn('connect_token', $connectTokenArr)->count();
             if ($count > 0) {
-                ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
+                ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
             }
         }
         $inputArr = [];
@@ -114,7 +114,7 @@ class Account
 
             return ['message' => 'success', 'code'=>0];
         } else {
-            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
         }
     }
 
@@ -184,7 +184,7 @@ class Account
         ];
         $session = SessionToken::where($condition)->first();
         if (empty($session) || $session->token != $dtoWordBody->token || ($session->expired_at < date('Y-m-d H:i:s', time()))) {
-            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
         }
 
         return ['message'=>'success', 'code'=>0, 'data'=>[]];
