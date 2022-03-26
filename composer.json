@@ -23,7 +23,7 @@
         "fresns/dto": "^1.0",
         "fresns/plugin-manager": "^1.0",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.4.1",
+        "guzzlehttp/guzzle": "^7.4",
         "laravel/framework": "^8.83",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",

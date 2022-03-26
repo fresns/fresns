@@ -10,7 +10,7 @@ namespace App\Fresns\Words\Wallet\DTO;
 
 use Fresns\DTO\DTO;
 
-class WalletDecrease extends DTO
+class WalletDecreaseDTO extends DTO
 {
     /**
      * @return array
