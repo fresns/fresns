@@ -25,13 +25,13 @@ class VerifySignDTO extends DTO
     {
         return [
             'platform' => ['required', 'integer'],
-            'version' => ['required'],
-            'appId' => ['required'],
-            'timestamp' => ['required'],
-            'sign' => ['required'],
-            'aid' => ['string'],
-            'uid' => ['integer'],
-            'token' => ['string'],
+            'version' => ['required', 'string'],
+            'appId' => ['required', 'string'],
+            'timestamp' => ['required', 'integer'],
+            'sign' => ['required', 'string'],
+            'aid' => ['nullable', 'string'],
+            'uid' => ['nullable', 'integer'],
+            'token' => ['required_with:aid', 'string'],
         ];
     }
 }

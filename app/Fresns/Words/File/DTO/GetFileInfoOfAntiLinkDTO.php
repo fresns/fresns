@@ -22,8 +22,8 @@ class GetFileInfoOfAntiLinkDTO extends DTO
     public function rules(): array
     {
         return [
-            'fileId' => ['integer', 'required_without:fid'],
-            'fid' => ['integer', 'required_without:fileId'],
+            'fileId' => ['required_without:fid', 'integer'],
+            'fid' => ['required_without:fileId', 'string'],
         ];
     }
 }

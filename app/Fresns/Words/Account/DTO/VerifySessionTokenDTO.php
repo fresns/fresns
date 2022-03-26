@@ -23,7 +23,7 @@ class VerifySessionTokenDTO extends DTO
         return [
             'platform' => ['required', 'integer'],
             'aid' => ['required', 'string'],
-            'uid' => 'integer',
+            'uid' => ['nullable', 'integer'],
             'token' => ['required', 'string'],
         ];
     }

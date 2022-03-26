@@ -21,16 +21,16 @@ class UploadFile extends DTO
     public function rules(): array
     {
         return [
-            'platform' => 'integer',
-            'type' => 'required|in:1,2,3,4',
-            'tableType' => 'integer',
+            'platform' => ['required', 'integer'],
+            'type' => ['required', 'in:1,2,3,4'],
+            'tableType' => ['required', 'integer'],
             'tableName' => ['required', 'string'],
-            'tableColumn' => 'string',
-            'tableId'=>'string',
-            'tableKey' => 'string',
-            'file' =>['file', 'required'],
-            'aid' => 'string',
-            'uid' => 'integer',
+            'tableColumn' => ['required', 'string'],
+            'tableId' => ['required_without:tableKey', 'string'],
+            'tableKey' => ['required_without:tableId', 'string'],
+            'aid' => ['nullable', 'string'],
+            'uid' => ['nullable', 'integer'],
+            'file' =>['required', 'file'],
         ];
     }
 }

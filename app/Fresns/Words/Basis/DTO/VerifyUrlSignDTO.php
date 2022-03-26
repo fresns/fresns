@@ -20,6 +20,8 @@ class VerifyUrlSignDTO extends DTO
      */
     public function rules(): array
     {
-        return ['urlSign'=> 'required'];
+        return [
+            'urlSign' => ['required', 'string'],
+        ];
     }
 }

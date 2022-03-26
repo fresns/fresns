@@ -208,12 +208,12 @@ class Wallet
         }
         $originUserId = null;
         $originAccountId = Account::where('aid', $wordBody->originAid)->value('id');
-        //校验收款方余额
+        //Verify the payee balance
         $ReceivingBalance = $this->verifyWalletBalance($originAccountId);
         if (empty($ReceivingBalance)) {
             ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
         }
-        //验证支出方余额
+        //Validation of expense side balance
         $WalletBalance = $this->verifyOriginWalletBalance($accountId, $wordBody->amount);
         if (empty($WalletBalance)) {
             ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20009)::throw();
@@ -269,7 +269,7 @@ class Wallet
             'system_fee' => $wordBody->systemFee,
             'object_account_id' => $originAccountId,
             'object_user_id' => $originUserId,
-            'object_name' => $wordBody->originName ?? null,
+            'object_unikey' => $wordBody->originUnikey ?? null,
             'object_id' => $wordBody->object_id ?? null,
             'opening_balance' => $balance,
             'closing_balance' => $balance + $wordBody->transactionAmount,
@@ -301,7 +301,7 @@ class Wallet
             'system_fee' => $wordBody->systemFee,
             'object_account_id' => $originAccountId,
             'object_user_id' => $originUserId,
-            'object_name' => $wordBody->originName ?? null,
+            'object_unikey' => $wordBody->originUnikey ?? null,
             'object_id' => $wordBody->object_id ?? null,
             'opening_balance' => $balance,
             'closing_balance' => $balance - $wordBody->amount,

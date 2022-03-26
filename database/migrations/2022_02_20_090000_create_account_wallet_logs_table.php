@@ -23,7 +23,7 @@ class CreateAccountWalletLogsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('object_name', 64);
+            $table->string('object_unikey', 64);
             $table->unsignedBigInteger('object_id')->nullable();
             $table->unsignedTinyInteger('object_type');
             $table->unsignedBigInteger('object_account_id')->nullable();

@@ -22,9 +22,9 @@ class CreateSessionTokenDTO extends DTO
     {
         return [
             'platform' => ['required', 'integer'],
-            'aid' => 'required',
-            'uid' => 'integer',
-            'expiredTime' => 'date',
+            'aid' => ['required', 'integer'],
+            'uid' => ['nullable', 'integer'],
+            'expiredTime' => ['nullable', 'integer'],
         ];
     }
 }

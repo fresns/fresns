@@ -21,9 +21,9 @@ class AddCrontabItemDTO extends DTO
     public function rules(): array
     {
         return [
-            'unikey'=>'string',
-            'cmdWord'=>'string',
-            'taskPeriod' => 'string',
+            'unikey' => ['required', 'string'],
+            'cmdWord' => ['required', 'string'],
+            'taskPeriod' => ['required', 'string'],
         ];
     }
 }

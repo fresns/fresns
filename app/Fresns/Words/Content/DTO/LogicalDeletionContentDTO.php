@@ -6,14 +6,11 @@
  * Released under the Apache-2.0 License.
  */
 
-namespace App\Fresns\Words\Basis\DTO;
+namespace App\Fresns\Words\Content\DTO;
 
 use Fresns\DTO\DTO;
 
-/**
- * Class CheckCodeDTO.
- */
-class CheckCodeDTO extends DTO
+class LogicalDeletionContentDTO extends DTO
 {
     /**
      * @return array
@@ -22,9 +19,9 @@ class CheckCodeDTO extends DTO
     {
         return [
             'type' => ['required', 'in:1,2'],
-            'account' => ['required', 'string'],
-            'countryCode' => ['required_if:type,2', 'integer'],
-            'verifyCode' => ['required', 'string'],
+            'contentType' => ['required', 'in:1,2'],
+            'contentFsid' => ['required_if:contentType,1', 'string'],
+            'contentId' => ['required_if:contentType,2', 'integer'],
         ];
     }
 }

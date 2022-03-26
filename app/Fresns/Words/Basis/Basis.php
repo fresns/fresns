@@ -9,10 +9,10 @@
 namespace App\Fresns\Words\Basis;
 
 use App\Fresns\Words\Basis\DTO\CheckCodeDTO;
-use App\Fresns\Words\Basis\DTO\DecodeSignDTO;
 use App\Fresns\Words\Basis\DTO\SendCodeDTO;
 use App\Fresns\Words\Basis\DTO\UploadSessionLogDTO;
 use App\Fresns\Words\Basis\DTO\VerifySignDTO;
+use App\Fresns\Words\Basis\DTO\VerifyUrlSignDTO;
 use App\Helpers\ConfigHelper;
 use App\Helpers\SignHelper;
 use App\Models\Account;
@@ -31,9 +31,9 @@ class Basis
     public function verifyUrlSign($wordBody)
     {
         $dtoWordBody = new VerifyUrlSignDTO($wordBody);
-        $verifyUrlSign = url_decode(base64_decode($dtoWordBody->VerifyUrlSignDTO));
+        $urlSign = url_decode(base64_decode($dtoWordBody->VerifyUrlSignDTO));
 
-        return $verifyUrlSign;
+        return $urlSign;
     }
 
     /**
@@ -42,7 +42,7 @@ class Basis
      *
      * @throws \Throwable
      */
-    public function verifySign(VerifySignDTO $wordBody)
+    public function verifySign($wordBody)
     {
         $dtoWordBody = new VerifySignDTO($wordBody);
         $checkTokenParam = SignHelper::checkTokenParam($dtoWordBody->token, $dtoWordBody->aid, $dtoWordBody->uid);
@@ -152,13 +152,13 @@ class Basis
      * @param  CheckCodeDTO  $wordBody
      * @return array
      */
-    public function checkCode(CheckCodeDTO $wordBody)
+    public function checkCode($wordBody)
     {
-        $dtowordBody = $wordBody;
+        $dtoWordBody = new CheckCodeDTO($wordBody);
         $term = [
-            'type' => $dtowordBody->type,
-            'account' => $dtowordBody->account,
-            'code' => $dtowordBody->type == 1 ? $dtowordBody->verifyCode : $dtowordBody->countryCode.$dtowordBody->account,
+            'type' => $dtoWordBody->type,
+            'account' => $dtoWordBody->account,
+            'code' => $dtoWordBody->type == 1 ? $dtoWordBody->verifyCode : $dtoWordBody->countryCode.$dtoWordBody->account,
             'is_enable' => 1,
         ];
         $verifyInfo = VerifyCode::where($term)->where('expired_at', '>', date('Y-m-d H:i:s'))->first();

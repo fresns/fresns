@@ -68,7 +68,7 @@ class File
         $fileArr['table_type'] = $dtoWordBody->tableType;
         $fileArr['table_name'] = $dtoWordBody->tableName;
         $fileArr['table_column'] = $dtoWordBody->tableColumn;
-        $fileArr['table_id'] = isset($dtoWordBody->tableId) ? $this->getTableId($dtoWordBody->tableName, $dtoWordBody->tableBody) : null;
+        $fileArr['table_id'] = isset($dtoWordBody->tableId) ? $this->getTableId($dtoWordBody->tableName, $dtoWordBody->tableId) : null;
         $fileArr['table_key'] = $dtoWordBody->tableKey ?? null;
         $fileArr['fid'] = \Str::random(12);
 
@@ -379,28 +379,6 @@ class File
         }
 
         return \FresnsCmdWord::plugin($fileUniKey['unikey'])->getFileUrlOfAntiLink($wordBody);
-    }
-
-    /**
-     * @param  string  $uniKey
-     * @return bool|null
-     */
-    protected function findPluginClass(string $uniKey)
-    {
-        $pluginClass = "\\App\\Plugins\\{$uniKey}";
-        if (! class_exists($pluginClass)) {
-            return null;
-        }
-        $installClass = "\\App\\Plugins\\{$uniKey}\\Installer";
-        if (! class_exists($installClass)) {
-            return false;
-        }
-        $plugin = Plugin::where('unikey', $uniKey)->where('is_enable', 1)->first();
-        if (empty($plugin)) {
-            return false;
-        }
-
-        return new $pluginClass();
     }
 
     /**

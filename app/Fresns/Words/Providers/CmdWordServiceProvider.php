@@ -31,8 +31,8 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
      */
     protected $cmdWordsMap = [
         // Basic
-        ['word' => 'verifyUrlSign', 'provider' => [Basis::class, 'verifyUrlSign']],
         ['word' => 'verifySign', 'provider' => [Basis::class, 'verifySign']],
+        ['word' => 'verifyUrlSign', 'provider' => [Basis::class, 'verifyUrlSign']],
         ['word' => 'uploadSessionLog', 'provider' => [Basis::class, 'uploadSessionLog']],
         ['word' => 'sendCode', 'provider' => [Basis::class, 'sendCode']],
         ['word' => 'checkCode', 'provider' => [Basis::class, 'checkCode']],
@@ -72,15 +72,16 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'physicalDeletionFile', 'provider' => [File::class, 'physicalDeletionFile']],
 
         // Content
-        ['word' => 'generateDraftFromMainTable', 'provider' => [Content::class, 'generateDraftFromMainTable']],
-        ['word' => 'logicalDeletionContent', 'provider' => [File::class, 'logicalDeletionContent']],
-        ['word' => 'physicalDeletionContent', 'provider' => [File::class, 'physicalDeletionContent']],
+        // ['word' => 'releaseContent', 'provider' => [Content::class, 'releaseContent']],
+        // ['word' => 'generateDraftFromMainTable', 'provider' => [Content::class, 'generateDraftFromMainTable']],
+        // ['word' => 'logicalDeletionContent', 'provider' => [Content::class, 'logicalDeletionContent']],
+        // ['word' => 'physicalDeletionContent', 'provider' => [Content::class, 'physicalDeletionContent']],
 
         // Crontab
         ['word' => 'addCrontabItem', 'provider' => [Crontab::class, 'addCrontabItem']],
         ['word' => 'deleteCrontabItem', 'provider' => [Crontab::class, 'deleteCrontabItem']],
 
-        // Fresns Crontab
+        // Fresns Crontab List
         ['word' => 'checkUserRoleExpired', 'provider' => [Crontab::class, 'checkUserRoleExpired']],
         ['word' => 'checkDeleteAccount', 'provider' => [Crontab::class, 'checkDeleteAccount']],
     ];

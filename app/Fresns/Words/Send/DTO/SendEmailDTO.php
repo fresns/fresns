@@ -22,8 +22,8 @@ class SendEmailDTO extends DTO
     {
         return [
             'email' => ['required', 'email'],
-            'title' => 'required',
-            'content' => 'required',
+            'title' => ['required', 'string'],
+            'content' => ['required', 'string'],
         ];
     }
 }

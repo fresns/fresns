@@ -29,7 +29,7 @@ class User
      * @param  AddUserDTO  $dtoWordBody
      * @return array
      */
-    public function addUser(AddUserDTO $wordBody)
+    public function addUser($wordBody)
     {
         $dtoWordBody = new AddUserDTO($wordBody);
         if (! empty($dtoWordBody->avatarFid) && empty($dtoWordBody->avatar_file_url)) {
@@ -71,7 +71,7 @@ class User
      * @param  VerifyUserDTO  $wordBody
      * @return array
      */
-    public function verifyUser(VerifyUserDTO $wordBody)
+    public function verifyUser($wordBody)
     {
         $dtoWordBody = new VerifyUserDTO($wordBody);
         $user = User::where('uid', '=', $dtoWordBody->uid)->first();
@@ -110,7 +110,7 @@ class User
     public function logicalDeletionUser($wordBody)
     {
         $dtoWordBody = new LogicalDeletionUserDTO($wordBody);
-        \App\Models\User::where('account_id', $dtoWordBody->accountId)->update(['deleted_at' => now()]);
+        \App\Models\User::where('uid', $dtoWordBody->uid)->update(['deleted_at' => now()]);
 
         return ['code' => 0, 'message' => 'success', 'data' => []];
     }
@@ -123,8 +123,8 @@ class User
      */
     public function deactivateUserDialog($wordBody)
     {
-        $wordBody = new DeactivateUserDialogDTO($wordBody);
-        $user = \App\Models\User::where('id', '=', $wordBody->userId)->first();
+        $dtoWordBody = new DeactivateUserDialogDTO($wordBody);
+        $user = \App\Models\User::where('uid', '=', $dtoWordBody->uid)->first();
         Dialog::where('a_user_id', '=', $user['id'])->update(['a_is_deactivate' => 0]);
         Dialog::where('b_user_id', '=', $user['id'])->update(['b_is_deactivate' => 0]);
 

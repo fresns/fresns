@@ -18,11 +18,11 @@ class VerifyAccountDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => ['integer', 'in:1,2'],
-            'account' => 'string',
-            'countryCode' => ['required_if:type,2'],
-            'password' => 'string',
-            'verifyCode' => 'string',
+            'type' => ['required', 'in:1,2'],
+            'account' => ['required', 'string'],
+            'countryCode' => ['required_if:type,2', 'integer'],
+            'password' => ['required_without:verifyCode', 'string'],
+            'verifyCode' => ['required_without:password', 'string'],
         ];
     }
 }

@@ -18,16 +18,16 @@ class WalletIncreaseDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => ['integer', 'required'],
-            'aid' => ['string', 'required'],
-            'uid' => 'integer',
-            'amount' => ['integer', 'required'],
-            'transactionAmount' => ['integer', 'required'],
-            'systemFee' => ['integer', 'required'],
-            'originAid' => 'string',
-            'originUid' => 'integer',
-            'originName' => ['string', 'required'],
-            'originId' => ['integer'],
+            'type' => ['required', 'in:1,2,3'],
+            'aid' => ['required', 'string'],
+            'uid' => ['nullable', 'integer'],
+            'amount' => ['required', 'integer'],
+            'transactionAmount' => ['required', 'integer'],
+            'systemFee' => ['required', 'integer'],
+            'originAid' => ['nullable', 'string'],
+            'originUid' => ['nullable', 'integer'],
+            'originUnikey' => ['required', 'string'],
+            'originId' => ['nullable', 'integer'],
         ];
     }
 }

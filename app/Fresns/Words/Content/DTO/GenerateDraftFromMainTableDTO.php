@@ -6,11 +6,11 @@
  * Released under the Apache-2.0 License.
  */
 
-namespace App\Fresns\Words\Account\DTO;
+namespace App\Fresns\Words\Content\DTO;
 
 use Fresns\DTO\DTO;
 
-class GetAccountDetailDTO extends DTO
+class GenerateDraftFromMainTableDTO extends DTO
 {
     /**
      * @return array
@@ -18,9 +18,8 @@ class GetAccountDetailDTO extends DTO
     public function rules(): array
     {
         return [
-            'aid' => ['required', 'string'],
-            'langTag' => ['nullable', 'string'],
-            'timezone' => ['nullable', 'string'],
+            'type' => ['required', 'in:1,2'],
+            'fid' => ['required', 'string'],
         ];
     }
 }

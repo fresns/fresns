@@ -28,10 +28,10 @@ class AddAccountDTO extends DTO
     {
         return [
             'type' => ['required', 'in:1,2,3'],
-            'account' => ['required_if:type,1,2'],
-            'countryCode' => 'required_if:type,2',
-            'connectInfo' => 'required_if:type,3',
-            'password' => 'string',
+            'account' => ['required_if:type,1,2', 'string'],
+            'countryCode' => ['required_if:type,2', 'integer'],
+            'connectInfo' => ['required_if:type,3', 'string'],
+            'password' => ['nullable', 'string'],
         ];
     }
 }

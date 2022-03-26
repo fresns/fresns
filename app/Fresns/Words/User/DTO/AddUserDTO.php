@@ -20,13 +20,14 @@ class AddUserDTO extends DTO
         return [
             'aid' => ['required', 'string'],
             'nickname' => ['required', 'string'],
-            'username' => 'string',
-            'password' => 'string',
-            'avatarUrl' => 'sring',
-            'gender' => 'integer',
-            'birthday' => 'string',
-            'timezone' => 'string',
-            'language' => 'string',
+            'username' => ['nullable', 'alpha_dash'],
+            'password' => ['nullable', 'string'],
+            'avatarFid' => ['nullable', 'string'],
+            'avatarUrl' => ['nullable', 'string'],
+            'gender' => ['nullable', 'in:0,1,2'],
+            'birthday' => ['nullable', 'date_format:"Y-m-d H:i:s"'],
+            'timezone' => ['nullable', 'string'],
+            'language' => ['nullable', 'string'],
         ];
     }
 }

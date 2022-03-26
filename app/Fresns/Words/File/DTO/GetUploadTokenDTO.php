@@ -21,8 +21,9 @@ class GetUploadTokenDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => 'integer',
-            'expireTime' => 'integer',
+            'type' => ['required', 'in:1,2,3,4'],
+            'name' => ['required', 'string'],
+            'expireTime' => ['required', 'integer'],
         ];
     }
 }

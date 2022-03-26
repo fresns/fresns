@@ -18,7 +18,6 @@ use App\Fresns\Words\Service\AccountService;
 use App\Helpers\ConfigHelper;
 use App\Models\AccountConnect;
 use App\Models\AccountWallet;
-use App\Models\SessionLog;
 use App\Models\SessionToken;
 use App\Models\User;
 use App\Models\VerifyCode;
@@ -142,7 +141,7 @@ class Account
      *
      * @throws \Throwable
      */
-    public function createSessionToken(CreateSessionTokenDTO $wordBody)
+    public function createSessionToken($wordBody)
     {
         $dtoWordBody = new CreateSessionTokenDTO($wordBody);
         if ($dtoWordBody->aid) {
@@ -169,7 +168,7 @@ class Account
         return ['code' => 0, 'message' => 'success', 'data' => ['token' => $token]];
     }
 
-    public function verifySessionToken(VerifySessionTokenDTO $wordBody)
+    public function verifySessionToken($wordBody)
     {
         $dtoWordBody = new VerifySessionTokenDTO($wordBody);
         if ($dtoWordBody->aid) {

@@ -21,15 +21,16 @@ class SendAppNotificationDTO extends DTO
     public function rules(): array
     {
         return [
-            'channel' => ['integer', 'in:1,2'],
             'uid' => ['required', 'integer'],
-            'template' => 'string',
-            'coverUrl' => 'string',
-            'title' => 'string',
-            'content' => 'string',
-            'time' => 'string',
-            'linkType' => 'string',
-            'linkUrl' => 'string',
+            'channel' => ['nullable', 'in:1,2'],
+            'template' => ['nullable', 'string'],
+            'coverUrl' => ['nullable', 'url'],
+            'title' => ['nullable', 'string'],
+            'content' => ['nullable', 'string'],
+            'time' => ['nullable', 'date_format:"Y-m-d H:i:s"'],
+            'linkType' => ['nullable', 'in:1,2,3,4,5'],
+            'linkFsid' => ['required_with:linkType', 'string'],
+            'linkUrl' => ['nullable', 'url'],
         ];
     }
 }
