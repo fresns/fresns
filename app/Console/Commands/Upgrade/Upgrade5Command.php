@@ -10,7 +10,7 @@ namespace App\Console\Commands\Upgrade;
 
 use Illuminate\Console\Command;
 
-class Upgrade6Command extends Command
+class Upgrade5Command extends Command
 {
     /**
      * The name and signature of the console command.

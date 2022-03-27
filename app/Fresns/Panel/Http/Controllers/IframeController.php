@@ -13,26 +13,50 @@ use Illuminate\Http\Request;
 
 class IframeController extends Controller
 {
-    // Plugin
+    protected function addLangToUrl($url)
+    {
+        // Parse the passed url
+        $queryString = parse_url($url);
+        // Get the query parameters in the url separately
+        $query = $queryString['query'] ?? '';
+
+        // Converting query parameters into arrays
+        parse_str($query, $params);
+        
+        // Passing on the language tag
+        $langParams = array_merge([
+            'lang' => \App::getLocale(),
+        ], $params);
+
+        // Splicing query parameters
+        $langQueryString = http_build_query($langParams);
+
+        // Splicing url
+        $langUrl = $queryString['path'].'?'.$langQueryString;
+
+        return $langUrl;
+    }
+
+    // Plugin iframe
     public function plugin(Request $request)
     {
         // Plugin Sidebar
         $enablePlugins = Plugin::type(1)->where('is_enable', 1)->get();
 
-        $url = $request->url;
+        $url = $this->addLangToUrl($request->url);
 
         return view('FsView::iframe.plugin', compact('url', 'enablePlugins'));
     }
 
-    // Client
+    // Client iframe
     public function client(Request $request)
     {
-        $url = $request->url;
+        $url = $this->addLangToUrl($request->url);
 
         return view('FsView::iframe.client', compact('url'));
     }
 
-    // App Store
+    // Fresns Market iframe
     public function market(Request $request)
     {
         $url = $request->url;

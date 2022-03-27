@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //Initial data
+        // Initial data
         $this->call(CodeMessagesTableSeeder::class);
         $this->call(ConfigsTableSeeder::class);
         $this->call(DomainsTableSeeder::class);
@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesTableSeeder::class);
         $this->call(PluginUsagesTableSeeder::class);
 
-        //Test data (account and user)
+        // Test data (account and user)
         //$this->call(AccountsTableSeeder::class);
         //$this->call(AccountWalletsTableSeeder::class);
         //$this->call(UsersTableSeeder::class);
