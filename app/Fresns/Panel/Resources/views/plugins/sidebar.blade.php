@@ -10,8 +10,8 @@
                     <li class="nav-item"><a class="nav-link {{ \Route::is('panel.list.*') ? 'active' : '' }}" href="{{ route('panel.list.index') }}">{{ __('FsLang::panel.sidebar_plugins') }}</a></li>
                     <li><hr class="dropdown-divider"></li>
                     @foreach ($enablePlugins as $plugin)
-                        @if ($plugin->setting_path)
-                            <li class="nav-item"><a href="{{ route('panel.iframe.plugin', ['url' => $plugin->setting_path]) }}" class="nav-link">{{ $plugin->name }}</a></li>
+                        @if ($plugin->settings_path)
+                            <li class="nav-item"><a href="{{ route('panel.iframe.plugin', ['url' => $plugin->settings_path]) }}" class="nav-link">{{ $plugin->name }}</a></li>
                         @endif
                     @endforeach
                 </ul>

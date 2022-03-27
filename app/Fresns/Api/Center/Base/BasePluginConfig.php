@@ -106,7 +106,7 @@ class BasePluginConfig
      *
      * @var string
      */
-    public $settingPath = '';
+    public $settingsPath = '';
 
     // Plugin default command word, any plugin must have
     public const FRESNS_CMD_DEFAULT = 'fresns_cmd_default';

@@ -55,8 +55,8 @@
                         <td>
                             @if ($plugin->is_enable)
                                 <button type="button" data-action="{{ route('panel.plugin.update', ['plugin' => $plugin->id]) }}" data-enable="0" class="btn btn-outline-secondary btn-sm plugin-manage">{{ __('FsLang::panel.button_deactivate') }}</button>
-                                @if ($plugin->setting_path)
-                                    <a href="{{ route('panel.iframe.plugin', ['url' => $plugin->setting_path]) }}" class="btn btn-primary btn-sm">{{ __('FsLang::panel.button_setting') }}</a>
+                                @if ($plugin->settings_path)
+                                    <a href="{{ route('panel.iframe.plugin', ['url' => $plugin->settings_path]) }}" class="btn btn-primary btn-sm">{{ __('FsLang::panel.button_setting') }}</a>
                                 @endif
                             @else
                                 <button type="button" data-action="{{ route('panel.plugin.update', ['plugin' => $plugin->id]) }}" data-enable="1" class="btn btn-outline-success btn-sm plugin-manage">{{ __('FsLang::panel.button_activate') }}</button>

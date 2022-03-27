@@ -66,8 +66,8 @@
                                     data-pc_plugin="{{ optional($configs->where('item_key', $engine->unikey . '_Pc')->first())->item_value }}"
                                     data-mobile_plugin="{{ optional($configs->where('item_key', $engine->unikey . '_Mobile')->first())->item_value }}"
                                     data-bs-target="#themeSetting">{{ __('FsLang::panel.engine_theme_title') }}</button>
-                                @if ($engine->setting_path)
-                                    <a href="{{ route('panel.iframe.client', ['url' => $engine->setting_path]) }}" class="btn btn-primary btn-sm">{{ __('FsLang::panel.button_setting') }}</a>
+                                @if ($engine->settings_path)
+                                    <a href="{{ route('panel.iframe.client', ['url' => $engine->settings_path]) }}" class="btn btn-primary btn-sm">{{ __('FsLang::panel.button_setting') }}</a>
                                 @endif
                             @else
                                 <button type="button" class="btn btn-outline-success btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['plugin' => $engine->id]) }}" data-enable="1">{{ __('FsLang::panel.button_activate') }}</button>

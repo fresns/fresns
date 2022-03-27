@@ -46,7 +46,7 @@ class FsConfig extends BaseConfig
         'scene' => 'scene',
         'plugin_domain' => 'plugin_domain',
         'access_path' => 'access_path',
-        'setting_path' => 'setting_path',
+        'settings_path' => 'settings_path',
         'is_enable' => 'is_enable',
         'more_json' => 'more_json',
         'is_upgrade' => 'is_upgrade',
