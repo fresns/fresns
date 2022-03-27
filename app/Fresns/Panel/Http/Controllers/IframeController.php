@@ -22,7 +22,7 @@ class IframeController extends Controller
 
         // Converting query parameters into arrays
         parse_str($query, $params);
-        
+
         // Passing on the language tag
         $langParams = array_merge([
             'lang' => \App::getLocale(),
