@@ -23,7 +23,7 @@
     </div>
     <!--engine list-->
     <div class="table-responsive">
-        <table class="table table-hover align-middle text-nowrap">
+        <table class="table table-hover align-middle">
             <thead>
                 <tr class="table-info">
                     <th scope="col">{{ __('FsLang::panel.sidebar_website_tab_engines') }} <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.engine_table_name_desc') }}"></i></th>

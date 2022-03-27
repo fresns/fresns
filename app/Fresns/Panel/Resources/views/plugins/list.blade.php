@@ -30,11 +30,11 @@
     </div>
     <!--plugin list-->
     <div class="table-responsive">
-        <table class="table table-hover align-middle text-nowrap fs-7">
+        <table class="table table-hover align-middle fs-7">
             <thead>
                 <tr class="table-info fs-6">
                     <th scope="col">{{ __('FsLang::panel.table_name') }}</th>
-                    <th scope="col">{{ __('FsLang::panel.table_description') }}</th>
+                    <th scope="col" class="w-50">{{ __('FsLang::panel.table_description') }}</th>
                     <th scope="col">{{ __('FsLang::panel.author') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_options') }}</th>
                 </tr>

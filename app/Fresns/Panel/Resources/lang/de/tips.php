@@ -15,7 +15,7 @@ return [
     */
 
     'createSuccess' => 'Erfolg schaffen',
-    'deleteSuccess' => 'erfolgreich gelöscht.',
+    'deleteSuccess' => 'erfolgreich gelöscht',
     'updateSuccess' => 'Erfolgreich modifiziert',
     'upgradeSuccess' => 'Update abgeschlossen',
     'copySuccess' => 'Erfolg kopieren',
