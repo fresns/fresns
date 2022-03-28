@@ -21,7 +21,7 @@
         "php": "^8.0.2",
         "fresns/cmd-word-manager": "^1.0",
         "fresns/dto": "^1.0",
-        "fresns/plugin-manager": "^1.0",
+        "fresns/plugin-manager": "^1.1",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.4",
         "laravel/framework": "^8.83",
