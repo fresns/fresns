@@ -8,17 +8,15 @@
 
 namespace App\Fresns\Words\Service;
 
-use App\Fresns\Api\Helpers\ApiFileHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
+use App\Helpers\PluginHelper;
+use App\Helpers\FileHelper;
+use App\Helpers\LanguageHelper;
 use App\Helpers\StrHelper;
 use App\Models\Account;
 use App\Models\AccountConnect;
 use App\Models\AccountWallet;
-use App\Models\Config;
-use App\Models\Language;
-use App\Models\Plugin;
-use App\Models\PluginBadge;
 use App\Models\PluginUsage;
 use App\Models\Role;
 use App\Models\User;
@@ -34,34 +32,34 @@ class AccountService
      *
      * @throws \Exception
      */
-    public function getAccountDetail($accountId, $langTag, $mid = null)
+    public function getAccountDetail($accountId, $langTag, $timezone)
     {
         $account = Account::where('id', $accountId)->first();
-        $phone = $account->phone ?? '';
-        $email = $account->email ?? '';
-        $data['aid'] = $account->aid ?? '';
-        $data['countryCode'] = $account->country_code ?? '';
-        $data['purePhone'] = StrHelper::encryptNumber($account->pure_phone);
-        $data['phone'] = StrHelper::encryptNumber($account->phone);
-        $data['email'] = StrHelper::encryptEmail($email) ?? '';
+        $phone = $account->phone ?? null;
+        $email = $account->email ?? null;
+        $data['aid'] = $account->aid ?? null;
+        $data['countryCode'] = $account->country_code ?? null;
+        $data['purePhone'] = StrHelper::encryptNumber($account->pure_phone) ?? null;
+        $data['phone'] = StrHelper::encryptNumber($account->phone) ?? null;
+        $data['email'] = StrHelper::encryptEmail($email) ?? null;
         $isPassword = false;
         if (! empty($account->password)) {
             $isPassword = true;
         }
         $data['password'] = $isPassword;
-        // Configs the plugin associated with the table account_prove_service and output the plugin URL
         $proveSupportUnikey = ConfigHelper::fresnsConfigByItemKey('account_prove_service');
-        $proveSupportUrl = self::getPluginUrlByUnikey($proveSupportUnikey);
+        $proveSupportUrl = PluginHelper::fresnsPluginUrlByUnikey($proveSupportUnikey);
         $data['proveSupport'] = $proveSupportUrl;
-        $data['verifyStatus'] = $account->prove_verify ?? '';
-        $data['realname'] = StrHelper::encryptName($account->prove_realname ?? '');
-        $data['gender'] = $account->prove_gender ?? '';
-        $data['idType'] = $account->prove_type ?? '';
-        $data['idNumber'] = \App\Fresns\Api\Helpers\StrHelper::encryptIdNumber($account->prove_number, 1, -1) ?? '';
+        $data['verifyStatus'] = $account->prove_verify ?? null;
+        $data['realname'] = StrHelper::encryptName($account->prove_realname) ?? null;
+        $data['gender'] = $account->prove_gender ?? null;
+        $data['idType'] = $account->prove_type ?? null;
+        $data['idNumber'] = StrHelper::encryptNumber($account->prove_number) ?? null;
         $data['registerTime'] = ($account->created_at)->toDateTimeString();
-        $data['status'] = $account->is_enable ?? '';
-        $data['deactivate'] = boolval($account->deleted_at ?? '');
-        $data['deactivateTime'] = $account->deleted_at ?? '';
+        $data['registerTime'] = DateHelper::fresnsOutputFormattingTime($account->created_at, $timezone, $langTag);
+        $data['status'] = $account->is_enable ?? null;
+        $data['deactivate'] = boolval($account->deleted_at) ?? null;
+        $data['deactivateTime'] = $account->deleted_at ?? null;
 
         $connectsArr = AccountConnect::where('account_id', $accountId)->get([
             'connect_id',
@@ -72,92 +70,104 @@ class AccountService
         ])->toArray();
         $itemArr = [];
         if ($connectsArr) {
-            foreach ($connectsArr as $v) {
+            foreach ($connectsArr as $user) {
                 $item = [];
-                $item['id'] = $v['connect_id'];
-                $item['name'] = $v['connect_name'];
-                $item['nickname'] = $v['connect_nickname'];
-                $item['avatar'] = $v['connect_avatar'];
-                $item['status'] = $v['is_enable'];
+                $item['id'] = $user['connect_id'];
+                $item['name'] = $user['connect_name'];
+                $item['nickname'] = $user['connect_nickname'];
+                $item['avatar'] = $user['connect_avatar'];
+                $item['status'] = $user['is_enable'];
                 $itemArr[] = $item;
             }
         }
         $data['connects'] = $itemArr;
         // Wallet
         $userWallets = AccountWallet::where('account_id', $accountId)->first();
-        $wallet['status'] = $userWallets['is_enable'] ?? '';
+        $wallet['status'] = $userWallets['is_enable'] ?? null;
         $isPassword = false;
         if (! empty($userWallets['password'])) {
             $isPassword = true;
         }
         $wallet['password'] = $isPassword;
-        $wallet['balance'] = $userWallets['balance'] ?? '';
-        $wallet['freezeAmount'] = $userWallets['freeze_amount'] ?? '';
-        $wallet['bankName'] = $userWallets['bank_name'] ?? '';
-        $wallet['swiftCode'] = $userWallets['swift_code'] ?? '';
-        $wallet['bankAddress'] = $userWallets['bank_address'] ?? '';
-        $wallet['bankAccount'] = '';
+        $wallet['balance'] = $userWallets['balance'] ?? null;
+        $wallet['freezeAmount'] = $userWallets['freeze_amount'] ?? null;
+        $wallet['bankName'] = $userWallets['bank_name'] ?? null;
+        $wallet['swiftCode'] = $userWallets['swift_code'] ?? null;
+        $wallet['bankAddress'] = $userWallets['bank_address'] ?? null;
+        $wallet['bankAccount'] = null;
         if (! empty($userWallets)) {
-            $wallet['bankAccount'] = \App\Fresns\Api\Helpers\StrHelper::encryptIdNumber($userWallets['bank_account'], 4, -2);
+            $wallet['bankAccount'] = StrHelper::encryptNumber($userWallets['bank_account']);
         }
         $wallet['bankStatus'] = $userWallets['bank_status'] ?? '';
-        $wallet['payExpands'] = self::getWalletPluginExpands($mid, 1, $langTag);
-        $wallet['withdrawExpands'] = self::getWalletPluginExpands($mid, 2, $langTag);
+        $wallet['rechargeExpands'] = self::getWalletPluginExpands(1, $langTag);
+        $wallet['withdrawExpands'] = self::getWalletPluginExpands(2, $langTag);
         $data['wallet'] = $wallet;
 
         $userArr = User::where('account_id', $accountId)->get()->toArray();
         $itemArr = [];
-        foreach ($userArr as $v) {
+        foreach ($userArr as $user) {
             $item = [];
-            $item['uid'] = $v['uid'];
-            $item['username'] = $v['username'];
-            $item['nickname'] = $v['nickname'];
-            $userRole = UserRole::where('user_id', $v['id'])->first();
-            $role = Role::where('id', $userRole['id'])->first();
-            $item['rid'] = '';
-            $item['roleName'] = '';
-            $item['nicknameColor'] = '';
-            $item['roleNameDisplay'] = '';
-            $item['roleIcon'] = '';
-            $item['roleIconDisplay'] = '';
+            $item['uid'] = $user['uid'];
+            $item['username'] = $user['username'];
+            $item['nickname'] = $user['nickname'];
+            $userRole = UserRole::where('user_id', $user['id'])->where('type', 2)->first();
+            $role = Role::where('id', $userRole['role_id'])->first();
+            $item['rid'] = null;
+            $item['roleName'] = null;
+            $item['nicknameColor'] = null;
+            $item['roleNameDisplay'] = null;
+            $item['roleIcon'] = null;
+            $item['roleIconDisplay'] = null;
             if ($role) {
                 $item['rid'] = $role['id'];
-                $item['nicknameColor'] = $role['nickname_color'] ?? '';
-                $item['roleName'] = self::getLanguageByTableId('roles', 'name', $userRole['id'], $langTag);
-                $item['roleNameDisplay'] = $role['is_display_name'];
-                $item['roleIcon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($role['icon_file_id'], $role['icon_file_url']) ?? '';
-                $item['roleIconDisplay'] = $role['is_display_icon'] ?? '';
+                $item['nicknameColor'] = $role['nickname_color'] ?? null;
+                $item['roleName'] = LanguageHelper::fresnsLanguageByTableColumn('roles', 'name', $role['id'], $langTag) ?? null;
+                $item['roleNameDisplay'] = $role['is_display_name'] ?? null;
+                $item['roleIcon'] = FileHelper::fresnsFileImageUrlByColumn($role['icon_file_id'], $role['icon_file_url'], 'imageConfigUrl') ?? null;
+                $item['roleIconDisplay'] = $role['is_display_icon'] ?? null;
             }
             $isPassword = false;
-            if (! empty($v->password)) {
+            if (! empty($user->password)) {
                 $isPassword = true;
             }
             $item['password'] = $isPassword;
 
-            if (empty($account->deleted_at)) {
-                if (empty($v->avatar_file_url) && empty($v->avatar_file_id)) {
-                    $defaultAvatar = ConfigHelper::fresnsConfigByItemKey('default_avatar');
-                    $memberAvatar = ApiFileHelper::getImageAvatarUrl($defaultAvatar);
+            if (empty($user->deleted_at)) {
+                if (empty($user->avatar_file_url) && empty($user->avatar_file_id)) {
+                    //默认头像
+                    if (ConfigHelper::fresnsConfigFileByItemKey('default_avatar') === 2) {
+                        $userAvatar = ConfigHelper::fresnsConfigByItemKey('default_avatar');
+                    } else {
+                        $fresnsResult = FileHelper::fresnsFileUrlById('default_avatar');
+                        $userAvatar = $fresnsResult->imageAvatarUrl;
+                    }
                 } else {
-                    $memberAvatar = ApiFileHelper::getImageAvatarUrlByFileIdUrl($v->avatar_file_id, $v->avatar_file_url);
+                    //用户头像
+                    $userAvatar = FileHelper::fresnsFileImageUrlByColumn($user->avatar_file_id, $user->avatar_file_url, 'imageAvatarUrl') ?? null;
                 }
             } else {
-                $deactivateAvatar = ConfigHelper::fresnsConfigByItemKey('deactivate_avatar');
-                $memberAvatar = ApiFileHelper::getImageAvatarUrl($deactivateAvatar);
+                //停用用户的头像
+                if (ConfigHelper::fresnsConfigFileByItemKey('deactivate_avatar') === 2) {
+                    $userAvatar = ConfigHelper::fresnsConfigByItemKey('deactivate_avatar');
+                } else {
+                    $fresnsResult = FileHelper::fresnsFileUrlById('deactivate_avatar');
+                    $userAvatar = $fresnsResult->imageAvatarUrl;
+                }
             }
-            $item['avatar'] = $memberAvatar;
-            $item['verifiedStatus'] = $v['verified_status'];
-            $item['verifiedIcon'] = $v['verified_file_url'] ?? '';
-            $item['verifiedDesc'] = $v['verified_desc'] ?? '';
-            $item['status'] = $v['is_enable'];
+            $item['avatar'] = $userAvatar;
+
+            $item['verifiedStatus'] = $user['verified_status'];
+            $item['verifiedIcon'] = $user['verified_file_url'] ?? '';
+            $item['verifiedDesc'] = $user['verified_desc'] ?? '';
+            $item['status'] = $user['is_enable'];
             $isset = false;
-            if (! empty($v['deleted_at'])) {
+            if (! empty($user['deleted_at'])) {
                 $isset = true;
             }
             $item['deactivate'] = $isset;
-            $item['deactivateTime'] = DateHelper::fresnsOutputTimeToTimezone($v['deleted_at']);
+            $item['deactivateTime'] = DateHelper::fresnsOutputTimeToTimezone($user['deleted_at']);
             // Determine if all roles of the member are in the "entitled roles" list
-            $memberRoleIdArr = UserRole::where('user_id', $v['id'])->where('type', 1)->pluck('role_id')->toArray();
+            $memberRoleIdArr = UserRole::where('user_id', $user['id'])->where('type', 1)->pluck('role_id')->toArray();
             $memberRoleIdArr[] = $role['id'];
             $permissionsRoleIdJson = ConfigHelper::fresnsConfigByItemKey('multi_member_roles');
             $permissionsRoleIdArr = json_decode($permissionsRoleIdJson, true) ?? [];
@@ -172,7 +182,7 @@ class AccountService
                 }
                 if ($isPermissions === true) {
                     $multiMemberServiceUnikey = ApiConfigHelper::getConfigByItemKey('multi_member_service');
-                    $multiMemberServiceUrl = FresnsPluginsService::getPluginUrlByUnikey($multiMemberServiceUnikey);
+                    $multiMemberServiceUrl = PluginHelper::fresnsPluginUrlByUnikey($multiMemberServiceUnikey);
                 }
             }
 
@@ -181,128 +191,29 @@ class AccountService
         }
         $data['users'] = $itemArr;
 
-        $data['userName'] = self::getLanguageByTableKey('configs', 'item_value', 'user_name', $langTag);
-        $data['userIdName'] = self::getLanguageByTableKey('configs', 'item_value', 'user_name', $langTag);
-        $data['userNameName'] = self::getLanguageByTableKey('configs', 'item_value', 'user_name_name', $langTag);
-        $data['userNicknameName'] = self::getLanguageByTableKey('configs', 'item_value', 'user_nickname_name', $langTag);
-        $data['userRoleName'] = self::getLanguageByTableKey('configs', 'item_value', 'user_role_name', $langTag);
+        $data['userName'] = ConfigHelper::fresnsConfigByItemKey('user_name', $langTag);
+        $data['userUidName'] = ConfigHelper::fresnsConfigByItemKey('user_uid_name', $langTag);
+        $data['userUsername'] = ConfigHelper::fresnsConfigByItemKey('user_username_name', $langTag);
+        $data['userNicknameName'] = ConfigHelper::fresnsConfigByItemKey('user_nickname_name', $langTag);
+        $data['userRoleName'] = ConfigHelper::fresnsConfigByItemKey('user_role_name', $langTag);
 
         return $data;
     }
 
-    public static function getLanguageByTableKey($table, $field, $tableKey, $langTag)
+    // Get wallet plugin
+    public static function getWalletPluginExpands($type, $langTag)
     {
-        $lang_content = Language::where('table_name', $table)->where('table_column', $field)->where('table_key', $tableKey)->where('lang_tag', $langTag)->value('lang_content');
-        if (empty($lang_content)) {
-            $langTag = Config::where('item_key', 'default_language')->value('item_value');
-            $lang_content = Language::where('table_name', $table)->where('table_column', $field)->where('table_key',
-                $tableKey)->where('lang_tag', $langTag)->value('lang_content');
-        }
-
-        return $lang_content;
-    }
-
-    // Get langTag
-    public static function getLangTagByHeader()
-    {
-        $langTagHeader = request()->header('langTag');
-        $langTag = null;
-        if (! empty($langTagHeader)) {
-            // If it is not empty, check if the language exists
-            $langSetting = Config::where('item_key', 'language_menus')->value('item_value');
-            if (! empty($langSetting)) {
-                $langSettingArr = json_decode($langSetting, true);
-                foreach ($langSettingArr as $v) {
-                    if ($v['langTag'] == $langTagHeader) {
-                        $langTag = $langTagHeader;
-                    }
-                }
-            }
-        }
-
-        // If no multiple languages are passed or not queried, the default language is queried
-        if (empty($langTag)) {
-            $langTag = ConfigHelper::fresnsConfigByItemKey('default_language');
-        }
-
-        return $langTag;
-    }
-
-    // Get plugin url via unikey
-    public static function getPluginUrlByUnikey($unikey)
-    {
-        $plugin = Plugin::where('unikey', $unikey)->first();
-        if (empty($plugin)) {
-            return '';
-        }
-
-        $uri = $plugin['access_path'];
-        if (empty($plugin['plugin_domain'])) {
-            $domain = ConfigHelper::fresnsConfigByItemKey('backend_domain');
-        } else {
-            $domain = $plugin['plugin_domain'];
-        }
-        $url = $domain.$uri;
-
-        return $url;
-    }
-
-    // Get Plugin
-    public static function getWalletPluginExpands($user_id, $type, $langTag)
-    {
-        $unikeyArr = PluginBadge::where('user_id', $user_id)->pluck('plugin_unikey')->toArray();
-        $payArr = PluginUsage::whereIn('plugin_unikey', $unikeyArr)->where('type', $type)->get()->toArray();
+        $walletArr = PluginUsage::where('type', $type)->get()->toArray();
         $expandsArr = [];
-        foreach ($payArr as $v) {
+        foreach ($walletArr as $expand) {
             $item = [];
-            $item['plugin'] = $v['plugin_unikey'];
-            $item['name'] = self::getLanguageByTableId(FresnsPluginUsagesConfig::CFG_TABLE, 'name', $v['id'], $langTag);
-            $item['icon'] = F::getImageSignUrlByFileIdUrl($v['icon_file_id'], $v['icon_file_url']);
-            $item['url'] = FresnsPluginsService::getPluginUsagesUrl($pluginUsages['plugin_unikey'], $v['id']);
-            $badges = FresnsPluginBadges::where('user_id', $user_id)->where('plugin_unikey', $v['plugin_unikey'])->first();
-            $item['badgesType'] = $badges['display_type'];
-            $item['badgesValue'] = $badges['value_text'];
+            $item['plugin'] = $expand['plugin_unikey'];
+            $item['name'] = LanguageHelper::fresnsLanguageByTableColumn('plugin_usages', 'name', $expand['id'], $langTag);
+            $item['icon'] = FileHelper::fresnsFileImageUrlByColumn($expand['icon_file_id'], $expand['icon_file_url'], 'imageConfigUrl') ?? null;
+            $item['url'] = PluginHelper::fresnsPluginUsageUrl($expand['plugin_unikey'], $expand['id']);
             $expandsArr[] = $item;
         }
 
         return $expandsArr;
-    }
-
-    // Get the corresponding multilingual
-    public static function getLanguageByTableId($table, $field, $tableId, $langTag = null)
-    {
-        $lang_content = Language::where('table_name', $table)->where('table_column', $field)->where('table_id', $tableId)->where('lang_tag', $langTag)->value('lang_content');
-        if (empty($lang_content)) {
-            $langTag = ConfigHelper::fresnsConfigByItemKey('default_language');
-            $lang_content = Language::where('table_name', $table)->where('table_column', $field)->where('table_id',
-                $tableId)->where('lang_tag', $langTag)->value('lang_content');
-        }
-
-        return $lang_content;
-    }
-
-    public static function getPluginUsagesUrl($pluginUnikey, $pluginUsagesid)
-    {
-        $bucketDomain = ConfigHelper::fresnsConfigByItemKey('backend_domain');
-        $pluginUsages = PluginUsage::find($pluginUsagesid);
-        $plugin = Plugin::where('unikey', $pluginUnikey)->first();
-        $url = '';
-        if (! $plugin || ! $pluginUsages) {
-            return $url;
-        }
-        $access_path = $plugin['access_path'];
-        $str = strstr($access_path, '{parameter}');
-        if ($str) {
-            $uri = str_replace('{parameter}', $pluginUsages['parameter'], $access_path);
-        } else {
-            $uri = $access_path;
-        }
-        if (empty($plugin['plugin_url'])) {
-            $url = $bucketDomain.$uri;
-        } else {
-            $url = $plugin['plugin_domain'].$uri;
-        }
-
-        return $url;
     }
 }

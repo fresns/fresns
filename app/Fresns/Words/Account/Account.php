@@ -137,7 +137,7 @@ class Account
             $timezone = ConfigHelper::fresnsConfigByItemKey('default_timezone');
         }
         $service = new AccountService();
-        $data = $service->getAccountDetail($accountId, $langTag);
+        $data = $service->getAccountDetail($accountId, $langTag, $timezone);
 
         return ['message' => 'success', 'code' => 0, 'data' => $data];
     }
