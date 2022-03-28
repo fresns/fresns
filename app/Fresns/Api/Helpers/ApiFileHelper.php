@@ -283,7 +283,7 @@ class ApiFileHelper
                     }
                     // Doc
                     if (isset($m['docUrl'])) {
-                        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_DOC;
+                        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_DOCUMENT;
                         $input['fid'] = $m['fid'];
                         $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
                         if (CmdRpcHelper::isErrorCmdResp($resp)) {

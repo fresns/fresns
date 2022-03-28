@@ -15,7 +15,7 @@ class FileSceneConfig
     const FILE_TYPE_IMAGE = 'file_image';
     const FILE_TYPE_VIDEO = 'file_video';
     const FILE_TYPE_AUDIO = 'file_audio';
-    const FILE_TYPE_DOC = 'file_doc';
+    const FILE_TYPE_DOCUMENT = 'file_document';
     const FILE_TYPE_CONFIG = 'file_config';
 
     // File Type

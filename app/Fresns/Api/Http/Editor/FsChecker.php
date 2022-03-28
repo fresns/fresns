@@ -1180,7 +1180,7 @@ class FsChecker extends BaseChecker
                     default:
                         // Verify user upload permissions (doc)
                         if ($permissionMap['post_editor_document'] == false) {
-                            return ErrorCodeService::ROLE_NO_PERMISSION_UPLOAD_DOC;
+                            return ErrorCodeService::ROLE_NO_PERMISSION_UPLOAD_DOCUMENT;
                         }
                         if (! empty($mbFileSize)) {
                             // Check global configuration of uploadable document size
