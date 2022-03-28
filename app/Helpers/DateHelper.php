@@ -72,9 +72,9 @@ class DateHelper
             return $datetime;
         }
         if (empty($timezone)) {
-            $timezone = request()->header('timezone');
+            $timezone = ConfigHelper::fresnsConfigByItemKey('default_timezone');
         }
-        $datetime = (new \DateTime($datetime))->setTimezone(new \DateTimeZone($mysqlZone));   //传参的时间timezone转成数据库的
+        $datetime = (new \DateTime($datetime))->setTimezone(new \DateTimeZone($mysqlZone));
         $time = $datetime->setTimezone(new \DateTimeZone($timezone));
 
         return $time->format('Y-m-d H:i:s');

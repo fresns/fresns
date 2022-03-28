@@ -16,6 +16,24 @@ use Illuminate\Support\Arr;
 class ConfigHelper
 {
     /**
+     * Get multiple values based on multiple keys.
+     *
+     * @param  string  $itemKey
+     * @param  string  $langTag
+     * @return mixed
+     */
+    public static function fresnsConfigByItemKeys(array $itemKeys, string $langTag = ''): array
+    {
+        $data = [];
+
+        foreach ($itemKeys as $key) {
+            $data[$key] = ConfigHelper::fresnsConfigByItemKey($key, $langTag);
+        }
+
+        return $data;
+    }
+
+    /**
      * Get config value based on Key.
      *
      * @param  string  $itemKey
@@ -34,7 +52,7 @@ class ConfigHelper
      */
     public function configByItem(string $item, string $langTag = '')
     {
-        $itemValue = Config::select(['item_value', 'item_key', 'is_multilingual', 'item_type'])->where('item_key', '=', $item)->first();
+        $itemValue = Config::where('item_key', $item)->first();
 
         if (empty($itemValue) || ($itemValue->is_multilingual == 1 && empty($langTag))) {
             return $itemValue->item_value ?? '';
@@ -43,24 +61,6 @@ class ConfigHelper
         }
 
         return $itemValue->item_value;
-    }
-
-    /**
-     * Get multiple values based on multiple keys.
-     *
-     * @param  string  $itemKey
-     * @param  string  $langTag
-     * @return mixed
-     */
-    public static function fresnsConfigByItemKeys(array $itemKeys, string $langTag = ''): array
-    {
-        $data = [];
-
-        foreach ($itemKeys as $key) {
-            $data[$key] = ConfigHelper::fresnsConfigByItemKey($key, $langTag);
-        }
-
-        return $data;
     }
 
     /**

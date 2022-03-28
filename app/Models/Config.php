@@ -10,6 +10,8 @@ namespace App\Models;
 
 class Config extends Model
 {
+    protected $guarded = [];
+
     public function getItemValueAttribute($value)
     {
         if (in_array($this->item_type, ['array', 'plugins', 'object'])) {
