@@ -1,9 +1,15 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Models\Traits;
 
-use App\Models\File;
 use App\Helpers\ConfigHelper;
+use App\Models\File;
 
 trait FileInfoTrait
 {
@@ -44,12 +50,12 @@ trait FileInfoTrait
         /** @var FileAppend */
         $append = $this->fileAppend;
 
-        $data = match($this->file_type) {
+        $data = match ($this->file_type) {
             File::TYPE_IMAGE => $this->getImageAppendInfo(),
             File::TYPE_VIDEO => $this->getVideoAppendInfo(),
             File::TYPE_AUDIO => $this->getAudioAppendInfo(),
             File::TYPE_DOCUMENT => $this->getDocumentAppendInfo(),
-            default => throw new \LogicException("unknown file_type ". $this->file_type),
+            default => throw new \LogicException('unknown file_type '.$this->file_type),
         };
 
         return array_merge([
@@ -79,11 +85,11 @@ trait FileInfoTrait
             'imageHeight' => $append->image_height,
             'imageLong' => $append->image_is_long,
             'imageDefaultUrl' => $imageDefaultUrl,
-            'imageConfigUrl' => $imageDefaultUrl . $thumbData['image_thumb_config'],
-            'imageAvatarUrl' => $imageDefaultUrl . $thumbData['image_thumb_avatar'],
-            'imageRatioUrl' => $imageDefaultUrl . $thumbData['image_thumb_ratio'],
-            'imageSquareUrl' => $imageDefaultUrl . $thumbData['image_thumb_square'],
-            'imageBigUrl' => $imageDefaultUrl . $thumbData['image_thumb_big'],
+            'imageConfigUrl' => $imageDefaultUrl.$thumbData['image_thumb_config'],
+            'imageAvatarUrl' => $imageDefaultUrl.$thumbData['image_thumb_avatar'],
+            'imageRatioUrl' => $imageDefaultUrl.$thumbData['image_thumb_ratio'],
+            'imageSquareUrl' => $imageDefaultUrl.$thumbData['image_thumb_square'],
+            'imageBigUrl' => $imageDefaultUrl.$thumbData['image_thumb_big'],
         ];
     }
 
