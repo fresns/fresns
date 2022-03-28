@@ -339,7 +339,7 @@ class FresnsCommentsResource extends BaseAdminResource
         $attachCount['images'] = 0;
         $attachCount['videos'] = 0;
         $attachCount['audios'] = 0;
-        $attachCount['docs'] = 0;
+        $attachCount['documents'] = 0;
         $attachCount['extends'] = DB::table(FresnsExtendLinkedsConfig::CFG_TABLE)->where('linked_type', 2)->where('linked_id', $this->id)->count();
         $more_json_decode = json_decode($this->more_json, true);
         if ($more_json_decode) {
@@ -355,7 +355,7 @@ class FresnsCommentsResource extends BaseAdminResource
                         $attachCount['audios']++;
                     }
                     if ($m['type'] == 4) {
-                        $attachCount['docs']++;
+                        $attachCount['documents']++;
                     }
                 }
             }

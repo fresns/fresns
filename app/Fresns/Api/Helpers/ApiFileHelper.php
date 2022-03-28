@@ -69,10 +69,10 @@ class ApiFileHelper
                 $file['audioUrl'] = $audiosHost.$fileInfo['file_path'];
                 $file['transcodingState'] = $fileAppend['transcoding_state'] ?? 1;
             }
-            // Doc Type
-            $docsHost = ApiConfigHelper::getConfigByItemKey('document_bucket_domain');
+            // Document Type
+            $documentsHost = ApiConfigHelper::getConfigByItemKey('document_bucket_domain');
             if ($fileInfo['file_type'] == 4) {
-                $file['docUrl'] = $docsHost.$fileInfo['file_path'];
+                $file['documentUrl'] = $documentsHost.$fileInfo['file_path'];
             }
 
             $file['moreJson'] = [];
@@ -281,15 +281,15 @@ class ApiFileHelper
                         }
                         $m['audioUrl'] = $resp['output']['audioUrl'];
                     }
-                    // Doc
-                    if (isset($m['docUrl'])) {
+                    // Document
+                    if (isset($m['documentUrl'])) {
                         $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_DOCUMENT;
                         $input['fid'] = $m['fid'];
                         $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
                         if (CmdRpcHelper::isErrorCmdResp($resp)) {
                             return false;
                         }
-                        $m['docUrl'] = $resp['output']['docUrl'];
+                        $m['documentUrl'] = $resp['output']['documentUrl'];
                     }
                 }
             }

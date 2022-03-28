@@ -1178,7 +1178,7 @@ class FsChecker extends BaseChecker
 
                         break;
                     default:
-                        // Verify user upload permissions (doc)
+                        // Verify user upload permissions (document)
                         if ($permissionMap['post_editor_document'] == false) {
                             return ErrorCodeService::ROLE_NO_PERMISSION_UPLOAD_DOCUMENT;
                         }

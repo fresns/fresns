@@ -80,7 +80,7 @@ class FresnsCommentsService extends FsService
                     $attachCount['images'] = 0;
                     $attachCount['videos'] = 0;
                     $attachCount['audios'] = 0;
-                    $attachCount['docs'] = 0;
+                    $attachCount['documents'] = 0;
                     $attachCount['extends'] = DB::table(FresnsExtendLinkedsConfig::CFG_TABLE)->where('linked_type', 2)->where('linked_id', $v['id'])->count();
                     $more_json_decode = json_decode($v['more_json'], true);
                     if ($more_json_decode) {
@@ -96,7 +96,7 @@ class FresnsCommentsService extends FsService
                                     $attachCount['audios']++;
                                 }
                                 if ($m['type'] == 4) {
-                                    $attachCount['docs']++;
+                                    $attachCount['documents']++;
                                 }
                             }
                         }

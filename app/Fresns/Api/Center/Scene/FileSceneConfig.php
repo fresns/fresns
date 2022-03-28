@@ -22,7 +22,7 @@ class FileSceneConfig
     const FILE_TYPE_1 = 1; // image
     const FILE_TYPE_2 = 2; // video
     const FILE_TYPE_3 = 3; // audio
-    const FILE_TYPE_4 = 4; // doc
+    const FILE_TYPE_4 = 4; // document
 
     // File Scene Type (data table type)
     const TABLE_TYPE_1 = 1;

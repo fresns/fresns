@@ -624,7 +624,7 @@ class FsControllerApi extends FsApiController
         $input['type'] = $request->input('type');
         $input['scene'] = $request->input('scene');
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getUploadToken($input);
-        if ($fresnsResp->isErrorResponse) {
+        if ($fresnsResp->isErrorResponse()) {
             return $fresnsResp->errorResponse();
         }
         $output = $fresnsResp->getData();
@@ -1323,7 +1323,7 @@ class FsControllerApi extends FsApiController
                 }
                 $toolbar['audio'] = $audio;
 
-                // toolbar > doc
+                // toolbar > document
                 $document = [];
                 $commentEditorDocument = ApiConfigHelper::getConfigByItemKey('comment_editor_document');
                 $document['status'] = $commentEditorDocument;
@@ -1342,7 +1342,7 @@ class FsControllerApi extends FsApiController
                 if (empty($document['maxSize'])) {
                     $document['maxSize'] = ApiConfigHelper::getConfigByItemKey('document_max_size');
                 }
-                $toolbar['doc'] = $document;
+                $toolbar['document'] = $document;
 
                 // toolbar > mention
                 $toolbar['mention'] = ApiConfigHelper::getConfigByItemKey('comment_editor_mention');

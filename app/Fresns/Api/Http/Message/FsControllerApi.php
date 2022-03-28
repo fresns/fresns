@@ -299,7 +299,7 @@ class FsControllerApi extends FsApiController
                     $file_type = 'audio';
                     break;
                 case '4':
-                    $file_type = 'doc';
+                    $file_type = 'document';
                     break;
                 default:
                     $file_type = 'image';

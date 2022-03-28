@@ -90,19 +90,19 @@ class FileSceneService extends BaseService
             $suffixArr = ['audios', 'plugins', $ym, $day];
         }
         if ($options['file_type'] == FileSceneConfig::FILE_TYPE_4 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_7) {
-            $suffixArr = ['docs', 'dialogs', $ym, $day];
+            $suffixArr = ['documents', 'dialogs', $ym, $day];
         }
         if ($options['file_type'] == FileSceneConfig::FILE_TYPE_4 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_8) {
-            $suffixArr = ['docs', 'posts', $ym, $day];
+            $suffixArr = ['documents', 'posts', $ym, $day];
         }
         if ($options['file_type'] == FileSceneConfig::FILE_TYPE_4 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_9) {
-            $suffixArr = ['docs', 'comments', $ym, $day];
+            $suffixArr = ['documents', 'comments', $ym, $day];
         }
         if ($options['file_type'] == FileSceneConfig::FILE_TYPE_4 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_10) {
-            $suffixArr = ['docs', 'extends', $ym, $day];
+            $suffixArr = ['documents', 'extends', $ym, $day];
         }
         if ($options['file_type'] == FileSceneConfig::FILE_TYPE_4 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_11) {
-            $suffixArr = ['docs', 'plugins', $ym, $day];
+            $suffixArr = ['documents', 'plugins', $ym, $day];
         }
 
         if (empty($suffixArr)) {
@@ -200,19 +200,19 @@ class FileSceneService extends BaseService
             $suffixArr = ['temp_files', 'audios', 'plugins', $ym, $day];
         }
         if ($options['file_type'] == FileSceneConfig::FILE_TYPE_4 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_7) {
-            $suffixArr = ['temp_files', 'docs', 'dialogs', $ym, $day];
+            $suffixArr = ['temp_files', 'documents', 'dialogs', $ym, $day];
         }
         if ($options['file_type'] == FileSceneConfig::FILE_TYPE_4 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_8) {
-            $suffixArr = ['temp_files', 'docs', 'posts', $ym, $day];
+            $suffixArr = ['temp_files', 'documents', 'posts', $ym, $day];
         }
         if ($options['file_type'] == FileSceneConfig::FILE_TYPE_4 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_9) {
-            $suffixArr = ['temp_files', 'docs', 'comments', $ym, $day];
+            $suffixArr = ['temp_files', 'documents', 'comments', $ym, $day];
         }
         if ($options['file_type'] == FileSceneConfig::FILE_TYPE_4 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_10) {
-            $suffixArr = ['temp_files', 'docs', 'extends', $ym, $day];
+            $suffixArr = ['temp_files', 'documents', 'extends', $ym, $day];
         }
         if ($options['file_type'] == FileSceneConfig::FILE_TYPE_4 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_11) {
-            $suffixArr = ['temp_files', 'docs', 'plugins', $ym, $day];
+            $suffixArr = ['temp_files', 'documents', 'plugins', $ym, $day];
         }
 
         if (empty($suffixArr)) {
@@ -310,19 +310,19 @@ class FileSceneService extends BaseService
             $suffixArr = ['audios', 'plugins', $ym, $day];
         }
         if ($options['file_type'] == FileSceneConfig::FILE_TYPE_4 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_7) {
-            $suffixArr = ['docs', 'dialogs', $ym, $day];
+            $suffixArr = ['documents', 'dialogs', $ym, $day];
         }
         if ($options['file_type'] == FileSceneConfig::FILE_TYPE_4 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_8) {
-            $suffixArr = ['docs', 'posts', $ym, $day];
+            $suffixArr = ['documents', 'posts', $ym, $day];
         }
         if ($options['file_type'] == FileSceneConfig::FILE_TYPE_4 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_9) {
-            $suffixArr = ['docs', 'comments', $ym, $day];
+            $suffixArr = ['documents', 'comments', $ym, $day];
         }
         if ($options['file_type'] == FileSceneConfig::FILE_TYPE_4 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_10) {
-            $suffixArr = ['docs', 'extends', $ym, $day];
+            $suffixArr = ['documents', 'extends', $ym, $day];
         }
         if ($options['file_type'] == FileSceneConfig::FILE_TYPE_4 && $options['table_type'] == FileSceneConfig::TABLE_TYPE_11) {
-            $suffixArr = ['docs', 'plugins', $ym, $day];
+            $suffixArr = ['documents', 'plugins', $ym, $day];
         }
 
         if (empty($suffixArr)) {

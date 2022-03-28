@@ -255,7 +255,7 @@ class StorageController extends Controller
         return $this->updateSuccess();
     }
 
-    public function docShow()
+    public function documentShow()
     {
         // config keys
         $configKeys = [
@@ -294,7 +294,7 @@ class StorageController extends Controller
         return view('FsView::systems.storage-document', compact('params', 'pluginParams'));
     }
 
-    public function docUpdate(Request $request)
+    public function documentUpdate(Request $request)
     {
         $configKeys = [
             'document_service',

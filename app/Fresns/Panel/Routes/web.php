@@ -146,8 +146,8 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::get('storage/audio', [StorageController::class, 'audioShow'])->name('storage.audio.index');
         Route::put('storage/audio', [StorageController::class, 'audioUpdate'])->name('storage.audio.update');
         // storage-document
-        Route::get('storage/document', [StorageController::class, 'docShow'])->name('storage.document.index');
-        Route::put('storage/document', [StorageController::class, 'docUpdate'])->name('storage.document.update');
+        Route::get('storage/document', [StorageController::class, 'documentShow'])->name('storage.document.index');
+        Route::put('storage/document', [StorageController::class, 'documentUpdate'])->name('storage.document.update');
         // storage-substitution
         Route::get('storage/substitution', [StorageController::class, 'substitutionShow'])->name('storage.substitution.index');
         Route::put('storage/substitution', [StorageController::class, 'substitutionUpdate'])->name('storage.substitution.update');

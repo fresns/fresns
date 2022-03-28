@@ -730,8 +730,8 @@ class ContentLogsService
         $imagesBig = ApiConfigHelper::getConfigByItemKey('image_thumb_big');
         $videosHost = ApiConfigHelper::getConfigByItemKey('video_bucket_domain');
         $audiosHost = ApiConfigHelper::getConfigByItemKey('audio_bucket_domain');
-        $docsHost = ApiConfigHelper::getConfigByItemKey('document_bucket_domain');
-        $docsOnlinePreview = ApiConfigHelper::getConfigByItemKey('document_online_preview');
+        $documentsHost = ApiConfigHelper::getConfigByItemKey('document_bucket_domain');
+        $documentsOnlinePreview = ApiConfigHelper::getConfigByItemKey('document_online_preview');
         $data = [];
         if ($filesArr) {
             foreach ($filesArr as $file) {
@@ -766,7 +766,7 @@ class ContentLogsService
                     $item['transcodingState'] = $append['transcoding_state'];
                 }
                 if ($type == 4) {
-                    $item['docUrl'] = $docsHost.$file['file_path'];
+                    $item['documentUrl'] = $documentsHost.$file['file_path'];
                 }
                 $item['moreJson'] = json_decode($append['more_json'], true);
 
@@ -797,7 +797,7 @@ class ContentLogsService
                     $arr = 'audio';
                 }
                 if ($f['type'] == 4) {
-                    $arr = 'doc';
+                    $arr = 'document';
                 }
                 $res[] = $arr;
             }
