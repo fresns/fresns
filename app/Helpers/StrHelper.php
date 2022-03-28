@@ -48,7 +48,7 @@ class StrHelper
     public static function encryptName(string $name)
     {
         $len = mb_strlen($name);
-        if ($len < 1){
+        if ($len < 1) {
             return $name;
         }
         $last = mb_substr($name, -1, 1);
