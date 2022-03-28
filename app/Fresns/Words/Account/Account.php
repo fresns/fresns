@@ -95,7 +95,6 @@ class Account
         return ['data'=>['aid'=>$inputArr['aid'], 'type'=>$dtoWordBody->type], 'message'=>'success', 'code'=>0];
     }
 
-
     /**
      * @param $wordBody
      * @return array
@@ -142,7 +141,6 @@ class Account
 
         return ['message' => 'success', 'code' => 0, 'data' => $data];
     }
-
 
     /**
      * @param $wordBody
@@ -215,7 +213,7 @@ class Account
     {
         $dtoWordBody = new LogicalDeletionAccountDTO($wordBody);
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
-        $dateTime = '#deleted' . date('YmdHis') . '#';
+        $dateTime = '#deleted'.date('YmdHis').'#';
         $account = \App\Models\Account::where('id', $accountId)->update(['phone' => DB::raw("concat('$dateTime','phone')"), 'email' => DB::raw("concat('$dateTime','email')"), 'deleted_at' => now()]);
         AccountConnect::where('account_id', $accountId)->forceDelete();
 

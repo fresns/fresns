@@ -19,7 +19,6 @@ use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 
 class Wallet
 {
-
     /**
      * @param $wordBody
      * @return array
@@ -256,9 +255,9 @@ class Wallet
      * @param $balance
      * @param $objectType
      * @param $accountId
-     * @param null $userId
-     * @param null $originAccountId
-     * @param null $originUserId
+     * @param  null  $userId
+     * @param  null  $originAccountId
+     * @param  null  $originUserId
      * @return bool
      */
     protected function AddAccountWallet($wordBody, $balance, $objectType, $accountId, $userId = null, $originAccountId = null, $originUserId = null)
@@ -288,9 +287,9 @@ class Wallet
      * @param $balance
      * @param $objectType
      * @param $accountId
-     * @param null $originAccountId
-     * @param null $userId
-     * @param null $originUserId
+     * @param  null  $originAccountId
+     * @param  null  $userId
+     * @param  null  $originUserId
      * @return bool
      */
     protected function reduceAccountWallet($wordBody, $balance, $objectType, $accountId, $originAccountId = null, $userId = null, $originUserId = null)

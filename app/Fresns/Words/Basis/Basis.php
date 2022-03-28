@@ -24,7 +24,6 @@ use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 
 class Basis
 {
-
     /**
      * @param $wordBody
      * @return mixed
@@ -89,7 +88,6 @@ class Basis
         return ['message'=>'success', 'code'=>0, 'data'=>[]];
     }
 
-
     /**
      * @param $wordBody
      * @return array
@@ -151,7 +149,6 @@ class Basis
 
         return \FresnsCmdWord::plugin($pluginUniKey)->sendCode($wordBody);
     }
-
 
     /**
      * @param $wordBody

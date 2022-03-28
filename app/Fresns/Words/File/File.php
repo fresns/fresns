@@ -216,7 +216,6 @@ class File
     /**
      * @param $fileIdArr
      * @param $type
-     *
      * @return array
      */
     protected function getFileData($fileIdArr, $type)
@@ -294,7 +293,7 @@ class File
     }
 
     /**
-     * @param int $fileType
+     * @param  int  $fileType
      * @return bool
      */
     public function validParamExist(int $fileType)
