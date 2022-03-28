@@ -24,9 +24,12 @@ use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 
 class Basis
 {
+
     /**
      * @param $wordBody
      * @return mixed
+     *
+     * @throws \Throwable
      */
     public function verifyUrlSign($wordBody)
     {
@@ -37,7 +40,7 @@ class Basis
     }
 
     /**
-     * @param  VerifySignDTO  $wordBody
+     * @param $wordBody
      * @return array|string
      *
      * @throws \Throwable
@@ -85,6 +88,7 @@ class Basis
 
         return ['message'=>'success', 'code'=>0, 'data'=>[]];
     }
+
 
     /**
      * @param $wordBody
@@ -148,9 +152,12 @@ class Basis
         return \FresnsCmdWord::plugin($pluginUniKey)->sendCode($wordBody);
     }
 
+
     /**
-     * @param  CheckCodeDTO  $wordBody
+     * @param $wordBody
      * @return array
+     *
+     * @throws \Throwable
      */
     public function checkCode($wordBody)
     {

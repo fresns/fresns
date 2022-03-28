@@ -101,6 +101,9 @@ class Crontab
         return ['code' => 200, 'message' => 'success', 'data' => []];
     }
 
+    /**
+     * @param $bufferDay
+     */
     protected function logicDelete($bufferDay)
     {
         $endTime = Carbon::now()->subDay($bufferDay)->toDateString();

@@ -20,8 +20,8 @@ class LogicalDeletionContentDTO extends DTO
         return [
             'type' => ['required', 'in:1,2'],
             'contentType' => ['required', 'in:1,2'],
-            'contentFsid' => ['required_if:contentType,1', 'string'],
-            'contentId' => ['required_if:contentType,2', 'integer'],
+            'contentFsid' => ['nullable', 'required_if:contentType,1', 'string'],
+            'contentId' => ['nullable', 'required_if:contentType,2', 'integer'],
         ];
     }
 }

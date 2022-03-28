@@ -8,9 +8,10 @@
 
 namespace App\Fresns\Words\Service;
 
-use App\Fresns\Api\Helpers\StrHelper;
+use App\Fresns\Api\Helpers\ApiFileHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
+use App\Helpers\StrHelper;
 use App\Models\Account;
 use App\Models\AccountConnect;
 use App\Models\AccountWallet;
@@ -19,30 +20,34 @@ use App\Models\Language;
 use App\Models\Plugin;
 use App\Models\PluginBadge;
 use App\Models\PluginUsage;
+use App\Models\Role;
 use App\Models\User;
+use App\Models\UserRole;
 
 class AccountService
 {
-    // Get User Detail
-    public function getUserDetail($aid, $langTag, $mid = null)
+
+    /**
+     * @param $accountId
+     * @param $langTag
+     * @param null $mid
+     * @return mixed
+     *
+     * @throws \Exception
+     */
+    public function getAccountDetail($accountId, $langTag, $mid = null)
     {
-        $langTag = self::getLangTagByHeader();
 
-        if (empty($mid)) {
-            $mid = Account::where('id', $aid)->value('id');
-        }
-
-        $account = Account::where('id', $aid)->first();
+        $account = Account::where('id', $accountId)->first();
         $phone = $account->phone ?? '';
         $email = $account->email ?? '';
-
         $data['aid'] = $account->aid ?? '';
         $data['countryCode'] = $account->country_code ?? '';
-        $data['purePhone'] = StrHelper::encryptPhone($account->pure_phone ?? '');
-        $data['phone'] = StrHelper::encryptPhone($phone, 5, 6) ?? '';
+        $data['purePhone'] = StrHelper::encryptNumber($account->pure_phone);
+        $data['phone'] = StrHelper::encryptNumber($account->phone);
         $data['email'] = StrHelper::encryptEmail($email) ?? '';
         $isPassword = false;
-        if (! empty($account->password)) {
+        if (!empty($account->password)) {
             $isPassword = true;
         }
         $data['password'] = $isPassword;
@@ -51,16 +56,16 @@ class AccountService
         $proveSupportUrl = self::getPluginUrlByUnikey($proveSupportUnikey);
         $data['proveSupport'] = $proveSupportUrl;
         $data['verifyStatus'] = $account->prove_verify ?? '';
-        $data['realname'] = StrHelper::encryptName($account->prove_realname) ?? '';
+        $data['realname'] = StrHelper::encryptName($account->prove_realname ?? '');
         $data['gender'] = $account->prove_gender ?? '';
         $data['idType'] = $account->prove_type ?? '';
-        $data['idNumber'] = StrHelper::encryptIdNumber($account->prove_number, 1, -1) ?? '';
-        $data['registerTime'] = DateHelper::fresnsOutputTimeToTimezone($account->created_at ?? '');
+        $data['idNumber'] = \App\Fresns\Api\Helpers\StrHelper::encryptIdNumber($account->prove_number, 1, -1) ?? '';
+        $data['registerTime'] = ($account->created_at)->toDateTimeString();
         $data['status'] = $account->is_enable ?? '';
         $data['deactivate'] = boolval($account->deleted_at ?? '');
-        $data['deactivateTime'] = DateHelper::fresnsOutputTimeToTimezone($account->deleted_at ?? '');
+        $data['deactivateTime'] = $account->deleted_at ?? '';
 
-        $connectsArr = AccountConnect::where('account_id', $aid)->get([
+        $connectsArr = AccountConnect::where('account_id', $accountId)->get([
             'connect_id',
             'connect_name',
             'connect_nickname',
@@ -71,21 +76,20 @@ class AccountService
         if ($connectsArr) {
             foreach ($connectsArr as $v) {
                 $item = [];
-                $item['id'] = $v->connect_id;
-                $item['name'] = $v->connect_name;
-                $item['nickname'] = $v->connect_nickname;
-                $item['avatar'] = $v->connect_avatar;
-                $item['status'] = $v->is_enable;
+                $item['id'] = $v['connect_id'];
+                $item['name'] = $v['connect_name'];
+                $item['nickname'] = $v['connect_nickname'];
+                $item['avatar'] = $v['connect_avatar'];
+                $item['status'] = $v['is_enable'];
                 $itemArr[] = $item;
             }
         }
         $data['connects'] = $itemArr;
-
         // Wallet
-        $userWallets = AccountWallet::where('account_id', $aid)->first();
+        $userWallets = AccountWallet::where('account_id', $accountId)->first();
         $wallet['status'] = $userWallets['is_enable'] ?? '';
         $isPassword = false;
-        if (! empty($userWallets['password'])) {
+        if (!empty($userWallets['password'])) {
             $isPassword = true;
         }
         $wallet['password'] = $isPassword;
@@ -95,70 +99,72 @@ class AccountService
         $wallet['swiftCode'] = $userWallets['swift_code'] ?? '';
         $wallet['bankAddress'] = $userWallets['bank_address'] ?? '';
         $wallet['bankAccount'] = '';
-        if (! empty($userWallets)) {
-            $wallet['bankAccount'] = StrHelper::encryptIdNumber($userWallets['bank_account'], 4, -2);
+        if (!empty($userWallets)) {
+            $wallet['bankAccount'] = \App\Fresns\Api\Helpers\StrHelper::encryptIdNumber($userWallets['bank_account'], 4, -2);
         }
         $wallet['bankStatus'] = $userWallets['bank_status'] ?? '';
         $wallet['payExpands'] = self::getWalletPluginExpands($mid, 1, $langTag);
         $wallet['withdrawExpands'] = self::getWalletPluginExpands($mid, 2, $langTag);
         $data['wallet'] = $wallet;
 
-        $memberArr = User::where('account_id', $aid)->get()->toArray();
+        $userArr = User::where('account_id', $accountId)->get()->toArray();
         $itemArr = [];
-        foreach ($memberArr as $v) {
+        foreach ($userArr as $v) {
             $item = [];
-            $item['mid'] = $v->uuid;
-            $item['mname'] = $v->name;
-            $item['nickname'] = $v->nickname;
-            $roleId = FresnsMemberRoleRelsService::getMemberRoleRels($v->id);
-            $memberRole = FresnsMemberRoles::where('id', $roleId)->first();
+            $item['uid'] = $v['uid'];
+            $item['username'] = $v['username'];
+            $item['nickname'] = $v['nickname'];
+            $userRole = UserRole::where('user_id', $v['id'])->first();
+            $role = Role::where('id', $userRole['id'])->first();
             $item['rid'] = '';
-            $item['nicknameColor'] = '';
             $item['roleName'] = '';
+            $item['nicknameColor'] = '';
             $item['roleNameDisplay'] = '';
             $item['roleIcon'] = '';
             $item['roleIconDisplay'] = '';
-            if ($memberRole) {
-                $item['rid'] = $memberRole['id'];
-                $item['nicknameColor'] = $memberRole['nickname_color'];
-                $item['roleName'] = self::getLanguageByTableId(FresnsMemberRolesConfig::CFG_TABLE, 'name', $memberRole['id'], $langTag);
-                $item['roleNameDisplay'] = $memberRole['is_display_name'];
-                $item['roleIcon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($memberRole['icon_file_id'], $memberRole['icon_file_url']);
-                $item['roleIconDisplay'] = $memberRole['is_display_icon'];
+            if ($role) {
+                $item['rid'] = $role['id'];
+                $item['nicknameColor'] = $role['nickname_color'] ?? '';
+                $item['roleName'] = self::getLanguageByTableId('roles', 'name', $userRole['id'], $langTag);
+                $item['roleNameDisplay'] = $role['is_display_name'];
+                $item['roleIcon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($role['icon_file_id'], $role['icon_file_url']) ?? '';
+                $item['roleIconDisplay'] = $role['is_display_icon'] ?? '';
             }
-
             $isPassword = false;
-            if (! empty($v->password)) {
+            if (!empty($v->password)) {
                 $isPassword = true;
             }
             $item['password'] = $isPassword;
 
             if (empty($account->deleted_at)) {
                 if (empty($v->avatar_file_url) && empty($v->avatar_file_id)) {
-                    $defaultAvatar = ApiConfigHelper::getConfigByItemKey('default_avatar');
+                    $defaultAvatar = ConfigHelper::fresnsConfigByItemKey('default_avatar');
                     $memberAvatar = ApiFileHelper::getImageAvatarUrl($defaultAvatar);
                 } else {
                     $memberAvatar = ApiFileHelper::getImageAvatarUrlByFileIdUrl($v->avatar_file_id, $v->avatar_file_url);
                 }
             } else {
-                $deactivateAvatar = ApiConfigHelper::getConfigByItemKey('deactivate_avatar');
+                $deactivateAvatar = ConfigHelper::fresnsConfigByItemKey('deactivate_avatar');
                 $memberAvatar = ApiFileHelper::getImageAvatarUrl($deactivateAvatar);
             }
             $item['avatar'] = $memberAvatar;
-            $item['verifiedStatus'] = $v->verified_status;
-            $item['verifiedIcon'] = $v->verified_file_url;
-            $item['verifiedDesc'] = $v->verified_desc;
-            $item['status'] = $v->is_enable;
-            $item['deactivate'] = DateHelper::fresnsOutputTimeToTimezone($v->deleted_at);
-            $item['deactivateTime'] = DateHelper::fresnsOutputTimeToTimezone($v->deleted_at);
-
+            $item['verifiedStatus'] = $v['verified_status'];
+            $item['verifiedIcon'] = $v['verified_file_url'] ?? '';
+            $item['verifiedDesc'] = $v['verified_desc'] ?? '';
+            $item['status'] = $v['is_enable'];
+            $isset = false;
+            if (!empty($v['deleted_at'])) {
+                $isset = true;
+            }
+            $item['deactivate'] = $isset;
+            $item['deactivateTime'] = DateHelper::fresnsOutputTimeToTimezone($v['deleted_at']);
             // Determine if all roles of the member are in the "entitled roles" list
-            $memberRoleIdArr = FresnsMemberRoleRels::where('user_id', $v->id)->where('type', 1)->pluck('role_id')->toArray();
-            $memberRoleIdArr[] = $roleId;
-            $permissionsRoleIdJson = ApiConfigHelper::getConfigByItemKey('multi_member_roles');
+            $memberRoleIdArr = UserRole::where('user_id', $v['id'])->where('type', 1)->pluck('role_id')->toArray();
+            $memberRoleIdArr[] = $role['id'];
+            $permissionsRoleIdJson = ConfigHelper::fresnsConfigByItemKey('multi_member_roles');
             $permissionsRoleIdArr = json_decode($permissionsRoleIdJson, true) ?? [];
             $multiMemberServiceUrl = '';
-            if (! empty($permissionsRoleIdArr)) {
+            if (!empty($permissionsRoleIdArr)) {
                 $isPermissions = false;
                 foreach ($memberRoleIdArr as $memberRoleId) {
                     if (in_array($memberRoleId, $permissionsRoleIdArr)) {
@@ -175,7 +181,7 @@ class AccountService
             $item['multiple'] = $multiMemberServiceUrl;
             $itemArr[] = $item;
         }
-        $data['members'] = $itemArr;
+        $data['users'] = $itemArr;
 
         $data['userName'] = self::getLanguageByTableKey('configs', 'item_value', 'user_name', $langTag);
         $data['userIdName'] = self::getLanguageByTableKey('configs', 'item_value', 'user_name', $langTag);
@@ -203,10 +209,10 @@ class AccountService
     {
         $langTagHeader = request()->header('langTag');
         $langTag = null;
-        if (! empty($langTagHeader)) {
+        if (!empty($langTagHeader)) {
             // If it is not empty, check if the language exists
             $langSetting = Config::where('item_key', 'language_menus')->value('item_value');
-            if (! empty($langSetting)) {
+            if (!empty($langSetting)) {
                 $langSettingArr = json_decode($langSetting, true);
                 foreach ($langSettingArr as $v) {
                     if ($v['langTag'] == $langTagHeader) {
@@ -238,7 +244,7 @@ class AccountService
         } else {
             $domain = $plugin['plugin_domain'];
         }
-        $url = $domain.$uri;
+        $url = $domain . $uri;
 
         return $url;
     }
@@ -283,7 +289,7 @@ class AccountService
         $pluginUsages = PluginUsage::find($pluginUsagesid);
         $plugin = Plugin::where('unikey', $pluginUnikey)->first();
         $url = '';
-        if (! $plugin || ! $pluginUsages) {
+        if (!$plugin || !$pluginUsages) {
             return $url;
         }
         $access_path = $plugin['access_path'];
@@ -294,9 +300,9 @@ class AccountService
             $uri = $access_path;
         }
         if (empty($plugin['plugin_url'])) {
-            $url = $bucketDomain.$uri;
+            $url = $bucketDomain . $uri;
         } else {
-            $url = $plugin['plugin_domain'].$uri;
+            $url = $plugin['plugin_domain'] . $uri;
         }
 
         return $url;

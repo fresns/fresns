@@ -26,6 +26,12 @@ use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 
 class File
 {
+    /**
+     * @param $wordBody
+     * @return array
+     *
+     * @throws \Throwable
+     */
     public function getUploadToken($wordBody)
     {
         $dtoWordBody = new GetUploadTokenDTO($wordBody);
@@ -43,6 +49,12 @@ class File
         return \FresnsCmdWord::plugin($pluginUniKey)->getUploadToken($wordBody);
     }
 
+    /**
+     * @param $wordBody
+     * @return array
+     *
+     * @throws \Throwable
+     */
     public function uploadFile($wordBody)
     {
         $dtoWordBody = new UploadFile($wordBody);
@@ -115,6 +127,12 @@ class File
         return ['code' => 0, 'message' => 'success', 'data' => $data];
     }
 
+    /**
+     * @param $wordBody
+     * @return array
+     *
+     * @throws \Throwable
+     */
     public function uploadFileInfo($wordBody)
     {
         $wordBody = new UploadFileInfoDTO($wordBody);
@@ -195,6 +213,12 @@ class File
         return ['code' => 0, 'message' => 'success', 'data' => $data];
     }
 
+    /**
+     * @param $fileIdArr
+     * @param $type
+     *
+     * @return array
+     */
     protected function getFileData($fileIdArr, $type)
     {
         $filesArr = \App\Models\File::whereIn('id', $fileIdArr)->get()->toArray();
@@ -249,6 +273,10 @@ class File
         return $item;
     }
 
+    /**
+     * @param $options
+     * @return string
+     */
     public function getFileTempPath($options)
     {
         $basePath = base_path().'/storage/app/public/';
@@ -265,6 +293,10 @@ class File
         return 'public'.$fileTempPath;
     }
 
+    /**
+     * @param int $fileType
+     * @return bool
+     */
     public function validParamExist(int $fileType)
     {
         switch ($fileType) {
@@ -436,6 +468,11 @@ class File
         return \FresnsCmdWord::plugin($pluginUniKey)->physicalDeletionFile($wordBody);
     }
 
+    /**
+     * @param $tableName
+     * @param $tableId
+     * @return mixed
+     */
     protected function getTableId($tableName, $tableId)
     {
         $tableId = match ($tableName) {

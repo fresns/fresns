@@ -16,18 +16,20 @@ use App\Fresns\Words\Account\DTO\VerifyAccountDTO;
 use App\Fresns\Words\Account\DTO\VerifySessionTokenDTO;
 use App\Fresns\Words\Service\AccountService;
 use App\Helpers\ConfigHelper;
+use App\Helpers\PrimaryHelper;
 use App\Models\AccountConnect;
 use App\Models\AccountWallet;
 use App\Models\SessionToken;
 use App\Models\User;
 use App\Models\VerifyCode;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
+use Illuminate\Support\Facades\DB;
 
 class Account
 {
     /**
      * @param $wordBody
-     * @return array|string
+     * @return array
      *
      * @throws \Throwable
      */
@@ -93,6 +95,7 @@ class Account
         return ['data'=>['aid'=>$inputArr['aid'], 'type'=>$dtoWordBody->type], 'message'=>'success', 'code'=>0];
     }
 
+
     /**
      * @param $wordBody
      * @return array
@@ -127,16 +130,22 @@ class Account
     public function getAccountDetail($wordBody)
     {
         $dtoWordBody = new GetAccountDetailDTO($wordBody);
-        $accountId = \App\Models\Account::where('aid', '=', $dtoWordBody->aid)->value('id');
-        $langTag = request()->header('langTag');
+        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
+        if (empty($dtoWordBody->langTag)) {
+            $langTag = ConfigHelper::fresnsConfigByItemKey('default_language');
+        }
+        if (empty($dtoWordBody->timezone)) {
+            $timezone = ConfigHelper::fresnsConfigByItemKey('default_timezone');
+        }
         $service = new AccountService();
-        $data = $service->getUserDetail($accountId, $langTag);
+        $data = $service->getAccountDetail($accountId, $langTag);
 
-        return ['message'=>'success', 'code'=>0, 'data'=>$data];
+        return ['message' => 'success', 'code' => 0, 'data' => $data];
     }
 
+
     /**
-     * @param  CreateSessionTokenDTO  $wordBody
+     * @param $wordBody
      * @return array
      *
      * @throws \Throwable
@@ -168,6 +177,12 @@ class Account
         return ['code' => 0, 'message' => 'success', 'data' => ['token' => $token]];
     }
 
+    /**
+     * @param $wordBody
+     * @return array
+     *
+     * @throws \Throwable
+     */
     public function verifySessionToken($wordBody)
     {
         $dtoWordBody = new VerifySessionTokenDTO($wordBody);
@@ -190,11 +205,20 @@ class Account
         return ['message'=>'success', 'code'=>0, 'data'=>[]];
     }
 
+    /**
+     * @param $wordBody
+     * @return array
+     *
+     * @throws \Throwable
+     */
     public function logicalDeletionAccount($wordBody)
     {
         $dtoWordBody = new LogicalDeletionAccountDTO($wordBody);
-        \App\Models\User::where('account_id', $dtoWordBody->accountId)->update(['deleted_at'=>now()]);
+        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
+        $dateTime = '#deleted' . date('YmdHis') . '#';
+        $account = \App\Models\Account::where('id', $accountId)->update(['phone' => DB::raw("concat('$dateTime','phone')"), 'email' => DB::raw("concat('$dateTime','email')"), 'deleted_at' => now()]);
+        AccountConnect::where('account_id', $accountId)->forceDelete();
 
-        return ['code'=>0, 'message'=>'success', 'data'=>[]];
+        return ['code' => 0, 'message' => 'success', 'data' => []];
     }
 }

@@ -18,7 +18,7 @@ class LogicalDeletionAccountDTO extends DTO
     public function rules(): array
     {
         return [
-            'aid' => ['required', 'integer'],
+            'aid' => ['required', 'string'],
         ];
     }
 }

@@ -18,13 +18,14 @@ use App\Models\PostLog;
 
 class Content
 {
+
     /**
-     * @param  PhysicalDeletionFileDTO  $wordBody
+     * @param $wordBody
      * @return array
      *
      * @throws \Throwable
      */
-    public function physicalDeletionContent(PhysicalDeletionFileDTO $wordBody)
+    public function physicalDeletionContent( $wordBody)
     {
         $dtoWordBody = new PhysicalDeletionFileDTO($wordBody);
         $fid = $dtoWordBody->fid;

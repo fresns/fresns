@@ -23,7 +23,7 @@ class CheckCodeDTO extends DTO
         return [
             'type' => ['required', 'in:1,2'],
             'account' => ['required', 'string'],
-            'countryCode' => ['required_if:type,2', 'integer'],
+            'countryCode' => ['nullable', 'required_if:type,2', 'integer'],
             'verifyCode' => ['required', 'string'],
         ];
     }

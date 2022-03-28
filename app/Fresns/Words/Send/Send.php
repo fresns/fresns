@@ -34,7 +34,7 @@ class Send
             $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('send_email_service')
         );
 
-        return \FresnsCmdWord::plugin($pluginUniKey)->sendEmail($wordBody)->getCode();
+        return \FresnsCmdWord::plugin($pluginUniKey)->sendEmail($wordBody);
     }
 
     /**
@@ -97,7 +97,7 @@ class Send
 
     protected function ensureUnikeyIsNotEmpry(string $string)
     {
-        if (empty($pluginUniKey)) {
+        if (empty($string)) {
             ExceptionConstant::getHandleClassByCode(ExceptionConstant::PLUGIN_CONFIG_ERROR)::throw();
         }
     }
