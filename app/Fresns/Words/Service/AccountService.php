@@ -26,18 +26,16 @@ use App\Models\UserRole;
 
 class AccountService
 {
-
     /**
      * @param $accountId
      * @param $langTag
-     * @param null $mid
+     * @param  null  $mid
      * @return mixed
      *
      * @throws \Exception
      */
     public function getAccountDetail($accountId, $langTag, $mid = null)
     {
-
         $account = Account::where('id', $accountId)->first();
         $phone = $account->phone ?? '';
         $email = $account->email ?? '';
@@ -47,7 +45,7 @@ class AccountService
         $data['phone'] = StrHelper::encryptNumber($account->phone);
         $data['email'] = StrHelper::encryptEmail($email) ?? '';
         $isPassword = false;
-        if (!empty($account->password)) {
+        if (! empty($account->password)) {
             $isPassword = true;
         }
         $data['password'] = $isPassword;
@@ -89,7 +87,7 @@ class AccountService
         $userWallets = AccountWallet::where('account_id', $accountId)->first();
         $wallet['status'] = $userWallets['is_enable'] ?? '';
         $isPassword = false;
-        if (!empty($userWallets['password'])) {
+        if (! empty($userWallets['password'])) {
             $isPassword = true;
         }
         $wallet['password'] = $isPassword;
@@ -99,7 +97,7 @@ class AccountService
         $wallet['swiftCode'] = $userWallets['swift_code'] ?? '';
         $wallet['bankAddress'] = $userWallets['bank_address'] ?? '';
         $wallet['bankAccount'] = '';
-        if (!empty($userWallets)) {
+        if (! empty($userWallets)) {
             $wallet['bankAccount'] = \App\Fresns\Api\Helpers\StrHelper::encryptIdNumber($userWallets['bank_account'], 4, -2);
         }
         $wallet['bankStatus'] = $userWallets['bank_status'] ?? '';
@@ -131,7 +129,7 @@ class AccountService
                 $item['roleIconDisplay'] = $role['is_display_icon'] ?? '';
             }
             $isPassword = false;
-            if (!empty($v->password)) {
+            if (! empty($v->password)) {
                 $isPassword = true;
             }
             $item['password'] = $isPassword;
@@ -153,7 +151,7 @@ class AccountService
             $item['verifiedDesc'] = $v['verified_desc'] ?? '';
             $item['status'] = $v['is_enable'];
             $isset = false;
-            if (!empty($v['deleted_at'])) {
+            if (! empty($v['deleted_at'])) {
                 $isset = true;
             }
             $item['deactivate'] = $isset;
@@ -164,7 +162,7 @@ class AccountService
             $permissionsRoleIdJson = ConfigHelper::fresnsConfigByItemKey('multi_member_roles');
             $permissionsRoleIdArr = json_decode($permissionsRoleIdJson, true) ?? [];
             $multiMemberServiceUrl = '';
-            if (!empty($permissionsRoleIdArr)) {
+            if (! empty($permissionsRoleIdArr)) {
                 $isPermissions = false;
                 foreach ($memberRoleIdArr as $memberRoleId) {
                     if (in_array($memberRoleId, $permissionsRoleIdArr)) {
@@ -209,10 +207,10 @@ class AccountService
     {
         $langTagHeader = request()->header('langTag');
         $langTag = null;
-        if (!empty($langTagHeader)) {
+        if (! empty($langTagHeader)) {
             // If it is not empty, check if the language exists
             $langSetting = Config::where('item_key', 'language_menus')->value('item_value');
-            if (!empty($langSetting)) {
+            if (! empty($langSetting)) {
                 $langSettingArr = json_decode($langSetting, true);
                 foreach ($langSettingArr as $v) {
                     if ($v['langTag'] == $langTagHeader) {
@@ -244,7 +242,7 @@ class AccountService
         } else {
             $domain = $plugin['plugin_domain'];
         }
-        $url = $domain . $uri;
+        $url = $domain.$uri;
 
         return $url;
     }
@@ -289,7 +287,7 @@ class AccountService
         $pluginUsages = PluginUsage::find($pluginUsagesid);
         $plugin = Plugin::where('unikey', $pluginUnikey)->first();
         $url = '';
-        if (!$plugin || !$pluginUsages) {
+        if (! $plugin || ! $pluginUsages) {
             return $url;
         }
         $access_path = $plugin['access_path'];
@@ -300,9 +298,9 @@ class AccountService
             $uri = $access_path;
         }
         if (empty($plugin['plugin_url'])) {
-            $url = $bucketDomain . $uri;
+            $url = $bucketDomain.$uri;
         } else {
-            $url = $plugin['plugin_domain'] . $uri;
+            $url = $plugin['plugin_domain'].$uri;
         }
 
         return $url;
