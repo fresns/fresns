@@ -200,7 +200,7 @@ class FileHelper
             return $fileUrl;
         }
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink([
-            'fileId' => $fileId
+            'fileId' => $fileId,
         ]);
 
         return $fresnsResp->getData($urlType);
