@@ -26,7 +26,6 @@ class CreatePluginsTable extends Migration
             $table->string('name', 64);
             $table->string('description');
             $table->string('version', 16);
-            $table->string('version_md5', 64);
             $table->string('author', 64);
             $table->string('author_link', 128)->nullable();
             $table->json('scene')->nullable();
