@@ -234,7 +234,7 @@ class FsService
             $rolesArr = [];
             foreach ($userRolesArr as $v) {
                 $item = [];
-                $item['type'] = FresnsUserRoles::where('user_id', $uid)->where('role_id', $v['id'])->value('type');
+                $item['type'] = FresnsUserRoles::where('user_id', $uid)->where('role_id', $v['id'])->value('is_main');
                 $item['rid'] = $v['id'];
                 $item['name'] = FresnsLanguagesService::getLanguageByTableId(FresnsRolesConfig::CFG_TABLE, 'name', $v['id'], $langTag);
                 $item['icon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($v['icon_file_id'], $v['icon_file_url']);
