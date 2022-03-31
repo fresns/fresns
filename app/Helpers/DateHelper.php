@@ -32,11 +32,11 @@ class DateHelper
      */
     public static function fresnsSqlTimezone()
     {
-        $standardTime = gmdate("Y-m-d H:i:s");
+        $standardTime = gmdate('Y-m-d H:i:s');
         $now = self::fresnsSqlCurrentDateTime();
         $hour = Carbon::parse($standardTime)->floatDiffInHours($now, false);
         if ($hour > 0) {
-            $hour = '+' . $hour;
+            $hour = '+'.$hour;
         }
 
         return $hour;
@@ -69,10 +69,10 @@ class DateHelper
 
         $timezone = $timezone ?: ConfigHelper::fresnsConfigByItemKey('default_timezone');
 
-        $timezone = $timezone > 0 ? -1 * $timezone : '+' . abs($timezone);
+        $timezone = $timezone > 0 ? -1 * $timezone : '+'.abs($timezone);
         $standard = strtotime($datetime);
-        if (!empty($timezone)) {
-            $standard = date("Y-m-d  H:i:s", strtotime("$timezone hours", strtotime($datetime)));
+        if (! empty($timezone)) {
+            $standard = date('Y-m-d  H:i:s', strtotime("$timezone hours", strtotime($datetime)));
         }
         $datetime = new \DateTime($standard);
         $result = $datetime->setTimezone(new \DateTimeZone(self::fresnsSqlTimezone()));
@@ -84,7 +84,7 @@ class DateHelper
      * Output time values by time zone.
      *
      * @param $datetime
-     * @param string $timezone
+     * @param  string  $timezone
      * @return \DateTime|string
      *
      * @throws \Exception
@@ -101,10 +101,9 @@ class DateHelper
         if ($mysqlZone == $timezone) {
             return date('Y-m-d H:i:s', strtotime($datetime));
         }
-        $mysqlZone = $mysqlZone > 0 ? -1 * $mysqlZone : '+' . abs($mysqlZone);
+        $mysqlZone = $mysqlZone > 0 ? -1 * $mysqlZone : '+'.abs($mysqlZone);
         $standard = date('Y-m-d H:i:s', strtotime("$mysqlZone hours", strtotime($datetime)));
         if ($timezone == 0) {
-
             return $standard;
         }
         $time = (new \DateTime($standard))->setTimezone(new \DateTimeZone($timezone));
@@ -115,9 +114,9 @@ class DateHelper
     /**
      * Formatted time output by time zone and language tag.
      *
-     * @param string $datetime
-     * @param string $timezone
-     * @param string $langTag
+     * @param  string  $datetime
+     * @param  string  $timezone
+     * @param  string  $langTag
      * @return string
      */
     public static function fresnsFormatDateTime($datetime, $timezone = '', $langTag = '')
@@ -135,7 +134,7 @@ class DateHelper
         if ($datetime->diffInDays($mysqlTime) == 0) {
             return Carbon::parse($datetime)->format('H:i');
         }
-        $yearFormat = $datetime->diffInYears($mysqlTime) > 0  ? self::diffYearFormat : self::sameYearFormat;
+        $yearFormat = $datetime->diffInYears($mysqlTime) > 0 ? self::diffYearFormat : self::sameYearFormat;
         $languageMenus = ConfigHelper::fresnsConfigByItemKey('language_menus');
         foreach ($languageMenus as $languageMenu) {
             if ($languageMenu['langCode'] == $langTag) {
@@ -150,7 +149,7 @@ class DateHelper
      * Processing output by language humanization time.
      *
      * @param $datetime
-     * @param string $langTag
+     * @param  string  $langTag
      * @return string
      */
     public static function fresnsFormatTime($datetime, $langTag = '')
@@ -178,7 +177,7 @@ class DateHelper
                 }
             }
         }
-        $diff = $diff > 0 ? -1 * $diff : '+' . abs($diff);
+        $diff = $diff > 0 ? -1 * $diff : '+'.abs($diff);
         $timeFormat = ConfigHelper::fresnsConfigByItemKey('language_menus');
         foreach ($timeFormat as $item) {
             if ($item['langTag'] == $langTag) {
@@ -188,6 +187,6 @@ class DateHelper
         }
         $diff = $datetime < now() ? abs($diff) : $diff;
 
-        return $diff . ' ' . $timeFormat;
+        return $diff.' '.$timeFormat;
     }
 }
