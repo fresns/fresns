@@ -345,9 +345,9 @@ class FsControllerApi extends FsApiController
         $account_id = GlobalService::getGlobalKey('account_id');
         if ($deviceInfo) {
             if ($type == 1) {
-                $logsId = FresnsSessionLogsService::addSessionLogs("App\Fresns\Api\FsDb\FresnsPosts", 'Create Post Content', $account_id, $uid, null, 'Officially Create Post Content', 13);
+                $logsId = FresnsSessionLogsService::addSessionLogs("App\Fresns\Api\FsDb\FresnsPosts", 'Publish Post Content', $account_id, $uid, null, 'Officially Published Post Content', 13);
             } else {
-                $logsId = FresnsSessionLogsService::addSessionLogs("App\Fresns\Api\FsDb\FresnsComments", 'Write Comment Content', $account_id, $uid, null, 'Officially Write Comment Content', 14);
+                $logsId = FresnsSessionLogsService::addSessionLogs("App\Fresns\Api\FsDb\FresnsComments", 'Publish Comment Content', $account_id, $uid, null, 'Officially Published Comment Content', 14);
             }
         }
         $type = $request->input('type');
@@ -494,9 +494,9 @@ class FsControllerApi extends FsApiController
         $logsId = 0;
         if ($deviceInfo) {
             if ($type == 1) {
-                $logsId = FresnsSessionLogsService::addSessionLogs($request->getRequestUri(), 'Create Post Content', $uid, $user_id, null, 'Officially Create Post Content', 13);
+                $logsId = FresnsSessionLogsService::addSessionLogs($request->getRequestUri(), 'Publish Post Content', $uid, $user_id, null, 'Officially Published Post Content', 13);
             } else {
-                $logsId = FresnsSessionLogsService::addSessionLogs($request->getRequestUri(), 'Write Comment Content', $uid, $user_id, null, 'Officially Write Comment Content', 14);
+                $logsId = FresnsSessionLogsService::addSessionLogs($request->getRequestUri(), 'Publish Comment Content', $uid, $user_id, null, 'Officially Published Comment Content', 14);
             }
         }
         LogService::Info('logsId', $logsId);

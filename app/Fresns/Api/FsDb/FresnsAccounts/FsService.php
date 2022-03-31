@@ -174,7 +174,7 @@ class FsService extends BaseAdminService
             $item['deactivateTime'] = DateHelper::fresnsOutputTimeToTimezone($v->deleted_at);
 
             // Determine if all roles of the user are in the "entitled roles" list
-            $userRoleIdArr = FresnsUserRoles::where('user_id', $v->id)->where('is_main', 0)->pluck('role_id')->toArray();
+            $userRoleIdArr = FresnsUserRoles::where('user_id', $v->id)->where('type', 1)->pluck('role_id')->toArray();
             $userRoleIdArr[] = $roleId;
             $permissionsRoleIdJson = ApiConfigHelper::getConfigByItemKey('multi_roles');
             $permissionsRoleIdArr = json_decode($permissionsRoleIdJson, true) ?? [];

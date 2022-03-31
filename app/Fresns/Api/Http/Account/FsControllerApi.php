@@ -230,7 +230,7 @@ class FsControllerApi extends FsApiController
         ];
 
         $type = $request->input('type');
-        $accountContent = $request->input('account');
+        $account = $request->input('account');
         $countryCode = $request->input('countryCode');
         $verifyCode = $request->input('verifyCode');
         $passwordBase64 = $request->input('password');
@@ -250,7 +250,7 @@ class FsControllerApi extends FsApiController
                     'type' => 'required|numeric|in:1,2,3',
                     'account' => 'required|email',
                 ];
-                $account = DB::table(FresnsAccountsConfig::CFG_TABLE)->where('email', $accountContent)->first();
+                $account = DB::table(FresnsAccountsConfig::CFG_TABLE)->where('email', $account)->first();
                 break;
             case 2:
                 $rule = [
@@ -258,7 +258,7 @@ class FsControllerApi extends FsApiController
                     'account' => 'required|numeric|regex:/^1[^0-2]\d{9}$/',
                     'countryCode' => 'required|numeric',
                 ];
-                $account = DB::table(FresnsAccountsConfig::CFG_TABLE)->where('phone', $countryCode.$accountContent)->first();
+                $account = DB::table(FresnsAccountsConfig::CFG_TABLE)->where('phone', $countryCode.$account)->first();
                 break;
             default:
                 // code...
@@ -274,7 +274,7 @@ class FsControllerApi extends FsApiController
         $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ACCOUNT_LOGIN;
         $input = [
             'type' => $type,
-            'account' => $accountContent,
+            'account' => $account,
             'countryCode' => $countryCode,
             'password' => $passwordBase64,
             'verifyCode' => $verifyCode,

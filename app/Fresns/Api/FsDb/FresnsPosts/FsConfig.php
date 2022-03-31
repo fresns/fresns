@@ -16,7 +16,7 @@ class FsConfig extends BaseConfig
     const CFG_TABLE = 'posts';
 
     // Configs item_key
-    const IT_POSTS = 'it_posts';
+    const IT_PUBLISH_POSTS = 'it_publish_posts';
     const CHECK_CONTENT = 'check_content';
     const POST_EDITOR_WORD_COUNT = 'post_editor_word_count';
     const POST_EDITOR_BRIEF_COUNT = 'post_editor_brief_count';
@@ -49,8 +49,8 @@ class FsConfig extends BaseConfig
         'blockCountLt' => ['field' => 'block_count', 'op' => '<='],
         'commentCountGt' => ['field' => 'comment_count ', 'op' => '>='],
         'commentCountLt' => ['field' => 'comment_count ', 'op' => '<='],
-        'createdTimeGt' => ['field' => 'created_at', 'op' => '>='],
-        'createdTimeLt' => ['field' => 'created_at', 'op' => '<='],
+        'publishTimeGt' => ['field' => 'created_at', 'op' => '>='],
+        'publishTimeLt' => ['field' => 'created_at', 'op' => '<='],
         'expired_at' => ['field' => 'created_at', 'op' => '<='],
     ];
 

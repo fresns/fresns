@@ -59,7 +59,7 @@ class FresnsCommentsResourceDetail extends BaseAdminResource
         // Data Table: users
         $userInfo = DB::table(FresnsUsersConfig::CFG_TABLE)->where('id', $this->user_id)->first();
         // Data Table: user_roles
-        $roleRels = FresnsUserRoles::where('user_id', $this->user_id)->where('is_main', 1)->first();
+        $roleRels = FresnsUserRoles::where('user_id', $this->user_id)->where('type', 2)->first();
         // Data Table: roles
         $userRole = [];
         if (! empty($roleRels)) {

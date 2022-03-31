@@ -32,7 +32,7 @@ class FsService extends BaseAdminService
     {
         $roleTime = date('Y-m-d H:i:s', time());
         $roleId = null;
-        $roleRels = FresnsUserRoles::where('user_id', $userId)->where('is_main', 1)->first();
+        $roleRels = FresnsUserRoles::where('user_id', $userId)->where('type', 2)->first();
         if (empty($roleRels)) {
             return $roleId;
         }

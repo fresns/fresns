@@ -472,7 +472,7 @@ class FresnsCommentsService extends FsService
         // Notification
         $this->sendAtMessages($commentId, $draftId);
         $this->sendCommentMessages($commentId, $draftId, 1);
-        // Add stats: user_stats > post_create_count
+        // Add stats: user_stats > post_publish_count
         $this->userStats($draftId);
         // Analyze the hashtag and domain
         $this->analisisHashtag($draftId, 1);
@@ -501,7 +501,7 @@ class FresnsCommentsService extends FsService
         // Notification
         $this->sendAtMessages($commentId, $draftId, 2);
         $this->sendCommentMessages($commentId, $draftId, 1);
-        // Add stats: user_stats > post_create_count
+        // Add stats: user_stats > post_publish_count
         // Analyze the hashtag
         $this->analisisHashtag($draftId, 2);
         $this->domainStore($commentId, $draftId, 2);
@@ -568,16 +568,16 @@ class FresnsCommentsService extends FsService
         return true;
     }
 
-    // Add stats: user_stats > comment_create_count
+    // Add stats: user_stats > comment_publish_count
     // Add stats: Configs item_key = comments_count
     public function userStats($draftId)
     {
         $draftComment = FresnsCommentLogs::find($draftId);
         $userStats = FresnsUserStats::where('user_id', $draftComment['user_id'])->first();
         if ($userStats) {
-            FresnsUserStats::where('id', $userStats['id'])->increment('comment_create_count');
+            FresnsUserStats::where('id', $userStats['id'])->increment('comment_publish_count');
         } else {
-            (new FresnsUserStats())->store(['user_id' => $draftComment['user_id'], 'comment_create_count' => 1]);
+            (new FresnsUserStats())->store(['user_id' => $draftComment['user_id'], 'comment_publish_count' => 1]);
         }
         DB::table('configs')->where('item_key', FsConfig::COMMENTS_COUNT)->increment('item_value');
 
