@@ -24,7 +24,7 @@ class AccountService
             $userProfile = $user->getUserProfile($timezone);
             $userMainRole = $user->getUserMainRole($timezone, $langTag);
             $userList[] = array_merge($userProfile, $userMainRole);
-        };
+        }
 
         $accountInfo = $account->getAccountInfo($timezone);
         $item['connects'] = $account->getAccountConnects();
