@@ -247,10 +247,10 @@ class FsControllerApi extends FsApiController
                 $query->orderBy('st.block_me_count', $sortDirection);
                 break;
             case 'post':
-                $query->orderBy('st.post_publish_count', $sortDirection);
+                $query->orderBy('st.post_create_count', $sortDirection);
                 break;
             case 'comment':
-                $query->orderBy('st.comment_publish_count', $sortDirection);
+                $query->orderBy('st.comment_create_count', $sortDirection);
                 break;
             case 'postLike':
                 $query->orderBy('st.post_like_count', $sortDirection);
@@ -1169,7 +1169,7 @@ class FsControllerApi extends FsApiController
                 }
 
                 FresnsComments::where('id', $comments['id'])->delete();
-                FresnsUserStats::where('user_id', $uid)->decrement('comment_publish_count');
+                FresnsUserStats::where('user_id', $uid)->decrement('comment_create_count');
                 FresnsConfigs::where('item_key', 'comments_count')->decrement('item_value');
                 if (! empty($commentsAppend['id'])) {
                     FresnsCommentAppends::where('id', $commentsAppend['id'])->delete();

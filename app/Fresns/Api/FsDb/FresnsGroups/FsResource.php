@@ -55,8 +55,8 @@ class FsResource extends BaseAdminResource
             $descriptionArr[] = $v;
         }
         $permission_decode = json_decode($this->permission, true);
-        $publish_post = $permission_decode['publish_post'] ?? 1;
-        $publish_comment = $permission_decode['publish_comment'] ?? 1;
+        $create_post = $permission_decode['create_post'] ?? 1;
+        $write_comment = $permission_decode['write_comment'] ?? 1;
 
         // Default Field
         $default = [

@@ -249,47 +249,47 @@ class ApiFileHelper
                 if ($m['fid']) {
                     // Image
                     if (isset($m['imageRatioUrl'])) {
-                        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_IMAGE;
                         $input['fid'] = $m['fid'];
-                        $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-                        if (CmdRpcHelper::isErrorCmdResp($resp)) {
-                            return false;
+                        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink($input);
+                        if ($fresnsResp->isErrorResponse()) {
+                            return $fresnsResp->errorResponse(); //报错时，输出全量参数(code+message+data)
                         }
-                        $m['imageRatioUrl'] = $resp['output']['imageRatioUrl'];
-                        $m['imageSquareUrl'] = $resp['output']['imageSquareUrl'];
-                        $m['imageBigUrl'] = $resp['output']['imageBigUrl'];
+                        $resp = $fresnsResp->getData();
+                        $m['imageRatioUrl'] = $resp['imageRatioUrl'];
+                        $m['imageSquareUrl'] = $resp['imageSquareUrl'];
+                        $m['imageBigUrl'] = $resp['imageBigUrl'];
                     }
                     // Video
                     if (isset($m['videoCover'])) {
-                        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_VIDEO;
                         $input['fid'] = $m['fid'];
-                        $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-                        if (CmdRpcHelper::isErrorCmdResp($resp)) {
-                            return false;
+                        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink($input);
+                        if ($fresnsResp->isErrorResponse()) {
+                            return $fresnsResp->errorResponse(); //报错时，输出全量参数(code+message+data)
                         }
-                        $m['videoCover'] = $resp['output']['videoCover'];
-                        $m['videoGif'] = $resp['output']['videoGif'];
-                        $m['videoUrl'] = $resp['output']['videoUrl'];
+                        $resp = $fresnsResp->getData();
+                        $m['videoCover'] = $resp['videoCover'];
+                        $m['videoGif'] = $resp['videoGif'];
+                        $m['videoUrl'] = $resp['videoUrl'];
                     }
                     // Audio
                     if (isset($m['audioUrl'])) {
-                        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_AUDIO;
                         $input['fid'] = $m['fid'];
-                        $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-                        if (CmdRpcHelper::isErrorCmdResp($resp)) {
-                            return false;
+                        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink($input);
+                        if ($fresnsResp->isErrorResponse()) {
+                            return $fresnsResp->errorResponse(); //报错时，输出全量参数(code+message+data)
                         }
-                        $m['audioUrl'] = $resp['output']['audioUrl'];
+                        $resp = $fresnsResp->getData();
+                        $m['audioUrl'] = $resp['audioUrl'];
                     }
                     // Document
                     if (isset($m['documentUrl'])) {
-                        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_DOCUMENT;
                         $input['fid'] = $m['fid'];
-                        $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-                        if (CmdRpcHelper::isErrorCmdResp($resp)) {
-                            return false;
+                        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink($input);
+                        if ($fresnsResp->isErrorResponse()) {
+                            return $fresnsResp->errorResponse(); //报错时，输出全量参数(code+message+data)
                         }
-                        $m['documentUrl'] = $resp['output']['documentUrl'];
+                        $resp = $fresnsResp->getData();
+                        $m['documentUrl'] = $resp['documentUrl'];
                     }
                 }
             }

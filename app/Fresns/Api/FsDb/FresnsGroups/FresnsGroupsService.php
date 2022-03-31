@@ -100,12 +100,12 @@ class FresnsGroupsService extends FsApiService
     {
         $permissionArr = json_decode($permission, true);
         $admin_user = $permissionArr['admin_users'];
-        $publish_post = $permissionArr['publish_post'];
-        $publish_post_roles = $permissionArr['publish_post_roles'];
-        $publish_post_review = $permissionArr['publish_post_review'];
-        $publish_comment = $permissionArr['publish_comment'];
-        $publish_comment_roles = $permissionArr['publish_comment_roles'];
-        $publish_comment_review = $permissionArr['publish_comment_review'];
+        $create_post = $permissionArr['create_post'];
+        $create_post_roles = $permissionArr['create_post_roles'];
+        $create_post_review = $permissionArr['create_post_review'];
+        $write_comment = $permissionArr['write_comment'];
+        $write_comment_roles = $permissionArr['write_comment_roles'];
+        $write_comment_review = $permissionArr['write_comment_review'];
 
         $adminUserArr = [];
         if ($admin_user) {
@@ -135,11 +135,11 @@ class FresnsGroupsService extends FsApiService
         $publishRule = [];
         $publishRule['allowPost'] = false;
         // 1.All Users
-        if ($publish_post == 1) {
+        if ($create_post == 1) {
             $publishRule['allowPost'] = true;
         }
         // 2.Anyone in the group
-        if ($publish_post == 2) {
+        if ($create_post == 2) {
             $followCount = FresnsUserFollows::where('user_id', $uid)->where('follow_type', 2)->where('follow_id',
                 $group_id)->count();
             if ($followCount > 0) {
@@ -147,16 +147,16 @@ class FresnsGroupsService extends FsApiService
             }
         }
         // 3.Specified role users only
-        if ($publish_post == 3) {
+        if ($create_post == 3) {
             $userRoleArr = FresnsUserRoles::where('user_id', $uid)->pluck('role_id')->toArray();
-            $arrIntersect = array_intersect($userRoleArr, $publish_post_roles);
+            $arrIntersect = array_intersect($userRoleArr, $create_post_roles);
             if ($arrIntersect) {
                 $publishRule['allowPost'] = true;
             }
         }
         // Users of the current request interface, whether the post needs to be reviewed (if it is an administrator, no review is required)
         $publishRule['reviewPost'] = true;
-        if ($publish_post_review == 0) {
+        if ($create_post_review == 0) {
             $publishRule['reviewPost'] = false;
         }
         if ($admin_user) {
@@ -169,11 +169,11 @@ class FresnsGroupsService extends FsApiService
         // Whether the user currently requesting the interface has permission to comment to the group
         $publishRule['allowComment'] = false;
         // 1.All Users
-        if ($publish_comment == 1) {
+        if ($write_comment == 1) {
             $publishRule['allowComment'] = true;
         }
         // 2.Anyone in the group
-        if ($publish_comment == 2) {
+        if ($write_comment == 2) {
             $followCount = FresnsUserFollows::where('user_id', $uid)->where('follow_type', 2)->where('follow_id',
                 $group_id)->count();
             if ($followCount > 0) {
@@ -181,16 +181,16 @@ class FresnsGroupsService extends FsApiService
             }
         }
         // 3.Specified role users only
-        if ($publish_comment == 3) {
+        if ($write_comment == 3) {
             $userRoleArr = FresnsUserRoles::where('user_id', $uid)->pluck('role_id')->toArray();
-            $arrIntersect = array_intersect($userRoleArr, $publish_comment_roles);
+            $arrIntersect = array_intersect($userRoleArr, $write_comment_roles);
             if ($arrIntersect) {
                 $publishRule['allowComment'] = true;
             }
         }
         // Users of the current request interface, whether the comment needs to be reviewed (if it is an administrator, no review is required)
         $publishRule['reviewComment'] = true;
-        if ($publish_comment_review == 0) {
+        if ($write_comment_review == 0) {
             $publishRule['reviewComment'] = false;
         }
         if ($admin_user) {
@@ -207,12 +207,12 @@ class FresnsGroupsService extends FsApiService
     {
         $permissionArr = json_decode($permission, true);
         $admin_user = $permissionArr['admin_users'];
-        $publish_post = $permissionArr['publish_post'];
-        $publish_post_roles = $permissionArr['publish_post_roles'];
-        $publish_post_review = $permissionArr['publish_post_review'];
-        $publish_comment = $permissionArr['publish_comment'];
-        $publish_comment_roles = $permissionArr['publish_comment_roles'];
-        $publish_comment_review = $permissionArr['publish_comment_review'];
+        $create_post = $permissionArr['create_post'];
+        $create_post_roles = $permissionArr['create_post_roles'];
+        $create_post_review = $permissionArr['create_post_review'];
+        $write_comment = $permissionArr['write_comment'];
+        $write_comment_roles = $permissionArr['write_comment_roles'];
+        $write_comment_review = $permissionArr['write_comment_review'];
 
         $adminUserArr = [];
         if ($admin_user) {
@@ -256,12 +256,12 @@ class FresnsGroupsService extends FsApiService
             return $arr;
         }
         unset($permissionArr['admin_users']);
-        unset($permissionArr['publish_post']);
-        // unset($permissionArr['publish_post_roles']);
-        unset($permissionArr['publish_post_review']);
-        unset($permissionArr['publish_comment']);
-        // unset($permissionArr['publish_comment_roles']);
-        unset($permissionArr['publish_comment_review']);
+        unset($permissionArr['create_post']);
+        // unset($permissionArr['create_post_roles']);
+        unset($permissionArr['create_post_review']);
+        unset($permissionArr['write_comment']);
+        // unset($permissionArr['write_comment_roles']);
+        unset($permissionArr['write_comment_review']);
 
         return $permissionArr;
     }

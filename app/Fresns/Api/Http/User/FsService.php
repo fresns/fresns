@@ -262,9 +262,9 @@ class FsService
             $stats['likeMeCount'] = $userStats['like_me_count'] ?? 0;
             $stats['followMeCount'] = $userStats['follow_me_count'] ?? 0;
             $stats['blockMeCount'] = $userStats['block_me_count'] ?? 0;
-            $stats['postPublishCount'] = $userStats['post_publish_count'] ?? 0;
+            $stats['postCreateCount'] = $userStats['post_create_count'] ?? 0;
             $stats['postLikeCount'] = $userStats['post_like_count'] ?? 0;
-            $stats['commentPublishCount'] = $userStats['comment_publish_count'] ?? 0;
+            $stats['commentCreateCount'] = $userStats['comment_create_count'] ?? 0;
             $stats['commentLikeCount'] = $userStats['comment_like_count'] ?? 0;
 
             // extcredits1

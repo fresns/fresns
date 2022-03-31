@@ -16,7 +16,7 @@ class FsConfig extends BaseConfig
     const CFG_TABLE = 'comments';
 
     // Configs item_key
-    const IT_PUBLISH_COMMENTS = 'it_publish_comments';
+    const IT_COMMENTS = 'it_comments';
     const COMMENT_EDITOR_BRIEF_COUNT = 'comment_editor_brief_count';
     const COMMENT_EDITOR_WORD_COUNT = 'comment_editor_word_count';
     const HASHTAG_SHOW = 'hashtag_show';

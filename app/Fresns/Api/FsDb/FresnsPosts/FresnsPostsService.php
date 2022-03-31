@@ -680,7 +680,7 @@ class FresnsPostsService extends FsService
         FresnsGroups::where('id', $draftPost['group_id'])->increment('post_count');
         // Notification
         $this->sendAtMessages($postId, $draftId);
-        // Add stats: user_stats > post_publish_count
+        // Add stats: user_stats > post_create_count
         $this->userStats($draftId);
         // Analyze the hashtag and domain
         $this->analisisHashtag($draftId, 1);
@@ -777,16 +777,16 @@ class FresnsPostsService extends FsService
         return true;
     }
 
-    // Add stats: user_stats > post_publish_count
+    // Add stats: user_stats > post_create_count
     // Add stats: Configs item_key = posts_count
     public function userStats($draftId)
     {
         $draftPost = FresnsPostLogs::find($draftId);
         $userStats = FresnsUserStats::where('user_id', $draftPost['user_id'])->first();
         if ($userStats) {
-            FresnsUserStats::where('id', $userStats['id'])->increment('post_publish_count');
+            FresnsUserStats::where('id', $userStats['id'])->increment('post_create_count');
         } else {
-            (new FresnsUserStats())->store(['user_id' => $draftPost['user_id'], 'post_publish_count' => 1]);
+            (new FresnsUserStats())->store(['user_id' => $draftPost['user_id'], 'post_create_count' => 1]);
         }
         DB::table('configs')->where('item_key', FsConfig::POSTS_COUNT)->increment('item_value');
 

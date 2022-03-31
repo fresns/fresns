@@ -126,7 +126,7 @@ class FsModel extends BaseAdminModel
         $searchUid = $request->input('searchUid');
         if ($searchUid) {
             // configs table settings: whether to allow viewing of other people's posts
-            $allowPost = ApiConfigHelper::getConfigByItemKey(FsConfig::IT_PUBLISH_POSTS) ?? true;
+            $allowPost = ApiConfigHelper::getConfigByItemKey(FsConfig::IT_POSTS) ?? true;
             if (! $allowPost) {
                 $query->where('post.user_id', '=', 0);
             } else {
@@ -228,16 +228,6 @@ class FsModel extends BaseAdminModel
         $createdTimeLt = $request->input('createdTimeLt');
         if ($createdTimeLt) {
             $query->where('post.created_at', '<=', $createdTimeLt);
-        }
-        // publishTimeGt
-        $publishTimeGt = $request->input('publishTimeGt');
-        if ($publishTimeGt) {
-            $query->where('post.created_at', '>=', $publishTimeGt);
-        }
-        // publishTimeLt
-        $publishTimeLt = $request->input('publishTimeLt');
-        if ($publishTimeLt) {
-            $query->where('post.created_at', '<=', $publishTimeLt);
         }
 
         // Sorting

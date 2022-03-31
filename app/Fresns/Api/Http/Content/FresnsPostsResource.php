@@ -66,7 +66,7 @@ class FresnsPostsResource extends BaseAdminResource
         // Data Table: users
         $userInfo = DB::table(FresnsUsersConfig::CFG_TABLE)->where('id', $this->user_id)->first();
         // Data Table: user_roles
-        $roleRels = FresnsUserRoles::where('user_id', $this->user_id)->where('type', 2)->first();
+        $roleRels = FresnsUserRoles::where('user_id', $this->user_id)->where('is_main', 1)->first();
         // Data Table: roles
         $userRole = [];
         if (! empty($roleRels)) {
@@ -447,15 +447,15 @@ class FresnsPostsResource extends BaseAdminResource
             $permission = $groupInfo['permission'] ?? null;
             $permissionArr = json_decode($permission, true);
             if ($permissionArr) {
-                $publish_comment = $permissionArr['publish_comment'];
-                $publish_comment_roles = $permissionArr['publish_comment_roles'];
+                $write_comment = $permissionArr['write_comment'];
+                $write_comment_roles = $permissionArr['write_comment_roles'];
                 $group['allow'] = false;
                 // 1.All Users
-                if ($publish_comment == 1) {
+                if ($write_comment == 1) {
                     $group['allow'] = true;
                 }
                 // 2.Anyone in the group
-                if ($publish_comment == 2) {
+                if ($write_comment == 2) {
                     $followCount = DB::table(FresnsUserFollowsConfig::CFG_TABLE)
                             ->where('user_id', $uid)
                             ->where('follow_type', 2)
@@ -467,9 +467,9 @@ class FresnsPostsResource extends BaseAdminResource
                     }
                 }
                 // 3.Specified role users only
-                if ($publish_comment == 3) {
+                if ($write_comment == 3) {
                     $userRoleArr = FresnsUserRoles::where('user_id', $uid)->pluck('role_id')->toArray();
-                    $arrIntersect = array_intersect($userRoleArr, $publish_comment_roles);
+                    $arrIntersect = array_intersect($userRoleArr, $write_comment_roles);
                     if ($arrIntersect) {
                         $group['allow'] = true;
                     }

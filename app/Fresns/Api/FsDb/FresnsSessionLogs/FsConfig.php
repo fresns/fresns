@@ -47,8 +47,8 @@ class FsConfig extends BaseConfig
         'Wallet Trading Increase' => 10,
         'Create Draft Post' => 11,
         'Create Draft Comment' => 12,
-        'Publish Post Content' => 13,
-        'Publish Comment Content' => 14,
+        'Create Post Content' => 13,
+        'Write Comment Content' => 14,
         'Timed Task' => 15,
         'Console Login' => 16,
     ];
