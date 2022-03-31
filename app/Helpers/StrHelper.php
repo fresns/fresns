@@ -67,16 +67,16 @@ class StrHelper
     }
 
     /**
-     * @param string $uri
-     * @param string $domain
+     * @param  string  $uri
+     * @param  string  $domain
      */
     public static function qualifyUrl(?string $uri = null, ?string $domain = null)
     {
-        if (!$uri) {
+        if (! $uri) {
             return '';
         }
 
-        if (!$domain) {
+        if (! $domain) {
             $defaultDomain = config('app.url');
 
             return sprintf('%s/%s', $defaultDomain, ltrim($uri, '/'));

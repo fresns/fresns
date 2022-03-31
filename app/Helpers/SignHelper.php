@@ -25,6 +25,7 @@ class SignHelper
         if ($inputSign == $makeSign) {
             return true;
         }
+
         return $info;
     }
 
@@ -40,5 +41,4 @@ class SignHelper
 
         return $sign;
     }
-
 }

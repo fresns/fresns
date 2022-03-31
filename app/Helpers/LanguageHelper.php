@@ -27,11 +27,11 @@ class LanguageHelper
             $languageArr = Language::where([
                 'table_name' => $tableName,
                 'table_column' => $tableColumn,
-                'table_id' => $tableId
+                'table_id' => $tableId,
             ])->get()->toArray();
             foreach ($languageArr as $language) {
-                $item['langTag'] =  $language['lang_tag'];
-                $item['langContent'] =  $language['lang_content'];
+                $item['langTag'] = $language['lang_tag'];
+                $item['langContent'] = $language['lang_content'];
                 $itemArr[] = $item;
             }
             $langContent = $itemArr;
@@ -40,7 +40,7 @@ class LanguageHelper
                 'table_name' => $tableName,
                 'table_column' => $tableColumn,
                 'table_id' => $tableId,
-                'lang_tag' => $langTag
+                'lang_tag' => $langTag,
             ])->first()->lang_content ?? null;
         }
 
@@ -60,11 +60,11 @@ class LanguageHelper
             $languageArr = Language::where([
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
-                'table_key' => $tableKey
+                'table_key' => $tableKey,
             ])->get()->toArray();
             foreach ($languageArr as $language) {
-                $item['langTag'] =  $language['lang_tag'];
-                $item['langContent'] =  $language['lang_content'];
+                $item['langTag'] = $language['lang_tag'];
+                $item['langContent'] = $language['lang_content'];
                 $itemArr[] = $item;
             }
             $langContent = $itemArr;
@@ -73,7 +73,7 @@ class LanguageHelper
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
                 'table_key' => $tableKey,
-                'lang_tag' => $langTag
+                'lang_tag' => $langTag,
             ])->first()->lang_content ?? null;
         }
 
