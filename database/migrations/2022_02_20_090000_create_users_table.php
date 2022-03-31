@@ -38,6 +38,7 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('verified_file_id')->nullable();
             $table->string('verified_file_url')->nullable();
             $table->string('verified_desc')->nullable();
+            $table->timestamp('verified_at')->nullable();
             $table->unsignedTinyInteger('dialog_limit')->default('1');
             $table->unsignedTinyInteger('comment_limit')->default('1');
             $table->string('timezone', 16)->nullable();

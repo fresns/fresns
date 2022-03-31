@@ -2468,7 +2468,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             188 => [
                 'id' => 189,
-                'item_key' => 'publish_post_name',
+                'item_key' => 'create_post_name',
                 'item_value' => 'Create Post',
                 'item_type' => 'string',
                 'item_tag' => 'renames',
@@ -2481,7 +2481,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             189 => [
                 'id' => 190,
-                'item_key' => 'publish_comment_name',
+                'item_key' => 'write_comment_name',
                 'item_value' => 'Reply',
                 'item_type' => 'string',
                 'item_tag' => 'renames',
@@ -2962,7 +2962,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             226 => [
                 'id' => 227,
-                'item_key' => 'it_publish_posts',
+                'item_key' => 'it_posts',
                 'item_value' => 'true',
                 'item_type' => 'boolean',
                 'item_tag' => 'interactives',
@@ -2975,7 +2975,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             227 => [
                 'id' => 228,
-                'item_key' => 'it_publish_comments',
+                'item_key' => 'it_comments',
                 'item_value' => 'false',
                 'item_type' => 'boolean',
                 'item_tag' => 'interactives',
@@ -3223,7 +3223,7 @@ class ConfigsTableSeeder extends Seeder
             246 => [
                 'id' => 247,
                 'item_key' => 'it_home_list',
-                'item_value' => 'it_publish_posts',
+                'item_value' => 'it_posts',
                 'item_type' => 'string',
                 'item_tag' => 'interactives',
                 'is_multilingual' => 0,

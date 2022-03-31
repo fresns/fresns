@@ -23,7 +23,7 @@ class CreateUserRolesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedInteger('role_id');
-            $table->unsignedTinyInteger('type')->default('1');
+            $table->unsignedTinyInteger('is_main')->default('0');
             $table->timestamp('expired_at')->nullable();
             $table->unsignedInteger('restore_role_id')->nullable();
             $table->timestamp('created_at')->useCurrent();

@@ -36,6 +36,7 @@ class CreateAccountsTable extends Migration
             $table->unsignedTinyInteger('prove_verify')->default('1');
             $table->string('verify_plugin_unikey', 32)->nullable();
             $table->unsignedTinyInteger('verify_type')->nullable();
+            $table->timestamp('verify_at')->nullable();
             $table->text('verify_log')->nullable();
             $table->unsignedTinyInteger('is_enable')->default('1');
             $table->timestamp('created_at')->useCurrent();

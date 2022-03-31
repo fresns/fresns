@@ -40,9 +40,9 @@ class CreateUserStatsTable extends Migration
             $table->unsignedInteger('like_me_count')->default('0');
             $table->unsignedInteger('follow_me_count')->default('0');
             $table->unsignedInteger('block_me_count')->default('0');
-            $table->unsignedInteger('post_publish_count')->default('0');
+            $table->unsignedInteger('post_create_count')->default('0');
             $table->unsignedInteger('post_like_count')->default('0');
-            $table->unsignedInteger('comment_publish_count')->default('0');
+            $table->unsignedInteger('comment_write_count')->default('0');
             $table->unsignedInteger('comment_like_count')->default('0');
             $table->unsignedInteger('extcredits1')->default('0');
             $table->unsignedInteger('extcredits2')->default('0');
