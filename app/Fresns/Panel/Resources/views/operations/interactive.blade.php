@@ -205,12 +205,12 @@
                     <li class="list-group-item list-group-item-secondary">{{ __('FsLang::panel.interactive_view_content') }}</li>
                     <li class="list-group-item">
                         <div class="form-check form-check-inline">
-                            <input type="checkbox" id="tac-1" name="it_publish_posts" value="true" class="form-check-input" {{ $params['it_publish_posts'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="tac-1">{{ __('FsLang::panel.interactive_it_publish_posts') }}</label>
+                            <input type="checkbox" id="tac-1" name="it_posts" value="true" class="form-check-input" {{ $params['it_posts'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="tac-1">{{ __('FsLang::panel.interactive_it_posts') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input type="checkbox" id="tac-2" name="it_publish_comments" value="true" class="form-check-input" {{ $params['it_publish_comments'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="tac-2">{{ __('FsLang::panel.interactive_it_publish_comments') }}</label>
+                            <input type="checkbox" id="tac-2" name="it_comments" value="true" class="form-check-input" {{ $params['it_comments'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="tac-2">{{ __('FsLang::panel.interactive_it_comments') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input type="checkbox" id="tac-111" name="it_likers" value="true" class="form-check-input" {{ $params['it_likers'] ? 'checked' : '' }}>
@@ -300,12 +300,12 @@
                     <li class="list-group-item list-group-item-secondary">{{ __('FsLang::panel.interactive_user_profile') }}</li>
                     <li class="list-group-item">
                         <div class="form-check form-check-inline">
-                            <input type="radio" id="ta-1" name="it_home_list" value="it_publish_posts" class="form-check-input" {{ $params['it_home_list'] == 'it_publish_posts' ? 'checked' : '' }}>
-                            <label class="form-check-label" for="ta-1">{{ __('FsLang::panel.interactive_it_publish_posts') }}</label>
+                            <input type="radio" id="ta-1" name="it_home_list" value="it_posts" class="form-check-input" {{ $params['it_home_list'] == 'it_posts' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="ta-1">{{ __('FsLang::panel.interactive_it_posts') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input type="radio" id="ta-2" name="it_home_list" value="it_publish_comments" class="form-check-input" {{ $params['it_home_list'] == 'it_publish_comments' ? 'checked' : '' }}>
-                            <label class="form-check-label" for="ta-2">{{ __('FsLang::panel.interactive_it_publish_comments') }}</label>
+                            <input type="radio" id="ta-2" name="it_home_list" value="it_comments" class="form-check-input" {{ $params['it_home_list'] == 'it_comments' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="ta-2">{{ __('FsLang::panel.interactive_it_comments') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input type="radio" id="ta-111" name="it_home_list" value="it_likers" class="form-check-input" {{ $params['it_home_list'] == 'it_likers' ? 'checked' : '' }}>
