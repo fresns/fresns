@@ -432,11 +432,11 @@ class FsControllerApi extends FsApiController
             'langTag' => $langTag,
             'countryCode' => $countryCode,
         ];
-        $resp = \FresnsCmdWord::plugin('Fresns')->sendCode($input);
-        if ($resp->getCode() != 0) {
-            $this->errorCheckInfo($resp);
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->sendCode($input);
+        if ($fresnsResp->isErrorResponse()) {
+            return $fresnsResp->errorResponse();
         }
-        $this->success($resp->getMessage());
+        $this->success($fresnsResp->getMessage());
     }
 
     // Download File

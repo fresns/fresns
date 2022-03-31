@@ -249,47 +249,51 @@ class ApiFileHelper
                 if ($m['fid']) {
                     // Image
                     if (isset($m['imageRatioUrl'])) {
-                        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_IMAGE;
                         $input['fid'] = $m['fid'];
-                        $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-                        if (CmdRpcHelper::isErrorCmdResp($resp)) {
-                            return false;
+                        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink($input);
+                        if ($fresnsResp->isErrorResponse()) {
+                            // When an error is reported, the full amount of parameters is output
+                            // code + message + data
+                            return $fresnsResp->errorResponse();
                         }
-                        $m['imageRatioUrl'] = $resp['output']['imageRatioUrl'];
-                        $m['imageSquareUrl'] = $resp['output']['imageSquareUrl'];
-                        $m['imageBigUrl'] = $resp['output']['imageBigUrl'];
+                        $m['imageRatioUrl'] = $fresnsResp->getData('imageRatioUrl');
+                        $m['imageSquareUrl'] = $fresnsResp->getData('imageSquareUrl');
+                        $m['imageBigUrl'] = $fresnsResp->getData('imageBigUrl');
                     }
                     // Video
                     if (isset($m['videoCover'])) {
-                        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_VIDEO;
                         $input['fid'] = $m['fid'];
-                        $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-                        if (CmdRpcHelper::isErrorCmdResp($resp)) {
-                            return false;
+                        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink($input);
+                        if ($fresnsResp->isErrorResponse()) {
+                            // When an error is reported, the full amount of parameters is output
+                            // code + message + data
+                            return $fresnsResp->errorResponse();
                         }
-                        $m['videoCover'] = $resp['output']['videoCover'];
-                        $m['videoGif'] = $resp['output']['videoGif'];
-                        $m['videoUrl'] = $resp['output']['videoUrl'];
+                        $m['videoCover'] = $fresnsResp->getData('videoCover');
+                        $m['videoGif'] =  $fresnsResp->getData('videoGif');
+                        $m['videoUrl'] =  $fresnsResp->getData('videoUrl');
                     }
                     // Audio
                     if (isset($m['audioUrl'])) {
-                        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_AUDIO;
                         $input['fid'] = $m['fid'];
-                        $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-                        if (CmdRpcHelper::isErrorCmdResp($resp)) {
-                            return false;
+                        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink($input);
+                        if ($fresnsResp->isErrorResponse()) {
+                            // When an error is reported, the full amount of parameters is output
+                            // code + message + data
+                            return $fresnsResp->errorResponse();
                         }
-                        $m['audioUrl'] = $resp['output']['audioUrl'];
+                        $m['audioUrl'] = $fresnsResp->getData('audioUrl');
                     }
                     // Document
                     if (isset($m['documentUrl'])) {
-                        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_DOCUMENT;
                         $input['fid'] = $m['fid'];
-                        $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-                        if (CmdRpcHelper::isErrorCmdResp($resp)) {
-                            return false;
+                        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink($input);
+                        if ($fresnsResp->isErrorResponse()) {
+                            // When an error is reported, the full amount of parameters is output
+                            // code + message + data
+                            return $fresnsResp->errorResponse();
                         }
-                        $m['documentUrl'] = $resp['output']['documentUrl'];
+                        $m['documentUrl'] = $fresnsResp->getData('documentUrl');
                     }
                 }
             }
