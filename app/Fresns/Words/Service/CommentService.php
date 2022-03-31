@@ -12,7 +12,7 @@ use App\Helpers\InteractiveHelper;
 use App\Models\Comment;
 use App\Models\User;
 
-class CommentsService
+class CommentService
 {
     public function getCommentDetail($commentId, $langTag, $timezone)
     {
