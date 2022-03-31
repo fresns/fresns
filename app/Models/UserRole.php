@@ -11,4 +11,9 @@ namespace App\Models;
 class UserRole extends Model
 {
     protected $guarded = ['id'];
+
+    public function info()
+    {
+        return $this->belongsTo(Role::class, 'role_id', 'id');
+    }
 }

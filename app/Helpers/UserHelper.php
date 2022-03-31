@@ -8,7 +8,9 @@
 
 namespace App\Helpers;
 
+use App\Models\Account;
 use App\Models\User;
+use App\Models\UserRole;
 
 class UserHelper
 {
@@ -19,11 +21,12 @@ class UserHelper
      * @param  string  $aid
      * @return bool
      */
-    public static function fresnsUserAttribution(int $uid, string $aid)
+    public static function fresnsUserAffiliation(int $uid, string $aid)
     {
-        $accountId = User::where('uid', $uid)->value('account_id');
+        $userAccountId = User::where('uid', $uid)->value('account_id');
+        $accountId = Account::where('aid', $aid)->value('id');
 
-        return $aid == $accountId ? true : false;
+        return $userAccountId == $accountId ? 'true' : 'false';
     }
 
     /**
@@ -34,8 +37,27 @@ class UserHelper
      */
     public static function fresnsUserStatus(int $uid)
     {
-        $stat = User::where('uid', $uid)->value('is_enable');
+        $userStatus = User::where('uid', $uid)->value('is_enable');
 
-        return $stat;
+        if (empty($userStatus)) {
+            return 'false';
+        }
+
+        return $userStatus == 0 ? 'true' : 'false';
+    }
+
+    /**
+     * Determining user role permission.
+     *
+     * @param  int  $uid
+     * @param  array  $permRoleIds
+     * @return int
+     */
+    public static function fresnsUserRolePermCheck(int $uid, array $permRoleIds)
+    {
+        $userId = User::where('uid', $uid)->value('id');
+        $userRoles = UserRole::where('user_id', $userId)->pluck('role_id')->toArray();
+
+        return array_intersect($permRoleIds, $userRoles) ? 'true' : 'false';
     }
 }

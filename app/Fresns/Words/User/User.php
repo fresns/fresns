@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Words\User;
 
+use App\Fresns\Words\Service\UserService;
 use App\Fresns\Words\User\DTO\AddUserDTO;
 use App\Fresns\Words\User\DTO\DeactivateUserDialogDTO;
 use App\Fresns\Words\User\DTO\GetUserDetailDTO;
@@ -18,6 +19,7 @@ use App\Helpers\StrHelper;
 use App\Models\Account;
 use App\Models\Dialog;
 use App\Models\File;
+use App\Models\User as UserModel;
 use App\Models\UserRole;
 use App\Models\UserStat;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
@@ -54,12 +56,12 @@ class User
             'timezone' => $dtoWordBody->timezone ?? '',
             'language' => $dtoWordBody->language ?? '',
         ];
-        $uid = \App\Models\User::insertGetId(array_filter($userArr));
+        $uid = UserModel::insertGetId(array_filter($userArr));
         $defaultRoleId = ConfigHelper::fresnsConfigByItemKey('default_role');
         $roleArr = [
             'user_id' => $uid,
             'role_id' => $defaultRoleId,
-            'type' => 2,
+            'is_main' => 1,
         ];
         UserRole::insert($roleArr);
         $statArr = ['user_id' => $uid];
@@ -85,7 +87,7 @@ class User
         $result = false;
         $data = ['aid' => $user->aid, 'uid' => $user->account_id];
 
-        return $data;
+        return ['code' => 0, 'message' => 'success', 'data' => $data];
     }
 
     /**
@@ -97,14 +99,28 @@ class User
     public function getUserDetail($wordBody)
     {
         $dtoWordBody = new GetUserDetailDTO($wordBody);
-        if (isset($wordBody->uid)) {
+
+        if (isset($dtoWordBody->uid)) {
             $condition = ['uid' => $dtoWordBody->uid];
         } else {
             $condition = ['username' => $dtoWordBody->username];
         }
-        $detail = User::where($condition)->first();
+        $userId = UserModel::where($condition)->value('id');
+        if (empty($userId)) {
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
+        }
 
-        return $detail;
+        if (empty($dtoWordBody->langTag)) {
+            $dtoWordBody->langTag = ConfigHelper::fresnsConfigByItemKey('default_language');
+        }
+        if (empty($dtoWordBody->timezone)) {
+            $dtoWordBody->timezone = ConfigHelper::fresnsConfigByItemKey('default_timezone');
+        }
+
+        $service = new UserService();
+        $detail = $service->detail($userId, $dtoWordBody->langTag, $dtoWordBody->timezone);
+
+        return ['code' => 0, 'message' => 'success', 'data' => $detail];
     }
 
     /**
@@ -116,7 +132,7 @@ class User
     public function logicalDeletionUser($wordBody)
     {
         $dtoWordBody = new LogicalDeletionUserDTO($wordBody);
-        \App\Models\User::where('uid', $dtoWordBody->uid)->update(['deleted_at' => now()]);
+        UserModel::where('uid', $dtoWordBody->uid)->update(['deleted_at' => now()]);
 
         return ['code' => 0, 'message' => 'success', 'data' => []];
     }
@@ -130,7 +146,7 @@ class User
     public function deactivateUserDialog($wordBody)
     {
         $dtoWordBody = new DeactivateUserDialogDTO($wordBody);
-        $user = \App\Models\User::where('uid', '=', $dtoWordBody->uid)->first();
+        $user = UserModel::where('uid', '=', $dtoWordBody->uid)->first();
         Dialog::where('a_user_id', '=', $user['id'])->update(['a_is_deactivate' => 0]);
         Dialog::where('b_user_id', '=', $user['id'])->update(['b_is_deactivate' => 0]);
 
