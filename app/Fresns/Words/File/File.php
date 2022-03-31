@@ -8,19 +8,19 @@
 
 namespace App\Fresns\Words\File;
 
+use App\Fresns\Words\Config\WordConfig;
+use App\Fresns\Words\File\DTO\GetFileInfoOfAntiLinkDTO;
+use App\Fresns\Words\File\DTO\GetFileUrlOfAntiLinkDTO;
+use App\Fresns\Words\File\DTO\GetUploadTokenDTO;
+use App\Fresns\Words\File\DTO\LogicalDeletionFileDTO;
+use App\Fresns\Words\File\DTO\PhysicalDeletionFileDTO;
+use App\Fresns\Words\File\DTO\UploadFile;
+use App\Fresns\Words\File\DTO\UploadFileInfoDTO;
+use App\Helpers\ConfigHelper;
+use App\Helpers\FileHelper;
+use App\Helpers\PrimaryHelper;
 use App\Models\File as FileModel;
 use App\Models\FileAppend;
-use App\Helpers\FileHelper;
-use App\Helpers\ConfigHelper;
-use App\Helpers\PrimaryHelper;
-use App\Fresns\Words\Config\WordConfig;
-use App\Fresns\Words\File\DTO\UploadFile;
-use App\Fresns\Words\File\DTO\GetUploadTokenDTO;
-use App\Fresns\Words\File\DTO\UploadFileInfoDTO;
-use App\Fresns\Words\File\DTO\LogicalDeletionFileDTO;
-use App\Fresns\Words\File\DTO\GetFileUrlOfAntiLinkDTO;
-use App\Fresns\Words\File\DTO\PhysicalDeletionFileDTO;
-use App\Fresns\Words\File\DTO\GetFileInfoOfAntiLinkDTO;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 
@@ -116,7 +116,7 @@ class File
         FileAppend::insert($input);
 
         $fresnsResp = \FresnsCmdWord::plugin($unikey)->uploadFile([
-            "fid" => $fid,
+            'fid' => $fid,
         ]);
 
         return $fresnsResp->getOrigin();
@@ -195,7 +195,7 @@ class File
         }
 
         $fresnsResp = \FresnsCmdWord::plugin($unikey)->uploadFileInfo([
-            "fids" => $fidArr,
+            'fids' => $fidArr,
         ]);
 
         return $fresnsResp->getOrigin();
@@ -260,7 +260,7 @@ class File
     public function getFileInfoOfAntiLink($wordBody)
     {
         $dtoWordBody = new GetFileInfoOfAntiLinkDTO($wordBody);
-        
+
         $file = FileModel::idOrFid([
             'id' => $dtoWordBody->fileId,
             'fid' => $dtoWordBody->fid,

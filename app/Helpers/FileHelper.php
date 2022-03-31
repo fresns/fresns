@@ -102,11 +102,11 @@ class FileHelper
 
     public static function fresnsFileImageUrlByColumn($fileId, $fileUrl, $urlType)
     {
-        if (!$fileId) {
+        if (! $fileId) {
             return $fileUrl;
         }
 
-        if (!File::isEnableAntiTheftChainOfFileType(File::TYPE_IMAGE)) {
+        if (! File::isEnableAntiTheftChainOfFileType(File::TYPE_IMAGE)) {
             return $fileUrl;
         }
 

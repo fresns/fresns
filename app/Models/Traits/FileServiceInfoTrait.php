@@ -36,7 +36,7 @@ trait FileServiceInfoTrait
     public static function getFileServiceInfoByFileType(int $fileType)
     {
         return (new File([
-            'file_type' => $fileType
+            'file_type' => $fileType,
         ]))->getFileServiceInfo();
     }
 

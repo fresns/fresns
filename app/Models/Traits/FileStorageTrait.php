@@ -1,9 +1,15 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Models\Traits;
 
-use App\Models\File;
 use App\Helpers\ConfigHelper;
+use App\Models\File;
 
 trait FileStorageTrait
 {
@@ -36,7 +42,7 @@ trait FileStorageTrait
     public static function getFileStorageConfigByFileType(int $fileType)
     {
         return (new File([
-            'file_type' => $fileType
+            'file_type' => $fileType,
         ]))->getFileStorageConfig();
     }
 

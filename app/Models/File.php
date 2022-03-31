@@ -18,7 +18,7 @@ class File extends Model
     use Traits\FileServiceInfoTrait;
     use Traits\FileInfoTrait;
     use Traits\FileStorageTrait;
-    
+
     const TYPE_IMAGE = 1;
     const TYPE_VIDEO = 2;
     const TYPE_AUDIO = 3;
@@ -35,10 +35,10 @@ class File extends Model
     public function scopeIdOrFid($query, $params)
     {
         return $query
-            ->when(!empty($params['id']), function ($query) use ($params) {
+            ->when(! empty($params['id']), function ($query) use ($params) {
                 $query->where('id', $params['id']);
             })
-            ->when(!empty($params['fid']), function ($query) use ($params) {
+            ->when(! empty($params['fid']), function ($query) use ($params) {
                 $query->where('fid', $params['fid']);
             });
     }
@@ -55,7 +55,7 @@ class File extends Model
 
     public function getTypeKey()
     {
-        return match($this->file_type) {
+        return match ($this->file_type) {
             default => throw new \RuntimeException("unknown file_type of {$this->file_type}"),
             File::TYPE_IMAGE => 'image',
             File::TYPE_VIDEO => 'video',
