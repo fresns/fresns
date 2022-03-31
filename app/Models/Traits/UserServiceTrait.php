@@ -11,15 +11,15 @@ namespace App\Models\Traits;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
-use App\Helpers\PluginHelper;
 use App\Helpers\LanguageHelper;
+use App\Helpers\PluginHelper;
 use App\Models\CommentLog;
 use App\Models\PostLog;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserIcon;
-use App\Models\UserStat;
 use App\Models\UserRole;
+use App\Models\UserStat;
 
 trait UserServiceTrait
 {
@@ -50,9 +50,9 @@ trait UserServiceTrait
         $profile['lastEditUsername'] = DateHelper::fresnsDateTimeByTimezone($userData['last_username_at'], $timezone);
         $profile['lastEditNickname'] = DateHelper::fresnsDateTimeByTimezone($userData['last_nickname_at'], $timezone);
         $profile['registerDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData['created_at'], $timezone);
-        $profile['hasPassword'] = !empty($userData['password']) ? true : false;
+        $profile['hasPassword'] = ! empty($userData['password']) ? true : false;
         $profile['status'] = $userData['is_enable'];
-        $profile['deactivate'] = !empty($userData['deleted_at']) ? true : false;
+        $profile['deactivate'] = ! empty($userData['deleted_at']) ? true : false;
         $profile['deactivateTime'] = DateHelper::fresnsDateTimeByTimezone($userData['deleted_at'], $timezone);
 
         return $profile;
@@ -71,7 +71,7 @@ trait UserServiceTrait
                     $userAvatar = $defaultAvatar;
                 } else {
                     $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink([
-                        "fileId" => $defaultAvatar,
+                        'fileId' => $defaultAvatar,
                     ]);
                     $userAvatar = $fresnsResp->getData('imageAvatarUrl');
                 }
@@ -85,7 +85,7 @@ trait UserServiceTrait
                 $userAvatar = $deactivateAvatar;
             } else {
                 $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink([
-                    "fileId" => $deactivateAvatar,
+                    'fileId' => $deactivateAvatar,
                 ]);
                 $userAvatar = $fresnsResp->getData('imageAvatarUrl');
             }
@@ -152,7 +152,7 @@ trait UserServiceTrait
             $item['image'] = FileHelper::fresnsFileImageUrlByColumn($icon['icon_file_id'], $icon['icon_file_url'], 'imageConfigUrl');
             $item['name'] = LanguageHelper::fresnsLanguageByTableId('user_icons', 'name', $icon['id'], $langTag);
             $item['type'] = $icon['type'];
-            $item['function'] = !empty($icon['plugin_unikey']) ? PluginHelper::fresnsPluginUrlByUnikey($icon['plugin_unikey']) : null;
+            $item['function'] = ! empty($icon['plugin_unikey']) ? PluginHelper::fresnsPluginUrlByUnikey($icon['plugin_unikey']) : null;
             $iconList[] = $item;
         }
 
