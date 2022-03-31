@@ -11,7 +11,7 @@ namespace App\Fresns\Api\Providers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
-class FresnsApiServiceProvider extends ServiceProvider
+class ApiServiceProvider extends ServiceProvider
 {
     /**
      * Boot the application events.

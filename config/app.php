@@ -173,7 +173,7 @@ return [
         App\Fresns\Panel\Providers\PanelServiceProvider::class,
         App\Fresns\Words\Providers\CmdWordServiceProvider::class,
         App\Fresns\Subscribe\Providers\SubscribeServiceProvider::class,
-        App\Fresns\Api\Providers\FresnsApiServiceProvider::class,
+        App\Fresns\Api\Providers\ApiServiceProvider::class,
 
     ],
 
