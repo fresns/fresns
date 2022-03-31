@@ -106,7 +106,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'en-US',
 
     /*
     |--------------------------------------------------------------------------
@@ -119,7 +119,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY'),
+    'key' => env('APP_KEY', 'base64:tAp6T8YVe3lzpGn3QKefiM5ARD0NUC8ugX0IV9mNOzs='),
 
     'cipher' => 'AES-256-CBC',
 
