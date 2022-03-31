@@ -19,9 +19,9 @@ Fresns is a free and open source social network service software, a general-purp
 | Framework | Version | Use |
 | --- | --- | --- |
 | [Composer](https://github.com/composer/composer) | 2.2.9 | Application-Level Package Manager |
-| [Laravel Framework](https://github.com/laravel/framework) | 8.83.5 | Framework |
-| [Laravel Lang](https://github.com/Laravel-Lang/lang) | 10.4.11 | Framework Lang Resources |
-| [Laravel Excel](https://github.com/SpartnerNL/Laravel-Excel) | 3.1.37 | Excel exports and imports |
+| [Laravel Framework](https://github.com/laravel/framework) | 8.83.6 | Framework |
+| [Laravel Lang](https://github.com/Laravel-Lang/lang) | 10.4.13 | Framework Lang Resources |
+| [Laravel Excel](https://github.com/SpartnerNL/Laravel-Excel) | 3.1.38 | Excel exports and imports |
 | [PhpZip](https://github.com/Ne-Lexa/php-zip) | 4.0.1 | ZIP archives php library |
 | [Bootstrap](https://getbootstrap.com/) | 5.1.3 | Internal Front-end Framework |
 | [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.8.1 | Internal Icon Font Library |
