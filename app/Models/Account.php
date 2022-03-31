@@ -18,6 +18,7 @@ class Account extends Authenticatable
     use SoftDeletes;
     use HasFactory;
     use Notifiable;
+    use Traits\AccountServiceTrait;
 
     /**
      * The attributes that are mass assignable.
