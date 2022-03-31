@@ -33,9 +33,20 @@ class Basis
     public function verifyUrlSign($wordBody)
     {
         $dtoWordBody = new VerifyUrlSignDTO($wordBody);
-        $urlSign = url_decode(base64_decode($dtoWordBody->VerifyUrlSignDTO));
+        $urlSign = urldecode(base64_decode($dtoWordBody->urlSign));
+        $urlSign = json_decode($urlSign,true);
 
-        return $urlSign;
+        if (empty($urlSign->aid)) {
+            return ['code'=>21006,'message'=>'aid cannot be empty','data'=>[]];
+        }
+
+        $fresnsResp =\FresnsCmdWord::plugin('Fresns')->verifySign($urlSign);
+
+        if ($fresnsResp->isErrorResponse()) {
+            return ['code'=>21006,'message'=>$fresnsResp->getMessage(),'data'=>$urlSign];
+        }
+
+        return ['code'=>0,'message'=>'success','data'=>$urlSign];
     }
 
     /**
@@ -47,9 +58,9 @@ class Basis
     public function verifySign($wordBody)
     {
         $dtoWordBody = new VerifySignDTO($wordBody);
-        $checkTokenParam = SignHelper::checkTokenParam($dtoWordBody->token, $dtoWordBody->aid, $dtoWordBody->uid);
-        if (! $checkTokenParam) {
-            return 'verify not passed';
+        if (isset($dtoWordBody->aid)){
+            $verifySessoionTokenArr =array_filter(['aid'=>$dtoWordBody->aid,'platform'=>$dtoWordBody->platform,'uid'=>$dtoWordBody->uid??0,'token'=>$dtoWordBody->token]);
+            \FresnsCmdWord::plugin()->verifySessionToken($verifySessoionTokenArr);
         }
 
         $includeEmptyCheckArr = [
@@ -57,15 +68,17 @@ class Basis
             'version' => $dtoWordBody->version,
             'appId' => $dtoWordBody->appId,
             'timestamp' => $dtoWordBody->timestamp,
-            'aid' => $dtoWordBody->aid,
-            'uid' => $dtoWordBody->uid,
-            'token' => $dtoWordBody->token,
+            'sign' => $dtoWordBody->sign,
+            'aid' => $dtoWordBody->aid ?? '',
+            'uid' => $dtoWordBody->uid ?? '',
+            'token' => $dtoWordBody->token ?? '',
         ];
 
-        $withoutEmptycheckArr = array_filter($includeEmptyCheckArr);
+        $withoutEmptyCheckArr = array_filter($includeEmptyCheckArr);
 
         // Header Signature Expiration Date
         $min = 5; //Expiration time limit (unit: minutes)
+
         //Determine the timestamp type
         $timestampNum = strlen($dtoWordBody->timestamp);
         if ($timestampNum == 10) {
@@ -76,13 +89,12 @@ class Basis
             $expiredMin = $min * 60 * 1000;
         }
         if ($now - $dtoWordBody->timestamp > $expiredMin) {
-            return 'wrong timestamp';
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_PARAM_ERROR)::throw();
         }
-        $signKey = SessionKey::where('app_id', $dtoWordBody->appId)->first()->app_secret;
-        $emptyCheckArr = SignHelper::checkSign($includeEmptyCheckArr, $signKey);
-        $checkArr = SignHelper::checkSign($withoutEmptycheckArr, $signKey);
-        if ($checkArr !== true || $emptyCheckArr != true) {
-            return 'wrong key';
+        $signKey = SessionKey::where('app_id', $dtoWordBody->appId)->first()->app_secret ?? '' ;
+        $checkArr = SignHelper::checkSign($withoutEmptyCheckArr, $signKey);
+        if ($checkArr !== true ) {
+            return ['code'=>ExceptionConstant::CMD_WORD_PARAM_ERROR,'message'=>'Command word request parameter error','data'=>['sign'=>$checkArr]];
         }
 
         return ['message'=>'success', 'code'=>0, 'data'=>[]];
@@ -150,6 +162,7 @@ class Basis
         return \FresnsCmdWord::plugin($pluginUniKey)->sendCode($wordBody);
     }
 
+
     /**
      * @param $wordBody
      * @return array
@@ -174,4 +187,5 @@ class Basis
             ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
         }
     }
+
 }

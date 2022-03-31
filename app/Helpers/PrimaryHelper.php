@@ -10,6 +10,7 @@ namespace App\Helpers;
 
 use App\Models\Account;
 use App\Models\Comment;
+use App\Models\Extend;
 use App\Models\File;
 use App\Models\Group;
 use App\Models\Hashtag;
@@ -57,7 +58,7 @@ class PrimaryHelper
      */
     public static function fresnsGroupIdByGid(string $gid)
     {
-        $id = Group::where('username', $gid)->value('id');
+        $id = Group::where('gid', $gid)->value('id');
 
         return $id ?? null;
     }
@@ -79,7 +80,7 @@ class PrimaryHelper
      */
     public static function fresnsPostIdByPid(string $pid)
     {
-        $id = Post::where('huri', $pid)->value('id');
+        $id = Post::where('pid', $pid)->value('id');
 
         return $id ?? null;
     }
@@ -90,7 +91,7 @@ class PrimaryHelper
      */
     public static function fresnsCommentIdByCid(string $cid)
     {
-        $id = Comment::where('cid', $cid)->value($cid);
+        $id = Comment::where('cid', $cid)->value('id');
 
         return $id ?? null;
     }
@@ -101,7 +102,7 @@ class PrimaryHelper
      */
     public static function fresnsFileIdByFid(string $fid)
     {
-        $id = File::where('fid', $fid)->value($fid);
+        $id = File::where('fid', $fid)->value('id');
 
         return $id ?? null;
     }
@@ -112,7 +113,7 @@ class PrimaryHelper
      */
     public static function fresnsExtendIdByEid(string $eid)
     {
-        $id = File::where('eid', $eid)->value($eid);
+        $id = Extend::where('eid', $eid)->value('id');
 
         return $id ?? null;
     }

@@ -31,12 +31,15 @@ class Crontab
     {
         $dtoWordBody = new AddCrontabItemDTO($wordBody);
         $cronArr = ConfigHelper::fresnsConfigByItemKey('crontab_items');
+        $cronIsset = 0;
         foreach ($cronArr as $k => $v) {
             if ($v['unikey'] == $dtoWordBody->unikey && $v['cmdWord'] == $dtoWordBody->cmdWord) {
-                $cronArr[$k] = $dtoWordBody;
-            } else {
-                $cronArr[] = $dtoWordBody;
+                $cronArr[$k] = $wordBody;
+                $cronIsset = 1;
             }
+        }
+        if (empty($cronIsset)){
+            $cronArr[] = $wordBody;
         }
         Config::where('item_key', '=', 'crontab_items')->update(['item_value' => $cronArr]);
         Cache::forever('cronArr', $cronArr);

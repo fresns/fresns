@@ -13,10 +13,17 @@ use Illuminate\Support\Facades\DB;
 
 class DateHelper
 {
-    const DateFormat = [
-        'yyyy-mm-dd' => 'Y-m-d', 'yyyy/mm/dd' => 'Y/m/d', 'yyyy.mm.dd' => 'Y.m.d',
-        'mm-dd-yyyy' => 'm-d-Y', 'mm/dd/yyyy' => 'm/d/Y', 'mm.dd.yyyy' => 'm.d.Y',
-        'dd-mm-yyyy' => 'd-m-Y', 'dd/mm/yyyy' => 'd/m/Y', 'dd.mm.yyyy' => 'd.m.Y', ];
+    const diffYearFormat = [
+        'yyyy-mm-dd' => 'Y-m-d H:i', 'yyyy/mm/dd' => 'Y/m/d H:i', 'yyyy.mm.dd' => 'Y.m.d H:i',
+        'mm-dd-yyyy' => 'm-d-Y H:i', 'mm/dd/yyyy' => 'm/d/Y H:i', 'mm.dd.yyyy' => 'm.d.Y H:i',
+        'dd-mm-yyyy' => 'd-m-Y H:i', 'dd/mm/yyyy' => 'd/m/Y H:i', 'dd.mm.yyyy' => 'd.m.Y H:i',
+    ];
+
+    const sameYearFormat = [
+        'yyyy-mm-dd' => 'm-d H:i', 'yyyy/mm/dd' => 'm/d H:i', 'yyyy.mm.dd' => 'm.d H:i',
+        'mm-dd-yyyy' => 'm-d H:i', 'mm/dd/yyyy' => 'm/d H:i', 'mm.dd.yyyy' => 'm.d H:i',
+        'dd-mm-yyyy' => 'd-m H:i', 'dd/mm/yyyy' => 'd/m H:i', 'dd.mm.yyyy' => 'd.m H:i',
+    ];
 
     /**
      * Get database time zone.
@@ -25,7 +32,14 @@ class DateHelper
      */
     public static function fresnsSqlTimezone()
     {
-        return DB::select('show VARIABLES like \'system_time_zone\';')[0]->Value;
+        $standardTime = gmdate("Y-m-d H:i:s");
+        $now = self::fresnsSqlCurrentDateTime();
+        $hour = Carbon::parse($standardTime)->floatDiffInHours($now, false);
+        if ($hour > 0) {
+            $hour = '+' . $hour;
+        }
+
+        return $hour;
     }
 
     /**
@@ -33,7 +47,7 @@ class DateHelper
      *
      * @return string
      */
-    public static function fresnsSqlCurrentTimestamp()
+    public static function fresnsSqlCurrentDateTime()
     {
         return get_object_vars(DB::select('SELECT NOW()')[0])['NOW()'];
     }
@@ -47,10 +61,20 @@ class DateHelper
      *
      * @throws \Exception
      */
-    public static function fresnsConversionToSqlDatetime($datetime, $timezone)
+    public static function fresnsDateTimeToSqlTimezone($datetime, $timezone = '')
     {
-        $datetime = new \DateTime($datetime);
-        $datetime = $datetime->setTimezone(new \DateTimeZone($timezone));
+        if (empty($datetime)) {
+            return null;
+        }
+
+        $timezone = $timezone ?: ConfigHelper::fresnsConfigByItemKey('default_timezone');
+
+        $timezone = $timezone > 0 ? -1 * $timezone : '+' . abs($timezone);
+        $standard = strtotime($datetime);
+        if (!empty($timezone)) {
+            $standard = date("Y-m-d  H:i:s", strtotime("$timezone hours", strtotime($datetime)));
+        }
+        $datetime = new \DateTime($standard);
         $result = $datetime->setTimezone(new \DateTimeZone(self::fresnsSqlTimezone()));
 
         return $result->format('Y-m-d H:i:s');
@@ -60,22 +84,30 @@ class DateHelper
      * Output time values by time zone.
      *
      * @param $datetime
-     * @param  string  $timezone
+     * @param string $timezone
      * @return \DateTime|string
      *
      * @throws \Exception
      */
-    public static function fresnsOutputTimeToTimezone($datetime, $timezone = '')
+    public static function fresnsDateTimeByTimezone($datetime, $timezone = '')
     {
+        if (empty($datetime)) {
+            return null;
+        }
+
+        $timezone = $timezone ?: ConfigHelper::fresnsConfigByItemKey('default_timezone');
+
         $mysqlZone = self::fresnsSqlTimezone();
         if ($mysqlZone == $timezone) {
-            return $datetime;
+            return date('Y-m-d H:i:s', strtotime($datetime));
         }
-        if (empty($timezone)) {
-            $timezone = ConfigHelper::fresnsConfigByItemKey('default_timezone');
+        $mysqlZone = $mysqlZone > 0 ? -1 * $mysqlZone : '+' . abs($mysqlZone);
+        $standard = date('Y-m-d H:i:s', strtotime("$mysqlZone hours", strtotime($datetime)));
+        if ($timezone == 0) {
+
+            return $standard;
         }
-        $datetime = (new \DateTime($datetime))->setTimezone(new \DateTimeZone($mysqlZone));
-        $time = $datetime->setTimezone(new \DateTimeZone($timezone));
+        $time = (new \DateTime($standard))->setTimezone(new \DateTimeZone($timezone));
 
         return $time->format('Y-m-d H:i:s');
     }
@@ -83,20 +115,27 @@ class DateHelper
     /**
      * Formatted time output by time zone and language tag.
      *
-     * @param  string  $datetime
-     * @param  string  $timezone
-     * @param  string  $langTag
+     * @param string $datetime
+     * @param string $timezone
+     * @param string $langTag
      * @return string
      */
-    public static function fresnsOutputFormattingTime($datetime, $timezone, $langTag)
+    public static function fresnsFormatDateTime($datetime, $timezone = '', $langTag = '')
     {
-        $datetime = self::fresnsOutputTimeToTimezone($datetime, $timezone);
-        $datetime = Carbon::parse($datetime);
-        $mysqlTime = Carbon::parse(DateHelper::fresnsSqlCurrentTimestamp());
-        $diff = $datetime->diffInDays($mysqlTime);
-        if ($diff == 0) {
-            return Carbon::parse($datetime)->format('h:m');
+        if (empty($datetime)) {
+            return null;
         }
+
+        $timezone = $timezone ?: ConfigHelper::fresnsConfigByItemKey('default_timezone');
+        $langTag = $timezone ?: ConfigHelper::fresnsConfigByItemKey('default_language');
+
+        $datetime = self::fresnsDateTimeByTimezone($datetime, $timezone);
+        $datetime = Carbon::parse($datetime);
+        $mysqlTime = Carbon::parse(DateHelper::fresnsSqlCurrentDateTime());
+        if ($datetime->diffInDays($mysqlTime) == 0) {
+            return Carbon::parse($datetime)->format('H:i');
+        }
+        $yearFormat = $datetime->diffInYears($mysqlTime) > 0  ? self::diffYearFormat : self::sameYearFormat;
         $languageMenus = ConfigHelper::fresnsConfigByItemKey('language_menus');
         foreach ($languageMenus as $languageMenu) {
             if ($languageMenu['langCode'] == $langTag) {
@@ -104,21 +143,27 @@ class DateHelper
             }
         }
 
-        return $datetime->format(self::DateFormat[$dateFormat]);
+        return $datetime->format($yearFormat[$dateFormat]);
     }
 
     /**
      * Processing output by language humanization time.
      *
-     * @param $dateTime
-     * @param  string  $langTag
+     * @param $datetime
+     * @param string $langTag
      * @return string
      */
-    public static function fresnsOutputHumanizationTime($dateTime, $langTag = '')
+    public static function fresnsFormatTime($datetime, $langTag = '')
     {
-        $langTag = $langTag ?: $langTag = ConfigHelper::fresnsConfigByItemKey('default_language');
-        $currentTime = DateHelper::fresnsSqlCurrentTimestamp();
-        $jet = Carbon::parse($dateTime);
+        if (empty($datetime)) {
+            return null;
+        }
+
+        $langTag = $timezone ?: ConfigHelper::fresnsConfigByItemKey('default_language');
+
+        $currentTime = DateHelper::fresnsSqlCurrentDateTime();
+
+        $jet = Carbon::parse($datetime);
         $diff = Carbon::parse($currentTime)->diffInMinutes($jet);
         $symbol = 'timeFormatMinute';
         if ($diff > 60) {
@@ -133,6 +178,7 @@ class DateHelper
                 }
             }
         }
+        $diff = $diff > 0 ? -1 * $diff : '+' . abs($diff);
         $timeFormat = ConfigHelper::fresnsConfigByItemKey('language_menus');
         foreach ($timeFormat as $item) {
             if ($item['langTag'] == $langTag) {
@@ -140,7 +186,8 @@ class DateHelper
                 $timeFormat = mb_substr($timeFormat, '4');
             }
         }
+        $diff = $datetime < now() ? abs($diff) : $diff;
 
-        return $diff.$timeFormat;
+        return $diff . ' ' . $timeFormat;
     }
 }
