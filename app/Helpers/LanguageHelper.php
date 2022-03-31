@@ -21,15 +21,62 @@ class LanguageHelper
      * @param  string  $langTag
      * @return array
      */
-    public static function fresnsLanguageByTableColumn(string $tableName, string $tableColumn, int $tableId, string $langTag = '')
+    public static function fresnsLanguageByTableId(string $tableName, string $tableColumn, int $tableId, string $langTag = '')
     {
-        if ($langTag) {
-            $arr = Language::where(['table_name' => $tableName, 'table_column' => $tableColumn, 'table_id' => $tableId, 'lang_tag' => $langTag])->first();
-            $arr = empty($arr) ? [] : $arr->toArray();
+        if (empty($langTag)) {
+            $languageArr = Language::where([
+                'table_name' => $tableName,
+                'table_column' => $tableColumn,
+                'table_id' => $tableId
+            ])->get()->toArray();
+            foreach ($languageArr as $language) {
+                $item['langTag'] =  $language['lang_tag'];
+                $item['langContent'] =  $language['lang_content'];
+                $itemArr[] = $item;
+            }
+            $langContent = $itemArr;
         } else {
-            $arr = Language::where(['table_name' => $tableName, 'table_column' => $tableColumn, 'table_id' => $tableId])->get()->toArray();
+            $langContent = Language::where([
+                'table_name' => $tableName,
+                'table_column' => $tableColumn,
+                'table_id' => $tableId,
+                'lang_tag' => $langTag
+            ])->first()->lang_content ?? null;
         }
 
-        return $arr;
+        return $langContent;
+    }
+
+    /**
+     * Get language values based on multilingual table key.
+     *
+     * @param  string  $tableKey
+     * @param  string  $langTag
+     * @return array
+     */
+    public static function fresnsLanguageByTableKey(string $tableKey, string $langTag = '')
+    {
+        if (empty($langTag)) {
+            $languageArr = Language::where([
+                'table_name' => 'configs',
+                'table_column' => 'item_value',
+                'table_key' => $tableKey
+            ])->get()->toArray();
+            foreach ($languageArr as $language) {
+                $item['langTag'] =  $language['lang_tag'];
+                $item['langContent'] =  $language['lang_content'];
+                $itemArr[] = $item;
+            }
+            $langContent = $itemArr;
+        } else {
+            $langContent = Language::where([
+                'table_name' => 'configs',
+                'table_column' => 'item_value',
+                'table_key' => $tableKey,
+                'lang_tag' => $langTag
+            ])->first()->lang_content ?? null;
+        }
+
+        return $langContent;
     }
 }

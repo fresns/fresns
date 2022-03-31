@@ -8,7 +8,7 @@
 
 namespace App\Helpers;
 
-use App\Fresns\Api\Http\Center\Common\LogService;
+use Illuminate\Support\Facades\Log;
 
 class SignHelper
 {
@@ -17,20 +17,18 @@ class SignHelper
         $inputSign = $dataMap['sign'];
         unset($dataMap['sign']);
 
-        $genSign = self::genSign($dataMap, $signKey);
+        $makeSign = self::makeSign($dataMap, $signKey);
         $info = [];
         $info['input_sign'] = $inputSign;
-        $info['gen_sign'] = $genSign;
-        LogService::info('check sign: ', $info);
-
-        if ($inputSign == $genSign) {
+        $info['gen_sign'] = $makeSign;
+        Log::info('check sign: ', $info);
+        if ($inputSign == $makeSign) {
             return true;
         }
-
         return $info;
     }
 
-    public static function genSign($dataMap, $signKey)
+    public static function makeSign($dataMap, $signKey)
     {
         // Sort the values of the array by key
         ksort($dataMap);
@@ -43,16 +41,4 @@ class SignHelper
         return $sign;
     }
 
-    public static function checkTokenParam(string $token = '', string $aid = '', int $uid = 0)
-    {
-        if ($aid && $uid && $token) {
-            return true;
-        } elseif ($aid && $token) {
-            return true;
-        } elseif ($token && empty($uid)) {
-            return true;
-        }
-
-        return false;
-    }
 }

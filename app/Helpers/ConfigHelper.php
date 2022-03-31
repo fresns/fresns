@@ -9,30 +9,10 @@
 namespace App\Helpers;
 
 use App\Models\Config;
-use App\Models\Language;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Arr;
 
 class ConfigHelper
 {
-    /**
-     * Get multiple values based on multiple keys.
-     *
-     * @param  string  $itemKey
-     * @param  string  $langTag
-     * @return mixed
-     */
-    public static function fresnsConfigByItemKeys(array $itemKeys, string $langTag = ''): array
-    {
-        $data = [];
-
-        foreach ($itemKeys as $key) {
-            $data[$key] = ConfigHelper::fresnsConfigByItemKey($key, $langTag);
-        }
-
-        return $data;
-    }
-
     /**
      * Get config value based on Key.
      *
@@ -42,25 +22,41 @@ class ConfigHelper
      */
     public static function fresnsConfigByItemKey(string $itemKey, string $langTag = '')
     {
-        return app(ConfigHelper::class)->configByItem($itemKey, $langTag);
+        $itemData = Config::where('item_key', $itemKey)->first();
+
+        if (empty($langTag)) {
+            $langTag = Config::where('item_key', 'default_language')->value('item_value');
+        }
+
+        if (empty($itemData)) {
+            return null;
+        } else {
+            if ($itemData->is_multilingual == 1) {
+                return LanguageHelper::fresnsLanguageByTableKey($itemData->item_key, $langTag);
+            } elseif ($itemData->item_type == 'number') {
+                return intval($itemData->item_value);
+            }
+        }
+
+        return $itemData->item_value;
     }
 
     /**
-     * @param  string  $item
+     * Get multiple values based on multiple keys.
+     *
+     * @param  array  $itemKeys
      * @param  string  $langTag
-     * @return array|false|string
+     * @return mixed
      */
-    public function configByItem(string $item, string $langTag = '')
+    public static function fresnsConfigByItemKeys(array $itemKeys, string $langTag = ''): array
     {
-        $itemValue = Config::where('item_key', $item)->first();
+        $itemData = [];
 
-        if (empty($itemValue) || ($itemValue->is_multilingual == 1 && empty($langTag))) {
-            return $itemValue->item_value ?? '';
-        } elseif ($itemValue->is_multilingual == 1) {
-            return self::getLangContent('configs', $langTag, $item);
+        foreach ($itemKeys as $key) {
+            $itemData[$key] = ConfigHelper::fresnsConfigByItemKey($key, $langTag);
         }
 
-        return $itemValue->item_value;
+        return $itemData;
     }
 
     /**
@@ -72,48 +68,14 @@ class ConfigHelper
      */
     public static function fresnsConfigByItemTag(string $itemTag, string $langTag = '')
     {
-        $value = app(ConfigHelper::class)->configByTag($itemTag, $langTag);
+        $itemData = Config::where('item_tag', $itemTag)->get()->toArray();
 
-        return $value;
-    }
-
-    /**
-     * @param  string  $item
-     * @param  string  $langTag
-     * @return array|JsonResource
-     */
-    public function configByTag(string $item, string $langTag = '')
-    {
-        $itemValue = Config::select(['item_value', 'is_multilingual', 'item_type', 'item_key'])->where('item_tag', '=', $item)->get();
-        if (empty($itemValue)) {
-            return [];
-        }
-        $tagArr = $itemValue->toArray();
-        $resultArr = [];
-        foreach ($tagArr as $item) {
-            if ($item['is_multilingual'] == 1 && ! empty($langTag)) {
-                $content = $this->getLangContent('configs', $langTag, $item['item_key']);
-                $resultArr[$item['item_key']] = $content;
-            } else {
-                $resultArr[$item['item_key']] = $item['item_value'];
-            }
+        $itemDataArr = [];
+        foreach ($itemData as $item) {
+            $itemDataArr[$item['item_key']] = ConfigHelper::fresnsConfigByItemKey($item['item_key'], $langTag);
         }
 
-        return $resultArr;
-    }
-
-    /**
-     * @param  string  $tableName
-     * @param  string  $langTag
-     * @param  string  $tableKey
-     * @return mixed|string
-     */
-    protected function getLangContent(string $tableName, string $langTag, string $tableKey)
-    {
-        $condition = array_filter(['table_name' => $tableName, 'lang_tag' => $langTag, 'table_key'=>$tableKey]);
-        $langContent = Language::where($condition)->first();
-
-        return $langContent->lang_content ?? '';
+        return $itemDataArr;
     }
 
     /**
@@ -124,12 +86,17 @@ class ConfigHelper
      */
     public static function fresnsConfigLengthUnits(string $langTag)
     {
-        $language_menus = Config::where('item_key', 'language_menus')->first();
-        $langArr = $language_menus->item_value ?? '';
+        $language_menus = ConfigHelper::fresnsConfigByItemKey('language_menus');
+
+        if (empty($language_menus)) {
+            return null;
+        }
+
         $lengthUnits = 'mi';
-        foreach ($langArr as $item) {
-            if ($item['langTag'] == $langTag) {
-                $lengthUnits = $item['lengthUnits'];
+
+        foreach ($language_menus as $menus) {
+            if ($menus['langTag'] == $langTag) {
+                $lengthUnits = $menus['lengthUnits'];
             }
         }
 
@@ -144,37 +111,21 @@ class ConfigHelper
      */
     public static function fresnsConfigDateFormat(string $langTag)
     {
-        $language_menus = Config::where('item_key', 'language_menus')->first();
-        $langArr = Arr::get($language_menus, 'item_value', []);
-        if (empty($langArr)) {
-            return '';
+        $language_menus = ConfigHelper::fresnsConfigByItemKey('language_menus');
+
+        if (empty($language_menus)) {
+            return null;
         }
+
         $dateFormat = 'mm/dd/yyyy';
-        foreach ($langArr as $item) {
-            if ($item['langTag'] == $langTag) {
-                $dateFormat = $item['dateFormat'];
+
+        foreach ($language_menus as $menus) {
+            if ($menus['langTag'] == $langTag) {
+                $dateFormat = $menus['dateFormat'];
             }
         }
 
         return $dateFormat;
-    }
-
-    /**
-     * Determine the storage type based on the file key value.
-     *
-     * @param  string  $itemKey
-     * @return string
-     */
-    public static function fresnsConfigFileByItemKey(string $itemKey)
-    {
-        $file = Config::where('item_key', $itemKey)->first();
-        if ($file && is_numeric($itemKey)) {
-            return 'ID';
-        } elseif (preg_match("/^(http:\/\/|https:\/\/).*$/", $itemKey)) {
-            return 'URL';
-        }
-
-        return 'null';
     }
 
     /**
@@ -188,7 +139,7 @@ class ConfigHelper
         $count = self::fresnsConfigByItemKey($itemKey);
         Config::where('item_key', $itemKey)->update(['item_value'=>$count + 1]);
 
-        return true;
+        return 'true';
     }
 
     /**
@@ -202,6 +153,6 @@ class ConfigHelper
         $count = self::fresnsConfigByItemKey($itemKey);
         Config::where('item_key', $itemKey)->update(['item_value'=>$count - 1]);
 
-        return true;
+        return 'true';
     }
 }

@@ -10,7 +10,6 @@ namespace App\Helpers;
 
 use App\Models\Plugin;
 use App\Models\PluginUsage;
-use Illuminate\Support\Arr;
 
 class PluginHelper
 {
@@ -22,13 +21,16 @@ class PluginHelper
      */
     public static function fresnsPluginUrlByUnikey(string $unikey)
     {
-        $plugin = Plugin::select(['plugin_domain', 'access_path'])->where('unikey', '=', $unikey)->first();
+        $plugin = Plugin::where('unikey', $unikey)->first(['plugin_domain', 'access_path']);
         if (empty($plugin)) {
-            return '';
+            return null;
         }
+
         $backend_domain = ConfigHelper::fresnsConfigByItemKey('backend_domain');
-        $plugin_domain = empty($plugin->plugin_domain) ? $backend_domain : $plugin->plugin_domain;
-        $url = $plugin_domain.$plugin->access_path ?? '';
+
+        $domain = empty($plugin->plugin_domain) ? $backend_domain : $plugin->plugin_domain;
+
+        $url = StrHelper::qualifyUrl($plugin->access_path, $domain);
 
         return $url;
     }
@@ -42,12 +44,19 @@ class PluginHelper
      */
     public static function fresnsPluginUsageUrl(string $unikey, int $pluginUsagesId)
     {
-        $pluginUsage = PluginUsage::find($pluginUsagesId);
-        $url = self::fresnsPluginUrlByUnikey($unikey);
-        if (empty($pluginUsage) || empty($url) || $pluginUsage->plugin_unikey != $unikey) {
-            return '';
+        $plugin = Plugin::where('unikey', $unikey)->first(['plugin_domain', 'access_path']);
+        if (empty($plugin)) {
+            return null;
         }
-        $replaceUrl = str_replace('{parameter}', Arr::get($pluginUsage, 'parameter', ''), $url);
+
+        $url = self::fresnsPluginUrlByUnikey($unikey);
+
+        $parameter = PluginUsage::where('id', $pluginUsagesId)->value('parameter');
+        if (empty($parameter)) {
+            return $url;
+        }
+
+        $replaceUrl = str_replace('{parameter}', $parameter, $url);
 
         return $replaceUrl;
     }
