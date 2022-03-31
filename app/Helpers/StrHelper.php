@@ -65,4 +65,34 @@ class StrHelper
     {
         return rand(pow(10, ($length - 1)), pow(10, $length) - 1);
     }
+
+    /**
+     * @param string $uri
+     * @param string $domain
+     */
+    public static function qualifyUrl(?string $uri = null, ?string $domain = null)
+    {
+        if (!$uri) {
+            return '';
+        }
+
+        if (!$domain) {
+            $defaultDomain = config('app.url');
+
+            return sprintf('%s/%s', $defaultDomain, ltrim($uri, '/'));
+        }
+
+        return sprintf('%s/%s', rtrim($domain, '/'), ltrim($uri, '/'));
+    }
+
+    /**
+     * @param  string  $commaString
+     * @return array
+     */
+    public static function commaStringToArray(string $commaString = '')
+    {
+        $toArray = explode(',', $commaString);
+
+        return $toArray;
+    }
 }
