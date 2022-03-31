@@ -163,10 +163,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         /*
-         * Package Service Providers...
-         */
-
-        /*
          * Fresns Service Providers...
          */
         App\Fresns\Install\Providers\InstallServiceProvider::class,
