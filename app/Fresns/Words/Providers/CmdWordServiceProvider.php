@@ -9,13 +9,13 @@
 namespace App\Fresns\Words\Providers;
 
 use App\Fresns\Words\Account\Account;
+use App\Fresns\Words\Account\Wallet;
 use App\Fresns\Words\Basis\Basis;
 use App\Fresns\Words\Content\Content;
 use App\Fresns\Words\Crontab\Crontab;
 use App\Fresns\Words\File\File;
 use App\Fresns\Words\Send\Send;
 use App\Fresns\Words\User\User;
-use App\Fresns\Words\Wallet\Wallet;
 use Illuminate\Support\ServiceProvider;
 
 class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordManager\Contracts\CmdWordProviderContract
@@ -51,16 +51,16 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'verifySessionToken', 'provider' => [Account::class, 'verifySessionToken']],
         ['word' => 'logicalDeletionAccount', 'provider' => [Account::class, 'logicalDeletionAccount']],
 
+        // Wallet
+        ['word' => 'walletIncrease', 'provider' => [Wallet::class, 'walletIncrease']],
+        ['word' => 'walletDecrease', 'provider' => [Wallet::class, 'walletDecrease']],
+
         // User
         ['word' => 'addUser', 'provider' => [User::class, 'addUser']],
         ['word' => 'verifyUser', 'provider' => [User::class, 'verifyUser']],
         ['word' => 'getUserDetail', 'provider' => [User::class, 'getUserDetail']],
         ['word' => 'deactivateUserDialog', 'provider' => [User::class, 'deactivateUserDialog']],
         ['word' => 'logicalDeletionUser', 'provider' => [User::class, 'logicalDeletionUser']],
-
-        // Wallet
-        ['word' => 'walletIncrease', 'provider' => [Wallet::class, 'walletIncrease']],
-        ['word' => 'walletDecrease', 'provider' => [Wallet::class, 'walletDecrease']],
 
         // File
         ['word' => 'getUploadToken', 'provider' => [File::class, 'getUploadToken']],

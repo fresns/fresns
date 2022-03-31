@@ -6,11 +6,11 @@
  * Released under the Apache-2.0 License.
  */
 
-namespace App\Fresns\Words\Wallet\DTO;
+namespace App\Fresns\Words\Account\DTO;
 
 use Fresns\DTO\DTO;
 
-class WalletIncreaseDTO extends DTO
+class WalletDecreaseDTO extends DTO
 {
     /**
      * @return array
@@ -18,7 +18,7 @@ class WalletIncreaseDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => ['required', 'in:1,2,3'],
+            'type' => ['required', 'in:4,5,6'],
             'aid' => ['required', 'string'],
             'uid' => ['nullable', 'integer'],
             'amount' => ['required', 'integer'],

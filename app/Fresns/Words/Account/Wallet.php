@@ -6,9 +6,9 @@
  * Released under the Apache-2.0 License.
  */
 
-namespace App\Fresns\Words\Wallet;
+namespace App\Fresns\Words\Account;
 
-use App\Fresns\Words\Wallet\DTO\WalletDecrease;
+use App\Fresns\Words\Wallet\DTO\WalletDecreaseDTO;
 use App\Fresns\Words\Wallet\DTO\WalletIncreaseDTO;
 use App\Helpers\PrimaryHelper;
 use App\Models\Account;
@@ -52,7 +52,7 @@ class Wallet
      */
     public function walletDecrease($wordBody)
     {
-        $dtoWordBody = new WalletDecrease($wordBody);
+        $dtoWordBody = new WalletDecreaseDTO($wordBody);
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         $userId = null;
         if (isset($dtoWordBody->uid)) {
