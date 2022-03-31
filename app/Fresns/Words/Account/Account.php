@@ -186,7 +186,7 @@ class Account
     {
         $dtoWordBody = new VerifySessionTokenDTO($wordBody);
 
-        if (!empty($dtoWordBody->uid)) {
+        if (! empty($dtoWordBody->uid)) {
             $userAffiliation = UserHelper::fresnsUserAffiliation($dtoWordBody->uid, $dtoWordBody->aid);
             if ($userAffiliation == false) {
                 return ['message'=>'Current user not exist or not belong to the current user', 'code'=>30300, 'data'=>[]];
@@ -225,7 +225,7 @@ class Account
         AccountModel::where('id', $accountId)->update([
             'phone' => DB::raw("concat('$dateTime','phone')"),
             'email' => DB::raw("concat('$dateTime','email')"),
-            'deleted_at' => now()]
+            'deleted_at' => now(), ]
         );
         AccountConnect::where('account_id', $accountId)->forceDelete();
 
