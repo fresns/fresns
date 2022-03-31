@@ -38,7 +38,7 @@ class Crontab
                 $cronIsset = 1;
             }
         }
-        if (empty($cronIsset)){
+        if (empty($cronIsset)) {
             $cronArr[] = $wordBody;
         }
         Config::where('item_key', '=', 'crontab_items')->update(['item_value' => $cronArr]);
