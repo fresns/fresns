@@ -270,8 +270,8 @@ class ApiFileHelper
                             return $fresnsResp->errorResponse();
                         }
                         $m['videoCover'] = $fresnsResp->getData('videoCover');
-                        $m['videoGif'] =  $fresnsResp->getData('videoGif');
-                        $m['videoUrl'] =  $fresnsResp->getData('videoUrl');
+                        $m['videoGif'] = $fresnsResp->getData('videoGif');
+                        $m['videoUrl'] = $fresnsResp->getData('videoUrl');
                     }
                     // Audio
                     if (isset($m['audioUrl'])) {
