@@ -17,6 +17,8 @@ class FileAppend extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $guarded = [];
+
     protected $casts = [
         'more_json' => 'json',
     ];

@@ -9,20 +9,11 @@
 namespace App\Models\Traits;
 
 use App\Helpers\ConfigHelper;
+use App\Helpers\StrHelper;
 use App\Models\File;
 
 trait FileInfoTrait
 {
-    public function getBucketDomains()
-    {
-        return ConfigHelper::fresnsConfigByItemKeys([
-            'image_bucket_domain',
-            'video_bucket_domain',
-            'audio_bucket_domain',
-            'document_bucket_domain',
-        ]);
-    }
-
     public function getImageThumbData()
     {
         return ConfigHelper::fresnsConfigByItemKeys([
@@ -47,7 +38,6 @@ trait FileInfoTrait
 
     public function getFileAppendInfo()
     {
-        /** @var FileAppend */
         $append = $this->fileAppend;
 
         $data = match ($this->file_type) {
@@ -68,17 +58,13 @@ trait FileInfoTrait
     public function getImageAppendInfo()
     {
         $file = $this;
-
-        /** @var FileAppend */
         $append = $this->fileAppend;
 
-        [
-            'image_bucket_domain' => $image_bucket_domain,
-        ] = $this->getBucketDomains();
+        $image_bucket_domain = ConfigHelper::fresnsConfigByItemKey('image_bucket_domain');
 
         $thumbData = $this->getImageThumbData();
 
-        $imageDefaultUrl = sprintf('%s/%s', rtrim($image_bucket_domain, '/'), ltrim($file->file_path, '/'));
+        $imageDefaultUrl = StrHelper::qualifyUrl($file->file_path, $image_bucket_domain);
 
         return [
             'imageWidth' => $append->image_width,
@@ -90,25 +76,23 @@ trait FileInfoTrait
             'imageRatioUrl' => $imageDefaultUrl.$thumbData['image_thumb_ratio'],
             'imageSquareUrl' => $imageDefaultUrl.$thumbData['image_thumb_square'],
             'imageBigUrl' => $imageDefaultUrl.$thumbData['image_thumb_big'],
+            'imageOriginalUrl' => StrHelper::qualifyUrl($append->file_original_path, $image_bucket_domain),
         ];
     }
 
     public function getVideoAppendInfo()
     {
         $file = $this;
-
-        /** @var FileAppend */
         $append = $this->fileAppend;
 
-        [
-            'video_bucket_domain' => $video_bucket_domain,
-        ] = $this->getBucketDomains();
+        $video_bucket_domain = ConfigHelper::fresnsConfigByItemKey('video_bucket_domain');
 
         return [
             'videoTime' => $append->video_time,
-            'videoCover' => sprintf('%s%s', $video_bucket_domain, $append->video_cover),
-            'videoGif' => sprintf('%s%s', $video_bucket_domain, $append->video_gif),
-            'videoUrl' => sprintf('%s%s', $video_bucket_domain, $file->file_path),
+            'videoCover' => StrHelper::qualifyUrl($append->video_cover, $video_bucket_domain),
+            'videoGif' => StrHelper::qualifyUrl($append->video_gif, $video_bucket_domain),
+            'videoUrl' => StrHelper::qualifyUrl($file->file_path, $video_bucket_domain),
+            'videoOriginalUrl' => StrHelper::qualifyUrl($append->file_original_path, $video_bucket_domain),
             'transcodingState' => $append->transcoding_state,
         ];
     }
@@ -116,17 +100,14 @@ trait FileInfoTrait
     public function getAudioAppendInfo()
     {
         $file = $this;
-
-        /** @var FileAppend */
         $append = $this->fileAppend;
 
-        [
-            'audio_bucket_domain' => $audio_bucket_domain,
-        ] = $this->getBucketDomains();
+        $audio_bucket_domain = ConfigHelper::fresnsConfigByItemKey('audio_bucket_domain');
 
         return [
             'audioTime' => $append->audio_time,
-            'audioUrl' => sprintf('%s%s', $audio_bucket_domain, $file->file_path),
+            'audioUrl' => StrHelper::qualifyUrl($file->file_path, $audio_bucket_domain),
+            'audioOriginalUrl' => StrHelper::qualifyUrl($append->file_original_path, $audio_bucket_domain),
             'transcodingState' => $append->transcoding_state,
         ];
     }
@@ -134,13 +115,13 @@ trait FileInfoTrait
     public function getDocumentAppendInfo()
     {
         $file = $this;
+        $append = $this->fileAppend;
 
-        [
-            'document_bucket_domain' => $document_bucket_domain,
-        ] = $this->getBucketDomains();
+        $document_bucket_domain = ConfigHelper::fresnsConfigByItemKey('document_bucket_domain');
 
         return [
-            'documentUrl' => sprintf('%s%s', $document_bucket_domain, $file->file_path),
+            'documentUrl' => StrHelper::qualifyUrl($file->file_path, $document_bucket_domain),
+            'documentOriginalUrl' => StrHelper::qualifyUrl($append->file_original_path, $document_bucket_domain),
         ];
     }
 }

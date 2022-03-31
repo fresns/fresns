@@ -15,8 +15,10 @@ class File extends Model
 {
     use HasFactory;
     use Traits\FileTypeTrait;
+    use Traits\FileServiceInfoTrait;
     use Traits\FileInfoTrait;
-
+    use Traits\FileStorageTrait;
+    
     const TYPE_IMAGE = 1;
     const TYPE_VIDEO = 2;
     const TYPE_AUDIO = 3;
@@ -30,6 +32,17 @@ class File extends Model
 
     protected $guarded = [];
 
+    public function scopeIdOrFid($query, $params)
+    {
+        return $query
+            ->when(!empty($params['id']), function ($query) use ($params) {
+                $query->where('id', $params['id']);
+            })
+            ->when(!empty($params['fid']), function ($query) use ($params) {
+                $query->where('fid', $params['fid']);
+            });
+    }
+
     public function appends()
     {
         return $this->hasOne(FileAppend::class);
@@ -38,6 +51,17 @@ class File extends Model
     public function fileAppend()
     {
         return $this->hasOne(FileAppend::class);
+    }
+
+    public function getTypeKey()
+    {
+        return match($this->file_type) {
+            default => throw new \RuntimeException("unknown file_type of {$this->file_type}"),
+            File::TYPE_IMAGE => 'image',
+            File::TYPE_VIDEO => 'video',
+            File::TYPE_AUDIO => 'audio',
+            File::TYPE_DOCUMENT => 'document',
+        };
     }
 
     public function getDestinationPath()
