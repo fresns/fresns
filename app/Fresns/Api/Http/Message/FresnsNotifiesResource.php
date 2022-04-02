@@ -14,9 +14,7 @@ use App\Fresns\Api\FsDb\FresnsNotifies\FresnsNotifiesConfig;
 use App\Fresns\Api\FsDb\FresnsPosts\FresnsPosts;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsersConfig;
-use App\Fresns\Api\Helpers\ApiConfigHelper;
 use App\Fresns\Api\Helpers\ApiFileHelper;
-use App\Fresns\Api\Http\Content\FsConfig as ContentConfig;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -45,31 +43,14 @@ class FresnsNotifiesResource extends BaseAdminResource
         }
         $user = DB::table(FresnsUsersConfig::CFG_TABLE)->where('id', $this->source_user_id)->first();
         $sourceUser = [];
-        $avatar = $user->avatar_file_url ?? null;
         if ($user) {
-            // Default Avatar
-            if (empty($avatar)) {
-                $defaultIcon = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEFAULT_AVATAR);
-                $avatar = $defaultIcon;
-            }
-            // Deactivate Avatar
-            if ($user) {
-                if ($user->deleted_at != null) {
-                    $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEACTIVATE_AVATAR);
-                    $avatar = $deactivateAvatar;
-                }
-            } else {
-                $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEACTIVATE_AVATAR);
-                $avatar = $deactivateAvatar;
-            }
-            $avatar = ApiFileHelper::getImageAvatarUrl($avatar);
             $user = FresnsUsers::find($this->source_user_id);
             $sourceUser =
                 [
                     'uid' => $user['uid'] ?? '',
                     'username' => $user->username ?? '',
                     'nickname' => $user->nickname ?? '',
-                    'avatar' => $avatar,
+                    'avatar' => ApiFileHelper::getUserAvatar($user->uid),
                     'decorate' => ApiFileHelper::getImageSignUrlByFileIdUrl($user->decorate_file_id, $user->decorate_file_url),
                     'verifiedStatus' => $user->verified_status ?? 1,
                     'verifiedIcon' => ApiFileHelper::getImageSignUrlByFileIdUrl($user->verified_file_id, $user->verified_file_url),

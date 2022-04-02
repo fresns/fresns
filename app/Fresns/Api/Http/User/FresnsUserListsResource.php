@@ -123,13 +123,7 @@ class FresnsUserListsResource extends BaseAdminResource
             $item['name'] = FresnsLanguagesService::getLanguageByTableId(FresnsUserIconsConfig::CFG_TABLE, 'name', $mIcon['id'], $langTag);
             $iconsArr[] = $item;
         }
-
-        if (empty($this->avatar_file_url) && empty($this->avatar_file_id)) {
-            $defaultAvatar = ApiConfigHelper::getConfigByItemKey('default_avatar');
-            $userAvatar = ApiFileHelper::getImageAvatarUrl($defaultAvatar);
-        } else {
-            $userAvatar = ApiFileHelper::getImageAvatarUrlByFileIdUrl($this->avatar_file_id, $this->avatar_file_url);
-        }
+        $userAvatar = ApiFileHelper::getUserAvatar($this->uid);
 
         // Default Field
         $default = [

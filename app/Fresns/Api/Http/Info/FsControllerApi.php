@@ -204,13 +204,7 @@ class FsControllerApi extends FsApiController
                         $followStatus = 1;
                     }
                     $item['followStatus'] = $followStatus;
-                    if (empty($v['avatar_file_url']) && empty($v['avatar_file_id'])) {
-                        $defaultAvatar = ApiConfigHelper::getConfigByItemKey('default_avatar');
-                        $userAvatar = ApiFileHelper::getImageAvatarUrl($defaultAvatar);
-                    } else {
-                        $userAvatar = ApiFileHelper::getImageAvatarUrlByFileIdUrl($v['avatar_file_id'], $v['avatar_file_url']);
-                    }
-                    $item['image'] = $userAvatar;
+                    $item['image'] = ApiFileHelper::getUserAvatar($v->uid);
                     $item['title'] = null;
                     $item['titleColor'] = null;
                     $item['descPrimary'] = null;
@@ -551,7 +545,6 @@ class FsControllerApi extends FsApiController
             case 1:
                 $status = ApiConfigHelper::getConfigByItemKey('image_url_status');
                 $domain = ApiConfigHelper::getConfigByItemKey('image_bucket_domain');
-                $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_IMAGE;
                 $input['fid'] = $fid;
                 $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink($input);
                 if ($fresnsResp->isErrorResponse()) {

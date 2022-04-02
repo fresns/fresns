@@ -178,30 +178,7 @@ class FresnsPostsResource extends BaseAdminResource
         $user['roleNameDisplay'] = null;
         $user['roleIcon'] = null;
         $user['roleIconDisplay'] = null;
-        $user['avatar'] = $userInfo->avatar_file_url ?? null;
-        // Default Avatar
-        if (empty($user['avatar'])) {
-            $defaultIcon = ApiConfigHelper::getConfigByItemKey(FsConfig::DEFAULT_AVATAR);
-            $user['avatar'] = $defaultIcon;
-        }
-        // Anonymous Avatar
-        if ($this->is_anonymous == 1) {
-            $anonymousAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::ANONYMOUS_AVATAR);
-            $user['avatar'] = $anonymousAvatar;
-        }
-        // Deactivate Avatar
-        if ($userInfo) {
-            if ($userInfo->deleted_at != null) {
-                $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::DEACTIVATE_AVATAR);
-                $user['avatar'] = $deactivateAvatar;
-                $user['deactivate'] = true;
-            }
-        } else {
-            $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::DEACTIVATE_AVATAR);
-            $user['avatar'] = $deactivateAvatar;
-        }
-        $user['avatar'] = ApiFileHelper::getImageAvatarUrl($user['avatar']);
-
+        $user['avatar'] = ApiFileHelper::getUserAvatar($userInfo->uid);
         $user['decorate'] = null;
         $user['gender'] = null;
         $user['bio'] = null;
@@ -264,19 +241,7 @@ class FresnsPostsResource extends BaseAdminResource
                 $comment['username'] = $commentUserInfo['username'] ?? null;
                 $comment['nickname'] = $commentUserInfo['nickname'] ?? null;
             }
-
-            // Default Avatar
-            if (empty($commentStatus['avatar'])) {
-                $defaultIcon = ApiConfigHelper::getConfigByItemKey(FsConfig::DEFAULT_AVATAR);
-                $comment['avatar'] = $defaultIcon;
-            }
-            // Anonymous Avatar
-            if ($comments->is_anonymous == 1) {
-                $anonymousAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::ANONYMOUS_AVATAR);
-                $comment['avatar'] = $anonymousAvatar;
-            }
-            $comment['avatar'] = ApiFileHelper::getImageAvatarUrl($comment['avatar']);
-
+            $comment['avatar'] = ApiFileHelper::getUserAvatar($comment['uid']);
             $comment['cid'] = $comments->cid ?? null;
             $comment['content'] = self::getContentView(($comments->content), ($comments->id), 2);
             $comment['likeCount'] = $comments->like_count ?? null;
@@ -308,7 +273,6 @@ class FresnsPostsResource extends BaseAdminResource
                 }
             }
             $comment['attachCount'] = $attachCount;
-            $images = [];
 
             $fileInfo = FresnsFiles::where('file_type', 1)->where('table_name', FresnsCommentsConfig::CFG_TABLE)->where('table_id', $comments->id)->get();
             $comment['images'] = ApiFileHelper::antiTheftFile($fileInfo);

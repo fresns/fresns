@@ -18,11 +18,9 @@ use App\Fresns\Api\FsDb\FresnsRoles\FresnsRoles;
 use App\Fresns\Api\FsDb\FresnsUserFollows\FresnsUserFollows;
 use App\Fresns\Api\FsDb\FresnsUserRoles\FresnsUserRoles;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
-use App\Fresns\Api\Helpers\ApiConfigHelper;
 use App\Fresns\Api\Helpers\ApiFileHelper;
 use App\Fresns\Api\Helpers\ApiLanguageHelper;
 use App\Fresns\Api\Http\Base\FsApiService;
-use App\Fresns\Api\Http\Content\FsConfig as ContentConfig;
 use Illuminate\Support\Facades\DB;
 
 class FresnsGroupsService extends FsApiService
@@ -230,15 +228,7 @@ class FresnsGroupsService extends FsApiService
                         $userRole = FresnsRoles::find($roleRels['role_id']);
                     }
                     $array['nicknameColor'] = $userRole['nickname_color'] ?? null;
-                    // $array['avatar'] = $userInfo['avatar_file_url'];
-                    $avatar = $userInfo['avatar_file_url'] ?? null;
-                    // Empty with default avatar
-                    if (empty($avatar)) {
-                        $defaultIcon = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEFAULT_AVATAR);
-                        $avatar = $defaultIcon;
-                    }
-                    $avatar = ApiFileHelper::getImageAvatarUrl($avatar);
-                    $array['avatar'] = $avatar;
+                    $array['avatar'] = ApiFileHelper::getUserAvatar($userInfo['uid']);
                     $adminUserArr[] = $array;
                 }
             }

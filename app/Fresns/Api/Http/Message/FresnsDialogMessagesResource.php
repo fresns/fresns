@@ -13,9 +13,7 @@ use App\Fresns\Api\Center\Common\GlobalService;
 use App\Fresns\Api\FsDb\FresnsDialogMessages\FresnsDialogMessagesConfig;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsersConfig;
-use App\Fresns\Api\Helpers\ApiConfigHelper;
 use App\Fresns\Api\Helpers\ApiFileHelper;
-use App\Fresns\Api\Http\Content\FsConfig as ContentConfig;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -56,25 +54,7 @@ class FresnsDialogMessagesResource extends BaseAdminResource
             $messageArr['content'] = $this->message_text;
             $messageArr['sendDeactivate'] = $sendDeactivate;
             $messageArr['sendUid'] = $sendUserInfo['uid'] ?? null;
-            $messageArr['sendAvatar'] = $userInfo->avatar_file_url ?? null;
-
-            // Default Avatar
-            if (empty($messageArr['sendAvatar'])) {
-                $defaultIcon = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEFAULT_AVATAR);
-                $messageArr['sendAvatar'] = $defaultIcon;
-            }
-            // Deactivate Avatar
-            if ($userInfo) {
-                if ($userInfo->deleted_at != null) {
-                    $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEACTIVATE_AVATAR);
-                    $messageArr['sendAvatar'] = $deactivateAvatar;
-                }
-            } else {
-                $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEACTIVATE_AVATAR);
-                $messageArr['sendAvatar'] = $deactivateAvatar;
-            }
-
-            $messageArr['sendAvatar'] = ApiFileHelper::getImageAvatarUrl($messageArr['sendAvatar']);
+            $messageArr['sendAvatar'] = ApiFileHelper::getUserAvatar($sendUserInfo['uid']);
             $messageArr['sendTime'] = $this->created_at;
         }
 

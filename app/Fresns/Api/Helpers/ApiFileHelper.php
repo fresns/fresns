@@ -17,6 +17,8 @@ use App\Fresns\Api\FsDb\FresnsFiles\FresnsFiles;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsersConfig;
 use App\Fresns\Api\Http\Content\FsConfig as ContentConfig;
+use App\Helpers\ConfigHelper;
+use App\Helpers\FileHelper;
 use Illuminate\Support\Facades\DB;
 
 class ApiFileHelper
@@ -115,78 +117,70 @@ class ApiFileHelper
     {
         if ($fileInfo) {
             $files = [];
-            foreach ($fileInfo as $f) {
-                $imagesHost = ApiConfigHelper::getConfigByItemKey('image_bucket_domain');
-                $imagesRatio = ApiConfigHelper::getConfigByItemKey('image_thumb_ratio');
-                $imagesSquare = ApiConfigHelper::getConfigByItemKey('image_thumb_square');
-                $imagesBig = ApiConfigHelper::getConfigByItemKey('image_thumb_big');
-                $file = [];
-                $file['imageRatioUrl'] = $imagesHost.$f['file_path'].$imagesRatio;
-                $file['imageSquareUrl'] = $imagesHost.$f['file_path'].$imagesSquare;
-                $file['imageBigUrl'] = $imagesHost.$f['file_path'].$imagesBig;
-                $file['imageRatioUrl'] = self::getImageSignUrl($file['imageRatioUrl']);
-                $file['imageSquareUrl'] = self::getImageSignUrl($file['imageSquareUrl']);
-                $file['imageBigUrl'] = self::getImageSignUrl($file['imageBigUrl']);
-                $files[] = $file;
+            foreach ($fileInfo as $file) {
+                $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink([
+                    "fid" =>  $file->fid,
+                ]);
+
+                if ($fresnsResp->isErrorResponse()){
+                    return [];
+                }
+
+                $files[] = $fresnsResp->getData();
             }
         }
 
         return $files;
     }
 
-    // Get single image link by fid
-    public static function getImageSignUrl($url)
+    public static function getUserAvatar(int $uid)
     {
-        // determine whether it is id, if it is id then go to the database query, if not id then return directly
-        if (! is_numeric($url)) {
-            $singUrl = $url;
-        } else {
-            $fid = FresnsFiles::where('id', $url)->value('fid');
-            $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_IMAGE;
-            $input['fid'] = $fid;
-            $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-            if (CmdRpcHelper::isErrorCmdResp($resp)) {
-                return $url;
+        $user = FresnsUsers::where('uid', $uid)->first(['avatar_file_id', 'avatar_file_url', 'deleted_at']);
+        $defaultAvatar = ConfigHelper::fresnsConfigByItemKey('default_avatar');
+        $deactivateAvatar = ConfigHelper::fresnsConfigByItemKey('deactivate_avatar');
+
+        if (empty($user->deleted_at)) {
+            if (empty($user->avatar_file_url) && empty($user->avatar_file_id)) {
+                // default avatar
+                if (ConfigHelper::fresnsConfigFileValueTypeByItemKey('default_avatar') == 'URL') {
+                    $userAvatar = $defaultAvatar;
+                } else {
+                    $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink([
+                        'fileId' => $defaultAvatar,
+                    ]);
+                    $userAvatar = $fresnsResp->getData('imageAvatarUrl');
+                }
+            } else {
+                // user avatar
+                $userAvatar = FileHelper::fresnsFileImageUrlByColumn($user->avatar_file_id, $user->avatar_file_url, 'imageAvatarUrl');
             }
-            $singUrl = $resp['output']['imageConfigUrl'];
+        } else {
+            // user deactivate avatar
+            if (ConfigHelper::fresnsConfigFileValueTypeByItemKey('deactivate_avatar') === 'URL') {
+                $userAvatar = $deactivateAvatar;
+            } else {
+                $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink([
+                    'fileId' => $deactivateAvatar,
+                ]);
+                $userAvatar = $fresnsResp->getData('imageAvatarUrl');
+            }
         }
 
-        return $singUrl;
-    }
-
-    // Get avatar image link by fid
-    public static function getImageAvatarUrl($url)
-    {
-        if (! is_numeric($url)) {
-            $avatarUrl = $url;
-        } else {
-            $fid = FresnsFiles::where('id', $url)->value('fid');
-            $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_IMAGE;
-            $input['fid'] = $fid;
-            $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-            if (CmdRpcHelper::isErrorCmdResp($resp)) {
-                return $url;
-            }
-            $avatarUrl = $resp['output']['imageAvatarUrl'];
-        }
-
-        return $avatarUrl;
+        return $userAvatar;
     }
 
     // Get image link by fid
     public static function getImageSignUrlByFileId($fileId)
     {
-        $file = FresnsFiles::where('id', $fileId)->first();
-        $fid = $file['fid'];
-        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_IMAGE;
-        $input['fid'] = $fid;
-        $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-        if (CmdRpcHelper::isErrorCmdResp($resp)) {
-            $domain = ApiConfigHelper::getConfigByItemKey('image_bucket_domain');
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink([
+            "fileId" =>  $fileId,
+        ]);
 
-            return $domain.$file['file_path'];
+        if ($fresnsResp->isErrorResponse()){
+            return $singUrl = null;
         }
-        $singUrl = $resp['output']['imageConfigUrl'];
+
+        $singUrl = $fresnsResp->getData('imageConfigUrl');
 
         return $singUrl;
     }
@@ -197,47 +191,9 @@ class ApiFileHelper
      */
     public static function getImageSignUrlByFileIdUrl($fileId, $fileUrl)
     {
-        // Determine whether to open the anti-hotlinking chain
-        $imageStatus = ApiConfigHelper::getConfigByItemKey('image_url_status');
-        if ($imageStatus == true) {
-            if (empty($fileId)) {
-                return $fileUrl;
-            }
-            $fid = FresnsFiles::where('id', $fileId)->value('fid');
-            $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_IMAGE;
-            $input['fid'] = $fid;
-            $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-            if (CmdRpcHelper::isErrorCmdResp($resp)) {
-                return false;
-            }
+        $fileUrl = FileHelper::fresnsFileImageUrlByColumn($fileId, $fileUrl, 'imageConfigUrl');
 
-            return $resp['output']['imageConfigUrl'];
-        } else {
-            return $fileUrl;
-        }
-    }
-
-    // imageAvatarUrl
-    public static function getImageAvatarUrlByFileIdUrl($fileId, $fileUrl)
-    {
-        // Determine whether to open the anti-hotlinking chain
-        $imageStatus = ApiConfigHelper::getConfigByItemKey('image_url_status');
-        if ($imageStatus == true) {
-            if (empty($fileId)) {
-                return $fileUrl;
-            }
-            $fid = FresnsFiles::where('id', $fileId)->value('fid');
-            $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_IMAGE;
-            $input['fid'] = $fid;
-            $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-            if (CmdRpcHelper::isErrorCmdResp($resp)) {
-                return false;
-            }
-
-            return $resp['output']['imageAvatarUrl'];
-        } else {
-            return $fileUrl;
-        }
+        return $fileUrl;
     }
 
     // Anti Hotlinking (Get the url of the file in the more_json field)
@@ -256,9 +212,10 @@ class ApiFileHelper
                             // code + message + data
                             return $fresnsResp->errorResponse();
                         }
-                        $m['imageRatioUrl'] = $fresnsResp->getData('imageRatioUrl');
-                        $m['imageSquareUrl'] = $fresnsResp->getData('imageSquareUrl');
-                        $m['imageBigUrl'] = $fresnsResp->getData('imageBigUrl');
+                        $fresnsResp = $fresnsResp->getData();
+                        $m['imageRatioUrl'] = $fresnsResp['imageRatioUrl'] ?? '';
+                        $m['imageSquareUrl'] = $fresnsResp['imageSquareUrl'] ?? '';
+                        $m['imageBigUrl'] = $fresnsResp['imageBigUrl'] ?? '';
                     }
                     // Video
                     if (isset($m['videoCover'])) {
@@ -269,9 +226,10 @@ class ApiFileHelper
                             // code + message + data
                             return $fresnsResp->errorResponse();
                         }
-                        $m['videoCover'] = $fresnsResp->getData('videoCover');
-                        $m['videoGif'] = $fresnsResp->getData('videoGif');
-                        $m['videoUrl'] = $fresnsResp->getData('videoUrl');
+                        $fresnsResp = $fresnsResp->getData();
+                        $m['videoCover'] = $fresnsResp['videoCover'] ?? '';
+                        $m['videoGif'] = $fresnsResp['videoGif'] ?? '';
+                        $m['videoUrl'] = $fresnsResp['videoUrl'] ?? '';
                     }
                     // Audio
                     if (isset($m['audioUrl'])) {
@@ -282,7 +240,8 @@ class ApiFileHelper
                             // code + message + data
                             return $fresnsResp->errorResponse();
                         }
-                        $m['audioUrl'] = $fresnsResp->getData('audioUrl');
+                        $fresnsResp =  $fresnsResp->getData();
+                        $m['audioUrl'] = $fresnsResp['audioUrl'] ?? '';
                     }
                     // Document
                     if (isset($m['documentUrl'])) {
@@ -293,7 +252,8 @@ class ApiFileHelper
                             // code + message + data
                             return $fresnsResp->errorResponse();
                         }
-                        $m['documentUrl'] = $fresnsResp->getData('documentUrl');
+                        $fresnsResp = $fresnsResp->getData();
+                        $m['documentUrl'] = $fresnsResp['documentUrl'] ?? '';
                     }
                 }
             }
@@ -309,14 +269,15 @@ class ApiFileHelper
             foreach ($icons as &$i) {
                 if (isset($i['fileId'])) {
                     if (! empty($i['fileId'])) {
-                        $cmd = FresnsCmdWordsConfig::FRESNS_CMD_ANTI_LINK_IMAGE;
                         $fid = FresnsFiles::where('id', $i['fileId'])->value('fid');
                         $input['fid'] = $fid;
-                        $resp = CmdRpcHelper::call(FresnsCmdWords::class, $cmd, $input);
-                        if (CmdRpcHelper::isErrorCmdResp($resp)) {
-                            return false;
+                        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink($input);
+                        if ($fresnsResp->isErrorResponse()) {
+
+                            return $fresnsResp->errorResponse();
                         }
-                        $i['fileUrl'] = $resp['output']['imageConfigUrl'];
+                        $fresnsResp = $fresnsResp->getData();
+                        $i['fileUrl'] = $fresnsResp['imageConfigUrl'] ?? '';
                     }
                 }
             }

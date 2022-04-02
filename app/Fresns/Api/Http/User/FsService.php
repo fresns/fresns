@@ -8,7 +8,6 @@
 
 namespace App\Fresns\Api\Http\User;
 
-use App\Fresns\Api\FsDb\FresnsAccounts\FresnsAccountsConfig;
 use App\Fresns\Api\FsDb\FresnsCommentLogs\FresnsCommentLogs;
 use App\Fresns\Api\FsDb\FresnsConfigs\FresnsConfigsConfig;
 use App\Fresns\Api\FsDb\FresnsLanguages\FresnsLanguagesService;
@@ -200,20 +199,7 @@ class FsService
                 $data['roleIcon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($userRole['icon_file_id'], $userRole['icon_file_url']);
                 $data['roleIconDisplay'] = $userRole['is_display_icon'];
             }
-            $accounts = DB::table(FresnsAccountsConfig::CFG_TABLE)->where('id', $user['account_id'])->first();
-
-            if (empty($accounts->deleted_at)) {
-                if (empty($user['avatar_file_url']) && empty($user['avatar_file_id'])) {
-                    $defaultAvatar = ApiConfigHelper::getConfigByItemKey('default_avatar');
-                    $userAvatar = ApiFileHelper::getImageAvatarUrl($defaultAvatar);
-                } else {
-                    $userAvatar = ApiFileHelper::getImageAvatarUrlByFileIdUrl($user['avatar_file_id'], $user['avatar_file_url']);
-                }
-            } else {
-                $deactivateAvatar = ApiConfigHelper::getConfigByItemKey('deactivate_avatar');
-                $userAvatar = ApiFileHelper::getImageAvatarUrl($deactivateAvatar);
-            }
-            $data['avatar'] = $userAvatar;
+            $data['avatar'] = ApiFileHelper::getUserAvatar($user->uid);
             $data['decorate'] = ApiFileHelper::getImageSignUrlByFileIdUrl($user['decorate_file_id'], $user['decorate_file_url']);
             $data['gender'] = $user['gender'];
             $data['birthday'] = DateHelper::fresnsOutputTimeToTimezone($user['birthday']);

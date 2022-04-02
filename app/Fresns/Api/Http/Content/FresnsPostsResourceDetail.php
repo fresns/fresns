@@ -174,30 +174,7 @@ class FresnsPostsResourceDetail extends BaseAdminResource
         $user['roleNameDisplay'] = null;
         $user['roleIcon'] = null;
         $user['roleIconDisplay'] = null;
-        $user['avatar'] = $userInfo->avatar_file_url ?? null;
-        // Default Avatar
-        if (empty($user['avatar'])) {
-            $defaultIcon = ApiConfigHelper::getConfigByItemKey(FsConfig::DEFAULT_AVATAR);
-            $user['avatar'] = $defaultIcon;
-        }
-        // Anonymous Avatar
-        if ($this->is_anonymous == 1) {
-            $anonymousAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::ANONYMOUS_AVATAR);
-            $user['avatar'] = $anonymousAvatar;
-        }
-        // Deactivate Avatar
-        if ($userInfo) {
-            if ($userInfo->deleted_at != null) {
-                $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::DEACTIVATE_AVATAR);
-                $user['avatar'] = $deactivateAvatar;
-                $user['deactivate'] = true;
-            }
-        } else {
-            $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::DEACTIVATE_AVATAR);
-            $user['avatar'] = $deactivateAvatar;
-        }
-        $user['avatar'] = ApiFileHelper::getImageAvatarUrl($user['avatar']);
-
+        $user['avatar'] = ApiFileHelper::getUserAvatar($userInfo->uid);
         $user['decorate'] = null;
         $user['gender'] = null;
         $user['bio'] = null;

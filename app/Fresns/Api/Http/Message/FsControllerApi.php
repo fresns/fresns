@@ -25,10 +25,8 @@ use App\Fresns\Api\FsDb\FresnsSessionLogs\FresnsSessionLogs;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsersConfig;
 use App\Fresns\Api\Helpers\ApiCommonHelper;
-use App\Fresns\Api\Helpers\ApiConfigHelper;
 use App\Fresns\Api\Helpers\ApiFileHelper;
 use App\Fresns\Api\Http\Base\FsApiController;
-use App\Fresns\Api\Http\Content\FsConfig as ContentConfig;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -184,18 +182,7 @@ class FsControllerApi extends FsApiController
         $user['uid'] = null;
         $user['username'] = null;
         $user['nickname'] = null;
-        $user['avatar'] = $userInfo->avatar_file_url ?? null;
-        // Default Avatar
-        if (empty($user['avatar'])) {
-            $defaultIcon = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEFAULT_AVATAR);
-            $user['avatar'] = $defaultIcon;
-        }
-        // Deactivate Avatar
-        if ($userInfo->deleted_at != null) {
-            $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEACTIVATE_AVATAR);
-            $user['avatar'] = $deactivateAvatar;
-        }
-        $user['avatar'] = ApiFileHelper::getImageAvatarUrl($user['avatar']);
+        $user['avatar'] = ApiFileHelper::getUserAvatar($userInfo->uid);
         $user['decorate'] = null;
         $user['verifiedStatus'] = null;
         $user['verifiedIcon'] = null;

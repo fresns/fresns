@@ -140,29 +140,7 @@ class FresnsCommentsResourceDetail extends BaseAdminResource
         $user['roleNameDisplay'] = null;
         $user['roleIcon'] = null;
         $user['roleIconDisplay'] = null;
-        $user['avatar'] = $userInfo->avatar_file_url ?? null;
-        // Default Avatar
-        if (empty($user['avatar'])) {
-            $defaultIcon = ApiConfigHelper::getConfigByItemKey(FsConfig::DEFAULT_AVATAR);
-            $user['avatar'] = $defaultIcon;
-        }
-        // Anonymous Avatar
-        if ($this->is_anonymous == 1) {
-            $anonymousAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::ANONYMOUS_AVATAR);
-            $user['avatar'] = $anonymousAvatar;
-        }
-        // Deactivate Avatar
-        if ($userInfo) {
-            if ($userInfo->deleted_at != null) {
-                $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::DEACTIVATE_AVATAR);
-                $user['avatar'] = $deactivateAvatar;
-                $user['deactivate'] = true;
-            }
-        } else {
-            $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::DEACTIVATE_AVATAR);
-            $user['avatar'] = $deactivateAvatar;
-        }
-        $user['avatar'] = ApiFileHelper::getImageAvatarUrl($user['avatar']);
+        $user['avatar'] = ApiFileHelper::getUserAvatar($userInfo['uid']);
 
         $user['gender'] = null;
         $user['bio'] = null;
@@ -355,28 +333,7 @@ class FresnsCommentsResourceDetail extends BaseAdminResource
             $post['uid'] = $postUserInfo->uid ?? null;
             $post['username'] = $postUserInfo->username ?? null;
             $post['nickname'] = $postUserInfo->nickname ?? null;
-            $post['avatar'] = $postUserInfo->avatar_file_url ?? null;
-            // Default Avatar
-            if (empty($post['avatar'])) {
-                $defaultIcon = ApiConfigHelper::getConfigByItemKey(FsConfig::DEFAULT_AVATAR);
-                $post['avatar'] = $defaultIcon;
-            }
-            // Anonymous Avatar
-            if ($posts['is_anonymous'] == 1) {
-                $post['anonymous'] = 1;
-                $post['uid'] = null;
-                $post['username'] = null;
-                $post['nickname'] = null;
-                $anonymousAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::ANONYMOUS_AVATAR);
-                $post['avatar'] = $anonymousAvatar;
-            }
-            // Deactivate Avatar
-            if ($userInfo->deleted_at != null) {
-                $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(FsConfig::DEACTIVATE_AVATAR);
-                $post['avatar'] = $deactivateAvatar;
-                $post['deactivate'] = true;
-            }
-            $post['avatar'] = ApiFileHelper::getImageAvatarUrl($post['avatar']);
+            $post['avatar'] = ApiFileHelper::getUserAvatar($postUserInfo['uid']);
         }
 
         // Comment Plugin Extensions
