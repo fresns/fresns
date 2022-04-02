@@ -8,7 +8,7 @@
 
 namespace App\Helpers;
 
-use App\Models\Account;
+use App\Models\Group;
 use App\Models\User;
 use App\Models\UserRole;
 
@@ -23,8 +23,8 @@ class UserHelper
      */
     public static function fresnsUserAffiliation(int $uid, string $aid)
     {
-        $userAccountId = User::where('uid', $uid)->value('account_id');
-        $accountId = Account::where('aid', $aid)->value('id');
+        $userAccountId = PrimaryHelper::fresnsAccountIdByUid($uid);
+        $accountId = PrimaryHelper::fresnsAccountIdByAid($aid);
 
         return $userAccountId == $accountId ? 'true' : 'false';
     }
@@ -33,7 +33,7 @@ class UserHelper
      * Whether the user is disabled or not.
      *
      * @param  int  $uid
-     * @return int
+     * @return bool
      */
     public static function fresnsUserStatus(int $uid)
     {
@@ -51,13 +51,27 @@ class UserHelper
      *
      * @param  int  $uid
      * @param  array  $permRoleIds
-     * @return int
+     * @return bool
      */
     public static function fresnsUserRolePermCheck(int $uid, array $permRoleIds)
     {
-        $userId = User::where('uid', $uid)->value('id');
+        $userId = PrimaryHelper::fresnsAccountIdByUid($uid);
         $userRoles = UserRole::where('user_id', $userId)->pluck('role_id')->toArray();
 
         return array_intersect($permRoleIds, $userRoles) ? 'true' : 'false';
+    }
+
+    /**
+     * @param  int  $uid
+     * @param  array  $gid
+     * @return bool
+     */
+    public static function fresnsUserGroupAdminCheck(int $uid, array $gid)
+    {
+        $permission = Group::where('gid', $gid)->value('permission');
+        $permissionArr = json_decode($permission, true);
+        $isAdmin = UserHelper::fresnsUserRolePermCheck($uid, $permissionArr['admin_users']);
+
+        return $isAdmin;
     }
 }

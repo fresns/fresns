@@ -9,6 +9,7 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Fresns\Panel\Http\Requests\UpdateGeneralRequest;
+use App\Helpers\ConfigHelper;
 use App\Models\Config;
 use App\Models\Language;
 use App\Models\Plugin;
@@ -68,7 +69,11 @@ class GeneralController extends Controller
             return in_array('join', $plugin->scene);
         });
 
-        return view('FsView::systems.general', compact('params', 'langParams', 'defaultLangParams', 'registerPlugins', 'joinPlugins'));
+        $imageUrl['site_icon'] = ConfigHelper::fresnsConfigFileUrlByItemKey('site_icon');
+        $imageUrl['site_logo'] = ConfigHelper::fresnsConfigFileUrlByItemKey('site_logo');
+        $imageUrl[] = $imageUrl;
+
+        return view('FsView::systems.general', compact('params', 'imageUrl', 'langParams', 'defaultLangParams', 'registerPlugins', 'joinPlugins'));
     }
 
     public function update(UpdateGeneralRequest $request)

@@ -58,7 +58,7 @@
                         ]) ? 'active' : '' }}" href="{{ route('panel.menus.index') }}">{{ __('FsLang::panel.menu_clients') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ \Route::is([
                         'panel.iframe.market'
-                        ]) ? 'active' : '' }}" href="{{ route('panel.iframe.market', ['url' => 'https://fresns.org']) }}">{{ __('FsLang::panel.menu_market') }}</a></li>
+                        ]) ? 'active' : '' }}" href="{{ route('panel.iframe.market', ['url' => 'https://app.fresns.cn']) }}">{{ __('FsLang::panel.menu_market') }}</a></li>
                 </ul>
                 <div class="navbar-nav">
                     <!--lang-->

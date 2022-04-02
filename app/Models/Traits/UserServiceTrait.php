@@ -67,7 +67,7 @@ trait UserServiceTrait
         if (empty($user->deleted_at)) {
             if (empty($user->avatar_file_url) && empty($user->avatar_file_id)) {
                 // default avatar
-                if (FileHelper::fresnsFileConfigTypeByItemKey('default_avatar') == 'URL') {
+                if (ConfigHelper::fresnsConfigFileValueTypeByItemKey('default_avatar') == 'URL') {
                     $userAvatar = $defaultAvatar;
                 } else {
                     $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink([
@@ -81,7 +81,7 @@ trait UserServiceTrait
             }
         } else {
             // user deactivate avatar
-            if (FileHelper::fresnsFileConfigTypeByItemKey('deactivate_avatar') === 'URL') {
+            if (ConfigHelper::fresnsConfigFileValueTypeByItemKey('deactivate_avatar') === 'URL') {
                 $userAvatar = $deactivateAvatar;
             } else {
                 $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink([

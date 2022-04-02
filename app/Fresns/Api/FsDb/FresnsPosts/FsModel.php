@@ -126,7 +126,7 @@ class FsModel extends BaseAdminModel
         $searchUid = $request->input('searchUid');
         if ($searchUid) {
             // configs table settings: whether to allow viewing of other people's posts
-            $allowPost = ApiConfigHelper::getConfigByItemKey(FsConfig::IT_PUBLISH_POSTS) ?? true;
+            $allowPost = ApiConfigHelper::getConfigByItemKey(FsConfig::IT_POSTS) ?? true;
             if (! $allowPost) {
                 $query->where('post.user_id', '=', 0);
             } else {

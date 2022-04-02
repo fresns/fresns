@@ -9,9 +9,9 @@
 use App\Fresns\Panel\Http\Middleware\ChangeLocale;
 
 return [
-    'news_url' => 'https://fresns.org/news.json',
+    'news_url' => 'https://app.fresns.cn/news.json',
 
-    'version_url' => 'https://fresns.org/version.json',
+    'version_url' => 'https://app.fresns.cn/version.json',
 
     'middleware' => [
         'web',

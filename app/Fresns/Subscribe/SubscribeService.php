@@ -24,12 +24,12 @@ class SubscribeService
 
         // Table does not support subscribe
         if ($subscribe->isNotSupportSubscribe()) {
-            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20005)::throw("unsupported subscription forms {$subscribe->getSubTableName()}");
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_RESP_ERROR)::throw("unsupported subscription forms {$subscribe->getSubTableName()}");
         }
 
         // Subscribe already exists
         if ($subscribe->ensureSubscribeExists()) {
-            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20005)::throw("unikey {$subscribe->getUnikey()} already subscribed table {$subscribe->getSubTableName()}");
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_RESP_ERROR)::throw("unikey {$subscribe->getUnikey()} already subscribed table {$subscribe->getSubTableName()}");
         }
 
         // Add subscribe
@@ -43,7 +43,7 @@ class SubscribeService
         $subscribe = Subscribe::make($wordBody);
 
         if ($subscribe->ensureSubscribeNotExists()) {
-            ExceptionConstant::getHandleClassByCode(ExceptionConstant::ERROR_CODE_20005)::throw("unikey {$subscribe->getUnikey()} unsubscribed table {$subscribe->getSubTableName()}");
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_RESP_ERROR)::throw("unikey {$subscribe->getUnikey()} unsubscribed table {$subscribe->getSubTableName()}");
         }
 
         $subscribe->remove();

@@ -50,9 +50,13 @@ class Handler extends ExceptionHandler
      *
      * @param Throwable e The exception that was thrown.
      */
-    public function report(Throwable $e)
+    public function render($request, Throwable $e)
     {
         if ($e instanceof \Illuminate\Validation\ValidationException) {
+            if (!$request->wantsJson()) {
+                return back()->withException($e);
+            }
+            
             throw new \RuntimeException($e->validator->errors()->first());
         }
 

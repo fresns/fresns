@@ -46,9 +46,9 @@ class User
         $userArr = [
             'account_id' => $account_id,
             'uid' => StrHelper::generateDigital(8),
-            'username' => $dtoWordBody->username,
+            'username' => $dtoWordBody->username ?? \Str::random(8),
             'nickname' => $dtoWordBody->nickname,
-            'password' => isset($dtoWordBody->password) ?? null,
+            'password' => isset($dtoWordBody->password) ? Hash::make($dtoWordBody->password) : null,
             'avatarFid' => isset($dtoWordBody->avatarFid) ? File::where('uuid', $dtoWordBody->avatarFid)->value('id') : null,
             'avatarUrl' => $dtoWordBody->avatar_file_url ?? null,
             'gender' => $dtoWordBody->gender ?? 0,

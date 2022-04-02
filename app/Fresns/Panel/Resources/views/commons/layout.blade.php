@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="Fresns" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="_token" content="{{ csrf_token() }}">
     <title>{{ __('FsLang::panel.fresns_panel') }}</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="{{ @asset('/static/css/bootstrap.min.css') }}">
@@ -27,7 +27,7 @@
     <script src="{{ @asset('/static/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ @asset('/static/js/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ @asset('/static/js/select2.min.js') }}"></script>
-    <script src="{{ route('panel.translations', ['locale' => App::getLocale()]) }}"></script>
+    <script src="{{ route('panel.translations', ['locale' => App::getLocale() ?? 'zh-Hans']) }}"></script>
     <script src="{{ @asset('/static/js/fresns-panel.js') }}"></script>
     @yield('js')
 </body>

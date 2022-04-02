@@ -25,10 +25,13 @@ use App\Models\SessionToken;
 use App\Models\User;
 use App\Models\VerifyCode;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
+use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 use Illuminate\Support\Facades\DB;
 
 class Account
 {
+    use CmdWordResponseTrait;
+
     /**
      * @param $wordBody
      * @return array
@@ -94,7 +97,7 @@ class Account
             AccountConnect::insert($itemArr);
         }
 
-        return ['data'=>['aid'=>$inputArr['aid'], 'type'=>$dtoWordBody->type], 'message'=>'success', 'code'=>0];
+        return $this->success(['aid'=>$inputArr['aid'], 'type'=>$dtoWordBody->type]);
     }
 
     /**

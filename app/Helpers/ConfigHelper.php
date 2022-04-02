@@ -9,7 +9,7 @@
 namespace App\Helpers;
 
 use App\Models\Config;
-use Illuminate\Support\Arr;
+use App\Models\File;
 
 class ConfigHelper
 {
@@ -76,6 +76,55 @@ class ConfigHelper
         }
 
         return $itemDataArr;
+    }
+
+    /**
+     * Determine the storage type based on the file key value.
+     *
+     * @param  string  $itemKey
+     * @return string
+     */
+    public static function fresnsConfigFileValueTypeByItemKey(string $itemKey)
+    {
+        $file = ConfigHelper::fresnsConfigByItemKey($itemKey);
+        if (is_numeric($file)) {
+            return 'ID';
+        } elseif (preg_match("/^(http:\/\/|https:\/\/).*$/", $file)) {
+            return 'URL';
+        }
+
+        return 'null';
+    }
+
+    /**
+     * Get config file url.
+     *
+     * @param  string  $itemKey
+     * @return string
+     */
+    public static function fresnsConfigFileUrlByItemKey(string $itemKey)
+    {
+        $configValue = ConfigHelper::fresnsConfigByItemKey($itemKey);
+
+        if (ConfigHelper::fresnsConfigFileValueTypeByItemKey($itemKey) == 'URL') {
+            $fileUrl = $configValue;
+        } else {
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink([
+                'fileId' => $configValue,
+            ]);
+
+            $key = match($type) {
+                default => throw new \RuntimeException(),
+                File::TYPE_IMAGE => 'imageConfig',
+                File::TYPE_IMAGE => 'video',
+                File::TYPE_IMAGE => 'audio',
+                File::TYPE_IMAGE => 'document',
+            };
+
+            $fileUrl = $fresnsResp->getData("{$key}Url");
+        }
+
+        return $fileUrl;
     }
 
     /**

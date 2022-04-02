@@ -61,6 +61,7 @@
                     </ul>
                     <input type="file" class="form-control inputFile" name="site_icon_file" @if ($params['site_icon']) style="display:none;" @endif>
                     <input type="url" class="form-control inputUrl" name="site_icon" value="{{ $params['site_icon'] }}" @if (!$params['site_icon']) style="display:none;" @endif>
+                    <input type="hidden" class="imageUrl" value="{{ $imageUrl['site_icon'] }}">
                     <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
                 </div>
                 <div class="input-group">
@@ -78,6 +79,7 @@
                     </ul>
                     <input type="file" class="form-control inputFile" name="site_logo_file" @if ($params['site_logo']) style="display:none;" @endif>
                     <input type="url" class="form-control inputUrl" name="site_logo" value="{{ $params['site_logo'] }}" @if (!$params['site_logo']) style="display:none;" @endif>
+                    <input type="hidden" class="imageUrl" value="{{ $imageUrl['site_logo'] }}">
                     <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
                 </div>
             </div>

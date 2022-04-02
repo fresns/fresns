@@ -97,7 +97,7 @@ class FsModel extends BaseCategoryModel
         $searchUid = $request->input('searchUid');
         if ($searchUid) {
             // configs table settings: whether to allow viewing of other people's comments
-            $allowComment = ApiConfigHelper::getConfigByItemKey(FsConfig::IT_PUBLISH_COMMENTS) ?? false;
+            $allowComment = ApiConfigHelper::getConfigByItemKey(FsConfig::IT_COMMENTS) ?? false;
             $userInfo = FresnsUsers::where('uid', $searchUid)->first();
             if (! $allowComment) {
                 $query->where('comment.user_id', '=', 0);

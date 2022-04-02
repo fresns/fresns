@@ -25,9 +25,7 @@ class Account extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'phone', 'email',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for arrays.

@@ -45,7 +45,7 @@ class Send
      */
     public function sendSms($wordBody)
     {
-        $wordBody = new SendSmsDTO($wordBody);
+        $dtoWordBody = new SendSmsDTO($wordBody);
 
         $this->ensureUnikeyIsNotEmpry(
             $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('send_sms_service')
@@ -62,14 +62,14 @@ class Send
      */
     public function sendAppNotification($wordBody)
     {
-        $wordBody = new SendAppNotificationDTO($wordBody);
+        $dtowordBody = new SendAppNotificationDTO($wordBody);
 
         $channelMap = [
             1 => 'send_ios_service',
             2 => 'send_android_service',
         ];
 
-        $itemKey = $channelMap[$wordBody->channel];
+        $itemKey = $channelMap[$dtowordBody->channel];
 
         $this->ensureUnikeyIsNotEmpry(
             $pluginUniKey = ConfigHelper::fresnsConfigByItemKey($itemKey)
@@ -86,7 +86,7 @@ class Send
      */
     public function sendWechatMessage($wordBody)
     {
-        $wordBody = new SendWechatMessageDTO($wordBody);
+        $dtoWordBody = new SendWechatMessageDTO($wordBody);
 
         $this->ensureUnikeyIsNotEmpry(
             $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('send_wechat_service')

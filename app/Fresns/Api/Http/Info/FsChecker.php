@@ -13,6 +13,7 @@ use App\Fresns\Api\FsDb\FresnsAccounts\FresnsAccounts;
 use App\Fresns\Api\FsDb\FresnsPluginCallbacks\FresnsPluginCallbacks;
 use App\Fresns\Api\Helpers\ApiConfigHelper;
 use App\Fresns\Api\Http\Base\FsApiChecker;
+use App\Helpers\ConfigHelper;
 
 class FsChecker extends FsApiChecker
 {
@@ -21,20 +22,20 @@ class FsChecker extends FsApiChecker
     {
         // Sending Message Settings Plugin
         if ($type == 1) {
-            $pluginUniKey = ApiConfigHelper::getConfigByItemKey('send_email_service');
+            $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('send_email_service');
         } else {
-            $pluginUniKey = ApiConfigHelper::getConfigByItemKey('send_sms_service');
+            $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('send_sms_service');
         }
         if (empty($pluginUniKey)) {
             return self::checkInfo(ErrorCodeService::PLUGINS_CONFIG_ERROR);
         }
         $countryCode = request()->input('countryCode');
         $templateId = request()->input('templateId');
-        $templateBlade = ApiConfigHelper::getConfigByItemKey('verifycode_template'.$templateId);
+        $templateBlade = ConfigHelper::fresnsConfigByItemKey('verifycode_template'.$templateId);
         if (! $templateBlade) {
             return self::checkInfo(ErrorCodeService::CODE_TEMPLATE_ERROR);
         }
-        $templateData = json_decode($templateBlade, true);
+        $templateData = $templateBlade;
         $emailArr = [];
         $phoneArr = [];
         foreach ($templateData as $t) {

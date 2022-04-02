@@ -82,24 +82,6 @@ class FileHelper
         return $fileInfo;
     }
 
-    /**
-     * Determine the storage type based on the file key value.
-     *
-     * @param  string  $itemKey
-     * @return string
-     */
-    public static function fresnsFileConfigTypeByItemKey(string $itemKey)
-    {
-        $file = ConfigHelper::fresnsConfigByItemKey($itemKey);
-        if (is_numeric($file)) {
-            return 'ID';
-        } elseif (preg_match("/^(http:\/\/|https:\/\/).*$/", $file)) {
-            return 'URL';
-        }
-
-        return 'null';
-    }
-
     public static function fresnsFileImageUrlByColumn($fileId, $fileUrl, $urlType)
     {
         if (! $fileId) {

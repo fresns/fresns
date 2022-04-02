@@ -14,16 +14,12 @@ class ChangeLocale
 {
     public function handle($request, Closure $next)
     {
-        if ($request->lang) {
-            $cookie = \Cookie::forever('lang', $request->lang);
-
-            return back()->exceptInput('lang')->withCookie($cookie);
+        if ($currentLang = \request()->input('lang')) {
+            \Cookie::queue('lang', $currentLang);
         }
-        $locale = \Cookie::get('lang', 'en');
 
-        \App::setLocale($locale);
-
-        \View::share('locale', \App::getLocale());
+        \App::setLocale($locale = \Cookie::get('lang', 'zh-Hans'));
+        \View::share('locale', $locale);
 
         return $next($request);
     }

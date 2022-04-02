@@ -284,8 +284,8 @@ class ConfigsTableSeeder extends Seeder
             ],
             20 => [
                 'id' => 21,
-                'item_key' => 'install_time',
-                'item_value' => '2021-10-08 10:00:00',
+                'item_key' => 'install_datetime',
+                'item_value' => null,
                 'item_type' => 'string',
                 'item_tag' => 'systems',
                 'is_multilingual' => 0,

@@ -799,7 +799,7 @@ class FresnsCmdWords extends BasePlugin
         $userRolesInput = [
             'user_id' => $uid,
             'role_id' => $defaultRoleId,
-            'type' => 2,
+            'is_main' => 1,
         ];
         FresnsUserRoles::insert($userRolesInput);
 
