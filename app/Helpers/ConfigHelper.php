@@ -113,7 +113,7 @@ class ConfigHelper
                 'fileId' => $configValue,
             ]);
 
-            $key = match($type) {
+            $key = match ($type) {
                 default => throw new \RuntimeException(),
                 File::TYPE_IMAGE => 'imageConfig',
                 File::TYPE_IMAGE => 'video',
