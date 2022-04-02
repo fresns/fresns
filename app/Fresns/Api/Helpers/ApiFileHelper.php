@@ -119,10 +119,10 @@ class ApiFileHelper
             $files = [];
             foreach ($fileInfo as $file) {
                 $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink([
-                    "fid" =>  $file->fid,
+                    'fid' =>  $file->fid,
                 ]);
 
-                if ($fresnsResp->isErrorResponse()){
+                if ($fresnsResp->isErrorResponse()) {
                     return [];
                 }
 
@@ -173,10 +173,10 @@ class ApiFileHelper
     public static function getImageSignUrlByFileId($fileId)
     {
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink([
-            "fileId" =>  $fileId,
+            'fileId' =>  $fileId,
         ]);
 
-        if ($fresnsResp->isErrorResponse()){
+        if ($fresnsResp->isErrorResponse()) {
             return $singUrl = null;
         }
 
@@ -240,7 +240,7 @@ class ApiFileHelper
                             // code + message + data
                             return $fresnsResp->errorResponse();
                         }
-                        $fresnsResp =  $fresnsResp->getData();
+                        $fresnsResp = $fresnsResp->getData();
                         $m['audioUrl'] = $fresnsResp['audioUrl'] ?? '';
                     }
                     // Document
@@ -273,7 +273,6 @@ class ApiFileHelper
                         $input['fid'] = $fid;
                         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink($input);
                         if ($fresnsResp->isErrorResponse()) {
-
                             return $fresnsResp->errorResponse();
                         }
                         $fresnsResp = $fresnsResp->getData();
