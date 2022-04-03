@@ -479,6 +479,7 @@ class FsControllerApi extends FsApiController
     {
         $rule = [
             'type' => 'in:1,2,3',
+            'rid' => 'numeric',
             'pageSize' => 'numeric',
             'page' => 'numeric',
         ];

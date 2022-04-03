@@ -16,6 +16,7 @@ use App\Fresns\Api\FsDb\FresnsDialogs\FresnsDialogsConfig;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsersConfig;
 use App\Fresns\Api\Helpers\ApiConfigHelper;
 use App\Fresns\Api\Helpers\ApiFileHelper;
+use App\Helpers\DateHelper;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -79,7 +80,7 @@ class FresnsDialogsResource extends BaseAdminResource
             }
         }
         $messageId = $this->latest_message_id;
-        $messageTime = $this->latest_message_time;
+        $messageTime = DateHelper::fresnsFormatDateTime($this->latest_message_time);
         $messageBrief = $this->latest_message_brief;
 
         // Number of unread

@@ -14,6 +14,7 @@ use App\Fresns\Api\FsDb\FresnsDialogMessages\FresnsDialogMessagesConfig;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsersConfig;
 use App\Fresns\Api\Helpers\ApiFileHelper;
+use App\Helpers\DateHelper;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -55,7 +56,7 @@ class FresnsDialogMessagesResource extends BaseAdminResource
             $messageArr['sendDeactivate'] = $sendDeactivate;
             $messageArr['sendUid'] = $sendUserInfo['uid'] ?? null;
             $messageArr['sendAvatar'] = ApiFileHelper::getUserAvatar($sendUserInfo['uid']);
-            $messageArr['sendTime'] = $this->created_at;
+            $messageArr['sendTime'] = DateHelper::fresnsFormatDateTime($this->created_at);
         }
 
         // File Helper

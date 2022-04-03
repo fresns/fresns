@@ -15,6 +15,7 @@ use App\Fresns\Api\FsDb\FresnsPosts\FresnsPosts;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsersConfig;
 use App\Fresns\Api\Helpers\ApiFileHelper;
+use App\Helpers\DateHelper;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -60,7 +61,7 @@ class FresnsNotifiesResource extends BaseAdminResource
         $sourceBrief = $this->source_brief;
         $accessUrl = $this->access_url;
         $status = $this->status;
-        $time = $this->created_at;
+        $time = DateHelper::fresnsFormatDateTime($this->created_at);
 
         // Default Field
         $default = [

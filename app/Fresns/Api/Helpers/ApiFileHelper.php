@@ -8,9 +8,6 @@
 
 namespace App\Fresns\Api\Helpers;
 
-use App\Fresns\Api\Center\Helper\CmdRpcHelper;
-use App\Fresns\Api\FsCmd\FresnsCmdWords;
-use App\Fresns\Api\FsCmd\FresnsCmdWordsConfig;
 use App\Fresns\Api\FsDb\FresnsDialogMessages\FresnsDialogMessages;
 use App\Fresns\Api\FsDb\FresnsFileAppends\FresnsFileAppends;
 use App\Fresns\Api\FsDb\FresnsFiles\FresnsFiles;
@@ -18,6 +15,7 @@ use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsersConfig;
 use App\Fresns\Api\Http\Content\FsConfig as ContentConfig;
 use App\Helpers\ConfigHelper;
+use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use Illuminate\Support\Facades\DB;
 
@@ -107,7 +105,7 @@ class ApiFileHelper
             $deactivateAvatar = ApiConfigHelper::getConfigByItemKey(ContentConfig::DEACTIVATE_AVATAR);
             $fileArr['sendAvatar'] = $deactivateAvatar;
         }
-        $fileArr['sendTime'] = $messageInfo['created_at'];
+        $fileArr['sendTime'] = DateHelper::fresnsFormatDateTime($messageInfo['created_at']);
 
         return $fileArr;
     }
@@ -119,10 +117,10 @@ class ApiFileHelper
             $files = [];
             foreach ($fileInfo as $file) {
                 $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink([
-                    'fid' =>  $file->fid,
+                    "fid" =>  $file->fid,
                 ]);
 
-                if ($fresnsResp->isErrorResponse()) {
+                if ($fresnsResp->isErrorResponse()){
                     return [];
                 }
 
@@ -173,10 +171,10 @@ class ApiFileHelper
     public static function getImageSignUrlByFileId($fileId)
     {
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink([
-            'fileId' =>  $fileId,
+            "fileId" =>  $fileId,
         ]);
 
-        if ($fresnsResp->isErrorResponse()) {
+        if ($fresnsResp->isErrorResponse()){
             return $singUrl = null;
         }
 
@@ -240,7 +238,7 @@ class ApiFileHelper
                             // code + message + data
                             return $fresnsResp->errorResponse();
                         }
-                        $fresnsResp = $fresnsResp->getData();
+                        $fresnsResp =  $fresnsResp->getData();
                         $m['audioUrl'] = $fresnsResp['audioUrl'] ?? '';
                     }
                     // Document
@@ -273,6 +271,7 @@ class ApiFileHelper
                         $input['fid'] = $fid;
                         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink($input);
                         if ($fresnsResp->isErrorResponse()) {
+
                             return $fresnsResp->errorResponse();
                         }
                         $fresnsResp = $fresnsResp->getData();
