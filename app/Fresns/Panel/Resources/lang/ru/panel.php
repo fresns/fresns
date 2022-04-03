@@ -168,6 +168,7 @@ return [
     'button_add_key' => 'Добавить ключ',
     'button_reset_secret' => 'Сброс секрета',
     'button_linked_theme' => 'Связанная тема',
+    'button_clear_cache' => 'очистить кэш',
     // Page table
     'table_order' => 'Заказ',
     'table_number' => 'Количество',

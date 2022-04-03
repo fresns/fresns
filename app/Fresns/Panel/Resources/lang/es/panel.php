@@ -168,6 +168,7 @@ return [
     'button_add_key' => 'Agregar clave',
     'button_reset_secret' => 'Reinicio secreto',
     'button_linked_theme' => 'Tema vinculado',
+    'button_clear_cache' => 'borrar el caché',
     // Page table
     'table_order' => 'Pedido',
     'table_number' => 'Número',

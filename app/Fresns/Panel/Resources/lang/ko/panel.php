@@ -168,6 +168,7 @@ return [
     'button_add_key' => '키를 추가하십시오',
     'button_reset_secret' => '재설정 비밀',
     'button_linked_theme' => '연결된 테마',
+    'button_clear_cache' => '캐시 지우기',
     // Page table
     'table_order' => '주문하다',
     'table_number' => '숫자',

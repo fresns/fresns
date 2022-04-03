@@ -168,6 +168,7 @@ return [
     'button_add_key' => 'キーを追加してください',
     'button_reset_secret' => 'シークレットをリセットします',
     'button_linked_theme' => 'リンクされたテーマ',
+    'button_clear_cache' => 'クリアキャッシュ',
     // Page table
     'table_order' => '注文',
     'table_number' => '番号',

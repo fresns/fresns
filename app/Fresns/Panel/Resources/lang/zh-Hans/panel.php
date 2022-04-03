@@ -168,6 +168,7 @@ return [
     'button_add_key' => '新增密钥',
     'button_reset_secret' => '重置 Secret',
     'button_linked_theme' => '关联主题',
+    'button_clear_cache' => '清空缓存',
     // Page table
     'table_order' => '显示顺序',
     'table_number' => '编号',
