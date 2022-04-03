@@ -18,19 +18,19 @@ class User extends Model
     use HasFactory;
     use Traits\UserServiceTrait;
 
-    public function roles()
-    {
-        return $this->hasMany(UserRole::class, 'user_id', 'id');
-    }
-
     public function stat()
     {
         return $this->hasOne(UserStat::class, 'user_id', 'id');
     }
 
-    public function icon()
+    public function roles()
     {
-        return $this->hasOne(UserIcon::class, 'user_id', 'id');
+        return $this->hasMany(UserRole::class, 'user_id', 'id');
+    }
+
+    public function icons()
+    {
+        return $this->hasMany(UserIcon::class, 'user_id', 'id');
     }
 
     public function postLogs()
