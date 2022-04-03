@@ -38,7 +38,7 @@ class ConfigHelper
             }
         }
 
-        return $itemData->item_value;
+        return $itemData->item_value ?? null;
     }
 
     /**
@@ -113,7 +113,7 @@ class ConfigHelper
                 'fileId' => $configValue,
             ]);
 
-            $key = match ($type) {
+            $key = match($fresnsResp->getData('type')) {
                 default => throw new \RuntimeException(),
                 File::TYPE_IMAGE => 'imageConfig',
                 File::TYPE_IMAGE => 'video',

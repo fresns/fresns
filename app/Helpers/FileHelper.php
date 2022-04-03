@@ -96,6 +96,6 @@ class FileHelper
             'fileId' => $fileId,
         ]);
 
-        return $fresnsResponse->getData($urlType);
+        return $fresnsResponse->getData($urlType) ?? null;
     }
 }
