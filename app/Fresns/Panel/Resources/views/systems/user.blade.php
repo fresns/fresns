@@ -127,8 +127,9 @@
             <div class="col-lg-6">
                 <div class="input-group">
                     <label class="input-group-text">{{ __('FsLang::panel.user_default_avatar') }}</label>
+                    <!--Options-->
                     <button class="btn btn-outline-secondary dropdown-toggle showSelectTypeName" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        @if ($params['default_avatar'])
+                        @if ($configImageInfo['defaultAvatarType'] == 'ID')
                             {{ __('FsLang::panel.button_image_upload') }}
                         @else
                             {{ __('FsLang::panel.button_image_input') }}
@@ -138,9 +139,16 @@
                         <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                     </ul>
-                    <input type="file" class="form-control inputFile" name="default_avatar_file" @if ($params['default_avatar']) style="display:none;" @endif>
-                    <input type="url" class="form-control inputUrl" name="default_avatar" value="{{ $params['default_avatar'] }}" @if (!$params['default_avatar']) style="display:none;" @endif>
-                    <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
+                    <!--Input-->
+                    <input type="file" class="form-control inputFile" name="default_avatar_file" @if ($configImageInfo['defaultAvatarType'] == 'URL') style="display:none;" @endif>
+                    <input type="url" class="form-control inputUrl" name="default_avatar_url" @if ($configImageInfo['defaultAvatarType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['defaultAvatarType'] == 'URL') value="{{ $params['default_avatar'] }}" @endif>
+                    <!--Hidden item-->
+                    <input type="hidden" class="default_avatar" value="{{ $params['default_avatar'] }}">
+                    <!--Preview-->
+                    @if ($params['default_avatar'])
+                        <input type="hidden" class="imageUrl" value="{{ $configImageInfo['defaultAvatarUrl'] }}">
+                        <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
+                    @endif
                 </div>
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.user_default_avatar_desc') }}</div>
@@ -150,8 +158,9 @@
             <div class="col-lg-6">
                 <div class="input-group">
                     <label class="input-group-text">{{ __('FsLang::panel.user_default_anonymous_avatar') }}</label>
+                    <!--Options-->
                     <button class="btn btn-outline-secondary dropdown-toggle showSelectTypeName" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        @if ($params['anonymous_avatar'])
+                        @if ($configImageInfo['anonymousAvatarType'] == 'ID')
                             {{ __('FsLang::panel.button_image_upload') }}
                         @else
                             {{ __('FsLang::panel.button_image_input') }}
@@ -161,9 +170,16 @@
                         <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                     </ul>
-                    <input type="file" class="form-control inputFile" name="default_avatar_file" @if ($params['anonymous_avatar']) style="display:none;" @endif>
-                    <input type="url" class="form-control inputUrl" name="anonymous_avatar" value="{{ $params['anonymous_avatar'] }}" @if (!$params['anonymous_avatar']) style="display:none;" @endif>
-                    <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
+                    <!--Input-->
+                    <input type="file" class="form-control inputFile" name="anonymous_avatar_file" @if ($configImageInfo['anonymousAvatarType'] == 'URL') style="display:none;" @endif>
+                    <input type="url" class="form-control inputUrl" name="anonymous_avatar_url" @if ($configImageInfo['anonymousAvatarType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['anonymousAvatarType'] == 'URL') value="{{ $params['anonymous_avatar'] }}" @endif>
+                    <!--Hidden item-->
+                    <input type="hidden" class="anonymous_avatar" value="{{ $params['anonymous_avatar'] }}">
+                    <!--Preview-->
+                    @if ($params['anonymous_avatar'])
+                        <input type="hidden" class="imageUrl" value="{{ $configImageInfo['anonymousAvatarUrl'] }}">
+                        <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
+                    @endif
                 </div>
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.user_default_anonymous_avatar_desc') }}</div>
@@ -173,8 +189,9 @@
             <div class="col-lg-6">
                 <div class="input-group">
                     <label class="input-group-text">{{ __('FsLang::panel.user_default_deactivate_avatar') }}</label>
+                    <!--Options-->
                     <button class="btn btn-outline-secondary dropdown-toggle showSelectTypeName" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        @if ($params['deactivate_avatar'])
+                        @if ($configImageInfo['deactivateAvatarType'] == 'ID')
                             {{ __('FsLang::panel.button_image_upload') }}
                         @else
                             {{ __('FsLang::panel.button_image_input') }}
@@ -184,9 +201,16 @@
                         <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                     </ul>
-                    <input type="file" class="form-control inputFile" name="default_avatar_file" @if ($params['deactivate_avatar']) style="display:none;" @endif>
-                    <input type="url" class="form-control inputUrl" name="deactivate_avatar" value="{{ $params['deactivate_avatar'] }}" @if (!$params['deactivate_avatar']) style="display:none;" @endif>
-                    <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
+                    <!--Input-->
+                    <input type="file" class="form-control inputFile" name="deactivate_avatar_file" @if ($configImageInfo['deactivateAvatarType'] == 'URL') style="display:none;" @endif>
+                    <input type="url" class="form-control inputUrl" name="deactivate_avatar_url" @if ($configImageInfo['deactivateAvatarType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['deactivateAvatarType'] == 'URL') value="{{ $params['deactivate_avatar'] }}" @endif>
+                    <!--Hidden item-->
+                    <input type="hidden" class="deactivate_avatar" value="{{ $params['deactivate_avatar'] }}">
+                    <!--Preview-->
+                    @if ($params['deactivate_avatar'])
+                        <input type="hidden" class="imageUrl" value="{{ $configImageInfo['deactivateAvatarUrl'] }}">
+                        <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
+                    @endif
                 </div>
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.user_default_deactivate_avatar_desc') }}</div>

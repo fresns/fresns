@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Helpers\ConfigHelper;
 use App\Models\Config;
 use App\Models\Plugin;
 use Illuminate\Http\Request;
@@ -343,7 +344,17 @@ class StorageController extends Controller
             $params[$config->item_key] = $config->item_value;
         }
 
-        return view('FsView::systems.storage-substitution', compact('params'));
+        $configImageInfo['imageConfigUrl'] = ConfigHelper::fresnsConfigFileUrlByItemKey('substitution_image');
+        $configImageInfo['imageConfigType'] = ConfigHelper::fresnsConfigFileValueTypeByItemKey('substitution_image');
+        $configImageInfo['videoConfigUrl'] = ConfigHelper::fresnsConfigFileUrlByItemKey('substitution_video');
+        $configImageInfo['videoConfigType'] = ConfigHelper::fresnsConfigFileValueTypeByItemKey('substitution_video');
+        $configImageInfo['audioConfigUrl'] = ConfigHelper::fresnsConfigFileUrlByItemKey('substitution_audio');
+        $configImageInfo['audioConfigType'] = ConfigHelper::fresnsConfigFileValueTypeByItemKey('substitution_audio');
+        $configImageInfo['documentConfigUrl'] = ConfigHelper::fresnsConfigFileUrlByItemKey('substitution_document');
+        $configImageInfo['documentConfigType'] = ConfigHelper::fresnsConfigFileValueTypeByItemKey('substitution_document');
+        $configImageInfo[] = $configImageInfo;
+
+        return view('FsView::systems.storage-substitution', compact('params', 'configImageInfo'));
     }
 
     public function substitutionUpdate(Request $request)

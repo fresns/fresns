@@ -34,7 +34,12 @@
                 @foreach ($groups as $group)
                     <tr>
                         <td><input type="number" data-action="{{ route('panel.stickers.rank', $group->id) }}" class="form-control input-number rank-num" value="{{ $group->rank_num }}"></td>
-                        <td><img src="{{ $group->image_file_url }}" width="24" height="24"> {{ $group->getLangName($defaultLanguage) }}</td>
+                        <td>
+                            @if ($group->image_file_url)
+                                <img src="{{ $group->image_file_url }}" width="24" height="24">
+                            @endif
+                            {{ $group->getLangName($defaultLanguage) }}
+                        </td>
                         <td>{{ $group->stickers->count() }}</td>
                         <td>
                             @if ($group->is_enable)

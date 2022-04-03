@@ -69,11 +69,13 @@ class GeneralController extends Controller
             return in_array('join', $plugin->scene);
         });
 
-        $imageUrl['site_icon'] = ConfigHelper::fresnsConfigFileUrlByItemKey('site_icon');
-        $imageUrl['site_logo'] = ConfigHelper::fresnsConfigFileUrlByItemKey('site_logo');
-        $imageUrl[] = $imageUrl;
+        $configImageInfo['iconUrl'] = ConfigHelper::fresnsConfigFileUrlByItemKey('site_icon');
+        $configImageInfo['iconType'] = ConfigHelper::fresnsConfigFileValueTypeByItemKey('site_icon');
+        $configImageInfo['logoUrl'] = ConfigHelper::fresnsConfigFileUrlByItemKey('site_logo');
+        $configImageInfo['logoType'] = ConfigHelper::fresnsConfigFileValueTypeByItemKey('site_logo');
+        $configImageInfo[] = $configImageInfo;
 
-        return view('FsView::systems.general', compact('params', 'imageUrl', 'langParams', 'defaultLangParams', 'registerPlugins', 'joinPlugins'));
+        return view('FsView::systems.general', compact('params', 'configImageInfo', 'langParams', 'defaultLangParams', 'registerPlugins', 'joinPlugins'));
     }
 
     public function update(UpdateGeneralRequest $request)

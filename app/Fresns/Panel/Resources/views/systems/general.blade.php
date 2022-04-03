@@ -48,8 +48,9 @@
             <div class="col-lg-6">
                 <div class="input-group mb-1">
                     <label class="input-group-text font-monospace" for="ICON">ICON</label>
+                    <!--Options-->
                     <button class="btn btn-outline-secondary dropdown-toggle showSelectTypeName" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        @if ($params['site_icon'])
+                        @if ($configImageInfo['iconType'] == 'ID')
                             {{ __('FsLang::panel.button_image_upload') }}
                         @else
                             {{ __('FsLang::panel.button_image_input') }}
@@ -59,15 +60,22 @@
                         <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                     </ul>
-                    <input type="file" class="form-control inputFile" name="site_icon_file" @if ($params['site_icon']) style="display:none;" @endif>
-                    <input type="url" class="form-control inputUrl" name="site_icon" value="{{ $params['site_icon'] }}" @if (!$params['site_icon']) style="display:none;" @endif>
-                    <input type="hidden" class="imageUrl" value="{{ $imageUrl['site_icon'] }}">
-                    <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
+                    <!--Input-->
+                    <input type="file" class="form-control inputFile" name="site_icon_file" @if ($configImageInfo['iconType'] == 'URL') style="display:none;" @endif>
+                    <input type="url" class="form-control inputUrl" name="site_icon_url" @if ($configImageInfo['iconType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['iconType'] == 'URL') value="{{ $params['site_icon'] }}" @endif>
+                    <!--Hidden item-->
+                    <input type="hidden" class="site_icon" value="{{ $params['site_icon'] }}">
+                    <!--Preview-->
+                    @if ($params['site_icon'])
+                        <input type="hidden" class="imageUrl" value="{{ $configImageInfo['iconUrl'] }}">
+                        <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
+                    @endif
                 </div>
                 <div class="input-group">
                     <label class="input-group-text font-monospace" for="LOGO">LOGO</label>
+                    <!--Options-->
                     <button class="btn btn-outline-secondary dropdown-toggle showSelectTypeName" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        @if ($params['site_logo'])
+                        @if ($configImageInfo['logoType'] == 'ID')
                             {{ __('FsLang::panel.button_image_upload') }}
                         @else
                             {{ __('FsLang::panel.button_image_input') }}
@@ -77,10 +85,16 @@
                         <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                     </ul>
-                    <input type="file" class="form-control inputFile" name="site_logo_file" @if ($params['site_logo']) style="display:none;" @endif>
-                    <input type="url" class="form-control inputUrl" name="site_logo" value="{{ $params['site_logo'] }}" @if (!$params['site_logo']) style="display:none;" @endif>
-                    <input type="hidden" class="imageUrl" value="{{ $imageUrl['site_logo'] }}">
-                    <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
+                    <!--Input-->
+                    <input type="file" class="form-control inputFile" name="site_logo_file" @if ($configImageInfo['logoType'] == 'URL') style="display:none;" @endif>
+                    <input type="url" class="form-control inputUrl" name="site_logo_url" @if ($configImageInfo['logoType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['logoType'] == 'URL') value="{{ $params['site_logo'] }}" @endif>
+                    <!--Hidden item-->
+                    <input type="hidden" class="site_logo" value="{{ $params['site_logo'] }}">
+                    <!--Preview-->
+                    @if ($params['site_logo'])
+                        <input type="hidden" class="imageUrl" value="{{ $configImageInfo['logoUrl'] }}">
+                        <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
+                    @endif
                 </div>
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.site_logo_desc') }}</div>

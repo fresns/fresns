@@ -40,7 +40,12 @@
                     <tr>
                         <td><input type="number" name="rank_num" class="form-control input-number rank-num" data-action="{{ route('panel.plugin-usages.rank.update', $item) }}" value="{{ $item['rank_num'] }}"></td>
                         <td>{{ optional($item->plugin)->name }}</td>
-                        <td><img src=" {{ asset('static/images/placeholder_icon.png') }} " width="24" height="24">{{ $item->name }}</td>
+                        <td>
+                            @if ($item->icon_file_url)
+                                <img src="{{ $item->icon_file_url }}" width="24" height="24">
+                            @endif
+                            {{ $item->name }}
+                        </td>
                         <td>{{ $mapServices[$item->parameter]['name'] ?? '' }}</td>
                         <td>{{ $maps['map_' . $item->parameter]['appId'] ?? '' }}</td>
                         <td>{{ $maps['map_' . $item->parameter]['appKey'] ?? '' }}</td>

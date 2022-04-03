@@ -9,6 +9,7 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Fresns\Panel\Http\Requests\UpdateUserConfigRequest;
+use App\Helpers\ConfigHelper;
 use App\Models\Config;
 use App\Models\Plugin;
 use App\Models\Role;
@@ -63,9 +64,17 @@ class UserController extends Controller
             });
         }
 
+        $configImageInfo['defaultAvatarUrl'] = ConfigHelper::fresnsConfigFileUrlByItemKey('default_avatar');
+        $configImageInfo['defaultAvatarType'] = ConfigHelper::fresnsConfigFileValueTypeByItemKey('default_avatar');
+        $configImageInfo['anonymousAvatarUrl'] = ConfigHelper::fresnsConfigFileUrlByItemKey('anonymous_avatar');
+        $configImageInfo['anonymousAvatarType'] = ConfigHelper::fresnsConfigFileValueTypeByItemKey('anonymous_avatar');
+        $configImageInfo['deactivateAvatarUrl'] = ConfigHelper::fresnsConfigFileUrlByItemKey('deactivate_avatar');
+        $configImageInfo['deactivateAvatarType'] = ConfigHelper::fresnsConfigFileValueTypeByItemKey('deactivate_avatar');
+        $configImageInfo[] = $configImageInfo;
+
         $roles = Role::all();
 
-        return view('FsView::systems.user', compact('params', 'pluginParams', 'roles'));
+        return view('FsView::systems.user', compact('params', 'pluginParams', 'configImageInfo', 'roles'));
     }
 
     public function update(UpdateUserConfigRequest $request)
