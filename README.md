@@ -25,6 +25,7 @@ Fresns is a free and open source social network service software, a general-purp
 | [PhpZip](https://github.com/Ne-Lexa/php-zip) | 4.0 | ZIP archives php library |
 | [Bootstrap](https://getbootstrap.com/) | 5.1 | Internal Front-end Framework |
 | [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.8 | Internal Icon Font Library |
+| [Alpine JS](https://github.com/alpinejs/alpine) | 3.9 | Internal JS Framework |
 | [jQuery](https://github.com/jquery/jquery) | 3.6 | Internal JS Framework |
 | [Select2](https://github.com/select2/select2) | 4.1 | Internal Select2 Boxes |
 | [Base64 JS](https://github.com/dankogai/js-base64) | 3.7 | Internal Base64 Transcoder |

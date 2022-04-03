@@ -174,7 +174,7 @@ $(document).ready(function () {
 
     // preview image
     $('.preview-image').click(function () {
-        let url = $(this).siblings('.inputUrl').val();
+        let url = $(this).siblings('.imageUrl').val();
         $('#imageZoom').find('img').attr('src', url);
         $('#imageZoom').modal('show');
     });

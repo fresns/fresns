@@ -383,14 +383,12 @@ class InstallController extends Controller
 
     protected function generateAdmininfo(array $data)
     {
-        // @see https://fresns.cn/extensions/command-word/main.html#%E6%B7%BB%E5%8A%A0%E8%B4%A6%E5%8F%B7
         $accountFresnsResponse = \FresnsCmdWord::plugin('Fresns')->addAccount([
             'type' => 1,
             'account' => $data['admin_info']['email'],
             'password' => $data['admin_info']['password'],
         ]);
 
-        // // @see https://fresns.cn/extensions/command-word/main.html#%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7
         \FresnsCmdWord::plugin('Fresns')->addUser([
             'aid' => $aid = $accountFresnsResponse->getData('aid'),
             'nickname' => 'Admin',
