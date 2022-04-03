@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Install\Providers;
 
 use Illuminate\Support\ServiceProvider;
@@ -32,7 +38,7 @@ class InstallServiceProvider extends ServiceProvider
 
     public function registerInstallAppKey()
     {
-        if (!file_exists(base_path('.env'))) {
+        if (! file_exists(base_path('.env'))) {
             $appKey = \Illuminate\Encryption\Encrypter::generateKey(config('app.cipher'));
             $appKey = sprintf('base64:%s', base64_encode($appKey));
             file_put_contents(base_path('.env'), $appKey);
@@ -67,7 +73,7 @@ class InstallServiceProvider extends ServiceProvider
         $sourcePath = __DIR__.'/../Resources/views';
 
         $this->publishes([
-            $sourcePath => $viewPath
+            $sourcePath => $viewPath,
         ], ['views', 'install-plugin-views']);
 
         $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), 'Install');
@@ -103,10 +109,11 @@ class InstallServiceProvider extends ServiceProvider
     {
         $paths = [];
         foreach (config('view.paths') as $path) {
-            if (is_dir($path . '/plugins/install')) {
-                $paths[] = $path . '/plugins/install';
+            if (is_dir($path.'/plugins/install')) {
+                $paths[] = $path.'/plugins/install';
             }
         }
+
         return $paths;
     }
 }

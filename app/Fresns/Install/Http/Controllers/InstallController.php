@@ -1,12 +1,18 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Fresns\Install\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Config;
+use Composer\Composer;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cache;
-use Composer\Composer;
 
 class InstallController extends Controller
 {
@@ -45,7 +51,6 @@ class InstallController extends Controller
             'admin_info.password' => 'required_if:step,5|confirmed',
         ]);
 
-
         $step = (int) \request()->input('step');
 
         $data = \request()->all();
@@ -71,7 +76,7 @@ class InstallController extends Controller
                     $checkResult = true;
                 }
 
-                if (!$checkResult) {
+                if (! $checkResult) {
                     return \response()->json([
                         'step' => $step,
                         'code' => 500,
@@ -82,7 +87,6 @@ class InstallController extends Controller
                 break;
             case 4:
                 try {
-
                     $dbConfig = config('database');
                     $mysqlDB = [
                         'host' => \request()->input('database.DB_HOST'),
@@ -102,14 +106,14 @@ class InstallController extends Controller
                     return \response()->json([
                         'step' => $step,
                         'code' => 500,
-                        'message' => __('Install::install.database_config_invalid') . $exception->getMessage(),
+                        'message' => __('Install::install.database_config_invalid').$exception->getMessage(),
                         'data' => [],
                     ]);
                 }
                 break;
             case 5:
                 break;
-        };
+        }
 
         $cacheKey = "install_{$step}";
         $prevStep = $step - 1;
@@ -163,17 +167,16 @@ class InstallController extends Controller
 
         $isComposerVersion2 = $this->checkComposerVersion();
 
-
         $isHttps = \request()->getScheme() === 'https';
 
         $dirPermissions = $this->getDirPermission();
-        $dirPermissionsCheckResult = !in_array(false, array_column($dirPermissions, 'writable'));
+        $dirPermissionsCheckResult = ! in_array(false, array_column($dirPermissions, 'writable'));
 
         $extensionsChecks = $this->extensionCheck();
-        $extensionsChecksResult = !in_array(false, array_column($extensionsChecks, 'loaded'));
+        $extensionsChecksResult = ! in_array(false, array_column($extensionsChecks, 'loaded'));
 
         $functionsCheck = $this->functionCheck();
-        $functionsCheckResult = !in_array(false, array_column($functionsCheck, 'function_exists'));
+        $functionsCheckResult = ! in_array(false, array_column($functionsCheck, 'function_exists'));
 
         $data = [
             [
@@ -315,7 +318,7 @@ class InstallController extends Controller
     protected function writeEnvironment(array $data)
     {
         // Get the config file template
-        $envExamplePath = __DIR__ . '/../../.env.template';
+        $envExamplePath = __DIR__.'/../../.env.template';
         $envPath = base_path('.env');
 
         $envTemp = file_get_contents($envExamplePath);
@@ -337,7 +340,7 @@ class InstallController extends Controller
         $template['SESSION_DOMAIN'] = \request()->getHttpHost();
 
         foreach ($template as $key => $value) {
-            $envTemp = str_replace('{' . $key . '}', $value, $envTemp);
+            $envTemp = str_replace('{'.$key.'}', $value, $envTemp);
         }
 
         // Write config
