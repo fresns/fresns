@@ -9,17 +9,19 @@
 namespace App\Fresns\Panel\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Cookie;
 
 class ChangeLocale
 {
     public function handle($request, Closure $next)
     {
-        if ($currentLang = \request()->input('lang')) {
-            \Cookie::queue('lang', $currentLang);
+        if ($request->lang) {
+            Cookie::queue('lang', $request->lang);
+
+            return back()->withInput($request->except('lang'));
         }
 
-        \App::setLocale($locale = \Cookie::get('lang', 'zh-Hans'));
-        \View::share('locale', $locale);
+        \App::setLocale(Cookie::get('lang', 'zh-Hans'));
 
         return $next($request);
     }

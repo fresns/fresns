@@ -6,13 +6,23 @@
 
 @section('content')
     <!--Dashboard-->
-    <h1 class="fs-3 fw-normal">{{ __('FsLang::panel.welcome') }}</h1>
-    <p class="text-secondary pb-4">
-        {{ __('FsLang::panel.current_version') }} v{{$currentVersion['version'] ?? ''}}
-        @if (($currentVersion['versionInt'] ?? 0) < ($version['versionInt'] ?? 0))
-            <a href="{{ route('panel.upgrades') }}" class="badge rounded-pill bg-danger ms-2 text-decoration-none">{{ __('FsLang::panel.new_version') }}</a>
-        @endif
-    </p>
+    <div class="row mb-4 ">
+        <div class="col-lg-7">
+            <h1 class="fs-3 fw-normal">{{ __('FsLang::panel.welcome') }}</h1>
+            <p class="text-secondary">
+                {{ __('FsLang::panel.current_version') }} v{{$currentVersion['version'] ?? ''}}
+                @if (($currentVersion['versionInt'] ?? 0) < ($version['versionInt'] ?? 0))
+                    <a href="{{ route('panel.upgrades') }}" class="badge rounded-pill bg-danger ms-2 text-decoration-none">{{ __('FsLang::panel.new_version') }}</a>
+                @endif
+            </p>
+        </div>
+        <div class="col-lg-5">
+            <div class="input-group mt-2 mb-4 justify-content-lg-end">
+                <a class="btn btn-outline-success" href="{{ route('panel.cache.clear') }}" role="button">{{ __('FsLang::panel.button_clear_cache') }}</a>
+            </div>
+        </div>
+    </div>
+    <!--Dashboard data-->
     <div class="row mb-3">
         <div class="col-md mb-4 pe-lg-5">
             <h3 class="h6">{{ __('FsLang::panel.overview') }}</h3>
@@ -76,22 +86,22 @@
             <h3 class="h6">{{ __('FsLang::panel.support') }}</h3>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://fresns.cn" target="_blank">{{ __('FsLang::panel.support_website') }}</a>
+                    <a class="fresns-link" href="https://fresns.org" target="_blank">{{ __('FsLang::panel.support_website') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://fresns.cn/community/team.html" target="_blank">{{ __('FsLang::panel.support_teams') }}</a>
+                    <a class="fresns-link" href="https://fresns.org/community/team.html" target="_blank">{{ __('FsLang::panel.support_teams') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://fresns.cn/community/partners.html" target="_blank">{{ __('FsLang::panel.support_partners') }}</a>
+                    <a class="fresns-link" href="https://fresns.org/community/partners.html" target="_blank">{{ __('FsLang::panel.support_partners') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://fresns.cn/community/join.html" target="_blank">{{ __('FsLang::panel.support_join') }}</a>
+                    <a class="fresns-link" href="https://fresns.org/community/join.html" target="_blank">{{ __('FsLang::panel.support_join') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://discuss.fresns.cn" target="_blank">{{ __('FsLang::panel.support_community') }}</a>
+                    <a class="fresns-link" href="https://discuss.fresns.org" target="_blank">{{ __('FsLang::panel.support_community') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://market.fresns.cn" target="_blank">{{ __('FsLang::panel.support_market') }}</a>
+                    <a class="fresns-link" href="https://fresns.market" target="_blank">{{ __('FsLang::panel.support_market') }}</a>
                 </li>
             </ul>
         </div>
@@ -104,13 +114,13 @@
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_fresns_version') }}: <span>Fresns v{{$currentVersion['version'] ?? ''}}</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_server') }}: <span>Linux</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_web') }}: <span>nginx/1.21.4</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_php') }}: <span>v8.0.16</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_database') }}: <span>mysql/8.0.24</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_database_engine') }}: <span>InnoDB</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_database_collation') }}: <span>utf8mb4_0900_ai_ci</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_database_size') }}: <span>2 MB</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_server') }}: <span>-</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_web') }}: <span>-</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_php') }}: <span>-</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_database') }}: <span>-</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_database_engine') }}: <span>-</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_database_collation') }}: <span>-</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_database_size') }}: <span>-</span></li>
                     </ul>
                 </div>
             </div>

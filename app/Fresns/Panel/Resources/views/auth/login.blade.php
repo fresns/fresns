@@ -9,7 +9,7 @@
             <h4 class="mb-3 fw-normal">{{ __('FsLang::panel.language') }}</h4>
             <select class="form-select mb-5 change-lang" aria-label=".form-select-lg example">
                 @foreach ($langs as $code => $lang)
-                    <option value="{{ $code }}" @if ($code == $locale) selected @endif>{{ $lang }}</option>
+                    <option value="{{ $code }}" @if ($code == \App::getLocale()) selected @endif>{{ $lang }}</option>
                 @endforeach
             </select>
             <h4 class="mb-3 fw-normal">{{ __('FsLang::panel.login') }}</h4>

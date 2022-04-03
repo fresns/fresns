@@ -58,13 +58,13 @@
                         ]) ? 'active' : '' }}" href="{{ route('panel.menus.index') }}">{{ __('FsLang::panel.menu_clients') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ \Route::is([
                         'panel.iframe.market'
-                        ]) ? 'active' : '' }}" href="{{ route('panel.iframe.market', ['url' => 'https://app.fresns.cn']) }}">{{ __('FsLang::panel.menu_market') }}</a></li>
+                        ]) ? 'active' : '' }}" href="{{ route('panel.iframe.market', ['url' => 'https://fresns.market']) }}">{{ __('FsLang::panel.menu_market') }}</a></li>
                 </ul>
                 <div class="navbar-nav">
                     <!--lang-->
                     <div class="btn-group d-flex flex-column">
                         <button type="button" class="btn btn-outline-light btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-translate"></i> {{ $langs[$locale] ?? '' }}
+                            <i class="bi bi-translate"></i> {{ $langs[\App::getLocale()] ?? '' }}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
                             @foreach($langs as $code => $lang)
