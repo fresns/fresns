@@ -48,7 +48,7 @@ class FsApiController extends BaseApiController
 
     public function __construct()
     {
-        if (!app()->runningInConsole() && !app()->runningUnitTests()) {
+        if (! app()->runningInConsole() && ! app()->runningUnitTests()) {
             $this->checkRequest();
             $this->initData();
             GlobalService::loadData();
