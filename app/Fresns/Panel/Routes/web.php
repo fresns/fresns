@@ -89,6 +89,7 @@ Route::middleware(['panelAuth'])->group(function () {
 
     // dashboard-home
     Route::get('dashboard', [DashboardController::class, 'show'])->name('dashboard');
+    Route::any('cache/clear', [DashboardController::class, 'cacheClear'])->name('cache.clear');
     // dashboard-upgrades
     Route::get('upgrades', [UpgradeController::class, 'show'])->name('upgrades');
     Route::post('upgrade', [UpgradeController::class, 'upgrade'])->name('upgrade');
@@ -293,7 +294,7 @@ Route::middleware(['panelAuth'])->group(function () {
 });
 
 // FsLang
-Route::get('js/{locale}/translations', function ($locale) {
+Route::get('js/{locale?}/translations', function ($locale) {
     $langPath = app_path('Fresns/Panel/Resources/lang/'.$locale);
     $strings = Cache::rememberForever('translations.'.$locale, function () use ($langPath) {
         return collect(File::allFiles($langPath))->flatMap(function ($file) {

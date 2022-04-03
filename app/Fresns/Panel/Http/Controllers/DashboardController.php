@@ -12,6 +12,8 @@ use App\Models\Account;
 use App\Models\Config;
 use App\Models\Plugin;
 use App\Models\SessionKey;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
 
 class DashboardController extends Controller
 {
@@ -65,5 +67,15 @@ class DashboardController extends Controller
         $plugins = Plugin::all();
 
         return view('FsView::dashboard.index', compact('news', 'params', 'keyCount', 'adminCount', 'plugins', 'currentVersion', 'version'));
+    }
+
+    /**
+     * @return RedirectResponse
+     */
+    public function cacheClear(): RedirectResponse
+    {
+        Cache::clear();
+
+        return back()->with('success', 'ok');
     }
 }
