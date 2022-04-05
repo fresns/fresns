@@ -190,7 +190,7 @@ class InstallController extends Controller
         $extensionsCheckResult = ! in_array(false, array_column($extensionsCheck, 'loaded'));
 
         $functionsCheck = $this->functionCheck();
-        $functionsCheckResult = !in_array(true, array_column($functionsCheck, 'function_disabled'));
+        $functionsCheckResult = ! in_array(true, array_column($functionsCheck, 'function_disabled'));
 
         $data = [
             [
@@ -224,7 +224,7 @@ class InstallController extends Controller
                 'tips' => $dirPermissionsCheckResult ? __('Install::install.server_status_success') : __('Install::install.server_status_failure'),
                 'class' => $dirPermissionsCheckResult ? 'bg-success' : 'bg-danger',
                 'message' => $dirPermissionsCheckResult ? '' : sprintf('%s: %s', __('Install::install.server_status_not_writable'), implode(', ', array_column(array_filter($dirPermissions, function ($item) {
-                    return !$item['writable'];
+                    return ! $item['writable'];
                 }), 'dir'))),
             ],
             [
@@ -234,7 +234,7 @@ class InstallController extends Controller
                 'tips' => $extensionsCheckResult ? __('Install::install.server_status_success') : __('Install::install.server_status_failure'),
                 'class' => $extensionsCheckResult ? 'bg-success' : 'bg-danger',
                 'message' => $extensionsCheckResult ? '' : sprintf('%s: %s', __('Install::install.server_status_not_installed'), implode(', ', array_column(array_filter($extensionsCheck, function ($item) {
-                    return !$item['loaded'];
+                    return ! $item['loaded'];
                 }), 'extension'))),
             ],
             [
