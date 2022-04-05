@@ -146,8 +146,7 @@ class FresnsCommentsResource extends BaseAdminResource
         $user['roleNameDisplay'] = null;
         $user['roleIcon'] = null;
         $user['roleIconDisplay'] = null;
-        $user['avatar'] = ApiFileHelper::getUserAvatar($userInfo['uid']);
-
+        $user['avatar'] = ApiFileHelper::getUserAvatar($userInfo->uid) ?? null;
         $user['gender'] = 0;
         $user['bio'] = null;
         $user['location'] = null;
@@ -369,7 +368,7 @@ class FresnsCommentsResource extends BaseAdminResource
             $post['uid'] = $postUserInfo->uid ?? null;
             $post['username'] = $postUserInfo->username ?? null;
             $post['nickname'] = $postUserInfo->nickname ?? null;
-            $post['avatar'] = ApiFileHelper::getUserAvatar($postUserInfo['uid']);
+            $post['avatar'] = ApiFileHelper::getUserAvatar($postUserInfo->uid) ?? null;
         }
 
         // Comment Plugin Extensions
