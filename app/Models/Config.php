@@ -18,6 +18,8 @@ class Config extends Model
             $value = json_decode($value, true) ?: [];
         } elseif ($this->item_type == 'boolean') {
             $value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+        } elseif ($this->item_type == 'number') {
+            $value = intval($value);
         }
 
         return $value;
@@ -32,6 +34,11 @@ class Config extends Model
         if ($this->item_type == 'boolean') {
             $value = filter_var($value, FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
         }
+
+        if ($this->item_type == 'number') {
+            $value = intval($value);
+        }
+
         $this->attributes['item_value'] = $value;
     }
 

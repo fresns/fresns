@@ -33,8 +33,6 @@ class ConfigHelper
         } else {
             if ($itemData->is_multilingual == 1) {
                 return LanguageHelper::fresnsLanguageByTableKey($itemData->item_key, $langTag);
-            } elseif ($itemData->item_type == 'number') {
-                return intval($itemData->item_value);
             }
         }
 
