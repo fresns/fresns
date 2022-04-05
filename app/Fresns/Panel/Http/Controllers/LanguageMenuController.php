@@ -204,13 +204,13 @@ class LanguageMenuController extends Controller
 
         // Language tag changes can be made with the event
         if ($request->old_lang_tag != $langTag) {
-            $this->_updateDefaultLanguage($request->old_lang_tag, $langTag);
+            $this->updateAllLangTag($request->old_lang_tag, $langTag);
         }
 
         return $this->updateSuccess();
     }
 
-    protected function _updateDefaultLanguage(string $oldLangTag, string $langTag)
+    protected function updateAllLangTag(string $oldLangTag, string $langTag)
     {
         Language::where('lang_tag', $oldLangTag)->update(['lang_tag' => $langTag]);
         Seo::where('lang_tag', $oldLangTag)->update(['lang_tag' => $langTag]);

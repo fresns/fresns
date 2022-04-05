@@ -51,7 +51,7 @@ class IframeController extends Controller
     // Client iframe
     public function client(Request $request)
     {
-        $url = $this->addLangToUrl($request->url);
+        $url = $request->url;
 
         return view('FsView::iframe.client', compact('url'));
     }

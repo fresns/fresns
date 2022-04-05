@@ -22,7 +22,7 @@ class DashboardController extends Controller
         $news = \Cache::remember('news', 86400, function () {
             try {
                 $newUrl = config('FsConfig.news_url');
-                $client = new \GuzzleHttp\Client();
+                $client = new \GuzzleHttp\Client(['verify' => false]);
                 $response = $client->request('GET', $newUrl);
                 $news = json_decode($response->getBody(), true);
             } catch (\Exception $e) {

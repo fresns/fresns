@@ -4,7 +4,7 @@
     <main class="form-signin text-center">
         <form method="post" class="p-3" action="{{ route('panel.login') }}">
             @csrf
-            <img class="mt-3 mb-2" src="{{ @asset('/static/images/fresns-icon.png') }}" alt="Fresns" width="72" height="72">
+            <img class="mt-3 mb-2" src="{{ @asset('/static/images/icon.png') }}" alt="Fresns" width="72" height="72">
             <h2 class="mb-5">{{ __('FsLang::panel.fresns_panel') }}</h2>
             <h4 class="mb-3 fw-normal">{{ __('FsLang::panel.language') }}</h4>
             <select class="form-select mb-5 change-lang" aria-label=".form-select-lg example">
