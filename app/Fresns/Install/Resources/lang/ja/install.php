@@ -42,6 +42,8 @@ return [
     'server_status_success' => 'OK',
     'server_status_failure' => 'エラー',
     'server_status_warning' => '警告',
+    'server_status_not_writable' => '書き込み不可',
+    'server_status_not_installed' => '未搭載',
     'server_status_not_enabled' => '有効でない',
     // database
     'database_title' => 'データベース情報',
@@ -58,6 +60,7 @@ return [
     'database_port_desc' => 'デフォルトは3306',
     'database_table_prefix' => 'テーブル接頭辞',
     'database_table_prefix_desc' => 'ひとつのデータベースに複数の Fresns をインストールしたい場合、これを変えてください。',
+    'database_config_invalid' => 'データベース構成が無効',
     'database_import_log' => 'データインポートログ',
     // register
     'register_welcome' => 'Fresnsのインストール手順へようこそ! 以下の情報を入力するだけで、世界で最も拡張性が高く、クロスプラットフォームなソーシャルネットワークサービスソフトウェアを使用することができます。',

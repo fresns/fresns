@@ -42,6 +42,8 @@ return [
     'server_status_success' => 'ठीक',
     'server_status_failure' => 'त्रुटि',
     'server_status_warning' => 'चेतावनी',
+    'server_status_not_writable' => 'लिखा न जाए',
+    'server_status_not_installed' => 'स्थापित नहीं है',
     'server_status_not_enabled' => 'सक्षम नहीं',
     // database
     'database_title' => 'डेटाबेस सूचना',
@@ -58,6 +60,7 @@ return [
     'database_port_desc' => 'डिफ़ॉल्ट 3306 . है',
     'database_table_prefix' => 'तालिका उपसर्ग',
     'database_table_prefix_desc' => 'यदि आप एक एकल डाटाबेस में कई Fresns स्थापनाएँ(इन्स्टॉलेशन्स) चलाना चाहते हैं, तो इसे बदलें।',
+    'database_config_invalid' => 'डेटाबेस कॉन्फ़िगरेशन अमान्य',
     'database_import_log' => 'डेटा आयात लॉग',
     // register
     'register_welcome' => 'Fresns स्थापना प्रक्रिया में आपका स्वागत है! बस नीचे दी गई जानकारी भरें और आप दुनिया में सबसे अधिक विस्तार योग्य और क्रॉस-प्लेटफ़ॉर्म सोशल नेटवर्क सेवा सॉफ़्टवेयर का उपयोग करने के अपने रास्ते पर होंगे।',

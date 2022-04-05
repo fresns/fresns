@@ -42,6 +42,8 @@ return [
     'server_status_success' => 'ok',
     'server_status_failure' => 'Erreur',
     'server_status_warning' => 'Avertissement',
+    'server_status_not_writable' => 'Ne peut être écrit',
+    'server_status_not_installed' => 'Non installé',
     'server_status_not_enabled' => 'Non activé',
     // database
     'database_title' => 'Informations sur la base de données',
@@ -58,6 +60,7 @@ return [
     'database_port_desc' => 'Par défaut, 3306',
     'database_table_prefix' => 'Préfixe des tables',
     'database_table_prefix_desc' => 'Si vous souhaitez faire tourner plusieurs installations de Fresns sur une même base de données, modifiez ce réglage.',
+    'database_config_invalid' => 'Configuration de la base de données invalide',
     'database_import_log' => 'Journal d\'importation des données',
     // register
     'register_welcome' => 'Bienvenue dans le processus d\'installation de Fresns ! Remplissez simplement les informations ci-dessous et vous serez sur le chemin de l\'utilisation du logiciel de service de réseau social le plus extensible et multiplateforme au monde.',

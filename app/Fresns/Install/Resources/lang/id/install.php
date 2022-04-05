@@ -42,6 +42,8 @@ return [
     'server_status_success' => 'oke',
     'server_status_failure' => 'Kesalahan',
     'server_status_warning' => 'Peringatan',
+    'server_status_not_writable' => 'Tidak Dapat Ditulis',
+    'server_status_not_installed' => 'Tidak terpasang',
     'server_status_not_enabled' => 'Tidak diaktifkan',
     // database
     'database_title' => 'Informasi Basis Data',
@@ -58,6 +60,7 @@ return [
     'database_port_desc' => 'Standarnya adalah 3306',
     'database_table_prefix' => 'Prefiks Tabel',
     'database_table_prefix_desc' => 'Jika Anda ingin menjalankan beberapa instalasi Fresns di dalam satu basis data tunggal, ubahlah di sini.',
+    'database_config_invalid' => 'Konfigurasi Basis Data Tidak Valid',
     'database_import_log' => 'Log Impor Data',
     // register
     'register_welcome' => 'Selamat datang di proses instalasi Fresns! Cukup isi informasi di bawah ini dan Anda akan segera menggunakan perangkat lunak layanan jejaring sosial lintas platform dan paling dapat diperluas di dunia.',

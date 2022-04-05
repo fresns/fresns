@@ -42,6 +42,8 @@ return [
     'server_status_success' => '成功',
     'server_status_failure' => '失败',
     'server_status_warning' => '警告',
+    'server_status_not_writable' => '不可写',
+    'server_status_not_installed' => '未安装',
     'server_status_not_enabled' => '未启用',
     // database
     'database_title' => '填写数据库信息',
@@ -58,6 +60,7 @@ return [
     'database_port_desc' => '默认为 3306',
     'database_table_prefix' => '表前缀',
     'database_table_prefix_desc' => '如果您希望在同一个数据库安装多个 Fresns，请修改前缀。',
+    'database_config_invalid' => '数据库配置无效',
     'database_import_log' => '数据导入情况',
     // register
     'register_welcome' => '欢迎来到 Fresns 安装过程！只要填写下面的信息，你就可以开始使用灵活可扩展和跨平台的社交网络服务软件了。',

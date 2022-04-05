@@ -42,6 +42,8 @@ return [
     'server_status_success' => '좋아요',
     'server_status_failure' => '오류',
     'server_status_warning' => '경고',
+    'server_status_not_writable' => '쓸 수 없음',
+    'server_status_not_installed' => '설치되지 않음',
     'server_status_not_enabled' => '활성화되지 않음',
     // database
     'database_title' => '데이터베이스 정보',
@@ -58,6 +60,7 @@ return [
     'database_port_desc' => '기본값은 3306입니다.',
     'database_table_prefix' => '테이블 접두',
     'database_table_prefix_desc' => '여러 Fresns 설치를 단일 데이터베이스에서 실행하기 원한다면, 바꾸세요.',
+    'database_config_invalid' => '잘못된 데이터베이스 구성',
     'database_import_log' => '데이터 가져오기 로그',
     // register
     'register_welcome' => 'Fresns 설치 프로세스에 오신 것을 환영합니다! 아래 정보를 입력하기만 하면 세계에서 가장 확장 가능하고 플랫폼 간 소셜 네트워크 서비스 소프트웨어를 사용할 수 있습니다.',

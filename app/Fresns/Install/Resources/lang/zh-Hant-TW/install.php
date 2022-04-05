@@ -42,6 +42,8 @@ return [
     'server_status_success' => '成功',
     'server_status_failure' => '失敗',
     'server_status_warning' => '警告',
+    'server_status_not_writable' => '不可寫',
+    'server_status_not_installed' => '未安裝',
     'server_status_not_enabled' => '未啟用',
     // database
     'database_title' => '填寫資料庫信息',
@@ -58,7 +60,8 @@ return [
     'database_port_desc' => '默認為 3306',
     'database_table_prefix' => '資料表前置詞',
     'database_table_prefix_desc' => '	如需在同一個資料庫中安裝多個 Fresns，請修改這個欄位中的預設設定。',
-    'database_import_log' => '數據匯入情況',
+    'database_config_invalid' => '資料庫配置無效',
+    'database_import_log' => '資料匯入情況',
     // register
     'register_welcome' => '歡迎使用 Fresns 安裝程式！僅需填寫以下資訊，便能開始使用這個世界上最具擴充性、跨平台的社交網絡服務軟件了。',
     'register_title' => '安裝網站所需資訊',
