@@ -32,8 +32,8 @@ Fresns is a free and open source social network service software, a general-purp
 
 | Environment | Requirements |
 | --- | --- |
-| PHP Extensions | `fileinfo` `exif` |
-| PHP Functions | `putenv` `symlink` `readlink` `proc_open` `shell_exec` `exec` |
+| PHP Extensions | `fileinfo` `exif` `redis` |
+| PHP Functions | `putenv` `symlink` `readlink` `proc_open` |
 
 | Database | MySQL 8.x |
 | --- | --- |
