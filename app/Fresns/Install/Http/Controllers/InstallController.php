@@ -10,7 +10,6 @@ namespace App\Fresns\Install\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Config;
-use Composer\Composer;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cache;
 
@@ -24,8 +23,22 @@ class InstallController extends Controller
         $langs = config('install.langs');
 
         $basicCheckResult = [];
+        $basicCheckPass = false;
         if ($step === 3) {
             $basicCheckResult = $this->basicCheck();
+
+            // https skip check
+            $basicCheckPass = true;
+            foreach ($basicCheckResult as $item) {
+                if ($item['type'] === 'https') {
+                    continue;
+                }
+
+                if ($item['check_result'] === false) {
+                    $basicCheckPass = false;
+                    break;
+                }
+            }
         }
 
         $email = null;
@@ -37,6 +50,7 @@ class InstallController extends Controller
             'langs' => $langs,
             'step' => $step++,
             'basicCheckResult' => $basicCheckResult,
+            'basicCheckPass' => $basicCheckPass,
             'database' => [],
             'admin_info' => [],
             'email' => $email,
@@ -172,11 +186,11 @@ class InstallController extends Controller
         $dirPermissions = $this->getDirPermission();
         $dirPermissionsCheckResult = ! in_array(false, array_column($dirPermissions, 'writable'));
 
-        $extensionsChecks = $this->extensionCheck();
-        $extensionsChecksResult = ! in_array(false, array_column($extensionsChecks, 'loaded'));
+        $extensionsCheck = $this->extensionCheck();
+        $extensionsCheckResult = ! in_array(false, array_column($extensionsCheck, 'loaded'));
 
         $functionsCheck = $this->functionCheck();
-        $functionsCheckResult = ! in_array(false, array_column($functionsCheck, 'function_exists'));
+        $functionsCheckResult = !in_array(true, array_column($functionsCheck, 'function_disabled'));
 
         $data = [
             [
@@ -209,18 +223,18 @@ class InstallController extends Controller
                 'check_result' => $dirPermissionsCheckResult,
                 'tips' => $dirPermissionsCheckResult ? __('Install::install.server_status_success') : __('Install::install.server_status_failure'),
                 'class' => $dirPermissionsCheckResult ? 'bg-success' : 'bg-danger',
-                'message' => $dirPermissionsCheckResult ? '' : sprintf('%s: %s', __('Install::install.unwritable'), implode(',', array_column(array_filter($dirPermissions, function ($item) {
-                    return $item['writable'];
+                'message' => $dirPermissionsCheckResult ? '' : sprintf('%s: %s', __('Install::install.server_status_not_writable'), implode(', ', array_column(array_filter($dirPermissions, function ($item) {
+                    return !$item['writable'];
                 }), 'dir'))),
             ],
             [
                 'type' => 'extension',
                 'title' => __('Install::install.server_check_php_extensions'),
-                'check_result' => $extensionsChecksResult,
-                'tips' => $extensionsChecksResult ? __('Install::install.server_status_success') : __('Install::install.server_status_failure'),
-                'class' => $extensionsChecksResult ? 'bg-success' : 'bg-danger',
-                'message' => $extensionsChecksResult ? '' : sprintf('%s: %s', __('Install::install.unloaded'), implode(',', array_column(array_filter($extensionsChecks, function ($item) {
-                    return $item['loaded'];
+                'check_result' => $extensionsCheckResult,
+                'tips' => $extensionsCheckResult ? __('Install::install.server_status_success') : __('Install::install.server_status_failure'),
+                'class' => $extensionsCheckResult ? 'bg-success' : 'bg-danger',
+                'message' => $extensionsCheckResult ? '' : sprintf('%s: %s', __('Install::install.server_status_not_installed'), implode(', ', array_column(array_filter($extensionsCheck, function ($item) {
+                    return !$item['loaded'];
                 }), 'extension'))),
             ],
             [
@@ -230,7 +244,7 @@ class InstallController extends Controller
                 'tips' => $functionsCheckResult ? __('Install::install.server_status_success') : __('Install::install.server_status_failure'),
                 'class' => $functionsCheckResult ? 'bg-success' : 'bg-danger',
                 'message' => $functionsCheckResult ? '' : sprintf('%s: %s', __('Install::install.server_status_not_enabled'), implode(', ', array_column(array_filter($functionsCheck, function ($item) {
-                    return $item['function_exists'];
+                    return $item['function_disabled'];
                 }), 'function'))),
             ],
         ];
@@ -282,6 +296,7 @@ class InstallController extends Controller
         $extensions = [
             'fileinfo',
             'exif',
+            'redis',
         ];
 
         $extensionsCheckResult = [];
@@ -300,8 +315,6 @@ class InstallController extends Controller
             'symlink',
             'readlink',
             'proc_open',
-            'shell_exec',
-            'exec',
         ];
 
         $disableFunction = explode(',', ini_get('disable_functions'));
@@ -309,7 +322,7 @@ class InstallController extends Controller
         $functionsCheckResult = [];
         foreach ($functions as $item) {
             $functionsCheckResult[$item]['function'] = $item;
-            $functionsCheckResult[$item]['function_exists'] = in_array($item, $disableFunction);
+            $functionsCheckResult[$item]['function_disabled'] = in_array($item, $disableFunction);
         }
 
         return $functionsCheckResult;
@@ -410,8 +423,6 @@ class InstallController extends Controller
         $item = [
             'item_key' => 'install_datetime',
             'item_value' => $installTime,
-            'item_type' => 'string',
-            'item_tag' => 'system',
         ];
 
         Config::updateOrCreate([

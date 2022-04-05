@@ -158,7 +158,7 @@
 
         <!--step 3: check server-->
         <template x-if="step === 3">
-            <div class="card-body p-5" x-data="{ basicCheckResult: {{ Js::from($basicCheckResult) }} }">
+            <div class="card-body p-5" x-data="{ basicCheckResult: {{ Js::from($basicCheckResult) }}, basicCheckPass: @json($basicCheckPass) }">
                 <h3 class="card-title">@lang('Install::install.server_title')</h3>
                 <ul class="list-group list-group-flush my-4">
                     <template x-for="item in basicCheckResult">
@@ -173,9 +173,13 @@
                 </ul>
                 <div>
                     <!--Try Again-->
-                    <button type="button" class="btn btn-outline-info ms-3 visually-hidden" @click="() => window.location.reload()" id="envCheckRetryBtn">@lang('Install::install.btn_check')</button>
+                    <template x-if="basicCheckPass === false">
+                        <button type="button" class="btn btn-outline-info ms-3" @click="() => window.location.reload()" id="envCheckRetryBtn">@lang('Install::install.btn_check')</button>
+                    </template>
                     <!--Next Step-->
-                    <button type="button" class="btn btn-outline-primary ms-3" @click="next_step({step})" id="envCheckNextBtn">@lang('Install::install.btn_next')</button>
+                    <template x-if="basicCheckPass === true">
+                        <button type="button" class="btn btn-outline-primary ms-3" @click="next_step({step})" id="envCheckNextBtn">@lang('Install::install.btn_next')</button>
+                    </template>
                 </div>
             </div>
         </template>
