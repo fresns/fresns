@@ -59,8 +59,8 @@
                                     <a href="{{ route('panel.iframe.plugin', ['url' => $plugin->settings_path]) }}" class="btn btn-primary btn-sm">{{ __('FsLang::panel.button_setting') }}</a>
                                 @endif
                             @else
-                                <button type="button" data-action="{{ route('panel.plugin.update', ['plugin' => $plugin->id]) }}" data-enable="1" class="btn btn-outline-success btn-sm plugin-manage">{{ __('FsLang::panel.button_activate') }}</button>
-                                <button type="button" data-action="{{ route('panel.plugin.destroy', ['plugin' => $plugin->id]) }}" class="btn btn-link btn-sm ms-2 text-danger fresns-link uninstall-plugin">{{ __('FsLang::panel.button_uninstall') }}</button>
+                                <button type="button" data-action="{{ route('panel.plugin.update', ['plugin' => $plugin->id]) }}" data-enable="1"  data-unikey="{{$plugin->unikey}}" class="btn btn-outline-success btn-sm plugin-manage">{{ __('FsLang::panel.button_activate') }}</button>
+                                <button type="button" data-action="{{ route('panel.plugin.destroy', ['plugin' => $plugin->id]) }}"  data-unikey="{{$plugin->unikey}}" class="btn btn-link btn-sm ms-2 text-danger fresns-link uninstall-plugin">{{ __('FsLang::panel.button_uninstall') }}</button>
                             @endif
                         </td>
                     </tr>

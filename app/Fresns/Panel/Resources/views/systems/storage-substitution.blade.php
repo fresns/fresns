@@ -35,7 +35,7 @@
                         <input type="file" class="form-control inputFile" name="substitution_image_file" @if ($configImageInfo['imageConfigType'] == 'URL') style="display:none;" @endif>
                         <input type="url" class="form-control inputUrl" name="substitution_image_url" @if ($configImageInfo['imageConfigType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['imageConfigType'] == 'URL') value="{{ $params['substitution_image'] }}" @endif>
                         <!--Hidden item-->
-                        <input type="hidden" class="substitution_image" value="{{ $params['substitution_image'] }}">
+                        <input type="hidden" name="substitution_image" value="{{ $params['substitution_image'] }}">
                         <!--Preview-->
                         @if ($params['substitution_image'])
                             <input type="hidden" class="imageUrl" value="{{ $configImageInfo['imageConfigUrl'] }}">
@@ -64,7 +64,7 @@
                         <input type="file" class="form-control inputFile" name="substitution_video_file" @if ($configImageInfo['videoConfigType'] == 'URL') style="display:none;" @endif>
                         <input type="url" class="form-control inputUrl" name="substitution_video_url" @if ($configImageInfo['videoConfigType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['videoConfigType'] == 'URL') value="{{ $params['substitution_video'] }}" @endif>
                         <!--Hidden item-->
-                        <input type="hidden" class="substitution_video" value="{{ $params['substitution_video'] }}">
+                        <input type="hidden" name="substitution_video" value="{{ $params['substitution_video'] }}">
                         <!--Preview-->
                         @if ($params['substitution_video'])
                             <input type="hidden" class="imageUrl" value="{{ $configImageInfo['videoConfigUrl'] }}">
@@ -93,7 +93,7 @@
                         <input type="file" class="form-control inputFile" name="substitution_audio_file" @if ($configImageInfo['audioConfigType'] == 'URL') style="display:none;" @endif>
                         <input type="url" class="form-control inputUrl" name="substitution_audio_url" @if ($configImageInfo['audioConfigType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['audioConfigType'] == 'URL') value="{{ $params['substitution_audio'] }}" @endif>
                         <!--Hidden item-->
-                        <input type="hidden" class="substitution_audio" value="{{ $params['substitution_audio'] }}">
+                        <input type="hidden" name="substitution_audio" value="{{ $params['substitution_audio'] }}">
                         <!--Preview-->
                         @if ($params['substitution_audio'])
                             <input type="hidden" class="imageUrl" value="{{ $configImageInfo['audioConfigUrl'] }}">
@@ -122,7 +122,7 @@
                         <input type="file" class="form-control inputFile" name="substitution_document_file" @if ($configImageInfo['documentConfigType'] == 'URL') style="display:none;" @endif>
                         <input type="url" class="form-control inputUrl" name="substitution_document_url" @if ($configImageInfo['documentConfigType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['documentConfigType'] == 'URL') value="{{ $params['substitution_document'] }}" @endif>
                         <!--Hidden item-->
-                        <input type="hidden" class="substitution_document" value="{{ $params['substitution_document'] }}">
+                        <input type="hidden" name="substitution_document" value="{{ $params['substitution_document'] }}">
                         <!--Preview-->
                         @if ($params['substitution_document'])
                             <input type="hidden" class="imageUrl" value="{{ $configImageInfo['documentConfigUrl'] }}">

@@ -60,6 +60,6 @@ class Handler extends ExceptionHandler
             throw new \RuntimeException($e->validator->errors()->first());
         }
 
-        parent::report($e);
+        return parent::render($request, $e);
     }
 }

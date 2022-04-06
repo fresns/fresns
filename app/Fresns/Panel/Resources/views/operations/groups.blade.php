@@ -188,8 +188,8 @@
                                         <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                                     </ul>
-                                    <input type="file" class="form-control inputFile" name="cover_file_url_file">
-                                    <input type="url" class="form-control inputUrl" name="cover_file_url" style="display:none;">
+                                    <input type="file" class="form-control inputFile" name="cover_file">
+                                    <input type="url" class="form-control inputUrl" name="cover_url" style="display:none;">
                                 </div>
                             </div>
                         </div>
@@ -202,8 +202,8 @@
                                         <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                                     </ul>
-                                    <input type="file" class="form-control inputFile" name="banner_file_url_file">
-                                    <input type="url" class="form-control inputUrl" name="banner_file_url" style="display:none;">
+                                    <input type="file" class="form-control inputFile" name="banner_file">
+                                    <input type="url" class="form-control inputUrl" name="banner_url" style="display:none;">
                                 </div>
                             </div>
                         </div>
@@ -375,12 +375,12 @@
                             <div class="col-sm-9 col-md-10">
                                 <div class="input-group">
                                     <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="showIcon">{{ __('FsLang::panel.button_image_upload') }}</button>
-                                    <ul class="dropdown-menu infoli selectImageType">
+                                    <ul class="dropdown-menu selectImageType">
                                         <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                                     </ul>
-                                    <input type="file" class="form-control inputFile" name="file">
-                                    <input type="url" class="form-control inputUrl" name="cover_file_url" style="display:none;">
+                                    <input type="file" class="form-control inputFile" name="cover_file">
+                                    <input type="url" class="form-control inputUrl" name="cover_url" style="display:none;">
                                 </div>
                             </div>
                         </div>
@@ -389,12 +389,12 @@
                             <div class="col-sm-9 col-md-10">
                                 <div class="input-group">
                                     <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="showIcon">{{ __('FsLang::panel.button_image_upload') }}</button>
-                                    <ul class="dropdown-menu infoli selectImageType">
+                                    <ul class="dropdown-menu selectImageType">
                                         <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                                     </ul>
-                                    <input type="file" class="form-control inputFile" name="file">
-                                    <input type="url" class="form-control inputUrl" name="banner_file_url" style="display:none;">
+                                    <input type="file" class="form-control inputFile" name="banner_file">
+                                    <input type="url" class="form-control inputUrl" name="banner_url" style="display:none;">
                                 </div>
                             </div>
                         </div>

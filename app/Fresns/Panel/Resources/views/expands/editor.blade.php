@@ -139,8 +139,8 @@
                                         <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                                     </ul>
-                                    <input type="file" class="form-control inputFile" name="icon_file_url_file">
-                                    <input type="url" class="form-control inputUrl" name="icon_file_url" style="display:none;">
+                                    <input type="file" class="form-control inputFile" name="icon_file">
+                                    <input type="url" class="form-control inputUrl" name="icon_url" style="display:none;">
                                 </div>
                             </div>
                         </div>

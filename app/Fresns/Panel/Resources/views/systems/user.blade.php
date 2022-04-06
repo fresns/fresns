@@ -143,7 +143,7 @@
                     <input type="file" class="form-control inputFile" name="default_avatar_file" @if ($configImageInfo['defaultAvatarType'] == 'URL') style="display:none;" @endif>
                     <input type="url" class="form-control inputUrl" name="default_avatar_url" @if ($configImageInfo['defaultAvatarType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['defaultAvatarType'] == 'URL') value="{{ $params['default_avatar'] }}" @endif>
                     <!--Hidden item-->
-                    <input type="hidden" class="default_avatar" value="{{ $params['default_avatar'] }}">
+                    <input type="hidden" name="default_avatar" value="{{ $params['default_avatar'] }}">
                     <!--Preview-->
                     @if ($params['default_avatar'])
                         <input type="hidden" class="imageUrl" value="{{ $configImageInfo['defaultAvatarUrl'] }}">
@@ -174,7 +174,7 @@
                     <input type="file" class="form-control inputFile" name="anonymous_avatar_file" @if ($configImageInfo['anonymousAvatarType'] == 'URL') style="display:none;" @endif>
                     <input type="url" class="form-control inputUrl" name="anonymous_avatar_url" @if ($configImageInfo['anonymousAvatarType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['anonymousAvatarType'] == 'URL') value="{{ $params['anonymous_avatar'] }}" @endif>
                     <!--Hidden item-->
-                    <input type="hidden" class="anonymous_avatar" value="{{ $params['anonymous_avatar'] }}">
+                    <input type="hidden" name="anonymous_avatar" value="{{ $params['anonymous_avatar'] }}">
                     <!--Preview-->
                     @if ($params['anonymous_avatar'])
                         <input type="hidden" class="imageUrl" value="{{ $configImageInfo['anonymousAvatarUrl'] }}">
@@ -205,7 +205,7 @@
                     <input type="file" class="form-control inputFile" name="deactivate_avatar_file" @if ($configImageInfo['deactivateAvatarType'] == 'URL') style="display:none;" @endif>
                     <input type="url" class="form-control inputUrl" name="deactivate_avatar_url" @if ($configImageInfo['deactivateAvatarType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['deactivateAvatarType'] == 'URL') value="{{ $params['deactivate_avatar'] }}" @endif>
                     <!--Hidden item-->
-                    <input type="hidden" class="deactivate_avatar" value="{{ $params['deactivate_avatar'] }}">
+                    <input type="hidden" name="deactivate_avatar" value="{{ $params['deactivate_avatar'] }}">
                     <!--Preview-->
                     @if ($params['deactivate_avatar'])
                         <input type="hidden" class="imageUrl" value="{{ $configImageInfo['deactivateAvatarUrl'] }}">
