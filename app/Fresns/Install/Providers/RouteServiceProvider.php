@@ -41,7 +41,7 @@ class RouteServiceProvider extends ServiceProvider
         }
 
         $this->configureRateLimiting();
-        
+
         Route::middlewareGroup('cookie', [
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,

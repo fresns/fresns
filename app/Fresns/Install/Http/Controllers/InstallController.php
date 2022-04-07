@@ -164,10 +164,9 @@ class InstallController extends Controller
                 ]);
             }
 
-
             $result['email'] = Account::first()?->value('email');
 
-            if (!empty($result['email'])) {
+            if (! empty($result['email'])) {
                 $this->writeInstallTime();
             }
         }
@@ -424,7 +423,7 @@ class InstallController extends Controller
 
     protected function writeInstallTime()
     {
-        $installTime = \App\Helpers\DateHelper::fresnsSqlCurrentDateTime();;
+        $installTime = \App\Helpers\DateHelper::fresnsSqlCurrentDateTime();
 
         $item = [
             'item_key' => 'install_datetime',
