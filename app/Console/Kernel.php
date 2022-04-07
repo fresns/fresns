@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
         foreach ($cronArr as $cron)
         {
             $schedule->call(function () use ($cron) {
-                \FresnsCmdWord::plugin($cron['unikey'])->$cron['cmdWord']();
+                \FresnsCmdWord::plugin($cron['unikey'])->{$cron['cmdWord']}();
             })->cron($cron['taskPeriod']);
         }
     }
