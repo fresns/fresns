@@ -73,18 +73,20 @@ class Crontab
      */
     public function checkUserRoleExpired()
     {
-        $roleArr = UserRole::where('type', '=', 2)->where('expired_at', '<', now())->whereNull('deleted_at')->get()->toArray();
+        $roleArr = UserRole::where('is_main', '=', 1)->where('expired_at', '<', now())->whereNull('deleted_at')->get()->toArray();
         foreach ($roleArr as $role) {
             if (! empty($role['restore_role_id'])) {
                 UserRole::where('id', '=', $role['id'])->update(['deleted_at' => now()]);
                 $nextRole = UserRole::where(['role_id' => $role['restore_role_id'], 'user_id' => $role['user_id']])->where('id', '!=', $role['id'])->get();
                 if (! empty($nextRole)) {
-                    UserRole::where(['role_id' => $role['restore_role_id'], 'user_id' => $role['user_id']])->where('id', '!=', $role['id'])->whereNull('deleted_at')->update(['type' => 2]);
+                    UserRole::where(['role_id' => $role['restore_role_id'], 'user_id' => $role['user_id']])->where('id', '!=', $role['id'])->whereNull('deleted_at')->update(['is_main' => 1]);
                 } else {
-                    UserRole::insert(['user_id' => $role['user_id'], 'role_id' => $role['restore_role_id'], 'type' => 2]);
+                    UserRole::insert(['user_id' => $role['user_id'], 'role_id' => $role['restore_role_id'], 'is_main' => 1]);
                 }
             }
         }
+
+        ConfigHelper::fresnsCountAdd('crontab_count');
 
         return ['code' => 200, 'message' => 'success', 'data' => []];
     }
