@@ -36,37 +36,38 @@ class User
     public function addUser($wordBody)
     {
         $dtoWordBody = new AddUserDTO($wordBody);
-        if (! empty($dtoWordBody->avatarFid) && empty($dtoWordBody->avatar_file_url)) {
-            $dtoWordBody->avatar_file_url = File::where('uuid', $dtoWordBody->avatarFid)->value('file_path');
-        }
+
         $account_id = Account::where('aid', $dtoWordBody->aid)->value('id');
         if (empty($account_id)) {
             ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
         }
+
         $userArr = [
             'account_id' => $account_id,
             'uid' => StrHelper::generateDigital(8),
             'username' => $dtoWordBody->username ?? \Str::random(8),
             'nickname' => $dtoWordBody->nickname,
             'password' => isset($dtoWordBody->password) ? Hash::make($dtoWordBody->password) : null,
-            'avatarFid' => isset($dtoWordBody->avatarFid) ? File::where('uuid', $dtoWordBody->avatarFid)->value('id') : null,
+            'avatarFid' => isset($dtoWordBody->avatarFid) ? File::where('fid', $dtoWordBody->avatarFid)->value('id') : null,
             'avatarUrl' => $dtoWordBody->avatar_file_url ?? null,
             'gender' => $dtoWordBody->gender ?? 0,
-            'birthday' => $dtoWordBody->birthday ?? '',
-            'timezone' => $dtoWordBody->timezone ?? '',
-            'language' => $dtoWordBody->language ?? '',
+            'birthday' => $dtoWordBody->birthday ?? null,
+            'timezone' => $dtoWordBody->timezone ?? null,
+            'language' => $dtoWordBody->language ?? null,
         ];
-        $uid = UserModel::insertGetId(array_filter($userArr));
+        $userId = UserModel::insertGetId(array_filter($userArr));
+        ConfigHelper::fresnsCountAdd('users_count');
+
         $defaultRoleId = ConfigHelper::fresnsConfigByItemKey('default_role');
         $roleArr = [
-            'user_id' => $uid,
+            'user_id' => $userId,
             'role_id' => $defaultRoleId,
             'is_main' => 1,
         ];
         UserRole::insert($roleArr);
-        $statArr = ['user_id' => $uid];
+
+        $statArr = ['user_id' => $userId];
         UserStat::insert($statArr);
-        $countAdd = ConfigHelper::fresnsCountAdd('users_count');
 
         return ['code' => 0, 'message' => 'success', 'data' => []];
     }

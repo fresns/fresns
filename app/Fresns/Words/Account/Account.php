@@ -27,6 +27,7 @@ use App\Models\VerifyCode;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class Account
 {
@@ -41,6 +42,7 @@ class Account
     public function addAccount($wordBody)
     {
         $dtoWordBody = new AddAccountDTO($wordBody);
+
         $connectInfoArr = [];
         // Whether the same token exists
         if (isset($dtoWordBody->connectInfo)) {
@@ -54,8 +56,8 @@ class Account
                 ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
             }
         }
-        $inputArr = [];
 
+        $inputArr = [];
         $inputArr = match ($dtoWordBody->type) {
             1 => ['email' => $dtoWordBody->account],
             2 => [
@@ -66,24 +68,21 @@ class Account
             default => [],
         };
         $inputArr['aid'] = \Str::random(12);
-        $inputArr['last_login_at'] = date('Y-m-d H:i:s');
-        if ($dtoWordBody->password) {
-            $inputArr['password'] = password_hash($dtoWordBody->password, PASSWORD_BCRYPT);
-        }
+        $inputArr['password'] = isset($dtoWordBody->password) ? Hash::make($dtoWordBody->password) : null;
+
         $accountId = AccountModel::insertGetId($inputArr);
+        ConfigHelper::fresnsCountAdd('accounts_count');
+
         // Account Wallet Table
         $accountWalletsInput = [
             'account_id' => $accountId,
-            'balance' => 0,
         ];
         AccountWallet::insert($accountWalletsInput);
 
-        ConfigHelper::fresnsCountAdd('accounts_count');
-        // If the connectInfo parameter is passed, add it to the user_connects table
+        // Account Connects Table
         if ($connectInfoArr) {
             $itemArr = [];
             foreach ($connectInfoArr as $info) {
-                $item = [];
                 $item['account_id'] = $accountId;
                 $item['connect_id'] = $info['connectId'];
                 $item['connect_token'] = $info['connectToken'];
