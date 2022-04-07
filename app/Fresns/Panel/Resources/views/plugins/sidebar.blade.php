@@ -7,7 +7,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav d-flex flex-column">
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.list.*') ? 'active' : '' }}" href="{{ route('panel.list.index') }}">{{ __('FsLang::panel.sidebar_plugins') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.plugin.*') ? 'active' : '' }}" href="{{ route('panel.plugin.list') }}">{{ __('FsLang::panel.sidebar_plugins') }}</a></li>
                     <li><hr class="dropdown-divider"></li>
                     @foreach ($enablePlugins as $plugin)
                         @if ($plugin->settings_path)

@@ -18,13 +18,13 @@
         </div>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <a href="{{ route('panel.list.index') }}" class="nav-link {{ is_null($isEnable) ? 'active' : '' }}" type="button">{{ __('FsLang::panel.sidebar_plugins_tab_all') }}</a>
+                <a href="{{ route('panel.plugin.list') }}" class="nav-link {{ is_null($isEnable) ? 'active' : '' }}" type="button">{{ __('FsLang::panel.sidebar_plugins_tab_all') }}</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a href="{{ route('panel.list.index', ['is_enable' => 1]) }}" class="nav-link {{ $isEnable == 1 ? 'active' : '' }}" type="button">{{ __('FsLang::panel.sidebar_plugins_tab_active') }} ({{ $enableCount }})</a>
+                <a href="{{ route('panel.plugin.list', ['is_enable' => 1]) }}" class="nav-link {{ $isEnable == 1 ? 'active' : '' }}" type="button">{{ __('FsLang::panel.sidebar_plugins_tab_active') }} ({{ $enableCount }})</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a href="{{ route('panel.list.index', ['is_enable' => 0]) }}" class="nav-link {{ !is_null($isEnable) && $isEnable == 0 ? 'active' : '' }}" type="button">{{ __('FsLang::panel.sidebar_plugins_tab_inactive') }}({{ $disableCount }})</a>
+                <a href="{{ route('panel.plugin.list', ['is_enable' => 0]) }}" class="nav-link {{ !is_null($isEnable) && $isEnable == 0 ? 'active' : '' }}" type="button">{{ __('FsLang::panel.sidebar_plugins_tab_inactive') }}({{ $disableCount }})</a>
             </li>
         </ul>
     </div>
@@ -54,13 +54,13 @@
                         <td><a href="{{ $plugin->author_link }}" target="_blank" class="link-info fresns-link fs-7">{{ $plugin->author }}</a></td>
                         <td>
                             @if ($plugin->is_enable)
-                                <button type="button" data-action="{{ route('panel.plugin.update', ['plugin' => $plugin->id]) }}" data-enable="0" class="btn btn-outline-secondary btn-sm plugin-manage">{{ __('FsLang::panel.button_deactivate') }}</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['plugin' => $plugin->unikey]) }}" data-enable="0">{{ __('FsLang::panel.button_deactivate') }}</button>
                                 @if ($plugin->settings_path)
                                     <a href="{{ route('panel.iframe.plugin', ['url' => $plugin->settings_path]) }}" class="btn btn-primary btn-sm">{{ __('FsLang::panel.button_setting') }}</a>
                                 @endif
                             @else
-                                <button type="button" data-action="{{ route('panel.plugin.update', ['plugin' => $plugin->id]) }}" data-enable="1"  data-unikey="{{$plugin->unikey}}" class="btn btn-outline-success btn-sm plugin-manage">{{ __('FsLang::panel.button_activate') }}</button>
-                                <button type="button" data-action="{{ route('panel.plugin.destroy', ['plugin' => $plugin->id]) }}"  data-unikey="{{$plugin->unikey}}" class="btn btn-link btn-sm ms-2 text-danger fresns-link uninstall-plugin">{{ __('FsLang::panel.button_uninstall') }}</button>
+                                <button type="button" class="btn btn-outline-success btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['plugin' => $plugin->unikey]) }}" data-enable="1">{{ __('FsLang::panel.button_activate') }}</button>
+                                <button type="button" class="btn btn-link btn-sm ms-2 text-danger fresns-link" data-action="{{ route('panel.plugin.uninstall', ['plugin' => $plugin->unikey]) }}" data-name="{{ $plugin->name }}" data-bs-toggle="modal" data-bs-target="#uninstallConfirm">{{ __('FsLang::panel.button_uninstall') }}</button>
                             @endif
                         </td>
                     </tr>

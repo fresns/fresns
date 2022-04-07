@@ -70,8 +70,6 @@ class PluginController extends Controller
                 $pcConfig->item_key = $pcKey;
                 $pcConfig->item_type = 'string';
                 $pcConfig->item_tag = 'themes';
-                $pcConfig->is_enable = 1;
-                $pcConfig->is_restful = 1;
             }
             $pcConfig->item_value = $request->$pcKey;
             $pcConfig->save();
@@ -89,8 +87,6 @@ class PluginController extends Controller
                 $mobileConfig->item_key = $mobileKey;
                 $mobileConfig->item_type = 'string';
                 $mobileConfig->item_tag = 'themes';
-                $mobileConfig->is_enable = 1;
-                $mobileConfig->is_restful = 1;
             }
 
             $mobileConfig->item_value = $request->$mobileKey;
@@ -123,7 +119,29 @@ class PluginController extends Controller
         ));
     }
 
-    public function update(Plugin $plugin, Request $request)
+    public function update(Request $request)
+    {
+        if ($request->get('is_enable') != 0) {
+            \Artisan::call('plugin:activate', ['plugin' => $request->plugin]);
+        } else {
+            \Artisan::call('plugin:deactivate', ['plugin' => $request->plugin]);
+        }
+
+        return $this->updateSuccess();
+    }
+
+    public function uninstall(Request $request)
+    {
+        if ($request->get('cleanData') == 0) {
+            \Artisan::call('plugin:uninstall', ['plugin' => $request->$unikey], '--cleandata=true');
+        } else {
+            \Artisan::call('plugin:uninstall', ['plugin' => $request->$unikey], '--cleandata=false');
+        }
+
+        return $this->deleteSuccess();
+    }
+
+    public function updateTheme(Plugin $plugin, Request $request)
     {
         if ($request->has('is_enable')) {
             $plugin->is_enable = $request->is_enable;
@@ -133,9 +151,13 @@ class PluginController extends Controller
         return $this->updateSuccess();
     }
 
-    public function destroy(Plugin $plugin)
+    public function uninstallTheme(Request $request)
     {
-        $plugin->delete();
+        if ($request->get('cleanData') == 0) {
+            \Artisan::call('theme:uninstall', ['plugin' => $request->$unikey], '--cleandata=true');
+        } else {
+            \Artisan::call('theme:uninstall', ['plugin' => $request->$unikey], '--cleandata=false');
+        }
 
         return $this->deleteSuccess();
     }

@@ -276,15 +276,12 @@ Route::middleware(['panelAuth'])->group(function () {
 
     // plugins
     Route::prefix('plugins')->group(function () {
-        // plugin list
-        Route::resource('list', PluginController::class)->only([
-            'index',
-        ]);
+        Route::get('list', [PluginController::class, 'index'])->name('plugin.list');
     });
 
     // plugin manage
     Route::resource('plugin', PluginController::class)->only([
-        'update', 'destroy',
+        'update', 'uninstall', 'updateTheme', 'uninstallTheme'
     ]);
 
     // iframe

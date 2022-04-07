@@ -59,7 +59,7 @@
                         </td>
                         <td class="text-center">
                             @if ($engine->is_enable)
-                                <button type="button" data-action="{{ route('panel.plugin.update', ['plugin' => $engine->id]) }}" data-enable="0" class="btn btn-outline-secondary btn-sm plugin-manage">{{ __('FsLang::panel.button_deactivate') }}</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['plugin' => $engine->unikey]) }}" data-enable="0">{{ __('FsLang::panel.button_deactivate') }}</button>
                                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                     data-action="{{ route('panel.engines.theme.update', ['engine' => $engine->id]) }}"
                                     data-params="{{ $engine->toJson() }}"
@@ -70,8 +70,8 @@
                                     <a href="{{ route('panel.iframe.client', ['url' => $engine->settings_path]) }}" class="btn btn-primary btn-sm">{{ __('FsLang::panel.button_setting') }}</a>
                                 @endif
                             @else
-                                <button type="button" class="btn btn-outline-success btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['plugin' => $engine->id]) }}" data-enable="1">{{ __('FsLang::panel.button_activate') }}</button>
-                                <button type="button" class="btn btn-link btn-sm ms-2 text-danger fresns-link uninstall-plugin" data-action="{{ route('panel.plugin.destroy', ['plugin' => $engine->id]) }}">{{ __('FsLang::panel.button_uninstall') }}</button>
+                                <button type="button" class="btn btn-outline-success btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['plugin' => $engine->unikey]) }}" data-enable="1">{{ __('FsLang::panel.button_activate') }}</button>
+                                <button type="button" class="btn btn-link btn-sm ms-2 text-danger fresns-link" data-action="{{ route('panel.plugin.uninstall', ['plugin' => $engine->unikey]) }}" data-name="{{ $plugin->name }}" data-bs-toggle="modal" data-bs-target="#uninstallConfirm">{{ __('FsLang::panel.button_uninstall') }}</button>
                             @endif
                         </td>
                     </tr>

@@ -43,9 +43,9 @@
                         'panel.user-profile.*'
                         ]) ? 'active' : '' }}" href="{{ route('panel.editor.index') }}">{{ __('FsLang::panel.menu_expands') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ \Route::is([
-                        'panel.list.*',
+                        'panel.plugin.*',
                         'panel.iframe.plugin'
-                        ]) ? 'active' : '' }} " href="{{ route('panel.list.index') }}">{{ __('FsLang::panel.menu_plugins') }}</a></li>
+                        ]) ? 'active' : '' }} " href="{{ route('panel.plugin.list') }}">{{ __('FsLang::panel.menu_plugins') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ \Route::is([
                         'panel.menus.*',
                         'panel.columns.*',
@@ -58,7 +58,7 @@
                         ]) ? 'active' : '' }}" href="{{ route('panel.menus.index') }}">{{ __('FsLang::panel.menu_clients') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ \Route::is([
                         'panel.iframe.market'
-                        ]) ? 'active' : '' }}" href="{{ route('panel.iframe.market', ['url' => 'https://fresns.market']) }}">{{ __('FsLang::panel.menu_market') }}</a></li>
+                        ]) ? 'active' : '' }}" href="{{ route('panel.iframe.market', ['url' => 'https://market.fresns.cn']) }}">{{ __('FsLang::panel.menu_market') }}</a></li>
                 </ul>
                 <div class="navbar-nav">
                     <!--lang-->

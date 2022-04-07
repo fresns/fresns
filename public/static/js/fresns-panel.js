@@ -81,7 +81,7 @@ $(document).ready(function () {
             dataType: 'json',
             url: $(this).attr('action'),
             success: function (response) {
-                $('#upgradeButton').removeClass('btn-primary').addClass('btn-info').text('更新中');
+                $('#upgradeButton').removeClass('btn-primary').addClass('btn-info').text(trans('panel.upgrade_being')); //FsLang
 
                 $('#upgradeButton').data('upgrading', true);
 
@@ -281,6 +281,7 @@ $(document).ready(function () {
             },
             success: function (response) {
                 window.tips(response.message);
+                window.location.reload();
             },
         });
     });
@@ -572,8 +573,8 @@ $(document).ready(function () {
         let configParams = button.data('config_params');
 
         if (params.icon_file_url) {
-            $(this).find('input[name=icon_file_url]').val(params.icon_file_url);
-            $(this).find('input[name=icon_file_url]').removeAttr('style');
+            $(this).find('input[name=icon_url]').val(params.icon_file_url);
+            $(this).find('input[name=icon_url]').removeAttr('style');
             $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
             $('.inputFile').css('display', 'none');
         }
@@ -619,12 +620,12 @@ $(document).ready(function () {
         $('.inputFile').removeAttr('style');
         $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
         if (params.image_file_url) {
-            $(this).find('input[name=image_file_url]').val(params.image_file_url);
-            $(this).find('input[name=image_file_url]').removeAttr('style');
+            $(this).find('input[name=image_url]').val(params.image_file_url);
+            $(this).find('input[name=image_url]').removeAttr('style');
             $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
             $('.inputFile').css('display', 'none');
         } else {
-            $(this).find('input[name=image_file_url]').val('');
+            $(this).find('input[name=image_url]').val('');
         }
 
         $(this).find('input[name=rank_num]').val(params.rank_num);
@@ -736,12 +737,12 @@ $(document).ready(function () {
         $('.inputFile').removeAttr('style');
         $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
         if (params.icon_file_url) {
-            $(this).find('input[name=icon_file_url]').val(params.icon_file_url);
-            $(this).find('input[name=icon_file_url]').removeAttr('style');
+            $(this).find('input[name=icon_url]').val(params.icon_file_url);
+            $(this).find('input[name=icon_url]').removeAttr('style');
             $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
             $('.inputFile').css('display', 'none');
         } else {
-            $(this).find('input[name=icon_file_url]').val('');
+            $(this).find('input[name=icon_url]').val('');
         }
 
         if (params.nickname_color) {
@@ -807,12 +808,13 @@ $(document).ready(function () {
     });
 
     // plugin setting
-    $('.uninstall-plugin').click(function () {
+    $('.plugin-manage').click(function () {
         $.ajax({
             method: 'post',
             url: $(this).data('action'),
             data: {
-                _method: 'delete',
+                _method: 'patch',
+                is_enable: $(this).data('enable')
             },
             success: function (response) {
                 window.tips(response.message);
@@ -821,13 +823,13 @@ $(document).ready(function () {
         });
     });
 
-    $('.plugin-manage').click(function () {
+    $('.uninstall-plugin').click(function () {
         $.ajax({
             method: 'post',
             url: $(this).data('action'),
             data: {
-                _method: 'patch',
-                is_enable: $(this).data('enable'),
+                _method: 'delete',
+                cleanData: $(this).data('clean_data')
             },
             success: function (response) {
                 window.tips(response.message);
@@ -946,12 +948,12 @@ $(document).ready(function () {
         $('.inputFile').removeAttr('style');
         $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
         if (params.icon_file_url) {
-            $(this).find('input[name=icon_file_url]').val(params.icon_file_url);
-            $(this).find('input[name=icon_file_url]').removeAttr('style');
+            $(this).find('input[name=icon_url]').val(params.icon_file_url);
+            $(this).find('input[name=icon_url]').removeAttr('style');
             $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
             $('.inputFile').css('display', 'none');
         } else {
-            $(this).find('input[name=icon_file_url]').val('');
+            $(this).find('input[name=icon_url]').val('');
         }
         $(this).find('input[name=rank_num]').val(params.rank_num);
         $(this).find('select[name=plugin_unikey]').val(params.plugin_unikey);
@@ -984,10 +986,10 @@ $(document).ready(function () {
                 .prop('checked', true);
             $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
             $('.inputFile').css('display', 'none');
-            $('#createCategoryModal').find('input[name=cover_file_url]').val(params.cover_file_url);
-            $('#createCategoryModal').find('input[name=cover_file_url]').css('display', 'block');
-            $('#createCategoryModal').find('input[name=banner_file_url]').val(params.banner_file_url);
-            $('#createCategoryModal').find('input[name=banner_file_url]').css('display', 'block');
+            $('#createCategoryModal').find('input[name=cover_url]').val(params.cover_file_url);
+            $('#createCategoryModal').find('input[name=cover_url]').css('display', 'block');
+            $('#createCategoryModal').find('input[name=banner_url]').val(params.banner_file_url);
+            $('#createCategoryModal').find('input[name=banner_url]').css('display', 'block');
 
             let names = $(this).data('names');
             let defaultName = $(this).data('default-name');
@@ -1141,12 +1143,12 @@ $(document).ready(function () {
         let defaultDesc = $(this).data('default-desc');
         let adminUsers = button.data('admin_users');
 
-        $('.showSelectTypeName').text('图片地址');
+        $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
         $('.inputFile').css('display', 'none');
-        form.find('input[name=cover_file_url]').val(params.cover_file_url);
-        form.find('input[name=cover_file_url]').css('display', 'block');
-        form.find('input[name=banner_file_url]').val(params.banner_file_url);
-        form.find('input[name=banner_file_url]').css('display', 'block');
+        form.find('input[name=cover_url]').val(params.cover_file_url);
+        form.find('input[name=cover_url]').css('display', 'block');
+        form.find('input[name=banner_url]').val(params.banner_file_url);
+        form.find('input[name=banner_url]').css('display', 'block');
         form.find('input:radio[name=type_mode][value="' + params.type_mode + '"]')
             .prop('checked', true)
             .click();
@@ -1247,8 +1249,8 @@ $(document).ready(function () {
         $('.inputFile').removeAttr('style');
         $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
         if (params.icon_file_url) {
-            $(this).find('input[name=icon_file_url]').val(params.icon_file_url);
-            $(this).find('input[name=icon_file_url]').removeAttr('style');
+            $(this).find('input[name=icon_url]').val(params.icon_file_url);
+            $(this).find('input[name=icon_url]').removeAttr('style');
             $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
             $('.inputFile').css('display', 'none');
         }
@@ -1295,8 +1297,8 @@ $(document).ready(function () {
         $('.inputFile').removeAttr('style');
         $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
         if (params.icon_file_url) {
-            $(this).find('input[name=icon_file_url]').val(params.icon_file_url);
-            $(this).find('input[name=icon_file_url]').removeAttr('style');
+            $(this).find('input[name=icon_url]').val(params.icon_file_url);
+            $(this).find('input[name=icon_url]').removeAttr('style');
             $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
             $('.inputFile').css('display', 'none');
         }
@@ -1354,8 +1356,8 @@ $(document).ready(function () {
         $('.inputFile').removeAttr('style');
         $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
         if (params.icon_file_url) {
-            $(this).find('input[name=icon_file_url]').val(params.icon_file_url);
-            $(this).find('input[name=icon_file_url]').removeAttr('style');
+            $(this).find('input[name=icon_url]').val(params.icon_file_url);
+            $(this).find('input[name=icon_url]').removeAttr('style');
             $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
             $('.inputFile').css('display', 'none');
         }
@@ -1389,8 +1391,8 @@ $(document).ready(function () {
         $('.inputFile').removeAttr('style');
         $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
         if (params.icon_file_url) {
-            $(this).find('input[name=icon_file_url]').val(params.icon_file_url);
-            $(this).find('input[name=icon_file_url]').removeAttr('style');
+            $(this).find('input[name=icon_url]').val(params.icon_file_url);
+            $(this).find('input[name=icon_url]').removeAttr('style');
             $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
             $('.inputFile').css('display', 'none');
         }
@@ -1456,8 +1458,8 @@ $(document).ready(function () {
         $('.inputFile').removeAttr('style');
         $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
         if (params.icon_file_url) {
-            $(this).find('input[name=icon_file_url]').val(params.icon_file_url);
-            $(this).find('input[name=icon_file_url]').removeAttr('style');
+            $(this).find('input[name=icon_url]').val(params.icon_file_url);
+            $(this).find('input[name=icon_url]').removeAttr('style');
             $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
             $('.inputFile').css('display', 'none');
         }
