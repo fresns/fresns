@@ -311,7 +311,7 @@ class ConfigsTableSeeder extends Seeder
             22 => [
                 'id' => 23,
                 'item_key' => 'crontab_items',
-                'item_value' => '[{"unikey":"Fresns","cmdWord":"checkUserRoleExpired","taskPeriod":"*/10 * * * *"},{"unikey":"Fresns","cmdWord":"checkDeleteAccount","taskPeriod":"10 * * * *"},{"unikey":"Fresns","cmdWord":"checkFresnsVersion","taskPeriod":"0 */6 * * *"}]',
+                'item_value' => '[{"unikey":"Fresns","cmdWord":"checkUserRoleExpired","taskPeriod":"*/10 * * * *"},{"unikey":"Fresns","cmdWord":"checkDeleteAccount","taskPeriod":"* */6 * * *"},{"unikey":"Fresns","cmdWord":"checkFresnsVersion","taskPeriod":"* */12 * * *"}]',
                 'item_type' => 'array',
                 'item_tag' => 'systems',
                 'is_multilingual' => 0,
