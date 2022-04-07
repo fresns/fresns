@@ -281,7 +281,7 @@ Route::middleware(['panelAuth'])->group(function () {
 
     // plugin manage
     Route::resource('plugin', PluginController::class)->only([
-        'update', 'uninstall', 'updateTheme', 'uninstallTheme'
+        'update', 'uninstall', 'updateTheme', 'uninstallTheme',
     ]);
 
     // iframe
