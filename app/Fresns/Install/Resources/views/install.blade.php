@@ -2,7 +2,6 @@
 
 @push('js')
 <script src="{{ @asset('/static/js/alpinejs.min.js') }}"></script>
-
 <script>
     $.ajaxSetup({
         headers: {
@@ -42,8 +41,9 @@
 
 
             if (res.step === 5) {
-                if (res.code === 0) {
+                if (res.data.email) {
                     $('#finish').removeClass('visually-hidden')
+                    $('#emailBox').text(res.data.email)
                     $('#registerAccount').addClass('visually-hidden')
                 }
 
@@ -78,11 +78,25 @@
     }
 
     function next_step(data) {
+        var btn = $(event.target);
+        btn.prop('disabled', true)
+        btn.prepend('<span class="spinner-border spinner-border-sm mg-r-5 d-none" role="status" aria-hidden="true"></span> ')
+
+        if (0 === btn.children('.spinner-border').length) {
+            btn.prepend('<span class="spinner-border spinner-border-sm mg-r-5 d-none" role="status" aria-hidden="true"></span> ')
+        }
+        btn.children('.spinner-border').removeClass('d-none');
+
+
         $.ajax({
             url: '/api/install',
             method: 'post',
             data: data,
             responseType: 'json',
+            complete() {
+                btn.prop('disabled', false)
+                btn.children('.spinner-border').remove()
+            }
         })
     }
 </script>
@@ -320,7 +334,7 @@
                 <table class="table table-bordered">
                     <tr>
                         <th scope="row" class="p-3">@lang('Install::install.done_account')</th>
-                        <td class="p-3"><span x-text="email"></span></td>
+                        <td id="emailBox" class="p-3"><span x-text="email"></span></td>
                     </tr>
                     <tr>
                         <th scope="row" class="p-3">@lang('Install::install.done_password')</th>

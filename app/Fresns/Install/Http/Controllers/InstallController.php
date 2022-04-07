@@ -42,7 +42,7 @@ class InstallController extends Controller
         }
 
         $email = null;
-        if ($step === 6) {
+        if ($step === 5) {
             $email = Account::first()?->value('email');
         }
 
@@ -164,7 +164,12 @@ class InstallController extends Controller
                 ]);
             }
 
-            $this->writeInstallTime();
+
+            $result['email'] = Account::first()?->value('email');
+
+            if (!empty($result['email'])) {
+                $this->writeInstallTime();
+            }
         }
 
         return \response()->json([
@@ -362,6 +367,8 @@ class InstallController extends Controller
 
     protected function installMysqlDatabase()
     {
+        (new \Illuminate\Database\DatabaseServiceProvider(app()))->register();
+
         $cmds = [
             'key:generate',
             'migrate',
@@ -381,7 +388,6 @@ class InstallController extends Controller
             } catch (\Throwable $e) {
                 $output[] = \Artisan::output();
                 $output[] = $e->getMessage();
-                $output[] = implode('', $e->getTrace());
                 break;
             }
 
@@ -418,7 +424,7 @@ class InstallController extends Controller
 
     protected function writeInstallTime()
     {
-        $installTime = now()->toDateTimeString();
+        $installTime = \App\Helpers\DateHelper::fresnsSqlCurrentDateTime();;
 
         $item = [
             'item_key' => 'install_datetime',

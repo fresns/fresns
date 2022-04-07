@@ -40,7 +40,7 @@ class InstallServiceProvider extends ServiceProvider
     {
         if (! file_exists(base_path('.env'))) {
             $appKey = \Illuminate\Encryption\Encrypter::generateKey(config('app.cipher'));
-            $appKey = sprintf('base64:%s', base64_encode($appKey));
+            $appKey = sprintf('APP_KEY=base64:%s', base64_encode($appKey));
             file_put_contents(base_path('.env'), $appKey);
         }
     }
