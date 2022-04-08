@@ -88,7 +88,7 @@ class UserController extends Controller
                 'tableName' => 'configs',
                 'tableColumn' => 'item_value',
                 'tableKey' => 'default_avatar',
-                'file' => $request->file('default_avatar_file')
+                'file' => $request->file('default_avatar_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
             if ($fresnsResp->isErrorResponse()) {
@@ -108,7 +108,7 @@ class UserController extends Controller
                 'tableName' => 'configs',
                 'tableColumn' => 'item_value',
                 'tableKey' => 'anonymous_avatar',
-                'file' => $request->file('anonymous_avatar_file')
+                'file' => $request->file('anonymous_avatar_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
             if ($fresnsResp->isErrorResponse()) {
@@ -128,7 +128,7 @@ class UserController extends Controller
                 'tableName' => 'configs',
                 'tableColumn' => 'item_value',
                 'tableKey' => 'deactivate_avatar',
-                'file' => $request->file('deactivate_avatar_file')
+                'file' => $request->file('deactivate_avatar_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
             if ($fresnsResp->isErrorResponse()) {

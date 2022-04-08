@@ -368,7 +368,7 @@ class StorageController extends Controller
                 'tableName' => 'configs',
                 'tableColumn' => 'item_value',
                 'tableKey' => 'substitution_image',
-                'file' => $request->file('substitution_image_file')
+                'file' => $request->file('substitution_image_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
             if ($fresnsResp->isErrorResponse()) {
@@ -388,7 +388,7 @@ class StorageController extends Controller
                 'tableName' => 'configs',
                 'tableColumn' => 'item_value',
                 'tableKey' => 'substitution_video',
-                'file' => $request->file('substitution_video_file')
+                'file' => $request->file('substitution_video_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
             if ($fresnsResp->isErrorResponse()) {
@@ -408,7 +408,7 @@ class StorageController extends Controller
                 'tableName' => 'configs',
                 'tableColumn' => 'item_value',
                 'tableKey' => 'substitution_audio',
-                'file' => $request->file('substitution_audio_file')
+                'file' => $request->file('substitution_audio_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
             if ($fresnsResp->isErrorResponse()) {
@@ -428,7 +428,7 @@ class StorageController extends Controller
                 'tableName' => 'configs',
                 'tableColumn' => 'item_value',
                 'tableKey' => 'substitution_document',
-                'file' => $request->file('substitution_document_file')
+                'file' => $request->file('substitution_document_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
             if ($fresnsResp->isErrorResponse()) {

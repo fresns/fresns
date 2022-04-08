@@ -89,7 +89,7 @@ class GeneralController extends Controller
                 'tableName' => 'configs',
                 'tableColumn' => 'item_value',
                 'tableKey' => 'site_icon',
-                'file' => $request->file('site_icon_file')
+                'file' => $request->file('site_icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
             if ($fresnsResp->isErrorResponse()) {
@@ -109,7 +109,7 @@ class GeneralController extends Controller
                 'tableName' => 'configs',
                 'tableColumn' => 'item_value',
                 'tableKey' => 'site_logo',
-                'file' => $request->file('site_logo_file')
+                'file' => $request->file('site_logo_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
             if ($fresnsResp->isErrorResponse()) {
@@ -142,10 +142,10 @@ class GeneralController extends Controller
         $configs = Config::whereIn('item_key', $configKeys)->get();
         foreach ($configKeys as $configKey) {
             $config = $configs->where('item_key', $configKey)->first();
-            if (!$config) {
+            if (! $config) {
             }
 
-            if (!$request->has($configKey)) {
+            if (! $request->has($configKey)) {
                 $config->setDefaultValue();
                 $config->save();
                 continue;
