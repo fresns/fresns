@@ -138,7 +138,7 @@ class PluginController extends Controller
             \Artisan::call('plugin:uninstall', ['plugin' => $request->plugin, '--cleardata' => false]);
         }
 
-        return response(\Artisan::output(). "\n".__('FsLang::tips.uninstallSuccess'));
+        return response(\Artisan::output()."\n".__('FsLang::tips.uninstallSuccess'));
     }
 
     public function updateTheme(Plugin $theme, Request $request)
@@ -159,6 +159,6 @@ class PluginController extends Controller
             \Artisan::call('theme:uninstall', ['theme' => $request->theme, '--cleandata' => false]);
         }
 
-        return response()->json(['message' => \Artisan::output()  . __('FsLang::tips.uninstallSuccess')], 200);
+        return response()->json(['message' => \Artisan::output().__('FsLang::tips.uninstallSuccess')], 200);
     }
 }
