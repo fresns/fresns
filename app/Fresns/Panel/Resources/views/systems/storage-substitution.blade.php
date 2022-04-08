@@ -7,7 +7,7 @@
 @section('content')
     @include('FsView::systems.storage-header')
     <!--storage config-->
-    <form action="{{ route('panel.storage.substitution.update') }}" method="post">
+    <form action="{{ route('panel.storage.substitution.update') }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('put')
         <!--storage_service_config-->

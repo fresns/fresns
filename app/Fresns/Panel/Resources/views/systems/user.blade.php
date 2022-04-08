@@ -18,7 +18,7 @@
         </div>
     </div>
     <!--user config-->
-    <form action="{{ route('panel.user.update') }}" id="userConfigForm" method="post">
+    <form action="{{ route('panel.user.update') }}" id="userConfigForm" method="post" enctype="multipart/form-data">
         @csrf
         @method('put')
         <!--account_connect_services-->
@@ -92,7 +92,7 @@
                                 <label class="input-group-text" for="multi_user_roles">{{ __('FsLang::panel.user_multiple_roles') }}</label>
                                 <select class="form-select select2" multiple name="multi_user_roles[]">
                                     @foreach ($roles as $role)
-                                        <option value="{{ $role->id }}" {{ in_array($role->id, $params['multi_user_roles']) ? 'selected' : '' }}>{{ $role->name }}</option>
+                                        <option value="{{ $role->id }}" {{ in_array($role->id, $params['multi_user_roles']) ? 'selected' : '' }}>{{ $role->getLangName($defaultLanguage) }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -113,7 +113,7 @@
                     <select class="form-select select2" name="default_role">
                         @foreach ($roles as $role)
                             @if ($role->type != 1)
-                            <option value="{{ $role->id }}" {{ $params['default_role'] == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                            <option value="{{ $role->id }}" {{ $params['default_role'] == $role->id ? 'selected' : '' }}>{{ $role->getLangName($defaultLanguage) }}</option>
                             @endif
                         @endforeach
                     </select>

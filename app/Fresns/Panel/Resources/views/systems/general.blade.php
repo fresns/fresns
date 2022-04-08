@@ -18,7 +18,7 @@
         </div>
     </div>
     <!--general config-->
-    <form action="{{ route('panel.general.update') }}" method="post">
+    <form action="{{ route('panel.general.update') }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('put')
         <div class="row mb-4">
