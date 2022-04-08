@@ -5,6 +5,7 @@
 <script>
     $.ajaxSetup({
         headers: {
+            'Accept': 'application/json',
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         async success(res) {

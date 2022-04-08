@@ -59,11 +59,20 @@ class InstallController extends Controller
 
     public function install()
     {
-        \request()->validate([
-            'step' => 'required|integer',
-            'lang' => 'required_if:step,1',
-            'admin_info.password' => 'required_if:step,5|confirmed',
-        ]);
+        try {
+            \request()->validate([
+                'step' => 'required|integer',
+                'lang' => 'required_if:step,1',
+                'admin_info.password' => 'required_if:step,5|confirmed',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $exception) {
+            return \response()->json([
+                'step' => \request('step') ?? 1,
+                'code' => 500,
+                'message' => __('Install::install.server_status_failure') ." ". $exception->validator->errors()->first(),
+                'data' => [],
+            ]);
+        }
 
         $step = (int) \request()->input('step');
 
@@ -90,7 +99,7 @@ class InstallController extends Controller
                     $checkResult = true;
                 }
 
-                if (! $checkResult) {
+                if (!$checkResult) {
                     return \response()->json([
                         'step' => $step,
                         'code' => 500,
@@ -120,7 +129,7 @@ class InstallController extends Controller
                     return \response()->json([
                         'step' => $step,
                         'code' => 500,
-                        'message' => __('Install::install.database_config_invalid').$exception->getMessage(),
+                        'message' => __('Install::install.database_config_invalid') . $exception->getMessage(),
                         'data' => [],
                     ]);
                 }
@@ -166,7 +175,7 @@ class InstallController extends Controller
 
             $result['email'] = Account::first()?->value('email');
 
-            if (! empty($result['email'])) {
+            if (!empty($result['email'])) {
                 $this->writeInstallTime();
             }
         }
@@ -188,13 +197,13 @@ class InstallController extends Controller
         $isHttps = \request()->getScheme() === 'https';
 
         $dirPermissions = $this->getDirPermission();
-        $dirPermissionsCheckResult = ! in_array(false, array_column($dirPermissions, 'writable'));
+        $dirPermissionsCheckResult = !in_array(false, array_column($dirPermissions, 'writable'));
 
         $extensionsCheck = $this->extensionCheck();
-        $extensionsCheckResult = ! in_array(false, array_column($extensionsCheck, 'loaded'));
+        $extensionsCheckResult = !in_array(false, array_column($extensionsCheck, 'loaded'));
 
         $functionsCheck = $this->functionCheck();
-        $functionsCheckResult = ! in_array(true, array_column($functionsCheck, 'function_disabled'));
+        $functionsCheckResult = !in_array(true, array_column($functionsCheck, 'function_disabled'));
 
         $data = [
             [
@@ -228,7 +237,7 @@ class InstallController extends Controller
                 'tips' => $dirPermissionsCheckResult ? __('Install::install.server_status_success') : __('Install::install.server_status_failure'),
                 'class' => $dirPermissionsCheckResult ? 'bg-success' : 'bg-danger',
                 'message' => $dirPermissionsCheckResult ? '' : sprintf('%s: %s', __('Install::install.server_status_not_writable'), implode(', ', array_column(array_filter($dirPermissions, function ($item) {
-                    return ! $item['writable'];
+                    return !$item['writable'];
                 }), 'dir'))),
             ],
             [
@@ -238,7 +247,7 @@ class InstallController extends Controller
                 'tips' => $extensionsCheckResult ? __('Install::install.server_status_success') : __('Install::install.server_status_failure'),
                 'class' => $extensionsCheckResult ? 'bg-success' : 'bg-danger',
                 'message' => $extensionsCheckResult ? '' : sprintf('%s: %s', __('Install::install.server_status_not_installed'), implode(', ', array_column(array_filter($extensionsCheck, function ($item) {
-                    return ! $item['loaded'];
+                    return !$item['loaded'];
                 }), 'extension'))),
             ],
             [
@@ -319,6 +328,7 @@ class InstallController extends Controller
             'symlink',
             'readlink',
             'proc_open',
+            'passthru'
         ];
 
         $disableFunction = explode(',', ini_get('disable_functions'));
@@ -335,7 +345,7 @@ class InstallController extends Controller
     protected function writeEnvironment(array $data)
     {
         // Get the config file template
-        $envExamplePath = __DIR__.'/../../.env.template';
+        $envExamplePath = __DIR__ . '/../../.env.template';
         $envPath = base_path('.env');
 
         $envTemp = file_get_contents($envExamplePath);
@@ -353,11 +363,12 @@ class InstallController extends Controller
         $template['DB_DATABASE'] = $data['database']['DB_DATABASE'];
         $template['DB_USERNAME'] = $data['database']['DB_USERNAME'];
         $template['DB_PASSWORD'] = $data['database']['DB_PASSWORD'];
+        // $template['DB_TIMEZONE'] = $data['database']['DB_TIMEZONE'];
         $template['DB_PREFIX'] = $data['database']['DB_PREFIX'];
         $template['SESSION_DOMAIN'] = \request()->getHttpHost();
 
         foreach ($template as $key => $value) {
-            $envTemp = str_replace('{'.$key.'}', $value, $envTemp);
+            $envTemp = str_replace('{' . $key . '}', $value, $envTemp);
         }
 
         // Write config
