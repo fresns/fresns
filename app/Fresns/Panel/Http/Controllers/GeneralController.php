@@ -10,6 +10,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Fresns\Panel\Http\Requests\UpdateGeneralRequest;
 use App\Helpers\ConfigHelper;
+use App\Helpers\PrimaryHelper;
 use App\Models\Config;
 use App\Models\Language;
 use App\Models\Plugin;
@@ -80,6 +81,46 @@ class GeneralController extends Controller
 
     public function update(UpdateGeneralRequest $request)
     {
+        if ($request->file('site_icon_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 2,
+                'tableName' => 'configs',
+                'tableColumn' => 'item_value',
+                'tableKey' => 'site_icon',
+                'file' => $request->file('site_icon_file')
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $request->request->set('site_icon', $fileId);
+        } elseif ($request->get('site_icon_url')) {
+            $request->request->set('site_icon', $request->get('site_icon_url'));
+        }
+
+        if ($request->file('site_logo_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 2,
+                'tableName' => 'configs',
+                'tableColumn' => 'item_value',
+                'tableKey' => 'site_logo',
+                'file' => $request->file('site_logo_file')
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $request->request->set('site_logo', $fileId);
+        } elseif ($request->get('site_logo_url')) {
+            $request->request->set('site_logo', $request->get('site_logo_url'));
+        }
+
         $configKeys = [
             'site_domain',
             'site_copyright',
@@ -99,18 +140,16 @@ class GeneralController extends Controller
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
-
         foreach ($configKeys as $configKey) {
             $config = $configs->where('item_key', $configKey)->first();
-            if (! $config) {
+            if (!$config) {
             }
 
-            if (! $request->has($configKey)) {
+            if (!$request->has($configKey)) {
                 $config->setDefaultValue();
                 $config->save();
                 continue;
             }
-
             $config->item_value = $request->$configKey;
             $config->save();
         }

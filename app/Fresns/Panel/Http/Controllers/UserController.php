@@ -10,6 +10,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Fresns\Panel\Http\Requests\UpdateUserConfigRequest;
 use App\Helpers\ConfigHelper;
+use App\Helpers\PrimaryHelper;
 use App\Models\Config;
 use App\Models\Plugin;
 use App\Models\Role;
@@ -79,6 +80,66 @@ class UserController extends Controller
 
     public function update(UpdateUserConfigRequest $request)
     {
+        if ($request->file('default_avatar_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 2,
+                'tableName' => 'configs',
+                'tableColumn' => 'item_value',
+                'tableKey' => 'default_avatar',
+                'file' => $request->file('default_avatar_file')
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $request->request->set('default_avatar', $fileId);
+        } elseif ($request->get('default_avatar_url')) {
+            $request->request->set('default_avatar', $request->get('default_avatar_url'));
+        }
+
+        if ($request->file('anonymous_avatar_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 2,
+                'tableName' => 'configs',
+                'tableColumn' => 'item_value',
+                'tableKey' => 'anonymous_avatar',
+                'file' => $request->file('anonymous_avatar_file')
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $request->request->set('anonymous_avatar', $fileId);
+        } elseif ($request->get('anonymous_avatar_url')) {
+            $request->request->set('anonymous_avatar', $request->get('anonymous_avatar_url'));
+        }
+
+        if ($request->file('deactivate_avatar_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 2,
+                'tableName' => 'configs',
+                'tableColumn' => 'item_value',
+                'tableKey' => 'deactivate_avatar',
+                'file' => $request->file('deactivate_avatar_file')
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $request->request->set('deactivate_avatar', $fileId);
+        } elseif ($request->get('deactivate_avatar_url')) {
+            $request->request->set('deactivate_avatar', $request->get('deactivate_avatar_url'));
+        }
+
         $configKeys = [
             'account_prove_service',
             'user_multiple',

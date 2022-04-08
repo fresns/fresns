@@ -9,6 +9,7 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\ConfigHelper;
+use App\Helpers\PrimaryHelper;
 use App\Models\Config;
 use App\Models\Plugin;
 use Illuminate\Http\Request;
@@ -359,6 +360,86 @@ class StorageController extends Controller
 
     public function substitutionUpdate(Request $request)
     {
+        if ($request->file('substitution_image_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 2,
+                'tableName' => 'configs',
+                'tableColumn' => 'item_value',
+                'tableKey' => 'substitution_image',
+                'file' => $request->file('substitution_image_file')
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $request->request->set('substitution_image', $fileId);
+        } elseif ($request->get('substitution_image_url')) {
+            $request->request->set('substitution_image', $request->get('substitution_image_url'));
+        }
+
+        if ($request->file('substitution_video_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 2,
+                'tableName' => 'configs',
+                'tableColumn' => 'item_value',
+                'tableKey' => 'substitution_video',
+                'file' => $request->file('substitution_video_file')
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $request->request->set('substitution_video', $fileId);
+        } elseif ($request->get('substitution_video_url')) {
+            $request->request->set('substitution_video', $request->get('substitution_video_url'));
+        }
+
+        if ($request->file('substitution_audio_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 2,
+                'tableName' => 'configs',
+                'tableColumn' => 'item_value',
+                'tableKey' => 'substitution_audio',
+                'file' => $request->file('substitution_audio_file')
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $request->request->set('substitution_audio', $fileId);
+        } elseif ($request->get('substitution_audio_url')) {
+            $request->request->set('substitution_audio', $request->get('substitution_audio_url'));
+        }
+
+        if ($request->file('substitution_document_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 2,
+                'tableName' => 'configs',
+                'tableColumn' => 'item_value',
+                'tableKey' => 'substitution_document',
+                'file' => $request->file('substitution_document_file')
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+            $request->request->set('substitution_document', $fileId);
+        } elseif ($request->get('substitution_document_url')) {
+            $request->request->set('substitution_document', $request->get('substitution_document_url'));
+        }
+
         $configKeys = [
             'substitution_image',
             'substitution_video',
