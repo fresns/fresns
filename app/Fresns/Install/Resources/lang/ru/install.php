@@ -58,6 +58,8 @@ return [
     'database_host_desc' => 'Если localhost не работает, нужно узнать правильный адрес в службе поддержки хостинг-провайдера.',
     'database_port' => 'Порт базы данных',
     'database_port_desc' => 'По умолчанию 3306',
+    'database_timezone' => 'Часовой пояс базы данных',
+    'database_timezone_desc' => 'Правильная конфигурация обеспечит точность данных в разы.',
     'database_table_prefix' => 'Префикс таблиц',
     'database_table_prefix_desc' => 'Если вы хотите запустить несколько копий Fresns в одной базе, измените это значение.',
     'database_config_invalid' => 'Неверная конфигурация базы данных',

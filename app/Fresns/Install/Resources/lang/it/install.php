@@ -58,6 +58,8 @@ return [
     'database_host_desc' => 'Se localhost non funziona, puoi ottenere queste informazioni dal tuo provider di hosting.',
     'database_port' => 'Porta del database',
     'database_port_desc' => 'Il valore predefinito è 3306',
+    'database_timezone' => 'Fuso orario del database',
+    'database_timezone_desc' => 'Una configurazione corretta garantirà tempi di dati accurati.',
     'database_table_prefix' => 'Prefisso tabella',
     'database_table_prefix_desc' => 'Modifica questa voce se desideri eseguire più installazioni di Fresns su un singolo database.',
     'database_config_invalid' => 'Configurazione del database non valida',

@@ -58,6 +58,8 @@ return [
     'database_host_desc' => 'Anda mestinya bisa memperoleh info ini dari host web Anda, jika localhost gagal diterapkan.',
     'database_port' => 'Pelabuhan Basis Data',
     'database_port_desc' => 'Standarnya adalah 3306',
+    'database_timezone' => 'Zona Waktu Basis Data',
+    'database_timezone_desc' => 'Konfigurasi yang benar dapat memastikan keakuratan waktu data.',
     'database_table_prefix' => 'Prefiks Tabel',
     'database_table_prefix_desc' => 'Jika Anda ingin menjalankan beberapa instalasi Fresns di dalam satu basis data tunggal, ubahlah di sini.',
     'database_config_invalid' => 'Konfigurasi Basis Data Tidak Valid',

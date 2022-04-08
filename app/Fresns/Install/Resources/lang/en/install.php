@@ -58,6 +58,8 @@ return [
     'database_host_desc' => 'You should be able to get this info from your web host, if localhost doesn’t work.',
     'database_port' => 'Database Port',
     'database_port_desc' => 'Default is 3306',
+    'database_timezone' => 'Database Timezone',
+    'database_timezone_desc' => 'Proper config ensures accurate data timing.',
     'database_table_prefix' => 'Table Prefix',
     'database_table_prefix_desc' => 'If you want to run multiple Fresns installations in a single database, change this.',
     'database_config_invalid' => 'Database Config Invalid',

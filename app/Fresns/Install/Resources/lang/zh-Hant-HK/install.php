@@ -58,6 +58,8 @@ return [
     'database_host_desc' => '如果 localhost 無法運作，你應該可以從你的網頁寄存供應商取得這個資訊。',
     'database_port' => '資料庫伺服器端口',
     'database_port_desc' => '默認為 3306',
+    'database_timezone' => '資料庫時區',
+    'database_timezone_desc' => '配置正確可以保證資料時間的準確性。',
     'database_table_prefix' => '資料表前綴',
     'database_table_prefix_desc' => '如需在同一個資料庫中安裝多個 Fresns，請修改這個欄位中的預設設定。',
     'database_config_invalid' => '資料庫配置無效',

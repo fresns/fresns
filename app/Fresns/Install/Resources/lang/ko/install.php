@@ -58,6 +58,8 @@ return [
     'database_host_desc' => 'localhost이(가) 작동하지 않는다면 이 정보는 자신의 웹호스팅에서 받을 수 있습니다.',
     'database_port' => '데이터베이스 포트',
     'database_port_desc' => '기본값은 3306입니다.',
+    'database_timezone' => '데이터베이스 시간대',
+    'database_timezone_desc' => '올바른 구성은 데이터 시간의 정확성을 보장할 수 있습니다.',
     'database_table_prefix' => '테이블 접두',
     'database_table_prefix_desc' => '여러 Fresns 설치를 단일 데이터베이스에서 실행하기 원한다면, 바꾸세요.',
     'database_config_invalid' => '잘못된 데이터베이스 구성',

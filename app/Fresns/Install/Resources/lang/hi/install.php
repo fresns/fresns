@@ -58,6 +58,8 @@ return [
     'database_host_desc' => 'यदि localhost काम नहीं करता है, तो आप अपने वेब होस्ट से यह जानकारी प्राप्त करने में सक्षम होने चाहिए।',
     'database_port' => 'डेटाबेस पोर्ट',
     'database_port_desc' => 'डिफ़ॉल्ट 3306 . है',
+    'database_timezone' => 'डेटाबेस समयक्षेत्र',
+    'database_timezone_desc' => 'सही कॉन्फ़िगरेशन डेटा समय की सटीकता सुनिश्चित कर सकता है।',
     'database_table_prefix' => 'तालिका उपसर्ग',
     'database_table_prefix_desc' => 'यदि आप एक एकल डाटाबेस में कई Fresns स्थापनाएँ(इन्स्टॉलेशन्स) चलाना चाहते हैं, तो इसे बदलें।',
     'database_config_invalid' => 'डेटाबेस कॉन्फ़िगरेशन अमान्य',

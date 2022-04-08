@@ -58,6 +58,8 @@ return [
     'database_host_desc' => 'Deve conseguir obter esta informação junto do seu serviço de alojamento, caso localhost não funcionar.',
     'database_port' => 'Porto de base de dados',
     'database_port_desc' => 'O valor por defeito é 3306',
+    'database_timezone' => 'Fuso horário da base de dados',
+    'database_timezone_desc' => 'Uma configuração correcta assegurará tempos de dados precisos.',
     'database_table_prefix' => 'Prefixo das tabelas',
     'database_table_prefix_desc' => 'Se pretender instalar vários sites Fresns numa única base de dados, altere este valor.',
     'database_config_invalid' => 'Base de dados Config Inválido',

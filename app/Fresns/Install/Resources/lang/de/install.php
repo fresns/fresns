@@ -58,6 +58,8 @@ return [
     'database_host_desc' => 'Sollte localhost nicht funktionieren, erfrage bitte den korrekten Wert beim Support deines Webhostings.',
     'database_port' => 'Datenbank-Anschluss',
     'database_port_desc' => 'Standard ist 3306',
+    'database_timezone' => 'Datenbank Zeitzone',
+    'database_timezone_desc' => 'Die korrekte Konfiguration gewährleistet genaue Datenzeiten.',
     'database_table_prefix' => 'Tabellen-Präfix',
     'database_table_prefix_desc' => 'Falls du mehrere Fresns-Installationen innerhalb einer Datenbank aufbauen möchtest, ändere diesen Eintrag.',
     'database_config_invalid' => 'Datenbankkonfiguration ungültig',

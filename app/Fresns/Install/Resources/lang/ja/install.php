@@ -58,6 +58,8 @@ return [
     'database_host_desc' => 'localhost が動作しない場合には Web ホストからこの情報を取得することができます。',
     'database_port' => 'データベースポート',
     'database_port_desc' => 'デフォルトは3306',
+    'database_timezone' => 'データベースタイムゾーン',
+    'database_timezone_desc' => '正しく設定することで、正確なデータ時間を確保することができます。',
     'database_table_prefix' => 'テーブル接頭辞',
     'database_table_prefix_desc' => 'ひとつのデータベースに複数の Fresns をインストールしたい場合、これを変えてください。',
     'database_config_invalid' => 'データベース構成が無効',
