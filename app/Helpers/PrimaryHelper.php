@@ -113,7 +113,7 @@ class PrimaryHelper
      */
     public static function fresnsFileIdByFid(string $fid)
     {
-        $id = File::withTrashed()->where('fid',$fid)->value('id');
+        $id = File::withTrashed()->where('fid', $fid)->value('id');
 
         return $id ?? null;
     }

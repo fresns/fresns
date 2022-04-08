@@ -297,8 +297,8 @@ Route::middleware(['panelAuth'])->group(function () {
 Route::get('js/{locale?}/translations', function ($locale) {
     $langPath = app_path('Fresns/Panel/Resources/lang/'.$locale);
 
-    if (!is_dir($langPath)) {
-        $langPath = app_path('Fresns/Panel/Resources/lang/'. 'en');
+    if (! is_dir($langPath)) {
+        $langPath = app_path('Fresns/Panel/Resources/lang/'.'en');
     }
 
     $strings = Cache::rememberForever('translations.'.$locale, function () use ($langPath) {
