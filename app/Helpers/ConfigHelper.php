@@ -104,7 +104,7 @@ class ConfigHelper
     {
         $configValue = ConfigHelper::fresnsConfigByItemKey($itemKey);
 
-        if (!$configValue) {
+        if (! $configValue) {
             return null;
         }
 
