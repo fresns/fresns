@@ -18,6 +18,8 @@ return [
     'deleteSuccess' => 'deletado com sucesso',
     'updateSuccess' => 'Modificado com sucesso',
     'upgradeSuccess' => 'atualização completa',
+    'uninstallSuccess' => 'Desinstalar o sucesso',
+    'uninstallFailure' => 'Falha na desinstalação',
     'copySuccess' => 'Copie o sucesso',
     'account_not_found' => 'Conta não existe ou inserir erros',
     'secure_entry_route_conflicts' => 'Conflito de roteamento de entrada de segurança',

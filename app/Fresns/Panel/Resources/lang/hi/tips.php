@@ -18,6 +18,8 @@ return [
     'deleteSuccess' => 'सफलतापूर्वक हटा दिया गया',
     'updateSuccess' => 'सफलतापूर्वक संशोधित',
     'upgradeSuccess' => 'अपडेट पूर्ण हो गया',
+    'uninstallSuccess' => 'सफलता को अनइंस्टॉल करें',
+    'uninstallFailure' => 'विफलता को अनइंस्टॉल करें',
     'copySuccess' => 'सफलतापूर्वक कॉपी करें',
     'account_not_found' => 'खाता मौजूद नहीं है या गलत तरीके से दर्ज किया गया है',
     'secure_entry_route_conflicts' => 'सुरक्षा प्रवेश मार्ग संघर्ष',

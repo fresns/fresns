@@ -30,7 +30,7 @@
                         type="button" class="btn btn-info"
                         data-action="{{ route('panel.upgrade.info') }}"
                         data-upgrading="1">
-                        {{ __('FsLang::panel.upgrade_being') }}
+                        {{ __('FsLang::panel.upgrade_in_progress') }}
                     </button>
                 @else
                     <button id="upgradeButton"

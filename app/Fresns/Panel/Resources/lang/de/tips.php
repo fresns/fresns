@@ -18,6 +18,8 @@ return [
     'deleteSuccess' => 'erfolgreich gelöscht',
     'updateSuccess' => 'Erfolgreich modifiziert',
     'upgradeSuccess' => 'Update abgeschlossen',
+    'uninstallSuccess' => 'Erfolgreiche Deinstallation',
+    'uninstallFailure' => 'Deinstallation fehlgeschlagen',
     'copySuccess' => 'Erfolg kopieren',
     'account_not_found' => 'Konto ist nicht vorhanden oder geben Fehler ein',
     'secure_entry_route_conflicts' => 'Sicherheitseingang-Routing-Konflikt',

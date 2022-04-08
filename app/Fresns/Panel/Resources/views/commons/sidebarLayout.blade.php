@@ -62,8 +62,26 @@
         </div>
     </div>
 
-    <!--uninstall step modal-->
+    <!--uninstall artisan output modal-->
     <div class="modal fade" id="uninstallStepModal" tabindex="-1" aria-labelledby="uninstallStepModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('FsLang::panel.button_uninstall') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <textarea class="form-control" rows="6" id="artisan_output" readonly>{{ __('FsLang::panel.uninstall_in_progress') }}</textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('FsLang::panel.button_close') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--uninstall step modal-->
+    {{-- <div class="modal fade" id="uninstallStepModal" tabindex="-1" aria-labelledby="uninstallStepModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -79,5 +97,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection

@@ -18,6 +18,8 @@ return [
     'deleteSuccess' => 'supprimé avec succès',
     'updateSuccess' => 'Modifié avec succès',
     'upgradeSuccess' => 'Mise à jour terminée',
+    'uninstallSuccess' => 'Succès de la désinstallation',
+    'uninstallFailure' => 'Échec de la désinstallation',
     'copySuccess' => 'Copier le succès',
     'account_not_found' => 'Compte n\'existe pas ou n\'entre pas d\'erreur',
     'secure_entry_route_conflicts' => 'Conflit de routage d\'entrée de sécurité',

@@ -18,6 +18,8 @@ return [
     'deleteSuccess' => '성공적으로 삭제되었습니다',
     'updateSuccess' => '성공적으로 수정되었습니다',
     'upgradeSuccess' => '업데이트 완료',
+    'uninstallSuccess' => '제거 성공',
+    'uninstallFailure' => '제거 실패',
     'copySuccess' => '성공을 복사하십시오',
     'account_not_found' => '계정이 없거나 오류를 입력하지 않습니다',
     'secure_entry_route_conflicts' => '안전 입구 라우팅 충돌',

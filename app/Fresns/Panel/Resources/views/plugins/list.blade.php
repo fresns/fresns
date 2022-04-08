@@ -60,7 +60,7 @@
                                 @endif
                             @else
                                 <button type="button" class="btn btn-outline-success btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['plugin' => $plugin->unikey]) }}" data-enable="1">{{ __('FsLang::panel.button_activate') }}</button>
-                                <button type="button" class="btn btn-link btn-sm ms-2 text-danger fresns-link" data-action="{{ route('panel.plugin.uninstall', ['plugin' => $plugin->unikey]) }}" data-name="{{ $plugin->name }}" data-bs-toggle="modal" data-bs-target="#uninstallConfirm">{{ __('FsLang::panel.button_uninstall') }}</button>
+                                <button type="button" class="btn btn-link btn-sm ms-2 text-danger fresns-link plugin-uninstall-button" data-action="{{ route('panel.plugin.uninstall', ['plugin' => $plugin->unikey]) }}" data-name="{{ $plugin->name }}" data-clear_data_desc="{{ __('FsLang::panel.option_uninstall_plugin_data') }}" data-bs-toggle="modal" data-bs-target="#uninstallConfirm">{{ __('FsLang::panel.button_uninstall') }}</button>
                             @endif
                         </td>
                     </tr>

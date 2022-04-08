@@ -18,6 +18,8 @@ return [
     'deleteSuccess' => 'успешно удален',
     'updateSuccess' => 'Успешно изменен',
     'upgradeSuccess' => 'Обновление завершено',
+    'uninstallSuccess' => 'Успех деинсталляции',
+    'uninstallFailure' => 'Неудачная деинсталляция',
     'copySuccess' => 'Копировать успех',
     'account_not_found' => 'Учетная запись не существует или ввода ошибок',
     'secure_entry_route_conflicts' => 'Безопасность входной маршрутизационный конфликт',

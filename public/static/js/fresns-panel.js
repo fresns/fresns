@@ -823,21 +823,48 @@ $(document).ready(function () {
         });
     });
 
+    $('#uninstallConfirm').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget);
+            window.pluginName = button.data('name');
+            window.clearDataDesc = button.data('clear_data_desc');
+            window.url = button.data('action');
+
+        $(this).find('.modal-title').text( window.pluginName );
+        $(this).find('.form-check-label').text( window.clearDataDesc );
+    });
+
+    $('#uninstallStepModal').on('show.bs.modal', function (e) {
+        $(this).find('.modal-title').text(window.pluginName);
+
+    });
+
+    $('#uninstallStepModal').on('click', '.btn-secondary',function (e) {
+        location.reload();
+    });
+
     $('.uninstall-plugin').click(function () {
+        var clearData = $("#uninstallConfirm").find('#uninstallData').prop("checked");
+        if (clearData ){
+            clearData = 1
+        }
+        else {
+            clearData = 0
+        }
+        window.uninstallMessage = trans('tips.uninstallFailure'); //FsLang
         $.ajax({
             method: 'post',
-            url: $(this).data('action'),
+            url: window.url + '&clearData=' + clearData,
             data: {
-                _method: 'delete',
-                cleanData: $(this).data('clean_data')
+                _method: 'delete'
             },
             success: function (response) {
-                window.tips(response.message);
-                location.reload();
+                window.uninstallMessage = response;
+                $('#uninstallStepModal').find('#artisan_output').text(response);
             },
         });
     });
 
+    // theme set
     $('#themeSetting').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget);
         let action = button.data('action');

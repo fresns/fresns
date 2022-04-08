@@ -18,6 +18,8 @@ return [
     'deleteSuccess' => 'Delete Success',
     'updateSuccess' => 'Update Success',
     'upgradeSuccess' => 'Upgrade Success',
+    'uninstallSuccess' => 'Uninstall Success',
+    'uninstallFailure' => 'Uninstall Failure',
     'copySuccess' => 'Copy Success',
     'account_not_found' => 'Account number does not exist or was entered incorrectly',
     'secure_entry_route_conflicts' => 'Secure entry route conflicts',

@@ -18,6 +18,8 @@ return [
     'deleteSuccess' => 'borrado con éxito',
     'updateSuccess' => 'Modificado con éxito',
     'upgradeSuccess' => 'actualización completada',
+    'uninstallSuccess' => 'Desinstalación exitosa',
+    'uninstallFailure' => 'Fallo de desinstalación',
     'copySuccess' => 'Copiar el éxito',
     'account_not_found' => 'La cuenta no existe o ingresa errores',
     'secure_entry_route_conflicts' => 'Conflicto de enrutamiento de entrada de seguridad',

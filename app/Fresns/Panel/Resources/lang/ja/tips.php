@@ -18,6 +18,8 @@ return [
     'deleteSuccess' => '削除されました',
     'updateSuccess' => '正常に変更されました',
     'upgradeSuccess' => '更新完了',
+    'uninstallSuccess' => 'アンインストールの成功',
+    'uninstallFailure' => 'アンインストールに失敗しました',
     'copySuccess' => '成功をコピーする',
     'account_not_found' => 'アカウントが存在しないか、エラーを入力します',
     'secure_entry_route_conflicts' => '安全入り口ルーティングの競合',

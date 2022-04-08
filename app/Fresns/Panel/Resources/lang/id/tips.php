@@ -18,6 +18,8 @@ return [
     'deleteSuccess' => 'berhasil dihapus',
     'updateSuccess' => 'Berhasil dimodifikasi',
     'upgradeSuccess' => 'Pembaruan selesai',
+    'uninstallSuccess' => 'Uninstall Sukses',
+    'uninstallFailure' => 'Copot Pemasangan Gagal',
     'copySuccess' => 'Salin kesuksesan',
     'account_not_found' => 'Akun tidak ada atau masukkan kesalahan',
     'secure_entry_route_conflicts' => 'Konflik perutean masuk keselamatan',

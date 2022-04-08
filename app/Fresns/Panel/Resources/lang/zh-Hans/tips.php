@@ -18,6 +18,8 @@ return [
     'deleteSuccess' => '删除成功',
     'updateSuccess' => '修改成功',
     'upgradeSuccess' => '更新成功',
+    'uninstallSuccess' => '卸载成功',
+    'uninstallFailure' => '卸载失败',
     'copySuccess' => '复制成功',
     'account_not_found' => '账号不存在或者输入错误',
     'secure_entry_route_conflicts' => '安全入口路由冲突',

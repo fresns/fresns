@@ -132,33 +132,33 @@ class PluginController extends Controller
 
     public function uninstall(Request $request)
     {
-        if ($request->get('cleanData') == 0) {
-            \Artisan::call('plugin:uninstall', ['plugin' => $request->$unikey], '--cleandata=true');
+        if ($request->get('clearData') == 1) {
+            \Artisan::call('plugin:uninstall', ['plugin' => $request->plugin, '--cleardata' => true]);
         } else {
-            \Artisan::call('plugin:uninstall', ['plugin' => $request->$unikey], '--cleandata=false');
+            \Artisan::call('plugin:uninstall', ['plugin' => $request->plugin, '--cleardata' => false]);
         }
 
-        return $this->deleteSuccess();
+        return response(\Artisan::output(). "\n".__('FsLang::tips.uninstallSuccess'));
     }
 
-    public function updateTheme(Plugin $plugin, Request $request)
+    public function updateTheme(Plugin $theme, Request $request)
     {
         if ($request->has('is_enable')) {
-            $plugin->is_enable = $request->is_enable;
+            $theme->is_enable = $request->is_enable;
         }
-        $plugin->save();
+        $theme->save();
 
         return $this->updateSuccess();
     }
 
     public function uninstallTheme(Request $request)
     {
-        if ($request->get('cleanData') == 0) {
-            \Artisan::call('theme:uninstall', ['plugin' => $request->$unikey], '--cleandata=true');
+        if ($request->get('clearData') == 1) {
+            \Artisan::call('theme:uninstall', ['theme' => $request->theme, '--cleandata' => true]);
         } else {
-            \Artisan::call('theme:uninstall', ['plugin' => $request->$unikey], '--cleandata=false');
+            \Artisan::call('theme:uninstall', ['theme' => $request->theme, '--cleandata' => false]);
         }
 
-        return $this->deleteSuccess();
+        return response()->json(['message' => \Artisan::output()  . __('FsLang::tips.uninstallSuccess')], 200);
     }
 }
