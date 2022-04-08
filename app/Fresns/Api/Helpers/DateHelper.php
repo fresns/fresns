@@ -14,30 +14,6 @@ class DateHelper
 {
     const DEFAULT_FORMATTER = 'Y-m-d';
 
-    // Initialize time zone
-    public static function initTimezone()
-    {
-        $timezone = 'UTC + 8';
-        // $timezone = "UTC";
-        config(['app.timezone' =>  $timezone]);
-        // (UTC8 => Asia/Singapore)
-        date_default_timezone_set('Asia/Singapore');
-    }
-
-    // Milliseconds
-    public static function milliseconds($format = 'u', $utimestamp = null)
-    {
-        if (is_null($utimestamp)) {
-            $utimestamp = microtime(true);
-        }
-        $timestamp = floor($utimestamp);
-
-        //Change the value here to control the number of milliseconds
-        $milliseconds = round(($utimestamp - $timestamp) * 1000000);
-
-        return $milliseconds;
-    }
-
     // format date
     public static function format_date($time)
     {
