@@ -91,7 +91,7 @@ class ConfigHelper
             return 'URL';
         }
 
-        return 'null';
+        return 'ID';
     }
 
     /**
@@ -103,6 +103,10 @@ class ConfigHelper
     public static function fresnsConfigFileUrlByItemKey(string $itemKey)
     {
         $configValue = ConfigHelper::fresnsConfigByItemKey($itemKey);
+
+        if (!$configValue) {
+            return null;
+        }
 
         if (ConfigHelper::fresnsConfigFileValueTypeByItemKey($itemKey) == 'URL') {
             $fileUrl = $configValue;

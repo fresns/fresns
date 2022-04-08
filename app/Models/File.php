@@ -10,6 +10,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class File extends Model
 {
@@ -18,6 +19,7 @@ class File extends Model
     use Traits\FileServiceInfoTrait;
     use Traits\FileInfoTrait;
     use Traits\FileStorageTrait;
+    use SoftDeletes;
 
     const TYPE_IMAGE = 1;
     const TYPE_VIDEO = 2;

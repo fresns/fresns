@@ -100,7 +100,7 @@
                             <input class="form-check-input" type="radio" name="delete_account" id="delete_account_2" value="3" data-bs-toggle="collapse" data-bs-target="#delete_account_todo_setting:not(.show)" aria-expanded="false" aria-controls="delete_account_todo_setting" {{ $params['delete_account'] == 3 ? 'checked' : '' }}>
                             <label class="form-check-label" for="delete_account_2">{{ __('FsLang::panel.policy_delete_option_3') }}</label>
                         </div>
-                        <div class="collapse {{ $params['delete_account'] ? 'show' : '' }}" id="delete_account_todo_setting">
+                        <div class="collapse {{ $params['delete_account'] != 1 ? 'show' : '' }}" id="delete_account_todo_setting">
                             <div class="input-group mt-2">
                                 <span class="input-group-text">{{ __('FsLang::panel.policy_delete_crontab') }}</span>
                                 <input type="number" class="form-control input-number" name="delete_account_todo" value="{{ $params['delete_account_todo'] }}">

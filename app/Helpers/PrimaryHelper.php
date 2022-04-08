@@ -25,7 +25,7 @@ class PrimaryHelper
      */
     public static function fresnsAccountIdByAid(string $aid)
     {
-        $id = Account::withTrashed('aid', $aid)->value('id');
+        $id = Account::withTrashed()->where('aid', $aid)->value('id');
 
         return $id ?? null;
     }
@@ -36,7 +36,7 @@ class PrimaryHelper
      */
     public static function fresnsAccountIdByUid(string $uid)
     {
-        $id = User::withTrashed('uid', $uid)->value('account_id');
+        $id = User::withTrashed()->where('uid', $uid)->value('account_id');
 
         return $id ?? null;
     }
@@ -47,7 +47,7 @@ class PrimaryHelper
      */
     public static function fresnsUserIdByUid(string $aid)
     {
-        $id = User::withTrashed('uid', $aid)->value('id');
+        $id = User::withTrashed()->where('uid', $aid)->value('id');
 
         return $id ?? null;
     }
@@ -58,7 +58,7 @@ class PrimaryHelper
      */
     public static function fresnsUserIdByUsername(string $username)
     {
-        $id = User::withTrashed('username', $username)->value('id');
+        $id = User::withTrashed()->where('username', $username)->value('id');
 
         return $id ?? null;
     }
@@ -69,7 +69,7 @@ class PrimaryHelper
      */
     public static function fresnsGroupIdByGid(string $gid)
     {
-        $id = Group::withTrashed('gid', $gid)->value('id');
+        $id = Group::withTrashed()->where('gid', $gid)->value('id');
 
         return $id ?? null;
     }
@@ -80,7 +80,7 @@ class PrimaryHelper
      */
     public static function fresnsHashtagIdByHuri(string $huri)
     {
-        $id = Hashtag::withTrashed('huri', $huri)->value('id');
+        $id = Hashtag::withTrashed()->where('huri', $huri)->value('id');
 
         return $id ?? null;
     }
@@ -91,7 +91,7 @@ class PrimaryHelper
      */
     public static function fresnsPostIdByPid(string $pid)
     {
-        $id = Post::withTrashed('pid', $pid)->value('id');
+        $id = Post::withTrashed()->where('pid', $pid)->value('id');
 
         return $id ?? null;
     }
@@ -102,7 +102,7 @@ class PrimaryHelper
      */
     public static function fresnsCommentIdByCid(string $cid)
     {
-        $id = Comment::withTrashed('cid', $cid)->value('id');
+        $id = Comment::withTrashed()->where('cid', $cid)->value('id');
 
         return $id ?? null;
     }
@@ -113,7 +113,7 @@ class PrimaryHelper
      */
     public static function fresnsFileIdByFid(string $fid)
     {
-        $id = File::withTrashed('fid', $fid)->value('id');
+        $id = File::withTrashed()->where('fid',$fid)->value('id');
 
         return $id ?? null;
     }
@@ -124,7 +124,7 @@ class PrimaryHelper
      */
     public static function fresnsExtendIdByEid(string $eid)
     {
-        $id = Extend::withTrashed('eid', $eid)->value('id');
+        $id = Extend::withTrashed()->where('eid', $eid)->value('id');
 
         return $id ?? null;
     }

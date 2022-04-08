@@ -69,7 +69,9 @@ class File
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid ?? '');
         $userId = PrimaryHelper::fresnsUserIdByUid($dtoWordBody->uid ?? '');
-        $tableId = $this->getTableId($dtoWordBody->tableName, $dtoWordBody->tableId);
+        if (isset($dtoWordBody->tableId)) {
+            $tableId = $this->getTableId($dtoWordBody->tableName, $dtoWordBody->tableId);
+        }
         $uploadFile = $dtoWordBody->file;
 
         $storePath = $this->getFileTempPath($dtoWordBody->type.$dtoWordBody->tableType);

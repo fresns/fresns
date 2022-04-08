@@ -48,7 +48,7 @@ trait FileStorageTrait
 
     public function validateFileStorageConfig(array $data)
     {
-        \request()->validate($data, [
+        \validator()->validate($data, [
             'access_key' => 'required|string',
             'secret_key' => 'required|string',
             'bucket' => 'required|string',

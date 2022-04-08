@@ -280,9 +280,12 @@ Route::middleware(['panelAuth'])->group(function () {
     });
 
     // plugin manage
-    Route::resource('plugin', PluginController::class)->only([
-        'update', 'uninstall', 'updateTheme', 'uninstallTheme',
-    ]);
+    Route::prefix('plugin')->group(function () {
+        Route::patch('update', [PluginController::class, 'update'])->name('plugin.update');
+        Route::delete('uninstall', [PluginController::class, 'uninstall'])->name('plugin.uninstall');
+        Route::patch('updateTheme', [PluginController::class, 'updateTheme'])->name('plugin.updateTheme');
+        Route::delete('uninstallTheme', [PluginController::class, 'uninstallTheme'])->name('plugin.uninstallTheme');
+    });
 
     // iframe
     Route::get('market', [IframeController::class, 'market'])->name('iframe.market');
@@ -293,6 +296,11 @@ Route::middleware(['panelAuth'])->group(function () {
 // FsLang
 Route::get('js/{locale?}/translations', function ($locale) {
     $langPath = app_path('Fresns/Panel/Resources/lang/'.$locale);
+
+    if (!is_dir($langPath)) {
+        $langPath = app_path('Fresns/Panel/Resources/lang/'. 'en');
+    }
+
     $strings = Cache::rememberForever('translations.'.$locale, function () use ($langPath) {
         return collect(File::allFiles($langPath))->flatMap(function ($file) {
             $name = basename($file, '.php');
