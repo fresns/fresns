@@ -39,12 +39,12 @@
                         <p class="card-text text-height">{{ $theme->description }}</p>
                         <div>
                             @if ($theme->is_enable)
-                                <button type="button" class="btn btn-outline-secondary btn-sm plugin-manage" data-action="{{ route('panel.plugin.updateTheme', ['theme' => $theme->id]) }}" data-enable="0">{{ __('FsLang::panel.button_deactivate') }}</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm plugin-manage" data-action="{{ route('panel.plugin.updateTheme', ['theme' => $theme->unikey]) }}" data-enable="0">{{ __('FsLang::panel.button_deactivate') }}</button>
                                 @if ($theme->theme_functions)
                                     <a href="{{ route('panel.themes.index', ['theme' => $theme->unikey]) }}" class="btn btn-primary btn-sm">{{ __('FsLang::panel.button_setting') }}</a>
                                 @endif
                             @else
-                                <button type="button" class="btn btn-outline-success btn-sm plugin-manage" data-action="{{ route('panel.plugin.updateTheme', ['theme' => $theme->id]) }}" data-enable="1">{{ __('FsLang::panel.button_activate') }}</button>
+                                <button type="button" class="btn btn-outline-success btn-sm plugin-manage" data-action="{{ route('panel.plugin.updateTheme', ['theme' => $theme->unikey]) }}" data-enable="1">{{ __('FsLang::panel.button_activate') }}</button>
                                 <button type="button" class="btn btn-link btn-sm ms-2 text-danger fresns-link plugin-uninstall-button" data-action="{{ route('panel.plugin.uninstallTheme', ['theme' => $theme->unikey]) }}" data-name="{{ $theme->name }}" data-clear_data_desc="{{ __('FsLang::panel.option_uninstall_theme_data') }}" data-bs-toggle="modal" data-bs-target="#uninstallConfirm">{{ __('FsLang::panel.button_uninstall') }}</button>
                             @endif
                         </div>

@@ -97,7 +97,7 @@
                             <select class="form-select" id="pcTheme" aria-label="Floating label select example">
                                 <option value="" selected>{{ __('FsLang::panel.engine_theme_option_no') }}</option>
                                 @foreach ($themes as $theme)
-                                    <option value="{{ $theme->unikey }}">{{ $theme->name }}</option>
+                                    <option value="{{ $theme->unikey }}" @if (! $theme->is_enable) disabled @endif>{{ $theme->name }}</option>
                                 @endforeach
                             </select>
                             <label for="PCtheme"><i class="bi bi-laptop"></i> {{ __('FsLang::panel.engine_theme_pc') }}</label>
@@ -106,7 +106,7 @@
                             <select class="form-select" id="mobileTheme" aria-label="Floating label select example">
                                 <option value="" selected>{{ __('FsLang::panel.engine_theme_option_no') }}</option>
                                 @foreach ($themes as $theme)
-                                    <option value="{{ $theme->unikey }}">{{ $theme->name }}</option>
+                                    <option value="{{ $theme->unikey }}" @if (! $theme->is_enable) disabled @endif>{{ $theme->name }}</option>
                                 @endforeach
                             </select>
                             <label for="mobileTheme"><i class="bi bi-phone"></i> {{ __('FsLang::panel.engine_theme_mobile') }}</label>

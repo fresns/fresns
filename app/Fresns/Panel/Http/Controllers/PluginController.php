@@ -141,8 +141,10 @@ class PluginController extends Controller
         return response(\Artisan::output()."\n".__('FsLang::tips.uninstallSuccess'));
     }
 
-    public function updateTheme(Plugin $theme, Request $request)
+    public function updateTheme(Request $request)
     {
+        $theme = Plugin::where('unikey', $request->input('theme'))->first();
+
         if ($request->has('is_enable')) {
             $theme->is_enable = $request->is_enable;
         }
