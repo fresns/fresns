@@ -8,8 +8,6 @@
 
 namespace App\Fresns\Api\Http\User;
 
-use App\Helpers\InteractiveHelper;
-use App\Models\User;
 use App\Fresns\Api\FsDb\FresnsCommentLogs\FresnsCommentLogs;
 use App\Fresns\Api\FsDb\FresnsConfigs\FresnsConfigsConfig;
 use App\Fresns\Api\FsDb\FresnsLanguages\FresnsLanguagesService;
@@ -36,6 +34,8 @@ use App\Fresns\Api\Helpers\ApiConfigHelper;
 use App\Fresns\Api\Helpers\ApiFileHelper;
 use App\Fresns\Api\Helpers\ApiLanguageHelper;
 use App\Fresns\Api\Helpers\DateHelper;
+use App\Helpers\InteractiveHelper;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class FsService
