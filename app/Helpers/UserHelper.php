@@ -63,10 +63,10 @@ class UserHelper
 
     /**
      * @param  int  $uid
-     * @param  array  $gid
+     * @param  string  $gid
      * @return bool
      */
-    public static function fresnsUserGroupAdminCheck(int $uid, array $gid)
+    public static function fresnsUserGroupAdminCheck(int $uid, string $gid)
     {
         $permission = Group::where('gid', $gid)->value('permission');
         $permissionArr = json_decode($permission, true);
