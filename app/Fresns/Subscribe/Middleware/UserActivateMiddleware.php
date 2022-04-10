@@ -33,8 +33,7 @@ class UserActivateMiddleware
 
     public function tokenIsValid(Request $request)
     {
-
-        if (!$request->header('token')) {
+        if (! $request->header('token')) {
             return false;
         }
 
