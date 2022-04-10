@@ -17,6 +17,7 @@ use App\Models\CommentLog;
 use App\Models\PostLog;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserArchive;
 use App\Models\UserIcon;
 use App\Models\UserRole;
 use App\Models\UserStat;
@@ -139,6 +140,24 @@ trait UserServiceTrait
         }
 
         return $roleList;
+    }
+
+    public function getUserArchives(string $langTag = '')
+    {
+        $userData = $this;
+
+        $archiveArr = UserArchive::where('user_id', $userData->id)->where('is_enable', 1)->get();
+
+        $archiveList = [];
+        foreach ($archiveArr as $archive) {
+            $item['itemKey'] = $archive->config_key;
+            $item['itemValue'] = ConfigHelper::fresnsConfigByItemKey($archive->config_key, $langTag);
+            $item['archiveValue'] = $archive->archive_value;
+            $item['archiveType'] = $archive->archive_type;
+            $archiveList[] = $item;
+        }
+
+        return $archiveList;
     }
 
     public function getUserIcons(string $langTag = '')

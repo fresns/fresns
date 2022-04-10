@@ -22,6 +22,7 @@ class UserService
         $userInteractive = InteractiveHelper::fresnsUserInteractive($langTag);
 
         $item['roles'] = $user->getUserRoles($timezone, $langTag);
+        $item['archives'] = $user->getUserArchives($langTag);
         $item['icons'] = $user->getUserIcons($timezone, $langTag);
         $item['stats'] = $user->getUserStats($langTag);
         $item['draftCount'] = $user->getUserDrafts();

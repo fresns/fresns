@@ -8,6 +8,8 @@
 
 namespace App\Fresns\Api\Http\User;
 
+use App\Helpers\InteractiveHelper;
+use App\Models\User;
 use App\Fresns\Api\FsDb\FresnsCommentLogs\FresnsCommentLogs;
 use App\Fresns\Api\FsDb\FresnsConfigs\FresnsConfigsConfig;
 use App\Fresns\Api\FsDb\FresnsLanguages\FresnsLanguagesService;
@@ -289,6 +291,8 @@ class FsService
                 $stats['extcredits5'] = $userStats['extcredits5'];
             }
             $data['stats'] = $stats;
+
+            $data['archives'] = $user->getUserArchives($langTag);
 
             $userIconsArr = FresnsUserIcons::where('user_id', $viewUid)->get()->toArray();
             $iconsArr = [];

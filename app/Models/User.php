@@ -17,6 +17,7 @@ class User extends Model
     use SoftDeletes;
     use HasFactory;
     use Traits\UserServiceTrait;
+    use Traits\DataChangeNotifyTrait;
 
     public function stat()
     {
@@ -26,6 +27,11 @@ class User extends Model
     public function roles()
     {
         return $this->hasMany(UserRole::class, 'user_id', 'id');
+    }
+
+    public function archives()
+    {
+        return $this->hasMany(UserArchive::class, 'user_id', 'id');
     }
 
     public function icons()
