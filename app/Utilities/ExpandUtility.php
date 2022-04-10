@@ -9,11 +9,11 @@
 namespace App\Utilities;
 
 use App\Helpers\ConfigHelper;
-use App\Helpers\StrHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
-use App\Helpers\PrimaryHelper;
 use App\Helpers\PluginHelper;
+use App\Helpers\PrimaryHelper;
+use App\Helpers\StrHelper;
 use App\Helpers\UserHelper;
 use App\Models\PluginBadge;
 use App\Models\PluginUsage;
@@ -30,7 +30,7 @@ class ExpandUtility
             $expandArr = PluginUsage::where('type', 6)->where('group_id', $groupId)->get();
         } else {
             $expandArr = PluginUsage::where('type', $type)
-            ->when($scene, function ($query, $scene)  {
+            ->when($scene, function ($query, $scene) {
                 $query->where('scene', 'like', "%$scene%");
             })
             ->get();
@@ -110,7 +110,7 @@ class ExpandUtility
 
         $rankNumber = [];
         foreach ($rankNumberArr as $arr) {
-            $item['id'] = $arr["id"];
+            $item['id'] = $arr['id'];
             $item['title'] = collect($arr['intro'])->where('langTag', $langTag)->first()['title'] ?? null;
             $item['description'] = collect($arr['intro'])->where('langTag', $langTag)->first()['description'] ?? null;
             $rankNumber[] = $item;
