@@ -206,7 +206,7 @@ class FsControllerApi extends FsApiController
         $uid = GlobalService::getGlobalKey('user_id');
 
         // Data source: whether provided by the plugin
-        $sortNumber = $request->input('sortNumber');
+        $rankNumber = $request->input('rankNumber');
         $this->isPluginData('postLists');
 
         $request->offsetSet('queryType', FsConfig::QUERY_TYPE_SQL_QUERY);
@@ -533,7 +533,7 @@ class FsControllerApi extends FsApiController
         $site_mode = ApiConfigHelper::getConfigByItemKey(FsConfig::SITE_MODEL);
 
         // Data source: whether provided by the plugin
-        $sortNumber = $request->input('sortNumber');
+        $rankNumber = $request->input('rankNumber');
         $this->isPluginData('postFollows');
         $uid = GlobalService::getGlobalKey('user_id');
         $type = $request->input('followType');
@@ -633,7 +633,7 @@ class FsControllerApi extends FsApiController
     public function postNearbys(Request $request)
     {
         // Data source: whether provided by the plugin
-        $sortNumber = $request->input('sortNumber');
+        $rankNumber = $request->input('rankNumber');
         $this->isPluginData('postNearbys');
         $table = FresnsGroupsConfig::CFG_TABLE;
         $rule = [
@@ -781,8 +781,8 @@ class FsControllerApi extends FsApiController
                     if (empty($d['pluginUnikey'])) {
                         return;
                     }
-                    // Get interface sortNumber parameters
-                    // $sortNumber = $d['sortNumber'][0]['id'];
+                    // Get interface rankNumber parameters
+                    // $rankNumber = $d['rankNumber'][0]['id'];
 
                     // Plugin return data
                     $pluginUnikey = $d['pluginUnikey'];

@@ -41,17 +41,17 @@ class ExpandContentTypeController extends Controller
         $pluginUsage->rank_num = $request->rank_num;
         $pluginUsage->can_delete = 1;
         $pluginUsage->data_sources = [
-            'postLists' => [
+            'postByAll' => [
                 'pluginUnikey' => $request->post_list,
-                'sortNumber' => [],
+                'rankNumber' => [],
             ],
-            'postFollows' => [
+            'postByFollow' => [
                 'pluginUnikey' => $request->post_follow,
-                'sortNumber' => [],
+                'rankNumber' => [],
             ],
-            'postNearbys' => [
+            'postByNearby' => [
                 'pluginUnikey' => $request->post_nearby,
-                'sortNumber' => [],
+                'rankNumber' => [],
             ],
         ];
         $pluginUsage->save();
@@ -94,24 +94,24 @@ class ExpandContentTypeController extends Controller
         $pluginUsage->rank_num = $request->rank_num;
         $dataSources = $pluginUsage->data_sources;
 
-        if ($request->post_list != ($dataSources['postLists']['pluginUnikey'] ?? null)) {
-            $dataSources['postLists'] = [
-                'pluginUnikey' => $request->post_list,
-                'sortNumber' => [],
+        if ($request->post_all != ($dataSources['postByAll']['pluginUnikey'] ?? null)) {
+            $dataSources['postByAll'] = [
+                'pluginUnikey' => $request->post_all,
+                'rankNumber' => [],
             ];
         }
 
-        if ($request->post_follow != ($dataSources['postFollows']['pluginUnikey'] ?? null)) {
-            $dataSources['postFollows'] = [
+        if ($request->post_follow != ($dataSources['postByFollow']['pluginUnikey'] ?? null)) {
+            $dataSources['postByFollow'] = [
                 'pluginUnikey' => $request->post_follow,
-                'sortNumber' => [],
+                'rankNumber' => [],
             ];
         }
 
-        if ($request->post_nearby != ($dataSources['postNearbys']['pluginUnikey'] ?? null)) {
-            $dataSources['postNearbys'] = [
+        if ($request->post_nearby != ($dataSources['postByNearby']['pluginUnikey'] ?? null)) {
+            $dataSources['postByNearby'] = [
                 'pluginUnikey' => $request->post_nearby,
-                'sortNumber' => [],
+                'rankNumber' => [],
             ];
         }
 
@@ -196,7 +196,7 @@ class ExpandContentTypeController extends Controller
             ];
         }
 
-        $dataSources[$key]['sortNumber'] = $data;
+        $dataSources[$key]['rankNumber'] = $data;
         $pluginUsage->data_sources = $dataSources;
         $pluginUsage->save();
 

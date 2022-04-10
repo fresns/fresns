@@ -1513,20 +1513,20 @@ $(document).ready(function () {
         }
 
         let dataSources = params.data_sources;
-        let postList = dataSources.postLists ? dataSources.postLists.pluginUnikey : null;
-        let postFollow = dataSources.postFollows ? dataSources.postFollows.pluginUnikey : null;
-        let postNearby = dataSources.postNearbys ? dataSources.postNearbys.pluginUnikey : null;
+        let postByAll = dataSources.postByAll ? dataSources.postByAll.pluginUnikey : null;
+        let postByFollow = dataSources.postByFollow ? dataSources.postByFollow.pluginUnikey : null;
+        let postByNearby = dataSources.postByNearby ? dataSources.postByNearby.pluginUnikey : null;
 
         $(this).find('input[name=rank_num]').val(params.rank_num);
         $(this).find('select[name=plugin_unikey]').val(params.plugin_unikey);
-        if (postList) {
-            $(this).find('select[name=post_list]').val(postList);
+        if (postByAll) {
+            $(this).find('select[name=post_all]').val(postByAll);
         }
-        if (postFollow) {
-            $(this).find('select[name=post_follow]').val(postFollow);
+        if (postByFollow) {
+            $(this).find('select[name=post_follow]').val(postByFollow);
         }
-        if (postNearby) {
-            $(this).find('select[name=post_nearby]').val(postNearby);
+        if (postByNearby) {
+            $(this).find('select[name=post_nearby]').val(postByNearby);
         }
 
         $(this)
@@ -1535,7 +1535,7 @@ $(document).ready(function () {
     });
 
     // panel types edit
-    $('#sortNumberModal').on('show.bs.modal', function (e) {
+    $('#rankNumberModal').on('show.bs.modal', function (e) {
         if ($(this).data('is_back')) {
             return;
         }
@@ -1543,10 +1543,10 @@ $(document).ready(function () {
         let params = button.data('params');
         let action = button.data('action');
 
-        $(this).find('.sort-item').remove();
+        $(this).find('.rank-item').remove();
         $(this).find('form').attr('action', action);
 
-        let template = $('#sortTemplate').contents();
+        let template = $('#rankTemplate').contents();
         params = JSON.parse(params);
         $(this).data('languages', null);
 
@@ -1558,17 +1558,17 @@ $(document).ready(function () {
                 descriptions[item.langTag] = item.description;
             });
 
-            let sortTemplate = template.clone();
-            sortTemplate.find('input[name="ids[]"]').val(param.id);
-            sortTemplate.find('.sort-title').data('languages', param.intro);
-            sortTemplate.find('input[name="titles[]"]').val(JSON.stringify(titles));
-            sortTemplate.find('.sort-description').data('languages', param.intro);
-            sortTemplate.find('input[name="descriptions[]"]').val(JSON.stringify(descriptions));
+            let rankTemplate = template.clone();
+            rankTemplate.find('input[name="ids[]"]').val(param.id);
+            rankTemplate.find('.rank-title').data('languages', param.intro);
+            rankTemplate.find('input[name="titles[]"]').val(JSON.stringify(titles));
+            rankTemplate.find('.rank-description').data('languages', param.intro);
+            rankTemplate.find('input[name="descriptions[]"]').val(JSON.stringify(descriptions));
 
-            sortTemplate.insertBefore($(this).find('.add-sort-tr'));
+            rankTemplate.insertBefore($(this).find('.add-rank-tr'));
         });
 
-        $('#sortNumberTitleLangModal');
+        $('#rankNumberTitleLangModal');
     });
 
     // selectImageType
@@ -1584,17 +1584,17 @@ $(document).ready(function () {
     });
 
     // content type data source
-    $('#sortNumberModal .add-sort').click(function () {
-        let template = $('#sortTemplate').clone();
+    $('#rankNumberModal .add-rank').click(function () {
+        let template = $('#rankTemplate').clone();
 
-        $(template.html()).insertBefore($('#sortNumberModal').find('.add-sort-tr'));
+        $(template.html()).insertBefore($('#rankNumberModal').find('.add-rank-tr'));
     });
 
-    $(document).on('click', '.delete-sort-number', function () {
+    $(document).on('click', '.delete-rank-number', function () {
         $(this).closest('tr').remove();
     });
 
-    $('#sortNumberTitleLangModal').on('show.bs.modal', function (e) {
+    $('#rankNumberTitleLangModal').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget);
         let languages = button.data('languages');
         $(this).find('form').trigger('reset');
@@ -1611,10 +1611,10 @@ $(document).ready(function () {
         });
     });
 
-    $('#sortNumberTitleLangModal').on('hide.bs.modal', function (e) {
+    $('#rankNumberTitleLangModal').on('hide.bs.modal', function (e) {
         let button = $($(this).data('button'));
-        $('#sortNumberModal').data('is_back', true);
-        $('#sortNumberModal').modal('show');
+        $('#rankNumberModal').data('is_back', true);
+        $('#rankNumberModal').modal('show');
 
         let titles = $(this).find('form').serializeArray();
         let data = new Object();
@@ -1624,7 +1624,7 @@ $(document).ready(function () {
         button.siblings('input').val(JSON.stringify(data));
     });
 
-    $('#sortNumberDescLangModal').on('show.bs.modal', function (e) {
+    $('#rankNumberDescLangModal').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget);
         let languages = button.data('languages');
         $(this).find('form').trigger('reset');
@@ -1641,10 +1641,10 @@ $(document).ready(function () {
         });
     });
 
-    $('#sortNumberDescLangModal').on('hide.bs.modal', function (e) {
+    $('#rankNumberDescLangModal').on('hide.bs.modal', function (e) {
         let button = $($(this).data('button'));
-        $('#sortNumberModal').data('is_back', true);
-        $('#sortNumberModal').modal('show');
+        $('#rankNumberModal').data('is_back', true);
+        $('#rankNumberModal').modal('show');
 
         let descriptions = $(this).find('form').serializeArray();
         let data = new Object();
@@ -1654,7 +1654,7 @@ $(document).ready(function () {
         button.siblings('input').val(JSON.stringify(data));
     });
 
-    $('#sortNumberModal').on('hide.bs.modal', function (e) {
+    $('#rankNumberModal').on('hide.bs.modal', function (e) {
         $(this).data('is_back', false);
     });
 

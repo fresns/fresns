@@ -44,14 +44,14 @@ class FresnsPluginUsagesResource extends BaseAdminResource
             $badgesType = $pluginbades['display_type'];
             $badgesValue = $pluginbades['value_text'] ?? $pluginbades['value_number'];
         }
-        $sortNumber = [];
+        $rankNumber = [];
         if ($this->type == 4) {
-            $postLists = self::getTypePluginUsages('postLists', $this->data_sources);
-            $postFollows = self::getTypePluginUsages('postLists', $this->data_sources);
-            $postNearbys = self::getTypePluginUsages('postLists', $this->data_sources);
-            $sortNumber['postLists'] = $postLists;
-            $sortNumber['postFollows'] = $postFollows;
-            $sortNumber['postNearbys'] = $postNearbys;
+            $postByAll = self::getTypePluginUsages('postByAll', $this->data_sources);
+            $postByFollow = self::getTypePluginUsages('postByFollow', $this->data_sources);
+            $postByNearby = self::getTypePluginUsages('postByNearby', $this->data_sources);
+            $rankNumber['postByAll'] = $postByAll;
+            $rankNumber['postByFollow'] = $postByFollow;
+            $rankNumber['postByNearby'] = $postByNearby;
         }
 
         // Default Field
@@ -64,7 +64,7 @@ class FresnsPluginUsagesResource extends BaseAdminResource
             'number' => $number,
             'badgesType' => $badgesType,
             'badgesValue' => $badgesValue,
-            'sortNumber' => $sortNumber,
+            'rankNumber' => $rankNumber,
         ];
 
         // Merger
@@ -77,11 +77,11 @@ class FresnsPluginUsagesResource extends BaseAdminResource
     public static function getTypePluginUsages($key, $data)
     {
         $sort_number = json_decode($data, true);
-        $sortNumber = [];
+        $rankNumber = [];
         $introArr = [];
         if ($sort_number) {
             if ($sort_number[$key]) {
-                foreach ($sort_number[$key]['sortNumber'] as $k => &$s) {
+                foreach ($sort_number[$key]['rankNumber'] as $k => &$s) {
                     foreach ($s as &$v) {
                         if (! is_array($v)) {
                             $id = $v;

@@ -40,26 +40,26 @@
                         <td>{{ optional($item->plugin)->name }}</td>
                         <td>{{ $item->name }}</td>
                         <td>
-                            @if (!empty($item->data_sources['postLists']['pluginUnikey']))
+                            @if (!empty($item->data_sources['postByAll']['pluginUnikey']))
                                 <button type="button" class="btn btn-outline-secondary btn-sm update-data-source"
                                     data-bs-toggle="modal"
-                                    data-action="{{ route('panel.content-type.source', ['id' => $item->id, 'key' => 'postLists']) }}"
-                                    data-params="{{ json_encode($item->data_sources['postLists']['sortNumber'] ?? []) }} "
-                                    data-bs-target="#sortNumberModal">{{ __('FsLang::panel.expand_content_type_option_post_list') }}</button>
+                                    data-action="{{ route('panel.content-type.source', ['id' => $item->id, 'key' => 'postByAll']) }}"
+                                    data-params="{{ json_encode($item->data_sources['postByAll']['rankNumber'] ?? []) }} "
+                                    data-bs-target="#rankNumberModal">{{ __('FsLang::panel.expand_content_type_option_post_all') }}</button>
                             @endif
-                            @if (!empty($item->data_sources['postFollows']['pluginUnikey']))
+                            @if (!empty($item->data_sources['postByFollow']['pluginUnikey']))
                                 <button type="button" class="btn btn-outline-secondary btn-sm update-data-source"
                                     data-bs-toggle="modal"
-                                    data-action="{{ route('panel.content-type.source', ['id' => $item->id, 'key' => 'postFollows']) }}"
-                                    data-params="{{ json_encode($item->data_sources['postFollows']['sortNumber'] ?? []) }} "
-                                    data-bs-target="#sortNumberModal">{{ __('FsLang::panel.expand_content_type_option_post_follow') }}</button>
+                                    data-action="{{ route('panel.content-type.source', ['id' => $item->id, 'key' => 'postByFollow']) }}"
+                                    data-params="{{ json_encode($item->data_sources['postByFollow']['rankNumber'] ?? []) }} "
+                                    data-bs-target="#rankNumberModal">{{ __('FsLang::panel.expand_content_type_option_post_follow') }}</button>
                             @endif
-                            @if (!empty($item->data_sources['postNearbys']['pluginUnikey']))
+                            @if (!empty($item->data_sources['postByNearby']['pluginUnikey']))
                                 <button type="button" class="btn btn-outline-secondary btn-sm update-data-source"
                                     data-bs-toggle="modal"
-                                    data-action="{{ route('panel.content-type.source', ['id' => $item->id, 'key' => 'postNearbys']) }}"
-                                    data-params="{{ json_encode($item->data_sources['postNearbys']['sortNumber'] ?? []) }} "
-                                    data-bs-target="#sortNumberModal">{{ __('FsLang::panel.expand_content_type_option_post_nearby') }}</button>
+                                    data-action="{{ route('panel.content-type.source', ['id' => $item->id, 'key' => 'postByNearby']) }}"
+                                    data-params="{{ json_encode($item->data_sources['postByNearby']['rankNumber'] ?? []) }} "
+                                    data-bs-target="#rankNumberModal">{{ __('FsLang::panel.expand_content_type_option_post_nearby') }}</button>
                             @endif
                         </td>
                         <td>
@@ -132,7 +132,7 @@
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_data_source') }}</label>
                             <div class="col-sm-9">
                                 <div class="form-floating mb-3">
-                                    <select class="form-select" id="floatingSelect" name="post_list" aria-label="Floating label select example">
+                                    <select class="form-select" id="floatingSelect" name="post_all" aria-label="Floating label select example">
                                         <option disabled>{{ __('FsLang::panel.select_box_tip_data_source') }}</option>
                                         <option value="" selected>{{ __('FsLang::panel.option_default') }}</option>
                                         @foreach ($plugins as $plugin)
@@ -232,31 +232,31 @@
         </div>
     </form>
 
-    <!-- sortNumber Modal -->
-    <div class="modal fade name-lang-modal" id="sortNumberModal" tabindex="-1" aria-labelledby="sortNumberModal" aria-hidden="true">
+    <!-- rankNumber Modal -->
+    <div class="modal fade name-lang-modal" id="rankNumberModal" tabindex="-1" aria-labelledby="rankNumberModal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">{{ __('FsLang::panel.expand_content_type_sort_number') }}</h5>
+                    <h5 class="modal-title">{{ __('FsLang::panel.expand_content_type_rank_number') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="sortNumberForm" method="post">
+                    <form id="rankNumberForm" method="post">
                         @csrf
                         @method('put')
                         <div class="table-responsive">
                             <table class="table table-hover align-middle text-nowrap">
                                 <thead>
                                     <tr class="table-info">
-                                        <th scope="col" style="width:10rem;">{{ __('FsLang::panel.table_number') }} <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.expand_content_type_sort_number_desc') }}"></i></th>
+                                        <th scope="col" style="width:10rem;">{{ __('FsLang::panel.table_number') }} <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.expand_content_type_rank_number_desc') }}"></i></th>
                                         <th scope="col">{{ __('FsLang::panel.table_title') }}</th>
                                         <th scope="col">{{ __('FsLang::panel.table_description') }}</th>
                                         <th scope="col" style="width:6rem;">{{ __('FsLang::panel.table_options') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="add-sort-tr">
-                                        <td colspan="4"><button class="btn btn-outline-success btn-sm px-3 add-sort" type="button"><i class="bi bi-plus-circle-dotted"></i> {{ __('FsLang::panel.button_add') }}</button></td>
+                                    <tr class="add-rank-tr">
+                                        <td colspan="4"><button class="btn btn-outline-success btn-sm px-3 add-rank" type="button"><i class="bi bi-plus-circle-dotted"></i> {{ __('FsLang::panel.button_add') }}</button></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -270,23 +270,23 @@
         </div>
     </div>
 
-    <template id="sortTemplate">
-        <tr class="sort-item">
+    <template id="rankTemplate">
+        <tr class="rank-item">
             <td><input required type="number" name="ids[]" class="form-control input-number"></td>
             <td>
-                <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start sort-title" data-bs-toggle="modal" data-bs-target="#sortNumberTitleLangModal">{{ __('FsLang::panel.table_title') }}</button>
+                <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start rank-title" data-bs-toggle="modal" data-bs-target="#rankNumberTitleLangModal">{{ __('FsLang::panel.table_title') }}</button>
                 <input type="hidden" name="titles[]">
             </td>
             <td>
-                <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start sort-description" data-bs-toggle="modal" data-bs-target="#sortNumberDescLangModal">{{ __('FsLang::panel.table_description') }}</button>
+                <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start rank-description" data-bs-toggle="modal" data-bs-target="#rankNumberDescLangModal">{{ __('FsLang::panel.table_description') }}</button>
                 <input type="hidden" name="descriptions[]">
             </td>
-            <td><button type="button" class="btn btn-link link-danger ms-1 fresns-link fs-7 delete-sort-number">{{ __('FsLang::panel.button_delete') }}</button></td>
+            <td><button type="button" class="btn btn-link link-danger ms-1 fresns-link fs-7 delete-rank-number">{{ __('FsLang::panel.button_delete') }}</button></td>
         </tr>
     </template>
 
-    <!-- sortNumber Language Modal -->
-    <div class="modal fade" id="sortNumberTitleLangModal" tabindex="-1" aria-labelledby="sortNumberTitleLangModal" aria-hidden="true">
+    <!-- rankNumber Language Modal -->
+    <div class="modal fade" id="rankNumberTitleLangModal" tabindex="-1" aria-labelledby="rankNumberTitleLangModal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -294,7 +294,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="sortTitleForm">
+                    <form id="rankTitleForm">
                         <div class="table-responsive">
                             <table class="table table-hover align-middle text-nowrap">
                                 <thead>
@@ -332,8 +332,8 @@
         </div>
     </div>
 
-    <!-- sortNumber Language Modal -->
-    <div class="modal fade" id="sortNumberDescLangModal" tabindex="-1" aria-labelledby="sortNumberDescLangModal" aria-hidden="true">
+    <!-- rankNumber Language Modal -->
+    <div class="modal fade" id="rankNumberDescLangModal" tabindex="-1" aria-labelledby="rankNumberDescLangModal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
