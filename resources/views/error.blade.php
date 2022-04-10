@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ App::getLocale() }}">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="Fresns" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Fresns {{$status}}</title>
+    <title>Fresns {{ $errorCode }}</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/bootstrap-icons.css">
@@ -18,7 +18,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/">
-                    <img src="/static/images/fresns-logo.png" alt="Fresns" height="30" class="d-inline-block align-text-top">
+                    <img src="/static/images/logo.png" alt="Fresns" height="30" class="d-inline-block align-text-top">
                 </a>
             </div>
         </nav>
@@ -27,35 +27,36 @@
     <main class="container">
         <div class="card mx-auto my-5">
             <div class="card-body p-5">
-                <h3 class="card-title">Fresns {{$status}}</h3>
-                <p>{{$msg}}</p>
-                @if(env('APP_DEBUG') && true)
-                <div class="fs-9 mt-4 overflow-auto">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">File</th>
-                                <th scope="col">Line</th>
-                                <th scope="col">Function</th>
-                                <th scope="col">Class</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($traceMsgArr as $idx => $item)
-                            <tr>
-                                <th scope="row">{{$idx + 1}}</th>
-                                <td>{{$item['file']}}</td>
-                                <td>{{$item['line']}}</td>
-                                <td>{{$item['function']}}</td>
-                                <td>{{$item['class']}}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                <h3 class="card-title">Fresns {{ $errorCode }}</h3>
+                <p>{{ $errorMessage }}</p>
+                <!-- Debug -->
+                @if( env('APP_DEBUG') && true )
+                    <div class="fs-9 mt-4 overflow-auto">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">File</th>
+                                    <th scope="col">Line</th>
+                                    <th scope="col">Function</th>
+                                    <th scope="col">Class</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($errorTrace as $idx => $item)
+                                    <tr>
+                                        <th scope="row">{{$idx + 1}}</th>
+                                        <td>{{ $item['file'] }}</td>
+                                        <td>{{ $item['line'] }}</td>
+                                        <td>{{ $item['function'] }}</td>
+                                        <td>{{ $item['class'] }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 @endif
-                <!--Debug End-->
+                <!-- Debug End -->
             </div>
         </div>
     </main>

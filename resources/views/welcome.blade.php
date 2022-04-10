@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ App::getLocale() }}">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="Fresns" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Fresns</title>
+    <title>Welcome to Fresns</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/bootstrap-icons.css">
@@ -18,12 +18,12 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/">
-                    <img src="/static/images/fresns-logo.png" alt="Fresns" height="30" class="d-inline-block align-text-top">
+                    <img src="/static/images/logo.png" alt="Fresns" height="30" class="d-inline-block align-text-top">
                 </a>
             </div>
         </nav>
     </header>
-    
+
     <main class="container">
         <div class="card mx-auto my-5" style="max-width:800px;">
             <div class="card-body p-5">
