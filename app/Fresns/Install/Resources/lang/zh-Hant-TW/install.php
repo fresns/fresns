@@ -59,7 +59,7 @@ return [
     'database_port' => '資料庫主機端口',
     'database_port_desc' => '默認為 3306',
     'database_timezone' => '資料庫時區',
-    'database_timezone_desc' => '配置正確可以保證資料時間的準確性。',
+    'database_timezone_desc' => '配置正確可以保證資料時間的準確性，以便 Fresns 能正確的處理時間。',
     'database_table_prefix' => '資料表前置詞',
     'database_table_prefix_desc' => '	如需在同一個資料庫中安裝多個 Fresns，請修改這個欄位中的預設設定。',
     'database_config_invalid' => '資料庫配置無效',

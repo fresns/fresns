@@ -59,7 +59,7 @@ return [
     'database_port' => 'Datenbank-Anschluss',
     'database_port_desc' => 'Standard ist 3306',
     'database_timezone' => 'Datenbank Zeitzone',
-    'database_timezone_desc' => 'Die korrekte Konfiguration gewährleistet genaue Datenzeiten.',
+    'database_timezone_desc' => 'Die korrekte Konfiguration stellt sicher, dass die Datenzeiten genau sind, damit Fresns die Zeiten korrekt verarbeiten kann.',
     'database_table_prefix' => 'Tabellen-Präfix',
     'database_table_prefix_desc' => 'Falls du mehrere Fresns-Installationen innerhalb einer Datenbank aufbauen möchtest, ändere diesen Eintrag.',
     'database_config_invalid' => 'Datenbankkonfiguration ungültig',

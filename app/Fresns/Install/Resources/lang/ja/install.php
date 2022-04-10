@@ -59,7 +59,7 @@ return [
     'database_port' => 'データベースポート',
     'database_port_desc' => 'デフォルトは3306',
     'database_timezone' => 'データベースタイムゾーン',
-    'database_timezone_desc' => '正しく設定することで、正確なデータ時間を確保することができます。',
+    'database_timezone_desc' => '正しく設定することで、Fresnsが正しく時刻を処理できるよう、データの時刻が正確になります。',
     'database_table_prefix' => 'テーブル接頭辞',
     'database_table_prefix_desc' => 'ひとつのデータベースに複数の Fresns をインストールしたい場合、これを変えてください。',
     'database_config_invalid' => 'データベース構成が無効',

@@ -247,6 +247,70 @@
                         </div>
                         <div class="col-sm-4 form-text">@lang('Install::install.database_port_desc')</div>
                     </div>
+                    <!--data timezone-->
+                    <div class="row mb-3">
+                        <label class="col-sm-3 col-form-label" for="DB_TIMEZONE">@lang('Install::install.database_timezone')</label>
+                        <div class="col-sm-5">
+                            <select class="form-select" id="DB_TIMEZONE" name="database[DB_TIMEZONE]">
+                                <option value="UTC-12">UTC -12</option>
+                                <option value="UTC-11.5">UTC -11:30</option>
+                                <option value="UTC-11">UTC -11</option>
+                                <option value="UTC-10.5">UTC -10:30</option>
+                                <option value="UTC-10">UTC -10</option>
+                                <option value="UTC-9.5">UTC -9:30</option>
+                                <option value="UTC-9">UTC -9</option>
+                                <option value="UTC-8.5">UTC -8:30</option>
+                                <option value="UTC-8">UTC -8</option>
+                                <option value="UTC-7.5">UTC -7:30</option>
+                                <option value="UTC-7">UTC -7</option>
+                                <option value="UTC-6.5">UTC -6:30</option>
+                                <option value="UTC-6">UTC -6</option>
+                                <option value="UTC-5.5">UTC -5:30</option>
+                                <option value="UTC-5">UTC -5</option>
+                                <option value="UTC-4.5">UTC -4:30</option>
+                                <option value="UTC-4">UTC -4</option>
+                                <option value="UTC-3.5">UTC -3:30</option>
+                                <option value="UTC-3">UTC -3</option>
+                                <option value="UTC-2.5">UTC -2:30</option>
+                                <option value="UTC-2">UTC -2</option>
+                                <option value="UTC-1.5">UTC -1:30</option>
+                                <option value="UTC-1">UTC -1</option>
+                                <option value="UTC-0.5">UTC -0:30</option>
+                                <option value="UTC+0" selected>UTC +0</option>
+                                <option value="UTC+0.5">UTC +0:30</option>
+                                <option value="UTC+1">UTC +1</option>
+                                <option value="UTC+1.5">UTC +1:30</option>
+                                <option value="UTC+2">UTC +2</option>
+                                <option value="UTC+2.5">UTC +2:30</option>
+                                <option value="UTC+3">UTC +3</option>
+                                <option value="UTC+3.5">UTC +3:30</option>
+                                <option value="UTC+4">UTC +4</option>
+                                <option value="UTC+4.5">UTC +4:30</option>
+                                <option value="UTC+5">UTC +5</option>
+                                <option value="UTC+5.5">UTC +5:30</option>
+                                <option value="UTC+5.75">UTC +5:45</option>
+                                <option value="UTC+6">UTC +6</option>
+                                <option value="UTC+6.5">UTC +6:30</option>
+                                <option value="UTC+7">UTC +7</option>
+                                <option value="UTC+7.5">UTC +7:30</option>
+                                <option value="UTC+8">UTC +8</option>
+                                <option value="UTC+8.5">UTC +8:30</option>
+                                <option value="UTC+8.75">UTC +8:45</option>
+                                <option value="UTC+9">UTC +9</option>
+                                <option value="UTC+9.5">UTC +9:30</option>
+                                <option value="UTC+10">UTC +10</option>
+                                <option value="UTC+10.5">UTC +10:30</option>
+                                <option value="UTC+11">UTC +11</option>
+                                <option value="UTC+11.5">UTC +11:30</option>
+                                <option value="UTC+12">UTC +12</option>
+                                <option value="UTC+12.75">UTC +12:45</option>
+                                <option value="UTC+13">UTC +13</option>
+                                <option value="UTC+13.75">UTC +13:45</option>
+                                <option value="UTC+14">UTC +14</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4 form-text">@lang('Install::install.database_timezone_desc')</div>
+                    </div>
                     <!--table prefix-->
                     <div class="row mb-3">
                         <label class="col-sm-3 col-form-label" for="DB_PREFIX">@lang('Install::install.database_table_prefix')</label>

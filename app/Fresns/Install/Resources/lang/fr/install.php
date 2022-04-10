@@ -59,7 +59,7 @@ return [
     'database_port' => 'Port de la base de données',
     'database_port_desc' => 'Par défaut, 3306',
     'database_timezone' => 'Fuseau horaire de la base de données',
-    'database_timezone_desc' => 'Une configuration correcte garantira des temps de données précis.',
+    'database_timezone_desc' => 'Une configuration correcte permet de s\'assurer que les temps des données sont exacts afin que Fresns puisse traiter les temps correctement.',
     'database_table_prefix' => 'Préfixe des tables',
     'database_table_prefix_desc' => 'Si vous souhaitez faire tourner plusieurs installations de Fresns sur une même base de données, modifiez ce réglage.',
     'database_config_invalid' => 'Configuration de la base de données invalide',

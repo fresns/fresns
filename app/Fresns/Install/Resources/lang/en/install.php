@@ -59,7 +59,7 @@ return [
     'database_port' => 'Database Port',
     'database_port_desc' => 'Default is 3306',
     'database_timezone' => 'Database Timezone',
-    'database_timezone_desc' => 'Proper config ensures accurate data timing.',
+    'database_timezone_desc' => 'Proper configuration ensures that the data time is accurate so that Fresns can process the time correctly.',
     'database_table_prefix' => 'Table Prefix',
     'database_table_prefix_desc' => 'If you want to run multiple Fresns installations in a single database, change this.',
     'database_config_invalid' => 'Database Config Invalid',

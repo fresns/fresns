@@ -363,7 +363,7 @@ class InstallController extends Controller
         $template['DB_DATABASE'] = $data['database']['DB_DATABASE'];
         $template['DB_USERNAME'] = $data['database']['DB_USERNAME'];
         $template['DB_PASSWORD'] = $data['database']['DB_PASSWORD'];
-        // $template['DB_TIMEZONE'] = $data['database']['DB_TIMEZONE'];
+        $template['DB_TIMEZONE'] = $data['database']['DB_TIMEZONE'];
         $template['DB_PREFIX'] = $data['database']['DB_PREFIX'];
         $template['SESSION_DOMAIN'] = \request()->getHttpHost();
 
