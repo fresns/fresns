@@ -8,21 +8,22 @@
 
 namespace App\Fresns\Api\Center\Helper;
 
-use App\Fresns\Api\Center\Base\BaseInstaller;
-use App\Fresns\Api\Center\Base\BasePluginConfig;
+use Illuminate\Support\Facades\File;
+use App\Fresns\Api\Helpers\FileHelper;
 use App\Fresns\Api\Center\Base\PluginConst;
 use App\Fresns\Api\Center\Common\LogService;
+use App\Fresns\Api\Center\Base\BaseInstaller;
+use App\Fresns\Api\Center\Helper\InstallHelper;
+use App\Fresns\Api\Center\Base\BasePluginConfig;
 use App\Fresns\Api\FsDb\FresnsPlugins\FresnsPlugins;
-use App\Fresns\Api\Helpers\FileHelper;
 use App\Fresns\Api\Http\FresnsInstall\InstallService;
-use Illuminate\Support\Facades\File;
 
 class PluginHelper
 {
     // Get Plugin Class
     public static function findPluginClass($uniKey)
     {
-        $pluginClass = "\\App\Fresns\Api\\Plugins\\{$uniKey}\\Plugin";
+        $pluginClass = "\\Plugins\\{$uniKey}\\Plugin";
         LogService::info('Get Plugin Class', $pluginClass);
         if (! class_exists($pluginClass)) {
             LogService::error('Plugin Class: Does not exist', $pluginClass);
@@ -36,7 +37,7 @@ class PluginHelper
     // Get Plugin Config Class
     public static function findPluginConfigClass($uniKey): ?BasePluginConfig
     {
-        $configClass = "\\App\Fresns\Api\\Plugins\\{$uniKey}\\PluginConfig";
+        $configClass = "\\Plugins\\{$uniKey}\\PluginConfig";
         if (! class_exists($configClass)) {
             LogService::error('Config Class: Does not exist', $configClass);
 
@@ -49,7 +50,7 @@ class PluginHelper
     // Get Plugin Installer Class
     public static function findInstaller($uniKey): ?BaseInstaller
     {
-        $installClass = "\\App\Fresns\Api\\Plugins\\{$uniKey}\\Installer";
+        $installClass = "\\Plugins\\{$uniKey}\\Installer";
         if (! class_exists($installClass)) {
             LogService::error('Installer Class: Does not exist', $installClass);
 

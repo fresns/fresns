@@ -872,7 +872,7 @@ class FresnsCmdWords extends BasePlugin
 
         // Check the account of login password errors in the last 1 hour for the account to whom the email or cell phone number belongs.
         // If it reaches 5 times, the login will be restricted.
-        // session_logs > object_type=3
+        // session_logs > object_type=5
         $startTime = date('Y-m-d H:i:s', strtotime('-1 hour'));
         $sessionCount = FresnsSessionLogs::where('created_at', '>=', $startTime)
         ->where('account_id', $account->id)
