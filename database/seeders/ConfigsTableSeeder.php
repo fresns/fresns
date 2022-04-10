@@ -675,7 +675,7 @@ class ConfigsTableSeeder extends Seeder
             50 => [
                 'id' => 51,
                 'item_key' => 'default_timezone',
-                'item_value' => '+1',
+                'item_value' => '+0',
                 'item_type' => 'string',
                 'item_tag' => 'general',
                 'is_multilingual' => 0,

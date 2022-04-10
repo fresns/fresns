@@ -126,7 +126,7 @@ class DateHelper
         }
 
         $timezone = $timezone ?: ConfigHelper::fresnsConfigByItemKey('default_timezone');
-        $langTag = $timezone ?: ConfigHelper::fresnsConfigByItemKey('default_language');
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigByItemKey('default_language');
 
         $datetime = self::fresnsDateTimeByTimezone($datetime, $timezone);
         $datetime = Carbon::parse($datetime);
@@ -158,7 +158,7 @@ class DateHelper
             return null;
         }
 
-        $langTag = $timezone ?: ConfigHelper::fresnsConfigByItemKey('default_language');
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigByItemKey('default_language');
 
         $currentTime = DateHelper::fresnsSqlCurrentDateTime();
 

@@ -112,14 +112,16 @@
         </div>
 
         <div class="row mb-4">
-            <label for="site_copyright_years" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.site_timezone') }}:</label>
+            <label for="default_timezone" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.default_timezone') }}:</label>
             <div class="col-lg-6">
                 <select class="form-select" name="default_timezone">
                     @foreach ($params['utc'] as $utcItem)
                         <option value="{{ $utcItem['value'] }}" {{ $params['default_timezone'] == $utcItem['value'] ? 'selected' : '' }}> {{ $utcItem['name'] }} </option>
                     @endforeach
                 </select>
+                <div id="timezoneHelp" class="form-text">{{ __('FsLang::panel.default_timezone_tip') }}</div>
             </div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.default_timezone_desc') }}</div>
         </div>
 
         <div class="row mb-4">
