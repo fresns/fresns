@@ -37,7 +37,7 @@ trait SubscribeNotifyTrait
     public function notifyUserActivate(array $data)
     {
         $defaultUserActivateEventData = [
-            'uri' => sprintf('/%s', ltrim(\request()->route()->uri, '/')),
+            'uri' => sprintf('/%s', ltrim(\request()->getRequestUri(), '/')),
             'body' => \request()->all(),
         ];
 

@@ -15,11 +15,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class File extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     use Traits\FileTypeTrait;
     use Traits\FileServiceInfoTrait;
     use Traits\FileInfoTrait;
     use Traits\FileStorageTrait;
-    use SoftDeletes;
+    use Traits\DataChangeNotifyTrait;
 
     const TYPE_IMAGE = 1;
     const TYPE_VIDEO = 2;

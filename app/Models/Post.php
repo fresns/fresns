@@ -16,6 +16,7 @@ class Post extends Model
 {
     use SoftDeletes;
     use HasFactory;
+    use Traits\DataChangeNotifyTrait;
 
     protected $guarded = ['id'];
 }

@@ -19,6 +19,7 @@ class Account extends Authenticatable
     use HasFactory;
     use Notifiable;
     use Traits\AccountServiceTrait;
+    use Traits\DataChangeNotifyTrait;
 
     /**
      * The attributes that are mass assignable.

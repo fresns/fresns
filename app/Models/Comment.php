@@ -16,4 +16,5 @@ class Comment extends Model
 {
     use SoftDeletes;
     use HasFactory;
+    use Traits\DataChangeNotifyTrait;
 }

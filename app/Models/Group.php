@@ -15,6 +15,7 @@ class Group extends Model
     use SoftDeletes;
     use Traits\LangName;
     use Traits\LangDescription;
+    use Traits\DataChangeNotifyTrait;
 
     protected $casts = [
         'permission' => 'array',

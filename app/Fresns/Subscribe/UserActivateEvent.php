@@ -11,8 +11,15 @@ namespace App\Fresns\Subscribe;
 class UserActivateEvent
 {
     protected object $event;
-    protected int $aid;
-    protected int $uid;
+
+    protected string $platform;
+    protected string $version;
+    protected string $appId;
+    protected string $langTag;
+    protected string $timezone;
+    protected string $aid;
+    protected string $uid;
+    protected string $deviceInfo;
     protected string $uri;
     protected array $body;
 
@@ -22,8 +29,14 @@ class UserActivateEvent
 
         $this->event = $event;
 
+        $this->platform = $event->platform;
+        $this->version = $event->version;
+        $this->appId = $event->appId;
+        $this->langTag = $event->langTag;
+        $this->timezone = $event->timezone;
         $this->aid = $event->aid;
         $this->uid = $event->uid;
+        $this->deviceInfo = $event->deviceInfo;
         $this->uri = $event->uri;
         $this->body = $event->body;
     }
@@ -36,8 +49,14 @@ class UserActivateEvent
     public function validate(array $event)
     {
         \validator()->validate($event, [
-            'aid' => 'required|integer',
-            'uid' => 'required|integer',
+            'platform' => 'required',
+            'version' => 'required',
+            'appId' => 'required',
+            'langTag' => 'nullable',
+            'timezone' => 'nullable',
+            'aid' => 'required',
+            'uid' => 'nullable',
+            'deviceInfo' => 'required',
             'uri' => 'required|string',
             'body' => 'required|array',
         ]);
@@ -54,8 +73,14 @@ class UserActivateEvent
     public function toArray()
     {
         return [
+            'platform' => $this->getPlatform(),
+            'version' => $this->getVersion(),
+            'appId' => $this->getAppId(),
+            'langTag' => $this->getLangTag(),
+            'timezone' => $this->getTimezone(),
             'aid' => $this->getAid(),
             'uid' => $this->getUid(),
+            'deviceInfo' => $this->getDeviceInfo(),
             'uri' => $this->getUri(),
             'body' => $this->getBody(),
         ];
