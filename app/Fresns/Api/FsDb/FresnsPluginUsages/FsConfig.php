@@ -44,9 +44,9 @@ class FsConfig extends BaseConfig
 
     // Data source
     const SOURCE_PARAMETER = [
-        ['apiName' => 'Get the list of posts', 'apiAddress' => '/api/v1/post/lists', 'nickname' => 'postLists'],
-        ['apiName' => 'Get posts from following', 'apiAddress' => '/api/v1/post/follows', 'nickname' => 'postFollows'],
-        ['apiName' => 'Get posts from nearby', 'apiAddress' => '/api/v1/post/nearbys', 'nickname' => 'postNearbys'],
+        ['apiName' => 'Get the list of posts', 'apiAddress' => '/api/v1/post/lists', 'nickname' => 'postByAll'],
+        ['apiName' => 'Get posts from following', 'apiAddress' => '/api/v1/post/follows', 'nickname' => 'postByFollow'],
+        ['apiName' => 'Get posts from nearby', 'apiAddress' => '/api/v1/post/nearbys', 'nickname' => 'postByNearby'],
     ];
     // User role tips
     const ROLE_USERS_TIPS = 'Leave blank means all users have access';

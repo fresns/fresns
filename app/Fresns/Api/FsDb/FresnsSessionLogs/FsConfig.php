@@ -24,9 +24,8 @@ class FsConfig extends BaseConfig
     const OBJECT_RESULT_SUCCESS = 2;
 
     // Log Type Relationships
-    const OBJECT_TYPE_ACCOUNT_LOGIN = 3;
-    const OBJECT_TYPE_USER_LOGIN = 7;
-    const OBJECT_TYPE_PLUGIN = 15;
+    const OBJECT_TYPE_ACCOUNT_LOGIN = 5;
+    const OBJECT_TYPE_USER_LOGIN = 8;
 
     // Additional search columns in the main table
     const ADDED_SEARCHABLE_FIELDS = [
@@ -36,21 +35,20 @@ class FsConfig extends BaseConfig
     // Log Type
     const SESSION_OBJECT_TYPE_ARR = [
         'Unknown' => 1,
-        'Account Register' => 2,
-        'Account Login' => 3,
+        'Panel Login' => 2,
+        'Register Account' => 3,
         'Delete Account' => 4,
-        'Reset Account Password' => 5,
-        'Modify Account Information' => 6,
-        'User Login' => 7,
-        'Modify User Information' => 8,
-        'Wallet Trading Decrease' => 9,
-        'Wallet Trading Increase' => 10,
-        'Create Draft Post' => 11,
-        'Create Draft Comment' => 12,
-        'Publish Post Content' => 13,
-        'Publish Comment Content' => 14,
-        'Timed Task' => 15,
-        'Console Login' => 16,
+        'Account Login' => 5,
+        'Reset Account Password' => 6,
+        'Modify Account Information' => 7,
+        'User Login' => 8,
+        'Modify User Information' => 9,
+        'Wallet Trading Decrease' => 10,
+        'Wallet Trading Increase' => 11,
+        'Create Draft Post' => 12,
+        'Create Draft Comment' => 13,
+        'Publish Post Content' => 14,
+        'Publish Comment Content' => 15,
     ];
 
     // Model Usage - Form Mapping

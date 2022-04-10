@@ -112,7 +112,7 @@ class FsControllerApi extends FsApiController
 
         // Check the number of login password errors in the last 1 hour for the user to whom the email or cell phone number belongs.
         // If it reaches 5 times, the login will be restricted.
-        // session_logs > object_type=7
+        // session_logs > object_type=8
         $startTime = date('Y-m-d H:i:s', strtotime('-1 hour'));
         $sessionCount = FresnsSessionLogs::where('created_at', '>=', $startTime)
         ->where('account_id', $aid)

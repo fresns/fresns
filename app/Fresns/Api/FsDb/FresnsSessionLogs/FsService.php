@@ -51,7 +51,7 @@ class FsService extends BaseAdminService
 
         $requestUri = Request::getRequestUri();
         $map = GlobalConfig::URI_CONVERSION_OBJECT_TYPE_NO;
-        $objectType = '';
+        $objectType = 1;
 
         if (empty($type)) {
             foreach ($map as $k => $v) {
@@ -62,7 +62,7 @@ class FsService extends BaseAdminService
         } else {
             $objectType = $type;
         }
-        if ($objectType == 15) {
+        if ($objectType == 2) {
             $objectName = $objectName;
         } else {
             $objectName = $requestUri;
@@ -102,30 +102,5 @@ class FsService extends BaseAdminService
         }
 
         FresnsSessionLogs::where('id', $sessionLogsId)->update($input);
-    }
-
-    // Fresns Console (Panel) Add Log
-    public static function addConsoleSessionLogs($objectType, $objectAction, $accountId = null)
-    {
-        $fresnsVersion = ApiConfigHelper::getConfigByItemKey('fresns_version');
-        $fresnsVersionInt = ApiConfigHelper::getConfigByItemKey('fresns_version_int');
-
-        $input = [
-            'platform_id' => '4',
-            'version' => $fresnsVersion ?? 1,
-            'version_int' => $fresnsVersionInt ?? 1,
-            'object_type' => $objectType,
-            'object_name' => Request::getRequestUri(),
-            'object_action' => $objectAction,
-            'object_result' => 0,
-            'object_order_id' => $objectOrderId ?? null,
-            'device_info' => '[1]',
-            'account_id' => $accountId ?? null,
-            'user_id' => $userId ?? null,
-        ];
-
-        $id = FresnsSessionLogs::insertGetId($input);
-
-        return $id;
     }
 }

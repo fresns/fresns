@@ -100,9 +100,9 @@ class FsResource extends BaseAdminResource
                 $intro['title'] = null;
                 $intro['description'] = null;
                 $arr['intro'] = $intro;
-                $newArr['postLists'][] = $arr;
-                $newArr['postFollows'][] = $arr;
-                $newArr['postNearbys'][] = $arr;
+                $newArr['postByAll'][] = $arr;
+                $newArr['postByFollow'][] = $arr;
+                $newArr['postByNearby'][] = $arr;
             }
         } else {
             // sort_number Parameter Filtering
