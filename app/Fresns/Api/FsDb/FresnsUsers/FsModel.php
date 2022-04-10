@@ -8,8 +8,8 @@
 
 namespace App\Fresns\Api\FsDb\FresnsUsers;
 
-use App\Models\Traits\UserServiceTrait;
 use App\Fresns\Api\Base\Models\BaseAdminModel;
+use App\Models\Traits\UserServiceTrait;
 
 class FsModel extends BaseAdminModel
 {

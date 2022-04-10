@@ -32,12 +32,12 @@ class UserArchive extends Model
 
     public function getArchiveFileUrl($value)
     {
-        if (!is_numeric($value)) {
+        if (! is_numeric($value)) {
             return $value;
         }
 
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink([
-            'fileId' => $value
+            'fileId' => $value,
         ]);
 
         if ($fresnsResp->isSuccessResponse()) {
