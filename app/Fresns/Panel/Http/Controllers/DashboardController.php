@@ -8,15 +8,15 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Helpers\DateHelper;
+use App\Models\Account;
 use App\Models\Config;
 use App\Models\Plugin;
-use App\Models\Account;
 use App\Models\SessionKey;
-use App\Helpers\DateHelper;
 use App\Utilities\VersionUtility;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
