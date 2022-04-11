@@ -11,7 +11,7 @@
             <h1 class="fs-3 fw-normal">{{ __('FsLang::panel.welcome') }}</h1>
             <p class="text-secondary">
                 {{ __('FsLang::panel.current_version') }} v{{$currentVersion['version'] ?? ''}}
-                @if (($currentVersion['versionInt'] ?? 0) < ($version['versionInt'] ?? 0))
+                @if (($currentVersion['versionInt'] ?? 0) < ($newVersion['versionInt'] ?? 0))
                     <a href="{{ route('panel.upgrades') }}" class="badge rounded-pill bg-danger ms-2 text-decoration-none">{{ __('FsLang::panel.new_version') }}</a>
                 @endif
             </p>
@@ -113,14 +113,38 @@
                 <div class="card-header">{{ __('FsLang::panel.system_info') }}</div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_fresns_version') }}: <span>Fresns v{{$currentVersion['version'] ?? ''}}</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_server') }}: <span>-</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_web') }}: <span>-</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_php') }}: <span>-</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_database') }}: <span>-</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_database_engine') }}: <span>-</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_database_collation') }}: <span>-</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">{{ __('FsLang::panel.system_info_database_size') }}: <span>-</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            {{ __('FsLang::panel.system_info_server') }}: <span>{{ $systemInfo['server'] }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            {{ __('FsLang::panel.system_info_web') }}: <span>{{ $systemInfo['web'] }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            {{ __('FsLang::panel.system_info_php_version') }}: <span>{{ $systemInfo['php']['version'] }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            {{ __('FsLang::panel.system_info_php_upload_max_filesize') }}: <span>{{ $systemInfo['php']['uploadMaxFileSize'] }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            {{ __('FsLang::panel.system_info_database_version') }}: <span>{{ $systemInfo['database']['version'] }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            {{ __('FsLang::panel.system_info_database_timezone') }}:
+                            <span>
+                                {{ $systemInfo['database']['timezone'] }}
+                                @if ($systemInfo['database']['timezone'] == $systemInfo['database']['timezoneFromEnv'])
+                                    <span class="badge rounded-pill bg-success ms-2 fs-9">.env {{ $systemInfo['database']['timezone'] }}</span>
+                                @else
+                                    <span class="badge rounded-pill bg-danger ms-2 fs-9"><span class="spinner-grow spinner-grow-sm align-text-top" role="status" aria-hidden="true"></span> .env {{ $systemInfo['database']['timezoneFromEnv'] }}</span>
+                                @endif
+                            </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            {{ __('FsLang::panel.system_info_database_collation') }}: <span>{{ $systemInfo['database']['collation'] }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            {{ __('FsLang::panel.system_info_database_size') }}: <span>{{ $systemInfo['database']['size'] }}</span>
+                        </li>
                     </ul>
                 </div>
             </div>

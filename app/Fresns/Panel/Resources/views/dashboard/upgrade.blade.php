@@ -13,6 +13,7 @@
         <div class="col-lg-5">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
                 <button class="btn btn-primary" type="button"><i class="bi bi-arrow-clockwise"></i> {{ __('FsLang::panel.button_check_upgrade') }}</button>
+                <a class="btn btn-outline-success" href="{{ route('panel.settings') }}" role="button">{{ __('FsLang::panel.setting_build_type') }}</a>
                 <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a>
             </div>
         </div>
@@ -22,20 +23,15 @@
     <div class="card mb-4">
         <div class="card-header">{{ __('FsLang::panel.fresns_core') }}</div>
         <div class="card-body">
-            @if (($currentVersion['versionInt'] ?? 0 ) < ($version['versionInt'] ?? 0))
+            @if (($currentVersion['versionInt'] ?? 0 ) < ($newVersion['versionInt'] ?? 0))
                 <h5 class="card-title">{{ __('FsLang::panel.upgrade_fresns') }}</h5>
-                <p class="card-text">{{ __('FsLang::panel.upgrade_fresns_desc') }} v{{ $version['version'] ?? ''}}</p>
+                <p class="card-text">{{ __('FsLang::panel.upgrade_fresns_desc') }} v{{ $newVersion['version'] ?? ''}}</p>
                 @if ($upgradeStep)
-                    <button id="upgradeButton"
-                        type="button" class="btn btn-info"
-                        data-action="{{ route('panel.upgrade.info') }}"
-                        data-upgrading="1">
+                    <button id="upgradeButton" type="button" class="btn btn-info" data-action="{{ route('panel.upgrade.info') }}" data-upgrading="1">
                         {{ __('FsLang::panel.upgrade_in_progress') }}
                     </button>
                 @else
-                    <button id="upgradeButton"
-                        type="button" class="btn btn-primary"
-                        data-action="{{ route('panel.upgrade.info') }}">
+                    <button id="upgradeButton" type="button" class="btn btn-primary" data-action="{{ route('panel.upgrade.info') }}">
                         {{ __('FsLang::panel.button_upgrade') }}
                     </button>
                 @endif

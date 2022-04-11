@@ -8,6 +8,7 @@
 
 namespace App\Console\Commands;
 
+use App\Utilities\VersionUtility;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Cache;
@@ -32,10 +33,6 @@ class UpgradeFresns extends Command
     protected $path = 'upgrade';
 
     protected $file;
-
-    protected $currentVersion = [];
-
-    protected $remoteVersion = [];
 
     protected $extractPath;
 
@@ -67,6 +64,8 @@ class UpgradeFresns extends Command
      */
     public function handle()
     {
+        set_time_limit(0);
+
         $this->updateStep(self::STEP_START);
         // Check if an upgrade is needed
         if (! $this->checkVersion()) {
@@ -89,36 +88,12 @@ class UpgradeFresns extends Command
         return Command::SUCCESS;
     }
 
-    public function getRemoteVersion(): array
-    {
-        if (! $this->remoteVersion) {
-            $upgradeUrl = config('FsConfig.version_url');
-            $client = new \GuzzleHttp\Client();
-            $response = $client->request('GET', $upgradeUrl);
-
-            $this->remoteVersion = json_decode($response->getBody(), true) ?: [];
-        }
-
-        return $this->remoteVersion;
-    }
-
-    public function getCurrentVersion(): array
-    {
-        if (! $this->currentVersion) {
-            $this->currentVersion = json_decode(file_get_contents(base_path('fresns.json')), true);
-        }
-
-        Cache::put('currentVersion', $this->currentVersion);
-
-        return $this->currentVersion;
-    }
-
     public function checkVersion(): bool
     {
-        $remoteVersion = $this->getRemoteVersion();
-        $currentVersion = $this->getCurrentVersion();
+        $newVersion = VersionUtility::newVersion();
+        $currentVersion = VersionUtility::currentVersion();
 
-        if (($currentVersion['versionInt'] ?? 0) >= ($remoteVersion['versionInt'] ?? 0)) {
+        if (($currentVersion['versionInt'] ?? 0) >= ($newVersion['versionInt'] ?? 0)) {
             return false;
         }
 
@@ -138,8 +113,8 @@ class UpgradeFresns extends Command
 
         $client = new \GuzzleHttp\Client();
 
-        $remoteVersion = $this->getRemoteVersion();
-        $downloadUrl = $remoteVersion['upgradePackage'];
+        $newVersion = VersionUtility::newVersion();
+        $downloadUrl = $newVersion['upgradePackage'];
 
         $filename = basename($downloadUrl);
 
@@ -246,17 +221,18 @@ class UpgradeFresns extends Command
     public function upgradeCommand()
     {
         logger('upgrade:upgrade command');
-        $currentVersionInt = $this->currentVersion['versionInt'] ?? 0;
-        $remoteVersionInt = $this->remoteVersion['versionInt'] ?? 0;
 
-        if (! $currentVersionInt || ! $remoteVersionInt) {
+        $currentVersionInt = VersionUtility::currentVersion()['versionInt'] ?? 0;
+        $newVersionInt = VersionUtility::newVersion()['versionInt'] ?? 0;
+
+        if (! $currentVersionInt || ! $newVersionInt) {
             return false;
         }
 
-        $version = $currentVersionInt;
-        while ($version < $remoteVersionInt) {
-            $version++;
-            $command = 'fresns:upgrade-'.$version;
+        $versionInt = $currentVersionInt;
+        while ($versionInt < $newVersionInt) {
+            $versionInt++;
+            $command = 'fresns:upgrade-'.$versionInt;
             if (\Artisan::has($command)) {
                 $this->call($command);
             }
@@ -281,7 +257,7 @@ class UpgradeFresns extends Command
         $count = 0;
         // If the target directory does not exist, it is created.
         if (! is_dir($target)) {
-            mkdir($target, 0777, true);
+            mkdir($target, 0755, true);
             $count++;
         }
         // Search all files in the directory

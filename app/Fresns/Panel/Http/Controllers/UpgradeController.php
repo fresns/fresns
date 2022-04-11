@@ -8,26 +8,15 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Utilities\VersionUtility;
 use Symfony\Component\Process\PhpExecutableFinder;
 
 class UpgradeController extends Controller
 {
     public function show()
     {
-        $currentVersion = json_decode(file_get_contents(base_path('fresns.json')), true);
-
-        $version = \Cache::remember('version', 3600, function () {
-            try {
-                $upgradeUrl = config('FsConfig.version_url');
-                $client = new \GuzzleHttp\Client();
-                $response = $client->request('GET', $upgradeUrl);
-                $version = json_decode($response->getBody(), true);
-            } catch (\Exception $e) {
-                $version = [];
-            }
-
-            return $version;
-        });
+        $currentVersion = VersionUtility::currentVersion();
+        $newVersion = VersionUtility::newVersion();
 
         $upgradeStep = cache('upgradeStep');
 
@@ -44,7 +33,7 @@ class UpgradeController extends Controller
             $currentVersion = cache('currentVersion');
         }
 
-        return view('FsView::dashboard.upgrade', compact('currentVersion', 'version', 'upgradeStep', 'steps'));
+        return view('FsView::dashboard.upgrade', compact('currentVersion', 'newVersion', 'upgradeStep', 'steps'));
     }
 
     public function upgradeInfo()

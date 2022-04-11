@@ -8,23 +8,24 @@
 
 namespace App\Console\Commands\Upgrade;
 
+use App\Utilities\VersionUtility;
 use Illuminate\Console\Command;
 
-class Upgrade5Command extends Command
+class Upgrade1Command extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'fresns:upgrade-5';
+    protected $signature = 'fresns:upgrade-1';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'upgrade to 5';
+    protected $description = 'upgrade to 1';
 
     /**
      * Create a new command instance.
@@ -43,9 +44,7 @@ class Upgrade5Command extends Command
      */
     public function handle()
     {
-        $this->call('db:seed', [
-            '--class' => 'UserRolesTableSeeder',
-        ]);
+        VersionUtility::editVersion('1.5.0', 1);
 
         return Command::SUCCESS;
     }

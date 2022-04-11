@@ -9,25 +9,30 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Fresns\Panel\Http\Requests\UpdateConfigRequest;
+use App\Helpers\ConfigHelper;
 use App\Models\Config;
 
 class SettingController extends Controller
 {
     public function show()
     {
-        $domainConfig = Config::where('item_key', 'backend_domain')->first();
-        $domain = optional($domainConfig)->item_value;
+        $buildType = ConfigHelper::fresnsConfigByItemKey('build_type');
+        $domain = ConfigHelper::fresnsConfigByItemKey('backend_domain');
+        $path = ConfigHelper::fresnsConfigByItemKey('panel_path') ?? 'admin';
 
-        $pathConfig = Config::where('item_key', 'panel_path')->first();
-        $path = optional($pathConfig)->item_value ?: 'admin';
-
-        return view('FsView::dashboard.settings', compact('domain', 'path'));
+        return view('FsView::dashboard.settings', compact('buildType', 'domain', 'path'));
     }
 
     public function update(UpdateConfigRequest $request)
     {
         if ($request->path && \Str::startsWith($request->path, config('FsConfig.route_blacklist'))) {
             return back()->with('failure', __('FsLang::tips.secure_entry_route_conflicts'));
+        }
+
+        if ($request->build_type) {
+            $buildConfig = Config::where('item_key', 'build_type')->firstOrNew();
+            $buildConfig->item_value = $request->build_type;
+            $buildConfig->save();
         }
 
         if ($request->domain) {
