@@ -8,8 +8,8 @@
 
 namespace App\Utilities;
 
-use App\Models\Config;
 use App\Models\CodeMessage;
+use App\Models\Config;
 
 class ConfigUtility
 {
@@ -42,11 +42,10 @@ class ConfigUtility
 
     /**
      * > Get the message of the specified code in the specified language.
-     * 
+     *
      * @param int code The code of the message you want to get.
      * @param string unikey The unique key of the plugin, which is the same as the plugin name.
      * @param string langTag The language tag, such as en-US, zh-CN, etc.
-     * 
      * @return The message associated with the code.
      */
     public static function getCodeMessage(int $code, string $unikey = '', string $langTag = '')
