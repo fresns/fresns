@@ -9,6 +9,7 @@
 namespace App\Utilities;
 
 use App\Models\Config;
+use App\Models\CodeMessage;
 
 class ConfigUtility
 {
@@ -37,5 +38,27 @@ class ConfigUtility
         foreach ($fresnsConfigKeys as $item) {
             Config::where('item_key', '=', $item)->forceDelete();
         }
+    }
+
+    /**
+     * > Get the message of the specified code in the specified language.
+     * 
+     * @param int code The code of the message you want to get.
+     * @param string unikey The unique key of the plugin, which is the same as the plugin name.
+     * @param string langTag The language tag, such as en-US, zh-CN, etc.
+     * 
+     * @return The message associated with the code.
+     */
+    public static function getCodeMessage(int $code, string $unikey = '', string $langTag = '')
+    {
+        $unikey = $unikey ?: 'Fresns';
+
+        if (empty($langTag)) {
+            $langTag = Config::where('item_key', 'default_language')->value('item_value');
+        }
+
+        $message = CodeMessage::where('plugin_unikey', $unikey)->where('code', $code)->where('lang_tag', $langTag)->value('message');
+
+        return $message ?? 'Unknown Error';
     }
 }
