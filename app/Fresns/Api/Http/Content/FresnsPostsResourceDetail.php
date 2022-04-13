@@ -94,14 +94,12 @@ class FresnsPostsResourceDetail extends BaseAdminResource
         // dump($allowStatus);
         if ($allowStatus == 1) {
             $userCount = DB::table(FresnsPostAllowsConfig::CFG_TABLE)->where('post_id', $this->id)->where('type', 1)->where('object_id', $uid)->count();
-            $useroleCount = 0;
+            $userRoleCount = 0;
             if (! empty($roleRels)) {
-                $useroleCount = DB::table(FresnsPostAllowsConfig::CFG_TABLE)->where('post_id', $this->id)->where('type', 2)->where('object_id', $roleRels['role_id'])->count();
+                $userRoleCount = DB::table(FresnsPostAllowsConfig::CFG_TABLE)->where('post_id', $this->id)->where('type', 2)->where('object_id', $roleRels['role_id'])->count();
             }
-            // dump($userCount);
-            // dump($useroleCount);
             // Read access
-            if ($userCount > 0 || $useroleCount > 0) {
+            if ($userCount > 0 || $userRoleCount > 0) {
                 $allowStatus = 1;
                 $allowProportion = 100;
                 $noAllow = 1;

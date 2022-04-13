@@ -66,12 +66,14 @@ class FresnsPostsResource extends BaseAdminResource
         // Data Table: users
         $userInfo = DB::table(FresnsUsersConfig::CFG_TABLE)->where('id', $this->user_id)->first();
         // Data Table: user_roles
-        $roleRels = FresnsUserRoles::where('user_id', $this->user_id)->where('is_main', 1)->first();
+        $roleRel = FresnsUserRoles::where('user_id', $this->user_id)->where('is_main', 1)->first();
+
         // Data Table: roles
         $userRole = [];
-        if (! empty($roleRels)) {
-            $userRole = FresnsRoles::find($roleRels['role_id']);
+        if (! empty($roleRel)) {
+            $userRole = FresnsRoles::find($roleRel['role_id']);
         }
+
         // Data Table: comments
         $comments = DB::table('comments as c')->select('c.*')
             ->leftJoin('users as m', 'c.user_id', '=', 'm.id')
@@ -102,12 +104,12 @@ class FresnsPostsResource extends BaseAdminResource
         $noAllow = 0;
         if ($allowStatus == 1) {
             $userCount = DB::table(FresnsPostAllowsConfig::CFG_TABLE)->where('post_id', $this->id)->where('type', 1)->where('object_id', $uid)->count();
-            $useroleCount = 0;
-            if (! empty($roleRels)) {
-                $useroleCount = DB::table(FresnsPostAllowsConfig::CFG_TABLE)->where('post_id', $this->id)->where('type', 2)->where('object_id', $roleRels['role_id'])->count();
+            $userRoleCount = 0;
+            if (! empty($roleRel)) {
+                $userRoleCount = DB::table(FresnsPostAllowsConfig::CFG_TABLE)->where('post_id', $this->id)->where('type', 2)->where('object_id', $roleRel['role_id'])->count();
             }
             // Read access
-            if ($userCount > 0 || $useroleCount > 0) {
+            if ($userCount > 0 || $userRoleCount > 0) {
                 $allowStatus = 1;
                 $allowProportion = 100;
                 $noAllow = 1;
