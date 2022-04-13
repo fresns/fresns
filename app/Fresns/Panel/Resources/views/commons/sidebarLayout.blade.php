@@ -40,6 +40,51 @@
         </div>
     </div>
 
+    <!--install modal-->
+    <div class="modal fade" id="installModal" tabindex="-1" aria-labelledby="install" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('FsLang::panel.button_install') }}: <span class="install-name"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <button class="btn btn-outline-secondary dropdown-toggle showSelectTypeName" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('FsLang::panel.button_plugin_input') }}</button>
+                        <ul class="dropdown-menu selectImageType">
+                            <li data-name="inputUnikey"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_plugin_input') }}</a></li>
+                            <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_plugin_upload') }}</a></li>
+                        </ul>
+                        <input type="hidden" name="type">
+                        <input type="text" class="form-control inputUnikey" name="inputUnikey">
+                        <input type="file" class="form-control inputFile" name="inputFile" style="display:none;">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#installStepModal" id="installSubmit">{{ __('FsLang::panel.button_confirm_install') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--install artisan output modal-->
+    <div class="modal fade" id="installStepModal" tabindex="-1" aria-labelledby="installStepModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('FsLang::panel.button_install') }}: <span class="install-name"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <textarea class="form-control" rows="6" id="install_artisan_output" readonly>{{ __('FsLang::panel.install_in_progress') }}</textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('FsLang::panel.button_close') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--uninstall modal-->
     <div class="modal fade" id="uninstallConfirm" tabindex="-1" aria-labelledby="uninstall" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered">
@@ -71,7 +116,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <textarea class="form-control" rows="6" id="artisan_output" readonly>{{ __('FsLang::panel.uninstall_in_progress') }}</textarea>
+                    <textarea class="form-control" rows="6" id="uninstall_artisan_output" readonly>{{ __('FsLang::panel.uninstall_in_progress') }}</textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('FsLang::panel.button_close') }}</button>

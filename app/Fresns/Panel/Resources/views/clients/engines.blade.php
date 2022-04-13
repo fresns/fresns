@@ -13,6 +13,9 @@
         </div>
         <div class="col-lg-5">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#installModal" data-type="plugin" data-name="{{ __('FsLang::panel.sidebar_website_tab_engines') }}">
+                    <i class="bi bi-laptop"></i> {{ __('FsLang::panel.button_install') }}
+                </button>
                 <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a>
             </div>
         </div>
@@ -46,14 +49,14 @@
                                 @if ($pcPlugin = optional($configs->where('item_key', $engine->unikey.'_Pc')->first())->item_value )
                                     {{ $plugins[$pcPlugin] ?? '' }}
                                 @else
-                                    {{ __('FsLang::panel.engine_table_theme_null') }}
+                                    {{ __('FsLang::panel.engine_table_theme_none') }}
                                 @endif
                             </span>
                             <span class="badge bg-light text-dark"><i class="bi bi-phone"></i>
                                 @if ($mobilePlugin = optional($configs->where('item_key', $engine->unikey.'_Mobile')->first())->item_value)
                                     {{ $plugins[$mobilePlugin] }}
                                 @else
-                                    {{ __('FsLang::panel.engine_table_theme_null') }}
+                                    {{ __('FsLang::panel.engine_table_theme_none') }}
                                 @endif
                             </span>
                         </td>

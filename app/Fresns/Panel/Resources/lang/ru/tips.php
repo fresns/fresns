@@ -18,6 +18,8 @@ return [
     'deleteSuccess' => 'успешно удален',
     'updateSuccess' => 'Успешно изменен',
     'upgradeSuccess' => 'Обновление завершено',
+    'installSuccess' => 'Успех установки',
+    'installFailure' => 'Сбой установки',
     'uninstallSuccess' => 'Успех деинсталляции',
     'uninstallFailure' => 'Неудачная деинсталляция',
     'copySuccess' => 'Копировать успех',

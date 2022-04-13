@@ -13,6 +13,9 @@
         </div>
         <div class="col-lg-5">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#installModal" data-type="plugin" data-name="{{ __('FsLang::panel.sidebar_apps') }}">
+                    <i class="bi bi-phone"></i> {{ __('FsLang::panel.button_install') }}
+                </button>
                 <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a>
             </div>
         </div>
@@ -41,7 +44,7 @@
                                 @endif
                             @else
                                 <button type="button" class="btn btn-outline-success btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['plugin' => $app->id]) }}" data-enable="1">{{ __('FsLang::panel.button_activate') }}</button>
-                                <button type="button" class="btn btn-link btn-sm ms-2 text-danger fresns-link uninstall-plugin" data-action="{{ route('panel.plugin.destroy', ['plugin' => $app->id]) }}">{{ __('FsLang::panel.button_uninstall') }}</button>
+                                <button type="button" class="btn btn-link btn-sm ms-2 text-danger fresns-link plugin-uninstall-button" data-action="{{ route('panel.plugin.uninstall', ['plugin' => $app->unikey]) }}" data-name="{{ $app->name }}" data-clear_data_desc="{{ __('FsLang::panel.option_uninstall_plugin_data') }}" data-bs-toggle="modal" data-bs-target="#uninstallConfirm">{{ __('FsLang::panel.button_uninstall') }}</button>
                             @endif
                         </div>
                     </div>

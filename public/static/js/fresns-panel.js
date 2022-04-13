@@ -859,7 +859,7 @@ $(document).ready(function () {
             },
             success: function (response) {
                 window.uninstallMessage = response;
-                $('#uninstallStepModal').find('#artisan_output').text(response);
+                $('#uninstallStepModal').find('#uninstall_artisan_output').text(response);
             },
         });
     });

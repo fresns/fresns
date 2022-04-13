@@ -18,6 +18,8 @@ return [
     'deleteSuccess' => 'berhasil dihapus',
     'updateSuccess' => 'Berhasil dimodifikasi',
     'upgradeSuccess' => 'Pembaruan selesai',
+    'installSuccess' => 'Instal Sukses',
+    'installFailure' => 'Instal Kegagalan',
     'uninstallSuccess' => 'Uninstall Sukses',
     'uninstallFailure' => 'Copot Pemasangan Gagal',
     'copySuccess' => 'Salin kesuksesan',

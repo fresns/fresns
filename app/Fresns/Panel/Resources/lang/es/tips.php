@@ -18,6 +18,8 @@ return [
     'deleteSuccess' => 'borrado con éxito',
     'updateSuccess' => 'Modificado con éxito',
     'upgradeSuccess' => 'actualización completada',
+    'installSuccess' => 'Instalar con éxito',
+    'installFailure' => 'Fallo de instalación',
     'uninstallSuccess' => 'Desinstalación exitosa',
     'uninstallFailure' => 'Fallo de desinstalación',
     'copySuccess' => 'Copiar el éxito',

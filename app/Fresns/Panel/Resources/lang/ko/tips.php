@@ -18,6 +18,8 @@ return [
     'deleteSuccess' => '성공적으로 삭제되었습니다',
     'updateSuccess' => '성공적으로 수정되었습니다',
     'upgradeSuccess' => '업데이트 완료',
+    'installSuccess' => '설치 성공',
+    'installFailure' => '설치 실패',
     'uninstallSuccess' => '제거 성공',
     'uninstallFailure' => '제거 실패',
     'copySuccess' => '성공을 복사하십시오',

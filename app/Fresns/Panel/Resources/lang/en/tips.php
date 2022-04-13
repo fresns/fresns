@@ -18,6 +18,8 @@ return [
     'deleteSuccess' => 'Delete Success',
     'updateSuccess' => 'Update Success',
     'upgradeSuccess' => 'Upgrade Success',
+    'installSuccess' => 'Install Success',
+    'installFailure' => 'Install Failure',
     'uninstallSuccess' => 'Uninstall Success',
     'uninstallFailure' => 'Uninstall Failure',
     'copySuccess' => 'Copy Success',

@@ -18,6 +18,8 @@ return [
     'deleteSuccess' => '刪除成功',
     'updateSuccess' => '更改成功',
     'upgradeSuccess' => '更新成功',
+    'installSuccess' => '安裝成功',
+    'installFailure' => '安裝失敗',
     'uninstallSuccess' => '卸載成功',
     'uninstallFailure' => '卸載失敗',
     'copySuccess' => '複製成功',

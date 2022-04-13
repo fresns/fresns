@@ -70,6 +70,11 @@ class Controller extends BaseController
         return $this->successResponse('delete');
     }
 
+    public function installSuccess()
+    {
+        return $this->successResponse('install');
+    }
+
     public function uninstallSuccess()
     {
         return $this->successResponse('uninstall');

@@ -18,6 +18,8 @@ return [
     'deleteSuccess' => 'cancellato con successo',
     'updateSuccess' => 'Modificato con successo',
     'upgradeSuccess' => 'Aggiornamento completato',
+    'installSuccess' => 'Installare con successo',
+    'installFailure' => 'Installazione fallita',
     'uninstallSuccess' => 'Disinstallazione riuscita',
     'uninstallFailure' => 'Disinstallazione fallita',
     'copySuccess' => 'Copia il successo',

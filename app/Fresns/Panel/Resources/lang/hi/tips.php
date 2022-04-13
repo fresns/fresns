@@ -18,6 +18,8 @@ return [
     'deleteSuccess' => 'सफलतापूर्वक हटा दिया गया',
     'updateSuccess' => 'सफलतापूर्वक संशोधित',
     'upgradeSuccess' => 'अपडेट पूर्ण हो गया',
+    'installSuccess' => 'सफलता स्थापित करें',
+    'installFailure' => 'विफलता स्थापित करें',
     'uninstallSuccess' => 'सफलता को अनइंस्टॉल करें',
     'uninstallFailure' => 'विफलता को अनइंस्टॉल करें',
     'copySuccess' => 'सफलतापूर्वक कॉपी करें',
