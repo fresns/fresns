@@ -38,14 +38,14 @@
                                 @if ($admin->email)
                                     {{ $admin->secret_email }}
                                 @else
-                                    NULL
+                                    None
                                 @endif
                             </span>
                             <span class="badge bg-light text-dark"><i class="bi bi-phone"></i>
                                 @if ($admin->pure_phone)
                                     +{{ $admin->country_code }} {{ $admin->secret_pure_phone }}
                                 @else
-                                    NULL
+                                    None
                                 @endif
                             </span>
                         </td>

@@ -23,7 +23,7 @@
     <div class="card mb-4">
         <div class="card-header">{{ __('FsLang::panel.fresns_core') }}</div>
         <div class="card-body">
-            @if (($currentVersion['versionInt'] ?? 0 ) < ($newVersion['versionInt'] ?? 0))
+            @if (($currentVersion['versionInt'] ?? 0 ) != ($newVersion['versionInt'] ?? 0))
                 <h5 class="card-title">{{ __('FsLang::panel.upgrade_fresns') }}</h5>
                 <p class="card-text">{{ __('FsLang::panel.upgrade_fresns_desc') }} v{{ $newVersion['version'] ?? ''}}</p>
                 @if ($upgradeStep)
@@ -37,7 +37,7 @@
                 @endif
             @else
                 <div class="p-5 text-center">
-                    <i class="bi bi-view-list"></i> {{ __('FsLang::panel.upgrade_null') }}
+                    <i class="bi bi-view-list"></i> {{ __('FsLang::panel.upgrade_none') }}
                 </div>
             @endif
         </div>
@@ -52,7 +52,7 @@
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         <div class="p-5 text-center">
-                            <i class="bi bi-view-list"></i> {{ __('FsLang::panel.upgrade_null') }}
+                            <i class="bi bi-view-list"></i> {{ __('FsLang::panel.upgrade_none') }}
                         </div>
                     </ul>
                 </div>
@@ -65,7 +65,7 @@
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         <div class="p-5 text-center">
-                            <i class="bi bi-view-list"></i> {{ __('FsLang::panel.upgrade_null') }}
+                            <i class="bi bi-view-list"></i> {{ __('FsLang::panel.upgrade_none') }}
                         </div>
                     </ul>
                 </div>
@@ -78,7 +78,7 @@
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         <div class="p-5 text-center">
-                            <i class="bi bi-view-list"></i> {{ __('FsLang::panel.upgrade_null') }}
+                            <i class="bi bi-view-list"></i> {{ __('FsLang::panel.upgrade_none') }}
                         </div>
                     </ul>
                 </div>
@@ -91,7 +91,7 @@
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         <div class="p-5 text-center">
-                            <i class="bi bi-view-list"></i> {{ __('FsLang::panel.upgrade_null') }}
+                            <i class="bi bi-view-list"></i> {{ __('FsLang::panel.upgrade_none') }}
                         </div>
                     </ul>
                 </div>

@@ -82,7 +82,7 @@
                             <div class="input-group mb-3">
                                 <label class="input-group-text" for="multi_user_service">{{ __('FsLang::panel.user_multiple_service') }}</label>
                                 <select class="form-select" name="multi_user_service">
-                                    <option value="">🚫 {{ __('FsLang::panel.user_multiple_service_null') }}</option>
+                                    <option value="">🚫 {{ __('FsLang::panel.user_multiple_service_none') }}</option>
                                     @foreach ($pluginParams['multiple'] as $plugin)
                                         <option value="{{ $plugin->unikey }}" {{ $params['multi_user_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                                     @endforeach
