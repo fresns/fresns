@@ -73,7 +73,7 @@
                         </ul>
                     </div>
                     <!--logout-->
-                    <div class="ms-3">
+                    <div class="ms-lg-3 mt-3 mt-lg-0 mb-2 mb-lg-0">
                         <form action="{{route('panel.logout')}}" method="POST">
                             @csrf
                             <button class="btn btn-outline-warning btn-sm" type="subbmit">{{ __('FsLang::panel.logout') }}</button>

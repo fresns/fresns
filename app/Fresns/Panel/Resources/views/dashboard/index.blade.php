@@ -11,7 +11,7 @@
             <h1 class="fs-3 fw-normal">{{ __('FsLang::panel.welcome') }}</h1>
             <p class="text-secondary">
                 {{ __('FsLang::panel.current_version') }} v{{$currentVersion['version'] ?? ''}}
-                @if (($currentVersion['versionInt'] ?? 0) < ($newVersion['versionInt'] ?? 0))
+                @if (($currentVersion['versionInt'] ?? 0) != ($newVersion['versionInt'] ?? 0))
                     <a href="{{ route('panel.upgrades') }}" class="badge rounded-pill bg-danger ms-2 text-decoration-none">{{ __('FsLang::panel.new_version') }}</a>
                 @endif
             </p>
