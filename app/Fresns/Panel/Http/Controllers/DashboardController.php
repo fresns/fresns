@@ -13,7 +13,7 @@ use App\Models\Account;
 use App\Models\Config;
 use App\Models\Plugin;
 use App\Models\SessionKey;
-use App\Utilities\VersionUtility;
+use App\Utilities\AppUtility;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -36,8 +36,8 @@ class DashboardController extends Controller
         });
         $news = collect($news)->where('langTag', \App::getLocale())->first();
 
-        $currentVersion = VersionUtility::currentVersion();
-        $newVersion = VersionUtility::newVersion();
+        $currentVersion = AppUtility::currentVersion();
+        $newVersion = AppUtility::newVersion();
 
         $configKeys = [
             'accounts_count',

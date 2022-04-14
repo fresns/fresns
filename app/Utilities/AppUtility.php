@@ -10,7 +10,7 @@ namespace App\Utilities;
 
 use App\Helpers\ConfigHelper;
 
-class VersionUtility
+class AppUtility
 {
     public static function currentVersion()
     {
@@ -60,5 +60,36 @@ class VersionUtility
         $editContent = json_encode($currentVersion, JSON_PRETTY_PRINT);
 
         return file_put_contents($path, $editContent);
+    }
+
+    public function getMarketHeader(): array
+    {
+        $isHttps = \request()->getScheme() === 'https';
+
+        $appConfig = ConfigHelper::fresnsConfigByItemKeys([
+            'install_datetime',
+            'build_type',
+            'site_name',
+            'site_desc',
+            'site_copyright',
+            'default_timezone',
+            'default_language',
+        ]);
+
+        $header = [
+            'installDatetime' => $appConfig['install_datetime'],
+            'buildType' => $appConfig['build_type'],
+            'version' => self::currentVersion()['version'],
+            'versionInt' => self::currentVersion()['versionInt'],
+            'httpSsl' => $isHttps ? 1 : 0,
+            'httpHost' => \request()->getHttpHost(),
+            'siteName' => $appConfig['site_name'],
+            'siteDesc' => $appConfig['site_desc'],
+            'siteCopyright' => $appConfig['site_copyright'],
+            'timezone' => $appConfig['default_timezone'],
+            'language' => $appConfig['default_language'],
+        ];
+
+        return $header;
     }
 }

@@ -8,7 +8,7 @@
 
 namespace App\Console\Commands;
 
-use App\Utilities\VersionUtility;
+use App\Utilities\AppUtility;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Cache;
@@ -90,8 +90,8 @@ class UpgradeFresns extends Command
 
     public function checkVersion(): bool
     {
-        $newVersion = VersionUtility::newVersion();
-        $currentVersion = VersionUtility::currentVersion();
+        $newVersion = AppUtility::newVersion();
+        $currentVersion = AppUtility::currentVersion();
 
         if (($currentVersion['versionInt'] ?? 0) >= ($newVersion['versionInt'] ?? 0)) {
             return false;
@@ -113,7 +113,7 @@ class UpgradeFresns extends Command
 
         $client = new \GuzzleHttp\Client();
 
-        $newVersion = VersionUtility::newVersion();
+        $newVersion = AppUtility::newVersion();
         $downloadUrl = $newVersion['upgradePackage'];
 
         $filename = basename($downloadUrl);
@@ -222,8 +222,8 @@ class UpgradeFresns extends Command
     {
         logger('upgrade:upgrade command');
 
-        $currentVersionInt = VersionUtility::currentVersion()['versionInt'] ?? 0;
-        $newVersionInt = VersionUtility::newVersion()['versionInt'] ?? 0;
+        $currentVersionInt = AppUtility::currentVersion()['versionInt'] ?? 0;
+        $newVersionInt = AppUtility::newVersion()['versionInt'] ?? 0;
 
         if (! $currentVersionInt || ! $newVersionInt) {
             return false;

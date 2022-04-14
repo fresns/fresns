@@ -8,15 +8,15 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
-use App\Utilities\VersionUtility;
+use App\Utilities\AppUtility;
 use Symfony\Component\Process\PhpExecutableFinder;
 
 class UpgradeController extends Controller
 {
     public function show()
     {
-        $currentVersion = VersionUtility::currentVersion();
-        $newVersion = VersionUtility::newVersion();
+        $currentVersion = AppUtility::currentVersion();
+        $newVersion = AppUtility::newVersion();
 
         $upgradeStep = cache('upgradeStep');
 
