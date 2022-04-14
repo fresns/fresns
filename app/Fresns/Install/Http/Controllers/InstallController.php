@@ -10,6 +10,7 @@ namespace App\Fresns\Install\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Config;
+use App\Utilities\ConfigUtility;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cache;
 
@@ -365,7 +366,7 @@ class InstallController extends Controller
         $template['DB_PASSWORD'] = $data['database']['DB_PASSWORD'];
         $template['DB_TIMEZONE'] = $data['database']['DB_TIMEZONE'];
         $template['DB_PREFIX'] = $data['database']['DB_PREFIX'];
-        $template['SESSION_DOMAIN'] = \request()->getHttpHost();
+        $template['SESSION_DOMAIN'] = ConfigUtility::getDomainByHost(\request()->getHttpHost());
 
         foreach ($template as $key => $value) {
             $envTemp = str_replace('{'.$key.'}', $value, $envTemp);
