@@ -62,10 +62,9 @@ class ConfigUtility
     }
 
     /**
-     * It takes a hostname as a string and returns the domain name as a string
-     * 
+     * It takes a hostname as a string and returns the domain name as a string.
+     *
      * @param string host The hostname you want to get the domain from.
-     * 
      * @return The domain name of the host.
      */
     public static function getDomainByHost(string $host)
@@ -101,14 +100,14 @@ class ConfigUtility
 
         $suffixDomainData = [$reverseDomainData[0], $reverseDomainData[1]];
 
-		$count = 0;
-		foreach ($suffixDomainData as $part) {
-	        foreach ($ianaRoot as $value) {
-	            if ($value === $part) {
-	                $count++;
-	            }
-	        }
-		}
+        $count = 0;
+        foreach ($suffixDomainData as $part) {
+            foreach ($ianaRoot as $value) {
+                if ($value === $part) {
+                    $count++;
+                }
+            }
+        }
 
         $domain = match ($count) {
             1 => implode('.', array_reverse([$reverseDomainData[0], $reverseDomainData[1]])),
