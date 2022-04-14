@@ -32,7 +32,7 @@ Fresns is a free and open source social network service software, a general-purp
 
 | Environment | Requirements |
 | --- | --- |
-| PHP Extensions | `fileinfo` `exif` `redis` |
+| PHP Extensions | `fileinfo` `exif` |
 | PHP Functions | `putenv` `symlink` `readlink` `proc_open` `passthru` |
 
 | Database | MySQL 8.x |
@@ -42,18 +42,18 @@ Fresns is a free and open source social network service software, a general-purp
 
 ## Installation and Using
 
-This repository is an R & D code repository without "vendor" reference library files. If you use this repository code package to install, you need to execute the composer command based on the command line to install "vendor" reference library files. If you feel troublesome, you can also download the full version of the installation package from the [official website](https://fresns.org/). The installation package on the official website already contains reference library files, so there is no need to perform command-line installation.
+This repository is an R & D code repository without "vendor" reference library files. If you use this repository code package to install, you need to execute the composer command based on the command line to install "vendor" reference library files. If you feel troublesome, you can also download the full version of the installation package from the [official website](https://fresns.org/guide/install.html). The installation package on the official website already contains reference library files, so there is no need to perform command-line installation.
 
 **Deployment Process**
 
 1. Download the code package of [the repository release](https://github.com/fresns/fresns/releases), upload it to the business server and decompress it.
-2. Configure the web server according to the [the installation tutorial](https://fresns.org/guide/install.html) on the official website.
-3. Execute the command line in the "main program root directory".
+2. Execute the command line in the "main program root directory".
     - Development deployment: `composer install`
     - Production deployment: `composer install --optimize-autoloader --no-dev`
-4. The rest of the configuration process is the same as [the installation tutorial](https://fresns.org/guide/install.html) on the official website.
-
-*Please make sure that the Composer package management tool is installed on your server.*
+3. Execute the php artisan command under the "main program root directory" to configure the plugin manager.
+    - `php artisan vendor:publish --provider="Fresns\PluginManager\Providers\PluginServiceProvider"`
+4. Configure the web server according to the [the installation tutorial](https://fresns.org/guide/install.html) on the official website.
+5. Visit the `/install` page to do the installation.
 
 ## Contributing
 
