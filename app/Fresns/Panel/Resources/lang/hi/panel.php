@@ -83,6 +83,7 @@ return [
     'sidebar_menus' => 'मेनू',
     'sidebar_columns' => 'कॉलम',
     'sidebar_language_packs' => 'भाषा पैक',
+    'sidebar_code_messages' => 'कोड संदेश',
     'sidebar_keys' => 'चांबियाँ',
     'sidebar_website' => 'वेबसाइट',
     'sidebar_website_tab_engines' => 'इंजन',
@@ -120,6 +121,7 @@ return [
     'sidebar_menus_intro' => 'क्लाइंट मेनू जानकारी को समान रूप से कॉन्फ़िगर करें।',
     'sidebar_columns_intro' => 'नामकरण को कॉन्फ़िगर करने के लिए प्रत्येक कॉलम को एकजुट करें।',
     'sidebar_language_packs_intro' => 'बहु भाषा ग्राहकों के लिए प्रत्येक पाठ की बहु भाषा सामग्री को कॉन्फ़िगर करें।',
+    'sidebar_code_messages_intro' => 'मुख्य प्रोग्राम और प्लग इन के लिए स्थिति कोड के बहुभाषी विवरण कॉन्फ़िगर करें।',
     'sidebar_keys_intro' => 'मुख्य प्रमाण-पत्र महत्वपूर्ण हैं, आसानी से उन्हें दूसरों को प्रकट न करें।',
     'sidebar_website_engines_intro' => 'अधिक व्यक्तिगत सुविधाओं और सेवाओं को प्राप्त करने के लिए विभिन्न इंजनों का चयन करें।',
     'sidebar_website_themes_intro' => 'अधिक व्यक्तिगत शैली और बातचीत प्राप्त करने के लिए विभिन्न विषयों का चयन करें।',
@@ -292,6 +294,7 @@ return [
     'system_info_database_size' => 'वर्तमान डेटाबेस आकार',
     'news' => 'Fresns गतिविधियाँ और समाचार',
     // Dashboard-Upgrade
+    'install_in_progress' => 'इंस्टॉल हो रहा है...',
     'upgrade_none' => 'कोई अपग्रेड नहीं',
     'upgrade_fresns' => 'अपग्रेड के लिए एक नया FRESNS संस्करण उपलब्ध है।',
     'upgrade_fresns_desc' => 'आप अपग्रेड कर सकते हैं',

@@ -83,6 +83,7 @@ return [
     'sidebar_menus' => '메뉴',
     'sidebar_columns' => '열',
     'sidebar_language_packs' => '언어 팩',
+    'sidebar_code_messages' => '코드 메시지',
     'sidebar_keys' => '키',
     'sidebar_website' => '웹 사이트',
     'sidebar_website_tab_engines' => '엔진',
@@ -120,6 +121,7 @@ return [
     'sidebar_menus_intro' => '클라이언트 메뉴 정보를 균일하게 구성하십시오',
     'sidebar_columns_intro' => '각 열을 통합하여 명명을 구성하십시오',
     'sidebar_language_packs_intro' => '다국어 클라이언트의 각 텍스트의 다중 언어 내용을 구성하십시오',
+    'sidebar_code_messages_intro' => '메인 프로그램 및 플러그인에 대한 상태 코드의 다국어 설명을 구성합니다.',
     'sidebar_keys_intro' => '주요 자격 증명은 중요하고 다른 사람들에게 쉽게 공개하지는 않습니다',
     'sidebar_website_engines_intro' => '더 개인화 된 기능과 서비스를 달성하기 위해 다른 엔진을 선택하십시오',
     'sidebar_website_themes_intro' => '다른 주제를 선택하여보다 개인화 된 스타일과 상호 작용을 달성하십시오',
@@ -292,6 +294,7 @@ return [
     'system_info_database_size' => '현재 데이터베이스 크기',
     'news' => 'Fresns 활동 및 뉴스',
     // Dashboard-Upgrade
+    'install_in_progress' => '설치 진행 중...',
     'upgrade_none' => '업데이트 없음',
     'upgrade_fresns' => '업그레이드를 위해 새로운 Fresns 버전이 있습니다',
     'upgrade_fresns_desc' => '업그레이드 할 수 있습니다',

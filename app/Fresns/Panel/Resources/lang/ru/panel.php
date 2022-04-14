@@ -83,6 +83,7 @@ return [
     'sidebar_menus' => 'Меню',
     'sidebar_columns' => 'Колонны',
     'sidebar_language_packs' => 'Языковые пакеты',
+    'sidebar_code_messages' => 'Кодовые сообщения',
     'sidebar_keys' => 'Ключи',
     'sidebar_website' => 'Веб-сайт',
     'sidebar_website_tab_engines' => 'Двигатели',
@@ -120,6 +121,7 @@ return [
     'sidebar_menus_intro' => 'Равномерно настроить информацию о меню клиента',
     'sidebar_columns_intro' => 'Унифицируйте каждый столбец, чтобы настроить именование',
     'sidebar_language_packs_intro' => 'Настройте многоязычное содержимое каждого текста для многоязычных клиентов',
+    'sidebar_code_messages_intro' => 'Многоязычное описание кодов состояния, настроенных для основной программы и подключаемых модулей.',
     'sidebar_keys_intro' => 'Основные учетные данные важны, не легко раскрывать их другим',
     'sidebar_website_engines_intro' => 'Выберите разные двигатели для достижения более персонализированных функций и услуг',
     'sidebar_website_themes_intro' => 'Выберите разные темы для достижения более персонализированного стиля и взаимодействия',
@@ -292,6 +294,7 @@ return [
     'system_info_database_size' => 'Текущая база данных Размер',
     'news' => 'Мероприятия и новости Fresns',
     // Dashboard-Upgrade
+    'install_in_progress' => 'Выполняется установка...',
     'upgrade_none' => 'Нет обновления',
     'upgrade_fresns' => 'Для обновления доступна новая версия Freesns',
     'upgrade_fresns_desc' => 'Вы можете обновить до',

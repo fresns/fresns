@@ -83,6 +83,7 @@ return [
     'sidebar_menus' => 'Menù',
     'sidebar_columns' => 'Colonne',
     'sidebar_language_packs' => 'Pacchetti di lingua',
+    'sidebar_code_messages' => 'Codice Messaggi',
     'sidebar_keys' => 'Chiavi',
     'sidebar_website' => 'Sito web',
     'sidebar_website_tab_engines' => 'Motori',
@@ -120,6 +121,7 @@ return [
     'sidebar_menus_intro' => 'Configurare uniformemente le informazioni del menu del client',
     'sidebar_columns_intro' => 'Unificare ogni colonna per configurare la denominazione',
     'sidebar_language_packs_intro' => 'Configurare il contenuto multi-lingua di ciascun testo per i client multi-lingua',
+    'sidebar_code_messages_intro' => 'Descrizione multilingue dei codici di stato configurati per il programma principale e i plug-in.',
     'sidebar_keys_intro' => 'Le credenziali chiave sono importanti, non li rivelano facilmente ad altri',
     'sidebar_website_engines_intro' => 'Seleziona diversi motori per ottenere funzionalità e servizi più personalizzati',
     'sidebar_website_themes_intro' => 'Seleziona diversi argomenti per ottenere uno stile e un\'interazione più personalizzati',
@@ -292,6 +294,7 @@ return [
     'system_info_database_size' => 'Dimensioni del database corrente',
     'news' => 'Attività e notizie di Fresns',
     // Dashboard-Upgrade
+    'install_in_progress' => 'Installazione in corso...',
     'upgrade_none' => 'Nessun aggiornamento',
     'upgrade_fresns' => 'C\'è una nuova versione di Fresns disponibile per l\'aggiornamento',
     'upgrade_fresns_desc' => 'Puoi aggiornare a',

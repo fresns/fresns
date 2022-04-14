@@ -83,6 +83,7 @@ return [
     'sidebar_menus' => 'Menus',
     'sidebar_columns' => 'Columns',
     'sidebar_language_packs' => 'Language Packs',
+    'sidebar_code_messages' => 'Code Messages',
     'sidebar_keys' => 'Keys',
     'sidebar_website' => 'Website',
     'sidebar_website_tab_engines' => 'Engines',
@@ -120,6 +121,7 @@ return [
     'sidebar_menus_intro' => 'Uniform config of client menu information',
     'sidebar_columns_intro' => 'Uniform naming for each columns of the client config',
     'sidebar_language_packs_intro' => 'Configure the multilingual content of each text for the multilingual client',
+    'sidebar_code_messages_intro' => 'Configure multilingual descriptions of status codes for the main program and plugins.',
     'sidebar_keys_intro' => 'Key credentials are important, please do not disclose them to others easily',
     'sidebar_website_engines_intro' => 'Choose a different engine for more personalized features and services',
     'sidebar_website_themes_intro' => 'Choose a different theme for more personalized style and interaction',
@@ -292,6 +294,7 @@ return [
     'system_info_database_size' => 'Database size',
     'news' => 'Fresns Events and News',
     // Dashboard-Upgrade
+    'install_in_progress' => 'Install in progress...',
     'upgrade_none' => 'No Upgrade',
     'upgrade_fresns' => 'A new version of Fresns is available for upgrade',
     'upgrade_fresns_desc' => 'You can upgrade to',

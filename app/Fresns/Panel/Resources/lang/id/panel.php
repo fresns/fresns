@@ -83,6 +83,7 @@ return [
     'sidebar_menus' => 'Menu',
     'sidebar_columns' => 'Kolom',
     'sidebar_language_packs' => 'Paket Bahasa',
+    'sidebar_code_messages' => 'Pesan Kode',
     'sidebar_keys' => 'Keys',
     'sidebar_website' => 'Situs web',
     'sidebar_website_tab_engines' => 'Mesin',
@@ -120,6 +121,7 @@ return [
     'sidebar_menus_intro' => 'Mengkonfigurasi informasi menu klien secara seragam',
     'sidebar_columns_intro' => 'Menyatukan setiap kolom untuk mengkonfigurasi penamaan',
     'sidebar_language_packs_intro' => 'Konfigurasikan konten multi-bahasa dari setiap teks untuk klien multi-bahasa',
+    'sidebar_code_messages_intro' => 'Konfigurasikan deskripsi multibahasa dari kode status untuk program utama dan plugin.',
     'sidebar_keys_intro' => 'Kredensial utama adalah penting, tidak mudah mengungkapkannya kepada orang lain',
     'sidebar_website_engines_intro' => 'Pilih mesin yang berbeda untuk mencapai fitur dan layanan yang lebih personal',
     'sidebar_website_themes_intro' => 'Pilih berbagai topik untuk mencapai gaya dan interaksi yang lebih personal',
@@ -292,6 +294,7 @@ return [
     'system_info_database_size' => 'Ukuran basis data',
     'news' => 'Fresns Acara dan Berita',
     // Dashboard-Upgrade
+    'install_in_progress' => 'Instal sedang berlangsung...',
     'upgrade_none' => 'Tidak ada pembaruan',
     'upgrade_fresns' => 'Ada versi fresns baru yang tersedia untuk upgrade',
     'upgrade_fresns_desc' => 'Anda dapat meningkatkan ke',

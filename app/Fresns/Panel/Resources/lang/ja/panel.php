@@ -83,6 +83,7 @@ return [
     'sidebar_menus' => 'メニュー',
     'sidebar_columns' => '列',
     'sidebar_language_packs' => '言語パック',
+    'sidebar_code_messages' => 'コードメッセージ',
     'sidebar_keys' => 'キー',
     'sidebar_website' => 'Webサイト',
     'sidebar_website_tab_engines' => 'エンジン',
@@ -120,6 +121,7 @@ return [
     'sidebar_menus_intro' => 'クライアントメニュー情報を一律に設定します。',
     'sidebar_columns_intro' => '各列を統合して命名を設定します。',
     'sidebar_language_packs_intro' => '多言語クライアントの各テキストの多言語内容を設定します。',
+    'sidebar_code_messages_intro' => 'メインプログラムおよびプラグインに設定されたステータスコードを多言語で説明します。',
     'sidebar_keys_intro' => '主な資格情報が重要ですが、他の人に簡単に開示しないでください。',
     'sidebar_website_engines_intro' => 'より個人化された機能とサービスを達成するために、さまざまなエンジンを選択してください。',
     'sidebar_website_themes_intro' => 'より個人化されたスタイルとやり取りを達成するために、さまざまなトピックを選択してください。',
@@ -292,6 +294,7 @@ return [
     'system_info_database_size' => '現在のデータベースサイズ',
     'news' => 'Fresnsイベント＆ニュース',
     // Dashboard-Upgrade
+    'install_in_progress' => 'インストール中...',
     'upgrade_none' => '更新はありません',
     'upgrade_fresns' => 'Fresnsの新バージョンのアップグレードが可能です。',
     'upgrade_fresns_desc' => 'あなたはアップグレードすることができます',

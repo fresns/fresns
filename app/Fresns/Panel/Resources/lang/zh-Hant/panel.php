@@ -83,6 +83,7 @@ return [
     'sidebar_menus' => '菜單配置',
     'sidebar_columns' => '欄目配置',
     'sidebar_language_packs' => '語言包配置',
+    'sidebar_code_messages' => '狀態碼配置',
     'sidebar_keys' => '密鑰管理',
     'sidebar_website' => '網站網頁',
     'sidebar_website_tab_engines' => '引擎',
@@ -120,6 +121,7 @@ return [
     'sidebar_menus_intro' => '統一配置客戶端菜單信息。',
     'sidebar_columns_intro' => '統一為客戶端各個欄目配置命名。',
     'sidebar_language_packs_intro' => '為多語言客戶端配置各項文本的多語言內容。',
+    'sidebar_code_messages_intro' => '為主程序和插件配置狀態碼的多語言描述。',
     'sidebar_keys_intro' => '密鑰憑證很重要，請勿輕易透露給其他人。',
     'sidebar_website_engines_intro' => '選用不同的引擎，實現更個性化的功能和服務。',
     'sidebar_website_themes_intro' => '選用不同的主題，實現更個性化的風格和交互。',
@@ -293,6 +295,7 @@ return [
     'system_info_database_size' => '當前資料庫尺寸',
     'news' => 'Fresns 活動和新聞',
     // Dashboard-Upgrade
+    'install_in_progress' => '正在安裝中...',
     'upgrade_none' => '暫無更新',
     'upgrade_fresns' => '有新的 Fresns 版本可供升級。',
     'upgrade_fresns_desc' => '您可以升級到',
