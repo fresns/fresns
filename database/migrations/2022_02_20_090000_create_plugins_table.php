@@ -33,9 +33,9 @@ class CreatePluginsTable extends Migration
             $table->string('access_path')->nullable();
             $table->string('settings_path')->nullable();
             $table->unsignedTinyInteger('theme_functions')->default('0');
-            $table->string('install_code', 32)->nullable();
             $table->unsignedTinyInteger('is_upgrade')->default('0');
             $table->string('upgrade_version', 16)->nullable();
+            $table->string('upgrade_code', 32)->nullable();
             $table->unsignedTinyInteger('is_enable')->default('0');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
