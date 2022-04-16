@@ -89,7 +89,7 @@
                     <a class="fresns-link" href="https://fresns.org" target="_blank">{{ __('FsLang::panel.support_website') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://fresns.org/community/team.html" target="_blank">{{ __('FsLang::panel.support_teams') }}</a>
+                    <a class="fresns-link" href="https://fresns.org/community/teams.html" target="_blank">{{ __('FsLang::panel.support_teams') }}</a>
                 </li>
                 <li class="list-group-item">
                     <a class="fresns-link" href="https://fresns.org/community/partners.html" target="_blank">{{ __('FsLang::panel.support_partners') }}</a>

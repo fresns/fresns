@@ -22,7 +22,7 @@
                 <label for="password">{{ __('FsLang::panel.password') }}</label>
             </div>
             <button type="submit" class="w-100 btn btn-lg btn-primary mt-4">{{ __('FsLang::panel.enter') }}</button>
-            <p class="my-5 text-muted">&copy; 2021 Fresns</p>
+            <p class="my-5 text-muted">&copy; 2021-2022 Fresns</p>
         </form>
     </main>
 @endsection
