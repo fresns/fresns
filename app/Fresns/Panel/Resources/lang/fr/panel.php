@@ -148,6 +148,7 @@ return [
     'button_confirm_upgrade' => 'Confirmer la mise à niveau',
     'button_confirm_uninstall' => 'Confirmer la désinstallation',
     'button_save' => 'sauvegarder',
+    'button_physical_upgrade' => 'Mise à niveau physique',
     'button_plugin_input' => 'Saisir key',
     'button_plugin_upload' => 'Télécharger zip',
     'button_image_view' => 'Voir',

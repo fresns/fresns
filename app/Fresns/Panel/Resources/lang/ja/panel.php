@@ -148,6 +148,7 @@ return [
     'button_confirm_upgrade' => 'アップグレードを確認します',
     'button_confirm_uninstall' => 'アンインストールを確認してください',
     'button_save' => 'セーブ',
+    'button_physical_upgrade' => '物理的なアップグレード',
     'button_plugin_input' => '入力 key',
     'button_plugin_upload' => 'アップロード zip',
     'button_image_view' => '意見',

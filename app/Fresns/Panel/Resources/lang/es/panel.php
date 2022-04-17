@@ -148,6 +148,7 @@ return [
     'button_confirm_upgrade' => 'Confirmar la actualización',
     'button_confirm_uninstall' => 'Confirmar desinstalar',
     'button_save' => 'Salvar',
+    'button_physical_upgrade' => 'Actualización física',
     'button_plugin_input' => 'Introduzca key',
     'button_plugin_upload' => 'Cargar zip',
     'button_image_view' => 'Vista',

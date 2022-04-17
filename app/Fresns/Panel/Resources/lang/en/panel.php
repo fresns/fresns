@@ -148,6 +148,7 @@ return [
     'button_confirm_upgrade' => 'Confirm Upgrade',
     'button_confirm_uninstall' => 'Confirm Uninstall',
     'button_save' => 'Save',
+    'button_physical_upgrade' => 'Physical Upgrade',
     'button_plugin_input' => 'Input key',
     'button_plugin_upload' => 'Upload zip',
     'button_image_view' => 'View',

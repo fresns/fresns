@@ -149,6 +149,7 @@ return [
     'button_confirm_upgrade' => '確認升級',
     'button_confirm_uninstall' => '確認卸載',
     'button_save' => '提交保存',
+    'button_physical_upgrade' => '物理升級',
     'button_plugin_input' => '輸入 key',
     'button_plugin_upload' => '上傳 zip',
     'button_image_view' => '查看',

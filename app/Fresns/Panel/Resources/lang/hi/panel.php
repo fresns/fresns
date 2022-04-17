@@ -148,6 +148,7 @@ return [
     'button_confirm_upgrade' => 'अपग्रेड की पुष्टि करें',
     'button_confirm_uninstall' => 'अनइंस्टॉल की पुष्टि करें',
     'button_save' => 'सहेजें',
+    'button_physical_upgrade' => 'शारीरिक उन्नयन',
     'button_plugin_input' => 'इनपुट key',
     'button_plugin_upload' => 'डालना zip',
     'button_image_view' => 'राय',

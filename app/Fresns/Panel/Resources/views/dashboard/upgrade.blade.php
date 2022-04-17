@@ -6,14 +6,15 @@
 
 @section('content')
     <div class="row mb-4 border-bottom">
-        <div class="col-lg-7">
+        <div class="col-lg-5">
             <h3>{{ __('FsLang::panel.sidebar_upgrades') }}</h3>
             <p class="text-secondary">{{ __('FsLang::panel.sidebar_upgrades_intro') }} {{ now() }}</p>
         </div>
-        <div class="col-lg-5">
+        <div class="col-lg-7">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
                 <button class="btn btn-primary" type="button"><i class="bi bi-arrow-clockwise"></i> {{ __('FsLang::panel.button_check_upgrade') }}</button>
-                <a class="btn btn-outline-success" href="{{ route('panel.settings') }}" role="button">{{ __('FsLang::panel.setting_build_type') }}</a>
+                <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#resetUpgradeCodeModal">{{ __('FsLang::panel.button_reset'). ' Code' }}</button>
+                <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#physicalUpgradeModal">{{ __('FsLang::panel.button_physical_upgrade') }}</button>
                 <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a>
             </div>
         </div>
@@ -144,6 +145,56 @@
                         {{$description}}
                         </p>
                     @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Install Code Modal -->
+    <div class="modal fade" id="resetUpgradeCodeModal" tabindex="-1" aria-labelledby="upgradeCodeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="upgradeCodeModalLabel">{{ __('FsLang::panel.button_reset') }}: {{ __('FsLang::panel.button_upgrade'). ' Code' }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('panel.plugin.update.code') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    @method('patch')
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</span>
+                            <span class="input-group-text">Key</span>
+                            <input type="text" class="form-control" name="pluginUnikey" maxlength="64" required>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text">{{ __('FsLang::panel.button_upgrade') }}</span>
+                            <span class="input-group-text">Code</span>
+                            <input type="text" class="form-control" name="upgradeCode" maxlength="32" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">{{ __('FsLang::panel.button_confirm') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Physical Upgrade Modal -->
+    <div class="modal fade" id="physicalUpgradeModal" tabindex="-1" aria-labelledby="physicalUpgradeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="physicalUpgradeModalLabel">{{ __('FsLang::panel.button_physical_upgrade') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ __('FsLang::panel.upgrade_confirm_desc') }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('FsLang::panel.button_cancel') }}</button>
+                    <button type="button" class="btn btn-danger">{{ __('FsLang::panel.button_confirm_upgrade') }}</button>
                 </div>
             </div>
         </div>

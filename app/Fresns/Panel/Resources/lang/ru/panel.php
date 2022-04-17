@@ -148,6 +148,7 @@ return [
     'button_confirm_upgrade' => 'Подтвердить обновление',
     'button_confirm_uninstall' => 'Подтвердите удаление',
     'button_save' => 'Сохранять',
+    'button_physical_upgrade' => 'Физическая модернизация',
     'button_plugin_input' => 'Введите key',
     'button_plugin_upload' => 'Загрузить zip',
     'button_image_view' => 'Вид',

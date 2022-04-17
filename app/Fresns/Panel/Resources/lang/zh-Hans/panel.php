@@ -148,6 +148,7 @@ return [
     'button_confirm_upgrade' => '确认升级',
     'button_confirm_uninstall' => '确认卸载',
     'button_save' => '提交保存',
+    'button_physical_upgrade' => '物理升级',
     'button_plugin_input' => '输入标识名',
     'button_plugin_upload' => '上传安装包',
     'button_image_view' => '查看',

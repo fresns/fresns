@@ -148,6 +148,7 @@ return [
     'button_confirm_upgrade' => '업그레이드 확인',
     'button_confirm_uninstall' => '제거를 확인하십시오',
     'button_save' => '구하다',
+    'button_physical_upgrade' => '물리적 업그레이드',
     'button_plugin_input' => '입력 key',
     'button_plugin_upload' => '업로드 zip',
     'button_image_view' => '보다',

@@ -148,6 +148,7 @@ return [
     'button_confirm_upgrade' => 'Konfirmasikan Peningkatan',
     'button_confirm_uninstall' => 'Konfirmasikan Uninstall',
     'button_save' => 'Menyimpan',
+    'button_physical_upgrade' => 'Peningkatan Fisik',
     'button_plugin_input' => 'Memasukkan key',
     'button_plugin_upload' => 'Mengunggah zip',
     'button_image_view' => 'Melihat',
