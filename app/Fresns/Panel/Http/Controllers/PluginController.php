@@ -137,6 +137,7 @@ class PluginController extends Controller
         if (! empty($plugin)) {
             $plugin->upgrade_code = $request->upgradeCode;
             $plugin->save();
+
             return $this->updateSuccess();
         }
 
