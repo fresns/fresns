@@ -130,6 +130,19 @@ class PluginController extends Controller
         return $this->updateSuccess();
     }
 
+    public function updateCode(Request $request)
+    {
+        $plugin = Plugin::where('unikey', $request->input('pluginUnikey'))->first();
+
+        if (! empty($plugin)) {
+            $plugin->upgrade_code = $request->upgradeCode;
+            $plugin->save();
+            return $this->updateSuccess();
+        }
+
+        return back()->with('failure', __('FsLang::tips.plugin_not_exists'));
+    }
+
     public function uninstall(Request $request)
     {
         if ($request->get('clearData') == 1) {
