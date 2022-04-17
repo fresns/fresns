@@ -69,7 +69,7 @@ class LanguageMenuController extends Controller
         });
 
         if (! $languageKey) {
-            return back()->with('failure', __('FsLang::panel.languageNotExists'));
+            return back()->with('failure', __('FsLang::tips.language_not_exists'));
         }
 
         $language = $languages[$languageKey];
@@ -140,7 +140,7 @@ class LanguageMenuController extends Controller
         $languageCollection = collect($languages);
         $oldConfig = $languageCollection->where('langTag', $request->old_lang_tag)->first();
         if (! $oldConfig) {
-            return back()->with('failure', __('FsLang::panel.languageNotExists'));
+            return back()->with('failure', __('FsLang::tips.language_not_exists'));
         }
 
         $langCode = $oldConfig['langCode'];
@@ -169,7 +169,7 @@ class LanguageMenuController extends Controller
         });
 
         if ($languageKey === false) {
-            return back()->with('failure', __('FsLang::panel.languageNotExists'));
+            return back()->with('failure', __('FsLang::tips.language_not_exists'));
         }
 
         $data = [

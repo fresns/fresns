@@ -58,7 +58,7 @@ class MapController extends Controller
             ->first();
 
         if ($map) {
-            return back()->with('failure', __('FsLang::panel.mapExists'));
+            return back()->with('failure', __('FsLang::tips.map_not_exists'));
         }
 
         $map = new PluginUsage;
