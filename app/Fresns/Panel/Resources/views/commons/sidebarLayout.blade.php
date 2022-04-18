@@ -51,7 +51,7 @@
                 <div class="modal-body">
                     <div class="input-group">
                         <button class="btn btn-outline-secondary dropdown-toggle showSelectTypeName" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('FsLang::panel.button_plugin_input') }}</button>
-                        <ul class="dropdown-menu selectImageType">
+                        <ul class="dropdown-menu selectInputType">
                             <li data-name="inputUnikey"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_plugin_input') }}</a></li>
                             <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_plugin_upload') }}</a></li>
                         </ul>

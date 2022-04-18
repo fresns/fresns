@@ -56,7 +56,7 @@
                             {{ __('FsLang::panel.button_image_input') }}
                         @endif
                     </button>
-                    <ul class="dropdown-menu selectImageType">
+                    <ul class="dropdown-menu selectInputType">
                         <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                     </ul>
@@ -81,7 +81,7 @@
                             {{ __('FsLang::panel.button_image_input') }}
                         @endif
                     </button>
-                    <ul class="dropdown-menu selectImageType">
+                    <ul class="dropdown-menu selectInputType">
                         <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                     </ul>

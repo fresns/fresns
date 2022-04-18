@@ -1571,8 +1571,8 @@ $(document).ready(function () {
         $('#rankNumberTitleLangModal');
     });
 
-    // selectImageType
-    $('.selectImageType li').click(function () {
+    // selectInputType
+    $('.selectInputType li').click(function () {
         let inputname = $(this).data('name');
 
         $(this).parent().siblings('.showSelectTypeName').text($(this).text());
