@@ -1573,13 +1573,13 @@ $(document).ready(function () {
 
     // selectInputType
     $('.selectInputType li').click(function () {
-        let inputname = $(this).data('name');
+        let inputName = $(this).data('name');
 
         $(this).parent().siblings('.showSelectTypeName').text($(this).text());
         $(this).parent().siblings('input').css('display', 'none');
         $(this)
             .parent()
-            .siblings('.' + inputname)
+            .siblings('.' + inputName)
             .removeAttr('style');
     });
 
