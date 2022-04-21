@@ -119,6 +119,23 @@ class PluginController extends Controller
         ));
     }
 
+    public function install(Request $request)
+    {
+        if ($request->file('plugin_zipball')) {
+            // php artisan plugin:install ...
+            // php artisan theme:install ...
+
+            return $this->installSuccess();
+        } elseif ($request->get('plugin_unikey')) {
+            // php artisan plugin:install ...
+            // php artisan theme:install ...
+
+            return $this->installSuccess();
+        }
+
+        return back()->with('failure', __('FsLang::tips.installFailure'));
+    }
+
     public function update(Request $request)
     {
         if ($request->get('is_enable') != 0) {

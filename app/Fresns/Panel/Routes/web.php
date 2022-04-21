@@ -9,6 +9,7 @@
 use App\Fresns\Panel\Http\Controllers\AdminController;
 use App\Fresns\Panel\Http\Controllers\BlockWordController;
 use App\Fresns\Panel\Http\Controllers\ClientMenuController;
+use App\Fresns\Panel\Http\Controllers\CodeMessageController;
 use App\Fresns\Panel\Http\Controllers\ColumnController;
 use App\Fresns\Panel\Http\Controllers\ConfigController;
 use App\Fresns\Panel\Http\Controllers\DashboardController;
@@ -260,6 +261,8 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::get('language-packs', [LanguagePackController::class, 'index'])->name('language.packs.index');
         Route::get('language-packs/{langTag}/edit', [LanguagePackController::class, 'edit'])->name('language.packs.edit');
         Route::put('language-packs/{langTag}', [LanguagePackController::class, 'update'])->name('language.packs.update');
+        // code messages
+        Route::get('code-messages', [CodeMessageController::class, 'index'])->name('code.messages.index');
         // session key
         Route::resource('keys', SessionKeyController::class)->only([
             'index', 'store', 'update', 'destroy',
@@ -281,7 +284,9 @@ Route::middleware(['panelAuth'])->group(function () {
 
     // plugin manage
     Route::prefix('plugin')->group(function () {
+        Route::put('install', [PluginController::class, 'install'])->name('plugin.install');
         Route::patch('update', [PluginController::class, 'update'])->name('plugin.update');
+        Route::patch('update-code', [PluginController::class, 'updateCode'])->name('plugin.update.code');
         Route::delete('uninstall', [PluginController::class, 'uninstall'])->name('plugin.uninstall');
         Route::patch('updateTheme', [PluginController::class, 'updateTheme'])->name('plugin.updateTheme');
         Route::delete('uninstallTheme', [PluginController::class, 'uninstallTheme'])->name('plugin.uninstallTheme');

@@ -64,8 +64,6 @@ class UpgradeFresns extends Command
      */
     public function handle()
     {
-        set_time_limit(0);
-
         $this->updateStep(self::STEP_START);
         // Check if an upgrade is needed
         if (! $this->checkVersion()) {

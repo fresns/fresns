@@ -48,21 +48,25 @@
                     <h5 class="modal-title">{{ __('FsLang::panel.button_install') }}: <span class="install-name"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <div class="input-group">
-                        <button class="btn btn-outline-secondary dropdown-toggle showSelectTypeName" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('FsLang::panel.button_plugin_input') }}</button>
-                        <ul class="dropdown-menu selectInputType">
-                            <li data-name="inputUnikey"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_plugin_input') }}</a></li>
-                            <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_plugin_upload') }}</a></li>
-                        </ul>
-                        <input type="hidden" name="type">
-                        <input type="text" class="form-control inputUnikey" name="inputUnikey">
-                        <input type="file" class="form-control inputFile" name="inputFile" style="display:none;">
+                <form action="{{ route('panel.plugin.install') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    @method('put')
+                    <div class="modal-body">
+                        <div class="input-group">
+                            <button class="btn btn-outline-secondary dropdown-toggle showSelectTypeName" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('FsLang::panel.button_plugin_input') }}</button>
+                            <ul class="dropdown-menu selectInputType">
+                                <li data-name="inputUnikey"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_plugin_input') }}</a></li>
+                                <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_plugin_upload') }}</a></li>
+                            </ul>
+                            <input type="hidden" name="install_type">
+                            <input type="text" class="form-control inputUnikey" name="plugin_unikey" maxlength="64">
+                            <input type="file" class="form-control inputFile" name="plugin_zipball" accept=".zip" style="display:none;">
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#installStepModal" id="installSubmit">{{ __('FsLang::panel.button_confirm_install') }}</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#installStepModal" id="installSubmit">{{ __('FsLang::panel.button_confirm_install') }}</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
