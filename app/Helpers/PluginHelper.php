@@ -60,4 +60,26 @@ class PluginHelper
 
         return $replaceUrl;
     }
+
+    public static function fresnsPluginVersionByUnikey(string $unikey)
+    {
+        $version = Plugin::where('unikey', $unikey)->value('version');
+
+        if (empty($version)) {
+            return null;
+        }
+
+        return $version;
+    }
+
+    public static function fresnsPluginUpgradeCodeByUnikey(string $unikey)
+    {
+        $upgradeCode = Plugin::where('unikey', $unikey)->value('upgrade_code');
+
+        if (empty($upgradeCode)) {
+            return null;
+        }
+
+        return $upgradeCode;
+    }
 }
