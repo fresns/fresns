@@ -26,7 +26,8 @@ class CreateConfigsTable extends Migration
             $table->string('item_type', 16);
             $table->string('item_tag', 32)->index('item_tag');
             $table->unsignedTinyInteger('is_multilingual')->default('0');
-            $table->unsignedTinyInteger('is_restful')->default('0');
+            $table->unsignedTinyInteger('is_api')->default('0');
+            $table->unsignedTinyInteger('is_custom')->default('1');
             $table->unsignedTinyInteger('is_enable')->default('1');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
