@@ -121,7 +121,7 @@ class AppUtility
             'district' => '',
             'adcode' => '',
             'positionName' => '',
-            'address' => ''
+            'address' => '',
         ];
 
         return $deviceInfo;
