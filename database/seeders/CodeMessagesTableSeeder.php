@@ -21,9 +21,8 @@ class CodeMessagesTableSeeder extends Seeder
     {
         \DB::table('code_messages')->delete();
 
-        \DB::table('code_messages')->insert(array (
-            0 =>
-            array (
+        \DB::table('code_messages')->insert([
+            0 => [
                 'id' => 1,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30000,
@@ -31,10 +30,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Parameter error',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            1 =>
-            array (
+                'deleted_at' => null,
+            ],
+            1 => [
                 'id' => 2,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30001,
@@ -42,10 +40,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Parameter missing error',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            2 =>
-            array (
+                'deleted_at' => null,
+            ],
+            2 => [
                 'id' => 3,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31000,
@@ -53,10 +50,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Header error',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            3 =>
-            array (
+                'deleted_at' => null,
+            ],
+            3 => [
                 'id' => 4,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31101,
@@ -64,10 +60,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Platform ID not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            4 =>
-            array (
+                'deleted_at' => null,
+            ],
+            4 => [
                 'id' => 5,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31102,
@@ -75,10 +70,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Platform ID and Key do not match',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            5 =>
-            array (
+                'deleted_at' => null,
+            ],
+            5 => [
                 'id' => 6,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31103,
@@ -86,10 +80,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Platform ID does not match the account or user',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            6 =>
-            array (
+                'deleted_at' => null,
+            ],
+            6 => [
                 'id' => 7,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31201,
@@ -97,10 +90,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Version not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            7 =>
-            array (
+                'deleted_at' => null,
+            ],
+            7 => [
                 'id' => 8,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31202,
@@ -108,10 +100,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Version and key do not match',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            8 =>
-            array (
+                'deleted_at' => null,
+            ],
+            8 => [
                 'id' => 9,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31301,
@@ -119,10 +110,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'App ID not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            9 =>
-            array (
+                'deleted_at' => null,
+            ],
+            9 => [
                 'id' => 10,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31302,
@@ -130,10 +120,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Sign error',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            10 =>
-            array (
+                'deleted_at' => null,
+            ],
+            10 => [
                 'id' => 11,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31303,
@@ -141,10 +130,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Sign expired',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            11 =>
-            array (
+                'deleted_at' => null,
+            ],
+            11 => [
                 'id' => 12,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31304,
@@ -152,10 +140,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The key does not have the right to request for the interface',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            12 =>
-            array (
+                'deleted_at' => null,
+            ],
+            12 => [
                 'id' => 13,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31401,
@@ -163,10 +150,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Language tag incorrect',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            13 =>
-            array (
+                'deleted_at' => null,
+            ],
+            13 => [
                 'id' => 14,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31402,
@@ -174,10 +160,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Timezone incorrect',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            14 =>
-            array (
+                'deleted_at' => null,
+            ],
+            14 => [
                 'id' => 15,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31501,
@@ -185,10 +170,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Account not logged in, Unable to use',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            15 =>
-            array (
+                'deleted_at' => null,
+            ],
+            15 => [
                 'id' => 16,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31502,
@@ -196,10 +180,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Wrong account or record not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            16 =>
-            array (
+                'deleted_at' => null,
+            ],
+            16 => [
                 'id' => 17,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31503,
@@ -207,10 +190,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Lost login token, Please login again',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            17 =>
-            array (
+                'deleted_at' => null,
+            ],
+            17 => [
                 'id' => 18,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31504,
@@ -218,10 +200,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Login token are disabled',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            18 =>
-            array (
+                'deleted_at' => null,
+            ],
+            18 => [
                 'id' => 19,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31505,
@@ -229,10 +210,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Account login token are incorrect or do not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            19 =>
-            array (
+                'deleted_at' => null,
+            ],
+            19 => [
                 'id' => 20,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31601,
@@ -240,10 +220,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'User not logged in, Unable to use',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            20 =>
-            array (
+                'deleted_at' => null,
+            ],
+            20 => [
                 'id' => 21,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31602,
@@ -251,10 +230,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Wrong user or record not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            21 =>
-            array (
+                'deleted_at' => null,
+            ],
+            21 => [
                 'id' => 22,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31603,
@@ -262,10 +240,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'User login token are incorrect or do not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            22 =>
-            array (
+                'deleted_at' => null,
+            ],
+            22 => [
                 'id' => 23,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31701,
@@ -273,10 +250,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Device information is not available',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            23 =>
-            array (
+                'deleted_at' => null,
+            ],
+            23 => [
                 'id' => 24,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31702,
@@ -284,10 +260,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Wrong format of device information',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            24 =>
-            array (
+                'deleted_at' => null,
+            ],
+            24 => [
                 'id' => 25,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32100,
@@ -295,10 +270,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'No service provider configured',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            25 =>
-            array (
+                'deleted_at' => null,
+            ],
+            25 => [
                 'id' => 26,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32101,
@@ -306,10 +280,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The service provider not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            26 =>
-            array (
+                'deleted_at' => null,
+            ],
+            26 => [
                 'id' => 27,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32102,
@@ -317,10 +290,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The service provider not enabled',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            27 =>
-            array (
+                'deleted_at' => null,
+            ],
+            27 => [
                 'id' => 28,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32103,
@@ -328,10 +300,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Service provider config parameter is empty',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            28 =>
-            array (
+                'deleted_at' => null,
+            ],
+            28 => [
                 'id' => 29,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32201,
@@ -339,10 +310,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Wrong ID or record not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            29 =>
-            array (
+                'deleted_at' => null,
+            ],
+            29 => [
                 'id' => 30,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32202,
@@ -350,10 +320,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Abnormal data: failed to be queried or data duplicated.',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            30 =>
-            array (
+                'deleted_at' => null,
+            ],
+            30 => [
                 'id' => 31,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32203,
@@ -361,10 +330,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Record expired and invalid',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            31 =>
-            array (
+                'deleted_at' => null,
+            ],
+            31 => [
                 'id' => 32,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32204,
@@ -372,10 +340,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Record used. Please try again.',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            32 =>
-            array (
+                'deleted_at' => null,
+            ],
+            32 => [
                 'id' => 33,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32301,
@@ -383,10 +350,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'No response from the service provider',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            33 =>
-            array (
+                'deleted_at' => null,
+            ],
+            33 => [
                 'id' => 34,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32302,
@@ -394,10 +360,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Service provider processing failed',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            34 =>
-            array (
+                'deleted_at' => null,
+            ],
+            34 => [
                 'id' => 35,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32304,
@@ -405,10 +370,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Callback error: data lost or wrong record',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            35 =>
-            array (
+                'deleted_at' => null,
+            ],
+            35 => [
                 'id' => 36,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32305,
@@ -416,10 +380,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Abnormal execution: file lost or wrong record',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            36 =>
-            array (
+                'deleted_at' => null,
+            ],
+            36 => [
                 'id' => 37,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33101,
@@ -427,10 +390,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Request for the interface is forbidden under private mode',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            37 =>
-            array (
+                'deleted_at' => null,
+            ],
+            37 => [
                 'id' => 38,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33102,
@@ -438,10 +400,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Verifiy code template unavailable or not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            38 =>
-            array (
+                'deleted_at' => null,
+            ],
+            38 => [
                 'id' => 39,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33103,
@@ -449,10 +410,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Verifiy code incorrect or expired',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            39 =>
-            array (
+                'deleted_at' => null,
+            ],
+            39 => [
                 'id' => 40,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34101,
@@ -460,10 +420,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'E-mail format incorrect',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            40 =>
-            array (
+                'deleted_at' => null,
+            ],
+            40 => [
                 'id' => 41,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34102,
@@ -471,10 +430,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Phone number format incorrect',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            41 =>
-            array (
+                'deleted_at' => null,
+            ],
+            41 => [
                 'id' => 42,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34103,
@@ -482,10 +440,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Country calling code error',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            42 =>
-            array (
+                'deleted_at' => null,
+            ],
+            42 => [
                 'id' => 43,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34104,
@@ -493,10 +450,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Password length incorrect',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            43 =>
-            array (
+                'deleted_at' => null,
+            ],
+            43 => [
                 'id' => 44,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34105,
@@ -504,10 +460,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Password should contain numbers',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            44 =>
-            array (
+                'deleted_at' => null,
+            ],
+            44 => [
                 'id' => 45,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34106,
@@ -515,10 +470,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Password should contain lowercase letters',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            45 =>
-            array (
+                'deleted_at' => null,
+            ],
+            45 => [
                 'id' => 46,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34107,
@@ -526,10 +480,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Password should contain uppercase numbers',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            46 =>
-            array (
+                'deleted_at' => null,
+            ],
+            46 => [
                 'id' => 47,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34108,
@@ -537,10 +490,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Password should contain symbols',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            47 =>
-            array (
+                'deleted_at' => null,
+            ],
+            47 => [
                 'id' => 48,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34109,
@@ -548,10 +500,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Account cannot be empty',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            48 =>
-            array (
+                'deleted_at' => null,
+            ],
+            48 => [
                 'id' => 49,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34110,
@@ -559,10 +510,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Account password or verification code cannot be empty',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            49 =>
-            array (
+                'deleted_at' => null,
+            ],
+            49 => [
                 'id' => 50,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34201,
@@ -570,10 +520,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'This registration channel has been closed and account registration through this function is prohibited',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            50 =>
-            array (
+                'deleted_at' => null,
+            ],
+            50 => [
                 'id' => 51,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34202,
@@ -581,10 +530,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Registration with E-mail not supported',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            51 =>
-            array (
+                'deleted_at' => null,
+            ],
+            51 => [
                 'id' => 52,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34203,
@@ -592,10 +540,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Registration with mobile phone number not supported',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            52 =>
-            array (
+                'deleted_at' => null,
+            ],
+            52 => [
                 'id' => 53,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34204,
@@ -603,10 +550,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The account has registered',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            53 =>
-            array (
+                'deleted_at' => null,
+            ],
+            53 => [
                 'id' => 54,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34205,
@@ -614,10 +560,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'E-mail registered',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            54 =>
-            array (
+                'deleted_at' => null,
+            ],
+            54 => [
                 'id' => 55,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34206,
@@ -625,10 +570,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Phone number registered',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            55 =>
-            array (
+                'deleted_at' => null,
+            ],
+            55 => [
                 'id' => 56,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34301,
@@ -636,10 +580,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Account not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            56 =>
-            array (
+                'deleted_at' => null,
+            ],
+            56 => [
                 'id' => 57,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34302,
@@ -647,10 +590,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'E-mail not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            57 =>
-            array (
+                'deleted_at' => null,
+            ],
+            57 => [
                 'id' => 58,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34303,
@@ -658,10 +600,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Phone number not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            58 =>
-            array (
+                'deleted_at' => null,
+            ],
+            58 => [
                 'id' => 59,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34304,
@@ -669,10 +610,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Incorrect account password',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            59 =>
-            array (
+                'deleted_at' => null,
+            ],
+            59 => [
                 'id' => 60,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34305,
@@ -680,10 +620,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Incorrect account or wrong password',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            60 =>
-            array (
+                'deleted_at' => null,
+            ],
+            60 => [
                 'id' => 61,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34306,
@@ -691,10 +630,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The error has exceeded the system limit. Please log in again 1 hour later',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            61 =>
-            array (
+                'deleted_at' => null,
+            ],
+            61 => [
                 'id' => 62,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34307,
@@ -702,10 +640,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Current account has been banned',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            62 =>
-            array (
+                'deleted_at' => null,
+            ],
+            62 => [
                 'id' => 63,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34308,
@@ -713,10 +650,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The account has been logged out',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            63 =>
-            array (
+                'deleted_at' => null,
+            ],
+            63 => [
                 'id' => 64,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34401,
@@ -724,10 +660,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'E-mail bound',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            64 =>
-            array (
+                'deleted_at' => null,
+            ],
+            64 => [
                 'id' => 65,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34402,
@@ -735,10 +670,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Phone bound',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            65 =>
-            array (
+                'deleted_at' => null,
+            ],
+            65 => [
                 'id' => 66,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34403,
@@ -746,10 +680,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Connect account error',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            66 =>
-            array (
+                'deleted_at' => null,
+            ],
+            66 => [
                 'id' => 67,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34501,
@@ -757,10 +690,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Account wallet not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            67 =>
-            array (
+                'deleted_at' => null,
+            ],
+            67 => [
                 'id' => 68,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34502,
@@ -768,10 +700,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Account wallet has been banned',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            68 =>
-            array (
+                'deleted_at' => null,
+            ],
+            68 => [
                 'id' => 69,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34503,
@@ -779,10 +710,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The counterparty wallet not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            69 =>
-            array (
+                'deleted_at' => null,
+            ],
+            69 => [
                 'id' => 70,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34504,
@@ -790,10 +720,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The counterparty wallet has been banned',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            70 =>
-            array (
+                'deleted_at' => null,
+            ],
+            70 => [
                 'id' => 71,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34505,
@@ -801,10 +730,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Wallet balance is not allowed to make payment',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            71 =>
-            array (
+                'deleted_at' => null,
+            ],
+            71 => [
                 'id' => 72,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34506,
@@ -812,10 +740,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The counterparty wallet balance is not allowed to make payment',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            72 =>
-            array (
+                'deleted_at' => null,
+            ],
+            72 => [
                 'id' => 73,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34507,
@@ -823,10 +750,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The closing balance not match with the wallet limit',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            73 =>
-            array (
+                'deleted_at' => null,
+            ],
+            73 => [
                 'id' => 74,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34508,
@@ -834,10 +760,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The closing balance of the counterparty does not match with the wallet limit',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            74 =>
-            array (
+                'deleted_at' => null,
+            ],
+            74 => [
                 'id' => 75,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35101,
@@ -845,10 +770,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Could only be modified once within the specified number of days',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            75 =>
-            array (
+                'deleted_at' => null,
+            ],
+            75 => [
                 'id' => 76,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35102,
@@ -856,10 +780,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Your username can only contain letters, numbers and single hyphens',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            76 =>
-            array (
+                'deleted_at' => null,
+            ],
+            76 => [
                 'id' => 77,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35103,
@@ -867,10 +790,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Username length incorrect',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            77 =>
-            array (
+                'deleted_at' => null,
+            ],
+            77 => [
                 'id' => 78,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35104,
@@ -878,10 +800,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Username does not meet the minimum length requirement',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            78 =>
-            array (
+                'deleted_at' => null,
+            ],
+            78 => [
                 'id' => 79,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35105,
@@ -889,10 +810,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'That username has been taken. Please choose another.',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            79 =>
-            array (
+                'deleted_at' => null,
+            ],
+            79 => [
                 'id' => 80,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35106,
@@ -900,10 +820,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The username contains block words',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            80 =>
-            array (
+                'deleted_at' => null,
+            ],
+            80 => [
                 'id' => 81,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35107,
@@ -911,10 +830,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Consider using a nickname without special characters so it’s accessible to even more people, including people who are blind or have low vision.',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            81 =>
-            array (
+                'deleted_at' => null,
+            ],
+            81 => [
                 'id' => 82,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35108,
@@ -922,10 +840,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Nickname length incorrect',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            82 =>
-            array (
+                'deleted_at' => null,
+            ],
+            82 => [
                 'id' => 83,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35109,
@@ -933,10 +850,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Nickname does not meet the minimum length requirement',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            83 =>
-            array (
+                'deleted_at' => null,
+            ],
+            83 => [
                 'id' => 84,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35110,
@@ -944,10 +860,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The nickname contains block words',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            84 =>
-            array (
+                'deleted_at' => null,
+            ],
+            84 => [
                 'id' => 85,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35201,
@@ -955,10 +870,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Current user not exist or not belong to the current account',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            85 =>
-            array (
+                'deleted_at' => null,
+            ],
+            85 => [
                 'id' => 86,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35202,
@@ -966,10 +880,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Current user has been banned',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            86 =>
-            array (
+                'deleted_at' => null,
+            ],
+            86 => [
                 'id' => 87,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35203,
@@ -977,10 +890,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The user has been logged out',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            87 =>
-            array (
+                'deleted_at' => null,
+            ],
+            87 => [
                 'id' => 88,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35204,
@@ -988,10 +900,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Incorrect password',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            88 =>
-            array (
+                'deleted_at' => null,
+            ],
+            88 => [
                 'id' => 89,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35301,
@@ -999,10 +910,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Current user has no right to request',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            89 =>
-            array (
+                'deleted_at' => null,
+            ],
+            89 => [
                 'id' => 90,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35302,
@@ -1010,10 +920,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The user has expired and has no right to use the function',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            90 =>
-            array (
+                'deleted_at' => null,
+            ],
+            90 => [
                 'id' => 91,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36101,
@@ -1021,10 +930,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The current user is not associated with a role, please contact the administrator to confirm.',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            91 =>
-            array (
+                'deleted_at' => null,
+            ],
+            91 => [
                 'id' => 92,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36102,
@@ -1032,10 +940,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Current role not configured with permissions. Please contact the administrator to confirm.',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            92 =>
-            array (
+                'deleted_at' => null,
+            ],
+            92 => [
                 'id' => 93,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36103,
@@ -1043,10 +950,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Current role has no right to make request',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            93 =>
-            array (
+                'deleted_at' => null,
+            ],
+            93 => [
                 'id' => 94,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36104,
@@ -1054,10 +960,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Current role has no right to browse',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            94 =>
-            array (
+                'deleted_at' => null,
+            ],
+            94 => [
                 'id' => 95,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36105,
@@ -1065,10 +970,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Current role has no right to publish content',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            95 =>
-            array (
+                'deleted_at' => null,
+            ],
+            95 => [
                 'id' => 96,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36106,
@@ -1076,10 +980,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'There is a time limit for the current role to publish content. Please try again within specific time',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            96 =>
-            array (
+                'deleted_at' => null,
+            ],
+            96 => [
                 'id' => 97,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36107,
@@ -1087,10 +990,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Current role has to have an e-mail bound before publishing content',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            97 =>
-            array (
+                'deleted_at' => null,
+            ],
+            97 => [
                 'id' => 98,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36108,
@@ -1098,10 +1000,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Current role has to have a mobile phone number bound before publishing content',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            98 =>
-            array (
+                'deleted_at' => null,
+            ],
+            98 => [
                 'id' => 99,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36109,
@@ -1109,10 +1010,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Real-name verification is required for current role to publish content',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            99 =>
-            array (
+                'deleted_at' => null,
+            ],
+            99 => [
                 'id' => 100,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36110,
@@ -1120,10 +1020,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Current role has no right to upload images',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            100 =>
-            array (
+                'deleted_at' => null,
+            ],
+            100 => [
                 'id' => 101,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36111,
@@ -1131,10 +1030,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Current role has no right to upload videos',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            101 =>
-            array (
+                'deleted_at' => null,
+            ],
+            101 => [
                 'id' => 102,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36112,
@@ -1142,10 +1040,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Current role has no right to upload audios',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            102 =>
-            array (
+                'deleted_at' => null,
+            ],
+            102 => [
                 'id' => 103,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36113,
@@ -1153,10 +1050,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Current role has no right to upload files',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            103 =>
-            array (
+                'deleted_at' => null,
+            ],
+            103 => [
                 'id' => 104,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36114,
@@ -1164,10 +1060,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'File size exceeded the limit for current role',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            104 =>
-            array (
+                'deleted_at' => null,
+            ],
+            104 => [
                 'id' => 105,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36115,
@@ -1175,10 +1070,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Current role has no dialog message permission',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            105 =>
-            array (
+                'deleted_at' => null,
+            ],
+            105 => [
                 'id' => 106,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36116,
@@ -1186,10 +1080,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The current role has reached the upper limit of today download, please download again tomorrow.',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            106 =>
-            array (
+                'deleted_at' => null,
+            ],
+            106 => [
                 'id' => 107,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36200,
@@ -1197,10 +1090,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The operating function not enabled',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            107 =>
-            array (
+                'deleted_at' => null,
+            ],
+            107 => [
                 'id' => 108,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36201,
@@ -1208,10 +1100,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Operation against oneself not allowed',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            108 =>
-            array (
+                'deleted_at' => null,
+            ],
+            108 => [
                 'id' => 109,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36202,
@@ -1219,10 +1110,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Repeated operation not allowed',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            109 =>
-            array (
+                'deleted_at' => null,
+            ],
+            109 => [
                 'id' => 110,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36300,
@@ -1230,10 +1120,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Only specified operation mode is supported. Operation against this interface is forbidden',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            110 =>
-            array (
+                'deleted_at' => null,
+            ],
+            110 => [
                 'id' => 111,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36301,
@@ -1241,10 +1130,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Please have your e-mail bound before publishing content',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            111 =>
-            array (
+                'deleted_at' => null,
+            ],
+            111 => [
                 'id' => 112,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36302,
@@ -1252,10 +1140,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Please have your mobile phone number bound before publishing content',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            112 =>
-            array (
+                'deleted_at' => null,
+            ],
+            112 => [
                 'id' => 113,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36303,
@@ -1263,10 +1150,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Please go through the real-name verification process before publishing content',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            113 =>
-            array (
+                'deleted_at' => null,
+            ],
+            113 => [
                 'id' => 114,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36304,
@@ -1274,10 +1160,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The system has time limit for content publishing. Please try again within specified time',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            114 =>
-            array (
+                'deleted_at' => null,
+            ],
+            114 => [
                 'id' => 115,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36305,
@@ -1285,10 +1170,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Post editing not allowed',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            115 =>
-            array (
+                'deleted_at' => null,
+            ],
+            115 => [
                 'id' => 116,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36306,
@@ -1296,10 +1180,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Comment editing not allowed',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            116 =>
-            array (
+                'deleted_at' => null,
+            ],
+            116 => [
                 'id' => 117,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36307,
@@ -1307,10 +1190,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Editing not allowed for top contents',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            117 =>
-            array (
+                'deleted_at' => null,
+            ],
+            117 => [
                 'id' => 118,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36308,
@@ -1318,10 +1200,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Editing not allowed for highlighted contents',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            118 =>
-            array (
+                'deleted_at' => null,
+            ],
+            118 => [
                 'id' => 119,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36309,
@@ -1329,10 +1210,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'This type of file can not be uploaded',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            119 =>
-            array (
+                'deleted_at' => null,
+            ],
+            119 => [
                 'id' => 120,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36310,
@@ -1340,10 +1220,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'This type of file can not be uploaded',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            120 =>
-            array (
+                'deleted_at' => null,
+            ],
+            120 => [
                 'id' => 121,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36311,
@@ -1351,10 +1230,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Current user does not have the post permission of the group',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            121 =>
-            array (
+                'deleted_at' => null,
+            ],
+            121 => [
                 'id' => 122,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36312,
@@ -1362,10 +1240,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Current user does not have the comment permission of the group.',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            122 =>
-            array (
+                'deleted_at' => null,
+            ],
+            122 => [
                 'id' => 123,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36400,
@@ -1373,10 +1250,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Failed to delete. Content error or not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            123 =>
-            array (
+                'deleted_at' => null,
+            ],
+            123 => [
                 'id' => 124,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36401,
@@ -1384,10 +1260,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The content can not be deleted',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            124 =>
-            array (
+                'deleted_at' => null,
+            ],
+            124 => [
                 'id' => 125,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36402,
@@ -1395,10 +1270,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The file is being used and can not be deleted',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            125 =>
-            array (
+                'deleted_at' => null,
+            ],
+            125 => [
                 'id' => 126,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36403,
@@ -1406,10 +1280,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The extended content is being used by others and can not be deleted',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            126 =>
-            array (
+                'deleted_at' => null,
+            ],
+            126 => [
                 'id' => 127,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36500,
@@ -1417,10 +1290,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Operation failed. Please confirm that you are the author',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            127 =>
-            array (
+                'deleted_at' => null,
+            ],
+            127 => [
                 'id' => 128,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36501,
@@ -1428,10 +1300,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'There is no need to withdraw the content, for it is not being reviewed',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            128 =>
-            array (
+                'deleted_at' => null,
+            ],
+            128 => [
                 'id' => 129,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36600,
@@ -1439,10 +1310,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Dialog exception or non-existent',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            129 =>
-            array (
+                'deleted_at' => null,
+            ],
+            129 => [
                 'id' => 130,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36601,
@@ -1450,10 +1320,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The dialog does not belong to the current user',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            130 =>
-            array (
+                'deleted_at' => null,
+            ],
+            130 => [
                 'id' => 131,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36602,
@@ -1461,10 +1330,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'You can not send messages to yourself',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            131 =>
-            array (
+                'deleted_at' => null,
+            ],
+            131 => [
                 'id' => 132,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36603,
@@ -1472,10 +1340,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Each message should be eighter [file] or [text]',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            132 =>
-            array (
+                'deleted_at' => null,
+            ],
+            132 => [
                 'id' => 133,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36604,
@@ -1483,10 +1350,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The message could not be sent for the block words it contains',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            133 =>
-            array (
+                'deleted_at' => null,
+            ],
+            133 => [
                 'id' => 134,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36605,
@@ -1494,10 +1360,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The counterparty only allow members it follows to send message to it',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            134 =>
-            array (
+                'deleted_at' => null,
+            ],
+            134 => [
                 'id' => 135,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36606,
@@ -1505,10 +1370,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The counterparty only allow members it follows and verified members to send message to it',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            135 =>
-            array (
+                'deleted_at' => null,
+            ],
+            135 => [
                 'id' => 136,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36607,
@@ -1516,10 +1380,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Either session or message could be sent. These two types of message could not be deleted simultaneously',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            136 =>
-            array (
+                'deleted_at' => null,
+            ],
+            136 => [
                 'id' => 137,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36608,
@@ -1527,10 +1390,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Only your own dialog messages could be deleted.',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            137 =>
-            array (
+                'deleted_at' => null,
+            ],
+            137 => [
                 'id' => 138,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36700,
@@ -1538,10 +1400,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Notify exception or non-existent',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            138 =>
-            array (
+                'deleted_at' => null,
+            ],
+            138 => [
                 'id' => 139,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36701,
@@ -1549,10 +1410,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The notify does not belong to the current user',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            139 =>
-            array (
+                'deleted_at' => null,
+            ],
+            139 => [
                 'id' => 140,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36702,
@@ -1560,10 +1420,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Only your own notify messages could be deleted.',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            140 =>
-            array (
+                'deleted_at' => null,
+            ],
+            140 => [
                 'id' => 141,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37100,
@@ -1571,10 +1430,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Wrong group or record not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            141 =>
-            array (
+                'deleted_at' => null,
+            ],
+            141 => [
                 'id' => 142,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37101,
@@ -1582,10 +1440,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Group has been banned',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            142 =>
-            array (
+                'deleted_at' => null,
+            ],
+            142 => [
                 'id' => 143,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37102,
@@ -1593,10 +1450,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Only members can view this group.',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            143 =>
-            array (
+                'deleted_at' => null,
+            ],
+            143 => [
                 'id' => 144,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37103,
@@ -1604,10 +1460,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Only members can see who\'s in the group and what they post.',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            144 =>
-            array (
+                'deleted_at' => null,
+            ],
+            144 => [
                 'id' => 145,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37104,
@@ -1615,10 +1470,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The current user has been banned from viewing the content of this group',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            145 =>
-            array (
+                'deleted_at' => null,
+            ],
+            145 => [
                 'id' => 146,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37200,
@@ -1626,10 +1480,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Wrong hashtag or record not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            146 =>
-            array (
+                'deleted_at' => null,
+            ],
+            146 => [
                 'id' => 147,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37201,
@@ -1637,10 +1490,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Hashtag has been banned',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            147 =>
-            array (
+                'deleted_at' => null,
+            ],
+            147 => [
                 'id' => 148,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37300,
@@ -1648,10 +1500,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Wrong post or record not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            148 =>
-            array (
+                'deleted_at' => null,
+            ],
+            148 => [
                 'id' => 149,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37301,
@@ -1659,10 +1510,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Post has been banned',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            149 =>
-            array (
+                'deleted_at' => null,
+            ],
+            149 => [
                 'id' => 150,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37302,
@@ -1670,10 +1520,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Wrong post draft or record not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            150 =>
-            array (
+                'deleted_at' => null,
+            ],
+            150 => [
                 'id' => 151,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37303,
@@ -1681,10 +1530,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Abnormal post. Sub-table record of the post not found',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            151 =>
-            array (
+                'deleted_at' => null,
+            ],
+            151 => [
                 'id' => 152,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37304,
@@ -1692,10 +1540,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The content could not be accessed without authorization',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            152 =>
-            array (
+                'deleted_at' => null,
+            ],
+            152 => [
                 'id' => 153,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37400,
@@ -1703,10 +1550,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Wrong comment or record not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            153 =>
-            array (
+                'deleted_at' => null,
+            ],
+            153 => [
                 'id' => 154,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37401,
@@ -1714,10 +1560,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Comment has been banned',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            154 =>
-            array (
+                'deleted_at' => null,
+            ],
+            154 => [
                 'id' => 155,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37402,
@@ -1725,10 +1570,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Wrong comment draft or record not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            155 =>
-            array (
+                'deleted_at' => null,
+            ],
+            155 => [
                 'id' => 156,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37403,
@@ -1736,10 +1580,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Abnormal comment. Sub-table record of the comment not found',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            156 =>
-            array (
+                'deleted_at' => null,
+            ],
+            156 => [
                 'id' => 157,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37500,
@@ -1747,10 +1590,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Wrong file or record not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            157 =>
-            array (
+                'deleted_at' => null,
+            ],
+            157 => [
                 'id' => 158,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37501,
@@ -1758,10 +1600,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'File has been banned',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            158 =>
-            array (
+                'deleted_at' => null,
+            ],
+            158 => [
                 'id' => 159,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37600,
@@ -1769,10 +1610,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Wrong extend content or record not exist',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            159 =>
-            array (
+                'deleted_at' => null,
+            ],
+            159 => [
                 'id' => 160,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37601,
@@ -1780,10 +1620,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Extend has been banned',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            160 =>
-            array (
+                'deleted_at' => null,
+            ],
+            160 => [
                 'id' => 161,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38101,
@@ -1791,10 +1630,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The content is being reviewed and can not be edited',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            161 =>
-            array (
+                'deleted_at' => null,
+            ],
+            161 => [
                 'id' => 162,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38102,
@@ -1802,10 +1640,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The content has been published and can not be edited',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            162 =>
-            array (
+                'deleted_at' => null,
+            ],
+            162 => [
                 'id' => 163,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38103,
@@ -1813,10 +1650,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Content being reviewed can not be submitted again',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            163 =>
-            array (
+                'deleted_at' => null,
+            ],
+            163 => [
                 'id' => 164,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38104,
@@ -1824,10 +1660,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Content being published can not be submitted again',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            164 =>
-            array (
+                'deleted_at' => null,
+            ],
+            164 => [
                 'id' => 165,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38105,
@@ -1835,10 +1670,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Failed to create draft comment. Only first-level comment can create draft',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            165 =>
-            array (
+                'deleted_at' => null,
+            ],
+            165 => [
                 'id' => 166,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38201,
@@ -1846,10 +1680,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'User List Json format error or abnormal data',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            166 =>
-            array (
+                'deleted_at' => null,
+            ],
+            166 => [
                 'id' => 167,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38202,
@@ -1857,10 +1690,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Comment Set Json format error or abnormal data',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            167 =>
-            array (
+                'deleted_at' => null,
+            ],
+            167 => [
                 'id' => 168,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38203,
@@ -1868,10 +1700,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Allow Json format error or abnormal data',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            168 =>
-            array (
+                'deleted_at' => null,
+            ],
+            168 => [
                 'id' => 169,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38204,
@@ -1879,10 +1710,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Location Json format error or abnormal data',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            169 =>
-            array (
+                'deleted_at' => null,
+            ],
+            169 => [
                 'id' => 170,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38205,
@@ -1890,10 +1720,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Files Json format error or abnormal data',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            170 =>
-            array (
+                'deleted_at' => null,
+            ],
+            170 => [
                 'id' => 171,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38206,
@@ -1901,10 +1730,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Extends Json format error or abnormal data',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            171 =>
-            array (
+                'deleted_at' => null,
+            ],
+            171 => [
                 'id' => 172,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38207,
@@ -1912,10 +1740,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'eid parameter in Extends Json must be filled in',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            172 =>
-            array (
+                'deleted_at' => null,
+            ],
+            172 => [
                 'id' => 173,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38208,
@@ -1923,10 +1750,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'File Info format error or abnormal data',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            173 =>
-            array (
+                'deleted_at' => null,
+            ],
+            173 => [
                 'id' => 174,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38209,
@@ -1934,10 +1760,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'PID parameter is required for comment posting',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            174 =>
-            array (
+                'deleted_at' => null,
+            ],
+            174 => [
                 'id' => 175,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38210,
@@ -1945,10 +1770,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Comment failed. Post not found',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            175 =>
-            array (
+                'deleted_at' => null,
+            ],
+            175 => [
                 'id' => 176,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38211,
@@ -1956,10 +1780,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'The title is too long. The upper limit is 255 characters',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            176 =>
-            array (
+                'deleted_at' => null,
+            ],
+            176 => [
                 'id' => 177,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38212,
@@ -1967,10 +1790,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Block words contained. Please modify the content and then try again',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            177 =>
-            array (
+                'deleted_at' => null,
+            ],
+            177 => [
                 'id' => 178,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38213,
@@ -1978,10 +1800,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Content, file and extended content could not be empty simultaneously. At least one of the three should have value.',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            178 =>
-            array (
+                'deleted_at' => null,
+            ],
+            178 => [
                 'id' => 179,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38214,
@@ -1989,10 +1810,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Content type parameter is wrong or the number of characters has reached the upper limit',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            179 =>
-            array (
+                'deleted_at' => null,
+            ],
+            179 => [
                 'id' => 180,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38215,
@@ -2000,10 +1820,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Number of words exceeded the limit',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            180 =>
-            array (
+                'deleted_at' => null,
+            ],
+            180 => [
                 'id' => 181,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30000,
@@ -2011,10 +1830,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '参数格式错误',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            181 =>
-            array (
+                'deleted_at' => null,
+            ],
+            181 => [
                 'id' => 182,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30001,
@@ -2022,10 +1840,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '参数缺失错误',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            182 =>
-            array (
+                'deleted_at' => null,
+            ],
+            182 => [
                 'id' => 183,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31000,
@@ -2033,10 +1850,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Header Error',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            183 =>
-            array (
+                'deleted_at' => null,
+            ],
+            183 => [
                 'id' => 184,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31101,
@@ -2044,10 +1860,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '平台 ID 不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            184 =>
-            array (
+                'deleted_at' => null,
+            ],
+            184 => [
                 'id' => 185,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31102,
@@ -2055,10 +1870,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '平台 ID 与密钥不匹配',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            185 =>
-            array (
+                'deleted_at' => null,
+            ],
+            185 => [
                 'id' => 186,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31103,
@@ -2066,10 +1880,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '平台 ID 与账号或用户不匹配',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            186 =>
-            array (
+                'deleted_at' => null,
+            ],
+            186 => [
                 'id' => 187,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31201,
@@ -2077,10 +1890,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '版本号不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            187 =>
-            array (
+                'deleted_at' => null,
+            ],
+            187 => [
                 'id' => 188,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31202,
@@ -2088,10 +1900,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '版本号与密钥不匹配',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            188 =>
-            array (
+                'deleted_at' => null,
+            ],
+            188 => [
                 'id' => 189,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31301,
@@ -2099,10 +1910,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'App ID 不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            189 =>
-            array (
+                'deleted_at' => null,
+            ],
+            189 => [
                 'id' => 190,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31302,
@@ -2110,10 +1920,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '签名错误',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            190 =>
-            array (
+                'deleted_at' => null,
+            ],
+            190 => [
                 'id' => 191,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31303,
@@ -2121,10 +1930,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '签名已过期',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            191 =>
-            array (
+                'deleted_at' => null,
+            ],
+            191 => [
                 'id' => 192,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31304,
@@ -2132,10 +1940,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '该密钥无权请求本接口',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            192 =>
-            array (
+                'deleted_at' => null,
+            ],
+            192 => [
                 'id' => 193,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31401,
@@ -2143,10 +1950,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '语言标签不正确',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            193 =>
-            array (
+                'deleted_at' => null,
+            ],
+            193 => [
                 'id' => 194,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31402,
@@ -2154,10 +1960,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '时区不正确',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            194 =>
-            array (
+                'deleted_at' => null,
+            ],
+            194 => [
                 'id' => 195,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31501,
@@ -2165,10 +1970,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '账号未登录，无权操作',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            195 =>
-            array (
+                'deleted_at' => null,
+            ],
+            195 => [
                 'id' => 196,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31502,
@@ -2176,10 +1980,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '账号错误或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            196 =>
-            array (
+                'deleted_at' => null,
+            ],
+            196 => [
                 'id' => 197,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31503,
@@ -2187,10 +1990,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '登录凭证丢失，请重新登录',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            197 =>
-            array (
+                'deleted_at' => null,
+            ],
+            197 => [
                 'id' => 198,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31504,
@@ -2198,10 +2000,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '登录凭证已被禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            198 =>
-            array (
+                'deleted_at' => null,
+            ],
+            198 => [
                 'id' => 199,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31505,
@@ -2209,10 +2010,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '账号登录凭证错误或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            199 =>
-            array (
+                'deleted_at' => null,
+            ],
+            199 => [
                 'id' => 200,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31601,
@@ -2220,10 +2020,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '用户未登录，无权操作',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            200 =>
-            array (
+                'deleted_at' => null,
+            ],
+            200 => [
                 'id' => 201,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31602,
@@ -2231,10 +2030,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '用户错误或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            201 =>
-            array (
+                'deleted_at' => null,
+            ],
+            201 => [
                 'id' => 202,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31603,
@@ -2242,10 +2040,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '用户登录凭证错误或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            202 =>
-            array (
+                'deleted_at' => null,
+            ],
+            202 => [
                 'id' => 203,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31701,
@@ -2253,10 +2050,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '无法获知设备信息',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            203 =>
-            array (
+                'deleted_at' => null,
+            ],
+            203 => [
                 'id' => 204,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31702,
@@ -2264,10 +2060,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '设备信息格式错误',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            204 =>
-            array (
+                'deleted_at' => null,
+            ],
+            204 => [
                 'id' => 205,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32100,
@@ -2275,10 +2070,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '未配置服务商',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            205 =>
-            array (
+                'deleted_at' => null,
+            ],
+            205 => [
                 'id' => 206,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32101,
@@ -2286,10 +2080,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '服务商不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            206 =>
-            array (
+                'deleted_at' => null,
+            ],
+            206 => [
                 'id' => 207,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32102,
@@ -2297,10 +2090,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '服务商未启用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            207 =>
-            array (
+                'deleted_at' => null,
+            ],
+            207 => [
                 'id' => 208,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32103,
@@ -2308,10 +2100,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '服务商配置参数为空',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            208 =>
-            array (
+                'deleted_at' => null,
+            ],
+            208 => [
                 'id' => 209,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32201,
@@ -2319,10 +2110,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'ID 错误或者记录不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            209 =>
-            array (
+                'deleted_at' => null,
+            ],
+            209 => [
                 'id' => 210,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32202,
@@ -2330,10 +2120,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '数据异常，查询不到或者数据重复',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            210 =>
-            array (
+                'deleted_at' => null,
+            ],
+            210 => [
                 'id' => 211,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32203,
@@ -2341,10 +2130,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '记录已超时失效',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            211 =>
-            array (
+                'deleted_at' => null,
+            ],
+            211 => [
                 'id' => 212,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32204,
@@ -2352,10 +2140,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '记录已被使用过，请重新操作',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            212 =>
-            array (
+                'deleted_at' => null,
+            ],
+            212 => [
                 'id' => 213,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32301,
@@ -2363,10 +2150,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '服务商未响应',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            213 =>
-            array (
+                'deleted_at' => null,
+            ],
+            213 => [
                 'id' => 214,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32302,
@@ -2374,10 +2160,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '服务商处理失败',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            214 =>
-            array (
+                'deleted_at' => null,
+            ],
+            214 => [
                 'id' => 215,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32304,
@@ -2385,10 +2170,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '回调异常，查询不到或者数据记录错误',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            215 =>
-            array (
+                'deleted_at' => null,
+            ],
+            215 => [
                 'id' => 216,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32305,
@@ -2396,10 +2180,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '执行异常，文件丢失或者记录错误',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            216 =>
-            array (
+                'deleted_at' => null,
+            ],
+            216 => [
                 'id' => 217,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33101,
@@ -2407,10 +2190,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '私有模式禁止请求该接口',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            217 =>
-            array (
+                'deleted_at' => null,
+            ],
+            217 => [
                 'id' => 218,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33102,
@@ -2418,10 +2200,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '验证码模板关闭或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            218 =>
-            array (
+                'deleted_at' => null,
+            ],
+            218 => [
                 'id' => 219,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33103,
@@ -2429,10 +2210,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '验证码不正确或验证码已过期',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            219 =>
-            array (
+                'deleted_at' => null,
+            ],
+            219 => [
                 'id' => 220,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34101,
@@ -2440,10 +2220,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '邮箱格式不正确',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            220 =>
-            array (
+                'deleted_at' => null,
+            ],
+            220 => [
                 'id' => 221,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34102,
@@ -2451,10 +2230,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '手机号格式不正确',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            221 =>
-            array (
+                'deleted_at' => null,
+            ],
+            221 => [
                 'id' => 222,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34103,
@@ -2462,10 +2240,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '国际区号错误',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            222 =>
-            array (
+                'deleted_at' => null,
+            ],
+            222 => [
                 'id' => 223,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34104,
@@ -2473,10 +2250,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '密码长度不正确',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            223 =>
-            array (
+                'deleted_at' => null,
+            ],
+            223 => [
                 'id' => 224,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34105,
@@ -2484,10 +2260,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '密码应包含数字',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            224 =>
-            array (
+                'deleted_at' => null,
+            ],
+            224 => [
                 'id' => 225,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34106,
@@ -2495,10 +2270,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '密码应包含小写字母',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            225 =>
-            array (
+                'deleted_at' => null,
+            ],
+            225 => [
                 'id' => 226,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34107,
@@ -2506,10 +2280,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '密码应包含大写字母',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            226 =>
-            array (
+                'deleted_at' => null,
+            ],
+            226 => [
                 'id' => 227,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34108,
@@ -2517,10 +2290,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '密码应包含符号',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            227 =>
-            array (
+                'deleted_at' => null,
+            ],
+            227 => [
                 'id' => 228,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34109,
@@ -2528,10 +2300,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '账号不能为空',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            228 =>
-            array (
+                'deleted_at' => null,
+            ],
+            228 => [
                 'id' => 229,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34110,
@@ -2539,10 +2310,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '账号密码或者验证码不能全部为空',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            229 =>
-            array (
+                'deleted_at' => null,
+            ],
+            229 => [
                 'id' => 230,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34201,
@@ -2550,10 +2320,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '该注册通道已关闭，禁止通过此功能注册账号',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            230 =>
-            array (
+                'deleted_at' => null,
+            ],
+            230 => [
                 'id' => 231,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34202,
@@ -2561,10 +2330,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '不支持邮箱注册',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            231 =>
-            array (
+                'deleted_at' => null,
+            ],
+            231 => [
                 'id' => 232,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34203,
@@ -2572,10 +2340,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '不支持手机号注册',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            232 =>
-            array (
+                'deleted_at' => null,
+            ],
+            232 => [
                 'id' => 233,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34204,
@@ -2583,10 +2350,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '该账号已注册',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            233 =>
-            array (
+                'deleted_at' => null,
+            ],
+            233 => [
                 'id' => 234,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34205,
@@ -2594,10 +2360,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '邮箱已被注册',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            234 =>
-            array (
+                'deleted_at' => null,
+            ],
+            234 => [
                 'id' => 235,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34206,
@@ -2605,10 +2370,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '手机号已被注册',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            235 =>
-            array (
+                'deleted_at' => null,
+            ],
+            235 => [
                 'id' => 236,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34301,
@@ -2616,10 +2380,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '该账号不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            236 =>
-            array (
+                'deleted_at' => null,
+            ],
+            236 => [
                 'id' => 237,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34302,
@@ -2627,10 +2390,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '邮箱不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            237 =>
-            array (
+                'deleted_at' => null,
+            ],
+            237 => [
                 'id' => 238,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34303,
@@ -2638,10 +2400,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '手机号不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            238 =>
-            array (
+                'deleted_at' => null,
+            ],
+            238 => [
                 'id' => 239,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34304,
@@ -2649,10 +2410,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '账号密码不正确',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            239 =>
-            array (
+                'deleted_at' => null,
+            ],
+            239 => [
                 'id' => 240,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34305,
@@ -2660,10 +2420,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '账号不正确或者密码错误',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            240 =>
-            array (
+                'deleted_at' => null,
+            ],
+            240 => [
                 'id' => 241,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34306,
@@ -2671,10 +2430,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '错误已超系统限制，请 1 小时后再登录',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            241 =>
-            array (
+                'deleted_at' => null,
+            ],
+            241 => [
                 'id' => 242,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34307,
@@ -2682,10 +2440,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '该账号已被禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            242 =>
-            array (
+                'deleted_at' => null,
+            ],
+            242 => [
                 'id' => 243,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34308,
@@ -2693,10 +2450,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '该账号已注销',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            243 =>
-            array (
+                'deleted_at' => null,
+            ],
+            243 => [
                 'id' => 244,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34401,
@@ -2704,10 +2460,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '已绑定邮箱',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            244 =>
-            array (
+                'deleted_at' => null,
+            ],
+            244 => [
                 'id' => 245,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34402,
@@ -2715,10 +2470,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '已绑定手机',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            245 =>
-            array (
+                'deleted_at' => null,
+            ],
+            245 => [
                 'id' => 246,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34403,
@@ -2726,10 +2480,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '互联账号已存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            246 =>
-            array (
+                'deleted_at' => null,
+            ],
+            246 => [
                 'id' => 247,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34501,
@@ -2737,10 +2490,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '账号钱包不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            247 =>
-            array (
+                'deleted_at' => null,
+            ],
+            247 => [
                 'id' => 248,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34502,
@@ -2748,10 +2500,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '账号钱包已禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            248 =>
-            array (
+                'deleted_at' => null,
+            ],
+            248 => [
                 'id' => 249,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34503,
@@ -2759,10 +2510,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '对方钱包不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            249 =>
-            array (
+                'deleted_at' => null,
+            ],
+            249 => [
                 'id' => 250,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34504,
@@ -2770,10 +2520,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '对方钱包已禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            250 =>
-            array (
+                'deleted_at' => null,
+            ],
+            250 => [
                 'id' => 251,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34505,
@@ -2781,10 +2530,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '钱包余额不允许支付',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            251 =>
-            array (
+                'deleted_at' => null,
+            ],
+            251 => [
                 'id' => 252,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34506,
@@ -2792,10 +2540,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '对方钱包余额不足',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            252 =>
-            array (
+                'deleted_at' => null,
+            ],
+            252 => [
                 'id' => 253,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34507,
@@ -2803,10 +2550,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '期末余额和钱包额度不匹配',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            253 =>
-            array (
+                'deleted_at' => null,
+            ],
+            253 => [
                 'id' => 254,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34508,
@@ -2814,10 +2560,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '对方期末余额和钱包额度不匹配',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            254 =>
-            array (
+                'deleted_at' => null,
+            ],
+            254 => [
                 'id' => 255,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35101,
@@ -2825,10 +2570,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '指定天数内只能修改一次',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            255 =>
-            array (
+                'deleted_at' => null,
+            ],
+            255 => [
                 'id' => 256,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35102,
@@ -2836,10 +2580,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '用户名格式错误，请勿使用特殊字符',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            256 =>
-            array (
+                'deleted_at' => null,
+            ],
+            256 => [
                 'id' => 257,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35103,
@@ -2847,10 +2590,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '用户名长度超出限制',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            257 =>
-            array (
+                'deleted_at' => null,
+            ],
+            257 => [
                 'id' => 258,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35104,
@@ -2858,10 +2600,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '用户名未达到最小长度要求',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            258 =>
-            array (
+                'deleted_at' => null,
+            ],
+            258 => [
                 'id' => 259,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35105,
@@ -2869,10 +2610,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '用户名已被使用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            259 =>
-            array (
+                'deleted_at' => null,
+            ],
+            259 => [
                 'id' => 260,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35106,
@@ -2880,10 +2620,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '用户名存在禁用词',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            260 =>
-            array (
+                'deleted_at' => null,
+            ],
+            260 => [
                 'id' => 261,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35107,
@@ -2891,10 +2630,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '昵称格式错误，请勿使用特殊字符',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            261 =>
-            array (
+                'deleted_at' => null,
+            ],
+            261 => [
                 'id' => 262,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35108,
@@ -2902,10 +2640,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '昵称长度超出限制',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            262 =>
-            array (
+                'deleted_at' => null,
+            ],
+            262 => [
                 'id' => 263,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35109,
@@ -2913,10 +2650,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '昵称未达到最小长度要求',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            263 =>
-            array (
+                'deleted_at' => null,
+            ],
+            263 => [
                 'id' => 264,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35110,
@@ -2924,10 +2660,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '昵称存在禁用词',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            264 =>
-            array (
+                'deleted_at' => null,
+            ],
+            264 => [
                 'id' => 265,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35201,
@@ -2935,10 +2670,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前用户不存在或者不属于当前账号',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            265 =>
-            array (
+                'deleted_at' => null,
+            ],
+            265 => [
                 'id' => 266,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35202,
@@ -2946,10 +2680,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前用户已被禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            266 =>
-            array (
+                'deleted_at' => null,
+            ],
+            266 => [
                 'id' => 267,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35203,
@@ -2957,10 +2690,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前用户已注销',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            267 =>
-            array (
+                'deleted_at' => null,
+            ],
+            267 => [
                 'id' => 268,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35204,
@@ -2968,10 +2700,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '用户登录密码不正确',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            268 =>
-            array (
+                'deleted_at' => null,
+            ],
+            268 => [
                 'id' => 269,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35301,
@@ -2979,10 +2710,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前用户无权请求',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            269 =>
-            array (
+                'deleted_at' => null,
+            ],
+            269 => [
                 'id' => 270,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35302,
@@ -2990,10 +2720,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '用户已过期，无权操作该功能',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            270 =>
-            array (
+                'deleted_at' => null,
+            ],
+            270 => [
                 'id' => 271,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36101,
@@ -3001,10 +2730,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前用户未关联角色，请联系管理员确认',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            271 =>
-            array (
+                'deleted_at' => null,
+            ],
+            271 => [
                 'id' => 272,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36102,
@@ -3012,10 +2740,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前角色未配置权限，请联系管理员确认',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            272 =>
-            array (
+                'deleted_at' => null,
+            ],
+            272 => [
                 'id' => 273,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36103,
@@ -3023,10 +2750,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前角色无权请求',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            273 =>
-            array (
+                'deleted_at' => null,
+            ],
+            273 => [
                 'id' => 274,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36104,
@@ -3034,10 +2760,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前角色无权浏览',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            274 =>
-            array (
+                'deleted_at' => null,
+            ],
+            274 => [
                 'id' => 275,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36105,
@@ -3045,10 +2770,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前角色无权发表',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            275 =>
-            array (
+                'deleted_at' => null,
+            ],
+            275 => [
                 'id' => 276,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36106,
@@ -3056,10 +2780,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前角色发表内容有时间限制，请在规定的时间内再发表',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            276 =>
-            array (
+                'deleted_at' => null,
+            ],
+            276 => [
                 'id' => 277,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36107,
@@ -3067,10 +2790,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前角色发表内容需要先绑定邮箱',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            277 =>
-            array (
+                'deleted_at' => null,
+            ],
+            277 => [
                 'id' => 278,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36108,
@@ -3078,10 +2800,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前角色发表内容需要先绑定手机号',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            278 =>
-            array (
+                'deleted_at' => null,
+            ],
+            278 => [
                 'id' => 279,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36109,
@@ -3089,10 +2810,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前角色发表内容需要先实名制认证',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            279 =>
-            array (
+                'deleted_at' => null,
+            ],
+            279 => [
                 'id' => 280,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36110,
@@ -3100,10 +2820,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前角色无权上传图片',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            280 =>
-            array (
+                'deleted_at' => null,
+            ],
+            280 => [
                 'id' => 281,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36111,
@@ -3111,10 +2830,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前角色无权上传视频',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            281 =>
-            array (
+                'deleted_at' => null,
+            ],
+            281 => [
                 'id' => 282,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36112,
@@ -3122,10 +2840,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前角色无权上传音频',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            282 =>
-            array (
+                'deleted_at' => null,
+            ],
+            282 => [
                 'id' => 283,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36113,
@@ -3133,10 +2850,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前角色无权上传文档',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            283 =>
-            array (
+                'deleted_at' => null,
+            ],
+            283 => [
                 'id' => 284,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36114,
@@ -3144,10 +2860,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '文件大小超过当前角色限制',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            284 =>
-            array (
+                'deleted_at' => null,
+            ],
+            284 => [
                 'id' => 285,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36115,
@@ -3155,10 +2870,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前角色无私信权限',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            285 =>
-            array (
+                'deleted_at' => null,
+            ],
+            285 => [
                 'id' => 286,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36116,
@@ -3166,10 +2880,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前角色已经达到今天下载次数上限，请明天再下载',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            286 =>
-            array (
+                'deleted_at' => null,
+            ],
+            286 => [
                 'id' => 287,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36200,
@@ -3177,10 +2890,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '功能不存在或者未开启',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            287 =>
-            array (
+                'deleted_at' => null,
+            ],
+            287 => [
                 'id' => 288,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36201,
@@ -3188,10 +2900,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '不能对自己操作',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            288 =>
-            array (
+                'deleted_at' => null,
+            ],
+            288 => [
                 'id' => 289,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36202,
@@ -3199,10 +2910,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '不允许重复操作',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            289 =>
-            array (
+                'deleted_at' => null,
+            ],
+            289 => [
                 'id' => 290,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36300,
@@ -3210,10 +2920,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '仅支持指定方式操作，本接口禁止操作',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            290 =>
-            array (
+                'deleted_at' => null,
+            ],
+            290 => [
                 'id' => 291,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36301,
@@ -3221,10 +2930,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '发表内容需要先绑定邮箱',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            291 =>
-            array (
+                'deleted_at' => null,
+            ],
+            291 => [
                 'id' => 292,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36302,
@@ -3232,10 +2940,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '发表内容需要先绑定手机号',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            292 =>
-            array (
+                'deleted_at' => null,
+            ],
+            292 => [
                 'id' => 293,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36303,
@@ -3243,10 +2950,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '发表内容需要先实名制认证',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            293 =>
-            array (
+                'deleted_at' => null,
+            ],
+            293 => [
                 'id' => 294,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36304,
@@ -3254,10 +2960,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '系统已经开启发表时间限制，请在规定的时间内再发表',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            294 =>
-            array (
+                'deleted_at' => null,
+            ],
+            294 => [
                 'id' => 295,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36305,
@@ -3265,10 +2970,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '不允许编辑帖子',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            295 =>
-            array (
+                'deleted_at' => null,
+            ],
+            295 => [
                 'id' => 296,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36306,
@@ -3276,10 +2980,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '不允许编辑评论',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            296 =>
-            array (
+                'deleted_at' => null,
+            ],
+            296 => [
                 'id' => 297,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36307,
@@ -3287,10 +2990,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '置顶后不允许编辑',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            297 =>
-            array (
+                'deleted_at' => null,
+            ],
+            297 => [
                 'id' => 298,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36308,
@@ -3298,10 +3000,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '加精后不允许编辑',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            298 =>
-            array (
+                'deleted_at' => null,
+            ],
+            298 => [
                 'id' => 299,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36309,
@@ -3309,10 +3010,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '超出可编辑时间',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            299 =>
-            array (
+                'deleted_at' => null,
+            ],
+            299 => [
                 'id' => 300,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36310,
@@ -3320,10 +3020,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '该文件类型不在允许上传的范围内',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            300 =>
-            array (
+                'deleted_at' => null,
+            ],
+            300 => [
                 'id' => 301,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36311,
@@ -3331,10 +3030,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前用户无权在该小组的发帖',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            301 =>
-            array (
+                'deleted_at' => null,
+            ],
+            301 => [
                 'id' => 302,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36312,
@@ -3342,10 +3040,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前用户无权在该小组的评论',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            302 =>
-            array (
+                'deleted_at' => null,
+            ],
+            302 => [
                 'id' => 303,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36400,
@@ -3353,10 +3050,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '删除失败，内容错误或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            303 =>
-            array (
+                'deleted_at' => null,
+            ],
+            303 => [
                 'id' => 304,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36401,
@@ -3364,10 +3060,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '该内容不允许删除',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            304 =>
-            array (
+                'deleted_at' => null,
+            ],
+            304 => [
                 'id' => 305,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36402,
@@ -3375,10 +3070,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '该文件正在被使用，不允许删除',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            305 =>
-            array (
+                'deleted_at' => null,
+            ],
+            305 => [
                 'id' => 306,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36403,
@@ -3386,10 +3080,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '该扩展内容有其他人使用，不允许删除',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            306 =>
-            array (
+                'deleted_at' => null,
+            ],
+            306 => [
                 'id' => 307,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36500,
@@ -3397,10 +3090,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '操作失败，内容不属于当前用户',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            307 =>
-            array (
+                'deleted_at' => null,
+            ],
+            307 => [
                 'id' => 308,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36501,
@@ -3408,10 +3100,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前内容并非审核状态，无需撤回',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            308 =>
-            array (
+                'deleted_at' => null,
+            ],
+            308 => [
                 'id' => 309,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36600,
@@ -3419,10 +3110,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '会话异常或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            309 =>
-            array (
+                'deleted_at' => null,
+            ],
+            309 => [
                 'id' => 310,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36601,
@@ -3430,10 +3120,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '该会话不属于当前用户',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            310 =>
-            array (
+                'deleted_at' => null,
+            ],
+            310 => [
                 'id' => 311,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36602,
@@ -3441,10 +3130,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '自己不能给自己发送消息',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            311 =>
-            array (
+                'deleted_at' => null,
+            ],
+            311 => [
                 'id' => 312,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36603,
@@ -3452,10 +3140,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '单个消息只能「文件」或「文本」二选一',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            312 =>
-            array (
+                'deleted_at' => null,
+            ],
+            312 => [
                 'id' => 313,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36604,
@@ -3463,10 +3150,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '消息文本中含有禁用词，不能发送',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            313 =>
-            array (
+                'deleted_at' => null,
+            ],
+            313 => [
                 'id' => 314,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36605,
@@ -3474,10 +3160,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '对方已设置仅允许 TA 关注的用户才能给 TA 发送消息',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            314 =>
-            array (
+                'deleted_at' => null,
+            ],
+            314 => [
                 'id' => 315,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36606,
@@ -3485,10 +3170,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '对方已设置仅允许 TA 关注的用户和已认证的用户才能给 TA 发送消息',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            315 =>
-            array (
+                'deleted_at' => null,
+            ],
+            315 => [
                 'id' => 316,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36607,
@@ -3496,10 +3180,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '会话和消息只能传其中一个，不能同时删除两种类型',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            316 =>
-            array (
+                'deleted_at' => null,
+            ],
+            316 => [
                 'id' => 317,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36608,
@@ -3507,10 +3190,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '只能删除自己的会话消息',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            317 =>
-            array (
+                'deleted_at' => null,
+            ],
+            317 => [
                 'id' => 318,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36700,
@@ -3518,10 +3200,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '通知异常或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            318 =>
-            array (
+                'deleted_at' => null,
+            ],
+            318 => [
                 'id' => 319,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36701,
@@ -3529,10 +3210,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '该通知不属于当前用户',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            319 =>
-            array (
+                'deleted_at' => null,
+            ],
+            319 => [
                 'id' => 320,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36702,
@@ -3540,10 +3220,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '只能删除自己的通知消息',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            320 =>
-            array (
+                'deleted_at' => null,
+            ],
+            320 => [
                 'id' => 321,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37100,
@@ -3551,10 +3230,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '小组错误或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            321 =>
-            array (
+                'deleted_at' => null,
+            ],
+            321 => [
                 'id' => 322,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37101,
@@ -3562,10 +3240,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '小组已被禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            322 =>
-            array (
+                'deleted_at' => null,
+            ],
+            322 => [
                 'id' => 323,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37102,
@@ -3573,10 +3250,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '只有小组成员才能查看小组',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            323 =>
-            array (
+                'deleted_at' => null,
+            ],
+            323 => [
                 'id' => 324,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37103,
@@ -3584,10 +3260,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '只有小组成员才能查看小组内帖子',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            324 =>
-            array (
+                'deleted_at' => null,
+            ],
+            324 => [
                 'id' => 325,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37104,
@@ -3595,10 +3270,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '当前用户已被禁止查看本小组内容',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            325 =>
-            array (
+                'deleted_at' => null,
+            ],
+            325 => [
                 'id' => 326,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37200,
@@ -3606,10 +3280,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '话题错误或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            326 =>
-            array (
+                'deleted_at' => null,
+            ],
+            326 => [
                 'id' => 327,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37201,
@@ -3617,10 +3290,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '话题已被禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            327 =>
-            array (
+                'deleted_at' => null,
+            ],
+            327 => [
                 'id' => 328,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37300,
@@ -3628,10 +3300,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '帖子错误或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            328 =>
-            array (
+                'deleted_at' => null,
+            ],
+            328 => [
                 'id' => 329,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37301,
@@ -3639,10 +3310,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '帖子已被禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            329 =>
-            array (
+                'deleted_at' => null,
+            ],
+            329 => [
                 'id' => 330,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37302,
@@ -3650,10 +3320,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '帖子草稿错误或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            330 =>
-            array (
+                'deleted_at' => null,
+            ],
+            330 => [
                 'id' => 331,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37303,
@@ -3661,10 +3330,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '帖子异常，未找到帖子副表记录',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            331 =>
-            array (
+                'deleted_at' => null,
+            ],
+            331 => [
                 'id' => 332,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37304,
@@ -3672,10 +3340,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '该内容需要授权后才能浏览',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            332 =>
-            array (
+                'deleted_at' => null,
+            ],
+            332 => [
                 'id' => 333,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37400,
@@ -3683,10 +3350,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '评论错误或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            333 =>
-            array (
+                'deleted_at' => null,
+            ],
+            333 => [
                 'id' => 334,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37401,
@@ -3694,10 +3360,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '评论已被禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            334 =>
-            array (
+                'deleted_at' => null,
+            ],
+            334 => [
                 'id' => 335,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37402,
@@ -3705,10 +3370,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '评论草稿错误或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            335 =>
-            array (
+                'deleted_at' => null,
+            ],
+            335 => [
                 'id' => 336,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37403,
@@ -3716,10 +3380,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '评论异常，未找到评论副表记录',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            336 =>
-            array (
+                'deleted_at' => null,
+            ],
+            336 => [
                 'id' => 337,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37500,
@@ -3727,10 +3390,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '文件错误或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            337 =>
-            array (
+                'deleted_at' => null,
+            ],
+            337 => [
                 'id' => 338,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37501,
@@ -3738,10 +3400,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '文件已被禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            338 =>
-            array (
+                'deleted_at' => null,
+            ],
+            338 => [
                 'id' => 339,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37600,
@@ -3749,10 +3410,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '扩展错误或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            339 =>
-            array (
+                'deleted_at' => null,
+            ],
+            339 => [
                 'id' => 340,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37601,
@@ -3760,10 +3420,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '扩展已被禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            340 =>
-            array (
+                'deleted_at' => null,
+            ],
+            340 => [
                 'id' => 341,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38101,
@@ -3771,10 +3430,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '内容审核中不可编辑',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            341 =>
-            array (
+                'deleted_at' => null,
+            ],
+            341 => [
                 'id' => 342,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38102,
@@ -3782,10 +3440,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '内容已正式发表不可编辑',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            342 =>
-            array (
+                'deleted_at' => null,
+            ],
+            342 => [
                 'id' => 343,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38103,
@@ -3793,10 +3450,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '处于审核状态的内容不可再提交',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            343 =>
-            array (
+                'deleted_at' => null,
+            ],
+            343 => [
                 'id' => 344,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38104,
@@ -3804,10 +3460,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '处于发布状态的内容不可再提交',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            344 =>
-            array (
+                'deleted_at' => null,
+            ],
+            344 => [
                 'id' => 345,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38105,
@@ -3815,10 +3470,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '评论草稿创建失败，只有一级评论才能创建草稿',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            345 =>
-            array (
+                'deleted_at' => null,
+            ],
+            345 => [
                 'id' => 346,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38201,
@@ -3826,10 +3480,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'User List Json 格式错误或者数据异常',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            346 =>
-            array (
+                'deleted_at' => null,
+            ],
+            346 => [
                 'id' => 347,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38202,
@@ -3837,10 +3490,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Comment Set Json 格式错误或者数据异常',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            347 =>
-            array (
+                'deleted_at' => null,
+            ],
+            347 => [
                 'id' => 348,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38203,
@@ -3848,10 +3500,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Allow Json 格式错误或者数据异常',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            348 =>
-            array (
+                'deleted_at' => null,
+            ],
+            348 => [
                 'id' => 349,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38204,
@@ -3859,10 +3510,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Location Json 格式错误或者数据异常',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            349 =>
-            array (
+                'deleted_at' => null,
+            ],
+            349 => [
                 'id' => 350,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38205,
@@ -3870,10 +3520,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Files Json 格式错误或者数据异常',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            350 =>
-            array (
+                'deleted_at' => null,
+            ],
+            350 => [
                 'id' => 351,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38206,
@@ -3881,10 +3530,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Extends Json 格式错误或者数据异常',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            351 =>
-            array (
+                'deleted_at' => null,
+            ],
+            351 => [
                 'id' => 352,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38207,
@@ -3892,10 +3540,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '扩展配置中 eid 参数必填',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            352 =>
-            array (
+                'deleted_at' => null,
+            ],
+            352 => [
                 'id' => 353,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38208,
@@ -3903,10 +3550,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'File Info 格式错误或者数据异常',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            353 =>
-            array (
+                'deleted_at' => null,
+            ],
+            353 => [
                 'id' => 354,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38209,
@@ -3914,10 +3560,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '发表评论，必传 pid 参数',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            354 =>
-            array (
+                'deleted_at' => null,
+            ],
+            354 => [
                 'id' => 355,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38210,
@@ -3925,10 +3570,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '评论失败，未找到帖子信息',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            355 =>
-            array (
+                'deleted_at' => null,
+            ],
+            355 => [
                 'id' => 356,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38211,
@@ -3936,10 +3580,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '标题过长，应小于 255 字符',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            356 =>
-            array (
+                'deleted_at' => null,
+            ],
+            356 => [
                 'id' => 357,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38212,
@@ -3947,10 +3590,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '内容存在禁用词，请修改后再发表',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            357 =>
-            array (
+                'deleted_at' => null,
+            ],
+            357 => [
                 'id' => 358,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38213,
@@ -3958,10 +3600,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '内容、文件、扩展内容，三种不可全部为空，至少其中一个有值',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            358 =>
-            array (
+                'deleted_at' => null,
+            ],
+            358 => [
                 'id' => 359,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38214,
@@ -3969,10 +3610,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '内容类型参数错误或者字符数达到上限',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            359 =>
-            array (
+                'deleted_at' => null,
+            ],
+            359 => [
                 'id' => 360,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38215,
@@ -3980,10 +3620,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '内容超过限制字数',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            360 =>
-            array (
+                'deleted_at' => null,
+            ],
+            360 => [
                 'id' => 361,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30000,
@@ -3991,10 +3630,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '參數格式錯誤',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            361 =>
-            array (
+                'deleted_at' => null,
+            ],
+            361 => [
                 'id' => 362,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30001,
@@ -4002,10 +3640,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '參數缺失錯誤',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            362 =>
-            array (
+                'deleted_at' => null,
+            ],
+            362 => [
                 'id' => 363,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31000,
@@ -4013,10 +3650,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Header Error',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            363 =>
-            array (
+                'deleted_at' => null,
+            ],
+            363 => [
                 'id' => 364,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31101,
@@ -4024,10 +3660,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '平台 ID 不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            364 =>
-            array (
+                'deleted_at' => null,
+            ],
+            364 => [
                 'id' => 365,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31102,
@@ -4035,10 +3670,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '平台 ID 與密鑰不匹配',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            365 =>
-            array (
+                'deleted_at' => null,
+            ],
+            365 => [
                 'id' => 366,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31103,
@@ -4046,10 +3680,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '平台 ID 與賬號或用戶不匹配',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            366 =>
-            array (
+                'deleted_at' => null,
+            ],
+            366 => [
                 'id' => 367,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31201,
@@ -4057,10 +3690,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '版本號不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            367 =>
-            array (
+                'deleted_at' => null,
+            ],
+            367 => [
                 'id' => 368,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31202,
@@ -4068,10 +3700,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '版本號與密鑰不匹配',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            368 =>
-            array (
+                'deleted_at' => null,
+            ],
+            368 => [
                 'id' => 369,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31301,
@@ -4079,10 +3710,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'App ID 不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            369 =>
-            array (
+                'deleted_at' => null,
+            ],
+            369 => [
                 'id' => 370,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31302,
@@ -4090,10 +3720,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '簽名錯誤',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            370 =>
-            array (
+                'deleted_at' => null,
+            ],
+            370 => [
                 'id' => 371,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31303,
@@ -4101,10 +3730,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '簽名已過期',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            371 =>
-            array (
+                'deleted_at' => null,
+            ],
+            371 => [
                 'id' => 372,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31304,
@@ -4112,10 +3740,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '該密鑰無權請求本接口',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            372 =>
-            array (
+                'deleted_at' => null,
+            ],
+            372 => [
                 'id' => 373,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31401,
@@ -4123,10 +3750,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '語言標籤不正確',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            373 =>
-            array (
+                'deleted_at' => null,
+            ],
+            373 => [
                 'id' => 374,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31402,
@@ -4134,10 +3760,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '時區不正確',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            374 =>
-            array (
+                'deleted_at' => null,
+            ],
+            374 => [
                 'id' => 375,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31501,
@@ -4145,10 +3770,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '賬號未登錄，無權操作',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            375 =>
-            array (
+                'deleted_at' => null,
+            ],
+            375 => [
                 'id' => 376,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31502,
@@ -4156,10 +3780,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '賬號錯誤或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            376 =>
-            array (
+                'deleted_at' => null,
+            ],
+            376 => [
                 'id' => 377,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31503,
@@ -4167,10 +3790,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '登錄憑證丟失，請重新登錄',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            377 =>
-            array (
+                'deleted_at' => null,
+            ],
+            377 => [
                 'id' => 378,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31504,
@@ -4178,10 +3800,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '登錄憑證已被禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            378 =>
-            array (
+                'deleted_at' => null,
+            ],
+            378 => [
                 'id' => 379,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31505,
@@ -4189,10 +3810,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '賬號登錄憑證錯誤或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            379 =>
-            array (
+                'deleted_at' => null,
+            ],
+            379 => [
                 'id' => 380,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31601,
@@ -4200,10 +3820,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '用戶未登錄，無權操作',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            380 =>
-            array (
+                'deleted_at' => null,
+            ],
+            380 => [
                 'id' => 381,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31602,
@@ -4211,10 +3830,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '用戶錯誤或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            381 =>
-            array (
+                'deleted_at' => null,
+            ],
+            381 => [
                 'id' => 382,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31603,
@@ -4222,10 +3840,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '用戶登錄憑證錯誤或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            382 =>
-            array (
+                'deleted_at' => null,
+            ],
+            382 => [
                 'id' => 383,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31701,
@@ -4233,10 +3850,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '無法獲知設備信息',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            383 =>
-            array (
+                'deleted_at' => null,
+            ],
+            383 => [
                 'id' => 384,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31702,
@@ -4244,10 +3860,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '設備信息格式錯誤',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            384 =>
-            array (
+                'deleted_at' => null,
+            ],
+            384 => [
                 'id' => 385,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32100,
@@ -4255,10 +3870,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '未配置服務商',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            385 =>
-            array (
+                'deleted_at' => null,
+            ],
+            385 => [
                 'id' => 386,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32101,
@@ -4266,10 +3880,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '服務商不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            386 =>
-            array (
+                'deleted_at' => null,
+            ],
+            386 => [
                 'id' => 387,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32102,
@@ -4277,10 +3890,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '服務商未啟用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            387 =>
-            array (
+                'deleted_at' => null,
+            ],
+            387 => [
                 'id' => 388,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32103,
@@ -4288,10 +3900,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '服務商配置參數為空',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            388 =>
-            array (
+                'deleted_at' => null,
+            ],
+            388 => [
                 'id' => 389,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32201,
@@ -4299,10 +3910,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'ID 錯誤或者記錄不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            389 =>
-            array (
+                'deleted_at' => null,
+            ],
+            389 => [
                 'id' => 390,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32202,
@@ -4310,10 +3920,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '數據異常，查詢不到或者數據重複',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            390 =>
-            array (
+                'deleted_at' => null,
+            ],
+            390 => [
                 'id' => 391,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32203,
@@ -4321,10 +3930,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '記錄已超時失效',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            391 =>
-            array (
+                'deleted_at' => null,
+            ],
+            391 => [
                 'id' => 392,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32204,
@@ -4332,10 +3940,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '記錄已被使用過，請重新操作',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            392 =>
-            array (
+                'deleted_at' => null,
+            ],
+            392 => [
                 'id' => 393,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32301,
@@ -4343,10 +3950,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '服務商未響應',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            393 =>
-            array (
+                'deleted_at' => null,
+            ],
+            393 => [
                 'id' => 394,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32302,
@@ -4354,10 +3960,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '服務商處理失敗',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            394 =>
-            array (
+                'deleted_at' => null,
+            ],
+            394 => [
                 'id' => 395,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32304,
@@ -4365,10 +3970,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '回調異常，查詢不到或者數據記錄錯誤',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            395 =>
-            array (
+                'deleted_at' => null,
+            ],
+            395 => [
                 'id' => 396,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32305,
@@ -4376,10 +3980,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '執行異常，文件丟失或者記錄錯誤',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            396 =>
-            array (
+                'deleted_at' => null,
+            ],
+            396 => [
                 'id' => 397,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33101,
@@ -4387,10 +3990,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '私有模式禁止請求該接口',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            397 =>
-            array (
+                'deleted_at' => null,
+            ],
+            397 => [
                 'id' => 398,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33102,
@@ -4398,10 +4000,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '驗證碼模板關閉或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            398 =>
-            array (
+                'deleted_at' => null,
+            ],
+            398 => [
                 'id' => 399,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33103,
@@ -4409,10 +4010,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '驗證碼不正確或驗證碼已過期',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            399 =>
-            array (
+                'deleted_at' => null,
+            ],
+            399 => [
                 'id' => 400,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34101,
@@ -4420,10 +4020,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '郵箱格式不正確',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            400 =>
-            array (
+                'deleted_at' => null,
+            ],
+            400 => [
                 'id' => 401,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34102,
@@ -4431,10 +4030,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '手機號格式不正確',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            401 =>
-            array (
+                'deleted_at' => null,
+            ],
+            401 => [
                 'id' => 402,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34103,
@@ -4442,10 +4040,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '國際區號錯誤',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            402 =>
-            array (
+                'deleted_at' => null,
+            ],
+            402 => [
                 'id' => 403,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34104,
@@ -4453,10 +4050,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '密碼長度不正確',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            403 =>
-            array (
+                'deleted_at' => null,
+            ],
+            403 => [
                 'id' => 404,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34105,
@@ -4464,10 +4060,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '密碼應包含數字',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            404 =>
-            array (
+                'deleted_at' => null,
+            ],
+            404 => [
                 'id' => 405,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34106,
@@ -4475,10 +4070,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '密碼應包含小寫字母',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            405 =>
-            array (
+                'deleted_at' => null,
+            ],
+            405 => [
                 'id' => 406,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34107,
@@ -4486,10 +4080,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '密碼應包含大寫字母',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            406 =>
-            array (
+                'deleted_at' => null,
+            ],
+            406 => [
                 'id' => 407,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34108,
@@ -4497,10 +4090,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '密碼應包含符號',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            407 =>
-            array (
+                'deleted_at' => null,
+            ],
+            407 => [
                 'id' => 408,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34109,
@@ -4508,10 +4100,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '賬號不能為空',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            408 =>
-            array (
+                'deleted_at' => null,
+            ],
+            408 => [
                 'id' => 409,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34110,
@@ -4519,10 +4110,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '賬號密碼或者驗證碼不能全部為空',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            409 =>
-            array (
+                'deleted_at' => null,
+            ],
+            409 => [
                 'id' => 410,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34201,
@@ -4530,10 +4120,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '該註冊通道已關閉，禁止通過此功能註冊賬號',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            410 =>
-            array (
+                'deleted_at' => null,
+            ],
+            410 => [
                 'id' => 411,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34202,
@@ -4541,10 +4130,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '不支持郵箱註冊',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            411 =>
-            array (
+                'deleted_at' => null,
+            ],
+            411 => [
                 'id' => 412,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34203,
@@ -4552,10 +4140,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '不支持手機號註冊',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            412 =>
-            array (
+                'deleted_at' => null,
+            ],
+            412 => [
                 'id' => 413,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34204,
@@ -4563,10 +4150,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '該賬號已註冊',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            413 =>
-            array (
+                'deleted_at' => null,
+            ],
+            413 => [
                 'id' => 414,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34205,
@@ -4574,10 +4160,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '郵箱已被註冊',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            414 =>
-            array (
+                'deleted_at' => null,
+            ],
+            414 => [
                 'id' => 415,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34206,
@@ -4585,10 +4170,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '手機號已被註冊',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            415 =>
-            array (
+                'deleted_at' => null,
+            ],
+            415 => [
                 'id' => 416,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34301,
@@ -4596,10 +4180,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '該賬號不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            416 =>
-            array (
+                'deleted_at' => null,
+            ],
+            416 => [
                 'id' => 417,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34302,
@@ -4607,10 +4190,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '郵箱不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            417 =>
-            array (
+                'deleted_at' => null,
+            ],
+            417 => [
                 'id' => 418,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34303,
@@ -4618,10 +4200,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '手機號不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            418 =>
-            array (
+                'deleted_at' => null,
+            ],
+            418 => [
                 'id' => 419,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34304,
@@ -4629,10 +4210,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '賬號密碼不正確',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            419 =>
-            array (
+                'deleted_at' => null,
+            ],
+            419 => [
                 'id' => 420,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34305,
@@ -4640,10 +4220,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '賬號不正確或者密碼錯誤',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            420 =>
-            array (
+                'deleted_at' => null,
+            ],
+            420 => [
                 'id' => 421,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34306,
@@ -4651,10 +4230,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '錯誤已超系統限制，請 1 小時後再登錄',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            421 =>
-            array (
+                'deleted_at' => null,
+            ],
+            421 => [
                 'id' => 422,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34307,
@@ -4662,10 +4240,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '該賬號已被禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            422 =>
-            array (
+                'deleted_at' => null,
+            ],
+            422 => [
                 'id' => 423,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34308,
@@ -4673,10 +4250,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '該賬號已註銷',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            423 =>
-            array (
+                'deleted_at' => null,
+            ],
+            423 => [
                 'id' => 424,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34401,
@@ -4684,10 +4260,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '已綁定郵箱',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            424 =>
-            array (
+                'deleted_at' => null,
+            ],
+            424 => [
                 'id' => 425,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34402,
@@ -4695,10 +4270,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '已綁定手機',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            425 =>
-            array (
+                'deleted_at' => null,
+            ],
+            425 => [
                 'id' => 426,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34403,
@@ -4706,10 +4280,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '互聯賬號已存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            426 =>
-            array (
+                'deleted_at' => null,
+            ],
+            426 => [
                 'id' => 427,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34501,
@@ -4717,10 +4290,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '賬號錢包不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            427 =>
-            array (
+                'deleted_at' => null,
+            ],
+            427 => [
                 'id' => 428,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34502,
@@ -4728,10 +4300,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '賬號錢包已禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            428 =>
-            array (
+                'deleted_at' => null,
+            ],
+            428 => [
                 'id' => 429,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34503,
@@ -4739,10 +4310,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '對方錢包不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            429 =>
-            array (
+                'deleted_at' => null,
+            ],
+            429 => [
                 'id' => 430,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34504,
@@ -4750,10 +4320,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '對方錢包已禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            430 =>
-            array (
+                'deleted_at' => null,
+            ],
+            430 => [
                 'id' => 431,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34505,
@@ -4761,10 +4330,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '錢包餘額不允許支付',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            431 =>
-            array (
+                'deleted_at' => null,
+            ],
+            431 => [
                 'id' => 432,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34506,
@@ -4772,10 +4340,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '對方錢包餘額不足',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            432 =>
-            array (
+                'deleted_at' => null,
+            ],
+            432 => [
                 'id' => 433,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34507,
@@ -4783,10 +4350,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '期末餘額和錢包額度不匹配',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            433 =>
-            array (
+                'deleted_at' => null,
+            ],
+            433 => [
                 'id' => 434,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34508,
@@ -4794,10 +4360,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '對方期末餘額和錢包額度不匹配',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            434 =>
-            array (
+                'deleted_at' => null,
+            ],
+            434 => [
                 'id' => 435,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35101,
@@ -4805,10 +4370,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '指定天數內只能修改一次',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            435 =>
-            array (
+                'deleted_at' => null,
+            ],
+            435 => [
                 'id' => 436,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35102,
@@ -4816,10 +4380,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '用戶名格式錯誤，請勿使用特殊字符',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            436 =>
-            array (
+                'deleted_at' => null,
+            ],
+            436 => [
                 'id' => 437,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35103,
@@ -4827,10 +4390,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '用戶名長度超出限制',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            437 =>
-            array (
+                'deleted_at' => null,
+            ],
+            437 => [
                 'id' => 438,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35104,
@@ -4838,10 +4400,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '用戶名未達到最小長度要求',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            438 =>
-            array (
+                'deleted_at' => null,
+            ],
+            438 => [
                 'id' => 439,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35105,
@@ -4849,10 +4410,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '用戶名已被使用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            439 =>
-            array (
+                'deleted_at' => null,
+            ],
+            439 => [
                 'id' => 440,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35106,
@@ -4860,10 +4420,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '用戶名存在禁用詞',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            440 =>
-            array (
+                'deleted_at' => null,
+            ],
+            440 => [
                 'id' => 441,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35107,
@@ -4871,10 +4430,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '暱稱格式錯誤，請勿使用特殊字符',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            441 =>
-            array (
+                'deleted_at' => null,
+            ],
+            441 => [
                 'id' => 442,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35108,
@@ -4882,10 +4440,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '暱稱長度超出限制',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            442 =>
-            array (
+                'deleted_at' => null,
+            ],
+            442 => [
                 'id' => 443,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35109,
@@ -4893,10 +4450,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '暱稱未達到最小長度要求',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            443 =>
-            array (
+                'deleted_at' => null,
+            ],
+            443 => [
                 'id' => 444,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35110,
@@ -4904,10 +4460,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '暱稱存在禁用詞',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            444 =>
-            array (
+                'deleted_at' => null,
+            ],
+            444 => [
                 'id' => 445,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35201,
@@ -4915,10 +4470,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前用戶不存在或者不屬於當前賬號',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            445 =>
-            array (
+                'deleted_at' => null,
+            ],
+            445 => [
                 'id' => 446,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35202,
@@ -4926,10 +4480,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前用戶已被禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            446 =>
-            array (
+                'deleted_at' => null,
+            ],
+            446 => [
                 'id' => 447,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35203,
@@ -4937,10 +4490,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前用戶已註銷',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            447 =>
-            array (
+                'deleted_at' => null,
+            ],
+            447 => [
                 'id' => 448,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35204,
@@ -4948,10 +4500,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '用戶登錄密碼不正確',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            448 =>
-            array (
+                'deleted_at' => null,
+            ],
+            448 => [
                 'id' => 449,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35301,
@@ -4959,10 +4510,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前用戶無權請求',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            449 =>
-            array (
+                'deleted_at' => null,
+            ],
+            449 => [
                 'id' => 450,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35302,
@@ -4970,10 +4520,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '用戶已過期，無權操作該功能',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            450 =>
-            array (
+                'deleted_at' => null,
+            ],
+            450 => [
                 'id' => 451,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36101,
@@ -4981,10 +4530,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前用戶未關聯角色，請聯繫管理員確認',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            451 =>
-            array (
+                'deleted_at' => null,
+            ],
+            451 => [
                 'id' => 452,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36102,
@@ -4992,10 +4540,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前角色未配置權限，請聯繫管理員確認',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            452 =>
-            array (
+                'deleted_at' => null,
+            ],
+            452 => [
                 'id' => 453,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36103,
@@ -5003,10 +4550,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前角色無權請求',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            453 =>
-            array (
+                'deleted_at' => null,
+            ],
+            453 => [
                 'id' => 454,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36104,
@@ -5014,10 +4560,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前角色無權瀏覽',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            454 =>
-            array (
+                'deleted_at' => null,
+            ],
+            454 => [
                 'id' => 455,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36105,
@@ -5025,10 +4570,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前角色無權發表',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            455 =>
-            array (
+                'deleted_at' => null,
+            ],
+            455 => [
                 'id' => 456,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36106,
@@ -5036,10 +4580,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前角色發表內容有時間限制，請在規定的時間內再發表',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            456 =>
-            array (
+                'deleted_at' => null,
+            ],
+            456 => [
                 'id' => 457,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36107,
@@ -5047,10 +4590,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前角色發表內容需要先綁定郵箱',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            457 =>
-            array (
+                'deleted_at' => null,
+            ],
+            457 => [
                 'id' => 458,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36108,
@@ -5058,10 +4600,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前角色發表內容需要先綁定手機號',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            458 =>
-            array (
+                'deleted_at' => null,
+            ],
+            458 => [
                 'id' => 459,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36109,
@@ -5069,10 +4610,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前角色發表內容需要先實名制認證',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            459 =>
-            array (
+                'deleted_at' => null,
+            ],
+            459 => [
                 'id' => 460,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36110,
@@ -5080,10 +4620,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前角色無權上傳圖片',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            460 =>
-            array (
+                'deleted_at' => null,
+            ],
+            460 => [
                 'id' => 461,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36111,
@@ -5091,10 +4630,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前角色無權上傳視頻',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            461 =>
-            array (
+                'deleted_at' => null,
+            ],
+            461 => [
                 'id' => 462,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36112,
@@ -5102,10 +4640,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前角色無權上傳音頻',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            462 =>
-            array (
+                'deleted_at' => null,
+            ],
+            462 => [
                 'id' => 463,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36113,
@@ -5113,10 +4650,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前角色無權上傳文檔',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            463 =>
-            array (
+                'deleted_at' => null,
+            ],
+            463 => [
                 'id' => 464,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36114,
@@ -5124,10 +4660,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '文件大小超過當前角色限制',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            464 =>
-            array (
+                'deleted_at' => null,
+            ],
+            464 => [
                 'id' => 465,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36115,
@@ -5135,10 +4670,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前角色無私信權限',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            465 =>
-            array (
+                'deleted_at' => null,
+            ],
+            465 => [
                 'id' => 466,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36116,
@@ -5146,10 +4680,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前角色已經達到今天下載次數上限，請明天再下載',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            466 =>
-            array (
+                'deleted_at' => null,
+            ],
+            466 => [
                 'id' => 467,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36200,
@@ -5157,10 +4690,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '功能不存在或者未開啟',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            467 =>
-            array (
+                'deleted_at' => null,
+            ],
+            467 => [
                 'id' => 468,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36201,
@@ -5168,10 +4700,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '不能對自己操作',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            468 =>
-            array (
+                'deleted_at' => null,
+            ],
+            468 => [
                 'id' => 469,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36202,
@@ -5179,10 +4710,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '不允許重複操作',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            469 =>
-            array (
+                'deleted_at' => null,
+            ],
+            469 => [
                 'id' => 470,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36300,
@@ -5190,10 +4720,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '僅支持指定方式操作，本接口禁止操作',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            470 =>
-            array (
+                'deleted_at' => null,
+            ],
+            470 => [
                 'id' => 471,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36301,
@@ -5201,10 +4730,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '發表內容需要先綁定郵箱',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            471 =>
-            array (
+                'deleted_at' => null,
+            ],
+            471 => [
                 'id' => 472,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36302,
@@ -5212,10 +4740,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '發表內容需要先綁定手機號',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            472 =>
-            array (
+                'deleted_at' => null,
+            ],
+            472 => [
                 'id' => 473,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36303,
@@ -5223,10 +4750,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '發表內容需要先實名制認證',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            473 =>
-            array (
+                'deleted_at' => null,
+            ],
+            473 => [
                 'id' => 474,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36304,
@@ -5234,10 +4760,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '系統已經開啟發表時間限制，請在規定的時間內再發表',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            474 =>
-            array (
+                'deleted_at' => null,
+            ],
+            474 => [
                 'id' => 475,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36305,
@@ -5245,10 +4770,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '不允許編輯貼文',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            475 =>
-            array (
+                'deleted_at' => null,
+            ],
+            475 => [
                 'id' => 476,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36306,
@@ -5256,10 +4780,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '不允許編輯留言',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            476 =>
-            array (
+                'deleted_at' => null,
+            ],
+            476 => [
                 'id' => 477,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36307,
@@ -5267,10 +4790,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '置頂後不允許編輯',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            477 =>
-            array (
+                'deleted_at' => null,
+            ],
+            477 => [
                 'id' => 478,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36308,
@@ -5278,10 +4800,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '加精後不允許編輯',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            478 =>
-            array (
+                'deleted_at' => null,
+            ],
+            478 => [
                 'id' => 479,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36309,
@@ -5289,10 +4810,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '超出可編輯時間',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            479 =>
-            array (
+                'deleted_at' => null,
+            ],
+            479 => [
                 'id' => 480,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36310,
@@ -5300,10 +4820,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '該文件類型不在允許上傳的範圍內',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            480 =>
-            array (
+                'deleted_at' => null,
+            ],
+            480 => [
                 'id' => 481,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36311,
@@ -5311,10 +4830,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前用戶無權在該社團的發帖',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            481 =>
-            array (
+                'deleted_at' => null,
+            ],
+            481 => [
                 'id' => 482,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36312,
@@ -5322,10 +4840,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前用戶無權在該社團的留言',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            482 =>
-            array (
+                'deleted_at' => null,
+            ],
+            482 => [
                 'id' => 483,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36400,
@@ -5333,10 +4850,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '刪除失敗，內容錯誤或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            483 =>
-            array (
+                'deleted_at' => null,
+            ],
+            483 => [
                 'id' => 484,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36401,
@@ -5344,10 +4860,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '該內容不允許刪除',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            484 =>
-            array (
+                'deleted_at' => null,
+            ],
+            484 => [
                 'id' => 485,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36402,
@@ -5355,10 +4870,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '該文件正在被使用，不允許刪除',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            485 =>
-            array (
+                'deleted_at' => null,
+            ],
+            485 => [
                 'id' => 486,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36403,
@@ -5366,10 +4880,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '該擴展內容有其他人使用，不允許刪除',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            486 =>
-            array (
+                'deleted_at' => null,
+            ],
+            486 => [
                 'id' => 487,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36500,
@@ -5377,10 +4890,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '操作失敗，內容不屬於當前用戶',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            487 =>
-            array (
+                'deleted_at' => null,
+            ],
+            487 => [
                 'id' => 488,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36501,
@@ -5388,10 +4900,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前內容並非審核狀態，無需撤回',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            488 =>
-            array (
+                'deleted_at' => null,
+            ],
+            488 => [
                 'id' => 489,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36600,
@@ -5399,10 +4910,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '會話異常或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            489 =>
-            array (
+                'deleted_at' => null,
+            ],
+            489 => [
                 'id' => 490,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36601,
@@ -5410,10 +4920,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '該會話不屬於當前用戶',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            490 =>
-            array (
+                'deleted_at' => null,
+            ],
+            490 => [
                 'id' => 491,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36602,
@@ -5421,10 +4930,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '自己不能給自己發送消息',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            491 =>
-            array (
+                'deleted_at' => null,
+            ],
+            491 => [
                 'id' => 492,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36603,
@@ -5432,10 +4940,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '單個消息只能「文件」或「文本」二選一',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            492 =>
-            array (
+                'deleted_at' => null,
+            ],
+            492 => [
                 'id' => 493,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36604,
@@ -5443,10 +4950,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '消息文本中含有禁用詞，不能發送',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            493 =>
-            array (
+                'deleted_at' => null,
+            ],
+            493 => [
                 'id' => 494,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36605,
@@ -5454,10 +4960,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '對方已設置僅允許 TA 關注的用戶才能給 TA 發送消息',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            494 =>
-            array (
+                'deleted_at' => null,
+            ],
+            494 => [
                 'id' => 495,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36606,
@@ -5465,10 +4970,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '對方已設置僅允許 TA 關注的用戶和已認證的用戶才能給 TA 發送消息',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            495 =>
-            array (
+                'deleted_at' => null,
+            ],
+            495 => [
                 'id' => 496,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36607,
@@ -5476,10 +4980,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '會話和消息只能傳其中一個，不能同時刪除兩種類型',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            496 =>
-            array (
+                'deleted_at' => null,
+            ],
+            496 => [
                 'id' => 497,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36608,
@@ -5487,10 +4990,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '只能刪除自己的會話消息',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            497 =>
-            array (
+                'deleted_at' => null,
+            ],
+            497 => [
                 'id' => 498,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36700,
@@ -5498,10 +5000,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '通知異常或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            498 =>
-            array (
+                'deleted_at' => null,
+            ],
+            498 => [
                 'id' => 499,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36701,
@@ -5509,10 +5010,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '該通知不屬於當前用戶',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            499 =>
-            array (
+                'deleted_at' => null,
+            ],
+            499 => [
                 'id' => 500,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36702,
@@ -5520,12 +5020,11 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '只能刪除自己的通知消息',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-        ));
-        \DB::table('code_messages')->insert(array (
-            0 =>
-            array (
+                'deleted_at' => null,
+            ],
+        ]);
+        \DB::table('code_messages')->insert([
+            0 => [
                 'id' => 501,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37100,
@@ -5533,10 +5032,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '社團錯誤或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            1 =>
-            array (
+                'deleted_at' => null,
+            ],
+            1 => [
                 'id' => 502,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37101,
@@ -5544,10 +5042,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '社團已被禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            2 =>
-            array (
+                'deleted_at' => null,
+            ],
+            2 => [
                 'id' => 503,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37102,
@@ -5555,10 +5052,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '只有社團成員才能查看社團',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            3 =>
-            array (
+                'deleted_at' => null,
+            ],
+            3 => [
                 'id' => 504,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37103,
@@ -5566,10 +5062,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '只有社團成員才能查看社團內貼文',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            4 =>
-            array (
+                'deleted_at' => null,
+            ],
+            4 => [
                 'id' => 505,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37104,
@@ -5577,10 +5072,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '當前用戶已被禁止查看本社團內容',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            5 =>
-            array (
+                'deleted_at' => null,
+            ],
+            5 => [
                 'id' => 506,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37200,
@@ -5588,10 +5082,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '話題錯誤或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            6 =>
-            array (
+                'deleted_at' => null,
+            ],
+            6 => [
                 'id' => 507,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37201,
@@ -5599,10 +5092,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '話題已被禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            7 =>
-            array (
+                'deleted_at' => null,
+            ],
+            7 => [
                 'id' => 508,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37300,
@@ -5610,10 +5102,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '貼文錯誤或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            8 =>
-            array (
+                'deleted_at' => null,
+            ],
+            8 => [
                 'id' => 509,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37301,
@@ -5621,10 +5112,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '貼文已被禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            9 =>
-            array (
+                'deleted_at' => null,
+            ],
+            9 => [
                 'id' => 510,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37302,
@@ -5632,10 +5122,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '貼文草稿錯誤或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            10 =>
-            array (
+                'deleted_at' => null,
+            ],
+            10 => [
                 'id' => 511,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37303,
@@ -5643,10 +5132,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '貼文異常，未找到貼文副表記錄',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            11 =>
-            array (
+                'deleted_at' => null,
+            ],
+            11 => [
                 'id' => 512,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37304,
@@ -5654,10 +5142,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '該內容需要授權後才能瀏覽',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            12 =>
-            array (
+                'deleted_at' => null,
+            ],
+            12 => [
                 'id' => 513,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37400,
@@ -5665,10 +5152,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '留言錯誤或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            13 =>
-            array (
+                'deleted_at' => null,
+            ],
+            13 => [
                 'id' => 514,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37401,
@@ -5676,10 +5162,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '留言已被禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            14 =>
-            array (
+                'deleted_at' => null,
+            ],
+            14 => [
                 'id' => 515,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37402,
@@ -5687,10 +5172,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '留言草稿錯誤或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            15 =>
-            array (
+                'deleted_at' => null,
+            ],
+            15 => [
                 'id' => 516,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37403,
@@ -5698,10 +5182,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '留言異常，未找到留言副表記錄',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            16 =>
-            array (
+                'deleted_at' => null,
+            ],
+            16 => [
                 'id' => 517,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37500,
@@ -5709,10 +5192,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '文件錯誤或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            17 =>
-            array (
+                'deleted_at' => null,
+            ],
+            17 => [
                 'id' => 518,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37501,
@@ -5720,10 +5202,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '文件已被禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            18 =>
-            array (
+                'deleted_at' => null,
+            ],
+            18 => [
                 'id' => 519,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37600,
@@ -5731,10 +5212,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '擴展錯誤或者不存在',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            19 =>
-            array (
+                'deleted_at' => null,
+            ],
+            19 => [
                 'id' => 520,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37601,
@@ -5742,10 +5222,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '擴展已被禁用',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            20 =>
-            array (
+                'deleted_at' => null,
+            ],
+            20 => [
                 'id' => 521,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38101,
@@ -5753,10 +5232,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '內容審核中不可編輯',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            21 =>
-            array (
+                'deleted_at' => null,
+            ],
+            21 => [
                 'id' => 522,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38102,
@@ -5764,10 +5242,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '內容已正式發表不可編輯',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            22 =>
-            array (
+                'deleted_at' => null,
+            ],
+            22 => [
                 'id' => 523,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38103,
@@ -5775,10 +5252,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '處於審核狀態的內容不可再提交',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            23 =>
-            array (
+                'deleted_at' => null,
+            ],
+            23 => [
                 'id' => 524,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38104,
@@ -5786,10 +5262,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '處於發布狀態的內容不可再提交',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            24 =>
-            array (
+                'deleted_at' => null,
+            ],
+            24 => [
                 'id' => 525,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38105,
@@ -5797,10 +5272,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '留言草稿創建失敗，只有一級留言才能創建草稿',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            25 =>
-            array (
+                'deleted_at' => null,
+            ],
+            25 => [
                 'id' => 526,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38201,
@@ -5808,10 +5282,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'User List Json 格式錯誤或者數據異常',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            26 =>
-            array (
+                'deleted_at' => null,
+            ],
+            26 => [
                 'id' => 527,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38202,
@@ -5819,10 +5292,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Comment Set Json 格式錯誤或者數據異常',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            27 =>
-            array (
+                'deleted_at' => null,
+            ],
+            27 => [
                 'id' => 528,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38203,
@@ -5830,10 +5302,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Allow Json 格式錯誤或者數據異常',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            28 =>
-            array (
+                'deleted_at' => null,
+            ],
+            28 => [
                 'id' => 529,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38204,
@@ -5841,10 +5312,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Location Json 格式錯誤或者數據異常',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            29 =>
-            array (
+                'deleted_at' => null,
+            ],
+            29 => [
                 'id' => 530,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38205,
@@ -5852,10 +5322,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Files Json 格式錯誤或者數據異常',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            30 =>
-            array (
+                'deleted_at' => null,
+            ],
+            30 => [
                 'id' => 531,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38206,
@@ -5863,10 +5332,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'Extends Json 格式錯誤或者數據異常',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            31 =>
-            array (
+                'deleted_at' => null,
+            ],
+            31 => [
                 'id' => 532,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38207,
@@ -5874,10 +5342,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '擴展配置中 eid 參數必填',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            32 =>
-            array (
+                'deleted_at' => null,
+            ],
+            32 => [
                 'id' => 533,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38208,
@@ -5885,10 +5352,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => 'File Info 格式錯誤或者數據異常',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            33 =>
-            array (
+                'deleted_at' => null,
+            ],
+            33 => [
                 'id' => 534,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38209,
@@ -5896,10 +5362,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '發表留言，必傳 pid 參數',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            34 =>
-            array (
+                'deleted_at' => null,
+            ],
+            34 => [
                 'id' => 535,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38210,
@@ -5907,10 +5372,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '留言失敗，未找到貼文信息',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            35 =>
-            array (
+                'deleted_at' => null,
+            ],
+            35 => [
                 'id' => 536,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38211,
@@ -5918,10 +5382,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '標題過長，應小於 255 字符',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            36 =>
-            array (
+                'deleted_at' => null,
+            ],
+            36 => [
                 'id' => 537,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38212,
@@ -5929,10 +5392,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '內容存在禁用詞，請修改後再發表',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            37 =>
-            array (
+                'deleted_at' => null,
+            ],
+            37 => [
                 'id' => 538,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38213,
@@ -5940,10 +5402,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '內容、文件、擴展內容，三種不可全部為空，至少其中一個有值',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            38 =>
-            array (
+                'deleted_at' => null,
+            ],
+            38 => [
                 'id' => 539,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38214,
@@ -5951,10 +5412,9 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '內容類型參數錯誤或者字符數達到上限',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-            39 =>
-            array (
+                'deleted_at' => null,
+            ],
+            39 => [
                 'id' => 540,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38215,
@@ -5962,8 +5422,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'message' => '內容超過限製字數',
                 'created_at' => '2021-10-08 10:00:00',
                 'updated_at' => '2021-10-08 10:00:00',
-                'deleted_at' => NULL,
-            ),
-        ));
+                'deleted_at' => null,
+            ],
+        ]);
     }
 }
