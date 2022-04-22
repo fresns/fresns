@@ -8,34 +8,39 @@
 
 namespace App\Helpers;
 
-use Illuminate\Support\Facades\Log;
-
 class SignHelper
 {
-    public static function checkSign($dataMap, $signKey)
+    // Check Sign
+    public static function checkSign(array $signMap, string $appSecret)
     {
-        $inputSign = $dataMap['sign'];
-        unset($dataMap['sign']);
+        $inputSign = $signMap['sign'];
+        unset($signMap['sign']);
 
-        $makeSign = self::makeSign($dataMap, $signKey);
-        $info = [];
-        $info['input_sign'] = $inputSign;
-        $info['gen_sign'] = $makeSign;
-        Log::info('check sign: ', $info);
-        if ($inputSign == $makeSign) {
-            return true;
-        }
+        $makeSign = self::makeSign($signMap, $appSecret);
 
-        return $info;
+        return $inputSign == $makeSign;
     }
 
-    public static function makeSign($dataMap, $signKey)
+    // Make Sign
+    public static function makeSign(array $signMap, string $appSecret)
     {
-        // Sort the values of the array by key
-        ksort($dataMap);
-        // Generate the url mode
-        $params = http_build_query($dataMap);
-        $params = $params."&key={$signKey}";
+        $signParams = collect($signMap)->filter(function ($value, $key) {
+            return in_array($key, [
+                'platform',
+                'version',
+                'appId',
+                'timestamp',
+                'aid',
+                'uid',
+                'token',
+            ]);
+        })->toArray();
+
+        ksort($signParams);
+
+        $params = http_build_query($signParams);
+        $params = $params."&key={$appSecret}";
+
         // Generate sign
         $sign = md5($params);
 

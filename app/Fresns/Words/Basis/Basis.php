@@ -91,8 +91,13 @@ class Basis
         if ($now - $dtoWordBody->timestamp > $expiredMin) {
             ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_PARAM_ERROR)::throw();
         }
-        $signKey = SessionKey::where('app_id', $dtoWordBody->appId)->first()->app_secret ?? '';
-        $checkArr = SignHelper::checkSign($withoutEmptyCheckArr, $signKey);
+
+        $appSecret = SessionKey::where('app_id', $appId)->value('app_secret');
+        if (empty($appSecret)) {
+            return ['code'=>ExceptionConstant::CMD_WORD_PARAM_ERROR, 'message'=>'App id and secret error', 'data'=>['appId'=>$dtoWordBody->appId]];
+        }
+
+        $checkArr = SignHelper::checkSign($withoutEmptyCheckArr, $appSecret);
         if ($checkArr !== true) {
             return ['code'=>ExceptionConstant::CMD_WORD_PARAM_ERROR, 'message'=>'Command word request parameter error', 'data'=>['sign'=>$checkArr]];
         }
