@@ -9,6 +9,7 @@
 namespace App\Utilities;
 
 use App\Helpers\ConfigHelper;
+use Browser;
 
 class AppUtility
 {
@@ -62,7 +63,7 @@ class AppUtility
         return file_put_contents($path, $editContent);
     }
 
-    public function getMarketHeader(): array
+    public static function getMarketHeader(): array
     {
         $isHttps = \request()->getScheme() === 'https';
 
@@ -91,5 +92,38 @@ class AppUtility
         ];
 
         return $header;
+    }
+
+    public static function getDeviceInfo(): array
+    {
+        $deviceInfo = [
+            'type' => Browser::deviceType(),
+            'brand' => Browser::deviceFamily(),
+            'model' => Browser::deviceModel(),
+            'platform' => Browser::platformName(),
+            'platformName' => Browser::platformFamily(),
+            'platformVersion' => Browser::platformVersion(),
+            'browser' => Browser::browserName(),
+            'browserName' => Browser::browserFamily(),
+            'browserVersion' => Browser::browserVersion(),
+            'browserEngine' => Browser::browserEngine(),
+            'networkType' => '',
+            'networkIpv4' => $_SERVER['REMOTE_ADDR'] ?? '',
+            'networkIpv6' => '',
+            'networkPort' => $_SERVER['REMOTE_PORT'] ?? '',
+            'mapId' => '',
+            'latitude' => '',
+            'longitude' => '',
+            'scale' => '',
+            'nation' => '',
+            'province' => '',
+            'city' => '',
+            'district' => '',
+            'adcode' => '',
+            'positionName' => '',
+            'address' => ''
+        ];
+
+        return $deviceInfo;
     }
 }
