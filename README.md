@@ -22,10 +22,11 @@ Fresns is a free and open source social network service software, a general-purp
 | [Laravel Framework](https://github.com/laravel/framework) | 8.83 | Framework |
 | [Laravel Lang](https://github.com/Laravel-Lang/lang) | 10.4 | Framework Lang Resources |
 | [Laravel Excel](https://github.com/SpartnerNL/Laravel-Excel) | 3.1 | Excel exports and imports |
+| [Browser Detection](https://github.com/hisorange/browser-detect) | 4.5 | Browser device information |
 | [PhpZip](https://github.com/Ne-Lexa/php-zip) | 4.0 | ZIP archives php library |
 | [Bootstrap](https://getbootstrap.com/) | 5.1 | Internal Front-end Framework |
 | [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.8 | Internal Icon Font Library |
-| [Alpine JS](https://github.com/alpinejs/alpine) | 3.9 | Internal JS Framework |
+| [Alpine JS](https://github.com/alpinejs/alpine) | 3.10 | Internal JS Framework |
 | [jQuery](https://github.com/jquery/jquery) | 3.6 | Internal JS Framework |
 | [Select2](https://github.com/select2/select2) | 4.1 | Internal Select2 Boxes |
 | [Base64 JS](https://github.com/dankogai/js-base64) | 3.7 | Internal Base64 Transcoder |
