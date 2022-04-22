@@ -42,7 +42,6 @@ class CreateUsersTable extends Migration
             $table->unsignedTinyInteger('dialog_limit')->default('1');
             $table->unsignedTinyInteger('comment_limit')->default('1');
             $table->string('timezone', 16)->nullable();
-            $table->string('language', 16)->nullable();
             $table->timestamp('last_post_at')->nullable();
             $table->timestamp('last_comment_at')->nullable();
             $table->timestamp('last_username_at')->nullable();

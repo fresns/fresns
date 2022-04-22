@@ -44,7 +44,6 @@ class UsersTableSeeder extends Seeder
                 'dialog_limit' => 1,
                 'comment_limit' => 1,
                 'timezone' => null,
-                'language' => null,
                 'last_post_at' => null,
                 'last_comment_at' => null,
                 'last_username_at' => null,
