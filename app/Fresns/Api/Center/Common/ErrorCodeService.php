@@ -201,23 +201,6 @@ class ErrorCodeService
     const CONTENT_TYPES_ERROR = 30913;
     const CONTENT_COUNT_ERROR = 30914;
 
-    // Console Error Message
-    const SETTING_ERROR = 40000;
-    const SAVE_ERROR = 40001;
-    const DELETE_ERROR = 40002;
-    const LANGUAGE_SETTING_ERROR = 40003;
-    const BACKEND_PATH_ERROR = 40004;
-    const DELETE_ADMIN_ERROR = 40005;
-    const KEY_NAME_ERROR = 40006;
-    const KEY_PLATFORM_ERROR = 40007;
-    const KEY_PLUGIN_ERROR = 40008;
-
-    // Console Manage Extensions
-    const UNINSTALL_EXTENSION_ERROR = 40100;
-    const PLUGIN_UNIKEY_ERROR = 40101;
-    const FOLDER_NAME_EMPTY_ERROR = 40102;
-    const EXTENSION_DOWMLOAD_ERROR = 40103;
-
     private static $CODE_MSG_MAP = [
         self::CODE_OK                               => 'ok',
 
@@ -409,23 +392,6 @@ class ErrorCodeService
         self::CONTENT_CHECK_PARAMS_ERROR            => 'Content, file and extended content could not be empty simultaneously. At least one of the three should have value.',
         self::CONTENT_TYPES_ERROR                   => 'Content type parameter is wrong or the number of characters has reached the upper limit',
         self::CONTENT_COUNT_ERROR                   => 'Number of words exceeded the limit',
-
-        // Console Error Message
-        self::SETTING_ERROR                         => 'Setting error',
-        self::SAVE_ERROR                            => 'Save error',
-        self::DELETE_ERROR                          => 'Delete error',
-        self::LANGUAGE_SETTING_ERROR                => 'Language setting error',
-        self::BACKEND_PATH_ERROR                    => 'Entrance name occupied',
-        self::DELETE_ADMIN_ERROR                    => 'Deleting oneself is not allowed',
-        self::KEY_NAME_ERROR                        => 'Key name is required',
-        self::KEY_PLATFORM_ERROR                    => 'Please select key application platforms',
-        self::KEY_PLUGIN_ERROR                      => 'Please select associated plugins',
-
-        // Console Manage Extensions
-        self::PLUGIN_UNIKEY_ERROR                   => 'UniKey error',
-        self::UNINSTALL_EXTENSION_ERROR             => 'Uninstall only after being disabled',
-        self::FOLDER_NAME_EMPTY_ERROR               => 'Folder name can not be empty',
-        self::EXTENSION_DOWMLOAD_ERROR              => 'Failed to download the extension installation package',
     ];
 
     // Get Message
