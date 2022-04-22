@@ -250,7 +250,7 @@ class FresnsCommentsService extends FsService
         LogService::info('more_json', $more_json);
 
         $postInput = [
-            'pid' => $fsid,
+            'cid' => $fsid,
             'user_id' => $draftComment['user_id'],
             'post_id' => $draftComment['post_id'],
             'types' => $draftComment['types'],

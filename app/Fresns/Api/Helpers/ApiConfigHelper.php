@@ -34,7 +34,7 @@ class ApiConfigHelper
         $itemArr = [];
         if (! empty($map)) {
             foreach ($map as $v) {
-                if ($v['is_restful'] == 0) {
+                if ($v['is_api'] == 0) {
                     continue;
                 }
                 $item = [];

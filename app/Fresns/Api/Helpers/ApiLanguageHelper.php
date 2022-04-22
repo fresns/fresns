@@ -112,7 +112,7 @@ class ApiLanguageHelper
     // Use default language
     public static function getDefaultLanguageByApi()
     {
-        $defaultLanguage = FresnsConfigs::where('item_key', FresnsConfigsConfig::DEFAULT_LANGUAGE)->where('is_restful', 1)->value('item_value');
+        $defaultLanguage = FresnsConfigs::where('item_key', FresnsConfigsConfig::DEFAULT_LANGUAGE)->where('is_api', 1)->value('item_value');
 
         return $defaultLanguage;
     }

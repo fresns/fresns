@@ -22,7 +22,7 @@ class FsConfig extends BaseConfig
         'item_key_no' => ['field' => 'item_key', 'op' => '<>'],
         'item_keys' => ['field' => 'item_key', 'op' => 'IN'],
         'item_tag' => ['field' => 'item_tag', 'op' => '='],
-        'is_restful' => ['field' => 'is_restful', 'op' => '='],
+        'is_api' => ['field' => 'is_api', 'op' => '='],
     ];
 
     // Subscription History
@@ -94,7 +94,7 @@ class FsConfig extends BaseConfig
         'item_type' => 'item_type',
         'item_tag' => 'item_tag',
         'is_multilingual' => 'is_multilingual',
-        'is_restful' => 'is_restful',
+        'is_api' => 'is_api',
         'is_enable' => 'is_enable',
     ];
 }

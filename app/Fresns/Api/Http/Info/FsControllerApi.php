@@ -73,7 +73,7 @@ class FsControllerApi extends FsApiController
         $pageSize = $request->input('pageSize', 100);
         $currentPage = $request->input('page', 1);
 
-        $request->offsetSet('is_restful', 1);
+        $request->offsetSet('is_api', 1);
         if (! empty($itemTag) || ! empty($itemKey)) {
             $intersectIdArr = [];
             if (! empty($itemTag)) {
@@ -190,21 +190,21 @@ class FsControllerApi extends FsApiController
         switch ($queryType) {
 
             case 1:
-                $idArr = FresnsUsers::where('name', 'LIKE', "%$queryKey%")->orWhere('nickname', 'LIKE', "%$queryKey%")->pluck('id')->toArray();
+                $idArr = FresnsUsers::where('username', 'LIKE', "%$queryKey%")->orWhere('nickname', 'LIKE', "%$queryKey%")->pluck('id')->toArray();
                 $idArr = FsService::getUserFollows($queryType, $idArr, $uid);
                 $userArr = FresnsUsers::whereIn('id', $idArr)->where('is_enable', 1)->get()->toArray();
 
                 foreach ($userArr as $v) {
                     $item = [];
                     $item['fsid'] = $v['uid'];
-                    $item['name'] = $v['name'];
+                    $item['name'] = $v['username'];
                     $item['nickname'] = $v['nickname'];
                     $followStatus = 0;
                     if (in_array($v['id'], $followIdArr)) {
                         $followStatus = 1;
                     }
                     $item['followStatus'] = $followStatus;
-                    $item['image'] = ApiFileHelper::getUserAvatar($v->uid);
+                    $item['image'] = ApiFileHelper::getUserAvatar($v['uid']);
                     $item['title'] = null;
                     $item['titleColor'] = null;
                     $item['descPrimary'] = null;

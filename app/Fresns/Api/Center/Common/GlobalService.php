@@ -152,7 +152,7 @@ class GlobalService
                         $item['item_value'] = false;
                     }
                 }
-                $item['is_restful'] = $v['is_restful'];
+                $item['is_api'] = $v['is_api'];
                 $item['is_multilingual'] = $v['is_multilingual'];
                 $item['is_enable'] = $v['is_enable'];
                 $arr[] = $item;
@@ -172,8 +172,8 @@ class GlobalService
                     $map[$k] = $it;
                 }
             }
-            $languageStatus = FresnsConfigs::where('item_key', FresnsConfigsConfig::LANGUAGE_STATUS)->where('is_restful', 1)->value('item_value');
-            $langSettings = FresnsConfigs::where('item_key', FresnsConfigsConfig::LANG_SETTINGS)->where('is_restful', 1)->value('item_value');
+            $languageStatus = FresnsConfigs::where('item_key', FresnsConfigsConfig::LANGUAGE_STATUS)->where('is_api', 1)->value('item_value');
+            $langSettings = FresnsConfigs::where('item_key', FresnsConfigsConfig::LANG_SETTINGS)->where('is_api', 1)->value('item_value');
             $langSettingsArr = json_decode($langSettings, true);
             $default = ApiLanguageHelper::getDefaultLanguageByApi();
 

@@ -209,7 +209,6 @@ class FsService
             $data['location'] = $user['location'];
             $data['dialogLimit'] = $user['dialog_limit'];
             $data['timezone'] = $user['timezone'];
-            $data['language'] = $user['language'];
             $data['expiredTime'] = DateHelper::fresnsOutputTimeToTimezone($user['expired_at']);
             $data['verifiedStatus'] = $user['verified_status'];
             $data['verifiedIcon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($user['verified_file_id'], $user['verified_file_url']);

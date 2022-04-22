@@ -38,9 +38,9 @@ class FresnsNotifiesResource extends BaseAdminResource
         $sourceClass = $this->source_class;
         $sourceId = $this->source_id;
         if ($sourceClass == 1) {
-            $sourceFsid = FresnsPosts::find($sourceId['pid']);
+            $sourceFsid = FresnsPosts::where('id', $sourceId)->value('pid');
         } else {
-            $sourceFsid = FresnsComments::find($sourceId['cid']);
+            $sourceFsid = FresnsComments::where('id', $sourceId)->value('cid');
         }
         $user = DB::table(FresnsUsersConfig::CFG_TABLE)->where('id', $this->source_user_id)->first();
         $sourceUser = [];
