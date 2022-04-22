@@ -40,7 +40,6 @@ trait UserServiceTrait
         $profile['dialogLimit'] = $userData['dialog_limit'];
         $profile['commentLimit'] = $userData['comment_limit'];
         $profile['timezone'] = $userData['timezone'];
-        $profile['language'] = $userData['language'];
         $profile['verifiedStatus'] = $userData['verified_status'];
         $profile['verifiedIcon'] = FileHelper::fresnsFileImageUrlByColumn($userData['verified_file_id'], $userData['verified_file_url'], 'imageConfigUrl');
         $profile['verifiedDesc'] = $userData['verified_desc'];
