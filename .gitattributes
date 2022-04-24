@@ -14,5 +14,5 @@
 CHANGELOG.md export-ignore
 package.json export-ignore
 phpunit.xml export-ignore
-webpack.mix.js export-ignore
 server.php export-ignore
+webpack.mix.js export-ignore
