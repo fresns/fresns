@@ -24,6 +24,7 @@ return [
     'uninstallFailure' => 'Uninstall Failure',
     'copySuccess' => 'Copy Success',
     'account_not_found' => 'Account number does not exist or was entered incorrectly',
+    'account_login_limit' => 'The error has exceeded the system limit. Please log in again 1 hour later',
     'secure_entry_route_conflicts' => 'Secure entry route conflicts',
     'language_exists' => 'Language already exists',
     'language_not_exists' => 'Language not exists',

@@ -24,6 +24,7 @@ return [
     'uninstallFailure' => 'Deinstallation fehlgeschlagen',
     'copySuccess' => 'Erfolg kopieren',
     'account_not_found' => 'Konto ist nicht vorhanden oder geben Fehler ein',
+    'account_login_limit' => 'Der Fehler hat das Systemlimit überschritten. Bitte melden Sie sich 1 Stunde später erneut an',
     'secure_entry_route_conflicts' => 'Sicherheitseingang-Routing-Konflikt',
     'language_exists' => 'Sprache existiert bereits',
     'language_not_exists' => 'Sprache nicht vorhanden',

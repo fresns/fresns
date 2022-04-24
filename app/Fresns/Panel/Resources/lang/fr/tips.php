@@ -24,6 +24,7 @@ return [
     'uninstallFailure' => 'Échec de la désinstallation',
     'copySuccess' => 'Copier le succès',
     'account_not_found' => 'Compte n\'existe pas ou n\'entre pas d\'erreur',
+    'account_login_limit' => 'L\'erreur a dépassé la limite du système. Veuillez vous reconnecter 1 heure plus tard',
     'secure_entry_route_conflicts' => 'Conflit de routage d\'entrée de sécurité',
     'language_exists' => 'La langue existe déjà',
     'language_not_exists' => 'la langue n\'existe pas',

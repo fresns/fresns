@@ -24,6 +24,7 @@ return [
     'uninstallFailure' => 'विफलता को अनइंस्टॉल करें',
     'copySuccess' => 'सफलतापूर्वक कॉपी करें',
     'account_not_found' => 'खाता मौजूद नहीं है या गलत तरीके से दर्ज किया गया है',
+    'account_login_limit' => 'त्रुटि सिस्टम सीमा से अधिक हो गई है। कृपया 1 घंटे बाद फिर से लॉग इन करें',
     'secure_entry_route_conflicts' => 'सुरक्षा प्रवेश मार्ग संघर्ष',
     'language_exists' => 'भाषा पहले से मौजूद है',
     'language_not_exists' => 'भाषा मौजूद नहीं है',

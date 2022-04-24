@@ -24,6 +24,7 @@ return [
     'uninstallFailure' => 'アンインストールに失敗しました',
     'copySuccess' => '成功をコピーする',
     'account_not_found' => 'アカウントが存在しないか、エラーを入力します',
+    'account_login_limit' => 'エラーはシステムの制限を超えました。1時間後に再ログインしてください。',
     'secure_entry_route_conflicts' => '安全入り口ルーティングの競合',
     'language_exists' => '言語はすでに存在します',
     'language_not_exists' => '言語が存在しない',

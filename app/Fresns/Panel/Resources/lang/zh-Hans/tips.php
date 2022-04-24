@@ -24,6 +24,7 @@ return [
     'uninstallFailure' => '卸载失败',
     'copySuccess' => '复制成功',
     'account_not_found' => '账号不存在或者输入错误',
+    'account_login_limit' => '错误已超系统限制，请 1 小时后再登录',
     'secure_entry_route_conflicts' => '安全入口路由冲突',
     'language_exists' => '语言已存在',
     'language_not_exists' => '语言不存在',

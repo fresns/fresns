@@ -24,6 +24,7 @@ return [
     'uninstallFailure' => '제거 실패',
     'copySuccess' => '성공을 복사하십시오',
     'account_not_found' => '계정이 없거나 오류를 입력하지 않습니다',
+    'account_login_limit' => '오류가 시스템 제한을 초과했습니다. 1시간 후에 다시 로그인하십시오',
     'secure_entry_route_conflicts' => '안전 입구 라우팅 충돌',
     'language_exists' => '언어가 이미 있습니다',
     'language_not_exists' => '언어가 존재하지 않습니다',

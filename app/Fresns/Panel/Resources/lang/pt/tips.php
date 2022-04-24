@@ -24,6 +24,7 @@ return [
     'uninstallFailure' => 'Falha na desinstalação',
     'copySuccess' => 'Copie o sucesso',
     'account_not_found' => 'Conta não existe ou inserir erros',
+    'account_login_limit' => 'O erro excedeu o limite do sistema. Por favor, faça novamente o log in 1 hora mais tarde',
     'secure_entry_route_conflicts' => 'Conflito de roteamento de entrada de segurança',
     'language_exists' => 'A linguagem já existe',
     'language_not_exists' => 'a língua não existe',
