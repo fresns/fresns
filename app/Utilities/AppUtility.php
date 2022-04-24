@@ -78,6 +78,7 @@ class AppUtility
         ]);
 
         $header = [
+            'panelLangTag' => \App::getLocale(),
             'installDatetime' => $appConfig['install_datetime'],
             'buildType' => $appConfig['build_type'],
             'version' => self::currentVersion()['version'],

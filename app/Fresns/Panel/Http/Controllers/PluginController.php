@@ -127,8 +127,7 @@ class PluginController extends Controller
 
             return $this->installSuccess();
         } elseif ($request->get('plugin_unikey')) {
-            // php artisan plugin:install ...
-            // php artisan theme:install ...
+            // php artisan fresns:require ...
 
             return $this->installSuccess();
         }
