@@ -36,6 +36,10 @@ class UpgradeFresns extends Command
 
     protected $extractPath;
 
+    protected $currentVersion;
+
+    protected $newVersion;
+
     const STEP_START = 1;
     const STEP_DOWNLOAD = 2;
     const STEP_EXTRACT = 3;
@@ -54,8 +58,12 @@ class UpgradeFresns extends Command
 
     public function commandExists($commandName)
     {
-        return (null === shell_exec("command -v $commandName")) ? false : true;
+        ob_start();
+        passthru("command -v $commandName", $code);
+        ob_end_clean();
+        return (0 === $code) ? true : false;
     }
+
 
     /**
      * Execute the console command.
@@ -75,23 +83,24 @@ class UpgradeFresns extends Command
             $this->extractFile();
             $this->install();
             $this->migrate();
+
+            $this->upgradeFinish();
         } catch (\Exception $e) {
             $this->info($e->getMessage());
         }
 
         $this->clear();
 
-        $this->upgradeFinish();
 
         return Command::SUCCESS;
     }
 
     public function checkVersion(): bool
     {
-        $newVersion = AppUtility::newVersion();
-        $currentVersion = AppUtility::currentVersion();
+        $this->newVersion = AppUtility::newVersion();
+        $this->currentVersion = AppUtility::currentVersion();
 
-        if (($currentVersion['versionInt'] ?? 0) >= ($newVersion['versionInt'] ?? 0)) {
+        if (($this->currentVersion['versionInt'] ?? 0) >= ($this->newVersion['versionInt'] ?? 0)) {
             return false;
         }
 
@@ -192,6 +201,11 @@ class UpgradeFresns extends Command
     {
         Cache::forget('currentVersion');
         Cache::forget('upgradeStep');
+
+        $version = $this->newVersion['version'];
+        $versionInt = $this->newVersion['versionInt'];
+
+        AppUtility::editVersion($version, $versionInt);
 
         return true;
     }

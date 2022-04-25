@@ -48,7 +48,7 @@ class Upgrade1Command extends Command
             '--class' => 'UserRolesTableSeeder',
         ]);
 
-        AppUtility::editVersion('1.5.0', 1);
+        //AppUtility::editVersion('1.5.0', 1);
 
         return Command::SUCCESS;
     }

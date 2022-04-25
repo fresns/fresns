@@ -74,6 +74,60 @@ $(document).ready(function () {
         }
     });
 
+    var physicalUpgradeTimer = null;
+
+    function getPhysicalUpgradeOutput(action) {
+        if (!action) {
+            return;
+        }
+        $.ajax({
+            method: 'get',
+            url: action,
+            success: function (response) {
+              if ( !response.physicalUpgrading) {
+                location.reload();
+                return;
+              }
+              $('#physicalUpgradeOutput').val(response.upgradeContent)
+            },
+        });
+    }
+
+
+    $('#physicalUpgradeButton').click(function () {
+        if ($(this).data('upgrading')) {
+          $('#physicalUpgradeOutputModal').modal('show');
+        } else {
+          $('#physicalUpgradeModal').modal('show');
+        }
+    });
+
+    $('#physicalUpgradeOutputModal').on('show.bs.modal', function (e) {
+        let action = $(this).data('action');
+
+        if (!physicalUpgradeTimer) {
+            getPhysicalUpgradeOutput(action);
+            physicalUpgradeTimer = setInterval(getPhysicalUpgradeOutput, 5000, action);
+        }
+    });
+
+    $('#physicalUpgradeForm').submit(function() {
+      $('#physicalUpgradeModal').modal('hide');
+      $.ajax({
+          method: 'POST',
+          dataType: 'json',
+          url: $(this).attr('action'),
+          success: function (response) {
+            $('#physicalUpgradeButton').data('upgrading', true);
+            $('#physicalUpgradeOutputModal').modal('show');
+          },
+          error: function (response) {
+              window.tips(response.responseJSON.message);
+          },
+      });
+      return false;
+    });
+
     $('#upgradeForm').submit(function () {
         $('#upgradeConfirm').modal('hide');
         $.ajax({

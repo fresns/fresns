@@ -19,6 +19,7 @@ class UpgradeController extends Controller
         $newVersion = AppUtility::newVersion();
 
         $upgradeStep = cache('upgradeStep');
+        $physicalUpgrading = cache('physicalUpgrading');
 
         $steps = [
             1 => __('FsLang::panel.upgrade_step_1'),
@@ -33,7 +34,7 @@ class UpgradeController extends Controller
             $currentVersion = cache('currentVersion');
         }
 
-        return view('FsView::dashboard.upgrade', compact('currentVersion', 'newVersion', 'upgradeStep', 'steps'));
+        return view('FsView::dashboard.upgrade', compact('currentVersion', 'newVersion', 'upgradeStep', 'steps', 'physicalUpgrading'));
     }
 
     public function upgradeInfo()
@@ -42,6 +43,7 @@ class UpgradeController extends Controller
             'upgrade_step' => cache('upgradeStep'),
         ]);
     }
+
 
     public function upgrade()
     {
@@ -55,16 +57,37 @@ class UpgradeController extends Controller
             return $this->successResponse('upgrade');
         }
 
-        // Composer does not exist
-        if ((null === shell_exec('command -v composer')) &&
-            (null === shell_exec('command -v /usr/bin/composer'))) {
-            abort(403, 'composer command not found');
-        }
-
         \Cache::put('upgradeStep', 1);
 
-        exec($phpPath.' '.base_path('artisan').' fresns:upgrade > /dev/null &');
+        passthru($phpPath.' '.base_path('artisan').' fresns:upgrade > /dev/null &');
 
         return $this->successResponse('upgrade');
     }
+
+    public function physicalUpgrade()
+    {
+        $phpPath = (new PhpExecutableFinder)->find();
+        if (! $phpPath) {
+            abort(403, 'php command not found');
+        }
+
+        // If the upgrade is already in progress, the upgrade button is not displayed
+        if (cache('physicalUpgrading')) {
+            return $this->successResponse('upgrade');
+        }
+        \Cache::put('physicalUpgrading', 1);
+
+        passthru($phpPath.' '.base_path('artisan').' fresns:physical-upgrade > /dev/null &');
+
+        return $this->successResponse('upgrade');
+    }
+
+    public function physicalUpgradeInfo()
+    {
+        return response()->json([
+            'upgradeContent' => cache('physicalUpgradeOutput'),
+            'physicalUpgrading' => cache('physicalUpgrading')
+        ]);
+    }
+
 }

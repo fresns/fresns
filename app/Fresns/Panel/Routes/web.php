@@ -96,6 +96,9 @@ Route::middleware(['panelAuth'])->group(function () {
     Route::post('upgrade', [UpgradeController::class, 'upgrade'])->name('upgrade');
     Route::get('upgrade/info', [UpgradeController::class, 'upgradeInfo'])->name('upgrade.info');
 
+    Route::post('physical-upgrade', [UpgradeController::class, 'physicalUpgrade'])->name('physical.upgrade');
+    Route::get('physical-upgrade/info', [UpgradeController::class, 'physicalUpgradeInfo'])->name('physical.upgrade.info');
+
     // dashboard-admins
     Route::resource('admins', AdminController::class)->only([
         'index', 'store', 'destroy',
@@ -303,7 +306,7 @@ Route::get('js/{locale?}/translations', function ($locale) {
     $langPath = app_path('Fresns/Panel/Resources/lang/'.$locale);
 
     if (! is_dir($langPath)) {
-        $langPath = app_path('Fresns/Panel/Resources/lang/'.'en');
+        $langPath = app_path('Fresns/Panel/Resources/lang/'.config('FsConfig.defaultLangTag'));
     }
 
     $strings = Cache::rememberForever('translations.'.$locale, function () use ($langPath) {

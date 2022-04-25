@@ -14,7 +14,9 @@
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
                 <button class="btn btn-primary" type="button"><i class="bi bi-arrow-clockwise"></i> {{ __('FsLang::panel.button_check_upgrade') }}</button>
                 <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#resetUpgradeCodeModal">{{ __('FsLang::panel.button_reset'). ' Code' }}</button>
-                <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#physicalUpgradeModal">{{ __('FsLang::panel.button_physical_upgrade') }}</button>
+                <button class="btn btn-outline-success" type="button" id="physicalUpgradeButton"
+                data-upgrading="{{ $physicalUpgrading }}"
+                >{{ __('FsLang::panel.button_physical_upgrade') }}</button>
                 <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a>
             </div>
         </div>
@@ -184,17 +186,38 @@
     <!-- Physical Upgrade Modal -->
     <div class="modal fade" id="physicalUpgradeModal" tabindex="-1" aria-labelledby="physicalUpgradeModalLabel" aria-hidden="true">
         <div class="modal-dialog">
+            <form method="post" action="{{ route('panel.physical.upgrade') }}" id="physicalUpgradeForm">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="physicalUpgradeModalLabel">{{ __('FsLang::panel.button_physical_upgrade') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ __('FsLang::panel.upgrade_confirm_desc') }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('FsLang::panel.button_cancel') }}</button>
+                        <button type="submit" class="btn btn-danger">{{ __('FsLang::panel.button_confirm_upgrade') }}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Physical Upgrade Artisan Output Modal -->
+    <div class="modal fade" id="physicalUpgradeOutputModal" tabindex="-1" data-action="{{ route('panel.physical.upgrade.info') }}" aria-labelledby="physicalUpgradeOutputModal" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="physicalUpgradeModalLabel">{{ __('FsLang::panel.button_physical_upgrade') }}</h5>
+                    <h5 class="modal-title">{{ __('FsLang::panel.button_physical_upgrade') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>{{ __('FsLang::panel.upgrade_confirm_desc') }}</p>
+                    <textarea class="form-control" rows="6" id="physicalUpgradeOutput" readonly>{{ __('FsLang::panel.upgrade_in_progress') }}</textarea>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('FsLang::panel.button_cancel') }}</button>
-                    <button type="button" class="btn btn-danger">{{ __('FsLang::panel.button_confirm_upgrade') }}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('FsLang::panel.button_close') }}</button>
                 </div>
             </div>
         </div>
