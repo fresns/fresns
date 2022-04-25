@@ -50,6 +50,7 @@ class PhysicalUpgradeFresns extends Command
         $this->info($content);
         $output = cache('physicalUpgradeOutput');
         $output .= $content;
+
         return Cache::put('physicalUpgradeOutput', $output);
     }
 
@@ -64,6 +65,7 @@ class PhysicalUpgradeFresns extends Command
         // Check if an upgrade is needed
         if (! $this->checkVersion()) {
             Cache::forget('physicalUpgrading');
+
             return $this->info('Already the latest version of Fresns');
         }
 
@@ -85,8 +87,8 @@ class PhysicalUpgradeFresns extends Command
 
     public function pluginPublish()
     {
-        $plugins = Plugin::whereIn('type', [1,4])->get();
-        $plugins->map(function($plugin) {
+        $plugins = Plugin::whereIn('type', [1, 4])->get();
+        $plugins->map(function ($plugin) {
             if ($plugin->type == 1) {
                 \Artisan::call('plugin:publish', ['plugin' => $plugin->unikey]);
             } else {
@@ -109,7 +111,7 @@ class PhysicalUpgradeFresns extends Command
     public function pluginEnable()
     {
         $plugins = Plugin::where('is_enable', 1)->get();
-        $plugins->map(function($plugin) {
+        $plugins->map(function ($plugin) {
             \Artisan::call('plugin:activate', ['plugin' => $plugin->unikey]);
             $this->updateOutput(\Artisan::output());
         });
@@ -134,7 +136,6 @@ class PhysicalUpgradeFresns extends Command
         // upgrade step
         return Cache::put('physicalUpgradeStep', $step);
     }
-
 
     public function clear()
     {
