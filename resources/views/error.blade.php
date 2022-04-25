@@ -29,34 +29,6 @@
             <div class="card-body p-5">
                 <h3 class="card-title">Fresns {{ $errorCode }}</h3>
                 <p>{{ $errorMessage }}</p>
-                <!-- Debug -->
-                @if( env('APP_DEBUG') && true )
-                    <div class="fs-9 mt-4 overflow-auto">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">File</th>
-                                    <th scope="col">Line</th>
-                                    <th scope="col">Function</th>
-                                    <th scope="col">Class</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($errorTrace as $idx => $item)
-                                    <tr>
-                                        <th scope="row">{{$idx + 1}}</th>
-                                        <td>{{ $item['file'] }}</td>
-                                        <td>{{ $item['line'] }}</td>
-                                        <td>{{ $item['function'] }}</td>
-                                        <td>{{ $item['class'] }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                @endif
-                <!-- Debug End -->
             </div>
         </div>
     </main>
