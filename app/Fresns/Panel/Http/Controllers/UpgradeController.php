@@ -44,7 +44,6 @@ class UpgradeController extends Controller
         ]);
     }
 
-
     public function upgrade()
     {
         $phpPath = (new PhpExecutableFinder)->find();
@@ -86,8 +85,7 @@ class UpgradeController extends Controller
     {
         return response()->json([
             'upgradeContent' => cache('physicalUpgradeOutput'),
-            'physicalUpgrading' => cache('physicalUpgrading')
+            'physicalUpgrading' => cache('physicalUpgrading'),
         ]);
     }
-
 }
