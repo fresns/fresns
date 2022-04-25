@@ -21,7 +21,7 @@ class ChangeLocale
             return back()->withInput($request->except('lang'));
         }
 
-        \App::setLocale(Cookie::get('lang', 'zh-Hans'));
+        \App::setLocale(Cookie::get('lang', config('FsConfig.defaultLangTag')));
 
         return $next($request);
     }
