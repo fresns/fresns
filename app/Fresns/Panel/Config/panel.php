@@ -9,7 +9,7 @@
 use App\Fresns\Panel\Http\Middleware\ChangeLocale;
 
 return [
-    'defaultLangTag' => 'zh-Hans',
+    'defaultLangTag' => 'en',
 
     'middleware' => [
         'web',
