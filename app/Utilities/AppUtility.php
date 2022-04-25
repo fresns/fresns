@@ -30,7 +30,7 @@ class AppUtility
     {
         return \Cache::remember('newVersion', 3600, function () {
             try {
-                $versionInfoUrl = config('FsConfig.version_url');
+                $versionInfoUrl = AppUtility::getApiHost().'/version.json';
                 $client = new \GuzzleHttp\Client();
                 $response = $client->request('GET', $versionInfoUrl);
                 $versionInfo = json_decode($response->getBody(), true);
@@ -61,6 +61,13 @@ class AppUtility
         $editContent = json_encode($currentVersion, JSON_PRETTY_PRINT);
 
         return file_put_contents($path, $editContent);
+    }
+
+    public static function getApiHost()
+    {
+        $apiHost = base64_decode('aHR0cHM6Ly9hcGkuZnJlc25zLm9yZw==', true);
+
+        return $apiHost;
     }
 
     public static function getMarketHeader(): array

@@ -153,7 +153,14 @@
             <div class="card">
                 <div class="card-header">{{ __('FsLang::panel.news') }}</div>
                 <div class="card-body">
-                    {!! $news['content'] ?? '' !!}
+                    <ul class="list-group list-group-flush">
+                        @foreach ($newsList as $news)
+                            <li class="list-group-item">
+                                <span class="badge bg-warning text-dark">{{ $news['date'] }}</span>
+                                <a class="fresns-link ms-2" href="{{ $news['link'] }}" target="_blank" {{ 'style=color:'.$news['color'] }}>{{ $news['title'] }}</a>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
         </div>

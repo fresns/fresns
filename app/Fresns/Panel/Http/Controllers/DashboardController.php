@@ -24,7 +24,7 @@ class DashboardController extends Controller
     {
         $news = Cache::remember('news', 86400, function () {
             try {
-                $newUrl = config('FsConfig.news_url');
+                $newUrl = AppUtility::getApiHost().'/news.json';
                 $client = new \GuzzleHttp\Client(['verify' => false]);
                 $response = $client->request('GET', $newUrl);
                 $news = json_decode($response->getBody(), true);
@@ -34,7 +34,10 @@ class DashboardController extends Controller
 
             return $news;
         });
-        $news = collect($news)->where('langTag', \App::getLocale())->first();
+
+        $newsData = collect($news)->where('langTag', \App::getLocale())->first();
+        $defaultNewsData = collect($news)->where('langTag', config('FsConfig.defaultLangTag'))->first();
+        $newsList = $newsData['news'] ?? $defaultNewsData['news'];
 
         $currentVersion = AppUtility::currentVersion();
         $newVersion = AppUtility::newVersion();
@@ -78,7 +81,7 @@ class DashboardController extends Controller
 
         $systemInfo[] = $systemInfo;
 
-        return view('FsView::dashboard.index', compact('news', 'params', 'keyCount', 'adminCount', 'plugins', 'currentVersion', 'newVersion', 'systemInfo'));
+        return view('FsView::dashboard.index', compact('newsList', 'params', 'keyCount', 'adminCount', 'plugins', 'currentVersion', 'newVersion', 'systemInfo'));
     }
 
     /**
