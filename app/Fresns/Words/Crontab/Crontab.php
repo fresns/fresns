@@ -14,10 +14,13 @@ use App\Helpers\ConfigHelper;
 use App\Models\Account;
 use App\Models\AccountConnect;
 use App\Models\Config;
+use App\Models\Plugin;
 use App\Models\User;
 use App\Models\UserRole;
+use App\Utilities\AppUtility;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 
 class Crontab
 {
@@ -44,7 +47,7 @@ class Crontab
         Config::where('item_key', '=', 'crontab_items')->update(['item_value' => $cronArr]);
         Cache::forever('cronArr', $cronArr);
 
-        return ['code' => 200, 'message' => 'success', 'data' => []];
+        return ['code' => 0, 'message' => 'success', 'data' => []];
     }
 
     /**
@@ -65,7 +68,7 @@ class Crontab
         Config::where('item_key', '=', 'crontab_items')->update(['item_value' => $cronArr]);
         Cache::forever('cronArr', $cronArr);
 
-        return ['code' => 200, 'message' => 'success', 'data' => []];
+        return ['code' => 0, 'message' => 'success', 'data' => []];
     }
 
     /**
@@ -88,7 +91,7 @@ class Crontab
 
         ConfigHelper::fresnsCountAdd('crontab_count');
 
-        return ['code' => 200, 'message' => 'success', 'data' => []];
+        return ['code' => 0, 'message' => 'success', 'data' => []];
     }
 
     /**
@@ -103,7 +106,7 @@ class Crontab
         } elseif ($deleteAccount == 3) {
         }
 
-        return ['code' => 200, 'message' => 'success', 'data' => []];
+        return ['code' => 0, 'message' => 'success', 'data' => []];
     }
 
     /**
@@ -127,5 +130,42 @@ class Crontab
                 \FresnsCmdWord::plugin('Fresns')->logicalDeletionUser(['accountId' => $v['id']]);
             }
         }
+    }
+
+    public function checkExtensionsVersion()
+    {
+        $plugins = Plugin::all();
+
+        AppUtility::macroMarketHeader();
+
+        $response = Http::market()->get('/api/extensions/v1/check', [
+            'unikeys' => json_encode($plugins->pluck('unikey')->all()),
+        ]);
+
+        // Request error
+        if ($response->failed()) {
+            return ['code' => 22500, 'message' => 'host or api error', 'data' => []];
+        }
+
+        foreach ($response->json('data') as $unikey => $version) {
+            $plugin = $plugins->where('unikey', $unikey)->first();
+
+            // Same version number
+            if (version_compare($plugin->version, $version) === 0) {
+                continue;
+            }
+
+            $plugin->update([
+                'is_upgrade' => 1,
+                'upgrade_version' => $version,
+            ]);
+        }
+
+        // Time to cache execution detection
+        cache([
+            'checkExtensionsVersion-time' => now()->toDateTimeString(),
+        ], now()->addMonths(3));
+
+        return ['code' => 0, 'message' => 'success', 'data' => []];
     }
 }
