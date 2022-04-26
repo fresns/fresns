@@ -1889,6 +1889,7 @@ $(document).ready(function () {
         }
     });
 
+    // extensions install
     $('.install-dialog').on('click', function () {
         let name = $(this).data('name');
         let type = $(this).data('type');
@@ -1896,4 +1897,29 @@ $(document).ready(function () {
         $('.install-name').text(name)
         $('input[name=install_type]').val(type)
     });
+
+    // extensions install form
+    $('#installModal form').submit(function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            method: $(this).attr('method'), // post form
+            url: $(this).attr('action'),
+            dataType: 'json',
+            data: new FormData(document.querySelector('#installModal form')),
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                console.log('install response', response)
+
+                $('#physicalUpgradeButton').data('upgrading', true);
+                $('#physicalUpgradeOutputModal').modal('show');
+
+                $('#install_artisan_output').val(response.data.output || trans('tips.installSuccess')) //FsLang
+            },
+            error: function (response) {
+                window.tips(response.responseJSON.message);
+            },
+        });
+    })
 });

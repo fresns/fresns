@@ -121,15 +121,47 @@ class PluginController extends Controller
 
     public function install(Request $request)
     {
-        if ($request->file('plugin_zipball')) {
+        defined('STDIN') or define('STDIN',fopen("php://stdin","r"));
+
+        $installType = $request->get('install_type');
+        
+        $file = $request->file('plugin_zipball');
+        if ($file && $file->isValid()) {
             // php artisan plugin:install ...
             // php artisan theme:install ...
 
-            return $this->installSuccess();
-        } elseif ($request->get('plugin_unikey')) {
-            // php artisan fresns:require ...
+            $command = match($installType) {
+                default => throw new \RuntimeException("unknown install_type {$installType}"),
+                'plugin' => 'plugin:install',
+                'theme' => 'theme:install',
+            };
 
-            return $this->installSuccess();
+            $dir = storage_path('extensions');
+            $filename = $file->hashName();
+            $file->move($dir, $filename);
+
+            \Artisan::call($command, [
+                'path' => "$dir/$filename",
+            ]);
+
+            return \response()->json([
+                'message' => __('FsLang::tips.install.Success'),
+                'data' => [
+                    'output' => \Artisan::output(),
+                ],
+            ], 200);
+        } elseif ($unikey = $request->get('plugin_unikey')) {
+            // php artisan fresns:require ...
+            \Artisan::call('fresns:require', [
+                'unikey' => $unikey,
+            ]);
+
+            return \response()->json([
+                'message' => __('FsLang::tips.install.Success'),
+                'data' => [
+                    'output' => \Artisan::output(),
+                ],
+            ], 200);
         }
 
         return back()->with('failure', __('FsLang::tips.installFailure'));

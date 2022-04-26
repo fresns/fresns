@@ -123,8 +123,8 @@
                         <p>{{ __('FsLang::panel.upgrade_confirm_desc') }}</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('FsLang::panel.button_cancel') }}</button>
                         <button type="submit" class="btn btn-primary">{{ __('FsLang::panel.button_confirm_upgrade') }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('FsLang::panel.button_cancel') }}</button>
                     </div>
                 </div>
             </form>
@@ -206,8 +206,8 @@
                         <p>{{ __('FsLang::panel.upgrade_confirm_desc') }}</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('FsLang::panel.button_cancel') }}</button>
                         <button type="submit" class="btn btn-danger">{{ __('FsLang::panel.button_confirm_upgrade') }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('FsLang::panel.button_cancel') }}</button>
                     </div>
                 </div>
             </form>

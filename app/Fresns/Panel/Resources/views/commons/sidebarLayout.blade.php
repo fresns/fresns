@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#installStepModal" id="installSubmit">{{ __('FsLang::panel.button_confirm_install') }}</button>
+                        <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#installStepModal" id="installSubmit">{{ __('FsLang::panel.button_confirm_install') }}</button>
                     </div>
                 </form>
             </div>
