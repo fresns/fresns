@@ -8,7 +8,7 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
-use App\Helpers\DateHelper;
+use App\Helpers\AppHelper;
 use App\Models\Account;
 use App\Models\Config;
 use App\Models\Plugin;
@@ -16,7 +16,6 @@ use App\Models\SessionKey;
 use App\Utilities\AppUtility;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -41,6 +40,7 @@ class DashboardController extends Controller
 
         $currentVersion = AppUtility::currentVersion();
         $newVersion = AppUtility::newVersion();
+        $checkVersion = AppUtility::checkVersion();
 
         $configKeys = [
             'accounts_count',
@@ -60,28 +60,10 @@ class DashboardController extends Controller
         $adminCount = Account::ofAdmin()->count();
         $plugins = Plugin::all();
 
-        $systemInfo['server'] = php_uname('s').' '.php_uname('r');
-        $systemInfo['web'] = $_SERVER['SERVER_SOFTWARE'];
+        $systemInfo = AppHelper::getSystemInfo();
+        $databaseInfo =AppHelper::getMySqlInfo();
 
-        $phpInfo['version'] = 'PHP '.PHP_VERSION;
-        $phpInfo['uploadMaxFileSize'] = ini_get('upload_max_filesize');
-        $systemInfo['php'] = $phpInfo;
-
-        $mySqlVersion = 'version()';
-        $databaseInfo['version'] = 'MySQL '.DB::select('select version()')[0]->$mySqlVersion;
-        $databaseInfo['timezone'] = 'UTC'.DateHelper::fresnsSqlTimezone();
-        $databaseInfo['timezoneFromEnv'] = config('app.timezone');
-        $mySqlCollation = 'Value';
-        $databaseInfo['collation'] = DB::select('show variables like "collation%"')[1]->$mySqlCollation;
-        $mySqlSize = 'Size';
-        // Size (GB)
-        // $databaseInfo['size'] = DB::select('SELECT table_schema AS "Database", SUM(data_length + index_length) / 1024 / 1024 / 1024 AS "Size" FROM information_schema.TABLES GROUP BY table_schema')[1]->$mySqlSize;
-        $databaseInfo['size'] = round(DB::select('SELECT table_schema AS "Database", SUM(data_length + index_length) / 1024 / 1024 AS "Size" FROM information_schema.TABLES GROUP BY table_schema')[1]->$mySqlSize, 2).' MB';
-        $systemInfo['database'] = $databaseInfo;
-
-        $systemInfo[] = $systemInfo;
-
-        return view('FsView::dashboard.index', compact('newsList', 'params', 'keyCount', 'adminCount', 'plugins', 'currentVersion', 'newVersion', 'systemInfo'));
+        return view('FsView::dashboard.index', compact('newsList', 'params', 'keyCount', 'adminCount', 'plugins', 'currentVersion', 'newVersion', 'checkVersion', 'systemInfo', 'databaseInfo'));
     }
 
     /**

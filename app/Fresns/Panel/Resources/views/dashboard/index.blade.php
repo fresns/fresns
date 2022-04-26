@@ -11,7 +11,7 @@
             <h1 class="fs-3 fw-normal">{{ __('FsLang::panel.welcome') }}</h1>
             <p class="text-secondary">
                 {{ __('FsLang::panel.current_version') }} v{{$currentVersion['version'] ?? ''}}
-                @if (($currentVersion['versionInt'] ?? 0) != ($newVersion['versionInt'] ?? 0))
+                @if ($checkVersion)
                     <a href="{{ route('panel.upgrades') }}" class="badge rounded-pill bg-danger ms-2 text-decoration-none">{{ __('FsLang::panel.new_version') }}</a>
                 @endif
             </p>
@@ -126,24 +126,24 @@
                             {{ __('FsLang::panel.system_info_php_upload_max_filesize') }}: <span>{{ $systemInfo['php']['uploadMaxFileSize'] }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-start">
-                            {{ __('FsLang::panel.system_info_database_version') }}: <span>{{ $systemInfo['database']['version'] }}</span>
+                            {{ __('FsLang::panel.system_info_database_version') }}: <span>{{ $databaseInfo['version'] }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-start">
                             {{ __('FsLang::panel.system_info_database_timezone') }}:
                             <span>
-                                {{ $systemInfo['database']['timezone'] }}
-                                @if ($systemInfo['database']['timezone'] == $systemInfo['database']['timezoneFromEnv'])
-                                    <span class="badge rounded-pill bg-success ms-2 fs-9">.env {{ $systemInfo['database']['timezone'] }}</span>
+                                {{ $databaseInfo['timezone'] }}
+                                @if ($databaseInfo['timezone'] == $databaseInfo['envTimezone'])
+                                    <span class="badge rounded-pill bg-success ms-2 fs-9">.env {{ $databaseInfo['timezone'] }}</span>
                                 @else
-                                    <span class="badge rounded-pill bg-danger ms-2 fs-9"><span class="spinner-grow spinner-grow-sm align-text-top" role="status" aria-hidden="true"></span> .env {{ $systemInfo['database']['timezoneFromEnv'] }}</span>
+                                    <span class="badge rounded-pill bg-danger ms-2 fs-9"><span class="spinner-grow spinner-grow-sm align-text-top" role="status" aria-hidden="true"></span> .env {{ $databaseInfo['envTimezone'] }}</span>
                                 @endif
                             </span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-start">
-                            {{ __('FsLang::panel.system_info_database_collation') }}: <span>{{ $systemInfo['database']['collation'] }}</span>
+                            {{ __('FsLang::panel.system_info_database_collation') }}: <span>{{ $databaseInfo['collation'] }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-start">
-                            {{ __('FsLang::panel.system_info_database_size') }}: <span>{{ $systemInfo['database']['size'] }}</span>
+                            {{ __('FsLang::panel.system_info_database_size') }}: <span>{{ $databaseInfo['sizeMb'].' MB' }}</span>
                         </li>
                     </ul>
                 </div>

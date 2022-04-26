@@ -8,48 +8,62 @@
 
 namespace App\Console\Commands\Upgrade;
 
-use App\Utilities\AppUtility;
 use Illuminate\Console\Command;
+use Symfony\Component\Process\Process;
 
 class Upgrade1Command extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'fresns:upgrade-1';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'upgrade to 1';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         parent::__construct();
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
+    // execute the console command
     public function handle()
     {
+        $this->composerInstall();
+
+        $this->call('migrate');
+
         $this->call('db:seed', [
             '--class' => 'UserRolesTableSeeder',
         ]);
 
-        //AppUtility::editVersion('1.5.0', 1);
-
         return Command::SUCCESS;
+    }
+
+    // composer install
+    public function composerInstall()
+    {
+        $composerPath = 'composer';
+
+        if (! $this->commandExists($composerPath)) {
+            $composerPath = '/usr/bin/composer';
+        }
+
+        $process = new Process([$composerPath, 'install'], base_path());
+        $process->setTimeout(0);
+        $process->start();
+
+        foreach ($process as $type => $data) {
+            if ($process::OUT === $type) {
+                $this->info("\nRead from stdout: ".$data);
+            } else { // $process::ERR === $type
+                $this->info("\nRead from stderr: ".$data);
+            }
+        }
+    }
+
+    // check composer
+    public function commandExists($commandName)
+    {
+        ob_start();
+        passthru("command -v $commandName", $code);
+        ob_end_clean();
+        return (0 === $code) ? true : false;
     }
 }

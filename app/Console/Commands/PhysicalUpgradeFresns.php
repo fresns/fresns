@@ -10,71 +10,39 @@ namespace App\Console\Commands;
 
 use App\Models\Plugin;
 use App\Utilities\AppUtility;
+use App\Helpers\AppHelper;
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Cache;
-use Symfony\Component\Process\Process;
 
 class PhysicalUpgradeFresns extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'fresns:physical-upgrade';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'physical upgrade fresns';
 
-    protected $currentVersion;
-
-    protected $newVersion;
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function updateOutput($content = '')
-    {
-        $this->info($content);
-        $output = cache('physicalUpgradeOutput');
-        $output .= $content;
-
-        return Cache::put('physicalUpgradeOutput', $output);
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
+    // execute the console command
     public function handle()
     {
         Cache::put('physicalUpgrading', 1);
+
         // Check if an upgrade is needed
-        if (! $this->checkVersion()) {
+        $checkVersion = AppUtility::checkVersion();
+        if (! $checkVersion) {
             Cache::forget('physicalUpgrading');
 
-            return $this->info('Already the latest version of Fresns');
+            return $this->info('No new version, Already the latest version of Fresns.');
         }
 
         try {
-            $this->upgradeCommand();
+            AppUtility::executeUpgradeCommand();
             $this->pluginPublish();
             $this->pluginComposerInstall();
             $this->pluginEnable();
-
             $this->upgradeFinish();
         } catch (\Exception $e) {
             $this->info($e->getMessage());
@@ -85,14 +53,28 @@ class PhysicalUpgradeFresns extends Command
         return Command::SUCCESS;
     }
 
+    // output artisan info
+    public function updateOutput($content = '')
+    {
+        $this->info($content);
+        $output = cache('physicalUpgradeOutput');
+        $output .= $content;
+
+        return Cache::put('physicalUpgradeOutput', $output);
+    }
+
+    // step 1: execute the version command
+    // try AppUtility executeUpgradeCommand()
+
+    // step 2: publish plugins or themes
     public function pluginPublish()
     {
-        $plugins = Plugin::whereIn('type', [1, 4])->get();
+        $plugins = Plugin::all();
         $plugins->map(function ($plugin) {
-            if ($plugin->type == 1) {
-                \Artisan::call('plugin:publish', ['plugin' => $plugin->unikey]);
-            } else {
+            if ($plugin->type == 4) {
                 \Artisan::call('theme:publish', ['plugin' => $plugin->unikey]);
+            } else {
+                \Artisan::call('plugin:publish', ['plugin' => $plugin->unikey]);
             }
             $this->updateOutput(\Artisan::output());
         });
@@ -100,6 +82,7 @@ class PhysicalUpgradeFresns extends Command
         return true;
     }
 
+    // step 3: composer all plugins
     public function pluginComposerInstall()
     {
         \Artisan::call('plugin:composer-install');
@@ -108,6 +91,7 @@ class PhysicalUpgradeFresns extends Command
         return true;
     }
 
+    // step 4: activate plugin
     public function pluginEnable()
     {
         $plugins = Plugin::where('is_enable', 1)->get();
@@ -119,66 +103,25 @@ class PhysicalUpgradeFresns extends Command
         return true;
     }
 
-    public function checkVersion(): bool
+    // step 5: edit fresns version info
+    public function upgradeFinish(): bool
     {
-        $this->newVersion = AppUtility::newVersion();
-        $this->currentVersion = AppUtility::currentVersion();
+        $newVersion = AppHelper::VERSION;
+        $newVersionInt = AppHelper::VERSION_INT;
 
-        if (($this->currentVersion['versionInt'] ?? 0) >= ($this->newVersion['versionInt'] ?? 0)) {
-            return false;
-        }
+        AppUtility::editVersion($newVersion, $newVersionInt);
 
         return true;
     }
 
-    public function updateStep(string $step): bool
-    {
-        // upgrade step
-        return Cache::put('physicalUpgradeStep', $step);
-    }
-
+    // step 6: clear cache
     public function clear()
     {
         logger('upgrade:clear');
 
         \Artisan::call('config:clear');
-        $this->updateOutput(\Artisan::output());
         \Artisan::call('cache:clear');
-    }
 
-    public function upgradeCommand()
-    {
-        logger('upgrade:upgrade command');
-
-        $currentVersionInt = $this->currentVersion['versionInt'] ?? 0;
-        $newVersionInt = $this->newVersion['versionInt'] ?? 0;
-
-        if (! $currentVersionInt || ! $newVersionInt) {
-            return false;
-        }
-
-        $versionInt = $currentVersionInt;
-        while ($versionInt < $newVersionInt) {
-            $versionInt++;
-            $command = 'fresns:upgrade-'.$versionInt;
-            if (\Artisan::has($command)) {
-                $this->call($command);
-            }
-        }
-
-        \Artisan::call('migrate');
         $this->updateOutput(\Artisan::output());
-
-        return true;
-    }
-
-    public function upgradeFinish(): bool
-    {
-        $version = $this->newVersion['version'];
-        $versionInt = $this->newVersion['versionInt'];
-
-        AppUtility::editVersion($version, $versionInt);
-
-        return true;
     }
 }

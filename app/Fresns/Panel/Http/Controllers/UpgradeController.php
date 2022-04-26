@@ -17,6 +17,7 @@ class UpgradeController extends Controller
     {
         $currentVersion = AppUtility::currentVersion();
         $newVersion = AppUtility::newVersion();
+        $checkVersion = AppUtility::checkVersion();
 
         $upgradeStep = cache('upgradeStep');
         $physicalUpgrading = cache('physicalUpgrading');
@@ -34,7 +35,7 @@ class UpgradeController extends Controller
             $currentVersion = cache('currentVersion');
         }
 
-        return view('FsView::dashboard.upgrade', compact('currentVersion', 'newVersion', 'upgradeStep', 'steps', 'physicalUpgrading'));
+        return view('FsView::dashboard.upgrade', compact('currentVersion', 'newVersion', 'checkVersion', 'upgradeStep', 'steps', 'physicalUpgrading'));
     }
 
     public function upgradeInfo()
