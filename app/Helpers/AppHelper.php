@@ -8,9 +8,8 @@
 
 namespace App\Helpers;
 
-use Illuminate\Support\Composer;
+use App\Utilities\ComposerUtility;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\Process\Process;
 
 class AppHelper
 {
@@ -55,9 +54,11 @@ class AppHelper
         return $dbInfo;
     }
 
-    // get composer version
-    public static function getComposerVersion()
+    // get composer version info
+    public static function getComposerVersionInfo()
     {
-        //
+        $versionInfo = app(ComposerUtility::class)->run(['--version']);
+
+        return $versionInfo;
     }
 }
