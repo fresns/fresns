@@ -1888,4 +1888,12 @@ $(document).ready(function () {
             }
         }
     });
+
+    $('.install-dialog').on('click', function () {
+        let name = $(this).data('name');
+        let type = $(this).data('type');
+
+        $('.install-name').text(name)
+        $('input[name=install_type]').val(type)
+    });
 });
