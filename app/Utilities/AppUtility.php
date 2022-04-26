@@ -10,6 +10,7 @@ namespace App\Utilities;
 
 use App\Helpers\ConfigHelper;
 use Browser;
+use Illuminate\Support\Facades\Http;
 
 class AppUtility
 {
@@ -81,6 +82,18 @@ class AppUtility
         $apiHost = base64_decode('aHR0cHM6Ly9hcGkuZnJlc25zLmNu', true);
 
         return $apiHost;
+    }
+
+    public static function macroMarketHeader()
+    {
+        Http::macro('market', function () {
+            return Http::withHeaders(
+                AppUtility::getMarketHeader()
+            )
+            ->baseUrl(
+                AppUtility::getApiHost()
+            );
+        });
     }
 
     public static function getMarketHeader(): array

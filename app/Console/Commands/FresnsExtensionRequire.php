@@ -34,7 +34,7 @@ class FresnsExtensionRequire extends Command
         $pluginResponse = $this->getPluginFromMarket();
 
         if ($pluginResponse->failed()) {
-            $this->error('host or api error');
+            $this->error('Error: request failed (host or api)');
 
             return;
         }
@@ -54,7 +54,7 @@ class FresnsExtensionRequire extends Command
         $zipBallResponse = Http::get($zipBall);
 
         if ($zipBallResponse->failed()) {
-            $this->error('file download error');
+            $this->error('Error: file download failed');
 
             return;
         }

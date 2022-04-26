@@ -144,7 +144,7 @@ class Crontab
 
         // Request error
         if ($response->failed()) {
-            return ['code' => 22500, 'message' => 'host or api error', 'data' => []];
+            return ['code' => 22500, 'message' => 'Error: request failed (host or api)', 'data' => []];
         }
 
         foreach ($response->json('data') as $unikey => $version) {
