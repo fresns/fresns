@@ -14,7 +14,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
 class FresnsExtensionRequire extends Command
-{   
+{
     protected $signature = 'fresns:require {unikey}';
 
     protected $description = 'require fresns extensions';
@@ -48,7 +48,7 @@ class FresnsExtensionRequire extends Command
         // get install file (zip)
         $zipBall = $pluginResponse->json('data.zipBall');
 
-        $filename = uniqid().".".pathinfo($pluginResponse->json('data.zipBall'), PATHINFO_EXTENSION);
+        $filename = uniqid().'.'.pathinfo($pluginResponse->json('data.zipBall'), PATHINFO_EXTENSION);
 
         // get file
         $zipBallResponse = Http::get($zipBall);
@@ -63,11 +63,11 @@ class FresnsExtensionRequire extends Command
         file_put_contents($filepath = storage_path("extensions/$filename"), $zipBallResponse->body());
 
         // get install command
-        $command = match($pluginResponse->json('data.installType')) {
+        $command = match ($pluginResponse->json('data.installType')) {
             default => 'plugin:install',
             'theme' => 'theme:install',
         };
-        
+
         // install command
         $this->call($command, [
             'path' => $filepath,
