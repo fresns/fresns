@@ -9,8 +9,8 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Composer;
-use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Process\Process;
 
 class AppHelper
 {
