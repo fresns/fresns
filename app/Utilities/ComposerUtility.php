@@ -32,7 +32,7 @@ class ComposerUtility extends Composer
         }, [
             // we can pass in env var to the process instance here
             // setting any additional environmental variable to the process
-            'COMPOSER_HOME' => '$HOME/.config/composer'
+            'COMPOSER_HOME' => '$HOME/.config/composer',
         ]);
     }
 }
