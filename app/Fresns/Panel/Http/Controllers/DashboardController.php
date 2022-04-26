@@ -61,7 +61,7 @@ class DashboardController extends Controller
         $plugins = Plugin::all();
 
         $systemInfo = AppHelper::getSystemInfo();
-        $databaseInfo =AppHelper::getMySqlInfo();
+        $databaseInfo = AppHelper::getMySqlInfo();
 
         return view('FsView::dashboard.index', compact('newsList', 'params', 'keyCount', 'adminCount', 'plugins', 'currentVersion', 'newVersion', 'checkVersion', 'systemInfo', 'databaseInfo'));
     }

@@ -64,6 +64,7 @@ class Upgrade1Command extends Command
         ob_start();
         passthru("command -v $commandName", $code);
         ob_end_clean();
+
         return (0 === $code) ? true : false;
     }
 }
