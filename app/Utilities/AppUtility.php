@@ -47,6 +47,18 @@ class AppUtility
         });
     }
 
+    public static function checkVersion(): bool
+    {
+        $currentVersionInt = AppUtility::currentVersion()['versionInt'] ?? 0;
+        $newVersionInt = AppUtility::newVersion()['versionInt'] ?? 0;
+
+        if ($currentVersionInt != $newVersionInt) {
+            return true; // There is a new version
+        }
+
+        return false; // No new version
+    }
+
     public static function editVersion(string $version, int $versionInt)
     {
         $fresnsJson = file_get_contents(
@@ -59,13 +71,14 @@ class AppUtility
         $currentVersion['versionInt'] = $versionInt;
 
         $editContent = json_encode($currentVersion, JSON_PRETTY_PRINT);
+        file_put_contents($path, $editContent);
 
-        return file_put_contents($path, $editContent);
+        return true;
     }
 
     public static function getApiHost()
     {
-        $apiHost = base64_decode('aHR0cHM6Ly9hcGkuZnJlc25zLm9yZw==', true);
+        $apiHost = base64_decode('aHR0cHM6Ly9hcGkuZnJlc25zLmNu', true);
 
         return $apiHost;
     }
@@ -133,5 +146,29 @@ class AppUtility
         ];
 
         return $deviceInfo;
+    }
+
+    public static function executeUpgradeCommand(): bool
+    {
+        logger('upgrade:fresns upgrade command');
+
+        $currentVersionInt = AppUtility::currentVersion()['versionInt'] ?? 0;
+        $newVersionInt = AppUtility::newVersion()['versionInt'] ?? 0;
+
+        if (! $currentVersionInt || ! $newVersionInt) {
+            return false;
+        }
+
+        $versionInt = $currentVersionInt;
+
+        while ($versionInt < $newVersionInt) {
+            $versionInt++;
+            $command = 'fresns:upgrade-'.$versionInt;
+            if (\Artisan::has($command)) {
+                $this->call($command);
+            }
+        }
+
+        return true;
     }
 }
