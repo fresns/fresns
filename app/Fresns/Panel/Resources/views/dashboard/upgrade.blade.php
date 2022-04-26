@@ -14,9 +14,6 @@
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
                 <button class="btn btn-primary" type="button"><i class="bi bi-arrow-clockwise"></i> {{ __('FsLang::panel.button_check_upgrade') }}</button>
                 <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#resetUpgradeCodeModal">{{ __('FsLang::panel.button_reset'). ' Code' }}</button>
-                <button class="btn btn-outline-success" type="button" id="physicalUpgradeButton"
-                data-upgrading="{{ $physicalUpgrading }}"
-                >{{ __('FsLang::panel.button_physical_upgrade') }}</button>
                 <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a>
             </div>
         </div>
@@ -26,9 +23,13 @@
     <div class="card mb-4">
         <div class="card-header">{{ __('FsLang::panel.fresns_core') }}</div>
         <div class="card-body">
-            @if (($currentVersion['versionInt'] ?? 0 ) != ($newVersion['versionInt'] ?? 0))
+            @if ($checkVersion)
                 <h5 class="card-title">{{ __('FsLang::panel.upgrade_fresns') }}</h5>
-                <p class="card-text">{{ __('FsLang::panel.upgrade_fresns_desc') }} v{{ $newVersion['version'] ?? ''}}</p>
+                <div class="card-text mt-3">
+                    <p>{{ __('FsLang::panel.upgrade_fresns_desc') }} v{{ $newVersion['version'] ?? ''}}</p>
+                    <p class="text-danger">{{ __('FsLang::panel.upgrade_fresns_warning') }}</p>
+                </div>
+
                 @if ($upgradeStep)
                     <button id="upgradeButton" type="button" class="btn btn-info" data-action="{{ route('panel.upgrade.info') }}" data-upgrading="1">
                         {{ __('FsLang::panel.upgrade_in_progress') }}
@@ -37,6 +38,10 @@
                     <button id="upgradeButton" type="button" class="btn btn-primary" data-action="{{ route('panel.upgrade.info') }}">
                         {{ __('FsLang::panel.button_upgrade') }}
                     </button>
+                    <button class="btn btn-outline-success ms-3" type="button" id="physicalUpgradeButton" data-upgrading="{{ $physicalUpgrading }}">
+                        {{ __('FsLang::panel.button_physical_upgrade') }}
+                    </button>
+                    <a class="link-success ms-2" href="https://fresns.cn/guide/upgrade.html#手动物理升级" target="_blank">{{ __('FsLang::panel.button_support') }}</a>
                 @endif
             @else
                 <div class="p-5 text-center">
@@ -104,15 +109,17 @@
 
     <!-- Modal: upgrade confirmation -->
     <div class="modal fade" id="upgradeConfirm" tabindex="-1" aria-labelledby="upgrade" aria-hidden="true">
-        <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-dialog">
             <form method="post" action="{{ route('panel.upgrade') }}" id="upgradeForm">
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Fresns</h5>
+                        <h5 class="modal-title">{{ __('FsLang::panel.button_upgrade') }} Fresns</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <p>{{ __('FsLang::panel.upgrade_fresns_desc') }} v{{ $newVersion['version'] ?? ''}}</p>
+                        <p class="text-danger">{{ __('FsLang::panel.upgrade_fresns_warning') }}</p>
                         <p>{{ __('FsLang::panel.upgrade_confirm_desc') }}</p>
                     </div>
                     <div class="modal-footer">
@@ -194,6 +201,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <p>{{ __('FsLang::panel.upgrade_fresns_desc') }} v{{ $newVersion['version'] ?? ''}}</p>
+                        <p class="text-danger">{{ __('FsLang::panel.upgrade_fresns_warning') }}</p>
                         <p>{{ __('FsLang::panel.upgrade_confirm_desc') }}</p>
                     </div>
                     <div class="modal-footer">

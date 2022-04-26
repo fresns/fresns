@@ -299,6 +299,7 @@ return [
     'upgrade_none' => 'Kein Update',
     'upgrade_fresns' => 'Für das Upgrade steht eine neue FRESNS-Version zur Verfügung',
     'upgrade_fresns_desc' => 'Sie können ein Upgrade auf ein Upgrade verwenden',
+    'upgrade_fresns_warning' => 'Bitte erstellen Sie vor dem Upgrade eine Sicherungskopie Ihrer Datenbank, um Datenverluste aufgrund eines unsachgemäßen Upgrades zu vermeiden.',
     'upgrade_confirm_desc' => 'Upgrade bestimmen?',
     'upgrade_in_progress' => 'Upgrade im Gange...',
     'upgrade_step_1' => 'Initialisierungsüberprüfung',

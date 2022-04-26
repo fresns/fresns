@@ -299,6 +299,7 @@ return [
     'upgrade_none' => 'Nessun aggiornamento',
     'upgrade_fresns' => 'C\'è una nuova versione di Fresns disponibile per l\'aggiornamento',
     'upgrade_fresns_desc' => 'Puoi aggiornare a',
+    'upgrade_fresns_warning' => 'Si prega di eseguire il backup del database prima di effettuare l\'aggiornamento per evitare la perdita di dati a causa di un aggiornamento improprio.',
     'upgrade_confirm_desc' => 'Determina l\'aggiornamento?',
     'upgrade_in_progress' => 'Aggiornamento in corso...',
     'upgrade_step_1' => 'Verifica di inizializzazione',

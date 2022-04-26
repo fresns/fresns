@@ -299,6 +299,7 @@ return [
     'upgrade_none' => 'Ninguna actualización',
     'upgrade_fresns' => 'Hay una nueva versión de Fresns disponible para la actualización',
     'upgrade_fresns_desc' => 'Puedes actualizar a',
+    'upgrade_fresns_warning' => 'Por favor, haga una copia de seguridad de su base de datos antes de actualizar para evitar la pérdida de datos debido a una actualización incorrecta.',
     'upgrade_confirm_desc' => '¿Determinar la actualización?',
     'upgrade_in_progress' => 'Actualización en curso...',
     'upgrade_step_1' => 'Verificación de inicialización',

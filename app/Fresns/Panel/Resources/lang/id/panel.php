@@ -299,6 +299,7 @@ return [
     'upgrade_none' => 'Tidak ada pembaruan',
     'upgrade_fresns' => 'Ada versi fresns baru yang tersedia untuk upgrade',
     'upgrade_fresns_desc' => 'Anda dapat meningkatkan ke',
+    'upgrade_fresns_warning' => 'Harap buat cadangan database sebelum memutakhirkan untuk menghindari kehilangan data yang disebabkan oleh pemutakhiran yang tidak tepat.',
     'upgrade_confirm_desc' => 'Tentukan peningkatan?',
     'upgrade_in_progress' => 'Peningkatan sedang berlangsung...',
     'upgrade_step_1' => 'Verifikasi inisialisasi',

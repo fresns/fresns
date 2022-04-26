@@ -299,6 +299,7 @@ return [
     'upgrade_none' => 'No Upgrade',
     'upgrade_fresns' => 'A new version of Fresns is available for upgrade',
     'upgrade_fresns_desc' => 'You can upgrade to',
+    'upgrade_fresns_warning' => 'Please backup the database before upgrading to avoid data loss due to improper upgrade.',
     'upgrade_confirm_desc' => 'Sure to upgrade?',
     'upgrade_in_progress' => 'Upgrade in progress...',
     'upgrade_step_1' => 'Initialization verification',

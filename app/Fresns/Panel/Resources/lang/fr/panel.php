@@ -299,6 +299,7 @@ return [
     'upgrade_none' => 'Pas de mise à jour',
     'upgrade_fresns' => 'Il existe une nouvelle version Fresns disponible pour la mise à niveau',
     'upgrade_fresns_desc' => 'Vous pouvez passer à',
+    'upgrade_fresns_warning' => 'Veuillez sauvegarder votre base de données avant de procéder à la mise à niveau afin d\'éviter toute perte de données due à une mise à niveau incorrecte.',
     'upgrade_confirm_desc' => 'Déterminer la mise à niveau?',
     'upgrade_in_progress' => 'Mise à niveau en cours...',
     'upgrade_step_1' => 'Vérification d\'initialisation',

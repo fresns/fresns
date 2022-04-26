@@ -299,6 +299,7 @@ return [
     'upgrade_none' => '업데이트 없음',
     'upgrade_fresns' => '업그레이드를 위해 새로운 Fresns 버전이 있습니다',
     'upgrade_fresns_desc' => '업그레이드 할 수 있습니다',
+    'upgrade_fresns_warning' => '부적절한 업그레이드로 인한 데이터 손실을 방지하려면 업그레이드하기 전에 데이터베이스를 백업하십시오.',
     'upgrade_confirm_desc' => '업그레이드 결정?',
     'upgrade_in_progress' => '업그레이드 진행 중...',
     'upgrade_step_1' => '초기화 확인',

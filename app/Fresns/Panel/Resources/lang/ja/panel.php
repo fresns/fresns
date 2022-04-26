@@ -299,6 +299,7 @@ return [
     'upgrade_none' => '更新はありません',
     'upgrade_fresns' => 'Fresnsの新バージョンのアップグレードが可能です。',
     'upgrade_fresns_desc' => 'あなたはアップグレードすることができます',
+    'upgrade_fresns_warning' => '不適切なアップグレードによるデータ損失を避けるため、アップグレード前にデータベースをバックアップしてください。',
     'upgrade_confirm_desc' => 'アップグレードを決定しますか？',
     'upgrade_in_progress' => 'アップグレード中...',
     'upgrade_step_1' => '初期化検証',
