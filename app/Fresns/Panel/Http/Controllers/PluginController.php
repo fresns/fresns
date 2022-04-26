@@ -121,16 +121,16 @@ class PluginController extends Controller
 
     public function install(Request $request)
     {
-        defined('STDIN') or define('STDIN',fopen("php://stdin","r"));
+        defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
 
         $installType = $request->get('install_type');
-        
+
         $file = $request->file('plugin_zipball');
         if ($file && $file->isValid()) {
             // php artisan plugin:install ...
             // php artisan theme:install ...
 
-            $command = match($installType) {
+            $command = match ($installType) {
                 default => throw new \RuntimeException("unknown install_type {$installType}"),
                 'plugin' => 'plugin:install',
                 'theme' => 'theme:install',
