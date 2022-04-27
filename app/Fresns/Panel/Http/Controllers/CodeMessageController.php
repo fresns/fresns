@@ -10,6 +10,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\ConfigHelper;
 use App\Models\CodeMessage;
+use App\Models\Plugin;
 use Illuminate\Http\Request;
 
 class CodeMessageController extends Controller
@@ -18,6 +19,13 @@ class CodeMessageController extends Controller
     {
         $languageConfig = ConfigHelper::fresnsConfigByItemKeys(['language_status', 'default_language', 'language_menus']);
 
-        return view('FsView::clients.code-messages', compact('languageConfig'));
+        $unikeyData = CodeMessage::where('plugin_unikey', '!=', 'Fresns')->get('plugin_unikey')->toArray();
+        $unikeyArr = array_column($unikeyData, 'plugin_unikey');
+        $unikeys = array_unique($unikeyArr);
+        $pluginsList = Plugin::whereIn('unikey', $unikeys)->get(['unikey', 'name'])->toArray();
+
+        $codeMessages = CodeMessage::where('lang_tag', $languageConfig['default_language'])->paginate(20);
+
+        return view('FsView::clients.code-messages', compact('languageConfig', 'pluginsList', 'codeMessages'));
     }
 }

@@ -24,20 +24,22 @@
             <div class="input-group">
                 <span class="input-group-text">{{ __('FsLang::panel.table_lang_tag') }}</span>
                 <select class="form-select" id="langTag" required>
-                    <option value="en">en -> English</option>
-                    <option value="zh-Hans" selected>zh-Hans -> 简体中文</option>
-                    <option value="zh-Hant">zh-Hant -> 繁體中文</option>
+                    @foreach ($languageConfig['language_menus'] as $lang)
+                        <option value="{{ $lang['langTag'] }}" @if ($lang['langTag'] == $languageConfig['default_language']) selected @endif>{{ $lang['langTag'] }} -> {{ $lang['langName'] }} @if($lang['areaName']) {{ '('.$lang['areaName'].')' }} @endif</option>
+                    @endforeach
                 </select>
                 <span class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</span>
                 <select class="form-select" id="unikey">
-                    <option value="" selected>全部</option>
+                    <option value="" selected>{{ __('FsLang::panel.option_all') }}</option>
                     <option value="Fresns">Fresns</option>
-                    <option value="QiNiu">QiNiu -> 七牛云</option>
+                    @foreach ($pluginsList as $plugin)
+                        <option value="{{ $plugin['unikey'] }}">{{ $plugin['unikey'] }} -> {{ $plugin['name'] }}</option>
+                    @endforeach
                 </select>
                 <span class="input-group-text">{{ __('FsLang::panel.table_number') }}</span>
                 <input type="number" class="form-control" placeholder="Code">
-                <button class="btn btn-outline-secondary" type="submit">{{ __('FsLang::panel.button_confirm') }}</button>
-                <a class="btn btn-outline-secondary" href="{{ route('panel.code.messages.index') }}">{{ __('FsLang::panel.button_reset') }}</a>
+                <button class="btn btn-outline-secondary" type="submit" disabled>{{ __('FsLang::panel.button_confirm') }}</button>
+                <a class="btn btn-outline-secondary disabled" href="{{ route('panel.code.messages.index') }}">{{ __('FsLang::panel.button_reset') }}</a>
             </div>
         </form>
         <!--filter end-->
@@ -55,29 +57,31 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach ($codeMessages as $message)
                     <tr>
-                        <td>七牛云 <span class="badge bg-secondary">QiNiu</span></td>
-                        <td>30000</td>
-                        <td>zh-Hans</td>
-                        <td><input type="text" class="form-control" value="描述" readonly></td>
-                        <td><button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editMessages">{{ __('FsLang::panel.button_edit') }}</button></td>
+                        <td>
+                            {{ collect($pluginsList)->where('unikey', $message->plugin_unikey)->first()['name'] ?? $message->plugin_unikey }}
+                            <span class="badge bg-secondary">{{ $message->plugin_unikey }}</span>
+                        </td>
+                        <td>{{ $message->code }}</td>
+                        <td>{{ $message->lang_tag }}</td>
+                        <td><input type="text" class="form-control" value="{{ $message->message }}" readonly></td>
+                        <td>
+                            <button type="button" class="btn btn-outline-primary btn-sm" disabled
+                                data-bs-toggle="modal"
+                                data-bs-target="#editMessages"
+                                data-name="{{ collect($pluginsList)->where('unikey', $message->plugin_unikey)->first()['name'] ?? $message->plugin_unikey }}"
+                                data-unikey="{{ $message->plugin_unikey }}"
+                                data-code="{{ $message->code }}">
+                                {{ __('FsLang::panel.button_edit') }}
+                            </button>
+                        </td>
                     </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-            </li>
-        </ul>
-    </nav>
+    {{ $codeMessages->links() }}
 
     <!-- Edit Modal -->
     <div class="modal fade" id="editMessages" tabindex="-1" aria-labelledby="editMessagesModalLabel" aria-hidden="true">
@@ -85,9 +89,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editMessagesModalLabel">
-                        <span class="code_plugin">七牛云</span>
-                        <span class="badge bg-secondary">QiNiu</span>
-                        <span class="badge bg-warning text-dark">30000</span>
+                        <span class="code-message-plugin-name">Fresns</span>
+                        <span class="code-message-plugin-unikey badge bg-secondary">Fresns</span>
+                        <span class="code-message-plugin-code badge bg-warning text-dark">30000</span>
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -103,16 +107,25 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($languageConfig['language_menus'] as $lang)
                                         <tr>
                                             <td>
-                                                langTag
-                                                <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
+                                                {{ $lang['langTag'] }}
+                                                @if ($lang['langTag'] == $languageConfig['default_language'])
+                                                    <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
+                                                @endif
                                             </td>
-                                            <td>langName</td>
                                             <td>
-                                                <textarea name="" class="form-control" rows="3">Code Message</textarea>
+                                                {{ $lang['langName'] }}
+                                                @if ($lang['areaName'])
+                                                    {{ '('.$lang['areaName'].')' }}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <textarea name="messages[{{ $lang['langTag'] }}]" class="form-control" rows="3">Code Message</textarea>
                                             </td>
                                         </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
