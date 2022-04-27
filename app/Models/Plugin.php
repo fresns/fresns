@@ -17,6 +17,8 @@ class Plugin extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $guarded = [];
+
     protected $casts = [
         'scene' => 'array',
     ];
