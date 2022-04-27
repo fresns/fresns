@@ -218,6 +218,7 @@ return [
     'select_box_tip_group_category' => 'グループカテゴリを選択してください',
     'select_box_tip_group' => 'グループを選択してください',
     'option_default' => 'ディフォルト',
+    'option_all' => 'すべて',
     'option_visible' => '見える',
     'option_hidden' => '隠れた',
     'option_open' => '開ける',

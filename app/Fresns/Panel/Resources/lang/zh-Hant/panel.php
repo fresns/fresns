@@ -219,6 +219,7 @@ return [
     'select_box_tip_group_category' => '選擇社團分類',
     'select_box_tip_group' => '選擇社團',
     'option_default' => '默認',
+    'option_all' => '全部',
     'option_visible' => '顯示',
     'option_hidden' => '隱藏',
     'option_open' => '開啟',

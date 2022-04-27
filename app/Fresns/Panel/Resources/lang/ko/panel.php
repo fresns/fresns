@@ -218,6 +218,7 @@ return [
     'select_box_tip_group_category' => '그룹 카테고리를 선택하십시오',
     'select_box_tip_group' => '그룹을 선택하십시오',
     'option_default' => '기본',
+    'option_all' => '모두',
     'option_visible' => '보이는',
     'option_hidden' => '숨겨진',
     'option_open' => '열려있는',

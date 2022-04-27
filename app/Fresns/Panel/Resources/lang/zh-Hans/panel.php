@@ -218,6 +218,7 @@ return [
     'select_box_tip_group_category' => '选择小组分类',
     'select_box_tip_group' => '选择小组',
     'option_default' => '默认',
+    'option_all' => '全部',
     'option_visible' => '显示',
     'option_hidden' => '隐藏',
     'option_open' => '开启',

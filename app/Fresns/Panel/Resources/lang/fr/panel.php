@@ -218,6 +218,7 @@ return [
     'select_box_tip_group_category' => 'Sélectionnez la catégorie de groupe',
     'select_box_tip_group' => 'Sélectionnez un groupe',
     'option_default' => 'Défaut',
+    'option_all' => 'Tous',
     'option_visible' => 'Visible',
     'option_hidden' => 'Caché',
     'option_open' => 'Ouvrir',

@@ -218,6 +218,7 @@ return [
     'select_box_tip_group_category' => 'Pilih kategori grup',
     'select_box_tip_group' => 'Pilih grup',
     'option_default' => 'Bawaan',
+    'option_all' => 'Semua',
     'option_visible' => 'Bisa dilihat',
     'option_hidden' => 'Tersembunyi',
     'option_open' => 'Membuka',

@@ -218,6 +218,7 @@ return [
     'select_box_tip_group_category' => 'Выберите категорию группы',
     'select_box_tip_group' => 'Выберите группу',
     'option_default' => 'По умолчанию',
+    'option_all' => 'Все',
     'option_visible' => 'Видимый',
     'option_hidden' => 'Скрытый',
     'option_open' => 'Открыть',

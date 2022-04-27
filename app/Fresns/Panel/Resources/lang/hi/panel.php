@@ -218,6 +218,7 @@ return [
     'select_box_tip_group_category' => 'समूह श्रेणी का चयन करें',
     'select_box_tip_group' => 'एक समूह का चयन करें',
     'option_default' => 'चूक जाना',
+    'option_all' => 'सभी',
     'option_visible' => 'दृश्यमान',
     'option_hidden' => 'छुपे हुए',
     'option_open' => 'खुला हुआ',
