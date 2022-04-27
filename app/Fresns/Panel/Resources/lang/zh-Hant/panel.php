@@ -302,6 +302,8 @@ return [
     'upgrade_fresns_desc' => '您可以升級到',
     'upgrade_fresns_warning' => '升級前請先備份資料庫，避免升級不當導致資料丟失。',
     'upgrade_confirm_desc' => '確定升級嗎？',
+    'upgrade_physical_guide' => '升級指南',
+    'upgrade_physical_confirm_desc' => '請確認已經閱讀了「幫助說明」，並且按指南處理好了新版文件。',
     'upgrade_in_progress' => '正在更新中...',
     'upgrade_step_1' => '初始化驗證',
     'upgrade_step_2' => '下載應用包',

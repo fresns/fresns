@@ -14,6 +14,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    'requestSuccess' => 'Permintaan Sukses',
     'createSuccess' => 'Menciptakan kesuksesan',
     'deleteSuccess' => 'berhasil dihapus',
     'updateSuccess' => 'Berhasil dimodifikasi',
@@ -23,6 +24,7 @@ return [
     'uninstallSuccess' => 'Uninstall Sukses',
     'uninstallFailure' => 'Copot Pemasangan Gagal',
     'copySuccess' => 'Salin kesuksesan',
+    'physical_upgrade_file_error' => 'Ketidakcocokan file peningkatan fisik',
     'account_not_found' => 'Akun tidak ada atau masukkan kesalahan',
     'account_login_limit' => 'Kesalahan telah melampaui batas sistem. Silakan masuk lagi 1 jam kemudian',
     'secure_entry_route_conflicts' => 'Konflik perutean masuk keselamatan',

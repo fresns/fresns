@@ -14,6 +14,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    'requestSuccess' => 'Richiesta di successo',
     'createSuccess' => 'Creare successo',
     'deleteSuccess' => 'cancellato con successo',
     'updateSuccess' => 'Modificato con successo',
@@ -23,6 +24,7 @@ return [
     'uninstallSuccess' => 'Disinstallazione riuscita',
     'uninstallFailure' => 'Disinstallazione fallita',
     'copySuccess' => 'Copia il successo',
+    'physical_upgrade_file_error' => 'Mancata corrispondenza del file di aggiornamento fisico',
     'account_not_found' => 'L\'account non esiste o inserisci errori',
     'account_login_limit' => 'L\'errore ha superato il limite del sistema. Per favore, accedi di nuovo 1 ora dopo',
     'secure_entry_route_conflicts' => 'Conflitto di routing di ingresso di sicurezza',

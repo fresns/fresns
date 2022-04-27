@@ -14,6 +14,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    'requestSuccess' => 'Solicitud de éxito',
     'createSuccess' => 'Crear éxito',
     'deleteSuccess' => 'borrado con éxito',
     'updateSuccess' => 'Modificado con éxito',
@@ -23,6 +24,7 @@ return [
     'uninstallSuccess' => 'Desinstalación exitosa',
     'uninstallFailure' => 'Fallo de desinstalación',
     'copySuccess' => 'Copiar el éxito',
+    'physical_upgrade_file_error' => 'Fichero de actualización física erróneo',
     'account_not_found' => 'La cuenta no existe o ingresa errores',
     'account_login_limit' => 'El error ha superado el límite del sistema. Por favor, vuelva a conectarse 1 hora más tarde',
     'secure_entry_route_conflicts' => 'Conflicto de enrutamiento de entrada de seguridad',

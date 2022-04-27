@@ -301,6 +301,8 @@ return [
     'upgrade_fresns_desc' => 'Puedes actualizar a',
     'upgrade_fresns_warning' => 'Por favor, haga una copia de seguridad de su base de datos antes de actualizar para evitar la pérdida de datos debido a una actualización incorrecta.',
     'upgrade_confirm_desc' => '¿Determinar la actualización?',
+    'upgrade_physical_guide' => 'Guía de actualización',
+    'upgrade_physical_confirm_desc' => 'Asegúrese de haber leído la "Guía de actualización" y de haber procesado la nueva versión del archivo de acuerdo con la guía.',
     'upgrade_in_progress' => 'Actualización en curso...',
     'upgrade_step_1' => 'Verificación de inicialización',
     'upgrade_step_2' => 'Descargar el paquete de la aplicación',

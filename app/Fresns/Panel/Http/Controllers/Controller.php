@@ -55,6 +55,11 @@ class Controller extends BaseController
         }
     }
 
+    public function requestSuccess()
+    {
+        return $this->successResponse('request');
+    }
+
     public function createSuccess()
     {
         return $this->successResponse('create');

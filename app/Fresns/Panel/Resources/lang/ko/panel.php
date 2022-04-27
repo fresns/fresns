@@ -301,6 +301,8 @@ return [
     'upgrade_fresns_desc' => '업그레이드 할 수 있습니다',
     'upgrade_fresns_warning' => '부적절한 업그레이드로 인한 데이터 손실을 방지하려면 업그레이드하기 전에 데이터베이스를 백업하십시오.',
     'upgrade_confirm_desc' => '업그레이드 결정?',
+    'upgrade_physical_guide' => '업그레이드 가이드',
+    'upgrade_physical_confirm_desc' => '"업그레이드 가이드"를 읽고 가이드에 따라 파일의 새 버전을 처리했는지 확인하십시오.',
     'upgrade_in_progress' => '업그레이드 진행 중...',
     'upgrade_step_1' => '초기화 확인',
     'upgrade_step_2' => '응용 프로그램 패키지를 다운로드하십시오',

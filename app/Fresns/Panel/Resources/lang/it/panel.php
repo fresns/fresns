@@ -301,6 +301,8 @@ return [
     'upgrade_fresns_desc' => 'Puoi aggiornare a',
     'upgrade_fresns_warning' => 'Si prega di eseguire il backup del database prima di effettuare l\'aggiornamento per evitare la perdita di dati a causa di un aggiornamento improprio.',
     'upgrade_confirm_desc' => 'Determina l\'aggiornamento?',
+    'upgrade_physical_guide' => 'Guida all\'aggiornamento',
+    'upgrade_physical_confirm_desc' => 'Assicurati di aver letto la "Guida all\'aggiornamento" e di aver elaborato la nuova versione del file secondo la guida.',
     'upgrade_in_progress' => 'Aggiornamento in corso...',
     'upgrade_step_1' => 'Verifica di inizializzazione',
     'upgrade_step_2' => 'Scarica pacchetto di applicazioni',

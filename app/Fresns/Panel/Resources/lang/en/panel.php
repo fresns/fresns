@@ -301,6 +301,8 @@ return [
     'upgrade_fresns_desc' => 'You can upgrade to',
     'upgrade_fresns_warning' => 'Please backup the database before upgrading to avoid data loss due to improper upgrade.',
     'upgrade_confirm_desc' => 'Sure to upgrade?',
+    'upgrade_physical_guide' => 'Upgrade Guide',
+    'upgrade_physical_confirm_desc' => 'Please make sure you have read the "Upgrade Guide" and processed the new version of the file according to the guide.',
     'upgrade_in_progress' => 'Upgrade in progress...',
     'upgrade_step_1' => 'Initialization verification',
     'upgrade_step_2' => 'Download application packages',

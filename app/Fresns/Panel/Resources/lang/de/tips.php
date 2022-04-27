@@ -14,6 +14,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    'requestSuccess' => 'Erfolg anfordern',
     'createSuccess' => 'Erfolg schaffen',
     'deleteSuccess' => 'erfolgreich gelöscht',
     'updateSuccess' => 'Erfolgreich modifiziert',
@@ -23,6 +24,7 @@ return [
     'uninstallSuccess' => 'Erfolgreiche Deinstallation',
     'uninstallFailure' => 'Deinstallation fehlgeschlagen',
     'copySuccess' => 'Erfolg kopieren',
+    'physical_upgrade_file_error' => 'Unstimmigkeit der physischen Upgrade-Datei',
     'account_not_found' => 'Konto ist nicht vorhanden oder geben Fehler ein',
     'account_login_limit' => 'Der Fehler hat das Systemlimit überschritten. Bitte melden Sie sich 1 Stunde später erneut an',
     'secure_entry_route_conflicts' => 'Sicherheitseingang-Routing-Konflikt',

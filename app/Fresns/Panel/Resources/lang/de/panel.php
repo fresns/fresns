@@ -301,6 +301,8 @@ return [
     'upgrade_fresns_desc' => 'Sie können ein Upgrade auf ein Upgrade verwenden',
     'upgrade_fresns_warning' => 'Bitte erstellen Sie vor dem Upgrade eine Sicherungskopie Ihrer Datenbank, um Datenverluste aufgrund eines unsachgemäßen Upgrades zu vermeiden.',
     'upgrade_confirm_desc' => 'Upgrade bestimmen?',
+    'upgrade_physical_guide' => 'Upgrade-Leitfaden',
+    'upgrade_physical_confirm_desc' => 'Bitte vergewissern Sie sich, dass Sie die "Upgrade-Leitfaden" gelesen und die neue Version der Datei entsprechend der Anleitung verarbeitet haben.',
     'upgrade_in_progress' => 'Upgrade im Gange...',
     'upgrade_step_1' => 'Initialisierungsüberprüfung',
     'upgrade_step_2' => 'Anwendungspaket herunterladen',

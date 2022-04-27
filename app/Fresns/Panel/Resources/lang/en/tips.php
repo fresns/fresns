@@ -14,6 +14,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    'requestSuccess' => 'Request Success',
     'createSuccess' => 'Create Success',
     'deleteSuccess' => 'Delete Success',
     'updateSuccess' => 'Update Success',
@@ -23,6 +24,7 @@ return [
     'uninstallSuccess' => 'Uninstall Success',
     'uninstallFailure' => 'Uninstall Failure',
     'copySuccess' => 'Copy Success',
+    'physical_upgrade_file_error' => 'Physical upgrade file mismatch',
     'account_not_found' => 'Account number does not exist or was entered incorrectly',
     'account_login_limit' => 'The error has exceeded the system limit. Please log in again 1 hour later',
     'secure_entry_route_conflicts' => 'Secure entry route conflicts',

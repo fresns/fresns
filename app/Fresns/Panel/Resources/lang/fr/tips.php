@@ -14,6 +14,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    'requestSuccess' => 'Demande de succès',
     'createSuccess' => 'Créer un succès',
     'deleteSuccess' => 'supprimé avec succès',
     'updateSuccess' => 'Modifié avec succès',
@@ -23,6 +24,7 @@ return [
     'uninstallSuccess' => 'Succès de la désinstallation',
     'uninstallFailure' => 'Échec de la désinstallation',
     'copySuccess' => 'Copier le succès',
+    'physical_upgrade_file_error' => 'Mauvaise concordance du fichier de mise à niveau physique',
     'account_not_found' => 'Compte n\'existe pas ou n\'entre pas d\'erreur',
     'account_login_limit' => 'L\'erreur a dépassé la limite du système. Veuillez vous reconnecter 1 heure plus tard',
     'secure_entry_route_conflicts' => 'Conflit de routage d\'entrée de sécurité',

@@ -14,6 +14,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    'requestSuccess' => '请求成功',
     'createSuccess' => '创建成功',
     'deleteSuccess' => '删除成功',
     'updateSuccess' => '修改成功',
@@ -23,6 +24,7 @@ return [
     'uninstallSuccess' => '卸载成功',
     'uninstallFailure' => '卸载失败',
     'copySuccess' => '复制成功',
+    'physical_upgrade_file_error' => '物理升级文件不匹配',
     'account_not_found' => '账号不存在或者输入错误',
     'account_login_limit' => '错误已超系统限制，请 1 小时后再登录',
     'secure_entry_route_conflicts' => '安全入口路由冲突',

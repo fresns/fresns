@@ -301,6 +301,8 @@ return [
     'upgrade_fresns_desc' => 'Anda dapat meningkatkan ke',
     'upgrade_fresns_warning' => 'Harap buat cadangan database sebelum memutakhirkan untuk menghindari kehilangan data yang disebabkan oleh pemutakhiran yang tidak tepat.',
     'upgrade_confirm_desc' => 'Tentukan peningkatan?',
+    'upgrade_physical_guide' => 'Panduan Peningkatan',
+    'upgrade_physical_confirm_desc' => 'Pastikan Anda telah membaca "Panduan Peningkatan" dan memproses file versi baru sesuai dengan panduan.',
     'upgrade_in_progress' => 'Peningkatan sedang berlangsung...',
     'upgrade_step_1' => 'Verifikasi inisialisasi',
     'upgrade_step_2' => 'Unduh Paket Aplikasi',

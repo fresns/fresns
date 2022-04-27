@@ -301,6 +301,8 @@ return [
     'upgrade_fresns_desc' => '您可以升级到',
     'upgrade_fresns_warning' => '升级前请先备份数据库，避免升级不当导致数据丢失。',
     'upgrade_confirm_desc' => '确定升级吗？',
+    'upgrade_physical_guide' => '升级指南',
+    'upgrade_physical_confirm_desc' => '请确认已经阅读了「升級指南」，并且按指南处理好了新版文件。',
     'upgrade_in_progress' => '正在更新中...',
     'upgrade_step_1' => '初始化验证',
     'upgrade_step_2' => '下载应用包',

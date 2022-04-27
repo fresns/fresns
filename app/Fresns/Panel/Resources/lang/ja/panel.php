@@ -301,6 +301,8 @@ return [
     'upgrade_fresns_desc' => 'あなたはアップグレードすることができます',
     'upgrade_fresns_warning' => '不適切なアップグレードによるデータ損失を避けるため、アップグレード前にデータベースをバックアップしてください。',
     'upgrade_confirm_desc' => 'アップグレードを決定しますか？',
+    'upgrade_physical_guide' => 'アップグレードガイド',
+    'upgrade_physical_confirm_desc' => '必ず「アップグレードガイド」をお読みいただき、ガイドに従って新しいバージョンのファイルを処理するようにしてください。',
     'upgrade_in_progress' => 'アップグレード中...',
     'upgrade_step_1' => '初期化検証',
     'upgrade_step_2' => 'アプリケーションパッケージをダウンロードします',
