@@ -212,8 +212,10 @@
                                                     <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
                                                 @endif
                                             </td>
-                                            <td>{{ $lang['langName'] }} @if ($lang['areaCode'])
-                                                    ({{ optional($areaCodes->where('code', $lang['areaCode'])->first())['localName'] }})
+                                            <td>
+                                                {{ $lang['langName'] }}
+                                                @if ($lang['areaName'])
+                                                    {{ '('.$lang['areaName'].')' }}
                                                 @endif
                                             </td>
                                             <td><input type="text" name="names[{{ $lang['langTag'] }}]" class="form-control name-input" value=""></td>
@@ -313,8 +315,10 @@
                                                     <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
                                                 @endif
                                             </td>
-                                            <td>{{ $lang['langName'] }} @if ($lang['areaCode'])
-                                                    ({{ optional($areaCodes->where('code', $lang['areaCode'])->first())['localName'] }})
+                                            <td>
+                                                {{ $lang['langName'] }}
+                                                @if ($lang['areaName'])
+                                                    {{ '('.$lang['areaName'].')' }}
                                                 @endif
                                             </td>
                                             <td><input type="text" name="{{ $lang['langTag'] }}" class="form-control" value=""></td>
@@ -360,8 +364,10 @@
                                                     <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
                                                 @endif
                                             </td>
-                                            <td>{{ $lang['langName'] }} @if ($lang['areaCode'])
-                                                    ({{ optional($areaCodes->where('code', $lang['areaCode'])->first())['localName'] }})
+                                            <td>
+                                                {{ $lang['langName'] }}
+                                                @if ($lang['areaName'])
+                                                    {{ '('.$lang['areaName'].')' }}
                                                 @endif
                                             </td>
                                             <td><input type="text" name="{{ $lang['langTag'] }}" class="form-control" value=""></td>

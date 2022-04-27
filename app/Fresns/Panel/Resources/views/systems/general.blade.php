@@ -259,8 +259,9 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                {{ $lang['langName'] }} @if ($lang['areaCode'])
-                                                ({{ optional($areaCodes->where('code', $lang['areaCode'])->first())['localName'] }})
+                                                {{ $lang['langName'] }}
+                                                @if ($lang['areaName'])
+                                                    {{ '('.$lang['areaName'].')' }}
                                                 @endif
                                             </td>
                                             <td><input type="text" name="languages[{{ $lang['langTag'] }}]" class="form-control" value="{{ $langParams['site_name'][$lang['langTag']] ?? '' }}"></td>
@@ -311,13 +312,12 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                {{ $lang['langName'] }} @if ($lang['areaCode'])
-                                                ({{ optional($areaCodes->where('code', $lang['areaCode'])->first())['localName'] }})
+                                                {{ $lang['langName'] }}
+                                                @if ($lang['areaName'])
+                                                    {{ '('.$lang['areaName'].')' }}
                                                 @endif
                                             </td>
-                                            <td>
-                                                <textarea name="languages[{{ $lang['langTag'] }}]" class="form-control" rows="3">{{ $langParams['site_desc'][$lang['langTag']] ?? '' }}</textarea>
-                                            </td>
+                                            <td><textarea name="languages[{{ $lang['langTag'] }}]" class="form-control" rows="3">{{ $langParams['site_desc'][$lang['langTag']] ?? '' }}</textarea></td>
                                         </tr>
                                     @endforeach
                                 </tbody>

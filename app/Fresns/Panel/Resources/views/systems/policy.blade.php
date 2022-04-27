@@ -138,8 +138,8 @@
                     @foreach ($optionalLanguages as $lang)
                         <?php
                             $langName = $lang['langName'];
-                            if ($lang['areaCode']) {
-                                $langName .= '('.optional($areaCodes->where('code', $lang['areaCode'])->first())['localName'].')';
+                            if ($lang['areaName']) {
+                                $langName .= ' ('.$lang['areaName'].')';
                             }
                         ?>
                         <tr>

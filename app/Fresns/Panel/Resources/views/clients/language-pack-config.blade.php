@@ -13,14 +13,15 @@
                 <li class="breadcrumb-item"><a href="{{ route('panel.language.packs.index') }}">{{ __('FsLang::panel.sidebar_language_packs') }}</a></li>
                 <li class="breadcrumb-item active" aria-current="page">
                     <?php
-                    $lang = $optionalLanguages->where('langTag', $langTag)->first() ?: [];
-                    $langName = $lang['langName'] ?? '';
-                    if ($lang['areaCode']) {
-                        $langName .= '(' . optional($areaCodes->where('code', $lang['areaCode'])->first())['localName'] . ')';
-                    }
+                        $lang = $optionalLanguages->where('langTag', $langTag)->first() ?: [];
                     ?>
-                    {{ $langTag }}
-                    <span class="badge bg-secondary ms-2">{{ $langName }}</span>
+                    {{ $lang['langTag'] }}
+                    <span class="badge bg-secondary ms-2">
+                        {{ $lang['langName'] }}
+                        @if ($lang['areaName'])
+                            {{ '('.$lang['areaName'].')' }}
+                        @endif
+                    </span>
                 </li>
             </ol>
         </nav>

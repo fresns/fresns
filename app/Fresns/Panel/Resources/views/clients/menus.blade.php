@@ -171,8 +171,10 @@
                                                     <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}"></i>
                                                 @endif
                                             </td>
-                                            <td>{{ $lang['langName'] }} @if ($lang['areaCode'])
-                                                    ({{ optional($areaCodes->where('code', $lang['areaCode'])->first())['localName'] }})
+                                            <td>
+                                                {{ $lang['langName'] }}
+                                                @if ($lang['areaName'])
+                                                    {{ '('.$lang['areaName'].')' }}
                                                 @endif
                                             </td>
                                             <td><input class="form-control" name="languages[{{ $lang['langTag'] }}]"></td>
@@ -221,8 +223,10 @@
                                                     <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}"></i>
                                                 @endif
                                             </td>
-                                            <td>{{ $lang['langName'] }} @if ($lang['areaCode'])
-                                                    ({{ optional($areaCodes->where('code', $lang['areaCode'])->first())['localName'] }})
+                                            <td>
+                                                {{ $lang['langName'] }}
+                                                @if ($lang['areaName'])
+                                                    {{ '('.$lang['areaName'].')' }}
                                                 @endif
                                             </td>
                                             <td><textarea class="form-control" name="languages[{{ $lang['langTag'] }}]" rows="3"></textarea></td>

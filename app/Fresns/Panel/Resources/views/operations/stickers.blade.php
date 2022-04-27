@@ -167,12 +167,6 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($optionalLanguages as $lang)
-                                        <?php
-                                        $langName = $lang['langName'];
-                                        if ($lang['areaCode']) {
-                                            $langName .= '('.optional($areaCodes->where('code', $lang['areaCode'])->first())['localName'].')';
-                                        }
-                                        ?>
                                         <tr>
                                             <td>
                                                 {{ $lang['langTag'] }}
@@ -180,7 +174,12 @@
                                                     <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
                                                 @endif
                                             </td>
-                                            <td>{{ $langName }}</td>
+                                            <td>
+                                                {{ $lang['langName'] }}
+                                                @if ($lang['areaName'])
+                                                    {{ '('.$lang['areaName'].')' }}
+                                                @endif
+                                            </td>
                                             <td><input type="text" class="form-control name-input" name="names[{{ $lang['langTag'] }}]" value=""></td>
                                         </tr>
                                     @endforeach

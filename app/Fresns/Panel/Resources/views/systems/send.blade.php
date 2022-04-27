@@ -227,7 +227,12 @@
                                                     <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
                                                 @endif
                                             </td>
-                                            <td>{{$lang['langName']}} @if($lang['areaCode'])({{ optional($areaCodes->where('code', $lang['areaCode'])->first())['localName']}}) @endif</td>
+                                            <td>
+                                                {{$lang['langName']}}
+                                                @if ($lang['areaName'])
+                                                    {{ '('.$lang['areaName'].')' }}
+                                                @endif
+                                            </td>
                                             <td><input type="text" name="titles[{{ $lang['langTag'] }}]" class="form-control title" value="{{ $langParams['name'][$lang['langTag']] ?? '' }}"></td>
                                             <td><textarea class="form-control content" name="contents[{{ $lang['langTag']}}]" rows="3"></textarea></td>
                                         </tr>
@@ -291,7 +296,12 @@
                                                     <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
                                                 @endif
                                             </td>
-                                            <td>{{$lang['langName']}} @if($lang['areaCode'])({{ optional($areaCodes->where('code', $lang['areaCode'])->first())['localName']}}) @endif</td>
+                                            <td>
+                                                {{$lang['langName']}}
+                                                @if ($lang['areaName'])
+                                                    {{ '('.$lang['areaName'].')' }}
+                                                @endif
+                                            </td>
                                             <td><input class="form-control" type="text" name="sign_names[{{ $lang['langTag']}}]"></td>
                                             <td><input class="form-control" type="text" name="template_codes[{{ $lang['langTag']}}]"></td>
                                             <td><input class="form-control" type="text" name="code_params[{{ $lang['langTag']}}]"></td>
