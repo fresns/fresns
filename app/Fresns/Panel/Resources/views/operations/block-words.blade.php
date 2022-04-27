@@ -35,11 +35,11 @@
                 <form method="post" action="{{ route('panel.block-words.import') }}" enctype="multipart/form-data">
                     @csrf
                     <input type="file" name="file" id="importBlockInput" style="display:none">
-                    <button class="btn btn-outline-info" id="importBlockWords" type="button">{{ __('FsLang::panel.button_batch_import') }}</button>
+                    <button class="btn btn-outline-info rounded-0 rounded-start" id="importBlockWords" type="button">{{ __('FsLang::panel.button_batch_import') }}</button>
                 </form>
                 <form method="post" action="{{ route('panel.block-words.export') }}">
                     @csrf
-                    <button class="btn btn-outline-info" type="submit">{{ __('FsLang::panel.button_batch_export') }}</button>
+                    <button class="btn btn-outline-info rounded-0 rounded-end" type="submit">{{ __('FsLang::panel.button_batch_export') }}</button>
                 </form>
             </div>
         </div>
