@@ -88,14 +88,18 @@ Route::middleware(['panelAuth'])->group(function () {
     // users search
     Route::get('users/search', [UserSearchController::class, 'search'])->name('users.search');
 
+    // The following pages function
+
     // dashboard-home
     Route::get('dashboard', [DashboardController::class, 'show'])->name('dashboard');
     Route::any('cache/clear', [DashboardController::class, 'cacheClear'])->name('cache.clear');
     // dashboard-upgrades
     Route::get('upgrades', [UpgradeController::class, 'show'])->name('upgrades');
+    Route::patch('upgrade/check', [UpgradeController::class, 'checkFresnsVersion'])->name('upgrade.check');
+    // automatic upgrade
     Route::post('upgrade', [UpgradeController::class, 'upgrade'])->name('upgrade');
     Route::get('upgrade/info', [UpgradeController::class, 'upgradeInfo'])->name('upgrade.info');
-
+    // physical upgrade
     Route::post('physical-upgrade', [UpgradeController::class, 'physicalUpgrade'])->name('physical.upgrade');
     Route::get('physical-upgrade/info', [UpgradeController::class, 'physicalUpgradeInfo'])->name('physical.upgrade.info');
 
@@ -287,11 +291,16 @@ Route::middleware(['panelAuth'])->group(function () {
 
     // plugin manage
     Route::prefix('plugin')->group(function () {
-        Route::put('install', [PluginController::class, 'install'])->name('plugin.install');
-        Route::patch('update', [PluginController::class, 'update'])->name('plugin.update');
+        // dashboard upgrade page
         Route::patch('update-code', [PluginController::class, 'updateCode'])->name('plugin.update.code');
-        Route::delete('uninstall', [PluginController::class, 'uninstall'])->name('plugin.uninstall');
+        // plugin install and upgrade
+        Route::put('install', [PluginController::class, 'install'])->name('plugin.install');
+        Route::put('upgrade', [PluginController::class, 'upgrade'])->name('plugin.upgrade');
+        // activate or deactivate
+        Route::patch('update', [PluginController::class, 'update'])->name('plugin.update');
         Route::patch('updateTheme', [PluginController::class, 'updateTheme'])->name('plugin.updateTheme');
+        // uninstall
+        Route::delete('uninstall', [PluginController::class, 'uninstall'])->name('plugin.uninstall');
         Route::delete('uninstallTheme', [PluginController::class, 'uninstallTheme'])->name('plugin.uninstallTheme');
     });
 

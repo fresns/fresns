@@ -145,7 +145,7 @@ class PluginController extends Controller
             ]);
 
             return \response()->json([
-                'message' => __('FsLang::tips.install.Success'),
+                'message' => __('FsLang::tips.installSuccess'),
                 'data' => [
                     'output' => \Artisan::output(),
                 ],
@@ -157,12 +157,30 @@ class PluginController extends Controller
             ]);
 
             return \response()->json([
-                'message' => __('FsLang::tips.install.Success'),
+                'message' => __('FsLang::tips.installSuccess'),
                 'data' => [
                     'output' => \Artisan::output(),
                 ],
             ], 200);
         }
+
+        return back()->with('failure', __('FsLang::tips.installFailure'));
+    }
+
+    public function upgrade(Request $request)
+    {
+        $unikey = $request->get('unikey');
+
+        \Artisan::call('fresns:update', [
+            'unikey' => $unikey,
+        ]);
+
+        return \response()->json([
+            'message' => __('FsLang::tips.upgradeSuccess'),
+            'data' => [
+                'output' => \Artisan::output(),
+            ],
+        ], 200);
 
         return back()->with('failure', __('FsLang::tips.installFailure'));
     }

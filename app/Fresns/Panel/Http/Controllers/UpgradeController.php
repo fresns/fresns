@@ -8,7 +8,10 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Helpers\AppHelper;
+use App\Models\Plugin;
 use App\Utilities\AppUtility;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\Process\PhpExecutableFinder;
 
 class UpgradeController extends Controller
@@ -18,6 +21,8 @@ class UpgradeController extends Controller
         $currentVersion = AppUtility::currentVersion();
         $newVersion = AppUtility::newVersion();
         $checkVersion = AppUtility::checkVersion();
+        $appVersion = AppHelper::VERSION;
+        $versionCheckTime = cache('checkExtensionsVersion-time');
 
         $upgradeStep = cache('upgradeStep');
         $physicalUpgrading = cache('physicalUpgrading');
@@ -35,7 +40,25 @@ class UpgradeController extends Controller
             $currentVersion = cache('currentVersion');
         }
 
-        return view('FsView::dashboard.upgrade', compact('currentVersion', 'newVersion', 'checkVersion', 'upgradeStep', 'steps', 'physicalUpgrading'));
+        $pluginsData = Plugin::type(1)->where('is_upgrade', 1)->get();
+        $appsData = Plugin::type(2)->where('is_upgrade', 1)->get();
+        $enginesData = Plugin::type(3)->where('is_upgrade', 1)->get();
+        $themesData = Plugin::type(4)->where('is_upgrade', 1)->get();
+
+        return view('FsView::dashboard.upgrade', compact('currentVersion', 'newVersion', 'checkVersion', 'appVersion', 'versionCheckTime', 'upgradeStep', 'steps', 'physicalUpgrading', 'pluginsData', 'appsData', 'enginesData', 'themesData'));
+    }
+
+    public function checkFresnsVersion()
+    {
+        Cache::forget('newVersion');
+
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkExtensionsVersion();
+
+        if ($fresnsResp->isSuccessResponse()) {
+            return $this->requestSuccess();
+        }
+
+        return back()->with('failure', $fresnsResp->getMessage());
     }
 
     public function upgradeInfo()

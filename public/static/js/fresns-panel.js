@@ -84,11 +84,11 @@ $(document).ready(function () {
             method: 'get',
             url: action,
             success: function (response) {
-              if ( !response.physicalUpgrading) {
-                location.reload();
-                return;
-              }
-              $('#physicalUpgradeOutput').val(response.upgradeContent)
+                if ( !response.physicalUpgrading) {
+                    location.reload();
+                    return;
+                }
+                $('#physicalUpgradeOutput').val(response.upgradeContent)
             },
         });
     }
@@ -96,9 +96,9 @@ $(document).ready(function () {
 
     $('#physicalUpgradeButton').click(function () {
         if ($(this).data('upgrading')) {
-          $('#physicalUpgradeOutputModal').modal('show');
+            $('#physicalUpgradeOutputModal').modal('show');
         } else {
-          $('#physicalUpgradeModal').modal('show');
+            $('#physicalUpgradeModal').modal('show');
         }
     });
 
@@ -112,20 +112,20 @@ $(document).ready(function () {
     });
 
     $('#physicalUpgradeForm').submit(function() {
-      $('#physicalUpgradeModal').modal('hide');
-      $.ajax({
-          method: 'POST',
-          dataType: 'json',
-          url: $(this).attr('action'),
-          success: function (response) {
-            $('#physicalUpgradeButton').data('upgrading', true);
-            $('#physicalUpgradeOutputModal').modal('show');
-          },
-          error: function (response) {
-              window.tips(response.responseJSON.message);
-          },
-      });
-      return false;
+        $('#physicalUpgradeModal').modal('hide');
+        $.ajax({
+            method: 'POST',
+            dataType: 'json',
+            url: $(this).attr('action'),
+            success: function (response) {
+                $('#physicalUpgradeButton').data('upgrading', true);
+                $('#physicalUpgradeOutputModal').modal('show');
+            },
+            error: function (response) {
+                window.tips(response.responseJSON.message);
+            },
+        });
+        return false;
     });
 
     $('#upgradeForm').submit(function () {
@@ -1911,15 +1911,45 @@ $(document).ready(function () {
             processData: false,
             success: function (response) {
                 console.log('install response', response)
-
-                $('#physicalUpgradeButton').data('upgrading', true);
-                $('#physicalUpgradeOutputModal').modal('show');
-
                 $('#install_artisan_output').val(response.data.output || trans('tips.installSuccess')) //FsLang
             },
             error: function (response) {
                 window.tips(response.responseJSON.message);
             },
         });
-    })
+    });
+
+    // extensions upgrade
+    $('.upgrade-extensions').on('click', function () {
+        let unikey = $(this).data('unikey');
+        let name = $(this).data('name');
+        let version = $(this).data('version');
+        let upgradeVersion = $(this).data('new-version');
+
+        $('.extension-name').text(name)
+        $('.extension-version').text(version)
+        $('.extension-new-version').text(upgradeVersion)
+        $('input[name=unikey]').val(unikey)
+    });
+
+    // extensions upgrade form
+    $('#upgradeExtensions form').submit(function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            method: $(this).attr('method'),
+            url: $(this).attr('action'),
+            dataType: 'json',
+            data: new FormData(document.querySelector('#upgradeExtensions form')),
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                console.log('upgrade response', response)
+                $('#upgrade_artisan_output').val(response.data.output || trans('tips.upgradeSuccess')) //FsLang
+            },
+            error: function (response) {
+                window.tips(response.responseJSON.message);
+            },
+        });
+    });
 });
