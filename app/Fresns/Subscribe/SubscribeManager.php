@@ -12,7 +12,7 @@ class SubscribeManager
 {
     public function notifyDataChange(object $event)
     {
-        \FresnsCmdWord::plugin()->fireSubscribe($event);
+        \FresnsCmdWord::plugin()->notifyDataChange($event);
     }
 
     public function handleUserActivateNotify(object $event)

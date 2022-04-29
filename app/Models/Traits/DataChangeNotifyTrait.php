@@ -13,19 +13,19 @@ trait DataChangeNotifyTrait
     public static function bootDataChangeNotifyTrait()
     {
         static::created(function ($model) {
-            \FresnsCmdWord::plugin('Fresns')->notifyDataChange(notifyDataChange([
+            notifyDataChange([
                 'tableName' => static::class,
                 'primaryId' => $model->id,
                 'changeType' => 'created',
-            ]));
+            ]);
         });
 
         static::deleted(function ($model) {
-            \FresnsCmdWord::plugin('Fresns')->notifyDataChange(notifyDataChange([
+            notifyDataChange([
                 'tableName' => static::class,
                 'primaryId' => $model->id,
                 'changeType' => 'deleted',
-            ]));
+            ]);
         });
     }
 }
