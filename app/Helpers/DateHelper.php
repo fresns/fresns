@@ -26,7 +26,7 @@ class DateHelper
     ];
 
     /**
-     * Get database time zone.
+     * Get database utc time zone.
      *
      * @return string
      */
@@ -40,6 +40,33 @@ class DateHelper
         }
 
         return $hour;
+    }
+
+    /**
+     * Get database time zone names.
+     *
+     * @return array
+     */
+    public static function fresnsSqlTimezoneNames()
+    {
+        $sqlUtc = self::fresnsSqlTimezone();
+        $timezones = ConfigHelper::fresnsConfigByItemKey('timezones');
+
+        $timezoneNames = array_keys($timezones, $sqlUtc);
+
+        return $timezoneNames;
+    }
+
+    /**
+     * Get database env config utc time zone.
+     *
+     * @return string
+     */
+    public static function fresnsSqlTimezoneByName(string $TimezoneName)
+    {
+        $timezones = ConfigHelper::fresnsConfigByItemKey('timezones');
+
+        return $timezones[$TimezoneName];
     }
 
     /**

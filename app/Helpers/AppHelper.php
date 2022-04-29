@@ -19,7 +19,19 @@ class AppHelper
     // fresns test helper
     public static function fresnsTestHelper()
     {
-        //
+        $fresnsTest = time();
+
+        return $fresnsTest;
+    }
+
+    // app version
+    public static function getAppVersion()
+    {
+        $item['version'] = self::VERSION;
+        $item['versionInt'] = self::VERSION_INT;
+        $appVersion = $item;
+
+        return $appVersion;
     }
 
     // get system info
@@ -43,6 +55,7 @@ class AppHelper
 
         $dbInfo['timezone'] = 'UTC'.DateHelper::fresnsSqlTimezone();
         $dbInfo['envTimezone'] = config('app.timezone');
+        $dbInfo['envTimezoneToUtc'] = 'UTC'.DateHelper::fresnsSqlTimezoneByName(config('app.timezone'));
 
         $mySqlCollation = 'Value';
         $dbInfo['collation'] = DB::select('show variables like "collation%"')[1]->$mySqlCollation;

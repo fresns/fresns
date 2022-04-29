@@ -8,8 +8,34 @@
 
 namespace App\Helpers;
 
+use App\Models\Account;
+use App\Models\Comment;
+use App\Models\Group;
+use App\Models\Hashtag;
+use App\Models\Post;
+use App\Models\User;
+
 class InteractiveHelper
 {
+    /**
+     * @return array
+     */
+    public static function fresnsOverview()
+    {
+        $overview['accountCount'] = Account::count();
+        $overview['userCount'] = User::count();
+        $overview['groupCount'] = Group::count();
+        $overview['hashtagCount'] = Hashtag::count();
+        $overview['postCount'] = Post::count();
+        $overview['commentCount'] = Comment::count();
+        $overview['postDigest1Count'] = Post::where('digest_state', 2)->count();
+        $overview['postDigest2Count'] = Post::where('digest_state', 3)->count();
+        $overview['commentDigest1Count'] = Comment::where('digest_state', 2)->count();
+        $overview['commentDigest2Count'] = Comment::where('digest_state', 3)->count();
+
+        return $overview;
+    }
+
     /**
      * @param  string  $langTag
      * @return array
