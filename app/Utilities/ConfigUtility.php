@@ -69,6 +69,14 @@ class ConfigUtility
      */
     public static function getDomainByHost(string $host)
     {
+        if ($host = 'localhost'){
+            // localhost
+            return 'localhost';
+        } elseif (filter_var($host, FILTER_VALIDATE_IP)) {
+            // IPv4 and IPv6
+            return $host;
+        }
+
         $ianaRoot = [
             // gTLDs
             'com', 'net', 'org', 'edu', 'gov', 'int', 'mil', 'arpa', 'biz', 'info', 'pro', 'name', 'coop', 'travel', 'xxx', 'idv', 'aero', 'museum', 'mobi', 'asia', 'tel', 'post', 'jobs', 'cat',

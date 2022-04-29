@@ -8,6 +8,7 @@
 
 namespace App\Utilities;
 
+use App\Helpers\AppHelper;
 use App\Helpers\ConfigHelper;
 use Browser;
 use Illuminate\Support\Facades\Http;
@@ -43,15 +44,15 @@ class AppUtility
 
                 return $versionInfo['betaBuild'];
             } catch (\Exception $e) {
-                return [];
+                return AppHelper::getAppVersion();
             }
         });
     }
 
     public static function checkVersion(): bool
     {
-        $currentVersionInt = AppUtility::currentVersion()['versionInt'] ?? 0;
-        $newVersionInt = AppUtility::newVersion()['versionInt'] ?? 0;
+        $currentVersionInt = AppUtility::currentVersion()['versionInt'];
+        $newVersionInt = AppUtility::newVersion()['versionInt'];
 
         if ($currentVersionInt != $newVersionInt) {
             return true; // There is a new version
