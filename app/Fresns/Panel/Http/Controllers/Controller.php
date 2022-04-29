@@ -31,7 +31,7 @@ class Controller extends BaseController
             // default language
             $defaultLanguageConfig = Config::where('item_key', 'default_language')->first();
 
-            $defaultLanguage = $defaultLanguageConfig ? $defaultLanguageConfig->item_value : config('FsConfig.defaultLangTag');
+            $defaultLanguage = $defaultLanguageConfig ? $defaultLanguageConfig->item_value : config('app.locale');
             $this->defaultLanguage = $defaultLanguage;
             View::share('defaultLanguage', $defaultLanguage);
 

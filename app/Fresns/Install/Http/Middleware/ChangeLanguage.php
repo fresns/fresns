@@ -25,7 +25,7 @@ class ChangeLanguage
             Cookie::queue('lang', $currentLang);
         }
 
-        \App::setLocale(Cookie::get('lang', config('FsConfig.defaultLangTag')));
+        \App::setLocale(Cookie::get('lang', config('app.locale')));
 
         return $next($request);
     }

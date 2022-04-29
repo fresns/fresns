@@ -315,7 +315,7 @@ Route::get('js/{locale?}/translations', function ($locale) {
     $langPath = app_path('Fresns/Panel/Resources/lang/'.$locale);
 
     if (! is_dir($langPath)) {
-        $langPath = app_path('Fresns/Panel/Resources/lang/'.config('FsConfig.defaultLangTag'));
+        $langPath = app_path('Fresns/Panel/Resources/lang/'.config('app.locale'));
     }
 
     $strings = Cache::rememberForever('translations.'.$locale, function () use ($langPath) {
