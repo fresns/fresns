@@ -415,16 +415,16 @@ class ContentLogsService
 
         if ($file) {
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile([
-                "platform" => $request->header('platform'),
-                "type" => 1,
-                "tableType" => 8,
-                "tableName" => "post_logs",
-                "tableColumn" => "files_json",
-                "tableId" => 0,
-                "tableKey" => null,
-                "aid" => $request->header('aid'),
-                "uid" => $request->header('uid'),
-                "file" => $request->file('file'),
+                'platform' => $request->header('platform'),
+                'type' => 1,
+                'tableType' => 8,
+                'tableName' => 'post_logs',
+                'tableColumn' => 'files_json',
+                'tableId' => 0,
+                'tableKey' => null,
+                'aid' => $request->header('aid'),
+                'uid' => $request->header('uid'),
+                'file' => $request->file('file'),
             ]);
             if ($fresnsResp->isErrorResponse()) {
                 return $fresnsResp->errorResponse();
@@ -435,16 +435,16 @@ class ContentLogsService
         }
         if ($fileInfo) {
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFileInfo([
-                "platform" => $request->header('platform'),
-                "type" => 1,
-                "tableType" => 8,
-                "tableName" => "post_logs",
-                "tableColumn" => "files_json",
-                "tableId" => 0,
-                "tableKey" => null,
-                "aid" => $request->header('aid'),
-                "uid" => $request->header('uid'),
-                "fileInfo" => $fileInfo,
+                'platform' => $request->header('platform'),
+                'type' => 1,
+                'tableType' => 8,
+                'tableName' => 'post_logs',
+                'tableColumn' => 'files_json',
+                'tableId' => 0,
+                'tableKey' => null,
+                'aid' => $request->header('aid'),
+                'uid' => $request->header('uid'),
+                'fileInfo' => $fileInfo,
             ]);
             if ($fresnsResp->isErrorResponse()) {
                 return $fresnsResp->errorResponse();
@@ -527,16 +527,16 @@ class ContentLogsService
         $fileArr = [];
         if ($file) {
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile([
-                "platform" => $request->header('platform'),
-                "type" => 1,
-                "tableType" => 9,
-                "tableName" => "comment_logs",
-                "tableColumn" => "files_json",
-                "tableId" => 0,
-                "tableKey" => null,
-                "aid" => $request->header('aid'),
-                "uid" => $request->header('uid'),
-                "file" => $request->file('file'),
+                'platform' => $request->header('platform'),
+                'type' => 1,
+                'tableType' => 9,
+                'tableName' => 'comment_logs',
+                'tableColumn' => 'files_json',
+                'tableId' => 0,
+                'tableKey' => null,
+                'aid' => $request->header('aid'),
+                'uid' => $request->header('uid'),
+                'file' => $request->file('file'),
             ]);
             if ($fresnsResp->isErrorResponse()) {
                 return $fresnsResp->errorResponse();
@@ -546,16 +546,16 @@ class ContentLogsService
         }
         if ($fileInfo) {
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFileInfo([
-                "platform" => $request->header('platform'),
-                "type" => 1,
-                "tableType" => 9,
-                "tableName" => "comment_logs",
-                "tableColumn" => "files_json",
-                "tableId" => 0,
-                "tableKey" => null,
-                "aid" => $request->header('aid'),
-                "uid" => $request->header('uid'),
-                "fileInfo" => $request->input('fileInfo'),
+                'platform' => $request->header('platform'),
+                'type' => 1,
+                'tableType' => 9,
+                'tableName' => 'comment_logs',
+                'tableColumn' => 'files_json',
+                'tableId' => 0,
+                'tableKey' => null,
+                'aid' => $request->header('aid'),
+                'uid' => $request->header('uid'),
+                'fileInfo' => $request->input('fileInfo'),
             ]);
             if ($fresnsResp->isErrorResponse()) {
                 return $fresnsResp->errorResponse();

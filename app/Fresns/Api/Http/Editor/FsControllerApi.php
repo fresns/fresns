@@ -656,16 +656,16 @@ class FsControllerApi extends FsApiController
         $mode = $request->input('mode');
         if ($mode == 1) {
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile([
-                "platform" => $request->header('platform'),
-                "type" => $request->input('type'),
-                "tableType" => $request->input('tableType'),
-                "tableName" => $request->input('tableName'),
-                "tableColumn" => $request->input('tableColumn'),
-                "tableId" => $request->input('tableId'),
-                "tableKey" => $request->input('tableKey'),
-                "aid" => $request->header('aid'),
-                "uid" => $request->header('uid'),
-                "file" => $request->file('file'),
+                'platform' => $request->header('platform'),
+                'type' => $request->input('type'),
+                'tableType' => $request->input('tableType'),
+                'tableName' => $request->input('tableName'),
+                'tableColumn' => $request->input('tableColumn'),
+                'tableId' => $request->input('tableId'),
+                'tableKey' => $request->input('tableKey'),
+                'aid' => $request->header('aid'),
+                'uid' => $request->header('uid'),
+                'file' => $request->file('file'),
             ]);
             if ($fresnsResp->isErrorResponse()) {
                 return $fresnsResp->errorResponse();
@@ -673,16 +673,16 @@ class FsControllerApi extends FsApiController
             $data = $fresnsResp->getData();
         } else {
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFileInfo([
-                "platform" => $request->header('platform'),
-                "type" => $request->input('type'),
-                "tableType" => $request->input('tableType'),
-                "tableName" => $request->input('tableName'),
-                "tableColumn" => $request->input('tableColumn'),
-                "tableId" => $request->input('tableId'),
-                "tableKey" => $request->input('tableKey'),
-                "aid" => $request->header('aid'),
-                "uid" => $request->header('uid'),
-                "fileInfo" => $request->input('fileInfo'),
+                'platform' => $request->header('platform'),
+                'type' => $request->input('type'),
+                'tableType' => $request->input('tableType'),
+                'tableName' => $request->input('tableName'),
+                'tableColumn' => $request->input('tableColumn'),
+                'tableId' => $request->input('tableId'),
+                'tableKey' => $request->input('tableKey'),
+                'aid' => $request->header('aid'),
+                'uid' => $request->header('uid'),
+                'fileInfo' => $request->input('fileInfo'),
             ]);
             if ($fresnsResp->isErrorResponse()) {
                 return $fresnsResp->errorResponse();
