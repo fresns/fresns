@@ -56,11 +56,11 @@
                         <span class="input-group-text">{{ __('FsLang::panel.wallet_withdraw_status') }}</span>
                         <div class="form-control bg-white">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="wallet_withdraw_close" id="withdraw_false" value="false" data-bs-toggle="collapse" data-bs-target="#withdraw_setting.show" aria-expanded="false" aria-controls="withdraw_setting" {{ !$params['wallet_withdraw_close'] ? 'checked' : '' }}>
+                                <input class="form-check-input" type="radio" name="wallet_withdraw_status" id="withdraw_false" value="false" data-bs-toggle="collapse" data-bs-target="#withdraw_setting.show" aria-expanded="false" aria-controls="withdraw_setting" {{ !$params['wallet_withdraw_status'] ? 'checked' : '' }}>
                                 <label class="form-check-label" for="withdraw_false">{{ __('FsLang::panel.option_close') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="wallet_withdraw_close" id="withdraw_true" value="true" data-bs-toggle="collapse" data-bs-target="#withdraw_setting:not(.show)" aria-expanded="false" aria-controls="withdraw_setting" {{ $params['wallet_withdraw_close'] ? 'checked' : '' }}>
+                                <input class="form-check-input" type="radio" name="wallet_withdraw_status" id="withdraw_true" value="true" data-bs-toggle="collapse" data-bs-target="#withdraw_setting:not(.show)" aria-expanded="false" aria-controls="withdraw_setting" {{ $params['wallet_withdraw_status'] ? 'checked' : '' }}>
                                 <label class="form-check-label" for="withdraw_true">{{ __('FsLang::panel.option_open') }}</label>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.wallet_functions_desc') }}</div>
         </div>
         <!--wallet_functions-->
-        <div class="collapse {{ $params['wallet_withdraw_close'] == 'true' ? 'show' : '' }}" id="withdraw_setting">
+        <div class="collapse {{ $params['wallet_withdraw_status'] == 'true' ? 'show' : '' }}" id="withdraw_setting">
             <div class="row mb-4">
                 <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.wallet_withdraw_config') }}:</label>
                 <div class="col-lg-6">

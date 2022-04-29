@@ -92,7 +92,7 @@ class FsControllerApi extends FsApiController
             $this->error(ErrorCodeService::PRIVATE_MODE_ERROR);
         }
 
-        $sitePublicClose = ApiConfigHelper::getConfigByItemKey('site_public_close');
+        $sitePublicClose = ApiConfigHelper::getConfigByItemKey('site_public_status');
         if ($sitePublicClose === false) {
             $this->error(ErrorCodeService::REGISTER_ERROR);
         }

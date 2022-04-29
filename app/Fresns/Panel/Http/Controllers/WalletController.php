@@ -22,7 +22,7 @@ class WalletController extends Controller
         $configKeys = [
             'wallet_status',
             'wallet_currency_code',
-            'wallet_withdraw_close',
+            'wallet_withdraw_status',
             'wallet_withdraw_review',
             'wallet_withdraw_verify',
             'wallet_withdraw_interval_time',
@@ -47,7 +47,7 @@ class WalletController extends Controller
         $configKeys = [
             'wallet_status',
             'wallet_currency_code',
-            'wallet_withdraw_close',
+            'wallet_withdraw_status',
             'wallet_withdraw_review',
             'wallet_withdraw_verify',
             'wallet_withdraw_interval_time',

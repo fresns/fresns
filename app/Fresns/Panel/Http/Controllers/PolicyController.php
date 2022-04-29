@@ -18,10 +18,10 @@ class PolicyController extends Controller
     {
         // config keys
         $configKeys = [
-            'account_terms_close',
-            'account_privacy_close',
-            'account_cookie_close',
-            'account_delete_close',
+            'account_terms_status',
+            'account_privacy_status',
+            'account_cookie_status',
+            'account_delete_status',
             'delete_account',
             'delete_account_todo',
         ];
@@ -52,10 +52,10 @@ class PolicyController extends Controller
     public function update(UpdatePolicyRequest $request)
     {
         $configKeys = [
-            'account_terms_close',
-            'account_privacy_close',
-            'account_cookie_close',
-            'account_delete_close',
+            'account_terms_status',
+            'account_privacy_status',
+            'account_cookie_status',
+            'account_delete_status',
             'delete_account',
             'delete_account_todo',
         ];

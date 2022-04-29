@@ -142,10 +142,10 @@
                         <div class="card-body">
                             <!--public config-->
                             <div class="input-group mb-3">
-                                <label class="input-group-text" for="register_close">{{ __('FsLang::panel.site_mode_public_register_status') }}</label>
-                                <select class="form-select" id="register_close" name="site_public_close">
-                                    <option value="false" {{ $params['site_public_close'] == 'false' ? 'selected' : '' }}>{{ __('FsLang::panel.option_close') }}</option>
-                                    <option value="true" {{ $params['site_public_close'] == 'true' ? 'selected' : '' }}>{{ __('FsLang::panel.option_open') }}</option>
+                                <label class="input-group-text" for="register_status">{{ __('FsLang::panel.site_mode_public_register_status') }}</label>
+                                <select class="form-select" id="register_status" name="site_public_status">
+                                    <option value="false" {{ $params['site_public_status'] == 'false' ? 'selected' : '' }}>{{ __('FsLang::panel.option_close') }}</option>
+                                    <option value="true" {{ $params['site_public_status'] == 'true' ? 'selected' : '' }}>{{ __('FsLang::panel.option_open') }}</option>
                                 </select>
                             </div>
                             <div class="input-group mb-3">
@@ -182,9 +182,9 @@
                             <!--private config-->
                             <div class="input-group mb-3">
                                 <label class="input-group-text" for="site_private_type">{{ __('FsLang::panel.site_mode_private_join_status') }}</label>
-                                <select class="form-select" id="site_private_type" name="site_private_close">
-                                    <option value="false" {{ $params['site_private_close'] == 'false' ? 'selected' : '' }}>{{ __('FsLang::panel.option_close') }}</option>
-                                    <option value="true" {{ $params['site_private_close'] == 'true' ? 'selected' : '' }}>{{ __('FsLang::panel.option_open') }}</option>
+                                <select class="form-select" id="site_private_type" name="site_private_status">
+                                    <option value="false" {{ $params['site_private_status'] == 'false' ? 'selected' : '' }}>{{ __('FsLang::panel.option_close') }}</option>
+                                    <option value="true" {{ $params['site_private_status'] == 'true' ? 'selected' : '' }}>{{ __('FsLang::panel.option_open') }}</option>
                                 </select>
                             </div>
                             <div class="input-group mb-3">
