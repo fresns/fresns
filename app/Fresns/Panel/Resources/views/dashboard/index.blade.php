@@ -29,27 +29,27 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <i class="bi bi-person-fill"></i> {{ __('FsLang::panel.overview_accounts') }}
-                    <span class="badge bg-success">{{ $params['accounts_count'] }}</span>
+                    <span class="badge bg-success">{{ $overview['accountCount'] }}</span>
                 </li>
                 <li class="list-group-item">
                     <i class="bi bi-people"></i> {{ __('FsLang::panel.overview_users') }}
-                    <span class="badge bg-success">{{ $params['users_count'] }}</span>
+                    <span class="badge bg-success">{{ $overview['userCount'] }}</span>
                 </li>
                 <li class="list-group-item">
                     <i class="bi bi-collection"></i> {{ __('FsLang::panel.overview_groups') }}
-                    <span class="badge bg-success">{{ $params['groups_count'] }}</span>
+                    <span class="badge bg-success">{{ $overview['groupCount'] }}</span>
                 </li>
                 <li class="list-group-item">
                     <i class="bi bi-hash"></i> {{ __('FsLang::panel.overview_hashtags') }}
-                    <span class="badge bg-success">{{ $params['hashtags_count'] }}</span>
+                    <span class="badge bg-success">{{ $overview['hashtagCount'] }}</span>
                 </li>
                 <li class="list-group-item">
                     <i class="bi bi-postcard"></i> {{ __('FsLang::panel.overview_posts') }}
-                    <span class="badge bg-success">{{ $params['posts_count'] }}</span>
+                    <span class="badge bg-success">{{ $overview['postCount'] }}</span>
                 </li>
                 <li class="list-group-item">
                     <i class="bi bi-chat-right-dots"></i> {{ __('FsLang::panel.overview_comments') }}
-                    <span class="badge bg-success">{{ $params['comments_count'] }}</span>
+                    <span class="badge bg-success">{{ $overview['commentCount'] }}</span>
                 </li>
             </ul>
         </div>
@@ -108,6 +108,7 @@
     </div>
     <!--row-->
     <div class="row">
+        <!--system info-->
         <div class="col-md mb-4">
             <div class="card">
                 <div class="card-header">{{ __('FsLang::panel.system_info') }}</div>
@@ -129,14 +130,16 @@
                             {{ __('FsLang::panel.system_info_database_version') }}: <span>{{ $databaseInfo['version'] }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-start">
-                            {{ __('FsLang::panel.system_info_database_timezone') }}:
-                            <span>
-                                {{ $databaseInfo['timezone'] }}
-                                @if ($databaseInfo['timezone'] == $databaseInfo['envTimezone'])
-                                    <span class="badge rounded-pill bg-success ms-2 fs-9">.env {{ $databaseInfo['timezone'] }}</span>
-                                @else
-                                    <span class="badge rounded-pill bg-danger ms-2 fs-9"><span class="spinner-grow spinner-grow-sm align-text-top" role="status" aria-hidden="true"></span> .env {{ $databaseInfo['envTimezone'] }}</span>
+                            {{ __('FsLang::panel.system_info_database_timezone') }}: <span><a data-bs-toggle="modal" href="#timezoneListModal" role="button">{{ $databaseInfo['timezone'] }}</a></span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            {{ __('FsLang::panel.system_info_env_timezone') }}:
+                            <span @if ($databaseInfo['timezone'] != $databaseInfo['envTimezoneToUtc']) data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::tips.timezone_error') }}" @endif>
+                                @if ($databaseInfo['timezone'] !== $databaseInfo['envTimezoneToUtc'])
+                                    <span class="spinner-grow spinner-grow-sm text-danger" role="status" aria-hidden="true"></span>
                                 @endif
+                                {{ $databaseInfo['envTimezone'] }}
+                                <span class="badge rounded-pill bg-secondary ms-2 fs-9">{{ $databaseInfo['envTimezoneToUtc'] }}</span>
                             </span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -149,6 +152,7 @@
                 </div>
             </div>
         </div>
+        <!--news-->
         <div class="col-md mb-4">
             <div class="card">
                 <div class="card-header">{{ __('FsLang::panel.news') }}</div>
@@ -159,6 +163,28 @@
                                 <span class="badge bg-warning text-dark">{{ $news['date'] }}</span>
                                 <a class="fresns-link ms-2" href="{{ $news['link'] }}" target="_blank" {{ 'style=color:'.$news['color'] }}>{{ $news['title'] }}</a>
                             </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="timezoneListModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span class="badge bg-primary">{{ $databaseInfo['timezone'] }}</span>
+                        {{ __('FsLang::panel.system_info_env_timezone_list') }}
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group list-group-flush">
+                        @foreach ($timezones as $timezone)
+                            <li class="list-group-item">{{ $timezone }}</li>
                         @endforeach
                     </ul>
                 </div>

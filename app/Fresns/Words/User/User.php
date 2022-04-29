@@ -56,7 +56,6 @@ class User
             'language' => $dtoWordBody->language ?? null,
         ];
         $userId = UserModel::insertGetId(array_filter($userArr));
-        ConfigHelper::fresnsCountAdd('users_count');
 
         $defaultRoleId = ConfigHelper::fresnsConfigByItemKey('default_role');
         $roleArr = [

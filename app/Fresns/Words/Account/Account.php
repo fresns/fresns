@@ -71,7 +71,6 @@ class Account
         $inputArr['password'] = isset($dtoWordBody->password) ? Hash::make($dtoWordBody->password) : null;
 
         $accountId = AccountModel::insertGetId($inputArr);
-        ConfigHelper::fresnsCountAdd('accounts_count');
 
         // Account Wallet Table
         $accountWalletsInput = [

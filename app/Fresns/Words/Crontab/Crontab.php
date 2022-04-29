@@ -89,8 +89,6 @@ class Crontab
             }
         }
 
-        ConfigHelper::fresnsCountAdd('crontab_count');
-
         return ['code' => 0, 'message' => 'success', 'data' => []];
     }
 

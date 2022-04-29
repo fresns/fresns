@@ -9,6 +9,8 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\AppHelper;
+use App\Helpers\DateHelper;
+use App\Helpers\InteractiveHelper;
 use App\Models\Account;
 use App\Models\Config;
 use App\Models\Plugin;
@@ -21,6 +23,8 @@ class DashboardController extends Controller
 {
     public function show()
     {
+        $overview = InteractiveHelper::fresnsOverview();
+
         $news = Cache::remember('news', 86400, function () {
             try {
                 $newUrl = AppUtility::getApiHost().'/news.json';
@@ -35,26 +39,12 @@ class DashboardController extends Controller
         });
 
         $newsData = collect($news)->where('langTag', \App::getLocale())->first();
-        $defaultNewsData = collect($news)->where('langTag', config('FsConfig.defaultLangTag'))->first();
-        $newsList = $newsData['news'] ?? $defaultNewsData['news'];
+        $defaultNewsData = collect($news)->where('langTag', config('app.locale'))->first();
+        $newsList = $newsData['news'] ?? $defaultNewsData['news'] ?? [];
 
         $currentVersion = AppUtility::currentVersion();
         $newVersion = AppUtility::newVersion();
         $checkVersion = AppUtility::checkVersion();
-
-        $configKeys = [
-            'accounts_count',
-            'users_count',
-            'groups_count',
-            'hashtags_count',
-            'posts_count',
-            'comments_count',
-        ];
-        $configs = Config::whereIn('item_key', $configKeys)->get();
-
-        foreach ($configs as $config) {
-            $params[$config->item_key] = $config->item_value;
-        }
 
         $keyCount = SessionKey::count();
         $adminCount = Account::ofAdmin()->count();
@@ -62,8 +52,9 @@ class DashboardController extends Controller
 
         $systemInfo = AppHelper::getSystemInfo();
         $databaseInfo = AppHelper::getMySqlInfo();
+        $timezones = DateHelper::fresnsSqlTimezoneNames();
 
-        return view('FsView::dashboard.index', compact('newsList', 'params', 'keyCount', 'adminCount', 'plugins', 'currentVersion', 'newVersion', 'checkVersion', 'systemInfo', 'databaseInfo'));
+        return view('FsView::dashboard.index', compact('overview', 'newsList', 'keyCount', 'adminCount', 'plugins', 'currentVersion', 'newVersion', 'checkVersion', 'systemInfo', 'databaseInfo', 'timezones'));
     }
 
     /**
@@ -71,7 +62,9 @@ class DashboardController extends Controller
      */
     public function cacheClear(): RedirectResponse
     {
-        Cache::clear();
+        \Artisan::call('view:cache');
+        \Artisan::call('cache:clear');
+        \Artisan::call('config:cache');
 
         return back()->with('success', 'ok');
     }
