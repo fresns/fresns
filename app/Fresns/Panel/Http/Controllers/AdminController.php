@@ -17,12 +17,18 @@ class AdminController extends Controller
     public function index()
     {
         $admins = Account::ofAdmin()->get();
+        $isFounder = self::isFounder();
 
-        return view('FsView::dashboard.admins', compact('admins'));
+        return view('FsView::dashboard.admins', compact('admins', 'isFounder'));
     }
 
     public function store(StoreAdminRequest $request)
     {
+        $isFounder = self::isFounder();
+        if (! $isFounder) {
+            return back()->with('failure', __('FsLang::tips.requestFailure'));
+        }
+
         $accountName = $request->accountName;
 
         filter_var($accountName, FILTER_VALIDATE_EMAIL) ?
@@ -43,9 +49,19 @@ class AdminController extends Controller
 
     public function destroy(Request $request, Account $admin)
     {
+        $isFounder = self::isFounder();
+        if (! $isFounder) {
+            return back()->with('failure', __('FsLang::tips.requestFailure'));
+        }
+
         $admin->type = 3;
         $admin->save();
 
         return $this->deleteSuccess();
+    }
+
+    public static function isFounder()
+    {
+        return \Auth::user()->id == config('app.founder');
     }
 }

@@ -12,7 +12,9 @@
         </div>
         <div class="col-lg-5">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
-                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#newAdmin"><i class="bi bi-plus-circle-dotted"></i> {{ __('FsLang::panel.button_add_admin') }}</button>
+                @if($isFounder)
+                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#newAdmin"><i class="bi bi-plus-circle-dotted"></i> {{ __('FsLang::panel.button_add_admin') }}</button>
+                @endif
                 <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a>
             </div>
         </div>
@@ -50,13 +52,21 @@
                             </span>
                         </td>
                         <td>
-                            @if ($admin->id != \Auth::user()->id)
-                                <form action="{{ route('panel.admins.destroy', $admin) }}" class="mb-3" method="post">
+                            @if($isFounder && $admin->id != \Auth::user()->id)
+                                <form action="{{ route('panel.admins.destroy', $admin) }}" method="post">
                                     @csrf
                                     @method('delete')
                                     <button type="submit" class="btn btn-link btn-sm text-danger fresns-link delete-button">{{ __('FsLang::panel.button_delete') }}</button>
                                 </form>
                             @endif
+                            {{-- old delete --}}
+                            {{-- @if ($admin->id != \Auth::user()->id)
+                                <form action="{{ route('panel.admins.destroy', $admin) }}" method="post">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-link btn-sm text-danger fresns-link delete-button">{{ __('FsLang::panel.button_delete') }}</button>
+                                </form>
+                            @endif --}}
                         </td>
                     </tr>
                 @endforeach
