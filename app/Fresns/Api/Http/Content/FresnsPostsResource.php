@@ -46,6 +46,7 @@ use App\Fresns\Api\Helpers\ApiFileHelper;
 use App\Fresns\Api\Helpers\ApiLanguageHelper;
 use App\Fresns\Api\Helpers\ArrayHelper;
 use App\Fresns\Api\Helpers\DateHelper;
+use App\Helpers\ConfigHelper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 
@@ -180,7 +181,7 @@ class FresnsPostsResource extends BaseAdminResource
         $user['roleNameDisplay'] = null;
         $user['roleIcon'] = null;
         $user['roleIconDisplay'] = null;
-        $user['avatar'] = ApiFileHelper::getUserAvatar($userInfo->uid);
+        $user['avatar'] = ConfigHelper::fresnsConfigFileUrlByItemKey('anonymous_avatar');
         $user['decorate'] = null;
         $user['gender'] = null;
         $user['bio'] = null;
@@ -202,6 +203,7 @@ class FresnsPostsResource extends BaseAdminResource
                 $user['roleNameDisplay'] = $userRole['is_display_name'] ?? 0;
                 $user['roleIcon'] = ApiFileHelper::getImageSignUrlByFileIdUrl($userRole['icon_file_id'], $userRole['icon_file_url']);
                 $user['roleIconDisplay'] = $userRole['is_display_icon'] ?? 0;
+                $user['avatar'] = ApiFileHelper::getUserAvatar($userInfo->uid);
                 $user['decorate'] = ApiFileHelper::getImageSignUrlByFileIdUrl($userInfo->decorate_file_id, $userInfo->decorate_file_url);
                 LogService::info('decorate_file_id', $userInfo);
                 $user['gender'] = $userInfo->gender ?? 0;
@@ -235,6 +237,7 @@ class FresnsPostsResource extends BaseAdminResource
             $commentUserInfo = FresnsUsers::find($comments->user_id);
             $comment['status'] = true;
             $comment['anonymous'] = $comments->is_anonymous ?? null;
+            $comment['avatar'] = ConfigHelper::fresnsConfigFileUrlByItemKey('anonymous_avatar');
             // Is the author of the comment the author of the post himself
             $commentStatus = $this->user_id == $comments->user_id ? true : false;
             if ($comments->is_anonymous == 0) {
@@ -242,8 +245,8 @@ class FresnsPostsResource extends BaseAdminResource
                 $comment['uid'] = $commentUserInfo['uid'] ?? null;
                 $comment['username'] = $commentUserInfo['username'] ?? null;
                 $comment['nickname'] = $commentUserInfo['nickname'] ?? null;
+                $comment['avatar'] = ApiFileHelper::getUserAvatar($comment['uid']);
             }
-            $comment['avatar'] = ApiFileHelper::getUserAvatar($comment['uid']);
             $comment['cid'] = $comments->cid ?? null;
             $comment['content'] = self::getContentView(($comments->content), ($comments->id), 2);
             $comment['likeCount'] = $comments->like_count ?? null;
