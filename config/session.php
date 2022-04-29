@@ -126,10 +126,7 @@ return [
     |
     */
 
-    'cookie' => env(
-        'SESSION_COOKIE',
-        Str::slug(env('APP_NAME', 'fresns'), '_').'_session'
-    ),
+    'cookie' => 'fresns_session',
 
     /*
     |--------------------------------------------------------------------------
