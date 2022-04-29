@@ -289,6 +289,8 @@ return [
     'system_info_web' => 'Ambiente in esecuzione web',
     'system_info_php_version' => 'Versione PHP',
     'system_info_php_upload_max_filesize' => 'Carica la dimensione massima del file',
+    'system_info_env_timezone' => '.env Fuso orario',
+    'system_info_env_timezone_list' => 'Nome della regione del fuso orario corrispondente',
     'system_info_database_version' => 'Versione del database',
     'system_info_database_timezone' => 'Fuso orario del database',
     'system_info_database_engine' => 'Motore automatico dei dati',

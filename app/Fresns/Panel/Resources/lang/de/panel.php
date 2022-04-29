@@ -289,6 +289,8 @@ return [
     'system_info_web' => 'Netzlaufumgebung',
     'system_info_php_version' => 'PHP-Version',
     'system_info_php_upload_max_filesize' => 'Maximale Dateigröße hochladen',
+    'system_info_env_timezone' => '.env Zeitzone',
+    'system_info_env_timezone_list' => 'Name der übereinstimmenden Zeitzonenregion',
     'system_info_database_version' => 'Datenbankversion',
     'system_info_database_timezone' => 'Datenbank Zeitzone',
     'system_info_database_engine' => 'Datenbestandmotor',

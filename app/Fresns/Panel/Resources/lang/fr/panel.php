@@ -289,6 +289,8 @@ return [
     'system_info_web' => 'Environnement de fonctionnement Web',
     'system_info_php_version' => 'Version php',
     'system_info_php_upload_max_filesize' => 'Télécharger la taille maximale du fichier',
+    'system_info_env_timezone' => '.env zona waktu',
+    'system_info_env_timezone_list' => 'nama area zona waktu yang cocok',
     'system_info_database_version' => 'Version de la base de données',
     'system_info_database_timezone' => 'Fuseau horaire de la base de données',
     'system_info_database_engine' => 'Moteur de stockage de données',

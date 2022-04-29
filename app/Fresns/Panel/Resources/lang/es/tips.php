@@ -15,6 +15,7 @@ return [
     */
 
     'requestSuccess' => 'Solicitud de éxito',
+    'requestFailure' => 'Solicitud de fracaso',
     'createSuccess' => 'Crear éxito',
     'deleteSuccess' => 'borrado con éxito',
     'updateSuccess' => 'Modificado con éxito',
@@ -24,6 +25,7 @@ return [
     'uninstallSuccess' => 'Desinstalación exitosa',
     'uninstallFailure' => 'Fallo de desinstalación',
     'copySuccess' => 'Copiar el éxito',
+    'timezone_error' => 'La zona horaria de la base de datos no coincide con la zona horaria del archivo env config.',
     'physical_upgrade_file_error' => 'Fichero de actualización física erróneo',
     'account_not_found' => 'La cuenta no existe o ingresa errores',
     'account_login_limit' => 'El error ha superado el límite del sistema. Por favor, vuelva a conectarse 1 hora más tarde',

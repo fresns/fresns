@@ -289,6 +289,8 @@ return [
     'system_info_web' => 'Server Web',
     'system_info_php_version' => 'Versi PHP',
     'system_info_php_upload_max_filesize' => 'Unggah ukuran file maksimum',
+    'system_info_env_timezone' => '.env zona waktu',
+    'system_info_env_timezone_list' => 'nama area zona waktu yang cocok',
     'system_info_database_version' => 'Versi basis data',
     'system_info_database_timezone' => 'Zona Waktu Basis Data',
     'system_info_database_engine' => 'Mesin basis data',

@@ -289,6 +289,8 @@ return [
     'system_info_web' => 'वेब चल रहा है',
     'system_info_php_version' => 'PHP संस्करण',
     'system_info_php_upload_max_filesize' => 'अधिकतम फ़ाइल आकार अपलोड करें',
+    'system_info_env_timezone' => '.env समयक्षेत्र',
+    'system_info_env_timezone_list' => 'मिलान समय क्षेत्र क्षेत्र का नाम',
     'system_info_database_version' => 'डेटाबेस संस्करण',
     'system_info_database_timezone' => 'डेटाबेस समयक्षेत्र',
     'system_info_database_engine' => 'आँकड़ा स्टॉक इंजन',

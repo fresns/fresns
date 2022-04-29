@@ -15,6 +15,7 @@ return [
     */
 
     'requestSuccess' => 'Pedir sucesso',
+    'requestFailure' => 'Pedir falha',
     'createSuccess' => 'Criar sucesso',
     'deleteSuccess' => 'deletado com sucesso',
     'updateSuccess' => 'Modificado com sucesso',
@@ -24,6 +25,7 @@ return [
     'uninstallSuccess' => 'Desinstalar o sucesso',
     'uninstallFailure' => 'Falha na desinstalação',
     'copySuccess' => 'Copie o sucesso',
+    'timezone_error' => 'O fuso horário da base de dados não corresponde ao fuso horário no ficheiro de configuração env',
     'physical_upgrade_file_error' => 'Descoordenação física do ficheiro de actualização',
     'account_not_found' => 'Conta não existe ou inserir erros',
     'account_login_limit' => 'O erro excedeu o limite do sistema. Por favor, faça novamente o log in 1 hora mais tarde',

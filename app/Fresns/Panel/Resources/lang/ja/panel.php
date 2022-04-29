@@ -289,6 +289,8 @@ return [
     'system_info_web' => 'Webランニング環境',
     'system_info_php_version' => 'PHPバージョン',
     'system_info_php_upload_max_filesize' => '最大ファイルサイズをアップロードする',
+    'system_info_env_timezone' => '.env タイムゾーン',
+    'system_info_env_timezone_list' => '一致するタイムゾーン地域名',
     'system_info_database_version' => 'データベースバージョン',
     'system_info_database_timezone' => 'データベースタイムゾーン',
     'system_info_database_engine' => 'データ在庫エンジン',

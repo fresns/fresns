@@ -289,6 +289,8 @@ return [
     'system_info_web' => 'Веб-среда',
     'system_info_php_version' => 'PHP версия',
     'system_info_php_upload_max_filesize' => 'Загрузка максимального размера файла',
+    'system_info_env_timezone' => '.env Часовой пояс',
+    'system_info_env_timezone_list' => 'Соответствие имени региона часового пояса',
     'system_info_database_version' => 'Версия базы данных',
     'system_info_database_timezone' => 'Часовой пояс базы данных',
     'system_info_database_engine' => 'ДАННЫЕ ДВИЖЕНИЯ',

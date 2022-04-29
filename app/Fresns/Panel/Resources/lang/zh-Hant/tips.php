@@ -15,6 +15,7 @@ return [
     */
 
     'requestSuccess' => '請求成功',
+    'requestFailure' => '請求失敗',
     'createSuccess' => '創建成功',
     'deleteSuccess' => '刪除成功',
     'updateSuccess' => '更改成功',
@@ -24,6 +25,7 @@ return [
     'uninstallSuccess' => '卸載成功',
     'uninstallFailure' => '卸載失敗',
     'copySuccess' => '複製成功',
+    'timezone_error' => '資料庫時區和 env 配置文件中時區不一致',
     'physical_upgrade_file_error' => '物理升級文件不匹配',
     'account_not_found' => '賬號不存在或者輸入錯誤',
     'account_login_limit' => '錯誤已超系統限制，請 1 小時後再登錄',

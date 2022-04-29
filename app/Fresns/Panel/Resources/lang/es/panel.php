@@ -289,6 +289,8 @@ return [
     'system_info_web' => 'Entorno de ejecución web',
     'system_info_php_version' => 'Versión PHP',
     'system_info_php_upload_max_filesize' => 'Subir el tamaño máximo del archivo',
+    'system_info_env_timezone' => '.env Zona horaria',
+    'system_info_env_timezone_list' => 'Nombre de la región de la zona horaria correspondiente',
     'system_info_database_version' => 'Versión de base de datos',
     'system_info_database_timezone' => 'Zona horaria de la base de datos',
     'system_info_database_engine' => 'Motor de valores de datos',

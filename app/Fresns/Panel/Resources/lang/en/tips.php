@@ -15,6 +15,7 @@ return [
     */
 
     'requestSuccess' => 'Request Success',
+    'requestFailure' => 'Request Failure',
     'createSuccess' => 'Create Success',
     'deleteSuccess' => 'Delete Success',
     'updateSuccess' => 'Update Success',
@@ -24,6 +25,7 @@ return [
     'uninstallSuccess' => 'Uninstall Success',
     'uninstallFailure' => 'Uninstall Failure',
     'copySuccess' => 'Copy Success',
+    'timezone_error' => 'The database timezone does not match the timezone in the env config file',
     'physical_upgrade_file_error' => 'Physical upgrade file mismatch',
     'account_not_found' => 'Account number does not exist or was entered incorrectly',
     'account_login_limit' => 'The error has exceeded the system limit. Please log in again 1 hour later',

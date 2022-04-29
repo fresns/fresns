@@ -289,6 +289,8 @@ return [
     'system_info_web' => 'Web 运行环境',
     'system_info_php_version' => 'PHP 版本',
     'system_info_php_upload_max_filesize' => '上传最大文件大小',
+    'system_info_env_timezone' => '.env 时区',
+    'system_info_env_timezone_list' => '匹配的时区地区名',
     'system_info_database_version' => '数据库版本',
     'system_info_database_timezone' => '数据库时区',
     'system_info_database_engine' => '数据库存储引擎',

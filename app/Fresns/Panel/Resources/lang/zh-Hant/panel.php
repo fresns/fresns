@@ -290,6 +290,8 @@ return [
     'system_info_web' => 'Web 運行環境',
     'system_info_php_version' => 'PHP 版本',
     'system_info_php_upload_max_filesize' => '上傳最大文件大小',
+    'system_info_env_timezone' => '.env 時區',
+    'system_info_env_timezone_list' => '匹配的時區地區名',
     'system_info_database_version' => '資料庫版本',
     'system_info_database_timezone' => '資料庫時區',
     'system_info_database_engine' => '資料庫存儲引擎',

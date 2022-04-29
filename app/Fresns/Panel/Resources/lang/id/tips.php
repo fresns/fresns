@@ -15,6 +15,7 @@ return [
     */
 
     'requestSuccess' => 'Permintaan Sukses',
+    'requestFailure' => 'Permintaan Gagal',
     'createSuccess' => 'Menciptakan kesuksesan',
     'deleteSuccess' => 'berhasil dihapus',
     'updateSuccess' => 'Berhasil dimodifikasi',
@@ -24,6 +25,7 @@ return [
     'uninstallSuccess' => 'Uninstall Sukses',
     'uninstallFailure' => 'Copot Pemasangan Gagal',
     'copySuccess' => 'Salin kesuksesan',
+    'timezone_error' => 'Zona waktu basis data tidak cocok dengan zona waktu di file konfigurasi env',
     'physical_upgrade_file_error' => 'Ketidakcocokan file peningkatan fisik',
     'account_not_found' => 'Akun tidak ada atau masukkan kesalahan',
     'account_login_limit' => 'Kesalahan telah melampaui batas sistem. Silakan masuk lagi 1 jam kemudian',

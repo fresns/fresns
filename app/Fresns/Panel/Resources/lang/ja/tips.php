@@ -15,6 +15,7 @@ return [
     */
 
     'requestSuccess' => 'リクエストサクセス',
+    'requestFailure' => 'リクエストの失敗',
     'createSuccess' => '成功を生み出す',
     'deleteSuccess' => '削除されました',
     'updateSuccess' => '正常に変更されました',
@@ -24,6 +25,7 @@ return [
     'uninstallSuccess' => 'アンインストールの成功',
     'uninstallFailure' => 'アンインストールに失敗しました',
     'copySuccess' => '成功をコピーする',
+    'timezone_error' => 'データベースのタイムゾーンとenv設定ファイルのタイムゾーンが一致しない',
     'physical_upgrade_file_error' => '物理アップグレードファイルの不一致',
     'account_not_found' => 'アカウントが存在しないか、エラーを入力します',
     'account_login_limit' => 'エラーはシステムの制限を超えました。1時間後に再ログインしてください。',

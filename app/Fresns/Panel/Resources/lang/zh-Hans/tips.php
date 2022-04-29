@@ -15,6 +15,7 @@ return [
     */
 
     'requestSuccess' => '请求成功',
+    'requestFailure' => '请求失败',
     'createSuccess' => '创建成功',
     'deleteSuccess' => '删除成功',
     'updateSuccess' => '修改成功',
@@ -24,6 +25,7 @@ return [
     'uninstallSuccess' => '卸载成功',
     'uninstallFailure' => '卸载失败',
     'copySuccess' => '复制成功',
+    'timezone_error' => '数据库时区和 env 配置文件中时区不一致',
     'physical_upgrade_file_error' => '物理升级文件不匹配',
     'account_not_found' => '账号不存在或者输入错误',
     'account_login_limit' => '错误已超系统限制，请 1 小时后再登录',

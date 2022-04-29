@@ -289,6 +289,8 @@ return [
     'system_info_web' => 'Web server',
     'system_info_php_version' => 'PHP version',
     'system_info_php_upload_max_filesize' => 'Upload max file size',
+    'system_info_env_timezone' => '.env Timezone',
+    'system_info_env_timezone_list' => 'Matching timezone region name',
     'system_info_database_version' => 'Database version',
     'system_info_database_timezone' => 'Database timezone',
     'system_info_database_engine' => 'Database engine',

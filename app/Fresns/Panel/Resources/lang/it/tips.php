@@ -15,6 +15,7 @@ return [
     */
 
     'requestSuccess' => 'Richiesta di successo',
+    'requestFailure' => 'Richiesta di fallimento',
     'createSuccess' => 'Creare successo',
     'deleteSuccess' => 'cancellato con successo',
     'updateSuccess' => 'Modificato con successo',
@@ -24,6 +25,7 @@ return [
     'uninstallSuccess' => 'Disinstallazione riuscita',
     'uninstallFailure' => 'Disinstallazione fallita',
     'copySuccess' => 'Copia il successo',
+    'timezone_error' => 'Il fuso orario del database non corrisponde al fuso orario nel file di configurazione di env',
     'physical_upgrade_file_error' => 'Mancata corrispondenza del file di aggiornamento fisico',
     'account_not_found' => 'L\'account non esiste o inserisci errori',
     'account_login_limit' => 'L\'errore ha superato il limite del sistema. Per favore, accedi di nuovo 1 ora dopo',
