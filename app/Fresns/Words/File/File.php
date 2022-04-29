@@ -85,7 +85,7 @@ class File
         $fileArr['file_type'] = $dtoWordBody->type;
         $fileArr['file_name'] = $uploadFile->getClientOriginalName();
         $fileArr['file_extension'] = $uploadFile->getClientOriginalExtension();
-        $fileArr['file_path'] = str_replace('public', '', $newPath);
+        $fileArr['file_path'] = str_replace('public/', '', $newPath);
         $fileArr['table_type'] = $dtoWordBody->tableType;
         $fileArr['table_name'] = $dtoWordBody->tableName;
         $fileArr['table_column'] = $dtoWordBody->tableColumn;
@@ -226,7 +226,7 @@ class File
             \Illuminate\Support\Facades\File::makeDirectory($realPath, 0755, true, true);
         }
 
-        return 'public'.$fileTempPath;
+        return 'public/'.$fileTempPath;
     }
 
     /**
