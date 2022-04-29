@@ -26,7 +26,7 @@ trait SubscribeNotifyTrait
             $modelName = $model->getTable();
         }
 
-        return str_replace(env('DB_PREFIX', null), '', $modelName);
+        return str_replace(config('database.connections.mysql.prefix'), '', $modelName);
     }
 
     public function notifyDataChange(array $data)
