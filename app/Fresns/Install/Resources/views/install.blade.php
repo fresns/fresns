@@ -19,7 +19,6 @@
                 $('#envCheckNextBtn').removeClass('visually-hidden')
             }
 
-
             if (res.code !== 0) {
                 $('#toastMessage').text(res.message)
                 toast = new bootstrap.Toast($('#errorToast'))
@@ -39,7 +38,6 @@
                 await new Promise(resolve => setTimeout(resolve, 5e3))
                 return
             }
-
 
             if (res.step === 5) {
                 if (res.data.email) {
@@ -87,7 +85,6 @@
             btn.prepend('<span class="spinner-border spinner-border-sm mg-r-5 d-none" role="status" aria-hidden="true"></span> ')
         }
         btn.children('.spinner-border').removeClass('d-none');
-
 
         $.ajax({
             url: '/api/install',
@@ -252,61 +249,43 @@
                         <label class="col-sm-3 col-form-label" for="DB_TIMEZONE">@lang('Install::install.database_timezone')</label>
                         <div class="col-sm-5">
                             <select class="form-select" id="DB_TIMEZONE" name="database[DB_TIMEZONE]">
-                                <option value="UTC-12">UTC -12</option>
-                                <option value="UTC-11.5">UTC -11:30</option>
-                                <option value="UTC-11">UTC -11</option>
-                                <option value="UTC-10.5">UTC -10:30</option>
-                                <option value="UTC-10">UTC -10</option>
-                                <option value="UTC-9.5">UTC -9:30</option>
-                                <option value="UTC-9">UTC -9</option>
-                                <option value="UTC-8.5">UTC -8:30</option>
-                                <option value="UTC-8">UTC -8</option>
-                                <option value="UTC-7.5">UTC -7:30</option>
-                                <option value="UTC-7">UTC -7</option>
-                                <option value="UTC-6.5">UTC -6:30</option>
-                                <option value="UTC-6">UTC -6</option>
-                                <option value="UTC-5.5">UTC -5:30</option>
-                                <option value="UTC-5">UTC -5</option>
-                                <option value="UTC-4.5">UTC -4:30</option>
-                                <option value="UTC-4">UTC -4</option>
-                                <option value="UTC-3.5">UTC -3:30</option>
-                                <option value="UTC-3">UTC -3</option>
-                                <option value="UTC-2.5">UTC -2:30</option>
-                                <option value="UTC-2">UTC -2</option>
-                                <option value="UTC-1.5">UTC -1:30</option>
-                                <option value="UTC-1">UTC -1</option>
-                                <option value="UTC-0.5">UTC -0:30</option>
-                                <option value="UTC+0" selected>UTC +0</option>
-                                <option value="UTC+0.5">UTC +0:30</option>
-                                <option value="UTC+1">UTC +1</option>
-                                <option value="UTC+1.5">UTC +1:30</option>
-                                <option value="UTC+2">UTC +2</option>
-                                <option value="UTC+2.5">UTC +2:30</option>
-                                <option value="UTC+3">UTC +3</option>
-                                <option value="UTC+3.5">UTC +3:30</option>
-                                <option value="UTC+4">UTC +4</option>
-                                <option value="UTC+4.5">UTC +4:30</option>
-                                <option value="UTC+5">UTC +5</option>
-                                <option value="UTC+5.5">UTC +5:30</option>
-                                <option value="UTC+5.75">UTC +5:45</option>
-                                <option value="UTC+6">UTC +6</option>
-                                <option value="UTC+6.5">UTC +6:30</option>
-                                <option value="UTC+7">UTC +7</option>
-                                <option value="UTC+7.5">UTC +7:30</option>
-                                <option value="UTC+8">UTC +8</option>
-                                <option value="UTC+8.5">UTC +8:30</option>
-                                <option value="UTC+8.75">UTC +8:45</option>
-                                <option value="UTC+9">UTC +9</option>
-                                <option value="UTC+9.5">UTC +9:30</option>
-                                <option value="UTC+10">UTC +10</option>
-                                <option value="UTC+10.5">UTC +10:30</option>
-                                <option value="UTC+11">UTC +11</option>
-                                <option value="UTC+11.5">UTC +11:30</option>
-                                <option value="UTC+12">UTC +12</option>
-                                <option value="UTC+12.75">UTC +12:45</option>
-                                <option value="UTC+13">UTC +13</option>
-                                <option value="UTC+13.75">UTC +13:45</option>
-                                <option value="UTC+14">UTC +14</option>
+                                <option value="Pacific/Niue">UTC -11</option>
+                                <option value="Pacific/Rarotonga">UTC -10</option>
+                                <option value="Pacific/Marquesas">UTC -9:30</option>
+                                <option value="America/Anchorage">UTC -9</option>
+                                <option value="America/Los_Angeles">UTC -8</option>
+                                <option value="America/Denver">UTC -7</option>
+                                <option value="America/Chicago">UTC -6</option>
+                                <option value="America/New_York">UTC -5</option>
+                                <option value="America/Moncton">UTC -4</option>
+                                <option value="America/St_Johns">UTC -3:30</option>
+                                <option value="America/Bahia">UTC -3</option>
+                                <option value="America/Noronha">UTC -2</option>
+                                <option value="Atlantic/Azores">UTC -1</option>
+                                <option value="Europe/London" selected>UTC +0</option>
+                                <option value="Europe/Paris">UTC +1</option>
+                                <option value="Asia/Jerusalem">UTC +2</option>
+                                <option value="Europe/Moscow">UTC +3</option>
+                                <option value="Asia/Tehran">UTC +3:30</option>
+                                <option value="Asia/Dubai">UTC +4</option>
+                                <option value="Asia/Kabul">UTC +4:30</option>
+                                <option value="Indian/Maldives">UTC +5</option>
+                                <option value="Asia/Kolkata">UTC +5:30</option>
+                                <option value="Asia/Kathmandu">UTC +5:45</option>
+                                <option value="Asia/Urumqi">UTC +6</option>
+                                <option value="Asia/Yangon">UTC +6:30</option>
+                                <option value="Asia/Ho_Chi_Minh">UTC +7</option>
+                                <option value="Asia/Singapore">UTC +8</option>
+                                <option value="Australia/Eucla">UTC +8:45</option>
+                                <option value="Asia/Tokyo">UTC +9</option>
+                                <option value="Australia/Broken_Hill">UTC +9:30</option>
+                                <option value="Australia/Melbourne">UTC +10</option>
+                                <option value="Australia/Lord_Howe">UTC +10:30</option>
+                                <option value="Asia/Sakhalin">UTC +11</option>
+                                <option value="Pacific/Auckland">UTC +12</option>
+                                <option value="Pacific/Chatham">UTC +12:45</option>
+                                <option value="Pacific/Apia">UTC +13</option>
+                                <option value="Pacific/Kiritimati">UTC +14</option>
                             </select>
                         </div>
                         <div class="col-sm-4 form-text">@lang('Install::install.database_timezone_desc')</div>
