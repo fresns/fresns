@@ -21,8 +21,8 @@ class GetUserDetailDTO extends DTO
     public function rules(): array
     {
         return [
-            'uid' => ['required_without:username', 'integer'],
-            'username' => ['required_without:uid', 'alpha_dash'],
+            'uid' => ['required_without:username', 'nullable', 'integer'],
+            'username' => ['required_without:uid', 'nullable', 'alpha_dash'],
             'langTag' => ['nullable', 'string'],
             'timezone' => ['nullable', 'string'],
         ];

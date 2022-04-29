@@ -21,8 +21,8 @@ class VerifyAccountDTO extends DTO
             'type' => ['required', 'in:1,2'],
             'account' => ['required', 'string'],
             'countryCode' => ['nullable', 'required_if:type,2', 'integer'],
-            'password' => ['required_without:verifyCode', 'string'],
-            'verifyCode' => ['required_without:password', 'string'],
+            'password' => ['required_without:verifyCode', 'nullable', 'string'],
+            'verifyCode' => ['required_without:password', 'nullable', 'string'],
         ];
     }
 }
