@@ -13,7 +13,6 @@ use App\Utilities\AppUtility;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Cache;
-use Symfony\Component\Process\Process;
 
 class UpgradeFresns extends Command
 {
@@ -52,7 +51,6 @@ class UpgradeFresns extends Command
         try {
             $this->download();
             $this->extractFile();
-            $this->composerInstall();
             $this->upgradeCommand();
             $this->upgradeFinish();
         } catch (\Exception $e) {
@@ -124,39 +122,7 @@ class UpgradeFresns extends Command
         return true;
     }
 
-    // step 3: composer install
-    public function composerInstall()
-    {
-        $composerPath = 'composer';
-
-        if (! $this->commandExists($composerPath)) {
-            $composerPath = '/usr/bin/composer';
-        }
-
-        $process = new Process([$composerPath, 'install'], base_path());
-        $process->setTimeout(0);
-        $process->start();
-
-        foreach ($process as $type => $data) {
-            if ($process::OUT === $type) {
-                $this->info("\nRead from stdout: ".$data);
-            } else { // $process::ERR === $type
-                $this->info("\nRead from stderr: ".$data);
-            }
-        }
-    }
-
-    // check composer
-    public function commandExists($commandName)
-    {
-        ob_start();
-        passthru("command -v $commandName", $code);
-        ob_end_clean();
-
-        return (0 === $code) ? true : false;
-    }
-
-    // step 4: execute the version command
+    // step 3: execute the version command
     public function upgradeCommand()
     {
         logger('upgrade:install');
@@ -165,7 +131,7 @@ class UpgradeFresns extends Command
         AppUtility::executeUpgradeCommand();
     }
 
-    // step 5: edit fresns version info
+    // step 4: edit fresns version info
     public function upgradeFinish(): bool
     {
         Cache::forget('currentVersion');
@@ -179,7 +145,7 @@ class UpgradeFresns extends Command
         return true;
     }
 
-    // step 6: clear cache
+    // step 5: clear cache
     public function clear()
     {
         logger('upgrade:clear');
