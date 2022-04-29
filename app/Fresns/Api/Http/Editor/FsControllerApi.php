@@ -519,12 +519,6 @@ class FsControllerApi extends FsApiController
                 FresnsSessionLogs::where('id', $logsId)->update(['object_result' => FsConfig::OBJECT_DEFAIL]);
                 $this->error(ErrorCodeService::PLUGINS_CONFIG_ERROR);
             }
-            // Is Plugin
-            $isPlugin = PluginHelper::pluginCanUse($pluginUniKey);
-            if ($isPlugin == false) {
-                LogService::error('Plugin not found');
-                $this->error(ErrorCodeService::PLUGINS_IS_ENABLE_ERROR);
-            }
 
             $paramsExist = false;
             $configMapInDB = FresnsConfigs::whereIn('item_key', ['image_secret_id', 'image_secret_key', 'image_bucket_domain'])->pluck('item_value', 'item_key')->toArray();
@@ -647,133 +641,58 @@ class FsControllerApi extends FsApiController
             'mode' => 'required|in:1,2',
         ];
         ValidateService::validateRule($request, $rule);
-        $type = $request->input('type');
-        $mode = $request->input('mode');
+
         $tableId = $request->input('tableId');
         $tableKey = $request->input('tableKey');
-        if ($mode == 2) {
-            if (empty($tableId) && empty($tableKey)) {
-                $input = [
-                    'Parameter Error: ' => 'Fill in at least one of tableId or tableKey',
-                ];
-                $this->error(ErrorCodeService::CODE_PARAM_ERROR, $input);
-            }
+        if (empty($tableId) && empty($tableKey)) {
+            $input = [
+                'Parameter Error: ' => 'Fill in at least one of tableId or tableKey',
+            ];
+            $this->error(ErrorCodeService::CODE_PARAM_ERROR, $input);
         }
-
-        $userId = GlobalService::getGlobalKey('user_id');
 
         $data = [];
+
+        $mode = $request->input('mode');
         if ($mode == 1) {
-            $type = $request->input('type');
-            switch ($type) {
-                case 1:
-                    $unikey = ApiConfigHelper::getConfigByItemKey('image_service');
-                    break;
-                case 2:
-                    $unikey = ApiConfigHelper::getConfigByItemKey('video_service');
-                    break;
-                case 3:
-                    $unikey = ApiConfigHelper::getConfigByItemKey('audio_service');
-                    break;
-                default:
-                    $unikey = ApiConfigHelper::getConfigByItemKey('document_service');
-                    break;
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile([
+                "platform" => $request->header('platform'),
+                "type" => $request->input('type'),
+                "tableType" => $request->input('tableType'),
+                "tableName" => $request->input('tableName'),
+                "tableColumn" => $request->input('tableColumn'),
+                "tableId" => $request->input('tableId'),
+                "tableKey" => $request->input('tableKey'),
+                "aid" => $request->header('aid'),
+                "uid" => $request->header('uid'),
+                "file" => $request->file('file'),
+            ]);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
             }
-            $pluginUniKey = $unikey;
-
-            // Perform Upload
-            $pluginClass = PluginHelper::findPluginClass($pluginUniKey);
-            if (empty($pluginClass)) {
-                LogService::error('Plugin not found');
-                $this->error(ErrorCodeService::PLUGINS_CONFIG_ERROR);
-            }
-
-            $isPlugin = PluginHelper::pluginCanUse($pluginUniKey);
-            if ($isPlugin == false) {
-                LogService::error('Plugin not found');
-                $this->error(ErrorCodeService::PLUGINS_IS_ENABLE_ERROR);
-            }
-
-            $file['file_type'] = $request->input('type', 1);
-            $paramsExist = false;
-            // Image
-            if ($file['file_type'] == FileSceneConfig::FILE_TYPE_1) {
-                $configMapInDB = FresnsConfigs::whereIn('item_key', ['image_secret_id', 'image_secret_key', 'image_bucket_domain'])->pluck('item_value', 'item_key')->toArray();
-                $paramsExist = ValidateService::validParamExist($configMapInDB, ['image_secret_id', 'image_secret_key', 'image_bucket_domain']);
-            }
-            // Video
-            if ($file['file_type'] == FileSceneConfig::FILE_TYPE_2) {
-                $configMapInDB = FresnsConfigs::whereIn('item_key', ['video_secret_id', 'video_secret_key', 'video_bucket_domain'])->pluck('item_value', 'item_key')->toArray();
-                $paramsExist = ValidateService::validParamExist($configMapInDB, ['video_secret_id', 'video_secret_key', 'video_bucket_domain']);
-            }
-            // Audio
-            if ($file['file_type'] == FileSceneConfig::FILE_TYPE_3) {
-                $configMapInDB = FresnsConfigs::whereIn('item_key', ['audio_secret_id', 'audio_secret_key', 'audio_bucket_domain'])->pluck('item_value', 'item_key')->toArray();
-                $paramsExist = ValidateService::validParamExist($configMapInDB, ['audio_secret_id', 'audio_secret_key', 'audio_bucket_domain']);
-            }
-            // Document
-            if ($file['file_type'] == FileSceneConfig::FILE_TYPE_4) {
-                $configMapInDB = FresnsConfigs::whereIn('item_key', ['document_secret_id', 'document_secret_key', 'document_bucket_domain'])->pluck('item_value', 'item_key')->toArray();
-                $paramsExist = ValidateService::validParamExist($configMapInDB, ['document_secret_id', 'document_secret_key', 'document_bucket_domain']);
-            }
-            if ($paramsExist == false) {
-                LogService::error('Please configure the storage information first');
-                $this->error(ErrorCodeService::PLUGINS_PARAM_ERROR);
-            }
-
-            // Confirm Catalog
-            $options['file_type'] = $request->input('type');
-            $options['table_type'] = $request->input('tableType');
-            $storePath = FileSceneService::getEditorPath($options);
-
-            if (! $storePath) {
-                $this->error(ErrorCodeService::USER_FAIL);
-            }
-
-            // Get an instance of UploadFile
-            $uploadFile = $request->file('file');
-
-            if (empty($uploadFile)) {
-                $this->error(ErrorCodeService::FILE_EXIST_ERROR);
-            }
-
-            // Storage
-            $fileSize = $uploadFile->getSize();
-            $suffix = $uploadFile->getClientOriginalExtension();
-            $checker = FsChecker::checkUploadPermission($userId, $type, $fileSize, $suffix);
-            if ($checker !== true) {
-                $this->error($checker);
-            }
-
-            LogService::info('File Storage Local Success ', $file);
+            $data = $fresnsResp->getData();
         } else {
-            $fileInfo = $request->input('fileInfo');
-            $isJson = StrHelper::isJson($fileInfo);
-            if ($isJson == false) {
-                $this->error(ErrorCodeService::FILE_INFO_JSON_ERROR);
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFileInfo([
+                "platform" => $request->header('platform'),
+                "type" => $request->input('type'),
+                "tableType" => $request->input('tableType'),
+                "tableName" => $request->input('tableName'),
+                "tableColumn" => $request->input('tableColumn'),
+                "tableId" => $request->input('tableId'),
+                "tableKey" => $request->input('tableKey'),
+                "aid" => $request->header('aid'),
+                "uid" => $request->header('uid'),
+                "fileInfo" => $request->input('fileInfo'),
+            ]);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
             }
+            $data = $fresnsResp->getData();
         }
 
-        $input['type'] = $request->input('type');
-        $input['tableType'] = $request->input('tableType');
-        $input['tableName'] = $request->input('tableName');
-        $input['tableColumn'] = $request->input('tableColumn');
-        $input['tableId'] = $request->input('tableId');
-        $input['tableKey'] = $request->input('tableKey');
-        $input['mode'] = $request->input('mode');
-        $input['file'] = $request->file('file');
-        $input['fileInfo'] = $request->input('fileInfo');
-        $input['platform'] = $request->header('platform');
-        $input['aid'] = $request->header('aid');
-        $input['uid'] = $request->header('uid');
-        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($input);
-        if ($fresnsResp->isErrorResponse()) {
-            return $fresnsResp->errorResponse();
-        }
+        $dataArr['files'][] = $data;
 
-        $data = $fresnsResp->getData();
-
-        $this->success($data);
+        $this->success($dataArr);
     }
 
     // Editor Delete

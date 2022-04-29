@@ -9,18 +9,12 @@
 namespace App\Fresns\Api\Http\Editor;
 
 use App\Fresns\Api\Center\Common\GlobalService;
-use App\Fresns\Api\Center\Common\LogService;
-use App\Fresns\Api\Center\Helper\CmdRpcHelper;
-use App\Fresns\Api\Center\Helper\PluginHelper;
-use App\Fresns\Api\Center\Scene\FileSceneService;
-use App\Fresns\Api\FsCmd\FresnsCmdWordsConfig;
 use App\Fresns\Api\FsDb\FresnsBlockWords\FresnsBlockWords;
 use App\Fresns\Api\FsDb\FresnsCommentAppends\FresnsCommentAppends;
 use App\Fresns\Api\FsDb\FresnsCommentLogs\FresnsCommentLogs;
 use App\Fresns\Api\FsDb\FresnsComments\FresnsComments;
 use App\Fresns\Api\FsDb\FresnsExtendLinkeds\FresnsExtendLinkedsConfig;
 use App\Fresns\Api\FsDb\FresnsExtends\FresnsExtends;
-use App\Fresns\Api\FsDb\FresnsFileAppends\FresnsFileAppends;
 use App\Fresns\Api\FsDb\FresnsFiles\FresnsFiles;
 use App\Fresns\Api\FsDb\FresnsGroups\FresnsGroups;
 use App\Fresns\Api\FsDb\FresnsPostAllows\FresnsPostAllowsConfig;
@@ -30,9 +24,7 @@ use App\Fresns\Api\FsDb\FresnsPosts\FresnsPosts;
 use App\Fresns\Api\FsDb\FresnsPosts\FresnsPostsConfig;
 use App\Fresns\Api\FsDb\FresnsRoles\FresnsRoles;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
-use App\Fresns\Api\Helpers\ApiConfigHelper;
 use App\Fresns\Api\Helpers\ApiLanguageHelper;
-use App\Fresns\Api\Helpers\StrHelper;
 use Illuminate\Support\Facades\DB;
 
 class ContentLogsService
@@ -397,7 +389,7 @@ class ContentLogsService
         $postTitle = $request->input('postTitle');
         $isMarkdown = $request->input('isMarkdown');
         $isAnonymous = $request->input('isAnonymous', 0);
-        $file = request()->file('file');
+        $file = $request->file('file');
         $fileInfo = $request->input('fileInfo');
         $eid = $request->input('eid');
         $extends = [];
@@ -416,21 +408,52 @@ class ContentLogsService
                 }
             }
         }
+
         $imageType = [];
-        $idArr = [];
+        $fileArr = [];
+        $fidArr = [];
+
         if ($file) {
-            $idArr = self::publishUpload(1);
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile([
+                "platform" => $request->header('platform'),
+                "type" => 1,
+                "tableType" => 8,
+                "tableName" => "post_logs",
+                "tableColumn" => "files_json",
+                "tableId" => 0,
+                "tableKey" => null,
+                "aid" => $request->header('aid'),
+                "uid" => $request->header('uid'),
+                "file" => $request->file('file'),
+            ]);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileArr = [$fresnsResp->getData()];
+            $fidArr = (array) $fresnsResp->getData('fid');
             $imageType = ['image'];
         }
         if ($fileInfo) {
-            $idArr = self::publishUploadFileInfo($fileInfo);
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFileInfo([
+                "platform" => $request->header('platform'),
+                "type" => 1,
+                "tableType" => 8,
+                "tableName" => "post_logs",
+                "tableColumn" => "files_json",
+                "tableId" => 0,
+                "tableKey" => null,
+                "aid" => $request->header('aid'),
+                "uid" => $request->header('uid'),
+                "fileInfo" => $fileInfo,
+            ]);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileArr = $fresnsResp->getData();
+            $fidArr = array_column($fresnsResp->getData(), 'fid');
             $imageType = self::getFileType($fileInfo);
         }
-        $fileArr = [];
 
-        if (! empty($idArr)) {
-            $fileArr = self::getFilesByIdArr($idArr);
-        }
         $typeArr = array_unique(array_merge($pluginTypeArr, $imageType));
         if (empty($typeArr)) {
             $types = 'text';
@@ -462,8 +485,9 @@ class ContentLogsService
         ];
         // Insert post_logs table
         $draftId = (new FresnsPostLogs())->store($input);
-        if (! empty($idArr)) {
-            FresnsFiles::whereIn('id', $idArr)->update(['table_id'=>$draftId]);
+
+        if (! empty($fidArr)) {
+            FresnsFiles::whereIn('fid', $fidArr)->update(['table_id'=>$draftId]);
         }
 
         return $draftId;
@@ -479,7 +503,6 @@ class ContentLogsService
         $isAnonymous = $request->input('isAnonymous', 0);
         $isMarkdown = $request->input('isMarkdown');
         $file = request()->file('file');
-
         $fileInfo = $request->input('fileInfo');
         $eid = $request->input('eid');
         $extends = [];
@@ -499,21 +522,48 @@ class ContentLogsService
                 }
             }
         }
+
         $imageType = [];
-        $idArr = [];
+        $fileArr = [];
         if ($file) {
-            $idArr = self::publishUpload(2);
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile([
+                "platform" => $request->header('platform'),
+                "type" => 1,
+                "tableType" => 9,
+                "tableName" => "comment_logs",
+                "tableColumn" => "files_json",
+                "tableId" => 0,
+                "tableKey" => null,
+                "aid" => $request->header('aid'),
+                "uid" => $request->header('uid'),
+                "file" => $request->file('file'),
+            ]);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileArr = [$fresnsResp->getData()];
             $imageType = ['image'];
         }
         if ($fileInfo) {
-            $idArr = self::publishUploadFileInfo($fileInfo);
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFileInfo([
+                "platform" => $request->header('platform'),
+                "type" => 1,
+                "tableType" => 9,
+                "tableName" => "comment_logs",
+                "tableColumn" => "files_json",
+                "tableId" => 0,
+                "tableKey" => null,
+                "aid" => $request->header('aid'),
+                "uid" => $request->header('uid'),
+                "fileInfo" => $request->input('fileInfo'),
+            ]);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileArr = $fresnsResp->getData();
             $imageType = self::getFileType($fileInfo);
         }
-        $fileArr = [];
 
-        if ($idArr) {
-            $fileArr = self::getFilesByIdArr($idArr);
-        }
         $typeArr = array_unique(array_merge($pluginTypeArr, $imageType));
 
         if (empty($typeArr)) {
@@ -539,242 +589,11 @@ class ContentLogsService
         ];
         // Insert comment_logs table
         $draftId = (new FresnsCommentLogs())->store($input);
-        if (! empty($idArr)) {
-            FresnsFiles::whereIn('id', $idArr)->update(['table_id'=>$draftId]);
+        if (! empty($fidArr)) {
+            FresnsFiles::whereIn('fid', $fidArr)->update(['table_id'=>$draftId]);
         }
 
         return $draftId;
-    }
-
-    /**
-     * Upload File.
-     *
-     * @param [type] $type 1-Post 2-Comment
-     * @return void
-     */
-    public static function publishUpload($type)
-    {
-        $aid = GlobalService::getGlobalKey('account_id');
-        $uid = GlobalService::getGlobalKey('user_id');
-        $t1 = time();
-
-        if ($type == 1) {
-            $tableType = 8;
-            $tableName = 'post_logs';
-        } else {
-            $tableType = 9;
-            $tableName = 'comment_logs';
-        }
-
-        $unikey = ApiConfigHelper::getConfigByItemKey('image_service');
-
-        $pluginUniKey = $unikey;
-        // Perform Upload
-        $pluginClass = PluginHelper::findPluginClass($pluginUniKey);
-
-        $platformId = request()->header('platform');
-        // Confirm Catalog
-        $options['file_type'] = 1;
-        $options['table_type'] = $tableType;
-        $storePath = FileSceneService::getEditorPath($options);
-        // Get an instance of UploadFile
-        $uploadFile = request()->file('file');
-
-        // Storage
-        $path = $uploadFile->store($storePath);
-        $basePath = base_path();
-        $basePath = $basePath.'/storage/app/';
-        $newPath = $storePath.'/'.StrHelper::createToken(8).'.'.$uploadFile->getClientOriginalExtension();
-        copy($basePath.$path, $basePath.$newPath);
-        unlink($basePath.$path);
-        $file['file_name'] = $uploadFile->getClientOriginalName();
-        $file['file_extension'] = $uploadFile->getClientOriginalExtension();
-        $file['file_path'] = str_replace('public', '', $newPath);
-        $file['rank_num'] = 9;
-        $file['table_type'] = 8;
-        $file['file_type'] = 1;
-        $file['table_name'] = $tableName;
-        $file['table_column'] = 'files_json';
-
-        LogService::info('File Storage Local Success ', $file);
-        $t2 = time();
-
-        $fsid = StrHelper::createFsid();
-        $file['fid'] = $fsid;
-        // Insert data
-        $retId = FresnsFiles::insertGetId($file);
-
-        $file['real_path'] = $newPath;
-        $input = [
-            'file_id' => $retId,
-            'file_mime' => $uploadFile->getMimeType(),
-            'file_size' => $uploadFile->getSize(),
-            'platform_id' => $platformId,
-            'transcoding_state' => 1,
-            'account_id' => $aid,
-            'user_id' => $uid,
-            // 'file_original_path' => Storage::url($path),
-        ];
-
-        $imageSize = getimagesize($uploadFile);
-        $input['image_width'] = $imageSize[0] ?? null;
-        $input['image_height'] = $imageSize[1] ?? null;
-        $input['image_is_long'] = 0;
-        if (! empty($input['image_width']) && ! empty($input['image_height'])) {
-            if ($input['image_width'] >= 700) {
-                if ($input['image_height'] >= $input['image_width'] * 3) {
-                    $input['image_is_long'] = 1;
-                }
-            }
-        }
-
-        $file['file_size'] = $input['file_size'];
-        FresnsFileAppends::insert($input);
-
-        if ($pluginClass) {
-            $cmd = FresnsCmdWordsConfig::FRESNS_CMD_UPLOAD_FILE;
-            $input = [];
-            $input['fid'] = json_encode([$fsid]);
-            $input['mode'] = 1;
-            $resp = CmdRpcHelper::call($pluginClass, $cmd, $input);
-            if (CmdRpcHelper::isErrorCmdResp($resp)) {
-            }
-        }
-
-        return [$retId];
-    }
-
-    // Upload fileInfo
-    public static function publishUploadFileInfo($fileInfo)
-    {
-        $aid = GlobalService::getGlobalKey('account_id');
-        $uid = GlobalService::getGlobalKey('user_id');
-        $platformId = request()->header('platform');
-        $fileInfo = json_decode($fileInfo, true);
-        $unikey = ApiConfigHelper::getConfigByItemKey('image_service');
-
-        $pluginUniKey = $unikey;
-        // Perform Upload
-        $pluginClass = PluginHelper::findPluginClass($pluginUniKey);
-
-        $retIdArr = [];
-        $fidArr = [];
-        if (is_array($fileInfo)) {
-            foreach ($fileInfo as $v) {
-                $item = [];
-                $fid = StrHelper::createFsid();
-                $fidArr[] = $fid;
-                $item['fid'] = $fid;
-                $item['file_name'] = $v['name'];
-                $item['file_type'] = $v['type'];
-                $item['table_type'] = $v['tableType'];
-                $item['table_name'] = $v['tableName'];
-                $item['table_column'] = $v['tableColumn'];
-                $item['file_extension'] = $v['extension'];
-                $item['file_path'] = $v['path'];
-                $item['rank_num'] = $v['rankNum'] ?? 9;
-                $retId = FresnsFiles::insertGetId($item);
-                $retIdArr[] = $retId;
-                $append = [];
-                $append['file_id'] = $retId;
-                $append['account_id'] = $aid;
-                $append['user_id'] = $uid;
-                $append['file_id'] = $retId;
-                $append['file_original_path'] = $v['originalPath'] ?? null;
-                $append['file_mime'] = $v['mime'] ?? null;
-                $append['file_size'] = $v['size'] ?? null;
-                $append['file_md5'] = $v['md5'] ?? null;
-                $append['file_sha1'] = $v['sha1'] ?? null;
-                $append['image_width'] = empty($v['imageWidth']) ? null : $v['imageWidth'];
-                $append['image_height'] = empty($v['imageHeight']) ? null : $v['imageHeight'];
-                $imageLong = 0;
-                if (! empty($fileInfo['imageLong'])) {
-                    $length = strlen($fileInfo['imageLong']);
-                    if ($length == 1) {
-                        $imageLong = $fileInfo['imageLong'];
-                    }
-                }
-                $append['image_is_long'] = $imageLong;
-                $append['video_time'] = empty($v['videoTime']) ? null : $v['videoTime'];
-                $append['video_cover'] = empty($v['videoCover']) ? null : $v['videoCover'];
-                $append['video_gif'] = empty($v['videoGif']) ? null : $v['videoGif'];
-                $append['audio_time'] = empty($v['audioTime']) ? null : $v['audioTime'];
-                $append['transcoding_state'] = empty($v['transcodingState']) ? 1 : $v['transcodingState'];
-                $append['platform_id'] = $platformId;
-                FresnsFileAppends::insert($append);
-            }
-        }
-
-        if ($pluginClass && $fidArr) {
-            $cmd = FresnsCmdWordsConfig::FRESNS_CMD_UPLOAD_FILE;
-            $input = [];
-            $input['fid'] = json_encode($fidArr);
-            $input['mode'] = 1;
-            $resp = CmdRpcHelper::call($pluginClass, $cmd, $input);
-            if (CmdRpcHelper::isErrorCmdResp($resp)) {
-            }
-        }
-
-        return $retIdArr;
-    }
-
-    /**
-     * Look up the file information by the file->id array.
-     */
-    public static function getFilesByIdArr($idArr)
-    {
-        $filesArr = FresnsFiles::whereIn('id', $idArr)->get()->toArray();
-        $imagesHost = ApiConfigHelper::getConfigByItemKey('image_bucket_domain');
-        $imagesRatio = ApiConfigHelper::getConfigByItemKey('image_thumb_ratio');
-        $imagesSquare = ApiConfigHelper::getConfigByItemKey('image_thumb_square');
-        $imagesBig = ApiConfigHelper::getConfigByItemKey('image_thumb_big');
-        $videosHost = ApiConfigHelper::getConfigByItemKey('video_bucket_domain');
-        $audiosHost = ApiConfigHelper::getConfigByItemKey('audio_bucket_domain');
-        $documentsHost = ApiConfigHelper::getConfigByItemKey('document_bucket_domain');
-        $documentsOnlinePreview = ApiConfigHelper::getConfigByItemKey('document_online_preview');
-        $data = [];
-        if ($filesArr) {
-            foreach ($filesArr as $file) {
-                $item = [];
-                $append = FresnsFileAppends::where('file_id', $file['id'])->first();
-                $type = $file['file_type'];
-                $item['fid'] = $file['fid'];
-                $item['type'] = $file['file_type'];
-                $item['name'] = $file['file_name'];
-                $item['extension'] = $file['file_extension'];
-                $item['mime'] = $append['file_mime'];
-                $item['size'] = $append['file_size'];
-                $item['rankNum'] = $file['rank_num'];
-                if ($type == 1) {
-                    $item['imageWidth'] = $append['image_width'] ?? null;
-                    $item['imageHeight'] = $append['image_height'] ?? null;
-                    $item['imageLong'] = $file['image_long'] ?? 0;
-                    $item['imageRatioUrl'] = $imagesHost.$file['file_path'].$imagesRatio;
-                    $item['imageSquareUrl'] = $imagesHost.$file['file_path'].$imagesSquare;
-                    $item['imageBigUrl'] = $imagesHost.$file['file_path'].$imagesBig;
-                }
-                if ($type == 2) {
-                    $item['videoTime'] = $append['video_time'] ?? null;
-                    $item['videoCover'] = $append['video_cover'] ?? null;
-                    $item['videoGif'] = $append['video_gif'] ?? null;
-                    $item['videoUrl'] = $videosHost.$file['file_path'];
-                    $item['transcodingState'] = $append['transcoding_state'];
-                }
-                if ($type == 3) {
-                    $item['audioTime'] = $append['audio_time'] ?? null;
-                    $item['audioUrl'] = $audiosHost.$file['file_path'];
-                    $item['transcodingState'] = $append['transcoding_state'];
-                }
-                if ($type == 4) {
-                    $item['documentUrl'] = $documentsHost.$file['file_path'];
-                }
-                $item['moreJson'] = json_decode($append['more_json'], true);
-
-                $data[] = $item;
-            }
-        }
-
-        return $data;
     }
 
     /**

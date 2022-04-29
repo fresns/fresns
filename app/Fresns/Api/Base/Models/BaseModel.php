@@ -9,6 +9,10 @@
 namespace App\Fresns\Api\Base\Models;
 
 use App\Fresns\Api\Base\Config\BaseConfig;
+use App\Fresns\Api\Center\Common\LogService;
+use App\Fresns\Api\Center\Helper\CmdRpcHelper;
+use App\Fresns\Api\FsCmd\FresnsSubPlugin;
+use App\Fresns\Api\FsCmd\FresnsSubPluginConfig;
 use App\Fresns\Api\Traits\HookModelTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -95,6 +99,7 @@ class BaseModel extends Model
         //     'tableName' => $this->table,
         //     'insertId' => $id,
         // ];
+        // LogService::info('table_input', $input);
         // CmdRpcHelper::call(FresnsSubPlugin::class, $cmd, $input);
 
         return $id;
