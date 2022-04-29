@@ -14,7 +14,7 @@ use App\Fresns\Words\File\DTO\GetFileUrlOfAntiLinkDTO;
 use App\Fresns\Words\File\DTO\GetUploadTokenDTO;
 use App\Fresns\Words\File\DTO\LogicalDeletionFileDTO;
 use App\Fresns\Words\File\DTO\PhysicalDeletionFileDTO;
-use App\Fresns\Words\File\DTO\UploadFile;
+use App\Fresns\Words\File\DTO\UploadFileDTO;
 use App\Fresns\Words\File\DTO\UploadFileInfoDTO;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
@@ -59,7 +59,7 @@ class File
      */
     public function uploadFile($wordBody)
     {
-        $dtoWordBody = new UploadFile($wordBody);
+        $dtoWordBody = new UploadFileDTO($wordBody);
 
         $unikey = FileModel::getFileServiceInfoByFileType($dtoWordBody->type)['unikey'] ?? '';
         if (empty($unikey)) {
@@ -69,8 +69,8 @@ class File
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid ?? '');
         $userId = PrimaryHelper::fresnsUserIdByUid($dtoWordBody->uid ?? '');
-        if (isset($dtoWordBody->tableId)) {
-            $tableId = $this->getTableId($dtoWordBody->tableName, $dtoWordBody->tableId);
+        if (isset($dtoWordBody->tableKey)) {
+            $tableId = $this->getTableId($dtoWordBody->tableName, $dtoWordBody->tableKey);
         }
         $uploadFile = $dtoWordBody->file;
 
@@ -138,10 +138,14 @@ class File
         if (empty($unikey)) {
             return ['message' => 'Unconfigured Plugin', 'code' => 21001];
         }
-
         FileModel::getFileStorageConfigByFileType($dtoWordBody->type);
 
-        $tableId = $this->getTableId($dtoWordBody->tableName, $dtoWordBody->tableId);
+        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid ?? '');
+        $userId = PrimaryHelper::fresnsUserIdByUid($dtoWordBody->uid ?? '');
+        if (isset($dtoWordBody->tableKey)) {
+            $tableId = $this->getTableId($dtoWordBody->tableName, $dtoWordBody->tableKey);
+        }
+
         $fileInfoArr = json_decode($dtoWordBody->fileInfo, true);
 
         $fileIdArr = [];
@@ -189,6 +193,8 @@ class File
                 $append['video_cover'] = $fileInfo['videoCover'] == '' ? null : $fileInfo['videoCover'];
                 $append['video_gif'] = $fileInfo['videoGif'] == '' ? null : $fileInfo['videoGif'];
                 $append['audio_time'] = $fileInfo['audioTime'] == '' ? null : $fileInfo['audioTime'];
+                $append['account_id'] = $accountId;
+                $append['user_id'] = $userId;
                 $append['platform_id'] = $dtoWordBody->platform;
                 $append['more_json'] = json_encode($fileInfo['moreJson']);
 
@@ -343,16 +349,17 @@ class File
      * @param $tableId
      * @return mixed
      */
-    protected function getTableId($tableName, $tableId)
+    protected function getTableId($tableName, $tableKey)
     {
         $tableId = match ($tableName) {
-            'accounts'=>PrimaryHelper::fresnsAccountIdByAid($tableId),
-            'users'=>PrimaryHelper::fresnsUserIdByUid($tableId),
-            'posts'=>PrimaryHelper::fresnsPostIdByPid($tableId),
-            'comments'=>PrimaryHelper::fresnsCommentIdByCid($tableId),
-            'extends'=>PrimaryHelper::fresnsExtendIdByEid($tableId),
-            'groups'=>PrimaryHelper::fresnsGroupIdByGid($tableId),
-            'hashtags'=>PrimaryHelper::fresnsHashtagIdByHuri($tableId),
+            'accounts'=>PrimaryHelper::fresnsAccountIdByAid($tableKey),
+            'users'=>PrimaryHelper::fresnsUserIdByUid($tableKey),
+            'posts'=>PrimaryHelper::fresnsPostIdByPid($tableKey),
+            'comments'=>PrimaryHelper::fresnsCommentIdByCid($tableKey),
+            'extends'=>PrimaryHelper::fresnsExtendIdByEid($tableKey),
+            'groups'=>PrimaryHelper::fresnsGroupIdByGid($tableKey),
+            'hashtags'=>PrimaryHelper::fresnsHashtagIdByHuri($tableKey),
+            default => null,
         };
 
         return $tableId;

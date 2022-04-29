@@ -26,7 +26,7 @@ class UploadFileInfoDTO extends DTO
             'tableType' => ['required', 'integer'],
             'tableName' => ['required', 'string'],
             'tableColumn' => ['required', 'string'],
-            'tableId' => ['required_without:tableKey', 'string'],
+            'tableId' => ['required_without:tableKey', 'integer'],
             'tableKey' => ['required_without:tableId', 'string'],
             'aid' => ['nullable', 'string'],
             'uid' => ['nullable', 'integer'],
