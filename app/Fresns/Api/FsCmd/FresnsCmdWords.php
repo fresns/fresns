@@ -448,7 +448,6 @@ class FresnsCmdWords extends BasePlugin
                 if ($groupPostCount > 0) {
                     FresnsGroups::where('id', $post->group_id)->decrement('post_count');
                 }
-                FresnsConfigs::where('item_key', 'posts_count')->decrement('item_value');
 
                 /*
                  * post
@@ -593,7 +592,6 @@ class FresnsCmdWords extends BasePlugin
                 FresnsComments::where('id', $comment->parent_id)->decrement('comment_like_count', $comment->like_count);
                 FresnsPosts::where('id', $comment->post_id)->decrement('comment_count');
                 FresnsPosts::where('id', $comment->post_id)->decrement('comment_like_count', $comment->like_count);
-                FresnsConfigs::where('item_key', 'comments_count')->decrement('item_value');
 
                 /*
                  * comment
@@ -756,34 +754,6 @@ class FresnsCmdWords extends BasePlugin
         // FresnsSubPluginService::addSubTablePluginItem(FresnsUsersConfig::CFG_TABLE, $uid);
 
         $langTag = request()->header('langTag');
-
-        if ($type == 1) {
-            // Add Counts
-            $accountCounts = ApiConfigHelper::getConfigByItemKey('accounts_count');
-            if ($accountCounts === null) {
-                $input = [
-                    'item_key' => 'accounts_count',
-                    'item_value' => 1,
-                    'item_tag' => 'stats',
-                    'item_type' => 'number',
-                ];
-                FresnsConfigs::insert($input);
-            } else {
-                FresnsConfigs::where('item_key', 'accounts_count')->update(['item_value' => $accountCounts + 1]);
-            }
-            $userCounts = ApiConfigHelper::getConfigByItemKey('users_count');
-            if ($userCounts === null) {
-                $input = [
-                    'item_key' => 'users_count',
-                    'item_value' => 1,
-                    'item_tag' => 'stats',
-                    'item_type' => 'number',
-                ];
-                FresnsConfigs::insert($input);
-            } else {
-                FresnsConfigs::where('item_key', 'users_count')->update(['item_value' => $userCounts + 1]);
-            }
-        }
 
         // Register successfully to add records to the table
         $userStatsInput = [

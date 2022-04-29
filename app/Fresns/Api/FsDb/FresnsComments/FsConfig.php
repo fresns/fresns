@@ -20,8 +20,6 @@ class FsConfig extends BaseConfig
     const COMMENT_EDITOR_BRIEF_COUNT = 'comment_editor_brief_count';
     const COMMENT_EDITOR_WORD_COUNT = 'comment_editor_word_count';
     const HASHTAG_SHOW = 'hashtag_show';
-    const COMMENTS_COUNT = 'comments_count';
-    const HASHTAGS_COUNT = 'hashtags_count';
 
     // Additional search columns in the main table
     const ADDED_SEARCHABLE_FIELDS = [

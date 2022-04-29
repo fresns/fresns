@@ -722,7 +722,7 @@ class FsControllerApi extends FsApiController
     // Calculate distance by latitude and longitude
     public static function distance1($longitude, $latitude, $distance)
     {
-        $tableName = env('DB_PREFIX').'posts';
+        $tableName = config('database.connections.mysql.prefix').'posts';
         $sql = "SELECT id,
         ROUND(
             6378.138 * 2 * ASIN(

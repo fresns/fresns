@@ -778,7 +778,6 @@ class FresnsPostsService extends FsService
     }
 
     // Add stats: user_stats > post_publish_count
-    // Add stats: Configs item_key = posts_count
     public function userStats($draftId)
     {
         $draftPost = FresnsPostLogs::find($draftId);
@@ -788,7 +787,6 @@ class FresnsPostsService extends FsService
         } else {
             (new FresnsUserStats())->store(['user_id' => $draftPost['user_id'], 'post_publish_count' => 1]);
         }
-        DB::table('configs')->where('item_key', FsConfig::POSTS_COUNT)->increment('item_value');
 
         return true;
     }
@@ -877,7 +875,6 @@ class FresnsPostsService extends FsService
                         'linked_id' => $draftPost['post_id'],
                         'hashtag_id' => $hashtagId,
                     ]);
-                    DB::table('configs')->where('item_key', FsConfig::HASHTAGS_COUNT)->increment('item_value');
                 }
             }
         }

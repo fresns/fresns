@@ -21,8 +21,6 @@ class FsConfig extends BaseConfig
     const POST_EDITOR_WORD_COUNT = 'post_editor_word_count';
     const POST_EDITOR_BRIEF_COUNT = 'post_editor_brief_count';
     const HASHTAG_SHOW = 'hashtag_show';
-    const POSTS_COUNT = 'posts_count';
-    const HASHTAGS_COUNT = 'hashtag_counts';
 
     // Whether you have permission to read
     const IS_ALLOW_1 = 1;

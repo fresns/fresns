@@ -569,7 +569,6 @@ class FresnsCommentsService extends FsService
     }
 
     // Add stats: user_stats > comment_publish_count
-    // Add stats: Configs item_key = comments_count
     public function userStats($draftId)
     {
         $draftComment = FresnsCommentLogs::find($draftId);
@@ -579,7 +578,6 @@ class FresnsCommentsService extends FsService
         } else {
             (new FresnsUserStats())->store(['user_id' => $draftComment['user_id'], 'comment_publish_count' => 1]);
         }
-        DB::table('configs')->where('item_key', FsConfig::COMMENTS_COUNT)->increment('item_value');
 
         return true;
     }
@@ -743,7 +741,6 @@ class FresnsCommentsService extends FsService
                         'linked_id' => $draftComment['comment_id'],
                         'hashtag_id' => $hashtagId,
                     ]);
-                    DB::table('configs')->where('item_key', FsConfig::HASHTAGS_COUNT)->increment('item_value');
                 }
             }
         }

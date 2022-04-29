@@ -41,7 +41,7 @@ class FsConfig
         'language_codes',
         'language_pack',
         'connects',
-        'disable_names',
+        'ban_names',
         'utc',
         'continents',
         'area_codes',

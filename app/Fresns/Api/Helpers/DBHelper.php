@@ -61,7 +61,7 @@ class DBHelper
         $sameTableArr = array_intersect($table1Arr, $table2Arr);
 
         foreach ($sameTableArr as $table) {
-            $table = env('DB_PREFIX').$table;
+            $table = config('database.connections.mysql.prefix').$table;
 
             $conn1TableColumnMap = self::getTableColumnInfoMap($conn1, $table);
             $conn2TableColumnMap = self::getTableColumnInfoMap($conn2, $table);
@@ -95,7 +95,7 @@ class DBHelper
 
         $tableArr = [];
         foreach ($tables as $tableName) {
-            $tableArr[] = str_replace(env('DB_PREFIX'), '', $tableName);
+            $tableArr[] = str_replace(config('database.connections.mysql.prefix'), '', $tableName);
         }
 
         return $tableArr;

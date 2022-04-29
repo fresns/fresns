@@ -353,7 +353,7 @@ class FsControllerApi extends FsApiController
                 $this->error(ErrorCodeService::USER_NAME_LENGTH_ERROR);
             }
 
-            $disableNames = FresnsConfigs::where('item_key', 'disable_names')->value('item_value');
+            $disableNames = FresnsConfigs::where('item_key', 'ban_names')->value('item_value');
             $disableNamesArr = json_decode($disableNames, true);
             if (in_array($username, $disableNamesArr)) {
                 $this->error(ErrorCodeService::DISABLE_NAME_ERROR);
@@ -1171,7 +1171,6 @@ class FsControllerApi extends FsApiController
 
                 FresnsComments::where('id', $comments['id'])->delete();
                 FresnsUserStats::where('user_id', $uid)->decrement('comment_publish_count');
-                FresnsConfigs::where('item_key', 'comments_count')->decrement('item_value');
                 if (! empty($commentsAppend['id'])) {
                     FresnsCommentAppends::where('id', $commentsAppend['id'])->delete();
                 }
