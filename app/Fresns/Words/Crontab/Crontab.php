@@ -149,7 +149,7 @@ class Crontab
             if (is_null($version)) {
                 continue;
             }
-            
+
             $plugin = $plugins->where('unikey', $unikey)->first();
 
             // Same version number
