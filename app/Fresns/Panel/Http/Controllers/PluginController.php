@@ -169,7 +169,7 @@ class PluginController extends Controller
         return \response()->json([
             'message' => __('FsLang::tips.upgradeSuccess'),
             'data' => [
-                'output' => \Artisan::output(),
+                'output' => \Artisan::output()."\n".__('FsLang::tips.upgradeSuccess'),
             ],
         ], 200);
 
