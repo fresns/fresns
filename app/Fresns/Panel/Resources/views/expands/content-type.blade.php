@@ -45,6 +45,7 @@
                                     data-bs-toggle="modal"
                                     data-action="{{ route('panel.content-type.source', ['id' => $item->id, 'key' => 'postByAll']) }}"
                                     data-params="{{ json_encode($item->data_sources['postByAll']['rankNumber'] ?? []) }} "
+                                    data-default_language="{{$defaultLanguage}}"
                                     data-bs-target="#rankNumberModal">{{ __('FsLang::panel.expand_content_type_option_post_all') }}</button>
                             @endif
                             @if (!empty($item->data_sources['postByFollow']['pluginUnikey']))
@@ -52,6 +53,7 @@
                                     data-bs-toggle="modal"
                                     data-action="{{ route('panel.content-type.source', ['id' => $item->id, 'key' => 'postByFollow']) }}"
                                     data-params="{{ json_encode($item->data_sources['postByFollow']['rankNumber'] ?? []) }} "
+                                    data-default_language="{{$defaultLanguage}}"
                                     data-bs-target="#rankNumberModal">{{ __('FsLang::panel.expand_content_type_option_post_follow') }}</button>
                             @endif
                             @if (!empty($item->data_sources['postByNearby']['pluginUnikey']))
@@ -59,6 +61,7 @@
                                     data-bs-toggle="modal"
                                     data-action="{{ route('panel.content-type.source', ['id' => $item->id, 'key' => 'postByNearby']) }}"
                                     data-params="{{ json_encode($item->data_sources['postByNearby']['rankNumber'] ?? []) }} "
+                                    data-default_language="{{$defaultLanguage}}"
                                     data-bs-target="#rankNumberModal">{{ __('FsLang::panel.expand_content_type_option_post_nearby') }}</button>
                             @endif
                         </td>

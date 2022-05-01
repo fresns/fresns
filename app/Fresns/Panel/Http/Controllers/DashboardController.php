@@ -12,7 +12,6 @@ use App\Helpers\AppHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\InteractiveHelper;
 use App\Models\Account;
-use App\Models\Config;
 use App\Models\Plugin;
 use App\Models\SessionKey;
 use App\Utilities\AppUtility;

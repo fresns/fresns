@@ -54,7 +54,7 @@ class AppUtility
         $currentVersionInt = AppUtility::currentVersion()['versionInt'];
         $newVersionInt = AppUtility::newVersion()['versionInt'];
 
-        if ($currentVersionInt != $newVersionInt) {
+        if ($currentVersionInt < $newVersionInt) {
             return true; // There is a new version
         }
 

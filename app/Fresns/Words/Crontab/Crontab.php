@@ -146,6 +146,10 @@ class Crontab
         }
 
         foreach ($response->json('data') as $unikey => $version) {
+            if (is_null($version)) {
+                continue;
+            }
+            
             $plugin = $plugins->where('unikey', $unikey)->first();
 
             // Same version number
