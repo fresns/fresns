@@ -914,6 +914,7 @@ $(document).ready(function () {
             success: function (response) {
                 window.uninstallMessage = response;
                 $('#uninstallStepModal').find('#uninstall_artisan_output').text(response);
+                location.reload();
             },
         });
     });
@@ -1615,8 +1616,8 @@ $(document).ready(function () {
                 descriptions[item.langTag] = item.description;
 
                 if (item.langTag == defaultLanguage) {
-                  title = item.title;
-                  description = item.description;
+                    title = item.title;
+                    description = item.description;
                 }
             });
 
@@ -1628,10 +1629,10 @@ $(document).ready(function () {
             rankTemplate.find('input[name="descriptions[]"]').val(JSON.stringify(descriptions));
 
             if (title) {
-              rankTemplate.find('button.rank-title').text(title);
+                rankTemplate.find('button.rank-title').text(title);
             }
             if (description) {
-              rankTemplate.find('button.rank-description').text(description);
+                rankTemplate.find('button.rank-description').text(description);
             }
 
             rankTemplate.insertBefore($(this).find('.add-rank-tr'));
@@ -1812,7 +1813,7 @@ $(document).ready(function () {
         let end = 0;
 
         if (status == 'false') {
-          return;
+            return;
         }
 
         if (type == 1) {
@@ -1841,7 +1842,7 @@ $(document).ready(function () {
         let end = 0;
 
         if (status == 'false') {
-          return;
+            return;
         }
 
         if (type == 1) {
@@ -1938,6 +1939,7 @@ $(document).ready(function () {
             success: function (response) {
                 console.log('install response', response)
                 $('#install_artisan_output').val(response.data.output || trans('tips.installSuccess')) //FsLang
+                location.reload();
             },
             error: function (response) {
                 window.tips(response.responseJSON.message);

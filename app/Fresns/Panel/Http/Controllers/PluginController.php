@@ -147,7 +147,7 @@ class PluginController extends Controller
             return \response()->json([
                 'message' => __('FsLang::tips.installSuccess'),
                 'data' => [
-                    'output' => \Artisan::output(),
+                    'output' => \Artisan::output()."\n".__('FsLang::tips.installSuccess'),
                 ],
             ], 200);
         } elseif ($unikey = $request->get('plugin_unikey')) {
@@ -159,7 +159,7 @@ class PluginController extends Controller
             return \response()->json([
                 'message' => __('FsLang::tips.installSuccess'),
                 'data' => [
-                    'output' => \Artisan::output(),
+                    'output' => \Artisan::output()."\n".__('FsLang::tips.installSuccess'),
                 ],
             ], 200);
         }
@@ -236,9 +236,9 @@ class PluginController extends Controller
     public function uninstallTheme(Request $request)
     {
         if ($request->get('clearData') == 1) {
-            \Artisan::call('theme:uninstall', ['theme' => $request->theme, '--cleandata' => true]);
+            \Artisan::call('theme:uninstall', ['plugin' => $request->theme, '--cleardata' => true]);
         } else {
-            \Artisan::call('theme:uninstall', ['theme' => $request->theme, '--cleandata' => false]);
+            \Artisan::call('theme:uninstall', ['plugin' => $request->theme, '--cleardata' => false]);
         }
 
         return response()->json(['message' => \Artisan::output().__('FsLang::tips.uninstallSuccess')], 200);

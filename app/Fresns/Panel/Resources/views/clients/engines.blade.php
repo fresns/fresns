@@ -47,14 +47,14 @@
                         <td>
                             <span class="badge bg-light text-dark"><i class="bi bi-laptop"></i>
                                 @if ($pcPlugin = optional($configs->where('item_key', $engine->unikey.'_Pc')->first())->item_value )
-                                    {{ $plugins[$pcPlugin] ?? '' }}
+                                    {{ $plugins[$pcPlugin] ?? $pcPlugin ?? '' }}
                                 @else
                                     {{ __('FsLang::panel.engine_table_theme_none') }}
                                 @endif
                             </span>
                             <span class="badge bg-light text-dark"><i class="bi bi-phone"></i>
                                 @if ($mobilePlugin = optional($configs->where('item_key', $engine->unikey.'_Mobile')->first())->item_value)
-                                    {{ $plugins[$mobilePlugin] }}
+                                    {{ $plugins[$mobilePlugin] ?? $mobilePlugin ?? '' }}
                                 @else
                                     {{ __('FsLang::panel.engine_table_theme_none') }}
                                 @endif
