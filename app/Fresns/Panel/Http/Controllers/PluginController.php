@@ -142,26 +142,17 @@ class PluginController extends Controller
 
             \Artisan::call($command, [
                 'path' => "$dir/$filename",
+                '--force' => true,
             ]);
 
-            return \response()->json([
-                'message' => __('FsLang::tips.installSuccess'),
-                'data' => [
-                    'output' => \Artisan::output()."\n".__('FsLang::tips.installSuccess'),
-                ],
-            ], 200);
+            return \response(\Artisan::output()."\n".__('FsLang::tips.installSuccess'));
         } elseif ($unikey = $request->get('plugin_unikey')) {
             // php artisan fresns:require ...
             \Artisan::call('fresns:require', [
                 'unikey' => $unikey,
             ]);
 
-            return \response()->json([
-                'message' => __('FsLang::tips.installSuccess'),
-                'data' => [
-                    'output' => \Artisan::output()."\n".__('FsLang::tips.installSuccess'),
-                ],
-            ], 200);
+            return \response(\Artisan::output()."\n".__('FsLang::tips.installSuccess'));
         }
 
         return back()->with('failure', __('FsLang::tips.installFailure'));

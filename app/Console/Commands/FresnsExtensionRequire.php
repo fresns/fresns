@@ -71,6 +71,7 @@ class FresnsExtensionRequire extends Command
         // install command
         $this->call($command, [
             'path' => $filepath,
+            '--force' => true,
         ]);
 
         // Update the upgrade_code field of the plugin table

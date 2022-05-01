@@ -1932,13 +1932,12 @@ $(document).ready(function () {
         $.ajax({
             method: $(this).attr('method'), // post form
             url: $(this).attr('action'),
-            dataType: 'json',
             data: new FormData(document.querySelector('#installModal form')),
             contentType: false,
             processData: false,
             success: function (response) {
                 console.log('install response', response)
-                $('#install_artisan_output').val(response.data.output || trans('tips.installSuccess')) //FsLang
+                $('#install_artisan_output').val(response || trans('tips.installSuccess')) //FsLang
                 location.reload();
             },
             error: function (response) {
