@@ -73,7 +73,7 @@
     </div>
 
     <!-- sticker group form -->
-    <form method="post" class="check-names">
+    <form method="POST" class="check-names" enctype="multipart/form-data" action="">
         @csrf
         @method('post')
         <!-- sticker group modal -->
@@ -104,7 +104,7 @@
                                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                                     </ul>
                                     <input type="file" class="form-control inputFile" name="image_file">
-                                    <input type="url" class="form-control inputUrl" name="image_url" value="" style="display:none;">
+                                    <input type="url" class="form-control inputUrl" name="image_file_url" value="" style="display:none;">
                                 </div>
                             </div>
                         </div>
@@ -260,7 +260,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('panel.sticker-images.store') }}" method="post">
+                    <form action="{{ route('panel.sticker-images.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="parent_id">
                         <div class="mb-3 row">
@@ -279,7 +279,7 @@
                                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                                     </ul>
                                     <input type="file" class="form-control inputFile" name="image_file">
-                                    <input type="url" class="form-control inputUrl" name="image_url" value="" style="display:none;">
+                                    <input type="url" class="form-control inputUrl" name="image_file_url" value="" style="display:none;">
                                 </div>
                             </div>
                         </div>

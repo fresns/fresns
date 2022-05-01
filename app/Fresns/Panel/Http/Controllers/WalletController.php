@@ -13,6 +13,7 @@ use App\Models\Language;
 use App\Models\Plugin;
 use App\Models\PluginUsage;
 use Illuminate\Http\Request;
+use App\Helpers\PrimaryHelper;
 
 class WalletController extends Controller
 {
@@ -97,12 +98,33 @@ class WalletController extends Controller
         $pluginUsage = new PluginUsage;
         $pluginUsage->type = 1;
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
-        $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->plugin_unikey = $request->plugin_unikey;
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rank_num = $request->rank_num;
+        $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->save();
+
+        if ($request->file('icon_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 3,
+                'tableName' => 'plugin_usages',
+                'tableColumn' => 'icon_file_id',
+                'tableId' => $pluginUsage->id,
+                'file' => $request->file('icon_file'),
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+
+            $pluginUsage->icon_file_id = $fileId;
+            $pluginUsage->icon_file_url = $fresnsResp->getData('imageConfigUrl');
+            $pluginUsage->save();
+        }
 
         if ($request->update_name) {
             foreach ($request->names as $langTag => $content) {
@@ -137,10 +159,33 @@ class WalletController extends Controller
     {
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->plugin_unikey = $request->plugin_unikey;
-        $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rank_num = $request->rank_num;
+
+        if ($request->file('icon_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 3,
+                'tableName' => 'plugin_usages',
+                'tableColumn' => 'icon_file_id',
+                'tableId' => $pluginUsage->id,
+                'file' => $request->file('icon_file'),
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+
+            $pluginUsage->icon_file_id = $fileId;
+            $pluginUsage->icon_file_url = $fresnsResp->getData('imageConfigUrl');
+        } else if($pluginUsage->icon_file_url != $request->icon_file_url) {
+            $pluginUsage->icon_file_id = null;
+            $pluginUsage->icon_file_url = $request->icon_file_url;
+        }
+
         $pluginUsage->save();
 
         if ($request->update_name) {
@@ -192,12 +237,33 @@ class WalletController extends Controller
         $pluginUsage = new PluginUsage;
         $pluginUsage->type = 2;
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
-        $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->plugin_unikey = $request->plugin_unikey;
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rank_num = $request->rank_num;
+        $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->save();
+
+        if ($request->file('icon_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 3,
+                'tableName' => 'plugin_usages',
+                'tableColumn' => 'icon_file_id',
+                'tableId' => $pluginUsage->id,
+                'file' => $request->file('icon_file'),
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+
+            $pluginUsage->icon_file_id = $fileId;
+            $pluginUsage->icon_file_url = $fresnsResp->getData('imageConfigUrl');
+            $pluginUsage->save();
+        }
 
         if ($request->update_name) {
             foreach ($request->names as $langTag => $content) {
@@ -232,10 +298,33 @@ class WalletController extends Controller
     {
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->plugin_unikey = $request->plugin_unikey;
-        $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rank_num = $request->rank_num;
+
+        if ($request->file('icon_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 3,
+                'tableName' => 'plugin_usages',
+                'tableColumn' => 'icon_file_id',
+                'tableId' => $pluginUsage->id,
+                'file' => $request->file('icon_file'),
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+
+            $pluginUsage->icon_file_id = $fileId;
+            $pluginUsage->icon_file_url = $fresnsResp->getData('imageConfigUrl');
+        } else if($pluginUsage->icon_file_url != $request->icon_file_url) {
+            $pluginUsage->icon_file_id = null;
+            $pluginUsage->icon_file_url = $request->icon_file_url;
+        }
+
         $pluginUsage->save();
 
         if ($request->update_name) {

@@ -13,6 +13,7 @@ use App\Models\Plugin;
 use App\Models\PluginUsage;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use App\Helpers\PrimaryHelper;
 
 class ExpandEditorController extends Controller
 {
@@ -49,6 +50,27 @@ class ExpandEditorController extends Controller
         $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->can_delete = 1;
         $pluginUsage->save();
+
+        if ($request->file('icon_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 3,
+                'tableName' => 'plugin_usages',
+                'tableColumn' => 'icon_file_id',
+                'tableId' => $pluginUsage->id,
+                'file' => $request->file('icon_file'),
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+
+            $pluginUsage->icon_file_id = $fileId;
+            $pluginUsage->icon_file_url = $fresnsResp->getData('imageConfigUrl');
+            $pluginUsage->save();
+        }
 
         if ($request->update_name) {
             foreach ($request->names as $langTag => $content) {
@@ -90,7 +112,30 @@ class ExpandEditorController extends Controller
         $pluginUsage->editor_number = $request->editor_number;
         $pluginUsage->roles = $request->roles ? implode(',', $request->roles) : '';
         $pluginUsage->scene = $request->scene ? implode(',', $request->scene) : '';
-        $pluginUsage->icon_file_url = $request->icon_file_url;
+
+        if ($request->file('icon_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 3,
+                'tableName' => 'plugin_usages',
+                'tableColumn' => 'icon_file_id',
+                'tableId' => $pluginUsage->id,
+                'file' => $request->file('icon_file'),
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+
+            $pluginUsage->icon_file_id = $fileId;
+            $pluginUsage->icon_file_url = $fresnsResp->getData('imageConfigUrl');
+        } else if($pluginUsage->icon_file_url != $request->icon_file_url) {
+            $pluginUsage->icon_file_id = null;
+            $pluginUsage->icon_file_url = $request->icon_file_url;
+        }
+
         $pluginUsage->save();
 
         if ($request->update_name) {

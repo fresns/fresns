@@ -11,6 +11,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Fresns\Panel\Http\Requests\UpdateStickerGroupRequest;
 use App\Models\Language;
 use App\Models\Sticker;
+use App\Helpers\PrimaryHelper;
 
 class StickerGroupController extends Controller
 {
@@ -36,6 +37,27 @@ class StickerGroupController extends Controller
         $sticker->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $sticker->type = 2;
         $sticker->save();
+
+        if ($request->file('image_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 3,
+                'tableName' => 'stickers',
+                'tableColumn' => 'image_file_id',
+                'tableId' => $sticker->id,
+                'file' => $request->file('image_file'),
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+
+            $sticker->image_file_id = $fileId;
+            $sticker->image_file_url= $fresnsResp->getData('imageConfigUrl');
+            $sticker->save();
+        }
 
         foreach ($request->names as $langTag => $content) {
             $language = Language::tableName('stickers')
@@ -69,8 +91,31 @@ class StickerGroupController extends Controller
         $sticker->rank_num = $request->rank_num;
         $sticker->code = $request->code;
         $sticker->is_enable = $request->is_enable;
-        $sticker->image_file_url = $request->image_file_url ?: '';
         $sticker->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
+
+        if ($request->file('image_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 3,
+                'tableName' => 'stickers',
+                'tableColumn' => 'image_file_id',
+                'tableId' => $sticker->id,
+                'file' => $request->file('image_file'),
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+
+            $sticker->image_file_id = $fileId;
+            $sticker->image_file_url= $fresnsResp->getData('imageConfigUrl');
+        } else if($sticker->image_file_url != $request->image_file_url) {
+            $sticker->image_file_id = null;
+            $sticker->image_file_url = $request->image_file_url;
+        }
+
         $sticker->save();
 
         foreach ($request->names as $langTag => $content) {

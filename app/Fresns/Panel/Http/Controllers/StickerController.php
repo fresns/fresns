@@ -11,6 +11,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Fresns\Panel\Http\Requests\UpdateStickerRequest;
 use App\Models\Sticker;
 use Illuminate\Http\Request;
+use App\Helpers\PrimaryHelper;
 
 class StickerController extends Controller
 {
@@ -24,6 +25,27 @@ class StickerController extends Controller
         $stickerImage->image_file_url = $request->image_file_url ?: '';
         $stickerImage->type = 1;
         $stickerImage->save();
+
+        if ($request->file('image_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 3,
+                'tableName' => 'stickers',
+                'tableColumn' => 'image_file_id',
+                'tableId' => $stickerImage->id,
+                'file' => $request->file('image_file'),
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+
+            $stickerImage->image_file_id = $fileId;
+            $stickerImage->image_file_url = $fresnsResp->getData('imageConfigUrl');
+            $stickerImage->save();
+        }
 
         return $this->createSuccess();
     }

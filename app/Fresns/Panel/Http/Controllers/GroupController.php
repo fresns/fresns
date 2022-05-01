@@ -16,6 +16,7 @@ use App\Models\PostLog;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Helpers\PrimaryHelper;
 
 class GroupController extends Controller
 {
@@ -183,6 +184,49 @@ class GroupController extends Controller
         }
         $group->save();
 
+        if ($request->file('cover_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 3,
+                'tableName' => 'groups',
+                'tableColumn' => 'cover_file_id',
+                'tableId' => $group->id,
+                'file' => $request->file('cover_file'),
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+
+            $group->cover_file_id = $fileId;
+            $group->cover_file_url = $fresnsResp->getData('imageConfigUrl');
+            $group->save();
+        }
+
+        if ($request->file('banner_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 3,
+                'tableName' => 'groups',
+                'tableColumn' => 'banner_file_id',
+                'tableId' => $group->id,
+                'file' => $request->file('banner_file'),
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+
+            $group->banner_file_id = $fileId;
+            $group->banner_file_url = $fresnsResp->getData('imageConfigUrl');
+            $group->save();
+        }
+
+
         if ($request->update_name) {
             foreach ($request->names as $langTag => $content) {
                 $language = Language::tableName('groups')
@@ -245,8 +289,8 @@ class GroupController extends Controller
         $group->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $group->description = $request->descriptions[$this->defaultLanguage] ?? (current(array_filter($request->descriptions)) ?: '');
         $group->rank_num = $request->rank_num;
-        $group->cover_file_url = $request->cover_file_url;
-        $group->banner_file_url = $request->banner_file_url;
+        //$group->cover_file_url = $request->cover_file_url;
+        //$group->banner_file_url = $request->banner_file_url;
         // group category
         if ($request->is_category) {
             $group->permission = [];
@@ -265,6 +309,53 @@ class GroupController extends Controller
             $permission['publish_comment_review'] = (bool) ($permission['publish_comment_review'] ?? 0);
             $group->permission = $permission;
         }
+
+        if ($request->file('cover_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 3,
+                'tableName' => 'groups',
+                'tableColumn' => 'cover_file_id',
+                'tableId' => $group->id,
+                'file' => $request->file('cover_file'),
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+
+            $group->cover_file_id = $fileId;
+            $group->cover_file_url = $fresnsResp->getData('imageConfigUrl');
+        } else if($group->cover_file_url != $request->cover_file_url) {
+            $group->cover_file_id = null;
+            $group->cover_file_url = $request->cover_file_url;
+        }
+
+        if ($request->file('banner_file')) {
+            $wordBody = [
+                'platform' => 4,
+                'type' => 1,
+                'tableType' => 3,
+                'tableName' => 'groups',
+                'tableColumn' => 'banner_file_id',
+                'tableId' => $group->id,
+                'file' => $request->file('banner_file'),
+            ];
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
+
+            $group->banner_file_id = $fileId;
+            $group->banner_file_url = $fresnsResp->getData('imageConfigUrl');
+        } else {
+            $group->banner_file_id = null;
+            $group->banner_file_url =  $request->banner_file_url;
+        }
+
         $group->save();
 
         if ($request->update_name) {

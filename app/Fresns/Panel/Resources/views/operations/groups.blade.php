@@ -144,7 +144,7 @@
     </div>
 
     <!--group category-->
-    <form action="" method="post" class="check-names">
+    <form action="" method="post" class="check-names" enctype="multipart/form-data">
         @csrf
         @method('post')
         <input type="hidden" name="update_name" value="0">
@@ -189,7 +189,7 @@
                                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                                     </ul>
                                     <input type="file" class="form-control inputFile" name="cover_file">
-                                    <input type="url" class="form-control inputUrl" name="cover_url" style="display:none;">
+                                    <input type="url" class="form-control inputUrl" name="cover_file_url" style="display:none;">
                                 </div>
                             </div>
                         </div>
@@ -203,7 +203,7 @@
                                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                                     </ul>
                                     <input type="file" class="form-control inputFile" name="banner_file">
-                                    <input type="url" class="form-control inputUrl" name="banner_url" style="display:none;">
+                                    <input type="url" class="form-control inputUrl" name="banner_file_url" style="display:none;">
                                 </div>
                             </div>
                         </div>
@@ -329,7 +329,7 @@
     </form>
 
     <!--Group Modal-->
-    <form action="" method="post" class="check-names">
+    <form action="" method="post" class="check-names" enctype="multipart/form-data">
         @csrf
         @method('put')
         <input type="hidden" name="update_name" value="0">
@@ -384,7 +384,7 @@
                                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                                     </ul>
                                     <input type="file" class="form-control inputFile" name="cover_file">
-                                    <input type="url" class="form-control inputUrl" name="cover_url" style="display:none;">
+                                    <input type="url" class="form-control inputUrl" name="cover_file_url" style="display:none;">
                                 </div>
                             </div>
                         </div>
@@ -398,7 +398,7 @@
                                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                                     </ul>
                                     <input type="file" class="form-control inputFile" name="banner_file">
-                                    <input type="url" class="form-control inputUrl" name="banner_url" style="display:none;">
+                                    <input type="url" class="form-control inputUrl" name="banner_file_url" style="display:none;">
                                 </div>
                             </div>
                         </div>

@@ -78,7 +78,7 @@
     </div>
 
 
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         @csrf
         @method('post')
         <!-- Modal -->
@@ -117,7 +117,7 @@
                                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                                     </ul>
                                     <input type="file" class="form-control inputFile" name="icon_file">
-                                    <input type="url" class="form-control inputUrl" name="icon_url" value="" style="display:none;">
+                                    <input type="url" class="form-control inputUrl" name="icon_file_url" value="" style="display:none;">
                                 </div>
                             </div>
                         </div>
