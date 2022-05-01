@@ -2,7 +2,7 @@
 
 <p align="center">
 <img src="https://img.shields.io/badge/PHP-%5E8.0-green" alt="PHP">
-<img src="https://img.shields.io/badge/MySQL-%5E8.0-orange" alt="MySQL">
+<img src="https://img.shields.io/badge/MySQL-%5E5.7%7C%5E8.0-orange" alt="MySQL">
 <img src="https://img.shields.io/badge/License-Apache--2.0-blue" alt="License">
 </p>
 
@@ -14,32 +14,15 @@ Fresns is a free and open source social network service software, a general-purp
 - Extensions developers should read the [extension documentation](https://fresns.org/extensions/) and [database structure](https://fresns.org/database/).
 - For client developers (web or app), please read the [API reference](https://fresns.org/api/) documentation.
 
-## Fresns Framework
-
-| Framework | Version | Use |
-| --- | --- | --- |
-| [Composer](https://github.com/composer/composer) | 2.3 | Application-Level Package Manager |
-| [Laravel Framework](https://github.com/laravel/framework) | 8.83 | Framework |
-| [Laravel Lang](https://github.com/Laravel-Lang/lang) | 10.4 | Framework Lang Resources |
-| [Laravel Excel](https://github.com/SpartnerNL/Laravel-Excel) | 3.1 | Excel exports and imports |
-| [Browser Detection](https://github.com/hisorange/browser-detect) | 4.5 | Browser device information |
-| [PhpZip](https://github.com/Ne-Lexa/php-zip) | 4.0 | ZIP archives php library |
-| [Bootstrap](https://getbootstrap.com/) | 5.1 | Internal Front-end Framework |
-| [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.8 | Internal Icon Font Library |
-| [Alpine JS](https://github.com/alpinejs/alpine) | 3.10 | Internal JS Framework |
-| [jQuery](https://github.com/jquery/jquery) | 3.6 | Internal JS Framework |
-| [Select2](https://github.com/select2/select2) | 4.1 | Internal Select2 Boxes |
-| [Base64 JS](https://github.com/dankogai/js-base64) | 3.7 | Internal Base64 Transcoder |
+## Server Requirements
 
 | Environment | Requirements |
 | --- | --- |
+| Package Manager | Composer 2.x |
+| PHP Version | PHP 8.x |
 | PHP Extensions | `fileinfo` `exif` |
 | PHP Functions | `putenv` `symlink` `readlink` `proc_open` `passthru` |
-
-| Database | MySQL 8.x |
-| --- | --- |
-| Collation | `utf8mb4_0900_ai_ci` |
-| Storage engine | InnoDB |
+| Database Version | MySQL 5.7 or 8.x |
 
 ## Installation and Using
 

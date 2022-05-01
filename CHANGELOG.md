@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.5.0 (2022-05-01)
+
+**Bug Fixes**
+
+- API: user detail add `location` parameter
+- API: user detail add `archives` array parameter
+- API: fix hashtag `description` multilingual value
+
+**Features**
+
+- Frame: Composer upgrade to v2.3.5
+- Frame: Laravel Framework to v8.83.10
+- Frame: Bootstrap Icons to v1.8.1
+- Frame: add Laravel Lang pack v10.7.1
+- Frame: add Alpine JS pack v3.10.2
+- Panel: New control panel and visual upgrade function
+- Install: New visual installation
+
+**BREAKING CHANGES**
+
+- Database: Redefined account, user, sticker, and blocked table naming
+- Package: Release plugin manager ([fresns/plugin-manager](https://github.com/fresns/plugin-manager))
+- Package: Release command word manager ([fresns/cmd-word-manager](https://github.com/fresns/cmd-word-manager))
+- Package: Release data transmission object ([fresns/dto](https://github.com/fresns/dto))
+- Cmd Word: New official business function command word
+- Support: New helpers
+- Support: New utilities
+- Support: New models
+
+
 ## 1.4.0 (2022-01-05)
 
 **Bug Fixes**
@@ -17,6 +47,7 @@ All notable changes to this project will be documented in this file.
 - Frame: Laravel Framework upgrade to v8.78.0
 - Frame: Bootstrap Icons upgrade to v1.7.2
 - Database: Migrations and Seeders
+
 
 ## 1.3.0 (2021-11-13)
 
@@ -36,6 +67,7 @@ All notable changes to this project will be documented in this file.
 
 - build: laravel migrations
 - build: laravel seeders
+
 
 ## 1.2.0 (2021-11-01)
 
@@ -57,6 +89,7 @@ All notable changes to this project will be documented in this file.
 - API: uploading images to return to the reference increases imageConfigUrl and imageAvatarUrl
 - Command word: user register avatarFileUrl modify to avatarUrl
 
+
 ## 1.1.0 (2021-10-28)
 
 **Bug Fixes**
@@ -74,6 +107,7 @@ All notable changes to this project will be documented in this file.
 - API: for interfaces involving member information, add the member's primary role "rid" parameter
 - API: member list and detail add "followMeStatus" parameter
 - Frame: upgrade to laravel framework 8.68.1
+
 
 ## 1.0.2 (2021-10-23)
 
@@ -95,6 +129,7 @@ All notable changes to this project will be documented in this file.
 - Command word: The calculation scale of the long picture is adjusted to 3 times
 - The built-in front-end icon font library Bootstrap Icons is upgraded to 1.6.1
 - The built-in Base64 transcoder is upgraded to 3.7.2
+
 
 ## 1.0.1 (2021-10-18)
 
