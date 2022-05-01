@@ -8,12 +8,12 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Helpers\PrimaryHelper;
 use App\Models\Config;
 use App\Models\Language;
 use App\Models\Plugin;
 use App\Models\PluginUsage;
 use Illuminate\Http\Request;
-use App\Helpers\PrimaryHelper;
 
 class MapController extends Controller
 {
@@ -167,7 +167,7 @@ class MapController extends Controller
 
             $map->icon_file_id = $fileId;
             $map->icon_file_url = $fresnsResp->getData('imageConfigUrl');
-        } else if($map->icon_file_url != $request->icon_file_url) {
+        } elseif ($map->icon_file_url != $request->icon_file_url) {
             $map->icon_file_id = null;
             $map->icon_file_url = $request->icon_file_url;
         }

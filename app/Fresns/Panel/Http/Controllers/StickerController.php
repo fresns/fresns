@@ -9,9 +9,9 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Fresns\Panel\Http\Requests\UpdateStickerRequest;
+use App\Helpers\PrimaryHelper;
 use App\Models\Sticker;
 use Illuminate\Http\Request;
-use App\Helpers\PrimaryHelper;
 
 class StickerController extends Controller
 {

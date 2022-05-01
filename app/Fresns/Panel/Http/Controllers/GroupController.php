@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Helpers\PrimaryHelper;
 use App\Models\Group;
 use App\Models\Language;
 use App\Models\Plugin;
@@ -16,7 +17,6 @@ use App\Models\PostLog;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Helpers\PrimaryHelper;
 
 class GroupController extends Controller
 {
@@ -226,7 +226,6 @@ class GroupController extends Controller
             $group->save();
         }
 
-
         if ($request->update_name) {
             foreach ($request->names as $langTag => $content) {
                 $language = Language::tableName('groups')
@@ -328,7 +327,7 @@ class GroupController extends Controller
 
             $group->cover_file_id = $fileId;
             $group->cover_file_url = $fresnsResp->getData('imageConfigUrl');
-        } else if($group->cover_file_url != $request->cover_file_url) {
+        } elseif ($group->cover_file_url != $request->cover_file_url) {
             $group->cover_file_id = null;
             $group->cover_file_url = $request->cover_file_url;
         }
@@ -353,7 +352,7 @@ class GroupController extends Controller
             $group->banner_file_url = $fresnsResp->getData('imageConfigUrl');
         } else {
             $group->banner_file_id = null;
-            $group->banner_file_url =  $request->banner_file_url;
+            $group->banner_file_url = $request->banner_file_url;
         }
 
         $group->save();

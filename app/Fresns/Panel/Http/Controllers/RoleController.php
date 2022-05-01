@@ -9,11 +9,11 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Fresns\Panel\Http\Requests\UpdateRoleRequest;
+use App\Helpers\PrimaryHelper;
 use App\Models\Language;
 use App\Models\Role;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
-use App\Helpers\PrimaryHelper;
 
 class RoleController extends Controller
 {
@@ -117,7 +117,7 @@ class RoleController extends Controller
 
             $role->icon_file_id = $fileId;
             $role->icon_file_url = $fresnsResp->getData('imageConfigUrl');
-        } else if($role->icon_file_url != $request->icon_file_url) {
+        } elseif ($role->icon_file_url != $request->icon_file_url) {
             $role->icon_file_id = null;
             $role->icon_file_url = $request->icon_file_url;
         }

@@ -9,9 +9,9 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Fresns\Panel\Http\Requests\UpdateStickerGroupRequest;
+use App\Helpers\PrimaryHelper;
 use App\Models\Language;
 use App\Models\Sticker;
-use App\Helpers\PrimaryHelper;
 
 class StickerGroupController extends Controller
 {
@@ -55,7 +55,7 @@ class StickerGroupController extends Controller
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
             $sticker->image_file_id = $fileId;
-            $sticker->image_file_url= $fresnsResp->getData('imageConfigUrl');
+            $sticker->image_file_url = $fresnsResp->getData('imageConfigUrl');
             $sticker->save();
         }
 
@@ -110,8 +110,8 @@ class StickerGroupController extends Controller
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
             $sticker->image_file_id = $fileId;
-            $sticker->image_file_url= $fresnsResp->getData('imageConfigUrl');
-        } else if($sticker->image_file_url != $request->image_file_url) {
+            $sticker->image_file_url = $fresnsResp->getData('imageConfigUrl');
+        } elseif ($sticker->image_file_url != $request->image_file_url) {
             $sticker->image_file_id = null;
             $sticker->image_file_url = $request->image_file_url;
         }
