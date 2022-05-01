@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\DB;
 
 class AppHelper
 {
-    const VERSION = '1.5.0';
-    const VERSION_INT = 1;
+    const VERSION = '1.5.1';
+    const VERSION_INT = 2;
 
     // fresns test helper
     public static function fresnsTestHelper()

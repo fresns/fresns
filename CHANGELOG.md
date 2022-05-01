@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.5.1 (2022-05-02)
+
+**Bug Fixes**
+
+- Install: get domain error
+- Panel: plugin install error
+
+
 ## 1.5.0 (2022-05-01)
 
 **Bug Fixes**
