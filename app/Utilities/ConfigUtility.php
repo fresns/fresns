@@ -69,7 +69,7 @@ class ConfigUtility
      */
     public static function getDomainByHost(string $host)
     {
-        if ($host = 'localhost') {
+        if ($host == 'localhost') {
             // localhost
             return 'localhost';
         } elseif (filter_var($host, FILTER_VALIDATE_IP)) {
