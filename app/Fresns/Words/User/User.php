@@ -71,7 +71,7 @@ class User
         return [
             'code' => 0,
             'message' => 'success',
-            'data' => []
+            'data' => [],
         ];
     }
 
@@ -94,7 +94,7 @@ class User
         return [
             'code' => 0,
             'message' => 'success',
-            'data' => $data
+            'data' => $data,
         ];
     }
 
@@ -131,7 +131,7 @@ class User
         return [
             'code' => 0,
             'message' => 'success',
-            'data' => $detail
+            'data' => $detail,
         ];
     }
 
@@ -149,7 +149,7 @@ class User
         return [
             'code' => 0,
             'message' => 'success',
-            'data' => []
+            'data' => [],
         ];
     }
 
@@ -169,7 +169,7 @@ class User
         return [
             'code' => 0,
             'message' => 'success',
-            'data' => []
+            'data' => [],
         ];
     }
 }

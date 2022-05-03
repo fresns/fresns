@@ -50,7 +50,7 @@ class Crontab
         return [
             'code' => 0,
             'message' => 'success',
-            'data' => []
+            'data' => [],
         ];
     }
 
@@ -75,7 +75,7 @@ class Crontab
         return [
             'code' => 0,
             'message' => 'success',
-            'data' => []
+            'data' => [],
         ];
     }
 
@@ -100,7 +100,7 @@ class Crontab
         return [
             'code' => 0,
             'message' => 'success',
-            'data' => []
+            'data' => [],
         ];
     }
 
@@ -119,7 +119,7 @@ class Crontab
         return [
             'code' => 0,
             'message' => 'success',
-            'data' => []
+            'data' => [],
         ];
     }
 
@@ -161,7 +161,7 @@ class Crontab
             return [
                 'code' => 12000,
                 'message' => 'Error: request failed (host or api)',
-                'data' => []
+                'data' => [],
             ];
         }
 
@@ -191,7 +191,7 @@ class Crontab
         return [
             'code' => 0,
             'message' => 'success',
-            'data' => []
+            'data' => [],
         ];
     }
 }

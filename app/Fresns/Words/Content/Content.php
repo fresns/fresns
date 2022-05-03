@@ -33,7 +33,7 @@ class Content
         if (empty($files)) {
             return [
                 'code' => 30808,
-                'message' => 'FILE_EXIST_ERROR'
+                'message' => 'FILE_EXIST_ERROR',
             ];
         }
 
@@ -45,7 +45,7 @@ class Content
 
         return [
             'code' => 0,
-            'message' => 'success'
+            'message' => 'success',
         ];
     }
 }

@@ -149,7 +149,7 @@ class Account
         return [
             'code' => 0,
             'message' => 'success',
-            'data' => $data
+            'data' => $data,
         ];
     }
 
@@ -186,8 +186,8 @@ class Account
             'code' => 0,
             'message' => 'success',
             'data' => [
-                'token' => $token
-            ]
+                'token' => $token,
+            ],
         ];
     }
 
@@ -208,7 +208,7 @@ class Account
                 return [
                     'code' => 35201,
                     'message' => ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag),
-                    'data' => []
+                    'data' => [],
                 ];
             }
         }
@@ -229,7 +229,7 @@ class Account
 
         return [
             'code' => 0,
-            'message' => 'success'
+            'message' => 'success',
         ];
     }
 
@@ -255,7 +255,7 @@ class Account
         return [
             'code' => 0,
             'message' => 'success',
-            'data' => []
+            'data' => [],
         ];
     }
 }

@@ -42,7 +42,7 @@ class Basis
             return [
                 'code' => 31501,
                 'message' => ConfigUtility::getCodeMessage(31501, 'Fresns', $langTag),
-                'data' => []
+                'data' => [],
             ];
         }
 
@@ -55,7 +55,7 @@ class Basis
         return [
             'code' => 0,
             'message' => 'success',
-            'data' => $urlSign
+            'data' => $urlSign,
         ];
     }
 
@@ -76,7 +76,7 @@ class Basis
                 'platform'=>$dtoWordBody->platform,
                 'aid'=>$dtoWordBody->aid,
                 'uid'=>$dtoWordBody->uid ?? 0,
-                'token'=>$dtoWordBody->token
+                'token'=>$dtoWordBody->token,
             ]);
             \FresnsCmdWord::plugin()->verifySessionToken($verifySessionTokenArr);
         }
@@ -116,8 +116,8 @@ class Basis
                 'code' => 31301,
                 'message' => ConfigUtility::getCodeMessage(31301, 'Fresns', $langTag),
                 'data' => [
-                    'appId'=>$dtoWordBody->appId
-                ]
+                    'appId'=>$dtoWordBody->appId,
+                ],
             ];
         }
 
@@ -125,17 +125,17 @@ class Basis
         if ($checkArr !== true) {
             return [
                 'code' => 31302,
-                'message' => ConfigUtility::getCodeMessage(31302, 'Fresns', $langTag),,
+                'message' => ConfigUtility::getCodeMessage(31302, 'Fresns', $langTag), ,
                 'data' => [
-                    'sign'=>$checkArr
-                ]
+                    'sign'=>$checkArr,
+                ],
             ];
         }
 
         return [
             'code' => 0,
             'message' => 'success',
-            'data' => []
+            'data' => [],
         ];
     }
 
@@ -180,7 +180,7 @@ class Basis
         return [
             'code' => 0,
             'message' => 'success',
-            'data' => []
+            'data' => [],
         ];
     }
 
@@ -227,7 +227,7 @@ class Basis
             return [
                 'code' => 0,
                 'message' => 'success',
-                'data' => []
+                'data' => [],
             ];
         } else {
             ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();

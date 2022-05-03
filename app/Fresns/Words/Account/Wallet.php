@@ -130,7 +130,7 @@ class Wallet
         if (empty($verifyWalletBalance)) {
             return [
                 'code' => 500,
-                'message' => 'Balance Error'
+                'message' => 'Balance Error',
             ];
         }
         $objectType = $wordBody->type;
@@ -142,7 +142,7 @@ class Wallet
 
         return [
             'code' => 0,
-            'message' => 'success'
+            'message' => 'success',
         ];
     }
 
@@ -167,7 +167,7 @@ class Wallet
 
         return [
             'code' => 0,
-            'message' => 'success'
+            'message' => 'success',
         ];
     }
 
@@ -205,7 +205,7 @@ class Wallet
 
         return [
             'code' => 0,
-            'message' => 'success'
+            'message' => 'success',
         ];
     }
 
@@ -246,7 +246,7 @@ class Wallet
         return [
             'code' => 0,
             'message' => 'success',
-            'data' => []
+            'data' => [],
         ];
     }
 
