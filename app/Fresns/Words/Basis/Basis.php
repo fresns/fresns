@@ -125,7 +125,7 @@ class Basis
         if ($checkArr !== true) {
             return [
                 'code' => 31302,
-                'message' => ConfigUtility::getCodeMessage(31302, 'Fresns', $langTag), ,
+                'message' => ConfigUtility::getCodeMessage(31302, 'Fresns', $langTag),
                 'data' => [
                     'sign'=>$checkArr,
                 ],
