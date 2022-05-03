@@ -179,7 +179,7 @@ class AppUtility
             $versionInt++;
             $command = 'fresns:upgrade-'.$versionInt;
             if (\Artisan::has($command)) {
-                $this->call($command);
+                \Artisan::call($command);
             }
         }
 
