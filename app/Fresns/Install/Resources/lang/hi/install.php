@@ -39,6 +39,7 @@ return [
     'server_check_php_extensions' => 'पीएचपी एक्सटेंशन',
     'server_check_php_functions' => 'पीएचपी कार्य',
     'server_check_error' => 'सर्वर पर्यावरण का पता लगाने में विफलता।',
+    'server_check_self' => 'अपने चेक',
     'server_status_success' => 'ठीक',
     'server_status_failure' => 'त्रुटि',
     'server_status_warning' => 'चेतावनी',

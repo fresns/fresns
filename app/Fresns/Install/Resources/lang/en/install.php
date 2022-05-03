@@ -39,6 +39,7 @@ return [
     'server_check_php_extensions' => 'PHP Extensions',
     'server_check_php_functions' => 'PHP Functions',
     'server_check_error' => 'Server environment detection failure.',
+    'server_check_self' => 'Self Check',
     'server_status_success' => 'ok',
     'server_status_failure' => 'Error',
     'server_status_warning' => 'Warning',

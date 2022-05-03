@@ -39,6 +39,7 @@ return [
     'server_check_php_extensions' => 'PHP拡張機能',
     'server_check_php_functions' => 'PHP 関数',
     'server_check_error' => 'サーバー環境検知に失敗しました。',
+    'server_check_self' => 'セルフチェック',
     'server_status_success' => 'OK',
     'server_status_failure' => 'エラー',
     'server_status_warning' => '警告',

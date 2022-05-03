@@ -39,6 +39,7 @@ return [
     'server_check_php_extensions' => 'Расширения PHP',
     'server_check_php_functions' => 'Функции PHP',
     'server_check_error' => 'Сбой обнаружения серверного окружения.',
+    'server_check_self' => 'Самопроверка',
     'server_status_success' => 'ok',
     'server_status_failure' => 'Ошибка',
     'server_status_warning' => 'Предупреждение',

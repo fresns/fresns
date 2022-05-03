@@ -39,6 +39,7 @@ return [
     'server_check_php_extensions' => 'PHP-Erweiterungen',
     'server_check_php_functions' => 'PHP-Funktionen',
     'server_check_error' => 'Fehler bei der Erkennung der Serverumgebung.',
+    'server_check_self' => 'Selbstkontrolle',
     'server_status_success' => 'ok',
     'server_status_failure' => 'Fehler',
     'server_status_warning' => 'Warnung',

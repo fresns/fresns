@@ -8,7 +8,6 @@
 
 namespace App\Fresns\Install\Providers;
 
-use App\Utilities\ConfigUtility;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\ServiceProvider;
 
@@ -42,11 +41,11 @@ class InstallServiceProvider extends ServiceProvider
     {
         if (! file_exists(base_path('.env'))) {
             $appKey = Encrypter::generateKey(config('app.cipher'));
-            $httpHost = \request()->getHttpHost() ?? null;
-            $domain = ! empty($httpHost) ? ConfigUtility::getDomainByHost($httpHost) : 'null';
-            $envContent = sprintf("APP_DEBUG=true\nAPP_KEY=base64:%s\nSESSION_DOMAIN=%s",
+            $parseUrl = parse_url(\request()->getUri());
+            $appUrl = $parseUrl['scheme'].'://'.$parseUrl['host'];
+            $envContent = sprintf("APP_DEBUG=true\nAPP_KEY=base64:%s\nAPP_URL=%s",
                 base64_encode($appKey),
-                $domain
+                $appUrl
             );
             file_put_contents(base_path('.env'), $envContent);
 

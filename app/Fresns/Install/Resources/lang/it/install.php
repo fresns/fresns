@@ -39,6 +39,7 @@ return [
     'server_check_php_extensions' => 'Estensioni PHP',
     'server_check_php_functions' => 'Funzioni PHP',
     'server_check_error' => 'Fallimento del rilevamento dell\'ambiente del server.',
+    'server_check_self' => 'Autocontrollo',
     'server_status_success' => 'ok',
     'server_status_failure' => 'Errore',
     'server_status_warning' => 'Avviso',

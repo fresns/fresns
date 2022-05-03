@@ -344,14 +344,14 @@
                 <div class="row mb-3">
                     <label class="col-sm-3 col-form-label" for="password">@lang('Install::install.register_account_password')</label>
                     <div class="col-sm-9">
-                        <input type="password" class="form-control" id="password" name="admin_info[password]" placeholder="@lang('Install::install.register_account_password')" value="">
+                        <input type="text" class="form-control" id="password" name="admin_info[password]" placeholder="@lang('Install::install.register_account_password')" value="">
                     </div>
                 </div>
                 <!--password confirm-->
                 <div class="row mb-3">
                     <label class="col-sm-3 col-form-label" for="password_confirmation">@lang('Install::install.register_account_password_confirm')</label>
                     <div class="col-sm-9">
-                        <input type="password" class="form-control" id="password_confirmation" name="admin_info[password_confirmation]" placeholder="@lang('Install::install.register_account_password_confirm')" value="">
+                        <input type="text" class="form-control" id="password_confirmation" name="admin_info[password_confirmation]" placeholder="@lang('Install::install.register_account_password_confirm')" value="">
                     </div>
                 </div>
                 <!--submit-->

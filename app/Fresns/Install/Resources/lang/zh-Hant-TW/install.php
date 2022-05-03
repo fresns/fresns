@@ -39,6 +39,7 @@ return [
     'server_check_php_extensions' => 'PHP 擴展檢查',
     'server_check_php_functions' => 'PHP 函數檢查',
     'server_check_error' => '伺服器環境檢測發生錯誤',
+    'server_check_self' => '自行檢查',
     'server_status_success' => '成功',
     'server_status_failure' => '失敗',
     'server_status_warning' => '警告',

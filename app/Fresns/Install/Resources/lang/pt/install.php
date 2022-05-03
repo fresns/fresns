@@ -39,6 +39,7 @@ return [
     'server_check_php_extensions' => 'Extensões PHP',
     'server_check_php_functions' => 'Funções do PHP',
     'server_check_error' => 'Falha na detecção do ambiente do servidor.',
+    'server_check_self' => 'Auto-verificação',
     'server_status_success' => 'ok',
     'server_status_failure' => 'Erro',
     'server_status_warning' => 'Advertência',

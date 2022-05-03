@@ -39,6 +39,7 @@ return [
     'server_check_php_extensions' => 'PHP 扩展检查',
     'server_check_php_functions' => 'PHP 函数检查',
     'server_check_error' => '服务器环境检测失败',
+    'server_check_self' => '需自我确认',
     'server_status_success' => '成功',
     'server_status_failure' => '失败',
     'server_status_warning' => '警告',

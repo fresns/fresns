@@ -39,6 +39,7 @@ return [
     'server_check_php_extensions' => 'PHP 확장',
     'server_check_php_functions' => 'PHP 함수',
     'server_check_error' => '서버 환경 감지 실패.',
+    'server_check_self' => '자체 점검',
     'server_status_success' => '좋아요',
     'server_status_failure' => '오류',
     'server_status_warning' => '경고',

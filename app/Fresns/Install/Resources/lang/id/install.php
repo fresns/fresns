@@ -39,6 +39,7 @@ return [
     'server_check_php_extensions' => 'Ekstensi PHP',
     'server_check_php_functions' => 'Fungsi PHP',
     'server_check_error' => 'Kegagalan deteksi lingkungan server.',
+    'server_check_self' => 'Periksa sendiri',
     'server_status_success' => 'oke',
     'server_status_failure' => 'Kesalahan',
     'server_status_warning' => 'Peringatan',
