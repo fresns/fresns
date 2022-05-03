@@ -28,15 +28,15 @@
         <div class="card-header">{{ __('FsLang::panel.fresns_core') }}</div>
         <div class="card-body">
             @if ($checkVersion)
-                <h5 class="card-title">{{ __('FsLang::panel.upgrade_fresns') }}</h5>
+                <h5 class="card-title">{{ __('FsLang::tips.upgrade_fresns') }}</h5>
                 <div class="card-text mt-3">
-                    <p>{{ __('FsLang::panel.upgrade_fresns_desc') }} v{{ $newVersion['version'] ?? ''}}</p>
-                    <p class="text-danger">{{ __('FsLang::panel.upgrade_fresns_warning') }}</p>
+                    <p>{{ __('FsLang::tips.upgrade_fresns_tip') }} v{{ $newVersion['version'] ?? ''}}</p>
+                    <p class="text-danger">{{ __('FsLang::tips.upgrade_fresns_warning') }}</p>
                 </div>
 
                 @if ($upgradeStep)
                     <button id="upgradeButton" type="button" class="btn btn-info" data-action="{{ route('panel.upgrade.info') }}" data-upgrading="1">
-                        {{ __('FsLang::panel.upgrade_in_progress') }}
+                        {{ __('FsLang::tips.upgrade_in_progress') }}
                     </button>
                 @else
                     <button id="upgradeButton" type="button" class="btn btn-primary" data-action="{{ route('panel.upgrade.info') }}">
@@ -45,11 +45,11 @@
                     <button class="btn btn-outline-success ms-3" type="button" id="physicalUpgradeButton" data-upgrading="{{ $physicalUpgrading }}">
                         {{ __('FsLang::panel.button_physical_upgrade') }}
                     </button>
-                    <a class="link-success ms-2" href="https://fresns.cn/guide/upgrade.html#manual-physical-upgrade" target="_blank">{{ __('FsLang::panel.upgrade_physical_guide') }}</a>
+                    <a class="link-success ms-2" href="https://fresns.cn/guide/upgrade.html#手动物理升级" target="_blank">{{ __('FsLang::tips.physical_upgrade_guide') }}</a>
                 @endif
             @else
                 <div class="p-5 text-center">
-                    <i class="bi bi-view-list"></i> {{ __('FsLang::panel.upgrade_none') }}
+                    <i class="bi bi-view-list"></i> {{ __('FsLang::tips.upgrade_none') }}
                 </div>
             @endif
         </div>
@@ -86,7 +86,7 @@
                             @endforeach
                         @else
                             <div class="p-5 text-center">
-                                <i class="bi bi-view-list"></i> {{ __('FsLang::panel.upgrade_none') }}
+                                <i class="bi bi-view-list"></i> {{ __('FsLang::tips.upgrade_none') }}
                             </div>
                         @endif
                     </ul>
@@ -122,7 +122,7 @@
                             @endforeach
                         @else
                             <div class="p-5 text-center">
-                                <i class="bi bi-view-list"></i> {{ __('FsLang::panel.upgrade_none') }}
+                                <i class="bi bi-view-list"></i> {{ __('FsLang::tips.upgrade_none') }}
                             </div>
                         @endif
                     </ul>
@@ -158,7 +158,7 @@
                             @endforeach
                         @else
                             <div class="p-5 text-center">
-                                <i class="bi bi-view-list"></i> {{ __('FsLang::panel.upgrade_none') }}
+                                <i class="bi bi-view-list"></i> {{ __('FsLang::tips.upgrade_none') }}
                             </div>
                         @endif
                     </ul>
@@ -194,7 +194,7 @@
                             @endforeach
                         @else
                             <div class="p-5 text-center">
-                                <i class="bi bi-view-list"></i> {{ __('FsLang::panel.upgrade_none') }}
+                                <i class="bi bi-view-list"></i> {{ __('FsLang::tips.upgrade_none') }}
                             </div>
                         @endif
                     </ul>
@@ -214,9 +214,9 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p>{{ __('FsLang::panel.upgrade_fresns_desc') }} v{{ $newVersion['version'] ?? ''}}</p>
-                        <p class="text-danger">{{ __('FsLang::panel.upgrade_fresns_warning') }}</p>
-                        <p>{{ __('FsLang::panel.upgrade_confirm_desc') }}</p>
+                        <p>{{ __('FsLang::tips.upgrade_fresns_tip') }} v{{ $newVersion['version'] ?? ''}}</p>
+                        <p class="text-danger">{{ __('FsLang::tips.upgrade_fresns_warning') }}</p>
+                        <p>{{ __('FsLang::tips.upgrade_confirm_tip') }}</p>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-danger">{{ __('FsLang::panel.button_confirm_upgrade') }}</button>
@@ -228,7 +228,7 @@
     </div>
 
     <!-- Fresns Upgrade Modal: upgrade step -->
-    <div class="modal fade" id="upgrade" tabindex="-1" aria-labelledby="upgrade" aria-hidden="true">
+    <div class="modal fade" id="upgrade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="upgrade" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -267,7 +267,7 @@
                     </div>
                     <div class="modal-body">
                         <p>
-                            {{ __('FsLang::panel.upgrade_fresns_desc') }} v{{ $appVersion ?? ''}}
+                            {{ __('FsLang::tips.upgrade_fresns_tip') }} v{{ $appVersion ?? ''}}
                             @if($appVersion != $newVersion['version'])
                                 <span class="spinner-grow text-warning spinner-grow-sm" role="status">
                                     <span class="visually-hidden">Loading...</span>
@@ -275,8 +275,8 @@
                                 <span class="badge bg-warning text-dark">{{ __('FsLang::tips.physical_upgrade_file_error') }}</span>
                             @endif
                         </p>
-                        <p class="text-danger">{{ __('FsLang::panel.upgrade_fresns_warning') }}</p>
-                        <p>{{ __('FsLang::panel.upgrade_physical_confirm_desc') }}</p>
+                        <p class="text-danger">{{ __('FsLang::tips.upgrade_fresns_warning') }}</p>
+                        <p>{{ __('FsLang::tips.physical_upgrade_confirm_tip') }}</p>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-danger" @if($appVersion != $newVersion['version']) disabled @endif>{{ __('FsLang::panel.button_confirm_upgrade') }}</button>
@@ -288,7 +288,7 @@
     </div>
 
     <!-- Fresns Upgrade Modal: physical upgrade artisan output -->
-    <div class="modal fade" id="physicalUpgradeOutputModal" tabindex="-1" data-action="{{ route('panel.physical.upgrade.info') }}" aria-labelledby="physicalUpgradeOutputModal" aria-hidden="true">
+    <div class="modal fade" id="physicalUpgradeOutputModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" data-action="{{ route('panel.physical.upgrade.info') }}" aria-labelledby="physicalUpgradeOutputModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -296,10 +296,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <textarea class="form-control" rows="6" id="physicalUpgradeOutput" readonly>{{ __('FsLang::panel.upgrade_in_progress') }}</textarea>
+                    <textarea class="form-control" rows="6" id="physicalUpgradeOutput" readonly>{{ __('FsLang::tips.upgrade_in_progress') }}</textarea>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('FsLang::panel.button_close') }}</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal" onclick="reloadPage()">{{ __('FsLang::panel.button_close') }}</button>
                 </div>
             </div>
         </div>
@@ -336,7 +336,7 @@
         </div>
     </div>
 
-    <!-- Upgrade Extensions Modal-->
+    <!-- Upgrade Extensions Modal: confirm upgrade -->
     <div class="modal fade" id="upgradeExtensions" tabindex="-1" aria-labelledby="install" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -349,8 +349,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-danger">{{ __('FsLang::panel.upgrade_fresns_warning') }}</p>
-                    <p>{{ __('FsLang::panel.upgrade_confirm_desc') }}</p>
+                    <p class="text-danger">{{ __('FsLang::tips.upgrade_fresns_warning') }}</p>
+                    <p>{{ __('FsLang::tips.upgrade_confirm_tip') }}</p>
                 </div>
                 <div class="modal-footer">
                     <form action="{{ route('panel.plugin.upgrade') }}" method="post">
@@ -365,8 +365,8 @@
         </div>
     </div>
 
-    <!-- upgrade artisan output modal -->
-    <div class="modal fade" id="upgradeStepModal" tabindex="-1" aria-labelledby="upgradeStepModal" aria-hidden="true">
+    <!-- Upgrade Extensions Modal: artisan output info -->
+    <div class="modal fade" id="upgradeStepModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="upgradeStepModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -378,7 +378,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <textarea class="form-control" rows="6" id="upgrade_artisan_output" readonly>{{ __('FsLang::panel.upgrade_in_progress') }}</textarea>
+                    <textarea class="form-control" rows="6" id="upgrade_artisan_output" readonly>{{ __('FsLang::tips.upgrade_in_progress') }}</textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('FsLang::panel.button_close') }}</button>

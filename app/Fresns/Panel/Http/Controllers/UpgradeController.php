@@ -29,12 +29,12 @@ class UpgradeController extends Controller
         $physicalUpgrading = cache('physicalUpgrading');
 
         $steps = [
-            1 => __('FsLang::panel.upgrade_step_1'),
-            2 => __('FsLang::panel.upgrade_step_2'),
-            3 => __('FsLang::panel.upgrade_step_3'),
-            4 => __('FsLang::panel.upgrade_step_4'),
-            5 => __('FsLang::panel.upgrade_step_5'),
-            6 => __('FsLang::panel.upgrade_step_6'),
+            1 => __('FsLang::tips.upgrade_step_1'),
+            2 => __('FsLang::tips.upgrade_step_2'),
+            3 => __('FsLang::tips.upgrade_step_3'),
+            4 => __('FsLang::tips.upgrade_step_4'),
+            5 => __('FsLang::tips.upgrade_step_5'),
+            6 => __('FsLang::tips.upgrade_step_6'),
         ];
 
         if ($upgradeStep && cache('currentVersion')) {

@@ -63,6 +63,12 @@ function copyToClipboard(element) {
     window.tips(trans('tips.copySuccess')); //FsLang
 }
 
+// reload page
+function reloadPage()
+{
+    location.reload();
+}
+
 // set
 $(document).ready(function () {
     // upgrade
@@ -84,8 +90,7 @@ $(document).ready(function () {
             method: 'get',
             url: action,
             success: function (response) {
-                if ( !response.physicalUpgrading) {
-                    location.reload();
+                if (!response.physicalUpgrading) {
                     return;
                 }
                 if (!response.upgradeContent) {
@@ -138,7 +143,7 @@ $(document).ready(function () {
             dataType: 'json',
             url: $(this).attr('action'),
             success: function (response) {
-                $('#upgradeButton').removeClass('btn-primary').addClass('btn-info').text(trans('panel.upgrade_in_progress')); //FsLang
+                $('#upgradeButton').removeClass('btn-primary').addClass('btn-info').text(trans('tips.upgrade_in_progress')); //FsLang
 
                 $('#upgradeButton').data('upgrading', true);
 
@@ -895,10 +900,6 @@ $(document).ready(function () {
 
     });
 
-    $('#uninstallStepModal').on('click', '.btn-secondary',function (e) {
-        location.reload();
-    });
-
     $('.uninstall-plugin').click(function () {
         var clearData = $("#uninstallConfirm").find('#uninstallData').prop("checked");
         if (clearData ){
@@ -917,7 +918,6 @@ $(document).ready(function () {
             success: function (response) {
                 window.uninstallMessage = response;
                 $('#uninstallStepModal').find('#uninstall_artisan_output').text(response);
-                location.reload();
             },
         });
     });
@@ -1941,7 +1941,6 @@ $(document).ready(function () {
             success: function (response) {
                 console.log('install response', response)
                 $('#install_artisan_output').val(response || trans('tips.installSuccess')) //FsLang
-                location.reload();
             },
             error: function (response) {
                 window.tips(response.responseJSON.message);
