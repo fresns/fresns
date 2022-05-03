@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\StrHelper;
 use Illuminate\Support\Str;
 
 return [
@@ -126,7 +127,10 @@ return [
     |
     */
 
-    'cookie' => 'fresns_session',
+    'cookie' => env(
+        'SESSION_COOKIE',
+        empty(env('APP_URL', null)) ? 'fresns_session' : Str::slug(parse_url(env('APP_URL'))['host'], '_').'_session'
+    ),
 
     /*
     |--------------------------------------------------------------------------
@@ -152,7 +156,10 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN', null),
+    'domain' => env(
+        'SESSION_DOMAIN',
+        empty(env('APP_URL', null)) ? null : StrHelper::extractDomainByUrl(env('APP_URL', 'http://localhost'))
+    ),
 
     /*
     |--------------------------------------------------------------------------
