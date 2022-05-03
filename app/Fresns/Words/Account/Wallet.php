@@ -59,7 +59,7 @@ class Wallet
             $userId = PrimaryHelper::fresnsUserIdByUid($dtoWordBody->uid);
         }
         if (empty($accountId) || (isset($userId) && empty($userId))) {
-            return ['msg' => 'error'];
+            ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
         }
         if (empty($dtoWordBody->originAid)) {
             $result = $this->emptyOriginAidDecrease($dtoWordBody, $accountId, $userId);
@@ -128,7 +128,10 @@ class Wallet
     {
         $verifyWalletBalance = $this->verifyWalletBalance($accountId);
         if (empty($verifyWalletBalance)) {
-            return ['code' => 500, 'msg' => 'Balance Error'];
+            return [
+                'code' => 500,
+                'message' => 'Balance Error'
+            ];
         }
         $objectType = $wordBody->type;
         $addAccountWallet = $this->AddAccountWallet($wordBody, $verifyWalletBalance['balance'], $objectType, $accountId, $userId);
@@ -137,7 +140,10 @@ class Wallet
         ];
         AccountWallet::where('account_id', $accountId)->update($userWalletsArr);
 
-        return ['code' => 0, 'msg' => 'success'];
+        return [
+            'code' => 0,
+            'message' => 'success'
+        ];
     }
 
     /**
@@ -159,7 +165,10 @@ class Wallet
         ];
         AccountWallet::where('account_id', $accountId)->update($userWalletsArr);
 
-        return ['code' => 0, 'msg' => 'success'];
+        return [
+            'code' => 0,
+            'message' => 'success'
+        ];
     }
 
     /**
@@ -194,7 +203,10 @@ class Wallet
         $OriginWallet = ['balance' => $verifyOriginWalletBalance['balance'] - $wordBody->amount];
         AccountWallet::where('account_id', $originAccountId)->update($OriginWallet);
 
-        return ['code' => 0, 'msg' => 'success'];
+        return [
+            'code' => 0,
+            'message' => 'success'
+        ];
     }
 
     /**
@@ -231,7 +243,11 @@ class Wallet
         $OriginWallet = ['balance' => $WalletBalance['balance'] - $wordBody->amount];
         AccountWallet::where('account_id', $accountId)->update($OriginWallet);
 
-        return ['code' => 0, 'msg' => 'success', 'data' => []];
+        return [
+            'code' => 0,
+            'message' => 'success',
+            'data' => []
+        ];
     }
 
     /**

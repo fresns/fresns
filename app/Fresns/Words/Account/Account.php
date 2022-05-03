@@ -24,6 +24,7 @@ use App\Models\AccountWallet;
 use App\Models\SessionToken;
 use App\Models\User;
 use App\Models\VerifyCode;
+use App\Utilities\ConfigUtility;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 use Illuminate\Support\Facades\DB;
@@ -117,7 +118,10 @@ class Account
         if ($verifyInfo) {
             VerifyCode::where('id', $verifyInfo['id'])->update(['is_enable' => 0]);
 
-            return ['message' => 'success', 'code'=>0];
+            return [
+                'code' => 0,
+                'message' => 'success',
+            ];
         } else {
             ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
         }
@@ -142,7 +146,11 @@ class Account
         $service = new AccountService();
         $data = $service->getAccountDetail($accountId, $dtoWordBody->langTag, $dtoWordBody->timezone);
 
-        return ['message' => 'success', 'code' => 0, 'data' => $data];
+        return [
+            'code' => 0,
+            'message' => 'success',
+            'data' => $data
+        ];
     }
 
     /**
@@ -174,7 +182,13 @@ class Account
         $condition['expired_at'] = $dtoWordBody->expiredTime ?? null;
         SessionToken::insert($condition);
 
-        return ['code' => 0, 'message' => 'success', 'data' => ['token' => $token]];
+        return [
+            'code' => 0,
+            'message' => 'success',
+            'data' => [
+                'token' => $token
+            ]
+        ];
     }
 
     /**
@@ -186,11 +200,16 @@ class Account
     public function verifySessionToken($wordBody)
     {
         $dtoWordBody = new VerifySessionTokenDTO($wordBody);
+        $langTag = \request()->header('langTag', config('app.locale'));
 
         if (! empty($dtoWordBody->uid)) {
             $userAffiliation = UserHelper::fresnsUserAffiliation($dtoWordBody->uid, $dtoWordBody->aid);
             if ($userAffiliation == false) {
-                return ['message'=>'Current user not exist or not belong to the current user', 'code'=>30300, 'data'=>[]];
+                return [
+                    'code' => 35201,
+                    'message' => ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag),
+                    'data' => []
+                ];
             }
         }
 
@@ -208,7 +227,10 @@ class Account
             ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
         }
 
-        return ['message'=>'success', 'code'=>0];
+        return [
+            'code' => 0,
+            'message' => 'success'
+        ];
     }
 
     /**
@@ -230,6 +252,10 @@ class Account
         );
         AccountConnect::where('account_id', $accountId)->forceDelete();
 
-        return ['code' => 0, 'message' => 'success', 'data' => []];
+        return [
+            'code' => 0,
+            'message' => 'success',
+            'data' => []
+        ];
     }
 }

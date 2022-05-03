@@ -20,6 +20,7 @@ use App\Models\SessionKey;
 use App\Models\SessionLog;
 use App\Models\User;
 use App\Models\VerifyCode;
+use App\Utilities\ConfigUtility;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 
 class Basis
@@ -33,20 +34,29 @@ class Basis
     public function verifyUrlSign($wordBody)
     {
         $dtoWordBody = new VerifyUrlSignDTO($wordBody);
+        $langTag = \request()->header('langTag', config('app.locale'));
         $urlSign = urldecode(base64_decode($dtoWordBody->urlSign));
         $urlSign = json_decode($urlSign, true);
 
         if (empty($urlSign->aid)) {
-            return ['code'=>21006, 'message'=>'aid cannot be empty', 'data'=>[]];
+            return [
+                'code' => 31501,
+                'message' => ConfigUtility::getCodeMessage(31501, 'Fresns', $langTag),
+                'data' => []
+            ];
         }
 
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->verifySign($urlSign);
 
         if ($fresnsResp->isErrorResponse()) {
-            return ['code'=>21006, 'message'=>$fresnsResp->getMessage(), 'data'=>$urlSign];
+            return $fresnsResp->getOrigin();
         }
 
-        return ['code'=>0, 'message'=>'success', 'data'=>$urlSign];
+        return [
+            'code' => 0,
+            'message' => 'success',
+            'data' => $urlSign
+        ];
     }
 
     /**
@@ -58,9 +68,17 @@ class Basis
     public function verifySign($wordBody)
     {
         $dtoWordBody = new VerifySignDTO($wordBody);
+        $appId = $dtoWordBody->appId;
+        $langTag = \request()->header('langTag', config('app.locale'));
+
         if (isset($dtoWordBody->aid)) {
-            $verifySessoionTokenArr = array_filter(['aid'=>$dtoWordBody->aid, 'platform'=>$dtoWordBody->platform, 'uid'=>$dtoWordBody->uid ?? 0, 'token'=>$dtoWordBody->token]);
-            \FresnsCmdWord::plugin()->verifySessionToken($verifySessoionTokenArr);
+            $verifySessionTokenArr = array_filter([
+                'platform'=>$dtoWordBody->platform,
+                'aid'=>$dtoWordBody->aid,
+                'uid'=>$dtoWordBody->uid ?? 0,
+                'token'=>$dtoWordBody->token
+            ]);
+            \FresnsCmdWord::plugin()->verifySessionToken($verifySessionTokenArr);
         }
 
         $includeEmptyCheckArr = [
@@ -94,15 +112,31 @@ class Basis
 
         $appSecret = SessionKey::where('app_id', $appId)->value('app_secret');
         if (empty($appSecret)) {
-            return ['code'=>ExceptionConstant::CMD_WORD_PARAM_ERROR, 'message'=>'App id and secret error', 'data'=>['appId'=>$dtoWordBody->appId]];
+            return [
+                'code' => 31301,
+                'message' => ConfigUtility::getCodeMessage(31301, 'Fresns', $langTag),
+                'data' => [
+                    'appId'=>$dtoWordBody->appId
+                ]
+            ];
         }
 
         $checkArr = SignHelper::checkSign($withoutEmptyCheckArr, $appSecret);
         if ($checkArr !== true) {
-            return ['code'=>ExceptionConstant::CMD_WORD_PARAM_ERROR, 'message'=>'Command word request parameter error', 'data'=>['sign'=>$checkArr]];
+            return [
+                'code' => 31302,
+                'message' => ConfigUtility::getCodeMessage(31302, 'Fresns', $langTag),,
+                'data' => [
+                    'sign'=>$checkArr
+                ]
+            ];
         }
 
-        return ['message'=>'success', 'code'=>0, 'data'=>[]];
+        return [
+            'code' => 0,
+            'message' => 'success',
+            'data' => []
+        ];
     }
 
     /**
@@ -143,7 +177,11 @@ class Basis
 
         SessionLog::insert($input);
 
-        return ['message'=>'success', 'code'=>0, 'data'=>[]];
+        return [
+            'code' => 0,
+            'message' => 'success',
+            'data' => []
+        ];
     }
 
     /**
@@ -186,7 +224,11 @@ class Basis
         if ($verifyInfo) {
             VerifyCode::where('id', $verifyInfo['id'])->update(['is_enable' => 0]);
 
-            return ['message'=>'success', 'code'=>0, 'data'=>[]];
+            return [
+                'code' => 0,
+                'message' => 'success',
+                'data' => []
+            ];
         } else {
             ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
         }

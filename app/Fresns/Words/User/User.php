@@ -68,7 +68,11 @@ class User
         $statArr = ['user_id' => $userId];
         UserStat::insert($statArr);
 
-        return ['code' => 0, 'message' => 'success', 'data' => []];
+        return [
+            'code' => 0,
+            'message' => 'success',
+            'data' => []
+        ];
     }
 
     /**
@@ -87,7 +91,11 @@ class User
         $result = false;
         $data = ['aid' => $user->aid, 'uid' => $user->account_id];
 
-        return ['code' => 0, 'message' => 'success', 'data' => $data];
+        return [
+            'code' => 0,
+            'message' => 'success',
+            'data' => $data
+        ];
     }
 
     /**
@@ -120,7 +128,11 @@ class User
         $service = new UserService();
         $detail = $service->detail($userId, $dtoWordBody->langTag, $dtoWordBody->timezone);
 
-        return ['code' => 0, 'message' => 'success', 'data' => $detail];
+        return [
+            'code' => 0,
+            'message' => 'success',
+            'data' => $detail
+        ];
     }
 
     /**
@@ -134,7 +146,11 @@ class User
         $dtoWordBody = new LogicalDeletionUserDTO($wordBody);
         UserModel::where('uid', $dtoWordBody->uid)->update(['deleted_at' => now()]);
 
-        return ['code' => 0, 'message' => 'success', 'data' => []];
+        return [
+            'code' => 0,
+            'message' => 'success',
+            'data' => []
+        ];
     }
 
     /**
@@ -150,6 +166,10 @@ class User
         Dialog::where('a_user_id', '=', $user['id'])->update(['a_is_deactivate' => 0]);
         Dialog::where('b_user_id', '=', $user['id'])->update(['b_is_deactivate' => 0]);
 
-        return ['code' => 0, 'message' => 'success', 'data' => []];
+        return [
+            'code' => 0,
+            'message' => 'success',
+            'data' => []
+        ];
     }
 }

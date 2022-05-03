@@ -14,6 +14,7 @@ use App\Fresns\Api\Http\FsDb\FresnsComments\FresnsCommentsService;
 use App\Fresns\Words\File\DTO\PhysicalDeletionFileDTO;
 use App\Fresns\Words\Service\PostsService;
 use App\Models\CommentLog;
+use App\Models\File;
 use App\Models\PostLog;
 
 class Content
@@ -28,9 +29,12 @@ class Content
     {
         $dtoWordBody = new PhysicalDeletionFileDTO($wordBody);
         $fid = $dtoWordBody->fid;
-        $files = File::where('uuid', $fid)->first();
+        $files = File::where('fid', $fid)->first();
         if (empty($files)) {
-            return ['code'=>30808, 'message'=>'FILE_EXIST_ERROR'];
+            return [
+                'code' => 30808,
+                'message' => 'FILE_EXIST_ERROR'
+            ];
         }
 
         $basePath = base_path().'/storage/app/public'.$files['file_path'];
@@ -39,6 +43,9 @@ class Content
             unlink($basePath);
         }
 
-        return ['code'=>0, 'message'=>'success'];
+        return [
+            'code' => 0,
+            'message' => 'success'
+        ];
     }
 }

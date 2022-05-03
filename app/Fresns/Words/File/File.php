@@ -21,6 +21,7 @@ use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\File as FileModel;
 use App\Models\FileAppend;
+use App\Utilities\ConfigUtility;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 
@@ -37,6 +38,8 @@ class File
     public function getUploadToken($wordBody)
     {
         $dtoWordBody = new GetUploadTokenDTO($wordBody);
+        $langTag = \request()->header('langTag', config('app.locale'));
+
         $pluginUniKey = match ($dtoWordBody->type) {
             1 => ConfigHelper::fresnsConfigByItemKey('image_service'),
             2 => ConfigHelper::fresnsConfigByItemKey('video_service'),
@@ -45,7 +48,10 @@ class File
         };
 
         if (empty($pluginUniKey)) {
-            return ['code' => 20001, 'message' => 'plugin config not found'];
+            return [
+                'code' => 21000,
+                'message' => ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
+            ];
         }
 
         return \FresnsCmdWord::plugin($pluginUniKey)->getUploadToken($wordBody);
@@ -60,10 +66,14 @@ class File
     public function uploadFile($wordBody)
     {
         $dtoWordBody = new UploadFileDTO($wordBody);
+        $langTag = \request()->header('langTag', config('app.locale'));
 
         $unikey = FileModel::getFileServiceInfoByFileType($dtoWordBody->type)['unikey'] ?? '';
         if (empty($unikey)) {
-            return ['message' => 'Unconfigured Plugin', 'code' => 21001];
+            return [
+                'code' => 21000,
+                'message' => ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
+            ];
         }
         FileModel::getFileStorageConfigByFileType($dtoWordBody->type);
 
@@ -133,10 +143,14 @@ class File
     public function uploadFileInfo($wordBody)
     {
         $dtoWordBody = new UploadFileInfoDTO($wordBody);
+        $langTag = \request()->header('langTag', config('app.locale'));
 
         $unikey = FileModel::getFileServiceInfoByFileType($dtoWordBody->type)['unikey'] ?? '';
         if (empty($unikey)) {
-            return ['message' => 'Unconfigured Plugin', 'code' => 21001];
+            return [
+                'code' => 21000,
+                'message' => ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
+            ];
         }
         FileModel::getFileStorageConfigByFileType($dtoWordBody->type);
 
@@ -245,7 +259,7 @@ class File
         ])->first();
 
         if (empty($file)) {
-            return $this->success([], 'file not found', 21010);
+            return $this->success([], 'file not found', 21009);
         }
 
         $fileUniKey = $file->getFileServiceInfo();
@@ -275,7 +289,7 @@ class File
         ])->first();
 
         if (empty($file)) {
-            return $this->success([], 'file not found', 21010);
+            return $this->success([], 'file not found', 21009);
         }
 
         $fileUniKey = $file->getFileServiceInfo();
@@ -305,7 +319,7 @@ class File
         }
         $file = FileModel::where($query)->first();
         if (empty($file)) {
-            return ['message' => 'file not found', 'code' => 20009];
+            return ['message' => 'file not found', 'code' => 21009];
         }
         FileModel::where($query)->delete();
 

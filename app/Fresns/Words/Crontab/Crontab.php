@@ -47,7 +47,11 @@ class Crontab
         Config::where('item_key', '=', 'crontab_items')->update(['item_value' => $cronArr]);
         Cache::forever('cronArr', $cronArr);
 
-        return ['code' => 0, 'message' => 'success', 'data' => []];
+        return [
+            'code' => 0,
+            'message' => 'success',
+            'data' => []
+        ];
     }
 
     /**
@@ -68,7 +72,11 @@ class Crontab
         Config::where('item_key', '=', 'crontab_items')->update(['item_value' => $cronArr]);
         Cache::forever('cronArr', $cronArr);
 
-        return ['code' => 0, 'message' => 'success', 'data' => []];
+        return [
+            'code' => 0,
+            'message' => 'success',
+            'data' => []
+        ];
     }
 
     /**
@@ -89,7 +97,11 @@ class Crontab
             }
         }
 
-        return ['code' => 0, 'message' => 'success', 'data' => []];
+        return [
+            'code' => 0,
+            'message' => 'success',
+            'data' => []
+        ];
     }
 
     /**
@@ -104,7 +116,11 @@ class Crontab
         } elseif ($deleteAccount == 3) {
         }
 
-        return ['code' => 0, 'message' => 'success', 'data' => []];
+        return [
+            'code' => 0,
+            'message' => 'success',
+            'data' => []
+        ];
     }
 
     /**
@@ -142,7 +158,11 @@ class Crontab
 
         // Request error
         if ($response->failed()) {
-            return ['code' => 22500, 'message' => 'Error: request failed (host or api)', 'data' => []];
+            return [
+                'code' => 12000,
+                'message' => 'Error: request failed (host or api)',
+                'data' => []
+            ];
         }
 
         foreach ($response->json('data') as $unikey => $version) {
@@ -168,6 +188,10 @@ class Crontab
         $checkConfig->item_value = now();
         $checkConfig->save();
 
-        return ['code' => 0, 'message' => 'success', 'data' => []];
+        return [
+            'code' => 0,
+            'message' => 'success',
+            'data' => []
+        ];
     }
 }
