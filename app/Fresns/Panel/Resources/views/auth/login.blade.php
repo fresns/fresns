@@ -1,6 +1,6 @@
-@extends('FsView::commons.guestLayout')
+@extends('FsView::commons.layout')
 
-@section('content')
+@section('body')
     <main class="form-signin text-center">
         <form method="post" class="p-3" action="{{ route('panel.login') }}">
             @csrf

@@ -1,6 +1,6 @@
-@extends('FsView::commons.guestLayout')
+@extends('FsView::commons.layout')
 
-@section('content')
+@section('body')
     <main class="container">
         <div class="card mx-auto my-5" style="max-width:800px;">
             <div class="card-body p-5">
