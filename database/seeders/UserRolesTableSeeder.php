@@ -26,7 +26,7 @@ class UserRolesTableSeeder extends Seeder
                 'id' => 1,
                 'user_id' => 1,
                 'role_id' => 1,
-                'type' => 2,
+                'is_main' => 1,
                 'expired_at' => null,
                 'restore_role_id' => null,
                 'created_at' => '2021-10-08 10:00:00',
