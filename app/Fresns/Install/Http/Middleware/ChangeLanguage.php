@@ -27,6 +27,8 @@ class ChangeLanguage
 
         \App::setLocale(Cookie::get('lang', config('app.locale')));
 
+        $request->headers->set('langTag', \App::getLocale());
+
         return $next($request);
     }
 }
