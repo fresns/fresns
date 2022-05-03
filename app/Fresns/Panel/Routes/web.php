@@ -92,6 +92,8 @@ Route::middleware(['panelAuth'])->group(function () {
 
     // dashboard-home
     Route::get('dashboard', [DashboardController::class, 'show'])->name('dashboard');
+    Route::get('composer/version', [DashboardController::class, 'composerVersion'])->name('composer.version');
+    Route::get('composer/config', [DashboardController::class, 'composerConfig'])->name('composer.config');
     Route::any('cache/clear', [DashboardController::class, 'cacheClear'])->name('cache.clear');
     // dashboard-upgrades
     Route::get('upgrades', [UpgradeController::class, 'show'])->name('upgrades');

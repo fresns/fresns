@@ -35,4 +35,12 @@ class ComposerUtility extends Composer
             'COMPOSER_HOME' => '$HOME/.config/composer',
         ]);
     }
+
+    // Restore official sources
+    public static function setComposerReposToPackagist()
+    {
+        $set = app(ComposerUtility::class)->run(['config', '-g', '--unset', 'repos.packagist']);
+
+        return $set;
+    }
 }

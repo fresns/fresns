@@ -127,6 +127,9 @@
                             {{ __('FsLang::panel.system_info_php_upload_max_filesize') }}: <span>{{ $systemInfo['php']['uploadMaxFileSize'] }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-start">
+                            {{ __('FsLang::panel.system_info_composer') }}: <span><a class="composer_info" data-bs-toggle="modal" href="#composerInfoModal" role="button">{{ __('FsLang::panel.button_view') }}</a></span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
                             {{ __('FsLang::panel.system_info_database_version') }}: <span>{{ $databaseInfo['version'] }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -137,8 +140,10 @@
                             <span @if ($databaseInfo['timezone'] != $databaseInfo['envTimezoneToUtc']) data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::tips.timezone_error') }}" @endif>
                                 @if ($databaseInfo['timezone'] !== $databaseInfo['envTimezoneToUtc'])
                                     <span class="spinner-grow spinner-grow-sm text-danger" role="status" aria-hidden="true"></span>
+                                    <a data-bs-toggle="modal" href="#timezoneNameModal" role="button">{{ $databaseInfo['envTimezone'] }}</a>
+                                @else
+                                    {{ $databaseInfo['envTimezone'] }}
                                 @endif
-                                {{ $databaseInfo['envTimezone'] }}
                                 <span class="badge rounded-pill bg-secondary ms-2 fs-9">{{ $databaseInfo['envTimezoneToUtc'] }}</span>
                             </span>
                         </li>
@@ -170,7 +175,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal: timezone name list -->
     <div class="modal fade" id="timezoneListModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -191,4 +196,78 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal: timezone name -->
+    <div class="modal fade" id="timezoneNameModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('FsLang::tips.timezone_error') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ __('FsLang::panel.system_info_database_timezone') }}: <code>{{ $databaseInfo['timezone'] }}</code></p>
+                    <p>{{ __('FsLang::panel.system_info_env_timezone_name') }}: <code>{{ $databaseInfo['envTimezone'] }}</code></p>
+                    <p>{{ __('FsLang::panel.system_info_env_timezone_utc') }}: <code>{{ $databaseInfo['envTimezoneToUtc'] }}</code></p>
+                    <p>{{ __('FsLang::tips.timezone_env_edit_tip') }} <code>DB_TIMEZONE</code></p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item list-group-item-info">
+                            <span class="badge bg-primary">{{ $databaseInfo['timezone'] }}</span>
+                            {{ __('FsLang::panel.system_info_env_timezone_list') }}
+                        </li>
+                        @foreach ($timezones as $timezone)
+                            <li class="list-group-item">{{ $timezone }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: composer info -->
+    <div class="modal fade" id="composerInfoModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('FsLang::panel.system_info_composer') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <pre class="composer_version">{{ __('FsLang::tips.request_in_progress') }}</pre>
+                    <hr>
+                    <pre class="composer_config"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('js')
+    <script>
+        $('.composer_info').click(function (event) {
+            event.preventDefault();
+            $.ajax({
+                method: 'get',
+                url: '/fresns/composer/version',
+                success: function (response) {
+                    console.log('composer info', response)
+                    $('.composer_version').html(response)
+                },
+                error: function (response) {
+                    window.tips("{{ __('FsLang::tips.requestFailure') }}");
+                },
+            });
+            $.ajax({
+                method: 'get',
+                url: '/fresns/composer/config',
+                success: function (response) {
+                    console.log('composer info', response)
+                    $('.composer_config').html(response)
+                },
+                error: function (response) {
+                    window.tips("{{ __('FsLang::tips.requestFailure') }}");
+                },
+            });
+        });
+    </script>
 @endsection

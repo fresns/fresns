@@ -74,4 +74,12 @@ class AppHelper
 
         return $versionInfo;
     }
+
+    // get composer version info
+    public static function getComposerConfigInfo()
+    {
+        $configInfo = app(ComposerUtility::class)->run(['config', '-g', '--list']);
+
+        return $configInfo;
+    }
 }

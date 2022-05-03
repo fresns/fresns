@@ -56,6 +56,20 @@ class DashboardController extends Controller
         return view('FsView::dashboard.index', compact('overview', 'newsList', 'keyCount', 'adminCount', 'plugins', 'currentVersion', 'newVersion', 'checkVersion', 'systemInfo', 'databaseInfo', 'timezones'));
     }
 
+    public function composerVersion()
+    {
+        $composerInfo = AppHelper::getComposerVersionInfo();
+
+        return $composerInfo;
+    }
+
+    public function composerConfig()
+    {
+        $composerInfo = AppHelper::getComposerConfigInfo();
+
+        return $composerInfo;
+    }
+
     /**
      * @return RedirectResponse
      */
