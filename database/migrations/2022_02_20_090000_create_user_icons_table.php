@@ -23,8 +23,8 @@ class CreateUserIconsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('icon_file_id')->nullable();
-            $table->string('icon_file_url');
-            $table->string('name');
+            $table->string('icon_file_url', 255);
+            $table->string('name', 255);
             $table->unsignedTinyInteger('type')->default('1');
             $table->string('plugin_unikey', 64)->nullable();
             $table->unsignedTinyInteger('is_enable')->default('1');

@@ -24,7 +24,7 @@ class CreateRolesTable extends Migration
             $table->string('name', 128);
             $table->unsignedTinyInteger('type')->default('3');
             $table->unsignedBigInteger('icon_file_id')->nullable();
-            $table->string('icon_file_url')->nullable();
+            $table->string('icon_file_url', 255)->nullable();
             $table->unsignedTinyInteger('is_display_name')->default('0');
             $table->unsignedTinyInteger('is_display_icon')->default('0');
             $table->char('nickname_color', 7)->nullable();

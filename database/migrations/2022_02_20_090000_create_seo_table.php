@@ -24,9 +24,9 @@ class CreateSeoTable extends Migration
             $table->unsignedTinyInteger('linked_type');
             $table->unsignedBigInteger('linked_id');
             $table->char('lang_tag', 16);
-            $table->string('title')->nullable();
-            $table->string('keywords')->nullable();
-            $table->string('description')->nullable();
+            $table->string('title', 255)->nullable();
+            $table->string('keywords', 255)->nullable();
+            $table->string('description', 255)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
             $table->softDeletes();

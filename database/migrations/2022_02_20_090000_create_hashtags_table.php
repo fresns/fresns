@@ -22,10 +22,10 @@ class CreateHashtagsTable extends Migration
         Schema::create('hashtags', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 64)->unique('name');
-            $table->string('slug')->unique('slug');
-            $table->string('description')->nullable();
+            $table->string('slug', 255)->unique('slug');
+            $table->string('description', 255)->nullable();
             $table->unsignedBigInteger('cover_file_id')->nullable();
-            $table->string('cover_file_url')->nullable();
+            $table->string('cover_file_url', 255)->nullable();
             $table->unsignedBigInteger('user_id');
             $table->unsignedInteger('view_count')->default('0');
             $table->unsignedInteger('like_count')->default('0');

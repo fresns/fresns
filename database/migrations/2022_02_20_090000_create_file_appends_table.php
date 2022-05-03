@@ -22,11 +22,11 @@ class CreateFileAppendsTable extends Migration
         Schema::create('file_appends', function (Blueprint $table) {
             $table->bigInteger('id', true);
             $table->bigInteger('file_id')->unique('file_id');
-            $table->string('file_mime');
+            $table->string('file_mime', 255);
             $table->unsignedInteger('file_size');
             $table->string('file_md5', 128)->nullable();
             $table->string('file_sha1', 128)->nullable();
-            $table->string('file_original_path')->nullable();
+            $table->string('file_original_path', 255)->nullable();
             $table->unsignedBigInteger('account_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedTinyInteger('platform_id');
@@ -35,11 +35,11 @@ class CreateFileAppendsTable extends Migration
             $table->unsignedTinyInteger('image_is_long')->nullable();
             $table->unsignedSmallInteger('audio_time')->nullable();
             $table->unsignedSmallInteger('video_time')->nullable();
-            $table->string('video_cover')->nullable();
-            $table->string('video_gif')->nullable();
+            $table->string('video_cover', 255)->nullable();
+            $table->string('video_gif', 255)->nullable();
             $table->json('more_json')->nullable();
             $table->unsignedTinyInteger('transcoding_state')->nullable();
-            $table->string('transcoding_reason')->nullable();
+            $table->string('transcoding_reason', 255)->nullable();
             $table->unsignedTinyInteger('physical_deletion')->default('0');
             $table->text('remark')->nullable();
             $table->timestamp('created_at')->useCurrent();

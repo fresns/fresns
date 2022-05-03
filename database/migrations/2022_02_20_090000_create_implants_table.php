@@ -28,7 +28,7 @@ class CreateImplantsTable extends Migration
             $table->string('plugin_unikey', 64);
             $table->unsignedTinyInteger('type');
             $table->unsignedTinyInteger('target');
-            $table->string('value');
+            $table->string('value', 255);
             $table->unsignedTinyInteger('support')->nullable();
             $table->unsignedTinyInteger('position')->default('5');
             $table->timestamp('starting_at')->nullable();

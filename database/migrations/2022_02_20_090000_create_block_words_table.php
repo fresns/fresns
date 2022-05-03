@@ -28,6 +28,7 @@ class CreateBlockWordsTable extends Migration
             $table->string('replace_word', 64)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
+            $table->softDeletes();
         });
     }
 

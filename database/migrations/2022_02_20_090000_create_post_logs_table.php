@@ -28,7 +28,7 @@ class CreatePostLogsTable extends Migration
             $table->string('editor_unikey', 64)->nullable();
             $table->unsignedInteger('group_id')->nullable();
             $table->string('types', 128)->default('text')->index('types');
-            $table->string('title')->nullable();
+            $table->string('title', 255)->nullable();
             $table->longText('content')->nullable();
             $table->unsignedTinyInteger('is_markdown')->default('0');
             $table->unsignedTinyInteger('is_anonymous')->default('0');
@@ -39,7 +39,7 @@ class CreatePostLogsTable extends Migration
             $table->json('files_json')->nullable();
             $table->json('extends_json')->nullable();
             $table->unsignedTinyInteger('state')->default('1');
-            $table->string('reason')->nullable();
+            $table->string('reason', 255)->nullable();
             $table->timestamp('submit_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();

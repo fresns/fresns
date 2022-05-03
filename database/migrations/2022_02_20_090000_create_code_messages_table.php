@@ -24,7 +24,7 @@ class CreateCodeMessagesTable extends Migration
             $table->string('plugin_unikey', 64)->index('plugin_unikey');
             $table->unsignedInteger('code')->index('code');
             $table->char('lang_tag', 16)->index('lang_tag');
-            $table->string('message');
+            $table->string('message', 255);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
             $table->softDeletes();

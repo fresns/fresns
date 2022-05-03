@@ -26,8 +26,8 @@ class CreateNotifiesTable extends Migration
             $table->unsignedTinyInteger('source_class')->nullable();
             $table->unsignedBigInteger('source_id')->nullable();
             $table->unsignedBigInteger('source_user_id')->nullable();
-            $table->string('source_brief')->nullable();
-            $table->string('access_url')->nullable();
+            $table->string('source_brief', 255)->nullable();
+            $table->string('access_url', 255)->nullable();
             $table->unsignedTinyInteger('status')->default('1');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();

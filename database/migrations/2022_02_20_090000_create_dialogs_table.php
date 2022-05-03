@@ -25,7 +25,7 @@ class CreateDialogsTable extends Migration
             $table->unsignedBigInteger('b_user_id');
             $table->unsignedBigInteger('latest_message_id')->nullable();
             $table->timestamp('latest_message_time')->nullable();
-            $table->string('latest_message_brief')->nullable();
+            $table->string('latest_message_brief', 255)->nullable();
             $table->unsignedTinyInteger('a_status')->default('1');
             $table->unsignedTinyInteger('b_status')->default('1');
             $table->unsignedTinyInteger('a_is_display')->default('1');

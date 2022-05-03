@@ -25,14 +25,14 @@ class CreatePluginUsagesTable extends Migration
             $table->unsignedTinyInteger('type');
             $table->string('name', 128);
             $table->unsignedBigInteger('icon_file_id')->nullable();
-            $table->string('icon_file_url')->nullable();
+            $table->string('icon_file_url', 255)->nullable();
             $table->string('scene', 16)->nullable();
             $table->unsignedTinyInteger('editor_number')->nullable();
             $table->json('data_sources')->nullable();
             $table->unsignedTinyInteger('is_group_admin')->nullable()->default('0');
             $table->unsignedInteger('group_id')->nullable();
             $table->string('roles', 128)->nullable();
-            $table->string('parameter')->nullable();
+            $table->string('parameter', 255)->nullable();
             $table->unsignedSmallInteger('rank_num')->default('99');
             $table->unsignedTinyInteger('can_delete')->default('1');
             $table->unsignedTinyInteger('is_enable')->default('1');

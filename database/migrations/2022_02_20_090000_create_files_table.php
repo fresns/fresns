@@ -25,7 +25,7 @@ class CreateFilesTable extends Migration
             $table->unsignedTinyInteger('file_type');
             $table->string('file_name', 128);
             $table->string('file_extension', 32);
-            $table->string('file_path');
+            $table->string('file_path', 255);
             $table->unsignedSmallInteger('rank_num')->default('9');
             $table->unsignedTinyInteger('is_enable')->default('1');
             $table->unsignedTinyInteger('table_type');

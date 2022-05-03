@@ -26,7 +26,7 @@ class CreateAccountConnectsTable extends Migration
             $table->string('connect_token', 128)->unique('connect_token');
             $table->string('connect_name', 64)->nullable();
             $table->string('connect_nickname', 64);
-            $table->string('connect_avatar')->nullable();
+            $table->string('connect_avatar', 255)->nullable();
             $table->string('plugin_unikey', 64);
             $table->unsignedTinyInteger('is_enable')->default('1');
             $table->json('more_json')->nullable();

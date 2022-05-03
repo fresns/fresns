@@ -24,7 +24,7 @@ class CreateDomainsTable extends Migration
             $table->string('domain', 64)->index('domain');
             $table->string('sld', 128)->unique('sld');
             $table->unsignedBigInteger('icon_file_id')->nullable();
-            $table->string('icon_file_url')->nullable();
+            $table->string('icon_file_url', 255)->nullable();
             $table->unsignedInteger('post_count')->default('0');
             $table->unsignedInteger('comment_count')->default('0');
             $table->unsignedTinyInteger('is_enable')->default('1');

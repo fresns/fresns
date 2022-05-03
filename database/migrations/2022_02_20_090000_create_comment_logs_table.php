@@ -35,7 +35,7 @@ class CreateCommentLogsTable extends Migration
             $table->json('files_json')->nullable();
             $table->json('extends_json')->nullable();
             $table->unsignedTinyInteger('state')->default('1');
-            $table->string('reason')->nullable();
+            $table->string('reason', 255)->nullable();
             $table->timestamp('submit_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();

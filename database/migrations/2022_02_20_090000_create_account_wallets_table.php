@@ -27,7 +27,7 @@ class CreateAccountWalletsTable extends Migration
             $table->char('password', 64)->nullable();
             $table->string('bank_name', 64)->nullable();
             $table->string('swift_code', 32)->nullable();
-            $table->string('bank_address')->nullable();
+            $table->string('bank_address', 255)->nullable();
             $table->string('bank_account', 128)->nullable();
             $table->unsignedTinyInteger('bank_status')->default('1');
             $table->unsignedTinyInteger('is_enable')->default('1');

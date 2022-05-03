@@ -24,8 +24,8 @@ class CreateDomainLinksTable extends Migration
             $table->unsignedTinyInteger('linked_type');
             $table->unsignedBigInteger('linked_id');
             $table->unsignedInteger('domain_id');
-            $table->string('link_url')->index('link_url');
-            $table->string('link_title')->nullable();
+            $table->string('link_url', 255)->index('link_url');
+            $table->string('link_title', 255)->nullable();
             $table->unsignedTinyInteger('is_enable')->default('1');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();

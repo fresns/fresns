@@ -24,7 +24,7 @@ class CreateStickersTable extends Migration
             $table->char('code', 16)->unique('code');
             $table->string('name', 64);
             $table->unsignedBigInteger('image_file_id')->nullable();
-            $table->string('image_file_url');
+            $table->string('image_file_url', 255);
             $table->unsignedTinyInteger('type')->default('1');
             $table->unsignedInteger('parent_id')->nullable();
             $table->unsignedSmallInteger('rank_num')->default('99');

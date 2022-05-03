@@ -25,7 +25,7 @@ class CreatePostsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedInteger('group_id')->nullable();
             $table->string('types', 128)->index('types');
-            $table->string('title')->nullable();
+            $table->string('title', 255)->nullable();
             $table->text('content')->nullable();
             $table->unsignedTinyInteger('is_brief')->default('0');
             $table->unsignedTinyInteger('sticky_state')->default('1');
