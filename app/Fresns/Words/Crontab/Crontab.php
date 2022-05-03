@@ -164,9 +164,9 @@ class Crontab
         }
 
         // Time to cache execution detection
-        cache([
-            'checkExtensionsVersion-time' => now()->toDateTimeString(),
-        ], now()->addMonths(3));
+        $checkConfig = Config::where('item_key', 'check_version_datetime')->firstOrNew();
+        $checkConfig->item_value = now();
+        $checkConfig->save();
 
         return ['code' => 0, 'message' => 'success', 'data' => []];
     }
