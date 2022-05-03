@@ -72,7 +72,7 @@
     </div>
 
     <!--install artisan output modal-->
-    <div class="modal fade" id="installStepModal" tabindex="-1" aria-labelledby="installStepModal" aria-hidden="true">
+    <div class="modal fade" id="installStepModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="installStepModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -80,10 +80,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <textarea class="form-control" rows="6" id="install_artisan_output" readonly>{{ __('FsLang::panel.install_in_progress') }}</textarea>
+                    <textarea class="form-control" rows="6" id="install_artisan_output" readonly>{{ __('FsLang::tips.install_in_progress') }}</textarea>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('FsLang::panel.button_close') }}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="reloadPage()">{{ __('FsLang::panel.button_close') }}</button>
                 </div>
             </div>
         </div>
@@ -112,7 +112,7 @@
     </div>
 
     <!--uninstall artisan output modal-->
-    <div class="modal fade" id="uninstallStepModal" tabindex="-1" aria-labelledby="uninstallStepModal" aria-hidden="true">
+    <div class="modal fade" id="uninstallStepModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="uninstallStepModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -120,10 +120,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <textarea class="form-control" rows="6" id="uninstall_artisan_output" readonly>{{ __('FsLang::panel.uninstall_in_progress') }}</textarea>
+                    <textarea class="form-control" rows="6" id="uninstall_artisan_output" readonly>{{ __('FsLang::tips.uninstall_in_progress') }}</textarea>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('FsLang::panel.button_close') }}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="reloadPage()">{{ __('FsLang::panel.button_close') }}</button>
                 </div>
             </div>
         </div>
@@ -138,11 +138,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body ps-5">
-                    <p><i class="bi bi-x-lg text-danger me-2"></i>{{ __('FsLang::panel.uninstall_step_1') }}</p>
-                    <p><i class="bi bi-check-lg text-success me-2"></i>{{ __('FsLang::panel.uninstall_step_2') }}</p>
-                    <p><i class="bi bi-check-lg text-success me-2"></i>{{ __('FsLang::panel.uninstall_step_3') }}</p>
-                    <p><i class="spinner-border spinner-border-sm me-2" role="status"></i>{{ __('FsLang::panel.uninstall_step_4') }}</p>
-                    <p><i class="bi bi-hourglass text-secondary me-2"></i>{{ __('FsLang::panel.uninstall_step_5') }}</p>
+                    <p><i class="bi bi-x-lg text-danger me-2"></i>{{ __('FsLang::tips.uninstall_step_1') }}</p>
+                    <p><i class="bi bi-check-lg text-success me-2"></i>{{ __('FsLang::tips.uninstall_step_2') }}</p>
+                    <p><i class="bi bi-check-lg text-success me-2"></i>{{ __('FsLang::tips.uninstall_step_3') }}</p>
+                    <p><i class="spinner-border spinner-border-sm me-2" role="status"></i>{{ __('FsLang::tips.uninstall_step_4') }}</p>
+                    <p><i class="bi bi-hourglass text-secondary me-2"></i>{{ __('FsLang::tips.uninstall_step_5') }}</p>
                 </div>
             </div>
         </div>

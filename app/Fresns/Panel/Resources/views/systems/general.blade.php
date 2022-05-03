@@ -68,7 +68,7 @@
                     <!--Preview-->
                     @if ($params['site_icon'])
                         <input type="hidden" class="imageUrl" value="{{ $configImageInfo['iconUrl'] }}">
-                        <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
+                        <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_view') }}</button>
                     @endif
                 </div>
                 <div class="input-group">
@@ -93,7 +93,7 @@
                     <!--Preview-->
                     @if ($params['site_logo'])
                         <input type="hidden" class="imageUrl" value="{{ $configImageInfo['logoUrl'] }}">
-                        <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
+                        <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_view') }}</button>
                     @endif
                 </div>
             </div>

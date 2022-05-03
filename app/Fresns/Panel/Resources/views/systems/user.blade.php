@@ -147,7 +147,7 @@
                     <!--Preview-->
                     @if ($params['default_avatar'])
                         <input type="hidden" class="imageUrl" value="{{ $configImageInfo['defaultAvatarUrl'] }}">
-                        <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
+                        <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_view') }}</button>
                     @endif
                 </div>
             </div>
@@ -178,7 +178,7 @@
                     <!--Preview-->
                     @if ($params['anonymous_avatar'])
                         <input type="hidden" class="imageUrl" value="{{ $configImageInfo['anonymousAvatarUrl'] }}">
-                        <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
+                        <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_view') }}</button>
                     @endif
                 </div>
             </div>
@@ -209,7 +209,7 @@
                     <!--Preview-->
                     @if ($params['deactivate_avatar'])
                         <input type="hidden" class="imageUrl" value="{{ $configImageInfo['deactivateAvatarUrl'] }}">
-                        <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
+                        <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_view') }}</button>
                     @endif
                 </div>
             </div>

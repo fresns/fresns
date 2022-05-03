@@ -39,7 +39,7 @@
                         <!--Preview-->
                         @if ($params['substitution_image'])
                             <input type="hidden" class="imageUrl" value="{{ $configImageInfo['imageConfigUrl'] }}">
-                            <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
+                            <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_view') }}</button>
                         @endif
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                         <!--Preview-->
                         @if ($params['substitution_video'])
                             <input type="hidden" class="imageUrl" value="{{ $configImageInfo['videoConfigUrl'] }}">
-                            <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
+                            <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_view') }}</button>
                         @endif
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                         <!--Preview-->
                         @if ($params['substitution_audio'])
                             <input type="hidden" class="imageUrl" value="{{ $configImageInfo['audioConfigUrl'] }}">
-                            <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
+                            <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_view') }}</button>
                         @endif
                     </div>
                 </div>
@@ -126,7 +126,7 @@
                         <!--Preview-->
                         @if ($params['substitution_document'])
                             <input type="hidden" class="imageUrl" value="{{ $configImageInfo['documentConfigUrl'] }}">
-                            <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_image_view') }}</button>
+                            <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_view') }}</button>
                         @endif
                     </div>
                 </div>
