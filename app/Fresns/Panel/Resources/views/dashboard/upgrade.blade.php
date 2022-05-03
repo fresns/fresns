@@ -45,7 +45,7 @@
                     <button class="btn btn-outline-success ms-3" type="button" id="physicalUpgradeButton" data-upgrading="{{ $physicalUpgrading }}">
                         {{ __('FsLang::panel.button_physical_upgrade') }}
                     </button>
-                    <a class="link-success ms-2" href="https://fresns.org/guide/upgrade.html#manual-physical-upgrade" target="_blank">{{ __('FsLang::panel.upgrade_physical_guide') }}</a>
+                    <a class="link-success ms-2" href="https://fresns.cn/guide/upgrade.html#manual-physical-upgrade" target="_blank">{{ __('FsLang::panel.upgrade_physical_guide') }}</a>
                 @endif
             @else
                 <div class="p-5 text-center">
@@ -203,7 +203,7 @@
         </div>
     </div>
 
-    <!-- Modal: upgrade confirmation -->
+    <!-- Fresns Upgrade Modal: upgrade confirm -->
     <div class="modal fade" id="upgradeConfirm" tabindex="-1" aria-labelledby="upgrade" aria-hidden="true">
         <div class="modal-dialog">
             <form method="post" action="{{ route('panel.upgrade') }}" id="upgradeForm">
@@ -227,13 +227,13 @@
         </div>
     </div>
 
-    <!-- Modal: fresns upgrade -->
+    <!-- Fresns Upgrade Modal: upgrade step -->
     <div class="modal fade" id="upgrade" tabindex="-1" aria-labelledby="upgrade" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title"><i class="bi bi-laptop"></i> {{ __('FsLang::panel.fresns_core') }}
-                        <span class="badge bg-secondary">{{ $currentVersion['version'] ?? '' }}</span> to <span class="badge bg-danger">{{ $version['version'] ?? '' }}</span>
+                        <span class="badge bg-secondary">{{ $currentVersion['version'] ?? '' }}</span> to <span class="badge bg-primary">{{ $newVersion['version'] ?? '' }}</span>
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -255,38 +255,7 @@
         </div>
     </div>
 
-    <!-- Update upgrade_code Modal -->
-    <div class="modal fade" id="resetUpgradeCodeModal" tabindex="-1" aria-labelledby="upgradeCodeModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="upgradeCodeModalLabel">{{ __('FsLang::panel.button_reset'). ' Code' }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="{{ route('panel.plugin.update.code') }}" method="post">
-                    @csrf
-                    @method('patch')
-                    <div class="modal-body">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</span>
-                            <span class="input-group-text">Key</span>
-                            <input type="text" class="form-control" name="pluginUnikey" maxlength="64" required>
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-text">{{ __('FsLang::panel.button_upgrade') }}</span>
-                            <span class="input-group-text">Code</span>
-                            <input type="text" class="form-control" name="upgradeCode" maxlength="32" minlength="32" required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">{{ __('FsLang::panel.button_confirm') }}</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Physical Upgrade Modal -->
+    <!-- Fresns Upgrade Modal: physical upgrade confirm -->
     <div class="modal fade" id="physicalUpgradeModal" tabindex="-1" aria-labelledby="physicalUpgradeModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <form method="post" action="{{ route('panel.physical.upgrade') }}" id="physicalUpgradeForm">
@@ -318,7 +287,7 @@
         </div>
     </div>
 
-    <!-- Physical Upgrade Artisan Output Modal -->
+    <!-- Fresns Upgrade Modal: physical upgrade artisan output -->
     <div class="modal fade" id="physicalUpgradeOutputModal" tabindex="-1" data-action="{{ route('panel.physical.upgrade.info') }}" aria-labelledby="physicalUpgradeOutputModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -332,6 +301,37 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('FsLang::panel.button_close') }}</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Modal: plugin upgrade code -->
+    <div class="modal fade" id="resetUpgradeCodeModal" tabindex="-1" aria-labelledby="upgradeCodeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="upgradeCodeModalLabel">{{ __('FsLang::panel.button_reset'). ' Code' }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('panel.plugin.update.code') }}" method="post">
+                    @csrf
+                    @method('patch')
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</span>
+                            <span class="input-group-text">Key</span>
+                            <input type="text" class="form-control" name="pluginUnikey" maxlength="64" required>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text">{{ __('FsLang::panel.button_upgrade') }}</span>
+                            <span class="input-group-text">Code</span>
+                            <input type="text" class="form-control" name="upgradeCode" maxlength="32" minlength="32" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">{{ __('FsLang::panel.button_confirm') }}</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

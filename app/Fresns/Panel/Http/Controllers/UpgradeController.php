@@ -9,6 +9,7 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\AppHelper;
+use App\Helpers\ConfigHelper;
 use App\Models\Plugin;
 use App\Utilities\AppUtility;
 use Illuminate\Support\Facades\Cache;
@@ -22,7 +23,7 @@ class UpgradeController extends Controller
         $newVersion = AppUtility::newVersion();
         $checkVersion = AppUtility::checkVersion();
         $appVersion = AppHelper::VERSION;
-        $versionCheckTime = cache('checkExtensionsVersion-time');
+        $versionCheckTime = ConfigHelper::fresnsConfigByItemKey('check_version_datetime');
 
         $upgradeStep = cache('upgradeStep');
         $physicalUpgrading = cache('physicalUpgrading');
@@ -50,6 +51,7 @@ class UpgradeController extends Controller
 
     public function checkFresnsVersion()
     {
+        Cache::forget('currentVersion');
         Cache::forget('newVersion');
 
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkExtensionsVersion();
@@ -76,7 +78,7 @@ class UpgradeController extends Controller
         }
 
         // If the upgrade is already in progress, the upgrade button is not displayed
-        if (cache('currentVersion')) {
+        if (cache('upgradeStep')) {
             return $this->successResponse('upgrade');
         }
 

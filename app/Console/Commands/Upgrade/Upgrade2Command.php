@@ -8,6 +8,7 @@
 
 namespace App\Console\Commands\Upgrade;
 
+use App\Models\Config;
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;
 
@@ -26,6 +27,7 @@ class Upgrade2Command extends Command
     public function handle()
     {
         $this->composerInstall();
+        $this->updateData();
 
         return Command::SUCCESS;
     }
@@ -60,5 +62,18 @@ class Upgrade2Command extends Command
         ob_end_clean();
 
         return (0 === $code) ? true : false;
+    }
+
+    // update data
+    public function updateData()
+    {
+        $configDb = Config::where('item_key', 'citys')->firstOrNew();
+        $configDb->item_key = 'check_version_datetime';
+        $configDb->item_type = 'string';
+        $configDb->item_tag = 'systems';
+        $configDb->is_api = 0;
+        $configDb->save();
+
+        return true;
     }
 }

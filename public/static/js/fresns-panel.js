@@ -88,6 +88,9 @@ $(document).ready(function () {
                     location.reload();
                     return;
                 }
+                if (!response.upgradeContent) {
+                    return;
+                }
                 $('#physicalUpgradeOutput').val(response.upgradeContent)
             },
         });
@@ -135,7 +138,7 @@ $(document).ready(function () {
             dataType: 'json',
             url: $(this).attr('action'),
             success: function (response) {
-                $('#upgradeButton').removeClass('btn-primary').addClass('btn-info').text(trans('panel.upgrade_being')); //FsLang
+                $('#upgradeButton').removeClass('btn-primary').addClass('btn-info').text(trans('panel.upgrade_in_progress')); //FsLang
 
                 $('#upgradeButton').data('upgrading', true);
 
