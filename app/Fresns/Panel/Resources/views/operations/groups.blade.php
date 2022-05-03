@@ -161,7 +161,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.group_category') }}</label>
+                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_order') }}</label>
                             <div class="col-sm-9">
                                 <input type="number" class="form-control input-number" name="rank_num" required>
                             </div>
