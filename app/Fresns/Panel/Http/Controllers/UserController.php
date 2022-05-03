@@ -92,7 +92,7 @@ class UserController extends Controller
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
             if ($fresnsResp->isErrorResponse()) {
-                return $fresnsResp->errorResponse();
+                return back()->with('failure', $fresnsResp->getMessage());
             }
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
             $request->request->set('default_avatar', $fileId);
@@ -112,7 +112,7 @@ class UserController extends Controller
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
             if ($fresnsResp->isErrorResponse()) {
-                return $fresnsResp->errorResponse();
+                return back()->with('failure', $fresnsResp->getMessage());
             }
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
             $request->request->set('anonymous_avatar', $fileId);
@@ -132,7 +132,7 @@ class UserController extends Controller
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
             if ($fresnsResp->isErrorResponse()) {
-                return $fresnsResp->errorResponse();
+                return back()->with('failure', $fresnsResp->getMessage());
             }
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
             $request->request->set('deactivate_avatar', $fileId);

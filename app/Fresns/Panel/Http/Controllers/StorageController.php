@@ -372,7 +372,7 @@ class StorageController extends Controller
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
             if ($fresnsResp->isErrorResponse()) {
-                return $fresnsResp->errorResponse();
+                return back()->with('failure', $fresnsResp->getMessage());
             }
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
             $request->request->set('substitution_image', $fileId);
@@ -392,7 +392,7 @@ class StorageController extends Controller
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
             if ($fresnsResp->isErrorResponse()) {
-                return $fresnsResp->errorResponse();
+                return back()->with('failure', $fresnsResp->getMessage());
             }
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
             $request->request->set('substitution_video', $fileId);
@@ -412,7 +412,7 @@ class StorageController extends Controller
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
             if ($fresnsResp->isErrorResponse()) {
-                return $fresnsResp->errorResponse();
+                return back()->with('failure', $fresnsResp->getMessage());
             }
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
             $request->request->set('substitution_audio', $fileId);
@@ -432,7 +432,7 @@ class StorageController extends Controller
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
             if ($fresnsResp->isErrorResponse()) {
-                return $fresnsResp->errorResponse();
+                return back()->with('failure', $fresnsResp->getMessage());
             }
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
             $request->request->set('substitution_document', $fileId);

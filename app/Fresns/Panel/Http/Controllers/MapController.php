@@ -84,7 +84,7 @@ class MapController extends Controller
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
             if ($fresnsResp->isErrorResponse()) {
-                return $fresnsResp->errorResponse();
+                return back()->with('failure', $fresnsResp->getMessage());
             }
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
@@ -161,7 +161,7 @@ class MapController extends Controller
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
             if ($fresnsResp->isErrorResponse()) {
-                return $fresnsResp->errorResponse();
+                return back()->with('failure', $fresnsResp->getMessage());
             }
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
