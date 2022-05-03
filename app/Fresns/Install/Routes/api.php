@@ -7,7 +7,6 @@
  */
 
 use App\Fresns\Install\Http\Controllers as ApiController;
-use App\Fresns\Install\Http\Middleware\AppKeyMiddleware;
 use App\Fresns\Install\Http\Middleware\ChangeLanguage;
 use Illuminate\Support\Facades\Route;
 
