@@ -14,8 +14,6 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'requestSuccess' => 'Pedir sucesso',
-    'requestFailure' => 'Pedir falha',
     'createSuccess' => 'Criar sucesso',
     'deleteSuccess' => 'deletado com sucesso',
     'updateSuccess' => 'Modificado com sucesso',
@@ -25,10 +23,40 @@ return [
     'uninstallSuccess' => 'Desinstalar o sucesso',
     'uninstallFailure' => 'Falha na desinstalação',
     'copySuccess' => 'Copie o sucesso',
-    'timezone_error' => 'O fuso horário da base de dados não corresponde ao fuso horário no ficheiro de configuração env',
+    // request
+    'request_in_progress' => 'pedido em curso...',
+    'requestSuccess' => 'Pedir sucesso',
+    'requestFailure' => 'Pedir falha',
+    // install
+    'install_in_progress' => 'Instalação em curso...',
+    // upgrade
+    'upgrade_none' => 'Sem atualização',
+    'upgrade_fresns' => 'Existe uma nova versão Fresns disponível para atualização',
+    'upgrade_fresns_tip' => 'Você pode atualizar para',
+    'upgrade_fresns_warning' => 'Por favor, faça uma cópia de segurança da sua base de dados antes de actualizar para evitar a perda de dados devido a uma actualização inadequada.',
+    'upgrade_confirm_tip' => 'Determinar a atualização?',
+    'physical_upgrade_guide' => 'Guia de Actualização',
     'physical_upgrade_file_error' => 'Descoordenação física do ficheiro de actualização',
+    'physical_upgrade_confirm_tip' => 'Certifique-se de que leu o "Guia de Actualização" e que processou a nova versão do ficheiro de acordo com o guia.',
+    'upgrade_in_progress' => 'Actualização em curso...',
+    'upgrade_step_1' => 'Verificação de inicialização',
+    'upgrade_step_2' => 'Baixe o pacote do aplicativo',
+    'upgrade_step_3' => 'UNZIP Pacote de Aplicativos',
+    'upgrade_step_4' => 'Aplicação de atualização',
+    'upgrade_step_5' => 'Esvaziar o cache',
+    'upgrade_step_6' => 'Terminar',
+    // uninstall
+    'uninstall_in_progress' => 'Desinstalar em curso...',
+    'uninstall_step_1' => 'Verificação de inicialização',
+    'uninstall_step_2' => 'Processamento de dados',
+    'uninstall_step_3' => 'Deletar arquivos',
+    'uninstall_step_4' => 'Limpar cache',
+    'uninstall_step_5' => 'Feito',
+    // others
     'account_not_found' => 'Conta não existe ou inserir erros',
     'account_login_limit' => 'O erro excedeu o limite do sistema. Por favor, faça novamente o log in 1 hora mais tarde',
+    'timezone_error' => 'O fuso horário da base de dados não corresponde ao fuso horário no ficheiro de configuração .env',
+    'timezone_env_edit_tip' => 'Por favor modifique o item de configuração do identificador de fuso horário no ficheiro .env',
     'secure_entry_route_conflicts' => 'Conflito de roteamento de entrada de segurança',
     'language_exists' => 'A linguagem já existe',
     'language_not_exists' => 'a língua não existe',

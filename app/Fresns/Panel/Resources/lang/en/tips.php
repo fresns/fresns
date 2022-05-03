@@ -14,8 +14,6 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'requestSuccess' => 'Request Success',
-    'requestFailure' => 'Request Failure',
     'createSuccess' => 'Create Success',
     'deleteSuccess' => 'Delete Success',
     'updateSuccess' => 'Update Success',
@@ -25,10 +23,40 @@ return [
     'uninstallSuccess' => 'Uninstall Success',
     'uninstallFailure' => 'Uninstall Failure',
     'copySuccess' => 'Copy Success',
-    'timezone_error' => 'The database timezone does not match the timezone in the env config file',
+    // request
+    'request_in_progress' => 'Request in progress...',
+    'requestSuccess' => 'Request Success',
+    'requestFailure' => 'Request Failure',
+    // install
+    'install_in_progress' => 'Install in progress...',
+    // upgrade
+    'upgrade_none' => 'No Upgrade',
+    'upgrade_fresns' => 'A new version of Fresns is available for upgrade',
+    'upgrade_fresns_tip' => 'You can upgrade to',
+    'upgrade_fresns_warning' => 'Please backup the database before upgrading to avoid data loss due to improper upgrade.',
+    'upgrade_confirm_tip' => 'Sure to upgrade?',
+    'physical_upgrade_guide' => 'Upgrade Guide',
     'physical_upgrade_file_error' => 'Physical upgrade file mismatch',
+    'physical_upgrade_confirm_tip' => 'Please make sure you have read the "Upgrade Guide" and processed the new version of the file according to the guide.',
+    'upgrade_in_progress' => 'Upgrade in progress...',
+    'upgrade_step_1' => 'Initialization verification',
+    'upgrade_step_2' => 'Download application packages',
+    'upgrade_step_3' => 'Unzip the application package',
+    'upgrade_step_4' => 'Upgrade application',
+    'upgrade_step_5' => 'Clear cache',
+    'upgrade_step_6' => 'Done',
+    // uninstall
+    'uninstall_in_progress' => 'Uninstall in progress...',
+    'uninstall_step_1' => 'Initialization Verification',
+    'uninstall_step_2' => 'Data Processing',
+    'uninstall_step_3' => 'Delete files',
+    'uninstall_step_4' => 'Clear cache',
+    'uninstall_step_5' => 'Done',
+    // others
     'account_not_found' => 'Account number does not exist or was entered incorrectly',
     'account_login_limit' => 'The error has exceeded the system limit. Please log in again 1 hour later',
+    'timezone_error' => 'The database timezone does not match the timezone in the .env config file',
+    'timezone_env_edit_tip' => 'Please modify the timezone identifier config item in the .env file',
     'secure_entry_route_conflicts' => 'Secure entry route conflicts',
     'language_exists' => 'Language already exists',
     'language_not_exists' => 'Language not exists',

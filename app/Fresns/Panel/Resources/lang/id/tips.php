@@ -14,8 +14,6 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'requestSuccess' => 'Permintaan Sukses',
-    'requestFailure' => 'Permintaan Gagal',
     'createSuccess' => 'Menciptakan kesuksesan',
     'deleteSuccess' => 'berhasil dihapus',
     'updateSuccess' => 'Berhasil dimodifikasi',
@@ -25,10 +23,40 @@ return [
     'uninstallSuccess' => 'Uninstall Sukses',
     'uninstallFailure' => 'Copot Pemasangan Gagal',
     'copySuccess' => 'Salin kesuksesan',
-    'timezone_error' => 'Zona waktu basis data tidak cocok dengan zona waktu di file konfigurasi env',
+    // request
+    'request_in_progress' => 'permintaan sedang diproses...',
+    'requestSuccess' => 'Permintaan Sukses',
+    'requestFailure' => 'Permintaan Gagal',
+    // install
+    'install_in_progress' => 'Instal sedang berlangsung...',
+    // upgrade
+    'upgrade_none' => 'Tidak ada pembaruan',
+    'upgrade_fresns' => 'Ada versi fresns baru yang tersedia untuk upgrade',
+    'upgrade_fresns_tip' => 'Anda dapat meningkatkan ke',
+    'upgrade_fresns_warning' => 'Harap buat cadangan database sebelum memutakhirkan untuk menghindari kehilangan data yang disebabkan oleh pemutakhiran yang tidak tepat.',
+    'upgrade_confirm_tip' => 'Tentukan peningkatan?',
+    'physical_upgrade_guide' => 'Panduan Peningkatan',
     'physical_upgrade_file_error' => 'Ketidakcocokan file peningkatan fisik',
+    'physical_upgrade_confirm_tip' => 'Pastikan Anda telah membaca "Panduan Peningkatan" dan memproses file versi baru sesuai dengan panduan.',
+    'upgrade_in_progress' => 'Peningkatan sedang berlangsung...',
+    'upgrade_step_1' => 'Verifikasi inisialisasi',
+    'upgrade_step_2' => 'Unduh Paket Aplikasi',
+    'upgrade_step_3' => 'Paket aplikasi unzip',
+    'upgrade_step_4' => 'Upgrade Aplikasi',
+    'upgrade_step_5' => 'Mengosongkan cache',
+    'upgrade_step_6' => 'Menyelesaikan',
+    // uninstall
+    'uninstall_in_progress' => 'Pencopotan sedang berlangsung...',
+    'uninstall_step_1' => 'Verifikasi inisialisasi',
+    'uninstall_step_2' => 'Pengolahan data',
+    'uninstall_step_3' => 'Hapus file',
+    'uninstall_step_4' => 'Cure cache',
+    'uninstall_step_5' => 'Selesai',
+    // others
     'account_not_found' => 'Akun tidak ada atau masukkan kesalahan',
     'account_login_limit' => 'Kesalahan telah melampaui batas sistem. Silakan masuk lagi 1 jam kemudian',
+    'timezone_error' => 'Zona waktu basis data tidak cocok dengan zona waktu di file konfigurasi .env',
+    'timezone_env_edit_tip' => 'Harap ubah item konfigurasi pengidentifikasi zona waktu di file .env',
     'secure_entry_route_conflicts' => 'Konflik perutean masuk keselamatan',
     'language_exists' => 'Bahasa sudah ada',
     'language_not_exists' => 'bahasa tidak ada',

@@ -14,8 +14,6 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'requestSuccess' => '請求成功',
-    'requestFailure' => '請求失敗',
     'createSuccess' => '創建成功',
     'deleteSuccess' => '刪除成功',
     'updateSuccess' => '更改成功',
@@ -25,10 +23,40 @@ return [
     'uninstallSuccess' => '卸載成功',
     'uninstallFailure' => '卸載失敗',
     'copySuccess' => '複製成功',
-    'timezone_error' => '資料庫時區和 env 配置文件中時區不一致',
+    // request
+    'request_in_progress' => '正在請求中...',
+    'requestSuccess' => '請求成功',
+    'requestFailure' => '請求失敗',
+    // install
+    'install_in_progress' => '正在安裝中...',
+    // upgrade
+    'upgrade_none' => '暫無更新',
+    'upgrade_fresns' => '有新的 Fresns 版本可供升級。',
+    'upgrade_fresns_tip' => '您可以升級到',
+    'upgrade_fresns_warning' => '升級前請先備份資料庫，避免升級不當導致資料丟失。',
+    'upgrade_confirm_tip' => '確定升級嗎？',
+    'physical_upgrade_guide' => '升級指南',
     'physical_upgrade_file_error' => '物理升級文件不匹配',
+    'physical_upgrade_confirm_tip' => '請確認已經閱讀了「幫助說明」，並且按指南處理好了新版文件。',
+    'upgrade_in_progress' => '正在更新中...',
+    'upgrade_step_1' => '初始化驗證',
+    'upgrade_step_2' => '下載應用包',
+    'upgrade_step_3' => '解壓應用包',
+    'upgrade_step_4' => '升級應用',
+    'upgrade_step_5' => '清空緩存',
+    'upgrade_step_6' => '完成',
+    // uninstall
+    'uninstall_in_progress' => '正在卸載中...',
+    'uninstall_step_1' => '初始化驗證',
+    'uninstall_step_2' => '數據處理',
+    'uninstall_step_3' => '刪除文件',
+    'uninstall_step_4' => '清空緩存',
+    'uninstall_step_5' => '完成',
+    // others
     'account_not_found' => '賬號不存在或者輸入錯誤',
     'account_login_limit' => '錯誤已超系統限制，請 1 小時後再登錄',
+    'timezone_error' => '資料庫時區和 .env 配置文件中時區不一致',
+    'timezone_env_edit_tip' => '請修改根目錄 .env 配置文件中時區地名配置項',
     'secure_entry_route_conflicts' => '安全入口路由衝突',
     'language_exists' => '語言已存在',
     'language_not_exists' => '語言不存在',
