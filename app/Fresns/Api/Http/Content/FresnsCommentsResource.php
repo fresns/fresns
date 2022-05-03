@@ -467,6 +467,7 @@ class FresnsCommentsResource extends BaseAdminResource
             'pid' => $posts['pid'],
             'cid' => $cid,
             'content' => $content,
+            'isMarkdown' => $append->is_markdown ?? 0,
             'brief' => $brief,
             'sticky' => $sticky,
             'commentName' => $commentName,

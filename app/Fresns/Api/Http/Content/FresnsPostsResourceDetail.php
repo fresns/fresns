@@ -489,7 +489,7 @@ class FresnsPostsResourceDetail extends BaseAdminResource
             'pid' => $pid,
             'title' => $title,
             'content' => $content,
-            'isMarkdown' => $append['is_markdown'],
+            'isMarkdown' => $append['is_markdown'] ?? 0,
             'sticky' => $sticky,
             'digest' => $digest,
             'postName' => $PostName,
