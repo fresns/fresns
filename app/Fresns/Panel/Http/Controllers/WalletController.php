@@ -8,12 +8,12 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Helpers\PrimaryHelper;
 use App\Models\Config;
-use App\Models\Plugin;
 use App\Models\Language;
+use App\Models\Plugin;
 use App\Models\PluginUsage;
 use Illuminate\Http\Request;
-use App\Helpers\PrimaryHelper;
 
 class WalletController extends Controller
 {
@@ -34,7 +34,7 @@ class WalletController extends Controller
             'currency_codes',
             'wallet_currency_name',
             'wallet_currency_unit',
-            'wallet_currency_precision'
+            'wallet_currency_precision',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -73,7 +73,7 @@ class WalletController extends Controller
             'wallet_withdraw_min_sum',
             'wallet_withdraw_max_sum',
             'wallet_withdraw_sum_limit',
-            'wallet_currency_precision'
+            'wallet_currency_precision',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -92,7 +92,7 @@ class WalletController extends Controller
             $config->save();
         }
 
-        foreach($request->wallet_currency_name as $langTag => $content) {
+        foreach ($request->wallet_currency_name as $langTag => $content) {
             $language = Language::ofConfig()
                 ->where('table_key', 'wallet_currency_name')
                 ->where('lang_tag', $langTag)
@@ -115,7 +115,7 @@ class WalletController extends Controller
             $language->save();
         }
 
-        foreach($request->wallet_currency_unit as $langTag => $content) {
+        foreach ($request->wallet_currency_unit as $langTag => $content) {
             $language = Language::ofConfig()
                 ->where('table_key', 'wallet_currency_unit')
                 ->where('lang_tag', $langTag)
