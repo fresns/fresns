@@ -28,7 +28,7 @@
         <div class="card mx-auto my-5">
             <div class="card-body p-5">
                 <h3 class="card-title">Fresns {{ $errorCode }}</h3>
-                <p>{{ $errorMessage }}</p>
+                <div class="mt-4">{!! $errorMessage !!}</div>
             </div>
         </div>
     </main>
