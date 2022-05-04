@@ -15,6 +15,7 @@ use App\Fresns\Api\FsDb\FresnsPosts\FresnsPosts;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsers;
 use App\Fresns\Api\FsDb\FresnsUsers\FresnsUsersConfig;
 use App\Fresns\Api\Helpers\ApiFileHelper;
+use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use Illuminate\Support\Facades\DB;
 
@@ -46,17 +47,27 @@ class FresnsNotifiesResource extends BaseAdminResource
         $sourceUser = [];
         if ($user) {
             $user = FresnsUsers::find($this->source_user_id);
-            $sourceUser =
-                [
-                    'uid' => $user['uid'] ?? '',
-                    'username' => $user->username ?? '',
-                    'nickname' => $user->nickname ?? '',
-                    'avatar' => ApiFileHelper::getUserAvatar($user->uid),
-                    'decorate' => ApiFileHelper::getImageSignUrlByFileIdUrl($user->decorate_file_id, $user->decorate_file_url),
-                    'verifiedStatus' => $user->verified_status ?? 1,
-                    'verifiedIcon' => ApiFileHelper::getImageSignUrlByFileIdUrl($user->verified_file_id, $user->verified_file_url),
-                    'verifiedDesc' => $user->verified_desc ?? '',
-                ];
+            $sourceUser = [
+                'uid' => $user['uid'] ?? null,
+                'username' => $user->username ?? null,
+                'nickname' => $user->nickname ?? null,
+                'avatar' => ApiFileHelper::getUserAvatar($user->uid),
+                'decorate' => ApiFileHelper::getImageSignUrlByFileIdUrl($user->decorate_file_id, $user->decorate_file_url),
+                'verifiedStatus' => $user->verified_status ?? 1,
+                'verifiedIcon' => ApiFileHelper::getImageSignUrlByFileIdUrl($user->verified_file_id, $user->verified_file_url),
+                'verifiedDesc' => $user->verified_desc ?? null,
+            ];
+        } else {
+            $sourceUser = [
+                'uid' => null,
+                'username' => null,
+                'nickname' => null,
+                'avatar' => ConfigHelper::fresnsConfigByItemKey('deactivate_avatar'),
+                'decorate' => null,
+                'verifiedStatus' => 1,
+                'verifiedIcon' => null,
+                'verifiedDesc' => null,
+            ];
         }
         $sourceBrief = $this->source_brief;
         $accessUrl = $this->access_url;
@@ -65,7 +76,7 @@ class FresnsNotifiesResource extends BaseAdminResource
 
         // Default Field
         $default = [
-            'nitifyId' => $messageId,
+            'notifyId' => $messageId,
             'sourceType' => $sourceType,
             'sourceClass' => $sourceClass,
             'sourceFsid' => $sourceFsid ?? null,
