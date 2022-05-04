@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Install\Http\Controllers;
 
+use App\Helpers\AppHelper;
 use App\Models\Account;
 use App\Models\Config;
 use Illuminate\Routing\Controller;
@@ -218,8 +219,8 @@ class InstallController extends Controller
                 'type' => 'composer_version',
                 'title' => __('Install::install.server_check_composer_version'),
                 'check_result' => $isComposerVersion2,
-                'tips' => $isComposerVersion2 ? __('Install::install.server_check_self') : __('Install::install.server_status_failure'),
-                'class' => $isComposerVersion2 ? 'bg-warning' : 'bg-danger',
+                'tips' => $isComposerVersion2 ? __('Install::install.server_status_success') : __('Install::install.server_status_failure'),
+                'class' => $isComposerVersion2 ? 'bg-success' : 'bg-danger',
                 'message' => '',
             ],
             [
@@ -267,21 +268,9 @@ class InstallController extends Controller
 
     public function checkComposerVersion()
     {
-        return true;
-        $server = new \Symfony\Component\Process\Process(
-            [
-                'composer',
-                '--version',
-            ],
-        );
+        $composerVersion = AppHelper::getComposerVersionInfo()['version'];
 
-        $code = $server->run();
-
-        $composerVersion = $server->getOutput();
-
-        preg_match('/Composer?[(?:\sversion)]\s?(\d.\d.\d)\s.*?/', $composerVersion, $matches);
-
-        return version_compare($matches[1], '2.3.0', '>=');
+        return version_compare($composerVersion, '2.3.0', '>=');
     }
 
     protected function getDirPermission()
