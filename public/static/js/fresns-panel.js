@@ -91,6 +91,9 @@ $(document).ready(function () {
             url: action,
             success: function (response) {
                 if (!response.physicalUpgrading) {
+                    console.log('physical upgrade');
+                    $('#physicalUpgradeOutputModal').data('upgradeSuccess', 1);
+                    clearInterval(physicalUpgradeTimer);
                     return;
                 }
                 if (!response.upgradeContent) {
@@ -100,6 +103,12 @@ $(document).ready(function () {
             },
         });
     }
+
+    $('#physicalUpgradeOutputModal, #upgradeStepModal').on('hide.bs.modal', function(e) {
+        if ($(this).data('upgradeSuccess') == 1) {
+            window.location.reload();
+        }
+    })
 
 
     $('#physicalUpgradeButton').click(function () {
@@ -170,7 +179,8 @@ $(document).ready(function () {
                 let upgradeStep = response.upgrade_step;
 
                 if (!upgradeStep || upgradeStep == 6) {
-                    location.reload();
+                    $('#upgradeStepModal').data('upgradeSuccess', 1);
+                    clearInterval(upgradeTimer);
                     return;
                 }
 
@@ -1980,5 +1990,39 @@ $(document).ready(function () {
                 window.tips(response.responseJSON.message);
             },
         });
+    });
+
+    $('#walletCurrencyName').on('hide.bs.modal', function(e) {
+        let defaultName = $(this).find('.text-primary').closest('tr').find('.name-input').val();
+        if (!defaultName) {
+            defaultName = $(this)
+            .find('.name-input')
+            .filter(function () {
+                return $(this).val() != '';
+            })
+            .first()
+            .val();
+        }
+
+        if (defaultName) {
+            $('#currencyNameButton').text(defaultName);
+        }
+    });
+
+    $('#walletCurrencyUnit').on('hide.bs.modal', function(e) {
+        let defaultName = $(this).find('.text-primary').closest('tr').find('.name-input').val();
+        if (!defaultName) {
+            defaultName = $(this)
+            .find('.name-input')
+            .filter(function () {
+                return $(this).val() != '';
+            })
+            .first()
+            .val();
+        }
+
+        if (defaultName) {
+            $('#currencyUnitButton').text(defaultName);
+        }
     });
 });

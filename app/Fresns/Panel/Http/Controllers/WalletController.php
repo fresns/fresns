@@ -8,12 +8,12 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
-use App\Helpers\PrimaryHelper;
 use App\Models\Config;
-use App\Models\Language;
 use App\Models\Plugin;
+use App\Models\Language;
 use App\Models\PluginUsage;
 use Illuminate\Http\Request;
+use App\Helpers\PrimaryHelper;
 
 class WalletController extends Controller
 {
@@ -32,6 +32,9 @@ class WalletController extends Controller
             'wallet_withdraw_max_sum',
             'wallet_withdraw_sum_limit',
             'currency_codes',
+            'wallet_currency_name',
+            'wallet_currency_unit',
+            'wallet_currency_precision'
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -40,7 +43,21 @@ class WalletController extends Controller
             $params[$config->item_key] = $config->item_value;
         }
 
-        return view('FsView::systems.wallet', compact('params'));
+        $langKeys = [
+            'wallet_currency_name',
+            'wallet_currency_unit',
+        ];
+
+        $languages = Language::ofConfig()->whereIn('table_key', $langKeys)->get();
+
+        $langParams = [];
+        $defaultLangParams = [];
+        foreach ($langKeys as $langKey) {
+            $langParams[$langKey] = $languages->where('table_key', $langKey)->pluck('lang_content', 'lang_tag')->toArray();
+            $defaultLangParams[$langKey] = $languages->where('table_key', $langKey)->where('lang_tag', $this->defaultLanguage)->first()['lang_content'] ?? '';
+        }
+
+        return view('FsView::systems.wallet', compact('params', 'defaultLangParams', 'langParams'));
     }
 
     public function update(Request $request)
@@ -56,6 +73,7 @@ class WalletController extends Controller
             'wallet_withdraw_min_sum',
             'wallet_withdraw_max_sum',
             'wallet_withdraw_sum_limit',
+            'wallet_currency_precision'
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -72,6 +90,52 @@ class WalletController extends Controller
             }
 
             $config->save();
+        }
+
+        foreach($request->wallet_currency_name as $langTag => $content) {
+            $language = Language::ofConfig()
+                ->where('table_key', 'wallet_currency_name')
+                ->where('lang_tag', $langTag)
+                ->first();
+            if (! $language) {
+                // create but no content
+                if (! $content) {
+                    continue;
+                }
+                $language = new Language();
+                $language->fill([
+                    'table_name' => 'configs',
+                    'table_column' => 'item_value',
+                    'table_key' => 'wallet_currency_name',
+                    'lang_tag' => $langTag,
+                ]);
+            }
+
+            $language->lang_content = $content;
+            $language->save();
+        }
+
+        foreach($request->wallet_currency_unit as $langTag => $content) {
+            $language = Language::ofConfig()
+                ->where('table_key', 'wallet_currency_unit')
+                ->where('lang_tag', $langTag)
+                ->first();
+            if (! $language) {
+                // create but no content
+                if (! $content) {
+                    continue;
+                }
+                $language = new Language();
+                $language->fill([
+                    'table_name' => 'configs',
+                    'table_column' => 'item_value',
+                    'table_key' => 'wallet_currency_unit',
+                    'lang_tag' => $langTag,
+                ]);
+            }
+
+            $language->lang_content = $content;
+            $language->save();
         }
 
         return $this->updateSuccess();
