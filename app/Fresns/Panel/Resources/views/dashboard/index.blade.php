@@ -124,10 +124,16 @@
                             {{ __('FsLang::panel.system_info_php_version') }}: <span>{{ $systemInfo['php']['version'] }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-start">
+                            {{ __('FsLang::panel.system_info_php_cli_info') }}: <span><a data-bs-toggle="modal" href="#phpCliModal" role="button">{{ __('FsLang::panel.button_view') }}</a></span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
                             {{ __('FsLang::panel.system_info_php_upload_max_filesize') }}: <span>{{ $systemInfo['php']['uploadMaxFileSize'] }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-start">
-                            {{ __('FsLang::panel.system_info_composer') }}: <span><a class="composer_info" data-bs-toggle="modal" href="#composerInfoModal" role="button">{{ __('FsLang::panel.button_view') }}</a></span>
+                            {{ __('FsLang::panel.system_info_composer_version') }}: <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ $systemInfo['composer']['versionInfo'] }}">{{ $systemInfo['composer']['version'] }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start d-none">
+                            {{ __('FsLang::panel.system_info_composer_info') }}: <span><a data-bs-toggle="modal" href="#composerInfoModal" role="button">{{ __('FsLang::panel.button_view') }}</a></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-start">
                             {{ __('FsLang::panel.system_info_database_version') }}: <span>{{ $databaseInfo['version'] }}</span>
@@ -170,6 +176,36 @@
                             </li>
                         @endforeach
                     </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: php cli info -->
+    <div class="modal fade" id="phpCliModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('FsLang::panel.system_info_php_cli_info') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {!! nl2br($systemInfo['php']['cliInfo']) !!}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: composer info -->
+    <div class="modal fade" id="composerInfoModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('FsLang::panel.system_info_composer_info') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {!! nl2br($systemInfo['composer']['configList']) !!}
                 </div>
             </div>
         </div>
@@ -223,51 +259,4 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal: composer info -->
-    <div class="modal fade" id="composerInfoModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">{{ __('FsLang::panel.system_info_composer') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <pre class="composer_version">{{ __('FsLang::tips.request_in_progress') }}</pre>
-                    <hr>
-                    <pre class="composer_config"></pre>
-                </div>
-            </div>
-        </div>
-    </div>
-@endsection
-
-@section('js')
-    <script>
-        $('.composer_info').click(function (event) {
-            event.preventDefault();
-            $.ajax({
-                method: 'get',
-                url: '/fresns/composer/version',
-                success: function (response) {
-                    console.log('composer info', response)
-                    $('.composer_version').html(response)
-                },
-                error: function (response) {
-                    window.tips("{{ __('FsLang::tips.requestFailure') }}");
-                },
-            });
-            $.ajax({
-                method: 'get',
-                url: '/fresns/composer/config',
-                success: function (response) {
-                    console.log('composer info', response)
-                    $('.composer_config').html(response)
-                },
-                error: function (response) {
-                    window.tips("{{ __('FsLang::tips.requestFailure') }}");
-                },
-            });
-        });
-    </script>
 @endsection
