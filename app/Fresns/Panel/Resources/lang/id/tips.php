@@ -35,6 +35,8 @@ return [
     'upgrade_fresns_tip' => 'Anda dapat meningkatkan ke',
     'upgrade_fresns_warning' => 'Harap buat cadangan database sebelum memutakhirkan untuk menghindari kehilangan data yang disebabkan oleh pemutakhiran yang tidak tepat.',
     'upgrade_confirm_tip' => 'Tentukan peningkatan?',
+    'physical_upgrade_tip' => 'Upgrade ini tidak mendukung upgrade otomatis, silakan gunakan metode "upgrade fisik".',
+    'physical_upgrade_version_guide' => 'Klik untuk membaca deskripsi pembaruan versi ini',
     'physical_upgrade_guide' => 'Panduan Peningkatan',
     'physical_upgrade_file_error' => 'Ketidakcocokan file peningkatan fisik',
     'physical_upgrade_confirm_tip' => 'Pastikan Anda telah membaca "Panduan Peningkatan" dan memproses file versi baru sesuai dengan panduan.',

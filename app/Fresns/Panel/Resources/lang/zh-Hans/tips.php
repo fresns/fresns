@@ -35,6 +35,8 @@ return [
     'upgrade_fresns_tip' => '您可以升级到',
     'upgrade_fresns_warning' => '升级前请先备份数据库，避免升级不当导致数据丢失。',
     'upgrade_confirm_tip' => '确定升级吗？',
+    'physical_upgrade_tip' => '本次升级不支持自动升级，请使用「物理升级」方法。',
+    'physical_upgrade_version_guide' => '点击阅读本次版本更新说明',
     'physical_upgrade_guide' => '升级指南',
     'physical_upgrade_file_error' => '物理升级文件不匹配',
     'physical_upgrade_confirm_tip' => '请确认已经阅读了「升級指南」，并且按指南处理好了新版文件。',

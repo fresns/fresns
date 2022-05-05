@@ -35,6 +35,8 @@ return [
     'upgrade_fresns_tip' => 'Puoi aggiornare a',
     'upgrade_fresns_warning' => 'Si prega di eseguire il backup del database prima di effettuare l\'aggiornamento per evitare la perdita di dati a causa di un aggiornamento improprio.',
     'upgrade_confirm_tip' => 'Determina l\'aggiornamento?',
+    'physical_upgrade_tip' => 'Questo aggiornamento non supporta l\'aggiornamento automatico, si prega di utilizzare il metodo di "aggiornamento fisico".',
+    'physical_upgrade_version_guide' => 'Clicca per leggere le istruzioni per questo aggiornamento',
     'physical_upgrade_guide' => 'Guida all\'aggiornamento',
     'physical_upgrade_file_error' => 'Mancata corrispondenza del file di aggiornamento fisico',
     'physical_upgrade_confirm_tip' => 'Assicurati di aver letto la "Guida all\'aggiornamento" e di aver elaborato la nuova versione del file secondo la guida.',

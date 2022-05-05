@@ -35,6 +35,8 @@ return [
     'upgrade_fresns_tip' => '您可以升級到',
     'upgrade_fresns_warning' => '升級前請先備份資料庫，避免升級不當導致資料丟失。',
     'upgrade_confirm_tip' => '確定升級嗎？',
+    'physical_upgrade_tip' => '本次升級不支持自動升級，請使用「物理升級」方法。',
+    'physical_upgrade_version_guide' => '點擊閱讀本次版本更新說明',
     'physical_upgrade_guide' => '升級指南',
     'physical_upgrade_file_error' => '物理升級文件不匹配',
     'physical_upgrade_confirm_tip' => '請確認已經閱讀了「幫助說明」，並且按指南處理好了新版文件。',

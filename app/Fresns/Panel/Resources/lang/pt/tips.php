@@ -35,6 +35,8 @@ return [
     'upgrade_fresns_tip' => 'Você pode atualizar para',
     'upgrade_fresns_warning' => 'Por favor, faça uma cópia de segurança da sua base de dados antes de actualizar para evitar a perda de dados devido a uma actualização inadequada.',
     'upgrade_confirm_tip' => 'Determinar a atualização?',
+    'physical_upgrade_tip' => 'Esta actualização não suporta a actualização automática, por favor use o método de "actualização física".',
+    'physical_upgrade_version_guide' => 'Clique para ler as instruções para esta actualização',
     'physical_upgrade_guide' => 'Guia de Actualização',
     'physical_upgrade_file_error' => 'Descoordenação física do ficheiro de actualização',
     'physical_upgrade_confirm_tip' => 'Certifique-se de que leu o "Guia de Actualização" e que processou a nova versão do ficheiro de acordo com o guia.',

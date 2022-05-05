@@ -35,6 +35,8 @@ return [
     'upgrade_fresns_tip' => 'Puedes actualizar a',
     'upgrade_fresns_warning' => 'Por favor, haga una copia de seguridad de su base de datos antes de actualizar para evitar la pérdida de datos debido a una actualización incorrecta.',
     'upgrade_confirm_tip' => '¿Determinar la actualización?',
+    'physical_upgrade_tip' => 'Esta actualización no admite la actualización automática, por favor, utilice el método de "actualización física".',
+    'physical_upgrade_version_guide' => 'Haga clic para leer las instrucciones de esta actualización',
     'physical_upgrade_guide' => 'Guía de actualización',
     'physical_upgrade_file_error' => 'Fichero de actualización física erróneo',
     'physical_upgrade_confirm_tip' => 'Asegúrese de haber leído la "Guía de actualización" y de haber procesado la nueva versión del archivo de acuerdo con la guía.',

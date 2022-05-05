@@ -35,6 +35,8 @@ return [
     'upgrade_fresns_tip' => 'Sie können ein Upgrade auf ein Upgrade verwenden',
     'upgrade_fresns_warning' => 'Bitte erstellen Sie vor dem Upgrade eine Sicherungskopie Ihrer Datenbank, um Datenverluste aufgrund eines unsachgemäßen Upgrades zu vermeiden.',
     'upgrade_confirm_tip' => 'Upgrade bestimmen?',
+    'physical_upgrade_tip' => 'Dieses Update unterstützt kein automatisches Upgrade, bitte verwenden Sie die Methode des "physischen Upgrades".',
+    'physical_upgrade_version_guide' => 'Klicken Sie hier, um die Anweisungen für dieses Update zu lesen',
     'physical_upgrade_guide' => 'Upgrade-Leitfaden',
     'physical_upgrade_file_error' => 'Unstimmigkeit der physischen Upgrade-Datei',
     'physical_upgrade_confirm_tip' => 'Bitte vergewissern Sie sich, dass Sie die "Upgrade-Leitfaden" gelesen und die neue Version der Datei entsprechend der Anleitung verarbeitet haben.',

@@ -35,6 +35,8 @@ return [
     'upgrade_fresns_tip' => '업그레이드 할 수 있습니다',
     'upgrade_fresns_warning' => '부적절한 업그레이드로 인한 데이터 손실을 방지하려면 업그레이드하기 전에 데이터베이스를 백업하십시오.',
     'upgrade_confirm_tip' => '업그레이드 결정?',
+    'physical_upgrade_tip' => '이 업그레이드는 자동 업그레이드를 지원하지 않으므로 "물리적 업그레이드" 방법을 사용하십시오.',
+    'physical_upgrade_version_guide' => '이 버전의 업데이트 설명을 읽으려면 클릭하십시오.',
     'physical_upgrade_guide' => '업그레이드 가이드',
     'physical_upgrade_file_error' => '물리적 업그레이드 파일 불일치',
     'physical_upgrade_confirm_tip' => '"업그레이드 가이드"를 읽고 가이드에 따라 파일의 새 버전을 처리했는지 확인하십시오.',

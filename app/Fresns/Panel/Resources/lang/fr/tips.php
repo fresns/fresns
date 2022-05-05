@@ -35,6 +35,8 @@ return [
     'upgrade_fresns_tip' => 'Vous pouvez passer à',
     'upgrade_fresns_warning' => 'Veuillez sauvegarder votre base de données avant de procéder à la mise à niveau afin d\'éviter toute perte de données due à une mise à niveau incorrecte.',
     'upgrade_confirm_tip' => 'Déterminer la mise à niveau?',
+    'physical_upgrade_tip' => 'Cette mise à jour ne prend pas en charge la mise à niveau automatique, veuillez utiliser la méthode de "mise à niveau physique".',
+    'physical_upgrade_version_guide' => 'Cliquez pour lire les instructions de cette mise à jour',
     'physical_upgrade_guide' => 'Guide de mise à niveau',
     'physical_upgrade_file_error' => 'Mauvaise concordance du fichier de mise à niveau physique',
     'physical_upgrade_confirm_tip' => 'Veuillez vous assurer que vous avez lu le "Guide de mise à niveau" et que vous avez traité la nouvelle version du fichier conformément au guide.',

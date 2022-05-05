@@ -35,6 +35,8 @@ return [
     'upgrade_fresns_tip' => 'あなたはアップグレードすることができます',
     'upgrade_fresns_warning' => '不適切なアップグレードによるデータ損失を避けるため、アップグレード前にデータベースをバックアップしてください。',
     'upgrade_confirm_tip' => 'アップグレードを決定しますか？',
+    'physical_upgrade_tip' => 'このアップデートは自動アップグレードに対応していませんので、「物理的なアップグレード」方法をご利用ください。',
+    'physical_upgrade_version_guide' => 'クリックすると、このアップデートに関する説明が表示されます。',
     'physical_upgrade_guide' => 'アップグレードガイド',
     'physical_upgrade_file_error' => '物理アップグレードファイルの不一致',
     'physical_upgrade_confirm_tip' => '必ず「アップグレードガイド」をお読みいただき、ガイドに従って新しいバージョンのファイルを処理するようにしてください。',

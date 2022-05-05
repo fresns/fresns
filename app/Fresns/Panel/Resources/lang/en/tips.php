@@ -35,6 +35,8 @@ return [
     'upgrade_fresns_tip' => 'You can upgrade to',
     'upgrade_fresns_warning' => 'Please backup the database before upgrading to avoid data loss due to improper upgrade.',
     'upgrade_confirm_tip' => 'Sure to upgrade?',
+    'physical_upgrade_tip' => 'This update does not support automatic upgrade, please use the "physical upgrade" method.',
+    'physical_upgrade_version_guide' => 'Click to read the description of this version update',
     'physical_upgrade_guide' => 'Upgrade Guide',
     'physical_upgrade_file_error' => 'Physical upgrade file mismatch',
     'physical_upgrade_confirm_tip' => 'Please make sure you have read the "Upgrade Guide" and processed the new version of the file according to the guide.',
