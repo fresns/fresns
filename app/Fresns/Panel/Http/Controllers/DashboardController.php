@@ -15,6 +15,7 @@ use App\Models\Account;
 use App\Models\Plugin;
 use App\Models\SessionKey;
 use App\Utilities\AppUtility;
+use App\Utilities\CommandUtility;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Cache;
 
@@ -54,6 +55,20 @@ class DashboardController extends Controller
         $timezones = DateHelper::fresnsSqlTimezoneNames();
 
         return view('FsView::dashboard.index', compact('overview', 'newsList', 'keyCount', 'adminCount', 'plugins', 'currentVersion', 'newVersion', 'checkVersion', 'systemInfo', 'databaseInfo', 'timezones'));
+    }
+
+    public function composerDiagnose()
+    {
+        $diagnose = CommandUtility::getComposerProcess(['diagnose'])->run()->getOutput();
+
+        return $diagnose;
+    }
+
+    public function composerConfigInfo()
+    {
+        $configInfo = CommandUtility::getComposerProcess(['config', '-g', '--list'])->run()->getOutput();
+
+        return $configInfo;
     }
 
     /**

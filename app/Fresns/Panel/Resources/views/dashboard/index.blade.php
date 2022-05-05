@@ -132,8 +132,8 @@
                         <li class="list-group-item d-flex justify-content-between align-items-start">
                             {{ __('FsLang::panel.system_info_composer_version') }}: <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ $systemInfo['composer']['versionInfo'] }}">{{ $systemInfo['composer']['version'] }}</span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start d-none">
-                            {{ __('FsLang::panel.system_info_composer_info') }}: <span><a data-bs-toggle="modal" href="#composerInfoModal" role="button">{{ __('FsLang::panel.button_view') }}</a></span>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            {{ __('FsLang::panel.system_info_composer_info') }}: <span><a class="composer_info" data-bs-toggle="modal" href="#composerInfoModal" role="button">{{ __('FsLang::panel.button_view') }}</a></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-start">
                             {{ __('FsLang::panel.system_info_database_version') }}: <span>{{ $databaseInfo['version'] }}</span>
@@ -205,7 +205,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    {!! nl2br($systemInfo['composer']['configList']) !!}
+                    <h5 class="text-success fs-6 fw-normal">Composer Diagnose</h5>
+                    <pre class="composer_diagnose">{{ __('FsLang::tips.request_in_progress') }}</pre>
+                    <hr>
+                    <h5 class="text-success fs-6 fw-normal">Composer Config List</h5>
+                    <pre class="composer_config_list">{{ __('FsLang::tips.request_in_progress') }}</pre>
                 </div>
             </div>
         </div>
@@ -259,4 +263,36 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script>
+        $('.composer_info').click(function (event) {
+            event.preventDefault();
+            $.ajax({
+                method: 'get',
+                url: '/fresns/composer/diagnose',
+                success: function (response) {
+                    console.log('composer diagnose info', response)
+                    $('.composer_diagnose').html(response)
+                },
+                error: function (response) {
+                    $('.composer_diagnose').html("{{ __('FsLang::tips.requestFailure') }}")
+                    window.tips("{{ __('FsLang::tips.requestFailure') }}");
+                },
+            });
+            $.ajax({
+                method: 'get',
+                url: '/fresns/composer/config',
+                success: function (response) {
+                    console.log('composer config info', response)
+                    $('.composer_config_list').html(response)
+                },
+                error: function (response) {
+                    $('.composer_diagnose').html("{{ __('FsLang::tips.requestFailure') }}")
+                    window.tips("{{ __('FsLang::tips.requestFailure') }}");
+                },
+            });
+        });
+    </script>
 @endsection
