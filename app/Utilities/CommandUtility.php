@@ -50,6 +50,8 @@ class CommandUtility
 
         $extraDirs = array_merge($instance->defaultExtraDirs, $extraDirs);
 
+        $extraDirs = array_map(fn ($dir) => rtrim($dir, '/'), $extraDirs);
+
         return $instance->executableFinder->find($name, null, $extraDirs);
     }
 
