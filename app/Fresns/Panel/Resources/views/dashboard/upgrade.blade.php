@@ -32,6 +32,12 @@
                 <div class="card-text mt-3">
                     <p>{{ __('FsLang::tips.upgrade_fresns_tip') }} v{{ $newVersion['version'] ?? ''}}</p>
                     <p class="text-danger">{{ __('FsLang::tips.upgrade_fresns_warning') }}</p>
+                    @if(! $newVersion['upgradeAuto'])
+                        <p>
+                            {{ __('FsLang::tips.physical_upgrade_tip') }}
+                            <a href="{{ $newVersion['upgradeIntro'] }}" target="_blank">{{ __('FsLang::tips.physical_upgrade_version_guide') }}</a>
+                        </p>
+                    @endif
                 </div>
 
                 @if ($upgradeStep)
@@ -39,10 +45,12 @@
                         {{ __('FsLang::tips.upgrade_in_progress') }}
                     </button>
                 @else
-                    <button id="upgradeButton" type="button" class="btn btn-primary" data-action="{{ route('panel.upgrade.info') }}">
-                        {{ __('FsLang::panel.button_upgrade') }}
-                    </button>
-                    <button class="btn btn-outline-success ms-3" type="button" id="physicalUpgradeButton" data-upgrading="{{ $physicalUpgrading }}">
+                    @if($newVersion['upgradeAuto'])
+                        <button type="button" class="btn btn-primary me-3" id="upgradeButton" data-action="{{ route('panel.upgrade.info') }}">
+                            {{ __('FsLang::panel.button_automatic_upgrade') }}
+                        </button>
+                    @endif
+                    <button type="button" class="btn btn-outline-primary" id="physicalUpgradeButton" data-upgrading="{{ $physicalUpgrading }}">
                         {{ __('FsLang::panel.button_physical_upgrade') }}
                     </button>
                     <a class="link-success ms-2" href="https://fresns.cn/guide/upgrade.html#手动物理升级" target="_blank">{{ __('FsLang::tips.physical_upgrade_guide') }}</a>
@@ -63,7 +71,7 @@
                 <div class="card-header">{{ __('FsLang::panel.extensions_plugins') }}</div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-                        @if($pluginsData)
+                        @if($pluginsData->isNotEmpty())
                             @foreach ($pluginsData as $plugin)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
@@ -99,7 +107,7 @@
                 <div class="card-header">{{ __('FsLang::panel.extensions_apps') }}</div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-                        @if($appsData)
+                        @if($appsData->isNotEmpty())
                             @foreach ($appsData as $app)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
@@ -135,7 +143,7 @@
                 <div class="card-header">{{ __('FsLang::panel.extensions_engines') }}</div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-                        @if($enginesData)
+                        @if($enginesData->isNotEmpty())
                             @foreach ($enginesData as $engine)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
@@ -171,7 +179,7 @@
                 <div class="card-header">{{ __('FsLang::panel.extensions_themes') }}</div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-                        @if($themesData)
+                        @if($themesData->isNotEmpty())
                             @foreach ($themesData as $theme)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
