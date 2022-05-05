@@ -49,12 +49,13 @@ class DashboardController extends Controller
         $keyCount = SessionKey::count();
         $adminCount = Account::ofAdmin()->count();
         $plugins = Plugin::all();
+        $pluginUpgradeCount = Plugin::where('is_upgrade', 1)->count();
 
         $systemInfo = AppHelper::getSystemInfo();
         $databaseInfo = AppHelper::getMySqlInfo();
         $timezones = DateHelper::fresnsSqlTimezoneNames();
 
-        return view('FsView::dashboard.index', compact('overview', 'newsList', 'keyCount', 'adminCount', 'plugins', 'currentVersion', 'newVersion', 'checkVersion', 'systemInfo', 'databaseInfo', 'timezones'));
+        return view('FsView::dashboard.index', compact('overview', 'pluginUpgradeCount', 'newsList', 'keyCount', 'adminCount', 'plugins', 'currentVersion', 'newVersion', 'checkVersion', 'systemInfo', 'databaseInfo', 'timezones'));
     }
 
     public function composerDiagnose()

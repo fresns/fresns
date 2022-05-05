@@ -11,6 +11,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Fresns\Panel\Http\Requests\UpdateConfigRequest;
 use App\Helpers\ConfigHelper;
 use App\Models\Config;
+use App\Models\Plugin;
 
 class SettingController extends Controller
 {
@@ -20,7 +21,9 @@ class SettingController extends Controller
         $domain = ConfigHelper::fresnsConfigByItemKey('backend_domain');
         $path = ConfigHelper::fresnsConfigByItemKey('panel_path') ?? 'admin';
 
-        return view('FsView::dashboard.settings', compact('buildType', 'domain', 'path'));
+        $pluginUpgradeCount = Plugin::where('is_upgrade', 1)->count();
+
+        return view('FsView::dashboard.settings', compact('buildType', 'domain', 'path', 'pluginUpgradeCount'));
     }
 
     public function update(UpdateConfigRequest $request)

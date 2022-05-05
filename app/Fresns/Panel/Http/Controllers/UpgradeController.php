@@ -41,12 +41,13 @@ class UpgradeController extends Controller
             $currentVersion = cache('currentVersion');
         }
 
+        $pluginUpgradeCount = Plugin::where('is_upgrade', 1)->count();
         $pluginsData = Plugin::type(1)->where('is_upgrade', 1)->get();
         $appsData = Plugin::type(2)->where('is_upgrade', 1)->get();
         $enginesData = Plugin::type(3)->where('is_upgrade', 1)->get();
         $themesData = Plugin::type(4)->where('is_upgrade', 1)->get();
 
-        return view('FsView::dashboard.upgrade', compact('currentVersion', 'newVersion', 'checkVersion', 'appVersion', 'versionCheckTime', 'upgradeStep', 'steps', 'physicalUpgrading', 'pluginsData', 'appsData', 'enginesData', 'themesData'));
+        return view('FsView::dashboard.upgrade', compact('currentVersion', 'newVersion', 'checkVersion', 'appVersion', 'versionCheckTime', 'upgradeStep', 'steps', 'physicalUpgrading', 'pluginUpgradeCount', 'pluginsData', 'appsData', 'enginesData', 'themesData'));
     }
 
     public function checkFresnsVersion()
