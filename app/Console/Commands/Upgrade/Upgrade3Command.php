@@ -287,7 +287,7 @@ class Upgrade3Command extends Command
                     'item_value' => null,
                     'item_type' => 'string',
                     'item_tag' => 'systems',
-                ]
+                ],
             ]);
         }
 
