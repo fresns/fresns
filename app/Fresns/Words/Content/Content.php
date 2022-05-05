@@ -8,44 +8,14 @@
 
 namespace App\Fresns\Words\Content;
 
-use App\Fresns\Api\Http\Center\Helper\CmdRpcHelper;
-use App\Fresns\Api\Http\FsCmd\FresnsSubPlugin;
-use App\Fresns\Api\Http\FsDb\FresnsComments\FresnsCommentsService;
-use App\Fresns\Words\File\DTO\PhysicalDeletionFileDTO;
-use App\Fresns\Words\Service\PostsService;
-use App\Models\CommentLog;
-use App\Models\File;
-use App\Models\PostLog;
+use App\Fresns\Words\Content\DTO\GenerateDraftFromMainTableDTO;
+use App\Fresns\Words\Content\DTO\LogicalDeletionContentDTO;
+use App\Fresns\Words\Content\DTO\PhysicalDeletionContentDTO;
+use App\Fresns\Words\Content\DTO\ReleaseContentDTO;
+use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 
 class Content
 {
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
-    public function physicalDeletionContent($wordBody)
-    {
-        $dtoWordBody = new PhysicalDeletionFileDTO($wordBody);
-        $fid = $dtoWordBody->fid;
-        $files = File::where('fid', $fid)->first();
-        if (empty($files)) {
-            return [
-                'code' => 30808,
-                'message' => 'FILE_EXIST_ERROR',
-            ];
-        }
+    use CmdWordResponseTrait;
 
-        $basePath = base_path().'/storage/app/public'.$files['file_path'];
-
-        if (file_exists($basePath)) {
-            unlink($basePath);
-        }
-
-        return [
-            'code' => 0,
-            'message' => 'success',
-        ];
-    }
 }

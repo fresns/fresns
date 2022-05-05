@@ -16,9 +16,12 @@ use App\Models\AccountWallet;
 use App\Models\AccountWalletLog;
 use App\Models\User;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
+use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 
 class Wallet
 {
+    use CmdWordResponseTrait;
+
     /**
      * @param $wordBody
      * @return array
@@ -128,10 +131,10 @@ class Wallet
     {
         $verifyWalletBalance = $this->verifyWalletBalance($accountId);
         if (empty($verifyWalletBalance)) {
-            return [
-                'code' => 500,
-                'message' => 'Balance Error',
-            ];
+            return $this->failure(
+                22500,
+                'Balance Error',
+            );
         }
         $objectType = $wordBody->type;
         $addAccountWallet = $this->AddAccountWallet($wordBody, $verifyWalletBalance['balance'], $objectType, $accountId, $userId);
@@ -140,10 +143,7 @@ class Wallet
         ];
         AccountWallet::where('account_id', $accountId)->update($userWalletsArr);
 
-        return [
-            'code' => 0,
-            'message' => 'success',
-        ];
+        return $this->success();
     }
 
     /**
@@ -165,10 +165,7 @@ class Wallet
         ];
         AccountWallet::where('account_id', $accountId)->update($userWalletsArr);
 
-        return [
-            'code' => 0,
-            'message' => 'success',
-        ];
+        return $this->success();
     }
 
     /**
@@ -203,10 +200,7 @@ class Wallet
         $OriginWallet = ['balance' => $verifyOriginWalletBalance['balance'] - $wordBody->amount];
         AccountWallet::where('account_id', $originAccountId)->update($OriginWallet);
 
-        return [
-            'code' => 0,
-            'message' => 'success',
-        ];
+        return $this->success();
     }
 
     /**
@@ -243,11 +237,7 @@ class Wallet
         $OriginWallet = ['balance' => $WalletBalance['balance'] - $wordBody->amount];
         AccountWallet::where('account_id', $accountId)->update($OriginWallet);
 
-        return [
-            'code' => 0,
-            'message' => 'success',
-            'data' => [],
-        ];
+        return $this->success();
     }
 
     /**

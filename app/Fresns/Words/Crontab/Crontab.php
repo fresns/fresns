@@ -19,11 +19,14 @@ use App\Models\User;
 use App\Models\UserRole;
 use App\Utilities\AppUtility;
 use Carbon\Carbon;
+use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
 class Crontab
 {
+    use CmdWordResponseTrait;
+
     /**
      * @param $wordBody
      * @return array
@@ -47,11 +50,7 @@ class Crontab
         Config::where('item_key', '=', 'crontab_items')->update(['item_value' => $cronArr]);
         Cache::forever('cronArr', $cronArr);
 
-        return [
-            'code' => 0,
-            'message' => 'success',
-            'data' => [],
-        ];
+        return $this->success();
     }
 
     /**
@@ -72,11 +71,7 @@ class Crontab
         Config::where('item_key', '=', 'crontab_items')->update(['item_value' => $cronArr]);
         Cache::forever('cronArr', $cronArr);
 
-        return [
-            'code' => 0,
-            'message' => 'success',
-            'data' => [],
-        ];
+        return $this->success();
     }
 
     /**
@@ -97,11 +92,7 @@ class Crontab
             }
         }
 
-        return [
-            'code' => 0,
-            'message' => 'success',
-            'data' => [],
-        ];
+        return $this->success();
     }
 
     /**
@@ -116,11 +107,7 @@ class Crontab
         } elseif ($deleteAccount == 3) {
         }
 
-        return [
-            'code' => 0,
-            'message' => 'success',
-            'data' => [],
-        ];
+        return $this->success();
     }
 
     /**
@@ -188,10 +175,6 @@ class Crontab
         $checkConfig->item_value = now();
         $checkConfig->save();
 
-        return [
-            'code' => 0,
-            'message' => 'success',
-            'data' => [],
-        ];
+        return $this->success();
     }
 }

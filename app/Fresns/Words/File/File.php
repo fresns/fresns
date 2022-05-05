@@ -48,10 +48,10 @@ class File
         };
 
         if (empty($pluginUniKey)) {
-            return [
-                'code' => 21000,
-                'message' => ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
-            ];
+            return $this->failure(
+                21000,
+                ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
+            );
         }
 
         return \FresnsCmdWord::plugin($pluginUniKey)->getUploadToken($wordBody);
@@ -70,10 +70,10 @@ class File
 
         $unikey = FileModel::getFileServiceInfoByFileType($dtoWordBody->type)['unikey'] ?? '';
         if (empty($unikey)) {
-            return [
-                'code' => 21000,
-                'message' => ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
-            ];
+            return $this->failure(
+                21000,
+                ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
+            );
         }
         FileModel::getFileStorageConfigByFileType($dtoWordBody->type);
 
@@ -147,10 +147,10 @@ class File
 
         $unikey = FileModel::getFileServiceInfoByFileType($dtoWordBody->type)['unikey'] ?? '';
         if (empty($unikey)) {
-            return [
-                'code' => 21000,
-                'message' => ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
-            ];
+            return $this->failure(
+                21000,
+                ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
+            );
         }
         FileModel::getFileStorageConfigByFileType($dtoWordBody->type);
 
@@ -319,11 +319,14 @@ class File
         }
         $file = FileModel::where($query)->first();
         if (empty($file)) {
-            return ['message' => 'file not found', 'code' => 21009];
+            return $this->failure(
+                21009,
+                ConfigUtility::getCodeMessage(21009, 'CmdWord', $langTag),
+            );
         }
         FileModel::where($query)->delete();
 
-        return ['message' => 'success', 'code' => 0];
+        return $this->success();
     }
 
     /**

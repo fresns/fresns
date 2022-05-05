@@ -96,7 +96,10 @@ class Account
             AccountConnect::insert($itemArr);
         }
 
-        return $this->success(['aid'=>$inputArr['aid'], 'type'=>$dtoWordBody->type]);
+        return $this->success([
+            'aid' => $inputArr['aid'],
+            'type' => $dtoWordBody->type
+        ]);
     }
 
     /**
@@ -118,10 +121,7 @@ class Account
         if ($verifyInfo) {
             VerifyCode::where('id', $verifyInfo['id'])->update(['is_enable' => 0]);
 
-            return [
-                'code' => 0,
-                'message' => 'success',
-            ];
+            return $this->success();
         } else {
             ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
         }
@@ -146,11 +146,7 @@ class Account
         $service = new AccountService();
         $data = $service->getAccountDetail($accountId, $dtoWordBody->langTag, $dtoWordBody->timezone);
 
-        return [
-            'code' => 0,
-            'message' => 'success',
-            'data' => $data,
-        ];
+        return $this->success($data);
     }
 
     /**
@@ -182,13 +178,9 @@ class Account
         $condition['expired_at'] = $dtoWordBody->expiredTime ?? null;
         SessionToken::insert($condition);
 
-        return [
-            'code' => 0,
-            'message' => 'success',
-            'data' => [
-                'token' => $token,
-            ],
-        ];
+        return $this->success([
+            'token' => $token,
+        ]);
     }
 
     /**
@@ -205,11 +197,10 @@ class Account
         if (! empty($dtoWordBody->uid)) {
             $userAffiliation = UserHelper::fresnsUserAffiliation($dtoWordBody->uid, $dtoWordBody->aid);
             if ($userAffiliation == false) {
-                return [
-                    'code' => 35201,
-                    'message' => ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag),
-                    'data' => [],
-                ];
+                return $this->failure(
+                    35201,
+                    ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
+                );
             }
         }
 
@@ -227,10 +218,7 @@ class Account
             ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
         }
 
-        return [
-            'code' => 0,
-            'message' => 'success',
-        ];
+        return $this->success();
     }
 
     /**
@@ -252,10 +240,6 @@ class Account
         );
         AccountConnect::where('account_id', $accountId)->forceDelete();
 
-        return [
-            'code' => 0,
-            'message' => 'success',
-            'data' => [],
-        ];
+        return $this->success();
     }
 }

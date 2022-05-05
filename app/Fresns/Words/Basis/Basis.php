@@ -22,9 +22,12 @@ use App\Models\User;
 use App\Models\VerifyCode;
 use App\Utilities\ConfigUtility;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
+use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 
 class Basis
 {
+    use CmdWordResponseTrait;
+
     /**
      * @param $wordBody
      * @return mixed
@@ -35,28 +38,24 @@ class Basis
     {
         $dtoWordBody = new VerifyUrlSignDTO($wordBody);
         $langTag = \request()->header('langTag', config('app.locale'));
-        $urlSign = urldecode(base64_decode($dtoWordBody->urlSign));
-        $urlSign = json_decode($urlSign, true);
 
-        if (empty($urlSign->aid)) {
-            return [
-                'code' => 31501,
-                'message' => ConfigUtility::getCodeMessage(31501, 'Fresns', $langTag),
-                'data' => [],
-            ];
+        $urlSignData = urldecode(base64_decode($dtoWordBody->urlSign));
+        $urlSignJson = json_decode($urlSignData, true) ?? [];
+
+        if (empty($urlSignJson['aid'])) {
+            return $this->failure(
+                31501,
+                ConfigUtility::getCodeMessage(31501, 'Fresns', $langTag)
+            );
         }
 
-        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->verifySign($urlSign);
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->verifySign($urlSignJson);
 
         if ($fresnsResp->isErrorResponse()) {
             return $fresnsResp->getOrigin();
         }
 
-        return [
-            'code' => 0,
-            'message' => 'success',
-            'data' => $urlSign,
-        ];
+        return $this->success($urlSignJson);
     }
 
     /**
@@ -112,31 +111,27 @@ class Basis
 
         $appSecret = SessionKey::where('app_id', $appId)->value('app_secret');
         if (empty($appSecret)) {
-            return [
-                'code' => 31301,
-                'message' => ConfigUtility::getCodeMessage(31301, 'Fresns', $langTag),
-                'data' => [
-                    'appId'=>$dtoWordBody->appId,
-                ],
-            ];
+            return $this->failure(
+                31301,
+                ConfigUtility::getCodeMessage(31301, 'Fresns', $langTag),
+                [
+                    'appId' => $dtoWordBody->appId,
+                ]
+            );
         }
 
         $checkArr = SignHelper::checkSign($withoutEmptyCheckArr, $appSecret);
         if ($checkArr !== true) {
-            return [
-                'code' => 31302,
-                'message' => ConfigUtility::getCodeMessage(31302, 'Fresns', $langTag),
-                'data' => [
+            return $this->failure(
+                31302,
+                ConfigUtility::getCodeMessage(31302, 'Fresns', $langTag),
+                [
                     'sign'=>$checkArr,
-                ],
-            ];
+                ]
+            );
         }
 
-        return [
-            'code' => 0,
-            'message' => 'success',
-            'data' => [],
-        ];
+        return $this->success();
     }
 
     /**
@@ -177,11 +172,7 @@ class Basis
 
         SessionLog::insert($input);
 
-        return [
-            'code' => 0,
-            'message' => 'success',
-            'data' => [],
-        ];
+        return $this->success();
     }
 
     /**
@@ -224,11 +215,7 @@ class Basis
         if ($verifyInfo) {
             VerifyCode::where('id', $verifyInfo['id'])->update(['is_enable' => 0]);
 
-            return [
-                'code' => 0,
-                'message' => 'success',
-                'data' => [],
-            ];
+            return $this->success();
         } else {
             ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
         }
