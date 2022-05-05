@@ -23,6 +23,10 @@ class CommandUtility
     public function __construct()
     {
         $this->executableFinder = new ExecutableFinder();
+
+        if (function_exists('base_path')) {
+            $this->defaultExtraDirs = array_merge($this->defaultExtraDirs, [base_path()]);
+        }
     }
 
     public static function make()
@@ -30,14 +34,23 @@ class CommandUtility
         return new static();
     }
 
+    public static function getRealpath($path)
+    {
+        return realpath($path);
+    }
+
     public function createProcess(array $command, string $cwd = null, array $env = null, $input = null, ?float $timeout = 60)
     {
         return tap(new Process(...func_get_args()));
     }
-
-    public function findBinary(string $name, array $extraDirs = [])
+    
+    public static function findBinary(string $name, array $extraDirs = [])
     {
-        return $this->executableFinder->find($name, false, $this->defaultExtraDirs + $extraDirs);
+        $instance = static::make();
+
+        $extraDirs = array_merge($instance->defaultExtraDirs, $extraDirs);
+
+        return $instance->executableFinder->find($name, null, $extraDirs);
     }
 
     public static function getPhpProcess(array $argument)

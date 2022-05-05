@@ -39,7 +39,8 @@ class AppHelper
     {
         $systemInfo['server'] = php_uname('s').' '.php_uname('r');
         $systemInfo['web'] = $_SERVER['SERVER_SOFTWARE'];
-        $systemInfo['composer'] = array_merge(self::getComposerVersionInfo(), self::getComposerConfigInfo());
+        // $systemInfo['composer'] = array_merge(self::getComposerVersionInfo(), self::getComposerConfigInfo());
+        $systemInfo['composer'] = self::getComposerVersionInfo();
 
         $phpInfo['version'] = PHP_VERSION;
         $phpInfo['cliInfo'] = CommandUtility::getPhpProcess(['-v'])->run()->getOutput();
@@ -83,7 +84,7 @@ class AppHelper
             }
         }
 
-        $versionInfo['version'] = $version;
+        $versionInfo['version'] = $version ?? 0;
         $versionInfo['versionInfo'] = $composerInfo;
 
         return $versionInfo;
@@ -92,9 +93,11 @@ class AppHelper
     // get composer version info
     public static function getComposerConfigInfo()
     {
+        $configInfoDiagnose = CommandUtility::getComposerProcess(['diagnose'])->run()->getOutput();
         $configInfoRepositories = json_decode(CommandUtility::getComposerProcess(['config', '-g', 'repositories-packagist'])->run()->getOutput(), true);
         $configInfoAll = CommandUtility::getComposerProcess(['config', '-g', '--list'])->run()->getOutput();
 
+        $configInfo['diagnose'] = $configInfoDiagnose ?? null;
         $configInfo['repositories'] = $configInfoRepositories ?? null;
         $configInfo['configList'] = $configInfoAll ?? null;
 

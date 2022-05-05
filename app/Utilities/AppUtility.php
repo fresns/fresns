@@ -175,7 +175,7 @@ class AppUtility
 
         $versionInt = $currentVersionInt;
 
-        while ($versionInt < $newVersionInt) {
+        while ($versionInt <= $newVersionInt) {
             $versionInt++;
             $command = 'fresns:upgrade-'.$versionInt;
             if (\Artisan::has($command)) {
