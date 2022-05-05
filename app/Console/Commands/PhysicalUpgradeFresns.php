@@ -29,6 +29,7 @@ class PhysicalUpgradeFresns extends Command
     public function handle()
     {
         Cache::put('physicalUpgrading', 1);
+        Cache::put('physicalUpgradeOutput', '');
 
         // Check if an upgrade is needed
         $checkVersion = AppUtility::checkVersion();
@@ -39,11 +40,19 @@ class PhysicalUpgradeFresns extends Command
         }
 
         try {
+            $this->updateOutput('Step 1/5: update data'."\n");
             AppUtility::executeUpgradeCommand();
-            $this->pluginPublish();
+
+            $this->updateOutput("\n".'Step 2/5: install plugins composer'."\n");
             $this->pluginComposerInstall();
-            $this->pluginEnable();
+
+            $this->updateOutput("\n".'Step 3/5: publish and activate plugins or themes'."\n");
+            $this->pluginPublishAndActivate();
+
+            $this->updateOutput("\n".'Step 4/5: update version'."\n");
             $this->upgradeFinish();
+
+            $this->updateOutput("\n".'Step 5/5: clear cache'."\n");
         } catch (\Exception $e) {
             logger($e->getMessage());
             $this->info($e->getMessage());
@@ -67,23 +76,7 @@ class PhysicalUpgradeFresns extends Command
     // step 1: execute the version command
     // try AppUtility executeUpgradeCommand()
 
-    // step 2: publish plugins or themes
-    public function pluginPublish()
-    {
-        $plugins = Plugin::all();
-        $plugins->map(function ($plugin) {
-            if ($plugin->type == 4) {
-                \Artisan::call('theme:publish', ['plugin' => $plugin->unikey]);
-            } else {
-                \Artisan::call('plugin:publish', ['plugin' => $plugin->unikey]);
-            }
-            $this->updateOutput(\Artisan::output());
-        });
-
-        return true;
-    }
-
-    // step 3: composer all plugins
+    // step 2: composer all plugins
     public function pluginComposerInstall()
     {
         \Artisan::call('plugin:composer-install');
@@ -92,19 +85,35 @@ class PhysicalUpgradeFresns extends Command
         return true;
     }
 
-    // step 4: activate plugin
-    public function pluginEnable()
+    // step 3: publish and activate plugins or themes
+    public function pluginPublishAndActivate()
     {
-        $plugins = Plugin::where('is_enable', 1)->get();
+        $plugins = Plugin::all();
+
         $plugins->map(function ($plugin) {
-            \Artisan::call('plugin:activate', ['plugin' => $plugin->unikey]);
-            $this->updateOutput(\Artisan::output());
+            if ($plugin->type == 4) {
+                \Artisan::call('theme:publish', ['plugin' => $plugin->unikey]);
+                $this->updateOutput(\Artisan::output());
+
+                if ($plugin->is_enable) {
+                    \Artisan::call('theme:activate', ['plugin' => $plugin->unikey]);
+                    $this->updateOutput(\Artisan::output());
+                }
+            } else {
+                \Artisan::call('plugin:publish', ['plugin' => $plugin->unikey]);
+                $this->updateOutput(\Artisan::output());
+
+                if ($plugin->is_enable) {
+                    \Artisan::call('plugin:activate', ['plugin' => $plugin->unikey]);
+                    $this->updateOutput(\Artisan::output());
+                }
+            }
         });
 
         return true;
     }
 
-    // step 5: edit fresns version info
+    // step 4: edit fresns version info
     public function upgradeFinish(): bool
     {
         $newVersion = AppHelper::VERSION;
@@ -115,14 +124,19 @@ class PhysicalUpgradeFresns extends Command
         return true;
     }
 
-    // step 6: clear cache
+    // step 5: clear cache
     public function clear()
     {
         logger('upgrade:clear');
 
         \Artisan::call('config:clear');
+        $this->updateOutput(\Artisan::output());
+
+        $output = cache('physicalUpgradeOutput');
         \Artisan::call('cache:clear');
 
-        $this->updateOutput(\Artisan::output());
+        $this->updateOutput($output.\Artisan::output());
+
+        $this->updateOutput("\n".__('FsLang::tips.upgradeSuccess'));
     }
 }

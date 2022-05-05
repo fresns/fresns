@@ -10,6 +10,7 @@ namespace App\Console\Commands\Upgrade;
 
 use App\Models\CodeMessage;
 use App\Models\Config;
+use App\Utilities\ConfigUtility;
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;
 
@@ -224,7 +225,7 @@ class Upgrade3Command extends Command
     public function handle()
     {
         $this->composerInstall();
-        $this->call('migrate');
+        $this->call('migrate', ['--force' => true]);
         $this->updateData();
         $this->addData();
 
@@ -273,15 +274,22 @@ class Upgrade3Command extends Command
         }
 
         $configDb = Config::where('item_key', 'citys')->first();
-        if (! $configDb) {
-            return true;
+        if ($configDb) {
+            $configDb->item_key = 'check_version_datetime';
+            $configDb->item_type = 'string';
+            $configDb->item_tag = 'systems';
+            $configDb->is_api = 0;
+            $configDb->save();
+        } else {
+            ConfigUtility::addFresnsConfigItems([
+                [
+                    'item_key' => 'check_version_datetime',
+                    'item_value' => null,
+                    'item_type' => 'string',
+                    'item_tag' => 'systems',
+                ]
+            ]);
         }
-
-        $configDb->item_key = 'check_version_datetime';
-        $configDb->item_type = 'string';
-        $configDb->item_tag = 'systems';
-        $configDb->is_api = 0;
-        $configDb->save();
 
         return true;
     }
