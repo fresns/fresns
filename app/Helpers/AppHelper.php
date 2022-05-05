@@ -76,7 +76,7 @@ class AppHelper
         $toArray = explode(' ', $composerInfo);
 
         $version = null;
-        foreach($toArray as $item) {
+        foreach ($toArray as $item) {
             if (substr_count($item, '.') == 2) {
                 $version = $item;
                 break;

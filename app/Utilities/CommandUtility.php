@@ -43,7 +43,7 @@ class CommandUtility
     public static function getPhpProcess(array $argument)
     {
         $instance = new static();
-        
+
         $php = $instance->findBinary('php');
 
         return $instance->createProcess([$php, ...$argument]);
@@ -52,7 +52,7 @@ class CommandUtility
     public static function getComposerProcess(array $argument)
     {
         $instance = new static();
-        
+
         $php = $instance->findBinary('php');
 
         $composer = $instance->findBinary('composer');
