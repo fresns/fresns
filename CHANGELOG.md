@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.6.0 (2022-05-06)
+
+**Added**
+
+- Install: check `Composer` version number
+- Panel: dashboard output `Composer` version and config info
+- Panel: Wallet settings new currency custom naming, currency unit custom naming, currency accuracy
+- Cmd Word: command word manager code messages are stored in the `code_messages` data table
+- API: Add `isMarkdown` parameter to the list of posts and comments
+
+**Fixes**
+
+- API: Fix the missing complementary message in the message interface when the user does not exist.
+- Upgrade: fix upgrade function operation error
+- Database: add 255 character length value to unlimited length string field, compatible with MySQL 5.7 installation
+- Database: completes the missing deleted_at field in the block_words table
+- Config: modify session config methods to avoid single-domain multi-site session conflicts
+
+**Changed**
+
+- Resource: public error view files support html format
+- Panel: adjust the language file tips content
+- Panel: show suggestions for changes when the dashboard time zone identifier name is incorrect
+- Panel: install, upgrade, uninstall, etc., do not automatically refresh the page, click the "Close" button and then refresh
+- Panel: time log of detected versions stored in data table
+- Frame: Laravel Framework to v8.83.11
+- Frame: Laravel Lang to v10.8.0
+
+
 ## 1.5.1 (2022-05-02)
 
 **Bug Fixes**
