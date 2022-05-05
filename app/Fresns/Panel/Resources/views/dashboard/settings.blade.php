@@ -33,12 +33,12 @@
         </div>
         <div class="row mb-3">
             <label for="backend_url" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_backend_domain') }}:</label>
-            <div class="col-lg-6"><input type="url" class="form-control update-backend-url" id="backend_url" name="domain" value="{{ $domain }}" placeholder="https://"></div>
+            <div class="col-lg-6"><input type="url" class="form-control update-backend-url" id="backend_url" name="domain" value="{{ $domain }}" placeholder="https://" required></div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_backend_domain_desc') }}</div>
         </div>
         <div class="row mb-3">
             <label for="panel_path" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_panel_path') }}: </label>
-            <div class="col-lg-6"><input type="text" class="form-control update-backend-url" id="panel_path" name="path" value="{{ $path }}" placeholder="admin"></div>
+            <div class="col-lg-6"><input type="text" class="form-control update-backend-url" id="panel_path" name="path" value="{{ $path }}" placeholder="admin" required></div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_panel_path_desc') }}</div>
         </div>
         <div class="row mb-3">
