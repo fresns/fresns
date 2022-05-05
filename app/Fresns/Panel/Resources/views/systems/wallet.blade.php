@@ -53,12 +53,12 @@
                         </select>
                     </div>
                     <div class="input-group mb-3">
-                      <label class="input-group-text">{{ __('FsLang::panel.wallet_currency_name') }}</label>
-                      <button type="button" id="currencyNameButton" class="btn btn-outline-secondary btn-modal form-control text-start" data-bs-toggle="modal" data-bs-target="#walletCurrencyName">{{ $defaultLangParams['wallet_currency_name'] ?:  __('FsLang::panel.wallet_currency_name') }}</button>
+                        <label class="input-group-text">{{ __('FsLang::panel.wallet_currency_name') }}</label>
+                        <button type="button" id="currencyNameButton" class="btn btn-outline-secondary btn-modal form-control text-start" data-bs-toggle="modal" data-bs-target="#walletCurrencyName">{{ $defaultLangParams['wallet_currency_name'] ?:  __('FsLang::panel.wallet_currency_name') }}</button>
                     </div>
                     <div class="input-group mb-3">
-                      <label class="input-group-text">{{ __('FsLang::panel.wallet_currency_unit') }}</label>
-                      <button type="button" id="currencyUnitButton" class="btn btn-outline-secondary btn-modal form-control text-start" data-bs-toggle="modal" data-bs-target="#walletCurrencyUnit">{{ $defaultLangParams['wallet_currency_unit'] ?:  __('FsLang::panel.wallet_currency_unit') }}</button>
+                        <label class="input-group-text">{{ __('FsLang::panel.wallet_currency_unit') }}</label>
+                        <button type="button" id="currencyUnitButton" class="btn btn-outline-secondary btn-modal form-control text-start" data-bs-toggle="modal" data-bs-target="#walletCurrencyUnit">{{ $defaultLangParams['wallet_currency_unit'] ?:  __('FsLang::panel.wallet_currency_unit') }}</button>
                     </div>
                     <div class="input-group mb-3">
                         <label class="input-group-text">{{ __('FsLang::panel.wallet_currency_precision') }}</label>
@@ -156,98 +156,101 @@
                 <button type="submit" class="btn btn-primary">{{ __('FsLang::panel.button_save') }}</button>
             </div>
         </div>
+
         <!-- Language Modal -->
         <div class="modal fade" id="walletCurrencyName" tabindex="-1" aria-labelledby="walletCurrencyName" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">{{ __('FsLang::panel.button_setting') }}: {{ __('FsLang::panel.wallet_currency_name') }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <div class="table-responsive">
-                  <table class="table table-hover align-middle text-nowrap">
-                    <thead>
-                      <tr class="table-info">
-                        <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_tag') }}</th>
-                        <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_name') }}</th>
-                        <th scope="col" class="w-50">{{ __('FsLang::panel.table_content') }}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @foreach ($optionalLanguages as $lang)
-                        <tr>
-                          <td>
-                            {{ $lang['langTag'] }}
-                            @if ($lang['langTag'] == $defaultLanguage)
-                              <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
-                            @endif
-                          </td>
-                          <td>
-                            {{ $lang['langName'] }}
-                            @if ($lang['areaName'])
-                              {{ '('.$lang['areaName'].')' }}
-                            @endif
-                          </td>
-                          <td><input type="text" name="wallet_currency_name[{{ $lang['langTag'] }}]" class="form-control name-input" value="{{ $langParams['wallet_currency_name'][$lang['langTag']] ?? '' }}"></td>
-                        </tr>
-                      @endforeach
-                    </tbody>
-                  </table>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ __('FsLang::panel.button_setting') }}: {{ __('FsLang::panel.wallet_currency_name') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle text-nowrap">
+                                <thead>
+                                    <tr class="table-info">
+                                        <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_tag') }}</th>
+                                        <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_name') }}</th>
+                                        <th scope="col" class="w-50">{{ __('FsLang::panel.table_content') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($optionalLanguages as $lang)
+                                        <tr>
+                                            <td>
+                                                {{ $lang['langTag'] }}
+                                                @if ($lang['langTag'] == $defaultLanguage)
+                                                    <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                {{ $lang['langName'] }}
+                                                @if ($lang['areaName'])
+                                                    {{ '('.$lang['areaName'].')' }}
+                                                @endif
+                                            </td>
+                                            <td><input type="text" name="wallet_currency_name[{{ $lang['langTag'] }}]" class="form-control name-input" value="{{ $langParams['wallet_currency_name'][$lang['langTag']] ?? '' }}"></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--button_save-->
+                        <div class="text-center">
+                            <button type="button" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_confirm') }}</button>
+                        </div>
+                    </div>
                 </div>
-                <!--button_save-->
-                <div class="text-center">
-                  <button type="button" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_confirm') }}</button>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
+
+        <!-- Language Modal -->
         <div class="modal fade" id="walletCurrencyUnit" tabindex="-1" aria-labelledby="walletCurrencyUnit" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">{{ __('FsLang::panel.button_setting') }}: {{ __('FsLang::panel.wallet_currency_unit') }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <div class="table-responsive">
-                  <table class="table table-hover align-middle text-nowrap">
-                    <thead>
-                      <tr class="table-info">
-                        <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_tag') }}</th>
-                        <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_name') }}</th>
-                        <th scope="col" class="w-50">{{ __('FsLang::panel.table_content') }}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @foreach ($optionalLanguages as $lang)
-                        <tr>
-                          <td>
-                            {{ $lang['langTag'] }}
-                            @if ($lang['langTag'] == $defaultLanguage)
-                              <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
-                            @endif
-                          </td>
-                          <td>
-                            {{ $lang['langName'] }}
-                            @if ($lang['areaName'])
-                              {{ '('.$lang['areaName'].')' }}
-                            @endif
-                          </td>
-                          <td><input type="text" name="wallet_currency_unit[{{ $lang['langTag'] }}]" class="form-control name-input" value="{{ $langParams['wallet_currency_unit'][$lang['langTag']] ?? '' }}"></td>
-                        </tr>
-                      @endforeach
-                    </tbody>
-                  </table>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ __('FsLang::panel.button_setting') }}: {{ __('FsLang::panel.wallet_currency_unit') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle text-nowrap">
+                                <thead>
+                                    <tr class="table-info">
+                                        <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_tag') }}</th>
+                                        <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_name') }}</th>
+                                        <th scope="col" class="w-50">{{ __('FsLang::panel.table_content') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($optionalLanguages as $lang)
+                                        <tr>
+                                            <td>
+                                                {{ $lang['langTag'] }}
+                                                @if ($lang['langTag'] == $defaultLanguage)
+                                                <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                {{ $lang['langName'] }}
+                                                @if ($lang['areaName'])
+                                                {{ '('.$lang['areaName'].')' }}
+                                                @endif
+                                            </td>
+                                            <td><input type="text" name="wallet_currency_unit[{{ $lang['langTag'] }}]" class="form-control name-input" value="{{ $langParams['wallet_currency_unit'][$lang['langTag']] ?? '' }}"></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--button_save-->
+                        <div class="text-center">
+                            <button type="button" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_confirm') }}</button>
+                        </div>
+                    </div>
                 </div>
-                <!--button_save-->
-                <div class="text-center">
-                  <button type="button" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_confirm') }}</button>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
     </form>
-  @endsection
+@endsection
