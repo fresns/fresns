@@ -90,16 +90,15 @@ $(document).ready(function () {
             method: 'get',
             url: action,
             success: function (response) {
+                if (response.upgradeContent) {
+                    $('#physicalUpgradeOutput').val(response.upgradeContent)
+                }
                 if (!response.physicalUpgrading) {
                     console.log('physical upgrade');
                     $('#physicalUpgradeOutputModal').data('upgradeSuccess', 1);
                     clearInterval(physicalUpgradeTimer);
                     return;
                 }
-                if (!response.upgradeContent) {
-                    return;
-                }
-                $('#physicalUpgradeOutput').val(response.upgradeContent)
             },
         });
     }
