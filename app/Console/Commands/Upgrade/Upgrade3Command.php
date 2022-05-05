@@ -273,7 +273,7 @@ class Upgrade3Command extends Command
         }
 
         $configDb = Config::where('item_key', 'citys')->first();
-        if (!$configDb) {
+        if (! $configDb) {
             return true;
         }
 
