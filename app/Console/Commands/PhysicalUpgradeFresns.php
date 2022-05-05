@@ -45,6 +45,7 @@ class PhysicalUpgradeFresns extends Command
             $this->pluginEnable();
             $this->upgradeFinish();
         } catch (\Exception $e) {
+            logger($e->getMessage());
             $this->info($e->getMessage());
         }
 
