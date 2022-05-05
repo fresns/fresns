@@ -98,7 +98,7 @@ class Account
 
         return $this->success([
             'aid' => $inputArr['aid'],
-            'type' => $dtoWordBody->type
+            'type' => $dtoWordBody->type,
         ]);
     }
 

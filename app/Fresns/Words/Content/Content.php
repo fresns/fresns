@@ -17,5 +17,4 @@ use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 class Content
 {
     use CmdWordResponseTrait;
-
 }
