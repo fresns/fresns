@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ @asset('/static/css/bootstrap-icons.css') }}">
     <link rel="stylesheet" href="{{ @asset('/static/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ @asset('/static/css/select2-bootstrap-5-theme.min.css') }}">
-    <link rel="stylesheet" href="{{ @asset('/static/css/fresns-panel.css?c4e9514759d46bfc') }}">
+    <link rel="stylesheet" href="{{ @asset('/static/css/fresns-panel.css?f73d954e88e6ab43') }}">
     @yield('css')
 </head>
 
@@ -28,7 +28,7 @@
     <script src="{{ @asset('/static/js/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ @asset('/static/js/select2.min.js') }}"></script>
     <script src="{{ route('panel.translations', ['locale' => \App::getLocale()]) }}"></script>
-    <script src="{{ @asset('/static/js/fresns-panel.js?c4e9514759d46bfc') }}"></script>
+    <script src="{{ @asset('/static/js/fresns-panel.js?f73d954e88e6ab43') }}"></script>
     @yield('js')
 </body>
 

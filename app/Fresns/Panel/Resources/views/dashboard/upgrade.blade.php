@@ -296,7 +296,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <textarea class="form-control" rows="6" id="physicalUpgradeOutput" readonly>{{ __('FsLang::tips.upgrade_in_progress') }}</textarea>
+                    <textarea class="form-control" rows="10" id="physicalUpgradeOutput" readonly>{{ __('FsLang::tips.upgrade_in_progress') }}</textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal" onclick="reloadPage()">{{ __('FsLang::panel.button_close') }}</button>
