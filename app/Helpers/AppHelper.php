@@ -8,13 +8,13 @@
 
 namespace App\Helpers;
 
-use App\Utilities\ComposerUtility;
+use App\Utilities\CommandUtility;
 use Illuminate\Support\Facades\DB;
 
 class AppHelper
 {
-    const VERSION = '1.5.1';
-    const VERSION_INT = 2;
+    const VERSION = '1.6.0';
+    const VERSION_INT = 3;
 
     // fresns test helper
     public static function fresnsTestHelper()
@@ -39,8 +39,10 @@ class AppHelper
     {
         $systemInfo['server'] = php_uname('s').' '.php_uname('r');
         $systemInfo['web'] = $_SERVER['SERVER_SOFTWARE'];
+        $systemInfo['composer'] = array_merge(self::getComposerVersionInfo(), self::getComposerConfigInfo());
 
-        $phpInfo['version'] = 'PHP '.PHP_VERSION;
+        $phpInfo['version'] = PHP_VERSION;
+        $phpInfo['cliInfo'] = CommandUtility::getPhpProcess(['-v'])->run()->getOutput();
         $phpInfo['uploadMaxFileSize'] = ini_get('upload_max_filesize');
         $systemInfo['php'] = $phpInfo;
 
@@ -51,7 +53,7 @@ class AppHelper
     public static function getMySqlInfo()
     {
         $mySqlVersion = 'version()';
-        $dbInfo['version'] = 'MySQL '.DB::select('select version()')[0]->$mySqlVersion;
+        $dbInfo['version'] = DB::select('select version()')[0]->$mySqlVersion;
 
         $dbInfo['timezone'] = 'UTC'.DateHelper::fresnsSqlTimezone();
         $dbInfo['envTimezone'] = config('app.timezone');
@@ -70,7 +72,19 @@ class AppHelper
     // get composer version info
     public static function getComposerVersionInfo()
     {
-        $versionInfo = app(ComposerUtility::class)->run(['--version']);
+        $composerInfo = CommandUtility::getComposerProcess(['-V'])->run()->getOutput();
+        $toArray = explode(' ', $composerInfo);
+
+        $version = null;
+        foreach($toArray as $item) {
+            if (substr_count($item, '.') == 2) {
+                $version = $item;
+                break;
+            }
+        }
+
+        $versionInfo['version'] = $version;
+        $versionInfo['versionInfo'] = $composerInfo;
 
         return $versionInfo;
     }
@@ -78,7 +92,11 @@ class AppHelper
     // get composer version info
     public static function getComposerConfigInfo()
     {
-        $configInfo = app(ComposerUtility::class)->run(['config', '-g', '--list']);
+        $configInfoRepositories = json_decode(CommandUtility::getComposerProcess(['config', '-g', 'repositories-packagist'])->run()->getOutput(), true);
+        $configInfoAll = CommandUtility::getComposerProcess(['config', '-g', '--list'])->run()->getOutput();
+
+        $configInfo['repositories'] = $configInfoRepositories ?? null;
+        $configInfo['configList'] = $configInfoAll ?? null;
 
         return $configInfo;
     }
