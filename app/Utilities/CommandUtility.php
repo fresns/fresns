@@ -43,7 +43,7 @@ class CommandUtility
     {
         return tap(new Process(...func_get_args()));
     }
-    
+
     public static function findBinary(string $name, array $extraDirs = [])
     {
         $instance = static::make();
