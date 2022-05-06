@@ -95,7 +95,7 @@ class PhysicalUpgradeFresns extends Command
         $plugins = Plugin::all();
 
         $plugins->map(function ($plugin) {
-            try{
+            try {
                 if ($plugin->type == 4) {
                     \Artisan::call('theme:publish', ['plugin' => $plugin->unikey]);
                     $this->updateOutput(\Artisan::output());
