@@ -18,7 +18,7 @@ class UpgradeFresns extends Command
 {
     protected $signature = 'fresns:upgrade';
 
-    protected $description = 'upgrade fresns';
+    protected $description = 'automatic upgrade fresns';
 
     protected $path = 'upgrade';
 
