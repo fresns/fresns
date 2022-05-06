@@ -53,12 +53,11 @@ class PhysicalUpgradeFresns extends Command
             $this->upgradeFinish();
 
             $this->updateOutput("\n".'Step 5/5: clear cache'."\n");
+            $this->clear();
         } catch (\Exception $e) {
             logger($e->getMessage());
             $this->info($e->getMessage());
         }
-
-        $this->clear();
 
         return Command::SUCCESS;
     }
@@ -79,8 +78,13 @@ class PhysicalUpgradeFresns extends Command
     // step 2: composer all plugins
     public function pluginComposerInstall()
     {
-        \Artisan::call('plugin:composer-install');
-        $this->updateOutput(\Artisan::output());
+        try {
+            \Artisan::call('plugin:composer-install');
+            $this->updateOutput(\Artisan::output());
+        } catch (\Exception $e) {
+            logger($e->getMessage());
+            $this->info($e->getMessage());
+        }
 
         return true;
     }
@@ -91,22 +95,27 @@ class PhysicalUpgradeFresns extends Command
         $plugins = Plugin::all();
 
         $plugins->map(function ($plugin) {
-            if ($plugin->type == 4) {
-                \Artisan::call('theme:publish', ['plugin' => $plugin->unikey]);
-                $this->updateOutput(\Artisan::output());
-
-                if ($plugin->is_enable) {
-                    \Artisan::call('theme:activate', ['plugin' => $plugin->unikey]);
+            try{
+                if ($plugin->type == 4) {
+                    \Artisan::call('theme:publish', ['plugin' => $plugin->unikey]);
                     $this->updateOutput(\Artisan::output());
-                }
-            } else {
-                \Artisan::call('plugin:publish', ['plugin' => $plugin->unikey]);
-                $this->updateOutput(\Artisan::output());
 
-                if ($plugin->is_enable) {
-                    \Artisan::call('plugin:activate', ['plugin' => $plugin->unikey]);
+                    if ($plugin->is_enable) {
+                        \Artisan::call('theme:activate', ['plugin' => $plugin->unikey]);
+                        $this->updateOutput(\Artisan::output());
+                    }
+                } else {
+                    \Artisan::call('plugin:publish', ['plugin' => $plugin->unikey]);
                     $this->updateOutput(\Artisan::output());
+
+                    if ($plugin->is_enable) {
+                        \Artisan::call('plugin:activate', ['plugin' => $plugin->unikey]);
+                        $this->updateOutput(\Artisan::output());
+                    }
                 }
+            } catch (\Exception $e) {
+                logger($e->getMessage());
+                $this->info($e->getMessage());
             }
         });
 
