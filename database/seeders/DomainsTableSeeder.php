@@ -25,7 +25,7 @@ class DomainsTableSeeder extends Seeder
             0 => [
                 'id' => 1,
                 'domain' => 'fresns.com',
-                'sld' => 'fresns.com',
+                'host' => 'fresns.com',
                 'icon_file_id' => null,
                 'icon_file_url' => null,
                 'post_count' => 0,
@@ -38,7 +38,7 @@ class DomainsTableSeeder extends Seeder
             1 => [
                 'id' => 2,
                 'domain' => 'fresns.org',
-                'sld' => 'fresns.org',
+                'host' => 'fresns.org',
                 'icon_file_id' => null,
                 'icon_file_url' => null,
                 'post_count' => 0,
@@ -51,7 +51,7 @@ class DomainsTableSeeder extends Seeder
             2 => [
                 'id' => 3,
                 'domain' => 'fresns.org',
-                'sld' => 'discuss.fresns.org',
+                'host' => 'discuss.fresns.org',
                 'icon_file_id' => null,
                 'icon_file_url' => null,
                 'post_count' => 0,
@@ -64,7 +64,7 @@ class DomainsTableSeeder extends Seeder
             3 => [
                 'id' => 4,
                 'domain' => 'fresns.market',
-                'sld' => 'fresns.market',
+                'host' => 'fresns.market',
                 'icon_file_id' => null,
                 'icon_file_url' => null,
                 'post_count' => 0,
