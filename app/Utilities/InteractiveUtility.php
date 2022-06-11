@@ -178,7 +178,6 @@ class InteractiveUtility
                 InteractiveUtility::markStats($userId, 'dislike', $likeType, $likeId, 'decrement');
             }
         }
-
     }
 
     public static function markUserDislike(int $userId, int $dislikeType, int $dislikeId)
@@ -233,7 +232,6 @@ class InteractiveUtility
                 InteractiveUtility::markStats($userId, 'like', $dislikeType, $dislikeId, 'decrement');
             }
         }
-
     }
 
     public static function markUserFollow(int $userId, int $followType, int $followId)
@@ -279,7 +277,6 @@ class InteractiveUtility
                 $itFollow->update(['is_mutual' => 0]);
             }
         }
-
     }
 
     public static function markUserBlock(int $userId, int $blockType, int $blockId)
@@ -311,7 +308,6 @@ class InteractiveUtility
 
             InteractiveUtility::markStats($userId, 'block', $blockType, $blockId, 'decrement');
         }
-
     }
 
     // mark content sticky
@@ -341,7 +337,6 @@ class InteractiveUtility
                 }
             break;
         }
-
     }
 
     // mark content digest
@@ -401,7 +396,6 @@ class InteractiveUtility
                 }
             break;
         }
-
     }
 
     /**

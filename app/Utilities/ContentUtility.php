@@ -287,7 +287,6 @@ class ContentUtility
         }
 
         HashtagLinked::createMany($hashtagLinkedData);
-
     }
 
     // Save link
@@ -324,7 +323,6 @@ class ContentUtility
             ];
         }
         DomainLinkLinked::createMany($urlLinkedData);
-
     }
 
     // Save mention user
@@ -344,7 +342,6 @@ class ContentUtility
         }
 
         Mention::createMany($mentionData);
-
     }
 
     // Handle and save all
@@ -356,7 +353,6 @@ class ContentUtility
         if (! empty($authUserId)) {
             static::saveMention($content, $type, $id, $authUserId);
         }
-
     }
 
     // extend json handle
