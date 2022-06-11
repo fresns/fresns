@@ -24,7 +24,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-<<<<<<< HEAD
         $cronArr = Cache::remember('fresns_crontab_items', now()->addDays(1), function () {
             return ConfigHelper::fresnsConfigByItemKey('crontab_items');
         });
@@ -37,15 +36,6 @@ class Kernel extends ConsoleKernel
                     \FresnsCmdWord::plugin($cron['unikey'])->{$cron['cmdWord']}();
                 })->cron($cron['cronTableFormat']);
             }
-=======
-        $cronArr = Cache::rememberForever('cronArr', function () {
-            return ConfigHelper::fresnsConfigByItemKey('crontab_items');
-        });
-        foreach ($cronArr as $cron) {
-            $schedule->call(function () use ($cron) {
-                \FresnsCmdWord::plugin($cron['unikey'])->{$cron['cmdWord']}();
-            })->cron($cron['taskPeriod']);
->>>>>>> a664019bb49ffa4d45090a53a0cba5f214dce0dd
         }
     }
 
