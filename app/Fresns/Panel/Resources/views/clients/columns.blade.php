@@ -32,6 +32,15 @@
                 </button>
             </div>
             <div class="input-group mb-3">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_dislike_users') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_dislike_users']) }}"
+                    data-languages="{{ optional($configs['menu_dislike_users'])->languages->toJson() }}"
+                    data-item_key="menu_dislike_users"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_dislike_users'] ?? '' }}
+                </button>
+            </div>
+            <div class="input-group mb-3">
                 <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_follow_users') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_follow_users']) }}"
@@ -72,6 +81,15 @@
                     data-languages="{{ optional($configs['menu_like_groups'])->languages->toJson() }}"
                     data-item_key="menu_like_groups"
                     data-bs-target="#configLangModal">{{ $defaultLangParams['menu_like_groups'] ?? '' }}
+                </button>
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_dislike_groups') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_dislike_groups']) }}"
+                    data-languages="{{ optional($configs['menu_dislike_groups'])->languages->toJson() }}"
+                    data-item_key="menu_dislike_groups"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_dislike_groups'] ?? '' }}
                 </button>
             </div>
             <div class="input-group mb-3">
@@ -118,6 +136,15 @@
                 </button>
             </div>
             <div class="input-group mb-3">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_dislike_hashtags') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_dislike_hashtags']) }}"
+                    data-languages="{{ optional($configs['menu_dislike_hashtags'])->languages->toJson() }}"
+                    data-item_key="menu_dislike_hashtags"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_dislike_hashtags'] ?? '' }}
+                </button>
+            </div>
+            <div class="input-group mb-3">
                 <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_follow_hashtags') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_follow_hashtags']) }}"
@@ -158,6 +185,15 @@
                     data-languages="{{ optional($configs['menu_like_posts'])->languages->toJson() }}"
                     data-item_key="menu_like_posts"
                     data-bs-target="#configLangModal">{{ $defaultLangParams['menu_like_posts'] ?? '' }}
+                </button>
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_dislike_posts') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_dislike_posts']) }}"
+                    data-languages="{{ optional($configs['menu_dislike_posts'])->languages->toJson() }}"
+                    data-item_key="menu_dislike_posts"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_dislike_posts'] ?? '' }}
                 </button>
             </div>
             <div class="input-group mb-3">
@@ -219,6 +255,15 @@
                     data-languages="{{ optional($configs['menu_like_comments'])->languages->toJson() }}"
                     data-item_key="menu_like_comments"
                     data-bs-target="#configLangModal">{{ $defaultLangParams['menu_like_comments'] ?? '' }}
+                </button>
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_dislike_comments') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_dislike_comments']) }}"
+                    data-languages="{{ optional($configs['menu_dislike_comments'])->languages->toJson() }}"
+                    data-item_key="menu_dislike_comments"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_dislike_comments'] ?? '' }}
                 </button>
             </div>
             <div class="input-group mb-3">
@@ -456,6 +501,15 @@
                 </button>
             </div>
             <div class="input-group mb-3">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_dislikers') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_dislikes']) }}"
+                    data-languages="{{ optional($configs['menu_profile_dislikes'])->languages->toJson() }}"
+                    data-item_key="menu_profile_dislikes"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_profile_dislikes'] ?? '' }}
+                </button>
+            </div>
+            <div class="input-group mb-3">
                 <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_followers') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_followers']) }}"
@@ -517,6 +571,52 @@
                     data-languages="{{ optional($configs['menu_profile_like_comments'])->languages->toJson() }}"
                     data-item_key="menu_profile_like_comments"
                     data-bs-target="#configLangModal">{{ $defaultLangParams['menu_profile_like_comments'] ?? '' }}
+                </button>
+            </div>
+            <!--It Dislike-->
+            <div class="input-group mb-3">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_dislike_users') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_dislike_users']) }}"
+                    data-languages="{{ optional($configs['menu_profile_dislike_users'])->languages->toJson() }}"
+                    data-item_key="menu_profile_dislike_users"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_profile_dislike_users'] ?? '' }}
+                </button>
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_dislike_groups') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_dislike_groups']) }}"
+                    data-languages="{{ optional($configs['menu_profile_dislike_groups'])->languages->toJson() }}"
+                    data-item_key="menu_profile_dislike_groups"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_profile_dislike_groups'] ?? '' }}
+                </button>
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_dislike_hashtags') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_dislike_hashtags']) }}"
+                    data-languages="{{ optional($configs['menu_profile_dislike_hashtags'])->languages->toJson() }}"
+                    data-item_key="menu_profile_dislike_hashtags"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_profile_dislike_hashtags'] ?? '' }}
+                </button>
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_dislike_posts') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_dislike_posts']) }}"
+                    data-languages="{{ optional($configs['menu_profile_dislike_posts'])->languages->toJson() }}"
+                    data-item_key="menu_profile_dislike_posts"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_profile_dislike_posts'] ?? '' }}
+                </button>
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_dislike_comments') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_dislike_comments']) }}"
+                    data-languages="{{ optional($configs['menu_profile_dislike_comments'])->languages->toJson() }}"
+                    data-item_key="menu_profile_dislike_comments"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_profile_dislike_comments'] ?? '' }}
                 </button>
             </div>
             <!--It Follow-->

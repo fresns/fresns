@@ -14,6 +14,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Model extends BaseModel
 {
-    use SoftDeletes;
     use HasFactory;
+    use SoftDeletes;
+    use Traits\DataChangeNotifyTrait;
+
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return $date->format($this->dateFormat ?: 'Y-m-d H:i:s');
+    }
 }

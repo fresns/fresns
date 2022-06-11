@@ -28,6 +28,9 @@ return [
     'requestSuccess' => 'Richiesta di successo',
     'requestFailure' => 'Richiesta di fallimento',
     // install
+    'install_not_entered_key' => 'Inserire la chiave fresns',
+    'install_not_entered_dir' => 'Inserire una directory',
+    'install_not_upload_zip' => 'Selezionare il pacchetto di installazione',
     'install_in_progress' => 'Installazione in corso...',
     // upgrade
     'upgrade_none' => 'Nessun aggiornamento',
@@ -54,6 +57,11 @@ return [
     'uninstall_step_3' => 'Cancella file',
     'uninstall_step_4' => 'Cancella cache',
     'uninstall_step_5' => 'Fatto',
+    // theme
+    'theme_error' => 'Il tema non è corretto o non esiste',
+    'theme_functions_file_error' => 'Il file di configurazione della vista del tema non è corretto o non esiste.',
+    'theme_json_file_error' => 'Il file di configurazione del tema non è corretto o non esiste',
+    'theme_json_format_error' => 'Il file di configurazione del tema è nel formato sbagliato',
     // others
     'account_not_found' => 'L\'account non esiste o inserisci errori',
     'account_login_limit' => 'L\'errore ha superato il limite del sistema. Per favore, accedi di nuovo 1 ora dopo',
@@ -63,6 +71,7 @@ return [
     'language_exists' => 'La lingua esiste già',
     'language_not_exists' => 'lingua non esiste',
     'plugin_not_exists' => 'plugin non esiste',
+    'map_exists' => 'Questo fornitore di servizi cartografici è già stato utilizzato e non può essere ricreato.',
     'map_not_exists' => 'mappa non esiste',
     'required_user_role_name' => 'Si prega di compilare il nome del ruolo',
     'required_sticker_category_name' => 'Si prega di compilare il nome del gruppo di espressioni',

@@ -31,7 +31,7 @@ class UpdateGeneralRequest extends FormRequest
             'site_register_phone' => 'string|nullable',
             'site_private_status' => 'string|nullable',
             'site_private_service' => 'string|nullable',
-            'site_private_end' => 'string|nullable',
+            'site_private_end_after' => 'string|nullable',
             'site_email' => 'email|nullable',
         ];
     }

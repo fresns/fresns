@@ -41,13 +41,13 @@
             <tbody>
                 @foreach ($pluginUsages as $item)
                     <tr>
-                        <td><input type="number" class="form-control input-number rank-num" data-action="{{ route('panel.plugin-usages.rank.update', $item->id) }}" value="{{ $item['rank_num'] }}"></td>
+                        <td><input type="number" class="form-control input-number rating-number" data-action="{{ route('panel.plugin-usages.rating.update', $item->id) }}" value="{{ $item['rating'] }}"></td>
                         <td>{{ optional($item->plugin)->name }}</td>
                         <td>
-                            @if ($item->icon_file_url)
-                                <img src="{{ $item->icon_file_url }}" width="24" height="24">
+                            @if ($item->getIconUrl())
+                                <img src="{{ $item->getIconUrl() }}" width="24" height="24">
                             @endif
-                            {{ $item['name'] }}
+                            {{ $item->getLangName($defaultLanguage) }}
                         </td>
                         <td>{{ $item->parameter }}</td>
                         <td>
@@ -92,7 +92,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_order') }}</label>
                             <div class="col-sm-9">
-                                <input type="number" class="form-control input-number" required name="rank_num">
+                                <input type="number" class="form-control input-number" required name="rating">
                             </div>
                         </div>
                         <div class="mb-3 row">

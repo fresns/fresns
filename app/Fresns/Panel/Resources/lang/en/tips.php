@@ -28,6 +28,9 @@ return [
     'requestSuccess' => 'Request Success',
     'requestFailure' => 'Request Failure',
     // install
+    'install_not_entered_key' => 'Please enter the fresns key',
+    'install_not_entered_dir' => 'Please enter a directory',
+    'install_not_upload_zip' => 'Please select the installation package',
     'install_in_progress' => 'Install in progress...',
     // upgrade
     'upgrade_none' => 'No Upgrade',
@@ -54,6 +57,11 @@ return [
     'uninstall_step_3' => 'Delete files',
     'uninstall_step_4' => 'Clear cache',
     'uninstall_step_5' => 'Done',
+    // theme
+    'theme_error' => 'The theme is incorrect or does not exist',
+    'theme_functions_file_error' => 'The theme config view file is incorrect or does not exist',
+    'theme_json_file_error' => 'Theme config file is incorrect or does not exist',
+    'theme_json_format_error' => 'The theme config file is in the wrong format',
     // others
     'account_not_found' => 'Account number does not exist or was entered incorrectly',
     'account_login_limit' => 'The error has exceeded the system limit. Please log in again 1 hour later',
@@ -63,6 +71,7 @@ return [
     'language_exists' => 'Language already exists',
     'language_not_exists' => 'Language not exists',
     'plugin_not_exists' => 'Plugin not exists',
+    'map_exists' => 'This map service provider has already been used and cannot be recreated',
     'map_not_exists' => 'Map not exists',
     'required_user_role_name' => 'Please fill in the role name',
     'required_sticker_category_name' => 'Please fill in the sticker category name',

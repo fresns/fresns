@@ -19,7 +19,7 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $roles = Role::orderBy('rank_num')->with('names')->get();
+        $roles = Role::orderBy('rating')->with('names')->get();
 
         $typeLabels = [
             1 => __('FsLang::panel.role_type_admin'),
@@ -45,12 +45,12 @@ class RoleController extends Controller
 
         if ($request->file('icon_file')) {
             $wordBody = [
-                'platform' => 4,
-                'type' => 1,
-                'tableType' => 3,
+                'platformId' => 4,
+                'useType' => 2,
                 'tableName' => 'roles',
                 'tableColumn' => 'icon_file_id',
                 'tableId' => $role->id,
+                'type' => 1,
                 'file' => $request->file('icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -60,7 +60,7 @@ class RoleController extends Controller
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
             $role->icon_file_id = $fileId;
-            $role->icon_file_url = $fresnsResp->getData('imageConfigUrl');
+            $role->icon_file_url = null;
             $role->save();
         }
 
@@ -101,12 +101,12 @@ class RoleController extends Controller
 
         if ($request->file('icon_file')) {
             $wordBody = [
-                'platform' => 4,
-                'type' => 1,
-                'tableType' => 3,
+                'platformId' => 4,
+                'useType' => 2,
                 'tableName' => 'roles',
                 'tableColumn' => 'icon_file_id',
                 'tableId' => $map->id,
+                'type' => 1,
                 'file' => $request->file('icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -116,7 +116,7 @@ class RoleController extends Controller
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
             $role->icon_file_id = $fileId;
-            $role->icon_file_url = $fresnsResp->getData('imageConfigUrl');
+            $role->icon_file_url = null;
         } elseif ($role->icon_file_url != $request->icon_file_url) {
             $role->icon_file_id = null;
             $role->icon_file_url = $request->icon_file_url;
@@ -162,10 +162,10 @@ class RoleController extends Controller
         return $this->deleteSuccess();
     }
 
-    public function updateRank($id, Request $request)
+    public function updateRating($id, Request $request)
     {
         $role = Role::findOrFail($id);
-        $role->rank_num = $request->rank_num;
+        $role->rating = $request->rating;
         $role->save();
 
         return $this->updateSuccess();

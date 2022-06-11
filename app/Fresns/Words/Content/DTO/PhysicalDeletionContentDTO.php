@@ -18,10 +18,10 @@ class PhysicalDeletionContentDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => ['required', 'in:1,2'],
-            'contentType' => ['required', 'in:1,2'],
-            'contentFsid' => ['nullable', 'required_if:contentType,1', 'string'],
-            'contentId' => ['nullable', 'required_if:contentType,2', 'integer'],
+            'type' => ['integer', 'required', 'in:1,2'],
+            'contentType' => ['integer', 'required', 'in:1,2'],
+            'contentFsid' => ['string', 'nullable', 'required_if:contentType,1'],
+            'contentLogId' => ['integer', 'nullable', 'required_if:contentType,2'],
         ];
     }
 }

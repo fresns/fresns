@@ -18,7 +18,7 @@ class UpdateLanguageRankRequest extends FormRequest
     public function rules()
     {
         return [
-            'rank_num' => 'required|string',
+            'rating' => 'required|string',
         ];
     }
 

@@ -8,44 +8,39 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 class User extends Model
 {
-    use SoftDeletes;
-    use HasFactory;
     use Traits\UserServiceTrait;
-    use Traits\DataChangeNotifyTrait;
+    use Traits\IsEnableTrait;
+
+    protected $dates = [
+        'expired_at',
+        'last_username_at',
+        'last_nickname_at',
+    ];
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class, 'account_id', 'id');
+    }
 
     public function stat()
     {
-        return $this->hasOne(UserStat::class, 'user_id', 'id');
-    }
-
-    public function roles()
-    {
-        return $this->hasMany(UserRole::class, 'user_id', 'id');
+        return $this->hasOne(UserStat::class);
     }
 
     public function archives()
     {
-        return $this->hasMany(UserArchive::class, 'user_id', 'id');
+        return $this->hasMany(UserArchive::class)->isEnable();
     }
 
-    public function icons()
+    public function mainRole()
     {
-        return $this->hasMany(UserIcon::class, 'user_id', 'id');
+        return $this->hasOne(UserRole::class)->where('is_main', 1);
     }
 
-    public function postLogs()
+    public function roles()
     {
-        return $this->hasMany(PostLog::class, 'user_id', 'id');
-    }
-
-    public function commentLogs()
-    {
-        return $this->hasMany(CommentLog::class, 'user_id', 'id');
+        return $this->belongsToMany(Role::class, 'user_roles', 'role_id');
     }
 }

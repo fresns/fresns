@@ -16,8 +16,8 @@ class CommandUtility
     protected $executableFinder;
 
     protected $defaultExtraDirs = [
-        '/usr/bin',
-        '/usr/local/bin',
+        '/usr/bin/',
+        '/usr/local/bin/',
     ];
 
     public function __construct()
@@ -37,6 +37,15 @@ class CommandUtility
     public static function getRealpath($path)
     {
         return realpath($path);
+    }
+
+    public static function formatCommand($command)
+    {
+        if (is_string($command)) {
+            $command = explode(' ', $command);
+        }
+
+        return $command;
     }
 
     public function createProcess(array $command, string $cwd = null, array $env = null, $input = null, ?float $timeout = 60)

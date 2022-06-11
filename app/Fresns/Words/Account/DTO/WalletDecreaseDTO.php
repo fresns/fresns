@@ -18,16 +18,17 @@ class WalletDecreaseDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => ['required', 'in:4,5,6'],
-            'aid' => ['required', 'string'],
-            'uid' => ['nullable', 'integer'],
-            'amount' => ['required', 'integer'],
-            'transactionAmount' => ['required', 'integer'],
-            'systemFee' => ['required', 'integer'],
-            'originAid' => ['nullable', 'string'],
-            'originUid' => ['nullable', 'integer'],
-            'originUnikey' => ['required', 'string'],
-            'originId' => ['nullable', 'integer'],
+            'type' => ['integer', 'required', 'in:4,5,6'],
+            'aid' => ['string', 'required', 'exists:App\Models\Account,aid'],
+            'uid' => ['integer', 'nullable', 'exists:App\Models\User,uid'],
+            'password' => ['string', 'nullable'],
+            'amount' => ['numeric', 'required'],
+            'transactionAmount' => ['numeric', 'required'],
+            'systemFee' => ['numeric', 'required'],
+            'originAid' => ['string', 'nullable', 'exists:App\Models\Account,aid'],
+            'originUid' => ['integer', 'nullable', 'exists:App\Models\User,uid'],
+            'originUnikey' => ['string', 'required', 'exists:App\Models\Plugin,unikey'],
+            'originId' => ['integer', 'nullable'],
         ];
     }
 }

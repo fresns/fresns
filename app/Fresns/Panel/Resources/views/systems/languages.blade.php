@@ -43,7 +43,7 @@
                     <th scope="col">{{ __('FsLang::panel.language_table_areaCode') }}</th>
                     <th scope="col">{{ __('FsLang::panel.language_table_langName') }}</th>
                     <th scope="col">{{ __('FsLang::panel.language_table_areaName') }}</th>
-                    <th scope="col">{{ __('FsLang::panel.language_table_lengthUnits') }}</th>
+                    <th scope="col">{{ __('FsLang::panel.language_table_lengthUnit') }}</th>
                     <th scope="col">{{ __('FsLang::panel.language_table_writingDirection') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_status') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_options') }}</th>
@@ -53,7 +53,7 @@
                 @foreach ($languages as $language)
                     <tr>
                         <td>
-                            <input type="number" data-action="{{ route('panel.languageMenus.rank.update', ['langTag' => $language['langTag']]) }}" class="form-control input-number rank-num" value="{{ $language['rankNum'] }}">
+                            <input type="number" data-action="{{ route('panel.languageMenus.rating.update', ['langTag' => $language['langTag']]) }}" class="form-control input-number rating-number" value="{{ $language['rating'] }}">
                         </td>
                         <td>
                             <input data-action="{{ route('panel.languageMenus.default.update') }}" class="form-check-input" type="radio" name="default_language" value="{{ $language['langTag'] }}" {{ $language['langTag'] == $defaultLanguage ? 'checked' : '' }}>
@@ -62,7 +62,7 @@
                         <td>{{ $language['areaCode'] }}</td>
                         <td>{{ $language['langName'] }}</td>
                         <td>{{ $language['areaName'] }}</td>
-                        <td>{{ $language['lengthUnits'] }}</td>
+                        <td>{{ $language['lengthUnit'] }}</td>
                         <td>{{ $language['writingDirection'] }}</td>
                         <td><i class="bi {{ $language['isEnable'] ? 'bi-check-lg text-success' : 'bi-dash-lg text-secondary' }} "></i></td>
                         <td>
@@ -94,7 +94,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_order') }}</label>
                             <div class="col-sm-9">
-                                <input type="number" name="rank_num" required class="form-control input-number">
+                                <input type="number" name="rating" required class="form-control input-number">
                             </div>
                         </div>
                         <!--table_langCode-->
@@ -143,11 +143,11 @@
                                 </div>
                             </div>
                         </div>
-                        <!--table_lengthUnits-->
+                        <!--table_lengthUnit-->
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.language_table_lengthUnits') }}</label>
+                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.language_table_lengthUnit') }}</label>
                             <div class="col-sm-9">
-                                <select class="form-select" name="length_units">
+                                <select class="form-select" name="length_unit">
                                     <option value="km" selected>{{ __('FsLang::panel.unit_kilometer') }} (km)</option>
                                     <option value="mi">{{ __('FsLang::panel.unit_mile') }} (mi)</option>
                                 </select>
@@ -158,15 +158,15 @@
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.language_table_dateFormat') }}</label>
                             <div class="col-sm-9">
                                 <select class="form-select" name="date_format">
-                                    <option value="yyyy-mm-dd" selected>yyyy-mm-dd</option>
-                                    <option value="yyyy/mm/dd">yyyy/mm/dd</option>
-                                    <option value="yyyy.mm.dd">yyyy.mm.dd</option>
-                                    <option value="mm-dd-yyyy">mm-dd-yyyy</option>
-                                    <option value="mm/dd/yyyy">mm/dd/yyyy</option>
-                                    <option value="mm.dd.yyyy">mm.dd.yyyy</option>
-                                    <option value="dd-mm-yyyy">dd-mm-yyyy</option>
-                                    <option value="dd/mm/yyyy">dd/mm/yyyy</option>
-                                    <option value="dd.mm.yyyy">dd.mm.yyyy</option>
+                                    <option value="Y-m-d" selected>yyyy-mm-dd</option>
+                                    <option value="Y/m/d">yyyy/mm/dd</option>
+                                    <option value="Y.m.d">yyyy.mm.dd</option>
+                                    <option value="m-d-Y">mm-dd-yyyy</option>
+                                    <option value="m/d/Y">mm/dd/yyyy</option>
+                                    <option value="m.d.Y">mm.dd.yyyy</option>
+                                    <option value="d-m-Y">dd-mm-yyyy</option>
+                                    <option value="d/m/Y">dd/mm/yyyy</option>
+                                    <option value="d.m.Y">dd.mm.yyyy</option>
                                 </select>
                                 <div class="form-text">{{ __('FsLang::panel.language_table_dateFormat_desc') }}</div>
                             </div>
@@ -236,7 +236,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_order') }}</label>
                             <div class="col-sm-9">
-                                <input type="number" name="rank_num" required class="form-control input-number">
+                                <input type="number" name="rating" required class="form-control input-number">
                             </div>
                         </div>
                         <!--table_langCode-->
@@ -284,11 +284,11 @@
                                 </div>
                             </div>
                         </div>
-                        <!--table_lengthUnits-->
+                        <!--table_lengthUnit-->
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.language_table_lengthUnits') }}</label>
+                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.language_table_lengthUnit') }}</label>
                             <div class="col-sm-9">
-                                <select class="form-select" name="length_units">
+                                <select class="form-select" name="length_unit">
                                     <option value="km" selected>{{ __('FsLang::panel.unit_kilometer') }} (km)</option>
                                     <option value="mi">{{ __('FsLang::panel.unit_mile') }} (mi)</option>
                                 </select>
@@ -296,18 +296,18 @@
                         </div>
                         <!--table_writingDirection-->
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.language_table_writingDirection') }}</label>
+                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.language_table_dateFormat') }}</label>
                             <div class="col-sm-9">
                                 <select class="form-select" name="date_format">
-                                    <option value="yyyy-mm-dd" selected>yyyy-mm-dd</option>
-                                    <option value="yyyy/mm/dd">yyyy/mm/dd</option>
-                                    <option value="yyyy.mm.dd">yyyy.mm.dd</option>
-                                    <option value="mm-dd-yyyy">mm-dd-yyyy</option>
-                                    <option value="mm/dd/yyyy">mm/dd/yyyy</option>
-                                    <option value="mm.dd.yyyy">mm.dd.yyyy</option>
-                                    <option value="dd-mm-yyyy">dd-mm-yyyy</option>
-                                    <option value="dd/mm/yyyy">dd/mm/yyyy</option>
-                                    <option value="dd.mm.yyyy">dd.mm.yyyy</option>
+                                    <option value="Y-m-d" selected>yyyy-mm-dd</option>
+                                    <option value="Y/m/d">yyyy/mm/dd</option>
+                                    <option value="Y.m.d">yyyy.mm.dd</option>
+                                    <option value="m-d-Y">mm-dd-yyyy</option>
+                                    <option value="m/d/Y">mm/dd/yyyy</option>
+                                    <option value="m.d.Y">mm.dd.yyyy</option>
+                                    <option value="d-m-Y">dd-mm-yyyy</option>
+                                    <option value="d/m/Y">dd/mm/yyyy</option>
+                                    <option value="d.m.Y">dd.mm.yyyy</option>
                                 </select>
                                 <div class="form-text">{{ __('FsLang::panel.language_table_dateFormat_desc') }}</div>
                             </div>

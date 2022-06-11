@@ -11,7 +11,7 @@
                 <li class="breadcrumb-item"><a href="{{ route('panel.dashboard') }}">{{ __('FsLang::panel.menu_dashboard') }}</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('panel.rename.index') }}">{{ __('FsLang::panel.menu_operations') }}</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('panel.roles.index') }}">{{ __('FsLang::panel.sidebar_roles') }}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ __('FsLang::panel.button_config_permission') }}<span class="badge bg-secondary ms-2">{{ $role->name }}</span></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ __('FsLang::panel.button_config_permission') }}<span class="badge bg-secondary ms-2">{{ $role->getLangName($defaultLanguage) }}</span></li>
             </ol>
         </nav>
     </div>
@@ -28,12 +28,12 @@
                     <label class="input-group-text">{{ __('FsLang::panel.role_perm_content_view') }}</label>
                     <div class="form-control bg-white">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" {{ $permission['content_view']['permValue'] ?? '' ? 'checked' : '' }} name="permission[content_view]" id="content.view.0" value="0">
-                            <label class="form-check-label" for="content.view.0">{{ __('FsLang::panel.option_yes') }}</label>
+                            <input class="form-check-input" type="radio" {{ $permission['content_view']['permValue'] ?? '' ? 'checked' : '' }} name="permission[content_view]" id="content.view.1" value="1">
+                            <label class="form-check-label" for="content.view.1">{{ __('FsLang::panel.option_yes') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" {{ !($permission['content_view']['permValue'] ?? '') ? 'checked' : '' }} name="permission[content_view]" id="content.view.1" value="1">
-                            <label class="form-check-label" for="content.view.1">{{ __('FsLang::panel.option_no') }}</label>
+                            <input class="form-check-input" type="radio" {{ !($permission['content_view']['permValue'] ?? '') ? 'checked' : '' }} name="permission[content_view]" id="content.view.0" value="0">
+                            <label class="form-check-label" for="content.view.0">{{ __('FsLang::panel.option_no') }}</label>
                         </div>
                     </div>
                 </div>
@@ -42,12 +42,12 @@
                     <label class="input-group-text">{{ __('FsLang::panel.role_perm_dialog') }}</label>
                     <div class="form-control bg-white">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" {{ $permission['dialog']['permValue'] ?? '' ? 'checked' : '' }} name="permission[dialog]" id="dialog.0" value="0">
-                            <label class="form-check-label" for="dialog.0">{{ __('FsLang::panel.option_yes') }}</label>
+                            <input class="form-check-input" type="radio" {{ $permission['dialog']['permValue'] ?? '' ? 'checked' : '' }} name="permission[dialog]" id="dialog.1" value="1">
+                            <label class="form-check-label" for="dialog.1">{{ __('FsLang::panel.option_yes') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" {{ !($permission['dialog']['permValue'] ?? '') ? 'checked' : '' }} name="permission[dialog]" id="dialog.1" value="1">
-                            <label class="form-check-label" for="dialog.1">{{ __('FsLang::panel.option_no') }}</label>
+                            <input class="form-check-input" type="radio" {{ !($permission['dialog']['permValue'] ?? '') ? 'checked' : '' }} name="permission[dialog]" id="dialog.0" value="0">
+                            <label class="form-check-label" for="dialog.0">{{ __('FsLang::panel.option_no') }}</label>
                         </div>
                     </div>
                 </div>
@@ -344,7 +344,7 @@
                 <div class="input-group mb-3">
                     <label class="input-group-text">{{ __('FsLang::panel.role_perm_download_file_count') }}</label>
                     <input type="number" class="form-control input-number" value="{{ $permission['download_file_count']['permValue'] ?? '' }}" name="permission[download_file_count]" placeholder="10">
-                    <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_number_of_times') }}</span>
                 </div>
             </div>
         </div>
@@ -396,7 +396,7 @@
         <tr>
             <td><input type="text" class="form-control" required name="custom_permissions[permKey][]"></td>
             <td><input type="text" class="form-control" required name="custom_permissions[permValue][]"></td>
-            <td><button type="button" class="btn btn-link link-danger ms-1 fresns-link fs-7">{{ __('FsLang::panel.button_delete') }}</button></td>
+            <td><button type="button" class="btn btn-link link-danger ms-1 fresns-link fs-7 delete-custom-perm">{{ __('FsLang::panel.button_delete') }}</button></td>
         </tr>
     </template>
 @endsection

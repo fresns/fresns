@@ -37,12 +37,6 @@ class PanelServiceProvider extends ServiceProvider
         ]);
 
         \Route::aliasMiddleware('panelAuth', Authenticate::class);
-
-        // register exception hanlder
-        $this->app->bind(
-            ExceptionHandler::class,
-            Handler::class
-        );
     }
 
     /**

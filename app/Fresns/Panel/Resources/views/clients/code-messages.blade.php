@@ -20,26 +20,25 @@
     <div class="row mb-3">
         <!--filter-->
         <form action="">
-            @csrf
             <div class="input-group">
                 <span class="input-group-text">{{ __('FsLang::panel.table_lang_tag') }}</span>
-                <select class="form-select" id="langTag" required>
+                <select class="form-select" id="langTag" required name="lang_tag">
                     @foreach ($languageConfig['language_menus'] as $lang)
-                        <option value="{{ $lang['langTag'] }}" @if ($lang['langTag'] == $languageConfig['default_language']) selected @endif>{{ $lang['langTag'] }} -> {{ $lang['langName'] }} @if($lang['areaName']) {{ '('.$lang['areaName'].')' }} @endif</option>
+                        <option value="{{ $lang['langTag'] }}" @if ($lang['langTag'] == $langTag) selected @endif>{{ $lang['langTag'] }} -> {{ $lang['langName'] }} @if($lang['areaName']) {{ '('.$lang['areaName'].')' }} @endif</option>
                     @endforeach
                 </select>
                 <span class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</span>
-                <select class="form-select" id="unikey">
-                    <option value="" selected>{{ __('FsLang::panel.option_all') }}</option>
+                <select class="form-select" id="unikey" name="plugin_unikey">
+                    <option value="">{{ __('FsLang::panel.option_all') }}</option>
                     <option value="Fresns">Fresns</option>
                     @foreach ($pluginsList as $plugin)
-                        <option value="{{ $plugin['unikey'] }}">{{ $plugin['unikey'] }} -> {{ $plugin['name'] }}</option>
+                        <option @if ($plugin['unikey'] == $pluginUnikey) selected @endif value="{{ $plugin['unikey'] }}">{{ $plugin['unikey'] }} -> {{ $plugin['name'] }}</option>
                     @endforeach
                 </select>
                 <span class="input-group-text">{{ __('FsLang::panel.table_number') }}</span>
-                <input type="number" class="form-control" placeholder="Code">
-                <button class="btn btn-outline-secondary" type="submit" disabled>{{ __('FsLang::panel.button_confirm') }}</button>
-                <a class="btn btn-outline-secondary disabled" href="{{ route('panel.code.messages.index') }}">{{ __('FsLang::panel.button_reset') }}</a>
+                <input type="number" name="code" class="form-control" placeholder="Code" value="{{ $code }}">
+                <button class="btn btn-outline-secondary" type="submit">{{ __('FsLang::panel.button_confirm') }}</button>
+                <a class="btn btn-outline-secondary" href="{{ route('panel.code.messages.index') }}">{{ __('FsLang::panel.button_reset') }}</a>
             </div>
         </form>
         <!--filter end-->
@@ -67,11 +66,13 @@
                         <td>{{ $message->lang_tag }}</td>
                         <td><input type="text" class="form-control" value="{{ $message->message }}" readonly></td>
                         <td>
-                            <button type="button" class="btn btn-outline-primary btn-sm" disabled
+                            <button type="button" class="btn btn-outline-primary btn-sm"
                                 data-bs-toggle="modal"
                                 data-bs-target="#editMessages"
                                 data-name="{{ collect($pluginsList)->where('unikey', $message->plugin_unikey)->first()['name'] ?? $message->plugin_unikey }}"
                                 data-unikey="{{ $message->plugin_unikey }}"
+                                data-action="{{ route('panel.code.messages.update', $message->id)}}"
+                                data-messages="{{ $message->messages->toJson() }}"
                                 data-code="{{ $message->code }}">
                                 {{ __('FsLang::panel.button_edit') }}
                             </button>
@@ -97,6 +98,8 @@
                 </div>
                 <div class="modal-body">
                     <form action="" method="post">
+                        @method('put')
+                        @csrf
                         <div class="table-responsive">
                             <table class="table table-hover align-middle text-nowrap">
                                 <thead>
@@ -122,7 +125,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <textarea name="messages[{{ $lang['langTag'] }}]" class="form-control" rows="3">Code Message</textarea>
+                                                <textarea name="messages[{{ $lang['langTag'] }}]" class="form-control" rows="3"></textarea>
                                             </td>
                                         </tr>
                                     @endforeach

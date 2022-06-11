@@ -21,4 +21,19 @@ class Language extends Model
     {
         return $query->where('table_name', $tableName);
     }
+
+    public function formatConfigItemValue(string $itemType)
+    {
+        $content = $this->lang_content;
+
+        if (in_array($itemType, ['array', 'plugins', 'object'])) {
+            $content = json_decode($this->lang_content, true) ?: [];
+        } elseif ($itemType == 'boolean') {
+            $content = filter_var($this->lang_content, FILTER_VALIDATE_BOOLEAN);
+        } elseif ($itemType == 'number') {
+            $content = intval($this->lang_content);
+        }
+
+        return $content;
+    }
 }

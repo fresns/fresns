@@ -9,11 +9,13 @@
 namespace App\Fresns\Subscribe\Providers;
 
 use App\Fresns\Subscribe\SubscribeService;
+use Fresns\CmdWordManager\Contracts\CmdWordProviderContract;
+use Fresns\CmdWordManager\Traits\CmdWordProviderTrait;
 use Illuminate\Support\ServiceProvider;
 
-class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordManager\Contracts\CmdWordProviderContract
+class CmdWordServiceProvider extends ServiceProvider implements CmdWordProviderContract
 {
-    use \Fresns\CmdWordManager\Traits\CmdWordProviderTrait;
+    use CmdWordProviderTrait;
 
     protected $unikeyName = 'Fresns';
 

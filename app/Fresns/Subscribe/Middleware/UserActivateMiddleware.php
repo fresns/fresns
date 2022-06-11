@@ -17,7 +17,7 @@ class UserActivateMiddleware
     {
         if ($this->tokenIsValid($request)) {
             notifyUserActivate([
-                'platform' => $request->header('platform'),
+                'platformId' => $request->header('platformId'),
                 'version' => $request->header('version'),
                 'appId' => $request->header('appId'),
                 'langTag' => $request->header('langTag'),
@@ -39,7 +39,7 @@ class UserActivateMiddleware
 
         /** @var \Fresns\CmdWordManager\CmdWordResponse $fresnsResponse */
         $fresnsResponse = \FresnsCmdWord::plugin('Fresns')->verifySessionToken([
-            'platform' => $request->header('platform'),
+            'platformId' => $request->header('platformId'),
             'aid' => $request->header('aid'),
             'uid' => $request->header('uid'),
             'token' => $request->header('token'),

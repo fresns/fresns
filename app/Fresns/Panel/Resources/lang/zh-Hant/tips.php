@@ -28,6 +28,9 @@ return [
     'requestSuccess' => '請求成功',
     'requestFailure' => '請求失敗',
     // install
+    'install_not_entered_key' => '請輸入標識名',
+    'install_not_entered_dir' => '请输入目錄',
+    'install_not_upload_zip' => '請選擇安裝包',
     'install_in_progress' => '正在安裝中...',
     // upgrade
     'upgrade_none' => '暫無更新',
@@ -54,6 +57,11 @@ return [
     'uninstall_step_3' => '刪除文件',
     'uninstall_step_4' => '清空緩存',
     'uninstall_step_5' => '完成',
+    // theme
+    'theme_error' => '主題錯誤或者不存在',
+    'theme_functions_file_error' => '主題配置的視圖文件錯誤或者不存在',
+    'theme_json_file_error' => '主題配置文件錯誤或者不存在',
+    'theme_json_format_error' => '主題配置文件格式錯誤',
     // others
     'account_not_found' => '賬號不存在或者輸入錯誤',
     'account_login_limit' => '錯誤已超系統限制，請 1 小時後再登錄',
@@ -63,6 +71,7 @@ return [
     'language_exists' => '語言已存在',
     'language_not_exists' => '語言不存在',
     'plugin_not_exists' => '外掛不存在',
+    'map_exists' => '該地圖服務商已被使用，不可重複創建',
     'map_not_exists' => '地圖不存在',
     'required_user_role_name' => '請填寫角色名稱',
     'required_sticker_category_name' => '請填寫表情組名稱',

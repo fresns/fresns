@@ -8,15 +8,34 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Collection;
-
 class PluginUsage extends Model
 {
-    use Traits\LangName;
+    const TYPE_WALLET_RECHARGE = 1;
+    const TYPE_WALLET_WITHDRAW = 2;
+    const TYPE_EDITOR = 3;
+    const TYPE_CONTENT = 4;
+    const TYPE_MANAGE = 5;
+    const TYPE_GROUP = 6;
+    const TYPE_FEATURE = 7;
+    const TYPE_PROFILE = 8;
+    const TYPE_MAP = 9;
+
+    const SCENE_POST = 1;
+    const SCENE_COMMENT = 2;
+    const SCENE_USER = 3;
+
+    use Traits\LangNameTrait;
+    use Traits\PluginUsageServiceTrait;
+    use Traits\IsEnableTrait;
 
     protected $casts = [
         'data_sources' => 'json',
     ];
+
+    public function scopeType($query, int $type)
+    {
+        return $query->where('type', $type);
+    }
 
     public function plugin()
     {

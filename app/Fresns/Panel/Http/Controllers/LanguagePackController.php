@@ -8,7 +8,9 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Helpers\LanguageHelper;
 use App\Models\Config;
+use App\Models\Language;
 use Illuminate\Http\Request;
 
 class LanguagePackController extends Controller
@@ -23,22 +25,10 @@ class LanguagePackController extends Controller
         $languagePack = Config::tag('languages')->where('item_key', 'language_pack')->first();
         $languageKeys = $languagePack ? $languagePack->item_value : [];
 
-        $config = Config::tag('languages')->where('item_key', $langTag)->first();
-        $languages = $config ? $config->item_value : [];
-
-        $languages = collect($languages)
-            ->mapWithKeys(function ($language) {
-                return [$language['name'] => $language['content']];
-            });
+        $languages = LanguageHelper::fresnsLanguageByTableKey('language_pack_contents', 'object', $langTag);
 
         if ($langTag != $this->defaultLanguage) {
-            $defaultConfig = Config::tag('languages')->where('item_key', $this->defaultLanguage)->first();
-            $defaultLanguages = $defaultConfig ? $defaultConfig->item_value : [];
-
-            $defaultLanguages = collect($defaultLanguages)
-                ->mapWithKeys(function ($language) {
-                    return [$language['name'] => $language['content']];
-                });
+            $defaultLanguages = LanguageHelper::fresnsLanguageByTableKey('language_pack_contents', 'object', $this->defaultLanguage);
         } else {
             $defaultLanguages = $languages;
         }
@@ -62,15 +52,20 @@ class LanguagePackController extends Controller
         });
         $defaultKeyNames = $defaultKeys->pluck('name');
 
-        $languages = [];
+        $languagePackContents = [];
 
-        $config = Config::tag('languages')->where('item_key', $langTag)->first();
-        if (! $config) {
-            $config = new Config;
-            $config->item_key = $langTag;
-            $config->item_type = 'array';
-            $config->item_tag = 'languages';
-            $config->is_enable = 1;
+        $languageContent = Language::where([
+            'table_name' => 'configs',
+            'table_column' => 'item_value',
+            'table_key' => 'language_pack_contents',
+            'lang_tag' => $langTag,
+        ])->first();
+        if (! $languageContent) {
+            $languageContent = new Language;
+            $languageContent->table_name = 'configs';
+            $languageContent->table_column = 'item_value';
+            $languageContent->table_key = 'language_pack_contents';
+            $languageContent->lang_tag = $langTag;
         }
 
         foreach ($request->keys as $key => $langKey) {
@@ -84,17 +79,14 @@ class LanguagePackController extends Controller
                 continue;
             }
 
-            $languages[] = [
-                'name' => $langKey,
-                'content' => $contents[$key],
-            ];
+            $languagePackContents[$langKey] = $contents[$key];
         }
 
         $languagePack->item_value = $defaultKeys->toArray();
         $languagePack->save();
 
-        $config->item_value = $languages;
-        $config->save();
+        $languageContent->lang_content = json_encode($languagePackContents);
+        $languageContent->save();
 
         return $this->updateSuccess();
     }

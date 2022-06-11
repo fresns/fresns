@@ -8,21 +8,17 @@
 
 namespace App\Fresns\Words\File;
 
-use App\Fresns\Words\Config\WordConfig;
-use App\Fresns\Words\File\DTO\GetFileInfoOfAntiLinkDTO;
-use App\Fresns\Words\File\DTO\GetFileUrlOfAntiLinkDTO;
+use App\Fresns\Words\File\DTO\GetAntiLinkFileInfoDTO;
+use App\Fresns\Words\File\DTO\GetAntiLinkFileInfoListDTO;
+use App\Fresns\Words\File\DTO\GetAntiLinkFileOriginalUrlDTO;
 use App\Fresns\Words\File\DTO\GetUploadTokenDTO;
-use App\Fresns\Words\File\DTO\LogicalDeletionFileDTO;
-use App\Fresns\Words\File\DTO\PhysicalDeletionFileDTO;
+use App\Fresns\Words\File\DTO\LogicalDeletionFilesDTO;
+use App\Fresns\Words\File\DTO\PhysicalDeletionFilesDTO;
 use App\Fresns\Words\File\DTO\UploadFileDTO;
 use App\Fresns\Words\File\DTO\UploadFileInfoDTO;
-use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
-use App\Helpers\PrimaryHelper;
-use App\Models\File as FileModel;
-use App\Models\FileAppend;
 use App\Utilities\ConfigUtility;
-use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
+use App\Utilities\FileUtility;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 
 class File
@@ -40,21 +36,16 @@ class File
         $dtoWordBody = new GetUploadTokenDTO($wordBody);
         $langTag = \request()->header('langTag', config('app.locale'));
 
-        $pluginUniKey = match ($dtoWordBody->type) {
-            1 => ConfigHelper::fresnsConfigByItemKey('image_service'),
-            2 => ConfigHelper::fresnsConfigByItemKey('video_service'),
-            3 => ConfigHelper::fresnsConfigByItemKey('audio_service'),
-            default => ConfigHelper::fresnsConfigByItemKey('document_service'),
-        };
+        $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
-        if (empty($pluginUniKey)) {
+        if (! $storageConfig['storageConfigStatus']) {
             return $this->failure(
                 21000,
                 ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
             );
         }
 
-        return \FresnsCmdWord::plugin($pluginUniKey)->getUploadToken($wordBody);
+        return \FresnsCmdWord::plugin($storageConfig['service'])->getUploadToken($wordBody);
     }
 
     /**
@@ -68,70 +59,32 @@ class File
         $dtoWordBody = new UploadFileDTO($wordBody);
         $langTag = \request()->header('langTag', config('app.locale'));
 
-        $unikey = FileModel::getFileServiceInfoByFileType($dtoWordBody->type)['unikey'] ?? '';
-        if (empty($unikey)) {
+        // $bodyInfo = [
+        //     'platformId' => $dtoWordBody->platformId,
+        //     'useType' => $dtoWordBody->useType,
+        //     'tableName' => $dtoWordBody->tableName,
+        //     'tableColumn' => $dtoWordBody->tableColumn,
+        //     'tableId' => $dtoWordBody->tableId,
+        //     'tableKey' => $dtoWordBody->tableKey,
+        //     'aid' => $dtoWordBody->aid,
+        //     'uid' => $dtoWordBody->uid,
+        //     'type' => $dtoWordBody->type,
+        //     'moreJson' => $dtoWordBody->moreJson,
+        // ];
+        // $uploadFile = FileUtility::uploadFile($bodyInfo, $dtoWordBody->file);
+
+        // return $this->success($uploadFile);
+
+        $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
+
+        if (! $storageConfig['storageConfigStatus']) {
             return $this->failure(
                 21000,
                 ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
             );
         }
-        FileModel::getFileStorageConfigByFileType($dtoWordBody->type);
 
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid ?? '');
-        $userId = PrimaryHelper::fresnsUserIdByUid($dtoWordBody->uid ?? '');
-        if (isset($dtoWordBody->tableKey)) {
-            $tableId = $this->getTableId($dtoWordBody->tableName, $dtoWordBody->tableKey);
-        }
-        $uploadFile = $dtoWordBody->file;
-
-        $storePath = $this->getFileTempPath($dtoWordBody->type.$dtoWordBody->tableType);
-        $path = $uploadFile->store($storePath);
-        $basePath = base_path();
-        $basePath = $basePath.'/storage/app/';
-        $newPath = $storePath.'/'.\Str::random(8).'.'.$uploadFile->getClientOriginalExtension();
-        copy($basePath.$path, $basePath.$newPath);
-        unlink($basePath.$path);
-
-        $fileArr['file_type'] = $dtoWordBody->type;
-        $fileArr['file_name'] = $uploadFile->getClientOriginalName();
-        $fileArr['file_extension'] = $uploadFile->getClientOriginalExtension();
-        $fileArr['file_path'] = str_replace('public/', '', $newPath);
-        $fileArr['table_type'] = $dtoWordBody->tableType;
-        $fileArr['table_name'] = $dtoWordBody->tableName;
-        $fileArr['table_column'] = $dtoWordBody->tableColumn;
-        $fileArr['table_id'] = isset($tableId) ?? null;
-        $fileArr['table_key'] = $dtoWordBody->tableKey ?? null;
-        $fileArr['fid'] = \Str::random(12);
-        $fid = $fileArr['fid'];
-
-        $retId = FileModel::create($fileArr)->id;
-
-        $input = [
-            'file_id' => $retId,
-            'file_mime' => $uploadFile->getMimeType(),
-            'file_size' => $uploadFile->getSize(),
-            'platform_id' => $dtoWordBody->platform,
-            'account_id' => isset($accountId) ?? null,
-            'user_id' => isset($userId) ?? null,
-            'image_is_long' => 0,
-        ];
-        if ($dtoWordBody->type == 1) {
-            $imageSize = getimagesize($uploadFile);
-            $input['image_width'] = $imageSize[0] ?? null;
-            $input['image_height'] = $imageSize[1] ?? null;
-            if (! empty($input['image_width']) >= 700) {
-                if ($input['image_height'] >= $input['image_width'] * 3) {
-                    $input['image_is_long'] = 1;
-                }
-            }
-        }
-        FileAppend::insert($input);
-
-        $fresnsResp = \FresnsCmdWord::plugin($unikey)->uploadFile([
-            'fid' => $fid,
-        ]);
-
-        return $fresnsResp->getOrigin();
+        return \FresnsCmdWord::plugin($storageConfig['service'])->uploadFile($wordBody);
     }
 
     /**
@@ -145,102 +98,32 @@ class File
         $dtoWordBody = new UploadFileInfoDTO($wordBody);
         $langTag = \request()->header('langTag', config('app.locale'));
 
-        $unikey = FileModel::getFileServiceInfoByFileType($dtoWordBody->type)['unikey'] ?? '';
-        if (empty($unikey)) {
+        // $bodyInfo = [
+        //     'platformId' => $dtoWordBody->platformId,
+        //     'useType' => $dtoWordBody->useType,
+        //     'tableName' => $dtoWordBody->tableName,
+        //     'tableColumn' => $dtoWordBody->tableColumn,
+        //     'tableId' => $dtoWordBody->tableId,
+        //     'tableKey' => $dtoWordBody->tableKey,
+        //     'aid' => $dtoWordBody->aid,
+        //     'uid' => $dtoWordBody->uid,
+        //     'type' => $dtoWordBody->type,
+        //     'fileInfo' => $dtoWordBody->fileInfo,
+        // ];
+        // $uploadFileInfo = FileUtility::uploadFileInfo($bodyInfo);
+
+        // return $this->success($uploadFileInfo);
+
+        $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
+
+        if (! $storageConfig['storageConfigStatus']) {
             return $this->failure(
                 21000,
                 ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
             );
         }
-        FileModel::getFileStorageConfigByFileType($dtoWordBody->type);
 
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid ?? '');
-        $userId = PrimaryHelper::fresnsUserIdByUid($dtoWordBody->uid ?? '');
-        if (isset($dtoWordBody->tableKey)) {
-            $tableId = $this->getTableId($dtoWordBody->tableName, $dtoWordBody->tableKey);
-        }
-
-        $fileInfoArr = json_decode($dtoWordBody->fileInfo, true);
-
-        $fileIdArr = [];
-        $fidArr = [];
-
-        if ($fileInfoArr) {
-            foreach ($fileInfoArr as $fileInfo) {
-                $item = [];
-                $item['fid'] = \Str::random(12);
-                $item['file_type'] = $dtoWordBody->type;
-                $item['file_name'] = $fileInfo['name'];
-                $item['file_extension'] = $fileInfo['extension'];
-                $item['file_path'] = $fileInfo['path'];
-                $item['rank_num'] = $fileInfo['rankNum'];
-                $item['table_type'] = $dtoWordBody->tableType;
-                $item['table_name'] = $dtoWordBody->tableName;
-                $item['table_column'] = $dtoWordBody->tableColumn;
-                $item['table_id'] = $tableId ?? null;
-                $item['table_key'] = $dtoWordBody->tableKey ?? null;
-                $fieldId = FileModel::create($item)->id;
-                $fileIdArr[] = $fieldId;
-                $fidArr[] = $item['fid'];
-
-                $append = [];
-                $append['file_id'] = $fieldId;
-                $append['file_original_path'] = $fileInfo['originalPath'] == '' ? null : $fileInfo['originalPath'];
-                $append['file_mime'] = $fileInfo['mime'] == '' ? null : $fileInfo['mime'];
-                $append['file_size'] = $fileInfo['size'] == '' ? null : $fileInfo['size'];
-                $append['file_md5'] = $fileInfo['md5'] == '' ? null : $fileInfo['md5'];
-                $append['file_sha1'] = $fileInfo['sha1'] == '' ? null : $fileInfo['sha1'];
-                $append['image_width'] = $fileInfo['imageWidth'] == '' ? null : $fileInfo['imageWidth'];
-                $append['image_height'] = $fileInfo['imageHeight'] == '' ? null : $fileInfo['imageHeight'];
-                $imageLong = 0;
-                if (! empty($fileInfo['image_width'])) {
-                    if ($fileInfo['image_width'] >= 700) {
-                        if ($fileInfo['image_height'] >= $fileInfo['image_width'] * 3) {
-                            $imageLong = 1;
-                        } else {
-                            $imageLong = 0;
-                        }
-                    }
-                }
-                $append['image_is_long'] = $imageLong;
-                $append['video_time'] = $fileInfo['videoTime'] == '' ? null : $fileInfo['videoTime'];
-                $append['video_cover'] = $fileInfo['videoCover'] == '' ? null : $fileInfo['videoCover'];
-                $append['video_gif'] = $fileInfo['videoGif'] == '' ? null : $fileInfo['videoGif'];
-                $append['audio_time'] = $fileInfo['audioTime'] == '' ? null : $fileInfo['audioTime'];
-                $append['account_id'] = $accountId;
-                $append['user_id'] = $userId;
-                $append['platform_id'] = $dtoWordBody->platform;
-                $append['more_json'] = json_encode($fileInfo['moreJson']);
-
-                FileAppend::insert($append);
-            }
-        }
-
-        $fresnsResp = \FresnsCmdWord::plugin($unikey)->uploadFileInfo([
-            'fids' => $fidArr,
-        ]);
-
-        return $fresnsResp->getOrigin();
-    }
-
-    /**
-     * @param $options
-     * @return string
-     */
-    public function getFileTempPath($options)
-    {
-        $basePath = base_path().'/storage/app/public/';
-        $fileTempPath = WordConfig::FILE_TEMP_PATH[$options] ?? '';
-        if (empty($fileTempPath)) {
-            $fileTempPath = '/temp_files/unknown/{ym}/{day}';
-        }
-        $fileTempPath = str_replace(['{ym}', '{day}'], [date('Ym', time()), date('d', time())], $fileTempPath);
-        $realPath = $basePath.$fileTempPath;
-        if (! is_dir($realPath)) {
-            \Illuminate\Support\Facades\File::makeDirectory($realPath, 0755, true, true);
-        }
-
-        return 'public/'.$fileTempPath;
+        return \FresnsCmdWord::plugin($storageConfig['service'])->uploadFileInfo($wordBody);
     }
 
     /**
@@ -249,82 +132,95 @@ class File
      *
      * @throws \Throwable
      */
-    public function getFileUrlOfAntiLink($wordBody)
+    public function getAntiLinkFileInfo($wordBody)
     {
-        $dtoWordBody = new GetFileUrlOfAntiLinkDTO($wordBody);
+        $dtoWordBody = new GetAntiLinkFileInfoDTO($wordBody);
+        $langTag = \request()->header('langTag', config('app.locale'));
 
-        $file = FileModel::idOrFid([
-            'id' => $dtoWordBody->fileId,
-            'fid' => $dtoWordBody->fid,
-        ])->first();
+        $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
-        if (empty($file)) {
-            return $this->success([], 'file not found', 21009);
-        }
-
-        $fileUniKey = $file->getFileServiceInfo();
-
-        if ($fileUniKey['url_anti_status']) {
-            return \FresnsCmdWord::plugin($fileUniKey['unikey'])->getFileUrlOfAntiLink($wordBody);
-        }
-
-        return $this->success(
-            FileHelper::fresnsFileUrlById($file->id)
-        );
-    }
-
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
-    public function getFileInfoOfAntiLink($wordBody)
-    {
-        $dtoWordBody = new GetFileInfoOfAntiLinkDTO($wordBody);
-
-        $file = FileModel::idOrFid([
-            'id' => $dtoWordBody->fileId,
-            'fid' => $dtoWordBody->fid,
-        ])->first();
-
-        if (empty($file)) {
-            return $this->success([], 'file not found', 21009);
-        }
-
-        $fileUniKey = $file->getFileServiceInfo();
-
-        if ($fileUniKey['url_anti_status']) {
-            return \FresnsCmdWord::plugin($fileUniKey['unikey'])->getFileInfoOfAntiLink($wordBody);
-        }
-
-        return $this->success(
-            FileHelper::fresnsFileInfoById($file->id)
-        );
-    }
-
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
-    public function logicalDeletionFile($wordBody)
-    {
-        $wordBody = new LogicalDeletionFileDTO($wordBody);
-        if (isset($wordBody->fileId)) {
-            $query = ['id' => $wordBody->fileId];
-        } else {
-            $query = ['fid' => $wordBody->fid];
-        }
-        $file = FileModel::where($query)->first();
-        if (empty($file)) {
+        if (! $storageConfig['storageConfigStatus']) {
             return $this->failure(
-                21009,
-                ConfigUtility::getCodeMessage(21009, 'CmdWord', $langTag),
+                21000,
+                ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
             );
         }
-        FileModel::where($query)->delete();
+
+        if ($storageConfig['antiLinkConfigStatus']) {
+            return \FresnsCmdWord::plugin($storageConfig['service'])->getAntiLinkFileInfo($wordBody);
+        }
+
+        return $this->success(FileHelper::fresnsFileInfoById($dtoWordBody->fileIdOrFid));
+    }
+
+    /**
+     * @param $wordBody
+     * @return array
+     *
+     * @throws \Throwable
+     */
+    public function getAntiLinkFileInfoList($wordBody)
+    {
+        $dtoWordBody = new GetAntiLinkFileInfoListDTO($wordBody);
+        $langTag = \request()->header('langTag', config('app.locale'));
+
+        $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
+
+        if (! $storageConfig['storageConfigStatus']) {
+            return $this->failure(
+                21000,
+                ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
+            );
+        }
+
+        if ($storageConfig['antiLinkConfigStatus']) {
+            return \FresnsCmdWord::plugin($storageConfig['service'])->getAntiLinkFileInfoList($wordBody);
+        }
+
+        return $this->success(FileHelper::fresnsFileInfoListByIds($dtoWordBody->fileIdsOrFids));
+    }
+
+    /**
+     * @param $wordBody
+     * @return array
+     *
+     * @throws \Throwable
+     */
+
+    public function getAntiLinkFileOriginalUrl($wordBody)
+    {
+        $dtoWordBody = new GetAntiLinkFileOriginalUrlDTO($wordBody);
+        $langTag = \request()->header('langTag', config('app.locale'));
+
+        $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
+
+        if (! $storageConfig['storageConfigStatus']) {
+            return $this->failure(
+                21000,
+                ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
+            );
+        }
+
+        if ($storageConfig['antiLinkConfigStatus']) {
+            return \FresnsCmdWord::plugin($storageConfig['service'])->getAntiLinkFileOriginalUrl($wordBody);
+        }
+
+        return $this->success([
+            'originalUrl' => FileHelper::fresnsFileOriginalUrlById($dtoWordBody->fileIdOrFid),
+        ]);
+    }
+
+    /**
+     * @param $wordBody
+     * @return array
+     *
+     * @throws \Throwable
+     */
+    public function logicalDeletionFiles($wordBody)
+    {
+        $dtoWordBody = new LogicalDeletionFilesDTO($wordBody);
+
+        FileUtility::logicalDeletionFiles($dtoWordBody->fileIdsOrFids);
 
         return $this->success();
     }
@@ -335,50 +231,20 @@ class File
      *
      * @throws \Throwable
      */
-    public function physicalDeletionFile($wordBody)
+    public function physicalDeletionFiles($wordBody)
     {
-        $dtoWordBody = new PhysicalDeletionFileDTO($wordBody);
-        if (isset($dtoWordBody->fileId)) {
-            $query = ['id' => $dtoWordBody->fileId];
-        } else {
-            $query = ['fid' => $dtoWordBody->fid];
-        }
-        $file = FileModel::where($query)->first();
-        if (empty($file)) {
-            ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
-        }
+        $dtoWordBody = new PhysicalDeletionFilesDTO($wordBody);
+        $langTag = \request()->header('langTag', config('app.locale'));
 
-        $pluginUniKey = match ($file['file_type']) {
-            1 => ConfigHelper::fresnsConfigByItemKey('image_service'),
-            2 => ConfigHelper::fresnsConfigByItemKey('video_service'),
-            3 => ConfigHelper::fresnsConfigByItemKey('audio_service'),
-            default => ConfigHelper::fresnsConfigByItemKey('document_service'),
-        };
-        if (empty($pluginUniKey)) {
-            ExceptionConstant::getHandleClassByCode(ExceptionConstant::PLUGIN_CONFIG_ERROR)::throw();
+        $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
+
+        if (! $storageConfig['storageConfigStatus']) {
+            return $this->failure(
+                21000,
+                ConfigUtility::getCodeMessage(21000, 'CmdWord', $langTag),
+            );
         }
 
-        return \FresnsCmdWord::plugin($pluginUniKey)->physicalDeletionFile($wordBody);
-    }
-
-    /**
-     * @param $tableName
-     * @param $tableId
-     * @return mixed
-     */
-    protected function getTableId($tableName, $tableKey)
-    {
-        $tableId = match ($tableName) {
-            'accounts'=>PrimaryHelper::fresnsAccountIdByAid($tableKey),
-            'users'=>PrimaryHelper::fresnsUserIdByUid($tableKey),
-            'posts'=>PrimaryHelper::fresnsPostIdByPid($tableKey),
-            'comments'=>PrimaryHelper::fresnsCommentIdByCid($tableKey),
-            'extends'=>PrimaryHelper::fresnsExtendIdByEid($tableKey),
-            'groups'=>PrimaryHelper::fresnsGroupIdByGid($tableKey),
-            'hashtags'=>PrimaryHelper::fresnsHashtagIdByHuri($tableKey),
-            default => null,
-        };
-
-        return $tableId;
+        return \FresnsCmdWord::plugin($storageConfig['service'])->physicalDeletionFiles($wordBody);
     }
 }

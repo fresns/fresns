@@ -8,18 +8,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 class FileAppend extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
-
     protected $guarded = [];
 
-    protected $casts = [
-        'more_json' => 'json',
-    ];
+    public function file()
+    {
+        return $this->belongsTo(File::class, 'file_id', 'id');
+    }
 }

@@ -8,19 +8,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
 class UserArchive extends Model
 {
-    use HasFactory;
+    use Traits\IsEnableTrait;
 
     protected $guarded = [];
 
     public function getArchiveValueAttribute($value)
     {
         $value = match ($this->archive_type) {
-            default => throw new \Exception("unknown archive_type {$this->archive_type}"),
+            default => throw new \Exception("unknown archive type {$this->archive_type}"),
             'array', 'object' => json_decode($value, true) ?? [],
             'boolean' => filter_var($value, FILTER_VALIDATE_BOOLEAN),
             'number' => intval($value),

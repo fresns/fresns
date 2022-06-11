@@ -20,23 +20,40 @@ class ConfigHelper
      * @param  string  $langTag
      * @return mixed
      */
-    public static function fresnsConfigByItemKey(string $itemKey, string $langTag = '')
+    public static function fresnsConfigByItemKey(string $itemKey, ?string $langTag = null)
     {
-        $itemData = Config::where('item_key', $itemKey)->first();
+        $cacheKeyConfigItemKey = 'cache_config_item_key_'.$itemKey.$langTag;
+        $cacheKeyLangTag = 'cache_langTag_'.$itemKey.$langTag;
 
-        if (empty($langTag)) {
-            $langTag = Config::where('item_key', 'default_language')->value('item_value');
+        // Cache 1 hour
+        $expireAt = now()->addHours(1);
+
+        $langTag = cache()->remember($cacheKeyLangTag, $expireAt, function () use ($langTag) {
+            return $langTag ?: Config::where('item_key', 'default_language')->value('item_value');
+        });
+
+        if (is_null($langTag)) {
+            cache()->forget($cacheKeyLangTag);
         }
 
-        if (empty($itemData)) {
-            return null;
-        } else {
-            if ($itemData->is_multilingual == 1) {
-                return LanguageHelper::fresnsLanguageByTableKey($itemData->item_key, $langTag);
+        $itemValue = cache()->remember($cacheKeyConfigItemKey, $expireAt, function () use ($itemKey, $langTag) {
+            $itemData = Config::where('item_key', $itemKey)->first();
+            if (is_null($itemData)) {
+                return null;
             }
+
+            if ($itemData->is_multilingual == 1) {
+                return LanguageHelper::fresnsLanguageByTableKey($itemData->item_key, $itemData->item_type, $langTag);
+            }
+
+            return $itemData->item_value ?? null;
+        });
+
+        if (is_null($itemValue)) {
+            cache()->forget($cacheKeyConfigItemKey);
         }
 
-        return $itemData->item_value ?? null;
+        return $itemValue;
     }
 
     /**
@@ -46,15 +63,14 @@ class ConfigHelper
      * @param  string  $langTag
      * @return mixed
      */
-    public static function fresnsConfigByItemKeys(array $itemKeys, string $langTag = ''): array
+    public static function fresnsConfigByItemKeys(array $itemKeys, ?string $langTag = null): array
     {
-        $itemData = [];
-
-        foreach ($itemKeys as $key) {
-            $itemData[$key] = ConfigHelper::fresnsConfigByItemKey($key, $langTag);
+        $data = [];
+        foreach ($itemKeys as $itemKey) {
+            $data[$itemKey] = ConfigHelper::fresnsConfigByItemKey($itemKey, $langTag);
         }
 
-        return $itemData;
+        return $data;
     }
 
     /**
@@ -64,13 +80,18 @@ class ConfigHelper
      * @param  string  $langTag
      * @return mixed
      */
-    public static function fresnsConfigByItemTag(string $itemTag, string $langTag = '')
+    public static function fresnsConfigByItemTag(string $itemTag, ?string $langTag = null)
     {
-        $itemData = Config::where('item_tag', $itemTag)->get()->toArray();
+        $langTag = $langTag ?: Config::where('item_key', 'default_language')->value('item_value');
+        $itemData = Config::where('item_tag', $itemTag)->get();
 
         $itemDataArr = [];
         foreach ($itemData as $item) {
-            $itemDataArr[$item['item_key']] = ConfigHelper::fresnsConfigByItemKey($item['item_key'], $langTag);
+            if ($item->is_multilingual == 1) {
+                $itemDataArr[$item->item_key] = LanguageHelper::fresnsLanguageByTableKey($item->item_key, $item->item_type, $langTag);
+            } else {
+                $itemDataArr[$item->item_key] = $item->item_value;
+            }
         }
 
         return $itemDataArr;
@@ -135,7 +156,7 @@ class ConfigHelper
      * @param  string  $langTag
      * @return string
      */
-    public static function fresnsConfigLengthUnits(string $langTag)
+    public static function fresnsConfigLengthUnit(string $langTag)
     {
         $language_menus = ConfigHelper::fresnsConfigByItemKey('language_menus');
 
@@ -143,15 +164,15 @@ class ConfigHelper
             return null;
         }
 
-        $lengthUnits = 'mi';
+        $lengthUnit = 'mi';
 
         foreach ($language_menus as $menus) {
             if ($menus['langTag'] == $langTag) {
-                $lengthUnits = $menus['lengthUnits'];
+                $lengthUnit = $menus['lengthUnit'];
             }
         }
 
-        return $lengthUnits;
+        return $lengthUnit;
     }
 
     /**

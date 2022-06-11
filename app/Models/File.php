@@ -8,24 +8,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 class File extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
-    use Traits\FileTypeTrait;
-    use Traits\FileServiceInfoTrait;
-    use Traits\FileInfoTrait;
-    use Traits\FileStorageTrait;
-    use Traits\DataChangeNotifyTrait;
-
     const TYPE_IMAGE = 1;
     const TYPE_VIDEO = 2;
     const TYPE_AUDIO = 3;
     const TYPE_DOCUMENT = 4;
+
     const TYPE_MAP = [
         File::TYPE_IMAGE => 'Image',
         File::TYPE_VIDEO => 'Video',
@@ -33,23 +22,15 @@ class File extends Model
         File::TYPE_DOCUMENT => 'Document',
     ];
 
+    const TRANSCODING_STATE_WAIT = 1;
+    const TRANSCODING_STATE_ING = 2;
+    const TRANSCODING_STATE_DONE = 3;
+    const TRANSCODING_STATE_FAILURE = 4;
+
+    use Traits\FileServiceTrait;
+    use Traits\IsEnableTrait;
+
     protected $guarded = [];
-
-    public function scopeIdOrFid($query, $params)
-    {
-        return $query
-            ->when(! empty($params['id']), function ($query) use ($params) {
-                $query->where('id', $params['id']);
-            })
-            ->when(! empty($params['fid']), function ($query) use ($params) {
-                $query->where('fid', $params['fid']);
-            });
-    }
-
-    public function appends()
-    {
-        return $this->hasOne(FileAppend::class);
-    }
 
     public function fileAppend()
     {
@@ -58,8 +39,8 @@ class File extends Model
 
     public function getTypeKey()
     {
-        return match ($this->file_type) {
-            default => throw new \RuntimeException("unknown file_type of {$this->file_type}"),
+        return match ($this->type) {
+            default => throw new \RuntimeException("unknown file type of {$this->type}"),
             File::TYPE_IMAGE => 'image',
             File::TYPE_VIDEO => 'video',
             File::TYPE_AUDIO => 'audio',
@@ -67,44 +48,23 @@ class File extends Model
         };
     }
 
-    public function getDestinationPath()
+    public function isImage()
     {
-        $fileType = $this->file_type;
-        $tableType = $this->table_type;
+        return $this->type === File::TYPE_IMAGE;
+    }
 
-        $fileTypeDir = match ($fileType) {
-            1 => 'images',
-            2 => 'videos',
-            3 => 'audios',
-            4 => 'documents',
-            default => throw new \LogicException("unknown file_type $fileType"),
-        };
+    public function isVideo()
+    {
+        return $this->type === File::TYPE_VIDEO;
+    }
 
-        $tableTypeDir = match ($tableType) {
-            1 => '/mores/',
-            2 => '/configs/system/',
-            3 => '/configs/operating/',
-            4 => '/configs/sticker/',
-            5 => '/configs/user/',
-            6 => '/avatars/{YYYYMM}/{DD}/',
-            7 => '/dialogs/{YYYYMM}/{DD}/',
-            8 => '/posts/{YYYYMM}/{DD}/',
-            9 => '/comments/{YYYYMM}/{DD}/',
-            10 => '/extends/{YYYYMM}/{DD}/',
-            11 => '/plugins/{YYYYMM}/{DD}/',
-            default => throw new \LogicException("unknown table_type $tableType"),
-        };
+    public function isAudio()
+    {
+        return $this->type === File::TYPE_AUDIO;
+    }
 
-        $replaceTableTypeDir = str_replace(
-            ['{YYYYMM}', '{DD}'],
-            [date('Ym'), date('d')],
-            $tableTypeDir
-        );
-
-        if (in_array($tableType, range(1, 6))) {
-            return sprintf('%s', trim($replaceTableTypeDir, '/'));
-        }
-
-        return sprintf('%s/%s', trim($fileTypeDir, '/'), trim($replaceTableTypeDir, '/'));
+    public function isDocument()
+    {
+        return $this->type === File::TYPE_DOCUMENT;
     }
 }

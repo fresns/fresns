@@ -19,8 +19,12 @@ class PluginHelper
      * @param  string  $unikey
      * @return string
      */
-    public static function fresnsPluginUrlByUnikey(string $unikey)
+    public static function fresnsPluginUrlByUnikey(?string $unikey = null)
     {
+        if (empty($unikey)) {
+            return null;
+        }
+
         $plugin = Plugin::where('unikey', $unikey)->first(['plugin_domain', 'access_path']);
         if (empty($plugin)) {
             return null;
@@ -81,5 +85,26 @@ class PluginHelper
         }
 
         return $upgradeCode;
+    }
+
+    public static function pluginRatingHandle(string $key, ?array $dataSources = null, ?string $langTag = null)
+    {
+        if (empty($dataSources)) {
+            return null;
+        }
+
+        $pluginRatingArr = $dataSources[$key]['pluginRating'];
+
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigByItemKey('default_language');
+
+        $pluginRating = null;
+        foreach ($pluginRatingArr as $arr) {
+            $item['id'] = $arr['id'];
+            $item['title'] = collect($arr['intro'])->where('langTag', $langTag)->first()['title'] ?? null;
+            $item['description'] = collect($arr['intro'])->where('langTag', $langTag)->first()['description'] ?? null;
+            $pluginRating[] = $item;
+        }
+
+        return $pluginRating;
     }
 }

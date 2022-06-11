@@ -46,7 +46,6 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         // Account
         ['word' => 'addAccount', 'provider' => [Account::class, 'addAccount']],
         ['word' => 'verifyAccount', 'provider' => [Account::class, 'verifyAccount']],
-        ['word' => 'getAccountDetail', 'provider' => [Account::class, 'getAccountDetail']],
         ['word' => 'createSessionToken', 'provider' => [Account::class, 'createSessionToken']],
         ['word' => 'verifySessionToken', 'provider' => [Account::class, 'verifySessionToken']],
         ['word' => 'logicalDeletionAccount', 'provider' => [Account::class, 'logicalDeletionAccount']],
@@ -58,7 +57,6 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         // User
         ['word' => 'addUser', 'provider' => [User::class, 'addUser']],
         ['word' => 'verifyUser', 'provider' => [User::class, 'verifyUser']],
-        ['word' => 'getUserDetail', 'provider' => [User::class, 'getUserDetail']],
         ['word' => 'deactivateUserDialog', 'provider' => [User::class, 'deactivateUserDialog']],
         ['word' => 'logicalDeletionUser', 'provider' => [User::class, 'logicalDeletionUser']],
 
@@ -66,10 +64,11 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'getUploadToken', 'provider' => [File::class, 'getUploadToken']],
         ['word' => 'uploadFile', 'provider' => [File::class, 'uploadFile']],
         ['word' => 'uploadFileInfo', 'provider' => [File::class, 'uploadFileInfo']],
-        ['word' => 'getFileUrlOfAntiLink', 'provider' => [File::class, 'getFileUrlOfAntiLink']],
-        ['word' => 'getFileInfoOfAntiLink', 'provider' => [File::class, 'getFileInfoOfAntiLink']],
-        ['word' => 'logicalDeletionFile', 'provider' => [File::class, 'logicalDeletionFile']],
-        ['word' => 'physicalDeletionFile', 'provider' => [File::class, 'physicalDeletionFile']],
+        ['word' => 'getAntiLinkFileInfo', 'provider' => [File::class, 'getAntiLinkFileInfo']],
+        ['word' => 'getAntiLinkFileInfoList', 'provider' => [File::class, 'getAntiLinkFileInfoList']],
+        ['word' => 'getAntiLinkFileOriginalUrl', 'provider' => [File::class, 'getAntiLinkFileOriginalUrl']],
+        ['word' => 'logicalDeletionFiles', 'provider' => [File::class, 'logicalDeletionFiles']],
+        ['word' => 'physicalDeletionFiles', 'provider' => [File::class, 'physicalDeletionFiles']],
 
         // Content
         // ['word' => 'releaseContent', 'provider' => [Content::class, 'releaseContent']],

@@ -20,7 +20,7 @@ class UpdateStickerRequest extends FormRequest
     public function rules()
     {
         $rule = [
-            'rank_num' => 'string|required',
+            'rating' => 'string|required',
             'is_enable' => 'boolean|required',
         ];
         if ($this->method() == 'POST') {

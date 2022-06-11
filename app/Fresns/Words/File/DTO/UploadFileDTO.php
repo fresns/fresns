@@ -10,9 +10,6 @@ namespace App\Fresns\Words\File\DTO;
 
 use Fresns\DTO\DTO;
 
-/**
- * Class LogicalDeletionFileDTO.
- */
 class UploadFileDTO extends DTO
 {
     /**
@@ -21,16 +18,17 @@ class UploadFileDTO extends DTO
     public function rules(): array
     {
         return [
-            'platform' => ['required', 'integer'],
-            'type' => ['required', 'in:1,2,3,4'],
-            'tableType' => ['required', 'integer'],
-            'tableName' => ['required', 'string'],
-            'tableColumn' => ['required', 'string'],
-            'tableId' => ['required_without:tableKey', 'nullable', 'integer'],
-            'tableKey' => ['required_without:tableId', 'nullable', 'string'],
-            'aid' => ['nullable', 'string'],
-            'uid' => ['nullable', 'integer'],
-            'file' =>['required', 'file'],
+            'platformId' => ['integer', 'required', 'between:1,13'],
+            'useType' => ['integer', 'required', 'between:1,10'],
+            'tableName' => ['string', 'required'],
+            'tableColumn' => ['string', 'required'],
+            'tableId' => ['integer', 'nullable', 'required_without:tableKey'],
+            'tableKey' => ['string', 'nullable', 'required_without:tableId'],
+            'aid' => ['string', 'nullable', 'exists:App\Models\Account,aid'],
+            'uid' => ['integer', 'nullable', 'exists:App\Models\User,uid'],
+            'type' => ['integer', 'required', 'in:1,2,3,4'],
+            'file' =>['file', 'required'],
+            'moreJson' => ['string', 'nullable'],
         ];
     }
 }

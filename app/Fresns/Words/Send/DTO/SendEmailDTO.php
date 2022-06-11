@@ -21,9 +21,9 @@ class SendEmailDTO extends DTO
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email'],
-            'title' => ['required', 'string'],
-            'content' => ['required', 'string'],
+            'email' => ['email', 'required'],
+            'title' => ['string', 'required'],
+            'content' => ['string', 'required'],
         ];
     }
 }

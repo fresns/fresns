@@ -17,6 +17,7 @@
             </div>
         </div>
     </div>
+
     <!--rename_user_config-->
     <div class="row mb-3">
         <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.rename_user_config') }}:</label>
@@ -78,7 +79,7 @@
         </div>
         <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.rename_user_nickname_name_desc') }}</div>
     </div>
-    <div class="row mb-5">
+    <div class="row mb-3">
         <label class="col-lg-2"></label>
         <div class="col-lg-6">
             <div class="input-group">
@@ -93,6 +94,22 @@
         </div>
         <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.rename_user_role_name_desc') }}</div>
     </div>
+    <div class="row mb-5">
+        <label class="col-lg-2"></label>
+        <div class="col-lg-6">
+            <div class="input-group">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.rename_user_bio_name') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'user_bio_name']) }}"
+                    data-languages="{{ optional($configs['user_bio_name'] ?? null)?->languages?->toJson() }}"
+                    data-item_key="user_bio_name"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['user_bio_name'] ?? '' }}
+                </button>
+            </div>
+        </div>
+        <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.rename_user_bio_name_desc') }}</div>
+    </div>
+
     <!--rename_content_config-->
     <div class="row mb-3">
         <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.rename_content_config') }}:</label>
@@ -154,6 +171,7 @@
         </div>
         <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.rename_comment_name_desc') }}</div>
     </div>
+
     <!--rename_publish_config-->
     <div class="row mb-3">
         <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.rename_publish_config') }}:</label>
@@ -185,9 +203,10 @@
         </div>
         <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.rename_publish_comment_name_desc') }}</div>
     </div>
+
     <!--rename_like_config-->
     <div class="row mb-3">
-        <label class="col-lg-2">{{ __('FsLang::panel.rename_like_config') }}:</label>
+        <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.rename_like_config') }}:</label>
         <div class="col-lg-6">
             <div class="input-group">
                 <label class="input-group-text rename-label">{{ __('FsLang::panel.rename_like_user_name') }}</label>
@@ -261,9 +280,87 @@
         </div>
         <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.rename_like_comment_name_desc') }}</div>
     </div>
+
+    <!--rename_dislike_config-->
+    <div class="row mb-3">
+        <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.rename_dislike_config') }}:</label>
+        <div class="col-lg-6">
+            <div class="input-group">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.rename_dislike_user_name') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'dislike_user_name']) }}"
+                    data-languages="{{ optional($configs['dislike_user_name'] ?? null)?->languages?->toJson() }}"
+                    data-item_key="dislike_user_name"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['dislike_user_name'] ?? '' }}
+                </button>
+            </div>
+        </div>
+        <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.rename_dislike_user_name_desc') }}</div>
+    </div>
+    <div class="row mb-3">
+        <label class="col-lg-2"></label>
+        <div class="col-lg-6">
+            <div class="input-group">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.rename_dislike_group_name') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'dislike_group_name']) }}"
+                    data-languages="{{ optional($configs['dislike_group_name'] ?? null)?->languages?->toJson() }}"
+                    data-item_key="dislike_group_name"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['dislike_group_name'] ?? '' }}
+                </button>
+            </div>
+        </div>
+        <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.rename_dislike_group_name_desc') }}</div>
+    </div>
+    <div class="row mb-3">
+        <label class="col-lg-2"></label>
+        <div class="col-lg-6">
+            <div class="input-group">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.rename_dislike_hashtag_name') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'dislike_hashtag_name']) }}"
+                    data-languages="{{ optional($configs['dislike_hashtag_name'] ?? null)?->languages?->toJson() }}"
+                    data-item_key="dislike_hashtag_name"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['dislike_hashtag_name'] ?? '' }}
+                </button>
+            </div>
+        </div>
+        <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.rename_dislike_hashtag_name_desc') }}</div>
+    </div>
+    <div class="row mb-3">
+        <label class="col-lg-2"></label>
+        <div class="col-lg-6">
+            <div class="input-group">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.rename_dislike_post_name') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'dislike_post_name']) }}"
+                    data-languages="{{ optional($configs['dislike_post_name'] ?? null)?->languages?->toJson() }}"
+                    data-item_key="dislike_post_name"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['dislike_post_name'] ?? '' }}
+                </button>
+            </div>
+        </div>
+        <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.rename_dislike_post_name_desc') }}</div>
+    </div>
+    <div class="row mb-5">
+        <label class="col-lg-2"></label>
+        <div class="col-lg-6">
+            <div class="input-group">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.rename_dislike_comment_name') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'dislike_comment_name']) }}"
+                    data-languages="{{ optional($configs['dislike_comment_name'] ?? null)?->languages?->toJson() }}"
+                    data-item_key="dislike_comment_name"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['dislike_comment_name'] ?? '' }}
+                </button>
+            </div>
+        </div>
+        <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.rename_dislike_comment_name_desc') }}</div>
+    </div>
+
     <!--rename_follow_config-->
     <div class="row mb-3">
-        <label class="col-lg-2">{{ __('FsLang::panel.rename_follow_config') }}:</label>
+        <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.rename_follow_config') }}:</label>
         <div class="col-lg-6">
             <div class="input-group">
                 <label class="input-group-text rename-label">{{ __('FsLang::panel.rename_follow_user_name') }}</label>
@@ -337,9 +434,10 @@
         </div>
         <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.rename_follow_comment_name_desc') }}</div>
     </div>
+
     <!--rename_block_config-->
     <div class="row mb-3">
-        <label class="col-lg-2">{{ __('FsLang::panel.rename_block_config') }}:</label>
+        <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.rename_block_config') }}:</label>
         <div class="col-lg-6">
             <div class="input-group">
                 <label class="input-group-text rename-label">{{ __('FsLang::panel.rename_block_user_name') }}</label>

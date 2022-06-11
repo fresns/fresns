@@ -422,7 +422,7 @@ class InstallController extends Controller
 
     protected function writeInstallTime()
     {
-        $installTime = \App\Helpers\DateHelper::fresnsSqlCurrentDateTime();
+        $installTime = \App\Helpers\DateHelper::fresnsDatabaseCurrentDateTime();
 
         $item = [
             'item_key' => 'install_datetime',

@@ -6,21 +6,16 @@
 .env
 .env.backup
 .phpunit.result.cache
-docker-compose.override.yml
 Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-.idea/
-.vscode/
+/.idea
+/.vscode
 .DS_Store
-*.swp
-
-# R&D Documents
-push.sh
-push_ignore.sh
-setup.sh
 install.lock
 composer.lock
-.user.ini
-_ide_helper.php
+
+# R&D File
+/config/plugins.php
+fresns-dev.json

@@ -10,24 +10,19 @@ namespace App\Fresns\Words\Account;
 
 use App\Fresns\Words\Account\DTO\AddAccountDTO;
 use App\Fresns\Words\Account\DTO\CreateSessionTokenDTO;
-use App\Fresns\Words\Account\DTO\GetAccountDetailDTO;
 use App\Fresns\Words\Account\DTO\LogicalDeletionAccountDTO;
 use App\Fresns\Words\Account\DTO\VerifyAccountDTO;
 use App\Fresns\Words\Account\DTO\VerifySessionTokenDTO;
-use App\Fresns\Words\Service\AccountService;
-use App\Helpers\ConfigHelper;
+use App\Helpers\DateHelper;
 use App\Helpers\PrimaryHelper;
-use App\Helpers\UserHelper;
 use App\Models\Account as AccountModel;
 use App\Models\AccountConnect;
 use App\Models\AccountWallet;
 use App\Models\SessionToken;
-use App\Models\User;
-use App\Models\VerifyCode;
 use App\Utilities\ConfigUtility;
+use App\Utilities\PermissionUtility;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class Account
@@ -43,9 +38,22 @@ class Account
     public function addAccount($wordBody)
     {
         $dtoWordBody = new AddAccountDTO($wordBody);
+        $langTag = \request()->header('langTag', config('app.locale'));
+
+        if ($dtoWordBody->type == 1) {
+            $checkAccount = AccountModel::where('email', $dtoWordBody->account)->first();
+        } else {
+            $checkAccount = AccountModel::where('phone', $dtoWordBody->countryCode.$dtoWordBody->account)->first();
+        }
+
+        if (! empty($checkAccount)) {
+            return $this->failure(
+                34204,
+                ConfigUtility::getCodeMessage(34204, 'Fresns', $langTag)
+            );
+        }
 
         $connectInfoArr = [];
-        // Whether the same token exists
         if (isset($dtoWordBody->connectInfo)) {
             $connectInfoArr = json_decode($dtoWordBody->connectInfo, true);
             $connectTokenArr = [];
@@ -70,6 +78,7 @@ class Account
         };
         $inputArr['aid'] = \Str::random(12);
         $inputArr['password'] = isset($dtoWordBody->password) ? Hash::make($dtoWordBody->password) : null;
+        $inputArr['last_login_at'] = DateHelper::fresnsDatabaseCurrentDateTime();
 
         $accountId = AccountModel::insertGetId($inputArr);
 
@@ -86,6 +95,7 @@ class Account
                 $item['account_id'] = $accountId;
                 $item['connect_id'] = $info['connectId'];
                 $item['connect_token'] = $info['connectToken'];
+                $item['connect_refresh_token'] = $info['connectRefreshToken'];
                 $item['connect_name'] = $info['connectName'];
                 $item['connect_nickname'] = $info['connectNickname'];
                 $item['connect_avatar'] = $info['connectAvatar'];
@@ -97,8 +107,8 @@ class Account
         }
 
         return $this->success([
-            'aid' => $inputArr['aid'],
             'type' => $dtoWordBody->type,
+            'aid' => $inputArr['aid'],
         ]);
     }
 
@@ -111,42 +121,62 @@ class Account
     public function verifyAccount($wordBody)
     {
         $dtoWordBody = new VerifyAccountDTO($wordBody);
-        $where = [
-            'type' => $dtoWordBody->type,
-            'account' => $dtoWordBody->type == 1 ? $dtoWordBody->type : $dtoWordBody->countryCode.$dtoWordBody->account,
-            'code' => $dtoWordBody->verifyCode,
-            'is_enable' => 1,
-        ];
-        $verifyInfo = VerifyCode::where($where)->where('expired_at', '>', date('Y-m-d H:i:s'))->first();
-        if ($verifyInfo) {
-            VerifyCode::where('id', $verifyInfo['id'])->update(['is_enable' => 0]);
+        $langTag = \request()->header('langTag', config('app.locale'));
 
-            return $this->success();
+        if ($dtoWordBody->type == 1) {
+            $accountName = $dtoWordBody->account;
+            $account = AccountModel::where('email', $accountName)->first();
         } else {
-            ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
+            $accountName = $dtoWordBody->countryCode.$dtoWordBody->account;
+            $account = AccountModel::where('phone', $accountName)->first();
         }
-    }
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
-    public function getAccountDetail($wordBody)
-    {
-        $dtoWordBody = new GetAccountDetailDTO($wordBody);
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
-        if (empty($dtoWordBody->langTag)) {
-            $dtoWordBody->langTag = ConfigHelper::fresnsConfigByItemKey('default_language');
-        }
-        if (empty($dtoWordBody->timezone)) {
-            $dtoWordBody->timezone = ConfigHelper::fresnsConfigByItemKey('default_timezone');
-        }
-        $service = new AccountService();
-        $data = $service->getAccountDetail($accountId, $dtoWordBody->langTag, $dtoWordBody->timezone);
+        $loginErrorCount = ConfigUtility::getLoginErrorCount($account->id);
 
-        return $this->success($data);
+        if ($loginErrorCount >= 5) {
+            return $this->failure(
+                34306,
+                ConfigUtility::getCodeMessage(34306, 'Fresns', $langTag),
+            );
+        }
+
+        if (empty($dtoWordBody->password)) {
+            $codeWordBody = [
+                'type' => $dtoWordBody->type,
+                'account' => $dtoWordBody->account,
+                'countryCode' => $dtoWordBody->countryCode,
+                'verifyCode' => $dtoWordBody->verifyCode,
+            ];
+
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($codeWordBody);
+
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->getOrigin();
+            }
+
+            if ($fresnsResp->isSuccessResponse()) {
+                return $this->success([
+                    'type' => $account->type,
+                    'aid' => $account->aid,
+                ]);
+            }
+        }
+
+        if (! Hash::check($dtoWordBody->password, $account->password)) {
+            return $this->failure(
+                34304,
+                ConfigUtility::getCodeMessage(34304, 'Fresns', $langTag),
+            );
+        }
+
+        $account->update([
+            'last_login_at' => DateHelper::fresnsDatabaseCurrentDateTime(),
+        ]);
+
+        return $this->success([
+            'type' => $account->type,
+            'aid' => $account->aid,
+        ]);
     }
 
     /**
@@ -158,28 +188,40 @@ class Account
     public function createSessionToken($wordBody)
     {
         $dtoWordBody = new CreateSessionTokenDTO($wordBody);
-        if ($dtoWordBody->aid) {
-            $accountId = AccountModel::where('id', '=', $dtoWordBody->aid)->value('id');
-        }
-        if ($dtoWordBody->uid) {
-            $userId = User::where('uid', '=', $dtoWordBody->uid)->value('id');
-        }
+
+        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
+        $userId = PrimaryHelper::fresnsAccountIdByUid($dtoWordBody->uid);
+
         $condition = [
+            'platform_id' => $dtoWordBody->platformId,
             'account_id' => $accountId,
-            'user_id' => $userId ?? null,
-            'platform_id' => $dtoWordBody->platform,
+            'user_id' => $userId,
         ];
-        $tokenCount = SessionToken::where($condition)->first();
-        if ($tokenCount) {
+
+        $tokenInfo = SessionToken::where($condition)->first();
+        if (! empty($tokenInfo)) {
             SessionToken::where($condition)->delete();
         }
+
         $token = \Str::random(32);
+        $expiredAt = null;
+        if (isset($dtoWordBody->expiredTime)) {
+            $now = time();
+            $time = $dtoWordBody->expiredTime * 3600;
+            $expiredTime = $now + $time;
+            $expiredAt = date('Y-m-d H:i:s', $expiredTime);
+        }
+
         $condition['token'] = $token;
-        $condition['expired_at'] = $dtoWordBody->expiredTime ?? null;
+        $condition['expired_at'] = $expiredAt;
+
         SessionToken::insert($condition);
 
         return $this->success([
+            'aid' => $dtoWordBody->aid,
+            'uid' => $dtoWordBody->uid,
             'token' => $token,
+            'expiredTime' => $expiredAt,
         ]);
     }
 
@@ -194,28 +236,38 @@ class Account
         $dtoWordBody = new VerifySessionTokenDTO($wordBody);
         $langTag = \request()->header('langTag', config('app.locale'));
 
-        if (! empty($dtoWordBody->uid)) {
-            $userAffiliation = UserHelper::fresnsUserAffiliation($dtoWordBody->uid, $dtoWordBody->aid);
-            if ($userAffiliation == false) {
-                return $this->failure(
-                    35201,
-                    ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
-                );
-            }
+        $condition = [
+            'platform_id' => $dtoWordBody->platformId,
+            'account_id' => $dtoWordBody->aid,
+            'user_id' => $dtoWordBody-> uid ?? null,
+        ];
+        $session = SessionToken::where($condition)->first();
+
+        if ($session->token != $dtoWordBody->token) {
+            return $this->failure(
+                31505,
+                ConfigUtility::getCodeMessage(31505, 'Fresns', $langTag)
+            );
+        }
+
+        if ($session->expired_at < date('Y-m-d H:i:s', time())) {
+            return $this->failure(
+                31303,
+                ConfigUtility::getCodeMessage(31303, 'Fresns', $langTag)
+            );
         }
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsUserIdByUid($dtoWordBody->uid);
 
-        $condition = [
-            'platform_id' => $dtoWordBody->platform,
-            'account_id' => $accountId,
-            'user_id' => $userId ?? null,
-        ];
-        $session = SessionToken::where($condition)->first();
-
-        if ($session->token != $dtoWordBody->token || ($session->expired_at < date('Y-m-d H:i:s', time()))) {
-            ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
+        if (! empty($dtoWordBody->uid)) {
+            $userAffiliation = PermissionUtility::checkUserAffiliation($userId, $accountId);
+            if (! $userAffiliation) {
+                return $this->failure(
+                    35201,
+                    ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
+                );
+            }
         }
 
         return $this->success();
@@ -231,14 +283,20 @@ class Account
     {
         $dtoWordBody = new LogicalDeletionAccountDTO($wordBody);
 
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
+        $account = AccountModel::whereAid($dtoWordBody->aid)->first();
+
+        $oldEmail = $account->email;
+        $oldPhone = $account->phone;
         $dateTime = 'deleted#'.date('YmdHis').'#';
-        AccountModel::where('id', $accountId)->update([
-            'phone' => DB::raw("concat('$dateTime','phone')"),
-            'email' => DB::raw("concat('$dateTime','email')"),
-            'deleted_at' => now(), ]
-        );
-        AccountConnect::where('account_id', $accountId)->forceDelete();
+
+        $account->update([
+            'phone' => $dateTime.$oldEmail,
+            'email' => $dateTime.$oldPhone,
+        ]);
+
+        $account->delete();
+
+        AccountConnect::where('account_id', $account->id)->forceDelete();
 
         return $this->success();
     }

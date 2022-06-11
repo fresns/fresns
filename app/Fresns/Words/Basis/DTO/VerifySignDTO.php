@@ -24,14 +24,14 @@ class VerifySignDTO extends DTO
     public function rules(): array
     {
         return [
-            'platform' => ['required', 'integer'],
-            'version' => ['required', 'string'],
-            'appId' => ['required', 'string'],
-            'timestamp' => ['required', 'integer'],
-            'sign' => ['required', 'string'],
-            'aid' => ['nullable', 'string'],
-            'uid' => ['nullable', 'integer'],
-            'token' => ['required_with:aid', 'string'],
+            'platformId' => ['integer', 'required', 'between:1,13'],
+            'version' => ['string', 'required'],
+            'appId' => ['string', 'required', 'exists:App\Models\SessionKey,app_id'],
+            'timestamp' => ['integer', 'required', 'digits_between:10,13'],
+            'sign' => ['string', 'required'],
+            'aid' => ['string', 'nullable', 'exists:App\Models\Account,aid'],
+            'uid' => ['integer', 'nullable', 'exists:App\Models\User,uid'],
+            'token' => ['string', 'nullable', 'required_with:aid'],
         ];
     }
 }

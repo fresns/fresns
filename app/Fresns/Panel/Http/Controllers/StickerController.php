@@ -18,7 +18,7 @@ class StickerController extends Controller
     public function store(Sticker $stickerImage, UpdateStickerRequest $request)
     {
         $stickerImage->parent_id = $request->parent_id;
-        $stickerImage->rank_num = $request->rank_num;
+        $stickerImage->rating = $request->rating;
         $stickerImage->code = $request->code;
         $stickerImage->name = $request->code;
         $stickerImage->is_enable = $request->is_enable;
@@ -28,12 +28,12 @@ class StickerController extends Controller
 
         if ($request->file('image_file')) {
             $wordBody = [
-                'platform' => 4,
-                'type' => 1,
-                'tableType' => 3,
+                'platformId' => 4,
+                'useType' => 2,
                 'tableName' => 'stickers',
                 'tableColumn' => 'image_file_id',
                 'tableId' => $stickerImage->id,
+                'type' => 1,
                 'file' => $request->file('image_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -43,7 +43,7 @@ class StickerController extends Controller
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
             $stickerImage->image_file_id = $fileId;
-            $stickerImage->image_file_url = $fresnsResp->getData('imageConfigUrl');
+            $stickerImage->image_file_url = null;
             $stickerImage->save();
         }
 
@@ -65,9 +65,9 @@ class StickerController extends Controller
         return $this->deleteSuccess();
     }
 
-    public function updateRank(Sticker $stickerImage, Request $request)
+    public function updateRating(Sticker $stickerImage, Request $request)
     {
-        $stickerImage->rank_num = $request->rank_num;
+        $stickerImage->rating = $request->rating;
         $stickerImage->save();
 
         return $this->updateSuccess();
@@ -78,17 +78,17 @@ class StickerController extends Controller
         $group = Sticker::group()->where('id', $request->parent_id)->firstOrFail();
 
         $stickerImages = $group->stickers;
-        $deleteIds = $stickerImages->pluck('id')->diff(array_keys($request->rank_num));
+        $deleteIds = $stickerImages->pluck('id')->diff(array_keys($request->rating));
         if ($deleteIds->count()) {
             $group->stickers()->whereIn('id', $deleteIds)->delete();
         }
 
-        foreach ($request->rank_num ?? [] as $id => $rank) {
+        foreach ($request->rating ?? [] as $id => $rating) {
             $stickerImage = $stickerImages->where('id', $id)->first();
             if (! $stickerImage) {
                 continue;
             }
-            $stickerImage->rank_num = $rank;
+            $stickerImage->rating = $rating;
             $stickerImage->is_enable = $request->enable[$id] ?? 0;
             $stickerImage->save();
         }

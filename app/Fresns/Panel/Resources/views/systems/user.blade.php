@@ -66,15 +66,15 @@
             <label for="user_multiple" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.user_multiple') }}:</label>
             <div class="col-lg-6 pt-2">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="user_multiple" id="user_multiple_false" value="false" data-bs-toggle="collapse" data-bs-target="#user_multiple_setting.show" aria-expanded="false" aria-controls="user_multiple_setting" {{ !$params['user_multiple'] ? 'checked' : '' }}>
-                    <label class="form-check-label" for="user_multiple_false">{{ __('FsLang::panel.option_close') }}</label>
+                    <input class="form-check-input" type="radio" name="multi_user_status" id="multi_user_status_false" value="false" data-bs-toggle="collapse" data-bs-target="#multi_user_setting.show" aria-expanded="false" aria-controls="multi_user_setting" {{ !$params['multi_user_status'] ? 'checked' : '' }}>
+                    <label class="form-check-label" for="multi_user_status_false">{{ __('FsLang::panel.option_close') }}</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="user_multiple" id="user_multiple_true" value="true" data-bs-toggle="collapse" data-bs-target="#user_multiple_setting:not(.show)" aria-expanded="false" aria-controls="user_multiple_setting" {{ $params['user_multiple'] ? 'checked' : '' }}>
-                    <label class="form-check-label" for="user_multiple_true">{{ __('FsLang::panel.option_open') }}</label>
+                    <input class="form-check-input" type="radio" name="multi_user_status" id="multi_user_status_true" value="true" data-bs-toggle="collapse" data-bs-target="#multi_user_setting:not(.show)" aria-expanded="false" aria-controls="multi_user_setting" {{ $params['multi_user_status'] ? 'checked' : '' }}>
+                    <label class="form-check-label" for="multi_user_status_true">{{ __('FsLang::panel.option_open') }}</label>
                 </div>
-                <!--user_multiple_config-->
-                <div class="collapse {{ $params['user_multiple'] == 'true' ? 'show' : '' }}" id="user_multiple_setting">
+                <!--multi_user_config-->
+                <div class="collapse {{ $params['multi_user_status'] == 'true' ? 'show' : '' }}" id="multi_user_setting">
                     <div class="card mt-2">
                         <div class="card-header">{{ __('FsLang::panel.user_multiple_config') }}</div>
                         <div class="card-body">
@@ -83,7 +83,7 @@
                                 <label class="input-group-text" for="multi_user_service">{{ __('FsLang::panel.user_multiple_service') }}</label>
                                 <select class="form-select" name="multi_user_service">
                                     <option value="">🚫 {{ __('FsLang::panel.user_multiple_service_none') }}</option>
-                                    @foreach ($pluginParams['multiple'] as $plugin)
+                                    @foreach ($pluginParams['multiUser'] as $plugin)
                                         <option value="{{ $plugin->unikey }}" {{ $params['multi_user_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                                     @endforeach
                                 </select>
@@ -100,7 +100,7 @@
                         </div>
                     </div>
                 </div>
-                <!--user_multiple_config end-->
+                <!--multi_user_config end-->
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.user_multiple_desc') }}</div>
         </div>
@@ -113,7 +113,7 @@
                     <select class="form-select select2" name="default_role">
                         @foreach ($roles as $role)
                             @if ($role->type != 1)
-                            <option value="{{ $role->id }}" {{ $params['default_role'] == $role->id ? 'selected' : '' }}>{{ $role->getLangName($defaultLanguage) }}</option>
+                                <option value="{{ $role->id }}" {{ $params['default_role'] == $role->id ? 'selected' : '' }}>{{ $role->getLangName($defaultLanguage) }}</option>
                             @endif
                         @endforeach
                     </select>
@@ -146,8 +146,7 @@
                     <input type="hidden" name="default_avatar" value="{{ $params['default_avatar'] }}">
                     <!--Preview-->
                     @if ($params['default_avatar'])
-                        <input type="hidden" class="imageUrl" value="{{ $configImageInfo['defaultAvatarUrl'] }}">
-                        <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_view') }}</button>
+                        <button class="btn btn-outline-secondary preview-image" type="button" data-url="{{ $configImageInfo['defaultAvatarUrl'] }}">{{ __('FsLang::panel.button_view') }}</button>
                     @endif
                 </div>
             </div>
@@ -177,14 +176,13 @@
                     <input type="hidden" name="anonymous_avatar" value="{{ $params['anonymous_avatar'] }}">
                     <!--Preview-->
                     @if ($params['anonymous_avatar'])
-                        <input type="hidden" class="imageUrl" value="{{ $configImageInfo['anonymousAvatarUrl'] }}">
-                        <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_view') }}</button>
+                        <button class="btn btn-outline-secondary preview-image" type="button" data-url="{{ $configImageInfo['anonymousAvatarUrl'] }}">{{ __('FsLang::panel.button_view') }}</button>
                     @endif
                 </div>
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.user_default_anonymous_avatar_desc') }}</div>
         </div>
-        <div class="row mb-4">
+        <div class="row mb-2">
             <label class="col-lg-2 col-form-label text-lg-end"></label>
             <div class="col-lg-6">
                 <div class="input-group">
@@ -208,12 +206,25 @@
                     <input type="hidden" name="deactivate_avatar" value="{{ $params['deactivate_avatar'] }}">
                     <!--Preview-->
                     @if ($params['deactivate_avatar'])
-                        <input type="hidden" class="imageUrl" value="{{ $configImageInfo['deactivateAvatarUrl'] }}">
-                        <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_view') }}</button>
+                        <button class="btn btn-outline-secondary preview-image" type="button" data-url="{{ $configImageInfo['deactivateAvatarUrl'] }}">{{ __('FsLang::panel.button_view') }}</button>
                     @endif
                 </div>
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.user_default_deactivate_avatar_desc') }}</div>
+        </div>
+        <!--user_identifier-->
+        <div class="row mb-4">
+            <label class="col-lg-2 col-form-label text-lg-end"></label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <label class="input-group-text">{{ __('FsLang::panel.user_identifier') }}</label>
+                    <select class="form-select" name="user_identifier">
+                        <option value="uid" {{ $params['user_identifier'] == 'uid' ? 'selected' : '' }}>uid</option>
+                        <option value="username" {{ $params['user_identifier'] == 'username' ? 'selected' : '' }}>username</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.user_identifier_desc') }}</div>
         </div>
         <!--user_password_config-->
         <div class="row mb-4">
@@ -236,11 +247,11 @@
                             <label class="form-check-label" for="lower_letter">{{ __('FsLang::panel.user_password_strength_lowerLetters') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="upper_letter" value="3" name="password_strength[]" {{ in_array(3, $params['password_strength']) ? 'checked' : '' }}>
+                            <input class="form-check-input" type="checkbox" id="upper_letter" name="password_strength[]" value="3" {{ in_array(3, $params['password_strength']) ? 'checked' : '' }}>
                             <label class="form-check-label" for="upper_letter">{{ __('FsLang::panel.user_password_strength_upperLetters') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="symbol" value="4" name="password_strength[]" {{ in_array(4, $params['password_strength']) ? 'checked' : '' }}>
+                            <input class="form-check-input" type="checkbox" id="symbol" name="password_strength[]" value="4" {{ in_array(4, $params['password_strength']) ? 'checked' : '' }}>
                             <label class="form-check-label" for="symbol">{{ __('FsLang::panel.user_password_strength_symbols') }}</label>
                         </div>
                     </div>
@@ -263,10 +274,37 @@
                     <input type="number" class="form-control input-number" name="username_edit" value="{{ $params['username_edit'] }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_day') }}</span>
                 </div>
-                <div class="input-group">
+                <div class="input-group mb-2">
+                    <label class="input-group-text">{{ __('FsLang::panel.user_edit_nickname_length') }}</label>
+                    <input type="number" class="form-control input-number" name="nickname_min" value="{{ $params['nickname_min'] }}" placeholder="{{ __('FsLang::panel.user_edit_username_length_min') }}">
+                    <input type="number" class="form-control input-number" name="nickname_max" value="{{ $params['nickname_max'] }}" placeholder="{{ __('FsLang::panel.user_edit_username_length_max') }}">
+                </div>
+                <div class="input-group mb-2">
                     <label class="input-group-text">{{ __('FsLang::panel.user_edit_nickname_periodicity') }}</label>
                     <input type="number" class="form-control input-number" name="nickname_edit" value="{{ $params['nickname_edit'] }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_day') }}</span>
+                </div>
+                <div class="input-group mb-2">
+                    <label class="input-group-text">{{ __('FsLang::panel.user_edit_bio_length') }}</label>
+                    <input type="number" class="form-control input-number" name="bio_length" value="{{ $params['bio_length'] }}">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_character') }}</span>
+                </div>
+                <div class="input-group">
+                    <label class="input-group-text">{{ __('FsLang::panel.user_edit_bio_support') }}</label>
+                    <div class="form-control bg-white">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="bio_support_mention" name="bio_support_mention" value="true" {{ $params['bio_support_mention'] == 'true' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="bio_support_mention">{{ __('FsLang::panel.user_bio_support_mention') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="bio_support_link" name="bio_support_link" value="true" {{ $params['bio_support_link'] == 'true' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="bio_support_link">{{ __('FsLang::panel.user_bio_support_link') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="bio_support_hashtag" name="bio_support_hashtag" value="true" {{ $params['bio_support_hashtag'] == 'true' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="bio_support_hashtag">{{ __('FsLang::panel.user_bio_support_hashtag') }}</label>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.user_edit_username_length_desc') }}</div>

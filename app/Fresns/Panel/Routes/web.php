@@ -8,18 +8,18 @@
 
 use App\Fresns\Panel\Http\Controllers\AdminController;
 use App\Fresns\Panel\Http\Controllers\BlockWordController;
-use App\Fresns\Panel\Http\Controllers\ClientMenuController;
 use App\Fresns\Panel\Http\Controllers\CodeMessageController;
 use App\Fresns\Panel\Http\Controllers\ColumnController;
 use App\Fresns\Panel\Http\Controllers\ConfigController;
 use App\Fresns\Panel\Http\Controllers\DashboardController;
-use App\Fresns\Panel\Http\Controllers\ExpandContentTypeController;
-use App\Fresns\Panel\Http\Controllers\ExpandEditorController;
-use App\Fresns\Panel\Http\Controllers\ExpandGroupController;
-use App\Fresns\Panel\Http\Controllers\ExpandManageController;
-use App\Fresns\Panel\Http\Controllers\ExpandPostDetailController;
-use App\Fresns\Panel\Http\Controllers\ExpandUserFeatureController;
-use App\Fresns\Panel\Http\Controllers\ExpandUserProfileController;
+use App\Fresns\Panel\Http\Controllers\ExtendContentTypeController;
+use App\Fresns\Panel\Http\Controllers\ExtendEditorController;
+use App\Fresns\Panel\Http\Controllers\ExtendGroupController;
+use App\Fresns\Panel\Http\Controllers\ExtendManageController;
+use App\Fresns\Panel\Http\Controllers\ExtendPostDetailController;
+use App\Fresns\Panel\Http\Controllers\ExtendUserFeatureController;
+use App\Fresns\Panel\Http\Controllers\ExtendUserProfileController;
+use App\Fresns\Panel\Http\Controllers\ExtensionController;
 use App\Fresns\Panel\Http\Controllers\GeneralController;
 use App\Fresns\Panel\Http\Controllers\GroupController;
 use App\Fresns\Panel\Http\Controllers\IframeController;
@@ -29,7 +29,7 @@ use App\Fresns\Panel\Http\Controllers\LanguageMenuController;
 use App\Fresns\Panel\Http\Controllers\LanguagePackController;
 use App\Fresns\Panel\Http\Controllers\LoginController;
 use App\Fresns\Panel\Http\Controllers\MapController;
-use App\Fresns\Panel\Http\Controllers\PluginController;
+use App\Fresns\Panel\Http\Controllers\MenuController;
 use App\Fresns\Panel\Http\Controllers\PluginUsageController;
 use App\Fresns\Panel\Http\Controllers\PolicyController;
 use App\Fresns\Panel\Http\Controllers\PublishController;
@@ -41,6 +41,7 @@ use App\Fresns\Panel\Http\Controllers\SettingController;
 use App\Fresns\Panel\Http\Controllers\StickerController;
 use App\Fresns\Panel\Http\Controllers\StickerGroupController;
 use App\Fresns\Panel\Http\Controllers\StorageController;
+use App\Fresns\Panel\Http\Controllers\ThemeFunctionController;
 use App\Fresns\Panel\Http\Controllers\UpgradeController;
 use App\Fresns\Panel\Http\Controllers\UserController;
 use App\Fresns\Panel\Http\Controllers\UserSearchController;
@@ -48,17 +49,6 @@ use App\Fresns\Panel\Http\Controllers\VerifyCodeController;
 use App\Fresns\Panel\Http\Controllers\WalletController;
 use App\Models\Config;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 try {
     $loginConfig = Config::where('item_key', 'panel_path')->first();
@@ -76,7 +66,7 @@ Route::middleware(['panelAuth'])->group(function () {
     // update config
     Route::put('configs/{config:item_key}', [ConfigController::class, 'update'])->name('configs.update');
     // plugin usage
-    Route::put('plugin-usages/{pluginUsage}/rank', [PluginUsageController::class, 'updateRank'])->name('plugin-usages.rank.update');
+    Route::put('plugin-usages/{pluginUsage}/rating', [PluginUsageController::class, 'updateRating'])->name('plugin-usages.rating.update');
     Route::resource('plugin-usages', PluginUsageController::class)->only([
         'store', 'update', 'destroy',
     ])->parameters([
@@ -95,6 +85,8 @@ Route::middleware(['panelAuth'])->group(function () {
     Route::get('composer/diagnose', [DashboardController::class, 'composerDiagnose'])->name('composer.diagnose');
     Route::get('composer/config', [DashboardController::class, 'composerConfigInfo'])->name('composer.config');
     Route::any('cache/clear', [DashboardController::class, 'cacheClear'])->name('cache.clear');
+    // dashboard-events
+    Route::get('events', [DashboardController::class, 'eventList'])->name('events.index');
     // dashboard-upgrades
     Route::get('upgrades', [UpgradeController::class, 'show'])->name('upgrades');
     Route::patch('upgrade/check', [UpgradeController::class, 'checkFresnsVersion'])->name('upgrade.check');
@@ -120,7 +112,7 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::post('languageMenus', [LanguageMenuController::class, 'store'])->name('languageMenus.store');
         Route::put('languageMenus/status/switch', [LanguageMenuController::class, 'switchStatus'])->name('languageMenus.status.switch');
         Route::put('languageMenus/{langTag}', [LanguageMenuController::class, 'update'])->name('languageMenus.update');
-        Route::put('languageMenus/{langTag}/rank', [LanguageMenuController::class, 'updateRank'])->name('languageMenus.rank.update');
+        Route::put('languageMenus/{langTag}/rating', [LanguageMenuController::class, 'updateRating'])->name('languageMenus.rating.update');
         Route::put('default/languages/update', [LanguageMenuController::class, 'updateDefaultLanguage'])->name('languageMenus.default.update');
         Route::delete('languageMenus/{langTag}', [LanguageMenuController::class, 'destroy'])->name('languageMenus.destroy');
         // general
@@ -179,7 +171,7 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::resource('stickers', StickerGroupController::class)->only([
             'index', 'store', 'update', 'destroy',
         ]);
-        Route::put('stickers/{sticker}/rank', [StickerController::class, 'updateRank'])->name('stickers.rank');
+        Route::put('stickers/{sticker}/rating', [StickerController::class, 'updateRating'])->name('stickers.rating');
         Route::put('sticker-images/batch', [StickerController::class, 'batchUpdate'])->name('sticker-images.batch.update');
         Route::resource('sticker-images', StickerController::class)->only([
             'index', 'store', 'update', 'destroy',
@@ -204,7 +196,7 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::resource('roles', RoleController::class)->only([
             'index', 'store', 'update', 'destroy',
         ]);
-        Route::put('roles/{role}/rank', [RoleController::class, 'updateRank'])->name('roles.rank');
+        Route::put('roles/{role}/rating', [RoleController::class, 'updateRating'])->name('roles.rating');
         Route::get('roles/{role}/permissions', [RoleController::class, 'showPermissions'])->name('roles.permissions.index');
         Route::put('roles/{role}/permissions', [RoleController::class, 'updatePermissions'])->name('roles.permissions.update');
         // groups
@@ -214,56 +206,56 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::get('groups/recommend', [GroupController::class, 'recommendIndex'])->name('groups.recommend.index');
         Route::get('groups/inactive', [GroupController::class, 'disableIndex'])->name('groups.inactive.index');
         Route::put('groups/{group}/merge', [GroupController::class, 'mergeGroup'])->name('groups.merge');
-        Route::put('groups/{group}/rank', [GroupController::class, 'updateRank'])->name('groups.rank.update');
-        Route::put('groups/{group}/recom_rank', [GroupController::class, 'updateRecomRank'])->name('groups.recom.rank.update');
+        Route::put('groups/{group}/rating', [GroupController::class, 'updateRating'])->name('groups.rating.update');
+        Route::put('groups/{group}/recommend_rating', [GroupController::class, 'updateRecommendRank'])->name('groups.recommend.rating.update');
         Route::put('groups/{group}/enable', [GroupController::class, 'updateEnable'])->name('groups.enable.update');
         Route::get('groups/categories', [GroupController::class, 'groupIndex'])->name('groups.categories.index');
     });
 
-    // expands
-    Route::prefix('expands')->group(function () {
+    // extends
+    Route::prefix('extends')->group(function () {
         // editor
-        Route::resource('editor', ExpandEditorController::class)->only([
+        Route::resource('editor', ExtendEditorController::class)->only([
             'index', 'store', 'update', 'destroy',
         ]);
-        Route::put('editor/{id}/rank', [ExpandEditorController::class, 'updateRank'])->name('editor.rank');
+        Route::put('editor/{id}/rating', [ExtendEditorController::class, 'updateRating'])->name('editor.rating');
         // content-type
-        Route::resource('content-type', ExpandContentTypeController::class)->only([
+        Route::resource('content-type', ExtendContentTypeController::class)->only([
             'index', 'store', 'update', 'destroy',
         ]);
-        Route::put('content-type/{id}/dataSources/{key}', [ExpandContentTypeController::class, 'updateSource'])->name('content-type.source');
-        Route::put('content-type/{id}/rank', [ExpandContentTypeController::class, 'updateRank'])->name('content-type.rank');
+        Route::put('content-type/{id}/dataSources/{key}', [ExtendContentTypeController::class, 'updateSource'])->name('content-type.source');
+        Route::put('content-type/{id}/rating', [ExtendContentTypeController::class, 'updateRating'])->name('content-type.rating');
         // post-detail
-        Route::resource('post-detail', ExpandPostDetailController::class)->only([
+        Route::resource('post-detail', ExtendPostDetailController::class)->only([
             'index', 'update',
         ]);
         // manage
-        Route::resource('manage', ExpandManageController::class)->only([
+        Route::resource('manage', ExtendManageController::class)->only([
             'index', 'store', 'update', 'destroy',
         ]);
-        Route::put('manage/{id}/rank', [ExpandManageController::class, 'updateRank'])->name('manage.rank');
+        Route::put('manage/{id}/rating', [ExtendManageController::class, 'updateRating'])->name('manage.rating');
         // group
-        Route::resource('group', ExpandGroupController::class)->only([
+        Route::resource('group', ExtendGroupController::class)->only([
             'index', 'store', 'update', 'destroy',
         ]);
-        Route::put('group/{id}/rank', [ExpandGroupController::class, 'updateRank'])->name('group.rank');
+        Route::put('group/{id}/rating', [ExtendGroupController::class, 'updateRating'])->name('group.rating');
         // user-feature
-        Route::resource('user-feature', ExpandUserFeatureController::class)->only([
+        Route::resource('user-feature', ExtendUserFeatureController::class)->only([
             'index', 'store', 'update', 'destroy',
         ]);
-        Route::put('user-feature/{id}/rank', [ExpandUserFeatureController::class, 'updateRank'])->name('user-feature.rank');
+        Route::put('user-feature/{id}/rating', [ExtendUserFeatureController::class, 'updateRating'])->name('user-feature.rating');
         // user-profile
-        Route::resource('user-profile', ExpandUserProfileController::class)->only([
+        Route::resource('user-profile', ExtendUserProfileController::class)->only([
             'index', 'store', 'update', 'destroy',
         ]);
-        Route::put('user-profile/{id}/rank', [ExpandUserProfileController::class, 'updateRank'])->name('user-profile.rank');
+        Route::put('user-profile/{id}/rating', [ExtendUserProfileController::class, 'updateRating'])->name('user-profile.rating');
     });
 
     // clients
     Route::prefix('clients')->group(function () {
         // menus
-        Route::get('menus', [ClientMenuController::class, 'index'])->name('menus.index');
-        Route::put('menus/{key}/update', [ClientMenuController::class, 'update'])->name('menus.update');
+        Route::get('menus', [MenuController::class, 'index'])->name('menus.index');
+        Route::put('menus/{key}/update', [MenuController::class, 'update'])->name('menus.update');
         // columns
         Route::get('columns', [ColumnController::class, 'index'])->name('columns.index');
         // language pack
@@ -272,44 +264,52 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::put('language-packs/{langTag}', [LanguagePackController::class, 'update'])->name('language.packs.update');
         // code messages
         Route::get('code-messages', [CodeMessageController::class, 'index'])->name('code.messages.index');
+        Route::put('code-messages/{codeMessage}', [CodeMessageController::class, 'update'])->name('code.messages.update');
+    });
+
+    // app center
+    Route::prefix('app-center')->group(function () {
+        // plugins
+        Route::get('plugins', [ExtensionController::class, 'pluginIndex'])->name('plugin.index');
+        // engines
+        Route::get('engines', [ExtensionController::class, 'engineIndex'])->name('engine.index');
+        Route::put('engines/{engine}/theme', [ExtensionController::class, 'updateEngineTheme'])->name('engine.theme.update');
+        // themes
+        Route::get('themes', [ExtensionController::class, 'themeIndex'])->name('theme.index');
+        // apps
+        Route::get('apps', [ExtensionController::class, 'appIndex'])->name('app.index');
         // session key
         Route::resource('keys', SessionKeyController::class)->only([
             'index', 'store', 'update', 'destroy',
         ]);
         Route::put('keys/{key}/reset', [SessionKeyController::class, 'reset'])->name('keys.reset');
-        // engines
-        Route::get('engines', [PluginController::class, 'engineIndex'])->name('engines.index');
-        Route::put('engines/{engine}/theme', [PluginController::class, 'updateEngineTheme'])->name('engines.theme.update');
-        // themes
-        Route::get('themes', [PluginController::class, 'themeIndex'])->name('themes.index');
-        // apps
-        Route::get('apps', [PluginController::class, 'appIndex'])->name('apps.index');
     });
 
-    // plugins
-    Route::prefix('plugins')->group(function () {
-        Route::get('list', [PluginController::class, 'index'])->name('plugin.list');
-    });
+    // iframe
+    Route::get('setting', [IframeController::class, 'setting'])->name('iframe.setting');
+    Route::get('market', [IframeController::class, 'market'])->name('iframe.market');
 
     // plugin manage
     Route::prefix('plugin')->group(function () {
         // dashboard upgrade page
-        Route::patch('update-code', [PluginController::class, 'updateCode'])->name('plugin.update.code');
+        Route::patch('update-code', [ExtensionController::class, 'updateCode'])->name('plugin.update.code');
         // plugin install and upgrade
-        Route::put('install', [PluginController::class, 'install'])->name('plugin.install');
-        Route::put('upgrade', [PluginController::class, 'upgrade'])->name('plugin.upgrade');
+        Route::match(['get', 'put'], 'install/{unikey?}', [ExtensionController::class, 'install'])->name('plugin.install');
+        Route::put('upgrade', [ExtensionController::class, 'upgrade'])->name('plugin.upgrade');
         // activate or deactivate
-        Route::patch('update', [PluginController::class, 'update'])->name('plugin.update');
-        Route::patch('updateTheme', [PluginController::class, 'updateTheme'])->name('plugin.updateTheme');
+        Route::patch('update', [ExtensionController::class, 'update'])->name('plugin.update');
+        Route::patch('updateTheme', [ExtensionController::class, 'updateTheme'])->name('plugin.updateTheme');
         // uninstall
-        Route::delete('uninstall', [PluginController::class, 'uninstall'])->name('plugin.uninstall');
-        Route::delete('uninstallTheme', [PluginController::class, 'uninstallTheme'])->name('plugin.uninstallTheme');
+        Route::delete('uninstall', [ExtensionController::class, 'uninstall'])->name('plugin.uninstall');
+        Route::delete('uninstallTheme', [ExtensionController::class, 'uninstallTheme'])->name('plugin.uninstallTheme');
     });
 
-    // iframe
-    Route::get('market', [IframeController::class, 'market'])->name('iframe.market');
-    Route::get('plugin', [IframeController::class, 'plugin'])->name('iframe.plugin');
-    Route::get('client', [IframeController::class, 'client'])->name('iframe.client');
+    // theme manage
+    Route::prefix('theme')->group(function () {
+        Route::get('{theme}', [ThemeFunctionController::class, 'show'])->name('theme.functions');
+        Route::put('functions', [ThemeFunctionController::class, 'update'])->name('theme.functions.update');
+        Route::put('functions/languages', [ThemeFunctionController::class, 'updateLanguage'])->name('theme.functions.update_language');
+    });
 });
 
 // FsLang

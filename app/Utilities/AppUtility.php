@@ -51,10 +51,10 @@ class AppUtility
 
     public static function checkVersion(): bool
     {
-        $currentVersionInt = AppUtility::currentVersion()['versionInt'];
-        $newVersionInt = AppUtility::newVersion()['versionInt'];
+        $currentVersion = AppUtility::currentVersion()['version'];
+        $newVersion = AppUtility::newVersion()['version'];
 
-        if ($currentVersionInt < $newVersionInt) {
+        if (version_compare($currentVersion, $newVersion) == -1) {
             return true; // There is a new version
         }
 
@@ -135,15 +135,13 @@ class AppUtility
             'type' => Browser::deviceType(),
             'brand' => Browser::deviceFamily(),
             'model' => Browser::deviceModel(),
-            'platform' => Browser::platformName(),
             'platformName' => Browser::platformFamily(),
             'platformVersion' => Browser::platformVersion(),
-            'browser' => Browser::browserName(),
             'browserName' => Browser::browserFamily(),
             'browserVersion' => Browser::browserVersion(),
             'browserEngine' => Browser::browserEngine(),
             'networkType' => '',
-            'networkIpv4' => $_SERVER['REMOTE_ADDR'] ?? '',
+            'networkIpv4' => request()->ip(),
             'networkIpv6' => '',
             'networkPort' => $_SERVER['REMOTE_PORT'] ?? '',
             'mapId' => '',

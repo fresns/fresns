@@ -21,10 +21,10 @@ class CheckCodeDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => ['required', 'in:1,2'],
-            'account' => ['required', 'string'],
-            'countryCode' => ['nullable', 'required_if:type,2', 'integer'],
-            'verifyCode' => ['required', 'string'],
+            'type' => ['integer', 'required', 'in:1,2'],
+            'account' => ['string', 'required'],
+            'countryCode' => ['integer', 'nullable', 'required_if:type,2'],
+            'verifyCode' => ['string', 'required'],
         ];
     }
 }

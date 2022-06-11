@@ -20,7 +20,8 @@ class InteractiveController extends Controller
             'hashtag_show',
             'post_hot',
             'comment_preview',
-            'nearby_length',
+            'nearby_length_km',
+            'nearby_length_mi',
             'dialog_status',
             'dialog_files',
             'like_user_setting',
@@ -28,6 +29,11 @@ class InteractiveController extends Controller
             'like_hashtag_setting',
             'like_post_setting',
             'like_comment_setting',
+            'dislike_user_setting',
+            'dislike_group_setting',
+            'dislike_hashtag_setting',
+            'dislike_post_setting',
+            'dislike_comment_setting',
             'follow_user_setting',
             'follow_group_setting',
             'follow_hashtag_setting',
@@ -41,6 +47,7 @@ class InteractiveController extends Controller
             'it_posts',
             'it_comments',
             'it_likers',
+            'it_dislikers',
             'it_followers',
             'it_blockers',
             'it_like_users',
@@ -48,6 +55,11 @@ class InteractiveController extends Controller
             'it_like_hashtags',
             'it_like_posts',
             'it_like_comments',
+            'it_dislike_users',
+            'it_dislike_groups',
+            'it_dislike_hashtags',
+            'it_dislike_posts',
+            'it_dislike_comments',
             'it_follow_users',
             'it_follow_groups',
             'it_follow_hashtags',
@@ -76,7 +88,8 @@ class InteractiveController extends Controller
             'hashtag_show',
             'post_hot',
             'comment_preview',
-            'nearby_length',
+            'nearby_length_km',
+            'nearby_length_mi',
             'dialog_status',
             'dialog_files',
             'like_user_setting',
@@ -84,6 +97,11 @@ class InteractiveController extends Controller
             'like_hashtag_setting',
             'like_post_setting',
             'like_comment_setting',
+            'dislike_user_setting',
+            'dislike_group_setting',
+            'dislike_hashtag_setting',
+            'dislike_post_setting',
+            'dislike_comment_setting',
             'follow_user_setting',
             'follow_group_setting',
             'follow_hashtag_setting',
@@ -97,6 +115,7 @@ class InteractiveController extends Controller
             'it_posts',
             'it_comments',
             'it_likers',
+            'it_dislikers',
             'it_followers',
             'it_blockers',
             'it_like_users',
@@ -104,6 +123,11 @@ class InteractiveController extends Controller
             'it_like_hashtags',
             'it_like_posts',
             'it_like_comments',
+            'it_dislike_users',
+            'it_dislike_groups',
+            'it_dislike_hashtags',
+            'it_dislike_posts',
+            'it_dislike_comments',
             'it_follow_users',
             'it_follow_groups',
             'it_follow_hashtags',
@@ -130,12 +154,7 @@ class InteractiveController extends Controller
                 continue;
             }
 
-            $value = $request->$configKey;
-            if ($configKey == 'dialog_files') {
-                $value = join(',', $value);
-            }
-
-            $config->item_value = $value;
+            $config->item_value = $request->$configKey;
             $config->save();
         }
 

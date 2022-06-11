@@ -21,8 +21,8 @@ class DeleteCrontabItemDTO extends DTO
     public function rules(): array
     {
         return [
-            'unikey' => ['required', 'string'],
-            'cmdWord' => ['required', 'string'],
+            'unikey' => ['string', 'required'],
+            'cmdWord' => ['string', 'required'],
         ];
     }
 }

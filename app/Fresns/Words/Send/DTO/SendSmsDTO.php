@@ -21,11 +21,11 @@ class SendSmsDTO extends DTO
     public function rules(): array
     {
         return [
-            'countryCode' => ['required', 'integer'],
-            'phoneNumber' => ['required', 'integer'],
-            'signName' => ['nullable', 'string'],
-            'templateCode' => ['required', 'string'],
-            'templateParam' => ['nullable', 'string'],
+            'countryCode' => ['integer', 'required'],
+            'phoneNumber' => ['integer', 'required'],
+            'signName' => ['string', 'nullable'],
+            'templateCode' => ['string', 'required'],
+            'templateParam' => ['string', 'nullable'],
         ];
     }
 }

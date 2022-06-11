@@ -23,19 +23,26 @@ class UserController extends Controller
         $configKeys = [
             'account_connect_services',
             'account_prove_service',
-            'user_multiple',
+            'multi_user_status',
             'multi_user_service',
             'multi_user_roles',
             'default_role',
             'default_avatar',
             'anonymous_avatar',
             'deactivate_avatar',
+            'user_identifier',
             'password_length',
             'password_strength',
             'username_min',
             'username_max',
             'username_edit',
+            'nickname_min',
+            'nickname_max',
             'nickname_edit',
+            'bio_length',
+            'bio_support_mention',
+            'bio_support_link',
+            'bio_support_hashtag',
             'connects',
         ];
 
@@ -43,17 +50,13 @@ class UserController extends Controller
 
         $params = [];
         foreach ($configs as $config) {
-            $value = $config->item_value;
-            if ($config->item_key == 'password_strength') {
-                $value = explode(',', $value);
-            }
-            $params[$config->item_key] = $value;
+            $params[$config->item_key] = $config->item_value;
         }
 
         $pluginScenes = [
             'connect',
             'prove',
-            'multiple',
+            'multiUser',
         ];
 
         $plugins = Plugin::all();
@@ -82,12 +85,12 @@ class UserController extends Controller
     {
         if ($request->file('default_avatar_file')) {
             $wordBody = [
-                'platform' => 4,
-                'type' => 1,
-                'tableType' => 2,
+                'platformId' => 4,
+                'useType' => 2,
                 'tableName' => 'configs',
                 'tableColumn' => 'item_value',
                 'tableKey' => 'default_avatar',
+                'type' => 1,
                 'file' => $request->file('default_avatar_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -102,12 +105,12 @@ class UserController extends Controller
 
         if ($request->file('anonymous_avatar_file')) {
             $wordBody = [
-                'platform' => 4,
-                'type' => 1,
-                'tableType' => 2,
+                'platformId' => 4,
+                'useType' => 2,
                 'tableName' => 'configs',
                 'tableColumn' => 'item_value',
                 'tableKey' => 'anonymous_avatar',
+                'type' => 1,
                 'file' => $request->file('anonymous_avatar_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -122,12 +125,12 @@ class UserController extends Controller
 
         if ($request->file('deactivate_avatar_file')) {
             $wordBody = [
-                'platform' => 4,
-                'type' => 1,
-                'tableType' => 2,
+                'platformId' => 4,
+                'useType' => 2,
                 'tableName' => 'configs',
                 'tableColumn' => 'item_value',
                 'tableKey' => 'deactivate_avatar',
+                'type' => 1,
                 'file' => $request->file('deactivate_avatar_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -142,19 +145,26 @@ class UserController extends Controller
 
         $configKeys = [
             'account_prove_service',
-            'user_multiple',
+            'multi_user_status',
             'multi_user_service',
             'multi_user_roles',
             'default_role',
             'default_avatar',
             'anonymous_avatar',
             'deactivate_avatar',
+            'user_identifier',
             'password_length',
             'password_strength',
             'username_min',
             'username_max',
             'username_edit',
+            'nickname_min',
+            'nickname_max',
             'nickname_edit',
+            'bio_length',
+            'bio_support_mention',
+            'bio_support_link',
+            'bio_support_hashtag',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -171,10 +181,6 @@ class UserController extends Controller
             }
 
             $value = $request->$configKey;
-
-            if ($configKey == 'password_strength') {
-                $value = join(',', $request->$configKey);
-            }
 
             if ($configKey == 'multi_user_roles') {
                 if (in_array(0, $request->$configKey)) {

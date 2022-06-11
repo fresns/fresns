@@ -28,6 +28,9 @@ return [
     'requestSuccess' => 'Solicitud de éxito',
     'requestFailure' => 'Solicitud de fracaso',
     // install
+    'install_not_entered_key' => 'Por favor, introduzca la clave de fresns',
+    'install_not_entered_dir' => 'Por favor, introduzca un directorio',
+    'install_not_upload_zip' => 'Por favor, seleccione el paquete de instalación',
     'install_in_progress' => 'Instalación en curso...',
     // upgrade
     'upgrade_none' => 'Ninguna actualización',
@@ -54,6 +57,11 @@ return [
     'uninstall_step_3' => 'Borrar archivos',
     'uninstall_step_4' => 'Limpiar cache',
     'uninstall_step_5' => 'Hecho',
+    // theme
+    'theme_error' => 'El tema es incorrecto o no existe',
+    'theme_functions_file_error' => 'El archivo de la vista de configuración del tema es incorrecto o no existe',
+    'theme_json_file_error' => 'El archivo de configuración del tema es incorrecto o no existe',
+    'theme_json_format_error' => 'El archivo de configuración del tema tiene un formato incorrecto',
     // others
     'account_not_found' => 'La cuenta no existe o ingresa errores',
     'account_login_limit' => 'El error ha superado el límite del sistema. Por favor, vuelva a conectarse 1 hora más tarde',
@@ -63,6 +71,7 @@ return [
     'language_exists' => 'El lenguaje ya existe',
     'language_not_exists' => 'el idioma no existe',
     'plugin_not_exists' => 'el plugin no existe',
+    'map_exists' => 'Este proveedor de servicios de mapas ya ha sido utilizado y no se puede volver a crear',
     'map_not_exists' => 'el mapa no existe',
     'required_user_role_name' => 'Por favor complete el nombre del rol',
     'required_sticker_category_name' => 'Por favor, complete el nombre del grupo de expresión',

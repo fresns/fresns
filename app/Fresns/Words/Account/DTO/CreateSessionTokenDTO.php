@@ -21,10 +21,10 @@ class CreateSessionTokenDTO extends DTO
     public function rules(): array
     {
         return [
-            'platform' => ['required', 'integer'],
-            'aid' => ['required', 'integer'],
-            'uid' => ['nullable', 'integer'],
-            'expiredTime' => ['nullable', 'integer'],
+            'platformId' => ['integer', 'required', 'between:1,13'],
+            'aid' => ['string', 'required'],
+            'uid' => ['integer', 'nullable'],
+            'expiredTime' => ['integer', 'nullable'],
         ];
     }
 }

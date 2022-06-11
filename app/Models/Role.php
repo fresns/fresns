@@ -10,7 +10,8 @@ namespace App\Models;
 
 class Role extends Model
 {
-    use Traits\LangName;
+    use Traits\LangNameTrait;
+    use Traits\IsEnableTrait;
 
     protected $guarded = ['id'];
 

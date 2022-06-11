@@ -46,7 +46,7 @@
                 <div class="collapse {{ $params['wallet_status'] == 'true' ? 'show' : '' }}" id="wallet_setting">
                     <div class="input-group mb-3">
                         <label class="input-group-text">{{ __('FsLang::panel.wallet_currency_code') }}</label>
-                        <select class="form-select" name="wallet_currency_code">
+                        <select class="form-select select2" name="wallet_currency_code">
                             @foreach ($params['currency_codes'] as $code)
                                 <option value="{{ $code['code'] }}" {{ $params['wallet_currency_code'] == $code['code'] ? 'selected' : '' }}>{{ $code['code'] }} ({{ $code['name'] }}) > {{ $code['ctryName'] }}</option>
                             @endforeach

@@ -34,7 +34,7 @@ class SessionKeyController extends Controller
             return in_array('apiKey', $plugin->scene ?: []);
         });
 
-        return view('FsView::clients.keys', compact('platforms', 'keys', 'typeLabels', 'plugins'));
+        return view('FsView::extensions.keys', compact('platforms', 'keys', 'typeLabels', 'plugins'));
     }
 
     public function store(UpdateSessionKeyRequest $request)

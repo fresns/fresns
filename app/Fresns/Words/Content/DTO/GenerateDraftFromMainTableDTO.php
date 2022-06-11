@@ -18,8 +18,8 @@ class GenerateDraftFromMainTableDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => ['required', 'in:1,2'],
-            'fid' => ['required', 'string'],
+            'type' => ['integer', 'required', 'in:1,2'],
+            'fsid' => ['string', 'required'],
         ];
     }
 }

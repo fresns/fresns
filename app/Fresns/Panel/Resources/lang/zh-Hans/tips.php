@@ -28,6 +28,9 @@ return [
     'requestSuccess' => '请求成功',
     'requestFailure' => '请求失败',
     // install
+    'install_not_entered_key' => '请输入标识名',
+    'install_not_entered_dir' => '请输入目录',
+    'install_not_upload_zip' => '请选择安装包',
     'install_in_progress' => '正在安装中...',
     // upgrade
     'upgrade_none' => '暂无更新',
@@ -54,6 +57,11 @@ return [
     'uninstall_step_3' => '删除文件',
     'uninstall_step_4' => '清空缓存',
     'uninstall_step_5' => '完成',
+    // theme
+    'theme_error' => '主题错误或者不存在',
+    'theme_functions_file_error' => '主题配置的视图文件错误或者不存在',
+    'theme_json_file_error' => '主题配置文件错误或者不存在',
+    'theme_json_format_error' => '主题配置文件格式错误',
     // others
     'account_not_found' => '账号不存在或者输入错误',
     'account_login_limit' => '错误已超系统限制，请 1 小时后再登录',
@@ -63,6 +71,7 @@ return [
     'language_exists' => '语言已存在',
     'language_not_exists' => '语言不存在',
     'plugin_not_exists' => '插件不存在',
+    'map_exists' => '该地图服务商已被使用，不可重复创建',
     'map_not_exists' => '地图服务商不存在',
     'required_user_role_name' => '请填写角色名称',
     'required_sticker_category_name' => '请填写表情组名称',

@@ -18,16 +18,16 @@ class AddUserDTO extends DTO
     public function rules(): array
     {
         return [
-            'aid' => ['required', 'string'],
-            'nickname' => ['required', 'string'],
-            'username' => ['nullable', 'alpha_dash'],
-            'password' => ['nullable', 'string'],
-            'avatarFid' => ['nullable', 'string'],
-            'avatarUrl' => ['nullable', 'string'],
-            'gender' => ['nullable', 'in:0,1,2'],
-            'birthday' => ['nullable', 'date_format:"Y-m-d H:i:s"'],
-            'timezone' => ['nullable', 'string'],
-            'language' => ['nullable', 'string'],
+            'aid' => ['string', 'required', 'exists:App\Models\Account,aid'],
+            'nickname' => ['string', 'required'],
+            'username' => ['string', 'nullable', 'alpha_dash', 'unique:App\Models\User,username'],
+            'password' => ['string', 'nullable'],
+            'avatarFid' => ['string', 'nullable'],
+            'avatarUrl' => ['string', 'nullable'],
+            'gender' => ['numeric', 'nullable', 'in:0,1,2'],
+            'birthday' => ['string', 'nullable', 'date_format:"Y-m-d H:i:s"'],
+            'timezone' => ['string', 'nullable'],
+            'language' => ['string', 'nullable'],
         ];
     }
 }

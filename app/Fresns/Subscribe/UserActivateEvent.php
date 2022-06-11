@@ -12,7 +12,7 @@ class UserActivateEvent
 {
     protected object $event;
 
-    protected string $platform;
+    protected string $platformId;
     protected string $version;
     protected string $appId;
     protected string $langTag;
@@ -29,7 +29,7 @@ class UserActivateEvent
 
         $this->event = $event;
 
-        $this->platform = $event->platform;
+        $this->platformId = $event->platformId;
         $this->version = $event->version;
         $this->appId = $event->appId;
         $this->langTag = $event->langTag;
@@ -49,7 +49,7 @@ class UserActivateEvent
     public function validate(array $event)
     {
         \validator()->validate($event, [
-            'platform' => 'required',
+            'platformId' => 'required',
             'version' => 'required',
             'appId' => 'required',
             'langTag' => 'nullable',
@@ -73,7 +73,7 @@ class UserActivateEvent
     public function toArray()
     {
         return [
-            'platform' => $this->getPlatform(),
+            'platformId' => $this->getPlatform(),
             'version' => $this->getVersion(),
             'appId' => $this->getAppId(),
             'langTag' => $this->getLangTag(),

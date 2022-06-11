@@ -21,7 +21,7 @@ class UpdateUserConfigRequest extends FormRequest
             'connects' => 'array',
             'connect_plugins' => 'array',
             'account_prove_service' => 'nullable|string',
-            'user_multiple' => 'string',
+            'multi_user_status' => 'string',
             'multi_user_service' => 'nullable|string',
             'multi_user_roles' => 'array',
             'default_role' => 'int',
@@ -33,6 +33,8 @@ class UpdateUserConfigRequest extends FormRequest
             'username_min' => 'int',
             'username_max' => 'int',
             'username_edit' => 'int',
+            'nickname_min' => 'int',
+            'nickname_max' => 'int',
             'nickname_edit' => 'int',
         ];
     }

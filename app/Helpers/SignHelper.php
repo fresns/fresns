@@ -26,7 +26,7 @@ class SignHelper
     {
         $signParams = collect($signMap)->filter(function ($value, $key) {
             return in_array($key, [
-                'platform',
+                'platformId',
                 'version',
                 'appId',
                 'timestamp',
@@ -39,10 +39,11 @@ class SignHelper
         ksort($signParams);
 
         $params = http_build_query($signParams);
-        $params = $params."&key={$appSecret}";
+
+        $signData = $params."&key={$appSecret}";
 
         // Generate sign
-        $sign = md5($params);
+        $sign = md5($signData);
 
         return $sign;
     }

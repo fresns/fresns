@@ -11,15 +11,18 @@
                         <a class="nav-link {{ \Route::is('panel.dashboard*') ? 'active' : '' }} " href="{{ route('panel.dashboard') }}">{{ __('FsLang::panel.sidebar_home') }}</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ \Route::is('panel.admins*') ? 'active' : '' }}" href="{{ route('panel.admins.index') }}">{{ __('FsLang::panel.sidebar_admins') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ \Route::is('panel.events*') ? 'active' : '' }}" href="{{ route('panel.events.index') }}">{{ __('FsLang::panel.sidebar_events') }}</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{ \Route::is('panel.upgrades*') ? 'active' : '' }} " href="{{ route('panel.upgrades') }}">
                             {{ __('FsLang::panel.sidebar_upgrades') }}
                             @if($pluginUpgradeCount > 0)
                                 <span class="badge rounded-pill bg-danger">{{ $pluginUpgradeCount }}</span>
                             @endif
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ \Route::is('panel.admins*') ? 'active' : '' }}" href="{{ route('panel.admins.index') }}">{{ __('FsLang::panel.sidebar_admins') }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ \Route::is('panel.settings*') ? 'active' : '' }}" href="{{ route('panel.settings') }}">{{ __('FsLang::panel.sidebar_settings') }}</a>

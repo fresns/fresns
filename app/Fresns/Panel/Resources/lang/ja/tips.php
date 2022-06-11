@@ -28,6 +28,9 @@ return [
     'requestSuccess' => 'リクエストサクセス',
     'requestFailure' => 'リクエストの失敗',
     // install
+    'install_not_entered_key' => 'fresnsキーを入力してください。',
+    'install_not_entered_dir' => 'ディレクトリを入力してください',
+    'install_not_upload_zip' => 'インストールパッケージを選択してください',
     'install_in_progress' => 'インストール中...',
     // upgrade
     'upgrade_none' => '更新はありません',
@@ -54,6 +57,11 @@ return [
     'uninstall_step_3' => 'ファイルを削除します',
     'uninstall_step_4' => 'キャッシュの消去',
     'uninstall_step_5' => '終わり',
+    // theme
+    'theme_error' => 'テーマが正しくないか、存在しない',
+    'theme_functions_file_error' => 'テーマ設定ビューファイルが正しくない、または存在しない',
+    'theme_json_file_error' => 'テーマ設定ファイルが正しくない、または存在しない',
+    'theme_json_format_error' => 'テーマ設定ファイルのフォーマットが間違っている',
     // others
     'account_not_found' => 'アカウントが存在しないか、エラーを入力します',
     'account_login_limit' => 'エラーはシステムの制限を超えました。1時間後に再ログインしてください。',
@@ -63,6 +71,7 @@ return [
     'language_exists' => '言語はすでに存在します',
     'language_not_exists' => '言語が存在しない',
     'plugin_not_exists' => 'プラグインが存在しない',
+    'map_exists' => 'この地図サービスプロバイダはすでに使用されており、再作成することはできません。',
     'map_not_exists' => 'マップが存在しない',
     'required_user_role_name' => '役割の名前を記入してください',
     'required_sticker_category_name' => '式グループの名前を入力してください',

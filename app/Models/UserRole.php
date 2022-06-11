@@ -10,9 +10,18 @@ namespace App\Models;
 
 class UserRole extends Model
 {
+    const TYPE_ADMIN = 1;
+    const TYPE_SYSTEM = 2;
+    const TYPE_USER = 3;
+
     protected $guarded = ['id'];
 
-    public function info()
+    public function scopeType($query, int $type)
+    {
+        return $query->where('type', $type);
+    }
+
+    public function roleInfo()
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');
     }

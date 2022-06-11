@@ -8,10 +8,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
 class CommentLog extends Model
 {
-    use HasFactory;
+    public function comment()
+    {
+        return $this->belongsTo(Comment::class, 'comment_id', 'id');
+    }
 }

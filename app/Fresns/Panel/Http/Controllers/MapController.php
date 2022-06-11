@@ -35,7 +35,7 @@ class MapController extends Controller
         });
 
         $pluginUsages = PluginUsage::where('type', 9)
-            ->orderBy('rank_num')
+            ->orderBy('rating')
             ->with('plugin')
             ->get();
 
@@ -59,13 +59,13 @@ class MapController extends Controller
             ->first();
 
         if ($map) {
-            return back()->with('failure', __('FsLang::tips.map_not_exists'));
+            return back()->with('failure', __('FsLang::tips.map_exists'));
         }
 
         $map = new PluginUsage;
         $map->plugin_unikey = $request->plugin_unikey;
         $map->is_enable = $request->is_enable;
-        $map->rank_num = $request->rank_num;
+        $map->rating = $request->rating;
         $map->parameter = $request->parameter;
         $map->icon_file_url = $request->icon_file_url ?: '';
         $map->type = 9;
@@ -74,12 +74,12 @@ class MapController extends Controller
 
         if ($request->file('icon_file')) {
             $wordBody = [
-                'platform' => 4,
-                'type' => 1,
-                'tableType' => 3,
+                'platformId' => 4,
+                'useType' => 2,
                 'tableName' => 'plugin_usages',
                 'tableColumn' => 'icon_file_id',
                 'tableId' => $map->id,
+                'type' => 1,
                 'file' => $request->file('icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -89,7 +89,7 @@ class MapController extends Controller
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
             $map->icon_file_id = $fileId;
-            $map->icon_file_url = $fresnsResp->getData('imageConfigUrl');
+            $map->icon_file_url = null;
             $map->save();
         }
 
@@ -102,7 +102,6 @@ class MapController extends Controller
             $config->item_key = 'map_'.$request->parameter;
             $config->item_tag = 'maps';
             $config->item_type = 'object';
-            $config->is_enable = 1;
         }
 
         $config->item_value = [
@@ -144,19 +143,19 @@ class MapController extends Controller
     {
         $map->plugin_unikey = $request->plugin_unikey;
         $map->is_enable = $request->is_enable;
-        $map->rank_num = $request->rank_num;
+        $map->rating = $request->rating;
         $map->parameter = $request->parameter;
         $map->type = 9;
         $map->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
 
         if ($request->file('icon_file')) {
             $wordBody = [
-                'platform' => 4,
-                'type' => 1,
-                'tableType' => 3,
+                'platformId' => 4,
+                'useType' => 2,
                 'tableName' => 'plugin_usages',
                 'tableColumn' => 'icon_file_id',
                 'tableId' => $map->id,
+                'type' => 1,
                 'file' => $request->file('icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -166,7 +165,7 @@ class MapController extends Controller
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
             $map->icon_file_id = $fileId;
-            $map->icon_file_url = $fresnsResp->getData('imageConfigUrl');
+            $map->icon_file_url = null;
         } elseif ($map->icon_file_url != $request->icon_file_url) {
             $map->icon_file_id = null;
             $map->icon_file_url = $request->icon_file_url;
@@ -183,7 +182,6 @@ class MapController extends Controller
             $config->item_key = 'map_'.$request->parameter;
             $config->item_tag = 'maps';
             $config->item_type = 'object';
-            $config->is_enable = 1;
         }
 
         $config->item_value = [

@@ -32,7 +32,7 @@
                     @if ($category['is_enable'])
                         <!--category activate-->
                         <a href="{{ route('panel.groups.index', ['parent_id' => $category->id]) }}" class="list-group-item list-group-item-action {{ $category->id == $parentId ? 'active' : '' }} d-flex justify-content-between align-items-center">
-                            <input type="number" class="form-control input-number rank-num" data-action="{{ route('panel.groups.rank.update', $category->id) }}" value="{{ $category->rank_num }}" style="width:50px;">
+                            <input type="number" class="form-control input-number rating-number" data-action="{{ route('panel.groups.rating.update', $category->id) }}" value="{{ $category->rating }}" style="width:50px;">
                             <span class="ms-2 text-nowrap overflow-hidden">{{ $category->name }}</span>
                             <button type="button" data-params="{{ $category->toJson() }}"
                                 data-names="{{ $category->names->toJson() }}"
@@ -48,7 +48,7 @@
                     @else
                         <!--category deactivate-->
                         <a href="{{ route('panel.groups.index', ['parent_id' => $category->id]) }}" class="list-group-item list-group-item-secondary {{ $category->id == $parentId ? 'active' : '' }} d-flex justify-content-between align-items-center">
-                            <input type="number" class="form-control input-number rank-num" data-action="{{ route('panel.groups.rank.update', $category->id) }}" value="{{ $category->rank_num }}" style="width:50px;">
+                            <input type="number" class="form-control input-number rating-number" data-action="{{ route('panel.groups.rating.update', $category->id) }}" value="{{ $category->rating }}" style="width:50px;">
                             <span class="ms-2 text-nowrap overflow-hidden">{{ $category->name }}</span>
                             <button type="button" data-params="{{ $category->toJson() }}"
                                 data-names="{{ $category->names->toJson() }}"
@@ -85,12 +85,12 @@
                     <tbody>
                         @foreach ($groups as $group)
                             <tr>
-                                <td><input type="number" data-action="{{ route('panel.groups.rank.update', $group->id) }}" class="form-control input-number rank-num" value="{{ $group->rank_num }}"></td>
+                                <td><input type="number" data-action="{{ route('panel.groups.rating.update', $group->id) }}" class="form-control input-number rating-number" value="{{ $group->rating }}"></td>
                                 <td>
-                                    @if ($group->cover_file_url)
-                                        <img src="{{ $group->cover_file_url }}" width="24" height="24">
+                                    @if ($group->getCoverUrl())
+                                        <img src="{{ $group->getCoverUrl() }}" width="24" height="24">
                                     @endif
-                                    {{ $group->name }}
+                                    {{ $group->getLangName($defaultLanguage) }}
                                 </td>
                                 <td>{{ $typeModeLabels[$group->type_mode] ?? '' }}</td>
                                 <td>
@@ -108,7 +108,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @foreach ($group->admin_users as $user)
+                                    @foreach ($group->admins as $user)
                                         <span class="badge bg-light text-dark">{{ $user->nickname }}</span>
                                     @endforeach
                                 </td>
@@ -122,7 +122,7 @@
                                             data-action="{{ route('panel.groups.update', $group->id) }}"
                                             data-params="{{ $group->toJson() }}"
                                             data-names="{{ $group->names->toJson() }}"
-                                            data-admin_users="{{ $group->admin_users }}"
+                                            data-admin_users="{{ $group->admins }}"
                                             data-descriptions="{{ $group->descriptions->toJson() }}"
                                             data-names="{{ $group->names->toJson() }}"
                                             data-descriptions="{{ $group->descriptions->toJson() }}"
@@ -163,7 +163,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_order') }}</label>
                             <div class="col-sm-9">
-                                <input type="number" class="form-control input-number" name="rank_num" required>
+                                <input type="number" class="form-control input-number" name="rating" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -358,7 +358,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-md-2 col-form-label">{{ __('FsLang::panel.table_order') }}</label>
                             <div class="col-sm-9 col-md-10">
-                                <input type="number" class="form-control input-number" name="rank_num" required>
+                                <input type="number" class="form-control input-number" name="rating" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -378,7 +378,7 @@
                             <label class="col-sm-3 col-md-2 col-form-label">{{ __('FsLang::panel.table_icon') }}</label>
                             <div class="col-sm-9 col-md-10">
                                 <div class="input-group">
-                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="showIcon">{{ __('FsLang::panel.button_image_upload') }}</button>
+                                    <button class="btn btn-outline-secondary dropdown-toggle showSelectTypeName" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="showIcon">{{ __('FsLang::panel.button_image_upload') }}</button>
                                     <ul class="dropdown-menu selectInputType">
                                         <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
@@ -392,7 +392,7 @@
                             <label class="col-sm-3 col-md-2 col-form-label">{{ __('FsLang::panel.table_banner') }}</label>
                             <div class="col-sm-9 col-md-10">
                                 <div class="input-group">
-                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="showIcon">{{ __('FsLang::panel.button_image_upload') }}</button>
+                                    <button class="btn btn-outline-secondary dropdown-toggle showSelectTypeName" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="showIcon">{{ __('FsLang::panel.button_image_upload') }}</button>
                                     <ul class="dropdown-menu selectInputType">
                                         <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
@@ -470,7 +470,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-md-2 col-form-label">{{ __('FsLang::panel.group_table_admins') }}</label>
                             <div class="col-sm-9 col-md-10">
-                                <select class="form-select group-user-select2" name="permission[admin_users][]" multiple="multiple"></select>
+                                <select class="form-select group-user-select2" name="admin_ids[]" multiple="multiple"></select>
                             </div>
                         </div>
                         <div class="mb-3 row">

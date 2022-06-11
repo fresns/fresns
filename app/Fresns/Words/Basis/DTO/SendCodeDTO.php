@@ -21,11 +21,11 @@ class SendCodeDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => ['required', 'in:1,2'],
-            'account' => ['required', 'string'],
-            'countryCode' => ['nullable', 'required_if:type,2', 'integer'],
-            'templateId' => ['required', 'integer'],
-            'langTag' => ['required', 'string'],
+            'type' => ['integer', 'required', 'in:1,2'],
+            'account' => ['string', 'required'],
+            'countryCode' => ['integer', 'nullable', 'required_if:type,2'],
+            'templateId' => ['integer', 'required', 'in:1,2,3,4,5,6,7'],
+            'langTag' => ['string', 'required'],
         ];
     }
 }

@@ -8,14 +8,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 class Group extends Model
 {
-    use SoftDeletes;
-    use Traits\LangName;
-    use Traits\LangDescription;
-    use Traits\DataChangeNotifyTrait;
+    use Traits\LangNameTrait;
+    use Traits\LangDescriptionTrait;
+    use Traits\GroupServiceTrait;
+    use Traits\IsEnableTrait;
 
     protected $casts = [
         'permission' => 'array',
@@ -41,14 +39,12 @@ class Group extends Model
         return $this->hasMany(self::class, 'parent_id', 'id');
     }
 
-    public function descriptions()
+    public function admins()
     {
-        return $this->hasMany(Language::class, 'table_id', 'id')
-            ->where('table_column', 'description')
-            ->where('table_name', 'groups');
+        return $this->belongsToMany(User::class, 'group_admins', 'group_id', 'user_id');
     }
 
-    public function user()
+    public function creator()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }

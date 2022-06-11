@@ -97,7 +97,7 @@
                         <select class="form-select select2" name="post_limit_whitelist[]" multiple="multiple">
                             @foreach ($roles as $role)
                                 <option value="{{ $role->id }}" @if ($params['post_limit_whitelist'] && is_array($params['post_limit_whitelist']) && in_array($role->id, $params['post_limit_whitelist'])) selected @endif>
-                                    {{ $role->name }}
+                                    {{ $role->getLangName($defaultLanguage) }}
                                 </option>
                             @endforeach
                         </select>
@@ -215,8 +215,8 @@
                             <label class="form-check-label" for="editor_hashtag">{{ __('FsLang::panel.editor_hashtag') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input type="checkbox" class="form-check-input" id="editor_expand" value="true" name="post_editor_expand" {{ $params['post_editor_expand'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="editor_expand">{{ __('FsLang::panel.editor_expand') }}</label>
+                            <input type="checkbox" class="form-check-input" id="editor_extend" value="true" name="post_editor_extend" {{ $params['post_editor_extend'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="editor_extend">{{ __('FsLang::panel.editor_extend') }}</label>
                         </div>
                     </li>
                     <li class="list-group-item">
@@ -235,6 +235,50 @@
         <!--publish_editor_function_options-->
         <div class="row mb-3">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.publish_editor_function_options') }}:</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <label class="input-group-text">{{ __('FsLang::panel.editor_upload_image_number') }}</label>
+                    <input type="number" class="form-control input-number" id="post_editor_image_upload_number" name="post_editor_image_upload_number" value="{{ $params['post_editor_image_upload_number'] }}">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
+                </div>
+            </div>
+            <div class="col-lg-4 form-text pt-1"></div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-lg-2 col-form-label text-lg-end"></label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <label class="input-group-text">{{ __('FsLang::panel.editor_upload_video_number') }}</label>
+                    <input type="number" class="form-control input-number" id="post_editor_video_upload_number" name="post_editor_video_upload_number" value="{{ $params['post_editor_video_upload_number'] }}">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
+                </div>
+            </div>
+            <div class="col-lg-4 form-text pt-1"></div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-lg-2 col-form-label text-lg-end"></label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <label class="input-group-text">{{ __('FsLang::panel.editor_upload_audio_number') }}</label>
+                    <input type="number" class="form-control input-number" id="post_editor_audio_upload_number" name="post_editor_audio_upload_number" value="{{ $params['post_editor_audio_upload_number'] }}">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
+                </div>
+            </div>
+            <div class="col-lg-4 form-text pt-1"></div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-lg-2 col-form-label text-lg-end"></label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <label class="input-group-text">{{ __('FsLang::panel.editor_upload_document_number') }}</label>
+                    <input type="number" class="form-control input-number" id="post_editor_document_upload_number" name="post_editor_document_upload_number" value="{{ $params['post_editor_document_upload_number'] }}">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
+                </div>
+            </div>
+            <div class="col-lg-4 form-text pt-1"></div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-lg-2 col-form-label text-lg-end"></label>
             <div class="col-lg-6">
                 <div class="input-group">
                     <label class="input-group-text">{{ __('FsLang::panel.publish_editor_group_required') }}</label>
@@ -294,34 +338,34 @@
             <label class="col-lg-2 col-form-label text-lg-end"></label>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <label class="input-group-text">{{ __('FsLang::panel.publish_editor_title_word_count') }}</label>
-                    <input type="number" class="form-control input-number" id="post_editor_title_word_count" name="post_editor_title_word_count" value="{{ $params['post_editor_title_word_count'] }}">
+                    <label class="input-group-text">{{ __('FsLang::panel.publish_editor_title_word_length') }}</label>
+                    <input type="number" class="form-control input-number" id="post_editor_title_word_length" name="post_editor_title_word_length" value="{{ $params['post_editor_title_word_length'] }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_character') }}</span>
                 </div>
             </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.publish_editor_title_word_count_desc') }}</div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.publish_editor_title_word_length_desc') }}</div>
         </div>
         <div class="row mb-3">
             <label class="col-lg-2 col-form-label text-lg-end"></label>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <label class="input-group-text">{{ __('FsLang::panel.publish_editor_post_word_count') }}</label>
-                    <input type="number" class="form-control input-number" id="post_editor_word_count" name="post_editor_word_count" value="{{ $params['post_editor_word_count'] }}">
+                    <label class="input-group-text">{{ __('FsLang::panel.publish_editor_post_word_length') }}</label>
+                    <input type="number" class="form-control input-number" id="post_editor_word_length" name="post_editor_word_length" value="{{ $params['post_editor_word_length'] }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_character') }}</span>
                 </div>
             </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.publish_editor_post_word_count_desc') }}</div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.publish_editor_post_word_length_desc') }}</div>
         </div>
         <div class="row mb-3">
             <label class="col-lg-2 col-form-label text-lg-end"></label>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <label class="input-group-text">{{ __('FsLang::panel.publish_editor_post_brief_word_count') }}</label>
-                    <input type="number" class="form-control input-number" id="post_editor_brief_count" name="post_editor_brief_count" value="{{ $params['post_editor_brief_count'] }}">
+                    <label class="input-group-text">{{ __('FsLang::panel.publish_editor_post_brief_word_length') }}</label>
+                    <input type="number" class="form-control input-number" id="post_editor_brief_length" name="post_editor_brief_length" value="{{ $params['post_editor_brief_length'] }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_character') }}</span>
                 </div>
             </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.publish_editor_post_brief_word_count_desc') }}</div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.publish_editor_post_brief_word_length_desc') }}</div>
         </div>
         <!--button_save-->
         <div class="row mt-5">

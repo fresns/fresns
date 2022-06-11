@@ -18,12 +18,12 @@ class UpdateLanguageMenuRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'rank_num' => 'required|string',
+            'rating' => 'required|string',
             'old_lang_tag' => 'string',
             'continent_id' => 'int',
             'area_code' => 'string',
             'area_status' => 'required|boolean',
-            'length_units' => 'required|string',
+            'length_unit' => 'required|string',
             'date_format' => 'required|string',
             'time_format_minute' => 'required|string',
             'time_format_hour' => 'required|string',

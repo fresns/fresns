@@ -11,6 +11,7 @@ namespace App\Fresns\Subscribe;
 use App\Fresns\Subscribe\Subscribe;
 use App\Fresns\Subscribe\TableDataChangeEvent;
 use App\Fresns\Subscribe\UserActivateEvent;
+use App\Models\Plugin;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 
@@ -57,7 +58,9 @@ class SubscribeService
         $subscribe = Subscribe::make();
 
         $subscribe->getTableDataChangeSubscribes()->map(function ($subscribe) use ($event) {
-            if ($event->ensureSubscribedByThisTable($subscribe)) {
+            $pluginStatus = Plugin::where('unikey', $subscribe->getUnikey())->isEnable()->first();
+
+            if ($event->ensureSubscribedByThisTable($subscribe) && $pluginStatus) {
                 $event->notify($subscribe);
             }
         });
@@ -69,7 +72,11 @@ class SubscribeService
         $subscribe = Subscribe::make();
 
         $subscribe->getUserActivateSubscribes()->map(function ($subscribe) use ($event) {
-            $event->notify($subscribe);
+            $pluginStatus = Plugin::where('unikey', $subscribe->getUnikey())->isEnable()->first();
+
+            if ($pluginStatus) {
+                $event->notify($subscribe);
+            }
         });
     }
 }

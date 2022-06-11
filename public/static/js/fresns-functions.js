@@ -10,6 +10,13 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl);
 });
 
+/* Fresns Token */
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+    }
+});
+
 // FsLang trans
 function trans(key, replace = {}) {
     let translation = key.split('.').reduce((t, i) => {
@@ -59,11 +66,6 @@ $(document).ready(function () {
     $('.select2').select2({
         theme: 'bootstrap-5',
     });
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-        },
-    });
 
     $('.select2')
         .closest('form')
@@ -79,20 +81,76 @@ $(document).ready(function () {
 
     // preview image
     $('.preview-image').click(function () {
-        let url = $(this).siblings('.imageUrl').val();
-        $('#imageZoom').find('img').attr('src', url);
-        $('#imageZoom').modal('show');
+        let url = $(this).data('url');
+        if (url) {
+            $('#imageZoom').find('img').attr('src', url);
+            $('#imageZoom').modal('show');
+        }
     });
 
     // selectInputType
     $('.selectInputType li').click(function () {
-        let inputName = $(this).data('name');
+        let showClass = $(this).data('name');
+        let hideClass = 'inputUrl';
+        if (showClass == 'inputUrl') {
+            hideClass = 'inputFile';
+        }
 
         $(this).parent().siblings('.showSelectTypeName').text($(this).text());
-        $(this).parent().siblings('input').css('display', 'none');
-        $(this)
-            .parent()
-            .siblings('.' + inputName)
-            .removeAttr('style');
+        $(this).parent().siblings('.' + hideClass).hide();
+        $(this).parent().siblings('.' + showClass).show();
+    });
+
+    $('.delete-file').click(function() {
+        $(this).siblings('.file-value').val('');
+        window.tips(trans('tips.deleteSuccess')); //FsLang
+    });
+
+    $('#langModal').on('show.bs.modal', function(e) {
+        let target = $(e.relatedTarget);
+        let languages = target.data('languages');
+        let key = target.data('key');
+
+        $(this).find('input[name=key]').val(key)
+
+        if (languages) {
+            let $this = $(this);
+            languages.map(function (language, index) {
+                $this.find("input[name='languages[" + language.lang_tag + "]'").val(language.lang_content);
+            });
+        }
+    });
+
+    $('#langDescModal').on('show.bs.modal', function(e) {
+        let target = $(e.relatedTarget);
+        let languages = target.data('languages');
+        let key = target.data('key');
+
+        $(this).find('input[name=key]').val(key)
+
+        if (languages) {
+            let $this = $(this);
+            languages.map(function (language, index) {
+                $this.find("textarea[name='languages[" + language.lang_tag + "]'").val(language.lang_content);
+            });
+        }
+    });
+
+    $('#addPlugin').click(function () {
+        let templateId = $(this).data('template');
+        let index = $(this).data('count');
+        let key = $(this).data('key');
+
+        template = $($(templateId).html()).clone();
+        template.find('input.plugin-code').attr('name', key+'['+(index+ 1)+'][code]')
+        template.find('select.plugin-unikey').attr('name', key+'['+(index+ 1)+'][plugin]')
+
+        $(this).data('count', index+1)
+
+        $(this).parent().parent().find('.plugin-box').append(template);
+    });
+
+    $(document).on('click', '.delete-plugin', function() {
+        $(this).parent().remove()
     });
 });

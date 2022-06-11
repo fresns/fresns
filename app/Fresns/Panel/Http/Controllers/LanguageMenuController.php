@@ -21,7 +21,7 @@ class LanguageMenuController extends Controller
     public function index()
     {
         $languageConfig = Config::where('item_key', 'language_menus')->firstOrFail();
-        $languages = collect($languageConfig->item_value)->sortBy('rankNum');
+        $languages = collect($languageConfig->item_value)->sortBy('rating');
 
         $defaultLanguageConfig = Config::where('item_key', 'default_language')->firstOrFail();
         $defaultLanguage = $defaultLanguageConfig->item_value;
@@ -59,7 +59,7 @@ class LanguageMenuController extends Controller
         return $this->updateSuccess();
     }
 
-    public function updateRank(UpdateLanguageRankRequest $request, $langTag)
+    public function updateRating(UpdateLanguageRankRequest $request, $langTag)
     {
         $languageConfig = Config::where('item_key', 'language_menus')->firstOrFail();
         $languages = $languageConfig->item_value;
@@ -73,7 +73,7 @@ class LanguageMenuController extends Controller
         }
 
         $language = $languages[$languageKey];
-        $language['rankNum'] = $request->rank_num;
+        $language['rating'] = $request->rating;
 
         $languages[$languageKey] = $language;
         $languageConfig->item_value = array_values($languages);
@@ -107,7 +107,7 @@ class LanguageMenuController extends Controller
         }
 
         $data = [
-            'rankNum' => $request->rank_num,
+            'rating' => $request->rating,
             'langCode' => $request->lang_code,
             'langName' => $code['name'] ?? '',
             'langTag' => $langTag,
@@ -116,14 +116,14 @@ class LanguageMenuController extends Controller
             'areaCode' => $request->area_status ? $request->area_code : null,
             'areaName' => $areaName,
             'writingDirection' => $code['writingDirection'],
-            'lengthUnits' =>  $request->length_units,
-            'dateFormat' =>  $request->date_format,
-            'timeFormatMinute' =>  $request->time_format_minute,
-            'timeFormatHour' =>  $request->time_format_hour,
-            'timeFormatDay' =>  $request->time_format_day,
-            'timeFormatMonth' =>  $request->time_format_month,
-            'packVersion' =>  1,
-            'isEnable' =>  (bool) $request->is_enable,
+            'lengthUnit' => $request->length_unit,
+            'dateFormat' => $request->date_format,
+            'timeFormatMinute' => $request->time_format_minute,
+            'timeFormatHour' => $request->time_format_hour,
+            'timeFormatDay' => $request->time_format_day,
+            'timeFormatMonth' => $request->time_format_month,
+            'packVersion' => 1,
+            'isEnable' => (bool) $request->is_enable,
         ];
 
         $languages[] = $data;
@@ -173,7 +173,7 @@ class LanguageMenuController extends Controller
         }
 
         $data = [
-            'rankNum' => $request->rank_num,
+            'rating' => $request->rating,
             'langCode' => $oldConfig['langCode'],
             'langName' => $oldConfig['langName'] ?? '',
             'langTag' => $langTag,
@@ -182,14 +182,14 @@ class LanguageMenuController extends Controller
             'areaCode' => $request->area_status ? $request->area_code : null,
             'areaName' => $areaName,
             'writingDirection' => $oldConfig['writingDirection'],
-            'lengthUnits' =>  $request->length_units,
-            'dateFormat' =>  $request->date_format,
-            'timeFormatMinute' =>  $request->time_format_minute,
-            'timeFormatHour' =>  $request->time_format_hour,
-            'timeFormatDay' =>  $request->time_format_day,
-            'timeFormatMonth' =>  $request->time_format_month,
-            'packVersion' =>  1,
-            'isEnable' =>  (bool) $request->is_enable,
+            'lengthUnit' => $request->length_unit,
+            'dateFormat' => $request->date_format,
+            'timeFormatMinute' => $request->time_format_minute,
+            'timeFormatHour' => $request->time_format_hour,
+            'timeFormatDay' => $request->time_format_day,
+            'timeFormatMonth' => $request->time_format_month,
+            'packVersion' => 1,
+            'isEnable' => (bool) $request->is_enable,
         ];
 
         $languages[$languageKey] = $data;

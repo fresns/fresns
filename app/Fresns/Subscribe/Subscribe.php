@@ -159,10 +159,7 @@ class Subscribe
 
     public function getSubscribeItemConfig()
     {
-        return Config::withTrashed()
-            ->tag('systems')
-            ->where('item_key', 'subscribe_items')
-            ->firstOrFail();
+        return Config::withTrashed()->where('item_key', 'subscribe_items')->firstOrFail();
     }
 
     public function getCurrentSubscribes()

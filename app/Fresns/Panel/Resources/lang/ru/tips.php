@@ -28,6 +28,9 @@ return [
     'requestSuccess' => 'Запросить успех',
     'requestFailure' => 'Отказ запроса',
     // install
+    'install_not_entered_key' => 'Пожалуйста, введите ключ fresns',
+    'install_not_entered_dir' => 'Пожалуйста, введите каталог',
+    'install_not_upload_zip' => 'Пожалуйста, выберите пакет установки',
     'install_in_progress' => 'Выполняется установка...',
     // upgrade
     'upgrade_none' => 'Нет обновления',
@@ -54,6 +57,11 @@ return [
     'uninstall_step_3' => 'Удалить файлы',
     'uninstall_step_4' => 'Очистить кэш',
     'uninstall_step_5' => 'Сделанный',
+    // theme
+    'theme_error' => 'Тема неверна или не существует',
+    'theme_functions_file_error' => 'Файл представления конфигурации темы неверен или не существует',
+    'theme_json_file_error' => 'Файл конфигурации темы неверен или не существует',
+    'theme_json_format_error' => 'Файл конфигурации темы имеет неправильный формат',
     // others
     'account_not_found' => 'Учетная запись не существует или ввода ошибок',
     'account_login_limit' => 'Ошибка превысила системный лимит. Пожалуйста, войдите в систему снова через 1 час',
@@ -63,6 +71,7 @@ return [
     'language_exists' => 'Язык уже существует',
     'language_not_exists' => 'язык не существует',
     'plugin_not_exists' => 'плагин не существует',
+    'map_exists' => 'Этот поставщик услуг карты уже использовался и не может быть создан заново',
     'map_not_exists' => 'карта не существует',
     'required_user_role_name' => 'Пожалуйста, заполните имя роли',
     'required_sticker_category_name' => 'Пожалуйста, заполните имя группы выражений',

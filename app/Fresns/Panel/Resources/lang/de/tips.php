@@ -28,6 +28,9 @@ return [
     'requestSuccess' => 'Erfolg anfordern',
     'requestFailure' => 'Anfrage Fehlschlag',
     // install
+    'install_not_entered_key' => 'Bitte geben Sie den Fresns-Schlüssel ein',
+    'install_not_entered_dir' => 'Bitte geben Sie ein Verzeichnis ein',
+    'install_not_upload_zip' => 'Bitte wählen Sie das Installationspaket aus',
     'install_in_progress' => 'Installation im Gange...',
     // upgrade
     'upgrade_none' => 'Kein Update',
@@ -54,6 +57,11 @@ return [
     'uninstall_step_3' => 'Dateien löschen',
     'uninstall_step_4' => 'Cache leeren',
     'uninstall_step_5' => 'Getan',
+    // theme
+    'theme_error' => 'Das Thema ist falsch oder existiert nicht',
+    'theme_functions_file_error' => 'Die Ansichtsdatei der Themenkonfiguration ist falsch oder existiert nicht',
+    'theme_json_file_error' => 'Die Konfigurationsdatei des Themas ist falsch oder nicht vorhanden',
+    'theme_json_format_error' => 'Die Theme-Konfigurationsdatei hat das falsche Format',
     // others
     'account_not_found' => 'Konto ist nicht vorhanden oder geben Fehler ein',
     'account_login_limit' => 'Der Fehler hat das Systemlimit überschritten. Bitte melden Sie sich 1 Stunde später erneut an',
@@ -63,6 +71,7 @@ return [
     'language_exists' => 'Sprache existiert bereits',
     'language_not_exists' => 'Sprache nicht vorhanden',
     'plugin_not_exists' => 'plugin nicht vorhanden',
+    'map_exists' => 'Dieser Kartendienstanbieter wurde bereits verwendet und kann nicht neu erstellt werden',
     'map_not_exists' => 'Karte nicht vorhanden',
     'required_user_role_name' => 'Bitte füllen Sie den Namen der Rolle aus',
     'required_sticker_category_name' => 'Bitte füllen Sie den Namen der Expression-Gruppe aus',

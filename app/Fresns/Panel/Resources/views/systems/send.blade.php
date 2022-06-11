@@ -63,7 +63,8 @@
                         </div>
                         <div class="input-group mb-3">
                             <label class="input-group-text">{{ __('FsLang::panel.send_sms_default_code') }}</label>
-                            <input type="text" class="form-control" name="send_sms_default_code" placeholder="+86" value="{{ $params['send_sms_default_code'] }}">
+                            <span class="input-group-text">+</span>
+                            <input type="number" class="form-control input-number" name="send_sms_default_code" placeholder="65" value="{{ $params['send_sms_default_code'] }}">
                         </div>
                         <div class="input-group mb-3">
                             <label class="input-group-text">{{ __('FsLang::panel.send_sms_supported_codes') }}</label>

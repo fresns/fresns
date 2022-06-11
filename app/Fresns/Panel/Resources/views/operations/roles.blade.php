@@ -38,7 +38,7 @@
             <tbody>
                 @foreach ($roles as $role)
                     <tr>
-                        <td><input type="number" data-action="{{ route('panel.roles.rank', $role->id) }}" class="form-control input-number rank-num" value="{{ $role->rank_num }}"></td>
+                        <td><input type="number" data-action="{{ route('panel.roles.rating', $role->id) }}" class="form-control input-number rating-number" value="{{ $role->rating }}"></td>
                         <td>{{ $typeLabels[$role->type] }}</td>
                         <td>
                             @if ($role->icon_file_url)
@@ -109,7 +109,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_order') }}</label>
                             <div class="col-sm-9">
-                                <input type="number" required name="rank_num" class="form-control input-number">
+                                <input type="number" required name="rating" class="form-control input-number">
                             </div>
                         </div>
                         <div class="mb-3 row">

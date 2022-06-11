@@ -8,12 +8,18 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Browser;
+use App\Helpers\AppHelper;
 use Illuminate\Http\Request;
+use App\Utilities\AppUtility;
+use App\Utilities\ConfigUtility;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
+
+    protected $loginLimit = false;
 
     public function __construct()
     {
@@ -53,13 +59,47 @@ class LoginController extends Controller
     {
         // check account type
         $account = $this->guard()->getProvider()->retrieveByCredentials($this->credentials($request));
+
         if (! $account || $account->type != 1) {
-            return false;
+            $result = false;
+        } else {
+            $result = $this->guard()->attempt(
+                $this->credentials($request), $request->filled('remember')
+            );
         }
 
-        return $this->guard()->attempt(
-            $this->credentials($request), $request->filled('remember')
-        );
+        // login session log
+        if ($account) {
+            $loginCount = ConfigUtility::getLoginErrorCount($account->id);
+
+            if ($loginCount >= 5) {
+                $this->loginLimit = true;
+                return false;
+            }
+
+            $langTag = \request()->header('langTag', config('app.locale'));
+            $deviceInfo = AppUtility::getDeviceInfo();
+            $wordBody = [
+                'type' => 2,
+                'pluginUnikey' => 'Fresns',
+                'platformId' => Browser::isMobile() ? 3 : 2,
+                'version' => AppHelper::VERSION,
+                'langTag' => $langTag,
+                'aid' => (string) $account->aid, // aid by account number
+                'uid' => null,
+                'objectName' => self::class,
+                'objectAction' => 'Panel Login',
+                'objectResult' => $result ? 3 : 2, // login success or failure
+                'objectOrderId' => null,
+                'deviceInfo' => json_encode($deviceInfo),
+                'deviceToken' => null,
+                'moreJson' => null,
+            ];
+            \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($wordBody);
+        }
+
+        return $result;
+
     }
 
     /**
@@ -72,8 +112,12 @@ class LoginController extends Controller
      */
     protected function sendFailedLoginResponse(Request $request)
     {
+        $error = trans('auth.failed');
+        if ($this->loginLimit) {
+            $error = trans('FsLang::tips.account_login_limit');
+        }
         return back()->withErrors([
-            $this->username() => [trans('auth.failed')],
+            $this->username() => [$error],
         ]);
     }
 

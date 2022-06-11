@@ -27,7 +27,10 @@ return [
     'request_in_progress' => 'अनुरोध जारी है...',
     'requestSuccess' => 'अनुरोध सफलता',
     'requestFailure' => 'अनुरोध विफलता',
-    // install
+
+    'install_not_entered_key' => 'कृपया fresns कुंजी दर्ज करें',
+    'install_not_entered_dir' => 'कृपया एक निर्देशिका दर्ज करें',
+    'install_not_upload_zip' => 'कृपया स्थापना पैकेज का चयन करें',
     'install_in_progress' => 'इंस्टॉल हो रहा है...',
     // upgrade
     'upgrade_none' => 'कोई अपग्रेड नहीं',
@@ -54,6 +57,12 @@ return [
     'uninstall_step_3' => 'फाइलों को नष्ट',
     'uninstall_step_4' => 'कैश को साफ़ करें',
     'uninstall_step_5' => 'पूर्ण',
+    // theme
+    'theme_error' => 'विषय गलत है या मौजूद नहीं है',
+    'theme_functions_file_error' => 'थीम कॉन्फ़िगरेशन के लिए दृश्य फ़ाइल गलत है या मौजूद नहीं है',
+    'theme_json_file_error' => 'थीम कॉन्फ़िगरेशन फ़ाइल गलत है या मौजूद नहीं है',
+    'theme_json_format_error' => 'थीम कॉन्फ़िगरेशन फ़ाइल स्वरूप त्रुटि',
+];
     // others
     'account_not_found' => 'खाता मौजूद नहीं है या गलत तरीके से दर्ज किया गया है',
     'account_login_limit' => 'त्रुटि सिस्टम सीमा से अधिक हो गई है। कृपया 1 घंटे बाद फिर से लॉग इन करें',
@@ -63,6 +72,7 @@ return [
     'language_exists' => 'भाषा पहले से मौजूद है',
     'language_not_exists' => 'भाषा मौजूद नहीं है',
     'plugin_not_exists' => 'प्लगइन मौजूद नहीं है',
+    'map_exists' => 'मानचित्र सेवा प्रदाता का पहले ही उपयोग किया जा चुका है और इसे फिर से नहीं बनाया जा सकता है',
     'map_not_exists' => 'नक्शा मौजूद नहीं है',
     'required_user_role_name' => 'कृपया भूमिका का नाम भरें',
     'required_sticker_category_name' => 'कृपया इमोजी ग्रुप का नाम भरें',
@@ -75,4 +85,3 @@ return [
     'post_datetime_select_range_error' => 'पद के लिए निर्धारित अंतिम तिथि प्रारंभ तिथि से कम नहीं हो सकती',
     'comment_datetime_select_error' => 'टिप्पणी के लिए निर्धारित दिनांक सीमा खाली नहीं हो सकती',
     'comment_datetime_select_range_error' => 'टिप्पणी सेटिंग की समाप्ति तिथि प्रारंभ तिथि से कम नहीं हो सकती है',
-];

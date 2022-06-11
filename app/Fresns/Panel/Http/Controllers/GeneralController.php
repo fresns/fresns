@@ -36,7 +36,7 @@ class GeneralController extends Controller
             'site_register_phone',
             'site_private_status',
             'site_private_service',
-            'site_private_end',
+            'site_private_end_after',
             'site_email',
             'utc',
         ];
@@ -83,12 +83,12 @@ class GeneralController extends Controller
     {
         if ($request->file('site_icon_file')) {
             $wordBody = [
-                'platform' => 4,
-                'type' => 1,
-                'tableType' => 2,
+                'platformId' => 4,
+                'useType' => 2,
                 'tableName' => 'configs',
                 'tableColumn' => 'item_value',
                 'tableKey' => 'site_icon',
+                'type' => 1,
                 'file' => $request->file('site_icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -103,12 +103,12 @@ class GeneralController extends Controller
 
         if ($request->file('site_logo_file')) {
             $wordBody = [
-                'platform' => 4,
-                'type' => 1,
-                'tableType' => 2,
+                'platformId' => 4,
+                'useType' => 2,
                 'tableName' => 'configs',
                 'tableColumn' => 'item_value',
                 'tableKey' => 'site_logo',
+                'type' => 1,
                 'file' => $request->file('site_logo_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -135,7 +135,7 @@ class GeneralController extends Controller
             'site_register_phone',
             'site_private_status',
             'site_private_service',
-            'site_private_end',
+            'site_private_end_after',
             'site_email',
         ];
 

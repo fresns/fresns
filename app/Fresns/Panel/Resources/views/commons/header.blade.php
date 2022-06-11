@@ -7,58 +7,67 @@
             </button>
             <div class="collapse navbar-collapse" id="headerNavbar">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link {{ \Route::is([
-                        'panel.dashboard*',
-                        'panel.upgrades*',
-                        'panel.admins*',
-                        'panel.settings*',
-                        ]) ? 'active' : '' }}" href="{{ route('panel.dashboard') }}">{{ __('FsLang::panel.menu_dashboard') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is([
-                        'panel.languages.*',
-                        'panel.general.*',
-                        'panel.policy.*',
-                        'panel.send.*',
-                        'panel.user.*',
-                        'panel.wallet.*',
-                        'panel.storage.*',
-                        'panel.maps.*',
-                        ]) ? 'active' : ''}}" href="{{ route('panel.languages.index') }}">{{ __('FsLang::panel.menu_systems') }}</a></li>
-                    <li class="nav-item"> <a class="nav-link {{ \Route::is([
-                        'panel.rename.*',
-                        'panel.interactive.*',
-                        'panel.stickers.*',
-                        'panel.publish.post.*',
-                        'panel.publish.comment.*',
-                        'panel.block-words.*',
-                        'panel.groups.*',
-                        'panel.roles.*'
-                        ]) ? 'active' : ''}}" href="{{ route('panel.rename.index' )}}">{{ __('FsLang::panel.menu_operations') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is([
-                        'panel.editor.*',
-                        'panel.content-type.*',
-                        'panel.post-detail.*',
-                        'panel.manage.*',
-                        'panel.group.*',
-                        'panel.user-feature.*',
-                        'panel.user-profile.*'
-                        ]) ? 'active' : '' }}" href="{{ route('panel.editor.index') }}">{{ __('FsLang::panel.menu_expands') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is([
-                        'panel.plugin.*',
-                        'panel.iframe.plugin'
-                        ]) ? 'active' : '' }} " href="{{ route('panel.plugin.list') }}">{{ __('FsLang::panel.menu_plugins') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is([
-                        'panel.menus.*',
-                        'panel.columns.*',
-                        'panel.language.packs.*',
-                        'panel.keys.*',
-                        'panel.engines.*',
-                        'panel.themes.*',
-                        'panel.apps.*',
-                        'panel.iframe.client'
-                        ]) ? 'active' : '' }}" href="{{ route('panel.menus.index') }}">{{ __('FsLang::panel.menu_clients') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is([
-                        'panel.iframe.market'
-                        ]) ? 'active' : '' }}" href="{{ route('panel.iframe.market', ['url' => 'https://fresns.market']) }}">{{ __('FsLang::panel.menu_market') }}</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ \Route::is([
+                            'panel.dashboard*',
+                            'panel.upgrades*',
+                            'panel.admins*',
+                            'panel.settings*',
+                        ]) ? 'active' : '' }}" href="{{ route('panel.dashboard') }}">{{ __('FsLang::panel.menu_dashboard') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ \Route::is([
+                            'panel.languages.*',
+                            'panel.general.*',
+                            'panel.policy.*',
+                            'panel.send.*',
+                            'panel.user.*',
+                            'panel.wallet.*',
+                            'panel.storage.*',
+                            'panel.maps.*',
+                        ]) ? 'active' : ''}}" href="{{ route('panel.languages.index') }}">{{ __('FsLang::panel.menu_systems') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ \Route::is([
+                            'panel.rename.*',
+                            'panel.interactive.*',
+                            'panel.stickers.*',
+                            'panel.publish.post.*',
+                            'panel.publish.comment.*',
+                            'panel.block-words.*',
+                            'panel.groups.*',
+                            'panel.roles.*'
+                        ]) ? 'active' : ''}}" href="{{ route('panel.rename.index' )}}">{{ __('FsLang::panel.menu_operations') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ \Route::is([
+                            'panel.editor.*',
+                            'panel.content-type.*',
+                            'panel.post-detail.*',
+                            'panel.manage.*',
+                            'panel.group.*',
+                            'panel.user-feature.*',
+                            'panel.user-profile.*'
+                        ]) ? 'active' : '' }}" href="{{ route('panel.editor.index') }}">{{ __('FsLang::panel.menu_extends') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ \Route::is([
+                            'panel.menus.*',
+                            'panel.columns.*',
+                            'panel.language.packs.*',
+                            'panel.code.messages.*',
+                        ]) ? 'active' : '' }}" href="{{ route('panel.menus.index') }}">{{ __('FsLang::panel.menu_clients') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ \Route::is([
+                            'panel.plugin.*',
+                            'panel.engine.*',
+                            'panel.theme.*',
+                            'panel.app.*',
+                            'panel.keys.*',
+                            'panel.iframe.*',
+                        ]) ? 'active' : '' }} " href="{{ route('panel.plugin.index') }}">{{ __('FsLang::panel.menu_app_center') }}</a>
+                    </li>
                 </ul>
                 <div class="navbar-nav">
                     <!--lang-->

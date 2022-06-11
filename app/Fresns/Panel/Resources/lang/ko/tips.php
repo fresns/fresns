@@ -28,6 +28,9 @@ return [
     'requestSuccess' => '요청 성공',
     'requestFailure' => '요청 실패',
     // install
+    'install_not_entered_key' => 'fresns 키를 입력하세요.',
+    'install_not_entered_dir' => '디렉토리를 입력하세요',
+    'install_not_upload_zip' => '설치 패키지를 선택하십시오',
     'install_in_progress' => '설치 진행 중...',
     // upgrade
     'upgrade_none' => '업데이트 없음',
@@ -54,6 +57,11 @@ return [
     'uninstall_step_3' => '파일 삭제',
     'uninstall_step_4' => '캐시 지우기',
     'uninstall_step_5' => '완료',
+    // theme
+    'theme_error' => '테마가 잘못되었거나 존재하지 않습니다.',
+    'theme_functions_file_error' => '테마 구성에 대한 보기 파일이 잘못되었거나 존재하지 않습니다.',
+    'theme_json_file_error' => '테마 구성 파일이 잘못되었거나 존재하지 않습니다.',
+    'theme_json_format_error' => '테마 구성 파일 형식 오류',
     // others
     'account_not_found' => '계정이 없거나 오류를 입력하지 않습니다',
     'account_login_limit' => '오류가 시스템 제한을 초과했습니다. 1시간 후에 다시 로그인하십시오',
@@ -63,6 +71,7 @@ return [
     'language_exists' => '언어가 이미 있습니다',
     'language_not_exists' => '언어가 존재하지 않습니다',
     'plugin_not_exists' => '플러그인이 존재하지 않습니다',
+    'map_exists' => '지도 서비스 공급자는 이미 사용되었으며 다시 만들 수 없습니다.',
     'map_not_exists' => '지도가 존재하지 않습니다',
     'required_user_role_name' => '역할의 이름을 기입하십시오',
     'required_sticker_category_name' => '표현식 그룹의 이름을 기입하십시오',

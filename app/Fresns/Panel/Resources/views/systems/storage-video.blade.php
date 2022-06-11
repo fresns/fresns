@@ -39,9 +39,16 @@
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_bucket_area') }}</label>
                     <input type="text" class="form-control" id="video_bucket_area" name="video_bucket_area" value="{{ $params['video_bucket_area'] }}">
                 </div>
-                <div class="input-group">
+                <div class="input-group mb-3">
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_bucket_domain') }}</label>
                     <input type="url" class="form-control" id="video_bucket_domain" name="video_bucket_domain" value="{{ $params['video_bucket_domain'] }}">
+                </div>
+                <div class="input-group">
+                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_filesystem_disk') }}</label>
+                    <select class="form-select" name="video_filesystem_disk">
+                        <option value="local" {{ $params['video_filesystem_disk'] == 'local' ? 'selected' : '' }}>local</option>
+                        <option value="remote" {{ $params['video_filesystem_disk'] == 'remote' ? 'selected' : '' }}>remote</option>
+                    </select>
                 </div>
             </div>
             <div class="col-lg-4 form-text pt-1">

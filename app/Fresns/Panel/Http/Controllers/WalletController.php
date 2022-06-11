@@ -150,7 +150,7 @@ class WalletController extends Controller
         });
 
         $pluginUsages = PluginUsage::where('type', 1)
-            ->orderBy('rank_num')
+            ->orderBy('rating')
             ->with('plugin', 'names')
             ->get();
 
@@ -165,18 +165,18 @@ class WalletController extends Controller
         $pluginUsage->plugin_unikey = $request->plugin_unikey;
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
-        $pluginUsage->rank_num = $request->rank_num;
+        $pluginUsage->rating = $request->rating;
         $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->save();
 
         if ($request->file('icon_file')) {
             $wordBody = [
-                'platform' => 4,
-                'type' => 1,
-                'tableType' => 3,
+                'platformId' => 4,
+                'useType' => 2,
                 'tableName' => 'plugin_usages',
                 'tableColumn' => 'icon_file_id',
                 'tableId' => $pluginUsage->id,
+                'type' => 1,
                 'file' => $request->file('icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -186,7 +186,7 @@ class WalletController extends Controller
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
             $pluginUsage->icon_file_id = $fileId;
-            $pluginUsage->icon_file_url = $fresnsResp->getData('imageConfigUrl');
+            $pluginUsage->icon_file_url = null;
             $pluginUsage->save();
         }
 
@@ -225,16 +225,16 @@ class WalletController extends Controller
         $pluginUsage->plugin_unikey = $request->plugin_unikey;
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
-        $pluginUsage->rank_num = $request->rank_num;
+        $pluginUsage->rating = $request->rating;
 
         if ($request->file('icon_file')) {
             $wordBody = [
-                'platform' => 4,
-                'type' => 1,
-                'tableType' => 3,
+                'platformId' => 4,
+                'useType' => 2,
                 'tableName' => 'plugin_usages',
                 'tableColumn' => 'icon_file_id',
                 'tableId' => $pluginUsage->id,
+                'type' => 1,
                 'file' => $request->file('icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -244,7 +244,7 @@ class WalletController extends Controller
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
             $pluginUsage->icon_file_id = $fileId;
-            $pluginUsage->icon_file_url = $fresnsResp->getData('imageConfigUrl');
+            $pluginUsage->icon_file_url = null;
         } elseif ($pluginUsage->icon_file_url != $request->icon_file_url) {
             $pluginUsage->icon_file_id = null;
             $pluginUsage->icon_file_url = $request->icon_file_url;
@@ -284,7 +284,7 @@ class WalletController extends Controller
     public function withdrawIndex()
     {
         $pluginUsages = PluginUsage::where('type', 2)
-            ->orderBy('rank_num')
+            ->orderBy('rating')
             ->with('plugin')
             ->get();
 
@@ -304,18 +304,18 @@ class WalletController extends Controller
         $pluginUsage->plugin_unikey = $request->plugin_unikey;
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
-        $pluginUsage->rank_num = $request->rank_num;
+        $pluginUsage->rating = $request->rating;
         $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->save();
 
         if ($request->file('icon_file')) {
             $wordBody = [
-                'platform' => 4,
-                'type' => 1,
-                'tableType' => 3,
+                'platformId' => 4,
+                'useType' => 2,
                 'tableName' => 'plugin_usages',
                 'tableColumn' => 'icon_file_id',
                 'tableId' => $pluginUsage->id,
+                'type' => 1,
                 'file' => $request->file('icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -325,7 +325,7 @@ class WalletController extends Controller
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
             $pluginUsage->icon_file_id = $fileId;
-            $pluginUsage->icon_file_url = $fresnsResp->getData('imageConfigUrl');
+            $pluginUsage->icon_file_url = null;
             $pluginUsage->save();
         }
 
@@ -364,16 +364,16 @@ class WalletController extends Controller
         $pluginUsage->plugin_unikey = $request->plugin_unikey;
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
-        $pluginUsage->rank_num = $request->rank_num;
+        $pluginUsage->rating = $request->rating;
 
         if ($request->file('icon_file')) {
             $wordBody = [
-                'platform' => 4,
-                'type' => 1,
-                'tableType' => 3,
+                'platformId' => 4,
+                'useType' => 2,
                 'tableName' => 'plugin_usages',
                 'tableColumn' => 'icon_file_id',
                 'tableId' => $pluginUsage->id,
+                'type' => 1,
                 'file' => $request->file('icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -383,7 +383,7 @@ class WalletController extends Controller
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
             $pluginUsage->icon_file_id = $fileId;
-            $pluginUsage->icon_file_url = $fresnsResp->getData('imageConfigUrl');
+            $pluginUsage->icon_file_url = null;
         } elseif ($pluginUsage->icon_file_url != $request->icon_file_url) {
             $pluginUsage->icon_file_id = null;
             $pluginUsage->icon_file_url = $request->icon_file_url;

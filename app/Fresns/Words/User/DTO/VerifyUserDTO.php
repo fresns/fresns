@@ -18,8 +18,9 @@ class VerifyUserDTO extends DTO
     public function rules(): array
     {
         return [
-            'uid' => ['required', 'integer'],
-            'password' => ['nullable', 'string'],
+            'aid' => ['string', 'required', 'exists:App\Models\Account,aid'],
+            'uid' => ['integer', 'required', 'exists:App\Models\User,uid'],
+            'password' => ['string', 'nullable'],
         ];
     }
 }

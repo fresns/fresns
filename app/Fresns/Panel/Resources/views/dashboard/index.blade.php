@@ -57,28 +57,40 @@
             <h3 class="h6">{{ __('FsLang::panel.extensions') }}</h3>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <i class="bi bi-key"></i> {{ __('FsLang::panel.extensions_admins') }}
-                    <span class="badge bg-info">{{ $adminCount }}</span>
+                    <i class="bi bi-person"></i> {{ __('FsLang::panel.extensions_admins') }}
+                    <a href="{{ route('panel.admins.index') }}">
+                        <span class="badge bg-info">{{ $adminCount }}</span>
+                    </a>
                 </li>
                 <li class="list-group-item">
-                    <i class="bi bi-person"></i> {{ __('FsLang::panel.extensions_keys') }}
-                    <span class="badge bg-info">{{ $keyCount }}</span>
+                    <i class="bi bi-key"></i> {{ __('FsLang::panel.extensions_keys') }}
+                    <a href="{{ route('panel.keys.index') }}">
+                        <span class="badge bg-info">{{ $keyCount }}</span>
+                    </a>
                 </li>
                 <li class="list-group-item">
                     <i class="bi bi-journal-code"></i> {{ __('FsLang::panel.extensions_plugins') }}
-                    <span class="badge bg-info">{{ $plugins->where('type', 1)->count() }}</span>
+                    <a href="{{ route('panel.plugin.index') }}">
+                        <span class="badge bg-info">{{ $plugins->where('type', 1)->count() }}</span>
+                    </a>
                 </li>
                 <li class="list-group-item">
                     <i class="bi bi-phone"></i> {{ __('FsLang::panel.extensions_apps') }}
-                    <span class="badge bg-info">{{ $plugins->where('type', 2)->count() }}</span>
+                    <a href="{{ route('panel.app.index') }}">
+                        <span class="badge bg-info">{{ $plugins->where('type', 2)->count() }}</span>
+                    </a>
                 </li>
                 <li class="list-group-item">
                     <i class="bi bi-laptop"></i> {{ __('FsLang::panel.extensions_engines') }}
-                    <span class="badge bg-info">{{ $plugins->where('type', 3)->count() }}</span>
+                    <a href="{{ route('panel.engine.index') }}">
+                        <span class="badge bg-info">{{ $plugins->where('type', 3)->count() }}</span>
+                    </a>
                 </li>
                 <li class="list-group-item">
                     <i class="bi bi-brush"></i> {{ __('FsLang::panel.extensions_themes') }}
-                    <span class="badge bg-info">{{ $plugins->where('type', 4)->count() }}</span>
+                    <a href="{{ route('panel.theme.index') }}">
+                        <span class="badge bg-info">{{ $plugins->where('type', 4)->count() }}</span>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -86,22 +98,22 @@
             <h3 class="h6">{{ __('FsLang::panel.support') }}</h3>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://fresns.org" target="_blank">{{ __('FsLang::panel.support_website') }}</a>
+                    <a class="fresns-link" href="https://fresns.cn" target="_blank">{{ __('FsLang::panel.support_website') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://fresns.org/community/teams.html" target="_blank">{{ __('FsLang::panel.support_teams') }}</a>
+                    <a class="fresns-link" href="https://fresns.cn/community/teams.html" target="_blank">{{ __('FsLang::panel.support_teams') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://fresns.org/community/partners.html" target="_blank">{{ __('FsLang::panel.support_partners') }}</a>
+                    <a class="fresns-link" href="https://fresns.cn/community/partners.html" target="_blank">{{ __('FsLang::panel.support_partners') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://fresns.org/community/join.html" target="_blank">{{ __('FsLang::panel.support_join') }}</a>
+                    <a class="fresns-link" href="https://fresns.cn/community/join.html" target="_blank">{{ __('FsLang::panel.support_join') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://discuss.fresns.org" target="_blank">{{ __('FsLang::panel.support_community') }}</a>
+                    <a class="fresns-link" href="https://discuss.fresns.cn" target="_blank">{{ __('FsLang::panel.support_community') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://fresns.market" target="_blank">{{ __('FsLang::panel.support_market') }}</a>
+                    <a class="fresns-link" href="https://market.fresns.cn" target="_blank">{{ __('FsLang::panel.support_market') }}</a>
                 </li>
             </ul>
         </div>

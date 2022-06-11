@@ -15,11 +15,12 @@ use Illuminate\Notifications\Notifiable;
 
 class Account extends Authenticatable
 {
-    use SoftDeletes;
     use HasFactory;
     use Notifiable;
+    use SoftDeletes;
     use Traits\AccountServiceTrait;
     use Traits\DataChangeNotifyTrait;
+    use Traits\IsEnableTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -36,6 +37,31 @@ class Account extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return $date->format($this->dateFormat ?: 'Y-m-d H:i:s');
+    }
+
+    public function wallet()
+    {
+        return $this->hasOne(AccountWallet::class);
+    }
+
+    public function walletLogs()
+    {
+        return $this->hasMany(AccountWalletLog::class);
+    }
+
+    public function connects()
+    {
+        return $this->hasMany(AccountConnect::class);
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 
     public function scopeOfAdmin($query)
     {

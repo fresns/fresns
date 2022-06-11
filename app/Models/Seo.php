@@ -8,14 +8,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
 class Seo extends Model
 {
-    use HasFactory;
+    const TYPE_USER = 1;
+    const TYPE_GROUP = 2;
+    const TYPE_HASHTAG = 3;
+    const TYPE_POST = 4;
+    const TYPE_COMMENT = 5;
 
     protected $table = 'seo';
 
     protected $guarded = ['id'];
+
+    public function scopeType($query, int $type)
+    {
+        return $query->where('linked_type', $type);
+    }
 }

@@ -21,10 +21,10 @@ class VerifySessionTokenDTO extends DTO
     public function rules(): array
     {
         return [
-            'platform' => ['required', 'integer'],
-            'aid' => ['required', 'string'],
-            'uid' => ['nullable', 'integer'],
-            'token' => ['required', 'string'],
+            'platformId' => ['integer', 'required', 'between:1,13'],
+            'aid' => ['string', 'required'],
+            'uid' => ['integer', 'nullable'],
+            'token' => ['string', 'required'],
         ];
     }
 }

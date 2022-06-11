@@ -18,10 +18,10 @@ class StickerGroupController extends Controller
     public function index()
     {
         $groups = Sticker::group()
-            ->orderBy('rank_num')
+            ->orderBy('rating')
             ->with('names')
             ->with(['stickers' => function ($query) {
-                $query->orderBy('rank_num');
+                $query->orderBy('rating');
             }])
             ->get();
 
@@ -30,7 +30,7 @@ class StickerGroupController extends Controller
 
     public function store(Sticker $sticker, UpdateStickerGroupRequest $request)
     {
-        $sticker->rank_num = $request->rank_num;
+        $sticker->rating = $request->rating;
         $sticker->code = $request->code;
         $sticker->is_enable = $request->is_enable;
         $sticker->image_file_url = $request->image_file_url ?: '';
@@ -40,12 +40,12 @@ class StickerGroupController extends Controller
 
         if ($request->file('image_file')) {
             $wordBody = [
-                'platform' => 4,
-                'type' => 1,
-                'tableType' => 3,
+                'platformId' => 4,
+                'useType' => 2,
                 'tableName' => 'stickers',
                 'tableColumn' => 'image_file_id',
                 'tableId' => $sticker->id,
+                'type' => 1,
                 'file' => $request->file('image_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -55,7 +55,7 @@ class StickerGroupController extends Controller
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
             $sticker->image_file_id = $fileId;
-            $sticker->image_file_url = $fresnsResp->getData('imageConfigUrl');
+            $sticker->image_file_url = null;
             $sticker->save();
         }
 
@@ -88,19 +88,19 @@ class StickerGroupController extends Controller
 
     public function update(Sticker $sticker, UpdateStickerGroupRequest $request)
     {
-        $sticker->rank_num = $request->rank_num;
+        $sticker->rating = $request->rating;
         $sticker->code = $request->code;
         $sticker->is_enable = $request->is_enable;
         $sticker->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
 
         if ($request->file('image_file')) {
             $wordBody = [
-                'platform' => 4,
-                'type' => 1,
-                'tableType' => 3,
+                'platformId' => 4,
+                'useType' => 2,
                 'tableName' => 'stickers',
                 'tableColumn' => 'image_file_id',
                 'tableId' => $sticker->id,
+                'type' => 1,
                 'file' => $request->file('image_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -110,7 +110,7 @@ class StickerGroupController extends Controller
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
             $sticker->image_file_id = $fileId;
-            $sticker->image_file_url = $fresnsResp->getData('imageConfigUrl');
+            $sticker->image_file_url = null;
         } elseif ($sticker->image_file_url != $request->image_file_url) {
             $sticker->image_file_id = null;
             $sticker->image_file_url = $request->image_file_url;

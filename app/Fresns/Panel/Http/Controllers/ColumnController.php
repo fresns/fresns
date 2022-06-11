@@ -18,24 +18,29 @@ class ColumnController extends Controller
         // config keys
         $configKeys = [
             'menu_like_users',
+            'menu_dislike_users',
             'menu_follow_users',
             'menu_block_users',
             'menu_post_from_follow_users',
             'menu_like_groups',
+            'menu_dislike_groups',
             'menu_follow_groups',
             'menu_block_groups',
             'menu_post_from_follow_groups',
             'menu_like_hashtags',
+            'menu_dislike_hashtags',
             'menu_follow_hashtags',
             'menu_block_hashtags',
             'menu_post_from_follow_hashtags',
             'menu_like_posts',
+            'menu_dislike_posts',
             'menu_follow_posts',
             'menu_block_posts',
             'menu_post_from_follow_all',
             'menu_post_from_nearby',
             'menu_post_from_location',
             'menu_like_comments',
+            'menu_dislike_comments',
             'menu_follow_comments',
             'menu_block_comments',
             'menu_account',
@@ -58,6 +63,7 @@ class ColumnController extends Controller
             'menu_editor_functions',
             'menu_editor_drafts',
             'menu_profile_likes',
+            'menu_profile_dislikes',
             'menu_profile_followers',
             'menu_profile_blockers',
             'menu_profile_like_users',
@@ -65,6 +71,11 @@ class ColumnController extends Controller
             'menu_profile_like_hashtags',
             'menu_profile_like_posts',
             'menu_profile_like_comments',
+            'menu_profile_dislike_users',
+            'menu_profile_dislike_groups',
+            'menu_profile_dislike_hashtags',
+            'menu_profile_dislike_posts',
+            'menu_profile_dislike_comments',
             'menu_profile_follow_users',
             'menu_profile_follow_groups',
             'menu_profile_follow_hashtags',
@@ -85,8 +96,6 @@ class ColumnController extends Controller
                 $config->item_type = 'string';
                 $config->item_tag = 'menus';
                 $config->is_multilingual = 1;
-                $config->is_api = 1;
-                $config->is_enable = 1;
                 $config->save();
             }
         }

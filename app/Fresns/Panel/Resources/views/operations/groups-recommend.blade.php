@@ -41,13 +41,13 @@
             <tbody>
                 @foreach ($groups as $group)
                     <tr>
-                        <td><input type="number" data-action="{{ route('panel.groups.recom.rank.update', $group->id) }}" name="rank_num" class="form-control input-number rank-num" value="{{ $group->recom_rank_num }}"></td>
+                        <td><input type="number" data-action="{{ route('panel.groups.recommend.rating.update', $group->id) }}" name="rating" class="form-control input-number rating-number" value="{{ $group->recommend_rating }}"></td>
                         <td><span class="badge rounded-pill bg-secondary">{{ optional($group->category)->name }}</span></td>
                         <td>
-                            @if ($group->cover_file_url)
-                                <img src="{{ $group->cover_file_url }}" width="24" height="24">
+                            @if ($group->getCoverUrl())
+                                <img src="{{ $group->getCoverUrl() }}" width="24" height="24">
                             @endif
-                            {{ $group->name }}
+                            {{ $group->getLangName($defaultLanguage) }}
                         </td>
                         <td>{{ $typeModeLabels[$group->type_mode] ?? '' }}</td>
                         <td>
@@ -58,7 +58,7 @@
                             @endif
                         </td>
                         <td>
-                            @foreach ($group->admin_users as $user)
+                            @foreach ($group->admins as $user)
                                 <span class="badge bg-light text-dark">{{ $user->nickname }}</span>
                             @endforeach
                         </td>
@@ -71,7 +71,7 @@
                                 <button type="button" class="btn btn-outline-primary btn-sm"
                                     data-action="{{ route('panel.groups.update', $group->id) }}"
                                     data-params="{{ $group->toJson() }}" data-names="{{ $group->names->toJson() }}"
-                                    data-admin_users="{{ $group->admin_users }}"
+                                    data-admin_users="{{ $group->admins }}"
                                     data-descriptions="{{ $group->descriptions->toJson() }}"
                                     data-names="{{ $group->names->toJson() }}"
                                     data-descriptions="{{ $group->descriptions->toJson() }}" data-bs-toggle="modal"
@@ -120,7 +120,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-md-2 col-form-label">{{ __('FsLang::panel.table_order') }}</label>
                             <div class="col-sm-9 col-md-10">
-                                <input type="number" class="form-control input-number" name="rank_num" required>
+                                <input type="number" class="form-control input-number" name="rating" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -232,7 +232,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-md-2 col-form-label">{{ __('FsLang::panel.group_table_admins') }}</label>
                             <div class="col-sm-9 col-md-10">
-                                <select class="form-select group-user-select2" name="permission[admin_users][]" multiple="multiple"></select>
+                                <select class="form-select group-user-select2" name="admin_ids[]" multiple="multiple"></select>
                             </div>
                         </div>
                         <div class="mb-3 row">

@@ -18,8 +18,8 @@ class ReleaseContentDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => ['required', 'in:1,2'],
-            'logId' => ['required', 'integer'],
+            'type' => ['integer', 'required', 'in:1,2'],
+            'logId' => ['integer', 'required'],
         ];
     }
 }

@@ -15,7 +15,7 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.storage_function_substitution_config') }}:</label>
             <div class="col-lg-8">
 
-                <!--substitution_image-->
+                <!--image_substitution-->
                 <div class="input-group mb-3">
                     <div class="input-group">
                         <label class="input-group-text">{{ __('FsLang::panel.storage_function_substitution_image') }}</label>
@@ -32,19 +32,18 @@
                             <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                         </ul>
                         <!--Input-->
-                        <input type="file" class="form-control inputFile" name="substitution_image_file" @if ($configImageInfo['imageConfigType'] == 'URL') style="display:none;" @endif>
-                        <input type="url" class="form-control inputUrl" name="substitution_image_url" @if ($configImageInfo['imageConfigType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['imageConfigType'] == 'URL') value="{{ $params['substitution_image'] }}" @endif>
+                        <input type="file" class="form-control inputFile" name="image_substitution_file" @if ($configImageInfo['imageConfigType'] == 'URL') style="display:none;" @endif>
+                        <input type="url" class="form-control inputUrl" name="image_substitution_url" @if ($configImageInfo['imageConfigType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['imageConfigType'] == 'URL') value="{{ $params['image_substitution'] }}" @endif>
                         <!--Hidden item-->
-                        <input type="hidden" name="substitution_image" value="{{ $params['substitution_image'] }}">
+                        <input type="hidden" name="image_substitution" value="{{ $params['image_substitution'] }}">
                         <!--Preview-->
-                        @if ($params['substitution_image'])
-                            <input type="hidden" class="imageUrl" value="{{ $configImageInfo['imageConfigUrl'] }}">
-                            <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_view') }}</button>
+                        @if ($params['image_substitution'])
+                            <button class="btn btn-outline-secondary preview-image" type="button" data-url="{{ $configImageInfo['imageConfigUrl'] }}">{{ __('FsLang::panel.button_view') }}</button>
                         @endif
                     </div>
                 </div>
 
-                <!--substitution_video-->
+                <!--video_substitution-->
                 <div class="input-group mb-3">
                     <div class="input-group">
                         <label class="input-group-text">{{ __('FsLang::panel.storage_function_substitution_video') }}</label>
@@ -61,19 +60,18 @@
                             <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                         </ul>
                         <!--Input-->
-                        <input type="file" class="form-control inputFile" name="substitution_video_file" @if ($configImageInfo['videoConfigType'] == 'URL') style="display:none;" @endif>
-                        <input type="url" class="form-control inputUrl" name="substitution_video_url" @if ($configImageInfo['videoConfigType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['videoConfigType'] == 'URL') value="{{ $params['substitution_video'] }}" @endif>
+                        <input type="file" class="form-control inputFile" name="video_substitution_file" @if ($configImageInfo['videoConfigType'] == 'URL') style="display:none;" @endif>
+                        <input type="url" class="form-control inputUrl" name="video_substitution_url" @if ($configImageInfo['videoConfigType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['videoConfigType'] == 'URL') value="{{ $params['video_substitution'] }}" @endif>
                         <!--Hidden item-->
-                        <input type="hidden" name="substitution_video" value="{{ $params['substitution_video'] }}">
+                        <input type="hidden" name="video_substitution" value="{{ $params['video_substitution'] }}">
                         <!--Preview-->
-                        @if ($params['substitution_video'])
-                            <input type="hidden" class="imageUrl" value="{{ $configImageInfo['videoConfigUrl'] }}">
-                            <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_view') }}</button>
+                        @if ($params['video_substitution'])
+                            <button class="btn btn-outline-secondary preview-image" type="button" data-url="{{ $configImageInfo['videoConfigUrl'] }}">{{ __('FsLang::panel.button_view') }}</button>
                         @endif
                     </div>
                 </div>
 
-                <!--substitution_audio-->
+                <!--audio_substitution-->
                 <div class="input-group mb-3">
                     <div class="input-group">
                         <label class="input-group-text">{{ __('FsLang::panel.storage_function_substitution_audio') }}</label>
@@ -90,19 +88,18 @@
                             <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                         </ul>
                         <!--Input-->
-                        <input type="file" class="form-control inputFile" name="substitution_audio_file" @if ($configImageInfo['audioConfigType'] == 'URL') style="display:none;" @endif>
-                        <input type="url" class="form-control inputUrl" name="substitution_audio_url" @if ($configImageInfo['audioConfigType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['audioConfigType'] == 'URL') value="{{ $params['substitution_audio'] }}" @endif>
+                        <input type="file" class="form-control inputFile" name="audio_substitution_file" @if ($configImageInfo['audioConfigType'] == 'URL') style="display:none;" @endif>
+                        <input type="url" class="form-control inputUrl" name="audio_substitution_url" @if ($configImageInfo['audioConfigType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['audioConfigType'] == 'URL') value="{{ $params['audio_substitution'] }}" @endif>
                         <!--Hidden item-->
-                        <input type="hidden" name="substitution_audio" value="{{ $params['substitution_audio'] }}">
+                        <input type="hidden" name="audio_substitution" value="{{ $params['audio_substitution'] }}">
                         <!--Preview-->
-                        @if ($params['substitution_audio'])
-                            <input type="hidden" class="imageUrl" value="{{ $configImageInfo['audioConfigUrl'] }}">
-                            <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_view') }}</button>
+                        @if ($params['audio_substitution'])
+                            <button class="btn btn-outline-secondary preview-image" type="button" data-url="{{ $configImageInfo['audioConfigUrl'] }}">{{ __('FsLang::panel.button_view') }}</button>
                         @endif
                     </div>
                 </div>
 
-                <!--substitution_document-->
+                <!--document_substitution-->
                 <div class="input-group mb-3">
                     <div class="input-group">
                         <label class="input-group-text">{{ __('FsLang::panel.storage_function_substitution_document') }}</label>
@@ -119,14 +116,13 @@
                             <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
                         </ul>
                         <!--Input-->
-                        <input type="file" class="form-control inputFile" name="substitution_document_file" @if ($configImageInfo['documentConfigType'] == 'URL') style="display:none;" @endif>
-                        <input type="url" class="form-control inputUrl" name="substitution_document_url" @if ($configImageInfo['documentConfigType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['documentConfigType'] == 'URL') value="{{ $params['substitution_document'] }}" @endif>
+                        <input type="file" class="form-control inputFile" name="document_substitution_file" @if ($configImageInfo['documentConfigType'] == 'URL') style="display:none;" @endif>
+                        <input type="url" class="form-control inputUrl" name="document_substitution_url" @if ($configImageInfo['documentConfigType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['documentConfigType'] == 'URL') value="{{ $params['document_substitution'] }}" @endif>
                         <!--Hidden item-->
-                        <input type="hidden" name="substitution_document" value="{{ $params['substitution_document'] }}">
+                        <input type="hidden" name="document_substitution" value="{{ $params['document_substitution'] }}">
                         <!--Preview-->
-                        @if ($params['substitution_document'])
-                            <input type="hidden" class="imageUrl" value="{{ $configImageInfo['documentConfigUrl'] }}">
-                            <button class="btn btn-outline-secondary preview-image" type="button">{{ __('FsLang::panel.button_view') }}</button>
+                        @if ($params['document_substitution'])
+                            <button class="btn btn-outline-secondary preview-image" type="button" data-url="{{ $configImageInfo['documentConfigUrl'] }}">{{ __('FsLang::panel.button_view') }}</button>
                         @endif
                     </div>
                 </div>

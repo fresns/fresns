@@ -337,21 +337,21 @@
                 <div class="row mb-3">
                     <label class="col-sm-3 col-form-label" for="email">@lang('Install::install.register_account_email')</label>
                     <div class="col-sm-9">
-                        <input type="email" class="form-control" id="email" name="admin_info[email]" placeholder="name@fresns.org" value="">
+                        <input type="email" class="form-control" id="email" name="admin_info[email]" placeholder="name@fresns.org" value="" required>
                     </div>
                 </div>
                 <!--password-->
                 <div class="row mb-3">
                     <label class="col-sm-3 col-form-label" for="password">@lang('Install::install.register_account_password')</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="password" name="admin_info[password]" placeholder="@lang('Install::install.register_account_password')" value="">
+                        <input type="text" class="form-control" id="password" name="admin_info[password]" placeholder="@lang('Install::install.register_account_password')" value="" required>
                     </div>
                 </div>
                 <!--password confirm-->
                 <div class="row mb-3">
                     <label class="col-sm-3 col-form-label" for="password_confirmation">@lang('Install::install.register_account_password_confirm')</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="password_confirmation" name="admin_info[password_confirmation]" placeholder="@lang('Install::install.register_account_password_confirm')" value="">
+                        <input type="text" class="form-control" id="password_confirmation" name="admin_info[password_confirmation]" placeholder="@lang('Install::install.register_account_password_confirm')" value="" required>
                     </div>
                 </div>
                 <!--submit-->
@@ -359,12 +359,12 @@
                     <label class="col-sm-3 col-form-label"></label>
                     <div class="col-sm-9">
                         <button type="button" class="flex-end btn btn-outline-primary mt-3" @click="() => {
-                                const data = {step}
-                                $('form').serializeArray().forEach(item => {
-                                    data[item.name] = item.value
-                                })
-                                next_step(data)
-                            }">@lang('Install::install.btn_submit')</button>
+                            const data = {step}
+                            $('form').serializeArray().forEach(item => {
+                                data[item.name] = item.value
+                            })
+                            next_step(data)
+                        }">@lang('Install::install.btn_submit')</button>
                     </div>
                 </div>
             </div>

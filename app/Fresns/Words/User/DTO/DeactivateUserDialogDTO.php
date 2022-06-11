@@ -18,7 +18,7 @@ class DeactivateUserDialogDTO extends DTO
     public function rules(): array
     {
         return [
-            'uid' => ['required', 'integer'],
+            'uid' => ['integer', 'required', 'exists:App\Models\User,uid'],
         ];
     }
 }

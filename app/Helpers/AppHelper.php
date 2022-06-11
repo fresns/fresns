@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\DB;
 
 class AppHelper
 {
-    const VERSION = '1.6.0';
-    const VERSION_INT = 3;
+    const VERSION = '2.0.0';
+    const VERSION_INT = 1;
 
     // fresns test helper
     public static function fresnsTestHelper()
@@ -56,9 +56,9 @@ class AppHelper
         $mySqlVersion = 'version()';
         $dbInfo['version'] = DB::select('select version()')[0]->$mySqlVersion;
 
-        $dbInfo['timezone'] = 'UTC'.DateHelper::fresnsSqlTimezone();
+        $dbInfo['timezone'] = 'UTC'.DateHelper::fresnsDatabaseTimezone();
         $dbInfo['envTimezone'] = config('app.timezone');
-        $dbInfo['envTimezoneToUtc'] = 'UTC'.DateHelper::fresnsSqlTimezoneByName(config('app.timezone'));
+        $dbInfo['envTimezoneToUtc'] = 'UTC'.DateHelper::fresnsDatabaseTimezoneByName(config('app.timezone'));
 
         $mySqlCollation = 'Value';
         $dbInfo['collation'] = DB::select('show variables like "collation%"')[1]->$mySqlCollation;

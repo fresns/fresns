@@ -8,30 +8,45 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Str;
+
 class StrHelper
 {
     /**
      * @param  string  $email
      * @return string
      */
-    public static function encryptEmail(string $email)
+    public static function maskEmail(string $email)
     {
-        $emailArr = explode('@', $email);
-        if (empty($emailArr[0])) {
-            return '';
+        if (!$email) {
+            return;
         }
-        $mid = str_repeat('*', strlen($emailArr[0]) - 3);
-        $emailStr = substr_replace($emailArr[0], $mid, 3);
-        $email = $emailStr.'@'.$emailArr[1];
 
-        return $email;
+        $user = strstr($email, '@', true);
+        $domain = strstr($email, '@');
+
+        $len = mb_strlen($user);
+
+        $mask = match (true) {
+            default => str_repeat('*', 3),
+            $len > 3 => str_repeat('*', bcsub($len, 3)),
+        };
+
+        $offset = match (true) {
+            default => 1,
+            $len > 3 => 3,
+        };
+
+        $maskUser = substr_replace($user, $mask, $offset);
+
+        return "{$maskUser}{$domain}";
     }
 
     /**
      * @param  int  $number
      * @return mixed
      */
-    public static function encryptNumber(int $number)
+    public static function maskNumber(int $number)
     {
         $head = substr($number, 0, 2);
         $tail = substr($number, -2);
@@ -45,7 +60,7 @@ class StrHelper
      * @param  string  $name
      * @return string
      */
-    public static function encryptName(string $name)
+    public static function maskName(string $name)
     {
         $len = mb_strlen($name);
         if ($len < 1) {
@@ -67,14 +82,23 @@ class StrHelper
     }
 
     /**
-     * @param  string  $commaString
-     * @return array
+     * @param  string  $string
      */
-    public static function commaStringToArray(string $commaString = '')
+    public static function stringToUtf8(?string $string = null)
     {
-        $toArray = explode(',', $commaString);
+        if (empty($string)) {
+            return $string;
+        }
 
-        return $toArray;
+        $encoding_list = [
+            'ASCII', 'UTF-8', 'GB2312', 'GBK', 'BIG5',
+        ];
+
+        $encode = mb_detect_encoding($string, $encoding_list);
+
+        $string = mb_convert_encoding($string, 'UTF-8', $encode);
+
+        return $string;
     }
 
     /**
@@ -85,6 +109,10 @@ class StrHelper
     {
         if (! $uri) {
             return '';
+        }
+
+        if (str_contains($uri, '://')) {
+            return $uri;
         }
 
         if (! $domain) {
@@ -162,9 +190,22 @@ class StrHelper
 
     public static function extractDomainByUrl(string $url)
     {
-        $host = parse_url($url)['host'];
+        $host = parse_url($url, PHP_URL_HOST);
         $domain = self::extractDomainByHost($host);
 
         return $domain ?? 'Unknown Error';
+    }
+
+    public static function slug(string $string)
+    {
+        $text = StrHelper::stringToUtf8($string);
+
+        if (preg_match("/^[A-Za-z\s]+$/", $text)) {
+            $slug = Str::slug($text, '-');
+        } else {
+            $slug = rawurlencode($text);
+        }
+
+        return $slug;
     }
 }

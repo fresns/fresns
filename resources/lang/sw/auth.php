@@ -13,6 +13,6 @@
 
 return [
     'failed'   => 'Hii hati tambulishi hailingani na rekodi zetu.',
-    'password' => 'Nenosiri lililotolewa si sahihi.',
+    'password' => 'The provided password is incorrect.',
     'throttle' => 'Majaribio mengi sana ya kuingia. Tafadhali jaribu tena katika :sekunde sekunde.',
 ];

@@ -33,7 +33,7 @@
             <tbody>
                 @foreach ($groups as $group)
                     <tr>
-                        <td><input type="number" data-action="{{ route('panel.stickers.rank', $group->id) }}" class="form-control input-number rank-num" value="{{ $group->rank_num }}"></td>
+                        <td><input type="number" data-action="{{ route('panel.stickers.rating', $group->id) }}" class="form-control input-number rating-number" value="{{ $group->rating }}"></td>
                         <td>
                             @if ($group->image_file_url)
                                 <img src="{{ $group->image_file_url }}" width="24" height="24">
@@ -90,7 +90,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_order') }}</label>
                             <div class="col-sm-9">
-                                <input type="number" class="form-control input-number" name="rank_num" required>
+                                <input type="number" class="form-control input-number" name="rating" required>
                             </div>
                         </div>
                         <!--sticker_table_group_image-->
@@ -237,7 +237,7 @@
 
     <template id="stickerData">
         <tr>
-            <td><input type="number" class="form-control input-number sticker-rank"></td>
+            <td><input type="number" class="form-control input-number sticker-rating"></td>
             <td><img class="sticker-img" src="" width="28" height="28"></td>
             <td>[<span class="sticker-code"></span>]</td>
             <td>
@@ -266,7 +266,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_order') }}</label>
                             <div class="col-sm-9">
-                                <input type="number" class="form-control input-number" name="rank_num" required>
+                                <input type="number" class="form-control input-number" name="rating" required>
                             </div>
                         </div>
                         <div class="mb-3 row">

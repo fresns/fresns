@@ -8,10 +8,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
 class Dialog extends Model
 {
-    use HasFactory;
+    public function messages()
+    {
+        return $this->hasMany(DialogMessage::class)->isEnable();
+    }
 }

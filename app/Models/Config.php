@@ -69,7 +69,6 @@ class Config extends Model
 
     public function languages()
     {
-        return $this->hasMany(Language::class, 'table_key', 'item_key')
-            ->where('table_name', 'configs');
+        return $this->hasMany(Language::class, 'table_key', 'item_key')->where('table_name', 'configs');
     }
 }

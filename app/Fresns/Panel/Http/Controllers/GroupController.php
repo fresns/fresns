@@ -43,7 +43,7 @@ class GroupController extends Controller
         $this->initOptions();
 
         $categories = Group::typeCategory()
-            ->orderBy('rank_num')
+            ->orderBy('rating')
             ->with('names', 'descriptions')
             ->get();
 
@@ -53,16 +53,11 @@ class GroupController extends Controller
 
         if ($parentId) {
             $groups = Group::typeGroup()
-                ->orderBy('rank_num')
+                ->orderBy('rating')
                 ->where('parent_id', $parentId)
-                ->where('is_enable', 1)
-                ->with('user', 'plugin', 'names', 'descriptions')
+                ->isEnable()
+                ->with('creator', 'plugin', 'names', 'descriptions', 'admins')
                 ->paginate();
-
-            $groups->map(function ($group) {
-                $userIds = $group->permission['admin_users'] ?? [];
-                $group->admin_users = User::whereIn('id', $userIds)->get();
-            });
         }
 
         extract(get_object_vars($this));
@@ -89,7 +84,7 @@ class GroupController extends Controller
     {
         $groups = Group::typeGroup()
             ->where('parent_id', $request->category_id)
-            ->where('is_enable', 1)
+            ->isEnable()
             ->get();
 
         return response()->json($groups);
@@ -104,16 +99,11 @@ class GroupController extends Controller
             ->get();
 
         $groups = Group::typeGroup()
-            ->orderBy('recom_rank_num')
-            ->with('user', 'plugin', 'category')
+            ->orderBy('recommend_rating')
+            ->with('creator', 'plugin', 'category', 'admins')
             ->where('is_recommend', 1)
-            ->where('is_enable', 1)
+            ->isEnable()
             ->paginate();
-
-        $groups->map(function ($group) {
-            $userIds = $group->permission['admin_users'] ?? [];
-            $group->admin_users = User::whereIn('id', $userIds)->get();
-        });
 
         $plugins = Plugin::all();
         $plugins = $plugins->filter(function ($plugin) {
@@ -139,9 +129,9 @@ class GroupController extends Controller
         $this->initOptions();
 
         $groups = Group::typeGroup()
-            ->orderBy('rank_num')
-            ->where('is_enable', 0)
-            ->with('user', 'plugin', 'category')
+            ->orderBy('rating')
+            ->isEnable(false)
+            ->with('creator', 'plugin', 'category')
             ->paginate();
 
         extract(get_object_vars($this));
@@ -158,7 +148,7 @@ class GroupController extends Controller
         $group->gid = \Str::random(12);
         $group->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $group->description = $request->descriptions[$this->defaultLanguage] ?? (current(array_filter($request->descriptions)) ?: '');
-        $group->rank_num = $request->rank_num;
+        $group->rating = $request->rating;
         $group->cover_file_url = $request->cover_file_url;
         $group->banner_file_url = $request->banner_file_url;
         // group category
@@ -184,14 +174,18 @@ class GroupController extends Controller
         }
         $group->save();
 
+        if ($request->admin_ids) {
+            $group->admins()->sync($request->admin_ids);
+        }
+
         if ($request->file('cover_file')) {
             $wordBody = [
-                'platform' => 4,
-                'type' => 1,
-                'tableType' => 3,
+                'platformId' => 4,
+                'useType' => 2,
                 'tableName' => 'groups',
                 'tableColumn' => 'cover_file_id',
                 'tableId' => $group->id,
+                'type' => 1,
                 'file' => $request->file('cover_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -201,18 +195,18 @@ class GroupController extends Controller
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
             $group->cover_file_id = $fileId;
-            $group->cover_file_url = $fresnsResp->getData('imageConfigUrl');
+            $group->cover_file_url = null;
             $group->save();
         }
 
         if ($request->file('banner_file')) {
             $wordBody = [
-                'platform' => 4,
-                'type' => 1,
-                'tableType' => 3,
+                'platformId' => 4,
+                'useType' => 2,
                 'tableName' => 'groups',
                 'tableColumn' => 'banner_file_id',
                 'tableId' => $group->id,
+                'type' => 1,
                 'file' => $request->file('banner_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -222,7 +216,7 @@ class GroupController extends Controller
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
             $group->banner_file_id = $fileId;
-            $group->banner_file_url = $fresnsResp->getData('imageConfigUrl');
+            $group->banner_file_url = null;
             $group->save();
         }
 
@@ -287,9 +281,7 @@ class GroupController extends Controller
     {
         $group->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $group->description = $request->descriptions[$this->defaultLanguage] ?? (current(array_filter($request->descriptions)) ?: '');
-        $group->rank_num = $request->rank_num;
-        //$group->cover_file_url = $request->cover_file_url;
-        //$group->banner_file_url = $request->banner_file_url;
+        $group->rating = $request->rating;
         // group category
         if ($request->is_category) {
             $group->permission = [];
@@ -307,16 +299,17 @@ class GroupController extends Controller
             $permission['publish_post_review'] = (bool) ($permission['publish_post_review'] ?? 0);
             $permission['publish_comment_review'] = (bool) ($permission['publish_comment_review'] ?? 0);
             $group->permission = $permission;
+            $group->admins()->sync($request->admin_ids);
         }
 
         if ($request->file('cover_file')) {
             $wordBody = [
-                'platform' => 4,
-                'type' => 1,
-                'tableType' => 3,
+                'platformId' => 4,
+                'useType' => 2,
                 'tableName' => 'groups',
                 'tableColumn' => 'cover_file_id',
                 'tableId' => $group->id,
+                'type' => 1,
                 'file' => $request->file('cover_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -326,7 +319,7 @@ class GroupController extends Controller
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
             $group->cover_file_id = $fileId;
-            $group->cover_file_url = $fresnsResp->getData('imageConfigUrl');
+            $group->cover_file_url = null;
         } elseif ($group->cover_file_url != $request->cover_file_url) {
             $group->cover_file_id = null;
             $group->cover_file_url = $request->cover_file_url;
@@ -334,12 +327,12 @@ class GroupController extends Controller
 
         if ($request->file('banner_file')) {
             $wordBody = [
-                'platform' => 4,
-                'type' => 1,
-                'tableType' => 3,
+                'platformId' => 4,
+                'useType' => 2,
                 'tableName' => 'groups',
                 'tableColumn' => 'banner_file_id',
                 'tableId' => $group->id,
+                'type' => 1,
                 'file' => $request->file('banner_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -349,7 +342,7 @@ class GroupController extends Controller
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
             $group->banner_file_id = $fileId;
-            $group->banner_file_url = $fresnsResp->getData('imageConfigUrl');
+            $group->banner_file_url = null;
         } else {
             $group->banner_file_id = null;
             $group->banner_file_url = $request->banner_file_url;
@@ -445,17 +438,17 @@ class GroupController extends Controller
         return $this->updateSuccess();
     }
 
-    public function updateRank(Group $group, Request $request)
+    public function updateRating(Group $group, Request $request)
     {
-        $group->rank_num = $request->rank_num;
+        $group->rating = $request->rating;
         $group->save();
 
         return $this->updateSuccess();
     }
 
-    public function updateRecomRank(Group $group, Request $request)
+    public function updateRecommendRank(Group $group, Request $request)
     {
-        $group->recom_rank_num = $request->rank_num;
+        $group->recommend_rating = $request->rating;
         $group->save();
 
         return $this->updateSuccess();
