@@ -23,11 +23,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $cronArr = Cache::rememberForever('cronArr',function (){
+        $cronArr = Cache::rememberForever('cronArr', function () {
             return ConfigHelper::fresnsConfigByItemKey('crontab_items');
         });
-        foreach ($cronArr as $cron)
-        {
+        foreach ($cronArr as $cron) {
             $schedule->call(function () use ($cron) {
                 \FresnsCmdWord::plugin($cron['unikey'])->{$cron['cmdWord']}();
             })->cron($cron['taskPeriod']);
@@ -50,5 +49,4 @@ class Kernel extends ConsoleKernel
     {
         return $this->getArtisan()->has($command);
     }
-
 }
