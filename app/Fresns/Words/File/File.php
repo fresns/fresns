@@ -186,7 +186,6 @@ class File
      *
      * @throws \Throwable
      */
-
     public function getAntiLinkFileOriginalUrl($wordBody)
     {
         $dtoWordBody = new GetAntiLinkFileOriginalUrlDTO($wordBody);

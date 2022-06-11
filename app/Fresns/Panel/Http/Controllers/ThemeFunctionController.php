@@ -5,14 +5,15 @@
  * Copyright (C) 2021-Present Jarvis Tang
  * Released under the Apache-2.0 License.
  */
+
 namespace App\Fresns\Panel\Http\Controllers;
 
-use App\Models\Config;
-use App\Models\Plugin;
-use App\Models\Language;
-use Illuminate\Http\Request;
 use App\Helpers\ConfigHelper;
+use App\Models\Config;
+use App\Models\Language;
+use App\Models\Plugin;
 use App\Utilities\ConfigUtility;
+use Illuminate\Http\Request;
 
 class ThemeFunctionController extends Controller
 {
@@ -39,7 +40,7 @@ class ThemeFunctionController extends Controller
         $functionKeys = collect($themeConfig['functionKeys'] ?? []);
 
         $view = $theme.'.functions';
-        if (! view()->exists($view)){
+        if (! view()->exists($view)) {
             abort(404, __('FsLang::tips.theme_functions_file_error'));
         }
 
@@ -51,7 +52,7 @@ class ThemeFunctionController extends Controller
         $langKeys = $functionKeys->where('isMultilingual', true)->pluck('itemKey');
         $languages = Language::ofConfig()->whereIn('table_key', $langKeys)->get();
 
-        foreach($functionKeys as $functionKey) {
+        foreach ($functionKeys as $functionKey) {
             $key = $functionKey['itemKey'];
             $functionKey['value'] = $configValue[$key] ?? null;
             // File
@@ -86,9 +87,8 @@ class ThemeFunctionController extends Controller
         $functionKeys = $themeConfig['functionKeys'] ?? [];
 
         $fresnsConfigItems = [];
-        foreach($functionKeys as $functionKey) {
+        foreach ($functionKeys as $functionKey) {
             if ($functionKey['itemType'] == 'file') {
-
                 if ($request->file($functionKey['itemKey'].'_file')) {
                     $wordBody = [
                         'platformId' => 4,
@@ -130,17 +130,16 @@ class ThemeFunctionController extends Controller
 
     public function updateLanguage(Request $request)
     {
-
         $key = $request->key;
         $theme = $request->theme;
-        if (!$key || !$theme){
+        if (! $key || ! $theme) {
             abort(404);
         }
         $themeConfig = $this->getThemeConfig($theme);
 
         $functionKeys = $themeConfig['functionKeys'] ?? [];
         $functionKey = collect($functionKeys)->where('itemKey', $key)->first();
-        if (!$functionKey) {
+        if (! $functionKey) {
             abort(404);
         }
 
@@ -165,5 +164,4 @@ class ThemeFunctionController extends Controller
 
         return $this->createSuccess();
     }
-
 }

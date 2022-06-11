@@ -12,5 +12,4 @@ use Illuminate\Http\Request;
 
 class EditorController extends Controller
 {
-
 }

@@ -3,6 +3,7 @@
 /*
  * Fresns (https://fresns.org)
  * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
  */
 
 namespace App\Fresns\Api\Traits;
@@ -35,7 +36,7 @@ trait ApiResponseTrait
         $fresnsResponse = compact('code', 'message', 'data') + array_filter(compact('paginate'));
 
         return \response(
-            \json_encode($fresnsResponse, \JSON_UNESCAPED_SLASHES|\JSON_UNESCAPED_UNICODE|\JSON_PRETTY_PRINT),
+            \json_encode($fresnsResponse, \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE | \JSON_PRETTY_PRINT),
             Response::HTTP_OK,
             array_merge([
                 'Fresns-Version' => AppHelper::VERSION,
@@ -49,8 +50,8 @@ trait ApiResponseTrait
     public function failure($code = 3e4, $message = 'unknown error', $data = null, $headers = [])
     {
         if (! \request()->wantsJson()) {
-            $message = \json_encode(compact('code', 'message', 'data'), \JSON_UNESCAPED_SLASHES|\JSON_UNESCAPED_UNICODE|\JSON_PRETTY_PRINT);
-            if (!array_key_exists($code, Response::$statusTexts)) {
+            $message = \json_encode(compact('code', 'message', 'data'), \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE | \JSON_PRETTY_PRINT);
+            if (! array_key_exists($code, Response::$statusTexts)) {
                 $code = 200;
             }
 

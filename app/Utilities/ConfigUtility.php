@@ -48,10 +48,10 @@ class ConfigUtility
     // change config items
     public static function changeFresnsConfigItems(array $fresnsConfigItems)
     {
-        foreach($fresnsConfigItems as $item) {
+        foreach ($fresnsConfigItems as $item) {
             Config::updateOrCreate([
-                    'item_key' => $item['item_key']
-                ],
+                'item_key' => $item['item_key'],
+            ],
                 collect($item)->only('item_key', 'item_value', 'item_type', 'item_tag', 'is_multilingual', 'is_api')->toArray()
             );
 
@@ -71,7 +71,7 @@ class ConfigUtility
     // change language items
     public static function changeFresnsLanguageItems($fresnsLangItems)
     {
-        foreach($fresnsLangItems['language_values'] ?? [] as $key => $value) {
+        foreach ($fresnsLangItems['language_values'] ?? [] as $key => $value) {
             $item = $fresnsLangItems;
             $item['lang_tag'] = $key;
             $item['lang_content'] = $value;
@@ -100,7 +100,7 @@ class ConfigUtility
     public static function getLoginErrorCount(int $accountId, ?int $userId = null): int
     {
         $sessionLog = SessionLog::whereIn('type', [2, 5, 8])
-            ->whereIn('object_result', [1 ,2])
+            ->whereIn('object_result', [1, 2])
             ->where('account_id', $accountId)
             ->where('created_at', '>=', now()->subHour());
 

@@ -48,7 +48,7 @@ class InteractiveHelper
             'dislike_user_setting', 'dislike_user_name',
             'follow_user_setting', 'follow_user_name',
             'block_user_setting', 'block_user_name',
-            'publish_post_name', 'publish_comment_name'
+            'publish_post_name', 'publish_comment_name',
         ], $langTag);
 
         $interactive['userName'] = $itemData['user_name'];
@@ -83,7 +83,7 @@ class InteractiveHelper
             'it_dislike_users', 'it_dislike_groups', 'it_dislike_hashtags', 'it_dislike_posts', 'it_dislike_comments',
             'it_follow_users', 'it_follow_groups', 'it_follow_hashtags', 'it_follow_posts', 'it_follow_comments',
             'it_block_users', 'it_block_groups', 'it_block_hashtags', 'it_block_posts', 'it_block_comments',
-            'publish_post_name', 'publish_comment_name'
+            'publish_post_name', 'publish_comment_name',
         ], $langTag);
 
         $interactive['itHomeList'] = $itemData['it_home_list'];
@@ -130,7 +130,7 @@ class InteractiveHelper
             'dislike_group_setting', 'dislike_group_name',
             'follow_group_setting', 'follow_group_name',
             'block_group_setting', 'block_group_name',
-            'publish_post_name', 'publish_comment_name'
+            'publish_post_name', 'publish_comment_name',
         ], $langTag);
 
         $interactive['groupName'] = $itemData['group_name'];
@@ -160,7 +160,7 @@ class InteractiveHelper
             'dislike_hashtag_setting', 'dislike_hashtag_name',
             'follow_hashtag_setting', 'follow_hashtag_name',
             'block_hashtag_setting', 'block_hashtag_name',
-            'publish_post_name', 'publish_comment_name'
+            'publish_post_name', 'publish_comment_name',
         ], $langTag);
 
         $interactive['hashtagName'] = $itemData['hashtag_name'];
@@ -190,7 +190,7 @@ class InteractiveHelper
             'dislike_post_setting', 'dislike_post_name',
             'follow_post_setting', 'follow_post_name',
             'block_post_setting', 'block_post_name',
-            'publish_post_name', 'publish_comment_name'
+            'publish_post_name', 'publish_comment_name',
         ], $langTag);
 
         $interactive['postName'] = $itemData['post_name'];
@@ -220,7 +220,7 @@ class InteractiveHelper
             'dislike_comment_setting', 'dislike_comment_name',
             'follow_comment_setting', 'follow_comment_name',
             'block_comment_setting', 'block_comment_name',
-            'publish_post_name', 'publish_comment_name'
+            'publish_post_name', 'publish_comment_name',
         ], $langTag);
 
         $interactive['commentName'] = $itemData['comment_name'];

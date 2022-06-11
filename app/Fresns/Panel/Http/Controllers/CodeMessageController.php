@@ -38,7 +38,7 @@ class CodeMessageController extends Controller
         $codeMessages = $codeMessages->paginate(20);
         $brotherCodeMessages = CodeMessage::whereIn('code', $codeMessages->pluck('code'))->where('lang_tag', '!=', $langTag)->get();
 
-        $codeMessages->map(function($codeMessage) use ($brotherCodeMessages, $langTag) {
+        $codeMessages->map(function ($codeMessage) use ($brotherCodeMessages, $langTag) {
             $messages = $brotherCodeMessages->where('code', $codeMessage->code)->pluck('message', 'lang_tag');
             $messages[$langTag] = $codeMessage->message;
             $codeMessage->messages = $messages;
@@ -52,14 +52,14 @@ class CodeMessageController extends Controller
         $codeMessage->message = $request->messages[$codeMessage->lang_tag] ?? '';
         $codeMessage->save();
 
-        foreach($request->messages as $langTag => $message) {
+        foreach ($request->messages as $langTag => $message) {
             if ($langTag == $codeMessage->lang_tag) {
                 continue;
             }
             $brotherCodeMessage = CodeMessage::firstOrNew([
                 'code' => $codeMessage->code,
                 'lang_tag' => $langTag,
-                'plugin_unikey' => $codeMessage->plugin_unikey
+                'plugin_unikey' => $codeMessage->plugin_unikey,
             ]);
 
             $brotherCodeMessage->message = $message ?: '';

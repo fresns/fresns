@@ -14,8 +14,8 @@ use App\Models\GroupAdmin;
 use App\Models\PostAllow;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\UserRole;
 use App\Models\UserFollow;
+use App\Models\UserRole;
 
 class PermissionUtility
 {
@@ -161,6 +161,7 @@ class PermissionUtility
             return true;
         } else {
             $allowRoles = PostAllow::where('post_id', $postId)->where('type', 2)->pluck('object_id')->toArray();
+
             return PermissionUtility::checkUserRolePerm($userId, $allowRoles);
         }
     }

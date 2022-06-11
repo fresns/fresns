@@ -100,7 +100,7 @@ trait FileServiceTrait
             'image_thumb_avatar',
             'image_thumb_ratio',
             'image_thumb_square',
-            'image_thumb_big'
+            'image_thumb_big',
         ]);
 
         if ($imageConfig['image_filesystem_disk'] == 'local') {

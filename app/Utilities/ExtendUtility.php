@@ -12,14 +12,14 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
-use App\Models\PluginUsage;
-use App\Models\Icon;
-use App\Models\IconLinked;
-use App\Models\Tip;
-use App\Models\TipLinked;
 use App\Models\Extend;
 use App\Models\ExtendLinked;
+use App\Models\Icon;
+use App\Models\IconLinked;
 use App\Models\Plugin;
+use App\Models\PluginUsage;
+use App\Models\Tip;
+use App\Models\TipLinked;
 
 class ExtendUtility
 {
@@ -39,7 +39,6 @@ class ExtendUtility
         $extendList = null;
         foreach ($extendArr as $extend) {
             if ($extend->is_group_admin == 1) {
-
                 if (! empty($userId) && ! empty($groupId)) {
                     $adminCheck = PermissionUtility::checkUserGroupAdmin($groupId, $userId);
                 } else {
@@ -50,7 +49,6 @@ class ExtendUtility
                     $extendList[] = $extend->getUsageInfo($langTag, $userId);
                 }
             } else {
-
                 if (! empty($userId) && ! empty($extend->roles)) {
                     $roleArr = explode(',', $extend->roles);
                     $permCheck = PermissionUtility::checkUserRolePerm($userId, $roleArr);

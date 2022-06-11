@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Api\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Fresns\Api\Http\DTO\AccountApplyDeleteDTO;
 use App\Fresns\Api\Http\DTO\AccountEditDTO;
 use App\Fresns\Api\Http\DTO\AccountLoginDTO;
@@ -15,11 +16,10 @@ use App\Fresns\Api\Http\DTO\AccountRegisterDTO;
 use App\Fresns\Api\Http\DTO\AccountResetPasswordDTO;
 use App\Fresns\Api\Http\DTO\AccountVerifyIdentityDTO;
 use App\Fresns\Api\Http\DTO\AccountWalletLogsDTO;
-use App\Helpers\DateHelper;
 use App\Fresns\Api\Services\AccountService;
-use App\Exceptions\ApiException;
 use App\Fresns\Api\Services\HeaderService;
 use App\Helpers\ConfigHelper;
+use App\Helpers\DateHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Account;
 use App\Models\AccountConnect;
@@ -317,7 +317,7 @@ class AccountController extends Controller
 
         $walletLogQuery = AccountWalletLog::where('account_id', $accountId)->isEnable($status)->orderBy('created_at', 'desc');
 
-        if (!empty($dtoRequest->type)) {
+        if (! empty($dtoRequest->type)) {
             $typeArr = array_filter(explode(',', $dtoRequest->keys));
             $walletLogQuery->whereIn('object_type', $typeArr);
         }

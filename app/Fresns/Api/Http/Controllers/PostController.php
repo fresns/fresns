@@ -8,22 +8,22 @@
 
 namespace App\Fresns\Api\Http\Controllers;
 
-use App\Models\Seo;
-use App\Models\Post;
-use App\Models\User;
-use App\Models\Plugin;
-use App\Fresns\Api\Services\HeaderService;
-use Illuminate\Http\Request;
 use App\Exceptions\ApiException;
-use App\Fresns\Api\Http\DTO\PostListDTO;
-use App\Fresns\Api\Services\PostService;
 use App\Fresns\Api\Http\DTO\PostDetailDTO;
 use App\Fresns\Api\Http\DTO\PostFollowDTO;
+use App\Fresns\Api\Http\DTO\PostListDTO;
 use App\Fresns\Api\Http\DTO\PostNearbyDTO;
+use App\Fresns\Api\Services\HeaderService;
 use App\Fresns\Api\Services\PostFollowService;
+use App\Fresns\Api\Services\PostService;
 use App\Helpers\ConfigHelper;
+use App\Models\Plugin;
+use App\Models\Post;
+use App\Models\Seo;
+use App\Models\User;
 use App\Utilities\ExtendUtility;
 use App\Utilities\LbsUtility;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
@@ -45,7 +45,7 @@ class PostController extends Controller
 
         // Fresns provides data
         $headers = HeaderService::getHeaders();
-        $user = !empty($headers['uid']) ? User::whereUid($headers['uid'])->first() : null;
+        $user = ! empty($headers['uid']) ? User::whereUid($headers['uid'])->first() : null;
 
         $postQuery = Post::isEnable();
         $posts = $postQuery->paginate($request->get('pageSize', 15));
@@ -118,7 +118,7 @@ class PostController extends Controller
 
         ['data' => $data, 'posts' => $posts] = $postFollowService->handle();
 
-        if (!$posts) {
+        if (! $posts) {
             return $this->success();
         }
 
@@ -162,8 +162,8 @@ class PostController extends Controller
 
         $posts = Post::query()
             ->select([
-                DB::raw("*"),
-                DB::raw(LbsUtility::getDistanceSql('map_longitude', 'map_latitude', $dtoRequest->mapLng, $dtoRequest->mapLat))
+                DB::raw('*'),
+                DB::raw(LbsUtility::getDistanceSql('map_longitude', 'map_latitude', $dtoRequest->mapLng, $dtoRequest->mapLat)),
             ])
             ->having('distance', '<=', $nearbyLength)
             ->orderBy('distance')

@@ -8,10 +8,10 @@
 
 namespace App\Fresns\Api\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Fresns\Api\Services\HeaderService;
 use App\Helpers\InteractiveHelper;
 use App\Models\Comment;
-use App\Exceptions\ApiException;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller

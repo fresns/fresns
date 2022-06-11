@@ -1,9 +1,15 @@
 <?php
 
+/*
+ * Fresns (https://fresns.org)
+ * Copyright (C) 2021-Present Jarvis Tang
+ * Released under the Apache-2.0 License.
+ */
+
 namespace App\Exceptions;
 
-use App\Utilities\ConfigUtility;
 use App\Fresns\Api\Traits\ApiResponseTrait;
+use App\Utilities\ConfigUtility;
 
 class ApiException extends \Exception
 {

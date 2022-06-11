@@ -8,18 +8,18 @@
 
 namespace App\Fresns\Api\Http\Controllers;
 
-use App\Helpers\PrimaryHelper;
-use App\Fresns\Api\Services\HeaderService;
-use App\Fresns\Api\Services\HashtagService;
-use App\Fresns\Api\Services\InteractiveService;
-use App\Models\Hashtag;
-use App\Models\Seo;
 use App\Exceptions\ApiException;
-use Illuminate\Http\Request;
 use App\Fresns\Api\Http\DTO\HashtagListDTO;
 use App\Fresns\Api\Http\DTO\InteractiveDTO;
-use App\Models\UserBlock;
+use App\Fresns\Api\Services\HashtagService;
+use App\Fresns\Api\Services\HeaderService;
+use App\Fresns\Api\Services\InteractiveService;
 use App\Helpers\ConfigHelper;
+use App\Helpers\PrimaryHelper;
+use App\Models\Hashtag;
+use App\Models\Seo;
+use App\Models\UserBlock;
+use Illuminate\Http\Request;
 
 class HashtagController extends Controller
 {

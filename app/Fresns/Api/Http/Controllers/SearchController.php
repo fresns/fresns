@@ -20,35 +20,30 @@ class SearchController extends Controller
     // users
     public function users(Request $request)
     {
-
         return $this->success();
     }
 
     // groups
     public function groups(Request $request)
     {
-
         return $this->success();
     }
 
     // hashtags
     public function hashtags(Request $request)
     {
-
         return $this->success();
     }
 
     // posts
     public function posts(Request $request)
     {
-
         return $this->success();
     }
 
     // comments
     public function comments(Request $request)
     {
-
         return $this->success();
     }
 }

@@ -8,21 +8,21 @@
 
 namespace App\Fresns\Api\Http\Controllers;
 
-use App\Models\Seo;
-use App\Models\Group;
-use App\Models\PluginUsage;
-use Illuminate\Http\Request;
-use App\Helpers\ConfigHelper;
-use App\Helpers\PrimaryHelper;
 use App\Exceptions\ApiException;
-use App\Utilities\ExtendUtility;
-use App\Utilities\CollectionUtility;
-use App\Utilities\PermissionUtility;
 use App\Fresns\Api\Http\DTO\GroupListDTO;
+use App\Fresns\Api\Http\DTO\InteractiveDTO;
 use App\Fresns\Api\Services\GroupService;
 use App\Fresns\Api\Services\HeaderService;
-use App\Fresns\Api\Http\DTO\InteractiveDTO;
 use App\Fresns\Api\Services\InteractiveService;
+use App\Helpers\ConfigHelper;
+use App\Helpers\PrimaryHelper;
+use App\Models\Group;
+use App\Models\PluginUsage;
+use App\Models\Seo;
+use App\Utilities\CollectionUtility;
+use App\Utilities\ExtendUtility;
+use App\Utilities\PermissionUtility;
+use Illuminate\Http\Request;
 
 class GroupController extends Controller
 {
