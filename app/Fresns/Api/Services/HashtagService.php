@@ -9,12 +9,12 @@
 namespace App\Fresns\Api\Services;
 
 use App\Helpers\InteractiveHelper;
-use App\Utilities\ExtendUtility;
-use App\Utilities\InteractiveUtility;
 use App\Models\ExtendLinked;
 use App\Models\Hashtag;
 use App\Models\IconLinked;
 use App\Models\TipLinked;
+use App\Utilities\ExtendUtility;
+use App\Utilities\InteractiveUtility;
 
 class HashtagService
 {

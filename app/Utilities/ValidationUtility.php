@@ -20,7 +20,7 @@ class ValidationUtility
     // Validate is disposable email
     public static function disposableEmail(string $email): bool
     {
-        $url = 'https://open.kickbox.com/v1/disposable/' . Str::after($email, '@');
+        $url = 'https://open.kickbox.com/v1/disposable/'.Str::after($email, '@');
 
         try {
             return ! json_decode(file_get_contents($url), true)['disposable'];

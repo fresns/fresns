@@ -20,7 +20,7 @@ class FileUtility
 {
     public static function uploadFile(array $bodyInfo, UploadedFile $file)
     {
-        if (!Str::isJson($bodyInfo['moreJson'])) {
+        if (! Str::isJson($bodyInfo['moreJson'])) {
             return null;
         }
 
@@ -41,7 +41,7 @@ class FileUtility
 
     public static function uploadFileInfo(array $bodyInfo)
     {
-        if (!Str::isJson($bodyInfo['fileInfo'])) {
+        if (! Str::isJson($bodyInfo['fileInfo'])) {
             return null;
         }
 

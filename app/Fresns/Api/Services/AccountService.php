@@ -9,9 +9,9 @@
 namespace App\Fresns\Api\Services;
 
 use App\Helpers\InteractiveHelper;
-use App\Utilities\ExtendUtility;
 use App\Models\Account;
 use App\Models\PluginUsage;
+use App\Utilities\ExtendUtility;
 
 class AccountService
 {

@@ -8,13 +8,13 @@
 
 namespace App\Fresns\Api\Services;
 
-use App\Models\User;
-use App\Utilities\ExtendUtility;
-use App\Utilities\InteractiveUtility;
 use App\Helpers\InteractiveHelper;
 use App\Models\ExtendLinked;
 use App\Models\IconLinked;
 use App\Models\TipLinked;
+use App\Models\User;
+use App\Utilities\ExtendUtility;
+use App\Utilities\InteractiveUtility;
 
 class UserService
 {

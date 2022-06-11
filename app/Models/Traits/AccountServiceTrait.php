@@ -26,7 +26,7 @@ trait AccountServiceTrait
         $info['purePhone'] = ! empty($accountData->pure_phone) ? StrHelper::maskNumber($accountData->pure_phone) : null;
         $info['phone'] = ! empty($accountData->phone) ? StrHelper::maskNumber($accountData->phone) : null;
         $info['email'] = ! empty($accountData->email) ? StrHelper::maskEmail($accountData->email) : null;
-        $info['hasPassword'] = !! $accountData->password;
+        $info['hasPassword'] = (bool) $accountData->password;
         $info['proveSupport'] = ! empty($proveSupportUrl) ? PluginHelper::fresnsPluginUrlByUnikey($proveSupportUrl) : null;
         $info['proveRealName'] = ! empty($accountData->prove_realname) ? StrHelper::maskName($accountData->prove_realname) : null;
         $info['proveGender'] = $accountData->prove_gender;
@@ -39,7 +39,7 @@ trait AccountServiceTrait
         $info['status'] = (bool) $accountData->is_enable;
         $info['waitDelete'] = (bool) $accountData->wait_delete;
         $info['waitDeleteDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountData->wait_delete_at, $timezone, $langTag);
-        $info['deactivate'] = !! $accountData->deleted_at;
+        $info['deactivate'] = (bool) $accountData->deleted_at;
         $info['deactivateTime'] = DateHelper::fresnsDateTimeByTimezone($accountData->deleted_at, $timezone, $langTag);
 
         return $info;
@@ -74,7 +74,7 @@ trait AccountServiceTrait
         ], $langTag);
 
         $wallet['status'] = (bool) $walletData->is_enable;
-        $wallet['hasPassword'] = !! $walletData->password;
+        $wallet['hasPassword'] = (bool) $walletData->password;
         $wallet['currencyCode'] = $currencyConfig['wallet_currency_code'];
         $wallet['currencyName'] = $currencyConfig['wallet_currency_name'];
         $wallet['currencyUnit'] = $currencyConfig['wallet_currency_unit'];

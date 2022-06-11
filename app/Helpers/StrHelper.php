@@ -18,7 +18,7 @@ class StrHelper
      */
     public static function maskEmail(string $email)
     {
-        if (!$email) {
+        if (! $email) {
             return;
         }
 

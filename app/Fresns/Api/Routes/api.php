@@ -15,8 +15,8 @@ use App\Fresns\Api\Http\Controllers\GlobalController;
 use App\Fresns\Api\Http\Controllers\GroupController;
 use App\Fresns\Api\Http\Controllers\HashtagController;
 use App\Fresns\Api\Http\Controllers\NotifyController;
-use App\Fresns\Api\Http\Controllers\SearchController;
 use App\Fresns\Api\Http\Controllers\PostController;
+use App\Fresns\Api\Http\Controllers\SearchController;
 use App\Fresns\Api\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 

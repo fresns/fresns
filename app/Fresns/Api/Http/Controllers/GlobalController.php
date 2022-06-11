@@ -8,18 +8,18 @@
 
 namespace App\Fresns\Api\Http\Controllers;
 
-use App\Fresns\Api\Http\DTO\GlobalConfigsDTO;
+use App\Exceptions\ApiException;
 use App\Fresns\Api\Http\DTO\GlobalBlockWordsDTO;
+use App\Fresns\Api\Http\DTO\GlobalConfigsDTO;
 use App\Fresns\Api\Http\DTO\GlobalRolesDTO;
 use App\Fresns\Api\Http\DTO\GlobalUploadTokenDTO;
 use App\Fresns\Api\Services\HeaderService;
 use App\Helpers\ConfigHelper;
-use App\Helpers\LanguageHelper;
 use App\Helpers\FileHelper;
+use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
-use App\Models\Config;
-use App\Exceptions\ApiException;
 use App\Models\BlockWord;
+use App\Models\Config;
 use App\Models\PluginUsage;
 use App\Models\Role;
 use App\Models\Sticker;
@@ -40,11 +40,11 @@ class GlobalController extends Controller
 
         $configQuery = Config::where('is_api', 1);
 
-        if (!empty($itemKey) && !empty($itemTag)) {
+        if (! empty($itemKey) && ! empty($itemTag)) {
             $configQuery->whereIn('item_key', $itemKey)->orWhereIn('item_tag', $itemTag);
-        } elseif (!empty($itemKey) && empty($itemTag)) {
+        } elseif (! empty($itemKey) && empty($itemTag)) {
             $configQuery->whereIn('item_key', $itemKey);
-        } elseif (empty($itemKey) && !empty($itemTag)) {
+        } elseif (empty($itemKey) && ! empty($itemTag)) {
             $configQuery->whereIn('item_tag', $itemTag);
         }
 
@@ -112,12 +112,12 @@ class GlobalController extends Controller
 
         $roleQuery = Role::isEnable($status)->orderBy('rating');
 
-        if (!empty($dtoRequest->ids)) {
+        if (! empty($dtoRequest->ids)) {
             $ids = array_filter(explode(',', $dtoRequest->ids));
             $roleQuery->whereIn('id', $ids);
         }
 
-        if (!empty($dtoRequest->type)) {
+        if (! empty($dtoRequest->type)) {
             $roleQuery->where('type', $dtoRequest->type);
         }
 

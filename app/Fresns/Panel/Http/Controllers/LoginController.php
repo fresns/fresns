@@ -8,12 +8,12 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
-use Browser;
 use App\Helpers\AppHelper;
-use Illuminate\Http\Request;
 use App\Utilities\AppUtility;
 use App\Utilities\ConfigUtility;
+use Browser;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -74,6 +74,7 @@ class LoginController extends Controller
 
             if ($loginCount >= 5) {
                 $this->loginLimit = true;
+
                 return false;
             }
 
@@ -99,7 +100,6 @@ class LoginController extends Controller
         }
 
         return $result;
-
     }
 
     /**
@@ -116,6 +116,7 @@ class LoginController extends Controller
         if ($this->loginLimit) {
             $error = trans('FsLang::tips.account_login_limit');
         }
+
         return back()->withErrors([
             $this->username() => [$error],
         ]);

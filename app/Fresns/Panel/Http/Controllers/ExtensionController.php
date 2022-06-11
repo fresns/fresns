@@ -10,8 +10,8 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Models\Config;
 use App\Models\Plugin;
-use Illuminate\Http\Request;
 use App\Utilities\ConfigUtility;
+use Illuminate\Http\Request;
 
 class ExtensionController extends Controller
 {
@@ -122,7 +122,7 @@ class ExtensionController extends Controller
         if ($unikey) {
             $request->offsetSet('install_method', 'inputUrl');
         }
-        
+
         defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
         defined('STDOUT') or define('STDOUT', fopen('php://stdout', 'r'));
         defined('STDERR') or define('STDERR', fopen('php://stderr', 'r'));
@@ -272,13 +272,13 @@ class ExtensionController extends Controller
     {
         if ($request->get('clearData') == 1) {
             $theme = $request->theme;
-            if (!$theme) {
+            if (! $theme) {
                 abort(404);
             }
 
             $themeJsonFile = resource_path('themes/'.$theme.'/theme.json');
 
-            if(!\File::exists($themeJsonFile)) {
+            if (! \File::exists($themeJsonFile)) {
                 return back()->with('failure', __('FsLang::tips.theme_json_file_error'));
             }
 

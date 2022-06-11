@@ -179,7 +179,6 @@ class InteractiveUtility
             }
         }
 
-        return;
     }
 
     public static function markUserDislike(int $userId, int $dislikeType, int $dislikeId)
@@ -235,7 +234,6 @@ class InteractiveUtility
             }
         }
 
-        return;
     }
 
     public static function markUserFollow(int $userId, int $followType, int $followId)
@@ -282,7 +280,6 @@ class InteractiveUtility
             }
         }
 
-        return;
     }
 
     public static function markUserBlock(int $userId, int $blockType, int $blockId)
@@ -315,7 +312,6 @@ class InteractiveUtility
             InteractiveUtility::markStats($userId, 'block', $blockType, $blockId, 'decrement');
         }
 
-        return;
     }
 
     // mark content sticky
@@ -346,7 +342,6 @@ class InteractiveUtility
             break;
         }
 
-        return;
     }
 
     // mark content digest
@@ -407,12 +402,11 @@ class InteractiveUtility
             break;
         }
 
-        return;
     }
 
     /**
      * It increments or decrements the stats of the user, group, hashtag, post, or comment that was
-     * interacted with
+     * interacted with.
      *
      * @param int userId The user who is performing the action.
      * @param string interactiveType The type of interactive action(like, dislike, follow, block).
@@ -485,7 +479,7 @@ class InteractiveUtility
     }
 
     /**
-     * It increments or decrements the stats of a post or comment
+     * It increments or decrements the stats of a post or comment.
      *
      * @param string type post or comment
      * @param int id The id of the post or comment
@@ -521,7 +515,7 @@ class InteractiveUtility
             case 'comment':
                 $comment = Comment::with('hashtags')->where('id', $id)->first();
                 UserStat::where('user_id', $comment?->user_id)->$actionType('comment_publish_count');
-                Post::where('id', $comment?->post_id)->$actionType("comment_count");
+                Post::where('id', $comment?->post_id)->$actionType('comment_count');
                 Group::where('id', $comment?->group_id)->$actionType('comment_count');
 
                 $linkIds = DomainLinkLinked::type(DomainLinkLinked::TYPE_POST)->where('linked_id', $comment?->id)->pluck('link_id')->toArray();
@@ -540,7 +534,7 @@ class InteractiveUtility
     }
 
     /**
-     * It increments or decrements the digest count of a post or comment
+     * It increments or decrements the digest count of a post or comment.
      *
      * @param string type post or comment
      * @param int id the id of the post or comment
@@ -571,7 +565,7 @@ class InteractiveUtility
             case 'comment':
                 $comment = Comment::with('hashtags')->where('id', $id)->first();
                 UserStat::where('user_id', $comment?->user_id)->$actionType('comment_digest_count');
-                Post::where('id', $comment?->post_id)->$actionType("comment_digest_count");
+                Post::where('id', $comment?->post_id)->$actionType('comment_digest_count');
                 Group::where('id', $comment?->group_id)->$actionType('comment_digest_count');
 
                 $hashtagIds = array_column($comment?->hashtags, 'id');

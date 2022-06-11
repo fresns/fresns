@@ -239,7 +239,7 @@ class Account
         $condition = [
             'platform_id' => $dtoWordBody->platformId,
             'account_id' => $dtoWordBody->aid,
-            'user_id' => $dtoWordBody-> uid ?? null,
+            'user_id' => $dtoWordBody->uid ?? null,
         ];
         $session = SessionToken::where($condition)->first();
 

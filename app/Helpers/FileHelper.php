@@ -141,14 +141,14 @@ class FileHelper
     // get file info list by table column
     public static function fresnsFileInfoListByTableColumn(string $tableName, string $tableColumn, ?int $tableId = null, ?string $tableKey = null)
     {
-        $fileAppendQuery =  FileAppend::with('file')
+        $fileAppendQuery = FileAppend::with('file')
             ->where('table_name', $tableName)
             ->where('table_column', $tableColumn)
             ->orderBy('rating');
 
         if (empty($tableId)) {
             $fileAppendQuery->where('table_key', $tableKey);
-        } else{
+        } else {
             $fileAppendQuery->where('table_id', $tableId);
         }
 

@@ -14,15 +14,15 @@ use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
 use App\Helpers\StrHelper;
 use App\Models\Domain;
-use App\Models\User;
-use App\Models\Mention;
-use App\Models\Sticker;
 use App\Models\DomainLink;
 use App\Models\DomainLinkLinked;
 use App\Models\Extend;
 use App\Models\Hashtag;
 use App\Models\HashtagLinked;
+use App\Models\Mention;
 use App\Models\Role;
+use App\Models\Sticker;
+use App\Models\User;
 use Illuminate\Support\Collection;
 
 class ContentUtility
@@ -31,7 +31,7 @@ class ContentUtility
     public static function getRegexpByType($type)
     {
         return match ($type) {
-            'hash' => "/#(.*?)#/",
+            'hash' => '/#(.*?)#/',
             'space' => "/#(.*?)\s/",
             'url' => "/(https?:\/\/.*?)\s/",
             'at' => "/@(.*?)\s/",
@@ -73,7 +73,7 @@ class ContentUtility
     public static function matchAll($regexp, $content, ?callable $filterChars = null)
     {
         // Matching information is handled at the end
-        $content = $content . ' ';
+        $content = $content.' ';
 
         preg_match_all($regexp, $content, $matches);
 
@@ -288,7 +288,6 @@ class ContentUtility
 
         HashtagLinked::createMany($hashtagLinkedData);
 
-        return;
     }
 
     // Save link
@@ -326,7 +325,6 @@ class ContentUtility
         }
         DomainLinkLinked::createMany($urlLinkedData);
 
-        return;
     }
 
     // Save mention user
@@ -347,7 +345,6 @@ class ContentUtility
 
         Mention::createMany($mentionData);
 
-        return;
     }
 
     // Handle and save all
@@ -360,7 +357,6 @@ class ContentUtility
             static::saveMention($content, $type, $id, $authUserId);
         }
 
-        return;
     }
 
     // extend json handle

@@ -45,11 +45,11 @@ trait UserServiceTrait
         $profile['lastEditUsername'] = DateHelper::fresnsDateTimeByTimezone($userData->last_username_at, $timezone, $langTag);
         $profile['lastEditNickname'] = DateHelper::fresnsDateTimeByTimezone($userData->last_nickname_at, $timezone, $langTag);
         $profile['registerDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData->created_at, $timezone, $langTag);
-        $profile['hasPassword'] = !! $userData->password;
+        $profile['hasPassword'] = (bool) $userData->password;
         $profile['status'] = (bool) $userData->is_enable;
         $profile['waitDelete'] = (bool) $userData->wait_delete;
         $profile['waitDeleteDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData->wait_delete_at, $timezone, $langTag);
-        $profile['deactivate'] = !! $userData->deleted_at;
+        $profile['deactivate'] = (bool) $userData->deleted_at;
         $profile['deactivateTime'] = DateHelper::fresnsDateTimeByTimezone($userData->deleted_at, $timezone, $langTag);
 
         return $profile;

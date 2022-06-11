@@ -8,19 +8,19 @@
 
 namespace App\Fresns\Api\Http\Controllers;
 
-use App\Models\Notify;
-use App\Helpers\DateHelper;
-use App\Helpers\PluginHelper;
-use Illuminate\Http\Request;
-use App\Helpers\PrimaryHelper;
+use App\Fresns\Api\Http\DTO\NotifyDTO;
+use App\Fresns\Api\Http\DTO\NotifyListDTO;
+use App\Fresns\Api\Services\CommentService;
+use App\Fresns\Api\Services\GroupService;
+use App\Fresns\Api\Services\HashtagService;
+use App\Fresns\Api\Services\HeaderService;
 use App\Fresns\Api\Services\PostService;
 use App\Fresns\Api\Services\UserService;
-use App\Fresns\Api\Services\GroupService;
-use App\Fresns\Api\Http\DTO\NotifyListDTO;
-use App\Fresns\Api\Http\DTO\NotifyDTO;
-use App\Fresns\Api\Services\HeaderService;
-use App\Fresns\Api\Services\CommentService;
-use App\Fresns\Api\Services\HashtagService;
+use App\Helpers\DateHelper;
+use App\Helpers\PluginHelper;
+use App\Helpers\PrimaryHelper;
+use App\Models\Notify;
+use Illuminate\Http\Request;
 
 class NotifyController extends Controller
 {

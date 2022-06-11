@@ -13,7 +13,8 @@ use App\Helpers\ConfigHelper;
 class LbsUtility
 {
     /**
-     * Calculate the distance based on the latitude and longitude between two points
+     * Calculate the distance based on the latitude and longitude between two points.
+     *
      * @param $lng1
      * @param $lat1
      * @param $lng2
@@ -34,6 +35,7 @@ class LbsUtility
                 pow(sin($a / 2), 2) + cos($radLat1) * cos($radLat2) * pow(sin($b / 2), 2)
             )
         ) * 6378.137;
+
         return $distance;
     }
 
@@ -73,6 +75,7 @@ class LbsUtility
     )
 ) * 6378.137
 SQL;
+
         return sprintf('(%s) as %s', $sql, $alias);
     }
 }
