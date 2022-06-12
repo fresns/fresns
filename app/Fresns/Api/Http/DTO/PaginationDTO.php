@@ -10,7 +10,7 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class CommonDownloadUsersDTO extends DTO
+class PaginationDTO extends DTO
 {
     /**
      * @return array
