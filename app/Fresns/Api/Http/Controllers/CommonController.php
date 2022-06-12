@@ -10,11 +10,11 @@ namespace App\Fresns\Api\Http\Controllers;
 
 use App\Fresns\Api\Http\DTO\CommonCallbacksDTO;
 use App\Fresns\Api\Http\DTO\CommonDownloadFileDTO;
-use App\Fresns\Api\Http\DTO\CommonDownloadUsersDTO;
 use App\Fresns\Api\Http\DTO\CommonInputTipsDTO;
 use App\Fresns\Api\Http\DTO\CommonSendVerifyCodeDTO;
 use App\Fresns\Api\Http\DTO\CommonUploadFileDTO;
 use App\Fresns\Api\Http\DTO\CommonUploadLogDTO;
+use App\Fresns\Api\Http\DTO\PaginationDTO;
 use App\Fresns\Api\Services\AccountService;
 use App\Fresns\Api\Services\HeaderService;
 use App\Helpers\ConfigHelper;
@@ -240,7 +240,7 @@ class CommonController extends Controller
             $data['apiContent']['userListConfig'] = ContentUtility::userListJsonHandle($callback->content['userListConfig'], $headers['langTag']);
         }
 
-        if (in_array(PluginCallback::TYPE_COMMENT_BTN_CONFIG), $data['types'])) {
+        if (in_array(PluginCallback::TYPE_COMMENT_BTN_CONFIG, $data['types'])) {
             $data['apiContent']['commentBtnConfig'] = ContentUtility::commentBtnJsonHandle($callback->content['commentBtnConfig'], $headers['langTag']);
         }
 
@@ -464,7 +464,7 @@ class CommonController extends Controller
     // file download users
     public function downloadUsers(string $fid, Request $request)
     {
-        $dtoRequest = new CommonDownloadUsersDTO($request->all());
+        $dtoRequest = new PaginationDTO($request->all());
         $headers = HeaderService::getHeaders();
 
         $file = File::whereFid($fid)->first();

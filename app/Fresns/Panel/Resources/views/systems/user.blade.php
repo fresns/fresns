@@ -239,19 +239,19 @@
                     <label class="input-group-text">{{ __('FsLang::panel.user_password_strength') }}</label>
                     <div class="form-control bg-white">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="digital" name="password_strength[]" value="1" {{ in_array(1, $params['password_strength']) ? 'checked' : '' }}>
+                            <input class="form-check-input" type="checkbox" id="digital" name="password_strength[]" value="number" {{ in_array('number', $params['password_strength']) ? 'checked' : '' }}>
                             <label class="form-check-label" for="digital">{{ __('FsLang::panel.user_password_strength_digital') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="lower_letter" name="password_strength[]" value="2" {{ in_array(2, $params['password_strength']) ? 'checked' : '' }}>
+                            <input class="form-check-input" type="checkbox" id="lower_letter" name="password_strength[]" value="lowercase" {{ in_array('lowercase', $params['password_strength']) ? 'checked' : '' }}>
                             <label class="form-check-label" for="lower_letter">{{ __('FsLang::panel.user_password_strength_lowerLetters') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="upper_letter" name="password_strength[]" value="3" {{ in_array(3, $params['password_strength']) ? 'checked' : '' }}>
+                            <input class="form-check-input" type="checkbox" id="upper_letter" name="password_strength[]" value="uppercase" {{ in_array('uppercase', $params['password_strength']) ? 'checked' : '' }}>
                             <label class="form-check-label" for="upper_letter">{{ __('FsLang::panel.user_password_strength_upperLetters') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="symbol" name="password_strength[]" value="4" {{ in_array(4, $params['password_strength']) ? 'checked' : '' }}>
+                            <input class="form-check-input" type="checkbox" id="symbol" name="password_strength[]" value="symbols" {{ in_array('symbols', $params['password_strength']) ? 'checked' : '' }}>
                             <label class="form-check-label" for="symbol">{{ __('FsLang::panel.user_password_strength_symbols') }}</label>
                         </div>
                     </div>

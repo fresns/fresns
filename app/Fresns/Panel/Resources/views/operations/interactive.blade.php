@@ -88,6 +88,7 @@
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interactive_nearby_length_desc') }}</div>
         </div>
+
         <!--interactive_dialog_config-->
         <div class="row mb-3">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.interactive_dialog_config') }}:</label>
@@ -116,19 +117,19 @@
                         <label class="input-group-text">{{ __('FsLang::panel.interactive_dialog_files') }}</label>
                         <div class="form-control bg-white">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="dialog_file_image" name="dialog_files[]" value="1" {{ in_array(1, $params['dialog_files']) ? 'checked' : '' }}>
+                                <input class="form-check-input" type="checkbox" id="dialog_file_image" name="dialog_files[]" value="image" {{ in_array('image', $params['dialog_files']) ? 'checked' : '' }}>
                                 <label class="form-check-label" for="dialog_file_image">{{ __('FsLang::panel.editor_image') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="dialog_file_video" name="dialog_files[]" value="2" {{ in_array(2, $params['dialog_files']) ? 'checked' : '' }}>
+                                <input class="form-check-input" type="checkbox" id="dialog_file_video" name="dialog_files[]" value="video" {{ in_array('video', $params['dialog_files']) ? 'checked' : '' }}>
                                 <label class="form-check-label" for="dialog_file_video">{{ __('FsLang::panel.editor_video') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="dialog_file_audio" name="dialog_files[]" value="3" {{ in_array(3, $params['dialog_files']) ? 'checked' : '' }}>
+                                <input class="form-check-input" type="checkbox" id="dialog_file_audio" name="dialog_files[]" value="audio" {{ in_array('audio', $params['dialog_files']) ? 'checked' : '' }}>
                                 <label class="form-check-label" for="dialog_file_audio">{{ __('FsLang::panel.editor_audio') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="dialog_file_document" name="dialog_files[]" value="4" {{ in_array(4, $params['dialog_files']) ? 'checked' : '' }}>
+                                <input class="form-check-input" type="checkbox" id="dialog_file_document" name="dialog_files[]" value="document" {{ in_array('document', $params['dialog_files']) ? 'checked' : '' }}>
                                 <label class="form-check-label" for="dialog_file_document">{{ __('FsLang::panel.editor_document') }}</label>
                             </div>
                         </div>
@@ -137,6 +138,7 @@
                 <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interactive_dialog_files_desc') }}</div>
             </div>
         </div>
+
         <!--interactive_function_config-->
         <div class="row mt-5">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.interactive_function_config') }}:</label>
@@ -235,6 +237,7 @@
             <div class="col-lg-2"></div>
             <div class="col-lg-10 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interactive_function_config_desc') }}</div>
         </div>
+
         <!--interactive_view_config-->
         <div class="row mt-5">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.interactive_view_config') }}:</label>

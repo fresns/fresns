@@ -23,7 +23,6 @@ use App\Models\Mention;
 use App\Models\Role;
 use App\Models\Sticker;
 use App\Models\User;
-use Illuminate\Support\Collection;
 
 class ContentUtility
 {

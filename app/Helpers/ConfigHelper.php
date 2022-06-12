@@ -106,7 +106,7 @@ class ConfigHelper
     public static function fresnsConfigFileValueTypeByItemKey(string $itemKey)
     {
         $file = ConfigHelper::fresnsConfigByItemKey($itemKey);
-        if (is_numeric($file)) {
+        if (is_int($file)) {
             return 'ID';
         } elseif (preg_match("/^(http:\/\/|https:\/\/).*$/", $file)) {
             return 'URL';

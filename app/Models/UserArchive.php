@@ -29,7 +29,7 @@ class UserArchive extends Model
 
     public function getArchiveFileUrl($value)
     {
-        if (! is_numeric($value)) {
+        if (! is_int($value)) {
             return $value;
         }
 

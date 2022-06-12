@@ -27,7 +27,7 @@ return [
     'request_in_progress' => 'अनुरोध जारी है...',
     'requestSuccess' => 'अनुरोध सफलता',
     'requestFailure' => 'अनुरोध विफलता',
-
+    // install
     'install_not_entered_key' => 'कृपया fresns कुंजी दर्ज करें',
     'install_not_entered_dir' => 'कृपया एक निर्देशिका दर्ज करें',
     'install_not_upload_zip' => 'कृपया स्थापना पैकेज का चयन करें',
@@ -62,7 +62,6 @@ return [
     'theme_functions_file_error' => 'थीम कॉन्फ़िगरेशन के लिए दृश्य फ़ाइल गलत है या मौजूद नहीं है',
     'theme_json_file_error' => 'थीम कॉन्फ़िगरेशन फ़ाइल गलत है या मौजूद नहीं है',
     'theme_json_format_error' => 'थीम कॉन्फ़िगरेशन फ़ाइल स्वरूप त्रुटि',
-];
     // others
     'account_not_found' => 'खाता मौजूद नहीं है या गलत तरीके से दर्ज किया गया है',
     'account_login_limit' => 'त्रुटि सिस्टम सीमा से अधिक हो गई है। कृपया 1 घंटे बाद फिर से लॉग इन करें',
@@ -85,3 +84,4 @@ return [
     'post_datetime_select_range_error' => 'पद के लिए निर्धारित अंतिम तिथि प्रारंभ तिथि से कम नहीं हो सकती',
     'comment_datetime_select_error' => 'टिप्पणी के लिए निर्धारित दिनांक सीमा खाली नहीं हो सकती',
     'comment_datetime_select_range_error' => 'टिप्पणी सेटिंग की समाप्ति तिथि प्रारंभ तिथि से कम नहीं हो सकती है',
+];
