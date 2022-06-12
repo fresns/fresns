@@ -1,14 +1,6 @@
 <?php
 
-<<<<<<< HEAD
 use Illuminate\Support\Facades\Facade;
-=======
-/*
- * Fresns (https://fresns.org)
- * Copyright (C) 2021-Present Jarvis Tang
- * Released under the Apache-2.0 License.
- */
->>>>>>> a664019bb49ffa4d45090a53a0cba5f214dce0dd
 
 return [
 
@@ -98,7 +90,7 @@ return [
     |
     */
 
-    'locale' => 'zh-Hans',
+    'locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------
@@ -124,7 +116,7 @@ return [
     |
     */
 
-    'faker_locale' => 'zh-Hans-SG',
+    'faker_locale' => 'en-US',
 
     /*
     |--------------------------------------------------------------------------
