@@ -81,6 +81,7 @@ Route::prefix('v2')->group(function () {
 
     Route::prefix('dialog')->group(function () {
         Route::get('list', [DialogController::class, 'list'])->name('dialog.list');
+        Route::get('{dialogId}/detail', [DialogController::class, 'detail'])->name('dialog.detail');
         Route::get('{dialogId}/messages', [DialogController::class, 'messages'])->name('dialog.messages');
         Route::post('send-message', [DialogController::class, 'sendMessage'])->name('dialog.sendMessage');
         Route::put('mark-as-read', [DialogController::class, 'markAsRead'])->name('dialog.read');

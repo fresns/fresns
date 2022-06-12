@@ -18,9 +18,9 @@ class NotifyDTO extends DTO
     public function rules(): array
     {
         return [
-            'markType' => ['string', 'required', 'in:all,choose'],
-            'type' => ['integer', 'nullable', 'required_without:ids', 'required_if:markType,all'],
-            'ids' => ['string', 'nullable', 'required_without:type', 'required_if:markType,choose'],
+            'type' => ['string', 'required', 'in:all,choose'],
+            'notifyType' => ['integer', 'nullable', 'required_without:notifyIds', 'required_if:type,all'],
+            'notifyIds' => ['string', 'nullable', 'required_without:notifyType', 'required_if:type,choose'],
         ];
     }
 }
