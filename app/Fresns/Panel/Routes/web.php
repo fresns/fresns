@@ -329,7 +329,11 @@ Route::get('js/{locale?}/translations', function ($locale) {
         })->toJson();
     });
 
-    return response('window.translations= '.$strings.';', 200)->header('Content-Type', 'text/javascript');
+    header("content-type: application/javascript");
+    echo 'window.translations= '.$strings.';';
+    die();
+
+    //return response('window.translations= '.$strings.';', 200)->header('Content-Type', 'text/javascript');
 })->name('translations');
 
 // empty page
