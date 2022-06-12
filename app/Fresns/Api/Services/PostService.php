@@ -25,6 +25,44 @@ use Illuminate\Support\Str;
 
 class PostService
 {
+    public function postList(Post $post, string $langTag, string $timezone, ?int $authUserId = null)
+    {
+        $postInfo = $post->getPostInfo($langTag, $timezone);
+        $postInfo[] = self::contentHandle($post, 'list', $authUserId);
+
+        $item['group'] = null;
+        if ($post->group) {
+            $groupInteractiveConfig = InteractiveHelper::fresnsGroupInteractive($langTag);
+            $groupInteractiveStatus = InteractiveUtility::checkInteractiveStatus(InteractiveUtility::TYPE_GROUP, $post->group->id, $authUserId);
+
+            $groupItem[] = $post->group?->getGroupInfo($langTag);
+            $groupItem['interactive'] = array_merge($groupInteractiveConfig, $groupInteractiveStatus);
+
+            $item['group'] = $groupItem;
+        }
+
+        $item['hashtags'] = null;
+        if ($post->hashtags) {
+            $hashtagService = new HashtagService;
+
+            foreach ($post->hashtags as $hashtag) {
+                $hashtagItem[] = $hashtagService->hashtagList($hashtag, $langTag, $authUserId);
+            }
+            $item['hashtags'] = $hashtagItem;
+        }
+
+        $item['creator'] = InteractiveHelper::fresnsUserAnonymousProfile();
+        if (! $post->is_anonymous) {
+            $creatorProfile = $post->creator->getUserProfile($langTag, $timezone);
+            $creatorMainRole = $post->creator->getUserMainRole($langTag, $timezone);
+            $item['creator'] = array_merge($creatorProfile, $creatorMainRole);
+        }
+
+        $info = array_merge($postInfo, $item);
+
+        return $info;
+    }
+
     public function postDetail(Post $post, string $type, string $langTag, string $timezone, ?int $authUserId = null, ?int $mapId = null, ?string $authUserLng = null, ?string $authUserLat = null)
     {
         $postInfo = $post->getPostInfo($langTag, $timezone);
