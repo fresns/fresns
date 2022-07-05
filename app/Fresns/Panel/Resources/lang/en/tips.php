@@ -57,6 +57,10 @@ return [
     'uninstall_step_3' => 'Delete files',
     'uninstall_step_4' => 'Clear cache',
     'uninstall_step_5' => 'Done',
+    // website
+    'website_path_empty_error' => 'Failed to save, path parameter is not allowed to be empty',
+    'website_path_format_error' => 'Failed to save, path parameters only support plain English letters',
+    'website_path_unique_error' => 'Failed to save, duplicate path parameters, path parameter names are not allowed to duplicate each other',
     // theme
     'theme_error' => 'The theme is incorrect or does not exist',
     'theme_functions_file_error' => 'The theme config view file is incorrect or does not exist',

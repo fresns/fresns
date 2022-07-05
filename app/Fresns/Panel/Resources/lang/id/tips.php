@@ -57,6 +57,10 @@ return [
     'uninstall_step_3' => 'Hapus file',
     'uninstall_step_4' => 'Cure cache',
     'uninstall_step_5' => 'Selesai',
+    // website
+    'website_path_empty_error' => 'Gagal menyimpan, parameter jalur tidak diperbolehkan kosong',
+    'website_path_format_error' => 'Gagal disimpan, parameter jalur hanya didukung dalam huruf Inggris biasa',
+    'website_path_unique_error' => 'Gagal menyimpan, parameter jalur duplikat, nama parameter jalur tidak diperbolehkan untuk saling mengulang',
     // theme
     'theme_error' => 'Temanya salah atau tidak ada',
     'theme_functions_file_error' => 'File tampilan untuk konfigurasi tema salah atau tidak ada',

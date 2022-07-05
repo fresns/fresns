@@ -57,6 +57,10 @@ return [
     'uninstall_step_3' => 'Deletar arquivos',
     'uninstall_step_4' => 'Limpar cache',
     'uninstall_step_5' => 'Feito',
+    // website
+    'website_path_empty_error' => 'Falha no salvamento, o parâmetro do caminho não pode estar vazio',
+    'website_path_format_error' => 'não conseguiu salvar, os parâmetros do caminho só são suportados em letras simples em inglês',
+    'website_path_unique_error' => 'não salvou, parâmetros de caminho duplicados, não é permitido que os nomes dos parâmetros de caminho se repitam um ao outro',
     // theme
     'theme_error' => 'O tema é incorrecto ou não existe',
     'theme_functions_file_error' => 'O ficheiro de visualização da configuração do tema está incorrecto ou não existe',

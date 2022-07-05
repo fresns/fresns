@@ -57,6 +57,10 @@ return [
     'uninstall_step_3' => 'Borrar archivos',
     'uninstall_step_4' => 'Limpiar cache',
     'uninstall_step_5' => 'Hecho',
+    // website
+    'website_path_empty_error' => 'Fallo al guardar, el parámetro de la ruta no puede estar vacío',
+    'website_path_format_error' => 'no se ha podido guardar, los parámetros de la ruta sólo se admiten en letras inglesas simples',
+    'website_path_unique_error' => 'fallo al guardar, parámetros de ruta duplicados, los nombres de los parámetros de ruta no pueden repetirse',
     // theme
     'theme_error' => 'El tema es incorrecto o no existe',
     'theme_functions_file_error' => 'El archivo de la vista de configuración del tema es incorrecto o no existe',

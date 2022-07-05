@@ -57,6 +57,10 @@ return [
     'uninstall_step_3' => '파일 삭제',
     'uninstall_step_4' => '캐시 지우기',
     'uninstall_step_5' => '완료',
+    // website
+    'website_path_empty_error' => '저장하지 못했습니다. 경로 매개변수는 비워둘 수 없습니다.',
+    'website_path_format_error' => '저장에 실패했습니다. 경로 매개변수는 순수 영문자만 지원합니다.',
+    'website_path_unique_error' => '저장에 실패했습니다. 경로 매개변수를 복제했습니다. 경로 매개변수 이름은 서로 복제할 수 없습니다.',
     // theme
     'theme_error' => '테마가 잘못되었거나 존재하지 않습니다.',
     'theme_functions_file_error' => '테마 구성에 대한 보기 파일이 잘못되었거나 존재하지 않습니다.',

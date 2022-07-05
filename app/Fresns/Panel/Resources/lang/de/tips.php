@@ -57,6 +57,10 @@ return [
     'uninstall_step_3' => 'Dateien löschen',
     'uninstall_step_4' => 'Cache leeren',
     'uninstall_step_5' => 'Getan',
+    // website
+    'website_path_empty_error' => 'Speichern fehlgeschlagen, Pfadparameter darf nicht leer sein',
+    'website_path_format_error' => 'konnte nicht gespeichert werden, Pfadparameter werden nur in Klartext unterstützt',
+    'website_path_unique_error' => 'Speichern fehlgeschlagen, doppelte Pfadparameter, die Namen der Pfadparameter dürfen sich nicht wiederholen',
     // theme
     'theme_error' => 'Das Thema ist falsch oder existiert nicht',
     'theme_functions_file_error' => 'Die Ansichtsdatei der Themenkonfiguration ist falsch oder existiert nicht',

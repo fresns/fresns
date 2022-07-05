@@ -57,6 +57,10 @@ return [
     'uninstall_step_3' => '删除文件',
     'uninstall_step_4' => '清空缓存',
     'uninstall_step_5' => '完成',
+    // website
+    'website_path_empty_error' => '保存失败，路径参数不允许为空',
+    'website_path_format_error' => '保存失败，路径参数仅支持纯英文字母',
+    'website_path_unique_error' => '保存失败，路径参数重复，路径参数名不允许彼此重复',
     // theme
     'theme_error' => '主题错误或者不存在',
     'theme_functions_file_error' => '主题配置的视图文件错误或者不存在',
