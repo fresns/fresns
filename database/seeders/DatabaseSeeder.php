@@ -8,6 +8,7 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -26,9 +27,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LanguagesTableSeeder::class);
         $this->call(RolesTableSeeder::class);
         $this->call(PluginUsagesTableSeeder::class);
-
-        // Test data (plugins)
-        // $this->call(PluginsTableSeeder::class);
 
         // Test data (account and user)
         //$this->call(AccountsTableSeeder::class);

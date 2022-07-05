@@ -25,8 +25,8 @@ class AccountWalletsTableSeeder extends Seeder
             0 => [
                 'id' => 1,
                 'account_id' => 1,
-                'balance' => 0,
-                'freeze_amount' => 0,
+                'balance' => '0.00',
+                'freeze_amount' => '0.00',
                 'password' => null,
                 'bank_name' => null,
                 'swift_code' => null,
@@ -34,8 +34,8 @@ class AccountWalletsTableSeeder extends Seeder
                 'bank_account' => null,
                 'bank_status' => 1,
                 'is_enable' => 1,
-                'created_at' => '2021-10-08 10:00:00',
-                'updated_at' => '2021-10-08 10:00:00',
+                'created_at' => '2022-07-18 17:00:00',
+                'updated_at' => null,
                 'deleted_at' => null,
             ],
         ]);
