@@ -9,6 +9,8 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\PrimaryHelper;
+use App\Models\File;
+use App\Models\FileUsage;
 use App\Models\Group;
 use App\Models\Language;
 use App\Models\Plugin;
@@ -27,7 +29,7 @@ class ExtendGroupController extends Controller
         });
         $groupId = $request->group_id ?: 0;
 
-        $pluginUsages = PluginUsage::where('type', 6);
+        $pluginUsages = PluginUsage::type(PluginUsage::TYPE_GROUP);
         if ($groupId) {
             $pluginUsages->where('group_id', $groupId);
         }
@@ -38,9 +40,7 @@ class ExtendGroupController extends Controller
 
         $roles = Role::with('names')->get();
 
-        $groups = Group::where('parent_id', 0)
-            ->with('groups')
-            ->get();
+        $groups = Group::whereNull('parent_id')->with('groups')->get();
         $groupSelect = Group::find($groupId);
 
         return view('FsView::extends.group', compact('pluginUsages', 'plugins', 'roles', 'groups', 'groupId', 'groupSelect'));
@@ -49,7 +49,7 @@ class ExtendGroupController extends Controller
     public function store(Request $request)
     {
         $pluginUsage = new PluginUsage;
-        $pluginUsage->type = 6;
+        $pluginUsage->usage_type = PluginUsage::TYPE_GROUP;
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->plugin_unikey = $request->plugin_unikey;
         $pluginUsage->parameter = $request->parameter;
@@ -62,12 +62,12 @@ class ExtendGroupController extends Controller
 
         if ($request->file('icon_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_SYSTEM,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'plugin_usages',
                 'tableColumn' => 'icon_file_id',
                 'tableId' => $pluginUsage->id,
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -126,12 +126,12 @@ class ExtendGroupController extends Controller
 
         if ($request->file('icon_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_SYSTEM,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'plugin_usages',
                 'tableColumn' => 'icon_file_id',
                 'tableId' => $pluginUsage->id,
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);

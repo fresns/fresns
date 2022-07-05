@@ -21,8 +21,9 @@ class PolicyController extends Controller
             'account_terms_status',
             'account_privacy_status',
             'account_cookie_status',
+            'account_ip_location_status',
             'account_delete_status',
-            'delete_account',
+            'delete_account_type',
             'delete_account_todo',
         ];
 
@@ -55,8 +56,9 @@ class PolicyController extends Controller
             'account_terms_status',
             'account_privacy_status',
             'account_cookie_status',
+            'account_ip_location_status',
             'account_delete_status',
-            'delete_account',
+            'delete_account_type',
             'delete_account_todo',
         ];
 

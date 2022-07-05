@@ -25,7 +25,7 @@ class UpdateDefaultLanguageRequest extends FormRequest
     public function attributes()
     {
         return [
-            'default_language' => __('FsLang::panel.defaultLanguage'),
+            'default_language' => __('FsLang::panel.default_language'),
         ];
     }
 }

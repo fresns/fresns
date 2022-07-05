@@ -10,6 +10,8 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\PrimaryHelper;
 use App\Models\Config;
+use App\Models\File;
+use App\Models\FileUsage;
 use App\Models\Language;
 use App\Models\Plugin;
 use App\Models\PluginUsage;
@@ -34,7 +36,7 @@ class MapController extends Controller
             return [$config->item_key => $config->item_value];
         });
 
-        $pluginUsages = PluginUsage::where('type', 9)
+        $pluginUsages = PluginUsage::type(PluginUsage::TYPE_MAP)
             ->orderBy('rating')
             ->with('plugin')
             ->get();
@@ -67,19 +69,19 @@ class MapController extends Controller
         $map->is_enable = $request->is_enable;
         $map->rating = $request->rating;
         $map->parameter = $request->parameter;
-        $map->icon_file_url = $request->icon_file_url ?: '';
+        $map->icon_file_url = $request->icon_file_url;
         $map->type = 9;
         $map->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $map->save();
 
         if ($request->file('icon_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_SYSTEM,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'plugin_usages',
                 'tableColumn' => 'icon_file_id',
                 'tableId' => $map->id,
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -150,12 +152,12 @@ class MapController extends Controller
 
         if ($request->file('icon_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_SYSTEM,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'plugin_usages',
                 'tableColumn' => 'icon_file_id',
                 'tableId' => $map->id,
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);

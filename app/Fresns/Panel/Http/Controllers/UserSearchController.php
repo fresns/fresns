@@ -19,9 +19,7 @@ class UserSearchController extends Controller
 
         $users = [];
         if ($keyword) {
-            $users = User::where('username', 'like', '%'.$keyword.'%')
-                ->orWhere('nickname', 'like', '%'.$keyword.'%')
-                ->paginate();
+            $users = User::where('username', 'like', "%$keyword%")->orWhere('nickname', 'like', "%$keyword%")->paginate();
         }
 
         return response()->json($users);

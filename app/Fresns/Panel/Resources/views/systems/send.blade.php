@@ -33,6 +33,7 @@
             <form action="{{ route('panel.send.update') }}" method="post">
                 @csrf
                 @method('put')
+
                 <!--email_config-->
                 <div class="row mb-4">
                     <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.send_email_config') }}:</label>
@@ -48,6 +49,7 @@
                         </div>
                     </div>
                 </div>
+
                 <!--sms_config-->
                 <div class="row mb-4">
                     <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.send_sms_config') }}:</label>
@@ -73,54 +75,7 @@
                         </div>
                     </div>
                 </div>
-                <!--ios_config-->
-                <div class="row mb-4">
-                    <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.send_ios_config') }}:</label>
-                    <div class="col-lg-6">
-                        <div class="input-group mb-3">
-                            <label class="input-group-text">{{ __('FsLang::panel.table_service') }}</label>
-                            <select class="form-select" name="send_ios_service">
-                                <option value="" {{ !$params['send_ios_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
-                                @foreach ($pluginParams['sendIos'] as $plugin)
-                                    <option value="{{ $plugin->unikey }}" {{ $params['send_ios_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.send_ios_desc') }}</div>
-                </div>
-                <!--android_config-->
-                <div class="row mb-4">
-                    <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.send_android_config') }}:</label>
-                    <div class="col-lg-6">
-                        <div class="input-group mb-3">
-                            <label class="input-group-text">{{ __('FsLang::panel.table_service') }}</label>
-                            <select class="form-select" name="send_android_service">
-                                <option value="" {{ !$params['send_android_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
-                                @foreach ($pluginParams['sendAndroid'] as $plugin)
-                                    <option value="{{ $plugin->unikey }}" {{ $params['send_android_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.send_android_desc') }}</div>
-                </div>
-                <!--wechat_config-->
-                <div class="row mb-4">
-                    <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.send_wechat_config') }}:</label>
-                    <div class="col-lg-6">
-                        <div class="input-group mb-3">
-                            <label class="input-group-text">{{ __('FsLang::panel.table_service') }}</label>
-                            <select class="form-select" name="send_wechat_service">
-                                <option value="" {{ !$params['send_wechat_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
-                                @foreach ($pluginParams['sendWechat'] as $plugin)
-                                    <option value="{{ $plugin->unikey }}" {{ $params['send_wechat_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.send_wechat_desc') }}</div>
-                </div>
+
                 <!--button_save-->
                 <div class="row my-3">
                     <div class="col-lg-2"></div>
@@ -130,6 +85,7 @@
                 </div>
             </form>
         </div>
+
         <!--templates-->
         <div class="tab-pane fade" id="templates" role="tabpanel" aria-labelledby="templates-tab">
             <div class="table-responsive">

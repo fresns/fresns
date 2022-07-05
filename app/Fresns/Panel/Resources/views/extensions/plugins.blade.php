@@ -18,13 +18,13 @@
         </div>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <a href="{{ route('panel.plugin.index') }}" class="nav-link {{ is_null($isEnable) ? 'active' : '' }}" type="button">{{ __('FsLang::panel.sidebar_plugins_tab_all') }}</a>
+                <a href="{{ route('panel.plugins.index') }}" class="nav-link {{ is_null($isEnable) ? 'active' : '' }}" type="button">{{ __('FsLang::panel.sidebar_plugins_tab_all') }}</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a href="{{ route('panel.plugin.index', ['status' => 'active']) }}" class="nav-link {{ $isEnable == 1 ? 'active' : '' }}" type="button">{{ __('FsLang::panel.sidebar_plugins_tab_active') }} ({{ $enableCount }})</a>
+                <a href="{{ route('panel.plugins.index', ['status' => 'active']) }}" class="nav-link {{ $isEnable == 1 ? 'active' : '' }}" type="button">{{ __('FsLang::panel.sidebar_plugins_tab_active') }} ({{ $enableCount }})</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a href="{{ route('panel.plugin.index', ['status' => 'inactive']) }}" class="nav-link {{ !is_null($isEnable) && $isEnable == 0 ? 'active' : '' }}" type="button">{{ __('FsLang::panel.sidebar_plugins_tab_inactive') }}({{ $disableCount }})</a>
+                <a href="{{ route('panel.plugins.index', ['status' => 'inactive']) }}" class="nav-link {{ !is_null($isEnable) && $isEnable == 0 ? 'active' : '' }}" type="button">{{ __('FsLang::panel.sidebar_plugins_tab_inactive') }}({{ $disableCount }})</a>
             </li>
         </ul>
     </div>
@@ -43,7 +43,7 @@
                 @foreach ($plugins as $plugin)
                     <tr>
                         <td class="py-3">
-                            <img src="/assets/{{ $plugin->unikey }}/fresns.png" class="me-2" width="44" height="44">
+                            <img src="/assets/plugins/{{ $plugin->unikey }}/fresns.png" class="me-2" width="44" height="44">
                             <span class="fs-6">{{ $plugin->name }}</span>
                             <span class="badge bg-secondary fs-9">{{ $plugin->version }}</span>
                             @if ($plugin->is_upgrade)

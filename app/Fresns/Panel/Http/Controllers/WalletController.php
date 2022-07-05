@@ -10,6 +10,8 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\PrimaryHelper;
 use App\Models\Config;
+use App\Models\File;
+use App\Models\FileUsage;
 use App\Models\Language;
 use App\Models\Plugin;
 use App\Models\PluginUsage;
@@ -149,7 +151,7 @@ class WalletController extends Controller
             return in_array('recharge', $plugin->scene);
         });
 
-        $pluginUsages = PluginUsage::where('type', 1)
+        $pluginUsages = PluginUsage::type(PluginUsage::TYPE_WALLET_RECHARGE)
             ->orderBy('rating')
             ->with('plugin', 'names')
             ->get();
@@ -160,7 +162,7 @@ class WalletController extends Controller
     public function rechargeStore(Request $request)
     {
         $pluginUsage = new PluginUsage;
-        $pluginUsage->type = 1;
+        $pluginUsage->usage_type = PluginUsage::TYPE_WALLET_RECHARGE;
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->plugin_unikey = $request->plugin_unikey;
         $pluginUsage->parameter = $request->parameter;
@@ -171,12 +173,12 @@ class WalletController extends Controller
 
         if ($request->file('icon_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_SYSTEM,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'plugin_usages',
                 'tableColumn' => 'icon_file_id',
                 'tableId' => $pluginUsage->id,
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -229,12 +231,12 @@ class WalletController extends Controller
 
         if ($request->file('icon_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_SYSTEM,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'plugin_usages',
                 'tableColumn' => 'icon_file_id',
                 'tableId' => $pluginUsage->id,
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -283,7 +285,7 @@ class WalletController extends Controller
 
     public function withdrawIndex()
     {
-        $pluginUsages = PluginUsage::where('type', 2)
+        $pluginUsages = PluginUsage::type(PluginUsage::TYPE_WALLET_WITHDRAW)
             ->orderBy('rating')
             ->with('plugin')
             ->get();
@@ -299,7 +301,7 @@ class WalletController extends Controller
     public function withdrawStore(Request $request)
     {
         $pluginUsage = new PluginUsage;
-        $pluginUsage->type = 2;
+        $pluginUsage->usage_type = PluginUsage::TYPE_WALLET_WITHDRAW;
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->plugin_unikey = $request->plugin_unikey;
         $pluginUsage->parameter = $request->parameter;
@@ -310,12 +312,12 @@ class WalletController extends Controller
 
         if ($request->file('icon_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_SYSTEM,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'plugin_usages',
                 'tableColumn' => 'icon_file_id',
                 'tableId' => $pluginUsage->id,
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -368,12 +370,12 @@ class WalletController extends Controller
 
         if ($request->file('icon_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_SYSTEM,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'plugin_usages',
                 'tableColumn' => 'icon_file_id',
                 'tableId' => $pluginUsage->id,
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);

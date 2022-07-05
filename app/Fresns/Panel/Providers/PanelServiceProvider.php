@@ -8,9 +8,7 @@
 
 namespace App\Fresns\Panel\Providers;
 
-use App\Fresns\Panel\Http\Exceptions\Handler;
 use App\Fresns\Panel\Http\Middleware\Authenticate;
-use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 

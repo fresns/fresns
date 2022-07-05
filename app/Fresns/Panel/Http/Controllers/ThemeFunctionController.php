@@ -10,6 +10,8 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\ConfigHelper;
 use App\Models\Config;
+use App\Models\File;
+use App\Models\FileUsage;
 use App\Models\Language;
 use App\Models\Plugin;
 use App\Utilities\ConfigUtility;
@@ -91,12 +93,12 @@ class ThemeFunctionController extends Controller
             if ($functionKey['itemType'] == 'file') {
                 if ($request->file($functionKey['itemKey'].'_file')) {
                     $wordBody = [
+                        'usageType' => FileUsage::TYPE_SYSTEM,
                         'platformId' => 4,
-                        'useType' => 2,
                         'tableName' => 'configs',
                         'tableColumn' => 'item_value',
                         'tableKey' => $functionKey['itemKey'],
-                        'type' => 1,
+                        'type' => File::TYPE_IMAGE,
                         'file' => $request->file($functionKey['itemKey'].'_file'),
                     ];
                     $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);

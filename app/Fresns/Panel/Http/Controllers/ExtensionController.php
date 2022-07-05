@@ -37,6 +37,28 @@ class ExtensionController extends Controller
         return view('FsView::extensions.plugins', compact('plugins', 'enableCount', 'disableCount', 'isEnable'));
     }
 
+    public function panelIndex(Request $request)
+    {
+        $panels = Plugin::type(2);
+
+        $isEnable = match ($request->status) {
+            'active' => 1,
+            'inactive' => 0,
+            default => null,
+        };
+
+        if ($isEnable) {
+            $panels->isEnable($isEnable);
+        }
+
+        $panels = $panels->get();
+
+        $enableCount = Plugin::type(2)->isEnable()->count();
+        $disableCount = Plugin::type(2)->isEnable(false)->count();
+
+        return view('FsView::extensions.panels', compact('panels', 'enableCount', 'disableCount', 'isEnable'));
+    }
+
     public function engineIndex()
     {
         $engines = Plugin::type(3)->get();
@@ -55,15 +77,37 @@ class ExtensionController extends Controller
 
         $themes = Plugin::type(4)->get();
 
+        $FresnsEngine = Config::where('item_key', 'FresnsEngine')->first()?->item_value;
+        $themeUnikey['pc'] = Config::where('item_key', 'FresnsEngine_Pc')->value('item_value');
+        $themeUnikey['mobile'] = Config::where('item_key', 'FresnsEngine_Mobile')->value('item_value');
+
+        $themeName['pc'] = Plugin::where('unikey', $themeUnikey['pc'])->value('name');
+        $themeName['mobile'] = Plugin::where('unikey', $themeUnikey['mobile'])->value('name');
+
         return view('FsView::extensions.engines', compact(
-            'engines', 'configs', 'themes', 'plugins'
+            'engines', 'configs', 'themes', 'plugins', 'FresnsEngine', 'themeUnikey', 'themeName'
         ));
     }
 
-    public function updateEngineTheme(Plugin $engine, Request $request)
+    public function updateDefaultEngine(Request $request)
     {
-        $pcKey = $engine->unikey.'_Pc';
-        $mobileKey = $engine->unikey.'_Mobile';
+        if ($request->get('is_enable') != 0) {
+            Config::where('item_key', 'FresnsEngine')->update([
+                'item_value' => 'true',
+            ]);
+        } else {
+            Config::where('item_key', 'FresnsEngine')->update([
+                'item_value' => 'false',
+            ]);
+        }
+
+        return $this->updateSuccess();
+    }
+
+    public function updateEngineTheme(string $unikey, Request $request)
+    {
+        $pcKey = $unikey.'_Pc';
+        $mobileKey = $unikey.'_Mobile';
 
         $pcConfig = Config::where('item_key', $pcKey)->first();
         if ($request->has($pcKey)) {
@@ -255,17 +299,6 @@ class ExtensionController extends Controller
         }
 
         return response(\Artisan::output()."\n".__('FsLang::tips.uninstallSuccess'));
-    }
-
-    public function updateTheme(Request $request)
-    {
-        if ($request->get('is_enable') != 0) {
-            \Artisan::call('plugin:activate', ['plugin' => $request->theme]);
-        } else {
-            \Artisan::call('plugin:deactivate', ['plugin' => $request->theme]);
-        }
-
-        return $this->updateSuccess();
     }
 
     public function uninstallTheme(Request $request)

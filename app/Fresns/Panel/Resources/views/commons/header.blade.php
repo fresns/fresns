@@ -43,7 +43,7 @@
                         <a class="nav-link {{ \Route::is([
                             'panel.editor.*',
                             'panel.content-type.*',
-                            'panel.post-detail.*',
+                            'panel.content-handler.*',
                             'panel.manage.*',
                             'panel.group.*',
                             'panel.user-feature.*',
@@ -54,42 +54,64 @@
                         <a class="nav-link {{ \Route::is([
                             'panel.menus.*',
                             'panel.columns.*',
+                            'panel.paths.*',
                             'panel.language.packs.*',
                             'panel.code.messages.*',
+                            'panel.website.*',
+                            'panel.app.*',
                         ]) ? 'active' : '' }}" href="{{ route('panel.menus.index') }}">{{ __('FsLang::panel.menu_clients') }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ \Route::is([
-                            'panel.plugin.*',
-                            'panel.engine.*',
-                            'panel.theme.*',
-                            'panel.app.*',
+                            'panel.plugins.*',
+                            'panel.panels.*',
+                            'panel.engines.*',
+                            'panel.themes.*',
                             'panel.keys.*',
                             'panel.iframe.*',
-                        ]) ? 'active' : '' }} " href="{{ route('panel.plugin.index') }}">{{ __('FsLang::panel.menu_app_center') }}</a>
+                        ]) ? 'active' : '' }} " href="{{ route('panel.plugins.index') }}">{{ __('FsLang::panel.menu_app_center') }}</a>
                     </li>
                 </ul>
                 <div class="navbar-nav">
                     <!--lang-->
                     <div class="btn-group d-flex flex-column">
-                        <button type="button" class="btn btn-outline-light btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-translate"></i> {{ $langs[\App::getLocale()] ?? '' }}
+                        <button type="button" class="btn btn-outline-light btn-sm dropdown-toggle me-4" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-command"></i> {{ __('FsLang::panel.operation') }}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            @foreach($langs as $code => $lang)
-                                <li><a class="dropdown-item" href="?lang={{$code}}">{{ $lang }}</a></li>
-                            @endforeach
+                            <li><a class="dropdown-item" href="{{ route('panel.cache.clear') }}"><i class="bi bi-trash3"></i> {{ __('FsLang::panel.button_clear_cache') }}</a></li>
+                            <li><a class="dropdown-item" href="#langModal" data-bs-toggle="modal"><i class="bi bi-translate"></i> {{ __('FsLang::panel.switch_language') }}</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form action="{{route('panel.logout')}}" method="POST" id="panle_logout">
+                                    @csrf
+                                    <a class="dropdown-item" href="#" onclick="$('#panle_logout').submit()"><i class="bi bi-power"></i> {{ __('FsLang::panel.logout') }}</a>
+                                </form>
+                            </li>
                         </ul>
-                    </div>
-                    <!--logout-->
-                    <div class="ms-lg-3 mt-3 mt-lg-0 mb-2 mb-lg-0">
-                        <form action="{{route('panel.logout')}}" method="POST">
-                            @csrf
-                            <button class="btn btn-outline-warning btn-sm" type="subbmit">{{ __('FsLang::panel.logout') }}</button>
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </nav>
 </header>
+
+<!-- Lang Modal -->
+<div class="modal fade" id="langModal" tabindex="-1" aria-labelledby="langModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="langModalLabel"><i class="bi bi-translate"></i> {{ __('FsLang::panel.switch_language') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group list-group-flush">
+                    {{-- {{ $langs[\App::getLocale()] ?? '' }} --}}
+                    @foreach($langs as $code => $lang)
+                        <a href="?lang={{$code}}" class="list-group-item list-group-item-action @if ($code == \App::getLocale()) active @endif">{{ $lang }}</a>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

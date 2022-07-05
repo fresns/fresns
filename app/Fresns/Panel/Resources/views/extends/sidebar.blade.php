@@ -9,7 +9,7 @@
                 <ul class="navbar-nav d-flex flex-column">
                     <li class="nav-item"><a class="nav-link {{ \Route::is('panel.editor.*') ? 'active' : '' }}" href="{{ route('panel.editor.index') }}">{{ __('FsLang::panel.sidebar_extend_editor') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ \Route::is('panel.content-type.*') ? 'active' : '' }}" href="{{ route('panel.content-type.index') }}">{{ __('FsLang::panel.sidebar_extend_content_type') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.post-detail.*') ? 'active' : '' }}" href="{{ route('panel.post-detail.index') }}">{{ __('FsLang::panel.sidebar_extend_post_detail') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.content-handler.*') ? 'active' : '' }}" href="{{ route('panel.content-handler.index') }}">{{ __('FsLang::panel.sidebar_extend_content_handler') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ \Route::is('panel.manage.*') ? 'active' : '' }}" href="{{ route('panel.manage.index') }}">{{ __('FsLang::panel.sidebar_extend_manage') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ \Route::is('panel.group.*') ? 'active' : '' }}" href="{{ route('panel.group.index') }}">{{ __('FsLang::panel.sidebar_extend_group') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ \Route::is('panel.user-feature.*') ? 'active' : '' }}" href="{{ route('panel.user-feature.index') }}">{{ __('FsLang::panel.sidebar_extend_user_feature') }}</a></li>

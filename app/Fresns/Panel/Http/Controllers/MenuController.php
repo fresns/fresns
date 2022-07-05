@@ -92,61 +92,76 @@ class MenuController extends Controller
             return [$config->item_key => $config];
         });
 
+        $pathKeys = [
+            'website_portal_path',
+            'website_user_path',
+            'website_group_path',
+            'website_hashtag_path',
+            'website_post_path',
+            'website_comment_path',
+        ];
+        $paths = Config::whereIn('item_key', $pathKeys)->pluck('item_value', 'item_key')->toArray();
+
         $menus = [
-            // url => key name
             'portal' => [
                 'name' => __('FsLang::panel.portal'),
-                'url' => 'portal',
+                'controller' => 'portal',
+                'path' => $paths['website_portal_path'],
                 'select' => true,
             ],
             'user' => [
                 'name' => __('FsLang::panel.user'),
-                'url' => 'users',
+                'controller' => 'user',
+                'path' => $paths['website_user_path'],
                 'select' => true,
             ],
             'group' => [
                 'name' => __('FsLang::panel.group'),
-                'url' => 'groups',
+                'controller' => 'group',
+                'path' => $paths['website_group_path'],
                 'select' => true,
             ],
             'hashtag' => [
                 'name' => __('FsLang::panel.hashtag'),
-                'url' => 'hashtags',
+                'controller' => 'hashtag',
+                'path' => $paths['website_hashtag_path'],
                 'select' => true,
             ],
             'post' => [
                 'name' => __('FsLang::panel.post'),
-                'url' => 'posts',
+                'controller' => 'post',
+                'path' => $paths['website_post_path'],
                 'select' => true,
             ],
             'comment' => [
                 'name' => __('FsLang::panel.comment'),
-                'url' => 'comments',
+                'controller' => 'comment',
+                'path' => $paths['website_comment_path'],
                 'select' => true,
             ],
             'user_list' => [
                 'name' => __('FsLang::panel.menu_user_list'),
-                'url' => 'users/list',
+                'path' => $paths['website_user_path'].'/list',
                 'select' => false,
             ],
             'group_list' => [
                 'name' => __('FsLang::panel.menu_group_list'),
-                'url' => 'groups/list',
+                'path' => $paths['website_group_path'].'/list',
                 'select' => false,
             ],
             'hashtag_list' => [
                 'name' => __('FsLang::panel.menu_hashtag_list'),
-                'url' => 'hashtags/list',
+                'path' => $paths['website_hashtag_path'].'/list',
                 'select' => false,
             ],
             'post_list' => [
                 'name' => __('FsLang::panel.menu_post_list'),
-                'url' => 'posts/list',
+                'path' => $paths['website_post_path'].'/list',
                 'select' => false,
             ],
             'comment_list' => [
                 'name' => __('FsLang::panel.menu_comment_list'),
-                'url' => 'comments/list',
+                'path' => $paths['website_comment_path'].'/list',
                 'select' => false,
             ],
         ];
@@ -164,11 +179,11 @@ class MenuController extends Controller
             if (! $config) {
                 $config = new Config;
                 $config->item_key = $enableKey;
-                $config->item_type = 'object';
+                $config->item_type = 'string';
                 $config->item_tag = 'menus';
             }
 
-            $config->item_value = json_decode($request->config, true);
+            $config->item_value = $request->config;
             $config->save();
         }
 

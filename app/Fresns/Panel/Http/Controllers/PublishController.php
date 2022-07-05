@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Helpers\DateHelper;
 use App\Models\Config;
 use App\Models\Language;
 use App\Models\Plugin;
@@ -22,7 +23,7 @@ class PublishController extends Controller
         $configKeys = [
             'post_email_verify',
             'post_phone_verify',
-            'post_prove_verify',
+            'post_real_name_verify',
             'post_limit_status',
             'post_limit_type',
             'post_limit_period_start',
@@ -33,9 +34,9 @@ class PublishController extends Controller
             'post_limit_tip',
             'post_limit_whitelist',
             'post_edit',
-            'post_edit_timelimit',
-            'post_edit_sticky',
-            'post_edit_digest',
+            'post_edit_time_limit',
+            'post_edit_sticky_limit',
+            'post_edit_digest_limit',
             'post_editor_service',
             'post_editor_group',
             'post_editor_title',
@@ -56,8 +57,8 @@ class PublishController extends Controller
             'post_editor_group_required',
             'post_editor_title_view',
             'post_editor_title_required',
-            'post_editor_title_word_length',
-            'post_editor_word_length',
+            'post_editor_title_length',
+            'post_editor_content_length',
             'post_editor_brief_length',
         ];
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -65,7 +66,10 @@ class PublishController extends Controller
         foreach ($configs as $config) {
             $params[$config->item_key] = $config->item_value;
         }
+
         $languages = Language::ofConfig()->where('table_key', 'post_limit_tip')->get();
+
+        $ruleTimezone = 'UTC'.DateHelper::fresnsDatabaseTimezone();
 
         $plugins = Plugin::all();
         $plugins = $plugins->filter(function ($plugin) {
@@ -74,7 +78,7 @@ class PublishController extends Controller
 
         $roles = Role::all();
 
-        return view('FsView::operations.publish-post', compact('params', 'languages', 'plugins', 'roles'));
+        return view('FsView::operations.publish-post', compact('params', 'ruleTimezone', 'languages', 'plugins', 'roles'));
     }
 
     public function postUpdate(Request $request)
@@ -82,7 +86,7 @@ class PublishController extends Controller
         $configKeys = [
             'post_email_verify',
             'post_phone_verify',
-            'post_prove_verify',
+            'post_real_name_verify',
             'post_limit_status',
             'post_limit_type',
             'post_limit_period_start',
@@ -93,9 +97,9 @@ class PublishController extends Controller
             'post_limit_tip',
             'post_limit_whitelist',
             'post_edit',
-            'post_edit_timelimit',
-            'post_edit_sticky',
-            'post_edit_digest',
+            'post_edit_time_limit',
+            'post_edit_sticky_limit',
+            'post_edit_digest_limit',
             'post_editor_service',
             'post_editor_group',
             'post_editor_title',
@@ -116,8 +120,8 @@ class PublishController extends Controller
             'post_editor_group_required',
             'post_editor_title_view',
             'post_editor_title_required',
-            'post_editor_title_word_length',
-            'post_editor_word_length',
+            'post_editor_title_length',
+            'post_editor_content_length',
             'post_editor_brief_length',
         ];
 
@@ -170,7 +174,7 @@ class PublishController extends Controller
         $configKeys = [
             'comment_email_verify',
             'comment_phone_verify',
-            'comment_prove_verify',
+            'comment_real_name_verify',
             'comment_limit_status',
             'comment_limit_type',
             'comment_limit_period_start',
@@ -181,8 +185,9 @@ class PublishController extends Controller
             'comment_limit_tip',
             'comment_limit_whitelist',
             'comment_edit',
-            'comment_edit_timelimit',
-            'comment_edit_sticky',
+            'comment_edit_time_limit',
+            'comment_edit_sticky_limit',
+            'comment_edit_digest_limit',
             'comment_editor_service',
             'comment_editor_sticker',
             'comment_editor_image',
@@ -198,7 +203,7 @@ class PublishController extends Controller
             'comment_editor_video_upload_number',
             'comment_editor_audio_upload_number',
             'comment_editor_document_upload_number',
-            'comment_editor_word_length',
+            'comment_editor_content_length',
             'comment_editor_brief_length',
         ];
 
@@ -210,6 +215,8 @@ class PublishController extends Controller
 
         $languages = Language::ofConfig()->where('table_key', 'comment_limit_tip')->get();
 
+        $ruleTimezone = 'UTC'.DateHelper::fresnsDatabaseTimezone();
+
         $plugins = Plugin::all();
         $plugins = $plugins->filter(function ($plugin) {
             return in_array('editor', $plugin->scene);
@@ -217,7 +224,7 @@ class PublishController extends Controller
 
         $roles = Role::all();
 
-        return view('FsView::operations.publish-comment', compact('params', 'languages', 'plugins', 'roles'));
+        return view('FsView::operations.publish-comment', compact('params', 'ruleTimezone', 'languages', 'plugins', 'roles'));
     }
 
     public function commentUpdate(Request $request)
@@ -225,7 +232,7 @@ class PublishController extends Controller
         $configKeys = [
             'comment_email_verify',
             'comment_phone_verify',
-            'comment_prove_verify',
+            'comment_real_name_verify',
             'comment_limit_status',
             'comment_limit_type',
             'comment_limit_period_start',
@@ -236,8 +243,9 @@ class PublishController extends Controller
             'comment_limit_tip',
             'comment_limit_whitelist',
             'comment_edit',
-            'comment_edit_timelimit',
-            'comment_edit_sticky',
+            'comment_edit_time_limit',
+            'comment_edit_sticky_limit',
+            'comment_edit_digest_limit',
             'comment_editor_service',
             'comment_editor_sticker',
             'comment_editor_image',
@@ -253,7 +261,7 @@ class PublishController extends Controller
             'comment_editor_video_upload_number',
             'comment_editor_audio_upload_number',
             'comment_editor_document_upload_number',
-            'comment_editor_word_length',
+            'comment_editor_content_length',
             'comment_editor_brief_length',
         ];
 

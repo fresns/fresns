@@ -23,7 +23,7 @@
         @method('put')
         <div class="row mb-4">
             <label for="site_url" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.site_url') }}:</label>
-            <div class="col-lg-6"><input type="url" class="form-control" name="site_domain" value="{{ $params['site_domain'] }}" id="site_url" placeholder="https://"></div>
+            <div class="col-lg-6"><input type="url" class="form-control" name="site_url" value="{{ $params['site_url'] }}" id="site_url" placeholder="https://"></div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.site_url_desc') }}</div>
         </div>
 

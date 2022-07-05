@@ -18,12 +18,12 @@ class SettingController extends Controller
     public function show()
     {
         $buildType = ConfigHelper::fresnsConfigByItemKey('build_type');
-        $domain = ConfigHelper::fresnsConfigByItemKey('backend_domain');
-        $path = ConfigHelper::fresnsConfigByItemKey('panel_path') ?? 'admin';
+        $systemUrl = ConfigHelper::fresnsConfigByItemKey('system_url');
+        $panelPath = ConfigHelper::fresnsConfigByItemKey('panel_path') ?? 'admin';
 
         $pluginUpgradeCount = Plugin::where('is_upgrade', 1)->count();
 
-        return view('FsView::dashboard.settings', compact('buildType', 'domain', 'path', 'pluginUpgradeCount'));
+        return view('FsView::dashboard.settings', compact('buildType', 'systemUrl', 'panelPath', 'pluginUpgradeCount'));
     }
 
     public function update(UpdateConfigRequest $request)
@@ -38,15 +38,15 @@ class SettingController extends Controller
             $buildConfig->save();
         }
 
-        if ($request->domain) {
-            $domainConfig = Config::where('item_key', 'backend_domain')->firstOrNew();
-            $domainConfig->item_value = $request->domain;
-            $domainConfig->save();
+        if ($request->systemUrl) {
+            $systemUrl = Config::where('item_key', 'system_url')->firstOrNew();
+            $systemUrl->item_value = $request->systemUrl;
+            $systemUrl->save();
         }
 
-        if ($request->path) {
+        if ($request->panelPath) {
             $pathConfig = Config::where('item_key', 'panel_path')->firstOrNew();
-            $pathConfig->item_value = trim($request->path, '/');
+            $pathConfig->item_value = trim($request->panelPath, '/');
             $pathConfig->save();
         }
 

@@ -32,21 +32,21 @@
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_build_type_desc') }}</div>
         </div>
         <div class="row mb-3">
-            <label for="backend_url" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_backend_domain') }}:</label>
-            <div class="col-lg-6"><input type="url" class="form-control update-backend-url" id="backend_url" name="domain" value="{{ $domain }}" placeholder="https://" required></div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_backend_domain_desc') }}</div>
+            <label for="system_url" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_system_url') }}:</label>
+            <div class="col-lg-6"><input type="url" class="form-control update-panel-url" id="system_url" name="systemUrl" value="{{ $systemUrl }}" placeholder="https://" required></div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_system_url_desc') }}</div>
         </div>
         <div class="row mb-3">
             <label for="panel_path" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_panel_path') }}: </label>
-            <div class="col-lg-6"><input type="text" class="form-control update-backend-url" id="panel_path" name="path" value="{{ $path }}" placeholder="admin" required></div>
+            <div class="col-lg-6"><input type="text" class="form-control update-panel-url" id="panel_path" name="panelPath" value="{{ $panelPath }}" placeholder="admin" required></div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_panel_path_desc') }}</div>
         </div>
         <div class="row mb-3">
-            <label for="backend_url" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_panel_url') }}:</label>
+            <label for="panel_url" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_panel_url') }}:</label>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <span class="form-control bg-light" id="backendUrl">{{ $domain.'/fresns/'.$path }}</span>
-                    <button class="btn btn-outline-secondary" onclick="copyToClipboard('#backendUrl')" type="button">{{ __('FsLang::panel.setting_panel_url_copy') }}</button>
+                    <span class="form-control bg-light" id="panelUrl">{{ $systemUrl.'/fresns/'.$panelPath }}</span>
+                    <button class="btn btn-outline-secondary" onclick="copyToClipboard('#panelUrl')" type="button">{{ __('FsLang::panel.setting_panel_url_copy') }}</button>
                 </div>
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_panel_url_desc') }}</div>

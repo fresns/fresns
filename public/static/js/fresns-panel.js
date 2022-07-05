@@ -254,12 +254,12 @@ $(document).ready(function () {
     });
 
     // admin config
-    $('#adminConfig .update-backend-url').change(function () {
-        let domain = $('#adminConfig').find('input[name=domain]').val();
-        let path = $('#adminConfig').find('input[name=path]').val();
+    $('#adminConfig .update-panel-url').change(function () {
+        let systemUrl = $('#adminConfig').find('input[name=systemUrl]').val();
+        let panelPath = $('#adminConfig').find('input[name=panelPath]').val();
         $('#adminConfig')
-            .find('#backendUrl')
-            .text(domain + '/fresns/' + path);
+            .find('#panelUrl')
+            .text(systemUrl + '/fresns/' + panelPath);
     });
 
     // update session key
@@ -990,17 +990,17 @@ $(document).ready(function () {
     $('#themeSetting').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget);
         let action = button.data('action');
-        let params = button.data('params');
+        let unikey = button.data('unikey');
         let pcPlugin = button.data('pc_plugin');
         let mobilePlugin = button.data('mobile_plugin');
 
         $(this).find('form').attr('action', action);
         $(this)
             .find('#pcTheme')
-            .attr('name', params.unikey + '_Pc');
+            .attr('name', unikey + '_Pc');
         $(this)
             .find('#mobileTheme')
-            .attr('name', params.unikey + '_Mobile');
+            .attr('name', unikey + '_Mobile');
 
         $(this).find('#pcTheme').val(pcPlugin);
         $(this).find('#mobileTheme').val(mobilePlugin);
@@ -1026,8 +1026,8 @@ $(document).ready(function () {
         let button = $(e.relatedTarget),
             isEnable = button.data('is_enable'),
             noConfig = button.data('no_config');
-        action = button.data('action');
-        config = button.data('config');
+            action = button.data('action');
+            config = button.data('config');
 
         if (noConfig) {
             $(this).find('.default-config').hide();
@@ -1036,7 +1036,7 @@ $(document).ready(function () {
         }
 
         $(this).find('form').attr('action', action);
-        $(this).find('textarea[name=config]').val(JSON.stringify(config));
+        $(this).find('textarea[name=config]').val(config);
         $(this)
             .find('input:radio[name=is_enable][value="' + isEnable + '"]')
             .prop('checked', true);
@@ -1058,6 +1058,7 @@ $(document).ready(function () {
             });
         }
     });
+
     $('#menuLangTextareaModal').on('shown.bs.modal', function (e) {
         let button = $(e.relatedTarget),
             languages = button.data('languages'),
@@ -1314,8 +1315,6 @@ $(document).ready(function () {
         let defaultDesc = $(this).data('default-desc');
         let adminUsers = button.data('admin_users');
 
-        //$('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
-        //$('.inputFile').css('display', 'none');
         if (params.cover_file_url) {
             $('#groupModal').find('input[name=cover_file_url]').parent().find('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
             $('#groupModal').find('input[name=cover_file_url]').parent().find('.inputFile').css('display', 'none');
@@ -1356,28 +1355,28 @@ $(document).ready(function () {
             .prop('checked', true)
             .click();
 
-        let permission = params.permission;
-        let publishPost = permission.publish_post ? permission.publish_post : 0;
-        let publishPostReview = permission.publish_post_review ? 1 : 0;
-        let publishComment = permission.publish_comment ? permission.publish_comment : 0;
-        let publishCommentReview = permission.publish_comment_review ? 1 : 0;
+        let permissions = params.permissions;
+        let publishPost = permissions.publish_post ? permissions.publish_post : 0;
+        let publishPostReview = permissions.publish_post_review ? 1 : 0;
+        let publishComment = permissions.publish_comment ? permissions.publish_comment : 0;
+        let publishCommentReview = permissions.publish_comment_review ? 1 : 0;
 
-        form.find('input:radio[name="permission[publish_post]"][value="' + publishPost + '"]')
+        form.find('input:radio[name="permissions[publish_post]"][value="' + publishPost + '"]')
             .prop('checked', true)
             .click();
-        form.find('input:radio[name="permission[publish_post_review]"][value="' + publishPostReview + '"]')
+        form.find('input:radio[name="permissions[publish_post_review]"][value="' + publishPostReview + '"]')
             .prop('checked', true)
             .click();
-        form.find('input:radio[name="permission[publish_comment]"][value="' + publishComment + '"]')
+        form.find('input:radio[name="permissions[publish_comment]"][value="' + publishComment + '"]')
             .prop('checked', true)
             .click();
-        form.find('input:radio[name="permission[publish_comment_review]"][value="' + publishCommentReview + '"]')
+        form.find('input:radio[name="permissions[publish_comment_review]"][value="' + publishCommentReview + '"]')
             .prop('checked', true)
             .click();
 
-        form.find('select[name="permission[publish_post_roles][]"]').val(params.permission.publish_post_roles).change();
-        form.find('select[name="permission[publish_comment_roles][]"]')
-            .val(params.permission.publish_comment_roles)
+        form.find('select[name="permissions[publish_post_roles][]"]').val(params.permissions.publish_post_roles).change();
+        form.find('select[name="permissions[publish_comment_roles][]"]')
+            .val(params.permissions.publish_comment_roles)
             .change();
         form.find('input:radio[name=is_enable][value="' + params.is_enable + '"]')
             .prop('checked', true)

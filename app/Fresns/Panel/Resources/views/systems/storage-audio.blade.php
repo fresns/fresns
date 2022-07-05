@@ -62,8 +62,8 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.storage_function_config') }}:</label>
             <div class="col-lg-6">
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_ext') }}</label>
-                    <input type="text" class="form-control" id="audio_ext" placeholder="mp3,wav,m4a" name="audio_ext" value="{{ $params['audio_ext'] ?? '' }}">
+                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_extension_names') }}</label>
+                    <input type="text" class="form-control" id="audio_extension_names" placeholder="mp3,wav,m4a" name="audio_extension_names" value="{{ $params['audio_extension_names'] ?? '' }}">
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_max_size') }}</label>

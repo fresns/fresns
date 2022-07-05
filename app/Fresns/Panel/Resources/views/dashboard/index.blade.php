@@ -7,20 +7,13 @@
 @section('content')
     <!--Dashboard-->
     <div class="row mb-4 ">
-        <div class="col-lg-7">
-            <h1 class="fs-3 fw-normal">{{ __('FsLang::panel.welcome') }}</h1>
-            <p class="text-secondary">
-                {{ __('FsLang::panel.current_version') }} v{{$currentVersion['version'] ?? ''}}
-                @if ($checkVersion)
-                    <a href="{{ route('panel.upgrades') }}" class="badge rounded-pill bg-danger ms-2 text-decoration-none">{{ __('FsLang::panel.new_version') }}</a>
-                @endif
-            </p>
-        </div>
-        <div class="col-lg-5">
-            <div class="input-group mt-2 mb-4 justify-content-lg-end">
-                <a class="btn btn-outline-success" href="{{ route('panel.cache.clear') }}" role="button">{{ __('FsLang::panel.button_clear_cache') }}</a>
-            </div>
-        </div>
+        <h1 class="fs-3 fw-normal">{{ __('FsLang::panel.welcome') }}</h1>
+        <p class="text-secondary">
+            {{ __('FsLang::panel.current_version') }} v{{$currentVersion['version'] ?? ''}}
+            @if ($checkVersion)
+                <a href="{{ route('panel.upgrades') }}" class="badge rounded-pill bg-danger ms-2 text-decoration-none">{{ __('FsLang::panel.new_version') }}</a>
+            @endif
+        </p>
     </div>
     <!--Dashboard data-->
     <div class="row mb-3">
@@ -57,38 +50,38 @@
             <h3 class="h6">{{ __('FsLang::panel.extensions') }}</h3>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <i class="bi bi-person"></i> {{ __('FsLang::panel.extensions_admins') }}
+                    <i class="bi bi-person"></i> {{ __('FsLang::panel.sidebar_admins') }}
                     <a href="{{ route('panel.admins.index') }}">
                         <span class="badge bg-info">{{ $adminCount }}</span>
                     </a>
                 </li>
                 <li class="list-group-item">
-                    <i class="bi bi-key"></i> {{ __('FsLang::panel.extensions_keys') }}
+                    <i class="bi bi-key"></i> {{ __('FsLang::panel.sidebar_keys') }}
                     <a href="{{ route('panel.keys.index') }}">
                         <span class="badge bg-info">{{ $keyCount }}</span>
                     </a>
                 </li>
                 <li class="list-group-item">
-                    <i class="bi bi-journal-code"></i> {{ __('FsLang::panel.extensions_plugins') }}
-                    <a href="{{ route('panel.plugin.index') }}">
+                    <i class="bi bi-journal-code"></i> {{ __('FsLang::panel.sidebar_plugins') }}
+                    <a href="{{ route('panel.plugins.index') }}">
                         <span class="badge bg-info">{{ $plugins->where('type', 1)->count() }}</span>
                     </a>
                 </li>
                 <li class="list-group-item">
-                    <i class="bi bi-phone"></i> {{ __('FsLang::panel.extensions_apps') }}
-                    <a href="{{ route('panel.app.index') }}">
+                    <i class="bi bi-layers"></i> {{ __('FsLang::panel.sidebar_panels') }}
+                    <a href="{{ route('panel.panels.index') }}">
                         <span class="badge bg-info">{{ $plugins->where('type', 2)->count() }}</span>
                     </a>
                 </li>
                 <li class="list-group-item">
-                    <i class="bi bi-laptop"></i> {{ __('FsLang::panel.extensions_engines') }}
-                    <a href="{{ route('panel.engine.index') }}">
+                    <i class="bi bi-laptop"></i> {{ __('FsLang::panel.sidebar_engines') }}
+                    <a href="{{ route('panel.engines.index') }}">
                         <span class="badge bg-info">{{ $plugins->where('type', 3)->count() }}</span>
                     </a>
                 </li>
                 <li class="list-group-item">
-                    <i class="bi bi-brush"></i> {{ __('FsLang::panel.extensions_themes') }}
-                    <a href="{{ route('panel.theme.index') }}">
+                    <i class="bi bi-palette"></i> {{ __('FsLang::panel.sidebar_themes') }}
+                    <a href="{{ route('panel.themes.index') }}">
                         <span class="badge bg-info">{{ $plugins->where('type', 4)->count() }}</span>
                     </a>
                 </li>

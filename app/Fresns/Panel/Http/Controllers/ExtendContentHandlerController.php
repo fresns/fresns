@@ -12,13 +12,23 @@ use App\Models\Config;
 use App\Models\Plugin;
 use Illuminate\Http\Request;
 
-class ExtendPostDetailController extends Controller
+class ExtendContentHandlerController extends Controller
 {
     public function index()
     {
         // config keys
         $configKeys = [
+            'ip_service',
+            'content_review_service',
+            'post_list_service',
+            'post_follow_service',
+            'post_nearby_service',
             'post_detail_service',
+            'search_users_service',
+            'search_groups_service',
+            'search_hashtags_service',
+            'search_posts_service',
+            'search_comments_service',
         ];
         $configs = Config::whereIn('item_key', $configKeys)->get();
 
@@ -27,7 +37,10 @@ class ExtendPostDetailController extends Controller
         }
 
         $pluginScenes = [
+            'extendIp',
+            'extendReview',
             'extendData',
+            'extendSearch',
         ];
         $plugins = Plugin::all();
         $pluginParams = [];
@@ -37,14 +50,24 @@ class ExtendPostDetailController extends Controller
             });
         }
 
-        return view('FsView::extends.post-detail', compact('pluginParams', 'params'));
+        return view('FsView::extends.content-handler', compact('pluginParams', 'params'));
     }
 
     public function update(Request $request)
     {
         // config keys
         $configKeys = [
+            'ip_service',
+            'content_review_service',
+            'post_list_service',
+            'post_follow_service',
+            'post_nearby_service',
             'post_detail_service',
+            'search_users_service',
+            'search_groups_service',
+            'search_hashtags_service',
+            'search_posts_service',
+            'search_comments_service',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();

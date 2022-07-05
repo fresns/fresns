@@ -10,6 +10,8 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Fresns\Panel\Http\Requests\UpdateStickerRequest;
 use App\Helpers\PrimaryHelper;
+use App\Models\File;
+use App\Models\FileUsage;
 use App\Models\Sticker;
 use Illuminate\Http\Request;
 
@@ -28,12 +30,12 @@ class StickerController extends Controller
 
         if ($request->file('image_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_STICKER,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'stickers',
                 'tableColumn' => 'image_file_id',
                 'tableId' => $stickerImage->id,
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('image_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);

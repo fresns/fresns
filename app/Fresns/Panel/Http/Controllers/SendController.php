@@ -22,9 +22,6 @@ class SendController extends Controller
             'send_sms_service',
             'send_sms_default_code',
             'send_sms_supported_codes',
-            'send_ios_service',
-            'send_android_service',
-            'send_wechat_service',
         ];
 
         $templateConfigKeys = [
@@ -56,9 +53,6 @@ class SendController extends Controller
         $pluginScenes = [
             'sendEmail',
             'sendSms',
-            'sendIos',
-            'sendAndroid',
-            'sendWechat',
         ];
 
         $plugins = Plugin::all();
@@ -80,9 +74,6 @@ class SendController extends Controller
             'send_sms_service',
             'send_sms_default_code',
             'send_sms_supported_codes',
-            'send_ios_service',
-            'send_android_service',
-            'send_wechat_service',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();

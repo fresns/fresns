@@ -29,11 +29,11 @@ class UpdateSessionKeyRequest extends FormRequest
     public function attributes()
     {
         return [
-            'platform_id' => __('FsLang::panel.platform'),
-            'name' => __('FsLang::panel.name'),
-            'type' => __('FsLang::panel.type'),
-            'is_enable' => __('FsLang::panel.status'),
-            'plugin_unikey' => __('FsLang::panel.associatePlugin'),
+            'platform_id' => __('FsLang::panel.table_platform'),
+            'name' => __('FsLang::panel.table_name'),
+            'type' => __('FsLang::panel.table_type'),
+            'is_enable' => __('FsLang::panel.table_status'),
+            'plugin_unikey' => __('FsLang::panel.table_plugin'),
         ];
     }
 }

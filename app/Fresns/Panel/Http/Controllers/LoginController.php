@@ -9,6 +9,7 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\AppHelper;
+use App\Models\SessionLog;
 use App\Utilities\AppUtility;
 use App\Utilities\ConfigUtility;
 use Browser;
@@ -79,20 +80,20 @@ class LoginController extends Controller
             }
 
             $langTag = \request()->header('langTag', config('app.locale'));
-            $deviceInfo = AppUtility::getDeviceInfo();
+
             $wordBody = [
-                'type' => 2,
+                'type' => SessionLog::TYPE_LOGIN_PANEL,
                 'pluginUnikey' => 'Fresns',
                 'platformId' => Browser::isMobile() ? 3 : 2,
                 'version' => AppHelper::VERSION,
                 'langTag' => $langTag,
-                'aid' => (string) $account->aid, // aid by account number
+                'aid' => (string) $account->aid,
                 'uid' => null,
                 'objectName' => self::class,
                 'objectAction' => 'Panel Login',
-                'objectResult' => $result ? 3 : 2, // login success or failure
+                'objectResult' => $result ? SessionLog::STATE_SUCCESS : SessionLog::STATE_FAILURE,
                 'objectOrderId' => null,
-                'deviceInfo' => json_encode($deviceInfo),
+                'deviceInfo' => AppUtility::getDeviceInfo(),
                 'deviceToken' => null,
                 'moreJson' => null,
             ];

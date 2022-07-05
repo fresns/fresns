@@ -7,9 +7,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav d-flex flex-column">
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.plugin.*') ? 'active' : '' }}" href="{{ route('panel.plugin.index') }}"><i class="bi bi-journal-code"></i> {{ __('FsLang::panel.sidebar_plugins') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.engine.*', 'panel.theme.*') ? 'active' : '' }}" href="{{ route('panel.engine.index') }}"><i class="bi bi-laptop"></i> {{ __('FsLang::panel.sidebar_website') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.app.*') ? 'active' : '' }}" href="{{ route('panel.app.index') }}"><i class="bi bi-phone"></i> {{ __('FsLang::panel.sidebar_apps') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.plugins.*') ? 'active' : '' }}" href="{{ route('panel.plugins.index') }}"><i class="bi bi-journal-code"></i> {{ __('FsLang::panel.sidebar_plugins') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.panels.*') ? 'active' : '' }}" href="{{ route('panel.panels.index') }}"><i class="bi bi-layers"></i> {{ __('FsLang::panel.sidebar_panels') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.engines.*') ? 'active' : '' }}" href="{{ route('panel.engines.index') }}"><i class="bi bi-laptop"></i> {{ __('FsLang::panel.sidebar_engines') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.themes.*') ? 'active' : '' }}" href="{{ route('panel.themes.index') }}"><i class="bi bi-palette"></i> {{ __('FsLang::panel.sidebar_themes') }}</a></li>
                     <li><hr style="margin: 0.5rem 0"></li>
                     <li class="nav-item"><a class="nav-link {{ \Route::is('panel.keys.*') ? 'active' : '' }} " href="{{ route('panel.keys.index') }}"><i class="bi bi-key"></i> {{ __('FsLang::panel.sidebar_keys') }}</a></li>
                     <li><hr style="margin: 0.5rem 0"></li>

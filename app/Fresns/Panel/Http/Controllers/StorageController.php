@@ -11,6 +11,8 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Config;
+use App\Models\File;
+use App\Models\FileUsage;
 use App\Models\Plugin;
 use Illuminate\Http\Request;
 
@@ -27,7 +29,7 @@ class StorageController extends Controller
             'image_bucket_area',
             'image_bucket_domain',
             'image_filesystem_disk',
-            'image_ext',
+            'image_extension_names',
             'image_max_size',
             'image_url_status',
             'image_url_key',
@@ -71,7 +73,7 @@ class StorageController extends Controller
             'image_bucket_area',
             'image_bucket_domain',
             'image_filesystem_disk',
-            'image_ext',
+            'image_extension_names',
             'image_max_size',
             'image_url_status',
             'image_url_key',
@@ -110,7 +112,7 @@ class StorageController extends Controller
             'video_bucket_area',
             'video_bucket_domain',
             'video_filesystem_disk',
-            'video_ext',
+            'video_extension_names',
             'video_max_size',
             'video_max_time',
             'video_url_status',
@@ -154,7 +156,7 @@ class StorageController extends Controller
             'video_bucket_area',
             'video_bucket_domain',
             'video_filesystem_disk',
-            'video_ext',
+            'video_extension_names',
             'video_max_size',
             'video_max_time',
             'video_url_status',
@@ -192,7 +194,7 @@ class StorageController extends Controller
             'audio_bucket_area',
             'audio_bucket_domain',
             'audio_filesystem_disk',
-            'audio_ext',
+            'audio_extension_names',
             'audio_max_size',
             'audio_max_time',
             'audio_url_status',
@@ -233,7 +235,7 @@ class StorageController extends Controller
             'audio_bucket_area',
             'audio_bucket_domain',
             'audio_filesystem_disk',
-            'audio_ext',
+            'audio_extension_names',
             'audio_max_size',
             'audio_max_time',
             'audio_url_status',
@@ -272,13 +274,13 @@ class StorageController extends Controller
             'document_bucket_area',
             'document_bucket_domain',
             'document_filesystem_disk',
-            'document_ext',
+            'document_extension_names',
             'document_max_size',
             'document_url_status',
             'document_url_key',
             'document_url_expire',
             'document_online_preview',
-            'document_preview_ext',
+            'document_preview_extension_names',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -311,13 +313,13 @@ class StorageController extends Controller
             'document_bucket_area',
             'document_bucket_domain',
             'document_filesystem_disk',
-            'document_ext',
+            'document_extension_names',
             'document_max_size',
             'document_url_status',
             'document_url_key',
             'document_url_expire',
             'document_online_preview',
-            'document_preview_ext',
+            'document_preview_extension_names',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -368,12 +370,12 @@ class StorageController extends Controller
     {
         if ($request->file('image_substitution_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_SYSTEM,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'configs',
                 'tableColumn' => 'item_value',
                 'tableKey' => 'image_substitution',
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('image_substitution_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -388,12 +390,12 @@ class StorageController extends Controller
 
         if ($request->file('video_substitution_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_SYSTEM,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'configs',
                 'tableColumn' => 'item_value',
                 'tableKey' => 'video_substitution',
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('video_substitution_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -408,12 +410,12 @@ class StorageController extends Controller
 
         if ($request->file('audio_substitution_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_SYSTEM,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'configs',
                 'tableColumn' => 'item_value',
                 'tableKey' => 'audio_substitution',
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('audio_substitution_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -428,12 +430,12 @@ class StorageController extends Controller
 
         if ($request->file('document_substitution_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_SYSTEM,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'configs',
                 'tableColumn' => 'item_value',
                 'tableKey' => 'document_substitution',
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('document_substitution_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);

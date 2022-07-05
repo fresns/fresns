@@ -62,8 +62,8 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.storage_function_config') }}:</label>
             <div class="col-lg-6">
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_ext') }}</label>
-                    <input type="text" class="form-control" id="document_ext" placeholder="doc,docx,xls,xlsx,csv,ppt,pptx,pdf,md,zip,epub,mobi,7z,rar,markdown,pps,ppts,txt" name="document_ext" value="{{ $params['document_ext'] }}">
+                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_extension_names') }}</label>
+                    <input type="text" class="form-control" id="document_extension_names" placeholder="doc,docx,xls,xlsx,csv,ppt,pptx,pdf,md,zip,epub,mobi,7z,rar,markdown,pps,ppts,txt" name="document_extension_names" value="{{ $params['document_extension_names'] }}">
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_max_size') }}</label>
@@ -108,8 +108,8 @@
                     <input type="text" class="form-control" id="document_online_preview" name="document_online_preview" value="{{ $params['document_online_preview'] }}">
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text">{{ __('FsLang::panel.storage_document_preview_ext') }}</label>
-                    <input type="text" class="form-control" id="document_preview_ext" placeholder="doc,docx,xls,xlsx,csv,ppt,pptx,pps,ppts,pdf" name="document_preview_ext" value="{{ $params['document_preview_ext'] }}">
+                    <label class="input-group-text">{{ __('FsLang::panel.storage_document_preview_extension_names') }}</label>
+                    <input type="text" class="form-control" id="document_preview_extension_names" placeholder="doc,docx,xls,xlsx,csv,ppt,pptx,pps,ppts,pdf" name="document_preview_extension_names" value="{{ $params['document_preview_extension_names'] }}">
                 </div>
             </div>
             <div class="col-lg-4 form-text pt-1">

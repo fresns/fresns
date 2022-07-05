@@ -9,6 +9,8 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\PrimaryHelper;
+use App\Models\File;
+use App\Models\FileUsage;
 use App\Models\Language;
 use App\Models\Plugin;
 use App\Models\PluginUsage;
@@ -25,7 +27,7 @@ class ExtendUserFeatureController extends Controller
             return in_array('extendUser', $plugin->scene);
         });
 
-        $pluginUsages = PluginUsage::where('type', 7)
+        $pluginUsages = PluginUsage::type(PluginUsage::TYPE_FEATURE)
             ->orderBy('rating')
             ->with('plugin', 'names')
             ->paginate();
@@ -38,7 +40,7 @@ class ExtendUserFeatureController extends Controller
     public function store(Request $request)
     {
         $pluginUsage = new PluginUsage;
-        $pluginUsage->type = 7;
+        $pluginUsage->usage_type = PluginUsage::TYPE_FEATURE;
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->plugin_unikey = $request->plugin_unikey;
         $pluginUsage->parameter = $request->parameter;
@@ -50,12 +52,12 @@ class ExtendUserFeatureController extends Controller
 
         if ($request->file('icon_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_SYSTEM,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'plugin_usages',
                 'tableColumn' => 'icon_file_id',
                 'tableId' => $pluginUsage->id,
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -112,12 +114,12 @@ class ExtendUserFeatureController extends Controller
         $pluginUsage->roles = $request->roles ? implode(',', $request->roles) : $pluginUsage->roles;
         if ($request->file('icon_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_SYSTEM,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'plugin_usages',
                 'tableColumn' => 'icon_file_id',
                 'tableId' => $pluginUsage->id,
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);

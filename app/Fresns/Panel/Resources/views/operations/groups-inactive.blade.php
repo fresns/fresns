@@ -22,7 +22,8 @@
             <li class="nav-item"><a class="nav-link" href="{{ route('panel.groups.recommend.index') }}">{{ __('FsLang::panel.sidebar_groups_tab_recommend') }}</a></li>
         </ul>
     </div>
-    <!--groups config-->
+
+    <!--group list-->
     <div class="table-responsive">
         <table class="table table-hover align-middle text-nowrap">
             <thead>
@@ -34,7 +35,7 @@
                     <th scope="col">{{ __('FsLang::panel.group_table_admins') }}</th>
                     <th scope="col">{{ __('FsLang::panel.group_table_post_publish') }}</th>
                     <th scope="col">{{ __('FsLang::panel.group_table_comment_publish') }}</th>
-                    <th scope="col" style="width:10rem;">{{ __('FsLang::panel.table_options') }}</th>
+                    <th scope="col" style="width:11rem;">{{ __('FsLang::panel.table_options') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -56,12 +57,27 @@
                             @endif
                         </td>
                         <td><span class="badge bg-light text-dark">{{ optional($group->user)->name }}</span></td>
-                        <td><span class="badge bg-light text-dark">{{ $permissionLabels[$group->permission['publish_post'] ?? 0] ?? '' }}</span></td>
-                        <td><span class="badge bg-light text-dark">{{ $permissionLabels[$group->permission['publish_comment'] ?? 0] ?? '' }}</span></td>
+                        <td><span class="badge bg-light text-dark">{{ $permissionLabels[$group->permissions['publish_post'] ?? 0] ?? '' }}</span></td>
+                        <td><span class="badge bg-light text-dark">{{ $permissionLabels[$group->permissions['publish_comment'] ?? 0] ?? '' }}</span></td>
                         <td>
                             <form action="{{ route('panel.groups.enable.update', ['group' => $group->id, 'is_enable' => 1]) }}" method="post">
                                 @csrf
                                 @method('put')
+                                <button type="button" class="btn btn-outline-primary btn-sm"
+                                    data-action="{{ route('panel.groups.update', $group->id) }}"
+                                    data-params="{{ $group->toJson() }}"
+                                    data-names="{{ $group->names->toJson() }}"
+                                    data-admin_users="{{ $group->admins }}"
+                                    data-descriptions="{{ $group->descriptions->toJson() }}"
+                                    data-names="{{ $group->names->toJson() }}"
+                                    data-descriptions="{{ $group->descriptions->toJson() }}"
+                                    data-bs-toggle="modal" data-bs-target="#groupModal">{{ __('FsLang::panel.button_edit') }}</button>
+
+                                <button type="button" class="btn btn-outline-success btn-sm"
+                                    data-action="{{ route('panel.groups.merge', $group->id) }}"
+                                    data-params="{{ $group->toJson() }}" data-bs-toggle="modal"
+                                    data-bs-target="#moveModal">{{ __('FsLang::panel.button_group_move') }}</button>
+
                                 <button type="submit" class="btn btn-outline-warning btn-sm">{{ __('FsLang::panel.button_activate') }}</button>
                             </form>
                         </td>
@@ -71,4 +87,7 @@
         </table>
     </div>
     {{ $groups ? $groups->links() : '' }}
+
+    <!--group edit modal-->
+    @include('FsView::operations.group-edit')
 @endsection

@@ -9,6 +9,7 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\AppHelper;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\InteractiveHelper;
@@ -78,9 +79,7 @@ class DashboardController extends Controller
      */
     public function cacheClear(): RedirectResponse
     {
-        \Artisan::call('view:cache');
-        \Artisan::call('cache:clear');
-        \Artisan::call('config:cache');
+        CacheHelper::clearAllCache();
 
         return back()->with('success', 'ok');
     }

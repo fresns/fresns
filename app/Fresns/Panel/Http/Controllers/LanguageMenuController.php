@@ -56,6 +56,8 @@ class LanguageMenuController extends Controller
         $defaultLanguageConfig->item_value = $request->default_language;
         $defaultLanguageConfig->save();
 
+        cache()->forget('fresns_default_langTag');
+
         return $this->updateSuccess();
     }
 

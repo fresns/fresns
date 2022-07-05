@@ -53,7 +53,7 @@
                     <button type="button" class="btn btn-outline-primary" id="physicalUpgradeButton" data-upgrading="{{ $physicalUpgrading }}">
                         {{ __('FsLang::panel.button_physical_upgrade') }}
                     </button>
-                    <a class="link-success ms-2" href="https://fresns.cn/guide/upgrade.html#physical-upgrade" target="_blank">{{ __('FsLang::tips.physical_upgrade_guide') }}</a>
+                    <a class="link-success ms-2" href="https://fresns.cn/guide/upgrade.html#手动物理升级" target="_blank">{{ __('FsLang::tips.physical_upgrade_guide') }}</a>
                 @endif
             @else
                 <div class="p-5 text-center">

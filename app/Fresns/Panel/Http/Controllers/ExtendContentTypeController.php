@@ -23,7 +23,7 @@ class ExtendContentTypeController extends Controller
             return in_array('extendContentType', $plugin->scene);
         });
 
-        $pluginUsages = PluginUsage::where('type', 4)->orderBy('rating')->with('plugin', 'names')->paginate();
+        $pluginUsages = PluginUsage::type(PluginUsage::TYPE_CONTENT)->orderBy('rating')->with('plugin', 'names')->paginate();
 
         return view('FsView::extends.content-type', compact('plugins', 'pluginUsages'));
     }
@@ -31,7 +31,7 @@ class ExtendContentTypeController extends Controller
     public function store(Request $request)
     {
         $pluginUsage = new PluginUsage;
-        $pluginUsage->type = 4;
+        $pluginUsage->usage_type = PluginUsage::TYPE_CONTENT;
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->plugin_unikey = $request->plugin_unikey;
         $pluginUsage->is_enable = $request->is_enable;

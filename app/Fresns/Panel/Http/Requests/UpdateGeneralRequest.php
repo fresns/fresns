@@ -18,7 +18,7 @@ class UpdateGeneralRequest extends FormRequest
     public function rules()
     {
         return [
-            'site_domain' => 'url|nullable',
+            'site_url' => 'url|nullable',
             'site_name' => 'array|nullable',
             'site_desc' => 'array|nullable',
             'site_copyright' => 'string|nullable',

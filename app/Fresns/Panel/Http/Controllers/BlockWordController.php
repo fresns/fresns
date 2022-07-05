@@ -20,7 +20,7 @@ class BlockWordController extends Controller
     {
         $words = BlockWord::query();
         if ($keyword = $request->keyword) {
-            $words->where('word', 'like', '%'.$keyword.'%');
+            $words->where('word', 'like', "%$keyword%");
         }
 
         $words = $words->latest()->paginate();

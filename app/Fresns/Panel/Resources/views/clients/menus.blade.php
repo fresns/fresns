@@ -38,11 +38,11 @@
                     <tr>
                         <td>
                             @if ($menu['select'])
-                                <input class="form-check-input update-config" type="radio" name="default_homepage" data-action="{{ route('panel.configs.update', ['config' => 'default_homepage']) }}" data-item_value="{{ $menu['url'] }}" value="portal" {{ optional($configs['default_homepage'])->item_value == $menu['url'] ? 'checked' : '' }}>
+                                <input class="form-check-input update-config" type="radio" name="default_homepage" data-action="{{ route('panel.configs.update', ['config' => 'default_homepage']) }}" data-item_value="{{ $menu['controller'] }}" value="portal" {{ optional($configs['default_homepage'])->item_value == $menu['controller'] ? 'checked' : '' }}>
                             @endif
                         </td>
                         <td>{{ $menu['name'] }}</td>
-                        <td>/{{ $menu['url'] ?? '' }}</td>
+                        <td>/{{ $menu['path'] ?? '' }}</td>
                         <td>
                             <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="tooltip"
                                 data-placement="top" data-bs-toggle="modal" data-bs-target="#menuLangModal"
@@ -84,7 +84,7 @@
                         </td>
                         <td>
                             <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#menuEdit"
-                                data-config="{{ json_encode(optional($configs['menu_' . $key . '_config'] ?? [])->item_value) }}"
+                                data-config="{{ optional($configs['menu_' . $key . '_config'] ?? [])->item_value }}"
                                 data-no_config="{{ $key == 'portal' ? 1 : 0 }}"
                                 data-is_enable="{{ optional($configs['menu_' . $key . '_status'])->item_value ?: 0 }}"
                                 data-action="{{ route('panel.menus.update', ['key' => $key]) }}"
@@ -114,7 +114,8 @@
                         <div class="mb-3 row default-config">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.menu_table_parameter') }}</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control" name="config" rows="10"></textarea>
+                                <textarea class="form-control" name="config" rows="6"></textarea>
+                                <div class="form-text">{{ __('FsLang::panel.menu_table_parameter_desc') }}</div>
                             </div>
                         </div>
                         <div class="mb-3 row">

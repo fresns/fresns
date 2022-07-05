@@ -7,16 +7,17 @@
  */
 
 use App\Fresns\Panel\Http\Controllers\AdminController;
+use App\Fresns\Panel\Http\Controllers\AppController;
 use App\Fresns\Panel\Http\Controllers\BlockWordController;
 use App\Fresns\Panel\Http\Controllers\CodeMessageController;
 use App\Fresns\Panel\Http\Controllers\ColumnController;
 use App\Fresns\Panel\Http\Controllers\ConfigController;
 use App\Fresns\Panel\Http\Controllers\DashboardController;
+use App\Fresns\Panel\Http\Controllers\ExtendContentHandlerController;
 use App\Fresns\Panel\Http\Controllers\ExtendContentTypeController;
 use App\Fresns\Panel\Http\Controllers\ExtendEditorController;
 use App\Fresns\Panel\Http\Controllers\ExtendGroupController;
 use App\Fresns\Panel\Http\Controllers\ExtendManageController;
-use App\Fresns\Panel\Http\Controllers\ExtendPostDetailController;
 use App\Fresns\Panel\Http\Controllers\ExtendUserFeatureController;
 use App\Fresns\Panel\Http\Controllers\ExtendUserProfileController;
 use App\Fresns\Panel\Http\Controllers\ExtensionController;
@@ -47,7 +48,10 @@ use App\Fresns\Panel\Http\Controllers\UserController;
 use App\Fresns\Panel\Http\Controllers\UserSearchController;
 use App\Fresns\Panel\Http\Controllers\VerifyCodeController;
 use App\Fresns\Panel\Http\Controllers\WalletController;
+use App\Fresns\Panel\Http\Controllers\WebsiteController;
 use App\Models\Config;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 try {
@@ -65,7 +69,7 @@ Route::middleware(['panelAuth'])->group(function () {
 
     // update config
     Route::put('configs/{config:item_key}', [ConfigController::class, 'update'])->name('configs.update');
-    // plugin usage
+    // plugin usages
     Route::put('plugin-usages/{pluginUsage}/rating', [PluginUsageController::class, 'updateRating'])->name('plugin-usages.rating.update');
     Route::resource('plugin-usages', PluginUsageController::class)->only([
         'store', 'update', 'destroy',
@@ -225,10 +229,9 @@ Route::middleware(['panelAuth'])->group(function () {
         ]);
         Route::put('content-type/{id}/dataSources/{key}', [ExtendContentTypeController::class, 'updateSource'])->name('content-type.source');
         Route::put('content-type/{id}/rating', [ExtendContentTypeController::class, 'updateRating'])->name('content-type.rating');
-        // post-detail
-        Route::resource('post-detail', ExtendPostDetailController::class)->only([
-            'index', 'update',
-        ]);
+        // content-handler
+        Route::get('content-handler', [ExtendContentHandlerController::class, 'index'])->name('content-handler.index');
+        Route::put('content-handler', [ExtendContentHandlerController::class, 'update'])->name('content-handler.update');
         // manage
         Route::resource('manage', ExtendManageController::class)->only([
             'index', 'store', 'update', 'destroy',
@@ -265,19 +268,29 @@ Route::middleware(['panelAuth'])->group(function () {
         // code messages
         Route::get('code-messages', [CodeMessageController::class, 'index'])->name('code.messages.index');
         Route::put('code-messages/{codeMessage}', [CodeMessageController::class, 'update'])->name('code.messages.update');
+        // path
+        Route::get('paths', [WebsiteController::class, 'pathIndex'])->name('paths.index');
+        Route::put('paths', [WebsiteController::class, 'pathUpdate'])->name('paths.update');
+        // website
+        Route::get('website', [WebsiteController::class, 'index'])->name('website.index');
+        Route::put('website', [WebsiteController::class, 'update'])->name('website.update');
+        // app
+        Route::get('app', [AppController::class, 'index'])->name('app.index');
+        Route::put('app', [AppController::class, 'update'])->name('app.update');
     });
 
     // app center
     Route::prefix('app-center')->group(function () {
         // plugins
-        Route::get('plugins', [ExtensionController::class, 'pluginIndex'])->name('plugin.index');
+        Route::get('plugins', [ExtensionController::class, 'pluginIndex'])->name('plugins.index');
+        // panels
+        Route::get('panels', [ExtensionController::class, 'panelIndex'])->name('panels.index');
         // engines
-        Route::get('engines', [ExtensionController::class, 'engineIndex'])->name('engine.index');
-        Route::put('engines/{engine}/theme', [ExtensionController::class, 'updateEngineTheme'])->name('engine.theme.update');
+        Route::get('engines', [ExtensionController::class, 'engineIndex'])->name('engines.index');
+        Route::put('engines/{unikey}/theme', [ExtensionController::class, 'updateEngineTheme'])->name('engine.theme.update');
+        Route::patch('updateDefaultEngine', [ExtensionController::class, 'updateDefaultEngine'])->name('defaultEngine.theme.update');
         // themes
-        Route::get('themes', [ExtensionController::class, 'themeIndex'])->name('theme.index');
-        // apps
-        Route::get('apps', [ExtensionController::class, 'appIndex'])->name('app.index');
+        Route::get('themes', [ExtensionController::class, 'themeIndex'])->name('themes.index');
         // session key
         Route::resource('keys', SessionKeyController::class)->only([
             'index', 'store', 'update', 'destroy',
@@ -298,7 +311,6 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::put('upgrade', [ExtensionController::class, 'upgrade'])->name('plugin.upgrade');
         // activate or deactivate
         Route::patch('update', [ExtensionController::class, 'update'])->name('plugin.update');
-        Route::patch('updateTheme', [ExtensionController::class, 'updateTheme'])->name('plugin.updateTheme');
         // uninstall
         Route::delete('uninstall', [ExtensionController::class, 'uninstall'])->name('plugin.uninstall');
         Route::delete('uninstallTheme', [ExtensionController::class, 'uninstallTheme'])->name('plugin.uninstallTheme');

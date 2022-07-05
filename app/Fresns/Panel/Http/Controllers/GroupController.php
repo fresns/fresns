@@ -9,13 +9,14 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\PrimaryHelper;
+use App\Models\File;
+use App\Models\FileUsage;
 use App\Models\Group;
 use App\Models\Language;
 use App\Models\Plugin;
 use App\Models\Post;
 use App\Models\PostLog;
 use App\Models\Role;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller
@@ -47,7 +48,7 @@ class GroupController extends Controller
             ->with('names', 'descriptions')
             ->get();
 
-        $parentId = $request->parent_id ?: (optional($categories->first())->id ?: 0);
+        $parentId = $request->parent_id ?: (optional($categories->first())->id ?: null);
 
         $groups = [];
 
@@ -56,7 +57,7 @@ class GroupController extends Controller
                 ->orderBy('rating')
                 ->where('parent_id', $parentId)
                 ->isEnable()
-                ->with('creator', 'plugin', 'names', 'descriptions', 'admins')
+                ->with('creator', 'followByPlugin', 'names', 'descriptions', 'admins')
                 ->paginate();
         }
 
@@ -100,7 +101,7 @@ class GroupController extends Controller
 
         $groups = Group::typeGroup()
             ->orderBy('recommend_rating')
-            ->with('creator', 'plugin', 'category', 'admins')
+            ->with('creator', 'followByPlugin', 'category', 'admins')
             ->where('is_recommend', 1)
             ->isEnable()
             ->paginate();
@@ -128,24 +129,37 @@ class GroupController extends Controller
     {
         $this->initOptions();
 
+        $categories = Group::typeCategory()
+            ->with('names', 'descriptions')
+            ->get();
+
         $groups = Group::typeGroup()
             ->orderBy('rating')
             ->isEnable(false)
-            ->with('creator', 'plugin', 'category')
+            ->with('creator', 'followByPlugin', 'category')
             ->paginate();
+
+        $plugins = Plugin::all();
+        $plugins = $plugins->filter(function ($plugin) {
+            return in_array('followGroup', $plugin->scene);
+        });
+
+        $roles = Role::with('names')->get();
 
         extract(get_object_vars($this));
 
         return view('FsView::operations.groups-inactive', compact(
+            'categories',
             'groups',
             'typeModeLabels',
-            'permissionLabels'
+            'permissionLabels',
+            'plugins',
+            'roles',
         ));
     }
 
     public function store(Group $group, Request $request)
     {
-        $group->gid = \Str::random(12);
         $group->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $group->description = $request->descriptions[$this->defaultLanguage] ?? (current(array_filter($request->descriptions)) ?: '');
         $group->rating = $request->rating;
@@ -153,24 +167,26 @@ class GroupController extends Controller
         $group->banner_file_url = $request->banner_file_url;
         // group category
         if ($request->is_category) {
-            $group->permission = [];
-            $group->parent_id = 0;
+            $group->parent_id = null;
             $group->type = 1;
+            $group->permissions = [];
             if ($request->has('is_enable')) {
                 $group->is_enable = $request->is_enable;
             }
         } else {
             $group->parent_id = $request->parent_id;
+            $group->type = 2;
             $group->type_mode = $request->type_mode;
             $group->type_find = $request->type_find;
             $group->type_follow = $request->type_follow;
             $group->is_recommend = $request->is_recommend;
             $group->plugin_unikey = $request->plugin_unikey;
-            $permission = $request->permission;
-            $permission['publish_post_review'] = (bool) ($permission['publish_post_review'] ?? 0);
-            $permission['publish_comment_review'] = (bool) ($permission['publish_comment_review'] ?? 0);
-            $group->permission = $permission;
-            $group->type = 2;
+
+            $permissions = $request->permissions;
+            $permissions['publish_post_review'] = (bool) ($permissions['publish_post_review'] ?? 0);
+            $permissions['publish_comment_review'] = (bool) ($permissions['publish_comment_review'] ?? 0);
+
+            $group->permissions = $permissions;
         }
         $group->save();
 
@@ -180,12 +196,12 @@ class GroupController extends Controller
 
         if ($request->file('cover_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_SYSTEM,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'groups',
                 'tableColumn' => 'cover_file_id',
                 'tableId' => $group->id,
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('cover_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -201,12 +217,12 @@ class GroupController extends Controller
 
         if ($request->file('banner_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_SYSTEM,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'groups',
                 'tableColumn' => 'banner_file_id',
                 'tableId' => $group->id,
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('banner_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -282,6 +298,7 @@ class GroupController extends Controller
         $group->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $group->description = $request->descriptions[$this->defaultLanguage] ?? (current(array_filter($request->descriptions)) ?: '');
         $group->rating = $request->rating;
+
         // group category
         if ($request->is_category) {
             $group->permission = [];
@@ -295,21 +312,24 @@ class GroupController extends Controller
             $group->type_follow = $request->type_follow;
             $group->is_recommend = $request->is_recommend;
             $group->plugin_unikey = $request->plugin_unikey;
-            $permission = $request->permission;
-            $permission['publish_post_review'] = (bool) ($permission['publish_post_review'] ?? 0);
-            $permission['publish_comment_review'] = (bool) ($permission['publish_comment_review'] ?? 0);
-            $group->permission = $permission;
+
+            $permissions = $request->permissions;
+            $permissions['publish_post_review'] = (bool) ($permissions['publish_post_review'] ?? 0);
+            $permissions['publish_comment_review'] = (bool) ($permissions['publish_comment_review'] ?? 0);
+
+            $group->permissions = $permissions;
+
             $group->admins()->sync($request->admin_ids);
         }
 
         if ($request->file('cover_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_SYSTEM,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'groups',
                 'tableColumn' => 'cover_file_id',
                 'tableId' => $group->id,
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('cover_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -327,12 +347,12 @@ class GroupController extends Controller
 
         if ($request->file('banner_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_SYSTEM,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'groups',
                 'tableColumn' => 'banner_file_id',
                 'tableId' => $group->id,
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('banner_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -343,7 +363,7 @@ class GroupController extends Controller
 
             $group->banner_file_id = $fileId;
             $group->banner_file_url = null;
-        } else {
+        } elseif ($group->banner_file_url != $request->banner_file_url) {
             $group->banner_file_id = null;
             $group->banner_file_url = $request->banner_file_url;
         }

@@ -19,10 +19,9 @@ class CodeMessageController extends Controller
     {
         $languageConfig = ConfigHelper::fresnsConfigByItemKeys(['language_status', 'default_language', 'language_menus']);
 
-        $unikeyData = CodeMessage::where('plugin_unikey', '!=', 'Fresns')->get('plugin_unikey')->toArray();
-        $unikeyArr = array_column($unikeyData, 'plugin_unikey');
+        $unikeyArr = CodeMessage::pluck('plugin_unikey')->toArray();
         $unikeys = array_unique($unikeyArr);
-        $pluginsList = Plugin::whereIn('unikey', $unikeys)->get(['unikey', 'name'])->toArray();
+        $pluginList = Plugin::whereIn('unikey', $unikeys)->get(['unikey', 'name'])->toArray();
 
         $langTag = $request->lang_tag ?: $languageConfig['default_language'];
 
@@ -44,7 +43,7 @@ class CodeMessageController extends Controller
             $codeMessage->messages = $messages;
         });
 
-        return view('FsView::clients.code-messages', compact('languageConfig', 'pluginsList', 'codeMessages', 'langTag', 'code', 'pluginUnikey'));
+        return view('FsView::clients.code-messages', compact('languageConfig', 'pluginList', 'codeMessages', 'langTag', 'code', 'pluginUnikey'));
     }
 
     public function update(CodeMessage $codeMessage, Request $request)

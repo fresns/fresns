@@ -12,6 +12,8 @@ use App\Fresns\Panel\Http\Requests\UpdateGeneralRequest;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Config;
+use App\Models\File;
+use App\Models\FileUsage;
 use App\Models\Language;
 use App\Models\Plugin;
 
@@ -21,7 +23,7 @@ class GeneralController extends Controller
     {
         // config keys
         $configKeys = [
-            'site_domain',
+            'site_url',
             'site_name',
             'site_desc',
             'site_icon',
@@ -83,12 +85,12 @@ class GeneralController extends Controller
     {
         if ($request->file('site_icon_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_SYSTEM,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'configs',
                 'tableColumn' => 'item_value',
                 'tableKey' => 'site_icon',
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('site_icon_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -103,12 +105,12 @@ class GeneralController extends Controller
 
         if ($request->file('site_logo_file')) {
             $wordBody = [
+                'usageType' => FileUsage::TYPE_SYSTEM,
                 'platformId' => 4,
-                'useType' => 2,
                 'tableName' => 'configs',
                 'tableColumn' => 'item_value',
                 'tableKey' => 'site_logo',
-                'type' => 1,
+                'type' => File::TYPE_IMAGE,
                 'file' => $request->file('site_logo_file'),
             ];
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->uploadFile($wordBody);
@@ -122,7 +124,7 @@ class GeneralController extends Controller
         }
 
         $configKeys = [
-            'site_domain',
+            'site_url',
             'site_copyright',
             'site_icon',
             'site_logo',
@@ -153,6 +155,8 @@ class GeneralController extends Controller
             $config->item_value = $request->$configKey;
             $config->save();
         }
+
+        cache()->forget('fresns_default_timezone');
 
         return $this->updateSuccess();
     }

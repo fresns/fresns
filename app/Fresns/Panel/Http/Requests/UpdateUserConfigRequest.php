@@ -20,7 +20,7 @@ class UpdateUserConfigRequest extends FormRequest
         return [
             'connects' => 'array',
             'connect_plugins' => 'array',
-            'account_prove_service' => 'nullable|string',
+            'account_real_name_service' => 'nullable|string',
             'multi_user_status' => 'string',
             'multi_user_service' => 'nullable|string',
             'multi_user_roles' => 'array',

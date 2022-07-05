@@ -31,7 +31,8 @@
                 <select class="form-select" id="unikey" name="plugin_unikey">
                     <option value="">{{ __('FsLang::panel.option_all') }}</option>
                     <option value="Fresns">Fresns</option>
-                    @foreach ($pluginsList as $plugin)
+                    <option value="CmdWord">CmdWord</option>
+                    @foreach ($pluginList as $plugin)
                         <option @if ($plugin['unikey'] == $pluginUnikey) selected @endif value="{{ $plugin['unikey'] }}">{{ $plugin['unikey'] }} -> {{ $plugin['name'] }}</option>
                     @endforeach
                 </select>
@@ -59,7 +60,7 @@
                 @foreach ($codeMessages as $message)
                     <tr>
                         <td>
-                            {{ collect($pluginsList)->where('unikey', $message->plugin_unikey)->first()['name'] ?? $message->plugin_unikey }}
+                            {{ collect($pluginList)->where('unikey', $message->plugin_unikey)->first()['name'] ?? $message->plugin_unikey }}
                             <span class="badge bg-secondary">{{ $message->plugin_unikey }}</span>
                         </td>
                         <td>{{ $message->code }}</td>
@@ -69,7 +70,7 @@
                             <button type="button" class="btn btn-outline-primary btn-sm"
                                 data-bs-toggle="modal"
                                 data-bs-target="#editMessages"
-                                data-name="{{ collect($pluginsList)->where('unikey', $message->plugin_unikey)->first()['name'] ?? $message->plugin_unikey }}"
+                                data-name="{{ collect($pluginList)->where('unikey', $message->plugin_unikey)->first()['name'] ?? $message->plugin_unikey }}"
                                 data-unikey="{{ $message->plugin_unikey }}"
                                 data-action="{{ route('panel.code.messages.update', $message->id)}}"
                                 data-messages="{{ $message->messages->toJson() }}"

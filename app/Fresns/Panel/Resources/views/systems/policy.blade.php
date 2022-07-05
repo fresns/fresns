@@ -33,8 +33,10 @@
             <form action="{{ route('panel.policy.update') }}" method="post">
                 @csrf
                 @method('put')
+
+                <!--policy_terms-->
                 <div class="row mb-3">
-                    <label for="delete_account" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.policy_terms') }}:</label>
+                    <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.policy_terms') }}:</label>
                     <div class="col-lg-6 pt-2">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="account_terms_status" id="account_terms_false" value="false" {{ !$params['account_terms_status'] ? 'checked' : '' }}>
@@ -46,8 +48,9 @@
                         </div>
                     </div>
                 </div>
+                <!--policy_privacy-->
                 <div class="row mb-3">
-                    <label for="delete_account" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.policy_privacy') }}:</label>
+                    <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.policy_privacy') }}:</label>
                     <div class="col-lg-6 pt-2">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="account_privacy_status" id="account_privacy_false" value="false" {{ !$params['account_privacy_status'] ? 'checked' : '' }}>
@@ -59,8 +62,9 @@
                         </div>
                     </div>
                 </div>
+                <!--policy_cookie-->
                 <div class="row mb-3">
-                    <label for="delete_account" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.policy_cookie') }}:</label>
+                    <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.policy_cookie') }}:</label>
                     <div class="col-lg-6 pt-2">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="account_cookie_status" id="account_cookie_false" value="false" {{ !$params['account_cookie_status'] ? 'checked' : '' }}>
@@ -72,8 +76,23 @@
                         </div>
                     </div>
                 </div>
+                <!--policy_ip_location-->
                 <div class="row mb-3">
-                    <label for="delete_account" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.policy_delete_account') }}:</label>
+                    <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.policy_ip_location') }}:</label>
+                    <div class="col-lg-6 pt-2">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="account_ip_location_status" id="account_ip_location_false" value="false" {{ !$params['account_ip_location_status'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="account_ip_location_false">{{ __('FsLang::panel.option_hidden') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="account_ip_location_status" id="account_ip_location_true" value="true" {{ $params['account_ip_location_status'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="account_ip_location_true">{{ __('FsLang::panel.option_visible') }}</label>
+                        </div>
+                    </div>
+                </div>
+                <!--policy_delete_account-->
+                <div class="row mb-3">
+                    <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.policy_delete_account') }}:</label>
                     <div class="col-lg-6 pt-2">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="account_delete_status" id="account_delete_false" value="false" {{ !$params['account_delete_status'] ? 'checked' : '' }}>
@@ -86,21 +105,21 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="delete_account" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.policy_delete_options') }}:</label>
+                    <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.policy_delete_options') }}:</label>
                     <div class="col-lg-6 pt-2">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="delete_account" id="delete_account" value="1" data-bs-toggle="collapse" data-bs-target="#delete_account_todo_setting.show" aria-expanded="false" aria-controls="delete_account_todo_setting" {{ $params['delete_account'] == 1 ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="delete_account_type" id="delete_account" value="1" data-bs-toggle="collapse" data-bs-target="#delete_account_todo_setting.show" aria-expanded="false" aria-controls="delete_account_todo_setting" {{ $params['delete_account_type'] == 1 ? 'checked' : '' }}>
                             <label class="form-check-label" for="delete_account">{{ __('FsLang::panel.policy_delete_option_1') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="delete_account" id="delete_account_1" value="2" data-bs-toggle="collapse" data-bs-target="#delete_account_todo_setting:not(.show)" aria-expanded="false" aria-controls="delete_account_todo_setting" {{ $params['delete_account'] == 2 ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="delete_account_type" id="delete_account_1" value="2" data-bs-toggle="collapse" data-bs-target="#delete_account_todo_setting:not(.show)" aria-expanded="false" aria-controls="delete_account_todo_setting" {{ $params['delete_account_type'] == 2 ? 'checked' : '' }}>
                             <label class="form-check-label" for="delete_account_1">{{ __('FsLang::panel.policy_delete_option_2') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="delete_account" id="delete_account_2" value="3" data-bs-toggle="collapse" data-bs-target="#delete_account_todo_setting:not(.show)" aria-expanded="false" aria-controls="delete_account_todo_setting" {{ $params['delete_account'] == 3 ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="delete_account_type" id="delete_account_2" value="3" data-bs-toggle="collapse" data-bs-target="#delete_account_todo_setting:not(.show)" aria-expanded="false" aria-controls="delete_account_todo_setting" {{ $params['delete_account_type'] == 3 ? 'checked' : '' }}>
                             <label class="form-check-label" for="delete_account_2">{{ __('FsLang::panel.policy_delete_option_3') }}</label>
                         </div>
-                        <div class="collapse {{ $params['delete_account'] != 1 ? 'show' : '' }}" id="delete_account_todo_setting">
+                        <div class="collapse {{ $params['delete_account_type'] != 1 ? 'show' : '' }}" id="delete_account_todo_setting">
                             <div class="input-group mt-2">
                                 <span class="input-group-text">{{ __('FsLang::panel.policy_delete_crontab') }}</span>
                                 <input type="number" class="form-control input-number" name="delete_account_todo" value="{{ $params['delete_account_todo'] }}">

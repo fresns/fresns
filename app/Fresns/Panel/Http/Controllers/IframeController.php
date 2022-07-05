@@ -8,7 +8,6 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
-use App\Models\Plugin;
 use Illuminate\Http\Request;
 
 class IframeController extends Controller
