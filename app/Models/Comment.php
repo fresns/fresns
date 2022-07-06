@@ -12,6 +12,12 @@ class Comment extends Model
 {
     use Traits\CommentServiceTrait;
     use Traits\IsEnableTrait;
+    use Traits\FsidTrait;
+
+    public function getFsidKey()
+    {
+        return 'cid';
+    }
 
     public function commentAppend()
     {
@@ -50,6 +56,6 @@ class Comment extends Model
 
     public function hashtags()
     {
-        return $this->belongsToMany(Hashtag::class, 'hashtag_linkeds', 'hashtag_id', 'linked_id')->wherePivot('linked_type', HashtagLinked::TYPE_COMMENT);
+        return $this->belongsToMany(Hashtag::class, 'hashtag_usages', 'hashtag_id', 'usage_id')->wherePivot('usage_type', HashtagUsage::TYPE_COMMENT);
     }
 }

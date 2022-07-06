@@ -22,11 +22,18 @@ trait UserServiceTrait
     {
         $userData = $this;
 
+        $identifier = ConfigHelper::fresnsConfigByItemKey('user_identifier');
+
+        if ($identifier == 'uid') {
+            $profile['fsid'] = $userData->uid;
+        } else {
+            $profile['fsid'] = $userData->username;
+        }
+
         $profile['uid'] = $userData->uid;
         $profile['username'] = $userData->username;
         $profile['nickname'] = $userData->nickname;
         $profile['avatar'] = static::getUserAvatar($userData->id);
-        $profile['decorate'] = FileHelper::fresnsFileUrlByTableColumn($userData->decorate_file_id, $userData->decorate_file_url, 'imageAvatarUrl');
         $profile['banner'] = FileHelper::fresnsFileUrlByTableColumn($userData->banner_file_id, $userData->banner_file_url);
         $profile['gender'] = $userData->gender;
         $profile['birthday'] = DateHelper::fresnsDateTimeByTimezone($userData->birthday, $timezone, $langTag);
@@ -36,7 +43,6 @@ trait UserServiceTrait
         $profile['commentLimit'] = $userData->comment_limit;
         $profile['timezone'] = $userData->timezone;
         $profile['verifiedStatus'] = (bool) $userData->verified_status;
-        $profile['verifiedIcon'] = FileHelper::fresnsFileUrlByTableColumn($userData->verified_file_id, $userData->verified_file_url);
         $profile['verifiedDesc'] = $userData->verified_desc;
         $profile['verifiedDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData->verified_at, $timezone, $langTag);
         $profile['expiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData->expired_at, $timezone, $langTag);
@@ -44,7 +50,7 @@ trait UserServiceTrait
         $profile['lastPublishComment'] = DateHelper::fresnsDateTimeByTimezone($userData->last_comment_at, $timezone, $langTag);
         $profile['lastEditUsername'] = DateHelper::fresnsDateTimeByTimezone($userData->last_username_at, $timezone, $langTag);
         $profile['lastEditNickname'] = DateHelper::fresnsDateTimeByTimezone($userData->last_nickname_at, $timezone, $langTag);
-        $profile['registerDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData->created_at, $timezone, $langTag);
+        $profile['registerDate'] = date(ConfigHelper::fresnsConfigDateFormat($langTag), strtotime(DateHelper::fresnsDateTimeByTimezone($userData->created_at, $timezone, $langTag)));
         $profile['hasPassword'] = (bool) $userData->password;
         $profile['status'] = (bool) $userData->is_enable;
         $profile['waitDelete'] = (bool) $userData->wait_delete;
@@ -101,7 +107,7 @@ trait UserServiceTrait
         $mainRoleData = UserRole::where('user_id', $userData->id)->where('is_main', 1)->first(['role_id', 'expired_at']);
         $roleData = Role::where('id', $mainRoleData->role_id)->first();
 
-        foreach ($roleData->permission as $perm) {
+        foreach ($roleData->permissions as $perm) {
             $permission['rid'] = $roleData->id;
             $permission[$perm['permKey']] = $perm['permValue'];
         }
@@ -113,7 +119,7 @@ trait UserServiceTrait
         $mainRole['roleIcon'] = FileHelper::fresnsFileUrlByTableColumn($roleData->icon_file_id, $roleData->icon_file_url);
         $mainRole['roleIconDisplay'] = (bool) $roleData->is_display_icon;
         $mainRole['roleExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($mainRoleData->expired_at, $timezone, $langTag);
-        $mainRole['rolePermission'] = $permission;
+        $mainRole['rolePermissions'] = $permission;
         $mainRole['roleStatus'] = (bool) $roleData->is_enable;
 
         return $mainRole;
@@ -146,22 +152,6 @@ trait UserServiceTrait
         }
 
         return $roleList;
-    }
-
-    public function getUserArchives(?string $langTag = null)
-    {
-        $archiveArr = $this->archives;
-
-        $archiveList = [];
-        foreach ($archiveArr as $archive) {
-            $item['itemKey'] = $archive->config_key;
-            $item['itemValue'] = ConfigHelper::fresnsConfigByItemKey($archive->config_key, $langTag);
-            $item['archiveValue'] = $archive->archive_value;
-            $item['archiveType'] = $archive->archive_type;
-            $archiveList[] = $item;
-        }
-
-        return $archiveList;
     }
 
     public function getUserStats(?string $langTag = null)

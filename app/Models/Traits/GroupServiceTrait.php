@@ -8,6 +8,8 @@
 
 namespace App\Models\Traits;
 
+use App\Helpers\ConfigHelper;
+use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
@@ -15,7 +17,7 @@ use App\Models\GroupAdmin;
 
 trait GroupServiceTrait
 {
-    public function getGroupInfo(?string $langTag = null)
+    public function getGroupInfo(?string $langTag = null, ?string $timezone = null)
     {
         $groupData = $this;
         $parentGroup = $this->category;
@@ -32,14 +34,16 @@ trait GroupServiceTrait
         $info['find'] = $groupData->type_find;
         $info['followType'] = $groupData->type_follow;
         $info['followUrl'] = ! empty($groupData->plugin_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($groupData->plugin_unikey) : null;
-        $info['category'] = $parentGroup->getCategoryInfo($langTag) ?? null;
+        $info['parentGid'] = $parentGroup?->gid ?? null;
+        $info['category'] = $parentGroup?->getCategoryInfo($langTag) ?? null;
         $info['likeCount'] = $groupData->like_count;
         $info['dislikeCount'] = $groupData->dislike_count;
         $info['followCount'] = $groupData->follow_count;
         $info['blockCount'] = $groupData->block_count;
         $info['postCount'] = $groupData->post_count;
         $info['postDigestCount'] = $groupData->post_digest_count;
-        $info['permission'] = $groupData->permission;
+        $info['permissions'] = $groupData->permissions;
+        $info['createDate'] = date(ConfigHelper::fresnsConfigDateFormat($langTag), strtotime(DateHelper::fresnsDateTimeByTimezone($groupData->created_at, $timezone, $langTag)));
 
         return $info;
     }

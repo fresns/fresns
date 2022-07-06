@@ -22,25 +22,26 @@ trait PluginUsageServiceTrait
         $info['plugin'] = $usageData->plugin_unikey;
         $info['name'] = LanguageHelper::fresnsLanguageByTableId('plugin_usages', 'name', $usageData->id, $langTag);
         $info['icon'] = FileHelper::fresnsFileUrlByTableColumn($usageData->icon_file_id, $usageData->icon_file_url);
-        $info['url'] = PluginHelper::fresnsPluginUsageUrl($usageData->plugin_unikey, $usageData->id);
+        $info['url'] = PluginHelper::fresnsPluginUsageUrl($usageData->plugin_unikey, $usageData->parameter);
 
         $info['badgesType'] = null;
         $info['badgesValue'] = null;
+        $info['editorToolbar'] = (bool) $usageData->editor_toolbar;
         $info['editorNumber'] = $usageData->editor_number;
 
         if (! empty($userId)) {
             $badge = PluginBadge::where('plugin_unikey', $usageData->plugin_unikey)->where('user_id', $userId)->first();
-            $info['badgesType'] = $badge->display_type;
-            $info['badgesValue'] = match ($badge->display_type) {
+            $info['badgesType'] = $badge?->display_type;
+            $info['badgesValue'] = match ($badge?->display_type) {
                 default => null,
-                1 => $badge->value_number,
-                2 => $badge->value_text,
+                1 => $badge?->value_number,
+                2 => $badge?->value_text,
             };
         }
 
-        $pluginRating['postByAll'] = PluginHelper::pluginRatingHandle('postByAll', $usageData->data_sources, $langTag);
-        $pluginRating['postByFollow'] = PluginHelper::pluginRatingHandle('postByFollow', $usageData->data_sources, $langTag);
-        $pluginRating['postByNearby'] = PluginHelper::pluginRatingHandle('postByNearby', $usageData->data_sources, $langTag);
+        $pluginRating['postByAll'] = PluginHelper::pluginDataRatingHandle('postByAll', $usageData->data_sources, $langTag);
+        $pluginRating['postByFollow'] = PluginHelper::pluginDataRatingHandle('postByFollow', $usageData->data_sources, $langTag);
+        $pluginRating['postByNearby'] = PluginHelper::pluginDataRatingHandle('postByNearby', $usageData->data_sources, $langTag);
         $info['pluginRating'] = $pluginRating;
 
         return $info;

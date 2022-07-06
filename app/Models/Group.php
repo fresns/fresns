@@ -10,14 +10,36 @@ namespace App\Models;
 
 class Group extends Model
 {
+    const TYPE_CATEGORY = 1;
+    const TYPE_GROUP = 2;
+    const TYPE_SUBLEVEL_GROUP = 3;
+
+    const SUBLEVEL_PUBLIC = 1;
+    const SUBLEVEL_PRIVATE = 0;
+
+    const MODE_PUBLIC = 1;
+    const MODE_PRIVATE = 2;
+
+    const FIND_VISIBLE = 1;
+    const FIND_HIDDEN = 2;
+
+    const FOLLOW_FRESNS = 1;
+    const FOLLOW_PLUGIN = 2;
+
     use Traits\LangNameTrait;
     use Traits\LangDescriptionTrait;
     use Traits\GroupServiceTrait;
     use Traits\IsEnableTrait;
+    use Traits\FsidTrait;
 
     protected $casts = [
-        'permission' => 'array',
+        'permissions' => 'array',
     ];
+
+    public function getFsidKey()
+    {
+        return 'gid';
+    }
 
     public function scopeTypeCategory($query)
     {
@@ -49,7 +71,7 @@ class Group extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function plugin()
+    public function followByPlugin()
     {
         return $this->belongsTo(Plugin::class, 'plugin_unikey', 'unikey');
     }

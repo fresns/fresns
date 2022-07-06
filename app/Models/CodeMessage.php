@@ -10,5 +10,4 @@ namespace App\Models;
 
 class CodeMessage extends Model
 {
-    protected $guarded = ['id'];
 }

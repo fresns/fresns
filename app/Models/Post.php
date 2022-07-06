@@ -8,26 +8,15 @@
 
 namespace App\Models;
 
-use App\Utilities\PermissionUtility;
-
 class Post extends Model
 {
     use Traits\PostServiceTrait;
     use Traits\IsEnableTrait;
+    use Traits\FsidTrait;
 
-    protected $guarded = ['id'];
-
-    public function scopeBeforeExpiredAtOrNotLimit($query, ?User $user)
+    public function getFsidKey()
     {
-        if (! $user) {
-            return $query;
-        }
-
-        $userConfig = PermissionUtility::getUserExpireInfo($user->id);
-
-        return $query->when(! $userConfig['userStatus'] && $userConfig['expireAfter'] == 2, function ($query) use ($user) {
-            $query->where('created_at', '<=', $user->expired_at ?? now());
-        });
+        return 'pid';
     }
 
     public function postAppend()
@@ -52,7 +41,7 @@ class Post extends Model
 
     public function hashtags()
     {
-        return $this->belongsToMany(Hashtag::class, 'hashtag_linkeds', 'hashtag_id', 'linked_id')->wherePivot('linked_type', HashtagLinked::TYPE_POST);
+        return $this->belongsToMany(Hashtag::class, 'hashtag_usages', 'hashtag_id', 'usage_id')->wherePivot('usage_type', HashtagUsage::TYPE_POST);
     }
 
     public function users()
@@ -60,13 +49,8 @@ class Post extends Model
         return $this->hasMany(PostUser::class);
     }
 
-    public function allowUsers()
+    public function allows()
     {
-        return $this->hasMany(PostAllow::class)->where('type', 1);
-    }
-
-    public function allowRoles()
-    {
-        return $this->hasMany(PostAllow::class)->where('type', 2);
+        return $this->hasMany(PostAllow::class);
     }
 }

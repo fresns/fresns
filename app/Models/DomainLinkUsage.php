@@ -8,7 +8,7 @@
 
 namespace App\Models;
 
-class DomainLinkLinked extends Model
+class DomainLinkUsage extends Model
 {
     const TYPE_USER = 1;
     const TYPE_GROUP = 2;
@@ -18,6 +18,6 @@ class DomainLinkLinked extends Model
 
     public function scopeType($query, int $type)
     {
-        return $query->where('linked_type', $type);
+        return $query->where('usage_type', $type);
     }
 }

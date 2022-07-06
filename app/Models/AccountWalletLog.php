@@ -10,5 +10,15 @@ namespace App\Models;
 
 class AccountWalletLog extends Model
 {
-    use Traits\IsEnableTrait;
+    const TYPE_IN_RECHARGE = 1;
+    const TYPE_IN_FREEZE = 2;
+    const TYPE_IN_TRANSACTION = 3;
+    const TYPE_DE_WITHDRAW = 4;
+    const TYPE_DE_UNFREEZE = 5;
+    const TYPE_DE_TRANSACTION = 3;
+
+    public function scopeType($query, int $type)
+    {
+        return $query->where('type', $type);
+    }
 }

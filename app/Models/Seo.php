@@ -18,10 +18,8 @@ class Seo extends Model
 
     protected $table = 'seo';
 
-    protected $guarded = ['id'];
-
     public function scopeType($query, int $type)
     {
-        return $query->where('linked_type', $type);
+        return $query->where('usage_type', $type);
     }
 }

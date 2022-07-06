@@ -10,5 +10,4 @@ namespace App\Models;
 
 class BlockWord extends Model
 {
-    protected $guarded = ['id'];
 }

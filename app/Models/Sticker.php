@@ -13,8 +13,6 @@ class Sticker extends Model
     use Traits\LangNameTrait;
     use Traits\IsEnableTrait;
 
-    protected $table = 'stickers';
-
     public function scopeGroup($query)
     {
         return $query->where('type', 2);

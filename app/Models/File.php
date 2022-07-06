@@ -29,12 +29,15 @@ class File extends Model
 
     use Traits\FileServiceTrait;
     use Traits\IsEnableTrait;
+    use Traits\FsidTrait;
 
-    protected $guarded = [];
+    protected $casts = [
+        'more_json' => 'json',
+    ];
 
-    public function fileAppend()
+    public function getFsidKey()
     {
-        return $this->hasOne(FileAppend::class);
+        return 'fid';
     }
 
     public function getTypeKey()
@@ -46,6 +49,16 @@ class File extends Model
             File::TYPE_AUDIO => 'audio',
             File::TYPE_DOCUMENT => 'document',
         };
+    }
+
+    public function scopeType($query, int $type)
+    {
+        return $query->where('type', $type);
+    }
+
+    public function fileUsages()
+    {
+        return $this->hasMany(FileUsage::class);
     }
 
     public function isImage()

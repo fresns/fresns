@@ -23,10 +23,10 @@ trait FileServiceTrait
         $fileConfigInfo = FileHelper::fresnsFileStorageConfigByType($fileData->type);
 
         if ($fileConfigInfo['filesystemDisk'] == 'local') {
-            $fileOriginalPath = Storage::url($fileData->fileAppend->original_path);
+            $fileOriginalPath = Storage::url($fileData->original_path);
             $filePath = Storage::url($fileData->path);
         } else {
-            $fileOriginalPath = $fileData->fileAppend->original_path;
+            $fileOriginalPath = $fileData->original_path;
             $filePath = $fileData->path;
         }
 
@@ -62,6 +62,7 @@ trait FileServiceTrait
         $info['type'] = $fileData->type;
         $info['status'] = (bool) $fileData->is_enable;
         $info['substitutionImageUrl'] = ConfigHelper::fresnsConfigFileUrlByItemKey($substitutionConfig);
+        $info['sensitive'] = (bool) $fileData->is_sensitive;
         $info['name'] = $fileData->name;
         $info['mime'] = $fileData->mime;
         $info['extension'] = $fileData->extension;
@@ -182,7 +183,7 @@ trait FileServiceTrait
             'document_bucket_domain',
             'document_filesystem_disk',
             'document_online_preview',
-            'document_preview_ext',
+            'document_preview_extension_names',
         ]);
 
         if ($documentConfig['document_filesystem_disk'] == 'local') {
@@ -194,8 +195,8 @@ trait FileServiceTrait
         $info['documentUrl'] = StrHelper::qualifyUrl($filePath, $documentConfig['document_bucket_domain']);
 
         $documentPreviewUrl = null;
-        if (! empty($documentConfig['document_online_preview']) && ! empty($documentConfig['document_preview_ext'])) {
-            $previewExtArr = explode(',', $documentConfig['document_preview_ext']);
+        if (! empty($documentConfig['document_online_preview']) && ! empty($documentConfig['document_preview_extension_names'])) {
+            $previewExtArr = explode(',', $documentConfig['document_preview_extension_names']);
             if (in_array($fileData->extension, $previewExtArr)) {
                 $replaceUrl = str_replace('{docurl}', $info['documentUrl'], $documentConfig['document_online_preview']);
                 $documentPreviewUrl = str_replace('{fid}', $fileData->fid, $replaceUrl);

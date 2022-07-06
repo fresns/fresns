@@ -8,7 +8,7 @@
 
 namespace App\Models;
 
-class TipLinked extends Model
+class Archive extends Model
 {
     const TYPE_USER = 1;
     const TYPE_GROUP = 2;
@@ -16,8 +16,14 @@ class TipLinked extends Model
     const TYPE_POST = 4;
     const TYPE_COMMENT = 5;
 
+    use Traits\IsEnableTrait;
+
+    protected $casts = [
+        'options' => 'array',
+    ];
+
     public function scopeType($query, int $type)
     {
-        return $query->where('linked_type', $type);
+        return $query->where('usage_type', $type);
     }
 }

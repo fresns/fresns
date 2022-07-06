@@ -10,9 +10,12 @@ namespace App\Models;
 
 class Plugin extends Model
 {
-    use Traits\IsEnableTrait;
+    const TYPE_EXTENSION = 1;
+    const TYPE_PANEL = 2;
+    const TYPE_DIVERSIFY_IMAGE = 3;
+    const TYPE_THEME = 4;
 
-    protected $guarded = [];
+    use Traits\IsEnableTrait;
 
     protected $casts = [
         'scene' => 'array',

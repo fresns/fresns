@@ -19,7 +19,7 @@ trait AccountServiceTrait
     {
         $accountData = $this;
 
-        $proveSupportUrl = ConfigHelper::fresnsConfigByItemKey('account_prove_service');
+        $verifySupportUrl = ConfigHelper::fresnsConfigByItemKey('account_real_name_service');
 
         $info['aid'] = $accountData->aid;
         $info['countryCode'] = $accountData->country_code;
@@ -27,13 +27,13 @@ trait AccountServiceTrait
         $info['phone'] = ! empty($accountData->phone) ? StrHelper::maskNumber($accountData->phone) : null;
         $info['email'] = ! empty($accountData->email) ? StrHelper::maskEmail($accountData->email) : null;
         $info['hasPassword'] = (bool) $accountData->password;
-        $info['proveSupport'] = ! empty($proveSupportUrl) ? PluginHelper::fresnsPluginUrlByUnikey($proveSupportUrl) : null;
-        $info['proveRealName'] = ! empty($accountData->prove_realname) ? StrHelper::maskName($accountData->prove_realname) : null;
-        $info['proveGender'] = $accountData->prove_gender;
-        $info['proveType'] = $accountData->prove_type;
-        $info['proveNumber'] = ! empty($accountData->prove_number) ? StrHelper::maskName($accountData->prove_number) : null;
         $info['verifyStatus'] = (bool) $accountData->is_verify;
-        $info['verifyType'] = $accountData->verify_type;
+        $info['verifySupport'] = ! empty($verifySupportUrl) ? PluginHelper::fresnsPluginUrlByUnikey($verifySupportUrl) : null;
+        $info['verifyRealName'] = ! empty($accountData->verify_real_name) ? StrHelper::maskName($accountData->verify_real_name) : null;
+        $info['verifyGender'] = $accountData->verify_gender;
+        $info['verifyCertType'] = $accountData->verify_cert_type;
+        $info['verifyCertNumber'] = ! empty($accountData->verify_cert_number) ? StrHelper::maskName($accountData->verify_cert_number) : null;
+        $info['verifyIdentityType'] = $accountData->verify_identity_type;
         $info['verifyDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountData->verify_at, $timezone, $langTag);
         $info['registerDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountData->created_at, $timezone, $langTag);
         $info['status'] = (bool) $accountData->is_enable;

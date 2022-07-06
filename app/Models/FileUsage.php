@@ -8,16 +8,18 @@
 
 namespace App\Models;
 
-class FileLog extends Model
+class FileUsage extends Model
 {
-    const TYPE_USER = 1;
-    const TYPE_GROUP = 2;
-    const TYPE_HASHTAG = 3;
-    const TYPE_POST = 4;
-    const TYPE_COMMENT = 5;
-    const TYPE_EXTEND = 6;
-
-    protected $guarded = [];
+    const TYPE_OTHER = 1;
+    const TYPE_SYSTEM = 2;
+    const TYPE_OPERATION = 3;
+    const TYPE_STICKER = 4;
+    const TYPE_USER = 5;
+    const TYPE_DIALOG = 6;
+    const TYPE_POST = 7;
+    const TYPE_COMMENT = 8;
+    const TYPE_EXTEND = 9;
+    const TYPE_PLUGIN = 10;
 
     public function scopeFileType($query, int $type)
     {
@@ -26,16 +28,11 @@ class FileLog extends Model
 
     public function scopeType($query, int $type)
     {
-        return $query->where('object_type', $type);
+        return $query->where('usage_type', $type);
     }
 
     public function file()
     {
         return $this->belongsTo(File::class, 'file_id', 'id');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

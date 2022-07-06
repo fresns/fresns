@@ -58,7 +58,7 @@ trait PostServiceTrait
         $info['userListName'] = LanguageHelper::fresnsLanguageByTableId('post_appends', 'user_list_name', $appendData->post_id, $langTag);
         $info['userListUrl'] = ! empty($appendData->user_list_plugin_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($appendData->user_list_plugin_unikey) : null;
 
-        $info['ipRegion'] = $appendData->ip_region;
+        $info['ipLocation'] = $appendData->ip_location;
 
         $location['isLbs'] = ! empty($postData->map_id) ? true : false;
         $location['mapId'] = $postData->map_id;

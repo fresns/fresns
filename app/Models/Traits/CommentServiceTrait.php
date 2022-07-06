@@ -54,7 +54,7 @@ trait CommentServiceTrait
         $info['commentBtnName'] = LanguageHelper::fresnsLanguageByTableId('post_appends', 'comment_btn_name', $commentData->post_id, $langTag);
         $info['commentBtnUrl'] = ! empty($postAppendData->comment_btn_plugin_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($postAppendData->comment_btn_plugin_unikey) : null;
 
-        $info['ipRegion'] = $appendData->ip_region;
+        $info['ipLocation'] = $appendData->ip_location;
 
         $location['isLbs'] = ! empty($commentData->map_id) ? true : false;
         $location['mapId'] = $commentData->map_id;

@@ -8,12 +8,14 @@
 
 namespace App\Models\Traits;
 
+use App\Helpers\ConfigHelper;
+use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
 
 trait HashtagServiceTrait
 {
-    public function getHashtagInfo(?string $langTag = null)
+    public function getHashtagInfo(?string $langTag = null, ?string $timezone = null)
     {
         $hashtagData = $this;
 
@@ -27,6 +29,7 @@ trait HashtagServiceTrait
         $info['blockCount'] = $hashtagData->block_count;
         $info['postCount'] = $hashtagData->post_count;
         $info['postDigestCount'] = $hashtagData->post_digest_count;
+        $info['createDate'] = date(ConfigHelper::fresnsConfigDateFormat($langTag), strtotime(DateHelper::fresnsDateTimeByTimezone($hashtagData->created_at, $timezone, $langTag)));
 
         return $info;
     }

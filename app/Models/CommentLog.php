@@ -14,4 +14,19 @@ class CommentLog extends Model
     {
         return $this->belongsTo(Comment::class, 'comment_id', 'id');
     }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function files()
+    {
+        return $this->hasMany(FileUsage::class, 'id', 'table_id')->where('table_name', 'comment_logs')->where('table_column', 'id');
+    }
+
+    public function extends()
+    {
+        return $this->hasMany(ExtendUsage::class, 'id', 'usage_id')->where('usage_type', ExtendUsage::TYPE_COMMENT_LOG);
+    }
 }

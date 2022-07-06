@@ -8,7 +8,7 @@
 
 namespace App\Models;
 
-class HashtagLinked extends Model
+class HashtagUsage extends Model
 {
     const TYPE_USER = 1;
     const TYPE_GROUP = 2;
@@ -18,7 +18,7 @@ class HashtagLinked extends Model
 
     public function scopeType($query, int $type)
     {
-        return $query->where('linked_type', $type);
+        return $query->where('usage_type', $type);
     }
 
     public function hashtagInfo()
@@ -28,26 +28,26 @@ class HashtagLinked extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'linked_id', 'id')->where('linked_type', HashtagLinked::TYPE_USER);
+        return $this->belongsTo(User::class, 'usage_id', 'id')->where('usage_type', HashtagUsage::TYPE_USER);
     }
 
     public function group()
     {
-        return $this->belongsTo(Group::class, 'linked_id', 'id')->where('linked_type', HashtagLinked::TYPE_GROUP);
+        return $this->belongsTo(Group::class, 'usage_id', 'id')->where('usage_type', HashtagUsage::TYPE_GROUP);
     }
 
     public function hashtag()
     {
-        return $this->belongsTo(Hashtag::class, 'linked_id', 'id')->where('linked_type', HashtagLinked::TYPE_HASHTAG);
+        return $this->belongsTo(Hashtag::class, 'usage_id', 'id')->where('usage_type', HashtagUsage::TYPE_HASHTAG);
     }
 
     public function post()
     {
-        return $this->belongsTo(Post::class, 'linked_id', 'id')->where('linked_type', HashtagLinked::TYPE_POST);
+        return $this->belongsTo(Post::class, 'usage_id', 'id')->where('usage_type', HashtagUsage::TYPE_POST);
     }
 
     public function comment()
     {
-        return $this->belongsTo(Comment::class, 'linked_id', 'id')->where('linked_type', HashtagLinked::TYPE_COMMENT);
+        return $this->belongsTo(Comment::class, 'usage_id', 'id')->where('usage_type', HashtagUsage::TYPE_COMMENT);
     }
 }

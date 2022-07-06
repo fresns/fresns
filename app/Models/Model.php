@@ -18,6 +18,12 @@ class Model extends BaseModel
     use SoftDeletes;
     use Traits\DataChangeNotifyTrait;
 
+    protected $guarded = [];
+
+    protected $dates = [
+        'deleted_at',
+    ];
+
     protected function serializeDate(\DateTimeInterface $date)
     {
         return $date->format($this->dateFormat ?: 'Y-m-d H:i:s');

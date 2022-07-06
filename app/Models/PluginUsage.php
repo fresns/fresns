@@ -34,7 +34,7 @@ class PluginUsage extends Model
 
     public function scopeType($query, int $type)
     {
-        return $query->where('type', $type);
+        return $query->where('usage_type', $type);
     }
 
     public function plugin()

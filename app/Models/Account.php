@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class Account extends Authenticatable
 {
@@ -21,6 +22,7 @@ class Account extends Authenticatable
     use Traits\AccountServiceTrait;
     use Traits\DataChangeNotifyTrait;
     use Traits\IsEnableTrait;
+    use Traits\FsidTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -37,6 +39,11 @@ class Account extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public function getFsidKey()
+    {
+        return 'aid';
+    }
 
     protected function serializeDate(\DateTimeInterface $date)
     {
@@ -74,7 +81,7 @@ class Account extends Authenticatable
             return '';
         }
 
-        return \Str::mask($this->pure_phone, '*', -8, 4);
+        return Str::mask($this->pure_phone, '*', -8, 4);
     }
 
     public function getSecretEmailAttribute(): string
@@ -86,7 +93,7 @@ class Account extends Authenticatable
         [$prefix, $end] = explode('@', $this->email);
         $len = ceil(strlen($prefix) / 2);
 
-        return \Str::mask($prefix, '*', -1 * $len, $len).'@'.$end;
+        return Str::mask($prefix, '*', -1 * $len, $len).'@'.$end;
     }
 
     public function isAdmin()
