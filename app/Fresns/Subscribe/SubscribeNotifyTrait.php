@@ -34,14 +34,13 @@ trait SubscribeNotifyTrait
         event('fresns.data.change', (object) $data);
     }
 
-    public function notifyUserActivate(array $data)
+    public function notifyUserActivate()
     {
-        $defaultUserActivateEventData = [
+        $eventData = [
             'uri' => sprintf('/%s', ltrim(\request()->getRequestUri(), '/')),
+            'header' => \request()->headers->all(),
             'body' => \request()->all(),
         ];
-
-        $eventData = array_merge($defaultUserActivateEventData, $data);
 
         event('fresns.user.activate', (object) $eventData);
     }

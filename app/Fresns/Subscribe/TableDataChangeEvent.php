@@ -65,7 +65,7 @@ class TableDataChangeEvent
         $unikey = $subscribe->getUnikey();
         $cmdWord = $subscribe->getCmdWord();
 
-        return \FresnsCmdWord::plugin($unikey)->$cmdWord($this->toArray());
+        \FresnsCmdWord::plugin($unikey)->$cmdWord($this->toArray());
     }
 
     public function toArray()
