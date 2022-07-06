@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $cronArr = Cache::remember('fresns_crontab_items', now()->addDays(1), function () {
+        $cronArr = Cache::remember('fresns_crontab_items', now()->addDays(), function () {
             return ConfigHelper::fresnsConfigByItemKey('crontab_items');
         });
 

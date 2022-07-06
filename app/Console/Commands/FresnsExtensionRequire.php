@@ -59,8 +59,12 @@ class FresnsExtensionRequire extends Command
             return;
         }
 
+        if (! app('files')->isDirectory($path = storage_path('extensions'))) {
+            app('files')->makeDirectory($path, 0755, true);
+        }
+
         // save file
-        file_put_contents($filepath = storage_path("extensions/$filename"), $zipBallResponse->body());
+        file_put_contents($filepath = "$path/$filename", $zipBallResponse->body());
 
         // get install command
         $command = match ($pluginResponse->json('data.installType')) {

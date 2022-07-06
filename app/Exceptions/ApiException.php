@@ -9,6 +9,7 @@
 namespace App\Exceptions;
 
 use App\Fresns\Api\Traits\ApiResponseTrait;
+use App\Helpers\ConfigHelper;
 use App\Utilities\ConfigUtility;
 
 class ApiException extends \Exception
@@ -24,7 +25,7 @@ class ApiException extends \Exception
 
     public function getCodeMessage(int $code, ?string $unikey = '')
     {
-        return ConfigUtility::getCodeMessage($code, $unikey, \request()->header('langTag'));
+        return ConfigUtility::getCodeMessage($code, $unikey, \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag()));
     }
 
     public function render()
