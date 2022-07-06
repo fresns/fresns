@@ -9,6 +9,7 @@
 namespace App\Helpers;
 
 use App\Models\Language;
+use Illuminate\Support\Facades\Cache;
 
 class LanguageHelper
 {
@@ -23,33 +24,43 @@ class LanguageHelper
      */
     public static function fresnsLanguageByTableId(string $tableName, string $tableColumn, int $tableId, ?string $langTag = null)
     {
-        if (empty($langTag)) {
-            $languageArr = Language::where([
-                'table_name' => $tableName,
-                'table_column' => $tableColumn,
-                'table_id' => $tableId,
-            ])->get()->toArray();
+        $cacheKey = "fresns_{$tableName}_{$tableColumn}_{$tableId}_{$langTag}";
 
-            if ($languageArr->isEmpty()) {
-                return null;
+        $langContentCache = Cache::remember($cacheKey, now()->addDays(), function () use ($tableName, $tableColumn, $tableId, $langTag) {
+            if (empty($langTag)) {
+                $languageArr = Language::where([
+                    'table_name' => $tableName,
+                    'table_column' => $tableColumn,
+                    'table_id' => $tableId,
+                ])->get()->toArray();
+
+                if ($languageArr->isEmpty()) {
+                    return null;
+                }
+
+                foreach ($languageArr as $language) {
+                    $item['langTag'] = $language['lang_tag'];
+                    $item['langContent'] = $language['lang_content'];
+                    $itemArr[] = $item;
+                }
+                $langContent = $itemArr;
+            } else {
+                $langContent = Language::where([
+                    'table_name' => $tableName,
+                    'table_column' => $tableColumn,
+                    'table_id' => $tableId,
+                    'lang_tag' => $langTag,
+                ])->first()->lang_content ?? null;
             }
 
-            foreach ($languageArr as $language) {
-                $item['langTag'] = $language['lang_tag'];
-                $item['langContent'] = $language['lang_content'];
-                $itemArr[] = $item;
-            }
-            $langContent = $itemArr;
-        } else {
-            $langContent = Language::where([
-                'table_name' => $tableName,
-                'table_column' => $tableColumn,
-                'table_id' => $tableId,
-                'lang_tag' => $langTag,
-            ])->first()->lang_content ?? null;
+            return $langContent;
+        });
+
+        if (is_null($langContentCache)) {
+            Cache::forget($cacheKey);
         }
 
-        return $langContent;
+        return $langContentCache;
     }
 
     /**

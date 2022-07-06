@@ -21,6 +21,7 @@ class DateHelper
     public static function fresnsDatabaseTimezone()
     {
         $standardTime = gmdate('Y-m-d H:i:s');
+
         $now = DateHelper::fresnsDatabaseCurrentDateTime();
         $hour = Carbon::parse($standardTime)->floatDiffInHours($now, false);
         if ($hour > 0) {
@@ -48,13 +49,13 @@ class DateHelper
     /**
      * Get database env config utc time zone.
      *
-     * @return string
+     * @return null|string
      */
     public static function fresnsDatabaseTimezoneByName(string $timezoneName)
     {
         $timezones = ConfigHelper::fresnsConfigByItemKey('timezones');
 
-        return $timezones[$timezoneName];
+        return $timezones[$timezoneName] ?? null;
     }
 
     /**
@@ -64,38 +65,39 @@ class DateHelper
      */
     public static function fresnsDatabaseCurrentDateTime()
     {
-        return get_object_vars(DB::select('SELECT NOW()')[0])['NOW()'];
+        return DB::selectOne('select now() as now')->now;
     }
 
     /**
      * The conversion time is the current database time.
      *
-     * @param $datetime
-     * @param $timezone
+     * @param  null|string  $datetime
+     * @param  null|string  $timezone
      * @return string
      *
      * @throws \Exception
      */
-    public static function fresnsDateTimeToDatabaseTimezone(string $datetime, ?string $timezone = null, ?string $langTag = null)
+    public static function fresnsDateTimeToDatabaseTimezone(?string $datetime, ?string $timezone = null, ?string $langTag = null)
     {
-        if (empty($datetime)) {
+        if (! $datetime) {
             return null;
         }
 
-        $timezone = $timezone ?: ConfigHelper::fresnsConfigByItemKey('default_timezone');
-        $langTag = $langTag ?: ConfigHelper::fresnsConfigByItemKey('default_language');
+        $timezone = $timezone ?? ConfigHelper::fresnsConfigDefaultTimezone();
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
+
         $dateFormat = ConfigHelper::fresnsConfigDateFormat($langTag);
-        $dateTimeFormat = $dateFormat.' H:i:s' ?: 'Y-m-d H:i:s';
 
-        $timezone = $timezone > 0 ? -1 * $timezone : '+'.abs($timezone);
-        $standard = strtotime($datetime);
-        if (! empty($timezone)) {
-            $standard = date('Y-m-d H:i:s', strtotime("$timezone hours", strtotime($datetime)));
+        $dateTimeFormat = 'Y-m-d H:i:s';
+        if ($dateFormat) {
+            $dateTimeFormat = $dateFormat.' H:i:s';
         }
-        $datetime = new \DateTime($standard);
-        $result = $datetime->setTimezone(new \DateTimeZone(DateHelper::fresnsDatabaseTimezone()));
 
-        return $result->format($dateTimeFormat);
+        $dbTimezone = DateHelper::fresnsDatabaseTimezone();
+
+        $standard = Carbon::createFromFormat($dateTimeFormat, $datetime, $timezone)->setTimezone($dbTimezone)->format($dateTimeFormat);
+
+        return $standard;
     }
 
     /**
@@ -103,35 +105,54 @@ class DateHelper
      *
      * @param $datetime
      * @param  string  $timezone
-     * @return \DateTime|string
+     * @return \DateTime|string|null
      *
      * @throws \Exception
      */
     public static function fresnsDateTimeByTimezone(?string $datetime = null, ?string $timezone = null, ?string $langTag = null)
     {
-        if (empty($datetime)) {
+        if (! $datetime) {
             return null;
         }
 
-        $timezone = $timezone ?: ConfigHelper::fresnsConfigByItemKey('default_timezone');
-        $langTag = $langTag ?: ConfigHelper::fresnsConfigByItemKey('default_language');
+        $timezone = $timezone ?? ConfigHelper::fresnsConfigDefaultTimezone();
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
+
         $dateFormat = ConfigHelper::fresnsConfigDateFormat($langTag);
-        $dateTimeFormat = $dateFormat.' H:i:s' ?: 'Y-m-d H:i:s';
+
+        $dateTimeFormat = 'Y-m-d H:i:s';
+        if ($dateFormat) {
+            $dateTimeFormat = $dateFormat.' H:i:s';
+        }
 
         $dbTimezone = DateHelper::fresnsDatabaseTimezone();
         if ($dbTimezone == $timezone) {
-            return date($dateTimeFormat, strtotime($datetime));
+            return $datetime;
         }
 
-        $newTimezone = $dbTimezone > 0 ? -1 * $dbTimezone : '+'.abs($dbTimezone);
-        $standard = date('Y-m-d H:i:s', strtotime("$newTimezone hours", strtotime($datetime)));
-        if ($timezone == 0) {
-            return date($dateTimeFormat, strtotime($standard));
+        $standard = Carbon::createFromFormat($dateTimeFormat, $datetime, $dbTimezone)->setTimezone($timezone)->format($dateTimeFormat);
+
+        return $standard;
+    }
+
+    public static function fresnsTimeByTimezone(?string $time = null, ?string $timezone = null)
+    {
+        if (! $time) {
+            return null;
         }
 
-        $time = (new \DateTime($standard))->setTimezone(new \DateTimeZone($timezone));
+        $timezone = $timezone ?? ConfigHelper::fresnsConfigDefaultTimezone();
 
-        return $time->format($dateTimeFormat);
+        $currentTime = DateHelper::fresnsDatabaseCurrentDateTime();
+        $dateString = Carbon::createFromFormat('Y-m-d H:i:s', $currentTime)->toDateString();
+
+        $dbTime = $dateString.' '.$time.':00';
+
+        $newDatetime = DateHelper::fresnsDateTimeByTimezone($dbTime, $timezone);
+
+        $newTime = date('H:i', strtotime($newDatetime));
+
+        return $newTime;
     }
 
     /**
@@ -148,17 +169,15 @@ class DateHelper
             return null;
         }
 
-        $timezone = $timezone ?: ConfigHelper::fresnsConfigByItemKey('default_timezone');
-        $langTag = $langTag ?: ConfigHelper::fresnsConfigByItemKey('default_language');
+        $timezone = $timezone ?? ConfigHelper::fresnsConfigDefaultTimezone();
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
+
         $dateFormat = ConfigHelper::fresnsConfigDateFormat($langTag).' H:i';
-        $dateFormatNoY = \Str::swap([
-            'Y-' => '',
-            'Y.' => '',
-            '-Y' => '',
-            '.Y' => '',
-            'Y/' => '',
-            '/Y' => '',
-        ], $dateFormat);
+        $dateFormatNoY = str_replace(
+            ['Y-', 'Y.', '-Y', '.Y', 'Y/', '/Y'],
+            '',
+            $dateFormat
+        );
 
         $tzDatetime = DateHelper::fresnsDateTimeByTimezone($datetime, $timezone, $langTag);
         $tzDatetimeY = date('Y', strtotime($tzDatetime));
@@ -187,11 +206,11 @@ class DateHelper
      */
     public static function fresnsFormatTime(?string $datetime = null, ?string $langTag = null)
     {
-        if (empty($datetime)) {
+        if (! $datetime) {
             return null;
         }
 
-        $langTag = $langTag ?: ConfigHelper::fresnsConfigByItemKey('default_language');
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
         $currentTime = DateHelper::fresnsDatabaseCurrentDateTime();
 

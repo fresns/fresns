@@ -9,7 +9,8 @@
 namespace App\Helpers;
 
 use App\Models\File;
-use App\Models\FileAppend;
+use App\Models\FileUsage;
+use Illuminate\Support\Str;
 
 class FileHelper
 {
@@ -65,8 +66,28 @@ class FileHelper
         return $config;
     }
 
+    // get file accept by type
+    public static function fresnsFileAcceptByType(?int $type = null)
+    {
+        if (empty($type)) {
+            return null;
+        }
+
+        $fileExt = match ($type) {
+            1 => ConfigHelper::fresnsConfigByItemKey('image_extension_names'),
+            2 => ConfigHelper::fresnsConfigByItemKey('video_extension_names'),
+            3 => ConfigHelper::fresnsConfigByItemKey('audio_extension_names'),
+            4 => ConfigHelper::fresnsConfigByItemKey('document_extension_names'),
+        };
+
+        $accept = str_replace(',', ',.', $fileExt);
+        $fileAccept = Str::start($accept, '.');
+
+        return $fileAccept;
+    }
+
     // get file storage path
-    public static function fresnsFileStoragePath(int $fileType, int $useType)
+    public static function fresnsFileStoragePath(int $fileType, int $usageType)
     {
         $fileTypeDir = match ($fileType) {
             1 => 'images',
@@ -75,8 +96,8 @@ class FileHelper
             4 => 'documents',
         };
 
-        $useTypeDir = match ($useType) {
-            1 => '/mores/{YYYYMM}/',
+        $usageTypeDir = match ($usageType) {
+            1 => '/others/{YYYYMM}/',
             2 => '/systems/{YYYYMM}/',
             3 => '/operations/{YYYYMM}/',
             4 => '/stickers/{YYYYMM}/',
@@ -91,7 +112,7 @@ class FileHelper
         $replaceUseTypeDir = str_replace(
             ['{YYYYMM}', '{DD}'],
             [date('Ym'), date('d')],
-            $useTypeDir
+            $usageTypeDir
         );
 
         return sprintf('%s/%s', trim($fileTypeDir, '/'), trim($replaceUseTypeDir, '/'));
@@ -141,20 +162,20 @@ class FileHelper
     // get file info list by table column
     public static function fresnsFileInfoListByTableColumn(string $tableName, string $tableColumn, ?int $tableId = null, ?string $tableKey = null)
     {
-        $fileAppendQuery = FileAppend::with('file')
+        $fileUsageQuery = FileUsage::with('file')
             ->where('table_name', $tableName)
             ->where('table_column', $tableColumn)
             ->orderBy('rating');
 
         if (empty($tableId)) {
-            $fileAppendQuery->where('table_key', $tableKey);
+            $fileUsageQuery->where('table_key', $tableKey);
         } else {
-            $fileAppendQuery->where('table_id', $tableId);
+            $fileUsageQuery->where('table_id', $tableId);
         }
 
-        $fileAppends = $fileAppendQuery->get();
+        $fileUsages = $fileUsageQuery->get();
 
-        $fileList = $fileAppends->map(fn ($fileAppend) => $fileAppend->file->getFileInfo())->groupBy('type');
+        $fileList = $fileUsages->map(fn ($fileUsage) => $fileUsage->file->getFileInfo())->groupBy('type');
 
         $files['images'] = $fileList->get(File::TYPE_IMAGE)?->all() ?? null;
         $files['videos'] = $fileList->get(File::TYPE_VIDEO)?->all() ?? null;

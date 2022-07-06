@@ -287,7 +287,7 @@ class InteractiveHelper
         $profile['roleIcon'] = null;
         $profile['roleIconDisplay'] = false;
         $profile['roleExpiryDateTime'] = null;
-        $profile['rolePermission'] = null;
+        $profile['rolePermissions'] = null;
         $profile['roleStatus'] = true;
 
         return $profile;

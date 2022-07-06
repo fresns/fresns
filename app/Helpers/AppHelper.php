@@ -103,4 +103,36 @@ class AppHelper
 
         return $configInfo;
     }
+
+    // get themes
+    public static function getThemes()
+    {
+        $themeFiles = glob('extensions/themes/*/theme.json');
+
+        $themes = [];
+        foreach ($themeFiles as $file) {
+            $themeJson = json_decode(@file_get_contents($file), true);
+
+            if (! $themeJson) {
+                continue;
+            }
+
+            $themes[] = $themeJson;
+        }
+
+        return $themes;
+    }
+
+    // get theme config
+    public static function getThemeConfig(string $theme)
+    {
+        $themeJsonFile = base_path('extensions/themes/'.$theme.'/theme.json');
+        if (! $themeJsonFile) {
+            return null;
+        }
+
+        $themeConfig = json_decode(\File::get($themeJsonFile), true);
+
+        return $themeConfig;
+    }
 }

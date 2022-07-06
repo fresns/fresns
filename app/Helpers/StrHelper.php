@@ -116,7 +116,7 @@ class StrHelper
         }
 
         if (! $domain) {
-            $defaultDomain = ConfigHelper::fresnsConfigByItemKey('backend_domain');
+            $defaultDomain = ConfigHelper::fresnsConfigByItemKey('system_url');
 
             return sprintf('%s/%s', $defaultDomain, ltrim($uri, '/'));
         }

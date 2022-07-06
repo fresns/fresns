@@ -9,7 +9,6 @@
 namespace App\Helpers;
 
 use App\Models\Plugin;
-use App\Models\PluginUsage;
 
 class PluginHelper
 {
@@ -25,38 +24,32 @@ class PluginHelper
             return null;
         }
 
-        $plugin = Plugin::where('unikey', $unikey)->first(['plugin_domain', 'access_path']);
+        $plugin = Plugin::where('unikey', $unikey)->first(['plugin_host', 'access_path']);
         if (empty($plugin)) {
             return null;
         }
 
-        $backend_domain = ConfigHelper::fresnsConfigByItemKey('backend_domain');
+        $system_url = ConfigHelper::fresnsConfigByItemKey('system_url');
 
-        $domain = empty($plugin->plugin_domain) ? $backend_domain : $plugin->plugin_domain;
+        $url = empty($plugin->plugin_host) ? $system_url : $plugin->plugin_host;
 
-        $url = StrHelper::qualifyUrl($plugin->access_path, $domain);
+        $link = StrHelper::qualifyUrl($plugin->access_path, $url);
 
-        return $url;
+        return $link;
     }
 
     /**
      * Get the url of the plugin that has replaced the custom parameters.
      *
      * @param  string  $unikey
-     * @param  int  $pluginUsagesId
+     * @param  string  $parameter
      * @return mixed|string
      */
-    public static function fresnsPluginUsageUrl(string $unikey, int $pluginUsagesId)
+    public static function fresnsPluginUsageUrl(string $unikey, ?string $parameter = null)
     {
-        $plugin = Plugin::where('unikey', $unikey)->first(['plugin_domain', 'access_path']);
-        if (empty($plugin)) {
-            return null;
-        }
+        $url = PluginHelper::fresnsPluginUrlByUnikey($unikey);
 
-        $url = self::fresnsPluginUrlByUnikey($unikey);
-
-        $parameter = PluginUsage::where('id', $pluginUsagesId)->value('parameter');
-        if (empty($parameter)) {
+        if (empty($parameter) || empty($url)) {
             return $url;
         }
 
@@ -87,7 +80,7 @@ class PluginHelper
         return $upgradeCode;
     }
 
-    public static function pluginRatingHandle(string $key, ?array $dataSources = null, ?string $langTag = null)
+    public static function pluginDataRatingHandle(string $key, ?array $dataSources = null, ?string $langTag = null)
     {
         if (empty($dataSources)) {
             return null;
@@ -95,7 +88,7 @@ class PluginHelper
 
         $pluginRatingArr = $dataSources[$key]['pluginRating'];
 
-        $langTag = $langTag ?: ConfigHelper::fresnsConfigByItemKey('default_language');
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
         $pluginRating = null;
         foreach ($pluginRatingArr as $arr) {

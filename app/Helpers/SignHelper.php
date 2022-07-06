@@ -10,13 +10,23 @@ namespace App\Helpers;
 
 class SignHelper
 {
+    const SIGN_PARAM_ARR = [
+        'platformId',
+        'version',
+        'appId',
+        'timestamp',
+        'aid',
+        'uid',
+        'token',
+    ];
+
     // Check Sign
     public static function checkSign(array $signMap, string $appSecret)
     {
         $inputSign = $signMap['sign'];
         unset($signMap['sign']);
 
-        $makeSign = self::makeSign($signMap, $appSecret);
+        $makeSign = SignHelper::makeSign($signMap, $appSecret);
 
         return $inputSign == $makeSign;
     }
@@ -25,16 +35,10 @@ class SignHelper
     public static function makeSign(array $signMap, string $appSecret)
     {
         $signParams = collect($signMap)->filter(function ($value, $key) {
-            return in_array($key, [
-                'platformId',
-                'version',
-                'appId',
-                'timestamp',
-                'aid',
-                'uid',
-                'token',
-            ]);
+            return in_array($key, SignHelper::SIGN_PARAM_ARR);
         })->toArray();
+
+        $signParams = array_filter($signParams);
 
         ksort($signParams);
 
