@@ -600,6 +600,7 @@ return [
     // Operating-Interactive
     'interactive_content_config' => '콘텐츠 기능 설정',
     'interactive_dialog_config' => '세션 기능 설정',
+    'interactive_follow_config' => '팔로우 기능',
     'interactive_function_config' => '대화 형 행동 설정',
     'interactive_function_config_desc' => '대신 해당 대화 형 기능을 확인하십시오',
     'interactive_view_config' => '사용자 콘텐츠 설정 보기',
@@ -620,6 +621,8 @@ return [
     'interactive_dialog_status_desc' => '닫기는 모든 회원에게 유효하며 개방 후 사용자 역할 권한의 적용을받습니다',
     'interactive_dialog_files' => '세션 액세서리 기능',
     'interactive_dialog_files_desc' => '모두가 확인하지 않으면 대리인은 순수한 텍스트의 대화 만 지원합니다',
+    'interactive_view_posts_by_follow_object' => '팔로우 개체별 게시물 보기',
+    'interactive_view_comments_by_follow_object' => '팔로우 개체별 댓글 보기',
     'interactive_view_content' => '다른 사용자가 볼 수 있는 사용자 콘텐츠',
     'interactive_user_profile' => '사용자의 홈페이지 방문 시 기본 콘텐츠 목록',
     'interactive_my_content' => '사용자가 직접 볼 수 있는 레코드',

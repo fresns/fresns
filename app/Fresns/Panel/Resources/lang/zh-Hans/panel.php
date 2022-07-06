@@ -600,6 +600,7 @@ return [
     // Operating-Interactive
     'interactive_content_config' => '内容功能设置',
     'interactive_dialog_config' => '会话功能设置',
+    'interactive_follow_config' => '关注功能设置',
     'interactive_function_config' => '互动行为设置',
     'interactive_function_config_desc' => '勾选则代表开启对应的互动功能',
     'interactive_view_config' => '查看用户内容设置',
@@ -620,6 +621,8 @@ return [
     'interactive_dialog_status_desc' => '关闭对全员有效，开启后以用户角色权限为准',
     'interactive_dialog_files' => '会话附件功能',
     'interactive_dialog_files_desc' => '如果全部不勾选则代表只支持纯文字的对话',
+    'interactive_view_posts_by_follow_object' => '查看关注对象的帖子',
+    'interactive_view_comments_by_follow_object' => '查看关注对象的评论',
     'interactive_view_content' => '用户的哪些内容可以被别人查看',
     'interactive_user_profile' => '访问用户主页时，默认内容列表',
     'interactive_my_content' => '用户可以查看自己的哪些记录',

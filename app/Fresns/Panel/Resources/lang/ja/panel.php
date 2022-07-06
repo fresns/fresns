@@ -600,6 +600,7 @@ return [
     // Operating-Interactive
     'interactive_content_config' => 'コンテンツ関数の設定',
     'interactive_dialog_config' => 'セッション機能の設定',
+    'interactive_follow_config' => 'フォロー機能の設定',
     'interactive_function_config' => 'インタラクティブな動作の設定',
     'interactive_function_config_desc' => 'に代わって対応する対話機能を確認してください',
     'interactive_view_config' => 'ユーザーコンテンツ設定の表示',
@@ -620,6 +621,8 @@ return [
     'interactive_dialog_status_desc' => 'CLOSEはすべてのメンバーに対して有効であり、オープニング後のユーザーロール権利の対象となります。',
     'interactive_dialog_files' => 'セッションアクセサリー機能',
     'interactive_dialog_files_desc' => 'すべてがチェックされていない場合、代表者は純粋なテキストの会話のみをサポートします',
+    'interactive_view_posts_by_follow_object' => 'フォロー対象者の投稿を見る',
+    'interactive_view_comments_by_follow_object' => 'フォロー対象者のコメントを見る',
     'interactive_view_content' => 'ユーザーのコンテンツのうち、他者が閲覧できるものはどれか',
     'interactive_user_profile' => 'ユーザーのホームページにアクセスした際のデフォルトのコンテンツリスト',
     'interactive_my_content' => 'ユーザーが自分自身について閲覧できる記録',

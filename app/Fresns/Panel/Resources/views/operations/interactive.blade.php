@@ -152,6 +152,25 @@
             </div>
         </div>
 
+        <!--interactive_follow_config-->
+        <div class="row mt-5">
+            <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.interactive_follow_config') }}:</label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <div class="form-control bg-white">
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="view_posts_by_follow_object" name="view_posts_by_follow_object" value="true" class="form-check-input" {{ $params['view_posts_by_follow_object'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="view_posts_by_follow_object">{{ __('FsLang::panel.interactive_view_posts_by_follow_object') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="view_comments_by_follow_object" name="view_comments_by_follow_object" value="true" class="form-check-input" {{ $params['view_comments_by_follow_object'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="view_comments_by_follow_object">{{ __('FsLang::panel.interactive_view_comments_by_follow_object') }}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!--interactive_function_config-->
         <div class="row mt-5">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.interactive_function_config') }}:</label>
@@ -511,10 +530,10 @@
                 </ul>
             </div>
             <label class="col-lg-2"></label>
-            <!--interactive_mark_config-->
+            <!--interactive_mark_content-->
             <div class="col-lg-10 mb-3">
                 <ul class="list-group">
-                    <li class="list-group-item list-group-item-secondary">{{ __('FsLang::panel.interactive_mark_config') }}</li>
+                    <li class="list-group-item list-group-item-secondary">{{ __('FsLang::panel.interactive_mark_content') }}</li>
                     <!--user-->
                     <li class="list-group-item">
                         <span class="badge text-bg-info me-3 fs-8 fw-normal">{{ __('FsLang::panel.user') }}</span>

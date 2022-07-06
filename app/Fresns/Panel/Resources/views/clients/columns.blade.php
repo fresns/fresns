@@ -213,6 +213,24 @@
         <label class="col-lg-2">{{ __('FsLang::panel.columns_comment_rename') }}:</label>
         <div class="col-lg-6">
             <div class="input-group mb-3">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_nearby_comments') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_nearby_comments']) }}"
+                    data-languages="{{ optional($configs['menu_nearby_comments'])->languages->toJson() }}"
+                    data-item_key="menu_nearby_comments"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_nearby_comments'] ?? '' }}
+                </button>
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_location_comments') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_location_comments']) }}"
+                    data-languages="{{ optional($configs['menu_location_comments'])->languages->toJson() }}"
+                    data-item_key="menu_location_comments"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_location_comments'] ?? '' }}
+                </button>
+            </div>
+            <div class="input-group mb-3">
                 <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_like_comments') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_like_comments']) }}"
@@ -289,6 +307,42 @@
                     data-languages="{{ optional($configs['menu_follow_hashtag_posts'])->languages->toJson() }}"
                     data-item_key="menu_follow_hashtag_posts"
                     data-bs-target="#configLangModal">{{ $defaultLangParams['menu_follow_hashtag_posts'] ?? '' }}
+                </button>
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_follow_all_comments') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_follow_all_comments']) }}"
+                    data-languages="{{ optional($configs['menu_follow_all_comments'])->languages->toJson() }}"
+                    data-item_key="menu_follow_all_comments"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_follow_all_comments'] ?? '' }}
+                </button>
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_follow_user_comments') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_follow_user_comments']) }}"
+                    data-languages="{{ optional($configs['menu_follow_user_comments'])->languages->toJson() }}"
+                    data-item_key="menu_follow_user_comments"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_follow_user_comments'] ?? '' }}
+                </button>
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_follow_group_comments') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_follow_group_comments']) }}"
+                    data-languages="{{ optional($configs['menu_follow_group_comments'])->languages->toJson() }}"
+                    data-item_key="menu_follow_group_comments"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_follow_group_comments'] ?? '' }}
+                </button>
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_follow_hashtag_comments') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_follow_hashtag_comments']) }}"
+                    data-languages="{{ optional($configs['menu_follow_hashtag_comments'])->languages->toJson() }}"
+                    data-item_key="menu_follow_hashtag_comments"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_follow_hashtag_comments'] ?? '' }}
                 </button>
             </div>
         </div>

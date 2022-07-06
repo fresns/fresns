@@ -600,6 +600,7 @@ return [
     // Operating-Interactive
     'interactive_content_config' => 'Configurações de função de conteúdo',
     'interactive_dialog_config' => 'Configurações de função de sessão',
+    'interactive_follow_config' => 'Função de acompanhamento',
     'interactive_function_config' => 'Configuração de comportamento interativo',
     'interactive_function_config_desc' => 'Verifique a função interativa correspondente em nome de',
     'interactive_view_config' => 'Ver definições de conteúdo do utilizador',
@@ -620,6 +621,8 @@ return [
     'interactive_dialog_status_desc' => 'Fechar é válido para todos os membros, e está sujeito aos direitos de função do usuário após a abertura',
     'interactive_dialog_files' => 'Função acessória de sessão',
     'interactive_dialog_files_desc' => 'Se tudo não verificar, o representante suporta apenas a conversa do texto puro',
+    'interactive_view_posts_by_follow_object' => 'Ver posts por objecto seguinte',
+    'interactive_view_comments_by_follow_object' => 'Ver comentários por objecto seguinte',
     'interactive_view_content' => 'Qual dos conteúdos do utilizador pode ser visto por outros',
     'interactive_user_profile' => 'Lista de conteúdos por defeito quando se visita a página inicial de um utilizador',
     'interactive_my_content' => 'Que registos o utilizador pode ver sobre si próprio',

@@ -600,6 +600,7 @@ return [
     // Operating-Interactive
     'interactive_content_config' => 'Paramètres de fonction de contenu',
     'interactive_dialog_config' => 'Paramètres de la fonction de session',
+    'interactive_follow_config' => 'Fonction de suivi',
     'interactive_function_config' => 'Réglage de comportement interactif',
     'interactive_function_config_desc' => 'Vérifiez la fonction interactive correspondante pour le compte de',
     'interactive_view_config' => 'Afficher les paramètres du contenu utilisateur',
@@ -620,6 +621,8 @@ return [
     'interactive_dialog_status_desc' => 'Fermer est valable pour tous les membres et est soumis aux droits d\'utilisateur après ouverture',
     'interactive_dialog_files' => 'Fonction d\'accessoire de session',
     'interactive_dialog_files_desc' => 'Si tout ne vérifie pas, le représentant ne prend en charge que la conversation de texte pur',
+    'interactive_view_posts_by_follow_object' => 'Voir les messages par objet à suivre',
+    'interactive_view_comments_by_follow_object' => 'Voir les commentaires de l\'objet à suivre',
     'interactive_view_content' => 'Quel contenu de l\'utilisateur peut être vu par d\'autres personnes',
     'interactive_user_profile' => 'Liste de contenu par défaut lors de la visite de la page d\'accueil d\'un utilisateur',
     'interactive_my_content' => 'Les enregistrements que l\'utilisateur peut consulter à son sujet',

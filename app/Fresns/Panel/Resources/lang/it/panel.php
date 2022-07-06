@@ -600,6 +600,7 @@ return [
     // Operating-Interactive
     'interactive_content_config' => 'Impostazioni della funzione di contenuto',
     'interactive_dialog_config' => 'Impostazioni della funzione di sessione',
+    'interactive_follow_config' => 'Seguire la funzione',
     'interactive_function_config' => 'Impostazione del comportamento interattivo',
     'interactive_function_config_desc' => 'Controlla la funzione interattiva corrispondente per conto di',
     'interactive_view_config' => 'Visualizzare le impostazioni dei contenuti dell\'utente',
@@ -620,6 +621,8 @@ return [
     'interactive_dialog_status_desc' => 'Chiudi è valido per tutti i membri ed è soggetto ai diritti dei ruoli degli utenti dopo l\'apertura',
     'interactive_dialog_files' => 'Funzione accessorio sessione',
     'interactive_dialog_files_desc' => 'Se tutti non controllare, il rappresentante supporta solo la conversazione di puro testo',
+    'interactive_view_posts_by_follow_object' => 'Visualizza i messaggi per oggetto follow',
+    'interactive_view_comments_by_follow_object' => 'Visualizza i commenti di follow object',
     'interactive_view_content' => 'Quali contenuti dell\'utente possono essere visualizzati da altri utenti',
     'interactive_user_profile' => 'Elenco di contenuti predefinito quando si visita la pagina iniziale di un utente',
     'interactive_my_content' => 'Quali record l\'utente può visualizzare su di sé',

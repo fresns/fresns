@@ -600,6 +600,7 @@ return [
     // Operating-Interactive
     'interactive_content_config' => 'Настройки функции контента',
     'interactive_dialog_config' => 'Настройки функции сеанса',
+    'interactive_follow_config' => 'Функция следования',
     'interactive_function_config' => 'Установка интерактивного поведения',
     'interactive_function_config_desc' => 'Проверьте соответствующую интерактивную функцию от имени',
     'interactive_view_config' => 'Просмотр настроек пользовательского контента',
@@ -620,6 +621,8 @@ return [
     'interactive_dialog_status_desc' => 'Закрыть действителен для всех членов и подлежит правам роли пользователей после открытия',
     'interactive_dialog_files' => 'Функция аксессуаров сеанса',
     'interactive_dialog_files_desc' => 'Если все не проверяют, представитель поддерживает только разговор чистого текста',
+    'interactive_view_posts_by_follow_object' => 'Просмотр сообщений по объекту следования',
+    'interactive_view_comments_by_follow_object' => 'Просмотреть комментарии объекта follow',
     'interactive_view_content' => 'Какое содержимое пользователя может быть просмотрено другими людьми',
     'interactive_user_profile' => 'Список содержимого по умолчанию при посещении домашней страницы пользователя',
     'interactive_my_content' => 'Какие записи пользователь может просматривать о себе',

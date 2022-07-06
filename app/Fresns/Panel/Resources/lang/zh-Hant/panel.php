@@ -601,6 +601,7 @@ return [
     // Operating-Interactive
     'interactive_content_config' => '內容功能設定',
     'interactive_dialog_config' => '會話功能設定',
+    'interactive_follow_config' => '關注功能設定',
     'interactive_function_config' => '互動行為設定',
     'interactive_function_config_desc' => '勾選則代表開啟對應的互動功能',
     'interactive_view_config' => '查看用戶內容設置',
@@ -621,6 +622,8 @@ return [
     'interactive_dialog_status_desc' => '關閉對全員有效，開啟後以用戶角色權限為準',
     'interactive_dialog_files' => '會話附件功能',
     'interactive_dialog_files_desc' => '如果全部不勾選則代表只支持純文字的對話',
+    'interactive_view_posts_by_follow_object' => '查看關注對象的貼文',
+    'interactive_view_comments_by_follow_object' => '查看關注對象的留言',
     'interactive_view_content' => '用戶的哪些內容可以被別人查看',
     'interactive_user_profile' => '訪問用戶主頁時，默認內容列表',
     'interactive_my_content' => '用戶可以查看自己的哪些記錄',

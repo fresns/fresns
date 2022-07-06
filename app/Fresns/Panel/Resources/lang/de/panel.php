@@ -600,6 +600,7 @@ return [
     // Operating-Interactive
     'interactive_content_config' => 'Inhaltsfunktionseinstellungen',
     'interactive_dialog_config' => 'Session-Funktionseinstellungen',
+    'interactive_follow_config' => 'Funktion folgen',
     'interactive_function_config' => 'Interaktive Verhaltenseinstellung',
     'interactive_function_config_desc' => 'Überprüfen Sie die entsprechende interaktive Funktion im Namen von',
     'interactive_view_config' => 'Einstellungen für Benutzerinhalte anzeigen',
@@ -620,6 +621,8 @@ return [
     'interactive_dialog_status_desc' => 'Die Nähe ist für alle Mitglieder gültig und unterliegt den Benutzerrollenrechten nach der Eröffnung',
     'interactive_dialog_files' => 'Sitzungszubehörfunktion',
     'interactive_dialog_files_desc' => 'Wenn alles nicht prüfen, unterstützt der Vertreter nur das Gespräch des reinen Textes',
+    'interactive_view_posts_by_follow_object' => 'Beiträge von follow object anzeigen',
+    'interactive_view_comments_by_follow_object' => 'Kommentare von follow object anzeigen',
     'interactive_view_content' => 'Welche Inhalte des Nutzers von anderen eingesehen werden können',
     'interactive_user_profile' => 'Standard-Inhaltsliste beim Besuch der Startseite eines Benutzers',
     'interactive_my_content' => 'Welche Datensätze der Nutzer über sich selbst einsehen kann',

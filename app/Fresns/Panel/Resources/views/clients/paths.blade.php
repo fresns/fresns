@@ -112,6 +112,8 @@
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_post_path'] }}</span></li>
                         <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_post_path'].'/list' }}</span></li>
+                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_post_path'].'/nearby' }}</span></li>
+                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_post_path'].'/location' }}</span></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_post_path'].'/likes' }}</span></li>
                         <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_post_path'].'/dislikes' }}</span></li>
@@ -133,6 +135,8 @@
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_comment_path'] }}</span></li>
                         <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_comment_path'].'/list' }}</span></li>
+                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_comment_path'].'/nearby' }}</span></li>
+                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_comment_path'].'/location' }}</span></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_comment_path'].'/likes' }}</span></li>
                         <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_comment_path'].'/dislikes' }}</span></li>
@@ -167,7 +171,7 @@
                     <input type="text" class="form-control" name="website_group_detail_path" value="{{ $params['website_group_detail_path'] }}" required placeholder="group">
                     <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('FsLang::panel.button_view') }}</button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_group_detail_path'].'/fresns' }}</span></li>
+                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_group_detail_path'].'/123456' }}</span></li>
                     </ul>
                 </div>
             </div>
@@ -182,7 +186,7 @@
                     <input type="text" class="form-control" name="website_hashtag_detail_path" value="{{ $params['website_hashtag_detail_path'] }}" required placeholder="hashtag">
                     <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('FsLang::panel.button_view') }}</button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_hashtag_detail_path'].'/fresns' }}</span></li>
+                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_hashtag_detail_path'].'/123456' }}</span></li>
                     </ul>
                 </div>
             </div>
@@ -197,7 +201,7 @@
                     <input type="text" class="form-control" name="website_post_detail_path" value="{{ $params['website_post_detail_path'] }}" required placeholder="post">
                     <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('FsLang::panel.button_view') }}</button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_post_detail_path'].'/fresns' }}</span></li>
+                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_post_detail_path'].'/123456' }}</span></li>
                     </ul>
                 </div>
             </div>
@@ -212,7 +216,7 @@
                     <input type="text" class="form-control" name="website_comment_detail_path" value="{{ $params['website_comment_detail_path'] }}" required placeholder="comment">
                     <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('FsLang::panel.button_view') }}</button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_comment_detail_path'].'/fresns' }}</span></li>
+                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_comment_detail_path'].'/123456' }}</span></li>
                     </ul>
                 </div>
             </div>

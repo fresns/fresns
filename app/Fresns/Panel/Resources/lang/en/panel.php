@@ -600,6 +600,7 @@ return [
     // Operating-Interactive
     'interactive_content_config' => 'Content Function',
     'interactive_dialog_config' => 'Dialog Function',
+    'interactive_follow_config' => 'Follow Function',
     'interactive_function_config' => 'Interactive Function',
     'interactive_function_config_desc' => 'Check the box to enable the corresponding interactive function',
     'interactive_view_config' => 'View user content settings',
@@ -620,6 +621,8 @@ return [
     'interactive_dialog_status_desc' => 'Close is valid for all users, open is subject to user role permissions',
     'interactive_dialog_files' => 'Attachment Features',
     'interactive_dialog_files_desc' => 'If all are unchecked, it means that only text-only conversations are supported',
+    'interactive_view_posts_by_follow_object' => 'View Posts by Follow Object',
+    'interactive_view_comments_by_follow_object' => 'View Comments by Follow Object',
     'interactive_view_content' => 'What content of the user can be viewed by others',
     'interactive_user_profile' => 'Default content list when visiting user home page',
     'interactive_my_content' => 'Which records can be viewed by users',

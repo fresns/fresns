@@ -600,6 +600,7 @@ return [
     // Operating-Interactive
     'interactive_content_config' => 'Pengaturan Fungsi Konten',
     'interactive_dialog_config' => 'Pengaturan fungsi sesi',
+    'interactive_follow_config' => 'Fungsi mengikuti',
     'interactive_function_config' => 'Pengaturan perilaku interaktif',
     'interactive_function_config_desc' => 'Periksa fungsi interaktif yang sesuai atas nama',
     'interactive_view_config' => 'Melihat pengaturan konten pengguna',
@@ -620,6 +621,8 @@ return [
     'interactive_dialog_status_desc' => 'Tutup berlaku untuk semua anggota, dan tunduk pada hak peran pengguna setelah pembukaan',
     'interactive_dialog_files' => 'Fungsi aksesori sesi',
     'interactive_dialog_files_desc' => 'Jika semua tidak memeriksa, perwakilan hanya mendukung percakapan teks murni',
+    'interactive_view_posts_by_follow_object' => 'Melihat postingan dengan mengikuti objek',
+    'interactive_view_comments_by_follow_object' => 'Lihat komentar oleh follow object',
     'interactive_view_content' => 'Konten pengguna mana yang dapat dilihat oleh orang lain',
     'interactive_user_profile' => 'Daftar konten default saat mengunjungi halaman beranda pengguna',
     'interactive_my_content' => 'Catatan mana yang dapat dilihat pengguna tentang diri mereka sendiri',

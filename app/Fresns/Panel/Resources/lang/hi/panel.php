@@ -600,6 +600,7 @@ return [
     // Operating-Interactive
     'interactive_content_config' => 'सामग्री समारोह सेटिंग्स',
     'interactive_dialog_config' => 'सत्र समारोह सेटिंग्स',
+    'interactive_follow_config' => 'समारोह का पालन करें',
     'interactive_function_config' => 'इंटरएक्टिव व्यवहार सेटिंग',
     'interactive_function_config_desc' => 'की ओर से संबंधित इंटरैक्टिव फ़ंक्शन की जाँच करें',
     'interactive_view_config' => 'उपयोगकर्ता सामग्री सेटिंग देखें',
@@ -620,6 +621,8 @@ return [
     'interactive_dialog_status_desc' => 'बंद सभी सदस्यों के लिए मान्य है, और खोलने के बाद उपयोगकर्ता भूमिका अधिकारों के अधीन है',
     'interactive_dialog_files' => 'सत्र सहायक समारोह',
     'interactive_dialog_files_desc' => 'यदि सभी जांच नहीं करते हैं, तो प्रतिनिधि केवल शुद्ध पाठ की वार्तालाप का समर्थन करता है',
+    'interactive_view_posts_by_follow_object' => 'फॉलो ऑब्जेक्ट द्वारा पोस्ट देखें',
+    'interactive_view_comments_by_follow_object' => 'फॉलो ऑब्जेक्ट द्वारा कमेंट देखें',
     'interactive_view_content' => 'अन्य लोग क्या उपयोगकर्ता सामग्री देख सकते हैं',
     'interactive_user_profile' => 'उपयोगकर्ता के होम पेज पर जाने पर डिफ़ॉल्ट सामग्री सूची',
     'interactive_my_content' => 'उपयोगकर्ता स्वयं कौन से रिकॉर्ड देख सकता है',
