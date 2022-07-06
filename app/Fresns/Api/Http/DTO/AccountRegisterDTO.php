@@ -24,6 +24,7 @@ class AccountRegisterDTO extends DTO
             'verifyCode' => ['string', 'required'],
             'password' => ['string', 'required'],
             'nickname' => ['string', 'required'],
+            'deviceToken' => ['string', 'nullable'],
         ];
     }
 }

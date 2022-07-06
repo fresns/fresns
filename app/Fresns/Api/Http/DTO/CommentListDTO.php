@@ -10,7 +10,7 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class PostListDTO extends DTO
+class CommentListDTO extends DTO
 {
     /**
      * @return array
@@ -21,23 +21,24 @@ class PostListDTO extends DTO
             'mapId' => ['integer', 'nullable', 'in:1,2,3,4,5,6,7,8,9,10'],
             'mapLng' => ['numeric', 'nullable'],
             'mapLat' => ['numeric', 'nullable'],
-            'uidOrUsername' => ['string', 'nullable'], // posts->user_id
-            'gid' => ['string', 'nullable'], // posts->group_id
-            'hid' => ['string', 'nullable'], // hashtag_usages->hashtag_id
-            'digestState' => ['integer', 'nullable', 'in:1,2,3'], // posts->digest_state
-            'stickyState' => ['integer', 'nullable', 'in:1,2,3'], // posts->sticky_state
-            'contentType' => ['string', 'nullable'], // posts->types
-            'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // posts->created_at
+            'uidOrUsername' => ['string', 'nullable'], // comments->user_id
+            'pid' => ['string', 'nullable'], // comments->post_id
+            'cid' => ['string', 'nullable'], // comments->parent_id
+            'gid' => ['string', 'nullable'], // comments->post_id->group_id
+            'sticky' => ['boolean', 'nullable'], // comments->is_sticky
+            'digestState' => ['integer', 'nullable', 'in:1,2,3'], // comments->digest_state
+            'contentType' => ['string', 'nullable'], // comments->types
+            'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // comments->created_at
             'createDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createDateGt'],
-            'likeCountGt' => ['integer', 'nullable', 'lt:likeCountLt'], // posts->like_count
+            'likeCountGt' => ['integer', 'nullable', 'lt:likeCountLt'], // comments->like_count
             'likeCountLt' => ['integer', 'nullable', 'gt:likeCountGt'],
-            'dislikeCountGt' => ['integer', 'nullable', 'lt:dislikeCountLt'], // posts->dislike_count
+            'dislikeCountGt' => ['integer', 'nullable', 'lt:dislikeCountLt'], // comments->dislike_count
             'dislikeCountLt' => ['integer', 'nullable', 'gt:dislikeCountGt'],
-            'followCountGt' => ['integer', 'nullable', 'lt:followCountLt'], // posts->follow_count
+            'followCountGt' => ['integer', 'nullable', 'lt:followCountLt'], // comments->follow_count
             'followCountLt' => ['integer', 'nullable', 'gt:followCountGt'],
-            'blockCountGt' => ['integer', 'nullable', 'lt:blockCountLt'], // posts->block_count
+            'blockCountGt' => ['integer', 'nullable', 'lt:blockCountLt'], // comments->block_count
             'blockCountLt' => ['integer', 'nullable', 'gt:blockCountGt'],
-            'commentCountGt' => ['integer', 'nullable', 'lt:commentCountLt'], // posts->comment_count
+            'commentCountGt' => ['integer', 'nullable', 'lt:commentCountLt'], // comments->comment_count
             'commentCountLt' => ['integer', 'nullable', 'gt:commentCountGt'],
             'orderType' => ['string', 'nullable', 'in:createDate,like,dislike,follow,block,comment'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],

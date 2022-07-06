@@ -10,7 +10,7 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class HeaderDTO extends DTO
+class CheckHeaderDTO extends DTO
 {
     /**
      * @return array
@@ -20,15 +20,15 @@ class HeaderDTO extends DTO
         return [
             'platformId' => ['integer', 'required', 'between:1,13'],
             'version' => ['string', 'required'],
-            'appId' => ['string', 'required', 'exists:App\Models\SessionKey,app_id'],
+            'appId' => ['string', 'required'],
             'timestamp' => ['integer', 'required', 'digits_between:10,13'],
             'sign' => ['string', 'required'],
             'langTag' => ['string', 'nullable'],
             'timezone' => ['string', 'nullable'],
-            'aid' => ['string', 'nullable', 'exists:App\Models\Account,aid'],
-            'uid' => ['integer', 'nullable', 'exists:App\Models\User,uid'],
+            'aid' => ['string', 'nullable'],
+            'uid' => ['integer', 'nullable'],
             'token' => ['string', 'nullable', 'required_with:aid'],
-            'deviceInfo' => ['string', 'required'],
+            'deviceInfo' => ['array', 'required'],
         ];
     }
 }

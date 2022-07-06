@@ -12,10 +12,7 @@ use App\Exceptions\ApiException;
 use App\Fresns\Api\Http\DTO\HashtagListDTO;
 use App\Fresns\Api\Http\DTO\InteractiveDTO;
 use App\Fresns\Api\Services\HashtagService;
-use App\Fresns\Api\Services\HeaderService;
 use App\Fresns\Api\Services\InteractiveService;
-use App\Helpers\ConfigHelper;
-use App\Helpers\PrimaryHelper;
 use App\Models\Hashtag;
 use App\Models\Seo;
 use App\Models\UserBlock;
@@ -28,99 +25,94 @@ class HashtagController extends Controller
     {
         $dtoRequest = new HashtagListDTO($request->all());
 
-        $headers = HeaderService::getHeaders();
-
-        $authUserId = null;
-        if (! empty($headers['uid'])) {
-            $authUserId = PrimaryHelper::fresnsUserIdByUid($headers['uid']);
-        }
+        $langTag = $this->langTag();
+        $authUserId = $this->user()?->id;
 
         $blockHashtagIds = UserBlock::type(UserBlock::TYPE_HASHTAG)->where('user_id', $authUserId)->pluck('block_id')->toArray();
 
         $hashtagQuery = Hashtag::whereNotIn('id', $blockHashtagIds)->isEnable();
 
-        if ($dtoRequest->likeCountGt) {
-            $hashtagQuery->where('like_count', '>=', $dtoRequest->likeCountGt);
-        }
+        $hashtagQuery->when($dtoRequest->createDateGt, function ($query, $value) {
+            $query->whereDate('created_at', '>=', $value);
+        });
 
-        if ($dtoRequest->likeCountLt) {
-            $hashtagQuery->where('like_count', '<=', $dtoRequest->likeCountLt);
-        }
+        $hashtagQuery->when($dtoRequest->createDateLt, function ($query, $value) {
+            $query->whereDate('created_at', '<=', $value);
+        });
 
-        if ($dtoRequest->dislikeCountGt) {
-            $hashtagQuery->where('dislike_count', '>=', $dtoRequest->dislikeCountGt);
-        }
+        $hashtagQuery->when($dtoRequest->likeCountGt, function ($query, $value) {
+            $query->where('like_count', '>=', $value);
+        });
 
-        if ($dtoRequest->dislikeCountLt) {
-            $hashtagQuery->where('dislike_count', '<=', $dtoRequest->dislikeCountLt);
-        }
+        $hashtagQuery->when($dtoRequest->likeCountLt, function ($query, $value) {
+            $query->where('like_count', '<=', $value);
+        });
 
-        if ($dtoRequest->followCountGt) {
-            $hashtagQuery->where('follow_count', '>=', $dtoRequest->followCountGt);
-        }
+        $hashtagQuery->when($dtoRequest->dislikeCountGt, function ($query, $value) {
+            $query->where('dislike_count', '>=', $value);
+        });
 
-        if ($dtoRequest->followCountLt) {
-            $hashtagQuery->where('follow_count', '<=', $dtoRequest->followCountLt);
-        }
+        $hashtagQuery->when($dtoRequest->dislikeCountLt, function ($query, $value) {
+            $query->where('dislike_count', '<=', $value);
+        });
 
-        if ($dtoRequest->blockCountGt) {
-            $hashtagQuery->where('block_count', '>=', $dtoRequest->blockCountGt);
-        }
+        $hashtagQuery->when($dtoRequest->followCountGt, function ($query, $value) {
+            $query->where('follow_count', '>=', $value);
+        });
 
-        if ($dtoRequest->blockCountLt) {
-            $hashtagQuery->where('block_count', '<=', $dtoRequest->blockCountLt);
-        }
+        $hashtagQuery->when($dtoRequest->followCountLt, function ($query, $value) {
+            $query->where('follow_count', '<=', $value);
+        });
 
-        if ($dtoRequest->postCountGt) {
-            $hashtagQuery->where('post_count', '>=', $dtoRequest->postCountGt);
-        }
+        $hashtagQuery->when($dtoRequest->blockCountGt, function ($query, $value) {
+            $query->where('block_count', '>=', $value);
+        });
 
-        if ($dtoRequest->postCountLt) {
-            $hashtagQuery->where('post_count', '<=', $dtoRequest->postCountLt);
-        }
+        $hashtagQuery->when($dtoRequest->blockCountLt, function ($query, $value) {
+            $query->where('block_count', '<=', $value);
+        });
 
-        if ($dtoRequest->postDigestCountGt) {
-            $hashtagQuery->where('post_digest_count', '>=', $dtoRequest->postDigestCountGt);
-        }
+        $hashtagQuery->when($dtoRequest->postCountGt, function ($query, $value) {
+            $query->where('post_count', '>=', $value);
+        });
 
-        if ($dtoRequest->postDigestCountLt) {
-            $hashtagQuery->where('post_digest_count', '<=', $dtoRequest->postDigestCountLt);
-        }
+        $hashtagQuery->when($dtoRequest->postCountLt, function ($query, $value) {
+            $query->where('post_count', '<=', $value);
+        });
 
-        if ($dtoRequest->createTimeGt) {
-            $hashtagQuery->where('created_at', '>=', $dtoRequest->createTimeGt);
-        }
+        $hashtagQuery->when($dtoRequest->postDigestCountGt, function ($query, $value) {
+            $query->where('post_digest_count', '>=', $value);
+        });
 
-        if ($dtoRequest->createTimeLt) {
-            $hashtagQuery->where('created_at', '<=', $dtoRequest->createTimeLt);
-        }
+        $hashtagQuery->when($dtoRequest->postDigestCountLt, function ($query, $value) {
+            $query->where('post_digest_count', '<=', $value);
+        });
 
-        $ratingType = match ($dtoRequest->ratingType) {
-            default => 'rating',
-            'like' => 'like_me_count',
-            'dislike' => 'dislike_me_count',
-            'follow' => 'follow_me_count',
-            'block' => 'block_me_count',
+        $orderType = match ($dtoRequest->orderType) {
+            default => 'created_at',
+            'createDate' => 'created_at',
+            'like' => 'like_count',
+            'dislike' => 'dislike_count',
+            'follow' => 'follow_count',
+            'block' => 'block_count',
             'post' => 'post_count',
             'postDigest' => 'post_digest_count',
-            'createTime' => 'created_at',
-            'rating' => 'rating',
         };
 
-        $ratingOrder = match ($dtoRequest->ratingOrder) {
-            default => 'asc',
+        $orderDirection = match ($dtoRequest->orderDirection) {
+            default => 'desc',
             'asc' => 'asc',
             'desc' => 'desc',
         };
 
-        $hashtagQuery->orderBy($ratingType, $ratingOrder);
+        $hashtagQuery->orderBy($orderType, $orderDirection);
 
         $hashtagData = $hashtagQuery->paginate($request->get('pageSize', 30));
 
         $hashtagList = [];
         $service = new HashtagService();
         foreach ($hashtagData as $hashtag) {
-            $hashtagList[] = $service->hashtagList($hashtag, $headers['langTag'], $authUserId);
+            $hashtagList[] = $service->hashtagList($hashtag, $langTag, $authUserId);
         }
 
         return $this->fresnsPaginate($hashtagList, $hashtagData->total(), $hashtagData->perPage());
@@ -129,27 +121,28 @@ class HashtagController extends Controller
     // detail
     public function detail(string $hid)
     {
-        $hashtag = Hashtag::whereSlug($hid)->isEnable()->first();
+        $hashtag = Hashtag::where('slug', $hid)->first();
+
         if (empty($hashtag)) {
             throw new ApiException(37200);
         }
 
-        $headers = HeaderService::getHeaders();
-
-        $authUserId = null;
-        if (! empty($headers['uid'])) {
-            $authUserId = PrimaryHelper::fresnsUserIdByUid($headers['uid']);
+        if ($hashtag->is_enable == 0) {
+            throw new ApiException(37201);
         }
 
-        $seoData = Seo::where('linked_type', Seo::TYPE_HASHTAG)->where('linked_id', $hashtag->id)->where('lang_tag', $headers['langTag'])->first();
+        $langTag = $this->langTag();
+        $authUserId = $this->user()?->id;
 
-        $common['title'] = $seoData->title ?? null;
-        $common['keywords'] = $seoData->keywords ?? null;
-        $common['description'] = $seoData->description ?? null;
-        $data['commons'] = $common;
+        $seoData = Seo::where('usage_type', Seo::TYPE_HASHTAG)->where('usage_id', $hashtag->id)->where('lang_tag', $langTag)->first();
+
+        $item['title'] = $seoData->title ?? null;
+        $item['keywords'] = $seoData->keywords ?? null;
+        $item['description'] = $seoData->description ?? null;
+        $data['items'] = $item;
 
         $service = new HashtagService();
-        $data['detail'] = $service->hashtagDetail($hashtag, $headers['langTag'], $authUserId);
+        $data['detail'] = $service->hashtagDetail($hashtag, $langTag, $authUserId);
 
         return $this->success($data);
     }
@@ -157,7 +150,7 @@ class HashtagController extends Controller
     // interactive
     public function interactive(string $hid, string $type, Request $request)
     {
-        $hashtag = Hashtag::whereSlug($hid)->isEnable()->first();
+        $hashtag = Hashtag::where('slug', $hid)->isEnable()->first();
         if (empty($hashtag)) {
             throw new ApiException(37200);
         }
@@ -166,21 +159,16 @@ class HashtagController extends Controller
         $requestData['type'] = $type;
         $dtoRequest = new InteractiveDTO($requestData);
 
-        $markSet = ConfigHelper::fresnsConfigByItemKey("it_{$dtoRequest->type}_hashtags");
-        if (! $markSet) {
-            throw new ApiException(36201);
-        }
+        InteractiveService::checkInteractiveSetting($dtoRequest->type, 'hashtag');
 
-        $timeOrder = $dtoRequest->timeOrder ?: 'desc';
+        $orderDirection = $dtoRequest->orderDirection ?: 'desc';
 
-        $headers = HeaderService::getHeaders();
-        $authUserId = null;
-        if (! empty($headers['uid'])) {
-            $authUserId = PrimaryHelper::fresnsUserIdByUid($headers['uid']);
-        }
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
 
         $service = new InteractiveService();
-        $data = $service->getUsersWhoMarkIt($dtoRequest->type, InteractiveService::TYPE_HASHTAG, $hashtag->id, $timeOrder, $headers['langTag'], $headers['timezone'], $authUserId);
+        $data = $service->getUsersWhoMarkIt($dtoRequest->type, InteractiveService::TYPE_HASHTAG, $hashtag->id, $orderDirection, $langTag, $timezone, $authUserId);
 
         return $this->fresnsPaginate($data['paginateData'], $data['interactiveData']->total(), $data['interactiveData']->perPage());
     }

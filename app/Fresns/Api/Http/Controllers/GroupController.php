@@ -12,10 +12,10 @@ use App\Exceptions\ApiException;
 use App\Fresns\Api\Http\DTO\GroupListDTO;
 use App\Fresns\Api\Http\DTO\InteractiveDTO;
 use App\Fresns\Api\Services\GroupService;
-use App\Fresns\Api\Services\HeaderService;
 use App\Fresns\Api\Services\InteractiveService;
-use App\Helpers\ConfigHelper;
+use App\Helpers\CacheHelper;
 use App\Helpers\PrimaryHelper;
+use App\Models\File;
 use App\Models\Group;
 use App\Models\PluginUsage;
 use App\Models\Seo;
@@ -23,46 +23,58 @@ use App\Utilities\CollectionUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\PermissionUtility;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class GroupController extends Controller
 {
     // tree
     public function tree()
     {
-        $headers = HeaderService::getHeaders();
-
-        $authUserId = null;
-        if (! empty($headers['uid'])) {
-            $authUserId = PrimaryHelper::fresnsUserIdByUid($headers['uid']);
-        }
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
 
         $groupFilterIds = PermissionUtility::getGroupFilterIds($authUserId);
 
-        $groups = Group::where('type_view', 1)->whereNotIn('id', $groupFilterIds)->isEnable()->orderBy('rating')->get();
+        if (empty($authUserId)) {
+            $cacheKey = 'fresns_api_guest_groups';
+        } else {
+            $cacheKey = "fresns_api_user_{$authUserId}_groups";
+        }
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+
+        $groups = Cache::remember($cacheKey, $cacheTime, function () use ($groupFilterIds) {
+            return Group::with(['category', 'admins'])
+                ->where('sublevel_public', Group::SUBLEVEL_PUBLIC)
+                ->whereNotIn('id', $groupFilterIds)
+                ->isEnable()
+                ->orderBy('recommend_rating')
+                ->orderBy('rating')
+                ->get();
+        });
 
         $service = new GroupService();
-
         $groupData = [];
         foreach ($groups as $index => $group) {
-            $groupData[$index][] = $service->groupList($group, $headers['langTag'], $headers['timezone'], $authUserId);
+            $groupData[$index] = $service->groupList($group, $langTag, $timezone, $authUserId);
         }
 
-        $groupTree = CollectionUtility::toTree($groupData, 'gid', 'category', 'groups');
+        $groupTree = CollectionUtility::toTree($groupData, 'gid', 'parentGid', 'groups');
 
         return $this->success($groupTree);
     }
 
     public function categories(Request $request)
     {
-        $headers = HeaderService::getHeaders();
+        $langTag = $this->langTag();
 
-        $groupQuery = Group::where('type', 1)->orderBy('rating')->isEnable();
+        $groupQuery = Group::where('type', Group::TYPE_CATEGORY)->orderBy('rating')->isEnable();
 
         $categories = $groupQuery->paginate($request->get('pageSize', 30));
 
         $catList = [];
         foreach ($categories as $category) {
-            $item = $category->getCategoryInfo($headers['langTag']);
+            $item = $category->getCategoryInfo($langTag);
             $catList[] = $item;
         }
 
@@ -74,109 +86,127 @@ class GroupController extends Controller
     {
         $dtoRequest = new GroupListDTO($request->all());
 
-        $headers = HeaderService::getHeaders();
-
-        $authUserId = null;
-        if (! empty($headers['uid'])) {
-            $authUserId = PrimaryHelper::fresnsUserIdByUid($headers['uid']);
-        }
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
 
         $groupFilterIds = PermissionUtility::getGroupFilterIds($authUserId);
-        $groupQuery = Group::whereIn('type', [2, 3])->whereNotIn('id', $groupFilterIds)->isEnable();
+
+        $groupQuery = Group::with(['category', 'admins'])
+            ->where('type', '!=', Group::TYPE_CATEGORY)
+            ->whereNotIn('id', $groupFilterIds)
+            ->isEnable();
 
         if ($dtoRequest->gid) {
-            $parentId = PrimaryHelper::fresnsGroupIdByGid($dtoRequest->gid);
-            $groupQuery->where('parent_id', $parentId);
+            $parentGroup = PrimaryHelper::fresnsModelByFsid('group', $dtoRequest->gid);
+
+            if (empty($parentGroup) || $parentGroup->trashed()) {
+                throw new ApiException(37100);
+            }
+
+            if ($parentGroup->isEnable(false)) {
+                throw new ApiException(37101);
+            }
+
+            switch ($parentGroup->type) {
+                case Group::TYPE_CATEGORY:
+                    $groupQuery->where('parent_id', $parentGroup->id)->where('sublevel_public', Group::SUBLEVEL_PUBLIC);
+                break;
+
+                case Group::TYPE_GROUP:
+                    $groupQuery->where('parent_id', $parentGroup->id);
+                break;
+            }
         } else {
-            $groupQuery->where('type_view', 1);
+            $groupQuery->where('sublevel_public', Group::SUBLEVEL_PUBLIC);
         }
 
-        if ($dtoRequest->recommend) {
-            $groupQuery->where('is_recommend', $dtoRequest->recommend);
-        }
+        $groupQuery->when($dtoRequest->recommend, function ($query, $value) {
+            $query->where('is_recommend', $value);
+        });
 
-        if ($dtoRequest->likeCountGt) {
-            $groupQuery->where('like_count', '>=', $dtoRequest->likeCountGt);
-        }
+        $groupQuery->when($dtoRequest->createDateGt, function ($query, $value) {
+            $query->whereDate('created_at', '>=', $value);
+        });
 
-        if ($dtoRequest->likeCountLt) {
-            $groupQuery->where('like_count', '<=', $dtoRequest->likeCountLt);
-        }
+        $groupQuery->when($dtoRequest->createDateLt, function ($query, $value) {
+            $query->whereDate('created_at', '<=', $value);
+        });
 
-        if ($dtoRequest->dislikeCountGt) {
-            $groupQuery->where('dislike_count', '>=', $dtoRequest->dislikeCountGt);
-        }
+        $groupQuery->when($dtoRequest->likeCountGt, function ($query, $value) {
+            $query->where('like_count', '>=', $value);
+        });
 
-        if ($dtoRequest->dislikeCountLt) {
-            $groupQuery->where('dislike_count', '<=', $dtoRequest->dislikeCountLt);
-        }
+        $groupQuery->when($dtoRequest->likeCountLt, function ($query, $value) {
+            $query->where('like_count', '<=', $value);
+        });
 
-        if ($dtoRequest->followCountGt) {
-            $groupQuery->where('follow_count', '>=', $dtoRequest->followCountGt);
-        }
+        $groupQuery->when($dtoRequest->dislikeCountGt, function ($query, $value) {
+            $query->where('dislike_count', '>=', $value);
+        });
 
-        if ($dtoRequest->followCountLt) {
-            $groupQuery->where('follow_count', '<=', $dtoRequest->followCountLt);
-        }
+        $groupQuery->when($dtoRequest->dislikeCountLt, function ($query, $value) {
+            $query->where('dislike_count', '<=', $value);
+        });
 
-        if ($dtoRequest->blockCountGt) {
-            $groupQuery->where('block_count', '>=', $dtoRequest->blockCountGt);
-        }
+        $groupQuery->when($dtoRequest->followCountGt, function ($query, $value) {
+            $query->where('follow_count', '>=', $value);
+        });
 
-        if ($dtoRequest->blockCountLt) {
-            $groupQuery->where('block_count', '<=', $dtoRequest->blockCountLt);
-        }
+        $groupQuery->when($dtoRequest->followCountLt, function ($query, $value) {
+            $query->where('follow_count', '<=', $value);
+        });
 
-        if ($dtoRequest->postCountGt) {
-            $groupQuery->where('post_count', '>=', $dtoRequest->postCountGt);
-        }
+        $groupQuery->when($dtoRequest->blockCountGt, function ($query, $value) {
+            $query->where('block_count', '>=', $value);
+        });
 
-        if ($dtoRequest->postCountLt) {
-            $groupQuery->where('post_count', '<=', $dtoRequest->postCountLt);
-        }
+        $groupQuery->when($dtoRequest->blockCountLt, function ($query, $value) {
+            $query->where('block_count', '<=', $value);
+        });
 
-        if ($dtoRequest->postDigestCountGt) {
-            $groupQuery->where('post_digest_count', '>=', $dtoRequest->postDigestCountGt);
-        }
+        $groupQuery->when($dtoRequest->postCountGt, function ($query, $value) {
+            $query->where('post_count', '>=', $value);
+        });
 
-        if ($dtoRequest->postDigestCountLt) {
-            $groupQuery->where('post_digest_count', '<=', $dtoRequest->postDigestCountLt);
-        }
+        $groupQuery->when($dtoRequest->postCountLt, function ($query, $value) {
+            $query->where('post_count', '<=', $value);
+        });
 
-        if ($dtoRequest->createTimeGt) {
-            $groupQuery->where('created_at', '>=', $dtoRequest->createTimeGt);
-        }
+        $groupQuery->when($dtoRequest->postDigestCountGt, function ($query, $value) {
+            $query->where('post_digest_count', '>=', $value);
+        });
 
-        if ($dtoRequest->createTimeLt) {
-            $groupQuery->where('created_at', '<=', $dtoRequest->createTimeLt);
-        }
+        $groupQuery->when($dtoRequest->postDigestCountLt, function ($query, $value) {
+            $query->where('post_digest_count', '<=', $value);
+        });
 
-        $ratingType = match ($dtoRequest->ratingType) {
+        $orderType = match ($dtoRequest->orderType) {
             default => 'rating',
-            'like' => 'like_me_count',
-            'dislike' => 'dislike_me_count',
-            'follow' => 'follow_me_count',
-            'block' => 'block_me_count',
+            'createDate' => 'created_at',
+            'like' => 'like_count',
+            'dislike' => 'dislike_count',
+            'follow' => 'follow_count',
+            'block' => 'block_count',
             'post' => 'post_count',
             'postDigest' => 'post_digest_count',
-            'createTime' => 'created_at',
             'rating' => 'rating',
         };
 
-        $ratingOrder = match ($dtoRequest->ratingOrder) {
+        $orderDirection = match ($dtoRequest->orderDirection) {
             default => 'asc',
             'asc' => 'asc',
             'desc' => 'desc',
         };
 
-        $groupQuery->orderBy('recommend_rating', 'asc')->orderBy($ratingType, $ratingOrder);
+        $groupQuery->orderBy('recommend_rating')->orderBy($orderType, $orderDirection);
 
         $groupData = $groupQuery->paginate($request->get('pageSize', 15));
 
         $groupList = [];
         $service = new GroupService();
         foreach ($groupData as $group) {
-            $groupList[] = $service->groupList($group, $headers['langTag'], $headers['timezone'], $authUserId);
+            $groupList[] = $service->groupList($group, $langTag, $timezone, $authUserId);
         }
 
         return $this->fresnsPaginate($groupList, $groupData->total(), $groupData->perPage());
@@ -185,30 +215,30 @@ class GroupController extends Controller
     // detail
     public function detail(string $gid)
     {
-        $group = Group::whereGid($gid)->isEnable()->first();
+        $group = Group::where('gid', $gid)->first();
+
         if (empty($group)) {
             throw new ApiException(37100);
         }
 
-        $headers = HeaderService::getHeaders();
-
-        $authUserId = null;
-        if (! empty($headers['uid'])) {
-            $authUserId = PrimaryHelper::fresnsUserIdByUid($headers['uid']);
+        if ($group->is_enable == 0) {
+            throw new ApiException(37101);
         }
 
-        $seoData = Seo::where('linked_type', Seo::TYPE_GROUP)->where('linked_id', $group->id)->where('lang_tag', $headers['langTag'])->first();
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
 
-        $common['title'] = $seoData->title ?? null;
-        $common['keywords'] = $seoData->keywords ?? null;
-        $common['description'] = $seoData->description ?? null;
-        $common['extensions'] = ExtendUtility::getPluginExtends(PluginUsage::TYPE_GROUP, $group->id, null, $authUserId, $headers['langTag']);
-        $data['commons'] = $common;
+        $seoData = Seo::where('usage_type', Seo::TYPE_GROUP)->where('usage_id', $group->id)->where('lang_tag', $langTag)->first();
 
-        $data['category'] = $group->category->getCategoryInfo($headers['langTag']);
+        $item['title'] = $seoData->title ?? null;
+        $item['keywords'] = $seoData->keywords ?? null;
+        $item['description'] = $seoData->description ?? null;
+        $item['extensions'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_GROUP, $group->id, null, $authUserId, $langTag);
+        $data['items'] = $item;
 
         $service = new GroupService();
-        $data['detail'] = $service->groupDetail($group, $headers['langTag'], $headers['timezone'], $authUserId);
+        $data['detail'] = $service->groupDetail($group, $langTag, $timezone, $authUserId);
 
         return $this->success($data);
     }
@@ -216,7 +246,7 @@ class GroupController extends Controller
     // interactive
     public function interactive(string $gid, string $type, Request $request)
     {
-        $group = Group::whereGid($gid)->isEnable()->first();
+        $group = Group::where('gid', $gid)->isEnable()->first();
         if (empty($group)) {
             throw new ApiException(37100);
         }
@@ -225,21 +255,16 @@ class GroupController extends Controller
         $requestData['type'] = $type;
         $dtoRequest = new InteractiveDTO($requestData);
 
-        $markSet = ConfigHelper::fresnsConfigByItemKey("it_{$dtoRequest->type}_groups");
-        if (! $markSet) {
-            throw new ApiException(36201);
-        }
+        InteractiveService::checkInteractiveSetting($dtoRequest->type, 'group');
 
-        $timeOrder = $dtoRequest->timeOrder ?: 'desc';
+        $orderDirection = $dtoRequest->orderDirection ?: 'desc';
 
-        $headers = HeaderService::getHeaders();
-        $authUserId = null;
-        if (! empty($headers['uid'])) {
-            $authUserId = PrimaryHelper::fresnsUserIdByUid($headers['uid']);
-        }
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
 
         $service = new InteractiveService();
-        $data = $service->getUsersWhoMarkIt($dtoRequest->type, InteractiveService::TYPE_GROUP, $group->id, $timeOrder, $headers['langTag'], $headers['timezone'], $authUserId);
+        $data = $service->getUsersWhoMarkIt($dtoRequest->type, InteractiveService::TYPE_GROUP, $group->id, $orderDirection, $langTag, $timezone, $authUserId);
 
         return $this->fresnsPaginate($data['paginateData'], $data['interactiveData']->total(), $data['interactiveData']->perPage());
     }

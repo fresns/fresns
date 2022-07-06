@@ -10,7 +10,7 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class UserMarkListDTO extends DTO
+class EditorDraftsDTO extends DTO
 {
     /**
      * @return array
@@ -18,10 +18,8 @@ class UserMarkListDTO extends DTO
     public function rules(): array
     {
         return [
-            'markType' => ['string', 'required', 'in:like,dislike,follow,block'],
-            'listType' => ['string', 'required', 'in:users,groups,hashtags,posts,comments'],
-            'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
-            'pageSize' => ['integer', 'nullable', 'between:1,20'],
+            'status' => ['integer', 'nullable', 'in:1,2'],
+            'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],
         ];
     }

@@ -20,6 +20,7 @@ class UserAuthDTO extends DTO
         return [
             'uidOrUsername' => ['string', 'required'],
             'password' => ['string', 'nullable'],
+            'deviceToken' => ['string', 'nullable'],
         ];
     }
 }

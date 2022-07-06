@@ -10,7 +10,7 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class InteractiveDTO extends DTO
+class CommentDetailDTO extends DTO
 {
     /**
      * @return array
@@ -18,10 +18,9 @@ class InteractiveDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => ['string', 'required', 'in:like,dislike,follow,block'],
-            'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
-            'pageSize' => ['integer', 'nullable', 'between:1,20'],
-            'page' => ['integer', 'nullable'],
+            'mapId' => ['integer', 'nullable', 'in:1,2,3,4,5,6,7,8,9,10'],
+            'mapLng' => ['numeric', 'nullable'],
+            'mapLat' => ['numeric', 'nullable'],
         ];
     }
 }

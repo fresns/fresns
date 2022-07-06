@@ -9,23 +9,27 @@
 namespace App\Fresns\Api\Http\Controllers;
 
 use App\Exceptions\ApiException;
+use App\Fresns\Api\Http\DTO\GlobalArchivesDTO;
 use App\Fresns\Api\Http\DTO\GlobalBlockWordsDTO;
 use App\Fresns\Api\Http\DTO\GlobalConfigsDTO;
 use App\Fresns\Api\Http\DTO\GlobalRolesDTO;
 use App\Fresns\Api\Http\DTO\GlobalUploadTokenDTO;
-use App\Fresns\Api\Services\HeaderService;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
+use App\Models\Archive;
 use App\Models\BlockWord;
 use App\Models\Config;
+use App\Models\File;
 use App\Models\PluginUsage;
 use App\Models\Role;
 use App\Models\Sticker;
 use App\Utilities\CollectionUtility;
 use App\Utilities\ExtendUtility;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class GlobalController extends Controller
 {
@@ -33,7 +37,7 @@ class GlobalController extends Controller
     public function configs(Request $request)
     {
         $dtoRequest = new GlobalConfigsDTO($request->all());
-        $headers = HeaderService::getHeaders();
+        $langTag = $this->langTag();
 
         $itemKey = array_filter(explode(',', $dtoRequest->keys));
         $itemTag = array_filter(explode(',', $dtoRequest->tags));
@@ -53,7 +57,7 @@ class GlobalController extends Controller
         $item = null;
         foreach ($configs as $config) {
             if ($config->is_multilingual == 1) {
-                $item[$config->item_key] = LanguageHelper::fresnsLanguageByTableKey($config->item_key, $config->item_type, $headers['langTag']);
+                $item[$config->item_key] = LanguageHelper::fresnsLanguageByTableKey($config->item_key, $config->item_type, $langTag);
             } elseif ($config->item_type == 'file' && is_int($config->item_value)) {
                 $item[$config->item_key] = ConfigHelper::fresnsConfigFileUrlByItemKey($config->item_value);
             } elseif ($config->item_type == 'plugin') {
@@ -73,6 +77,77 @@ class GlobalController extends Controller
         }
 
         return $this->fresnsPaginate($item, $configs->total(), $configs->perPage());
+    }
+
+    // archives
+    public function archives($type, Request $request)
+    {
+        $requestData = $request->all();
+        $requestData['type'] = $type;
+        $dtoRequest = new GlobalArchivesDTO($requestData);
+
+        $langTag = $this->langTag();
+        $unikey = $dtoRequest->unikey ?? null;
+
+        $cacheKey = "fresns_api_archives_{$dtoRequest->type}_{$unikey}_{$langTag}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+
+        $archives = Cache::remember($cacheKey, $cacheTime, function () use ($type, $unikey) {
+            $archiveData = Archive::type($type)
+                ->when($unikey, function ($query, $value) {
+                    $query->where('plugin_unikey', $value);
+                })
+                ->isEnable()
+                ->orderBy('rating')
+                ->get();
+
+            $fileExtName = ConfigHelper::fresnsConfigByItemKeys([
+                'image_extension_names',
+                'video_extension_names',
+                'audio_extension_names',
+                'document_extension_names',
+            ]);
+
+            $items = null;
+            foreach ($archiveData as $archive) {
+                $fileExt = match ($archive->file_type) {
+                    1 => $fileExtName['image_extension_names'],
+                    2 => $fileExtName['video_extension_names'],
+                    3 => $fileExtName['audio_extension_names'],
+                    4 => $fileExtName['document_extension_names'],
+                    default => null,
+                };
+
+                $item['plugin'] = $archive->plugin_unikey;
+                $item['name'] = $archive->name;
+                $item['code'] = $archive->code;
+                $item['formElement'] = $archive->form_element;
+                $item['elementType'] = $archive->element_type;
+                $item['elementOptions'] = $archive->element_options;
+                $item['fileType'] = $archive->file_type;
+                $item['fileExt'] = $fileExt;
+                $item['fileAccept'] = FileHelper::fresnsFileAcceptByType($archive->file_type);
+                $item['isMultiple'] = $archive->is_multiple;
+                $item['isRequired'] = $archive->is_required;
+                $item['inputPattern'] = $archive->input_pattern;
+                $item['inputMax'] = $archive->input_max;
+                $item['inputMin'] = $archive->input_min;
+                $item['inputMaxlength'] = $archive->input_maxlength;
+                $item['inputMinlength'] = $archive->input_minlength;
+                $item['inputSize'] = $archive->input_size;
+                $item['inputStep'] = $archive->input_step;
+
+                $items[] = $item;
+            }
+
+            return $items;
+        });
+
+        if (is_null($archives)) {
+            Cache::forget($cacheKey);
+        }
+
+        return $this->success($archives);
     }
 
     // get upload token
@@ -99,14 +174,16 @@ class GlobalController extends Controller
             'expireTime' => $dtoRequest->expireTime,
         ];
 
-        return \FresnsCmdWord::plugin($storageConfig['service'])->getUploadToken($wordBody);
+        $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->getUploadToken($wordBody);
+
+        return $fresnsResp->getOrigin();
     }
 
     // roles
     public function roles(Request $request)
     {
         $dtoRequest = new GlobalRolesDTO($request->all());
-        $headers = HeaderService::getHeaders();
+        $langTag = $this->langTag();
 
         $status = $dtoRequest->status ?? 1;
 
@@ -125,17 +202,17 @@ class GlobalController extends Controller
 
         $roleList = null;
         foreach ($roles as $role) {
-            foreach ($role->permission as $perm) {
-                $permission[$perm['permKey']] = $perm['permValue'];
+            foreach ($role->permissions as $perm) {
+                $permissions[$perm['permKey']] = $perm['permValue'];
             }
 
             $item['rid'] = $role->id;
             $item['nicknameColor'] = $role->nickname_color;
-            $item['name'] = LanguageHelper::fresnsLanguageByTableId('roles', 'name', $role->id, $headers['langTag']);
+            $item['name'] = LanguageHelper::fresnsLanguageByTableId('roles', 'name', $role->id, $langTag);
             $item['nameDisplay'] = (bool) $role->is_display_name;
             $item['icon'] = FileHelper::fresnsFileUrlByTableColumn($role->icon_file_id, $role->icon_file_url);
             $item['iconDisplay'] = (bool) $role->is_display_icon;
-            $item['permission'] = $permission;
+            $item['permissions'] = $permissions;
             $item['status'] = (bool) $role->is_enable;
             $roleList[] = $item;
         }
@@ -146,9 +223,9 @@ class GlobalController extends Controller
     // maps
     public function maps()
     {
-        $headers = HeaderService::getHeaders();
+        $langTag = $this->langTag();
 
-        $data = ExtendUtility::getPluginExtends(PluginUsage::TYPE_MAP, null, null, null, $headers['langTag']);
+        $data = ExtendUtility::getPluginUsages(PluginUsage::TYPE_MAP, null, null, null, $langTag);
 
         return $this->success($data);
     }
@@ -156,9 +233,9 @@ class GlobalController extends Controller
     // contentType
     public function contentType()
     {
-        $headers = HeaderService::getHeaders();
+        $langTag = $this->langTag();
 
-        $data = ExtendUtility::getPluginExtends(PluginUsage::TYPE_CONTENT, null, null, null, $headers['langTag']);
+        $data = ExtendUtility::getPluginUsages(PluginUsage::TYPE_CONTENT, null, null, null, $langTag);
 
         return $this->success($data);
     }
@@ -166,20 +243,29 @@ class GlobalController extends Controller
     // stickers
     public function stickers()
     {
-        $headers = HeaderService::getHeaders();
+        $langTag = $this->langTag();
 
-        $stickers = Sticker::isEnable()->orderBy('rating')->get();
+        $cacheKey = "fresns_api_stickers_{$langTag}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
-        $stickerData = [];
-        foreach ($stickers as $index => $sticker) {
-            $stickerData[$index]['parentCode'] = $stickers->where('id', $sticker->parent_id)->first()?->code;
-            $stickerData[$index]['name'] = LanguageHelper::fresnsLanguageByTableId('stickers', 'name', $sticker->id, $headers['langTag']);
-            $stickerData[$index]['code'] = $sticker->code;
-            $stickerData[$index]['codeFormat'] = '['.$sticker->code.']';
-            $stickerData[$index]['image'] = FileHelper::fresnsFileUrlByTableColumn($sticker->image_file_id, $sticker->image_file_url);
+        $stickerTree = Cache::remember($cacheKey, $cacheTime, function () use ($langTag) {
+            $stickers = Sticker::isEnable()->orderBy('rating')->get();
+
+            $stickerData = [];
+            foreach ($stickers as $index => $sticker) {
+                $stickerData[$index]['parentCode'] = $stickers->where('id', $sticker->parent_id)->first()?->code;
+                $stickerData[$index]['name'] = LanguageHelper::fresnsLanguageByTableId('stickers', 'name', $sticker->id, $langTag);
+                $stickerData[$index]['code'] = $sticker->code;
+                $stickerData[$index]['codeFormat'] = '['.$sticker->code.']';
+                $stickerData[$index]['image'] = FileHelper::fresnsFileUrlByTableColumn($sticker->image_file_id, $sticker->image_file_url);
+            }
+
+            return CollectionUtility::toTree($stickerData, 'code', 'parentCode', 'stickers');
+        });
+
+        if (is_null($stickerTree)) {
+            Cache::forget($cacheKey);
         }
-
-        $stickerTree = CollectionUtility::toTree($stickerData, 'code', 'parentCode', 'stickers');
 
         return $this->success($stickerTree);
     }

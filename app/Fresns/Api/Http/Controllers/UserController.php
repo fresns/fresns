@@ -15,29 +15,36 @@ use App\Fresns\Api\Http\DTO\UserEditDTO;
 use App\Fresns\Api\Http\DTO\UserListDTO;
 use App\Fresns\Api\Http\DTO\UserMarkDTO;
 use App\Fresns\Api\Http\DTO\UserMarkListDTO;
-use App\Fresns\Api\Services\HeaderService;
+use App\Fresns\Api\Http\DTO\UserMarkNoteDTO;
 use App\Fresns\Api\Services\InteractiveService;
 use App\Fresns\Api\Services\UserService;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
+use App\Models\ArchiveUsage;
 use App\Models\BlockWord;
 use App\Models\CommentLog;
 use App\Models\Dialog;
 use App\Models\DialogMessage;
-use App\Models\DomainLinkLinked;
-use App\Models\HashtagLinked;
+use App\Models\DomainLinkUsage;
+use App\Models\HashtagUsage;
 use App\Models\Mention;
 use App\Models\Notify;
 use App\Models\PluginUsage;
 use App\Models\PostLog;
 use App\Models\Seo;
+use App\Models\SessionLog;
 use App\Models\User;
+use App\Models\UserBlock;
+use App\Models\UserFollow;
 use App\Models\UserStat;
+use App\Utilities\ConfigUtility;
 use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractiveUtility;
 use App\Utilities\ValidationUtility;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
@@ -46,137 +53,132 @@ class UserController extends Controller
     public function list(Request $request)
     {
         $dtoRequest = new UserListDTO($request->all());
-        $headers = HeaderService::getHeaders();
 
-        $authUserId = null;
-        if (! empty($headers['uid'])) {
-            $authUserId = PrimaryHelper::fresnsUserIdByUid($headers['uid']);
-        }
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
 
-        $userQuery = UserStat::with('user');
-
-        $userQuery->when($dtoRequest->verified, function ($query, $value) {
-            $query->whereRelation('user', 'verified', $value);
-        });
+        $userQuery = UserStat::with('user')->whereRelation('user', 'is_enable', 1)->whereRelation('user', 'wait_delete', 0);
 
         $userQuery->when($dtoRequest->gender, function ($query, $value) {
             $query->whereRelation('user', 'gender', $value);
         });
 
-        if ($dtoRequest->createTimeGt) {
-            $userQuery->where('created_at', '>=', $dtoRequest->createTimeGt);
-        }
+        $userQuery->when($dtoRequest->createDateGt, function ($query, $value) {
+            $query->whereDate('created_at', '>=', $value);
+        });
 
-        if ($dtoRequest->createTimeLt) {
-            $userQuery->where('created_at', '<=', $dtoRequest->createTimeLt);
-        }
+        $userQuery->when($dtoRequest->createDateLt, function ($query, $value) {
+            $query->whereDate('created_at', '<=', $value);
+        });
 
-        if ($dtoRequest->likeCountGt) {
-            $userQuery->where('like_me_count', '>=', $dtoRequest->likeCountGt);
-        }
+        $userQuery->when($dtoRequest->likeCountGt, function ($query, $value) {
+            $query->where('like_me_count', '>=', $value);
+        });
 
-        if ($dtoRequest->likeCountLt) {
-            $userQuery->where('like_me_count', '<=', $dtoRequest->likeCountLt);
-        }
+        $userQuery->when($dtoRequest->likeCountLt, function ($query, $value) {
+            $query->where('like_me_count', '<=', $value);
+        });
 
-        if ($dtoRequest->dislikeCountGt) {
-            $userQuery->where('dislike_me_count', '>=', $dtoRequest->dislikeCountGt);
-        }
+        $userQuery->when($dtoRequest->dislikeCountGt, function ($query, $value) {
+            $query->where('dislike_me_count', '>=', $value);
+        });
 
-        if ($dtoRequest->dislikeCountLt) {
-            $userQuery->where('dislike_me_count', '<=', $dtoRequest->dislikeCountLt);
-        }
+        $userQuery->when($dtoRequest->dislikeCountLt, function ($query, $value) {
+            $query->where('dislike_me_count', '<=', $value);
+        });
 
-        if ($dtoRequest->followCountGt) {
-            $userQuery->where('follow_me_count', '>=', $dtoRequest->followCountGt);
-        }
+        $userQuery->when($dtoRequest->followCountGt, function ($query, $value) {
+            $query->where('follow_me_count', '>=', $value);
+        });
 
-        if ($dtoRequest->followCountLt) {
-            $userQuery->where('follow_me_count', '<=', $dtoRequest->followCountLt);
-        }
+        $userQuery->when($dtoRequest->followCountLt, function ($query, $value) {
+            $query->where('follow_me_count', '<=', $value);
+        });
 
-        if ($dtoRequest->blockCountGt) {
-            $userQuery->where('block_me_count', '>=', $dtoRequest->blockCountGt);
-        }
+        $userQuery->when($dtoRequest->blockCountGt, function ($query, $value) {
+            $query->where('block_me_count', '>=', $value);
+        });
 
-        if ($dtoRequest->blockCountLt) {
-            $userQuery->where('block_me_count', '<=', $dtoRequest->blockCountLt);
-        }
+        $userQuery->when($dtoRequest->blockCountLt, function ($query, $value) {
+            $query->where('block_me_count', '<=', $value);
+        });
 
-        if ($dtoRequest->postCountGt) {
-            $userQuery->where('post_publish_count', '>=', $dtoRequest->postCountGt);
-        }
+        $userQuery->when($dtoRequest->postCountGt, function ($query, $value) {
+            $query->where('post_publish_count', '>=', $value);
+        });
 
-        if ($dtoRequest->postCountLt) {
-            $userQuery->where('post_publish_count', '<=', $dtoRequest->postCountLt);
-        }
+        $userQuery->when($dtoRequest->postCountLt, function ($query, $value) {
+            $query->where('post_publish_count', '<=', $value);
+        });
 
-        if ($dtoRequest->commentCountGt) {
-            $userQuery->where('comment_publish_count', '>=', $dtoRequest->commentCountGt);
-        }
+        $userQuery->when($dtoRequest->commentCountGt, function ($query, $value) {
+            $query->where('comment_publish_count', '>=', $value);
+        });
 
-        if ($dtoRequest->commentCountLt) {
-            $userQuery->where('comment_publish_count', '<=', $dtoRequest->commentCountLt);
-        }
+        $userQuery->when($dtoRequest->commentCountLt, function ($query, $value) {
+            $query->where('comment_publish_count', '<=', $value);
+        });
 
-        if ($dtoRequest->postDigestCountGt) {
-            $userQuery->where('post_digest_count', '>=', $dtoRequest->postDigestCountGt);
-        }
+        $userQuery->when($dtoRequest->postDigestCountGt, function ($query, $value) {
+            $query->where('post_digest_count', '>=', $value);
+        });
 
-        if ($dtoRequest->postDigestCountLt) {
-            $userQuery->where('post_digest_count', '<=', $dtoRequest->postDigestCountLt);
-        }
+        $userQuery->when($dtoRequest->postDigestCountLt, function ($query, $value) {
+            $query->where('post_digest_count', '<=', $value);
+        });
 
-        if ($dtoRequest->commentDigestCountGt) {
-            $userQuery->where('comment_digest_count', '>=', $dtoRequest->commentDigestCountGt);
-        }
+        $userQuery->when($dtoRequest->commentDigestCountGt, function ($query, $value) {
+            $query->where('comment_digest_count', '>=', $value);
+        });
 
-        if ($dtoRequest->commentDigestCountLt) {
-            $userQuery->where('comment_digest_count', '<=', $dtoRequest->commentDigestCountLt);
-        }
+        $userQuery->when($dtoRequest->commentDigestCountLt, function ($query, $value) {
+            $query->where('comment_digest_count', '<=', $value);
+        });
 
-        if ($dtoRequest->extcredits1CountGt) {
-            $userQuery->where('extcredits1', '>=', $dtoRequest->extcredits1CountGt);
-        }
+        $userQuery->when($dtoRequest->extcredits1CountGt, function ($query, $value) {
+            $query->where('extcredits1', '>=', $value);
+        });
 
-        if ($dtoRequest->extcredits1CountLt) {
-            $userQuery->where('extcredits1', '<=', $dtoRequest->extcredits1CountLt);
-        }
+        $userQuery->when($dtoRequest->extcredits1CountLt, function ($query, $value) {
+            $query->where('extcredits1', '<=', $value);
+        });
 
-        if ($dtoRequest->extcredits2CountGt) {
-            $userQuery->where('extcredits2', '>=', $dtoRequest->extcredits2CountGt);
-        }
+        $userQuery->when($dtoRequest->extcredits2CountGt, function ($query, $value) {
+            $query->where('extcredits2', '>=', $value);
+        });
 
-        if ($dtoRequest->extcredits2CountLt) {
-            $userQuery->where('extcredits2', '<=', $dtoRequest->extcredits2CountLt);
-        }
+        $userQuery->when($dtoRequest->extcredits2CountLt, function ($query, $value) {
+            $query->where('extcredits2', '<=', $value);
+        });
 
-        if ($dtoRequest->extcredits3CountGt) {
-            $userQuery->where('extcredits3', '>=', $dtoRequest->extcredits3CountGt);
-        }
+        $userQuery->when($dtoRequest->extcredits3CountGt, function ($query, $value) {
+            $query->where('extcredits3', '>=', $value);
+        });
 
-        if ($dtoRequest->extcredits3CountLt) {
-            $userQuery->where('extcredits3', '<=', $dtoRequest->extcredits3CountLt);
-        }
+        $userQuery->when($dtoRequest->extcredits3CountLt, function ($query, $value) {
+            $query->where('extcredits3', '<=', $value);
+        });
 
-        if ($dtoRequest->extcredits4CountGt) {
-            $userQuery->where('extcredits4', '>=', $dtoRequest->extcredits4CountGt);
-        }
+        $userQuery->when($dtoRequest->extcredits4CountGt, function ($query, $value) {
+            $query->where('extcredits4', '>=', $value);
+        });
 
-        if ($dtoRequest->extcredits4CountLt) {
-            $userQuery->where('extcredits4', '<=', $dtoRequest->extcredits4CountLt);
-        }
+        $userQuery->when($dtoRequest->extcredits4CountLt, function ($query, $value) {
+            $query->where('extcredits4', '<=', $value);
+        });
 
-        if ($dtoRequest->extcredits5CountGt) {
-            $userQuery->where('extcredits5', '>=', $dtoRequest->extcredits5CountGt);
-        }
+        $userQuery->when($dtoRequest->extcredits5CountGt, function ($query, $value) {
+            $query->where('extcredits5', '>=', $value);
+        });
 
-        if ($dtoRequest->extcredits5CountLt) {
-            $userQuery->where('extcredits5', '<=', $dtoRequest->extcredits5CountLt);
-        }
+        $userQuery->when($dtoRequest->extcredits5CountLt, function ($query, $value) {
+            $query->where('extcredits5', '<=', $value);
+        });
 
-        $ratingType = match ($dtoRequest->ratingType) {
+        $orderType = match ($dtoRequest->orderType) {
             default => 'created_at',
+            'createDate' => 'created_at',
             'like' => 'like_me_count',
             'dislike' => 'dislike_me_count',
             'follow' => 'follow_me_count',
@@ -190,23 +192,22 @@ class UserController extends Controller
             'extcredits3' => 'extcredits3',
             'extcredits4' => 'extcredits4',
             'extcredits5' => 'extcredits5',
-            'createTime' => 'created_at',
         };
 
-        $ratingOrder = match ($dtoRequest->ratingOrder) {
+        $orderDirection = match ($dtoRequest->orderDirection) {
             default => 'desc',
             'asc' => 'asc',
             'desc' => 'desc',
         };
 
-        $userQuery->orderBy($ratingType, $ratingOrder);
+        $userQuery->orderBy($orderType, $orderDirection);
 
         $userData = $userQuery->paginate($request->get('pageSize', 15));
 
         $userList = [];
         $service = new UserService();
         foreach ($userData as $user) {
-            $userList[] = $service->userList($user->user, $headers['langTag'], $headers['timezone'], $authUserId);
+            $userList[] = $service->userList($user->user, $langTag, $timezone, $authUserId);
         }
 
         return $this->fresnsPaginate($userList, $userData->total(), $userData->perPage());
@@ -225,23 +226,28 @@ class UserController extends Controller
             throw new ApiException(31602);
         }
 
-        $headers = HeaderService::getHeaders();
-
-        $authUserId = null;
-        if (! empty($headers['uid'])) {
-            $authUserId = PrimaryHelper::fresnsUserIdByUid($headers['uid']);
+        if ($viewUser->is_enable == 0) {
+            throw new ApiException(35202);
         }
 
-        $seoData = Seo::where('linked_type', Seo::TYPE_USER)->where('linked_id', $viewUser->id)->where('lang_tag', $headers['langTag'])->first();
+        if ($viewUser->wait_delete == 1) {
+            throw new ApiException(35203);
+        }
 
-        $common['title'] = $seoData->title ?? null;
-        $common['keywords'] = $seoData->keywords ?? null;
-        $common['description'] = $seoData->description ?? null;
-        $common['manages'] = ExtendUtility::getPluginExtends(PluginUsage::TYPE_MANAGE, null, PluginUsage::SCENE_USER, $authUserId, $headers['langTag']);
-        $data['commons'] = $common;
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
+
+        $seoData = Seo::where('usage_type', Seo::TYPE_USER)->where('usage_id', $viewUser->id)->where('lang_tag', $langTag)->first();
+
+        $item['title'] = $seoData->title ?? null;
+        $item['keywords'] = $seoData->keywords ?? null;
+        $item['description'] = $seoData->description ?? null;
+        $item['manages'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_MANAGE, null, PluginUsage::SCENE_USER, $authUserId, $langTag);
+        $data['items'] = $item;
 
         $service = new UserService();
-        $data['detail'] = $service->userDetail($viewUser, $headers['langTag'], $headers['timezone'], $authUserId);
+        $data['detail'] = $service->userDetail($viewUser, $langTag, $timezone, $authUserId);
 
         return $this->success($data);
     }
@@ -263,21 +269,20 @@ class UserController extends Controller
         $requestData['type'] = $type;
         $dtoRequest = new InteractiveDTO($requestData);
 
-        $markSet = ConfigHelper::fresnsConfigByItemKey("it_{$dtoRequest->type}_users");
-        if (! $markSet) {
-            throw new ApiException(36201);
-        }
+        $orderDirection = $dtoRequest->orderDirection ?: 'desc';
 
-        $timeOrder = $dtoRequest->timeOrder ?: 'desc';
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
 
-        $headers = HeaderService::getHeaders();
-        $authUserId = null;
-        if (! empty($headers['uid'])) {
-            $authUserId = PrimaryHelper::fresnsUserIdByUid($headers['uid']);
+        if ($viewUser->id == $authUserId) {
+            InteractiveService::checkMyInteractiveSetting($dtoRequest->type, 'user');
+        } else {
+            InteractiveService::checkInteractiveSetting($dtoRequest->type, 'user');
         }
 
         $service = new InteractiveService();
-        $data = $service->getUsersWhoMarkIt($dtoRequest->type, InteractiveService::TYPE_USER, $viewUser->id, $timeOrder, $headers['langTag'], $headers['timezone'], $authUserId);
+        $data = $service->getUsersWhoMarkIt($dtoRequest->type, InteractiveService::TYPE_USER, $viewUser->id, $orderDirection, $langTag, $timezone, $authUserId);
 
         return $this->fresnsPaginate($data['paginateData'], $data['interactiveData']->total(), $data['interactiveData']->perPage());
     }
@@ -305,17 +310,14 @@ class UserController extends Controller
             throw new ApiException(36201);
         }
 
-        $headers = HeaderService::getHeaders();
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
 
-        $authUserId = null;
-        if (! empty($headers['uid'])) {
-            $authUserId = PrimaryHelper::fresnsUserIdByUid($headers['uid']);
-        }
-
-        $timeOrder = $dtoRequest->timeOrder ?: 'desc';
+        $orderDirection = $dtoRequest->orderDirection ?: 'desc';
 
         $service = new InteractiveService();
-        $data = $service->getItMarkList($dtoRequest->markType, $dtoRequest->listType, $viewUser->id, $timeOrder, $headers['langTag'], $headers['timezone'], $authUserId);
+        $data = $service->getItMarkList($dtoRequest->markType, $dtoRequest->listType, $viewUser->id, $orderDirection, $langTag, $timezone, $authUserId);
 
         return $this->fresnsPaginate($data['paginateData'], $data['markData']->total(), $data['markData']->perPage());
     }
@@ -335,25 +337,49 @@ class UserController extends Controller
             throw new ApiException(31602);
         }
 
-        $headers = HeaderService::getHeaders();
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
 
         $password = base64_decode($dtoRequest->password, true);
 
+        // session log
+        $sessionLog = [
+            'type' => SessionLog::TYPE_USER_LOGIN,
+            'pluginUnikey' => 'Fresns',
+            'platformId' => $this->platformId(),
+            'version' => $this->version(),
+            'langTag' => $this->langTag(),
+            'aid' => $this->account()->aid,
+            'uid' => $authUser->uid,
+            'objectName' => route('api.user.auth'),
+            'objectAction' => 'User Auth',
+            'objectResult' => SessionLog::STATE_SUCCESS,
+            'objectOrderId' => null,
+            'deviceInfo' => $this->deviceInfo(),
+            'deviceToken' => $dtoRequest->deviceToken,
+            'moreJson' => null,
+        ];
+
         // login
         $wordBody = [
-            'aid' => $headers['aid'],
+            'aid' => $request->header('aid'),
             'uid' => $authUser->uid,
             'password' => $password,
         ];
         $fresnsResponse = \FresnsCmdWord::plugin('Fresns')->verifyUser($wordBody);
 
         if ($fresnsResponse->isErrorResponse()) {
+            // upload session log
+            $sessionLog['objectAction'] = 'verifyUser';
+            $sessionLog['objectResult'] = SessionLog::STATE_FAILURE;
+            \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
+
             return $fresnsResponse->errorResponse();
         }
 
         // create token
         $createTokenWordBody = [
-            'platformId' => $headers['platformId'],
+            'platformId' => $request->header('platformId'),
             'aid' => $fresnsResponse->getData('aid'),
             'uid' => $fresnsResponse->getData('uid'),
             'expiredTime' => null,
@@ -361,6 +387,11 @@ class UserController extends Controller
         $fresnsTokenResponse = \FresnsCmdWord::plugin('Fresns')->createSessionToken($createTokenWordBody);
 
         if ($fresnsTokenResponse->isErrorResponse()) {
+            // upload session log
+            $sessionLog['objectAction'] = 'createSessionToken';
+            $sessionLog['objectResult'] = SessionLog::STATE_FAILURE;
+            \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
+
             return $fresnsTokenResponse->errorResponse();
         }
 
@@ -371,7 +402,10 @@ class UserController extends Controller
 
         // get user data
         $service = new UserService();
-        $data['detail'] = $service->userDetail($authUser, $headers['langTag'], $headers['timezone']);
+        $data['detail'] = $service->userDetail($authUser, $langTag, $timezone);
+
+        // upload session log
+        \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
         return $this->success($data);
     }
@@ -379,15 +413,12 @@ class UserController extends Controller
     // panel
     public function panel()
     {
-        $headers = HeaderService::getHeaders();
-        $authUserId = PrimaryHelper::fresnsUserIdByUid($headers['uid']);
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()->id;
 
-        if (empty($authUserId)) {
-            throw new ApiException(31602);
-        }
-
-        $data['features'] = ExtendUtility::getPluginExtends(7, null, null, $authUserId, $headers['langTag']);
-        $data['profiles'] = ExtendUtility::getPluginExtends(8, null, null, $authUserId, $headers['langTag']);
+        $data['features'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_FEATURE, null, null, $authUserId, $langTag);
+        $data['profiles'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_PROFILE, null, null, $authUserId, $langTag);
 
         $dialogACount = Dialog::where('a_user_id', $authUserId)->where('a_is_read', 0)->where('a_is_display', 1)->count();
         $dialogBCount = Dialog::where('b_user_id', $authUserId)->where('b_is_read', 0)->where('b_is_display', 1)->count();
@@ -409,6 +440,17 @@ class UserController extends Controller
         $draftCount['comments'] = CommentLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count();
         $data['draftCount'] = $draftCount;
 
+        $cacheKey = "fresns_api_publish_{$authUserId}_{$langTag}_{$timezone}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+
+        $publish = Cache::remember($cacheKey, $cacheTime, function () use ($authUserId, $langTag, $timezone) {
+            $publish['post'] = ConfigUtility::getPublishConfigByType($authUserId, 'post', $langTag, $timezone);
+            $publish['comment'] = ConfigUtility::getPublishConfigByType($authUserId, 'comment', $langTag, $timezone);
+
+            return $publish;
+        });
+        $data['publish'] = $publish;
+
         return $this->success($data);
     }
 
@@ -416,7 +458,8 @@ class UserController extends Controller
     public function edit(Request $request)
     {
         $dtoRequest = new UserEditDTO($request->all());
-        $headers = HeaderService::getHeaders();
+
+        $authUser = $this->user();
 
         if ($dtoRequest->avatarFid && $dtoRequest->avatarUrl) {
             throw new ApiException(30005);
@@ -425,8 +468,6 @@ class UserController extends Controller
         if ($dtoRequest->bannerFid && $dtoRequest->bannerUrl) {
             throw new ApiException(30005);
         }
-
-        $authUser = User::where('uid', $headers['uid'])->first();
 
         $editNameConfig = ConfigHelper::fresnsConfigByItemKeys([
             'username_edit',
@@ -575,16 +616,12 @@ class UserController extends Controller
             $validateBio = ValidationUtility::bio($bio);
 
             if (! $validateBio['banWord']) {
-                throw new ApiException(33105);
+                throw new ApiException(33301);
             }
 
             if (! $validateBio['length']) {
-                throw new ApiException(33106);
+                throw new ApiException(33302);
             }
-
-            $blockWords = BlockWord::where('user_mode', 2)->get('word', 'replace_word');
-
-            $newBio = str_ireplace($blockWords->pluck('word')->toArray(), $blockWords->pluck('replace_word')->toArray(), $bio);
 
             $bioConfig = ConfigHelper::fresnsConfigByItemKeys([
                 'bio_support_mention',
@@ -593,19 +630,19 @@ class UserController extends Controller
             ]);
 
             if ($bioConfig['bio_support_mention']) {
-                ContentUtility::saveMention($newBio, Mention::TYPE_USER, $authUser->id, $authUser->id);
+                ContentUtility::saveMention($bio, Mention::TYPE_USER, $authUser->id, $authUser->id);
             }
 
             if ($bioConfig['bio_support_link']) {
-                ContentUtility::saveLink($newBio, DomainLinkLinked::TYPE_USER, $authUser->id);
+                ContentUtility::saveLink($bio, DomainLinkUsage::TYPE_USER, $authUser->id);
             }
 
             if ($bioConfig['bio_support_hashtag']) {
-                ContentUtility::saveHashtag($newBio, HashtagLinked::TYPE_USER, $authUser->id);
+                ContentUtility::saveHashtag($bio, HashtagUsage::TYPE_USER, $authUser->id);
             }
 
             $authUser->update([
-                'gender' => $newBio,
+                'gender' => $bio,
             ]);
         }
 
@@ -638,6 +675,33 @@ class UserController extends Controller
             ]);
         }
 
+        // edit archives
+        if ($dtoRequest->archives) {
+            ContentUtility::saveArchiveUsages(ArchiveUsage::TYPE_USER, $authUser->id, $dtoRequest->archives);
+        }
+
+        // session log
+        $sessionLog = [
+            'type' => SessionLog::TYPE_USER_EDIT_DATA,
+            'pluginUnikey' => 'Fresns',
+            'platformId' => $this->platformId(),
+            'version' => $this->version(),
+            'langTag' => $this->langTag(),
+            'aid' => $this->account()->aid,
+            'uid' => $authUser->uid,
+            'objectName' => route('api.user.edit'),
+            'objectAction' => 'User Edit Data',
+            'objectResult' => SessionLog::STATE_SUCCESS,
+            'objectOrderId' => null,
+            'deviceInfo' => $this->deviceInfo(),
+            'deviceToken' => null,
+            'moreJson' => null,
+        ];
+        // upload session log
+        \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
+
+        CacheHelper::forgetApiUser($authUser->uid);
+
         return $this->success();
     }
 
@@ -651,46 +715,97 @@ class UserController extends Controller
             throw new ApiException(36200);
         }
 
-        $headers = HeaderService::getHeaders();
-        $authUserId = PrimaryHelper::fresnsUserIdByUid($headers['uid']);
-
         $primaryId = PrimaryHelper::fresnsPrimaryId($dtoRequest->markType, $dtoRequest->fsid);
-
         if (empty($primaryId)) {
             throw new ApiException(32201);
         }
 
+        $authUserId = $this->user()->id;
+
+        $markType = match ($dtoRequest->markType) {
+            'user' => 1,
+            'group' => 2,
+            'hashtag' => 3,
+            'post' => 4,
+            'comment' => 5,
+        };
+
         switch ($dtoRequest->interactiveType) {
             // like
             case 'like':
-                InteractiveUtility::markUserLike($authUserId, $dtoRequest->markType, $primaryId);
+                InteractiveUtility::markUserLike($authUserId, $markType, $primaryId);
             break;
 
             // dislike
             case 'dislike':
-                InteractiveUtility::markUserDislike($authUserId, $dtoRequest->markType, $primaryId);
+                InteractiveUtility::markUserDislike($authUserId, $markType, $primaryId);
             break;
 
             // follow
             case 'follow':
-                $validMark = ValidationUtility::userMarkOwn($authUserId, $dtoRequest->markType, $primaryId);
+                $validMark = ValidationUtility::userMarkOwn($authUserId, $markType, $primaryId);
                 if (! $validMark) {
                     throw new ApiException(36202);
                 }
 
-                InteractiveUtility::markUserFollow($authUserId, $dtoRequest->markType, $primaryId);
+                InteractiveUtility::markUserFollow($authUserId, $markType, $primaryId);
             break;
 
             // block
             case 'block':
-                $validMark = ValidationUtility::userMarkOwn($authUserId, $dtoRequest->markType, $primaryId);
+                $validMark = ValidationUtility::userMarkOwn($authUserId, $markType, $primaryId);
                 if (! $validMark) {
                     throw new ApiException(36202);
                 }
 
-                InteractiveUtility::markUserBlock($authUserId, $dtoRequest->markType, $primaryId);
+                InteractiveUtility::markUserBlock($authUserId, $markType, $primaryId);
             break;
         }
+
+        return $this->success();
+    }
+
+    // mark note
+    public function markNote(Request $request)
+    {
+        $dtoRequest = new UserMarkNoteDTO($request->all());
+
+        $primaryId = PrimaryHelper::fresnsPrimaryId($dtoRequest->markType, $dtoRequest->fsid);
+        if (empty($primaryId)) {
+            throw new ApiException(32201);
+        }
+
+        $authUserId = $this->user()->id;
+
+        $markType = match ($dtoRequest->markType) {
+            'user' => 1,
+            'group' => 2,
+            'hashtag' => 3,
+            'post' => 4,
+            'comment' => 5,
+        };
+
+        switch ($dtoRequest->interactiveType) {
+            // follow
+            case 'follow':
+                $userNote = UserFollow::withTrashed()->where('user_id', $authUserId)->type($markType)->where('follow_id', $primaryId)->first();
+            break;
+
+            // block
+            case 'block':
+                $userNote = UserBlock::withTrashed()->where('user_id', $authUserId)->type($markType)->where('block_id', $primaryId)->first();
+            break;
+        }
+
+        if (empty($dtoRequest->note)) {
+            $userNote->update([
+                'user_note' => null,
+            ]);
+        }
+
+        $userNote->update([
+            'user_note' => $dtoRequest->note,
+        ]);
 
         return $this->success();
     }

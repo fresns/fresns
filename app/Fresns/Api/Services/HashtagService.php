@@ -9,20 +9,25 @@
 namespace App\Fresns\Api\Services;
 
 use App\Helpers\InteractiveHelper;
-use App\Models\ExtendLinked;
+use App\Models\ArchiveUsage;
+use App\Models\ExtendUsage;
 use App\Models\Hashtag;
-use App\Models\IconLinked;
-use App\Models\TipLinked;
+use App\Models\OperationUsage;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractiveUtility;
 
 class HashtagService
 {
-    public function hashtagList(Hashtag $hashtag, string $langTag, ?int $authUserId = null)
+    public function hashtagList(?Hashtag $hashtag, string $langTag, ?int $authUserId = null)
     {
+        if (! $hashtag) {
+            return null;
+        }
+
         $hashtagInfo = $hashtag->getHashtagInfo($langTag);
 
-        $item['icons'] = ExtendUtility::getIcons(IconLinked::TYPE_HASHTAG, $hashtag->id, $langTag);
+        $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_HASHTAG, $hashtag->id, $langTag);
+        $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_HASHTAG, $hashtag->id, $langTag);
 
         $interactiveConfig = InteractiveHelper::fresnsHashtagInteractive($langTag);
         $interactiveStatus = InteractiveUtility::checkInteractiveStatus(InteractiveUtility::TYPE_HASHTAG, $hashtag->id, $authUserId);
@@ -37,9 +42,9 @@ class HashtagService
     {
         $hashtagInfo = $hashtag->getHashtagInfo($langTag);
 
-        $item['icons'] = ExtendUtility::getIcons(IconLinked::TYPE_HASHTAG, $hashtag->id, $langTag);
-        $item['tips'] = ExtendUtility::getTips(TipLinked::TYPE_HASHTAG, $hashtag->id, $langTag);
-        $item['extends'] = ExtendUtility::getExtends(ExtendLinked::TYPE_HASHTAG, $hashtag->id, $langTag);
+        $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_HASHTAG, $hashtag->id, $langTag);
+        $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_HASHTAG, $hashtag->id, $langTag);
+        $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_HASHTAG, $hashtag->id, $langTag);
 
         $interactiveConfig = InteractiveHelper::fresnsHashtagInteractive($langTag);
         $interactiveStatus = InteractiveUtility::checkInteractiveStatus(InteractiveUtility::TYPE_HASHTAG, $hashtag->id, $authUserId);

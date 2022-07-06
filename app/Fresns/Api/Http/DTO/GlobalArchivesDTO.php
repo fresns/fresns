@@ -10,7 +10,7 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class InteractiveDTO extends DTO
+class GlobalArchivesDTO extends DTO
 {
     /**
      * @return array
@@ -18,10 +18,8 @@ class InteractiveDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => ['string', 'required', 'in:like,dislike,follow,block'],
-            'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
-            'pageSize' => ['integer', 'nullable', 'between:1,20'],
-            'page' => ['integer', 'nullable'],
+            'type' => ['string', 'required', 'in:user,group,hashtag,post,comment'],
+            'unikey' => ['string', 'nullable'],
         ];
     }
 }

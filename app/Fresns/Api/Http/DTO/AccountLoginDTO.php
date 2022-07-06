@@ -23,6 +23,7 @@ class AccountLoginDTO extends DTO
             'countryCode' => ['integer', 'nullable', 'required_if:type,phone'],
             'password' => ['string', 'nullable', 'required_without:verifyCode'],
             'verifyCode' => ['string', 'nullable', 'required_without:password'],
+            'deviceToken' => ['string', 'nullable'],
         ];
     }
 }

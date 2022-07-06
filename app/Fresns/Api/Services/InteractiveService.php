@@ -8,6 +8,8 @@
 
 namespace App\Fresns\Api\Services;
 
+use App\Exceptions\ApiException;
+use App\Helpers\ConfigHelper;
 use App\Models\UserBlock;
 use App\Models\UserFollow;
 use App\Models\UserLike;
@@ -20,8 +22,53 @@ class InteractiveService
     const TYPE_POST = 4;
     const TYPE_COMMENT = 5;
 
+    // check interactive setting
+    public static function checkInteractiveSetting(string $interactiveType, string $markType)
+    {
+        $setKey = match ($interactiveType) {
+            'like' => "{$markType}_likers",
+            'dislike' => "{$markType}_dislikers",
+            'follow' => "{$markType}_followers",
+            'block' => "{$markType}_blockers",
+        };
+
+        $interactiveSet = ConfigHelper::fresnsConfigByItemKey($setKey);
+        if (! $interactiveSet) {
+            throw new ApiException(36201);
+        }
+    }
+
+    // check my interactive setting
+    public static function checkMyInteractiveSetting(string $interactiveType, string $markType)
+    {
+        $setKey = match ($interactiveType) {
+            'like' => "{$markType}_likers",
+            'dislike' => "{$markType}_dislikers",
+            'follow' => "{$markType}_followers",
+            'block' => "{$markType}_blockers",
+        };
+
+        $interactiveSet = ConfigHelper::fresnsConfigByItemKey($setKey);
+        if ($interactiveSet) {
+            return;
+        }
+
+        $mySetKey = match ($interactiveType) {
+            'like' => 'my_likers',
+            'dislike' => 'my_dislikers',
+            'follow' => 'my_followers',
+            'block' => 'my_blockers',
+        };
+
+        $myInteractiveSet = ConfigHelper::fresnsConfigByItemKey($mySetKey);
+        if (! $myInteractiveSet) {
+            throw new ApiException(36201);
+        }
+
+    }
+
     // get the users who marked it
-    public function getUsersWhoMarkIt(string $getType, string $markType, int $markId, string $timeOrder, string $langTag, string $timezone, ?string $authUserId = null)
+    public function getUsersWhoMarkIt(string $getType, string $markType, int $markId, string $orderDirection, string $langTag, string $timezone, ?string $authUserId = null)
     {
         switch ($getType) {
                 // like
@@ -47,7 +94,7 @@ class InteractiveService
 
         $interactiveData = $interactiveQuery->with('creator')
             ->type($markType)
-            ->orderBy('created_at', $timeOrder)
+            ->orderBy('created_at', $orderDirection)
             ->paginate(\request()->get('pageSize', 15));
 
         $service = new UserService();
@@ -64,7 +111,7 @@ class InteractiveService
     }
 
     // get a list of the content it marks
-    public function getItMarkList(string $getType, string $markTypeName, int $userId, string $timeOrder, string $langTag, string $timezone, ?string $authUserId = null)
+    public function getItMarkList(string $getType, string $markTypeName, int $userId, string $orderDirection, string $langTag, string $timezone, ?string $authUserId = null)
     {
         switch ($getType) {
             // like
@@ -105,7 +152,7 @@ class InteractiveService
         $markData = $markQuery->with('user')
             ->where('user_id', $userId)
             ->type($markType)
-            ->orderBy('created_at', $timeOrder)
+            ->orderBy('created_at', $orderDirection)
             ->paginate(\request()->get('pageSize', 15));
 
         $paginateData = [];

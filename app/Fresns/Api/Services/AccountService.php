@@ -41,9 +41,9 @@ class AccountService
 
     public function accountData(Account $account, string $langTag, string $timezone)
     {
-        $common['walletRecharges'] = ExtendUtility::getPluginExtends(PluginUsage::TYPE_WALLET_RECHARGE, null, null, $account->id, $langTag);
-        $common['walletWithdraws'] = ExtendUtility::getPluginExtends(PluginUsage::TYPE_WALLET_WITHDRAW, null, null, $account->id, $langTag);
-        $data['commons'] = $common;
+        $item['walletRecharges'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_WALLET_RECHARGE, null, null, $account->id, $langTag);
+        $item['walletWithdraws'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_WALLET_WITHDRAW, null, null, $account->id, $langTag);
+        $data['items'] = $item;
 
         $service = new AccountService();
         $data['detail'] = $service->accountDetail($account, $langTag, $timezone);

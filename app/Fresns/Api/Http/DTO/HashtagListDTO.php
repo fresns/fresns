@@ -18,22 +18,22 @@ class HashtagListDTO extends DTO
     public function rules(): array
     {
         return [
-            'likeCountGt' => ['integer', 'nullable', 'lt:likeCountLt'],
+            'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // hashtags->created_at
+            'createDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createDateGt'],
+            'likeCountGt' => ['integer', 'nullable', 'lt:likeCountLt'], // hashtags->like_count
             'likeCountLt' => ['integer', 'nullable', 'gt:likeCountGt'],
-            'dislikeCountGt' => ['integer', 'nullable', 'lt:dislikeCountLt'],
+            'dislikeCountGt' => ['integer', 'nullable', 'lt:dislikeCountLt'], // hashtags->dislike_count
             'dislikeCountLt' => ['integer', 'nullable', 'gt:dislikeCountGt'],
-            'followCountGt' => ['integer', 'nullable', 'lt:followCountLt'],
+            'followCountGt' => ['integer', 'nullable', 'lt:followCountLt'], // hashtags->follow_count
             'followCountLt' => ['integer', 'nullable', 'gt:followCountGt'],
-            'blockCountGt' => ['integer', 'nullable', 'lt:blockCountLt'],
+            'blockCountGt' => ['integer', 'nullable', 'lt:blockCountLt'], // hashtags->block_count
             'blockCountLt' => ['integer', 'nullable', 'gt:blockCountGt'],
-            'postCountGt' => ['integer', 'nullable', 'lt:postCountLt'],
+            'postCountGt' => ['integer', 'nullable', 'lt:postCountLt'], // hashtags->post_count
             'postCountLt' => ['integer', 'nullable', 'gt:postCountGt'],
-            'postDigestCountGt' => ['integer', 'nullable', 'lt:postDigestCountLt'],
+            'postDigestCountGt' => ['integer', 'nullable', 'lt:postDigestCountLt'], // hashtags->post_digest_count
             'postDigestCountLt' => ['integer', 'nullable', 'gt:postDigestCountGt'],
-            'createTimeGt' => ['date_format:Y-m-d', 'nullable', 'before:createTimeLt'],
-            'createTimeLt' => ['date_format:Y-m-d', 'nullable', 'after:createTimeGt'],
-            'ratingType' => ['string', 'nullable', 'in:like,follow,block,post,postDigest,createTime'],
-            'ratingOrder' => ['string', 'nullable', 'in:asc,desc'],
+            'orderType' => ['string', 'nullable', 'in:createDate,like,follow,block,post,postDigest'],
+            'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
             'pageSize' => ['integer', 'nullable', 'between:1,20'],
             'page' => ['integer', 'nullable'],
         ];

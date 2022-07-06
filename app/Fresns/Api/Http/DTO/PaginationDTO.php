@@ -18,6 +18,7 @@ class PaginationDTO extends DTO
     public function rules(): array
     {
         return [
+            'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
             'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],
         ];

@@ -25,7 +25,7 @@ class CommonUploadLogDTO extends DTO
             'objectResult' => ['integer', 'required', 'in:1,2,3'],
             'objectOrderId' => ['integer', 'nullable'],
             'deviceToken' => ['string', 'nullable'],
-            'moreJson' => ['string', 'nullable'],
+            'moreJson' => ['array', 'nullable'],
         ];
     }
 }
