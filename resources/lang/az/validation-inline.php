@@ -1,14 +1,19 @@
 <?php
 
 /*
- * Fresns (https://fresns.org)
- * Copyright (C) 2021-Present Jarvis Tang
- * Released under the Apache-2.0 License.
- */
+|--------------------------------------------------------------------------
+| Validation Language Lines
+|--------------------------------------------------------------------------
+|
+| The following language lines contain the default error messages used by
+| the validator class. Some of these rules have multiple versions such
+| as the size rules. Feel free to tweak each of these messages here.
+|
+*/
 
 return [
     'accepted'             => 'Bu sahə qəbul edilməlidir.',
-    'accepted_if'          => 'This field must be accepted when :other is :value.',
+    'accepted_if'          => 'Bu sahə :other :value olduqda qəbul edilməlidir.',
     'active_url'           => 'Bu etibarsız URL edir.',
     'after'                => ':date-dan sonra tarix olmalıdır.',
     'after_or_equal'       => ':date-dan sonra və ya bərabər bir tarix olmalıdır.',
@@ -19,19 +24,19 @@ return [
     'before'               => 'Bu :date qədər tarix olmalıdır.',
     'before_or_equal'      => 'Bu :date-cu il əvvəlki və ya bərabər tarixi olmalıdır.',
     'between'              => [
-        'array'   => 'This content must have between :min and :max items.',
-        'file'    => 'This file must be between :min and :max kilobytes.',
-        'numeric' => 'This value must be between :min and :max.',
-        'string'  => 'This string must be between :min and :max characters.',
+        'array'   => 'Bu məzmunda :min və :max elementləri olmalıdır.',
+        'file'    => 'Bu fayl :min və :max kilobayt arasında olmalıdır.',
+        'numeric' => 'Bu dəyər :min və :max arasında olmalıdır.',
+        'string'  => 'Bu sətir :min və :max simvolları arasında olmalıdır.',
     ],
     'boolean'              => 'Bu sahə doğru və ya yalan olmalıdır.',
     'confirmed'            => 'Təsdiq üst-üstə düşmür.',
-    'current_password'     => 'The password is incorrect.',
+    'current_password'     => 'Parol səhvdir.',
     'date'                 => 'Bu etibarlı tarix deyil.',
     'date_equals'          => 'Bu, :date-cü ilə bərabər tarix olmalıdır.',
     'date_format'          => 'Bu format :format uyğun deyil.',
-    'declined'             => 'This value must be declined.',
-    'declined_if'          => 'This value must be declined when :other is :value.',
+    'declined'             => 'Bu dəyərdən imtina edilməlidir.',
+    'declined_if'          => 'Bu dəyər :other :value olduqda rədd edilməlidir.',
     'different'            => 'Bu dəyər :other-dan fərqli olmalıdır.',
     'digits'               => 'Bu :digits rəqəm olmalıdır.',
     'digits_between'       => 'Bu :min və :max rəqəmlər arasında olmalıdır.',
@@ -39,21 +44,21 @@ return [
     'distinct'             => 'Bu sahədə bir təkrarlanan dəyəri var.',
     'email'                => 'Bu etibarlı e-mail olmalıdır.',
     'ends_with'            => 'Bu, aşağıdakı nöqtələrdən biri ilə başa çatmalıdır: :values.',
-    'enum'                 => 'The selected value is invalid.',
+    'enum'                 => 'Seçilmiş dəyər etibarsızdır.',
     'exists'               => 'Seçilmiş dəyər yolverilməzdir.',
     'file'                 => 'Məzmun bir fayl olmalıdır.',
     'filled'               => 'Bu sahədə bir fərq olmalıdır.',
     'gt'                   => [
-        'array'   => 'The content must have more than :value items.',
-        'file'    => 'The file size must be greater than :value kilobytes.',
-        'numeric' => 'The value must be greater than :value.',
-        'string'  => 'The string must be greater than :value characters.',
+        'array'   => 'Məzmunda :value çox element olmalıdır.',
+        'file'    => 'Fayl ölçüsü :value kilobaytdan böyük olmalıdır.',
+        'numeric' => 'Dəyər :value böyük olmalıdır.',
+        'string'  => 'Sətir :value simvollarından böyük olmalıdır.',
     ],
     'gte'                  => [
-        'array'   => 'The content must have :value items or more.',
-        'file'    => 'The file size must be greater than or equal :value kilobytes.',
-        'numeric' => 'The value must be greater than or equal :value.',
-        'string'  => 'The string must be greater than or equal :value characters.',
+        'array'   => 'Məzmunda :value elementləri və ya daha çox olmalıdır.',
+        'file'    => 'Fayl ölçüsü :value kilobaytdan böyük və ya ona bərabər olmalıdır.',
+        'numeric' => 'Dəyər :value böyük və ya bərabər olmalıdır.',
+        'string'  => 'Sətir :value simvollarından böyük və ya bərabər olmalıdır.',
     ],
     'image'                => 'Bu şəkil olmalıdır edir.',
     'in'                   => 'Seçilmiş dəyər yolverilməzdir.',
@@ -64,31 +69,31 @@ return [
     'ipv6'                 => 'Bu etibarlı IPv6 ünvanı olmalıdır.',
     'json'                 => 'Bu caiz string JSON olmalıdır edir.',
     'lt'                   => [
-        'array'   => 'The content must have less than :value items.',
-        'file'    => 'The file size must be less than :value kilobytes.',
-        'numeric' => 'The value must be less than :value.',
-        'string'  => 'The string must be less than :value characters.',
+        'array'   => 'Məzmun :value elementlərindən az olmalıdır.',
+        'file'    => 'Fayl ölçüsü :value kilobaytdan kiçik olmalıdır.',
+        'numeric' => 'Dəyər :value kiçik olmalıdır.',
+        'string'  => 'Sətir :value simvollarından kiçik olmalıdır.',
     ],
     'lte'                  => [
-        'array'   => 'The content must not have more than :value items.',
-        'file'    => 'The file size must be less than or equal :value kilobytes.',
-        'numeric' => 'The value must be less than or equal :value.',
-        'string'  => 'The string must be less than or equal :value characters.',
+        'array'   => 'Məzmunda :value elementindən çox olmamalıdır.',
+        'file'    => 'Fayl ölçüsü :value kilobaytdan kiçik və ya ona bərabər olmalıdır.',
+        'numeric' => 'Dəyər :value kiçik və ya ona bərabər olmalıdır.',
+        'string'  => 'Sətir :value simvollarından kiçik və ya bərabər olmalıdır.',
     ],
-    'mac_address'          => 'The value must be a valid MAC address.',
+    'mac_address'          => 'Dəyər etibarlı MAC ünvanı olmalıdır.',
     'max'                  => [
-        'array'   => 'The content must not have more than :max items.',
-        'file'    => 'The file size must not be greater than :max kilobytes.',
-        'numeric' => 'The value must not be greater than :max.',
-        'string'  => 'The string must not be greater than :max characters.',
+        'array'   => 'Məzmun :max-dan çox olmamalıdır.',
+        'file'    => 'Fayl ölçüsü :max kilobaytdan çox olmamalıdır.',
+        'numeric' => 'Dəyər :max-dan çox olmamalıdır.',
+        'string'  => 'Sətir :max simvollarından çox olmamalıdır.',
     ],
     'mimes'                => 'Bu fayl növü olmalıdır: :values.',
     'mimetypes'            => 'Bu fayl növü olmalıdır: :values.',
     'min'                  => [
-        'array'   => 'The value must have at least :min items.',
-        'file'    => 'The file size must be at least :min kilobytes.',
-        'numeric' => 'The value must be at least :min.',
-        'string'  => 'The string must be at least :min characters.',
+        'array'   => 'Dəyərin ən azı :min elementləri olmalıdır.',
+        'file'    => 'Fayl ölçüsü ən azı :min kilobayt olmalıdır.',
+        'numeric' => 'Dəyər ən azı :min olmalıdır.',
+        'string'  => 'Sətir ən azı :min simvoldan ibarət olmalıdır.',
     ],
     'multiple_of'          => 'Bu dəyər çox olmalıdır :value',
     'not_in'               => 'Seçilmiş dəyər yolverilməzdir.',
@@ -99,10 +104,10 @@ return [
     'prohibited'           => 'Bu sahə qadağandır.',
     'prohibited_if'        => ':other :value-ə bərabər olduqda bu sahə qadağandır.',
     'prohibited_unless'    => ':other yalnız :values-da olmadıqda bu sahə qadağandır.',
-    'prohibits'            => 'This field prohibits :other from being present.',
+    'prohibits'            => 'Bu sahə :other mövcud olmasını qadağan edir.',
     'regex'                => 'Bu format yolverilməzdir.',
     'required'             => 'Bu sahədə məcburidir.',
-    'required_array_keys'  => 'This field must contain entries for: :values.',
+    'required_array_keys'  => 'Bu sahədə aşağıdakılar üçün qeydlər olmalıdır: :values.',
     'required_if'          => ':other :value olduğu təqdirdə bu sahə məcburidir.',
     'required_unless'      => 'Yalnız :other :values deyil, bu sahədə bir olmalıdır edir.',
     'required_with'        => 'Bu sahə :values mövcud olduqda tələb olunur.',
@@ -111,10 +116,10 @@ return [
     'required_without_all' => 'Heç biri :values mövcud olduqda bu sahə məcburidir.',
     'same'                 => 'Bu sahənin dəyəri :other dəyəri ilə üst-üstə düşməlidir.',
     'size'                 => [
-        'array'   => 'The content must contain :size items.',
-        'file'    => 'The file size must be :size kilobytes.',
-        'numeric' => 'The value must be :size.',
-        'string'  => 'The string must be :size characters.',
+        'array'   => 'Məzmun :size elementləri ehtiva etməlidir.',
+        'file'    => 'Fayl ölçüsü :size kilobayt olmalıdır.',
+        'numeric' => 'Dəyər :size olmalıdır.',
+        'string'  => 'Sətir :size simvolları olmalıdır.',
     ],
     'starts_with'          => 'Bu, aşağıdakı nöqtələrdən biri ilə başlamalıdır: :values.',
     'string'               => 'Bu, yəqin ki, bir simli var.',
@@ -125,7 +130,7 @@ return [
     'uuid'                 => 'Bu etibarlı UUID olmalıdır.',
     'custom'               => [
         'attribute-name' => [
-            'rule-name' => 'custom-message',
+            'rule-name' => 'xüsusi mesaj',
         ],
     ],
 ];

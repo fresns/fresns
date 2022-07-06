@@ -1,14 +1,19 @@
 <?php
 
 /*
- * Fresns (https://fresns.org)
- * Copyright (C) 2021-Present Jarvis Tang
- * Released under the Apache-2.0 License.
- */
+|--------------------------------------------------------------------------
+| Validation Language Lines
+|--------------------------------------------------------------------------
+|
+| The following language lines contain the default error messages used by
+| the validator class. Some of these rules have multiple versions such
+| as the size rules. Feel free to tweak each of these messages here.
+|
+*/
 
 return [
     'accepted'             => ':attribute mesti diterima pakai.',
-    'accepted_if'          => 'The :attribute must be accepted when :other is :value.',
+    'accepted_if'          => ':attribute mesti diterima pakai sekiranya :other adalah :value.',
     'active_url'           => ':attribute bukan URL yang sah.',
     'after'                => ':attribute mesti tarikh selepas :date.',
     'after_or_equal'       => ':attribute mesti tarikh selepas atau sama dengan :date.',
@@ -26,7 +31,7 @@ return [
     ],
     'boolean'              => ':attribute mesti benar atau salah.',
     'confirmed'            => ':attribute pengesahan yang tidak sepadan.',
-    'current_password'     => 'The password is incorrect.',
+    'current_password'     => 'Katalaluan anda adalah salah.',
     'date'                 => ':attribute bukan tarikh yang sah.',
     'date_equals'          => ':attribute mesti tarikh sama dengan :date.',
     'date_format'          => ':attribute tidak mengikut format :format.',

@@ -1,13 +1,18 @@
 <?php
 
 /*
- * Fresns (https://fresns.org)
- * Copyright (C) 2021-Present Jarvis Tang
- * Released under the Apache-2.0 License.
- */
+|--------------------------------------------------------------------------
+| Authentication Language Lines
+|--------------------------------------------------------------------------
+|
+| The following language lines are used during authentication for various
+| messages that we need to display to the user. You are free to modify
+| these language lines according to your application's requirements.
+|
+*/
 
 return [
     'failed'   => 'Dessa uppgifter stämmer inte överens med vårt register.',
-    'password' => 'The provided password is incorrect.',
+    'password' => 'Angivet lösenord är felaktigt.',
     'throttle' => 'För många inloggningsförsök. Var vänlig försök igen om :seconds sekunder.',
 ];

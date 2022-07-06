@@ -1,13 +1,18 @@
 <?php
 
 /*
- * Fresns (https://fresns.org)
- * Copyright (C) 2021-Present Jarvis Tang
- * Released under the Apache-2.0 License.
- */
+|--------------------------------------------------------------------------
+| Authentication Language Lines
+|--------------------------------------------------------------------------
+|
+| The following language lines are used during authentication for various
+| messages that we need to display to the user. You are free to modify
+| these language lines according to your application's requirements.
+|
+*/
 
 return [
     'failed'   => 'İstifadəçi adı və ya şifrə səhvdir',
-    'password' => 'The provided password is incorrect.',
+    'password' => 'Təqdim olunan parol səhvdir.',
     'throttle' => ':seconds saniyə ərzində yenidən cəhd edin',
 ];
