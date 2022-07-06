@@ -8,17 +8,21 @@
 
 namespace App\Utilities;
 
+use App\Helpers\CacheHelper;
+use App\Helpers\PrimaryHelper;
 use App\Models\Comment;
 use App\Models\Domain;
 use App\Models\DomainLink;
-use App\Models\DomainLinkLinked;
+use App\Models\DomainLinkUsage;
 use App\Models\Group;
 use App\Models\Hashtag;
+use App\Models\Notify;
 use App\Models\Post;
 use App\Models\UserBlock;
 use App\Models\UserFollow;
 use App\Models\UserLike;
 use App\Models\UserStat;
+use Illuminate\Support\Str;
 
 class InteractiveUtility
 {
@@ -93,7 +97,9 @@ class InteractiveUtility
             $status['likeStatus'] = false;
             $status['dislikeStatus'] = false;
             $status['followStatus'] = false;
+            $status['followNote'] = null;
             $status['blockStatus'] = false;
+            $status['blockNote'] = null;
 
             return $status;
         }
@@ -101,7 +107,9 @@ class InteractiveUtility
         $status['likeStatus'] = self::checkUserLike($markType, $markId, $userId);
         $status['dislikeStatus'] = self::checkUserDislike($markType, $markId, $userId);
         $status['followStatus'] = self::checkUserFollow($markType, $markId, $userId);
+        $status['followNote'] = UserFollow::where('user_id', $userId)->type($markType)->where('follow_id', $markId)->value('user_note');
         $status['blockStatus'] = self::checkUserBlock($markType, $markId, $userId);
+        $status['blockNote'] = UserBlock::where('user_id', $userId)->type($markType)->where('block_id', $markId)->value('user_note');
 
         return $status;
     }
@@ -161,6 +169,17 @@ class InteractiveUtility
                 ]);
 
                 InteractiveUtility::markStats($userId, 'like', $likeType, $likeId, 'increment');
+            }
+
+            // like notify
+            if ($likeType == UserLike::TYPE_USER || $likeType == UserLike::TYPE_POST || $likeType == UserLike::TYPE_COMMENT) {
+                $toUserId = match ($likeType) {
+                    UserLike::TYPE_USER => PrimaryHelper::fresnsModelById('user', $likeId)->id,
+                    UserLike::TYPE_POST => PrimaryHelper::fresnsModelById('post', $likeId)->user_id,
+                    UserLike::TYPE_COMMENT => PrimaryHelper::fresnsModelById('comment', $likeId)->user_id,
+                };
+
+                InteractiveUtility::generateNotify($toUserId, Notify::TYPE_LIKE, $userId, $likeType, $likeId);
             }
         } else {
             if ($userLike->mark_type == UserLike::MARK_TYPE_LIKE) {
@@ -249,7 +268,7 @@ class InteractiveUtility
 
                 InteractiveUtility::markStats($userId, 'follow', $followType, $followId, 'increment');
             } else {
-                // dislike null
+                // follow null
                 UserFollow::updateOrCreate([
                     'user_id' => $userId,
                     'follow_type' => $followType,
@@ -257,6 +276,11 @@ class InteractiveUtility
                 ]);
 
                 InteractiveUtility::markStats($userId, 'follow', $followType, $followId, 'increment');
+            }
+
+            // follow notify
+            if ($followType == UserFollow::TYPE_USER) {
+                InteractiveUtility::generateNotify($followId, Notify::TYPE_FOLLOW, $userId);
             }
         } else {
             $userFollow->delete();
@@ -277,6 +301,11 @@ class InteractiveUtility
                 $itFollow->update(['is_mutual' => 0]);
             }
         }
+
+        $userBlock = UserBlock::where('user_id', $userId)->type($followType)->where('block_id', $followId)->first();
+        if (! empty($userBlock)) {
+            InteractiveUtility::markUserBlock($userId, $followType, $followId);
+        }
     }
 
     public static function markUserBlock(int $userId, int $blockType, int $blockId)
@@ -294,7 +323,7 @@ class InteractiveUtility
 
                 InteractiveUtility::markStats($userId, 'block', $blockType, $blockId, 'increment');
             } else {
-                // dislike null
+                // block null
                 UserBlock::updateOrCreate([
                     'user_id' => $userId,
                     'block_type' => $blockType,
@@ -307,6 +336,15 @@ class InteractiveUtility
             $userBlock->delete();
 
             InteractiveUtility::markStats($userId, 'block', $blockType, $blockId, 'decrement');
+        }
+
+        $userFollow = UserFollow::where('user_id', $userId)->type($blockType)->where('follow_id', $blockId)->first();
+        if (! empty($userFollow)) {
+            InteractiveUtility::markUserFollow($userId, $blockType, $blockId);
+        }
+
+        if ($blockType == UserBlock::TYPE_GROUP) {
+            CacheHelper::forgetFresnsApiInfo("fresns_api_user_{$userId}_groups");
         }
     }
 
@@ -496,7 +534,7 @@ class InteractiveUtility
                 UserStat::where('user_id', $post?->user_id)->$actionType('post_publish_count');
                 Group::where('id', $post?->group_id)->$actionType('post_count');
 
-                $linkIds = DomainLinkLinked::type(DomainLinkLinked::TYPE_POST)->where('linked_id', $post?->id)->pluck('link_id')->toArray();
+                $linkIds = DomainLinkUsage::type(DomainLinkUsage::TYPE_POST)->where('usage_id', $post?->id)->pluck('link_id')->toArray();
                 DomainLink::whereIn('id', $linkIds)->$actionType('post_count');
                 $domainIds = DomainLink::whereIn('id', $linkIds)->pluck('domain_id')->toArray();
                 Domain::whereIn('id', $domainIds)->$actionType('post_count');
@@ -512,7 +550,7 @@ class InteractiveUtility
                 Post::where('id', $comment?->post_id)->$actionType('comment_count');
                 Group::where('id', $comment?->group_id)->$actionType('comment_count');
 
-                $linkIds = DomainLinkLinked::type(DomainLinkLinked::TYPE_POST)->where('linked_id', $comment?->id)->pluck('link_id')->toArray();
+                $linkIds = DomainLinkUsage::type(DomainLinkUsage::TYPE_POST)->where('usage_id', $comment?->id)->pluck('link_id')->toArray();
                 DomainLink::whereIn('id', $linkIds)->$actionType('comment_count');
                 $domainIds = DomainLink::whereIn('id', $linkIds)->pluck('domain_id')->toArray();
                 Domain::whereIn('id', $domainIds)->$actionType('comment_count');
@@ -525,6 +563,42 @@ class InteractiveUtility
                 }
             break;
         }
+    }
+
+    public static function editStats(string $type, int $id, string $actionType)
+    {
+        if (! in_array($actionType, ['increment', 'decrement'])) {
+            return;
+        }
+
+        if (! in_array($type, ['post', 'comment'])) {
+            return;
+        }
+
+        switch ($type) {
+            // post
+            case 'post':
+                $content = Post::with('hashtags')->where('id', $id)->first();
+                $typeNumber = DomainLinkUsage::TYPE_POST;
+            break;
+
+            // comment
+            case 'comment':
+                $content = Comment::with('hashtags')->where('id', $id)->first();
+                $typeNumber = DomainLinkUsage::TYPE_COMMENT;
+            break;
+        }
+
+        Group::where('id', $content?->group_id)->$actionType("{$type}_count");
+
+        $linkIds = DomainLinkUsage::type($typeNumber)->where('usage_id', $content?->id)->pluck('link_id')->toArray();
+        DomainLink::whereIn('id', $linkIds)->$actionType("{$type}_count");
+
+        $domainIds = DomainLink::whereIn('id', $linkIds)->pluck('domain_id')->toArray();
+        Domain::whereIn('id', $domainIds)->$actionType("{$type}_count");
+
+        $hashtagIds = array_column($content->hashtags, 'id');
+        Hashtag::whereIn('id', $hashtagIds)->$actionType("{$type}_count");
     }
 
     /**
@@ -588,5 +662,87 @@ class InteractiveUtility
         if (! empty($comment->parent_id) || $comment->parent_id != 0) {
             InteractiveUtility::parentCommentStats($comment->parent_id, $actionType, $tableColumn);
         }
+    }
+
+    /**
+     * It generates a notification.
+     *
+     * @param int toUserId The user who receives the notification
+     * @param int type The type of notification, which is defined in the Notify model.
+     * @param int actionUserId The user who triggered the notification
+     * @param actionType The type of action that triggered the notification.
+     * @param actionId The ID of the action, such as the ID of the post or comment.
+     */
+    public static function generateNotify(int $toUserId, int $type, int $actionUserId, ?int $actionType = null, ?int $actionId = null)
+    {
+        if ($type == Notify::TYPE_SYSTEM_TO_FULL || $type == Notify::TYPE_SYSTEM_TO_USER || $type == Notify::TYPE_RECOMMEND) {
+            return;
+        }
+
+        // check notify
+        $checkNotify = Notify::withTrashed()
+            ->type($type)
+            ->where('user_id', $toUserId)
+            ->where('action_user_id', $actionUserId)
+            ->when($actionType, function ($query, $value) {
+                $query->where('action_type', $value);
+            })
+            ->when($actionId, function ($query, $value) {
+                $query->where('action_id', $value);
+            })
+            ->first();
+
+        // follow notify
+        if ($type == Notify::TYPE_FOLLOW && $checkNotify) {
+            return;
+        }
+
+        // like notify
+        if ($type == Notify::TYPE_LIKE) {
+            if (empty($actionType) || empty($actionId) || $checkNotify) {
+                return;
+            }
+        }
+
+        // content
+        $contentModel = match ($actionType) {
+            Notify::ACTION_TYPE_POST => PrimaryHelper::fresnsModelById('post', $actionId),
+            Notify::ACTION_TYPE_COMMENT => PrimaryHelper::fresnsModelById('comment', $actionId),
+        };
+        $content = null;
+        $isMarkdown = 0;
+
+        // mention notify
+        if ($type == Notify::TYPE_MENTION) {
+            if (empty($actionType) || empty($actionId) || $checkNotify) {
+                return;
+            }
+
+            $content = Str::limit($contentModel->content);
+            $isMarkdown = $contentModel->is_markdown;
+        }
+
+        // comment notify
+        if ($type == Notify::TYPE_COMMENT) {
+            if (empty($actionType) || empty($actionId)) {
+                return;
+            }
+
+            $content = Str::limit($contentModel->content);
+            $isMarkdown = $contentModel->is_markdown;
+        }
+
+        // notify data
+        $notifyData = [
+            'user_id' => $toUserId,
+            'type' => $type,
+            'content' => $content,
+            'is_markdown' => $isMarkdown,
+            'action_user_id' => $actionUserId,
+            'action_type' => $actionType ?? null,
+            'action_id' => $actionId ?? null,
+        ];
+
+        Notify::create($notifyData);
     }
 }

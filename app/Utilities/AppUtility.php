@@ -11,13 +11,14 @@ namespace App\Utilities;
 use App\Helpers\AppHelper;
 use App\Helpers\ConfigHelper;
 use Browser;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
 class AppUtility
 {
     public static function currentVersion()
     {
-        return \Cache::remember('currentVersion', 3600, function () {
+        return Cache::remember('currentVersion', 3600, function () {
             $fresnsJson = file_get_contents(
                 base_path('fresns.json')
             );
@@ -30,7 +31,7 @@ class AppUtility
 
     public static function newVersion()
     {
-        return \Cache::remember('newVersion', 3600, function () {
+        return Cache::remember('newVersion', 3600, function () {
             try {
                 $versionInfoUrl = AppUtility::getApiHost().'/version.json';
                 $client = new \GuzzleHttp\Client();
@@ -144,17 +145,29 @@ class AppUtility
             'networkIpv4' => request()->ip(),
             'networkIpv6' => '',
             'networkPort' => $_SERVER['REMOTE_PORT'] ?? '',
+            'networkTimezone' => '',
+            'networkOffset' => '',
+            'networkCurrency' => '',
+            'networkIsp' => '',
+            'networkOrg' => '',
+            'networkAs' => '',
+            'networkAsName' => '',
+            'networkMobile' => '',
+            'networkProxy' => '',
+            'networkHosting' => '',
             'mapId' => '',
             'latitude' => '',
             'longitude' => '',
             'scale' => '',
-            'nation' => '',
-            'province' => '',
+            'continent' => '',
+            'continentCode' => '',
+            'country' => '',
+            'countryCode' => '',
+            'region' => '',
+            'regionCode' => '',
             'city' => '',
             'district' => '',
-            'adcode' => '',
-            'positionName' => '',
-            'address' => '',
+            'zip' => '',
         ];
 
         return $deviceInfo;

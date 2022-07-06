@@ -8,15 +8,35 @@
 
 namespace App\Utilities;
 
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Models\BlockWord;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\VerifyCode;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class ValidationUtility
 {
+    // Validate send code
+    public static function sendCode(?string $account = null): bool
+    {
+        if (empty($account)) {
+            return true;
+        }
+
+        $minuteSendCount = VerifyCode::where('account', $account)->where('created_at', '>=', now()->subMinute())->count();
+        $minutesSendCount = VerifyCode::where('account', $account)->where('created_at', '>=', now()->subMinutes(10))->count();
+
+        if ($minuteSendCount > 1 || $minutesSendCount > 5) {
+            return false;
+        }
+
+        return true;
+    }
+
     // Validate is disposable email
     public static function disposableEmail(string $email): bool
     {
@@ -174,10 +194,15 @@ class ValidationUtility
             $maxLength = false;
         }
 
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+        $banNames = Cache::remember('fresns_user_ban_words', $cacheTime, function () {
+            $banNames = BlockWord::where('user_mode', 3)->pluck('word')->toArray();
+
+            return array_map('strtolower', $banNames);
+        });
+
         $banName = true;
-        $banNames = BlockWord::where('user_mode', 3)->pluck('word')->toArray();
-        $newBanNames = array_map('strtolower', $banNames);
-        $isBanName = Str::contains(Str::lower($nickname), $newBanNames);
+        $isBanName = Str::contains(Str::lower($nickname), $banNames);
         if ($isBanName) {
             $banName = false;
         }
@@ -204,10 +229,15 @@ class ValidationUtility
             $length = false;
         }
 
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+        $banNames = Cache::remember('fresns_user_ban_words', $cacheTime, function () {
+            $banNames = BlockWord::where('user_mode', 3)->pluck('word')->toArray();
+
+            return array_map('strtolower', $banNames);
+        });
+
         $banWord = true;
-        $banWords = BlockWord::where('user_mode', 3)->pluck('word')->toArray();
-        $newBanWords = array_map('strtolower', $banWords);
-        $isBanWord = Str::contains(Str::lower($bio), $newBanWords);
+        $isBanWord = Str::contains(Str::lower($bio), $banNames);
         if ($isBanWord) {
             $banWord = false;
         }
@@ -260,9 +290,13 @@ class ValidationUtility
     // Validate content ban words
     public static function contentBanWords(string $content): bool
     {
-        $banWords = BlockWord::where('content_mode', 3)->pluck('word')->toArray();
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
-        $lowerBanWords = array_map('strtolower', $banWords);
+        $lowerBanWords = Cache::remember('fresns_content_ban_words', $cacheTime, function () {
+            $banWords = BlockWord::where('content_mode', 3)->pluck('word')->toArray();
+
+            return array_map('strtolower', $banWords);
+        });
 
         return ! Str::contains(Str::lower($content), $lowerBanWords);
     }
@@ -270,19 +304,27 @@ class ValidationUtility
     // Validate content is review
     public static function contentReviewWords(string $content): bool
     {
-        $banWords = BlockWord::where('content_mode', 4)->pluck('word')->toArray();
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
-        $lowerBanWords = array_map('strtolower', $banWords);
+        $lowerReviewWords = Cache::remember('fresns_content_review_words', $cacheTime, function () {
+            $reviewWords = BlockWord::where('content_mode', 4)->pluck('word')->toArray();
 
-        return ! Str::contains(Str::lower($content), $lowerBanWords);
+            return array_map('strtolower', $reviewWords);
+        });
+
+        return ! Str::contains(Str::lower($content), $lowerReviewWords);
     }
 
     // Validate message ban words
     public static function messageBanWords(string $message): bool
     {
-        $banWords = BlockWord::where('dialog_mode', 3)->pluck('word')->toArray();
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
-        $lowerBanWords = array_map('strtolower', $banWords);
+        $lowerBanWords = Cache::remember('fresns_dialog_ban_words', $cacheTime, function () {
+            $banWords = BlockWord::where('dialog_mode', 3)->pluck('word')->toArray();
+
+            return array_map('strtolower', $banWords);
+        });
 
         return ! Str::contains(Str::lower($message), $lowerBanWords);
     }
