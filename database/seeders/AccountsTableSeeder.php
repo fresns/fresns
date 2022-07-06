@@ -26,9 +26,9 @@ class AccountsTableSeeder extends Seeder
                 'id' => 1,
                 'aid' => 'fresns',
                 'type' => 1,
-                'country_code' => '65',
-                'pure_phone' => '12345678',
-                'phone' => '6512345678',
+                'country_code' => '1',
+                'pure_phone' => '123456789',
+                'phone' => '1123456789',
                 'email' => 'admin@admin.com',
                 'password' => '$2y$10$NAnHTCpECr8mR./fDq21q./Og2x/JKzhDUw0hX8VYFTuSb2UOrk3i', //password=123456
                 'last_login_at' => '2022-07-18 17:00:00',
