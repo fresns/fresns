@@ -71,10 +71,12 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'physicalDeletionFiles', 'provider' => [File::class, 'physicalDeletionFiles']],
 
         // Content
-        // ['word' => 'releaseContent', 'provider' => [Content::class, 'releaseContent']],
-        // ['word' => 'generateDraftFromMainTable', 'provider' => [Content::class, 'generateDraftFromMainTable']],
-        // ['word' => 'logicalDeletionContent', 'provider' => [Content::class, 'logicalDeletionContent']],
-        // ['word' => 'physicalDeletionContent', 'provider' => [Content::class, 'physicalDeletionContent']],
+        ['word' => 'createDraft', 'provider' => [Content::class, 'createDraft']],
+        ['word' => 'generateDraft', 'provider' => [Content::class, 'generateDraft']],
+        ['word' => 'contentPublishByDraft', 'provider' => [Content::class, 'contentPublishByDraft']],
+        ['word' => 'contentDirectPublish', 'provider' => [Content::class, 'contentDirectPublish']],
+        ['word' => 'logicalDeletionContent', 'provider' => [Content::class, 'logicalDeletionContent']],
+        ['word' => 'physicalDeletionContent', 'provider' => [Content::class, 'physicalDeletionContent']],
 
         // Crontab
         ['word' => 'addCrontabItem', 'provider' => [Crontab::class, 'addCrontabItem']],

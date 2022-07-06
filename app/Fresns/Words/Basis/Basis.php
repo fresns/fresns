@@ -14,6 +14,7 @@ use App\Fresns\Words\Basis\DTO\UploadSessionLogDTO;
 use App\Fresns\Words\Basis\DTO\VerifySignDTO;
 use App\Fresns\Words\Basis\DTO\VerifyUrlSignDTO;
 use App\Helpers\ConfigHelper;
+use App\Helpers\PrimaryHelper;
 use App\Helpers\SignHelper;
 use App\Models\Account;
 use App\Models\SessionKey;
@@ -36,7 +37,7 @@ class Basis
     public function verifySign($wordBody)
     {
         $dtoWordBody = new VerifySignDTO($wordBody);
-        $langTag = \request()->header('langTag', config('app.locale'));
+        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         $keyInfo = SessionKey::where('app_id', $dtoWordBody->appId)->isEnable()->first();
 
@@ -123,7 +124,7 @@ class Basis
     public function verifyUrlSign($wordBody)
     {
         $dtoWordBody = new VerifyUrlSignDTO($wordBody);
-        $langTag = \request()->header('langTag', config('app.locale'));
+        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         $urlSignData = urldecode(base64_decode($dtoWordBody->urlSign));
         $urlSignJson = json_decode($urlSignData, true) ?? [];
@@ -153,14 +154,15 @@ class Basis
     public function uploadSessionLog($wordBody)
     {
         $dtoWordBody = new UploadSessionLogDTO($wordBody);
+
+        $accountId = null;
         if (isset($dtoWordBody->aid)) {
-            $accountId = Account::where('aid', '=', $dtoWordBody->aid)->value('id');
-            $dtoWordBody->accountId = $accountId;
+            $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         }
 
+        $userId = null;
         if (isset($dtoWordBody->uid)) {
-            $userId = User::where('uid', '=', $dtoWordBody->uid)->value('id');
-            $dtoWordBody->userId = $userId;
+            $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
         }
 
         $input = [
@@ -169,8 +171,8 @@ class Basis
             'platform_id' => $dtoWordBody->platformId,
             'version' => $dtoWordBody->version,
             'lang_tag' => $dtoWordBody->langTag ?? null,
-            'account_id' => $dtoWordBody->accountId ?? null,
-            'user_id' => $dtoWordBody->userId ?? null,
+            'account_id' => $accountId,
+            'user_id' => $userId,
             'object_name' => $dtoWordBody->objectName,
             'object_action' => $dtoWordBody->objectAction,
             'object_result' => $dtoWordBody->objectResult,
@@ -180,7 +182,7 @@ class Basis
             'more_json' => $dtoWordBody->moreJson ?? null,
         ];
 
-        SessionLog::insert($input);
+        SessionLog::create($input);
 
         return $this->success();
     }
@@ -200,7 +202,7 @@ class Basis
             $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('send_sms_service');
         }
 
-        $langTag = \request()->header('langTag', config('app.locale'));
+        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
         if (empty($pluginUniKey)) {
             return $this->failure(
                 32100,
@@ -208,7 +210,9 @@ class Basis
             );
         }
 
-        return \FresnsCmdWord::plugin($pluginUniKey)->sendCode($wordBody);
+        $fresnsResp = \FresnsCmdWord::plugin($pluginUniKey)->sendCode($wordBody);
+
+        return $fresnsResp->getOrigin();
     }
 
     /**
@@ -220,7 +224,7 @@ class Basis
     public function checkCode($wordBody)
     {
         $dtoWordBody = new CheckCodeDTO($wordBody);
-        $langTag = \request()->header('langTag', config('app.locale'));
+        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         if ($dtoWordBody->type == 1) {
             $account = $dtoWordBody->account;
@@ -244,8 +248,8 @@ class Basis
             return $this->success();
         } else {
             return $this->failure(
-                33104,
-                ConfigUtility::getCodeMessage(33104, 'Fresns', $langTag),
+                33203,
+                ConfigUtility::getCodeMessage(33203, 'Fresns', $langTag),
             );
         }
     }

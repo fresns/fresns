@@ -19,7 +19,7 @@ class UploadFileInfoDTO extends DTO
     {
         return [
             'platformId' => ['integer', 'required', 'between:1,13'],
-            'useType' => ['integer', 'required', 'between:1,10'],
+            'usageType' => ['integer', 'required', 'between:1,10'],
             'tableName' => ['string', 'required'],
             'tableColumn' => ['required', 'string'],
             'tableId' => ['integer', 'nullable', 'required_without:tableKey'],
@@ -27,7 +27,7 @@ class UploadFileInfoDTO extends DTO
             'aid' => ['string', 'nullable', 'exists:App\Models\Account,aid'],
             'uid' => ['integer', 'nullable', 'exists:App\Models\User,uid'],
             'type' => ['integer', 'required', 'in:1,2,3,4'],
-            'fileInfo' => ['string', 'required'],
+            'fileInfo' => ['array', 'required'],
         ];
     }
 }

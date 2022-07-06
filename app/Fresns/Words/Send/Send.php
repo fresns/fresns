@@ -34,7 +34,9 @@ class Send
             $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('send_email_service')
         );
 
-        return \FresnsCmdWord::plugin($pluginUniKey)->sendEmail($wordBody);
+        $fresnsResp = \FresnsCmdWord::plugin($pluginUniKey)->sendEmail($wordBody);
+
+        return $fresnsResp->getOrigin();
     }
 
     /**
@@ -51,7 +53,9 @@ class Send
             $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('send_sms_service')
         );
 
-        return \FresnsCmdWord::plugin($pluginUniKey)->sendSms($wordBody);
+        $fresnsResp = \FresnsCmdWord::plugin($pluginUniKey)->sendSms($wordBody);
+
+        return $fresnsResp->getOrigin();
     }
 
     /**
@@ -62,20 +66,22 @@ class Send
      */
     public function sendAppNotification($wordBody)
     {
-        $dtowordBody = new SendAppNotificationDTO($wordBody);
+        $dtoWordBody = new SendAppNotificationDTO($wordBody);
 
         $channelMap = [
             1 => 'send_ios_service',
             2 => 'send_android_service',
         ];
 
-        $itemKey = $channelMap[$dtowordBody->channel];
+        $itemKey = $channelMap[$dtoWordBody->channel];
 
         $this->ensureUnikeyIsNotEmpry(
             $pluginUniKey = ConfigHelper::fresnsConfigByItemKey($itemKey)
         );
 
-        return \FresnsCmdWord::plugin($pluginUniKey)->sendAppNotification($wordBody);
+        $fresnsResp = \FresnsCmdWord::plugin($pluginUniKey)->sendAppNotification($wordBody);
+
+        return $fresnsResp->getOrigin();
     }
 
     /**
@@ -92,7 +98,9 @@ class Send
             $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('send_wechat_service')
         );
 
-        return \FresnsCmdWord::plugin($pluginUniKey)->sendWechatMessage($wordBody);
+        $fresnsResp = \FresnsCmdWord::plugin($pluginUniKey)->sendWechatMessage($wordBody);
+
+        return $fresnsResp->getOrigin();
     }
 
     protected function ensureUnikeyIsNotEmpry(string $string)

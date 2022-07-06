@@ -10,7 +10,7 @@ namespace App\Fresns\Words\Content\DTO;
 
 use Fresns\DTO\DTO;
 
-class ReleaseContentDTO extends DTO
+class GenerateDraftDTO extends DTO
 {
     /**
      * @return array
@@ -19,7 +19,7 @@ class ReleaseContentDTO extends DTO
     {
         return [
             'type' => ['integer', 'required', 'in:1,2'],
-            'logId' => ['integer', 'required'],
+            'fsid' => ['string', 'nullable'],
         ];
     }
 }

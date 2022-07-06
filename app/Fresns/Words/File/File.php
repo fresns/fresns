@@ -16,6 +16,7 @@ use App\Fresns\Words\File\DTO\LogicalDeletionFilesDTO;
 use App\Fresns\Words\File\DTO\PhysicalDeletionFilesDTO;
 use App\Fresns\Words\File\DTO\UploadFileDTO;
 use App\Fresns\Words\File\DTO\UploadFileInfoDTO;
+use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Utilities\ConfigUtility;
 use App\Utilities\FileUtility;
@@ -34,7 +35,7 @@ class File
     public function getUploadToken($wordBody)
     {
         $dtoWordBody = new GetUploadTokenDTO($wordBody);
-        $langTag = \request()->header('langTag', config('app.locale'));
+        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
@@ -45,7 +46,9 @@ class File
             );
         }
 
-        return \FresnsCmdWord::plugin($storageConfig['service'])->getUploadToken($wordBody);
+        $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->getUploadToken($wordBody);
+
+        return $fresnsResp->getOrigin();
     }
 
     /**
@@ -57,11 +60,11 @@ class File
     public function uploadFile($wordBody)
     {
         $dtoWordBody = new UploadFileDTO($wordBody);
-        $langTag = \request()->header('langTag', config('app.locale'));
+        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         // $bodyInfo = [
         //     'platformId' => $dtoWordBody->platformId,
-        //     'useType' => $dtoWordBody->useType,
+        //     'usageType' => $dtoWordBody->usageType,
         //     'tableName' => $dtoWordBody->tableName,
         //     'tableColumn' => $dtoWordBody->tableColumn,
         //     'tableId' => $dtoWordBody->tableId,
@@ -84,7 +87,9 @@ class File
             );
         }
 
-        return \FresnsCmdWord::plugin($storageConfig['service'])->uploadFile($wordBody);
+        $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->uploadFile($wordBody);
+
+        return $fresnsResp->getOrigin();
     }
 
     /**
@@ -96,11 +101,11 @@ class File
     public function uploadFileInfo($wordBody)
     {
         $dtoWordBody = new UploadFileInfoDTO($wordBody);
-        $langTag = \request()->header('langTag', config('app.locale'));
+        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         // $bodyInfo = [
         //     'platformId' => $dtoWordBody->platformId,
-        //     'useType' => $dtoWordBody->useType,
+        //     'usageType' => $dtoWordBody->usageType,
         //     'tableName' => $dtoWordBody->tableName,
         //     'tableColumn' => $dtoWordBody->tableColumn,
         //     'tableId' => $dtoWordBody->tableId,
@@ -123,7 +128,9 @@ class File
             );
         }
 
-        return \FresnsCmdWord::plugin($storageConfig['service'])->uploadFileInfo($wordBody);
+        $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->uploadFileInfo($wordBody);
+
+        return $fresnsResp->getOrigin();
     }
 
     /**
@@ -135,7 +142,7 @@ class File
     public function getAntiLinkFileInfo($wordBody)
     {
         $dtoWordBody = new GetAntiLinkFileInfoDTO($wordBody);
-        $langTag = \request()->header('langTag', config('app.locale'));
+        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
@@ -147,7 +154,9 @@ class File
         }
 
         if ($storageConfig['antiLinkConfigStatus']) {
-            return \FresnsCmdWord::plugin($storageConfig['service'])->getAntiLinkFileInfo($wordBody);
+            $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->getAntiLinkFileInfo($wordBody);
+
+            return $fresnsResp->getOrigin();
         }
 
         return $this->success(FileHelper::fresnsFileInfoById($dtoWordBody->fileIdOrFid));
@@ -162,7 +171,7 @@ class File
     public function getAntiLinkFileInfoList($wordBody)
     {
         $dtoWordBody = new GetAntiLinkFileInfoListDTO($wordBody);
-        $langTag = \request()->header('langTag', config('app.locale'));
+        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
@@ -174,7 +183,9 @@ class File
         }
 
         if ($storageConfig['antiLinkConfigStatus']) {
-            return \FresnsCmdWord::plugin($storageConfig['service'])->getAntiLinkFileInfoList($wordBody);
+            $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->getAntiLinkFileInfoList($wordBody);
+
+            return $fresnsResp->getOrigin();
         }
 
         return $this->success(FileHelper::fresnsFileInfoListByIds($dtoWordBody->fileIdsOrFids));
@@ -189,7 +200,7 @@ class File
     public function getAntiLinkFileOriginalUrl($wordBody)
     {
         $dtoWordBody = new GetAntiLinkFileOriginalUrlDTO($wordBody);
-        $langTag = \request()->header('langTag', config('app.locale'));
+        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
@@ -201,7 +212,9 @@ class File
         }
 
         if ($storageConfig['antiLinkConfigStatus']) {
-            return \FresnsCmdWord::plugin($storageConfig['service'])->getAntiLinkFileOriginalUrl($wordBody);
+            $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->getAntiLinkFileOriginalUrl($wordBody);
+
+            return $fresnsResp->getOrigin();
         }
 
         return $this->success([
@@ -233,7 +246,7 @@ class File
     public function physicalDeletionFiles($wordBody)
     {
         $dtoWordBody = new PhysicalDeletionFilesDTO($wordBody);
-        $langTag = \request()->header('langTag', config('app.locale'));
+        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
@@ -244,6 +257,8 @@ class File
             );
         }
 
-        return \FresnsCmdWord::plugin($storageConfig['service'])->physicalDeletionFiles($wordBody);
+        $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->physicalDeletionFiles($wordBody);
+
+        return $fresnsResp->getOrigin();
     }
 }

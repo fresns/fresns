@@ -13,6 +13,7 @@ use App\Fresns\Words\Account\DTO\CreateSessionTokenDTO;
 use App\Fresns\Words\Account\DTO\LogicalDeletionAccountDTO;
 use App\Fresns\Words\Account\DTO\VerifyAccountDTO;
 use App\Fresns\Words\Account\DTO\VerifySessionTokenDTO;
+use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Account as AccountModel;
@@ -38,7 +39,7 @@ class Account
     public function addAccount($wordBody)
     {
         $dtoWordBody = new AddAccountDTO($wordBody);
-        $langTag = \request()->header('langTag', config('app.locale'));
+        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         if ($dtoWordBody->type == 1) {
             $checkAccount = AccountModel::where('email', $dtoWordBody->account)->first();
@@ -76,17 +77,16 @@ class Account
             ],
             default => [],
         };
-        $inputArr['aid'] = \Str::random(12);
         $inputArr['password'] = isset($dtoWordBody->password) ? Hash::make($dtoWordBody->password) : null;
         $inputArr['last_login_at'] = DateHelper::fresnsDatabaseCurrentDateTime();
 
-        $accountId = AccountModel::insertGetId($inputArr);
+        $accountId = AccountModel::create($inputArr)->id;
 
         // Account Wallet Table
         $accountWalletsInput = [
             'account_id' => $accountId,
         ];
-        AccountWallet::insert($accountWalletsInput);
+        AccountWallet::create($accountWalletsInput);
 
         // Account Connects Table
         if ($connectInfoArr) {
@@ -103,7 +103,7 @@ class Account
                 $itemArr[] = $item;
             }
 
-            AccountConnect::insert($itemArr);
+            AccountConnect::create($itemArr);
         }
 
         return $this->success([
@@ -121,7 +121,7 @@ class Account
     public function verifyAccount($wordBody)
     {
         $dtoWordBody = new VerifyAccountDTO($wordBody);
-        $langTag = \request()->header('langTag', config('app.locale'));
+        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         if ($dtoWordBody->type == 1) {
             $accountName = $dtoWordBody->account;
@@ -190,7 +190,7 @@ class Account
         $dtoWordBody = new CreateSessionTokenDTO($wordBody);
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
-        $userId = PrimaryHelper::fresnsAccountIdByUid($dtoWordBody->uid);
+        $userId = PrimaryHelper::fresnsAccountIdByUidOrUsername($dtoWordBody->uid);
 
         $condition = [
             'platform_id' => $dtoWordBody->platformId,
@@ -215,7 +215,7 @@ class Account
         $condition['token'] = $token;
         $condition['expired_at'] = $expiredAt;
 
-        SessionToken::insert($condition);
+        SessionToken::create($condition);
 
         return $this->success([
             'aid' => $dtoWordBody->aid,
@@ -234,7 +234,7 @@ class Account
     public function verifySessionToken($wordBody)
     {
         $dtoWordBody = new VerifySessionTokenDTO($wordBody);
-        $langTag = \request()->header('langTag', config('app.locale'));
+        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         $condition = [
             'platform_id' => $dtoWordBody->platformId,
@@ -258,7 +258,7 @@ class Account
         }
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
-        $userId = PrimaryHelper::fresnsUserIdByUid($dtoWordBody->uid);
+        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
 
         if (! empty($dtoWordBody->uid)) {
             $userAffiliation = PermissionUtility::checkUserAffiliation($userId, $accountId);
