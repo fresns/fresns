@@ -15,6 +15,7 @@
             @endif
         </p>
     </div>
+
     <!--Dashboard data-->
     <div class="row mb-3">
         <div class="col-md mb-4 pe-lg-5">
@@ -111,6 +112,7 @@
             </ul>
         </div>
     </div>
+
     <!--row-->
     <div class="row">
         <!--system info-->

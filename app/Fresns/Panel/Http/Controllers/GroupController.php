@@ -134,8 +134,8 @@ class GroupController extends Controller
             ->get();
 
         $groups = Group::typeGroup()
+            ->where('is_enable', 0)
             ->orderBy('rating')
-            ->isEnable(false)
             ->with('creator', 'followByPlugin', 'category')
             ->paginate();
 

@@ -68,14 +68,14 @@
         <!--Plugins-->
         <div class="col-md-6 mb-4">
             <div class="card">
-                <div class="card-header">{{ __('FsLang::panel.extensions_plugins') }}</div>
+                <div class="card-header">{{ __('FsLang::panel.sidebar_plugins') }}</div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         @if($pluginsData->isNotEmpty())
                             @foreach ($pluginsData as $plugin)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <img src="/assets/{{ $plugin->unikey }}/fresns.png" class="me-2" width="22" height="22">
+                                        <img src="/assets/plugins/{{ $plugin->unikey }}/fresns.png" class="me-2" width="22" height="22">
                                         {{ $plugin->name }}
                                         <span class="badge bg-secondary">{{ $plugin->version }}</span> to <span class="badge bg-primary">{{ $plugin->upgrade_version }}</span>
                                     </div>
@@ -101,17 +101,18 @@
                 </div>
             </div>
         </div>
-        <!--Apps-->
+
+        <!--Panels-->
         <div class="col-md-6 mb-4">
             <div class="card">
-                <div class="card-header">{{ __('FsLang::panel.extensions_apps') }}</div>
+                <div class="card-header">{{ __('FsLang::panel.sidebar_panels') }}</div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         @if($appsData->isNotEmpty())
                             @foreach ($appsData as $app)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <img src="/assets/{{ $app->unikey }}/fresns.png" class="me-2" width="22" height="22">
+                                        <img src="/assets/plugins/{{ $app->unikey }}/fresns.png" class="me-2" width="22" height="22">
                                         {{ $app->name }}
                                         <span class="badge bg-secondary">{{ $app->version }}</span> to <span class="badge bg-primary">{{ $app->upgrade_version }}</span>
                                     </div>
@@ -137,17 +138,18 @@
                 </div>
             </div>
         </div>
+
         <!--Engines-->
         <div class="col-md-6 mb-4">
             <div class="card">
-                <div class="card-header">{{ __('FsLang::panel.extensions_engines') }}</div>
+                <div class="card-header">{{ __('FsLang::panel.sidebar_engines') }}</div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         @if($enginesData->isNotEmpty())
                             @foreach ($enginesData as $engine)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <img src="/assets/{{ $engine->unikey }}/fresns.png" class="me-2" width="22" height="22">
+                                        <img src="/assets/plugins/{{ $engine->unikey }}/fresns.png" class="me-2" width="22" height="22">
                                         {{ $engine->name }}
                                         <span class="badge bg-secondary">{{ $engine->version }}</span> to <span class="badge bg-primary">{{ $engine->upgrade_version }}</span>
                                     </div>
@@ -173,17 +175,18 @@
                 </div>
             </div>
         </div>
+
         <!--Themes-->
         <div class="col-md-6 mb-4">
             <div class="card">
-                <div class="card-header">{{ __('FsLang::panel.extensions_themes') }}</div>
+                <div class="card-header">{{ __('FsLang::panel.sidebar_themes') }}</div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         @if($themesData->isNotEmpty())
                             @foreach ($themesData as $theme)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <img src="/assets/{{ $theme->unikey }}/fresns.png" class="me-2" width="22" height="22">
+                                        <img src="/assets/themes/{{ $theme->unikey }}/fresns.png" class="me-2" width="22" height="22">
                                         {{ $theme->name }}
                                         <span class="badge bg-secondary">{{ $theme->version }}</span> to <span class="badge bg-primary">{{ $theme->upgrade_version }}</span>
                                     </div>

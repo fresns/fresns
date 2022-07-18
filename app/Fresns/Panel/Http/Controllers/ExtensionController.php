@@ -32,7 +32,7 @@ class ExtensionController extends Controller
         $plugins = $plugins->get();
 
         $enableCount = Plugin::type(1)->isEnable()->count();
-        $disableCount = Plugin::type(1)->isEnable(false)->count();
+        $disableCount = Plugin::type(1)->where('is_enable', 0)->count();
 
         return view('FsView::extensions.plugins', compact('plugins', 'enableCount', 'disableCount', 'isEnable'));
     }
@@ -54,7 +54,7 @@ class ExtensionController extends Controller
         $panels = $panels->get();
 
         $enableCount = Plugin::type(2)->isEnable()->count();
-        $disableCount = Plugin::type(2)->isEnable(false)->count();
+        $disableCount = Plugin::type(2)->where('is_enable', 0)->count();
 
         return view('FsView::extensions.panels', compact('panels', 'enableCount', 'disableCount', 'isEnable'));
     }

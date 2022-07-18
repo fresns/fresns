@@ -38,7 +38,13 @@ class RoleController extends Controller
 
     public function store(Role $role, UpdateRoleRequest $request)
     {
-        $role->fill($request->all());
+        $role->type = $request->type;
+        $role->rating = $request->rating;
+        $role->is_display_icon = $request->is_display_icon ?? 0;
+        $role->is_display_name = $request->is_display_name ?? 0;
+        $role->nickname_color = $request->nickname_color;
+        $role->is_enable = $request->is_enable;
+
         $role->permissions = json_decode(config('FsConfig.role_default_permissions'), true);
         if ($request->no_color) {
             $role->nickname_color = null;
@@ -96,7 +102,13 @@ class RoleController extends Controller
 
     public function update(Role $role, UpdateRoleRequest $request)
     {
-        $role->update($request->except('icon_file_url'));
+        $role->type = $request->type;
+        $role->rating = $request->rating;
+        $role->is_display_icon = $request->is_display_icon ?? 0;
+        $role->is_display_name = $request->is_display_name ?? 0;
+        $role->nickname_color = $request->nickname_color;
+        $role->is_enable = $request->is_enable;
+
         if ($request->no_color) {
             $role->nickname_color = null;
         }

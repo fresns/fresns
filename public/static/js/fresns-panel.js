@@ -1024,22 +1024,44 @@ $(document).ready(function () {
     // menu edit
     $('#menuEdit').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget),
-            isEnable = button.data('is_enable'),
-            noConfig = button.data('no_config');
             action = button.data('action');
-            config = button.data('config');
+            isEnable = button.data('is_enable');
+            noType = button.data('no_type');
+            indexType = button.data('type');
+            noQueryState = button.data('no_query_state');
+            queryState = button.data('query_state');
+            noQueryConfig = button.data('no_query_config');
+            queryConfig = button.data('query_config');
 
-        if (noConfig) {
-            $(this).find('.default-config').hide();
+        if (noType) {
+            $(this).find('.index-type').hide();
         } else {
-            $(this).find('.default-config').show();
+            $(this).find('.index-type').show();
+        }
+
+        if (noQueryState) {
+            $(this).find('.query-state').hide();
+        } else {
+            $(this).find('.query-state').show();
+        }
+
+        if (noQueryConfig) {
+            $(this).find('.query-config').hide();
+        } else {
+            $(this).find('.query-config').show();
         }
 
         $(this).find('form').attr('action', action);
-        $(this).find('textarea[name=config]').val(config);
         $(this)
             .find('input:radio[name=is_enable][value="' + isEnable + '"]')
             .prop('checked', true);
+        $(this)
+            .find('input:radio[name=index_type][value="' + indexType + '"]')
+            .prop('checked', true);
+        $(this)
+            .find('input:radio[name=query_state][value="' + queryState + '"]')
+            .prop('checked', true);
+        $(this).find('textarea[name=query_config]').val(queryConfig);
     });
 
     $('#menuLangModal').on('shown.bs.modal', function (e) {

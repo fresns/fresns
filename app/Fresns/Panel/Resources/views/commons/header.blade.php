@@ -80,7 +80,7 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="{{ route('panel.cache.clear') }}"><i class="bi bi-trash3"></i> {{ __('FsLang::panel.button_clear_cache') }}</a></li>
-                            <li><a class="dropdown-item" href="#langModal" data-bs-toggle="modal"><i class="bi bi-translate"></i> {{ __('FsLang::panel.switch_language') }}</a></li>
+                            <li><a class="dropdown-item" href="#panelLangModal" data-bs-toggle="modal"><i class="bi bi-translate"></i> {{ __('FsLang::panel.switch_language') }}</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form action="{{route('panel.logout')}}" method="POST" id="panle_logout">
@@ -96,12 +96,12 @@
     </nav>
 </header>
 
-<!-- Lang Modal -->
-<div class="modal fade" id="langModal" tabindex="-1" aria-labelledby="langModalLabel" aria-hidden="true">
+<!-- Panel Lang Modal -->
+<div class="modal fade" id="panelLangModal" tabindex="-1" aria-labelledby="panelLangModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="langModalLabel"><i class="bi bi-translate"></i> {{ __('FsLang::panel.switch_language') }}</h5>
+                <h5 class="modal-title" id="panelLangModalLabel"><i class="bi bi-translate"></i> {{ __('FsLang::panel.switch_language') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
