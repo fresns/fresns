@@ -13,6 +13,7 @@ use App\Fresns\Api\Http\DTO\HashtagListDTO;
 use App\Fresns\Api\Http\DTO\InteractiveDTO;
 use App\Fresns\Api\Services\HashtagService;
 use App\Fresns\Api\Services\InteractiveService;
+use App\Helpers\StrHelper;
 use App\Models\Hashtag;
 use App\Models\Seo;
 use App\Models\UserBlock;
@@ -121,6 +122,8 @@ class HashtagController extends Controller
     // detail
     public function detail(string $hid)
     {
+        $hid = StrHelper::slug($hid);
+
         $hashtag = Hashtag::where('slug', $hid)->first();
 
         if (empty($hashtag)) {

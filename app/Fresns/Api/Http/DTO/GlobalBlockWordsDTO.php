@@ -19,7 +19,7 @@ class GlobalBlockWordsDTO extends DTO
     {
         return [
             'type' => ['string', 'nullable', 'in:content,user,dialog'],
-            'pageSize' => ['integer', 'nullable', 'between:1,500'],
+            'pageSize' => ['integer', 'nullable', 'between:1,100'],
             'page' => ['integer', 'nullable'],
         ];
     }

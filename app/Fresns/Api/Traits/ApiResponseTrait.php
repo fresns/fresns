@@ -20,7 +20,7 @@ trait ApiResponseTrait
         if (is_string($data)) {
             $code = $message;
             $message = $data;
-            $data = [];
+            $data = null;
         }
 
         // paginate data

@@ -25,7 +25,7 @@ class PostNearbyDTO extends DTO
             'length' => ['integer', 'nullable'],
             'contentType' => ['string', 'nullable'],
             'pluginRatingId' => ['integer', 'nullable'],
-            'pageSize' => ['integer', 'nullable', 'between:1,20'],
+            'pageSize' => ['integer', 'nullable', 'between:1,25'],
             'page' => ['integer', 'nullable'],
         ];
     }

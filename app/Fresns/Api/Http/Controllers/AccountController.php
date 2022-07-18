@@ -196,13 +196,15 @@ class AccountController extends Controller
         // get account token
         $token['token'] = $fresnsTokenResponse->getData('token');
         $token['expiredTime'] = $fresnsTokenResponse->getData('expiredTime');
-        $data['sessionToken'] = $token;
+        $sessionToken['sessionToken'] = $token;
 
         // get account data
         $account = Account::whereAid($fresnsTokenResponse->getData('aid'))->first();
 
         $service = new AccountService();
-        $data[] = $service->accountData($account, $this->langTag(), $this->timezone());
+        $detail = $service->accountData($account, $this->langTag(), $this->timezone());
+
+        $data = array_merge($sessionToken, $detail);
 
         return $this->success($data);
     }
@@ -283,13 +285,15 @@ class AccountController extends Controller
         // get account token
         $token['token'] = $fresnsTokenResponse->getData('token');
         $token['expiredTime'] = $fresnsTokenResponse->getData('expiredTime');
-        $data['sessionToken'] = $token;
+        $sessionToken['sessionToken'] = $token;
 
         // get account data
         $account = Account::whereAid($fresnsTokenResponse->getData('aid'))->first();
 
         $service = new AccountService();
-        $data[] = $service->accountData($account, $this->langTag(), $this->timezone());
+        $detail = $service->accountData($account, $this->langTag(), $this->timezone());
+
+        $data = array_merge($sessionToken, $detail);
 
         return $this->success($data);
     }

@@ -54,7 +54,7 @@ trait ApiHeaderTrait
     // deviceInfo
     public function deviceInfo(): array
     {
-        return \request()->header('deviceInfo');
+        return json_decode(\request()->header('deviceInfo'), true) ?? [];
     }
 
     // auth account
@@ -136,11 +136,11 @@ trait ApiHeaderTrait
     {
         $authUser = $this->user();
 
-        $cacheKey = 'fresns_api_user_'.$authUser->uid.'_content_view_perm';
+        $cacheKey = 'fresns_api_user_'.$authUser?->uid.'_content_view_perm';
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
         $config = Cache::remember($cacheKey, $cacheTime, function () use ($authUser) {
-            return PermissionUtility::getUserContentViewPerm($authUser->id);
+            return PermissionUtility::getUserContentViewPerm($authUser?->id);
         });
 
         if (is_null($config)) {

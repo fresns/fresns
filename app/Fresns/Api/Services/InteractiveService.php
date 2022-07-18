@@ -64,6 +64,7 @@ class InteractiveService
         if (! $myInteractiveSet) {
             throw new ApiException(36201);
         }
+
     }
 
     // get the users who marked it

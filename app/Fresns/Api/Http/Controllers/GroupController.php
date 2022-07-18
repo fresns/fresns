@@ -104,7 +104,7 @@ class GroupController extends Controller
                 throw new ApiException(37100);
             }
 
-            if ($parentGroup->isEnable(false)) {
+            if ($parentGroup->is_enable == 0) {
                 throw new ApiException(37101);
             }
 

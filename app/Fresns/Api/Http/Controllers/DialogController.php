@@ -166,7 +166,7 @@ class DialogController extends Controller
             throw new ApiException(36600);
         }
 
-        if (is_int($dtoRequest->uidOrUsername)) {
+        if (preg_match('/^\d*?$/', $dtoRequest->uidOrUsername)) {
             $receiveUser = User::withTrashed()->where('uid', $dtoRequest->uidOrUsername)->first();
         } else {
             $receiveUser = User::withTrashed()->where('username', $dtoRequest->uidOrUsername)->first();

@@ -21,7 +21,7 @@ use App\Fresns\Api\Services\PostService;
 use App\Fresns\Api\Services\UserService;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
-use App\Models\Plugin;
+use App\Helpers\StrHelper;
 use App\Models\Post;
 use App\Models\PostLog;
 use App\Models\PostUser;
@@ -80,9 +80,11 @@ class PostController extends Controller
                         ->orWhereNotIn('group_id', $filterGroupIdsArr);
                 });
 
-            $postQuery->whereHas('hashtags', function ($query) use ($blockHashtagIds) {
-                $query->whereNotIn('id', $blockHashtagIds);
-            });
+            if ($blockHashtagIds) {
+                $postQuery->whereHas('hashtags', function ($query) use ($blockHashtagIds) {
+                    $query->whereNotIn(\DB::raw('hashtags.id'), $blockHashtagIds);
+                });
+            }
         }
 
         if ($dtoRequest->uidOrUsername) {
@@ -97,7 +99,7 @@ class PostController extends Controller
                 throw new ApiException(31602);
             }
 
-            if ($viewUser->isEnable(false)) {
+            if ($viewUser->is_enable == 0) {
                 throw new ApiException(35202);
             }
 
@@ -115,7 +117,8 @@ class PostController extends Controller
                 throw new ApiException(37100);
             }
 
-            if ($viewGroup->isEnable(false)) {
+            // group disable
+            if ($viewGroup->is_enable == 0) {
                 throw new ApiException(37101);
             }
 
@@ -123,18 +126,22 @@ class PostController extends Controller
         }
 
         if ($dtoRequest->hid) {
-            $viewHashtag = PrimaryHelper::fresnsModelByFsid('hashtag', $dtoRequest->gid);
+            $hid = StrHelper::slug($dtoRequest->hid);
+            $viewHashtag = PrimaryHelper::fresnsModelByFsid('hashtag', $hid);
 
             if (empty($viewHashtag)) {
                 throw new ApiException(37200);
             }
 
-            if ($viewHashtag->isEnable(false)) {
+            // hashtag disable
+            if ($viewHashtag->is_enable == 0) {
                 throw new ApiException(37201);
             }
 
             $postQuery->when($viewHashtag->id, function ($query, $value) {
-                $query->whereRelation('hashtags', 'id', $value);
+                $query->whereHas('hashtags', function ($query) use ($value) {
+                    $query->where('hashtag_id', $value);
+                });
             });
         }
 
@@ -243,6 +250,10 @@ class PostController extends Controller
         $requestData['pid'] = $pid;
         $dtoRequest = new PostDetailDTO($requestData);
 
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
+
         $post = Post::with(['creator', 'group', 'hashtags'])->where('pid', $pid)->first();
 
         if (empty($post)) {
@@ -253,7 +264,7 @@ class PostController extends Controller
             throw new ApiException(37301);
         }
 
-        UserService::checkUserContentViewPerm($post->created_at);
+        UserService::checkUserContentViewPerm($post->created_at, $authUserId);
 
         // Plugin provides data
         $dataPluginUnikey = ConfigHelper::fresnsConfigByItemKey('post_detail_service');
@@ -270,10 +281,6 @@ class PostController extends Controller
         }
 
         // Fresns provides data
-        $langTag = $this->langTag();
-        $timezone = $this->timezone();
-        $authUser = $this->user();
-
         $seoData = Seo::where('usage_type', Seo::TYPE_POST)->where('usage_id', $post->id)->where('lang_tag', $langTag)->first();
 
         $item['title'] = $seoData->title ?? null;
@@ -282,7 +289,7 @@ class PostController extends Controller
         $data['items'] = $item;
 
         $service = new PostService();
-        $data['detail'] = $service->postDetail($post, 'detail', $langTag, $timezone, $authUser->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+        $data['detail'] = $service->postDetail($post, 'detail', $langTag, $timezone, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
 
         return $this->success($data);
     }
@@ -290,25 +297,25 @@ class PostController extends Controller
     // interactive
     public function interactive(string $pid, string $type, Request $request)
     {
+        $requestData = $request->all();
+        $requestData['type'] = $type;
+        $dtoRequest = new InteractiveDTO($requestData);
+
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
+
         $post = Post::where('pid', $pid)->isEnable()->first();
 
         if (empty($post)) {
             throw new ApiException(37300);
         }
 
-        UserService::checkUserContentViewPerm($post->created_at);
-
-        $requestData = $request->all();
-        $requestData['type'] = $type;
-        $dtoRequest = new InteractiveDTO($requestData);
+        UserService::checkUserContentViewPerm($post->created_at, $authUserId);
 
         InteractiveService::checkInteractiveSetting($dtoRequest->type, 'post');
 
         $orderDirection = $dtoRequest->orderDirection ?: 'desc';
-
-        $langTag = $this->langTag();
-        $timezone = $this->timezone();
-        $authUserId = $this->user()?->id;
 
         $service = new InteractiveService();
         $data = $service->getUsersWhoMarkIt($dtoRequest->type, InteractiveService::TYPE_POST, $post->id, $orderDirection, $langTag, $timezone, $authUserId);
@@ -319,19 +326,18 @@ class PostController extends Controller
     // userList
     public function userList(string $pid, Request $request)
     {
+        $dtoRequest = new PaginationDTO($request->all());
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
+
         $post = Post::where('pid', $pid)->isEnable()->first();
 
         if (empty($post)) {
             throw new ApiException(37300);
         }
 
-        UserService::checkUserContentViewPerm($post->created_at);
-
-        $dtoRequest = new PaginationDTO($request->all());
-
-        $langTag = $this->langTag();
-        $timezone = $this->timezone();
-        $authUserId = $this->user()?->id;
+        UserService::checkUserContentViewPerm($post->created_at, $authUserId);
 
         $userListData = PostUser::with('user')->where('post_id', $post->id)->latest()->paginate($request->get('pageSize', 15));
 
@@ -347,18 +353,18 @@ class PostController extends Controller
     // postLogs
     public function postLogs(string $pid, Request $request)
     {
+        $dtoRequest = new PaginationDTO($request->all());
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
+
         $post = Post::where('pid', $pid)->isEnable()->first();
 
         if (empty($post)) {
             throw new ApiException(37300);
         }
 
-        UserService::checkUserContentViewPerm($post->created_at);
-
-        $dtoRequest = new PaginationDTO($request->all());
-        $langTag = $this->langTag();
-        $timezone = $this->timezone();
-        $authUserId = $this->user()?->id;
+        UserService::checkUserContentViewPerm($post->created_at, $authUserId);
 
         $postLogs = PostLog::with('creator')->where('post_id', $post->id)->where('state', 3)->latest()->paginate($request->get('pageSize', 15));
 
@@ -374,23 +380,23 @@ class PostController extends Controller
     // logDetail
     public function logDetail(string $pid, int $logId, Request $request)
     {
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
+
         $post = Post::where('pid', $pid)->isEnable()->first();
 
         if (empty($post)) {
             throw new ApiException(37300);
         }
 
-        UserService::checkUserContentViewPerm($post->created_at);
+        UserService::checkUserContentViewPerm($post->created_at, $authUserId);
 
         $log = PostLog::where('post_id', $post->id)->where('id', $logId)->where('state', 3)->first();
 
         if (empty($log)) {
             throw new ApiException(37302);
         }
-
-        $langTag = $this->langTag();
-        $timezone = $this->timezone();
-        $authUserId = $this->user()?->id;
 
         $service = new PostService();
         $data['detail'] = $service->postLogDetail($log, $langTag, $timezone, $authUserId);

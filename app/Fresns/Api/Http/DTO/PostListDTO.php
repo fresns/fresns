@@ -42,7 +42,7 @@ class PostListDTO extends DTO
             'orderType' => ['string', 'nullable', 'in:createDate,like,dislike,follow,block,comment'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
             'pluginRatingId' => ['integer', 'nullable'],
-            'pageSize' => ['integer', 'nullable', 'between:1,20'],
+            'pageSize' => ['integer', 'nullable', 'between:1,25'],
             'page' => ['integer', 'nullable'],
         ];
     }

@@ -69,9 +69,9 @@ class UserService
     }
 
     // check content view perm permission
-    public static function checkUserContentViewPerm(string $dateTime)
+    public static function checkUserContentViewPerm(string $dateTime, ?int $authUserId = null)
     {
-        $userContentViewPerm = self::userContentViewPerm();
+        $userContentViewPerm = PermissionUtility::getUserContentViewPerm($authUserId);
 
         if ($userContentViewPerm['type'] == 2) {
             $dateLimit = strtotime($userContentViewPerm['dateLimit']);

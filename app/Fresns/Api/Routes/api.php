@@ -65,7 +65,7 @@ Route::prefix('v2')->middleware([
         Route::put('reset-password', [AccountController::class, 'resetPassword'])->name('reset.password');
         Route::get('detail', [AccountController::class, 'detail'])->name('detail');
         Route::get('wallet-logs', [AccountController::class, 'walletLogs'])->name('wallet.logs');
-        Route::get('verify-identity', [AccountController::class, 'verifyIdentity'])->name('verify.identity');
+        Route::post('verify-identity', [AccountController::class, 'verifyIdentity'])->name('verify.identity');
         Route::put('edit', [AccountController::class, 'edit'])->name('edit');
         Route::delete('logout', [AccountController::class, 'logout'])->name('logout');
         Route::post('apply-delete', [AccountController::class, 'applyDelete'])->name('apply.delete');

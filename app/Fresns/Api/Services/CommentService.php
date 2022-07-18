@@ -17,8 +17,10 @@ use App\Models\ArchiveUsage;
 use App\Models\Comment;
 use App\Models\CommentLog;
 use App\Models\ExtendUsage;
+use App\Models\Mention;
 use App\Models\OperationUsage;
 use App\Models\PluginUsage;
+use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractiveUtility;
 use App\Utilities\LbsUtility;
@@ -33,12 +35,12 @@ class CommentService
         }
 
         $commentInfo = $comment->getCommentInfo($langTag, $timezone);
-        $commentInfo[] = self::contentHandle($comment, 'list', $authUserId);
+        $contentHandle = self::contentHandle($comment, 'list', $authUserId);
 
         $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_COMMENT, $comment->id, $langTag);
 
         $item['hashtags'] = null;
-        if ($comment->hashtags) {
+        if ($comment->hashtags->isNotEmpty()) {
             $hashtagService = new HashtagService;
 
             foreach ($comment->hashtags as $hashtag) {
@@ -51,10 +53,11 @@ class CommentService
         if (! $comment->is_anonymous) {
             $creatorProfile = $comment->creator->getUserProfile($langTag, $timezone);
             $creatorMainRole = $comment->creator->getUserMainRole($langTag, $timezone);
-            $item['creator'] = array_merge($creatorProfile, $creatorMainRole);
+            $creatorOperations = ExtendUtility::getOperations(OperationUsage::TYPE_USER, $post->creator->id, $langTag);
+            $item['creator'] = array_merge($creatorProfile, $creatorMainRole, $creatorOperations);
         }
 
-        $info = array_merge($commentInfo, $item);
+        $info = array_merge($commentInfo, $contentHandle, $item);
 
         return $info;
     }
@@ -62,9 +65,10 @@ class CommentService
     public function commentDetail(Comment $comment, string $type, string $langTag, string $timezone, ?int $authUserId = null, ?int $mapId = null, ?string $authUserLng = null, ?string $authUserLat = null)
     {
         $commentInfo = $comment->getCommentInfo($langTag, $timezone);
-        $commentInfo[] = self::contentHandle($comment, $type, $authUserId);
         $commentAppend = $comment->commentAppend;
         $postAppend = $comment->postAppend;
+
+        $contentHandle = self::contentHandle($comment, $type, $authUserId);
 
         if (! empty($comment->map_id) && ! empty($authUserLng) && ! empty($authUserLat)) {
             $postLng = $comment->map_longitude;
@@ -84,7 +88,7 @@ class CommentService
         $item['fileCount'] = $fileCount;
 
         $item['hashtags'] = null;
-        if ($comment->hashtags) {
+        if ($comment->hashtags->isNotEmpty()) {
             $hashtagService = new HashtagService;
 
             foreach ($comment->hashtags as $hashtag) {
@@ -97,7 +101,8 @@ class CommentService
         if (! $comment->is_anonymous) {
             $creatorProfile = $comment->creator->getUserProfile($langTag, $timezone);
             $creatorMainRole = $comment->creator->getUserMainRole($langTag, $timezone);
-            $item['creator'] = array_merge($creatorProfile, $creatorMainRole);
+            $creatorOperations = ExtendUtility::getOperations(OperationUsage::TYPE_USER, $post->creator->id, $langTag);
+            $item['creator'] = array_merge($creatorProfile, $creatorMainRole, $creatorOperations);
         }
 
         $isMe = $comment->user_id == $authUserId ? true : false;
@@ -142,7 +147,7 @@ class CommentService
         $interactiveStatus = InteractiveUtility::checkInteractiveStatus(InteractiveUtility::TYPE_COMMENT, $comment->id, $authUserId);
         $item['interactive'] = array_merge($interactiveConfig, $interactiveStatus);
 
-        $detail = array_merge($commentInfo, $item);
+        $detail = array_merge($commentInfo, $contentHandle, $item);
 
         return $detail;
     }
@@ -161,6 +166,8 @@ class CommentService
             $commentInfo['content'] = Str::limit($comment->content, $briefLength);
             $commentInfo['isBrief'] = true;
         }
+
+        $commentInfo['content'] = ContentUtility::handleAndReplaceAll($commentInfo['content'], $comment->is_markdown, Mention::TYPE_COMMENT, $authUserId);
 
         return $commentInfo;
     }

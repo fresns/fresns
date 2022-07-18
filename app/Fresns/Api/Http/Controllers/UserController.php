@@ -216,7 +216,7 @@ class UserController extends Controller
     // detail
     public function detail(string $uidOrUsername)
     {
-        if (is_int($uidOrUsername)) {
+        if (preg_match('/^\d*?$/', $uidOrUsername)) {
             $viewUser = User::where('uid', $uidOrUsername)->first();
         } else {
             $viewUser = User::where('username', $uidOrUsername)->first();
@@ -255,7 +255,7 @@ class UserController extends Controller
     // interactive
     public function interactive(string $uidOrUsername, string $type, Request $request)
     {
-        if (is_int($uidOrUsername)) {
+        if (preg_match('/^\d*?$/', $uidOrUsername)) {
             $viewUser = User::where('uid', $uidOrUsername)->first();
         } else {
             $viewUser = User::where('username', $uidOrUsername)->first();
@@ -290,7 +290,7 @@ class UserController extends Controller
     // markList
     public function markList(string $uidOrUsername, string $markType, string $listType, Request $request)
     {
-        if (is_int($uidOrUsername)) {
+        if (preg_match('/^\d*?$/', $uidOrUsername)) {
             $viewUser = User::where('uid', $uidOrUsername)->first();
         } else {
             $viewUser = User::where('username', $uidOrUsername)->first();
@@ -327,7 +327,7 @@ class UserController extends Controller
     {
         $dtoRequest = new UserAuthDTO($request->all());
 
-        if (is_int($dtoRequest->uidOrUsername)) {
+        if (preg_match('/^\d*?$/', $dtoRequest->uidOrUsername)) {
             $authUser = User::where('uid', $dtoRequest->uidOrUsername)->first();
         } else {
             $authUser = User::where('username', $dtoRequest->uidOrUsername)->first();

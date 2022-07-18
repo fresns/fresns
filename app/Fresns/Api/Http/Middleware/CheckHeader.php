@@ -18,15 +18,29 @@ class CheckHeader
 {
     public function handle(Request $request, Closure $next)
     {
-        $dtoHeaders = new CheckHeaderDTO(\request()->headers->all());
-        $headers = $dtoHeaders->toArray();
+        $headers = [
+            'platformId' => \request()->header('platformId'),
+            'version' => \request()->header('version'),
+            'appId' => \request()->header('appId'),
+            'timestamp' => \request()->header('timestamp'),
+            'sign' => \request()->header('sign'),
+            'langTag' => \request()->header('langTag'),
+            'timezone' => \request()->header('timezone'),
+            'aid' => \request()->header('aid'),
+            'uid' => \request()->header('uid'),
+            'token' => \request()->header('token'),
+            'deviceInfo' => json_decode(\request()->header('deviceInfo'), true),
+        ];
+
+        // check header
+        new CheckHeaderDTO($headers);
 
         // check sign
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->verifySign($headers);
 
-        if ($fresnsResp->isErrorResponse()) {
-            return $fresnsResp->errorResponse();
-        }
+        // if ($fresnsResp->isErrorResponse()) {
+        //     return $fresnsResp->errorResponse();
+        // }
 
         // config
         $siteMode = ConfigHelper::fresnsConfigByItemKey('site_mode');

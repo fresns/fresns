@@ -18,6 +18,7 @@ use App\Fresns\Api\Services\InteractiveService;
 use App\Fresns\Api\Services\UserService;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
+use App\Helpers\StrHelper;
 use App\Models\Comment;
 use App\Models\CommentLog;
 use App\Models\Seo;
@@ -71,7 +72,7 @@ class CommentController extends Controller
                 throw new ApiException(31602);
             }
 
-            if ($viewUser->isEnable(false)) {
+            if ($viewUser->is_enable == 0) {
                 throw new ApiException(35202);
             }
 
@@ -89,7 +90,7 @@ class CommentController extends Controller
                 throw new ApiException(37300);
             }
 
-            if ($viewPost->isEnable(false)) {
+            if ($viewPost->is_enable == 0) {
                 throw new ApiException(37301);
             }
 
@@ -103,7 +104,7 @@ class CommentController extends Controller
                 throw new ApiException(37400);
             }
 
-            if ($viewComment->isEnable(false)) {
+            if ($viewComment->is_enable == 0) {
                 throw new ApiException(37401);
             }
 
@@ -117,7 +118,7 @@ class CommentController extends Controller
                 throw new ApiException(37100);
             }
 
-            if ($viewGroup->isEnable(false)) {
+            if ($viewGroup->is_enable == 0) {
                 throw new ApiException(37101);
             }
 
@@ -129,13 +130,14 @@ class CommentController extends Controller
         }
 
         if ($dtoRequest->hid) {
-            $viewHashtag = PrimaryHelper::fresnsModelByFsid('hashtag', $dtoRequest->hid);
+            $hid = StrHelper::slug($dtoRequest->hid);
+            $viewHashtag = PrimaryHelper::fresnsModelByFsid('hashtag', $hid);
 
             if (empty($viewHashtag)) {
                 throw new ApiException(37200);
             }
 
-            if ($viewHashtag->isEnable(false)) {
+            if ($viewHashtag->is_enable == 0) {
                 throw new ApiException(37201);
             }
 
@@ -246,6 +248,9 @@ class CommentController extends Controller
     public function detail(string $cid, Request $request)
     {
         $dtoRequest = new CommentDetailDTO($request->all());
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
 
         $comment = Comment::with(['creator', 'hashtags'])->where('cid', $cid)->first();
 
@@ -257,11 +262,7 @@ class CommentController extends Controller
             throw new ApiException(37401);
         }
 
-        UserService::checkUserContentViewPerm($comment->created_at);
-
-        $langTag = $this->langTag();
-        $timezone = $this->timezone();
-        $authUser = $this->user();
+        UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
 
         $seoData = Seo::where('usage_type', Seo::TYPE_COMMENT)->where('usage_id', $comment->id)->where('lang_tag', $langTag)->first();
 
@@ -271,7 +272,7 @@ class CommentController extends Controller
         $data['items'] = $item;
 
         $service = new CommentService();
-        $data['detail'] = $service->commentDetail($comment, 'detail', $langTag, $timezone, $authUser->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+        $data['detail'] = $service->commentDetail($comment, 'detail', $langTag, $timezone, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
 
         return $this->success($data);
     }
@@ -279,13 +280,17 @@ class CommentController extends Controller
     // interactive
     public function interactive(string $cid, string $type, Request $request)
     {
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
+
         $comment = Comment::where('cid', $cid)->isEnable()->first();
 
         if (empty($comment)) {
             throw new ApiException(37400);
         }
 
-        UserService::checkUserContentViewPerm($comment->created_at);
+        UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
 
         $requestData = $request->all();
         $requestData['type'] = $type;
@@ -294,10 +299,6 @@ class CommentController extends Controller
         InteractiveService::checkInteractiveSetting($dtoRequest->type, 'comment');
 
         $orderDirection = $dtoRequest->orderDirection ?: 'desc';
-
-        $langTag = $this->langTag();
-        $timezone = $this->timezone();
-        $authUserId = $this->user()?->id;
 
         $service = new InteractiveService();
         $data = $service->getUsersWhoMarkIt($dtoRequest->type, InteractiveService::TYPE_COMMENT, $comment->id, $orderDirection, $langTag, $timezone, $authUserId);
@@ -308,18 +309,18 @@ class CommentController extends Controller
     // commentLogs
     public function commentLogs(string $cid, Request $request)
     {
+        $dtoRequest = new PaginationDTO($request->all());
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
+
         $comment = Comment::where('cid', $cid)->isEnable()->first();
 
         if (empty($comment)) {
             throw new ApiException(37400);
         }
 
-        UserService::checkUserContentViewPerm($comment->created_at);
-
-        $dtoRequest = new PaginationDTO($request->all());
-        $langTag = $this->langTag();
-        $timezone = $this->timezone();
-        $authUserId = $this->user()?->id;
+        UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
 
         $commentLogs = CommentLog::with('creator')->where('comment_id', $comment->id)->where('state', 3)->latest()->paginate($request->get('pageSize', 15));
 
@@ -335,23 +336,23 @@ class CommentController extends Controller
     // logDetail
     public function logDetail(string $cid, int $logId, Request $request)
     {
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
+
         $comment = Comment::where('cid', $cid)->isEnable()->first();
 
         if (empty($comment)) {
             throw new ApiException(37400);
         }
 
-        UserService::checkUserContentViewPerm($comment->created_at);
+        UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
 
         $log = CommentLog::where('comment_id', $comment->id)->where('id', $logId)->where('state', 3)->first();
 
         if (empty($log)) {
             throw new ApiException(37402);
         }
-
-        $langTag = $this->langTag();
-        $timezone = $this->timezone();
-        $authUserId = $this->user()?->id;
 
         $service = new CommentService();
         $data['detail'] = $service->commentLogDetail($log, $langTag, $timezone, $authUserId);

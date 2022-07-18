@@ -19,7 +19,7 @@ class PaginationDTO extends DTO
     {
         return [
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
-            'pageSize' => ['integer', 'nullable', 'between:1,30'],
+            'pageSize' => ['integer', 'nullable', 'between:1,25'],
             'page' => ['integer', 'nullable'],
         ];
     }
