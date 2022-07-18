@@ -21,7 +21,13 @@ trait PostServiceTrait
         $postData = $this;
         $appendData = $this->postAppend;
 
+        $configKey = ConfigHelper::fresnsConfigByItemKeys([
+            'website_post_detail_path',
+            'site_url',
+        ]);
+
         $info['pid'] = $postData->pid;
+        $info['url'] = $configKey['site_url'].'/'.$configKey['website_post_detail_path'].'/'.$postData->pid;
         $info['types'] = explode(',', $postData->types);
         $info['title'] = $postData->title;
         $info['content'] = $postData->content;

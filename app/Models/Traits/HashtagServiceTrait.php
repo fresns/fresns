@@ -19,7 +19,13 @@ trait HashtagServiceTrait
     {
         $hashtagData = $this;
 
+        $configKey = ConfigHelper::fresnsConfigByItemKeys([
+            'website_hashtag_detail_path',
+            'site_url',
+        ]);
+
         $info['hid'] = $hashtagData->slug;
+        $info['url'] = $configKey['site_url'].'/'.$configKey['website_hashtag_detail_path'].'/'.$hashtagData->slug;
         $info['hname'] = $hashtagData->name;
         $info['cover'] = FileHelper::fresnsFileUrlByTableColumn($hashtagData->cover_file_id, $hashtagData->cover_file_url);
         $info['description'] = LanguageHelper::fresnsLanguageByTableId('hashtags', 'description', $hashtagData->id, $langTag);

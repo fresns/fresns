@@ -22,7 +22,13 @@ trait CommentServiceTrait
         $appendData = $this->commentAppend;
         $postAppendData = $this->post->postAppend;
 
+        $configKey = ConfigHelper::fresnsConfigByItemKeys([
+            'website_comment_detail_path',
+            'site_url',
+        ]);
+
         $info['cid'] = $commentData->cid;
+        $info['url'] = $configKey['site_url'].'/'.$configKey['website_comment_detail_path'].'/'.$commentData->cid;
         $info['types'] = explode(',', $commentData->types);
         $info['title'] = $commentData->title;
         $info['content'] = $commentData->content;

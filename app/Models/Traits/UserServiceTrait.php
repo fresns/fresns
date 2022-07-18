@@ -22,16 +22,23 @@ trait UserServiceTrait
     {
         $userData = $this;
 
-        $identifier = ConfigHelper::fresnsConfigByItemKey('user_identifier');
+        $configKey = ConfigHelper::fresnsConfigByItemKeys([
+            'user_identifier',
+            'website_user_detail_path',
+            'site_url',
+        ]);
 
-        if ($identifier == 'uid') {
+        if ($configKey['user_identifier'] == 'uid') {
             $profile['fsid'] = $userData->uid;
+            $url = $configKey['site_url'].'/'.$configKey['website_user_detail_path'].'/'.$userData->uid;
         } else {
             $profile['fsid'] = $userData->username;
+            $url = $configKey['site_url'].'/'.$configKey['website_user_detail_path'].'/'.$userData->username;
         }
 
         $profile['uid'] = $userData->uid;
         $profile['username'] = $userData->username;
+        $profile['url'] = $url;
         $profile['nickname'] = $userData->nickname;
         $profile['avatar'] = static::getUserAvatar($userData->id);
         $profile['banner'] = FileHelper::fresnsFileUrlByTableColumn($userData->banner_file_id, $userData->banner_file_url);
@@ -63,14 +70,14 @@ trait UserServiceTrait
 
     public static function getUserAvatar(int $userId)
     {
-        $user = User::where('id', $userId)->first(['avatar_file_id', 'avatar_file_url', 'deleted_at']);
+        $user = User::where('id', $userId)->first(['avatar_file_id', 'avatar_file_url', 'wait_delete']);
 
         $avatar = ConfigHelper::fresnsConfigByItemKeys([
             'default_avatar',
             'deactivate_avatar',
         ]);
 
-        if (empty($user->deleted_at)) {
+        if ($user->wait_delete == 0) {
             if (empty($user->avatar_file_url) && empty($user->avatar_file_id)) {
                 // default avatar
                 if (ConfigHelper::fresnsConfigFileValueTypeByItemKey('default_avatar') == 'URL') {
@@ -87,7 +94,7 @@ trait UserServiceTrait
             }
         } else {
             // user deactivate avatar
-            if (ConfigHelper::fresnsConfigFileValueTypeByItemKey('deactivate_avatar') === 'URL') {
+            if (ConfigHelper::fresnsConfigFileValueTypeByItemKey('deactivate_avatar') == 'URL') {
                 $userAvatar = $avatar['deactivate_avatar'];
             } else {
                 $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink([
@@ -187,6 +194,7 @@ trait UserServiceTrait
         $stats['blockPostCount'] = $statsData->block_post_count;
         $stats['blockCommentCount'] = $statsData->block_comment_count;
         $stats['likeMeCount'] = $statsData->like_me_count;
+        $stats['dislikeMeCount'] = $statsData->dislike_me_count;
         $stats['followMeCount'] = $statsData->follow_me_count;
         $stats['blockMeCount'] = $statsData->block_me_count;
         $stats['postPublishCount'] = $statsData->post_publish_count;

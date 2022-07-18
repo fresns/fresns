@@ -22,7 +22,13 @@ trait GroupServiceTrait
         $groupData = $this;
         $parentGroup = $this->category;
 
+        $configKey = ConfigHelper::fresnsConfigByItemKeys([
+            'website_group_detail_path',
+            'site_url',
+        ]);
+
         $info['gid'] = $groupData->gid;
+        $info['url'] = $configKey['site_url'].'/'.$configKey['website_group_detail_path'].'/'.$groupData->gid;
         $info['type'] = $groupData->type;
         $info['gname'] = LanguageHelper::fresnsLanguageByTableId('groups', 'name', $groupData->id, $langTag);
         $info['description'] = LanguageHelper::fresnsLanguageByTableId('groups', 'description', $groupData->id, $langTag);
