@@ -91,7 +91,7 @@ class User
         $dtoWordBody = new VerifyUserDTO($wordBody);
         $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
-        $user = User::where('uid', $dtoWordBody->uid)->first();
+        $user = UserModel::where('uid', $dtoWordBody->uid)->first();
         $aid = $user->account->aid;
 
         if (empty($user) || $dtoWordBody->aid != $aid) {

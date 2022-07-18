@@ -131,6 +131,13 @@ class Account
             $account = AccountModel::where('phone', $accountName)->first();
         }
 
+        if (empty($account)) {
+            return $this->failure(
+                31502,
+                ConfigUtility::getCodeMessage(31502, 'Fresns', $langTag),
+            );
+        }
+
         $loginErrorCount = ConfigUtility::getLoginErrorCount($account->id);
 
         if ($loginErrorCount >= 5) {
@@ -243,7 +250,7 @@ class Account
         ];
         $session = SessionToken::where($condition)->first();
 
-        if ($session->token != $dtoWordBody->token) {
+        if ($session?->token != $dtoWordBody->token) {
             return $this->failure(
                 31505,
                 ConfigUtility::getCodeMessage(31505, 'Fresns', $langTag)
