@@ -14,7 +14,6 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cookie;
-use Plugins\FresnsEngine\Sdk\Factory;
 
 class UserGuard implements Guard
 {
@@ -95,22 +94,6 @@ class UserGuard implements Guard
     }
 
     /**
-     * Get the ID for the currently authenticated user.
-     *
-     * @return mixed|null
-     *
-     * @throws GuzzleException
-     */
-    public function aid(): string
-    {
-        if ($this->get()) {
-            return $this->get()['aid'];
-        }
-
-        return null;
-    }
-
-    /**
      * @param  array  $user
      * @return $this
      */
@@ -137,12 +120,16 @@ class UserGuard implements Guard
             return $key ? Arr::get($this->user, $key) : $this->user;
         }
 
-        $uid = Cookie::get('uid');
+        $uid = Cookie::get('fs_uid');
+        $token = Cookie::get('fs_uid_token');
 
-        if ($uid) {
+        if ($uid && $token) {
             try {
                 $result = ApiHelper::make()->get("/api/v2/user/{$uid}/detail");
-                $this->user = $result['data'];
+
+                if ($result instanceof \ArrayAccess) {
+                    $this->user = $result['data'];
+                }
             } catch (\Throwable $e) {
                 $this->logout();
                 throw $e;
@@ -154,9 +141,10 @@ class UserGuard implements Guard
 
     public function logout(): void
     {
-        Cookie::queue(Cookie::forget('aid'));
-        Cookie::queue(Cookie::forget('uid'));
-        Cookie::queue(Cookie::forget('token'));
+        Cookie::queue(Cookie::forget('fs_aid'));
+        Cookie::queue(Cookie::forget('fs_aid_token'));
+        Cookie::queue(Cookie::forget('fs_uid'));
+        Cookie::queue(Cookie::forget('fs_uid_token'));
         Cookie::queue(Cookie::forget('timezone'));
 
         $this->user = null;

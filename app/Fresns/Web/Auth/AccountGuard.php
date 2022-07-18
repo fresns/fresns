@@ -14,7 +14,6 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cookie;
-use Plugins\FresnsEngine\Sdk\Factory;
 
 class AccountGuard implements Guard
 {
@@ -95,22 +94,6 @@ class AccountGuard implements Guard
     }
 
     /**
-     * Get the ID for the currently authenticated account.
-     *
-     * @return mixed|null
-     *
-     * @throws GuzzleException
-     */
-    public function aid(): string
-    {
-        if ($this->get()) {
-            return $this->get()['detail']['aid'];
-        }
-
-        return null;
-    }
-
-    /**
      * @param  array  $account
      * @return $this
      */
@@ -137,8 +120,8 @@ class AccountGuard implements Guard
             return $key ? Arr::get($this->account, $key) : $this->account;
         }
 
-        $aid = Cookie::get('aid');
-        $token = Cookie::get('token');
+        $aid = Cookie::get('fs_aid');
+        $token = Cookie::get('fs_aid_token');
 
         if ($aid && $token) {
             try {
@@ -158,10 +141,12 @@ class AccountGuard implements Guard
      */
     public function logout(): void
     {
-        Cookie::queue(Cookie::forget('aid'));
-        Cookie::queue(Cookie::forget('uid'));
-        Cookie::queue(Cookie::forget('token'));
+        Cookie::queue(Cookie::forget('fs_aid'));
+        Cookie::queue(Cookie::forget('fs_aid_token'));
+        Cookie::queue(Cookie::forget('fs_uid'));
+        Cookie::queue(Cookie::forget('fs_uid_token'));
         Cookie::queue(Cookie::forget('timezone'));
+
         $this->account = null;
         $this->loggedOut = true;
     }

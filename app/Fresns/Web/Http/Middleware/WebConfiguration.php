@@ -64,7 +64,7 @@ class WebConfiguration
         $finder->prependLocation(base_path("extensions/themes/{$path}"));
         $this->userPanel();
 
-        $timezone = fs_user('detail.timezone') ?? ConfigHelper::fresnsConfigByItemKey('default_timezone');
+        $timezone = fs_user('detail.timezone') ?: ConfigHelper::fresnsConfigByItemKey('default_timezone');
         Cookie::queue('timezone', $timezone);
 
         return $next($request);
@@ -73,7 +73,7 @@ class WebConfiguration
     private function userPanel(): void
     {
         if (fs_user()->check()) {
-            $uid = fs_user('uid');
+            $uid = fs_user('detail.uid');
 
             $result = ApiHelper::make()->get("/api/v2/user/{$uid}/detail");
 

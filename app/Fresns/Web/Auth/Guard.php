@@ -18,8 +18,6 @@ interface Guard
 
     public function guest(): bool;
 
-    public function aid(): string;
-
     public function set(array $params): self;
 
     public function get(?string $key = null);

@@ -19,31 +19,31 @@ class SearchController extends Controller
     }
 
     // users
-    public function users()
+    public function users(Request $request)
     {
         return view('search.users');
     }
 
     // groups
-    public function groups()
+    public function groups(Request $request)
     {
         return view('search.groups');
     }
 
     // hashtags
-    public function hashtags()
+    public function hashtags(Request $request)
     {
         return view('search.hashtags');
     }
 
     // posts
-    public function posts()
+    public function posts(Request $request)
     {
         return view('search.posts');
     }
 
     // comments
-    public function comments()
+    public function comments(Request $request)
     {
         return view('search.comments');
     }

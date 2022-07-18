@@ -36,7 +36,6 @@ class WebServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerAuthenticator();
-        $this->registerViews();
         $this->registerTranslations();
     }
 
@@ -49,11 +48,6 @@ class WebServiceProvider extends ServiceProvider
         app()->singleton('fresns.user', function ($app) {
             return new UserGuard($app);
         });
-    }
-
-    protected function registerViews()
-    {
-        $this->loadViewsFrom(__DIR__.'/../Resources/views', 'FsWeb');
     }
 
     protected function registerTranslations()

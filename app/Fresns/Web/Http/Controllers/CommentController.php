@@ -8,61 +8,193 @@
 
 namespace App\Fresns\Web\Http\Controllers;
 
+use App\Fresns\Web\Helpers\ApiHelper;
+use App\Fresns\Web\Helpers\QueryHelper;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
     // index
-    public function index()
+    public function index(Request $request)
     {
-        return view('comments.index');
+        $query = QueryHelper::convertOptionToRequestParam(QueryHelper::TYPE_COMMENT, $request->all());
+
+        $result = ApiHelper::make()->get('/api/v2/comment/list', [
+            'query' => $query,
+        ]);
+
+        $comments = QueryHelper::convertApiDataToPaginate(
+            items: $result['data']['list'],
+            paginate: $result['data']['paginate'],
+        );
+
+        return view('comments.index', compact('comments'));
     }
 
     // list
-    public function list()
+    public function list(Request $request)
     {
-        return view('comments.list');
+        $query = QueryHelper::convertOptionToRequestParam(QueryHelper::TYPE_COMMENT_LIST, $request->all());
+
+        $result = ApiHelper::make()->get('/api/v2/comment/list', [
+            'query' => $query,
+        ]);
+
+        $comments = QueryHelper::convertApiDataToPaginate(
+            items: $result['data']['list'],
+            paginate: $result['data']['paginate'],
+        );
+
+        return view('comments.list', compact('comments'));
     }
 
     // nearby
-    public function nearby()
+    public function nearby(Request $request)
     {
-        return view('comments.nearby');
+        if (empty($request->mapLng) || empty($request->mapLat)) {
+            return back()->with([
+                'failure' => fs_lang('location').': '.fs_lang('errorEmpty'),
+            ]);
+        }
+
+        $query = $request->all();
+        $query['mapId'] = $request->mapId;
+        $query['mapLng'] = $request->mapLng;
+        $query['mapLat'] = $request->mapLat;
+        $query['unit'] = $request->unit ?? null;
+        $query['length'] = $request->length ?? null;
+
+        $result = ApiHelper::make()->get('/api/v2/comment/nearby', [
+            'query' => $query,
+        ]);
+
+        $comments = QueryHelper::convertApiDataToPaginate(
+            items: $result['data']['list'],
+            paginate: $result['data']['paginate'],
+        );
+
+        return view('comments.nearby', compact('comments'));
     }
 
     // location
-    public function location()
+    public function location(Request $request)
     {
-        return view('comments.location');
+        if (empty($request->mapLng) || empty($request->mapLat)) {
+            return back()->with([
+                'failure' => fs_lang('location').': '.fs_lang('errorEmpty'),
+            ]);
+        }
+
+        $query = $request->all();
+        $query['mapId'] = $request->mapId;
+        $query['mapLng'] = $request->mapLng;
+        $query['mapLat'] = $request->mapLat;
+        $query['unit'] = $request->unit ?? null;
+        $query['length'] = $request->length ?? null;
+
+        $result = ApiHelper::make()->get('/api/v2/comment/nearby', [
+            'query' => $query,
+        ]);
+
+        $comments = QueryHelper::convertApiDataToPaginate(
+            items: $result['data']['list'],
+            paginate: $result['data']['paginate'],
+        );
+
+        return view('comments.location', compact('comments'));
     }
 
     // likes
-    public function likes()
+    public function likes(Request $request)
     {
-        return view('comments.likes');
+        $uid = fs_user('detail.uid');
+
+        $result = ApiHelper::make()->get("/api/v2/user/{$uid}/mark/like/comments", [
+            'query' => $request->all(),
+        ]);
+
+        $comments = QueryHelper::convertApiDataToPaginate(
+            items: $result['data']['list'],
+            paginate: $result['data']['paginate'],
+        );
+
+        return view('comments.likes', compact('comments'));
     }
 
     // dislikes
-    public function dislikes()
+    public function dislikes(Request $request)
     {
-        return view('comments.dislikes');
+        $uid = fs_user('detail.uid');
+
+        $result = ApiHelper::make()->get("/api/v2/user/{$uid}/mark/dislike/comments", [
+            'query' => $request->all(),
+        ]);
+
+        $comments = QueryHelper::convertApiDataToPaginate(
+            items: $result['data']['list'],
+            paginate: $result['data']['paginate'],
+        );
+
+        return view('comments.dislikes', compact('comments'));
     }
 
     // following
-    public function following()
+    public function following(Request $request)
     {
-        return view('comments.following');
+        $uid = fs_user('detail.uid');
+
+        $result = ApiHelper::make()->get("/api/v2/user/{$uid}/mark/follow/comments", [
+            'query' => $request->all(),
+        ]);
+
+        $comments = QueryHelper::convertApiDataToPaginate(
+            items: $result['data']['list'],
+            paginate: $result['data']['paginate'],
+        );
+
+        return view('comments.following', compact('comments'));
     }
 
     // blocking
-    public function blocking()
+    public function blocking(Request $request)
     {
-        return view('comments.blocking');
+        $uid = fs_user('detail.uid');
+
+        $result = ApiHelper::make()->get("/api/v2/user/{$uid}/mark/block/comments", [
+            'query' => $request->all(),
+        ]);
+
+        $comments = QueryHelper::convertApiDataToPaginate(
+            items: $result['data']['list'],
+            paginate: $result['data']['paginate'],
+        );
+
+        return view('comments.blocking', compact('comments'));
     }
 
     // detail
-    public function detail()
+    public function detail(Request $request, string $cid)
     {
-        return view('comments.detail');
+        $query = $request->all();
+        $query['cid'] = $cid;
+
+        $client = ApiHelper::make();
+
+        $results = $client->handleUnwrap([
+            'comment' => $client->getAsync("/api/v2/comment/{$cid}/detail"),
+            'comments'   => $client->getAsync('/api/v2/comment/list', [
+                'query' => $query,
+            ]),
+        ]);
+
+        $items = $results['comment']['data']['items'];
+        $comment = $results['comment']['data']['detail'];
+
+        $comments = QueryHelper::convertApiDataToPaginate(
+            items: $results['comments']['data']['list'],
+            paginate: $results['comments']['data']['paginate'],
+        );
+
+        return view('comments.detail', compact('items', 'comment', 'comments'));
     }
 }

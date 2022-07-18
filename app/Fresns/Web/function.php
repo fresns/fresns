@@ -130,7 +130,7 @@ if (! function_exists('fs_account')) {
     function fs_account(?string $detailKey = null)
     {
         if ($detailKey) {
-            return app('fresns.user')->get($detailKey);
+            return app('fresns.account')->get($detailKey);
         }
 
         return app('fresns.account');
