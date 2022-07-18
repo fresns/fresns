@@ -25,9 +25,16 @@ use Illuminate\Support\Arr;
 class PermissionUtility
 {
     // Get user content view perm permission
-    public static function getUserContentViewPerm(int $userId): array
+    public static function getUserContentViewPerm(?int $userId = null): array
     {
         $userExpireInfo = PermissionUtility::checkUserStatusOfSiteMode($userId);
+
+        if (empty($userId) && $userExpireInfo['siteMode'] == 'public') {
+            $item['type'] = 1;
+            $item['dateLimit'] = null;
+
+            return $item;
+        }
 
         if (! $userExpireInfo['userStatus'] && $userExpireInfo['expireAfter'] == 1) {
             $item['type'] = 3;
@@ -109,7 +116,7 @@ class PermissionUtility
 
         $blockGroupIds = UserBlock::type(UserBlock::TYPE_GROUP)->where('user_id', $userId)->pluck('block_id')->toArray();
 
-        $filterGroupIdsArr = Arr::prepend($blockGroupIds, $filterIds);
+        $filterGroupIdsArr = array_values(array_unique(array_merge($blockGroupIds, $filterIds)));
 
         return $filterGroupIdsArr;
     }
@@ -172,7 +179,7 @@ class PermissionUtility
     }
 
     // Check user dialog permission
-    public static function checkUserDialogPerm(int $receiveUserId, int $authUserId, ?string $langTag = null)
+    public static function checkUserDialogPerm(int $receiveUserId, ?int $authUserId = null, ?string $langTag = null)
     {
         $configs = ConfigHelper::fresnsConfigByItemKeys(['dialog_status', 'dialog_files']);
         $receiveUser = PrimaryHelper::fresnsModelById('user', $receiveUserId);
@@ -181,6 +188,14 @@ class PermissionUtility
         $info['files'] = $configs['dialog_files'];
         $info['code'] = 0;
         $info['message'] = 'ok';
+
+        if (empty($authUserId)) {
+            $info['status'] = false;
+            $info['code'] = 31601;
+            $info['message'] = ConfigUtility::getCodeMessage(31601, 'Fresns', $langTag);
+
+            return  $info;
+        }
 
         if (! $configs['dialog_status']) {
             $info['status'] = false;
