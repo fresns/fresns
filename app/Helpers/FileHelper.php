@@ -196,7 +196,8 @@ class FileHelper
             return $urlColumn;
         }
 
-        $file = File::whereId($idColumn)->first();
+        $file = File::where('id', $idColumn)->first();
+
         if (empty($file)) {
             return null;
         }

@@ -206,6 +206,8 @@ class StrHelper
             $slug = rawurlencode($text);
         }
 
+        $slug = Str::lower($slug);
+
         return $slug;
     }
 }

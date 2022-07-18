@@ -290,6 +290,13 @@ class InteractiveHelper
         $profile['rolePermissions'] = null;
         $profile['roleStatus'] = true;
 
+        $profile['operations'] = [
+            'customizes' => null,
+            'buttonIcons' => null,
+            'diversifyImages' => null,
+            'tips' => null,
+        ];
+
         return $profile;
     }
 }
