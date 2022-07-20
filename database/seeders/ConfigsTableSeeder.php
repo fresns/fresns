@@ -2897,7 +2897,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             221 => [
                 'id' => 222,
-                'item_key' => 'post_hot',
+                'item_key' => 'top_comment_require',
                 'item_value' => '50',
                 'item_type' => 'number',
                 'item_tag' => 'interactives',
