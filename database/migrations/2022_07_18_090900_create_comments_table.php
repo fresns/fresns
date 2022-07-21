@@ -23,7 +23,6 @@ class CreateCommentsTable extends Migration
             $table->bigIncrements('id');
             $table->string('cid', 32)->unique('cid');
             $table->unsignedBigInteger('post_id');
-            $table->unsignedInteger('group_id')->nullable();
             $table->unsignedBigInteger('top_parent_id')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->unsignedBigInteger('user_id');
