@@ -45,11 +45,11 @@
             <label class="col-lg-2 col-form-label text-lg-end"></label>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <label class="input-group-text">{{ __('FsLang::panel.interactive_post_hot') }}</label>
-                    <input type="number" class="form-control input-number" name="post_hot" value="{{ $params['post_hot'] }}">
+                    <label class="input-group-text">{{ __('FsLang::panel.interactive_top_comment_require') }}</label>
+                    <input type="number" class="form-control input-number" name="top_comment_require" value="{{ $params['top_comment_require'] }}">
                 </div>
             </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interactive_post_hot_desc') }}</div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interactive_top_comment_require_desc') }}</div>
         </div>
         <div class="row mb-3">
             <label class="col-lg-2 col-form-label text-lg-end"></label>

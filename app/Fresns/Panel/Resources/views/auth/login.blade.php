@@ -13,11 +13,11 @@
                 @endforeach
             </select>
             <h4 class="mb-3 fw-normal">{{ __('FsLang::panel.login') }}</h4>
-            <div class="form-floating">
+            <div class="form-floating text-start">
                 <input type="text" class="form-control rounded-bottom-0" name="accountName" value="{{ old('accountName') }}" required placeholder="name@example.com">
                 <label for="account">{{ __('FsLang::panel.account') }}</label>
             </div>
-            <div class="form-floating">
+            <div class="form-floating text-start">
                 <input type="password" class="form-control rounded-top-0 border-top-0" name="password" required placeholder="Password">
                 <label for="password">{{ __('FsLang::panel.password') }}</label>
             </div>

@@ -18,7 +18,7 @@ class InteractiveController extends Controller
         // config keys
         $configKeys = [
             'hashtag_show',
-            'post_hot',
+            'top_comment_require',
             'comment_visibility_rule',
             'comment_preview',
             'nearby_length_km',
@@ -109,7 +109,7 @@ class InteractiveController extends Controller
     {
         $configKeys = [
             'hashtag_show',
-            'post_hot',
+            'top_comment_require',
             'comment_visibility_rule',
             'comment_preview',
             'nearby_length_km',
