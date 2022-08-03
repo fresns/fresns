@@ -29,8 +29,7 @@ trait CommentServiceTrait
 
         $info['cid'] = $commentData->cid;
         $info['url'] = $configKey['site_url'].'/'.$configKey['website_comment_detail_path'].'/'.$commentData->cid;
-        $info['types'] = explode(',', $commentData->types);
-        $info['title'] = $commentData->title;
+        $info['types'] = array_filter(explode(',', $commentData->types));
         $info['content'] = $commentData->content;
         $info['contentLength'] = Str::length($commentData->content);
         $info['langTag'] = $commentData->lang_tag;

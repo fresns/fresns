@@ -28,7 +28,7 @@ trait PostServiceTrait
 
         $info['pid'] = $postData->pid;
         $info['url'] = $configKey['site_url'].'/'.$configKey['website_post_detail_path'].'/'.$postData->pid;
-        $info['types'] = explode(',', $postData->types);
+        $info['types'] = array_filter(explode(',', $postData->types));
         $info['title'] = $postData->title;
         $info['content'] = $postData->content;
         $info['contentLength'] = Str::length($postData->content);
