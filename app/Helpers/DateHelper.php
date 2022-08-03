@@ -130,7 +130,7 @@ class DateHelper
             return $datetime;
         }
 
-        $standard = Carbon::createFromFormat($dateTimeFormat, $datetime, $dbTimezone)->setTimezone($timezone)->format($dateTimeFormat);
+        $standard = Carbon::createFromFormat('Y-m-d H:i:s', $datetime, $dbTimezone)->setTimezone($timezone)->format($dateTimeFormat);
 
         return $standard;
     }
@@ -146,7 +146,12 @@ class DateHelper
         $currentTime = DateHelper::fresnsDatabaseCurrentDateTime();
         $dateString = Carbon::createFromFormat('Y-m-d H:i:s', $currentTime)->toDateString();
 
-        $dbTime = $dateString.' '.$time.':00';
+        // $time = 23:00 or $time = 23:00:00
+        if (substr_count($time, ':') == 1) {
+            $time = $time.':00';
+        }
+
+        $dbTime = $dateString.' '.$time;
 
         $newDatetime = DateHelper::fresnsDateTimeByTimezone($dbTime, $timezone);
 

@@ -252,7 +252,9 @@ class InteractiveHelper
             $userAvatar = $fresnsResp->getData('imageAvatarUrl');
         }
 
+        $profile['fsid'] = null;
         $profile['uid'] = null;
+        $profile['url'] = null;
         $profile['username'] = null;
         $profile['nickname'] = null;
         $profile['avatar'] = $userAvatar;
