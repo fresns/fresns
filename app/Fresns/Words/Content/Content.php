@@ -265,7 +265,7 @@ class Content
                     );
                 }
 
-                if (! empty($comment->top_comment_id) || $comment->top_comment_id == 0) {
+                if (! empty($comment->top_parent_id) || $comment->top_parent_id == 0) {
                     return $this->failure(
                         36313,
                         ConfigUtility::getCodeMessage(36313, 'Fresns', $langTag)
@@ -504,9 +504,9 @@ class Content
                 $group = PrimaryHelper::fresnsModelByFsid('group', $post->group_id);
                 $parentComment = PrimaryHelper::fresnsModelByFsid('comment', $dtoWordBody->commentCid);
 
-                $topCommentId = null;
+                $topParentId = null;
                 if (! $parentComment) {
-                    $topCommentId = $parentComment?->top_comment_id ?? null;
+                    $topParentId = $parentComment?->top_parent_id ?? null;
                 }
             break;
         }
@@ -611,7 +611,7 @@ class Content
                     'user_id' => $authUser->id,
                     'post_id' => $post->id,
                     'group_id' => $post->group_id,
-                    'top_comment_id' => $topCommentId,
+                    'top_parent_id' => $topParentId,
                     'parent_id' => $parentComment?->id ?? null,
                     'content' => $content,
                     'is_markdown' => $dtoWordBody->isMarkdown ?? 0,

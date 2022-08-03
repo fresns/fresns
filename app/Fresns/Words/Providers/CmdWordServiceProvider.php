@@ -10,7 +10,7 @@ namespace App\Fresns\Words\Providers;
 
 use App\Fresns\Words\Account\Account;
 use App\Fresns\Words\Account\Wallet;
-use App\Fresns\Words\Basis\Basis;
+use App\Fresns\Words\Basic\Basic;
 use App\Fresns\Words\Content\Content;
 use App\Fresns\Words\Crontab\Crontab;
 use App\Fresns\Words\File\File;
@@ -31,11 +31,11 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
      */
     protected $cmdWordsMap = [
         // Basic
-        ['word' => 'verifySign', 'provider' => [Basis::class, 'verifySign']],
-        ['word' => 'verifyUrlSign', 'provider' => [Basis::class, 'verifyUrlSign']],
-        ['word' => 'uploadSessionLog', 'provider' => [Basis::class, 'uploadSessionLog']],
-        ['word' => 'sendCode', 'provider' => [Basis::class, 'sendCode']],
-        ['word' => 'checkCode', 'provider' => [Basis::class, 'checkCode']],
+        ['word' => 'verifySign', 'provider' => [Basic::class, 'verifySign']],
+        ['word' => 'verifyUrlSign', 'provider' => [Basic::class, 'verifyUrlSign']],
+        ['word' => 'uploadSessionLog', 'provider' => [Basic::class, 'uploadSessionLog']],
+        ['word' => 'sendCode', 'provider' => [Basic::class, 'sendCode']],
+        ['word' => 'checkCode', 'provider' => [Basic::class, 'checkCode']],
 
         // Send
         ['word' => 'sendEmail', 'provider' => [Send::class, 'sendEmail']],

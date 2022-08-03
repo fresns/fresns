@@ -6,7 +6,7 @@
  * Released under the Apache-2.0 License.
  */
 
-namespace App\Fresns\Words\Basis\DTO;
+namespace App\Fresns\Words\Basic\DTO;
 
 use Fresns\DTO\DTO;
 

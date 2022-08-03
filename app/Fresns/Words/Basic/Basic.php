@@ -6,25 +6,23 @@
  * Released under the Apache-2.0 License.
  */
 
-namespace App\Fresns\Words\Basis;
+namespace App\Fresns\Words\Basic;
 
-use App\Fresns\Words\Basis\DTO\CheckCodeDTO;
-use App\Fresns\Words\Basis\DTO\SendCodeDTO;
-use App\Fresns\Words\Basis\DTO\UploadSessionLogDTO;
-use App\Fresns\Words\Basis\DTO\VerifySignDTO;
-use App\Fresns\Words\Basis\DTO\VerifyUrlSignDTO;
+use App\Fresns\Words\Basic\DTO\CheckCodeDTO;
+use App\Fresns\Words\Basic\DTO\SendCodeDTO;
+use App\Fresns\Words\Basic\DTO\UploadSessionLogDTO;
+use App\Fresns\Words\Basic\DTO\VerifySignDTO;
+use App\Fresns\Words\Basic\DTO\VerifyUrlSignDTO;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\SignHelper;
-use App\Models\Account;
 use App\Models\SessionKey;
 use App\Models\SessionLog;
-use App\Models\User;
 use App\Models\VerifyCode;
 use App\Utilities\ConfigUtility;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 
-class Basis
+class Basic
 {
     use CmdWordResponseTrait;
 
