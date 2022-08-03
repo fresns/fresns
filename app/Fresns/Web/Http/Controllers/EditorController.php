@@ -72,7 +72,7 @@ class EditorController extends Controller
         if (empty($draftId)) {
             $results = $client->handleUnwrap([
                 'config' => $client->getAsync("/api/v2/editor/{$type}/config"),
-                'stickers' => $client->getAsync("/api/v2/global/stickers"),
+                'stickers' => $client->getAsync('/api/v2/global/stickers'),
             ]);
 
             $draftInfo['stickers'] = null;
@@ -80,7 +80,7 @@ class EditorController extends Controller
         } else {
             $results = $client->handleUnwrap([
                 'config' => $client->getAsync("/api/v2/editor/{$type}/config"),
-                'stickers' => $client->getAsync("/api/v2/global/stickers"),
+                'stickers' => $client->getAsync('/api/v2/global/stickers'),
                 'draft' => $client->getAsync("/api/v2/editor/post/{$draftId}"),
             ]);
 
