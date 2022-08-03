@@ -47,17 +47,6 @@ class DomainsTableSeeder extends Seeder
             2 => [
                 'id' => 3,
                 'domain' => 'fresns.org',
-                'host' => 'docs.fresns.org',
-                'post_count' => 0,
-                'comment_count' => 0,
-                'is_enable' => 1,
-                'created_at' => '2022-07-18 17:00:00',
-                'updated_at' => null,
-                'deleted_at' => null,
-            ],
-            3 => [
-                'id' => 4,
-                'domain' => 'fresns.org',
                 'host' => 'discuss.fresns.org',
                 'post_count' => 0,
                 'comment_count' => 0,
