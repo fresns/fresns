@@ -40,9 +40,12 @@ class PostFollowService
             })
             ->isEnable()
             ->latest();
-        $userPostQuery->whereHas('hashtags', function ($query) use ($blockHashtagIds) {
-            $query->whereNotIn('id', $blockHashtagIds);
-        });
+
+        if ($blockHashtagIds) {
+            $userPostQuery->whereHas('hashtags', function ($query) use ($blockHashtagIds) {
+                $query->whereNotIn('hashtag_id', $blockHashtagIds);
+            });
+        }
 
         // follow group post
         $groupPostQuery = Post::with(['creator', 'group', 'hashtags'])
@@ -57,9 +60,12 @@ class PostFollowService
             ->whereIn('digest_state', [2, 3])
             ->isEnable()
             ->latest();
-        $groupPostQuery->whereHas('hashtags', function ($query) use ($blockHashtagIds) {
-            $query->whereNotIn('id', $blockHashtagIds);
-        });
+
+        if ($blockHashtagIds) {
+            $groupPostQuery->whereHas('hashtags', function ($query) use ($blockHashtagIds) {
+                $query->whereNotIn('hashtag_id', $blockHashtagIds);
+            });
+        }
 
         // follow hashtag post
         $hashtagPostQuery = Post::with(['creator', 'group', 'hashtags'])
@@ -75,6 +81,7 @@ class PostFollowService
             ->whereIn('digest_state', [2, 3])
             ->isEnable()
             ->latest();
+
         $hashtagPostQuery->whereHas('hashtags', function ($query) use ($followHashtagIds) {
             $query->whereIn('id', $followHashtagIds);
         });
@@ -91,18 +98,26 @@ class PostFollowService
             })
             ->where('digest_state', 3)
             ->latest();
+
         $digestPostQuery->whereHas('hashtags', function ($query) use ($followHashtagIds) {
-            $query->whereNotIn('id', $followHashtagIds);
+            $query->whereNotIn('hashtag_id', $followHashtagIds);
         });
 
-        if (! empty($contentType)) {
-            $userPostQuery->where('types', 'like', "%$contentType%");
-            $groupPostQuery->where('types', 'like', "%$contentType%");
-            $hashtagPostQuery->where('types', 'like', "%$contentType%");
-            $digestPostQuery->where('types', 'like', "%$contentType%");
+        if ($contentType && $contentType != 'all') {
+            if ($contentType == 'text') {
+                $userPostQuery->whereNull('types');
+                $groupPostQuery->whereNull('types');
+                $hashtagPostQuery->whereNull('types');
+                $digestPostQuery->whereNull('types');
+            } else {
+                $userPostQuery->where('types', 'like', "%$contentType%");
+                $groupPostQuery->where('types', 'like', "%$contentType%");
+                $hashtagPostQuery->where('types', 'like', "%$contentType%");
+                $digestPostQuery->where('types', 'like', "%$contentType%");
+            }
         }
 
-        if (! empty($dateLimit)) {
+        if ($dateLimit) {
             $userPostQuery->where('created_at', '<=', $dateLimit);
             $groupPostQuery->where('created_at', '<=', $dateLimit);
             $hashtagPostQuery->where('created_at', '<=', $dateLimit);
@@ -135,11 +150,15 @@ class PostFollowService
             ->isEnable()
             ->latest();
 
-        if (! empty($contentType)) {
-            $postQuery->where('types', 'like', "%$contentType%");
+        if ($contentType && $contentType != 'all') {
+            if ($contentType == 'text') {
+                $postQuery->whereNull('types');
+            } else {
+                $postQuery->where('types', 'like', "%$contentType%");
+            }
         }
 
-        if (! empty($dateLimit)) {
+        if ($dateLimit) {
             $postQuery->where('created_at', '<=', $dateLimit);
         }
 
@@ -165,15 +184,22 @@ class PostFollowService
             })
             ->isEnable()
             ->latest();
-        $postQuery->whereHas('hashtags', function ($query) use ($blockHashtagIds) {
-            $query->whereNotIn('id', $blockHashtagIds);
-        });
 
-        if (! empty($contentType)) {
-            $postQuery->where('types', 'like', "%$contentType%");
+        if ($blockHashtagIds) {
+            $postQuery->whereHas('hashtags', function ($query) use ($blockHashtagIds) {
+                $query->whereNotIn('hashtag_id', $blockHashtagIds);
+            });
         }
 
-        if (! empty($dateLimit)) {
+        if ($contentType && $contentType != 'all') {
+            if ($contentType == 'text') {
+                $postQuery->whereNull('types');
+            } else {
+                $postQuery->where('types', 'like', "%$contentType%");
+            }
+        }
+
+        if ($dateLimit) {
             $postQuery->where('created_at', '<=', $dateLimit);
         }
 
@@ -199,8 +225,9 @@ class PostFollowService
             })
             ->isEnable()
             ->latest();
+
         $postQuery->whereHas('hashtags', function ($query) use ($followHashtagIds) {
-            $query->whereIn('id', $followHashtagIds);
+            $query->whereIn('hashtag_id', $followHashtagIds);
         });
 
         if (! empty($contentType)) {

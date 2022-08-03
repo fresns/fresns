@@ -9,7 +9,6 @@
 namespace App\Fresns\Api\Traits;
 
 use App\Helpers\AppHelper;
-use App\Helpers\StrHelper;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -29,8 +28,6 @@ trait ApiResponseTrait
         if (isset($data['data']) && isset($data['paginate'])) {
             extract($data);
         }
-
-        $message = StrHelper::stringToUtf8($message);
 
         $data = $data ?: null;
         $fresnsResponse = compact('code', 'message', 'data') + array_filter(compact('paginate'));

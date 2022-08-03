@@ -46,19 +46,26 @@ class CommentController extends Controller
             $blockUserIds = UserBlock::type(UserBlock::TYPE_USER)->where('user_id', $authUserId)->pluck('block_id')->toArray();
             $blockHashtagIds = UserBlock::type(UserBlock::TYPE_HASHTAG)->where('user_id', $authUserId)->pluck('block_id')->toArray();
 
-            $commentQuery = Comment::with(['creator', 'group', 'hashtags'])
+            $commentQuery = Comment::with(['creator', 'post', 'hashtags'])
                 ->where(function ($query) use ($blockCommentIds, $blockUserIds) {
-                    $query->whereNotIn('id', $blockCommentIds)->orWhereNotIn('user_id', $blockUserIds);
+                    $query
+                        ->whereNotIn('id', $blockCommentIds)
+                        ->orWhereNotIn('user_id', $blockUserIds);
+                })
+                ->isEnable();
+
+            if ($filterGroupIdsArr) {
+                $commentQuery->whereHas('post', function ($query) use ($filterGroupIdsArr) {
+                    $query->whereNotIn('group_id', $filterGroupIdsArr);
                 });
+            }
 
-            $commentQuery->whereHas('hashtags', function ($query) use ($blockHashtagIds) {
-                $query->whereNotIn('id', $blockHashtagIds);
-            });
+            if ($blockHashtagIds) {
+                $commentQuery->whereHas('hashtags', function ($query) use ($blockHashtagIds) {
+                    $query->whereNotIn('hashtag_id', $blockHashtagIds);
+                });
+            }
         }
-
-        $commentQuery->whereHas('post', function ($query) use ($filterGroupIdsArr) {
-            $query->whereNotIn('group_id', $filterGroupIdsArr);
-        });
 
         if ($dtoRequest->uidOrUsername) {
             $commentConfig = ConfigHelper::fresnsConfigByItemKey('it_comments');
@@ -108,7 +115,9 @@ class CommentController extends Controller
                 throw new ApiException(37401);
             }
 
-            $commentQuery->where('top_comment_id', $viewComment->id);
+            $commentQuery->where('top_parent_id', $viewComment->id);
+        } else {
+            $commentQuery->whereNull('top_parent_id');
         }
 
         if ($dtoRequest->gid) {
@@ -122,10 +131,10 @@ class CommentController extends Controller
                 throw new ApiException(37101);
             }
 
-            $groupId = $viewGroup->id;
-
-            $commentQuery->whereHas('post', function ($query) use ($groupId) {
-                $query->where('group_id', $groupId);
+            $commentQuery->when($viewGroup->id, function ($query, $value) {
+                $query->whereHas('post', function ($query) use ($value) {
+                    $query->where('group_id', $value);
+                });
             });
         }
 
@@ -142,7 +151,9 @@ class CommentController extends Controller
             }
 
             $commentQuery->when($viewHashtag->id, function ($query, $value) {
-                $query->whereRelation('hashtags', 'id', $value);
+                $query->whereHas('hashtags', function ($query) use ($value) {
+                    $query->where('hashtag_id', $value);
+                });
             });
         }
 
@@ -233,15 +244,15 @@ class CommentController extends Controller
 
         $commentQuery->orderBy($orderType, $orderDirection);
 
-        $posts = $commentQuery->paginate($request->get('pageSize', 15));
+        $comments = $commentQuery->paginate($request->get('pageSize', 15));
 
-        $postList = [];
+        $commentList = [];
         $service = new CommentService();
-        foreach ($posts as $post) {
-            $postList[] = $service->commentDetail($post, 'list', $langTag, $timezone, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+        foreach ($comments as $comment) {
+            $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
         }
 
-        return $this->fresnsPaginate($postList, $posts->total(), $posts->perPage());
+        return $this->fresnsPaginate($commentList, $comments->total(), $comments->perPage());
     }
 
     // detail
@@ -272,7 +283,7 @@ class CommentController extends Controller
         $data['items'] = $item;
 
         $service = new CommentService();
-        $data['detail'] = $service->commentDetail($comment, 'detail', $langTag, $timezone, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+        $data['detail'] = $service->commentData($comment, 'detail', $langTag, $timezone, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
 
         return $this->success($data);
     }

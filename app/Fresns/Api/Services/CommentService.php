@@ -20,52 +20,26 @@ use App\Models\ExtendUsage;
 use App\Models\Mention;
 use App\Models\OperationUsage;
 use App\Models\PluginUsage;
+use App\Models\Post;
 use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractiveUtility;
 use App\Utilities\LbsUtility;
+use App\Utilities\PermissionUtility;
 use Illuminate\Support\Str;
 
 class CommentService
 {
-    public function commentList(?Comment $comment, string $langTag, string $timezone, ?int $authUserId = null)
+    // $type = list or detail
+    public function commentData(?Comment $comment, string $type, string $langTag, string $timezone, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLng = null, ?string $authUserLat = null)
     {
         if (! $comment) {
             return null;
         }
 
         $commentInfo = $comment->getCommentInfo($langTag, $timezone);
-        $contentHandle = self::contentHandle($comment, 'list', $authUserId);
-
-        $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_COMMENT, $comment->id, $langTag);
-
-        $item['hashtags'] = null;
-        if ($comment->hashtags->isNotEmpty()) {
-            $hashtagService = new HashtagService;
-
-            foreach ($comment->hashtags as $hashtag) {
-                $hashtagItem[] = $hashtagService->hashtagList($hashtag, $langTag, $authUserId);
-            }
-            $item['hashtags'] = $hashtagItem;
-        }
-
-        $item['creator'] = InteractiveHelper::fresnsUserAnonymousProfile();
-        if (! $comment->is_anonymous) {
-            $creatorProfile = $comment->creator->getUserProfile($langTag, $timezone);
-            $creatorMainRole = $comment->creator->getUserMainRole($langTag, $timezone);
-            $creatorOperations = ExtendUtility::getOperations(OperationUsage::TYPE_USER, $post->creator->id, $langTag);
-            $item['creator'] = array_merge($creatorProfile, $creatorMainRole, $creatorOperations);
-        }
-
-        $info = array_merge($commentInfo, $contentHandle, $item);
-
-        return $info;
-    }
-
-    public function commentDetail(Comment $comment, string $type, string $langTag, string $timezone, ?int $authUserId = null, ?int $mapId = null, ?string $authUserLng = null, ?string $authUserLat = null)
-    {
-        $commentInfo = $comment->getCommentInfo($langTag, $timezone);
         $commentAppend = $comment->commentAppend;
+        $post = $comment->post;
         $postAppend = $comment->postAppend;
 
         $contentHandle = self::contentHandle($comment, $type, $authUserId);
@@ -92,17 +66,31 @@ class CommentService
             $hashtagService = new HashtagService;
 
             foreach ($comment->hashtags as $hashtag) {
-                $hashtagItem[] = $hashtagService->hashtagList($hashtag, $langTag, $authUserId);
+                $hashtagItem[] = $hashtagService->hashtagData($hashtag, $langTag, $authUserId);
             }
             $item['hashtags'] = $hashtagItem;
         }
 
         $item['creator'] = InteractiveHelper::fresnsUserAnonymousProfile();
+        $item['creator']['isPostCreator'] = false;
         if (! $comment->is_anonymous) {
             $creatorProfile = $comment->creator->getUserProfile($langTag, $timezone);
             $creatorMainRole = $comment->creator->getUserMainRole($langTag, $timezone);
-            $creatorOperations = ExtendUtility::getOperations(OperationUsage::TYPE_USER, $post->creator->id, $langTag);
-            $item['creator'] = array_merge($creatorProfile, $creatorMainRole, $creatorOperations);
+            $creatorItem['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_USER, $comment->creator->id, $langTag);
+            $creatorItem['isPostCreator'] = $comment->user_id == $post->user_id ? true : false;
+
+            $item['creator'] = array_merge($creatorProfile, $creatorMainRole, $creatorItem);
+        }
+
+        $item['replyToUser'] = null;
+        if ($comment->top_parent_id != $comment->parent_id) {
+            $item['replyToUser'] = self::getReplyToUser($comment?->parentComment, $langTag, $timezone);
+        }
+
+        $item['commentPreviews'] = null;
+        $previewConfig = ConfigHelper::fresnsConfigByItemKey('comment_preview');
+        if ($type == 'list' && $previewConfig != 0) {
+            $item['commentPreviews'] = self::getCommentPreviews($comment->id, $previewConfig, $langTag, $timezone);
         }
 
         $isMe = $comment->user_id == $authUserId ? true : false;
@@ -137,7 +125,7 @@ class CommentService
         if ($isMe) {
             $editStatus['isMe'] = true;
             $editStatus['canDelete'] = (bool) $commentAppend->can_delete;
-            $editStatus['canEdit'] = self::isCanEdit($comment->created_at, $comment->is_sticky, $comment->digest_state);
+            $editStatus['canEdit'] = PermissionUtility::checkContentIsCanEdit('comment', $comment->created_at, $comment->is_sticky, $comment->digest_state, $langTag, $timezone);
             $editStatus['isPluginEditor'] = (bool) $commentAppend->is_plugin_editor;
             $editStatus['editorUrl'] = ! empty($commentAppend->editor_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($commentAppend->editor_unikey) : null;
         }
@@ -145,7 +133,10 @@ class CommentService
 
         $interactiveConfig = InteractiveHelper::fresnsCommentInteractive($langTag);
         $interactiveStatus = InteractiveUtility::checkInteractiveStatus(InteractiveUtility::TYPE_COMMENT, $comment->id, $authUserId);
-        $item['interactive'] = array_merge($interactiveConfig, $interactiveStatus);
+        $interactiveCreatorLike['postCreatorLikeStatus'] = InteractiveUtility::checkUserLike(InteractiveUtility::TYPE_COMMENT, $comment->id, $post->user_id);
+        $item['interactive'] = array_merge($interactiveConfig, $interactiveStatus, $interactiveCreatorLike);
+
+        $item['post'] = self::getPost($post, $langTag, $timezone);
 
         $detail = array_merge($commentInfo, $contentHandle, $item);
 
@@ -154,7 +145,8 @@ class CommentService
 
     public static function contentHandle(Comment $comment, string $type, ?int $authUserId = null)
     {
-        $postAppend = $comment->postAppend();
+        $postAppend = $comment->postAppend;
+
         $contentLength = Str::length($comment->content);
 
         $briefLength = ConfigHelper::fresnsConfigByItemKey('comment_editor_brief_length');
@@ -165,6 +157,8 @@ class CommentService
         } elseif ($type == 'list' && $contentLength > $briefLength) {
             $commentInfo['content'] = Str::limit($comment->content, $briefLength);
             $commentInfo['isBrief'] = true;
+        } else {
+            $commentInfo['content'] = $comment->content;
         }
 
         $commentInfo['content'] = ContentUtility::handleAndReplaceAll($commentInfo['content'], $comment->is_markdown, Mention::TYPE_COMMENT, $authUserId);
@@ -172,20 +166,59 @@ class CommentService
         return $commentInfo;
     }
 
-    public static function isCanEdit(string $createTime, int $isSticky, int $digestState): bool
+    // get reply to user
+    public static function getReplyToUser(?Comment $comment, string $langTag, string $timezone)
     {
-        $editConfig = ConfigHelper::fresnsConfigByItemKeys([
-            'comment_edit',
-            'comment_edit_time_limit',
-            'comment_edit_sticky_limit',
-            'comment_edit_digest_limit',
-        ]);
-
-        if (! $editConfig['comment_edit']) {
-            return false;
+        if (! $comment) {
+            return null;
         }
 
-        return false;
+        if (! $comment->is_anonymous) {
+            return $comment->creator->getUserProfile($langTag, $timezone);
+        }
+
+        return InteractiveHelper::fresnsUserAnonymousProfile();
+    }
+
+    // get comment previews
+    public static function getCommentPreviews(int $commentId, int $limit, string $langTag, string $timezone)
+    {
+        $comments = Comment::with('creator')
+            ->where('parent_id', $commentId)
+            ->orderByDesc('like_count')
+            ->limit($limit)
+            ->get();
+
+        $commentList = null;
+        $service = new CommentService();
+
+        /** @var Comment $comment */
+        foreach ($comments as $comment) {
+            $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone);
+        }
+
+        return $commentList;
+    }
+
+    // get post
+    public static function getPost(Post $post, string $langTag, string $timezone)
+    {
+        $postInfo = $post->getPostInfo($langTag, $timezone);
+        $contentHandle = PostService::contentHandle($post, 'list');
+
+        $item['group'] = null;
+        if ($post->group) {
+            $item['group'] = $post->group->getGroupInfo($langTag);
+        }
+
+        $item['creator'] = InteractiveHelper::fresnsUserAnonymousProfile();
+        if (! $post->is_anonymous) {
+            $item['creator'] = $post->creator->getUserProfile($langTag, $timezone);
+        }
+
+        $data = array_merge($postInfo, $contentHandle, $item);
+
+        return $data;
     }
 
     // comment Log

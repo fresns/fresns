@@ -9,7 +9,6 @@
 namespace App\Fresns\Api\Services;
 
 use App\Exceptions\ApiException;
-use App\Fresns\Api\Traits\ApiHeaderTrait;
 use App\Helpers\InteractiveHelper;
 use App\Models\ArchiveUsage;
 use App\Models\ExtendUsage;
@@ -21,32 +20,12 @@ use App\Utilities\PermissionUtility;
 
 class UserService
 {
-    use ApiHeaderTrait;
-
-    public function userList(?User $user, string $langTag, string $timezone, ?int $authUserId = null)
+    public function userData(?User $user, string $langTag, string $timezone, ?int $authUserId = null)
     {
         if (! $user) {
             return null;
         }
 
-        $userProfile = $user->getUserProfile($langTag, $timezone);
-        $userMainRole = $user->getUserMainRole($langTag, $timezone);
-
-        $item['stats'] = $user->getUserStats($langTag);
-        $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_USER, $user->id, $langTag);
-
-        $interactiveConfig = InteractiveHelper::fresnsUserInteractive($langTag);
-        $interactiveStatus = InteractiveUtility::checkInteractiveStatus(InteractiveUtility::TYPE_USER, $user->id, $authUserId);
-        $followMeStatus['followMeStatus'] = InteractiveUtility::checkUserFollowMe($user->id, $authUserId);
-        $item['interactive'] = array_merge($interactiveConfig, $interactiveStatus, $followMeStatus);
-
-        $data = array_merge($userProfile, $userMainRole, $item);
-
-        return $data;
-    }
-
-    public function userDetail(User $user, string $langTag, string $timezone, ?int $authUserId = null)
-    {
         $userProfile = $user->getUserProfile($langTag, $timezone);
         $userMainRole = $user->getUserMainRole($langTag, $timezone);
 

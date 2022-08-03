@@ -113,7 +113,7 @@ class HashtagController extends Controller
         $hashtagList = [];
         $service = new HashtagService();
         foreach ($hashtagData as $hashtag) {
-            $hashtagList[] = $service->hashtagList($hashtag, $langTag, $authUserId);
+            $hashtagList[] = $service->hashtagData($hashtag, $langTag, $authUserId);
         }
 
         return $this->fresnsPaginate($hashtagList, $hashtagData->total(), $hashtagData->perPage());
@@ -145,7 +145,7 @@ class HashtagController extends Controller
         $data['items'] = $item;
 
         $service = new HashtagService();
-        $data['detail'] = $service->hashtagDetail($hashtag, $langTag, $authUserId);
+        $data['detail'] = $service->hashtagData($hashtag, $langTag, $authUserId);
 
         return $this->success($data);
     }

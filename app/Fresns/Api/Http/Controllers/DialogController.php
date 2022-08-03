@@ -98,7 +98,7 @@ class DialogController extends Controller
         }
 
         $userService = new UserService();
-        $user = $userService->userDetail($dialogUser, $langTag, $timezone, $authUser->id);
+        $user = $userService->userData($dialogUser, $langTag, $timezone, $authUser->id);
 
         return $this->success($user);
     }

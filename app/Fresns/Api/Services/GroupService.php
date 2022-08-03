@@ -19,39 +19,12 @@ use App\Utilities\PermissionUtility;
 
 class GroupService
 {
-    public function groupList(?Group $group, string $langTag, string $timezone, ?int $authUserId = null)
+    public function groupData(?Group $group, string $langTag, string $timezone, ?int $authUserId = null)
     {
         if (! $group) {
             return null;
         }
 
-        $groupInfo = $group->getGroupInfo($langTag);
-
-        $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_GROUP, $group->id, $langTag);
-        $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_GROUP, $group->id, $langTag);
-
-        $item['publishRule'] = PermissionUtility::checkUserGroupPublishPerm($group->id, $group->permissions, $authUserId);
-
-        $adminList = null;
-        foreach ($group->admins as $admin) {
-            $userProfile = $admin->user->getUserProfile($timezone);
-            $userMainRole = $admin->user->getUserMainRole($langTag, $timezone);
-
-            $adminList[] = array_merge($userProfile, $userMainRole);
-        }
-        $item['admins'] = $adminList;
-
-        $interactiveConfig = InteractiveHelper::fresnsGroupInteractive($langTag);
-        $interactiveStatus = InteractiveUtility::checkInteractiveStatus(InteractiveUtility::TYPE_GROUP, $group->id, $authUserId);
-        $item['interactive'] = array_merge($interactiveConfig, $interactiveStatus);
-
-        $data = array_merge($groupInfo, $item);
-
-        return $data;
-    }
-
-    public function groupDetail(Group $group, string $langTag, string $timezone, ?int $authUserId = null)
-    {
         $groupInfo = $group->getGroupInfo($langTag);
 
         $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_GROUP, $group->id, $langTag);

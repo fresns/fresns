@@ -56,7 +56,7 @@ class GroupController extends Controller
         $service = new GroupService();
         $groupData = [];
         foreach ($groups as $index => $group) {
-            $groupData[$index] = $service->groupList($group, $langTag, $timezone, $authUserId);
+            $groupData[$index] = $service->groupData($group, $langTag, $timezone, $authUserId);
         }
 
         $groupTree = CollectionUtility::toTree($groupData, 'gid', 'parentGid', 'groups');
@@ -206,7 +206,7 @@ class GroupController extends Controller
         $groupList = [];
         $service = new GroupService();
         foreach ($groupData as $group) {
-            $groupList[] = $service->groupList($group, $langTag, $timezone, $authUserId);
+            $groupList[] = $service->groupData($group, $langTag, $timezone, $authUserId);
         }
 
         return $this->fresnsPaginate($groupList, $groupData->total(), $groupData->perPage());
@@ -238,7 +238,7 @@ class GroupController extends Controller
         $data['items'] = $item;
 
         $service = new GroupService();
-        $data['detail'] = $service->groupDetail($group, $langTag, $timezone, $authUserId);
+        $data['detail'] = $service->groupData($group, $langTag, $timezone, $authUserId);
 
         return $this->success($data);
     }

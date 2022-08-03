@@ -207,7 +207,7 @@ class UserController extends Controller
         $userList = [];
         $service = new UserService();
         foreach ($userData as $user) {
-            $userList[] = $service->userList($user->user, $langTag, $timezone, $authUserId);
+            $userList[] = $service->userData($user->user, $langTag, $timezone, $authUserId);
         }
 
         return $this->fresnsPaginate($userList, $userData->total(), $userData->perPage());
@@ -247,7 +247,7 @@ class UserController extends Controller
         $data['items'] = $item;
 
         $service = new UserService();
-        $data['detail'] = $service->userDetail($viewUser, $langTag, $timezone, $authUserId);
+        $data['detail'] = $service->userData($viewUser, $langTag, $timezone, $authUserId);
 
         return $this->success($data);
     }
@@ -402,7 +402,7 @@ class UserController extends Controller
 
         // get user data
         $service = new UserService();
-        $data['detail'] = $service->userDetail($authUser, $langTag, $timezone);
+        $data['detail'] = $service->userData($authUser, $langTag, $timezone);
 
         // upload session log
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
