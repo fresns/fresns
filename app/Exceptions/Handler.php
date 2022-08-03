@@ -8,8 +8,9 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use App\Fresns\Web\Exceptions\ErrorException;
 use Throwable;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -28,7 +29,8 @@ class Handler extends ExceptionHandler
      * @var array<int, class-string<\Throwable>>
      */
     protected $dontReport = [
-        //
+        ApiException::class,
+        ErrorException::class,
     ];
 
     /**
@@ -62,7 +64,7 @@ class Handler extends ExceptionHandler
 
         if ($e instanceof \Illuminate\Validation\ValidationException) {
             if (! $request->wantsJson()) {
-                return back()->withException($e);
+                return back()->with('failure', $e->validator->errors()->first());
             }
 
             throw new \RuntimeException($e->validator->errors()->first());
