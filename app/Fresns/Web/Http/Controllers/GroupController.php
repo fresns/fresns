@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Web\Http\Controllers;
 
+use App\Fresns\Web\Exceptions\ErrorException;
 use App\Fresns\Web\Helpers\ApiHelper;
 use App\Fresns\Web\Helpers\QueryHelper;
 use App\Helpers\ConfigHelper;
@@ -141,6 +142,10 @@ class GroupController extends Controller
                 'query' => $query,
             ]),
         ]);
+
+        if ($results['group']['code'] != 0) {
+            throw new ErrorException($results['group']['message'], $results['group']['code']);
+        }
 
         $items = $results['group']['data']['items'];
         $group = $results['group']['data']['detail'];

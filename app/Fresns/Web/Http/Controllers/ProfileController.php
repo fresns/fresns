@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Web\Http\Controllers;
 
+use App\Fresns\Web\Exceptions\ErrorException;
 use App\Fresns\Web\Helpers\ApiHelper;
 use App\Fresns\Web\Helpers\QueryHelper;
 use Illuminate\Http\Request;
@@ -28,6 +29,10 @@ class ProfileController extends Controller
                 'query' => $query,
             ]),
         ]);
+
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
 
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
@@ -55,6 +60,10 @@ class ProfileController extends Controller
             ]),
         ]);
 
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
+
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
 
@@ -80,15 +89,19 @@ class ProfileController extends Controller
             ]),
         ]);
 
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
+
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
 
-        $likers = QueryHelper::convertApiDataToPaginate(
-            items: $results['likers']['data']['list'],
-            paginate: $results['likers']['data']['paginate'],
+        $users = QueryHelper::convertApiDataToPaginate(
+            items: $results['users']['data']['list'],
+            paginate: $results['users']['data']['paginate'],
         );
 
-        return view('profile.likers', compact('items', 'user', 'likers'));
+        return view('profile.likers', compact('items', 'user', 'users'));
     }
 
     // dislikers
@@ -104,6 +117,10 @@ class ProfileController extends Controller
                 'query' => $query,
             ]),
         ]);
+
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
 
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
@@ -130,6 +147,10 @@ class ProfileController extends Controller
             ]),
         ]);
 
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
+
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
 
@@ -154,6 +175,10 @@ class ProfileController extends Controller
                 'query' => $query,
             ]),
         ]);
+
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
 
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
@@ -184,6 +209,10 @@ class ProfileController extends Controller
             ]),
         ]);
 
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
+
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
 
@@ -208,6 +237,10 @@ class ProfileController extends Controller
                 'query' => $query,
             ]),
         ]);
+
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
 
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
@@ -234,6 +267,10 @@ class ProfileController extends Controller
             ]),
         ]);
 
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
+
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
 
@@ -259,6 +296,10 @@ class ProfileController extends Controller
             ]),
         ]);
 
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
+
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
 
@@ -283,6 +324,10 @@ class ProfileController extends Controller
                 'query' => $query,
             ]),
         ]);
+
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
 
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
@@ -313,6 +358,10 @@ class ProfileController extends Controller
             ]),
         ]);
 
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
+
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
 
@@ -337,6 +386,10 @@ class ProfileController extends Controller
                 'query' => $query,
             ]),
         ]);
+
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
 
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
@@ -363,6 +416,10 @@ class ProfileController extends Controller
             ]),
         ]);
 
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
+
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
 
@@ -387,6 +444,10 @@ class ProfileController extends Controller
                 'query' => $query,
             ]),
         ]);
+
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
 
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
@@ -413,6 +474,10 @@ class ProfileController extends Controller
             ]),
         ]);
 
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
+
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
 
@@ -437,20 +502,24 @@ class ProfileController extends Controller
 
         $results = $client->handleUnwrap([
             'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'followingUsers'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/users", [
+            'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/users", [
                 'query' => $query,
             ]),
         ]);
 
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
+
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
 
-        $followingUsers = QueryHelper::convertApiDataToPaginate(
-            items: $results['followingUsers']['data']['list'],
-            paginate: $results['followingUsers']['data']['paginate'],
+        $users = QueryHelper::convertApiDataToPaginate(
+            items: $results['users']['data']['list'],
+            paginate: $results['users']['data']['paginate'],
         );
 
-        return view('profile.following.users', compact('items', 'user', 'followingUsers'));
+        return view('profile.following.users', compact('items', 'user', 'users'));
     }
 
     // followingGroups
@@ -466,6 +535,10 @@ class ProfileController extends Controller
                 'query' => $query,
             ]),
         ]);
+
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
 
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
@@ -492,6 +565,10 @@ class ProfileController extends Controller
             ]),
         ]);
 
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
+
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
 
@@ -517,6 +594,10 @@ class ProfileController extends Controller
             ]),
         ]);
 
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
+
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
 
@@ -541,6 +622,10 @@ class ProfileController extends Controller
                 'query' => $query,
             ]),
         ]);
+
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
 
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
@@ -571,6 +656,10 @@ class ProfileController extends Controller
             ]),
         ]);
 
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
+
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
 
@@ -595,6 +684,10 @@ class ProfileController extends Controller
                 'query' => $query,
             ]),
         ]);
+
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
 
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
@@ -621,6 +714,10 @@ class ProfileController extends Controller
             ]),
         ]);
 
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
+
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
 
@@ -646,6 +743,10 @@ class ProfileController extends Controller
             ]),
         ]);
 
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
+
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];
 
@@ -670,6 +771,10 @@ class ProfileController extends Controller
                 'query' => $query,
             ]),
         ]);
+
+        if ($results['user']['code'] != 0) {
+            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        }
 
         $items = $results['user']['data']['items'];
         $user = $results['user']['data']['detail'];

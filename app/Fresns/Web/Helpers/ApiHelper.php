@@ -8,19 +8,44 @@
 
 namespace App\Fresns\Web\Helpers;
 
-use App\Fresns\Client\Clientable;
-use App\Helpers\ConfigHelper;
-use App\Helpers\SignHelper;
 use App\Models\SessionKey;
+use App\Helpers\SignHelper;
+use App\Helpers\ConfigHelper;
 use App\Utilities\AppUtility;
+use App\Fresns\Client\Clientable;
 use Illuminate\Support\Facades\Cookie;
 use Psr\Http\Message\ResponseInterface;
+use App\Fresns\Web\Exceptions\ErrorException;
 
-class ApiHelper implements \ArrayAccess
+class ApiHelper implements \ArrayAccess, \IteratorAggregate, \Countable
 {
-    use Clientable;
+    use Clientable {
+        __call as forwardCall;
+    }
 
     protected array $result = [];
+
+    public function __call(string $method, array $args)
+    {
+        $response = $this->forwardCall($method, $args);
+
+        if ($response instanceof \Illuminate\Http\RedirectResponse) {
+            throw new ErrorException(session('failure'), session('code'));
+        }
+
+        return $response;
+    }
+
+    public function handleUnwrap(array $requests)
+    {
+        $results = $this->unwrap($requests);
+
+        if ($results instanceof \Illuminate\Http\RedirectResponse) {
+            throw new ErrorException(session('failure'), (int) session('code'));
+        }
+
+        return $results;
+    }
 
     public function getBaseUri(): ?string
     {
@@ -43,7 +68,7 @@ class ApiHelper implements \ArrayAccess
     {
         return [
             'base_uri' => $this->getBaseUri(),
-            'timeout' => 5, // Request 5s timeout
+            'timeout' => 30, // Request 5s timeout
             'http_errors' => false,
             'headers' => ApiHelper::getHeaders(),
         ];
@@ -52,7 +77,7 @@ class ApiHelper implements \ArrayAccess
     public function handleEmptyResponse(?string $content = null, ?ResponseInterface $response = null)
     {
         info('empty response, ApiException: '.var_export($content, true));
-        throw new \Exception(sprintf('ApiException: %s', $response?->getReasonPhrase()), $response?->getStatusCode());
+        throw new ErrorException($response?->getReasonPhrase(), $response?->getStatusCode());
     }
 
     public function isErrorResponse(array $data): bool
@@ -61,13 +86,13 @@ class ApiHelper implements \ArrayAccess
             return true;
         }
 
-        return $data['code'] !== 0;
+        return false;
     }
 
     public function handleErrorResponse(?string $content = null, array $data = [])
     {
         info('error response, ApiException: '.var_export($content, true));
-        throw new \Exception(sprintf('ApiException: %s', $data['message'] ?? $data['exception'] ?? 'Unknown api error'), $data['code'] ?? 0);
+        throw new ErrorException($data['message'] ?? $data['exception'] ?? 'Unknown api error', $data['code'] ?? 0);
     }
 
     public function hasPaginate(): bool
@@ -124,15 +149,12 @@ class ApiHelper implements \ArrayAccess
             'appId' => $appId,
             'timestamp' => now()->unix(),
             'sign' => null,
-            'langTag' => \App::getLocale(),
-            'timezone' => urldecode(Cookie::get('timezone')) ?? ConfigHelper::fresnsConfigByItemKey('default_timezone'),
-            // 'aid' => 'fresns',
-            // 'uid' => 123456,
-            // 'token' => '2rPWjgayYqR5WHkrmaq2M78Q50D4WosX',
-            'aid' => Cookie::get('aid') ?? null,
-            'uid' => Cookie::get('uid') ?? null,
-            'token' => Cookie::get('token') ?? null,
-            'deviceInfo' => AppUtility::getDeviceInfo(),
+            'langTag' => current_lang_tag(),
+            'timezone' => Cookie::get('timezone') ?: ConfigHelper::fresnsConfigByItemKey('default_timezone'),
+            'aid' => Cookie::get('fs_aid') ?? null,
+            'uid' => Cookie::get('fs_uid') ?? null,
+            'token' => Cookie::get('fs_uid_token') ?? Cookie::get('fs_aid_token') ?? null,
+            'deviceInfo' => json_encode(AppUtility::getDeviceInfo()),
         ];
         $headers['sign'] = SignHelper::makeSign($headers, $appSecret);
 

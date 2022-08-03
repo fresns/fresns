@@ -20,7 +20,12 @@ class RouteServiceProvider extends ServiceProvider
 
     public function map()
     {
-        if (! fs_db_config('FresnsEngine')) {
+        // Routing is disabled when data cannot be queried from the database
+        try {
+            if (! fs_db_config('FresnsEngine')) {
+                return;
+            }
+        } catch (\Throwable $e) {
             return;
         }
 

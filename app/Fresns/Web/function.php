@@ -6,12 +6,12 @@
  * Released under the Apache-2.0 License.
  */
 
-use App\Fresns\Web\Helpers\ApiHelper;
+use App\Models\Config;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
-use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
-use App\Models\Config;
+use App\Helpers\LanguageHelper;
+use App\Fresns\Web\Helpers\ApiHelper;
 use Illuminate\Support\Facades\Cache;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -39,11 +39,13 @@ if (! function_exists('fs_api_config')) {
                 ],
             ]);
 
-            if (is_object($result['data']['list'][$itemKey])) {
-                return $result['data']['list'][$itemKey]->toArray();
+            $item = $result["data.list.{$itemKey}"];
+
+            if (is_object($item) && method_exists($item, 'toArray')) {
+                return $item->toArray();
             }
 
-            return $result['data']['list'][$itemKey];
+            return $item;
         });
 
         if (! $apiConfig) {

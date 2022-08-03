@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Web\Http\Controllers;
 
+use App\Fresns\Web\Exceptions\ErrorException;
 use App\Fresns\Web\Helpers\ApiHelper;
 use App\Fresns\Web\Helpers\QueryHelper;
 use Illuminate\Http\Request;
@@ -186,6 +187,10 @@ class CommentController extends Controller
                 'query' => $query,
             ]),
         ]);
+
+        if ($results['comment']['code'] != 0) {
+            throw new ErrorException($results['comment']['message'], $results['comment']['code']);
+        }
 
         $items = $results['comment']['data']['items'];
         $comment = $results['comment']['data']['detail'];

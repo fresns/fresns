@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Web\Http\Controllers;
 
+use App\Fresns\Web\Exceptions\ErrorException;
 use App\Fresns\Web\Helpers\ApiHelper;
 use App\Fresns\Web\Helpers\QueryHelper;
 use Illuminate\Http\Request;
@@ -132,10 +133,7 @@ class HashtagController extends Controller
         ]);
 
         if ($results['hashtag']['code'] != 0) {
-            $code = $results['hashtag']['code'];
-            $message = $results['hashtag']['message'];
-
-            return view('error', compact('code', 'message'));
+            throw new ErrorException($results['hashtag']['message'], $results['hashtag']['code']);
         }
 
         $items = $results['hashtag']['data']['items'];

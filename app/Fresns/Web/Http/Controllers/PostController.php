@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Web\Http\Controllers;
 
+use App\Fresns\Web\Exceptions\ErrorException;
 use App\Fresns\Web\Helpers\ApiHelper;
 use App\Fresns\Web\Helpers\QueryHelper;
 use Illuminate\Http\Request;
@@ -186,6 +187,10 @@ class PostController extends Controller
                 'query' => $query,
             ]),
         ]);
+
+        if ($results['post']['code'] != 0) {
+            throw new ErrorException($results['post']['message'], $results['post']['code']);
+        }
 
         $items = $results['post']['data']['items'];
         $post = $results['post']['data']['detail'];

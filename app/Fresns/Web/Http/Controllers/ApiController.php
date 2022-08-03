@@ -67,24 +67,24 @@ class ApiController extends Controller
         // api data
         $data = $result['data'];
 
-        // 账号登录
+        // Account Login
         Cookie::queue('fs_aid', $data['detail']['aid']);
         Cookie::queue('fs_aid_token', $data['sessionToken']['token']);
 
-        // 用户数量
+        // Number of users under the account
         $users = $data['detail']['users']->toArray();
         $userCount = count($users);
 
-        // 只有一个用户，用户没有密码
+        // Only one user and no password
         if ($userCount == 1) {
             $user = $users[0];
 
             if ($user['hasPassword']) {
-                // 用户有密码的操作，自动弹出输入密码
-                // 弹窗逻辑写在 header.blade.php
+                // User has password
+                // header.blade.php
                 return redirect()->intended(fs_route(route('fresns.account.login')));
             } else {
-                // 用户没有有密码
+                // User does not have a password
                 $userResult = ApiHelper::make()->post('/api/v2/user/auth', [
                     'json' => [
                         'uidOrUsername' => $user['uid'],
@@ -100,8 +100,8 @@ class ApiController extends Controller
                 return redirect()->intended(fs_route(route('fresns.account.index')));
             }
         } elseif ($userCount > 1) {
-            // 有 2 个以上用户的操作，自动弹出选择用户
-            // 弹窗逻辑写在 header.blade.php
+            // There are more than one user
+            // header.blade.php
             return redirect()->intended(fs_route(route('fresns.account.login')));
         }
 
