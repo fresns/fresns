@@ -107,6 +107,8 @@ class ContentUtility
     // Extract hashtag
     public static function extractHashtag(string $content): array
     {
+        $content = strip_tags($content);
+
         $hashData = ContentUtility::filterChars(
             ContentUtility::matchAll(ContentUtility::getRegexpByType('hash'), $content)
         );
@@ -129,12 +131,16 @@ class ContentUtility
     // Extract mention user
     public static function extractMention(string $content): array
     {
+        $content = strip_tags($content);
+
         return ContentUtility::matchAll(ContentUtility::getRegexpByType('at'), $content);
     }
 
     // Extract sticker
     public static function extractSticker(string $content): array
     {
+        $content = strip_tags($content);
+
         return ContentUtility::filterChars(
             ContentUtility::matchAll(ContentUtility::getRegexpByType('sticker'), $content),
             ' '
@@ -230,22 +236,27 @@ class ContentUtility
 
             if (is_null($mentionUser)) {
                 $replaceList[] = "@{$username} ";
-                $linkList[] = sprintf('<a href="%s/u/404" class="fresns_user" target="_blank">@%s</a> ', $config['site_url'], $username);
+                $linkList[] = sprintf(
+                    '<a href="%s/%s/0" class="fresns_mention" target="_blank">@%s</a> ',
+                    $config['site_url'],
+                    $config['website_user_detail_path'],
+                    $username
+                );
                 continue;
             }
 
             if ($config['user_identifier'] == 'uid') {
-                // <a href="https://abc.com/u/{uid}" class="fresns_user" target="_blank">@nickname</a>
+                // <a href="https://abc.com/u/{uid}" class="fresns_mention" target="_blank">@nickname</a>
                 $urlName = $user->uid;
             } else {
-                // <a href="https://abc.com/u/{username}" class="fresns_user" target="_blank">@nickname</a>
+                // <a href="https://abc.com/u/{username}" class="fresns_mention" target="_blank">@nickname</a>
                 $urlName = $user->username;
             }
 
             $replaceList[] = "@{$user->nickname} ";
 
             $linkList[] = sprintf(
-                '<a href="%s/%s/%s" class="fresns_user" target="_blank">@%s</a> ',
+                '<a href="%s/%s/%s" class="fresns_mention" target="_blank">@%s</a> ',
                 $config['site_url'],
                 $config['website_user_detail_path'],
                 $urlName,
@@ -848,10 +859,6 @@ class ContentUtility
 
                 $groupCommentCount = Comment::where('post_id', $post->id)->count();
 
-                Comment::where('post_id', $post->id)->update([
-                    'group_id' => $postLog->group_id,
-                ]);
-
                 Group::where('id', $postLog->group_id)->increment('comment_count', $groupCommentCount);
                 Group::where('id', $oldPost->group_id)->decrement('comment_count', $groupCommentCount);
             }
@@ -885,12 +892,11 @@ class ContentUtility
     // release comment
     public static function releaseComment(CommentLog $commentLog): Comment
     {
-        $post = PrimaryHelper::fresnsModelById('post', $commentLog->post_id);
         $parentComment = PrimaryHelper::fresnsModelById('comment', $commentLog->parent_id);
 
-        $topCommentId = null;
+        $topParentId = null;
         if (! $parentComment) {
-            $topCommentId = $parentComment?->top_comment_id ?? null;
+            $topParentId = $parentComment?->top_parent_id ?? null;
         }
 
         $comment = Comment::updateOrCreate([
@@ -899,8 +905,7 @@ class ContentUtility
         [
             'user_id' => $commentLog->user_id,
             'post_id' => $commentLog->post_id,
-            'group_id' => $post->group_id,
-            'top_comment_id' => $topCommentId,
+            'top_parent_id' => $topParentId,
             'parent_id' => $commentLog->parent_comment_id,
             'content' => $commentLog->content,
             'is_markdown' => $commentLog->is_markdown,
@@ -957,7 +962,7 @@ class ContentUtility
             ContentUtility::handleAndSaveAllInteractive($commentLog->content, Mention::TYPE_COMMENT, $comment->id, $commentLog->user_id);
             InteractiveUtility::editStats('comment', $comment->id, 'increment');
 
-            $post->update([
+            $comment->update([
                 'latest_edit_at' => now(),
             ]);
             $commentAppend->increment('edit_count');
@@ -1145,7 +1150,7 @@ class ContentUtility
     // generate comment draft
     public static function generateCommentDraft(Comment $comment): CommentLog
     {
-        if (! empty($comment->top_comment_id) || $comment->top_comment_id == 0) {
+        if (! empty($comment->top_parent_id) || $comment->top_parent_id == 0) {
             return null;
         }
 

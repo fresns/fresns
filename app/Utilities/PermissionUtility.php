@@ -386,6 +386,48 @@ class PermissionUtility
         return true;
     }
 
+    // Check content is can edit
+    // $type = post or comment
+    public static function checkContentIsCanEdit(string $type, Carbon $createTime, int $stickyState, int $digestState, string $langTag, string $timezone): bool
+    {
+        $editConfig = ConfigHelper::fresnsConfigByItemKeys([
+            "{$type}_edit",
+            "{$type}_edit_time_limit",
+            "{$type}_edit_sticky_limit",
+            "{$type}_edit_digest_limit",
+        ]);
+
+        if (! $editConfig["{$type}_edit"]) {
+            return false;
+        }
+
+        $checkContentEditPerm = static::checkContentEditPerm($createTime, $editConfig["{$type}_edit_time_limit"], $timezone, $langTag);
+
+        if (! $checkContentEditPerm['editableStatus']) {
+            return false;
+        }
+
+        if ($digestState != 1) {
+            if (! $editConfig["{$type}_edit_digest_limit"]) {
+                return false;
+            }
+        }
+
+        if ($type == 'post' && $stickyState != 1) {
+            if (! $editConfig["{$type}_edit_sticky_limit"]) {
+                return false;
+            }
+        }
+
+        if ($type == 'comment' && $stickyState == 1) {
+            if (! $editConfig["{$type}_edit_sticky_limit"]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     // Check content edit perm
     public static function checkContentEditPerm(Carbon $createDateTime, int $editTimeConfig, ?string $timezone = null, ?string $langTag = null): array
     {
