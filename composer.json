@@ -20,13 +20,15 @@
     "require": {
         "php": "^8.0.2",
         "guzzlehttp/guzzle": "^7.4",
-        "laravel/framework": "^9.19",
-        "laravel/sanctum": "^2.15",
+        "laravel/framework": "^9.23",
+        "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4",
         "fresns/dto": "^1.1",
-        "fresns/cmd-word-manager": "^1.1",
+        "fresns/cmd-word-manager": "^1.2",
         "fresns/plugin-manager": "^2.0",
+        "fresns/theme-manager": "^1.0",
+        "fresns/market-manager": "^1.0",
         "mcamara/laravel-localization": "^1.7",
         "hisorange/browser-detect": "^4.5",
         "maatwebsite/excel": "^3.1",
@@ -90,8 +92,9 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": false,
+        "sort-packages": true,
         "allow-plugins": {
+            "pestphp/pest-plugin": true,
             "wikimedia/composer-merge-plugin": true
         }
     },
