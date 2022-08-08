@@ -9,7 +9,9 @@
 namespace App\Fresns\Web\Http\Controllers;
 
 use App\Fresns\Web\Helpers\ApiHelper;
+use App\Fresns\Web\Helpers\QueryHelper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class AccountController extends Controller
 {
@@ -60,15 +62,32 @@ class AccountController extends Controller
     }
 
     // wallet
-    public function wallet()
+    public function wallet(Request $request)
     {
-        return view('account.wallet');
+        $result = ApiHelper::make()->get('/api/v2/account/wallet-logs', [
+            'query' => $request->all(),
+        ]);
+
+        $logs = QueryHelper::convertApiDataToPaginate(
+            items: $result['data']['list'],
+            paginate: $result['data']['paginate'],
+        );
+
+        return view('account.wallet', compact('logs'));
     }
 
     // users
     public function users()
     {
-        return view('account.users');
+        $multiUserStatus = false;
+
+        if (fs_api_config('multi_user_status')) {
+            $roleIds = Arr::pluck(fs_user()->get('detail.users.roles'), 'rid');
+
+            $multiUserStatus = in_array($roleIds, fs_api_config('multi_user_roles'));
+        }
+
+        return view('account.users', compact('multiUserStatus'));
     }
 
     // settings

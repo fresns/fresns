@@ -75,6 +75,6 @@ class MessageController extends Controller
             paginate: $result['data']['paginate'],
         );
 
-        return view('messages.notify', compact('notifies'));
+        return view('messages.notify', compact('notifies', 'types'));
     }
 }

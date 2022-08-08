@@ -18,18 +18,30 @@ class EditorController extends Controller
     // drafts
     public function drafts(Request $request, string $type)
     {
+        $draftType = match ($type) {
+            'posts' => 'post',
+            'comments' => 'comment',
+            'post' => 'post',
+            'comment' => 'comment',
+            default => 'post',
+        };
+
         $query = $request->all();
 
-        $result = ApiHelper::make()->get("/api/v2/editor/{$type}/drafts", [
+        $result = ApiHelper::make()->get("/api/v2/editor/{$draftType}/drafts", [
             'query' => $query,
         ]);
+
+        if ($result['code'] != 0) {
+            throw new ErrorException($result['message'], $result['code']);
+        }
 
         $drafts = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],
             paginate: $result['data']['paginate'],
         );
 
-        return view('editor.drafts', compact('drafts'));
+        return view('editor.drafts', compact('drafts', 'type'));
     }
 
     // post

@@ -24,13 +24,26 @@ class WebServiceProvider extends ServiceProvider
 
         // Keep the default configuration if you can't query data from the database
         try {
-            config()->set('laravellocalization.supportedLocales', Cache::get('supportedLocales') ?: [
-                fs_db_config('default_language') => ['name' => fs_db_config('default_language')],
-            ]);
+            $defaultLanguage = fs_db_config('default_language');
 
-            config()->set('app.locale', fs_db_config('default_language'));
+            $supportedLocales = Cache::get('supportedLocales');
+            if (!$supportedLocales) {
+                $supportedLocales = [
+                    $defaultLanguage => ['name' => $defaultLanguage],
+                ];
+            }
         } catch (\Throwable $e) {
+            $defaultLanguage = config('app.locale');
+
+            $supportedLocales = [
+                $defaultLanguage => ['name' => $defaultLanguage],
+            ];
         }
+
+
+        config()->set('laravellocalization.supportedLocales', $supportedLocales);
+
+        config()->set('app.locale', $defaultLanguage);
 
         $this->app->register(RouteServiceProvider::class);
 
@@ -56,6 +69,6 @@ class WebServiceProvider extends ServiceProvider
 
     protected function registerTranslations()
     {
-        $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'FsWeb');
+        $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'FsWeb');
     }
 }

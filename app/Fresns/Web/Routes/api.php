@@ -24,19 +24,24 @@ Route::prefix('engine')
 
         Route::post('send-verify-code', [ApiController::class, 'sendVerifyCode'])->name('send.verifyCode')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
         Route::get('download-link', [ApiController::class, 'downloadLink'])->name('file.download');
+        Route::post('upload-file', [ApiController::class, 'uploadFile'])->name('upload.file');
 
-        Route::post('register', [ApiController::class, 'accountRegister'])->name('register')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
-        Route::post('login', [ApiController::class, 'accountLogin'])->name('login')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class, CheckSiteModel::class]);
-        Route::post('reset-password', [ApiController::class, 'resetPassword'])->name('resetPassword')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class, CheckSiteModel::class]);
+        Route::prefix('account')->name('account.')->group(function () {
+            Route::post('register', [ApiController::class, 'accountRegister'])->name('register')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
+            Route::post('login', [ApiController::class, 'accountLogin'])->name('login')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class, CheckSiteModel::class]);
+            Route::post('reset-password', [ApiController::class, 'resetPassword'])->name('resetPassword')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class, CheckSiteModel::class]);
+            Route::post('edit', [ApiController::class, 'accountEdit'])->name('edit')->withoutMiddleware([UserAuthorize::class]);
+        });
 
         Route::prefix('user')->name('user.')->group(function () {
             Route::post('auth', [ApiController::class, 'userAuth'])->name('auth')->withoutMiddleware([UserAuthorize::class]);
+            Route::post('edit', [ApiController::class, 'userEdit'])->name('edit');
             Route::post('mark', [ApiController::class, 'userMark'])->name('mark');
             Route::put('mark-note', [ApiController::class, 'userMarkNote'])->name('mark.note');
         });
 
         Route::delete('post/{pid}', [ApiController::class, 'postDelete'])->name('post.delete');
-        Route::delete('comment/{pid}', [ApiController::class, 'commentDelete'])->name('comment.delete');
+        Route::delete('comment/{cid}', [ApiController::class, 'commentDelete'])->name('comment.delete');
 
         Route::prefix('editor')->name('editor.')->group(function () {
             Route::get('{type}/drafts', [ApiController::class, 'drafts'])->name('drafts');
