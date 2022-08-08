@@ -293,7 +293,7 @@ return [
     'support' => 'सहायता पुस्तिका',
     'support_website' => 'Fresns आधिकारिक वेबसाइट',
     'support_teams' => 'ओपन सोर्स टीम',
-    'support_partners' => 'साथी',
+    'support_sponsor' => 'प्रायोजक',
     'support_join' => 'हमसे जुड़ें',
     'support_community' => 'समर्थन समुदाय',
     'support_market' => 'आवेदन बाजार',

@@ -293,7 +293,7 @@ return [
     'support' => 'Manuel d\'aide',
     'support_website' => 'Site officiel Fresns',
     'support_teams' => 'Équipe Open Source',
-    'support_partners' => 'Partenaire',
+    'support_sponsor' => 'Sponsor',
     'support_join' => 'Rejoignez-nous',
     'support_community' => 'Communauté de soutien',
     'support_market' => 'Marché des applications',

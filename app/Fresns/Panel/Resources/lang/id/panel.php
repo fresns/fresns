@@ -293,7 +293,7 @@ return [
     'support' => 'Mendukung',
     'support_website' => 'Situs web Fresns',
     'support_teams' => 'Tim',
-    'support_partners' => 'Mitra',
+    'support_sponsor' => 'Sponsor',
     'support_join' => 'Bergabunglah dengan Fresns',
     'support_community' => 'Masyarakat',
     'support_market' => 'Pasar',

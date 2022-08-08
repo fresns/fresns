@@ -294,7 +294,7 @@ return [
     'support' => '幫助手冊',
     'support_website' => 'Fresns 官網',
     'support_teams' => '開源團隊',
-    'support_partners' => '合作夥伴',
+    'support_sponsor' => '贊助我們',
     'support_join' => '加入我們',
     'support_community' => '支持社區',
     'support_market' => '應用市場',

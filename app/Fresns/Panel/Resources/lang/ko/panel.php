@@ -293,7 +293,7 @@ return [
     'support' => '도움말 매뉴얼',
     'support_website' => 'Fresns 공식 웹 사이트',
     'support_teams' => '오픈 소스 팀',
-    'support_partners' => '파트너',
+    'support_sponsor' => '스폰서',
     'support_join' => '우리와 함께하십시오',
     'support_community' => '커뮤니티 지원',
     'support_market' => '신청 시장',

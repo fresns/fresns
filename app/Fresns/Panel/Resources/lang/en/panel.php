@@ -293,7 +293,7 @@ return [
     'support' => 'Support',
     'support_website' => 'Fresns Website',
     'support_teams' => 'Teams',
-    'support_partners' => 'Partners',
+    'support_sponsor' => 'Sponsor',
     'support_join' => 'Join Fresns',
     'support_community' => 'Community',
     'support_market' => 'Market',

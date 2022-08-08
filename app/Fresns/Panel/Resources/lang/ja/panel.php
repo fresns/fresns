@@ -293,7 +293,7 @@ return [
     'support' => '助けて',
     'support_website' => 'Fresns公式サイト',
     'support_teams' => 'オープンソースチーム',
-    'support_partners' => '相棒',
+    'support_sponsor' => 'スポンサー',
     'support_join' => '参加しませんか',
     'support_community' => 'コミュニティをサポートします',
     'support_market' => 'アプリケーションマーケット',

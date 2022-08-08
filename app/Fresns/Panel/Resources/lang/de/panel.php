@@ -293,7 +293,7 @@ return [
     'support' => 'Hilfehandbuch',
     'support_website' => 'Fresns offizielle Website',
     'support_teams' => 'Open Source Team',
-    'support_partners' => 'Partner',
+    'support_sponsor' => 'Förderer',
     'support_join' => 'begleiten Sie uns',
     'support_community' => 'Unterstützungsgemeinschaft',
     'support_market' => 'Anwendungsmarkt',

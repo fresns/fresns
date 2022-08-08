@@ -293,7 +293,7 @@ return [
     'support' => '帮助手册',
     'support_website' => 'Fresns 官网',
     'support_teams' => '开源团队',
-    'support_partners' => '合作伙伴',
+    'support_sponsor' => '赞助我们',
     'support_join' => '加入我们',
     'support_community' => '支持社区',
     'support_market' => '应用市场',
