@@ -27,7 +27,7 @@ class WebServiceProvider extends ServiceProvider
             $defaultLanguage = fs_db_config('default_language');
 
             $supportedLocales = Cache::get('supportedLocales');
-            if (!$supportedLocales) {
+            if (! $supportedLocales) {
                 $supportedLocales = [
                     $defaultLanguage => ['name' => $defaultLanguage],
                 ];
@@ -39,7 +39,6 @@ class WebServiceProvider extends ServiceProvider
                 $defaultLanguage => ['name' => $defaultLanguage],
             ];
         }
-
 
         config()->set('laravellocalization.supportedLocales', $supportedLocales);
 
@@ -69,6 +68,6 @@ class WebServiceProvider extends ServiceProvider
 
     protected function registerTranslations()
     {
-        $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'FsWeb');
+        $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'FsWeb');
     }
 }
