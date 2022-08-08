@@ -15,7 +15,9 @@ class AccountWalletLog extends Model
     const TYPE_IN_TRANSACTION = 3;
     const TYPE_DE_WITHDRAW = 4;
     const TYPE_DE_UNFREEZE = 5;
-    const TYPE_DE_TRANSACTION = 3;
+    const TYPE_DE_TRANSACTION = 6;
+
+    use Traits\IsEnableTrait;
 
     public function scopeType($query, int $type)
     {

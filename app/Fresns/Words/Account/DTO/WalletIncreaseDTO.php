@@ -18,16 +18,17 @@ class WalletIncreaseDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => ['integer', 'required', 'in:1,2,3'],
-            'aid' => ['string', 'required', 'exists:App\Models\Account,aid'],
-            'uid' => ['integer', 'nullable', 'exists:App\Models\User,uid'],
-            'amount' => ['numeric', 'required'],
-            'transactionAmount' => ['numeric', 'required'],
+            'aid' => ['string', 'required'],
+            'uid' => ['integer', 'nullable'],
+            'amountTotal' => ['numeric', 'required'],
             'systemFee' => ['numeric', 'required'],
-            'originAid' => ['string', 'nullable', 'exists:App\Models\Account,aid'],
-            'originUid' => ['integer', 'nullable', 'exists:App\Models\User,uid'],
-            'originUnikey' => ['string', 'required', 'exists:App\Models\Plugin,unikey'],
-            'originId' => ['integer', 'nullable'],
+            'originAid' => ['string', 'nullable'],
+            'originUid' => ['integer', 'nullable'],
+            'transactionUnikey' => ['string', 'required', 'exists:App\Models\Plugin,unikey'],
+            'transactionId' => ['integer', 'nullable'],
+            'transactionCode' => ['string', 'nullable'],
+            'remark' => ['string', 'nullable'],
+            'moreJson' => ['json', 'nullable'],
         ];
     }
 }

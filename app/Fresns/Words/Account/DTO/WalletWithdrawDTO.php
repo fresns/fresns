@@ -10,7 +10,7 @@ namespace App\Fresns\Words\Account\DTO;
 
 use Fresns\DTO\DTO;
 
-class WalletDecreaseDTO extends DTO
+class WalletWithdrawDTO extends DTO
 {
     /**
      * @return array
@@ -23,8 +23,6 @@ class WalletDecreaseDTO extends DTO
             'password' => ['string', 'nullable'],
             'amountTotal' => ['numeric', 'required'],
             'systemFee' => ['numeric', 'required'],
-            'originAid' => ['string', 'nullable'],
-            'originUid' => ['integer', 'nullable'],
             'transactionUnikey' => ['string', 'required', 'exists:App\Models\Plugin,unikey'],
             'transactionId' => ['integer', 'nullable'],
             'transactionCode' => ['string', 'nullable'],
