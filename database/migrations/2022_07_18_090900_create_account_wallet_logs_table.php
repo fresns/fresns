@@ -34,6 +34,7 @@ class CreateAccountWalletLogsTable extends Migration
             $table->unsignedDecimal('closing_balance', 10);
             $table->unsignedBigInteger('object_account_id')->nullable();
             $table->unsignedBigInteger('object_user_id')->nullable();
+            $table->unsignedBigInteger('object_wallet_log_id')->nullable();
             $table->unsignedTinyInteger('is_enable')->default(1);
             $table->text('remark')->nullable();
             $table->json('more_json')->nullable();
