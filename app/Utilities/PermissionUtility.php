@@ -20,7 +20,6 @@ use App\Models\UserBlock;
 use App\Models\UserFollow;
 use App\Models\UserRole;
 use Carbon\Carbon;
-use Illuminate\Support\Arr;
 
 class PermissionUtility
 {
@@ -126,7 +125,7 @@ class PermissionUtility
     {
         $userAccountId = User::where('id', $userId)->value('account_id');
 
-        return $userAccountId == $accountId ? 'true' : 'false';
+        return $userAccountId == $accountId ? true : false;
     }
 
     // Check user status of the site mode
@@ -167,7 +166,7 @@ class PermissionUtility
     // Check user permissions
     public static function checkUserPerm(int $userId, array $permUserIds): bool
     {
-        return in_array($userId, $permUserIds) ? 'true' : 'false';
+        return in_array($userId, $permUserIds) ? true : false;
     }
 
     // Check user role permissions
@@ -175,7 +174,7 @@ class PermissionUtility
     {
         $userRoles = UserRole::where('user_id', $userId)->where('expired_at', '<=', now())->pluck('role_id')->toArray();
 
-        return array_intersect($userRoles, $permRoleIds) ? 'true' : 'false';
+        return array_intersect($userRoles, $permRoleIds) ? true : false;
     }
 
     // Check user dialog permission
@@ -273,7 +272,7 @@ class PermissionUtility
     {
         $groupAdminArr = GroupAdmin::where('group_id', $groupId)->pluck('user_id')->toArray();
 
-        return in_array($userId, $groupAdminArr) ? 'true' : 'false';
+        return in_array($userId, $groupAdminArr) ? true : false;
     }
 
     // Check if the user has group publishing permissions
@@ -330,10 +329,15 @@ class PermissionUtility
     }
 
     // Check post allow
-    public static function checkPostAllow(int $postId, int $userId): bool
+    public static function checkPostAllow(int $postId, ?int $userId = null): bool
     {
+        if (empty($userId)) {
+            return false;
+        }
+
         $allowUsers = PostAllow::where('post_id', $postId)->where('type', 1)->pluck('object_id')->toArray();
         $checkUser = PermissionUtility::checkUserPerm($userId, $allowUsers);
+
         if ($checkUser) {
             return true;
         } else {

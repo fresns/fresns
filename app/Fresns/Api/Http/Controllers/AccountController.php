@@ -426,7 +426,7 @@ class AccountController extends Controller
 
         $status = $dtoRequest->status ?? 1;
 
-        $walletLogQuery = AccountWalletLog::where('account_id', $authAccount->id)->isEnable($status)->orderBy('created_at', 'desc');
+        $walletLogQuery = AccountWalletLog::where('account_id', $authAccount->id)->where('is_enable', $status)->orderBy('created_at', 'desc');
 
         if (! empty($dtoRequest->type)) {
             $typeArr = array_filter(explode(',', $dtoRequest->keys));

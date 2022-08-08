@@ -20,6 +20,7 @@ use App\Fresns\Api\Services\InteractiveService;
 use App\Fresns\Api\Services\UserService;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
+use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\ArchiveUsage;
 use App\Models\BlockWord;
@@ -27,6 +28,7 @@ use App\Models\CommentLog;
 use App\Models\Dialog;
 use App\Models\DialogMessage;
 use App\Models\DomainLinkUsage;
+use App\Models\File;
 use App\Models\HashtagUsage;
 use App\Models\Mention;
 use App\Models\Notify;
@@ -428,12 +430,13 @@ class UserController extends Controller
         $data['dialogUnread'] = $dialogUnread;
 
         $notify = Notify::where('user_id', $authUserId)->where('is_read', 0);
-        $notifyUnread['system'] = $notify->where('action_type', 1)->count();
-        $notifyUnread['follow'] = $notify->where('action_type', 2)->count();
-        $notifyUnread['like'] = $notify->where('action_type', 3)->count();
-        $notifyUnread['comment'] = $notify->where('action_type', 4)->count();
-        $notifyUnread['mention'] = $notify->where('action_type', 5)->count();
-        $notifyUnread['recommend'] = $notify->where('action_type', 6)->count();
+        $notifyUnread['bulletin'] = $notify->where('type', 1)->count();
+        $notifyUnread['system'] = $notify->where('type', 2)->count();
+        $notifyUnread['recommend'] = $notify->where('type', 3)->count();
+        $notifyUnread['follow'] = $notify->where('type', 4)->count();
+        $notifyUnread['like'] = $notify->where('type', 5)->count();
+        $notifyUnread['mention'] = $notify->where('type', 6)->count();
+        $notifyUnread['comment'] = $notify->where('type', 7)->count();
         $data['notifyUnread'] = $notifyUnread;
 
         $draftCount['posts'] = PostLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count();
@@ -450,6 +453,12 @@ class UserController extends Controller
             return $publish;
         });
         $data['publish'] = $publish;
+
+        $fileAccept['images'] = FileHelper::fresnsFileAcceptByType(File::TYPE_IMAGE);
+        $fileAccept['videos'] = FileHelper::fresnsFileAcceptByType(File::TYPE_VIDEO);
+        $fileAccept['audios'] = FileHelper::fresnsFileAcceptByType(File::TYPE_AUDIO);
+        $fileAccept['documents'] = FileHelper::fresnsFileAcceptByType(File::TYPE_DOCUMENT);
+        $data['fileAccept'] = $fileAccept;
 
         return $this->success($data);
     }

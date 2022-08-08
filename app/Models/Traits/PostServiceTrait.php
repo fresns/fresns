@@ -12,6 +12,7 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
+use App\Models\PostAllow;
 use Illuminate\Support\Str;
 
 trait PostServiceTrait
@@ -63,6 +64,10 @@ trait PostServiceTrait
         $info['isUserList'] = (bool) $appendData->is_user_list;
         $info['userListName'] = LanguageHelper::fresnsLanguageByTableId('post_appends', 'user_list_name', $appendData->post_id, $langTag);
         $info['userListUrl'] = ! empty($appendData->user_list_plugin_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($appendData->user_list_plugin_unikey) : null;
+        $info['userListCount'] = 0;
+        if ($info['isUserList']) {
+            $info['userListCount'] = PostAllow::where('post_id', $postData->id)->count();
+        }
 
         $info['ipLocation'] = $appendData->ip_location;
 

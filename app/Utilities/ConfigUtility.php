@@ -169,7 +169,7 @@ class ConfigUtility
         // videos
         $video['status'] = $editorConfig["{$type}_editor_video"] ? $rolePerm["{$type}_editor_video"] : false;
         $video['extensions'] = $editorConfig['video_extension_names'];
-        $video['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_IMAGE);
+        $video['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_VIDEO);
         $video['maxSize'] = $rolePerm['video_max_size'] ?? $editorConfig['video_max_size'];
         $video['maxTime'] = $rolePerm['video_max_time'] ?? $editorConfig['video_max_time'];
         $video['uploadNumber'] = $rolePerm["{$type}_editor_video_upload_number"] ?? $editorConfig["{$type}_editor_video_upload_number"];
@@ -177,7 +177,7 @@ class ConfigUtility
         // audios
         $audio['status'] = $editorConfig["{$type}_editor_audio"] ? $rolePerm["{$type}_editor_audio"] : false;
         $audio['extensions'] = $editorConfig['audio_extension_names'];
-        $audio['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_IMAGE);
+        $audio['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_AUDIO);
         $audio['maxSize'] = $rolePerm['audio_max_size'] ?? $editorConfig['audio_max_size'];
         $audio['maxTime'] = $rolePerm['audio_max_time'] ?? $editorConfig['audio_max_time'];
         $audio['uploadNumber'] = $rolePerm["{$type}_editor_audio_upload_number"] ?? $editorConfig["{$type}_editor_audio_upload_number"];
@@ -185,7 +185,7 @@ class ConfigUtility
         // documents
         $document['status'] = $editorConfig["{$type}_editor_document"] ? $rolePerm["{$type}_editor_document"] : false;
         $document['extensions'] = $editorConfig['document_extension_names'];
-        $document['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_IMAGE);
+        $document['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_DOCUMENT);
         $document['maxSize'] = $rolePerm['document_max_size'] ?? $editorConfig['document_max_size'];
         $document['uploadNumber'] = $rolePerm["{$type}_editor_document_upload_number"] ?? $editorConfig["{$type}_editor_document_upload_number"];
 
