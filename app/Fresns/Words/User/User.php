@@ -13,7 +13,6 @@ use App\Fresns\Words\User\DTO\DeactivateUserDialogDTO;
 use App\Fresns\Words\User\DTO\LogicalDeletionUserDTO;
 use App\Fresns\Words\User\DTO\VerifyUserDTO;
 use App\Helpers\ConfigHelper;
-use App\Helpers\StrHelper;
 use App\Models\Account;
 use App\Models\Dialog;
 use App\Models\File;
@@ -59,24 +58,24 @@ class User
             'timezone' => $dtoWordBody->timezone ?? null,
             'language' => $dtoWordBody->language ?? null,
         ];
-        $userId = UserModel::create(array_filter($userArr))->id;
+        $userModel = UserModel::create(array_filter($userArr));
 
         $defaultRoleId = ConfigHelper::fresnsConfigByItemKey('default_role');
         $roleArr = [
-            'user_id' => $userId,
+            'user_id' => $userModel->id,
             'role_id' => $defaultRoleId,
             'is_main' => 1,
         ];
         UserRole::create($roleArr);
 
-        $statArr = ['user_id' => $userId];
+        $statArr = ['user_id' => $userModel->id];
         UserStat::create($statArr);
 
         return $this->success([
             'aid' => $account->aid,
-            'uid' => $uid,
-            'username' => $username,
-            'nickname' => $dtoWordBody->nickname,
+            'uid' => $userModel->uid,
+            'username' => $userModel->username,
+            'nickname' => $userModel->nickname,
         ]);
     }
 

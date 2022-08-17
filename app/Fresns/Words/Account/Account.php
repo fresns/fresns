@@ -14,7 +14,6 @@ use App\Fresns\Words\Account\DTO\LogicalDeletionAccountDTO;
 use App\Fresns\Words\Account\DTO\VerifyAccountDTO;
 use App\Fresns\Words\Account\DTO\VerifySessionTokenDTO;
 use App\Helpers\ConfigHelper;
-use App\Helpers\DateHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Account as AccountModel;
 use App\Models\AccountConnect;
@@ -80,11 +79,11 @@ class Account
         $inputArr['password'] = isset($dtoWordBody->password) ? Hash::make($dtoWordBody->password) : null;
         $inputArr['last_login_at'] = now();
 
-        $accountId = AccountModel::create($inputArr)->id;
+        $accountModel = AccountModel::create($inputArr);
 
         // Account Wallet Table
         $accountWalletsInput = [
-            'account_id' => $accountId,
+            'account_id' => $accountModel->id,
         ];
         AccountWallet::create($accountWalletsInput);
 
@@ -92,7 +91,7 @@ class Account
         if ($connectInfoArr) {
             $itemArr = [];
             foreach ($connectInfoArr as $info) {
-                $item['account_id'] = $accountId;
+                $item['account_id'] = $accountModel->id;
                 $item['connect_id'] = $info['connectId'];
                 $item['connect_token'] = $info['connectToken'];
                 $item['connect_refresh_token'] = $info['connectRefreshToken'];
@@ -107,8 +106,8 @@ class Account
         }
 
         return $this->success([
-            'type' => $dtoWordBody->type,
-            'aid' => $inputArr['aid'],
+            'type' => $accountModel->type,
+            'aid' => $accountModel->aid,
         ]);
     }
 
