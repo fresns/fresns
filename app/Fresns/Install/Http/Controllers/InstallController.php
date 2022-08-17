@@ -401,14 +401,16 @@ class InstallController extends Controller
 
     protected function generateAdmininfo(array $data)
     {
-        $accountFresnsResponse = \FresnsCmdWord::plugin('Fresns')->addAccount([
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->addAccount([
             'type' => 1,
             'account' => $data['admin_info']['email'],
             'password' => $data['admin_info']['password'],
         ]);
 
+        $aid = $fresnsResp->getData('aid');
+
         \FresnsCmdWord::plugin('Fresns')->addUser([
-            'aid' => $aid = $accountFresnsResponse->getData('aid'),
+            'aid' => $aid,
             'nickname' => 'Admin',
             'username' => 'admin',
         ]);
