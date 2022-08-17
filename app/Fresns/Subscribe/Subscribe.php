@@ -162,7 +162,7 @@ class Subscribe
         try {
             return Config::withTrashed()->where('item_key', 'subscribe_items')->firstOrFail();
         } catch (\Throwable $e) {
-            throw new \RuntimeException("Cannot find item_key subscribe_items: " . $e->getMessage());
+            throw new \RuntimeException('Cannot find item_key subscribe_items: '.$e->getMessage());
         }
     }
 
