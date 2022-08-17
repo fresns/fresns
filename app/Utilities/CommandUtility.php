@@ -8,9 +8,9 @@
 
 namespace App\Utilities;
 
+use Illuminate\Support\Str;
 use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
-use Illuminate\Support\Str;
 
 class CommandUtility
 {
@@ -80,8 +80,9 @@ class CommandUtility
 
         $composer = $instance->findBinary('composer');
 
-        if (Str::endsWith($composer, ".phar")) {
+        if (Str::endsWith($composer, '.phar')) {
             $php = $instance->findBinary('php');
+
             return $instance->createProcess([$php, $composer, ...$argument]);
         } else {
             return $instance->createProcess([$composer, ...$argument]);
