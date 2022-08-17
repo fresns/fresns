@@ -127,8 +127,8 @@ class GlobalController extends Controller
                 $item['fileType'] = $archive->file_type;
                 $item['fileExt'] = $fileExt;
                 $item['fileAccept'] = FileHelper::fresnsFileAcceptByType($archive->file_type);
-                $item['isMultiple'] = $archive->is_multiple;
-                $item['isRequired'] = $archive->is_required;
+                $item['isMultiple'] = (bool) $archive->is_multiple;
+                $item['isRequired'] = (bool) $archive->is_required;
                 $item['inputPattern'] = $archive->input_pattern;
                 $item['inputMax'] = $archive->input_max;
                 $item['inputMin'] = $archive->input_min;

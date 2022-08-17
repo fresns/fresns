@@ -26,6 +26,7 @@ use App\Utilities\InteractiveUtility;
 use App\Utilities\LbsUtility;
 use App\Utilities\PermissionUtility;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class PostService
 {
@@ -114,6 +115,14 @@ class PostService
         $interactiveConfig = InteractiveHelper::fresnsPostInteractive($langTag);
         $interactiveStatus = InteractiveUtility::checkInteractiveStatus(InteractiveUtility::TYPE_POST, $post->id, $authUserId);
         $item['interactive'] = array_merge($interactiveConfig, $interactiveStatus);
+
+        $commentVisibilityRule = ConfigHelper::fresnsConfigByItemKey('comment_visibility_rule');
+        $item['commentHidden'] = false;
+        if ($commentVisibilityRule > 0) {
+            $visibilityTime = $post->created_at->addDay($commentVisibilityRule);
+
+            $item['commentHidden'] = $visibilityTime->lt($post->created_at);
+        }
 
         $item['followType'] = null;
 
