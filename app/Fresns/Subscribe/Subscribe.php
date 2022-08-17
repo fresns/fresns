@@ -159,7 +159,11 @@ class Subscribe
 
     public function getSubscribeItemConfig()
     {
-        return Config::withTrashed()->where('item_key', 'subscribe_items')->firstOrFail();
+        try {
+            return Config::withTrashed()->where('item_key', 'subscribe_items')->firstOrFail();
+        } catch (\Throwable $e) {
+            throw new \RuntimeException("Cannot find item_key subscribe_items: " . $e->getMessage());
+        }
     }
 
     public function getCurrentSubscribes()
@@ -195,6 +199,8 @@ class Subscribe
     public function remove()
     {
         $filterData = $this->filterDataByWordBody();
+
+        $filterData = $filterData->flatten()->map->toArray()->toArray();
 
         $this->getSubscribeItemConfig()->update([
             'item_value' => $filterData,
