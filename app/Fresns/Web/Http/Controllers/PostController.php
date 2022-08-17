@@ -29,7 +29,7 @@ class PostController extends Controller
             paginate: $result['data']['paginate'],
         );
 
-        return view('posts.list', compact('posts'));
+        return view('posts.index', compact('posts'));
     }
 
     // list
@@ -183,7 +183,7 @@ class PostController extends Controller
 
         $results = $client->handleUnwrap([
             'post' => $client->getAsync("/api/v2/post/{$pid}/detail"),
-            'comments'   => $client->getAsync('/api/v2/comment/list', [
+            'comments' => $client->getAsync('/api/v2/comment/list', [
                 'query' => $query,
             ]),
         ]);

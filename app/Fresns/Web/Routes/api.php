@@ -20,6 +20,8 @@ Route::prefix('engine')
         CheckSiteModel::class,
     ])
     ->group(function () {
+        Route::get('top-list', [ApiController::class, 'topList'])->name('top.list')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
+
         Route::get('url-sign', [ApiController::class, 'urlSign'])->name('url.sign')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class, CheckSiteModel::class]);
 
         Route::post('send-verify-code', [ApiController::class, 'sendVerifyCode'])->name('send.verifyCode')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);

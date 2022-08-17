@@ -62,6 +62,22 @@ class QueryHelper
         return array_merge($params, $clientQuery);
     }
 
+    public static function configToQuery(string $type)
+    {
+        $queryConfig = ConfigHelper::fresnsConfigByItemKey("menu_{$type}_query_config");
+
+        $params = [];
+        if (! empty($queryConfig)) {
+            $urlInfo = parse_url($queryConfig);
+
+            if (! empty($urlInfo['query'])) {
+                parse_str($urlInfo['query'], $params);
+            }
+        }
+
+        return $params;
+    }
+
     public static function convertApiDataToPaginate($items, $paginate)
     {
         if (method_exists($items, 'toArray')) {

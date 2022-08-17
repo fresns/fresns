@@ -29,7 +29,7 @@ class HashtagController extends Controller
             paginate: $result['data']['paginate'],
         );
 
-        return view('hashtags.list', compact('hashtags'));
+        return view('hashtags.index', compact('hashtags'));
     }
 
     // list

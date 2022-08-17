@@ -9,6 +9,7 @@
 namespace App\Fresns\Web\Http\Controllers;
 
 use App\Fresns\Web\Helpers\ApiHelper;
+use App\Fresns\Web\Helpers\QueryHelper;
 use App\Utilities\ConfigUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -16,6 +17,44 @@ use Illuminate\Support\Facades\Cookie;
 
 class ApiController extends Controller
 {
+    // top list
+    public function topList()
+    {
+        $userQuery = QueryHelper::configToQuery(QueryHelper::TYPE_USER);
+        $groupQuery = QueryHelper::configToQuery(QueryHelper::TYPE_GROUP);
+        $hashtagQuery = QueryHelper::configToQuery(QueryHelper::TYPE_HASHTAG);
+        $postQuery = QueryHelper::configToQuery(QueryHelper::TYPE_POST);
+        $commentQuery = QueryHelper::configToQuery(QueryHelper::TYPE_COMMENT);
+
+        $client = ApiHelper::make();
+
+        $results = $client->handleUnwrap([
+            'users' => $client->getAsync('/api/v2/user/list', [
+                'query' => $userQuery,
+            ]),
+            'groups' => $client->getAsync('/api/v2/group/list', [
+                'query' => $groupQuery,
+            ]),
+            'hashtags' => $client->getAsync('/api/v2/hashtag/list', [
+                'query' => $hashtagQuery,
+            ]),
+            'posts' => $client->getAsync('/api/v2/post/list', [
+                'query' => $postQuery,
+            ]),
+            'comments' => $client->getAsync('/api/v2/comment/list', [
+                'query' => $commentQuery,
+            ]),
+        ]);
+
+        $data['users'] = $results['users']['data']['list'];
+        $data['groups'] = $results['groups']['data']['list'];
+        $data['hashtags'] = $results['hashtags']['data']['list'];
+        $data['posts'] = $results['posts']['data']['list'];
+        $data['comments'] = $results['comments']['data']['list'];
+
+        return $data;
+    }
+
     // url sign
     public function urlSign()
     {
@@ -64,6 +103,13 @@ class ApiController extends Controller
             ],
         ]);
 
+        if ($result['code'] != 0) {
+            return back()->with([
+                'code' => $result['code'],
+                'failure' => $result['message'],
+            ]);
+        }
+
         // api data
         $data = $result['data'];
 
@@ -104,10 +150,6 @@ class ApiController extends Controller
             // header.blade.php
             return redirect()->intended(fs_route(route('fresns.account.login')));
         }
-
-        return back()->with([
-            'failure' => ConfigUtility::getCodeMessage(31602, 'Fresns', current_lang_tag()),
-        ]);
     }
 
     // account reset password
