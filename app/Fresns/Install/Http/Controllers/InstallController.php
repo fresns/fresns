@@ -11,6 +11,7 @@ namespace App\Fresns\Install\Http\Controllers;
 use App\Helpers\AppHelper;
 use App\Models\Account;
 use App\Models\Config;
+use Carbon\Carbon;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cache;
 
@@ -422,11 +423,9 @@ class InstallController extends Controller
 
     protected function writeInstallTime()
     {
-        $installTime = \App\Helpers\DateHelper::fresnsDatabaseCurrentDateTime();
-
         $item = [
             'item_key' => 'install_datetime',
-            'item_value' => $installTime,
+            'item_value' => Carbon::createFromFormat('Y-m-d H:i:s', now()),
         ];
 
         Config::updateOrCreate([

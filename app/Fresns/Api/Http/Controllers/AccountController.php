@@ -669,7 +669,7 @@ class AccountController extends Controller
         // edit last login time
         if ($dtoRequest->editLastLoginTime) {
             $authAccount->update([
-                'last_login_at' => DateHelper::fresnsDatabaseCurrentDateTime(),
+                'last_login_at' => now(),
             ]);
         }
 

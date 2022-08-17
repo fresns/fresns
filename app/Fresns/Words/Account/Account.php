@@ -78,7 +78,7 @@ class Account
             default => [],
         };
         $inputArr['password'] = isset($dtoWordBody->password) ? Hash::make($dtoWordBody->password) : null;
-        $inputArr['last_login_at'] = DateHelper::fresnsDatabaseCurrentDateTime();
+        $inputArr['last_login_at'] = now();
 
         $accountId = AccountModel::create($inputArr)->id;
 
@@ -177,7 +177,7 @@ class Account
         }
 
         $account->update([
-            'last_login_at' => DateHelper::fresnsDatabaseCurrentDateTime(),
+            'last_login_at' => now(),
         ]);
 
         return $this->success([
