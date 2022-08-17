@@ -15,7 +15,7 @@ trait FsidTrait
     public static function bootFsidTrait()
     {
         static::creating(function ($model) {
-            $model->{$this->getFsidKey()} = $model->{$this->getFsidKey()} ?? static::generateFsid(8);
+            $model->{$model->getFsidKey()} = $model->{$model->getFsidKey()} ?? static::generateFsid(8);
         });
     }
 
