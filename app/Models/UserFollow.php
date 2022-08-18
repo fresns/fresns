@@ -28,26 +28,26 @@ class UserFollow extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'follow_id', 'id')->where('follow_type', UserFollow::TYPE_USER);
+        return $this->belongsTo(User::class, 'follow_id', 'id');
     }
 
     public function group()
     {
-        return $this->belongsTo(Group::class, 'follow_id', 'id')->where('follow_type', UserFollow::TYPE_GROUP);
+        return $this->belongsTo(Group::class, 'follow_id', 'id');
     }
 
     public function hashtag()
     {
-        return $this->belongsTo(Hashtag::class, 'follow_id', 'id')->where('follow_type', UserFollow::TYPE_HASHTAG);
+        return $this->belongsTo(Hashtag::class, 'follow_id', 'id');
     }
 
     public function post()
     {
-        return $this->belongsTo(Post::class, 'follow_id', 'id')->where('follow_type', UserFollow::TYPE_POST);
+        return $this->belongsTo(Post::class, 'follow_id', 'id');
     }
 
     public function comment()
     {
-        return $this->belongsTo(Comment::class, 'follow_id', 'id')->where('follow_type', UserFollow::TYPE_COMMENT);
+        return $this->belongsTo(Comment::class, 'follow_id', 'id');
     }
 }

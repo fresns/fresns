@@ -28,26 +28,26 @@ class UserBlock extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'block_id', 'id')->where('block_type', UserBlock::TYPE_USER);
+        return $this->belongsTo(User::class, 'block_id', 'id');
     }
 
     public function group()
     {
-        return $this->belongsTo(Group::class, 'block_id', 'id')->where('block_type', UserBlock::TYPE_GROUP);
+        return $this->belongsTo(Group::class, 'block_id', 'id');
     }
 
     public function hashtag()
     {
-        return $this->belongsTo(Hashtag::class, 'block_id', 'id')->where('block_type', UserBlock::TYPE_HASHTAG);
+        return $this->belongsTo(Hashtag::class, 'block_id', 'id');
     }
 
     public function post()
     {
-        return $this->belongsTo(Post::class, 'block_id', 'id')->where('block_type', UserBlock::TYPE_POST);
+        return $this->belongsTo(Post::class, 'block_id', 'id');
     }
 
     public function comment()
     {
-        return $this->belongsTo(Comment::class, 'block_id', 'id')->where('block_type', UserBlock::TYPE_COMMENT);
+        return $this->belongsTo(Comment::class, 'block_id', 'id');
     }
 }

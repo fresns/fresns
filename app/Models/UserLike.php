@@ -36,26 +36,26 @@ class UserLike extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'like_id', 'id')->where('like_type', UserLike::TYPE_USER);
+        return $this->belongsTo(User::class, 'like_id', 'id');
     }
 
     public function group()
     {
-        return $this->belongsTo(Group::class, 'like_id', 'id')->where('like_type', UserLike::TYPE_GROUP);
+        return $this->belongsTo(Group::class, 'like_id', 'id');
     }
 
     public function hashtag()
     {
-        return $this->belongsTo(Hashtag::class, 'like_id', 'id')->where('like_type', UserLike::TYPE_HASHTAG);
+        return $this->belongsTo(Hashtag::class, 'like_id', 'id');
     }
 
     public function post()
     {
-        return $this->belongsTo(Post::class, 'like_id', 'id')->where('like_type', UserLike::TYPE_POST);
+        return $this->belongsTo(Post::class, 'like_id', 'id');
     }
 
     public function comment()
     {
-        return $this->belongsTo(Comment::class, 'like_id', 'id')->where('like_type', UserLike::TYPE_COMMENT);
+        return $this->belongsTo(Comment::class, 'like_id', 'id');
     }
 }
