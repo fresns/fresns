@@ -438,7 +438,7 @@ class AccountController extends Controller
         $logList = null;
         foreach ($walletLogs as $log) {
             $item['type'] = $log->object_type;
-            $item['amount'] = $log->amount;
+            $item['amountTotal'] = $log->amount_total;
             $item['transactionAmount'] = $log->transaction_amount;
             $item['systemFee'] = $log->system_fee;
             $item['openingBalance'] = $log->opening_balance;

@@ -338,7 +338,7 @@ class CommentController extends Controller
         $commentLogList = [];
         $service = new CommentService();
         foreach ($commentLogs as $log) {
-            $commentLogList[] = $service->commentLogList($log, $langTag, $timezone, $authUserId);
+            $commentLogList[] = $service->commentLogData($log, 'list', $langTag, $timezone);
         }
 
         return $this->fresnsPaginate($commentLogList, $commentLogs->total(), $commentLogs->perPage());
@@ -366,7 +366,7 @@ class CommentController extends Controller
         }
 
         $service = new CommentService();
-        $data['detail'] = $service->commentLogDetail($log, $langTag, $timezone, $authUserId);
+        $data['detail'] = $service->commentLogData($log, 'detail', $langTag, $timezone);
 
         return $this->success($data);
     }

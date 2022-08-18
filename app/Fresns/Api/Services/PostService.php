@@ -121,7 +121,7 @@ class PostService
         if ($commentVisibilityRule > 0) {
             $visibilityTime = $post->created_at->addDay($commentVisibilityRule);
 
-            $item['commentHidden'] = $visibilityTime->lt($post->created_at);
+            $item['commentHidden'] = $visibilityTime->lt(now());
         }
 
         $item['followType'] = null;

@@ -430,7 +430,7 @@ class UserController extends Controller
         $data['dialogUnread'] = $dialogUnread;
 
         $notify = Notify::where('user_id', $authUserId)->where('is_read', 0);
-        $notifyUnread['bulletin'] = $notify->where('type', 1)->count();
+        $notifyUnread['bulletin'] = Notify::where('type', 1)->where('is_read', 0)->count();
         $notifyUnread['system'] = $notify->where('type', 2)->count();
         $notifyUnread['recommend'] = $notify->where('type', 3)->count();
         $notifyUnread['follow'] = $notify->where('type', 4)->count();

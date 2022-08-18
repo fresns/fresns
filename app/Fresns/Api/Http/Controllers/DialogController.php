@@ -98,9 +98,9 @@ class DialogController extends Controller
         }
 
         $userService = new UserService();
-        $user = $userService->userData($dialogUser, $langTag, $timezone, $authUser->id);
+        $detail['user'] = $userService->userData($dialogUser, $langTag, $timezone, $authUser->id);
 
-        return $this->success($user);
+        return $this->success($detail);
     }
 
     // messages
@@ -142,9 +142,9 @@ class DialogController extends Controller
 
             $item['messageId'] = $message->id;
             $item['sendUser'] = $message->sendUser?->getUserProfile($langTag, $timezone);
+            $item['sendUserIsMe'] = $sendUserIsMe;
             $item['sendTime'] = DateHelper::fresnsDateTimeByTimezone($message->created_at, $timezone, $langTag);
             $item['sendTimeFormat'] = DateHelper::fresnsFormatDateTime($message->created_at, $timezone, $langTag);
-            $item['sendUserIsMe'] = $sendUserIsMe;
             $item['type'] = $message->message_type;
             $item['content'] = ContentUtility::replaceBlockWords('dialog', $message->message_text);
             $item['file'] = FileHelper::fresnsFileInfoById($message->message_file_id);

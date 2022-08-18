@@ -221,15 +221,53 @@ class CommentService
         return $data;
     }
 
-    // comment Log
-    public function commentLogList(CommentLog $log, string $langTag, string $timezone, ?int $authUserId = null)
+    // comment log data
+    // $type = list or detail
+    public function commentLogData(CommentLog $log, string $type, string $langTag, string $timezone)
     {
-        return null;
-    }
+        $comment = $log?->comment;
+        $user = $log->user;
 
-    // comment log detail
-    public function commentLogDetail(CommentLog $log, string $langTag, string $timezone, ?int $authUserId = null)
-    {
-        return null;
+        $info['id'] = $log->id;
+        $info['uid'] = $user->uid;
+        $info['cid'] = $comment?->cid;
+        $info['isPluginEditor'] = (bool) $log->is_plugin_editor;
+        $info['editorUnikey'] = $log->editor_unikey;
+        $info['content'] = $log->content;
+        $info['contentLength'] = Str::length($log->content);
+        $info['isBrief'] = false;
+
+        $briefLength = ConfigHelper::fresnsConfigByItemKey('comment_editor_brief_length');
+        if ($type == 'list') {
+            $info['content'] = Str::limit($log->content, $briefLength);
+            $info['isBrief'] = true;
+        }
+
+        $info['isMarkdown'] = (bool) $log->is_markdown;
+        $info['isAnonymous'] = (bool) $log->is_anonymous;
+        $info['mapJson'] = $log->map_json;
+        $info['state'] = $log->state;
+        $info['reason'] = $log->reason;
+
+        $info['creator'] = InteractiveHelper::fresnsUserAnonymousProfile();
+        if (! $log->is_anonymous) {
+            $creatorProfile = $log->creator->getUserProfile($langTag, $timezone);
+            $creatorMainRole = $log->creator->getUserMainRole($langTag, $timezone);
+            $creatorOperations['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_USER, $log->creator->id, $langTag);
+            $item['creator'] = array_merge($creatorProfile, $creatorMainRole, $creatorOperations);
+        }
+
+        $info['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST_LOG, $log->id, $langTag);
+        $info['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_POST_LOG, $log->id, $langTag);
+        $info['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_POST_LOG, $log->id, $langTag);
+        $info['files'] = FileHelper::fresnsAntiLinkFileInfoListByTableColumn('post_logs', 'id', $log->id);
+
+        $fileCount['images'] = collect($info['files']['images'])->count();
+        $fileCount['videos'] = collect($info['files']['videos'])->count();
+        $fileCount['audios'] = collect($info['files']['audios'])->count();
+        $fileCount['documents'] = collect($info['files']['documents'])->count();
+        $info['fileCount'] = $fileCount;
+
+        return $info;
     }
 }

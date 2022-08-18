@@ -83,7 +83,7 @@ class PostFollowService
             ->latest();
 
         $hashtagPostQuery->whereHas('hashtags', function ($query) use ($followHashtagIds) {
-            $query->whereIn('id', $followHashtagIds);
+            $query->whereIn('hashtags.id', $followHashtagIds);
         });
 
         // digest post query

@@ -110,7 +110,7 @@ class EditorController extends Controller
 
                 $service = new CommentService();
                 foreach ($drafts as $draft) {
-                    $draftList[] = $service->commentLogList($draft, $langTag, $timezone);
+                    $draftList[] = $service->commentLogData($draft, 'list', $langTag, $timezone);
                 }
             break;
 
@@ -236,7 +236,7 @@ class EditorController extends Controller
                 $service = new CommentService();
 
                 $commentLog = CommentLog::where('id', $fresnsResp->getData('logId'))->first();
-                $data['detail'] = $service->commentLogDetail($commentLog, $langTag, $timezone);
+                $data['detail'] = $service->commentLogData($commentLog, 'detail', $langTag, $timezone);
             break;
         }
 
@@ -308,7 +308,7 @@ class EditorController extends Controller
                 $service = new CommentService();
 
                 $commentLog = CommentLog::where('id', $fresnsResp->getData('logId'))->first();
-                $data['detail'] = $service->commentLogDetail($commentLog, $langTag, $timezone);
+                $data['detail'] = $service->commentLogData($commentLog, 'detail', $langTag, $timezone);
             break;
         }
 
@@ -370,7 +370,7 @@ class EditorController extends Controller
             // comment
             case 'comment':
                 $service = new CommentService();
-                $data['detail'] = $service->commentLogDetail($draft, $langTag, $timezone, $authUser->id);
+                $data['detail'] = $service->commentLogData($draft, 'detail', $langTag, $timezone);
 
                 if (! $draft->comment_id) {
                     $comment = PrimaryHelper::fresnsModelById('comment', $draft->comment_id);

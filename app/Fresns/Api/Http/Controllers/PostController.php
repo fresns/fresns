@@ -66,7 +66,12 @@ class PostController extends Controller
         $filterGroupIdsArr = PermissionUtility::getPostFilterByGroupIds($authUserId);
 
         if (empty($authUserId)) {
-            $postQuery = Post::with(['creator', 'group', 'hashtags'])->whereNotIn('group_id', $filterGroupIdsArr)->isEnable();
+            $postQuery = Post::with(['creator', 'group', 'hashtags'])
+                ->where(function ($query) use ($filterGroupIdsArr) {
+                    $query->whereNull('group_id')
+                        ->orWhereNotIn('group_id', $filterGroupIdsArr);
+                })
+                ->isEnable();
         } else {
             $blockPostIds = UserBlock::type(UserBlock::TYPE_POST)->where('user_id', $authUserId)->pluck('block_id')->toArray();
             $blockUserIds = UserBlock::type(UserBlock::TYPE_USER)->where('user_id', $authUserId)->pluck('block_id')->toArray();
@@ -487,8 +492,10 @@ class PostController extends Controller
         $postList = [];
         $service = new PostService();
         foreach ($posts as $post) {
-            $postList[] = $service->postData($post, 'list', $langTag, $timezone, $authUser->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
-            $postList['followType'] = $postFollowService->getFollowType($post->user_id, $post->group_id, $post->hashtags, $authUser->id);
+            $postListItem = $service->postData($post, 'list', $langTag, $timezone, $authUser->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+            $postListItem['followType'] = $postFollowService->getFollowType($post->user_id, $post->group_id, $post->hashtags?->toArray(), $authUser->id);
+
+            $postList[] = $postListItem;
         }
 
         return $this->fresnsPaginate($postList, $posts->total(), $posts->perPage());

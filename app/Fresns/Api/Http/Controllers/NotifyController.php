@@ -54,14 +54,14 @@ class NotifyController extends Controller
             $item['type'] = $notify->type;
             $item['content'] = $notify->content;
             $item['isMarkdown'] = (bool) $notify->is_markdown;
-            $item['pluginUrl'] = null;
             $item['isAccessPlugin'] = (bool) $notify->is_access_plugin;
+            $item['pluginUrl'] = null;
             $item['actionUser'] = null;
             $item['actionType'] = $notify->action_type;
             $item['actionInfo'] = null;
             $info['notifyTime'] = DateHelper::fresnsDateTimeByTimezone($notify->created_at, $timezone, $langTag);
             $info['notifyTimeFormat'] = DateHelper::fresnsFormatDateTime($notify->created_at, $timezone, $langTag);
-            $item['status'] = (bool) $notify->is_read;
+            $item['readStatus'] = (bool) $notify->is_read;
 
             if ($notify->is_access_plugin) {
                 $item['pluginUrl'] = ! empty($notify->plugin_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($notify->plugin_unikey) : null;
