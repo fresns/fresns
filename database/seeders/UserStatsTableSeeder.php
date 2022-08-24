@@ -56,6 +56,7 @@ class UserStatsTableSeeder extends Seeder
                 'post_follow_count' => 0,
                 'post_block_count' => 0,
                 'comment_publish_count' => 0,
+                'comment_digest_count' => 0,
                 'comment_like_count' => 0,
                 'comment_dislike_count' => 0,
                 'comment_follow_count' => 0,

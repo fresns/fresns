@@ -53,6 +53,7 @@ class CreateUserStatsTable extends Migration
             $table->unsignedInteger('post_follow_count')->default(0);
             $table->unsignedInteger('post_block_count')->default(0);
             $table->unsignedInteger('comment_publish_count')->default(0);
+            $table->unsignedInteger('comment_digest_count')->default(0);
             $table->unsignedInteger('comment_like_count')->default(0);
             $table->unsignedInteger('comment_dislike_count')->default(0);
             $table->unsignedInteger('comment_follow_count')->default(0);
