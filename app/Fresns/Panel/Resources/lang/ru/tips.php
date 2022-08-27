@@ -32,6 +32,7 @@ return [
     'install_not_entered_dir' => 'Пожалуйста, введите каталог',
     'install_not_upload_zip' => 'Пожалуйста, выберите пакет установки',
     'install_in_progress' => 'Выполняется установка...',
+    'install_end' => 'Конец установки',
     // upgrade
     'upgrade_none' => 'Нет обновления',
     'upgrade_fresns' => 'Для обновления доступна новая версия Freesns',

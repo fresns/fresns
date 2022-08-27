@@ -32,6 +32,7 @@ return [
     'install_not_entered_dir' => '请输入目录',
     'install_not_upload_zip' => '请选择安装包',
     'install_in_progress' => '正在安装中...',
+    'install_end' => '安装结束',
     // upgrade
     'upgrade_none' => '暂无更新',
     'upgrade_fresns' => '有新的 Fresns 版本可供升级。',

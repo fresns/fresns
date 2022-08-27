@@ -32,6 +32,7 @@ return [
     'install_not_entered_dir' => 'Inserire una directory',
     'install_not_upload_zip' => 'Selezionare il pacchetto di installazione',
     'install_in_progress' => 'Installazione in corso...',
+    'install_end' => 'Fine dell\'installazione',
     // upgrade
     'upgrade_none' => 'Nessun aggiornamento',
     'upgrade_fresns' => 'C\'è una nuova versione di Fresns disponibile per l\'aggiornamento',

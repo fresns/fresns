@@ -32,6 +32,7 @@ return [
     'install_not_entered_dir' => 'ディレクトリを入力してください',
     'install_not_upload_zip' => 'インストールパッケージを選択してください',
     'install_in_progress' => 'インストール中...',
+    'install_end' => 'インストール終了',
     // upgrade
     'upgrade_none' => '更新はありません',
     'upgrade_fresns' => 'Fresnsの新バージョンのアップグレードが可能です。',

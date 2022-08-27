@@ -32,6 +32,7 @@ return [
     'install_not_entered_dir' => 'कृपया एक निर्देशिका दर्ज करें',
     'install_not_upload_zip' => 'कृपया स्थापना पैकेज का चयन करें',
     'install_in_progress' => 'इंस्टॉल हो रहा है...',
+    'install_end' => 'स्थापना का अंत',
     // upgrade
     'upgrade_none' => 'कोई अपग्रेड नहीं',
     'upgrade_fresns' => 'अपग्रेड के लिए एक नया FRESNS संस्करण उपलब्ध है।',

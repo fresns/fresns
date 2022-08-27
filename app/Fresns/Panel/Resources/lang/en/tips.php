@@ -32,6 +32,7 @@ return [
     'install_not_entered_dir' => 'Please enter a directory',
     'install_not_upload_zip' => 'Please select the installation package',
     'install_in_progress' => 'Install in progress...',
+    'install_end' => 'End of installation',
     // upgrade
     'upgrade_none' => 'No Upgrade',
     'upgrade_fresns' => 'A new version of Fresns is available for upgrade',

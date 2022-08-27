@@ -32,6 +32,7 @@ return [
     'install_not_entered_dir' => 'Silakan masukkan direktori',
     'install_not_upload_zip' => 'Silakan pilih paket instalasi',
     'install_in_progress' => 'Instal sedang berlangsung...',
+    'install_end' => 'Akhir pemasangan',
     // upgrade
     'upgrade_none' => 'Tidak ada pembaruan',
     'upgrade_fresns' => 'Ada versi fresns baru yang tersedia untuk upgrade',

@@ -32,6 +32,7 @@ return [
     'install_not_entered_dir' => '디렉토리를 입력하세요',
     'install_not_upload_zip' => '설치 패키지를 선택하십시오',
     'install_in_progress' => '설치 진행 중...',
+    'install_end' => '설치 종료',
     // upgrade
     'upgrade_none' => '업데이트 없음',
     'upgrade_fresns' => '업그레이드를 위해 새로운 Fresns 버전이 있습니다',
