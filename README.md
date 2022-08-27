@@ -34,8 +34,10 @@ This repository is an R & D code repository without "vendor" reference library f
 2. Execute the command line in the "main program root directory".
     - Development deployment: `composer install`
     - Production deployment: `composer install --optimize-autoloader --no-dev`
-3. Execute the php artisan command under the "main program root directory" to configure the plugin manager.
+3. Execute the php artisan command under the "main program root directory" to configure the manager.
     - `php artisan vendor:publish --provider="Fresns\PluginManager\Providers\PluginServiceProvider"`
+    - `php artisan vendor:publish --provider="Fresns\ThemeManager\Providers\ThemeServiceProvider"`
+    - `php artisan vendor:publish --provider="Fresns\MarketManager\Providers\MarketServiceProvider"`
 4. Configure the web server according to the [the installation tutorial](https://fresns.org/guide/install.html) on the official website.
 5. Visit the `/install` page to do the installation.
 
