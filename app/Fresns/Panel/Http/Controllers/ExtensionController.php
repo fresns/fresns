@@ -25,7 +25,7 @@ class ExtensionController extends Controller
             default => null,
         };
 
-        if (!is_null($isEnable)) {
+        if (! is_null($isEnable)) {
             $plugins->isEnable($isEnable);
         }
 
@@ -242,7 +242,6 @@ class ExtensionController extends Controller
     {
         $unikey = $request->get('unikey');
         $installType = $request->get('install_type');
-
 
         \Artisan::call('market:upgrade', [
             'unikey' => $unikey,
