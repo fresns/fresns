@@ -85,7 +85,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <textarea class="form-control" rows="6" id="install_artisan_output" readonly>{{ __('FsLang::tips.install_in_progress') }}</textarea>
+                <textarea class="form-control" rows="10" id="install_artisan_output" readonly>{{ __('FsLang::tips.install_in_progress') }}</textarea>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="reloadPage()">{{ __('FsLang::panel.button_close') }}</button>

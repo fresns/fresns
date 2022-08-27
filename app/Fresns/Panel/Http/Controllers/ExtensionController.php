@@ -25,14 +25,14 @@ class ExtensionController extends Controller
             default => null,
         };
 
-        if ($isEnable) {
+        if (!is_null($isEnable)) {
             $plugins->isEnable($isEnable);
         }
 
         $plugins = $plugins->get();
 
         $enableCount = Plugin::type(1)->isEnable()->count();
-        $disableCount = Plugin::type(1)->where('is_enable', 0)->count();
+        $disableCount = Plugin::type(1)->isEnable(false)->count();
 
         return view('FsView::extensions.plugins', compact('plugins', 'enableCount', 'disableCount', 'isEnable'));
     }
@@ -176,30 +176,28 @@ class ExtensionController extends Controller
 
         switch ($installMethod) {
             case 'inputDir':
-                // php artisan plugin:install ...
-                // php artisan theme:install ...
+                $inputDir = $request->get('plugin_dir');
+                if (str_starts_with($inputDir, '/')) {
+                    $dir = realpath($inputDir);
+                } else {
+                    $dir = realpath(base_path($request->get('plugin_dir')));
+                }
 
-                $command = match ($installType) {
-                    default => throw new \RuntimeException("unknown install_type {$installType}"),
-                    'plugin' => 'plugin:install',
-                    'theme' => 'theme:install',
-                };
-
-                $dir = base_path($request->get('plugin_dir'));
-
-                \Artisan::call($command, [
-                    'path' => "$dir",
-                    '--force' => true,
+                // php artisan market:require ...
+                \Artisan::call('market:require', [
+                    'unikey' => "$dir",
+                    'type' => $installType,
                 ]);
 
-                return \response(\Artisan::output()."\n".__('FsLang::tips.installSuccess'));
+                return \response(\Artisan::output()."\n".__('FsLang::tips.install_end'));
             break;
             case 'inputUrl':
             case 'inputUnikey':
                 if ($unikey = $request->get('plugin_unikey', $unikey)) {
-                    // php artisan fresns:require ...
-                    \Artisan::call('fresns:require', [
+                    // php artisan market:require ...
+                    \Artisan::call('market:require', [
                         'unikey' => $unikey,
+                        'type' => $installType,
                     ]);
                     $output = \Artisan::output();
 
@@ -221,22 +219,15 @@ class ExtensionController extends Controller
             case 'inputFile':
                 $file = $request->file('plugin_zipball');
                 if ($file && $file->isValid()) {
-                    // php artisan plugin:install ...
-                    // php artisan theme:install ...
-
-                    $command = match ($installType) {
-                        default => throw new \RuntimeException("unknown install_type {$installType}"),
-                        'plugin' => 'plugin:install',
-                        'theme' => 'theme:install',
-                    };
+                    // php artisan market:require ...
 
                     $dir = storage_path('extensions');
                     $filename = $file->hashName();
                     $file->move($dir, $filename);
 
-                    \Artisan::call($command, [
-                        'path' => "$dir/$filename",
-                        '--force' => true,
+                    \Artisan::call('market:require', [
+                        'unikey' => "$dir/$filename",
+                        'type' => $installType,
                     ]);
 
                     return \response(\Artisan::output()."\n".__('FsLang::tips.installSuccess'));
@@ -250,9 +241,12 @@ class ExtensionController extends Controller
     public function upgrade(Request $request)
     {
         $unikey = $request->get('unikey');
+        $installType = $request->get('install_type');
 
-        \Artisan::call('fresns:update', [
+
+        \Artisan::call('market:upgrade', [
             'unikey' => $unikey,
+            'type' => $installType,
         ]);
 
         return \response()->json([
@@ -268,9 +262,9 @@ class ExtensionController extends Controller
     public function update(Request $request)
     {
         if ($request->get('is_enable') != 0) {
-            \Artisan::call('plugin:activate', ['plugin' => $request->plugin]);
+            \Artisan::call('market:activate', ['unikey' => $request->plugin]);
         } else {
-            \Artisan::call('plugin:deactivate', ['plugin' => $request->plugin]);
+            \Artisan::call('market:deactivate', ['unikey' => $request->plugin]);
         }
 
         return $this->updateSuccess();
@@ -293,9 +287,9 @@ class ExtensionController extends Controller
     public function uninstall(Request $request)
     {
         if ($request->get('clearData') == 1) {
-            \Artisan::call('plugin:uninstall', ['plugin' => $request->plugin, '--cleardata' => true]);
+            \Artisan::call('market:remove-plugin', ['unikey' => $request->plugin, '--cleardata' => true]);
         } else {
-            \Artisan::call('plugin:uninstall', ['plugin' => $request->plugin, '--cleardata' => false]);
+            \Artisan::call('market:remove-plugin', ['unikey' => $request->plugin, '--cleardata' => false]);
         }
 
         return response(\Artisan::output()."\n".__('FsLang::tips.uninstallSuccess'));
@@ -325,9 +319,9 @@ class ExtensionController extends Controller
 
             ConfigUtility::removeFresnsConfigItems($configItemKeys);
 
-            \Artisan::call('theme:uninstall', ['plugin' => $request->theme, '--cleardata' => true]);
+            \Artisan::call('market:remove-theme', ['unikey' => $request->theme, '--cleardata' => true]);
         } else {
-            \Artisan::call('theme:uninstall', ['plugin' => $request->theme, '--cleardata' => false]);
+            \Artisan::call('market:remove-theme', ['unikey' => $request->theme, '--cleardata' => false]);
         }
 
         return response()->json(['message' => \Artisan::output().__('FsLang::tips.uninstallSuccess')], 200);
