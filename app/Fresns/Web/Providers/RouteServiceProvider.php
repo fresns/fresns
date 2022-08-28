@@ -29,8 +29,15 @@ class RouteServiceProvider extends ServiceProvider
             return;
         }
 
-        $this->mapApiRoutes();
-        $this->mapWebRoutes();
+        $url = config('app.url');
+        $host = str_replace(['http://', 'https://'], '', rtrim($url, '/'));
+
+        Route::group([
+            'domain' => $host,
+        ], function () {
+            $this->mapApiRoutes();
+            $this->mapWebRoutes();
+        });
     }
 
     protected function mapApiRoutes()

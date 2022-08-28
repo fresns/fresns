@@ -57,7 +57,7 @@ class EditorController extends Controller
         $stickers = $draftInfo['stickers'];
         $draft = $draftInfo['draft'];
 
-        return view('editor.editor', compact('type', 'draftId', 'plid', 'clid', 'config', 'stickers'));
+        return view('editor.editor', compact('type', 'plid', 'clid', 'draftId', 'config', 'stickers', 'draft'));
     }
 
     // comment
@@ -73,7 +73,7 @@ class EditorController extends Controller
         $stickers = $draftInfo['stickers'];
         $draft = $draftInfo['draft'];
 
-        return view('editor.editor', compact('type', 'draftId', 'plid', 'clid', 'config', 'stickers'));
+        return view('editor.editor', compact('type', 'plid', 'clid', 'draftId', 'config', 'stickers', 'draft'));
     }
 
     // get draft
@@ -87,7 +87,6 @@ class EditorController extends Controller
                 'stickers' => $client->getAsync('/api/v2/global/stickers'),
             ]);
 
-            $draftInfo['stickers'] = null;
             $draftInfo['draft'] = null;
         } else {
             $results = $client->handleUnwrap([
@@ -100,11 +99,11 @@ class EditorController extends Controller
                 throw new ErrorException($results['draft']['message'], $results['draft']['code']);
             }
 
-            $draftInfo['stickers'] = $results['stickers']['data'];
             $draftInfo['draft'] = $results['draft']['data'];
         }
 
-        $draftInfo['draft'] = $results['draft']['data'];
+        $draftInfo['config'] = $results['config']['data'];
+        $draftInfo['stickers'] = $results['stickers']['data'];
 
         return $draftInfo;
     }
