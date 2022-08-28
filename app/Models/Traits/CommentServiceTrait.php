@@ -57,6 +57,7 @@ trait CommentServiceTrait
 
         $info['isCommentBtn'] = (bool) $postAppendData->is_comment_btn;
         $info['commentBtnName'] = LanguageHelper::fresnsLanguageByTableId('post_appends', 'comment_btn_name', $commentData->post_id, $langTag);
+        $info['commentBtnStyle'] = $postAppendData->comment_btn_style;
         $info['commentBtnUrl'] = ! empty($postAppendData->comment_btn_plugin_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($postAppendData->comment_btn_plugin_unikey) : null;
 
         $info['ipLocation'] = $appendData->ip_location;

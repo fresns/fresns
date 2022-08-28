@@ -28,7 +28,7 @@ class ConfigUtility
     public static function addFresnsConfigItems(array $fresnsConfigItems)
     {
         foreach ($fresnsConfigItems as $item) {
-            $config = Config::where('item_key', '=', $item['item_key'])->first();
+            $config = Config::where('item_key', $item['item_key'])->first();
             if (empty($config)) {
                 Config::create($item);
 
@@ -50,7 +50,7 @@ class ConfigUtility
     public static function removeFresnsConfigItems(array $fresnsConfigKeys)
     {
         foreach ($fresnsConfigKeys as $item) {
-            Config::where('item_key', '=', $item)->where('is_custom', 1)->forceDelete();
+            Config::where('item_key', $item)->where('is_custom', 1)->forceDelete();
         }
     }
 

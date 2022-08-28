@@ -35,7 +35,6 @@ trait GroupServiceTrait
         $info['cover'] = FileHelper::fresnsFileUrlByTableColumn($groupData->cover_file_id, $groupData->cover_file_url);
         $info['banner'] = FileHelper::fresnsFileUrlByTableColumn($groupData->banner_file_id, $groupData->banner_file_url);
         $info['recommend'] = (bool) $groupData->is_recommend;
-        $info['view'] = $groupData->type_view;
         $info['mode'] = $groupData->type_mode;
         $info['find'] = $groupData->type_find;
         $info['followType'] = $groupData->type_follow;

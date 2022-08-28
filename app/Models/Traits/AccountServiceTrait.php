@@ -22,7 +22,7 @@ trait AccountServiceTrait
         $verifySupportUrl = ConfigHelper::fresnsConfigByItemKey('account_real_name_service');
 
         $info['aid'] = $accountData->aid;
-        $info['countryCode'] = $accountData->country_code;
+        $info['countryCode'] = (int) $accountData->country_code;
         $info['purePhone'] = ! empty($accountData->pure_phone) ? StrHelper::maskNumber($accountData->pure_phone) : null;
         $info['phone'] = ! empty($accountData->phone) ? StrHelper::maskNumber($accountData->phone) : null;
         $info['email'] = ! empty($accountData->email) ? StrHelper::maskEmail($accountData->email) : null;
@@ -85,7 +85,7 @@ trait AccountServiceTrait
         $wallet['swiftCode'] = $walletData->swift_code;
         $wallet['bankAddress'] = $walletData->bank_address;
         $wallet['bankAccount'] = ! empty($walletData->bank_account) ? \Str::mask($walletData->bank_account, '*', -8, 4) : null;
-        $wallet['bankStatus'] = $walletData->bank_status;
+        $wallet['bankStatus'] = (bool) $walletData->bank_status;
 
         return $wallet;
     }

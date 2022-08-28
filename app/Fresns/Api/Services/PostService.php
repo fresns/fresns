@@ -186,14 +186,13 @@ class PostService
     public function postLogData(PostLog $log, string $type, string $langTag, string $timezone)
     {
         $post = $log?->post;
-        $user = $log->user;
         $group = $log?->group;
 
         $info['id'] = $log->id;
-        $info['uid'] = $user->uid;
         $info['pid'] = $post?->pid;
         $info['isPluginEditor'] = (bool) $log->is_plugin_editor;
         $info['editorUnikey'] = $log->editor_unikey;
+        $info['editorUrl'] = ! empty($log->editor_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($log->editor_unikey) : null;
         $info['group'] = null;
         $info['title'] = $log->title;
         $info['content'] = $log->content;

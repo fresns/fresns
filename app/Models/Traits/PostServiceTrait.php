@@ -83,6 +83,9 @@ trait PostServiceTrait
 
         $info['location'] = $location;
 
+        $info['isComment'] = (bool) $appendData->is_comment;
+        $info['isCommentPublic'] = (bool) $appendData->is_comment_public;
+
         return $info;
     }
 }

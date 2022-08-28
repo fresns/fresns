@@ -31,7 +31,7 @@ use Illuminate\Support\Str;
 class CommentService
 {
     // $type = list or detail
-    public function commentData(?Comment $comment, string $type, string $langTag, string $timezone, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLng = null, ?string $authUserLat = null)
+    public function commentData(?Comment $comment, string $type, string $langTag, string $timezone, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLng = null, ?string $authUserLat = null, ?bool $isCommentPreview = true)
     {
         if (! $comment) {
             return null;
@@ -89,7 +89,7 @@ class CommentService
 
         $item['commentPreviews'] = null;
         $previewConfig = ConfigHelper::fresnsConfigByItemKey('comment_preview');
-        if ($type == 'list' && $previewConfig != 0) {
+        if ($type == 'list' && $isCommentPreview && $previewConfig != 0) {
             $item['commentPreviews'] = self::getCommentPreviews($comment->id, $previewConfig, $langTag, $timezone);
         }
 
@@ -194,7 +194,7 @@ class CommentService
 
         /** @var Comment $comment */
         foreach ($comments as $comment) {
-            $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone);
+            $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, null, null, null, null, false);
         }
 
         return $commentList;
@@ -226,13 +226,12 @@ class CommentService
     public function commentLogData(CommentLog $log, string $type, string $langTag, string $timezone)
     {
         $comment = $log?->comment;
-        $user = $log->user;
 
         $info['id'] = $log->id;
-        $info['uid'] = $user->uid;
         $info['cid'] = $comment?->cid;
         $info['isPluginEditor'] = (bool) $log->is_plugin_editor;
         $info['editorUnikey'] = $log->editor_unikey;
+        $info['editorUrl'] = ! empty($log->editor_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($log->editor_unikey) : null;
         $info['content'] = $log->content;
         $info['contentLength'] = Str::length($log->content);
         $info['isBrief'] = false;
