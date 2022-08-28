@@ -9,7 +9,6 @@
 namespace App\Fresns\Words\User;
 
 use App\Fresns\Words\User\DTO\AddUserDTO;
-use App\Fresns\Words\User\DTO\DeactivateUserDialogDTO;
 use App\Fresns\Words\User\DTO\LogicalDeletionUserDTO;
 use App\Fresns\Words\User\DTO\VerifyUserDTO;
 use App\Helpers\ConfigHelper;
@@ -140,23 +139,13 @@ class User
     public function logicalDeletionUser($wordBody)
     {
         $dtoWordBody = new LogicalDeletionUserDTO($wordBody);
-        UserModel::where('uid', $dtoWordBody->uid)->update(['deleted_at' => now()]);
 
-        return $this->success();
-    }
+        $user = UserModel::where('uid', $dtoWordBody->uid)->first();
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
-    public function deactivateUserDialog($wordBody)
-    {
-        $dtoWordBody = new DeactivateUserDialogDTO($wordBody);
-        $user = UserModel::where('uid', '=', $dtoWordBody->uid)->first();
-        Dialog::where('a_user_id', '=', $user['id'])->update(['a_is_deactivate' => 0]);
-        Dialog::where('b_user_id', '=', $user['id'])->update(['b_is_deactivate' => 0]);
+        $user->delete();
+
+        Dialog::where('a_user_id', $user->id)->update(['a_is_deactivate' => 0]);
+        Dialog::where('b_user_id', $user->id)->update(['b_is_deactivate' => 0]);
 
         return $this->success();
     }

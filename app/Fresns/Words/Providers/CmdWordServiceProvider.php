@@ -57,7 +57,6 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         // User
         ['word' => 'addUser', 'provider' => [User::class, 'addUser']],
         ['word' => 'verifyUser', 'provider' => [User::class, 'verifyUser']],
-        ['word' => 'deactivateUserDialog', 'provider' => [User::class, 'deactivateUserDialog']],
         ['word' => 'logicalDeletionUser', 'provider' => [User::class, 'logicalDeletionUser']],
 
         // File

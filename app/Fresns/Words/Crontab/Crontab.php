@@ -12,13 +12,11 @@ use App\Fresns\Words\Crontab\DTO\AddCrontabItemDTO;
 use App\Fresns\Words\Crontab\DTO\DeleteCrontabItemDTO;
 use App\Helpers\ConfigHelper;
 use App\Models\Account;
-use App\Models\AccountConnect;
 use App\Models\Config;
 use App\Models\Plugin;
 use App\Models\User;
 use App\Models\UserRole;
 use App\Utilities\AppUtility;
-use Carbon\Carbon;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -47,7 +45,7 @@ class Crontab
         if (empty($cronIsset)) {
             $cronArr[] = $wordBody;
         }
-        Config::where('item_key', '=', 'crontab_items')->update(['item_value' => $cronArr]);
+        Config::where('item_key', 'crontab_items')->update(['item_value' => $cronArr]);
         Cache::forever('cronArr', $cronArr);
 
         return $this->success();
@@ -68,7 +66,7 @@ class Crontab
                 unset($cronArr[$k]);
             }
         }
-        Config::where('item_key', '=', 'crontab_items')->update(['item_value' => $cronArr]);
+        Config::where('item_key', 'crontab_items')->update(['item_value' => $cronArr]);
         Cache::forever('cronArr', $cronArr);
 
         return $this->success();
@@ -79,16 +77,28 @@ class Crontab
      */
     public function checkUserRoleExpired()
     {
-        $roleArr = UserRole::where('is_main', '=', 1)->where('expired_at', '<', now())->whereNull('deleted_at')->get()->toArray();
+        $roleArr = UserRole::where('is_main', 1)->where('expired_at', '<', now())->get();
+
         foreach ($roleArr as $role) {
             if (! empty($role['restore_role_id'])) {
-                UserRole::where('id', '=', $role['id'])->update(['deleted_at' => now()]);
-                $nextRole = UserRole::where(['role_id' => $role['restore_role_id'], 'user_id' => $role['user_id']])->where('id', '!=', $role['id'])->get();
-                if (! empty($nextRole)) {
-                    UserRole::where(['role_id' => $role['restore_role_id'], 'user_id' => $role['user_id']])->where('id', '!=', $role['id'])->whereNull('deleted_at')->update(['is_main' => 1]);
+                $nextRole = UserRole::where([
+                    'user_id' => $role['user_id'],
+                    'role_id' => $role['restore_role_id'],
+                ])->where('id', '!=', $role['id'])->first();
+
+                if (empty($nextRole)) {
+                    UserRole::create([
+                        'user_id' => $role['user_id'],
+                        'role_id' => $role['restore_role_id'],
+                        'is_main' => 1,
+                    ]);
                 } else {
-                    UserRole::create(['user_id' => $role['user_id'], 'role_id' => $role['restore_role_id'], 'is_main' => 1]);
+                    $nextRole->update([
+                        'is_main' => 1,
+                    ]);
                 }
+
+                $role->delete();
             }
         }
 
@@ -100,36 +110,40 @@ class Crontab
      */
     public function checkDeleteAccount()
     {
-        $deleteAccount = ConfigHelper::fresnsConfigByItemKey('delete_account_type');
-        $bufferDay = ConfigHelper::fresnsConfigByItemKey('delete_account_todo');
-        if ($deleteAccount == 2) {
-            $this->logicDelete($bufferDay);
-        } elseif ($deleteAccount == 3) {
+        $deleteType = ConfigHelper::fresnsConfigByItemKey('delete_account_type');
+
+        if ($deleteType == 2) {
+            $this->logicalDeletionAccount();
+            $this->logicalDeletionUser();
+        } elseif ($deleteType == 3) {
+            $this->logicalDeletionAccount();
+            $this->logicalDeletionUser();
         }
 
         return $this->success();
     }
 
-    /**
-     * @param $bufferDay
-     */
-    protected function logicDelete($bufferDay)
+    // logical deletion account
+    protected function logicalDeletionAccount()
     {
-        $endTime = Carbon::now()->subDay($bufferDay)->toDateString();
-        $startTime = Carbon::now()->subDay($bufferDay + 1)->toDateString();
-        $delList = Account::onlyTrashed()->where('deleted_at', '<', $endTime)->where('deleted_at', '>', $startTime)->get();
-        foreach ($delList as $k => $v) {
-            $account = $v->toArray();
-            if (strpos($account['phone'], 'deleted#') === false && strpos($account['email'], 'deleted#') === false) {
-                Account::onlyTrashed()->where('id', '=', $v['id'])->update(['phone' => 'deleted#'.date('YmdHis').'#'.$v['phone'], 'email' => 'deleted#'.date('YmdHis').'#'.$v['email']]);
-                AccountConnect::where('account_id', $v['id'])->delete();
-                $userList = User::where('account_id', '=', $v['id'])->get();
-                foreach ($userList as $user) {
-                    $user = $user->toArray();
-                    \FresnsCmdWord::plugin('Fresns')->deactivateUserDialog(['userId' => $user['id']]);
-                }
-                \FresnsCmdWord::plugin('Fresns')->logicalDeletionUser(['accountId' => $v['id']]);
-            }
+        $deleteList = Account::where('wait_delete', 1)->where('wait_delete_at', '<', now())->get();
+
+        foreach ($deleteList as $account) {
+            \FresnsCmdWord::plugin('Fresns')->logicalDeletionAccount([
+                'aid' => $account->aid,
+            ]);
+        }
+    }
+
+    // logical deletion user
+    protected function logicalDeletionUser()
+    {
+        $deleteList = User::where('wait_delete', 1)->where('wait_delete_at', '<', now())->get();
+
+        foreach ($deleteList as $user) {
+            \FresnsCmdWord::plugin('Fresns')->logicalDeletionUser([
+                'uid' => $user->uid,
+            ]);
         }
     }
 
