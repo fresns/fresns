@@ -610,7 +610,7 @@ class ConfigsTableSeeder extends Seeder
             45 => [
                 'id' => 46,
                 'item_key' => 'site_icon',
-                'item_value' => 'https://cdn.fresns.org/images/icon.png',
+                'item_value' => 'https://fresns.org/configs/icon.png',
                 'item_type' => 'file',
                 'item_tag' => 'general',
                 'is_multilingual' => 0,
@@ -623,7 +623,7 @@ class ConfigsTableSeeder extends Seeder
             46 => [
                 'id' => 47,
                 'item_key' => 'site_logo',
-                'item_value' => 'https://cdn.fresns.org/images/logo.png',
+                'item_value' => 'https://fresns.org/configs/logo.png',
                 'item_type' => 'file',
                 'item_tag' => 'general',
                 'is_multilingual' => 0,
@@ -1026,7 +1026,7 @@ class ConfigsTableSeeder extends Seeder
             77 => [
                 'id' => 78,
                 'item_key' => 'default_avatar',
-                'item_value' => 'https://cdn.fresns.org/images/default-avatar.png',
+                'item_value' => 'https://fresns.org/configs/default-avatar.png',
                 'item_type' => 'file',
                 'item_tag' => 'users',
                 'is_multilingual' => 0,
@@ -1039,7 +1039,7 @@ class ConfigsTableSeeder extends Seeder
             78 => [
                 'id' => 79,
                 'item_key' => 'anonymous_avatar',
-                'item_value' => 'https://cdn.fresns.org/images/anonymous-avatar.png',
+                'item_value' => 'https://fresns.org/configs/anonymous-avatar.png',
                 'item_type' => 'file',
                 'item_tag' => 'users',
                 'is_multilingual' => 0,
@@ -1052,7 +1052,7 @@ class ConfigsTableSeeder extends Seeder
             79 => [
                 'id' => 80,
                 'item_key' => 'deactivate_avatar',
-                'item_value' => 'https://cdn.fresns.org/images/deactivate-avatar.png',
+                'item_value' => 'https://fresns.org/configs/deactivate-avatar.png',
                 'item_type' => 'file',
                 'item_tag' => 'users',
                 'is_multilingual' => 0,
@@ -2417,7 +2417,7 @@ class ConfigsTableSeeder extends Seeder
             184 => [
                 'id' => 185,
                 'item_key' => 'image_substitution',
-                'item_value' => 'https://cdn.fresns.org/images/substitution-image.jpg',
+                'item_value' => 'https://fresns.org/configs/substitution-image.jpg',
                 'item_type' => 'file',
                 'item_tag' => 'storages',
                 'is_multilingual' => 0,
@@ -2430,7 +2430,7 @@ class ConfigsTableSeeder extends Seeder
             185 => [
                 'id' => 186,
                 'item_key' => 'video_substitution',
-                'item_value' => 'https://cdn.fresns.org/images/substitution-video.jpg',
+                'item_value' => 'https://fresns.org/configs/substitution-video.jpg',
                 'item_type' => 'file',
                 'item_tag' => 'storages',
                 'is_multilingual' => 0,
@@ -2443,7 +2443,7 @@ class ConfigsTableSeeder extends Seeder
             186 => [
                 'id' => 187,
                 'item_key' => 'audio_substitution',
-                'item_value' => 'https://cdn.fresns.org/images/substitution-audio.jpg',
+                'item_value' => 'https://fresns.org/configs/substitution-audio.jpg',
                 'item_type' => 'file',
                 'item_tag' => 'storages',
                 'is_multilingual' => 0,
@@ -2456,7 +2456,7 @@ class ConfigsTableSeeder extends Seeder
             187 => [
                 'id' => 188,
                 'item_key' => 'document_substitution',
-                'item_value' => 'https://cdn.fresns.org/images/substitution-document.jpg',
+                'item_value' => 'https://fresns.org/configs/substitution-document.jpg',
                 'item_type' => 'file',
                 'item_tag' => 'storages',
                 'is_multilingual' => 0,
