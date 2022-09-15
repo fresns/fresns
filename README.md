@@ -31,7 +31,7 @@ This repository is an R & D code repository without "vendor" reference library f
 **Deployment Process**
 
 1. Download the code package of [the repository release](https://github.com/fresns/fresns/releases), upload it to the business server and decompress it.
-2. Execute the command line in the "main program root directory".
+2. Execute the command line in the "main program root directory", Download the vendor package file.
     - Development deployment: `composer install`
     - Production deployment: `composer install --optimize-autoloader --no-dev`
 3. Execute the php artisan command under the "main program root directory" to configure the manager.

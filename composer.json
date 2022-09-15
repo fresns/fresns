@@ -2,12 +2,19 @@
     "name": "fresns/fresns",
     "type": "project",
     "description": "Cross-platform general-purpose multiple content forms social network service software.",
-    "keywords": ["fresns", "sns", "bbs", "forum", "community"],
+    "keywords": [
+        "fresns",
+        "sns",
+        "bbs",
+        "forum",
+        "community"
+    ],
     "license": "Apache-2.0",
     "homepage": "https://fresns.org",
     "support": {
         "issues": "https://github.com/fresns/fresns/issues",
-        "source": "https://github.com/fresns/fresns"
+        "source": "https://github.com/fresns/fresns",
+        "docs": "https://fresns.org"
     },
     "authors": [
         {
@@ -20,7 +27,7 @@
     "require": {
         "php": "^8.0.2",
         "guzzlehttp/guzzle": "^7.4",
-        "laravel/framework": "^9.23",
+        "laravel/framework": "^9.30",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4",
@@ -92,7 +99,7 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true,
+        "sort-packages": false,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "wikimedia/composer-merge-plugin": true
