@@ -24,7 +24,7 @@ class CreateNotifiesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedTinyInteger('type');
             $table->text('content')->nullable();
-            $table->unsignedTinyInteger(' is_markdown')->default(0);
+            $table->unsignedTinyInteger('is_markdown')->default(0);
             $table->string('plugin_unikey', 64)->nullable();
             $table->unsignedTinyInteger('is_access_plugin')->default(0);
             $table->unsignedBigInteger('action_user_id')->nullable();
