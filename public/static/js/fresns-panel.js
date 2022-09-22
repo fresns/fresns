@@ -936,8 +936,10 @@ $(document).ready(function () {
                 _method: 'delete'
             },
             success: function (response) {
-                window.uninstallMessage = response;
-                $('#uninstallStepModal').find('#uninstall_artisan_output').text(response);
+                var ansi_up = new AnsiUp;
+                var html = ansi_up.ansi_to_html(response);
+                window.uninstallMessage = html;
+                $('#uninstallStepModal').find('#uninstall_artisan_output').html(html);
             },
         });
     });
@@ -2049,8 +2051,11 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (response) {
-                console.log('install response', response)
-                $('#install_artisan_output').val(response || trans('tips.installSuccess')) //FsLang
+                var ansi_up = new AnsiUp;
+                var html = ansi_up.ansi_to_html(response);
+
+                console.log('install response', html)
+                $('#install_artisan_output').html(html || trans('tips.installSuccess')) //FsLang
             },
             error: function (response) {
                 window.tips(response.responseJSON.message);
@@ -2084,7 +2089,9 @@ $(document).ready(function () {
             processData: false,
             success: function (response) {
                 console.log('upgrade response', response)
-                $('#upgrade_artisan_output').val(response.data.output || trans('tips.upgradeSuccess')) //FsLang
+                var ansi_up = new AnsiUp;
+                var html = ansi_up.ansi_to_html(response.data.output);
+                $('#upgrade_artisan_output').html(html || trans('tips.upgradeSuccess')) //FsLang
             },
             error: function (response) {
                 window.tips(response.responseJSON.message);
