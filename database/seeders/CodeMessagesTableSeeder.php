@@ -21,9 +21,8 @@ class CodeMessagesTableSeeder extends Seeder
     {
         \DB::table('code_messages')->delete();
 
-        \DB::table('code_messages')->insert(array (
-            0 =>
-            array (
+        \DB::table('code_messages')->insert([
+            0 => [
                 'id' => 1,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21000,
@@ -32,9 +31,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            1 =>
-            array (
+            ],
+            1 => [
                 'id' => 2,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21001,
@@ -43,9 +41,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            2 =>
-            array (
+            ],
+            2 => [
                 'id' => 3,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21002,
@@ -54,9 +51,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            3 =>
-            array (
+            ],
+            3 => [
                 'id' => 4,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21003,
@@ -65,9 +61,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            4 =>
-            array (
+            ],
+            4 => [
                 'id' => 5,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21004,
@@ -76,9 +71,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            5 =>
-            array (
+            ],
+            5 => [
                 'id' => 6,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21005,
@@ -87,9 +81,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            6 =>
-            array (
+            ],
+            6 => [
                 'id' => 7,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21006,
@@ -98,9 +91,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            7 =>
-            array (
+            ],
+            7 => [
                 'id' => 8,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21007,
@@ -109,9 +101,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            8 =>
-            array (
+            ],
+            8 => [
                 'id' => 9,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21008,
@@ -120,9 +111,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            9 =>
-            array (
+            ],
+            9 => [
                 'id' => 10,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21009,
@@ -131,9 +121,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            10 =>
-            array (
+            ],
+            10 => [
                 'id' => 11,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21000,
@@ -142,9 +131,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            11 =>
-            array (
+            ],
+            11 => [
                 'id' => 12,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21001,
@@ -153,9 +141,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            12 =>
-            array (
+            ],
+            12 => [
                 'id' => 13,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21002,
@@ -164,9 +151,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            13 =>
-            array (
+            ],
+            13 => [
                 'id' => 14,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21003,
@@ -175,9 +161,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            14 =>
-            array (
+            ],
+            14 => [
                 'id' => 15,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21004,
@@ -186,9 +171,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            15 =>
-            array (
+            ],
+            15 => [
                 'id' => 16,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21005,
@@ -197,9 +181,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            16 =>
-            array (
+            ],
+            16 => [
                 'id' => 17,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21006,
@@ -208,9 +191,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            17 =>
-            array (
+            ],
+            17 => [
                 'id' => 18,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21007,
@@ -219,9 +201,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            18 =>
-            array (
+            ],
+            18 => [
                 'id' => 19,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21008,
@@ -230,9 +211,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            19 =>
-            array (
+            ],
+            19 => [
                 'id' => 20,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21009,
@@ -241,9 +221,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            20 =>
-            array (
+            ],
+            20 => [
                 'id' => 21,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21000,
@@ -252,9 +231,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            21 =>
-            array (
+            ],
+            21 => [
                 'id' => 22,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21001,
@@ -263,9 +241,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            22 =>
-            array (
+            ],
+            22 => [
                 'id' => 23,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21002,
@@ -274,9 +251,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            23 =>
-            array (
+            ],
+            23 => [
                 'id' => 24,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21003,
@@ -285,9 +261,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            24 =>
-            array (
+            ],
+            24 => [
                 'id' => 25,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21004,
@@ -296,9 +271,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            25 =>
-            array (
+            ],
+            25 => [
                 'id' => 26,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21005,
@@ -307,9 +281,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            26 =>
-            array (
+            ],
+            26 => [
                 'id' => 27,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21006,
@@ -318,9 +291,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            27 =>
-            array (
+            ],
+            27 => [
                 'id' => 28,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21007,
@@ -329,9 +301,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            28 =>
-            array (
+            ],
+            28 => [
                 'id' => 29,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21008,
@@ -340,9 +311,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            29 =>
-            array (
+            ],
+            29 => [
                 'id' => 30,
                 'plugin_unikey' => 'CmdWord',
                 'code' => 21009,
@@ -351,9 +321,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            30 =>
-            array (
+            ],
+            30 => [
                 'id' => 31,
                 'plugin_unikey' => 'Fresns',
                 'code' => 0,
@@ -362,9 +331,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            31 =>
-            array (
+            ],
+            31 => [
                 'id' => 32,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30000,
@@ -373,9 +341,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            32 =>
-            array (
+            ],
+            32 => [
                 'id' => 33,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30001,
@@ -384,9 +351,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            33 =>
-            array (
+            ],
+            33 => [
                 'id' => 34,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30002,
@@ -395,9 +361,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            34 =>
-            array (
+            ],
+            34 => [
                 'id' => 35,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30003,
@@ -406,9 +371,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            35 =>
-            array (
+            ],
+            35 => [
                 'id' => 36,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30004,
@@ -417,9 +381,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            36 =>
-            array (
+            ],
+            36 => [
                 'id' => 37,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30005,
@@ -428,9 +391,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            37 =>
-            array (
+            ],
+            37 => [
                 'id' => 38,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31000,
@@ -439,9 +401,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            38 =>
-            array (
+            ],
+            38 => [
                 'id' => 39,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31101,
@@ -450,9 +411,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            39 =>
-            array (
+            ],
+            39 => [
                 'id' => 40,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31102,
@@ -461,9 +421,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            40 =>
-            array (
+            ],
+            40 => [
                 'id' => 41,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31103,
@@ -472,9 +431,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            41 =>
-            array (
+            ],
+            41 => [
                 'id' => 42,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31201,
@@ -483,9 +441,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            42 =>
-            array (
+            ],
+            42 => [
                 'id' => 43,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31202,
@@ -494,9 +451,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            43 =>
-            array (
+            ],
+            43 => [
                 'id' => 44,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31301,
@@ -505,9 +461,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            44 =>
-            array (
+            ],
+            44 => [
                 'id' => 45,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31302,
@@ -516,9 +471,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            45 =>
-            array (
+            ],
+            45 => [
                 'id' => 46,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31303,
@@ -527,9 +481,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            46 =>
-            array (
+            ],
+            46 => [
                 'id' => 47,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31304,
@@ -538,9 +491,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            47 =>
-            array (
+            ],
+            47 => [
                 'id' => 48,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31401,
@@ -549,9 +501,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            48 =>
-            array (
+            ],
+            48 => [
                 'id' => 49,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31402,
@@ -560,9 +511,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            49 =>
-            array (
+            ],
+            49 => [
                 'id' => 50,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31501,
@@ -571,9 +521,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            50 =>
-            array (
+            ],
+            50 => [
                 'id' => 51,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31502,
@@ -582,9 +531,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            51 =>
-            array (
+            ],
+            51 => [
                 'id' => 52,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31503,
@@ -593,9 +541,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            52 =>
-            array (
+            ],
+            52 => [
                 'id' => 53,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31504,
@@ -604,9 +551,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            53 =>
-            array (
+            ],
+            53 => [
                 'id' => 54,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31505,
@@ -615,9 +561,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            54 =>
-            array (
+            ],
+            54 => [
                 'id' => 55,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31601,
@@ -626,9 +571,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            55 =>
-            array (
+            ],
+            55 => [
                 'id' => 56,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31602,
@@ -637,9 +581,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            56 =>
-            array (
+            ],
+            56 => [
                 'id' => 57,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31603,
@@ -648,9 +591,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            57 =>
-            array (
+            ],
+            57 => [
                 'id' => 58,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31701,
@@ -659,9 +601,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            58 =>
-            array (
+            ],
+            58 => [
                 'id' => 59,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31702,
@@ -670,9 +611,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            59 =>
-            array (
+            ],
+            59 => [
                 'id' => 60,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31703,
@@ -681,9 +621,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            60 =>
-            array (
+            ],
+            60 => [
                 'id' => 61,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32100,
@@ -692,9 +631,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            61 =>
-            array (
+            ],
+            61 => [
                 'id' => 62,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32101,
@@ -703,9 +641,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            62 =>
-            array (
+            ],
+            62 => [
                 'id' => 63,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32102,
@@ -714,9 +651,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            63 =>
-            array (
+            ],
+            63 => [
                 'id' => 64,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32103,
@@ -725,9 +661,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            64 =>
-            array (
+            ],
+            64 => [
                 'id' => 65,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32104,
@@ -736,9 +671,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            65 =>
-            array (
+            ],
+            65 => [
                 'id' => 66,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32201,
@@ -747,9 +681,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            66 =>
-            array (
+            ],
+            66 => [
                 'id' => 67,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32202,
@@ -758,9 +691,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            67 =>
-            array (
+            ],
+            67 => [
                 'id' => 68,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32203,
@@ -769,9 +701,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            68 =>
-            array (
+            ],
+            68 => [
                 'id' => 69,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32204,
@@ -780,9 +711,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            69 =>
-            array (
+            ],
+            69 => [
                 'id' => 70,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32301,
@@ -791,9 +721,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            70 =>
-            array (
+            ],
+            70 => [
                 'id' => 71,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32302,
@@ -802,9 +731,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            71 =>
-            array (
+            ],
+            71 => [
                 'id' => 72,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32303,
@@ -813,9 +741,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            72 =>
-            array (
+            ],
+            72 => [
                 'id' => 73,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32304,
@@ -824,9 +751,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            73 =>
-            array (
+            ],
+            73 => [
                 'id' => 74,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33100,
@@ -835,9 +761,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            74 =>
-            array (
+            ],
+            74 => [
                 'id' => 75,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33101,
@@ -846,9 +771,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            75 =>
-            array (
+            ],
+            75 => [
                 'id' => 76,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33102,
@@ -857,9 +781,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            76 =>
-            array (
+            ],
+            76 => [
                 'id' => 77,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33200,
@@ -868,9 +791,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            77 =>
-            array (
+            ],
+            77 => [
                 'id' => 78,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33201,
@@ -879,9 +801,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            78 =>
-            array (
+            ],
+            78 => [
                 'id' => 79,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33202,
@@ -890,9 +811,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            79 =>
-            array (
+            ],
+            79 => [
                 'id' => 80,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33203,
@@ -901,9 +821,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            80 =>
-            array (
+            ],
+            80 => [
                 'id' => 81,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33301,
@@ -912,9 +831,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            81 =>
-            array (
+            ],
+            81 => [
                 'id' => 82,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33302,
@@ -923,9 +841,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            82 =>
-            array (
+            ],
+            82 => [
                 'id' => 83,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33400,
@@ -934,9 +851,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            83 =>
-            array (
+            ],
+            83 => [
                 'id' => 84,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33401,
@@ -945,9 +861,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            84 =>
-            array (
+            ],
+            84 => [
                 'id' => 85,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33402,
@@ -956,9 +871,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            85 =>
-            array (
+            ],
+            85 => [
                 'id' => 86,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33403,
@@ -967,9 +881,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            86 =>
-            array (
+            ],
+            86 => [
                 'id' => 87,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33404,
@@ -978,9 +891,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            87 =>
-            array (
+            ],
+            87 => [
                 'id' => 88,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34101,
@@ -989,9 +901,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            88 =>
-            array (
+            ],
+            88 => [
                 'id' => 89,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34102,
@@ -1000,9 +911,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            89 =>
-            array (
+            ],
+            89 => [
                 'id' => 90,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34103,
@@ -1011,9 +921,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            90 =>
-            array (
+            ],
+            90 => [
                 'id' => 91,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34104,
@@ -1022,9 +931,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            91 =>
-            array (
+            ],
+            91 => [
                 'id' => 92,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34105,
@@ -1033,9 +941,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            92 =>
-            array (
+            ],
+            92 => [
                 'id' => 93,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34106,
@@ -1044,9 +951,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            93 =>
-            array (
+            ],
+            93 => [
                 'id' => 94,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34107,
@@ -1055,9 +961,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            94 =>
-            array (
+            ],
+            94 => [
                 'id' => 95,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34108,
@@ -1066,9 +971,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            95 =>
-            array (
+            ],
+            95 => [
                 'id' => 96,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34109,
@@ -1077,9 +981,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            96 =>
-            array (
+            ],
+            96 => [
                 'id' => 97,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34110,
@@ -1088,9 +991,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            97 =>
-            array (
+            ],
+            97 => [
                 'id' => 98,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34111,
@@ -1099,9 +1001,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            98 =>
-            array (
+            ],
+            98 => [
                 'id' => 99,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34201,
@@ -1110,9 +1011,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            99 =>
-            array (
+            ],
+            99 => [
                 'id' => 100,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34202,
@@ -1121,9 +1021,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            100 =>
-            array (
+            ],
+            100 => [
                 'id' => 101,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34203,
@@ -1132,9 +1031,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            101 =>
-            array (
+            ],
+            101 => [
                 'id' => 102,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34204,
@@ -1143,9 +1041,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            102 =>
-            array (
+            ],
+            102 => [
                 'id' => 103,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34205,
@@ -1154,9 +1051,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            103 =>
-            array (
+            ],
+            103 => [
                 'id' => 104,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34206,
@@ -1165,9 +1061,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            104 =>
-            array (
+            ],
+            104 => [
                 'id' => 105,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34301,
@@ -1176,9 +1071,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            105 =>
-            array (
+            ],
+            105 => [
                 'id' => 106,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34302,
@@ -1187,9 +1081,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            106 =>
-            array (
+            ],
+            106 => [
                 'id' => 107,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34303,
@@ -1198,9 +1091,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            107 =>
-            array (
+            ],
+            107 => [
                 'id' => 108,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34304,
@@ -1209,9 +1101,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            108 =>
-            array (
+            ],
+            108 => [
                 'id' => 109,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34305,
@@ -1220,9 +1111,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            109 =>
-            array (
+            ],
+            109 => [
                 'id' => 110,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34306,
@@ -1231,9 +1121,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            110 =>
-            array (
+            ],
+            110 => [
                 'id' => 111,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34307,
@@ -1242,9 +1131,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            111 =>
-            array (
+            ],
+            111 => [
                 'id' => 112,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34308,
@@ -1253,9 +1141,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            112 =>
-            array (
+            ],
+            112 => [
                 'id' => 113,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34401,
@@ -1264,9 +1151,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            113 =>
-            array (
+            ],
+            113 => [
                 'id' => 114,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34402,
@@ -1275,9 +1161,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            114 =>
-            array (
+            ],
+            114 => [
                 'id' => 115,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34403,
@@ -1286,9 +1171,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            115 =>
-            array (
+            ],
+            115 => [
                 'id' => 116,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34501,
@@ -1297,9 +1181,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            116 =>
-            array (
+            ],
+            116 => [
                 'id' => 117,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34502,
@@ -1308,9 +1191,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            117 =>
-            array (
+            ],
+            117 => [
                 'id' => 118,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34503,
@@ -1319,9 +1201,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            118 =>
-            array (
+            ],
+            118 => [
                 'id' => 119,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34504,
@@ -1330,9 +1211,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            119 =>
-            array (
+            ],
+            119 => [
                 'id' => 120,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34505,
@@ -1341,9 +1221,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            120 =>
-            array (
+            ],
+            120 => [
                 'id' => 121,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34506,
@@ -1352,9 +1231,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            121 =>
-            array (
+            ],
+            121 => [
                 'id' => 122,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34507,
@@ -1363,9 +1241,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            122 =>
-            array (
+            ],
+            122 => [
                 'id' => 123,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35101,
@@ -1374,9 +1251,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            123 =>
-            array (
+            ],
+            123 => [
                 'id' => 124,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35102,
@@ -1385,9 +1261,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            124 =>
-            array (
+            ],
+            124 => [
                 'id' => 125,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35103,
@@ -1396,9 +1271,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            125 =>
-            array (
+            ],
+            125 => [
                 'id' => 126,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35104,
@@ -1407,9 +1281,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            126 =>
-            array (
+            ],
+            126 => [
                 'id' => 127,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35105,
@@ -1418,9 +1291,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            127 =>
-            array (
+            ],
+            127 => [
                 'id' => 128,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35106,
@@ -1429,9 +1301,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            128 =>
-            array (
+            ],
+            128 => [
                 'id' => 129,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35107,
@@ -1440,9 +1311,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            129 =>
-            array (
+            ],
+            129 => [
                 'id' => 130,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35108,
@@ -1451,9 +1321,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            130 =>
-            array (
+            ],
+            130 => [
                 'id' => 131,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35109,
@@ -1462,9 +1331,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            131 =>
-            array (
+            ],
+            131 => [
                 'id' => 132,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35110,
@@ -1473,9 +1341,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            132 =>
-            array (
+            ],
+            132 => [
                 'id' => 133,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35201,
@@ -1484,9 +1351,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            133 =>
-            array (
+            ],
+            133 => [
                 'id' => 134,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35202,
@@ -1495,9 +1361,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            134 =>
-            array (
+            ],
+            134 => [
                 'id' => 135,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35203,
@@ -1506,9 +1371,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            135 =>
-            array (
+            ],
+            135 => [
                 'id' => 136,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35204,
@@ -1517,9 +1381,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            136 =>
-            array (
+            ],
+            136 => [
                 'id' => 137,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35301,
@@ -1528,9 +1391,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            137 =>
-            array (
+            ],
+            137 => [
                 'id' => 138,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35302,
@@ -1539,9 +1401,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            138 =>
-            array (
+            ],
+            138 => [
                 'id' => 139,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35303,
@@ -1550,9 +1411,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            139 =>
-            array (
+            ],
+            139 => [
                 'id' => 140,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35304,
@@ -1561,9 +1421,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            140 =>
-            array (
+            ],
+            140 => [
                 'id' => 141,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35305,
@@ -1572,9 +1431,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            141 =>
-            array (
+            ],
+            141 => [
                 'id' => 142,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36100,
@@ -1583,9 +1441,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            142 =>
-            array (
+            ],
+            142 => [
                 'id' => 143,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36101,
@@ -1594,9 +1451,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            143 =>
-            array (
+            ],
+            143 => [
                 'id' => 144,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36102,
@@ -1605,9 +1461,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            144 =>
-            array (
+            ],
+            144 => [
                 'id' => 145,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36103,
@@ -1616,9 +1471,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            145 =>
-            array (
+            ],
+            145 => [
                 'id' => 146,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36104,
@@ -1627,9 +1481,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            146 =>
-            array (
+            ],
+            146 => [
                 'id' => 147,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36105,
@@ -1638,9 +1491,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            147 =>
-            array (
+            ],
+            147 => [
                 'id' => 148,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36106,
@@ -1649,9 +1501,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            148 =>
-            array (
+            ],
+            148 => [
                 'id' => 149,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36107,
@@ -1660,9 +1511,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            149 =>
-            array (
+            ],
+            149 => [
                 'id' => 150,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36108,
@@ -1671,9 +1521,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            150 =>
-            array (
+            ],
+            150 => [
                 'id' => 151,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36109,
@@ -1682,9 +1531,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            151 =>
-            array (
+            ],
+            151 => [
                 'id' => 152,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36110,
@@ -1693,9 +1541,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            152 =>
-            array (
+            ],
+            152 => [
                 'id' => 153,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36111,
@@ -1704,9 +1551,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            153 =>
-            array (
+            ],
+            153 => [
                 'id' => 154,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36112,
@@ -1715,9 +1561,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            154 =>
-            array (
+            ],
+            154 => [
                 'id' => 155,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36113,
@@ -1726,9 +1571,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            155 =>
-            array (
+            ],
+            155 => [
                 'id' => 156,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36114,
@@ -1737,9 +1581,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            156 =>
-            array (
+            ],
+            156 => [
                 'id' => 157,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36115,
@@ -1748,9 +1591,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            157 =>
-            array (
+            ],
+            157 => [
                 'id' => 158,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36200,
@@ -1759,9 +1601,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            158 =>
-            array (
+            ],
+            158 => [
                 'id' => 159,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36201,
@@ -1770,9 +1611,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            159 =>
-            array (
+            ],
+            159 => [
                 'id' => 160,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36202,
@@ -1781,9 +1621,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            160 =>
-            array (
+            ],
+            160 => [
                 'id' => 161,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36300,
@@ -1792,9 +1631,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            161 =>
-            array (
+            ],
+            161 => [
                 'id' => 162,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36301,
@@ -1803,9 +1641,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            162 =>
-            array (
+            ],
+            162 => [
                 'id' => 163,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36302,
@@ -1814,9 +1651,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            163 =>
-            array (
+            ],
+            163 => [
                 'id' => 164,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36303,
@@ -1825,9 +1661,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            164 =>
-            array (
+            ],
+            164 => [
                 'id' => 165,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36304,
@@ -1836,9 +1671,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            165 =>
-            array (
+            ],
+            165 => [
                 'id' => 166,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36305,
@@ -1847,9 +1681,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            166 =>
-            array (
+            ],
+            166 => [
                 'id' => 167,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36306,
@@ -1858,9 +1691,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            167 =>
-            array (
+            ],
+            167 => [
                 'id' => 168,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36307,
@@ -1869,9 +1701,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            168 =>
-            array (
+            ],
+            168 => [
                 'id' => 169,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36308,
@@ -1880,9 +1711,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            169 =>
-            array (
+            ],
+            169 => [
                 'id' => 170,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36309,
@@ -1891,9 +1721,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            170 =>
-            array (
+            ],
+            170 => [
                 'id' => 171,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36310,
@@ -1902,9 +1731,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            171 =>
-            array (
+            ],
+            171 => [
                 'id' => 172,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36311,
@@ -1913,9 +1741,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            172 =>
-            array (
+            ],
+            172 => [
                 'id' => 173,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36312,
@@ -1924,9 +1751,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            173 =>
-            array (
+            ],
+            173 => [
                 'id' => 174,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36313,
@@ -1935,9 +1761,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            174 =>
-            array (
+            ],
+            174 => [
                 'id' => 175,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36400,
@@ -1946,9 +1771,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            175 =>
-            array (
+            ],
+            175 => [
                 'id' => 176,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36401,
@@ -1957,9 +1781,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            176 =>
-            array (
+            ],
+            176 => [
                 'id' => 177,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36402,
@@ -1968,9 +1791,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            177 =>
-            array (
+            ],
+            177 => [
                 'id' => 178,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36403,
@@ -1979,9 +1801,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            178 =>
-            array (
+            ],
+            178 => [
                 'id' => 179,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36404,
@@ -1990,9 +1811,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            179 =>
-            array (
+            ],
+            179 => [
                 'id' => 180,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36405,
@@ -2001,9 +1821,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            180 =>
-            array (
+            ],
+            180 => [
                 'id' => 181,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36500,
@@ -2012,9 +1831,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            181 =>
-            array (
+            ],
+            181 => [
                 'id' => 182,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36501,
@@ -2023,9 +1841,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            182 =>
-            array (
+            ],
+            182 => [
                 'id' => 183,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36600,
@@ -2034,9 +1851,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            183 =>
-            array (
+            ],
+            183 => [
                 'id' => 184,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36601,
@@ -2045,9 +1861,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            184 =>
-            array (
+            ],
+            184 => [
                 'id' => 185,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36602,
@@ -2056,9 +1871,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            185 =>
-            array (
+            ],
+            185 => [
                 'id' => 186,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36603,
@@ -2067,9 +1881,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            186 =>
-            array (
+            ],
+            186 => [
                 'id' => 187,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36604,
@@ -2078,9 +1891,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            187 =>
-            array (
+            ],
+            187 => [
                 'id' => 188,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36605,
@@ -2089,9 +1901,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            188 =>
-            array (
+            ],
+            188 => [
                 'id' => 189,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36606,
@@ -2100,9 +1911,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            189 =>
-            array (
+            ],
+            189 => [
                 'id' => 190,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36607,
@@ -2111,9 +1921,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            190 =>
-            array (
+            ],
+            190 => [
                 'id' => 191,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36608,
@@ -2122,9 +1931,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            191 =>
-            array (
+            ],
+            191 => [
                 'id' => 192,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36609,
@@ -2133,9 +1941,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            192 =>
-            array (
+            ],
+            192 => [
                 'id' => 193,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36700,
@@ -2144,9 +1951,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            193 =>
-            array (
+            ],
+            193 => [
                 'id' => 194,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36701,
@@ -2155,9 +1961,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            194 =>
-            array (
+            ],
+            194 => [
                 'id' => 195,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36702,
@@ -2166,9 +1971,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            195 =>
-            array (
+            ],
+            195 => [
                 'id' => 196,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37100,
@@ -2177,9 +1981,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            196 =>
-            array (
+            ],
+            196 => [
                 'id' => 197,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37101,
@@ -2188,9 +1991,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            197 =>
-            array (
+            ],
+            197 => [
                 'id' => 198,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37102,
@@ -2199,9 +2001,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            198 =>
-            array (
+            ],
+            198 => [
                 'id' => 199,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37103,
@@ -2210,9 +2011,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            199 =>
-            array (
+            ],
+            199 => [
                 'id' => 200,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37104,
@@ -2221,9 +2021,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            200 =>
-            array (
+            ],
+            200 => [
                 'id' => 201,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37200,
@@ -2232,9 +2031,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            201 =>
-            array (
+            ],
+            201 => [
                 'id' => 202,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37201,
@@ -2243,9 +2041,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            202 =>
-            array (
+            ],
+            202 => [
                 'id' => 203,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37300,
@@ -2254,9 +2051,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            203 =>
-            array (
+            ],
+            203 => [
                 'id' => 204,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37301,
@@ -2265,9 +2061,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            204 =>
-            array (
+            ],
+            204 => [
                 'id' => 205,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37302,
@@ -2276,9 +2071,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            205 =>
-            array (
+            ],
+            205 => [
                 'id' => 206,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37303,
@@ -2287,9 +2081,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            206 =>
-            array (
+            ],
+            206 => [
                 'id' => 207,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37400,
@@ -2298,9 +2091,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            207 =>
-            array (
+            ],
+            207 => [
                 'id' => 208,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37401,
@@ -2309,9 +2101,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            208 =>
-            array (
+            ],
+            208 => [
                 'id' => 209,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37402,
@@ -2320,9 +2111,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            209 =>
-            array (
+            ],
+            209 => [
                 'id' => 210,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37403,
@@ -2331,9 +2121,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            210 =>
-            array (
+            ],
+            210 => [
                 'id' => 211,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37500,
@@ -2342,9 +2131,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            211 =>
-            array (
+            ],
+            211 => [
                 'id' => 212,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37501,
@@ -2353,9 +2141,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            212 =>
-            array (
+            ],
+            212 => [
                 'id' => 213,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37600,
@@ -2364,9 +2151,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            213 =>
-            array (
+            ],
+            213 => [
                 'id' => 214,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37601,
@@ -2375,9 +2161,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            214 =>
-            array (
+            ],
+            214 => [
                 'id' => 215,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38100,
@@ -2386,9 +2171,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            215 =>
-            array (
+            ],
+            215 => [
                 'id' => 216,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38101,
@@ -2397,9 +2181,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            216 =>
-            array (
+            ],
+            216 => [
                 'id' => 217,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38102,
@@ -2408,9 +2191,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            217 =>
-            array (
+            ],
+            217 => [
                 'id' => 218,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38103,
@@ -2419,9 +2201,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            218 =>
-            array (
+            ],
+            218 => [
                 'id' => 219,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38104,
@@ -2430,9 +2211,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            219 =>
-            array (
+            ],
+            219 => [
                 'id' => 220,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38105,
@@ -2441,9 +2221,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            220 =>
-            array (
+            ],
+            220 => [
                 'id' => 221,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38106,
@@ -2452,9 +2231,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            221 =>
-            array (
+            ],
+            221 => [
                 'id' => 222,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38107,
@@ -2463,9 +2241,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            222 =>
-            array (
+            ],
+            222 => [
                 'id' => 223,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38108,
@@ -2474,9 +2251,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            223 =>
-            array (
+            ],
+            223 => [
                 'id' => 224,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38200,
@@ -2485,9 +2261,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            224 =>
-            array (
+            ],
+            224 => [
                 'id' => 225,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38201,
@@ -2496,9 +2271,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            225 =>
-            array (
+            ],
+            225 => [
                 'id' => 226,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38202,
@@ -2507,9 +2281,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            226 =>
-            array (
+            ],
+            226 => [
                 'id' => 227,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38203,
@@ -2518,9 +2291,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            227 =>
-            array (
+            ],
+            227 => [
                 'id' => 228,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38204,
@@ -2529,9 +2301,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            228 =>
-            array (
+            ],
+            228 => [
                 'id' => 229,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38205,
@@ -2540,9 +2311,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            229 =>
-            array (
+            ],
+            229 => [
                 'id' => 230,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38206,
@@ -2551,9 +2321,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            230 =>
-            array (
+            ],
+            230 => [
                 'id' => 231,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38207,
@@ -2562,9 +2331,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            231 =>
-            array (
+            ],
+            231 => [
                 'id' => 232,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38208,
@@ -2573,9 +2341,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            232 =>
-            array (
+            ],
+            232 => [
                 'id' => 233,
                 'plugin_unikey' => 'Fresns',
                 'code' => 0,
@@ -2584,9 +2351,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            233 =>
-            array (
+            ],
+            233 => [
                 'id' => 234,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30000,
@@ -2595,9 +2361,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            234 =>
-            array (
+            ],
+            234 => [
                 'id' => 235,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30001,
@@ -2606,9 +2371,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            235 =>
-            array (
+            ],
+            235 => [
                 'id' => 236,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30002,
@@ -2617,9 +2381,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            236 =>
-            array (
+            ],
+            236 => [
                 'id' => 237,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30003,
@@ -2628,9 +2391,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            237 =>
-            array (
+            ],
+            237 => [
                 'id' => 238,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30004,
@@ -2639,9 +2401,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            238 =>
-            array (
+            ],
+            238 => [
                 'id' => 239,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30005,
@@ -2650,9 +2411,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            239 =>
-            array (
+            ],
+            239 => [
                 'id' => 240,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31000,
@@ -2661,9 +2421,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            240 =>
-            array (
+            ],
+            240 => [
                 'id' => 241,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31101,
@@ -2672,9 +2431,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            241 =>
-            array (
+            ],
+            241 => [
                 'id' => 242,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31102,
@@ -2683,9 +2441,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            242 =>
-            array (
+            ],
+            242 => [
                 'id' => 243,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31103,
@@ -2694,9 +2451,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            243 =>
-            array (
+            ],
+            243 => [
                 'id' => 244,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31201,
@@ -2705,9 +2461,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            244 =>
-            array (
+            ],
+            244 => [
                 'id' => 245,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31202,
@@ -2716,9 +2471,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            245 =>
-            array (
+            ],
+            245 => [
                 'id' => 246,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31301,
@@ -2727,9 +2481,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            246 =>
-            array (
+            ],
+            246 => [
                 'id' => 247,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31302,
@@ -2738,9 +2491,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            247 =>
-            array (
+            ],
+            247 => [
                 'id' => 248,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31303,
@@ -2749,9 +2501,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            248 =>
-            array (
+            ],
+            248 => [
                 'id' => 249,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31304,
@@ -2760,9 +2511,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            249 =>
-            array (
+            ],
+            249 => [
                 'id' => 250,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31401,
@@ -2771,9 +2521,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            250 =>
-            array (
+            ],
+            250 => [
                 'id' => 251,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31402,
@@ -2782,9 +2531,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            251 =>
-            array (
+            ],
+            251 => [
                 'id' => 252,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31501,
@@ -2793,9 +2541,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            252 =>
-            array (
+            ],
+            252 => [
                 'id' => 253,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31502,
@@ -2804,9 +2551,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            253 =>
-            array (
+            ],
+            253 => [
                 'id' => 254,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31503,
@@ -2815,9 +2561,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            254 =>
-            array (
+            ],
+            254 => [
                 'id' => 255,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31504,
@@ -2826,9 +2571,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            255 =>
-            array (
+            ],
+            255 => [
                 'id' => 256,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31505,
@@ -2837,9 +2581,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            256 =>
-            array (
+            ],
+            256 => [
                 'id' => 257,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31601,
@@ -2848,9 +2591,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            257 =>
-            array (
+            ],
+            257 => [
                 'id' => 258,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31602,
@@ -2859,9 +2601,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            258 =>
-            array (
+            ],
+            258 => [
                 'id' => 259,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31603,
@@ -2870,9 +2611,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            259 =>
-            array (
+            ],
+            259 => [
                 'id' => 260,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31701,
@@ -2881,9 +2621,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            260 =>
-            array (
+            ],
+            260 => [
                 'id' => 261,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31702,
@@ -2892,9 +2631,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            261 =>
-            array (
+            ],
+            261 => [
                 'id' => 262,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31703,
@@ -2903,9 +2641,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            262 =>
-            array (
+            ],
+            262 => [
                 'id' => 263,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32100,
@@ -2914,9 +2651,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            263 =>
-            array (
+            ],
+            263 => [
                 'id' => 264,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32101,
@@ -2925,9 +2661,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            264 =>
-            array (
+            ],
+            264 => [
                 'id' => 265,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32102,
@@ -2936,9 +2671,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            265 =>
-            array (
+            ],
+            265 => [
                 'id' => 266,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32103,
@@ -2947,9 +2681,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            266 =>
-            array (
+            ],
+            266 => [
                 'id' => 267,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32104,
@@ -2958,9 +2691,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            267 =>
-            array (
+            ],
+            267 => [
                 'id' => 268,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32201,
@@ -2969,9 +2701,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            268 =>
-            array (
+            ],
+            268 => [
                 'id' => 269,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32202,
@@ -2980,9 +2711,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            269 =>
-            array (
+            ],
+            269 => [
                 'id' => 270,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32203,
@@ -2991,9 +2721,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            270 =>
-            array (
+            ],
+            270 => [
                 'id' => 271,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32204,
@@ -3002,9 +2731,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            271 =>
-            array (
+            ],
+            271 => [
                 'id' => 272,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32301,
@@ -3013,9 +2741,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            272 =>
-            array (
+            ],
+            272 => [
                 'id' => 273,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32302,
@@ -3024,9 +2751,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            273 =>
-            array (
+            ],
+            273 => [
                 'id' => 274,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32303,
@@ -3035,9 +2761,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            274 =>
-            array (
+            ],
+            274 => [
                 'id' => 275,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32304,
@@ -3046,9 +2771,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            275 =>
-            array (
+            ],
+            275 => [
                 'id' => 276,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33100,
@@ -3057,9 +2781,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            276 =>
-            array (
+            ],
+            276 => [
                 'id' => 277,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33101,
@@ -3068,9 +2791,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            277 =>
-            array (
+            ],
+            277 => [
                 'id' => 278,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33102,
@@ -3079,9 +2801,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            278 =>
-            array (
+            ],
+            278 => [
                 'id' => 279,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33200,
@@ -3090,9 +2811,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            279 =>
-            array (
+            ],
+            279 => [
                 'id' => 280,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33201,
@@ -3101,9 +2821,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            280 =>
-            array (
+            ],
+            280 => [
                 'id' => 281,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33202,
@@ -3112,9 +2831,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            281 =>
-            array (
+            ],
+            281 => [
                 'id' => 282,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33203,
@@ -3123,9 +2841,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            282 =>
-            array (
+            ],
+            282 => [
                 'id' => 283,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33301,
@@ -3134,9 +2851,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            283 =>
-            array (
+            ],
+            283 => [
                 'id' => 284,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33302,
@@ -3145,9 +2861,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            284 =>
-            array (
+            ],
+            284 => [
                 'id' => 285,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33400,
@@ -3156,9 +2871,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            285 =>
-            array (
+            ],
+            285 => [
                 'id' => 286,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33401,
@@ -3167,9 +2881,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            286 =>
-            array (
+            ],
+            286 => [
                 'id' => 287,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33402,
@@ -3178,9 +2891,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            287 =>
-            array (
+            ],
+            287 => [
                 'id' => 288,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33403,
@@ -3189,9 +2901,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            288 =>
-            array (
+            ],
+            288 => [
                 'id' => 289,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33404,
@@ -3200,9 +2911,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            289 =>
-            array (
+            ],
+            289 => [
                 'id' => 290,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34101,
@@ -3211,9 +2921,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            290 =>
-            array (
+            ],
+            290 => [
                 'id' => 291,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34102,
@@ -3222,9 +2931,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            291 =>
-            array (
+            ],
+            291 => [
                 'id' => 292,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34103,
@@ -3233,9 +2941,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            292 =>
-            array (
+            ],
+            292 => [
                 'id' => 293,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34104,
@@ -3244,9 +2951,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            293 =>
-            array (
+            ],
+            293 => [
                 'id' => 294,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34105,
@@ -3255,9 +2961,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            294 =>
-            array (
+            ],
+            294 => [
                 'id' => 295,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34106,
@@ -3266,9 +2971,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            295 =>
-            array (
+            ],
+            295 => [
                 'id' => 296,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34107,
@@ -3277,9 +2981,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            296 =>
-            array (
+            ],
+            296 => [
                 'id' => 297,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34108,
@@ -3288,9 +2991,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            297 =>
-            array (
+            ],
+            297 => [
                 'id' => 298,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34109,
@@ -3299,9 +3001,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            298 =>
-            array (
+            ],
+            298 => [
                 'id' => 299,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34110,
@@ -3310,9 +3011,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            299 =>
-            array (
+            ],
+            299 => [
                 'id' => 300,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34111,
@@ -3321,9 +3021,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            300 =>
-            array (
+            ],
+            300 => [
                 'id' => 301,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34201,
@@ -3332,9 +3031,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            301 =>
-            array (
+            ],
+            301 => [
                 'id' => 302,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34202,
@@ -3343,9 +3041,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            302 =>
-            array (
+            ],
+            302 => [
                 'id' => 303,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34203,
@@ -3354,9 +3051,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            303 =>
-            array (
+            ],
+            303 => [
                 'id' => 304,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34204,
@@ -3365,9 +3061,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            304 =>
-            array (
+            ],
+            304 => [
                 'id' => 305,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34205,
@@ -3376,9 +3071,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            305 =>
-            array (
+            ],
+            305 => [
                 'id' => 306,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34206,
@@ -3387,9 +3081,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            306 =>
-            array (
+            ],
+            306 => [
                 'id' => 307,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34301,
@@ -3398,9 +3091,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            307 =>
-            array (
+            ],
+            307 => [
                 'id' => 308,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34302,
@@ -3409,9 +3101,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            308 =>
-            array (
+            ],
+            308 => [
                 'id' => 309,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34303,
@@ -3420,9 +3111,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            309 =>
-            array (
+            ],
+            309 => [
                 'id' => 310,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34304,
@@ -3431,9 +3121,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            310 =>
-            array (
+            ],
+            310 => [
                 'id' => 311,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34305,
@@ -3442,9 +3131,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            311 =>
-            array (
+            ],
+            311 => [
                 'id' => 312,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34306,
@@ -3453,9 +3141,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            312 =>
-            array (
+            ],
+            312 => [
                 'id' => 313,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34307,
@@ -3464,9 +3151,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            313 =>
-            array (
+            ],
+            313 => [
                 'id' => 314,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34308,
@@ -3475,9 +3161,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            314 =>
-            array (
+            ],
+            314 => [
                 'id' => 315,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34401,
@@ -3486,9 +3171,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            315 =>
-            array (
+            ],
+            315 => [
                 'id' => 316,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34402,
@@ -3497,9 +3181,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            316 =>
-            array (
+            ],
+            316 => [
                 'id' => 317,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34403,
@@ -3508,9 +3191,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            317 =>
-            array (
+            ],
+            317 => [
                 'id' => 318,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34501,
@@ -3519,9 +3201,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            318 =>
-            array (
+            ],
+            318 => [
                 'id' => 319,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34502,
@@ -3530,9 +3211,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            319 =>
-            array (
+            ],
+            319 => [
                 'id' => 320,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34503,
@@ -3541,9 +3221,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            320 =>
-            array (
+            ],
+            320 => [
                 'id' => 321,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34504,
@@ -3552,9 +3231,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            321 =>
-            array (
+            ],
+            321 => [
                 'id' => 322,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34505,
@@ -3563,9 +3241,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            322 =>
-            array (
+            ],
+            322 => [
                 'id' => 323,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34506,
@@ -3574,9 +3251,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            323 =>
-            array (
+            ],
+            323 => [
                 'id' => 324,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34507,
@@ -3585,9 +3261,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            324 =>
-            array (
+            ],
+            324 => [
                 'id' => 325,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35101,
@@ -3596,9 +3271,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            325 =>
-            array (
+            ],
+            325 => [
                 'id' => 326,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35102,
@@ -3607,9 +3281,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            326 =>
-            array (
+            ],
+            326 => [
                 'id' => 327,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35103,
@@ -3618,9 +3291,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            327 =>
-            array (
+            ],
+            327 => [
                 'id' => 328,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35104,
@@ -3629,9 +3301,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            328 =>
-            array (
+            ],
+            328 => [
                 'id' => 329,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35105,
@@ -3640,9 +3311,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            329 =>
-            array (
+            ],
+            329 => [
                 'id' => 330,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35106,
@@ -3651,9 +3321,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            330 =>
-            array (
+            ],
+            330 => [
                 'id' => 331,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35107,
@@ -3662,9 +3331,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            331 =>
-            array (
+            ],
+            331 => [
                 'id' => 332,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35108,
@@ -3673,9 +3341,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            332 =>
-            array (
+            ],
+            332 => [
                 'id' => 333,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35109,
@@ -3684,9 +3351,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            333 =>
-            array (
+            ],
+            333 => [
                 'id' => 334,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35110,
@@ -3695,9 +3361,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            334 =>
-            array (
+            ],
+            334 => [
                 'id' => 335,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35201,
@@ -3706,9 +3371,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            335 =>
-            array (
+            ],
+            335 => [
                 'id' => 336,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35202,
@@ -3717,9 +3381,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            336 =>
-            array (
+            ],
+            336 => [
                 'id' => 337,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35203,
@@ -3728,9 +3391,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            337 =>
-            array (
+            ],
+            337 => [
                 'id' => 338,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35204,
@@ -3739,9 +3401,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            338 =>
-            array (
+            ],
+            338 => [
                 'id' => 339,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35301,
@@ -3750,9 +3411,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            339 =>
-            array (
+            ],
+            339 => [
                 'id' => 340,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35302,
@@ -3761,9 +3421,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            340 =>
-            array (
+            ],
+            340 => [
                 'id' => 341,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35303,
@@ -3772,9 +3431,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            341 =>
-            array (
+            ],
+            341 => [
                 'id' => 342,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35304,
@@ -3783,9 +3441,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            342 =>
-            array (
+            ],
+            342 => [
                 'id' => 343,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35305,
@@ -3794,9 +3451,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            343 =>
-            array (
+            ],
+            343 => [
                 'id' => 344,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36100,
@@ -3805,9 +3461,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            344 =>
-            array (
+            ],
+            344 => [
                 'id' => 345,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36101,
@@ -3816,9 +3471,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            345 =>
-            array (
+            ],
+            345 => [
                 'id' => 346,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36102,
@@ -3827,9 +3481,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            346 =>
-            array (
+            ],
+            346 => [
                 'id' => 347,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36103,
@@ -3838,9 +3491,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            347 =>
-            array (
+            ],
+            347 => [
                 'id' => 348,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36104,
@@ -3849,9 +3501,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            348 =>
-            array (
+            ],
+            348 => [
                 'id' => 349,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36105,
@@ -3860,9 +3511,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            349 =>
-            array (
+            ],
+            349 => [
                 'id' => 350,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36106,
@@ -3871,9 +3521,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            350 =>
-            array (
+            ],
+            350 => [
                 'id' => 351,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36107,
@@ -3882,9 +3531,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            351 =>
-            array (
+            ],
+            351 => [
                 'id' => 352,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36108,
@@ -3893,9 +3541,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            352 =>
-            array (
+            ],
+            352 => [
                 'id' => 353,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36109,
@@ -3904,9 +3551,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            353 =>
-            array (
+            ],
+            353 => [
                 'id' => 354,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36110,
@@ -3915,9 +3561,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            354 =>
-            array (
+            ],
+            354 => [
                 'id' => 355,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36111,
@@ -3926,9 +3571,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            355 =>
-            array (
+            ],
+            355 => [
                 'id' => 356,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36112,
@@ -3937,9 +3581,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            356 =>
-            array (
+            ],
+            356 => [
                 'id' => 357,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36113,
@@ -3948,9 +3591,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            357 =>
-            array (
+            ],
+            357 => [
                 'id' => 358,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36114,
@@ -3959,9 +3601,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            358 =>
-            array (
+            ],
+            358 => [
                 'id' => 359,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36115,
@@ -3970,9 +3611,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            359 =>
-            array (
+            ],
+            359 => [
                 'id' => 360,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36200,
@@ -3981,9 +3621,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            360 =>
-            array (
+            ],
+            360 => [
                 'id' => 361,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36201,
@@ -3992,9 +3631,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            361 =>
-            array (
+            ],
+            361 => [
                 'id' => 362,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36202,
@@ -4003,9 +3641,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            362 =>
-            array (
+            ],
+            362 => [
                 'id' => 363,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36300,
@@ -4014,9 +3651,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            363 =>
-            array (
+            ],
+            363 => [
                 'id' => 364,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36301,
@@ -4025,9 +3661,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            364 =>
-            array (
+            ],
+            364 => [
                 'id' => 365,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36302,
@@ -4036,9 +3671,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            365 =>
-            array (
+            ],
+            365 => [
                 'id' => 366,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36303,
@@ -4047,9 +3681,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            366 =>
-            array (
+            ],
+            366 => [
                 'id' => 367,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36304,
@@ -4058,9 +3691,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            367 =>
-            array (
+            ],
+            367 => [
                 'id' => 368,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36305,
@@ -4069,9 +3701,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            368 =>
-            array (
+            ],
+            368 => [
                 'id' => 369,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36306,
@@ -4080,9 +3711,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            369 =>
-            array (
+            ],
+            369 => [
                 'id' => 370,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36307,
@@ -4091,9 +3721,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            370 =>
-            array (
+            ],
+            370 => [
                 'id' => 371,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36308,
@@ -4102,9 +3731,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            371 =>
-            array (
+            ],
+            371 => [
                 'id' => 372,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36309,
@@ -4113,9 +3741,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            372 =>
-            array (
+            ],
+            372 => [
                 'id' => 373,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36310,
@@ -4124,9 +3751,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            373 =>
-            array (
+            ],
+            373 => [
                 'id' => 374,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36311,
@@ -4135,9 +3761,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            374 =>
-            array (
+            ],
+            374 => [
                 'id' => 375,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36312,
@@ -4146,9 +3771,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            375 =>
-            array (
+            ],
+            375 => [
                 'id' => 376,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36313,
@@ -4157,9 +3781,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            376 =>
-            array (
+            ],
+            376 => [
                 'id' => 377,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36400,
@@ -4168,9 +3791,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            377 =>
-            array (
+            ],
+            377 => [
                 'id' => 378,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36401,
@@ -4179,9 +3801,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            378 =>
-            array (
+            ],
+            378 => [
                 'id' => 379,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36402,
@@ -4190,9 +3811,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            379 =>
-            array (
+            ],
+            379 => [
                 'id' => 380,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36403,
@@ -4201,9 +3821,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            380 =>
-            array (
+            ],
+            380 => [
                 'id' => 381,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36404,
@@ -4212,9 +3831,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            381 =>
-            array (
+            ],
+            381 => [
                 'id' => 382,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36405,
@@ -4223,9 +3841,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            382 =>
-            array (
+            ],
+            382 => [
                 'id' => 383,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36500,
@@ -4234,9 +3851,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            383 =>
-            array (
+            ],
+            383 => [
                 'id' => 384,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36501,
@@ -4245,9 +3861,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            384 =>
-            array (
+            ],
+            384 => [
                 'id' => 385,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36600,
@@ -4256,9 +3871,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            385 =>
-            array (
+            ],
+            385 => [
                 'id' => 386,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36601,
@@ -4267,9 +3881,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            386 =>
-            array (
+            ],
+            386 => [
                 'id' => 387,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36602,
@@ -4278,9 +3891,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            387 =>
-            array (
+            ],
+            387 => [
                 'id' => 388,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36603,
@@ -4289,9 +3901,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            388 =>
-            array (
+            ],
+            388 => [
                 'id' => 389,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36604,
@@ -4300,9 +3911,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            389 =>
-            array (
+            ],
+            389 => [
                 'id' => 390,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36605,
@@ -4311,9 +3921,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            390 =>
-            array (
+            ],
+            390 => [
                 'id' => 391,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36606,
@@ -4322,9 +3931,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            391 =>
-            array (
+            ],
+            391 => [
                 'id' => 392,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36607,
@@ -4333,9 +3941,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            392 =>
-            array (
+            ],
+            392 => [
                 'id' => 393,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36608,
@@ -4344,9 +3951,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            393 =>
-            array (
+            ],
+            393 => [
                 'id' => 394,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36609,
@@ -4355,9 +3961,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            394 =>
-            array (
+            ],
+            394 => [
                 'id' => 395,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36700,
@@ -4366,9 +3971,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            395 =>
-            array (
+            ],
+            395 => [
                 'id' => 396,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36701,
@@ -4377,9 +3981,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            396 =>
-            array (
+            ],
+            396 => [
                 'id' => 397,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36702,
@@ -4388,9 +3991,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            397 =>
-            array (
+            ],
+            397 => [
                 'id' => 398,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37100,
@@ -4399,9 +4001,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            398 =>
-            array (
+            ],
+            398 => [
                 'id' => 399,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37101,
@@ -4410,9 +4011,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            399 =>
-            array (
+            ],
+            399 => [
                 'id' => 400,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37102,
@@ -4421,9 +4021,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            400 =>
-            array (
+            ],
+            400 => [
                 'id' => 401,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37103,
@@ -4432,9 +4031,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            401 =>
-            array (
+            ],
+            401 => [
                 'id' => 402,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37104,
@@ -4443,9 +4041,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            402 =>
-            array (
+            ],
+            402 => [
                 'id' => 403,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37200,
@@ -4454,9 +4051,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            403 =>
-            array (
+            ],
+            403 => [
                 'id' => 404,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37201,
@@ -4465,9 +4061,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            404 =>
-            array (
+            ],
+            404 => [
                 'id' => 405,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37300,
@@ -4476,9 +4071,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            405 =>
-            array (
+            ],
+            405 => [
                 'id' => 406,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37301,
@@ -4487,9 +4081,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            406 =>
-            array (
+            ],
+            406 => [
                 'id' => 407,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37302,
@@ -4498,9 +4091,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            407 =>
-            array (
+            ],
+            407 => [
                 'id' => 408,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37303,
@@ -4509,9 +4101,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            408 =>
-            array (
+            ],
+            408 => [
                 'id' => 409,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37400,
@@ -4520,9 +4111,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            409 =>
-            array (
+            ],
+            409 => [
                 'id' => 410,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37401,
@@ -4531,9 +4121,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            410 =>
-            array (
+            ],
+            410 => [
                 'id' => 411,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37402,
@@ -4542,9 +4131,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            411 =>
-            array (
+            ],
+            411 => [
                 'id' => 412,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37403,
@@ -4553,9 +4141,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            412 =>
-            array (
+            ],
+            412 => [
                 'id' => 413,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37500,
@@ -4564,9 +4151,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            413 =>
-            array (
+            ],
+            413 => [
                 'id' => 414,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37501,
@@ -4575,9 +4161,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            414 =>
-            array (
+            ],
+            414 => [
                 'id' => 415,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37600,
@@ -4586,9 +4171,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            415 =>
-            array (
+            ],
+            415 => [
                 'id' => 416,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37601,
@@ -4597,9 +4181,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            416 =>
-            array (
+            ],
+            416 => [
                 'id' => 417,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38100,
@@ -4608,9 +4191,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            417 =>
-            array (
+            ],
+            417 => [
                 'id' => 418,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38101,
@@ -4619,9 +4201,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            418 =>
-            array (
+            ],
+            418 => [
                 'id' => 419,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38102,
@@ -4630,9 +4211,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            419 =>
-            array (
+            ],
+            419 => [
                 'id' => 420,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38103,
@@ -4641,9 +4221,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            420 =>
-            array (
+            ],
+            420 => [
                 'id' => 421,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38104,
@@ -4652,9 +4231,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            421 =>
-            array (
+            ],
+            421 => [
                 'id' => 422,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38105,
@@ -4663,9 +4241,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            422 =>
-            array (
+            ],
+            422 => [
                 'id' => 423,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38106,
@@ -4674,9 +4251,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            423 =>
-            array (
+            ],
+            423 => [
                 'id' => 424,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38107,
@@ -4685,9 +4261,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            424 =>
-            array (
+            ],
+            424 => [
                 'id' => 425,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38108,
@@ -4696,9 +4271,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            425 =>
-            array (
+            ],
+            425 => [
                 'id' => 426,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38200,
@@ -4707,9 +4281,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            426 =>
-            array (
+            ],
+            426 => [
                 'id' => 427,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38201,
@@ -4718,9 +4291,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            427 =>
-            array (
+            ],
+            427 => [
                 'id' => 428,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38202,
@@ -4729,9 +4301,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            428 =>
-            array (
+            ],
+            428 => [
                 'id' => 429,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38203,
@@ -4740,9 +4311,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            429 =>
-            array (
+            ],
+            429 => [
                 'id' => 430,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38204,
@@ -4751,9 +4321,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            430 =>
-            array (
+            ],
+            430 => [
                 'id' => 431,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38205,
@@ -4762,9 +4331,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            431 =>
-            array (
+            ],
+            431 => [
                 'id' => 432,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38206,
@@ -4773,9 +4341,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            432 =>
-            array (
+            ],
+            432 => [
                 'id' => 433,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38207,
@@ -4784,9 +4351,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            433 =>
-            array (
+            ],
+            433 => [
                 'id' => 434,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38208,
@@ -4795,9 +4361,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            434 =>
-            array (
+            ],
+            434 => [
                 'id' => 435,
                 'plugin_unikey' => 'Fresns',
                 'code' => 0,
@@ -4806,9 +4371,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            435 =>
-            array (
+            ],
+            435 => [
                 'id' => 436,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30000,
@@ -4817,9 +4381,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            436 =>
-            array (
+            ],
+            436 => [
                 'id' => 437,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30001,
@@ -4828,9 +4391,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            437 =>
-            array (
+            ],
+            437 => [
                 'id' => 438,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30002,
@@ -4839,9 +4401,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            438 =>
-            array (
+            ],
+            438 => [
                 'id' => 439,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30003,
@@ -4850,9 +4411,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            439 =>
-            array (
+            ],
+            439 => [
                 'id' => 440,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30004,
@@ -4861,9 +4421,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            440 =>
-            array (
+            ],
+            440 => [
                 'id' => 441,
                 'plugin_unikey' => 'Fresns',
                 'code' => 30005,
@@ -4872,9 +4431,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            441 =>
-            array (
+            ],
+            441 => [
                 'id' => 442,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31000,
@@ -4883,9 +4441,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            442 =>
-            array (
+            ],
+            442 => [
                 'id' => 443,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31101,
@@ -4894,9 +4451,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            443 =>
-            array (
+            ],
+            443 => [
                 'id' => 444,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31102,
@@ -4905,9 +4461,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            444 =>
-            array (
+            ],
+            444 => [
                 'id' => 445,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31103,
@@ -4916,9 +4471,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            445 =>
-            array (
+            ],
+            445 => [
                 'id' => 446,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31201,
@@ -4927,9 +4481,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            446 =>
-            array (
+            ],
+            446 => [
                 'id' => 447,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31202,
@@ -4938,9 +4491,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            447 =>
-            array (
+            ],
+            447 => [
                 'id' => 448,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31301,
@@ -4949,9 +4501,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            448 =>
-            array (
+            ],
+            448 => [
                 'id' => 449,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31302,
@@ -4960,9 +4511,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            449 =>
-            array (
+            ],
+            449 => [
                 'id' => 450,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31303,
@@ -4971,9 +4521,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            450 =>
-            array (
+            ],
+            450 => [
                 'id' => 451,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31304,
@@ -4982,9 +4531,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            451 =>
-            array (
+            ],
+            451 => [
                 'id' => 452,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31401,
@@ -4993,9 +4541,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            452 =>
-            array (
+            ],
+            452 => [
                 'id' => 453,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31402,
@@ -5004,9 +4551,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            453 =>
-            array (
+            ],
+            453 => [
                 'id' => 454,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31501,
@@ -5015,9 +4561,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            454 =>
-            array (
+            ],
+            454 => [
                 'id' => 455,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31502,
@@ -5026,9 +4571,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            455 =>
-            array (
+            ],
+            455 => [
                 'id' => 456,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31503,
@@ -5037,9 +4581,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            456 =>
-            array (
+            ],
+            456 => [
                 'id' => 457,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31504,
@@ -5048,9 +4591,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            457 =>
-            array (
+            ],
+            457 => [
                 'id' => 458,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31505,
@@ -5059,9 +4601,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            458 =>
-            array (
+            ],
+            458 => [
                 'id' => 459,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31601,
@@ -5070,9 +4611,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            459 =>
-            array (
+            ],
+            459 => [
                 'id' => 460,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31602,
@@ -5081,9 +4621,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            460 =>
-            array (
+            ],
+            460 => [
                 'id' => 461,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31603,
@@ -5092,9 +4631,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            461 =>
-            array (
+            ],
+            461 => [
                 'id' => 462,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31701,
@@ -5103,9 +4641,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            462 =>
-            array (
+            ],
+            462 => [
                 'id' => 463,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31702,
@@ -5114,9 +4651,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            463 =>
-            array (
+            ],
+            463 => [
                 'id' => 464,
                 'plugin_unikey' => 'Fresns',
                 'code' => 31703,
@@ -5125,9 +4661,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            464 =>
-            array (
+            ],
+            464 => [
                 'id' => 465,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32100,
@@ -5136,9 +4671,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            465 =>
-            array (
+            ],
+            465 => [
                 'id' => 466,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32101,
@@ -5147,9 +4681,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            466 =>
-            array (
+            ],
+            466 => [
                 'id' => 467,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32102,
@@ -5158,9 +4691,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            467 =>
-            array (
+            ],
+            467 => [
                 'id' => 468,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32103,
@@ -5169,9 +4701,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            468 =>
-            array (
+            ],
+            468 => [
                 'id' => 469,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32104,
@@ -5180,9 +4711,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            469 =>
-            array (
+            ],
+            469 => [
                 'id' => 470,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32201,
@@ -5191,9 +4721,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            470 =>
-            array (
+            ],
+            470 => [
                 'id' => 471,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32202,
@@ -5202,9 +4731,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            471 =>
-            array (
+            ],
+            471 => [
                 'id' => 472,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32203,
@@ -5213,9 +4741,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            472 =>
-            array (
+            ],
+            472 => [
                 'id' => 473,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32204,
@@ -5224,9 +4751,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            473 =>
-            array (
+            ],
+            473 => [
                 'id' => 474,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32301,
@@ -5235,9 +4761,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            474 =>
-            array (
+            ],
+            474 => [
                 'id' => 475,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32302,
@@ -5246,9 +4771,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            475 =>
-            array (
+            ],
+            475 => [
                 'id' => 476,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32303,
@@ -5257,9 +4781,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            476 =>
-            array (
+            ],
+            476 => [
                 'id' => 477,
                 'plugin_unikey' => 'Fresns',
                 'code' => 32304,
@@ -5268,9 +4791,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            477 =>
-            array (
+            ],
+            477 => [
                 'id' => 478,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33100,
@@ -5279,9 +4801,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            478 =>
-            array (
+            ],
+            478 => [
                 'id' => 479,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33101,
@@ -5290,9 +4811,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            479 =>
-            array (
+            ],
+            479 => [
                 'id' => 480,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33102,
@@ -5301,9 +4821,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            480 =>
-            array (
+            ],
+            480 => [
                 'id' => 481,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33200,
@@ -5312,9 +4831,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            481 =>
-            array (
+            ],
+            481 => [
                 'id' => 482,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33201,
@@ -5323,9 +4841,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            482 =>
-            array (
+            ],
+            482 => [
                 'id' => 483,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33202,
@@ -5334,9 +4851,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            483 =>
-            array (
+            ],
+            483 => [
                 'id' => 484,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33203,
@@ -5345,9 +4861,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            484 =>
-            array (
+            ],
+            484 => [
                 'id' => 485,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33301,
@@ -5356,9 +4871,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            485 =>
-            array (
+            ],
+            485 => [
                 'id' => 486,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33302,
@@ -5367,9 +4881,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            486 =>
-            array (
+            ],
+            486 => [
                 'id' => 487,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33400,
@@ -5378,9 +4891,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            487 =>
-            array (
+            ],
+            487 => [
                 'id' => 488,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33401,
@@ -5389,9 +4901,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            488 =>
-            array (
+            ],
+            488 => [
                 'id' => 489,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33402,
@@ -5400,9 +4911,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            489 =>
-            array (
+            ],
+            489 => [
                 'id' => 490,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33403,
@@ -5411,9 +4921,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            490 =>
-            array (
+            ],
+            490 => [
                 'id' => 491,
                 'plugin_unikey' => 'Fresns',
                 'code' => 33404,
@@ -5422,9 +4931,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            491 =>
-            array (
+            ],
+            491 => [
                 'id' => 492,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34101,
@@ -5433,9 +4941,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            492 =>
-            array (
+            ],
+            492 => [
                 'id' => 493,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34102,
@@ -5444,9 +4951,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            493 =>
-            array (
+            ],
+            493 => [
                 'id' => 494,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34103,
@@ -5455,9 +4961,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            494 =>
-            array (
+            ],
+            494 => [
                 'id' => 495,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34104,
@@ -5466,9 +4971,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            495 =>
-            array (
+            ],
+            495 => [
                 'id' => 496,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34105,
@@ -5477,9 +4981,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            496 =>
-            array (
+            ],
+            496 => [
                 'id' => 497,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34106,
@@ -5488,9 +4991,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            497 =>
-            array (
+            ],
+            497 => [
                 'id' => 498,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34107,
@@ -5499,9 +5001,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            498 =>
-            array (
+            ],
+            498 => [
                 'id' => 499,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34108,
@@ -5510,9 +5011,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            499 =>
-            array (
+            ],
+            499 => [
                 'id' => 500,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34109,
@@ -5521,11 +5021,10 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-        ));
-        \DB::table('code_messages')->insert(array (
-            0 =>
-            array (
+            ],
+        ]);
+        \DB::table('code_messages')->insert([
+            0 => [
                 'id' => 501,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34110,
@@ -5534,9 +5033,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            1 =>
-            array (
+            ],
+            1 => [
                 'id' => 502,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34111,
@@ -5545,9 +5043,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            2 =>
-            array (
+            ],
+            2 => [
                 'id' => 503,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34201,
@@ -5556,9 +5053,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            3 =>
-            array (
+            ],
+            3 => [
                 'id' => 504,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34202,
@@ -5567,9 +5063,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            4 =>
-            array (
+            ],
+            4 => [
                 'id' => 505,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34203,
@@ -5578,9 +5073,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            5 =>
-            array (
+            ],
+            5 => [
                 'id' => 506,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34204,
@@ -5589,9 +5083,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            6 =>
-            array (
+            ],
+            6 => [
                 'id' => 507,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34205,
@@ -5600,9 +5093,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            7 =>
-            array (
+            ],
+            7 => [
                 'id' => 508,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34206,
@@ -5611,9 +5103,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            8 =>
-            array (
+            ],
+            8 => [
                 'id' => 509,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34301,
@@ -5622,9 +5113,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            9 =>
-            array (
+            ],
+            9 => [
                 'id' => 510,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34302,
@@ -5633,9 +5123,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            10 =>
-            array (
+            ],
+            10 => [
                 'id' => 511,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34303,
@@ -5644,9 +5133,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            11 =>
-            array (
+            ],
+            11 => [
                 'id' => 512,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34304,
@@ -5655,9 +5143,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            12 =>
-            array (
+            ],
+            12 => [
                 'id' => 513,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34305,
@@ -5666,9 +5153,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            13 =>
-            array (
+            ],
+            13 => [
                 'id' => 514,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34306,
@@ -5677,9 +5163,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            14 =>
-            array (
+            ],
+            14 => [
                 'id' => 515,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34307,
@@ -5688,9 +5173,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            15 =>
-            array (
+            ],
+            15 => [
                 'id' => 516,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34308,
@@ -5699,9 +5183,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            16 =>
-            array (
+            ],
+            16 => [
                 'id' => 517,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34401,
@@ -5710,9 +5193,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            17 =>
-            array (
+            ],
+            17 => [
                 'id' => 518,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34402,
@@ -5721,9 +5203,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            18 =>
-            array (
+            ],
+            18 => [
                 'id' => 519,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34403,
@@ -5732,9 +5213,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            19 =>
-            array (
+            ],
+            19 => [
                 'id' => 520,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34501,
@@ -5743,9 +5223,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            20 =>
-            array (
+            ],
+            20 => [
                 'id' => 521,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34502,
@@ -5754,9 +5233,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            21 =>
-            array (
+            ],
+            21 => [
                 'id' => 522,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34503,
@@ -5765,9 +5243,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            22 =>
-            array (
+            ],
+            22 => [
                 'id' => 523,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34504,
@@ -5776,9 +5253,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            23 =>
-            array (
+            ],
+            23 => [
                 'id' => 524,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34505,
@@ -5787,9 +5263,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            24 =>
-            array (
+            ],
+            24 => [
                 'id' => 525,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34506,
@@ -5798,9 +5273,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            25 =>
-            array (
+            ],
+            25 => [
                 'id' => 526,
                 'plugin_unikey' => 'Fresns',
                 'code' => 34507,
@@ -5809,9 +5283,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            26 =>
-            array (
+            ],
+            26 => [
                 'id' => 527,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35101,
@@ -5820,9 +5293,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            27 =>
-            array (
+            ],
+            27 => [
                 'id' => 528,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35102,
@@ -5831,9 +5303,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            28 =>
-            array (
+            ],
+            28 => [
                 'id' => 529,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35103,
@@ -5842,9 +5313,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            29 =>
-            array (
+            ],
+            29 => [
                 'id' => 530,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35104,
@@ -5853,9 +5323,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            30 =>
-            array (
+            ],
+            30 => [
                 'id' => 531,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35105,
@@ -5864,9 +5333,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            31 =>
-            array (
+            ],
+            31 => [
                 'id' => 532,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35106,
@@ -5875,9 +5343,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            32 =>
-            array (
+            ],
+            32 => [
                 'id' => 533,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35107,
@@ -5886,9 +5353,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            33 =>
-            array (
+            ],
+            33 => [
                 'id' => 534,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35108,
@@ -5897,9 +5363,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            34 =>
-            array (
+            ],
+            34 => [
                 'id' => 535,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35109,
@@ -5908,9 +5373,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            35 =>
-            array (
+            ],
+            35 => [
                 'id' => 536,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35110,
@@ -5919,9 +5383,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            36 =>
-            array (
+            ],
+            36 => [
                 'id' => 537,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35201,
@@ -5930,9 +5393,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            37 =>
-            array (
+            ],
+            37 => [
                 'id' => 538,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35202,
@@ -5941,9 +5403,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            38 =>
-            array (
+            ],
+            38 => [
                 'id' => 539,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35203,
@@ -5952,9 +5413,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            39 =>
-            array (
+            ],
+            39 => [
                 'id' => 540,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35204,
@@ -5963,9 +5423,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            40 =>
-            array (
+            ],
+            40 => [
                 'id' => 541,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35301,
@@ -5974,9 +5433,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            41 =>
-            array (
+            ],
+            41 => [
                 'id' => 542,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35302,
@@ -5985,9 +5443,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            42 =>
-            array (
+            ],
+            42 => [
                 'id' => 543,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35303,
@@ -5996,9 +5453,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            43 =>
-            array (
+            ],
+            43 => [
                 'id' => 544,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35304,
@@ -6007,9 +5463,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            44 =>
-            array (
+            ],
+            44 => [
                 'id' => 545,
                 'plugin_unikey' => 'Fresns',
                 'code' => 35305,
@@ -6018,9 +5473,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            45 =>
-            array (
+            ],
+            45 => [
                 'id' => 546,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36100,
@@ -6029,9 +5483,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            46 =>
-            array (
+            ],
+            46 => [
                 'id' => 547,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36101,
@@ -6040,9 +5493,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            47 =>
-            array (
+            ],
+            47 => [
                 'id' => 548,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36102,
@@ -6051,9 +5503,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            48 =>
-            array (
+            ],
+            48 => [
                 'id' => 549,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36103,
@@ -6062,9 +5513,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            49 =>
-            array (
+            ],
+            49 => [
                 'id' => 550,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36104,
@@ -6073,9 +5523,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            50 =>
-            array (
+            ],
+            50 => [
                 'id' => 551,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36105,
@@ -6084,9 +5533,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            51 =>
-            array (
+            ],
+            51 => [
                 'id' => 552,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36106,
@@ -6095,9 +5543,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            52 =>
-            array (
+            ],
+            52 => [
                 'id' => 553,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36107,
@@ -6106,9 +5553,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            53 =>
-            array (
+            ],
+            53 => [
                 'id' => 554,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36108,
@@ -6117,9 +5563,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            54 =>
-            array (
+            ],
+            54 => [
                 'id' => 555,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36109,
@@ -6128,9 +5573,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            55 =>
-            array (
+            ],
+            55 => [
                 'id' => 556,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36110,
@@ -6139,9 +5583,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            56 =>
-            array (
+            ],
+            56 => [
                 'id' => 557,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36111,
@@ -6150,9 +5593,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            57 =>
-            array (
+            ],
+            57 => [
                 'id' => 558,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36112,
@@ -6161,9 +5603,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            58 =>
-            array (
+            ],
+            58 => [
                 'id' => 559,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36113,
@@ -6172,9 +5613,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            59 =>
-            array (
+            ],
+            59 => [
                 'id' => 560,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36114,
@@ -6183,9 +5623,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            60 =>
-            array (
+            ],
+            60 => [
                 'id' => 561,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36115,
@@ -6194,9 +5633,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            61 =>
-            array (
+            ],
+            61 => [
                 'id' => 562,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36200,
@@ -6205,9 +5643,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            62 =>
-            array (
+            ],
+            62 => [
                 'id' => 563,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36201,
@@ -6216,9 +5653,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            63 =>
-            array (
+            ],
+            63 => [
                 'id' => 564,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36202,
@@ -6227,9 +5663,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            64 =>
-            array (
+            ],
+            64 => [
                 'id' => 565,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36300,
@@ -6238,9 +5673,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            65 =>
-            array (
+            ],
+            65 => [
                 'id' => 566,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36301,
@@ -6249,9 +5683,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            66 =>
-            array (
+            ],
+            66 => [
                 'id' => 567,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36302,
@@ -6260,9 +5693,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            67 =>
-            array (
+            ],
+            67 => [
                 'id' => 568,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36303,
@@ -6271,9 +5703,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            68 =>
-            array (
+            ],
+            68 => [
                 'id' => 569,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36304,
@@ -6282,9 +5713,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            69 =>
-            array (
+            ],
+            69 => [
                 'id' => 570,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36305,
@@ -6293,9 +5723,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            70 =>
-            array (
+            ],
+            70 => [
                 'id' => 571,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36306,
@@ -6304,9 +5733,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            71 =>
-            array (
+            ],
+            71 => [
                 'id' => 572,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36307,
@@ -6315,9 +5743,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            72 =>
-            array (
+            ],
+            72 => [
                 'id' => 573,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36308,
@@ -6326,9 +5753,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            73 =>
-            array (
+            ],
+            73 => [
                 'id' => 574,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36309,
@@ -6337,9 +5763,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            74 =>
-            array (
+            ],
+            74 => [
                 'id' => 575,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36310,
@@ -6348,9 +5773,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            75 =>
-            array (
+            ],
+            75 => [
                 'id' => 576,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36311,
@@ -6359,9 +5783,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            76 =>
-            array (
+            ],
+            76 => [
                 'id' => 577,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36312,
@@ -6370,9 +5793,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            77 =>
-            array (
+            ],
+            77 => [
                 'id' => 578,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36313,
@@ -6381,9 +5803,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            78 =>
-            array (
+            ],
+            78 => [
                 'id' => 579,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36400,
@@ -6392,9 +5813,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            79 =>
-            array (
+            ],
+            79 => [
                 'id' => 580,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36401,
@@ -6403,9 +5823,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            80 =>
-            array (
+            ],
+            80 => [
                 'id' => 581,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36402,
@@ -6414,9 +5833,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            81 =>
-            array (
+            ],
+            81 => [
                 'id' => 582,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36403,
@@ -6425,9 +5843,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            82 =>
-            array (
+            ],
+            82 => [
                 'id' => 583,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36404,
@@ -6436,9 +5853,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            83 =>
-            array (
+            ],
+            83 => [
                 'id' => 584,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36405,
@@ -6447,9 +5863,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            84 =>
-            array (
+            ],
+            84 => [
                 'id' => 585,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36500,
@@ -6458,9 +5873,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            85 =>
-            array (
+            ],
+            85 => [
                 'id' => 586,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36501,
@@ -6469,9 +5883,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            86 =>
-            array (
+            ],
+            86 => [
                 'id' => 587,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36600,
@@ -6480,9 +5893,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            87 =>
-            array (
+            ],
+            87 => [
                 'id' => 588,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36601,
@@ -6491,9 +5903,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            88 =>
-            array (
+            ],
+            88 => [
                 'id' => 589,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36602,
@@ -6502,9 +5913,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            89 =>
-            array (
+            ],
+            89 => [
                 'id' => 590,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36603,
@@ -6513,9 +5923,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            90 =>
-            array (
+            ],
+            90 => [
                 'id' => 591,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36604,
@@ -6524,9 +5933,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            91 =>
-            array (
+            ],
+            91 => [
                 'id' => 592,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36605,
@@ -6535,9 +5943,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            92 =>
-            array (
+            ],
+            92 => [
                 'id' => 593,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36606,
@@ -6546,9 +5953,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            93 =>
-            array (
+            ],
+            93 => [
                 'id' => 594,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36607,
@@ -6557,9 +5963,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            94 =>
-            array (
+            ],
+            94 => [
                 'id' => 595,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36608,
@@ -6568,9 +5973,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            95 =>
-            array (
+            ],
+            95 => [
                 'id' => 596,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36609,
@@ -6579,9 +5983,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            96 =>
-            array (
+            ],
+            96 => [
                 'id' => 597,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36700,
@@ -6590,9 +5993,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            97 =>
-            array (
+            ],
+            97 => [
                 'id' => 598,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36701,
@@ -6601,9 +6003,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            98 =>
-            array (
+            ],
+            98 => [
                 'id' => 599,
                 'plugin_unikey' => 'Fresns',
                 'code' => 36702,
@@ -6612,9 +6013,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            99 =>
-            array (
+            ],
+            99 => [
                 'id' => 600,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37100,
@@ -6623,9 +6023,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            100 =>
-            array (
+            ],
+            100 => [
                 'id' => 601,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37101,
@@ -6634,9 +6033,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            101 =>
-            array (
+            ],
+            101 => [
                 'id' => 602,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37102,
@@ -6645,9 +6043,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            102 =>
-            array (
+            ],
+            102 => [
                 'id' => 603,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37103,
@@ -6656,9 +6053,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            103 =>
-            array (
+            ],
+            103 => [
                 'id' => 604,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37104,
@@ -6667,9 +6063,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            104 =>
-            array (
+            ],
+            104 => [
                 'id' => 605,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37200,
@@ -6678,9 +6073,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            105 =>
-            array (
+            ],
+            105 => [
                 'id' => 606,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37201,
@@ -6689,9 +6083,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            106 =>
-            array (
+            ],
+            106 => [
                 'id' => 607,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37300,
@@ -6700,9 +6093,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            107 =>
-            array (
+            ],
+            107 => [
                 'id' => 608,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37301,
@@ -6711,9 +6103,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            108 =>
-            array (
+            ],
+            108 => [
                 'id' => 609,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37302,
@@ -6722,9 +6113,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            109 =>
-            array (
+            ],
+            109 => [
                 'id' => 610,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37303,
@@ -6733,9 +6123,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            110 =>
-            array (
+            ],
+            110 => [
                 'id' => 611,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37400,
@@ -6744,9 +6133,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            111 =>
-            array (
+            ],
+            111 => [
                 'id' => 612,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37401,
@@ -6755,9 +6143,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            112 =>
-            array (
+            ],
+            112 => [
                 'id' => 613,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37402,
@@ -6766,9 +6153,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            113 =>
-            array (
+            ],
+            113 => [
                 'id' => 614,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37403,
@@ -6777,9 +6163,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            114 =>
-            array (
+            ],
+            114 => [
                 'id' => 615,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37500,
@@ -6788,9 +6173,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            115 =>
-            array (
+            ],
+            115 => [
                 'id' => 616,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37501,
@@ -6799,9 +6183,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            116 =>
-            array (
+            ],
+            116 => [
                 'id' => 617,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37600,
@@ -6810,9 +6193,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            117 =>
-            array (
+            ],
+            117 => [
                 'id' => 618,
                 'plugin_unikey' => 'Fresns',
                 'code' => 37601,
@@ -6821,9 +6203,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            118 =>
-            array (
+            ],
+            118 => [
                 'id' => 619,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38100,
@@ -6832,9 +6213,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            119 =>
-            array (
+            ],
+            119 => [
                 'id' => 620,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38101,
@@ -6843,9 +6223,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            120 =>
-            array (
+            ],
+            120 => [
                 'id' => 621,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38102,
@@ -6854,9 +6233,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            121 =>
-            array (
+            ],
+            121 => [
                 'id' => 622,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38103,
@@ -6865,9 +6243,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            122 =>
-            array (
+            ],
+            122 => [
                 'id' => 623,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38104,
@@ -6876,9 +6253,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            123 =>
-            array (
+            ],
+            123 => [
                 'id' => 624,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38105,
@@ -6887,9 +6263,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            124 =>
-            array (
+            ],
+            124 => [
                 'id' => 625,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38106,
@@ -6898,9 +6273,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            125 =>
-            array (
+            ],
+            125 => [
                 'id' => 626,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38107,
@@ -6909,9 +6283,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            126 =>
-            array (
+            ],
+            126 => [
                 'id' => 627,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38108,
@@ -6920,9 +6293,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            127 =>
-            array (
+            ],
+            127 => [
                 'id' => 628,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38200,
@@ -6931,9 +6303,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            128 =>
-            array (
+            ],
+            128 => [
                 'id' => 629,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38201,
@@ -6942,9 +6313,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            129 =>
-            array (
+            ],
+            129 => [
                 'id' => 630,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38202,
@@ -6953,9 +6323,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            130 =>
-            array (
+            ],
+            130 => [
                 'id' => 631,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38203,
@@ -6964,9 +6333,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            131 =>
-            array (
+            ],
+            131 => [
                 'id' => 632,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38204,
@@ -6975,9 +6343,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            132 =>
-            array (
+            ],
+            132 => [
                 'id' => 633,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38205,
@@ -6986,9 +6353,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            133 =>
-            array (
+            ],
+            133 => [
                 'id' => 634,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38206,
@@ -6997,9 +6363,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            134 =>
-            array (
+            ],
+            134 => [
                 'id' => 635,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38207,
@@ -7008,9 +6373,8 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            135 =>
-            array (
+            ],
+            135 => [
                 'id' => 636,
                 'plugin_unikey' => 'Fresns',
                 'code' => 38208,
@@ -7019,9 +6383,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-        ));
-
-
+            ],
+        ]);
     }
 }
