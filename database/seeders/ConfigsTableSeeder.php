@@ -21,9 +21,8 @@ class ConfigsTableSeeder extends Seeder
     {
         \DB::table('configs')->delete();
 
-        \DB::table('configs')->insert(array (
-            0 =>
-            array (
+        \DB::table('configs')->insert([
+            0 => [
                 'id' => 1,
                 'item_key' => 'platforms',
                 'item_value' => '[{"id":"1","name":"Other"},{"id":"2","name":"PC Web"},{"id":"3","name":"Mobile Web"},{"id":"4","name":"Responsive Web"},{"id":"5","name":"iOS App"},{"id":"6","name":"Android App"},{"id":"7","name":"WeChat Web"},{"id":"8","name":"WeChat MiniProgram"},{"id":"9","name":"QQ MiniProgram"},{"id":"10","name":"Alipay MiniApp"},{"id":"11","name":"ByteDance MicroApp"},{"id":"12","name":"Quick App"},{"id":"13","name":"Baidu SmartProgram"}]',
@@ -35,12 +34,11 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            1 =>
-            array (
+            ],
+            1 => [
                 'id' => 2,
                 'item_key' => 'connects',
-            'item_value' => '[{"id":"1","name":"Other"},{"id":"2","name":"GitHub"},{"id":"3","name":"Google"},{"id":"4","name":"Facebook"},{"id":"5","name":"Twitter"},{"id":"6","name":"Apple"},{"id":"7","name":"Gitee"},{"id":"8","name":"WeChat Open Platform (UnionID)"},{"id":"9","name":"WeChat Official Accounts Platform"},{"id":"10","name":"WeChat Mini Program"},{"id":"11","name":"WeChat Mobile Application"},{"id":"12","name":"WeChat Website Application"},{"id":"13","name":"Tencent QQ"},{"id":"14","name":"Weibo"},{"id":"15","name":"Alipay"},{"id":"16","name":"ByteDance MicroApp"},{"id":"17","name":"Baidu SmartProgram"}]',
+                'item_value' => '[{"id":"1","name":"Other"},{"id":"2","name":"GitHub"},{"id":"3","name":"Google"},{"id":"4","name":"Facebook"},{"id":"5","name":"Twitter"},{"id":"6","name":"Apple"},{"id":"7","name":"Gitee"},{"id":"8","name":"WeChat Open Platform (UnionID)"},{"id":"9","name":"WeChat Official Accounts Platform"},{"id":"10","name":"WeChat Mini Program"},{"id":"11","name":"WeChat Mobile Application"},{"id":"12","name":"WeChat Website Application"},{"id":"13","name":"Tencent QQ"},{"id":"14","name":"Weibo"},{"id":"15","name":"Alipay"},{"id":"16","name":"ByteDance MicroApp"},{"id":"17","name":"Baidu SmartProgram"}]',
                 'item_type' => 'array',
                 'item_tag' => 'commons',
                 'is_multilingual' => 0,
@@ -49,9 +47,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            2 =>
-            array (
+            ],
+            2 => [
                 'id' => 3,
                 'item_key' => 'storages',
                 'item_value' => '[{"id":"1","name":"Unknown"},{"id":"2","name":"Local"},{"id":"3","name":"WebDAV"},{"id":"4","name":"Amazon S3"},{"id":"5","name":"Backblaze B2"},{"id":"6","name":"Dropbox"},{"id":"7","name":"Microsoft OneDrive"},{"id":"8","name":"Microsoft Azure File Storage Service"},{"id":"9","name":"Microsoft Azure Blob Storage Service"},{"id":"10","name":"Google Cloud Storage"},{"id":"11","name":"Google Drive"},{"id":"12","name":"OpenStack Swift"},{"id":"13","name":"Box"},{"id":"14","name":"DigitalOcean Object Storage"},{"id":"15","name":"Linode Object Storage"},{"id":"16","name":"Vultr Object Storage"},{"id":"17","name":"七牛云 Kodo"},{"id":"18","name":"又拍云 USS"},{"id":"19","name":"阿里云 OSS"},{"id":"20","name":"腾讯云 COS"},{"id":"21","name":"火山引擎 TOS"},{"id":"22","name":"网易蜂巢 NOS"},{"id":"23","name":"UCloud UFile"},{"id":"24","name":"华为云 OBS"},{"id":"25","name":"金山云 KS3"},{"id":"26","name":"华云数据 COS"},{"id":"27","name":"天翼云 CT-OOS"},{"id":"28","name":"保利威 Polyv"}]',
@@ -63,9 +60,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            3 =>
-            array (
+            ],
+            3 => [
                 'id' => 4,
                 'item_key' => 'maps',
                 'item_value' => '[{"id":"1","name":"Unknown"},{"id":"2","name":"Google"},{"id":"3","name":"Apple"},{"id":"4","name":"Amap"},{"id":"5","name":"Tencent"},{"id":"6","name":"Baidu"},{"id":"7","name":"Bing"},{"id":"8","name":"Mapbox"},{"id":"9","name":"Here"},{"id":"10","name":"OpenStreetMap"}]',
@@ -77,9 +73,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            4 =>
-            array (
+            ],
+            4 => [
                 'id' => 5,
                 'item_key' => 'continents',
                 'item_value' => '[{"id":"1","name":"Asia"},{"id":"2","name":"Africa"},{"id":"3","name":"North America"},{"id":"4","name":"South America"},{"id":"5","name":"Antarctica"},{"id":"6","name":"Europe"},{"id":"7","name":"Oceania"}]',
@@ -91,12 +86,11 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            5 =>
-            array (
+            ],
+            5 => [
                 'id' => 6,
                 'item_key' => 'area_codes',
-            'item_value' => '[{"name":"Afghanistan","code":"AF","continentId":"1","callingCode":93,"localName":"افغانستان‎"},{"name":"Albania","code":"AL","continentId":"6","callingCode":355,"localName":"Shqipërisë"},{"name":"Algeria","code":"DZ","continentId":"2","callingCode":213,"localName":"الدزاير‎‎ al-dzāyīr"},{"name":"American Samoa","code":"AS","continentId":"7","callingCode":1,"localName":"Amerika Sāmoa"},{"name":"Andorra","code":"AD","continentId":"6","callingCode":376,"localName":"Principat d\'Andorra"},{"name":"Angola","code":"AO","continentId":"2","callingCode":244,"localName":"Angola"},{"name":"Antarctica","code":"AQ","continentId":"5","callingCode":null,"localName":"Antarctica"},{"name":"Antigua and Barbuda","code":"AG","continentId":"3","callingCode":1,"localName":"Antigua and Barbuda"},{"name":"Argentina","code":"AR","continentId":"4","callingCode":54,"localName":"Argentina"},{"name":"Armenia","code":"AM","continentId":"1","callingCode":374,"localName":"Հայաստանի Հանրապետություն"},{"name":"Aruba","code":"AW","continentId":"3","callingCode":297,"localName":"Aruba"},{"name":"Australia","code":"AU","continentId":"7","callingCode":61,"localName":"Australia"},{"name":"Austria","code":"AT","continentId":"6","callingCode":43,"localName":"Österreich"},{"name":"Azerbaijan","code":"AZ","continentId":"1","callingCode":994,"localName":"Azərbaycan"},{"name":"Bahamas","code":"BS","continentId":"3","callingCode":1,"localName":"Bahamas"},{"name":"Bahrain","code":"BH","continentId":"1","callingCode":973,"localName":"مملكة البحرين"},{"name":"Bangladesh","code":"BD","continentId":"1","callingCode":880,"localName":"গণপ্রজাতন্ত্রী বাংলাদেশ"},{"name":"Barbados","code":"BB","continentId":"3","callingCode":1,"localName":"Barbados"},{"name":"Belarus","code":"BY","continentId":"6","callingCode":375,"localName":"Беларусь"},{"name":"Belgium","code":"BE","continentId":"6","callingCode":32,"localName":"België"},{"name":"Belize","code":"BZ","continentId":"3","callingCode":501,"localName":"Belize"},{"name":"Benin","code":"BJ","continentId":"2","callingCode":229,"localName":"Bénin"},{"name":"Bermuda","code":"BM","continentId":"3","callingCode":1,"localName":"Bermuda"},{"name":"Bhutan","code":"BT","continentId":"1","callingCode":975,"localName":"འབྲུག་ཡུལ་"},{"name":"Bolivia","code":"BO","continentId":"4","callingCode":591,"localName":"Bolivia"},{"name":"Bosnia and Herzegovina","code":"BA","continentId":"6","callingCode":387,"localName":"Босна и Херцеговина"},{"name":"Botswana","code":"BW","continentId":"2","callingCode":267,"localName":"Botswana"},{"name":"Bouvet Island","code":"BV","continentId":"5","callingCode":47,"localName":"Bouvetøya"},{"name":"Brazil","code":"BR","continentId":"4","callingCode":55,"localName":"Brasil"},{"name":"British Indian Ocean Territory","code":"IO","continentId":"1","callingCode":246,"localName":"British Indian Ocean Territory"},{"name":"Brunei Darussalam","code":"BN","continentId":"1","callingCode":673,"localName":"نڬارا بروني دارالسلام"},{"name":"Bulgaria","code":"BG","continentId":"6","callingCode":359,"localName":"България"},{"name":"Burkina Faso","code":"BF","continentId":"2","callingCode":226,"localName":"Burkina Faso"},{"name":"Burundi","code":"BI","continentId":"2","callingCode":257,"localName":"y\'Uburundi"},{"name":"Cambodia","code":"KH","continentId":"1","callingCode":855,"localName":"ព្រះរាជាណាចក្រកម្ពុជា"},{"name":"Cameroon","code":"CM","continentId":"2","callingCode":237,"localName":"Cameroun"},{"name":"Canada","code":"CA","continentId":"3","callingCode":1,"localName":"Canada"},{"name":"Cape Verde","code":"CV","continentId":"2","callingCode":238,"localName":"Cabo Verde"},{"name":"Cayman Islands","code":"KY","continentId":"3","callingCode":1,"localName":"Cayman Islands"},{"name":"Central African Republic","code":"CF","continentId":"2","callingCode":236,"localName":"Centrafricaine"},{"name":"Chad","code":"TD","continentId":"2","callingCode":235,"localName":"تشاد‎"},{"name":"Chile","code":"CL","continentId":"4","callingCode":56,"localName":"Chile"},{"name":"China","code":"CN","continentId":"1","callingCode":86,"localName":"内地"},{"name":"Christmas Island","code":"CX","continentId":"1","callingCode":61,"localName":"Christmas Island"},{"name":"Cocos (keeling) Islands","code":"CC","continentId":"1","callingCode":61,"localName":"Cocos (Keeling) Islands"},{"name":"Colombia","code":"CO","continentId":"4","callingCode":57,"localName":"Colombia"},{"name":"Comoros","code":"KM","continentId":"2","callingCode":269,"localName":"جزر القمر‎"},{"name":"Congo","code":"CG","continentId":"2","callingCode":242,"localName":"Congo"},{"name":"Congo, The Democratic Republic of The","code":"CD","continentId":"2","callingCode":243,"localName":"DR Congo"},{"name":"Cook Islands","code":"CK","continentId":"7","callingCode":682,"localName":"Kūki \'Āirani"},{"name":"Costa Rica","code":"CR","continentId":"3","callingCode":506,"localName":"Costa Rica"},{"name":"Cote d\'Ivoire","code":"CI","continentId":"2","callingCode":225,"localName":"CÔte d\'ivoire"},{"name":"Croatia","code":"HR","continentId":"6","callingCode":385,"localName":"Hrvatska"},{"name":"Cuba","code":"CU","continentId":"3","callingCode":53,"localName":"Cuba"},{"name":"Cyprus","code":"CY","continentId":"6","callingCode":357,"localName":"Κύπρος"},{"name":"Czech Republic","code":"CZ","continentId":"6","callingCode":420,"localName":"Česko"},{"name":"Denmark","code":"DK","continentId":"6","callingCode":45,"localName":"Danmark"},{"name":"Djibouti","code":"DJ","continentId":"2","callingCode":253,"localName":"جمهوريه جيبوتي‎"},{"name":"Dominica","code":"DM","continentId":"3","callingCode":1,"localName":"Dominica"},{"name":"Dominican Republic","code":"DO","continentId":"3","callingCode":1,"localName":"Dominicana"},{"name":"Ecuador","code":"EC","continentId":"4","callingCode":593,"localName":"Ecuador"},{"name":"Egypt","code":"EG","continentId":"2","callingCode":20,"localName":"جمهوريّة مصرالعربيّة‎"},{"name":"El Salvador","code":"SV","continentId":"2","callingCode":503,"localName":"El Salvador"},{"name":"Equatorial Guinea","code":"GQ","continentId":"2","callingCode":240,"localName":"Guinée équatoriale"},{"name":"Eritrea","code":"ER","continentId":"2","callingCode":291,"localName":"دولة إرتريا‎"},{"name":"Estonia","code":"EE","continentId":"6","callingCode":372,"localName":"Eesti"},{"name":"Ethiopia","code":"ET","continentId":"2","callingCode":251,"localName":"ኢትዮጵያ"},{"name":"Falkland Islands (malvinas)","code":"FK","continentId":"4","callingCode":500,"localName":"Falkland Islands"},{"name":"Faroe Islands","code":"FO","continentId":"6","callingCode":298,"localName":"Føroyar"},{"name":"Fiji","code":"FJ","continentId":"7","callingCode":679,"localName":"Matanitu Tugalala o Viti"},{"name":"Finland","code":"FI","continentId":"6","callingCode":358,"localName":"Suomen tasavalta"},{"name":"France","code":"FR","continentId":"6","callingCode":33,"localName":"française"},{"name":"French Guiana","code":"GF","continentId":"4","callingCode":594,"localName":"Guyane française"},{"name":"French Polynesia","code":"PF","continentId":"7","callingCode":689,"localName":"Polynésie française"},{"name":"French Southern Territories","code":"TF","continentId":"5","callingCode":262,"localName":"Terres australes et antarctiques françaises"},{"name":"Gabon","code":"GA","continentId":"2","callingCode":241,"localName":"gabonaise"},{"name":"Gambia","code":"GM","continentId":"2","callingCode":220,"localName":"The Gambia"},{"name":"Georgia","code":"GE","continentId":"6","callingCode":995,"localName":"საქართველო"},{"name":"Germany","code":"DE","continentId":"6","callingCode":49,"localName":"Deutschland"},{"name":"Ghana","code":"GH","continentId":"2","callingCode":233,"localName":"Ghana"},{"name":"Gibraltar","code":"GI","continentId":"6","callingCode":350,"localName":"Gibraltar"},{"name":"Greece","code":"GR","continentId":"6","callingCode":30,"localName":"Ελλάς"},{"name":"Greenland","code":"GL","continentId":"3","callingCode":299,"localName":"Kalaallit Nunaat"},{"name":"Grenada","code":"GD","continentId":"3","callingCode":1,"localName":"Grenada"},{"name":"Guadeloupe","code":"GP","continentId":"3","callingCode":590,"localName":"Guadeloupe"},{"name":"Guam","code":"GU","continentId":"7","callingCode":1,"localName":"Guåhån"},{"name":"Guatemala","code":"GT","continentId":"3","callingCode":502,"localName":"Guatemala"},{"name":"Guinea","code":"GN","continentId":"2","callingCode":224,"localName":"Guinée"},{"name":"Guinea-bissau","code":"GW","continentId":"2","callingCode":245,"localName":"Guiné-Bissau"},{"name":"Guyana","code":"GY","continentId":"4","callingCode":592,"localName":"Guyana"},{"name":"Haiti","code":"HT","continentId":"3","callingCode":509,"localName":"Haïti"},{"name":"Heard Island and Mcdonald Islands","code":"HM","continentId":"7","callingCode":672,"localName":"HIMI"},{"name":"Honduras","code":"HN","continentId":"3","callingCode":504,"localName":"Honduras"},{"name":"Hong Kong","code":"HK","continentId":"1","callingCode":852,"localName":"香港"},{"name":"Hungary","code":"HU","continentId":"6","callingCode":36,"localName":"Magyarország"},{"name":"Iceland","code":"IS","continentId":"6","callingCode":354,"localName":"Ísland"},{"name":"India","code":"IN","continentId":"1","callingCode":91,"localName":"भारत"},{"name":"Indonesia","code":"ID","continentId":"1","callingCode":62,"localName":"Indonesia"},{"name":"Iran","code":"IR","continentId":"1","callingCode":98,"localName":"ایران‎"},{"name":"Iraq","code":"IQ","continentId":"1","callingCode":964,"localName":"العراق‎"},{"name":"Ireland","code":"IE","continentId":"6","callingCode":353,"localName":"Éire"},{"name":"Israel","code":"IL","continentId":"1","callingCode":972,"localName":"יִשְׂרָאֵל‬"},{"name":"Italy","code":"IT","continentId":"6","callingCode":39,"localName":"Italia"},{"name":"Jamaica","code":"JM","continentId":"3","callingCode":1,"localName":"Jamaica"},{"name":"Japan","code":"JP","continentId":"1","callingCode":81,"localName":"日本"},{"name":"Jordan","code":"JO","continentId":"1","callingCode":962,"localName":"الأردنّ‎"},{"name":"Kazakhstan","code":"KZ","continentId":"1","callingCode":7,"localName":"Қазақстан"},{"name":"Kenya","code":"KE","continentId":"2","callingCode":254,"localName":"Kenya"},{"name":"Kiribati","code":"KI","continentId":"7","callingCode":686,"localName":"Kiribati"},{"name":"Korea, Democratic People\'s Republic Of","code":"KP","continentId":"1","callingCode":850,"localName":"북한"},{"name":"Korea, Republic Of","code":"KR","continentId":"1","callingCode":82,"localName":"대한민국"},{"name":"Kuwait","code":"KW","continentId":"1","callingCode":965,"localName":"الكويت‎"},{"name":"Kyrgyzstan","code":"KG","continentId":"1","callingCode":996,"localName":"Кыргызстан"},{"name":"Laos","code":"LA","continentId":"1","callingCode":856,"localName":"ລາວ Lāo"},{"name":"Latvia","code":"LV","continentId":"6","callingCode":371,"localName":"Latvija"},{"name":"Lebanon","code":"LB","continentId":"1","callingCode":961,"localName":"لبنان‎"},{"name":"Lesotho","code":"LS","continentId":"2","callingCode":266,"localName":"Lesotho"},{"name":"Liberia","code":"LR","continentId":"2","callingCode":231,"localName":"Liberia"},{"name":"Libya, State Of","code":"LY","continentId":"2","callingCode":218,"localName":"دولة ليبيا‎"},{"name":"Liechtenstein","code":"LI","continentId":"6","callingCode":423,"localName":"Fürstentum Liechtenstein"},{"name":"Lithuania","code":"LT","continentId":"6","callingCode":370,"localName":"Lietuva"},{"name":"Luxembourg","code":"LU","continentId":"6","callingCode":352,"localName":"Lëtzebuerg"},{"name":"Macao","code":"MO","continentId":"1","callingCode":853,"localName":"澳門"},{"name":"Macedonia","code":"MK","continentId":"6","callingCode":389,"localName":"Северна Македонија"},{"name":"Madagascar","code":"MG","continentId":"2","callingCode":261,"localName":"Madagasikara"},{"name":"Malawi","code":"MW","continentId":"2","callingCode":265,"localName":"Malaŵi"},{"name":"Malaysia","code":"MY","continentId":"1","callingCode":60,"localName":"Malaysia"},{"name":"Maldives","code":"MV","continentId":"1","callingCode":960,"localName":"ދިވެހިރާއްޖެ‎"},{"name":"Mali","code":"ML","continentId":"2","callingCode":223,"localName":"Mali"},{"name":"Malta","code":"MT","continentId":"6","callingCode":356,"localName":"Malta"},{"name":"Marshall Islands","code":"MH","continentId":"7","callingCode":692,"localName":"Aolepān Aorōkin M̧ajeļ"},{"name":"Martinique","code":"MQ","continentId":"3","callingCode":596,"localName":"Martinique"},{"name":"Mauritania","code":"MR","continentId":"2","callingCode":222,"localName":"موريتانيا‎"},{"name":"Mauritius","code":"MU","continentId":"2","callingCode":230,"localName":"Moris"},{"name":"Mayotte","code":"YT","continentId":"2","callingCode":262,"localName":"Maore"},{"name":"Mexico","code":"MX","continentId":"3","callingCode":52,"localName":"México"},{"name":"Micronesia","code":"FM","continentId":"7","callingCode":691,"localName":"Micronesia"},{"name":"Moldova","code":"MD","continentId":"6","callingCode":373,"localName":"Moldova"},{"name":"Monaco","code":"MC","continentId":"6","callingCode":377,"localName":"Principatu de Múnegu"},{"name":"Mongolia","code":"MN","continentId":"1","callingCode":976,"localName":"Монгол улс"},{"name":"Montenegro","code":"ME","continentId":"6","callingCode":382,"localName":"Црна Гора"},{"name":"Montserrat","code":"MS","continentId":"3","callingCode":1,"localName":"Montserrat"},{"name":"Morocco","code":"MA","continentId":"2","callingCode":212,"localName":"المغرب‎"},{"name":"Mozambique","code":"MZ","continentId":"2","callingCode":258,"localName":"Moçambique"},{"name":"Myanmar","code":"MM","continentId":"1","callingCode":95,"localName":"မြန်မာ"},{"name":"Namibia","code":"NA","continentId":"2","callingCode":264,"localName":"Namibië"},{"name":"Nauru","code":"NR","continentId":"7","callingCode":674,"localName":"Naoero"},{"name":"Nepal","code":"NP","continentId":"1","callingCode":977,"localName":"नेपाल"},{"name":"Netherlands","code":"NL","continentId":"6","callingCode":31,"localName":"Nederland"},{"name":"Netherlands Antilles","code":"AN","continentId":"4","callingCode":599,"localName":"Antias Hulandes"},{"name":"New Caledonia","code":"NC","continentId":"7","callingCode":687,"localName":"Nouvelle-Calédonie"},{"name":"New Zealand","code":"NZ","continentId":"7","callingCode":64,"localName":"New Zealand"},{"name":"Nicaragua","code":"NI","continentId":"3","callingCode":505,"localName":"Nicaragua"},{"name":"Niger","code":"NE","continentId":"2","callingCode":227,"localName":"Niger"},{"name":"Nigeria","code":"NG","continentId":"2","callingCode":234,"localName":"Nigeria"},{"name":"Niue","code":"NU","continentId":"7","callingCode":683,"localName":"Niuē"},{"name":"Norfolk Island","code":"NF","continentId":"7","callingCode":672,"localName":"Teratri of Norf\'k Ailen"},{"name":"Northern Mariana Islands","code":"MP","continentId":"7","callingCode":1,"localName":"Sankattan Siha Na Islas Mariånas"},{"name":"Norway","code":"NO","continentId":"6","callingCode":47,"localName":"Norge"},{"name":"Oman","code":"OM","continentId":"1","callingCode":968,"localName":"عُمان‎"},{"name":"Pakistan","code":"PK","continentId":"1","callingCode":92,"localName":"اسلامی جمہوریہ پاکستان"},{"name":"Palau","code":"PW","continentId":"7","callingCode":680,"localName":"Belau"},{"name":"Palestine, State Of","code":"PS","continentId":"1","callingCode":970,"localName":"دولة فلسطين"},{"name":"Panama","code":"PA","continentId":"3","callingCode":507,"localName":"Panamá"},{"name":"Papua New Guinea","code":"PG","continentId":"7","callingCode":675,"localName":"Papua Niugini"},{"name":"Paraguay","code":"PY","continentId":"4","callingCode":595,"localName":"Tetã Paraguái"},{"name":"Peru","code":"PE","continentId":"4","callingCode":51,"localName":"Perú"},{"name":"Philippines","code":"PH","continentId":"1","callingCode":63,"localName":"Pilipinas"},{"name":"Pitcairn","code":"PN","continentId":"7","callingCode":64,"localName":"Pitkern Ailen"},{"name":"Poland","code":"PL","continentId":"6","callingCode":48,"localName":"Polska"},{"name":"Portugal","code":"PT","continentId":"6","callingCode":351,"localName":"Portuguesa"},{"name":"Puerto Rico","code":"PR","continentId":"3","callingCode":1,"localName":"Puerto Rico"},{"name":"Qatar","code":"QA","continentId":"1","callingCode":974,"localName":"قطر‎"},{"name":"Reunion","code":"RE","continentId":"2","callingCode":262,"localName":"La Réunion"},{"name":"Romania","code":"RO","continentId":"6","callingCode":40,"localName":"România"},{"name":"Russian Federation","code":"RU","continentId":"1","callingCode":7,"localName":"Россия"},{"name":"Rwanda","code":"RW","continentId":"2","callingCode":250,"localName":"Rwanda"},{"name":"Saint Helena","code":"SH","continentId":"2","callingCode":290,"localName":"Saint Helena"},{"name":"Saint Kitts and Nevis","code":"KN","continentId":"3","callingCode":1,"localName":"Saint Kitts and Nevis"},{"name":"Saint Lucia","code":"LC","continentId":"3","callingCode":1,"localName":"Saint Lucia"},{"name":"Saint Pierre and Miquelon","code":"PM","continentId":"3","callingCode":508,"localName":"Saint-Pierre-et-Miquelon"},{"name":"Saint Vincent and The Grenadines","code":"VC","continentId":"3","callingCode":1,"localName":"Saint Vincent and the Grenadines"},{"name":"Samoa","code":"WS","continentId":"7","callingCode":685,"localName":"Malo Sa\'oloto Tuto\'atasi o Samoa"},{"name":"San Marino","code":"SM","continentId":"6","callingCode":378,"localName":"San Marino"},{"name":"Sao Tome and Principe","code":"ST","continentId":"2","callingCode":239,"localName":"São Tomé e Príncipe"},{"name":"Saudi Arabia","code":"SA","continentId":"1","callingCode":966,"localName":"العربية السعودية‎"},{"name":"Senegal","code":"SN","continentId":"2","callingCode":221,"localName":"Sénégal"},{"name":"Serbia","code":"RS","continentId":"6","callingCode":381,"localName":"Србија"},{"name":"Seychelles","code":"SC","continentId":"2","callingCode":248,"localName":"Repiblik Sesel"},{"name":"Sierra Leone","code":"SL","continentId":"2","callingCode":232,"localName":"Sierra Leone"},{"name":"Singapore","code":"SG","continentId":"1","callingCode":65,"localName":"新加坡"},{"name":"Slovakia","code":"SK","continentId":"6","callingCode":421,"localName":"Slovenská"},{"name":"Slovenia","code":"SI","continentId":"6","callingCode":386,"localName":"Slovenija"},{"name":"Solomon Islands","code":"SB","continentId":"7","callingCode":677,"localName":"Solomon Islands"},{"name":"Somalia","code":"SO","continentId":"2","callingCode":252,"localName":"الصومال"},{"name":"South Africa","code":"ZA","continentId":"2","callingCode":27,"localName":"Suid-Afrika"},{"name":"South Georgia and The South Sandwich Islands","code":"GS","continentId":"7","callingCode":500,"localName":"SGSSI"},{"name":"South Sudan","code":"SS","continentId":"2","callingCode":211,"localName":"South Sudan"},{"name":"Spain","code":"ES","continentId":"6","callingCode":34,"localName":"España"},{"name":"Sri Lanka","code":"LK","continentId":"1","callingCode":94,"localName":"ශ්‍රී ලංකාව"},{"name":"Sudan","code":"SD","continentId":"2","callingCode":249,"localName":"جمهورية السودان‎"},{"name":"Suriname","code":"SR","continentId":"4","callingCode":597,"localName":"Suriname"},{"name":"Svalbard and Jan Mayen","code":"SJ","continentId":"6","callingCode":47,"localName":"Svalbard og Jan Mayen"},{"name":"Swaziland","code":"SZ","continentId":"2","callingCode":268,"localName":"eSwatini"},{"name":"Sweden","code":"SE","continentId":"6","callingCode":46,"localName":"Sverige"},{"name":"Switzerland","code":"CH","continentId":"6","callingCode":41,"localName":"Schweiz"},{"name":"Syrian Arab","code":"SY","continentId":"1","callingCode":963,"localName":"‎سوريا‎‎"},{"name":"Taiwan","code":"TW","continentId":"1","callingCode":886,"localName":"台灣"},{"name":"Tajikistan","code":"TJ","continentId":"1","callingCode":992,"localName":"Ҷумҳурии Тоҷикистон"},{"name":"Tanzania","code":"TZ","continentId":"2","callingCode":255,"localName":"Jamhuri ya Muungano wa Tanzania"},{"name":"Thailand","code":"TH","continentId":"1","callingCode":66,"localName":"ประเทศไทย"},{"name":"Timor-leste","code":"TL","continentId":"1","callingCode":670,"localName":"Timor Lorosa\'e"},{"name":"Togo","code":"TG","continentId":"2","callingCode":228,"localName":"Togo"},{"name":"Tokelau","code":"TK","continentId":"7","callingCode":690,"localName":"Tokelau"},{"name":"Tonga","code":"TO","continentId":"7","callingCode":676,"localName":"Pule\'anga Fakatu\'i \'o Tonga"},{"name":"Trinidad and Tobago","code":"TT","continentId":"3","callingCode":1,"localName":"Trinidad and Tobago"},{"name":"Tunisia","code":"TN","continentId":"2","callingCode":216,"localName":"الجمهورية التونسية‎"},{"name":"Turkey","code":"TR","continentId":"6","callingCode":90,"localName":"Türkiye"},{"name":"Turkmenistan","code":"TM","continentId":"1","callingCode":993,"localName":"Türkmenistan"},{"name":"Turks and Caicos Islands","code":"TC","continentId":"3","callingCode":1,"localName":"Turks and Caicos Islands"},{"name":"Tuvalu","code":"TV","continentId":"7","callingCode":688,"localName":"Tuvalu"},{"name":"Uganda","code":"UG","continentId":"2","callingCode":256,"localName":"Uganda"},{"name":"Ukraine","code":"UA","continentId":"6","callingCode":380,"localName":"Україна"},{"name":"United Arab Emirates","code":"AE","continentId":"1","callingCode":971,"localName":"الإمارات‎"},{"name":"United Kingdom","code":"GB","continentId":"6","callingCode":44,"localName":"United Kingdom"},{"name":"United States","code":"US","continentId":"3","callingCode":1,"localName":"United States"},{"name":"United States Minor Outlying Islands","code":"UM","continentId":"3","callingCode":1,"localName":"United States Minor Outlying Islands"},{"name":"Uruguay","code":"UY","continentId":"4","callingCode":598,"localName":"Uruguay"},{"name":"Uzbekistan","code":"UZ","continentId":"1","callingCode":998,"localName":"O\'zbekiston"},{"name":"Vanuatu","code":"VU","continentId":"7","callingCode":678,"localName":"Vanuatu"},{"name":"Venezuela","code":"VE","continentId":"4","callingCode":58,"localName":"Venezuela"},{"name":"Viet Nam","code":"VN","continentId":"1","callingCode":84,"localName":"Việt Nam"},{"name":"Virgin Islands, British","code":"VG","continentId":"3","callingCode":1,"localName":"British Virgin Islands"},{"name":"Virgin Islands, U.S.","code":"VI","continentId":"3","callingCode":1,"localName":"United States Virgin Islands"},{"name":"Wallis and Futuna","code":"WF","continentId":"7","callingCode":681,"localName":"Wallis et Futuna"},{"name":"Western Sahara","code":"EH","continentId":"2","callingCode":212,"localName":"الصحراء الغربية‎"},{"name":"Yemen","code":"YE","continentId":"1","callingCode":967,"localName":"اليمن‎"},{"name":"Zambia","code":"ZM","continentId":"2","callingCode":260,"localName":"Zambia"},{"name":"Zimbabwe","code":"ZW","continentId":"2","callingCode":263,"localName":"Zimbabwe"}]',
+                'item_value' => '[{"name":"Afghanistan","code":"AF","continentId":"1","callingCode":93,"localName":"افغانستان‎"},{"name":"Albania","code":"AL","continentId":"6","callingCode":355,"localName":"Shqipërisë"},{"name":"Algeria","code":"DZ","continentId":"2","callingCode":213,"localName":"الدزاير‎‎ al-dzāyīr"},{"name":"American Samoa","code":"AS","continentId":"7","callingCode":1,"localName":"Amerika Sāmoa"},{"name":"Andorra","code":"AD","continentId":"6","callingCode":376,"localName":"Principat d\'Andorra"},{"name":"Angola","code":"AO","continentId":"2","callingCode":244,"localName":"Angola"},{"name":"Antarctica","code":"AQ","continentId":"5","callingCode":null,"localName":"Antarctica"},{"name":"Antigua and Barbuda","code":"AG","continentId":"3","callingCode":1,"localName":"Antigua and Barbuda"},{"name":"Argentina","code":"AR","continentId":"4","callingCode":54,"localName":"Argentina"},{"name":"Armenia","code":"AM","continentId":"1","callingCode":374,"localName":"Հայաստանի Հանրապետություն"},{"name":"Aruba","code":"AW","continentId":"3","callingCode":297,"localName":"Aruba"},{"name":"Australia","code":"AU","continentId":"7","callingCode":61,"localName":"Australia"},{"name":"Austria","code":"AT","continentId":"6","callingCode":43,"localName":"Österreich"},{"name":"Azerbaijan","code":"AZ","continentId":"1","callingCode":994,"localName":"Azərbaycan"},{"name":"Bahamas","code":"BS","continentId":"3","callingCode":1,"localName":"Bahamas"},{"name":"Bahrain","code":"BH","continentId":"1","callingCode":973,"localName":"مملكة البحرين"},{"name":"Bangladesh","code":"BD","continentId":"1","callingCode":880,"localName":"গণপ্রজাতন্ত্রী বাংলাদেশ"},{"name":"Barbados","code":"BB","continentId":"3","callingCode":1,"localName":"Barbados"},{"name":"Belarus","code":"BY","continentId":"6","callingCode":375,"localName":"Беларусь"},{"name":"Belgium","code":"BE","continentId":"6","callingCode":32,"localName":"België"},{"name":"Belize","code":"BZ","continentId":"3","callingCode":501,"localName":"Belize"},{"name":"Benin","code":"BJ","continentId":"2","callingCode":229,"localName":"Bénin"},{"name":"Bermuda","code":"BM","continentId":"3","callingCode":1,"localName":"Bermuda"},{"name":"Bhutan","code":"BT","continentId":"1","callingCode":975,"localName":"འབྲུག་ཡུལ་"},{"name":"Bolivia","code":"BO","continentId":"4","callingCode":591,"localName":"Bolivia"},{"name":"Bosnia and Herzegovina","code":"BA","continentId":"6","callingCode":387,"localName":"Босна и Херцеговина"},{"name":"Botswana","code":"BW","continentId":"2","callingCode":267,"localName":"Botswana"},{"name":"Bouvet Island","code":"BV","continentId":"5","callingCode":47,"localName":"Bouvetøya"},{"name":"Brazil","code":"BR","continentId":"4","callingCode":55,"localName":"Brasil"},{"name":"British Indian Ocean Territory","code":"IO","continentId":"1","callingCode":246,"localName":"British Indian Ocean Territory"},{"name":"Brunei Darussalam","code":"BN","continentId":"1","callingCode":673,"localName":"نڬارا بروني دارالسلام"},{"name":"Bulgaria","code":"BG","continentId":"6","callingCode":359,"localName":"България"},{"name":"Burkina Faso","code":"BF","continentId":"2","callingCode":226,"localName":"Burkina Faso"},{"name":"Burundi","code":"BI","continentId":"2","callingCode":257,"localName":"y\'Uburundi"},{"name":"Cambodia","code":"KH","continentId":"1","callingCode":855,"localName":"ព្រះរាជាណាចក្រកម្ពុជា"},{"name":"Cameroon","code":"CM","continentId":"2","callingCode":237,"localName":"Cameroun"},{"name":"Canada","code":"CA","continentId":"3","callingCode":1,"localName":"Canada"},{"name":"Cape Verde","code":"CV","continentId":"2","callingCode":238,"localName":"Cabo Verde"},{"name":"Cayman Islands","code":"KY","continentId":"3","callingCode":1,"localName":"Cayman Islands"},{"name":"Central African Republic","code":"CF","continentId":"2","callingCode":236,"localName":"Centrafricaine"},{"name":"Chad","code":"TD","continentId":"2","callingCode":235,"localName":"تشاد‎"},{"name":"Chile","code":"CL","continentId":"4","callingCode":56,"localName":"Chile"},{"name":"China","code":"CN","continentId":"1","callingCode":86,"localName":"内地"},{"name":"Christmas Island","code":"CX","continentId":"1","callingCode":61,"localName":"Christmas Island"},{"name":"Cocos (keeling) Islands","code":"CC","continentId":"1","callingCode":61,"localName":"Cocos (Keeling) Islands"},{"name":"Colombia","code":"CO","continentId":"4","callingCode":57,"localName":"Colombia"},{"name":"Comoros","code":"KM","continentId":"2","callingCode":269,"localName":"جزر القمر‎"},{"name":"Congo","code":"CG","continentId":"2","callingCode":242,"localName":"Congo"},{"name":"Congo, The Democratic Republic of The","code":"CD","continentId":"2","callingCode":243,"localName":"DR Congo"},{"name":"Cook Islands","code":"CK","continentId":"7","callingCode":682,"localName":"Kūki \'Āirani"},{"name":"Costa Rica","code":"CR","continentId":"3","callingCode":506,"localName":"Costa Rica"},{"name":"Cote d\'Ivoire","code":"CI","continentId":"2","callingCode":225,"localName":"CÔte d\'ivoire"},{"name":"Croatia","code":"HR","continentId":"6","callingCode":385,"localName":"Hrvatska"},{"name":"Cuba","code":"CU","continentId":"3","callingCode":53,"localName":"Cuba"},{"name":"Cyprus","code":"CY","continentId":"6","callingCode":357,"localName":"Κύπρος"},{"name":"Czech Republic","code":"CZ","continentId":"6","callingCode":420,"localName":"Česko"},{"name":"Denmark","code":"DK","continentId":"6","callingCode":45,"localName":"Danmark"},{"name":"Djibouti","code":"DJ","continentId":"2","callingCode":253,"localName":"جمهوريه جيبوتي‎"},{"name":"Dominica","code":"DM","continentId":"3","callingCode":1,"localName":"Dominica"},{"name":"Dominican Republic","code":"DO","continentId":"3","callingCode":1,"localName":"Dominicana"},{"name":"Ecuador","code":"EC","continentId":"4","callingCode":593,"localName":"Ecuador"},{"name":"Egypt","code":"EG","continentId":"2","callingCode":20,"localName":"جمهوريّة مصرالعربيّة‎"},{"name":"El Salvador","code":"SV","continentId":"2","callingCode":503,"localName":"El Salvador"},{"name":"Equatorial Guinea","code":"GQ","continentId":"2","callingCode":240,"localName":"Guinée équatoriale"},{"name":"Eritrea","code":"ER","continentId":"2","callingCode":291,"localName":"دولة إرتريا‎"},{"name":"Estonia","code":"EE","continentId":"6","callingCode":372,"localName":"Eesti"},{"name":"Ethiopia","code":"ET","continentId":"2","callingCode":251,"localName":"ኢትዮጵያ"},{"name":"Falkland Islands (malvinas)","code":"FK","continentId":"4","callingCode":500,"localName":"Falkland Islands"},{"name":"Faroe Islands","code":"FO","continentId":"6","callingCode":298,"localName":"Føroyar"},{"name":"Fiji","code":"FJ","continentId":"7","callingCode":679,"localName":"Matanitu Tugalala o Viti"},{"name":"Finland","code":"FI","continentId":"6","callingCode":358,"localName":"Suomen tasavalta"},{"name":"France","code":"FR","continentId":"6","callingCode":33,"localName":"française"},{"name":"French Guiana","code":"GF","continentId":"4","callingCode":594,"localName":"Guyane française"},{"name":"French Polynesia","code":"PF","continentId":"7","callingCode":689,"localName":"Polynésie française"},{"name":"French Southern Territories","code":"TF","continentId":"5","callingCode":262,"localName":"Terres australes et antarctiques françaises"},{"name":"Gabon","code":"GA","continentId":"2","callingCode":241,"localName":"gabonaise"},{"name":"Gambia","code":"GM","continentId":"2","callingCode":220,"localName":"The Gambia"},{"name":"Georgia","code":"GE","continentId":"6","callingCode":995,"localName":"საქართველო"},{"name":"Germany","code":"DE","continentId":"6","callingCode":49,"localName":"Deutschland"},{"name":"Ghana","code":"GH","continentId":"2","callingCode":233,"localName":"Ghana"},{"name":"Gibraltar","code":"GI","continentId":"6","callingCode":350,"localName":"Gibraltar"},{"name":"Greece","code":"GR","continentId":"6","callingCode":30,"localName":"Ελλάς"},{"name":"Greenland","code":"GL","continentId":"3","callingCode":299,"localName":"Kalaallit Nunaat"},{"name":"Grenada","code":"GD","continentId":"3","callingCode":1,"localName":"Grenada"},{"name":"Guadeloupe","code":"GP","continentId":"3","callingCode":590,"localName":"Guadeloupe"},{"name":"Guam","code":"GU","continentId":"7","callingCode":1,"localName":"Guåhån"},{"name":"Guatemala","code":"GT","continentId":"3","callingCode":502,"localName":"Guatemala"},{"name":"Guinea","code":"GN","continentId":"2","callingCode":224,"localName":"Guinée"},{"name":"Guinea-bissau","code":"GW","continentId":"2","callingCode":245,"localName":"Guiné-Bissau"},{"name":"Guyana","code":"GY","continentId":"4","callingCode":592,"localName":"Guyana"},{"name":"Haiti","code":"HT","continentId":"3","callingCode":509,"localName":"Haïti"},{"name":"Heard Island and Mcdonald Islands","code":"HM","continentId":"7","callingCode":672,"localName":"HIMI"},{"name":"Honduras","code":"HN","continentId":"3","callingCode":504,"localName":"Honduras"},{"name":"Hong Kong","code":"HK","continentId":"1","callingCode":852,"localName":"香港"},{"name":"Hungary","code":"HU","continentId":"6","callingCode":36,"localName":"Magyarország"},{"name":"Iceland","code":"IS","continentId":"6","callingCode":354,"localName":"Ísland"},{"name":"India","code":"IN","continentId":"1","callingCode":91,"localName":"भारत"},{"name":"Indonesia","code":"ID","continentId":"1","callingCode":62,"localName":"Indonesia"},{"name":"Iran","code":"IR","continentId":"1","callingCode":98,"localName":"ایران‎"},{"name":"Iraq","code":"IQ","continentId":"1","callingCode":964,"localName":"العراق‎"},{"name":"Ireland","code":"IE","continentId":"6","callingCode":353,"localName":"Éire"},{"name":"Israel","code":"IL","continentId":"1","callingCode":972,"localName":"יִשְׂרָאֵל‬"},{"name":"Italy","code":"IT","continentId":"6","callingCode":39,"localName":"Italia"},{"name":"Jamaica","code":"JM","continentId":"3","callingCode":1,"localName":"Jamaica"},{"name":"Japan","code":"JP","continentId":"1","callingCode":81,"localName":"日本"},{"name":"Jordan","code":"JO","continentId":"1","callingCode":962,"localName":"الأردنّ‎"},{"name":"Kazakhstan","code":"KZ","continentId":"1","callingCode":7,"localName":"Қазақстан"},{"name":"Kenya","code":"KE","continentId":"2","callingCode":254,"localName":"Kenya"},{"name":"Kiribati","code":"KI","continentId":"7","callingCode":686,"localName":"Kiribati"},{"name":"Korea, Democratic People\'s Republic Of","code":"KP","continentId":"1","callingCode":850,"localName":"북한"},{"name":"Korea, Republic Of","code":"KR","continentId":"1","callingCode":82,"localName":"대한민국"},{"name":"Kuwait","code":"KW","continentId":"1","callingCode":965,"localName":"الكويت‎"},{"name":"Kyrgyzstan","code":"KG","continentId":"1","callingCode":996,"localName":"Кыргызстан"},{"name":"Laos","code":"LA","continentId":"1","callingCode":856,"localName":"ລາວ Lāo"},{"name":"Latvia","code":"LV","continentId":"6","callingCode":371,"localName":"Latvija"},{"name":"Lebanon","code":"LB","continentId":"1","callingCode":961,"localName":"لبنان‎"},{"name":"Lesotho","code":"LS","continentId":"2","callingCode":266,"localName":"Lesotho"},{"name":"Liberia","code":"LR","continentId":"2","callingCode":231,"localName":"Liberia"},{"name":"Libya, State Of","code":"LY","continentId":"2","callingCode":218,"localName":"دولة ليبيا‎"},{"name":"Liechtenstein","code":"LI","continentId":"6","callingCode":423,"localName":"Fürstentum Liechtenstein"},{"name":"Lithuania","code":"LT","continentId":"6","callingCode":370,"localName":"Lietuva"},{"name":"Luxembourg","code":"LU","continentId":"6","callingCode":352,"localName":"Lëtzebuerg"},{"name":"Macao","code":"MO","continentId":"1","callingCode":853,"localName":"澳門"},{"name":"Macedonia","code":"MK","continentId":"6","callingCode":389,"localName":"Северна Македонија"},{"name":"Madagascar","code":"MG","continentId":"2","callingCode":261,"localName":"Madagasikara"},{"name":"Malawi","code":"MW","continentId":"2","callingCode":265,"localName":"Malaŵi"},{"name":"Malaysia","code":"MY","continentId":"1","callingCode":60,"localName":"Malaysia"},{"name":"Maldives","code":"MV","continentId":"1","callingCode":960,"localName":"ދިވެހިރާއްޖެ‎"},{"name":"Mali","code":"ML","continentId":"2","callingCode":223,"localName":"Mali"},{"name":"Malta","code":"MT","continentId":"6","callingCode":356,"localName":"Malta"},{"name":"Marshall Islands","code":"MH","continentId":"7","callingCode":692,"localName":"Aolepān Aorōkin M̧ajeļ"},{"name":"Martinique","code":"MQ","continentId":"3","callingCode":596,"localName":"Martinique"},{"name":"Mauritania","code":"MR","continentId":"2","callingCode":222,"localName":"موريتانيا‎"},{"name":"Mauritius","code":"MU","continentId":"2","callingCode":230,"localName":"Moris"},{"name":"Mayotte","code":"YT","continentId":"2","callingCode":262,"localName":"Maore"},{"name":"Mexico","code":"MX","continentId":"3","callingCode":52,"localName":"México"},{"name":"Micronesia","code":"FM","continentId":"7","callingCode":691,"localName":"Micronesia"},{"name":"Moldova","code":"MD","continentId":"6","callingCode":373,"localName":"Moldova"},{"name":"Monaco","code":"MC","continentId":"6","callingCode":377,"localName":"Principatu de Múnegu"},{"name":"Mongolia","code":"MN","continentId":"1","callingCode":976,"localName":"Монгол улс"},{"name":"Montenegro","code":"ME","continentId":"6","callingCode":382,"localName":"Црна Гора"},{"name":"Montserrat","code":"MS","continentId":"3","callingCode":1,"localName":"Montserrat"},{"name":"Morocco","code":"MA","continentId":"2","callingCode":212,"localName":"المغرب‎"},{"name":"Mozambique","code":"MZ","continentId":"2","callingCode":258,"localName":"Moçambique"},{"name":"Myanmar","code":"MM","continentId":"1","callingCode":95,"localName":"မြန်မာ"},{"name":"Namibia","code":"NA","continentId":"2","callingCode":264,"localName":"Namibië"},{"name":"Nauru","code":"NR","continentId":"7","callingCode":674,"localName":"Naoero"},{"name":"Nepal","code":"NP","continentId":"1","callingCode":977,"localName":"नेपाल"},{"name":"Netherlands","code":"NL","continentId":"6","callingCode":31,"localName":"Nederland"},{"name":"Netherlands Antilles","code":"AN","continentId":"4","callingCode":599,"localName":"Antias Hulandes"},{"name":"New Caledonia","code":"NC","continentId":"7","callingCode":687,"localName":"Nouvelle-Calédonie"},{"name":"New Zealand","code":"NZ","continentId":"7","callingCode":64,"localName":"New Zealand"},{"name":"Nicaragua","code":"NI","continentId":"3","callingCode":505,"localName":"Nicaragua"},{"name":"Niger","code":"NE","continentId":"2","callingCode":227,"localName":"Niger"},{"name":"Nigeria","code":"NG","continentId":"2","callingCode":234,"localName":"Nigeria"},{"name":"Niue","code":"NU","continentId":"7","callingCode":683,"localName":"Niuē"},{"name":"Norfolk Island","code":"NF","continentId":"7","callingCode":672,"localName":"Teratri of Norf\'k Ailen"},{"name":"Northern Mariana Islands","code":"MP","continentId":"7","callingCode":1,"localName":"Sankattan Siha Na Islas Mariånas"},{"name":"Norway","code":"NO","continentId":"6","callingCode":47,"localName":"Norge"},{"name":"Oman","code":"OM","continentId":"1","callingCode":968,"localName":"عُمان‎"},{"name":"Pakistan","code":"PK","continentId":"1","callingCode":92,"localName":"اسلامی جمہوریہ پاکستان"},{"name":"Palau","code":"PW","continentId":"7","callingCode":680,"localName":"Belau"},{"name":"Palestine, State Of","code":"PS","continentId":"1","callingCode":970,"localName":"دولة فلسطين"},{"name":"Panama","code":"PA","continentId":"3","callingCode":507,"localName":"Panamá"},{"name":"Papua New Guinea","code":"PG","continentId":"7","callingCode":675,"localName":"Papua Niugini"},{"name":"Paraguay","code":"PY","continentId":"4","callingCode":595,"localName":"Tetã Paraguái"},{"name":"Peru","code":"PE","continentId":"4","callingCode":51,"localName":"Perú"},{"name":"Philippines","code":"PH","continentId":"1","callingCode":63,"localName":"Pilipinas"},{"name":"Pitcairn","code":"PN","continentId":"7","callingCode":64,"localName":"Pitkern Ailen"},{"name":"Poland","code":"PL","continentId":"6","callingCode":48,"localName":"Polska"},{"name":"Portugal","code":"PT","continentId":"6","callingCode":351,"localName":"Portuguesa"},{"name":"Puerto Rico","code":"PR","continentId":"3","callingCode":1,"localName":"Puerto Rico"},{"name":"Qatar","code":"QA","continentId":"1","callingCode":974,"localName":"قطر‎"},{"name":"Reunion","code":"RE","continentId":"2","callingCode":262,"localName":"La Réunion"},{"name":"Romania","code":"RO","continentId":"6","callingCode":40,"localName":"România"},{"name":"Russian Federation","code":"RU","continentId":"1","callingCode":7,"localName":"Россия"},{"name":"Rwanda","code":"RW","continentId":"2","callingCode":250,"localName":"Rwanda"},{"name":"Saint Helena","code":"SH","continentId":"2","callingCode":290,"localName":"Saint Helena"},{"name":"Saint Kitts and Nevis","code":"KN","continentId":"3","callingCode":1,"localName":"Saint Kitts and Nevis"},{"name":"Saint Lucia","code":"LC","continentId":"3","callingCode":1,"localName":"Saint Lucia"},{"name":"Saint Pierre and Miquelon","code":"PM","continentId":"3","callingCode":508,"localName":"Saint-Pierre-et-Miquelon"},{"name":"Saint Vincent and The Grenadines","code":"VC","continentId":"3","callingCode":1,"localName":"Saint Vincent and the Grenadines"},{"name":"Samoa","code":"WS","continentId":"7","callingCode":685,"localName":"Malo Sa\'oloto Tuto\'atasi o Samoa"},{"name":"San Marino","code":"SM","continentId":"6","callingCode":378,"localName":"San Marino"},{"name":"Sao Tome and Principe","code":"ST","continentId":"2","callingCode":239,"localName":"São Tomé e Príncipe"},{"name":"Saudi Arabia","code":"SA","continentId":"1","callingCode":966,"localName":"العربية السعودية‎"},{"name":"Senegal","code":"SN","continentId":"2","callingCode":221,"localName":"Sénégal"},{"name":"Serbia","code":"RS","continentId":"6","callingCode":381,"localName":"Србија"},{"name":"Seychelles","code":"SC","continentId":"2","callingCode":248,"localName":"Repiblik Sesel"},{"name":"Sierra Leone","code":"SL","continentId":"2","callingCode":232,"localName":"Sierra Leone"},{"name":"Singapore","code":"SG","continentId":"1","callingCode":65,"localName":"新加坡"},{"name":"Slovakia","code":"SK","continentId":"6","callingCode":421,"localName":"Slovenská"},{"name":"Slovenia","code":"SI","continentId":"6","callingCode":386,"localName":"Slovenija"},{"name":"Solomon Islands","code":"SB","continentId":"7","callingCode":677,"localName":"Solomon Islands"},{"name":"Somalia","code":"SO","continentId":"2","callingCode":252,"localName":"الصومال"},{"name":"South Africa","code":"ZA","continentId":"2","callingCode":27,"localName":"Suid-Afrika"},{"name":"South Georgia and The South Sandwich Islands","code":"GS","continentId":"7","callingCode":500,"localName":"SGSSI"},{"name":"South Sudan","code":"SS","continentId":"2","callingCode":211,"localName":"South Sudan"},{"name":"Spain","code":"ES","continentId":"6","callingCode":34,"localName":"España"},{"name":"Sri Lanka","code":"LK","continentId":"1","callingCode":94,"localName":"ශ්‍රී ලංකාව"},{"name":"Sudan","code":"SD","continentId":"2","callingCode":249,"localName":"جمهورية السودان‎"},{"name":"Suriname","code":"SR","continentId":"4","callingCode":597,"localName":"Suriname"},{"name":"Svalbard and Jan Mayen","code":"SJ","continentId":"6","callingCode":47,"localName":"Svalbard og Jan Mayen"},{"name":"Swaziland","code":"SZ","continentId":"2","callingCode":268,"localName":"eSwatini"},{"name":"Sweden","code":"SE","continentId":"6","callingCode":46,"localName":"Sverige"},{"name":"Switzerland","code":"CH","continentId":"6","callingCode":41,"localName":"Schweiz"},{"name":"Syrian Arab","code":"SY","continentId":"1","callingCode":963,"localName":"‎سوريا‎‎"},{"name":"Taiwan","code":"TW","continentId":"1","callingCode":886,"localName":"台灣"},{"name":"Tajikistan","code":"TJ","continentId":"1","callingCode":992,"localName":"Ҷумҳурии Тоҷикистон"},{"name":"Tanzania","code":"TZ","continentId":"2","callingCode":255,"localName":"Jamhuri ya Muungano wa Tanzania"},{"name":"Thailand","code":"TH","continentId":"1","callingCode":66,"localName":"ประเทศไทย"},{"name":"Timor-leste","code":"TL","continentId":"1","callingCode":670,"localName":"Timor Lorosa\'e"},{"name":"Togo","code":"TG","continentId":"2","callingCode":228,"localName":"Togo"},{"name":"Tokelau","code":"TK","continentId":"7","callingCode":690,"localName":"Tokelau"},{"name":"Tonga","code":"TO","continentId":"7","callingCode":676,"localName":"Pule\'anga Fakatu\'i \'o Tonga"},{"name":"Trinidad and Tobago","code":"TT","continentId":"3","callingCode":1,"localName":"Trinidad and Tobago"},{"name":"Tunisia","code":"TN","continentId":"2","callingCode":216,"localName":"الجمهورية التونسية‎"},{"name":"Turkey","code":"TR","continentId":"6","callingCode":90,"localName":"Türkiye"},{"name":"Turkmenistan","code":"TM","continentId":"1","callingCode":993,"localName":"Türkmenistan"},{"name":"Turks and Caicos Islands","code":"TC","continentId":"3","callingCode":1,"localName":"Turks and Caicos Islands"},{"name":"Tuvalu","code":"TV","continentId":"7","callingCode":688,"localName":"Tuvalu"},{"name":"Uganda","code":"UG","continentId":"2","callingCode":256,"localName":"Uganda"},{"name":"Ukraine","code":"UA","continentId":"6","callingCode":380,"localName":"Україна"},{"name":"United Arab Emirates","code":"AE","continentId":"1","callingCode":971,"localName":"الإمارات‎"},{"name":"United Kingdom","code":"GB","continentId":"6","callingCode":44,"localName":"United Kingdom"},{"name":"United States","code":"US","continentId":"3","callingCode":1,"localName":"United States"},{"name":"United States Minor Outlying Islands","code":"UM","continentId":"3","callingCode":1,"localName":"United States Minor Outlying Islands"},{"name":"Uruguay","code":"UY","continentId":"4","callingCode":598,"localName":"Uruguay"},{"name":"Uzbekistan","code":"UZ","continentId":"1","callingCode":998,"localName":"O\'zbekiston"},{"name":"Vanuatu","code":"VU","continentId":"7","callingCode":678,"localName":"Vanuatu"},{"name":"Venezuela","code":"VE","continentId":"4","callingCode":58,"localName":"Venezuela"},{"name":"Viet Nam","code":"VN","continentId":"1","callingCode":84,"localName":"Việt Nam"},{"name":"Virgin Islands, British","code":"VG","continentId":"3","callingCode":1,"localName":"British Virgin Islands"},{"name":"Virgin Islands, U.S.","code":"VI","continentId":"3","callingCode":1,"localName":"United States Virgin Islands"},{"name":"Wallis and Futuna","code":"WF","continentId":"7","callingCode":681,"localName":"Wallis et Futuna"},{"name":"Western Sahara","code":"EH","continentId":"2","callingCode":212,"localName":"الصحراء الغربية‎"},{"name":"Yemen","code":"YE","continentId":"1","callingCode":967,"localName":"اليمن‎"},{"name":"Zambia","code":"ZM","continentId":"2","callingCode":260,"localName":"Zambia"},{"name":"Zimbabwe","code":"ZW","continentId":"2","callingCode":263,"localName":"Zimbabwe"}]',
                 'item_type' => 'array',
                 'item_tag' => 'commons',
                 'is_multilingual' => 0,
@@ -105,12 +99,11 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            6 =>
-            array (
+            ],
+            6 => [
                 'id' => 7,
                 'item_key' => 'currency_codes',
-            'item_value' => '[{"ctryName":"AFGHANISTAN","name":"Afghani","code":"AFN","ccyNbr":"971","ccyMnrUnts":"2"},{"ctryName":"ÅLAND ISLANDS","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"ALBANIA","name":"Lek","code":"ALL","ccyNbr":"008","ccyMnrUnts":"2"},{"ctryName":"ALGERIA","name":"Algerian Dinar","code":"DZD","ccyNbr":"012","ccyMnrUnts":"2"},{"ctryName":"AMERICAN SAMOA","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"ANDORRA","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"ANGOLA","name":"Kwanza","code":"AOA","ccyNbr":"973","ccyMnrUnts":"2"},{"ctryName":"ANGUILLA","name":"East Caribbean Dollar","code":"XCD","ccyNbr":"951","ccyMnrUnts":"2"},{"ctryName":"ANTIGUA AND BARBUDA","name":"East Caribbean Dollar","code":"XCD","ccyNbr":"951","ccyMnrUnts":"2"},{"ctryName":"ARGENTINA","name":"Argentine Peso","code":"ARS","ccyNbr":"032","ccyMnrUnts":"2"},{"ctryName":"ARMENIA","name":"Armenian Dram","code":"AMD","ccyNbr":"051","ccyMnrUnts":"2"},{"ctryName":"ARUBA","name":"Aruban Florin","code":"AWG","ccyNbr":"533","ccyMnrUnts":"2"},{"ctryName":"AUSTRALIA","name":"Australian Dollar","code":"AUD","ccyNbr":"036","ccyMnrUnts":"2"},{"ctryName":"AUSTRIA","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"AZERBAIJAN","name":"Azerbaijan Manat","code":"AZN","ccyNbr":"944","ccyMnrUnts":"2"},{"ctryName":"BAHAMAS (THE)","name":"Bahamian Dollar","code":"BSD","ccyNbr":"044","ccyMnrUnts":"2"},{"ctryName":"BAHRAIN","name":"Bahraini Dinar","code":"BHD","ccyNbr":"048","ccyMnrUnts":"3"},{"ctryName":"BANGLADESH","name":"Taka","code":"BDT","ccyNbr":"050","ccyMnrUnts":"2"},{"ctryName":"BARBADOS","name":"Barbados Dollar","code":"BBD","ccyNbr":"052","ccyMnrUnts":"2"},{"ctryName":"BELARUS","name":"Belarusian Ruble","code":"BYN","ccyNbr":"933","ccyMnrUnts":"2"},{"ctryName":"BELGIUM","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"BELIZE","name":"Belize Dollar","code":"BZD","ccyNbr":"084","ccyMnrUnts":"2"},{"ctryName":"BENIN","name":"CFA Franc BCEAO","code":"XOF","ccyNbr":"952","ccyMnrUnts":"0"},{"ctryName":"BERMUDA","name":"Bermudian Dollar","code":"BMD","ccyNbr":"060","ccyMnrUnts":"2"},{"ctryName":"BHUTAN","name":"Indian Rupee","code":"INR","ccyNbr":"356","ccyMnrUnts":"2"},{"ctryName":"BHUTAN","name":"Ngultrum","code":"BTN","ccyNbr":"064","ccyMnrUnts":"2"},{"ctryName":"BOLIVIA (PLURINATIONAL STATE OF)","name":"Boliviano","code":"BOB","ccyNbr":"068","ccyMnrUnts":"2"},{"ctryName":"BONAIRE, SINT EUSTATIUS AND SABA","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"BOSNIA AND HERZEGOVINA","name":"Convertible Mark","code":"BAM","ccyNbr":"977","ccyMnrUnts":"2"},{"ctryName":"BOTSWANA","name":"Pula","code":"BWP","ccyNbr":"072","ccyMnrUnts":"2"},{"ctryName":"BOUVET ISLAND","name":"Norwegian Krone","code":"NOK","ccyNbr":"578","ccyMnrUnts":"2"},{"ctryName":"BRAZIL","name":"Brazilian Real","code":"BRL","ccyNbr":"986","ccyMnrUnts":"2"},{"ctryName":"BRITISH INDIAN OCEAN TERRITORY (THE)","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"BRUNEI DARUSSALAM","name":"Brunei Dollar","code":"BND","ccyNbr":"096","ccyMnrUnts":"2"},{"ctryName":"BULGARIA","name":"Bulgarian Lev","code":"BGN","ccyNbr":"975","ccyMnrUnts":"2"},{"ctryName":"BURKINA FASO","name":"CFA Franc BCEAO","code":"XOF","ccyNbr":"952","ccyMnrUnts":"0"},{"ctryName":"BURUNDI","name":"Burundi Franc","code":"BIF","ccyNbr":"108","ccyMnrUnts":"0"},{"ctryName":"CABO VERDE","name":"Cabo Verde Escudo","code":"CVE","ccyNbr":"132","ccyMnrUnts":"2"},{"ctryName":"CAMBODIA","name":"Riel","code":"KHR","ccyNbr":"116","ccyMnrUnts":"2"},{"ctryName":"CAMEROON","name":"CFA Franc BEAC","code":"XAF","ccyNbr":"950","ccyMnrUnts":"0"},{"ctryName":"CANADA","name":"Canadian Dollar","code":"CAD","ccyNbr":"124","ccyMnrUnts":"2"},{"ctryName":"CAYMAN ISLANDS (THE)","name":"Cayman Islands Dollar","code":"KYD","ccyNbr":"136","ccyMnrUnts":"2"},{"ctryName":"CENTRAL AFRICAN REPUBLIC (THE)","name":"CFA Franc BEAC","code":"XAF","ccyNbr":"950","ccyMnrUnts":"0"},{"ctryName":"CHAD","name":"CFA Franc BEAC","code":"XAF","ccyNbr":"950","ccyMnrUnts":"0"},{"ctryName":"CHILE","name":"Chilean Peso","code":"CLP","ccyNbr":"152","ccyMnrUnts":"0"},{"ctryName":"CHINA","name":"Yuan Renminbi","code":"CNY","ccyNbr":"156","ccyMnrUnts":"2"},{"ctryName":"CHRISTMAS ISLAND","name":"Australian Dollar","code":"AUD","ccyNbr":"036","ccyMnrUnts":"2"},{"ctryName":"COCOS (KEELING) ISLANDS (THE)","name":"Australian Dollar","code":"AUD","ccyNbr":"036","ccyMnrUnts":"2"},{"ctryName":"COLOMBIA","name":"Colombian Peso","code":"COP","ccyNbr":"170","ccyMnrUnts":"2"},{"ctryName":"COMOROS (THE)","name":"Comorian Franc","code":"KMF","ccyNbr":"174","ccyMnrUnts":"0"},{"ctryName":"CONGO (THE DEMOCRATIC REPUBLIC OF THE)","name":"Congolese Franc","code":"CDF","ccyNbr":"976","ccyMnrUnts":"2"},{"ctryName":"CONGO (THE)","name":"CFA Franc BEAC","code":"XAF","ccyNbr":"950","ccyMnrUnts":"0"},{"ctryName":"COOK ISLANDS (THE)","name":"New Zealand Dollar","code":"NZD","ccyNbr":"554","ccyMnrUnts":"2"},{"ctryName":"COSTA RICA","name":"Costa Rican Colon","code":"CRC","ccyNbr":"188","ccyMnrUnts":"2"},{"ctryName":"CÔTE D\'IVOIRE","name":"CFA Franc BCEAO","code":"XOF","ccyNbr":"952","ccyMnrUnts":"0"},{"ctryName":"CROATIA","name":"Kuna","code":"HRK","ccyNbr":"191","ccyMnrUnts":"2"},{"ctryName":"CUBA","name":"Cuban Peso","code":"CUP","ccyNbr":"192","ccyMnrUnts":"2"},{"ctryName":"CUBA","name":"Peso Convertible","code":"CUC","ccyNbr":"931","ccyMnrUnts":"2"},{"ctryName":"CURAÇAO","name":"Netherlands Antillean Guilder","code":"ANG","ccyNbr":"532","ccyMnrUnts":"2"},{"ctryName":"CYPRUS","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"CZECHIA","name":"Czech Koruna","code":"CZK","ccyNbr":"203","ccyMnrUnts":"2"},{"ctryName":"DENMARK","name":"Danish Krone","code":"DKK","ccyNbr":"208","ccyMnrUnts":"2"},{"ctryName":"DJIBOUTI","name":"Djibouti Franc","code":"DJF","ccyNbr":"262","ccyMnrUnts":"0"},{"ctryName":"DOMINICA","name":"East Caribbean Dollar","code":"XCD","ccyNbr":"951","ccyMnrUnts":"2"},{"ctryName":"DOMINICAN REPUBLIC (THE)","name":"Dominican Peso","code":"DOP","ccyNbr":"214","ccyMnrUnts":"2"},{"ctryName":"ECUADOR","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"EGYPT","name":"Egyptian Pound","code":"EGP","ccyNbr":"818","ccyMnrUnts":"2"},{"ctryName":"EL SALVADOR","name":"El Salvador Colon","code":"SVC","ccyNbr":"222","ccyMnrUnts":"2"},{"ctryName":"EL SALVADOR","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"EQUATORIAL GUINEA","name":"CFA Franc BEAC","code":"XAF","ccyNbr":"950","ccyMnrUnts":"0"},{"ctryName":"ERITREA","name":"Nakfa","code":"ERN","ccyNbr":"232","ccyMnrUnts":"2"},{"ctryName":"ESTONIA","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"ESWATINI","name":"Lilangeni","code":"SZL","ccyNbr":"748","ccyMnrUnts":"2"},{"ctryName":"ETHIOPIA","name":"Ethiopian Birr","code":"ETB","ccyNbr":"230","ccyMnrUnts":"2"},{"ctryName":"EUROPEAN UNION","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"FALKLAND ISLANDS (THE) [MALVINAS]","name":"Falkland Islands Pound","code":"FKP","ccyNbr":"238","ccyMnrUnts":"2"},{"ctryName":"FAROE ISLANDS (THE)","name":"Danish Krone","code":"DKK","ccyNbr":"208","ccyMnrUnts":"2"},{"ctryName":"FIJI","name":"Fiji Dollar","code":"FJD","ccyNbr":"242","ccyMnrUnts":"2"},{"ctryName":"FINLAND","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"FRANCE","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"FRENCH GUIANA","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"FRENCH POLYNESIA","name":"CFP Franc","code":"XPF","ccyNbr":"953","ccyMnrUnts":"0"},{"ctryName":"FRENCH SOUTHERN TERRITORIES (THE)","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"GABON","name":"CFA Franc BEAC","code":"XAF","ccyNbr":"950","ccyMnrUnts":"0"},{"ctryName":"GAMBIA (THE)","name":"Dalasi","code":"GMD","ccyNbr":"270","ccyMnrUnts":"2"},{"ctryName":"GEORGIA","name":"Lari","code":"GEL","ccyNbr":"981","ccyMnrUnts":"2"},{"ctryName":"GERMANY","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"GHANA","name":"Ghana Cedi","code":"GHS","ccyNbr":"936","ccyMnrUnts":"2"},{"ctryName":"GIBRALTAR","name":"Gibraltar Pound","code":"GIP","ccyNbr":"292","ccyMnrUnts":"2"},{"ctryName":"GREECE","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"GREENLAND","name":"Danish Krone","code":"DKK","ccyNbr":"208","ccyMnrUnts":"2"},{"ctryName":"GRENADA","name":"East Caribbean Dollar","code":"XCD","ccyNbr":"951","ccyMnrUnts":"2"},{"ctryName":"GUADELOUPE","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"GUAM","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"GUATEMALA","name":"Quetzal","code":"GTQ","ccyNbr":"320","ccyMnrUnts":"2"},{"ctryName":"GUERNSEY","name":"Pound Sterling","code":"GBP","ccyNbr":"826","ccyMnrUnts":"2"},{"ctryName":"GUINEA","name":"Guinean Franc","code":"GNF","ccyNbr":"324","ccyMnrUnts":"0"},{"ctryName":"GUINEA-BISSAU","name":"CFA Franc BCEAO","code":"XOF","ccyNbr":"952","ccyMnrUnts":"0"},{"ctryName":"GUYANA","name":"Guyana Dollar","code":"GYD","ccyNbr":"328","ccyMnrUnts":"2"},{"ctryName":"HAITI","name":"Gourde","code":"HTG","ccyNbr":"332","ccyMnrUnts":"2"},{"ctryName":"HAITI","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"HEARD ISLAND AND McDONALD ISLANDS","name":"Australian Dollar","code":"AUD","ccyNbr":"036","ccyMnrUnts":"2"},{"ctryName":"HOLY SEE (THE)","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"HONDURAS","name":"Lempira","code":"HNL","ccyNbr":"340","ccyMnrUnts":"2"},{"ctryName":"HONG KONG","name":"Hong Kong Dollar","code":"HKD","ccyNbr":"344","ccyMnrUnts":"2"},{"ctryName":"HUNGARY","name":"Forint","code":"HUF","ccyNbr":"348","ccyMnrUnts":"2"},{"ctryName":"ICELAND","name":"Iceland Krona","code":"ISK","ccyNbr":"352","ccyMnrUnts":"0"},{"ctryName":"INDIA","name":"Indian Rupee","code":"INR","ccyNbr":"356","ccyMnrUnts":"2"},{"ctryName":"INDONESIA","name":"Rupiah","code":"IDR","ccyNbr":"360","ccyMnrUnts":"2"},{"ctryName":"INTERNATIONAL MONETARY FUND (IMF)","name":"SDR (Special Drawing Right)","code":"XDR","ccyNbr":"960","ccyMnrUnts":"N.A."},{"ctryName":"IRAN (ISLAMIC REPUBLIC OF)","name":"Iranian Rial","code":"IRR","ccyNbr":"364","ccyMnrUnts":"2"},{"ctryName":"IRAQ","name":"Iraqi Dinar","code":"IQD","ccyNbr":"368","ccyMnrUnts":"3"},{"ctryName":"IRELAND","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"ISLE OF MAN","name":"Pound Sterling","code":"GBP","ccyNbr":"826","ccyMnrUnts":"2"},{"ctryName":"ISRAEL","name":"New Israeli Sheqel","code":"ILS","ccyNbr":"376","ccyMnrUnts":"2"},{"ctryName":"ITALY","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"JAMAICA","name":"Jamaican Dollar","code":"JMD","ccyNbr":"388","ccyMnrUnts":"2"},{"ctryName":"JAPAN","name":"Yen","code":"JPY","ccyNbr":"392","ccyMnrUnts":"0"},{"ctryName":"JERSEY","name":"Pound Sterling","code":"GBP","ccyNbr":"826","ccyMnrUnts":"2"},{"ctryName":"JORDAN","name":"Jordanian Dinar","code":"JOD","ccyNbr":"400","ccyMnrUnts":"3"},{"ctryName":"KAZAKHSTAN","name":"Tenge","code":"KZT","ccyNbr":"398","ccyMnrUnts":"2"},{"ctryName":"KENYA","name":"Kenyan Shilling","code":"KES","ccyNbr":"404","ccyMnrUnts":"2"},{"ctryName":"KIRIBATI","name":"Australian Dollar","code":"AUD","ccyNbr":"036","ccyMnrUnts":"2"},{"ctryName":"KOREA (THE DEMOCRATIC PEOPLE’S REPUBLIC OF)","name":"North Korean Won","code":"KPW","ccyNbr":"408","ccyMnrUnts":"2"},{"ctryName":"KOREA (THE REPUBLIC OF)","name":"Won","code":"KRW","ccyNbr":"410","ccyMnrUnts":"0"},{"ctryName":"KUWAIT","name":"Kuwaiti Dinar","code":"KWD","ccyNbr":"414","ccyMnrUnts":"3"},{"ctryName":"KYRGYZSTAN","name":"Som","code":"KGS","ccyNbr":"417","ccyMnrUnts":"2"},{"ctryName":"LAO PEOPLE’S DEMOCRATIC REPUBLIC (THE)","name":"Lao Kip","code":"LAK","ccyNbr":"418","ccyMnrUnts":"2"},{"ctryName":"LATVIA","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"LEBANON","name":"Lebanese Pound","code":"LBP","ccyNbr":"422","ccyMnrUnts":"2"},{"ctryName":"LESOTHO","name":"Loti","code":"LSL","ccyNbr":"426","ccyMnrUnts":"2"},{"ctryName":"LESOTHO","name":"Rand","code":"ZAR","ccyNbr":"710","ccyMnrUnts":"2"},{"ctryName":"LIBERIA","name":"Liberian Dollar","code":"LRD","ccyNbr":"430","ccyMnrUnts":"2"},{"ctryName":"LIBYA","name":"Libyan Dinar","code":"LYD","ccyNbr":"434","ccyMnrUnts":"3"},{"ctryName":"LIECHTENSTEIN","name":"Swiss Franc","code":"CHF","ccyNbr":"756","ccyMnrUnts":"2"},{"ctryName":"LITHUANIA","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"LUXEMBOURG","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"MACAO","name":"Pataca","code":"MOP","ccyNbr":"446","ccyMnrUnts":"2"},{"ctryName":"NORTH MACEDONIA","name":"Denar","code":"MKD","ccyNbr":"807","ccyMnrUnts":"2"},{"ctryName":"MADAGASCAR","name":"Malagasy Ariary","code":"MGA","ccyNbr":"969","ccyMnrUnts":"2"},{"ctryName":"MALAWI","name":"Malawi Kwacha","code":"MWK","ccyNbr":"454","ccyMnrUnts":"2"},{"ctryName":"MALAYSIA","name":"Malaysian Ringgit","code":"MYR","ccyNbr":"458","ccyMnrUnts":"2"},{"ctryName":"MALDIVES","name":"Rufiyaa","code":"MVR","ccyNbr":"462","ccyMnrUnts":"2"},{"ctryName":"MALI","name":"CFA Franc BCEAO","code":"XOF","ccyNbr":"952","ccyMnrUnts":"0"},{"ctryName":"MALTA","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"MARSHALL ISLANDS (THE)","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"MARTINIQUE","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"MAURITANIA","name":"Ouguiya","code":"MRU","ccyNbr":"929","ccyMnrUnts":"2"},{"ctryName":"MAURITIUS","name":"Mauritius Rupee","code":"MUR","ccyNbr":"480","ccyMnrUnts":"2"},{"ctryName":"MAYOTTE","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"MEMBER COUNTRIES OF THE AFRICAN DEVELOPMENT BANK GROUP","name":"ADB Unit of Account","code":"XUA","ccyNbr":"965","ccyMnrUnts":"N.A."},{"ctryName":"MEXICO","name":"Mexican Peso","code":"MXN","ccyNbr":"484","ccyMnrUnts":"2"},{"ctryName":"MICRONESIA (FEDERATED STATES OF)","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"MOLDOVA (THE REPUBLIC OF)","name":"Moldovan Leu","code":"MDL","ccyNbr":"498","ccyMnrUnts":"2"},{"ctryName":"MONACO","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"MONGOLIA","name":"Tugrik","code":"MNT","ccyNbr":"496","ccyMnrUnts":"2"},{"ctryName":"MONTENEGRO","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"MONTSERRAT","name":"East Caribbean Dollar","code":"XCD","ccyNbr":"951","ccyMnrUnts":"2"},{"ctryName":"MOROCCO","name":"Moroccan Dirham","code":"MAD","ccyNbr":"504","ccyMnrUnts":"2"},{"ctryName":"MOZAMBIQUE","name":"Mozambique Metical","code":"MZN","ccyNbr":"943","ccyMnrUnts":"2"},{"ctryName":"MYANMAR","name":"Kyat","code":"MMK","ccyNbr":"104","ccyMnrUnts":"2"},{"ctryName":"NAMIBIA","name":"Namibia Dollar","code":"NAD","ccyNbr":"516","ccyMnrUnts":"2"},{"ctryName":"NAMIBIA","name":"Rand","code":"ZAR","ccyNbr":"710","ccyMnrUnts":"2"},{"ctryName":"NAURU","name":"Australian Dollar","code":"AUD","ccyNbr":"036","ccyMnrUnts":"2"},{"ctryName":"NEPAL","name":"Nepalese Rupee","code":"NPR","ccyNbr":"524","ccyMnrUnts":"2"},{"ctryName":"NETHERLANDS (THE)","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"NEW CALEDONIA","name":"CFP Franc","code":"XPF","ccyNbr":"953","ccyMnrUnts":"0"},{"ctryName":"NEW ZEALAND","name":"New Zealand Dollar","code":"NZD","ccyNbr":"554","ccyMnrUnts":"2"},{"ctryName":"NICARAGUA","name":"Cordoba Oro","code":"NIO","ccyNbr":"558","ccyMnrUnts":"2"},{"ctryName":"NIGER (THE)","name":"CFA Franc BCEAO","code":"XOF","ccyNbr":"952","ccyMnrUnts":"0"},{"ctryName":"NIGERIA","name":"Naira","code":"NGN","ccyNbr":"566","ccyMnrUnts":"2"},{"ctryName":"NIUE","name":"New Zealand Dollar","code":"NZD","ccyNbr":"554","ccyMnrUnts":"2"},{"ctryName":"NORFOLK ISLAND","name":"Australian Dollar","code":"AUD","ccyNbr":"036","ccyMnrUnts":"2"},{"ctryName":"NORTHERN MARIANA ISLANDS (THE)","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"NORWAY","name":"Norwegian Krone","code":"NOK","ccyNbr":"578","ccyMnrUnts":"2"},{"ctryName":"OMAN","name":"Rial Omani","code":"OMR","ccyNbr":"512","ccyMnrUnts":"3"},{"ctryName":"PAKISTAN","name":"Pakistan Rupee","code":"PKR","ccyNbr":"586","ccyMnrUnts":"2"},{"ctryName":"PALAU","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"PANAMA","name":"Balboa","code":"PAB","ccyNbr":"590","ccyMnrUnts":"2"},{"ctryName":"PANAMA","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"PAPUA NEW GUINEA","name":"Kina","code":"PGK","ccyNbr":"598","ccyMnrUnts":"2"},{"ctryName":"PARAGUAY","name":"Guarani","code":"PYG","ccyNbr":"600","ccyMnrUnts":"0"},{"ctryName":"PERU","name":"Sol","code":"PEN","ccyNbr":"604","ccyMnrUnts":"2"},{"ctryName":"PHILIPPINES (THE)","name":"Philippine Peso","code":"PHP","ccyNbr":"608","ccyMnrUnts":"2"},{"ctryName":"PITCAIRN","name":"New Zealand Dollar","code":"NZD","ccyNbr":"554","ccyMnrUnts":"2"},{"ctryName":"POLAND","name":"Zloty","code":"PLN","ccyNbr":"985","ccyMnrUnts":"2"},{"ctryName":"PORTUGAL","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"PUERTO RICO","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"QATAR","name":"Qatari Rial","code":"QAR","ccyNbr":"634","ccyMnrUnts":"2"},{"ctryName":"RÉUNION","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"ROMANIA","name":"Romanian Leu","code":"RON","ccyNbr":"946","ccyMnrUnts":"2"},{"ctryName":"RUSSIAN FEDERATION (THE)","name":"Russian Ruble","code":"RUB","ccyNbr":"643","ccyMnrUnts":"2"},{"ctryName":"RWANDA","name":"Rwanda Franc","code":"RWF","ccyNbr":"646","ccyMnrUnts":"0"},{"ctryName":"SAINT BARTHÉLEMY","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"SAINT HELENA, ASCENSION AND TRISTAN DA CUNHA","name":"Saint Helena Pound","code":"SHP","ccyNbr":"654","ccyMnrUnts":"2"},{"ctryName":"SAINT KITTS AND NEVIS","name":"East Caribbean Dollar","code":"XCD","ccyNbr":"951","ccyMnrUnts":"2"},{"ctryName":"SAINT LUCIA","name":"East Caribbean Dollar","code":"XCD","ccyNbr":"951","ccyMnrUnts":"2"},{"ctryName":"SAINT MARTIN (FRENCH PART)","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"SAINT PIERRE AND MIQUELON","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"SAINT VINCENT AND THE GRENADINES","name":"East Caribbean Dollar","code":"XCD","ccyNbr":"951","ccyMnrUnts":"2"},{"ctryName":"SAMOA","name":"Tala","code":"WST","ccyNbr":"882","ccyMnrUnts":"2"},{"ctryName":"SAN MARINO","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"SAO TOME AND PRINCIPE","name":"Dobra","code":"STN","ccyNbr":"930","ccyMnrUnts":"2"},{"ctryName":"SAUDI ARABIA","name":"Saudi Riyal","code":"SAR","ccyNbr":"682","ccyMnrUnts":"2"},{"ctryName":"SENEGAL","name":"CFA Franc BCEAO","code":"XOF","ccyNbr":"952","ccyMnrUnts":"0"},{"ctryName":"SERBIA","name":"Serbian Dinar","code":"RSD","ccyNbr":"941","ccyMnrUnts":"2"},{"ctryName":"SEYCHELLES","name":"Seychelles Rupee","code":"SCR","ccyNbr":"690","ccyMnrUnts":"2"},{"ctryName":"SIERRA LEONE","name":"Leone","code":"SLL","ccyNbr":"694","ccyMnrUnts":"2"},{"ctryName":"SINGAPORE","name":"Singapore Dollar","code":"SGD","ccyNbr":"702","ccyMnrUnts":"2"},{"ctryName":"SINT MAARTEN (DUTCH PART)","name":"Netherlands Antillean Guilder","code":"ANG","ccyNbr":"532","ccyMnrUnts":"2"},{"ctryName":"SISTEMA UNITARIO DE COMPENSACION REGIONAL DE PAGOS(SUCRE)","name":"Sucre","code":"XSU","ccyNbr":"994","ccyMnrUnts":"N.A."},{"ctryName":"SLOVAKIA","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"SLOVENIA","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"SOLOMON ISLANDS","name":"Solomon Islands Dollar","code":"SBD","ccyNbr":"090","ccyMnrUnts":"2"},{"ctryName":"SOMALIA","name":"Somali Shilling","code":"SOS","ccyNbr":"706","ccyMnrUnts":"2"},{"ctryName":"SOUTH AFRICA","name":"Rand","code":"ZAR","ccyNbr":"710","ccyMnrUnts":"2"},{"ctryName":"SOUTH SUDAN","name":"South Sudanese Pound","code":"SSP","ccyNbr":"728","ccyMnrUnts":"2"},{"ctryName":"SPAIN","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"SRI LANKA","name":"Sri Lanka Rupee","code":"LKR","ccyNbr":"144","ccyMnrUnts":"2"},{"ctryName":"SUDAN (THE)","name":"Sudanese Pound","code":"SDG","ccyNbr":"938","ccyMnrUnts":"2"},{"ctryName":"SURINAME","name":"Surinam Dollar","code":"SRD","ccyNbr":"968","ccyMnrUnts":"2"},{"ctryName":"SVALBARD AND JAN MAYEN","name":"Norwegian Krone","code":"NOK","ccyNbr":"578","ccyMnrUnts":"2"},{"ctryName":"SWEDEN","name":"Swedish Krona","code":"SEK","ccyNbr":"752","ccyMnrUnts":"2"},{"ctryName":"SWITZERLAND","name":"Swiss Franc","code":"CHF","ccyNbr":"756","ccyMnrUnts":"2"},{"ctryName":"SYRIAN ARAB REPUBLIC","name":"Syrian Pound","code":"SYP","ccyNbr":"760","ccyMnrUnts":"2"},{"ctryName":"TAIWAN","name":"New Taiwan Dollar","code":"TWD","ccyNbr":"901","ccyMnrUnts":"2"},{"ctryName":"TAJIKISTAN","name":"Somoni","code":"TJS","ccyNbr":"972","ccyMnrUnts":"2"},{"ctryName":"TANZANIA, UNITED REPUBLIC OF","name":"Tanzanian Shilling","code":"TZS","ccyNbr":"834","ccyMnrUnts":"2"},{"ctryName":"THAILAND","name":"Baht","code":"THB","ccyNbr":"764","ccyMnrUnts":"2"},{"ctryName":"TIMOR-LESTE","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"TOGO","name":"CFA Franc BCEAO","code":"XOF","ccyNbr":"952","ccyMnrUnts":"0"},{"ctryName":"TOKELAU","name":"New Zealand Dollar","code":"NZD","ccyNbr":"554","ccyMnrUnts":"2"},{"ctryName":"TONGA","name":"Pa’anga","code":"TOP","ccyNbr":"776","ccyMnrUnts":"2"},{"ctryName":"TRINIDAD AND TOBAGO","name":"Trinidad and Tobago Dollar","code":"TTD","ccyNbr":"780","ccyMnrUnts":"2"},{"ctryName":"TUNISIA","name":"Tunisian Dinar","code":"TND","ccyNbr":"788","ccyMnrUnts":"3"},{"ctryName":"TURKEY","name":"Turkish Lira","code":"TRY","ccyNbr":"949","ccyMnrUnts":"2"},{"ctryName":"TURKMENISTAN","name":"Turkmenistan New Manat","code":"TMT","ccyNbr":"934","ccyMnrUnts":"2"},{"ctryName":"TURKS AND CAICOS ISLANDS (THE)","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"TUVALU","name":"Australian Dollar","code":"AUD","ccyNbr":"036","ccyMnrUnts":"2"},{"ctryName":"UGANDA","name":"Uganda Shilling","code":"UGX","ccyNbr":"800","ccyMnrUnts":"0"},{"ctryName":"UKRAINE","name":"Hryvnia","code":"UAH","ccyNbr":"980","ccyMnrUnts":"2"},{"ctryName":"UNITED ARAB EMIRATES (THE)","name":"UAE Dirham","code":"AED","ccyNbr":"784","ccyMnrUnts":"2"},{"ctryName":"UNITED KINGDOM OF GREAT BRITAIN AND NORTHERN IRELAND (THE)","name":"Pound Sterling","code":"GBP","ccyNbr":"826","ccyMnrUnts":"2"},{"ctryName":"UNITED STATES MINOR OUTLYING ISLANDS (THE)","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"UNITED STATES OF AMERICA (THE)","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"URUGUAY","name":"Peso Uruguayo","code":"UYU","ccyNbr":"858","ccyMnrUnts":"2"},{"ctryName":"URUGUAY","name":"Unidad Previsional","code":"UYW","ccyNbr":"927","ccyMnrUnts":"4"},{"ctryName":"UZBEKISTAN","name":"Uzbekistan Sum","code":"UZS","ccyNbr":"860","ccyMnrUnts":"2"},{"ctryName":"VANUATU","name":"Vatu","code":"VUV","ccyNbr":"548","ccyMnrUnts":"0"},{"ctryName":"VENEZUELA (BOLIVARIAN REPUBLIC OF)","name":"Bolívar Soberano","code":"VES","ccyNbr":"928","ccyMnrUnts":"2"},{"ctryName":"VIET NAM","name":"Dong","code":"VND","ccyNbr":"704","ccyMnrUnts":"0"},{"ctryName":"VIRGIN ISLANDS (BRITISH)","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"VIRGIN ISLANDS (U.S.)","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"WALLIS AND FUTUNA","name":"CFP Franc","code":"XPF","ccyNbr":"953","ccyMnrUnts":"0"},{"ctryName":"WESTERN SAHARA","name":"Moroccan Dirham","code":"MAD","ccyNbr":"504","ccyMnrUnts":"2"},{"ctryName":"YEMEN","name":"Yemeni Rial","code":"YER","ccyNbr":"886","ccyMnrUnts":"2"},{"ctryName":"ZAMBIA","name":"Zambian Kwacha","code":"ZMW","ccyNbr":"967","ccyMnrUnts":"2"},{"ctryName":"ZIMBABWE","name":"Zimbabwe Dollar","code":"ZWL","ccyNbr":"932","ccyMnrUnts":"2"},{"ctryName":"ZZ01_Bond Markets Unit European_EURCO","name":"Bond Markets Unit European Composite Unit (EURCO)","code":"XBA","ccyNbr":"955","ccyMnrUnts":"N.A."},{"ctryName":"ZZ02_Bond Markets Unit European_EMU-6","name":"Bond Markets Unit European Monetary Unit (E.M.U.-6)","code":"XBB","ccyNbr":"956","ccyMnrUnts":"N.A."},{"ctryName":"ZZ03_Bond Markets Unit European_EUA-9","name":"Bond Markets Unit European Unit of Account 9 (E.U.A.-9)","code":"XBC","ccyNbr":"957","ccyMnrUnts":"N.A."},{"ctryName":"ZZ04_Bond Markets Unit European_EUA-17","name":"Bond Markets Unit European Unit of Account 17 (E.U.A.-17)","code":"XBD","ccyNbr":"958","ccyMnrUnts":"N.A."},{"ctryName":"ZZ06_Testing_Code","name":"Codes specifically reserved for testing purposes","code":"XTS","ccyNbr":"963","ccyMnrUnts":"N.A."},{"ctryName":"ZZ07_No_Currency","name":"The codes assigned for transactions where no currency is involved","code":"XXX","ccyNbr":"999","ccyMnrUnts":"N.A."},{"ctryName":"ZZ08_Gold","name":"Gold","code":"XAU","ccyNbr":"959","ccyMnrUnts":"N.A."},{"ctryName":"ZZ09_Palladium","name":"Palladium","code":"XPD","ccyNbr":"964","ccyMnrUnts":"N.A."},{"ctryName":"ZZ10_Platinum","name":"Platinum","code":"XPT","ccyNbr":"962","ccyMnrUnts":"N.A."},{"ctryName":"ZZ11_Silver","name":"Silver","code":"XAG","ccyNbr":"961","ccyMnrUnts":"N.A."}]',
+                'item_value' => '[{"ctryName":"AFGHANISTAN","name":"Afghani","code":"AFN","ccyNbr":"971","ccyMnrUnts":"2"},{"ctryName":"ÅLAND ISLANDS","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"ALBANIA","name":"Lek","code":"ALL","ccyNbr":"008","ccyMnrUnts":"2"},{"ctryName":"ALGERIA","name":"Algerian Dinar","code":"DZD","ccyNbr":"012","ccyMnrUnts":"2"},{"ctryName":"AMERICAN SAMOA","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"ANDORRA","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"ANGOLA","name":"Kwanza","code":"AOA","ccyNbr":"973","ccyMnrUnts":"2"},{"ctryName":"ANGUILLA","name":"East Caribbean Dollar","code":"XCD","ccyNbr":"951","ccyMnrUnts":"2"},{"ctryName":"ANTIGUA AND BARBUDA","name":"East Caribbean Dollar","code":"XCD","ccyNbr":"951","ccyMnrUnts":"2"},{"ctryName":"ARGENTINA","name":"Argentine Peso","code":"ARS","ccyNbr":"032","ccyMnrUnts":"2"},{"ctryName":"ARMENIA","name":"Armenian Dram","code":"AMD","ccyNbr":"051","ccyMnrUnts":"2"},{"ctryName":"ARUBA","name":"Aruban Florin","code":"AWG","ccyNbr":"533","ccyMnrUnts":"2"},{"ctryName":"AUSTRALIA","name":"Australian Dollar","code":"AUD","ccyNbr":"036","ccyMnrUnts":"2"},{"ctryName":"AUSTRIA","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"AZERBAIJAN","name":"Azerbaijan Manat","code":"AZN","ccyNbr":"944","ccyMnrUnts":"2"},{"ctryName":"BAHAMAS (THE)","name":"Bahamian Dollar","code":"BSD","ccyNbr":"044","ccyMnrUnts":"2"},{"ctryName":"BAHRAIN","name":"Bahraini Dinar","code":"BHD","ccyNbr":"048","ccyMnrUnts":"3"},{"ctryName":"BANGLADESH","name":"Taka","code":"BDT","ccyNbr":"050","ccyMnrUnts":"2"},{"ctryName":"BARBADOS","name":"Barbados Dollar","code":"BBD","ccyNbr":"052","ccyMnrUnts":"2"},{"ctryName":"BELARUS","name":"Belarusian Ruble","code":"BYN","ccyNbr":"933","ccyMnrUnts":"2"},{"ctryName":"BELGIUM","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"BELIZE","name":"Belize Dollar","code":"BZD","ccyNbr":"084","ccyMnrUnts":"2"},{"ctryName":"BENIN","name":"CFA Franc BCEAO","code":"XOF","ccyNbr":"952","ccyMnrUnts":"0"},{"ctryName":"BERMUDA","name":"Bermudian Dollar","code":"BMD","ccyNbr":"060","ccyMnrUnts":"2"},{"ctryName":"BHUTAN","name":"Indian Rupee","code":"INR","ccyNbr":"356","ccyMnrUnts":"2"},{"ctryName":"BHUTAN","name":"Ngultrum","code":"BTN","ccyNbr":"064","ccyMnrUnts":"2"},{"ctryName":"BOLIVIA (PLURINATIONAL STATE OF)","name":"Boliviano","code":"BOB","ccyNbr":"068","ccyMnrUnts":"2"},{"ctryName":"BONAIRE, SINT EUSTATIUS AND SABA","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"BOSNIA AND HERZEGOVINA","name":"Convertible Mark","code":"BAM","ccyNbr":"977","ccyMnrUnts":"2"},{"ctryName":"BOTSWANA","name":"Pula","code":"BWP","ccyNbr":"072","ccyMnrUnts":"2"},{"ctryName":"BOUVET ISLAND","name":"Norwegian Krone","code":"NOK","ccyNbr":"578","ccyMnrUnts":"2"},{"ctryName":"BRAZIL","name":"Brazilian Real","code":"BRL","ccyNbr":"986","ccyMnrUnts":"2"},{"ctryName":"BRITISH INDIAN OCEAN TERRITORY (THE)","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"BRUNEI DARUSSALAM","name":"Brunei Dollar","code":"BND","ccyNbr":"096","ccyMnrUnts":"2"},{"ctryName":"BULGARIA","name":"Bulgarian Lev","code":"BGN","ccyNbr":"975","ccyMnrUnts":"2"},{"ctryName":"BURKINA FASO","name":"CFA Franc BCEAO","code":"XOF","ccyNbr":"952","ccyMnrUnts":"0"},{"ctryName":"BURUNDI","name":"Burundi Franc","code":"BIF","ccyNbr":"108","ccyMnrUnts":"0"},{"ctryName":"CABO VERDE","name":"Cabo Verde Escudo","code":"CVE","ccyNbr":"132","ccyMnrUnts":"2"},{"ctryName":"CAMBODIA","name":"Riel","code":"KHR","ccyNbr":"116","ccyMnrUnts":"2"},{"ctryName":"CAMEROON","name":"CFA Franc BEAC","code":"XAF","ccyNbr":"950","ccyMnrUnts":"0"},{"ctryName":"CANADA","name":"Canadian Dollar","code":"CAD","ccyNbr":"124","ccyMnrUnts":"2"},{"ctryName":"CAYMAN ISLANDS (THE)","name":"Cayman Islands Dollar","code":"KYD","ccyNbr":"136","ccyMnrUnts":"2"},{"ctryName":"CENTRAL AFRICAN REPUBLIC (THE)","name":"CFA Franc BEAC","code":"XAF","ccyNbr":"950","ccyMnrUnts":"0"},{"ctryName":"CHAD","name":"CFA Franc BEAC","code":"XAF","ccyNbr":"950","ccyMnrUnts":"0"},{"ctryName":"CHILE","name":"Chilean Peso","code":"CLP","ccyNbr":"152","ccyMnrUnts":"0"},{"ctryName":"CHINA","name":"Yuan Renminbi","code":"CNY","ccyNbr":"156","ccyMnrUnts":"2"},{"ctryName":"CHRISTMAS ISLAND","name":"Australian Dollar","code":"AUD","ccyNbr":"036","ccyMnrUnts":"2"},{"ctryName":"COCOS (KEELING) ISLANDS (THE)","name":"Australian Dollar","code":"AUD","ccyNbr":"036","ccyMnrUnts":"2"},{"ctryName":"COLOMBIA","name":"Colombian Peso","code":"COP","ccyNbr":"170","ccyMnrUnts":"2"},{"ctryName":"COMOROS (THE)","name":"Comorian Franc","code":"KMF","ccyNbr":"174","ccyMnrUnts":"0"},{"ctryName":"CONGO (THE DEMOCRATIC REPUBLIC OF THE)","name":"Congolese Franc","code":"CDF","ccyNbr":"976","ccyMnrUnts":"2"},{"ctryName":"CONGO (THE)","name":"CFA Franc BEAC","code":"XAF","ccyNbr":"950","ccyMnrUnts":"0"},{"ctryName":"COOK ISLANDS (THE)","name":"New Zealand Dollar","code":"NZD","ccyNbr":"554","ccyMnrUnts":"2"},{"ctryName":"COSTA RICA","name":"Costa Rican Colon","code":"CRC","ccyNbr":"188","ccyMnrUnts":"2"},{"ctryName":"CÔTE D\'IVOIRE","name":"CFA Franc BCEAO","code":"XOF","ccyNbr":"952","ccyMnrUnts":"0"},{"ctryName":"CROATIA","name":"Kuna","code":"HRK","ccyNbr":"191","ccyMnrUnts":"2"},{"ctryName":"CUBA","name":"Cuban Peso","code":"CUP","ccyNbr":"192","ccyMnrUnts":"2"},{"ctryName":"CUBA","name":"Peso Convertible","code":"CUC","ccyNbr":"931","ccyMnrUnts":"2"},{"ctryName":"CURAÇAO","name":"Netherlands Antillean Guilder","code":"ANG","ccyNbr":"532","ccyMnrUnts":"2"},{"ctryName":"CYPRUS","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"CZECHIA","name":"Czech Koruna","code":"CZK","ccyNbr":"203","ccyMnrUnts":"2"},{"ctryName":"DENMARK","name":"Danish Krone","code":"DKK","ccyNbr":"208","ccyMnrUnts":"2"},{"ctryName":"DJIBOUTI","name":"Djibouti Franc","code":"DJF","ccyNbr":"262","ccyMnrUnts":"0"},{"ctryName":"DOMINICA","name":"East Caribbean Dollar","code":"XCD","ccyNbr":"951","ccyMnrUnts":"2"},{"ctryName":"DOMINICAN REPUBLIC (THE)","name":"Dominican Peso","code":"DOP","ccyNbr":"214","ccyMnrUnts":"2"},{"ctryName":"ECUADOR","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"EGYPT","name":"Egyptian Pound","code":"EGP","ccyNbr":"818","ccyMnrUnts":"2"},{"ctryName":"EL SALVADOR","name":"El Salvador Colon","code":"SVC","ccyNbr":"222","ccyMnrUnts":"2"},{"ctryName":"EL SALVADOR","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"EQUATORIAL GUINEA","name":"CFA Franc BEAC","code":"XAF","ccyNbr":"950","ccyMnrUnts":"0"},{"ctryName":"ERITREA","name":"Nakfa","code":"ERN","ccyNbr":"232","ccyMnrUnts":"2"},{"ctryName":"ESTONIA","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"ESWATINI","name":"Lilangeni","code":"SZL","ccyNbr":"748","ccyMnrUnts":"2"},{"ctryName":"ETHIOPIA","name":"Ethiopian Birr","code":"ETB","ccyNbr":"230","ccyMnrUnts":"2"},{"ctryName":"EUROPEAN UNION","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"FALKLAND ISLANDS (THE) [MALVINAS]","name":"Falkland Islands Pound","code":"FKP","ccyNbr":"238","ccyMnrUnts":"2"},{"ctryName":"FAROE ISLANDS (THE)","name":"Danish Krone","code":"DKK","ccyNbr":"208","ccyMnrUnts":"2"},{"ctryName":"FIJI","name":"Fiji Dollar","code":"FJD","ccyNbr":"242","ccyMnrUnts":"2"},{"ctryName":"FINLAND","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"FRANCE","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"FRENCH GUIANA","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"FRENCH POLYNESIA","name":"CFP Franc","code":"XPF","ccyNbr":"953","ccyMnrUnts":"0"},{"ctryName":"FRENCH SOUTHERN TERRITORIES (THE)","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"GABON","name":"CFA Franc BEAC","code":"XAF","ccyNbr":"950","ccyMnrUnts":"0"},{"ctryName":"GAMBIA (THE)","name":"Dalasi","code":"GMD","ccyNbr":"270","ccyMnrUnts":"2"},{"ctryName":"GEORGIA","name":"Lari","code":"GEL","ccyNbr":"981","ccyMnrUnts":"2"},{"ctryName":"GERMANY","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"GHANA","name":"Ghana Cedi","code":"GHS","ccyNbr":"936","ccyMnrUnts":"2"},{"ctryName":"GIBRALTAR","name":"Gibraltar Pound","code":"GIP","ccyNbr":"292","ccyMnrUnts":"2"},{"ctryName":"GREECE","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"GREENLAND","name":"Danish Krone","code":"DKK","ccyNbr":"208","ccyMnrUnts":"2"},{"ctryName":"GRENADA","name":"East Caribbean Dollar","code":"XCD","ccyNbr":"951","ccyMnrUnts":"2"},{"ctryName":"GUADELOUPE","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"GUAM","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"GUATEMALA","name":"Quetzal","code":"GTQ","ccyNbr":"320","ccyMnrUnts":"2"},{"ctryName":"GUERNSEY","name":"Pound Sterling","code":"GBP","ccyNbr":"826","ccyMnrUnts":"2"},{"ctryName":"GUINEA","name":"Guinean Franc","code":"GNF","ccyNbr":"324","ccyMnrUnts":"0"},{"ctryName":"GUINEA-BISSAU","name":"CFA Franc BCEAO","code":"XOF","ccyNbr":"952","ccyMnrUnts":"0"},{"ctryName":"GUYANA","name":"Guyana Dollar","code":"GYD","ccyNbr":"328","ccyMnrUnts":"2"},{"ctryName":"HAITI","name":"Gourde","code":"HTG","ccyNbr":"332","ccyMnrUnts":"2"},{"ctryName":"HAITI","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"HEARD ISLAND AND McDONALD ISLANDS","name":"Australian Dollar","code":"AUD","ccyNbr":"036","ccyMnrUnts":"2"},{"ctryName":"HOLY SEE (THE)","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"HONDURAS","name":"Lempira","code":"HNL","ccyNbr":"340","ccyMnrUnts":"2"},{"ctryName":"HONG KONG","name":"Hong Kong Dollar","code":"HKD","ccyNbr":"344","ccyMnrUnts":"2"},{"ctryName":"HUNGARY","name":"Forint","code":"HUF","ccyNbr":"348","ccyMnrUnts":"2"},{"ctryName":"ICELAND","name":"Iceland Krona","code":"ISK","ccyNbr":"352","ccyMnrUnts":"0"},{"ctryName":"INDIA","name":"Indian Rupee","code":"INR","ccyNbr":"356","ccyMnrUnts":"2"},{"ctryName":"INDONESIA","name":"Rupiah","code":"IDR","ccyNbr":"360","ccyMnrUnts":"2"},{"ctryName":"INTERNATIONAL MONETARY FUND (IMF)","name":"SDR (Special Drawing Right)","code":"XDR","ccyNbr":"960","ccyMnrUnts":"N.A."},{"ctryName":"IRAN (ISLAMIC REPUBLIC OF)","name":"Iranian Rial","code":"IRR","ccyNbr":"364","ccyMnrUnts":"2"},{"ctryName":"IRAQ","name":"Iraqi Dinar","code":"IQD","ccyNbr":"368","ccyMnrUnts":"3"},{"ctryName":"IRELAND","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"ISLE OF MAN","name":"Pound Sterling","code":"GBP","ccyNbr":"826","ccyMnrUnts":"2"},{"ctryName":"ISRAEL","name":"New Israeli Sheqel","code":"ILS","ccyNbr":"376","ccyMnrUnts":"2"},{"ctryName":"ITALY","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"JAMAICA","name":"Jamaican Dollar","code":"JMD","ccyNbr":"388","ccyMnrUnts":"2"},{"ctryName":"JAPAN","name":"Yen","code":"JPY","ccyNbr":"392","ccyMnrUnts":"0"},{"ctryName":"JERSEY","name":"Pound Sterling","code":"GBP","ccyNbr":"826","ccyMnrUnts":"2"},{"ctryName":"JORDAN","name":"Jordanian Dinar","code":"JOD","ccyNbr":"400","ccyMnrUnts":"3"},{"ctryName":"KAZAKHSTAN","name":"Tenge","code":"KZT","ccyNbr":"398","ccyMnrUnts":"2"},{"ctryName":"KENYA","name":"Kenyan Shilling","code":"KES","ccyNbr":"404","ccyMnrUnts":"2"},{"ctryName":"KIRIBATI","name":"Australian Dollar","code":"AUD","ccyNbr":"036","ccyMnrUnts":"2"},{"ctryName":"KOREA (THE DEMOCRATIC PEOPLE’S REPUBLIC OF)","name":"North Korean Won","code":"KPW","ccyNbr":"408","ccyMnrUnts":"2"},{"ctryName":"KOREA (THE REPUBLIC OF)","name":"Won","code":"KRW","ccyNbr":"410","ccyMnrUnts":"0"},{"ctryName":"KUWAIT","name":"Kuwaiti Dinar","code":"KWD","ccyNbr":"414","ccyMnrUnts":"3"},{"ctryName":"KYRGYZSTAN","name":"Som","code":"KGS","ccyNbr":"417","ccyMnrUnts":"2"},{"ctryName":"LAO PEOPLE’S DEMOCRATIC REPUBLIC (THE)","name":"Lao Kip","code":"LAK","ccyNbr":"418","ccyMnrUnts":"2"},{"ctryName":"LATVIA","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"LEBANON","name":"Lebanese Pound","code":"LBP","ccyNbr":"422","ccyMnrUnts":"2"},{"ctryName":"LESOTHO","name":"Loti","code":"LSL","ccyNbr":"426","ccyMnrUnts":"2"},{"ctryName":"LESOTHO","name":"Rand","code":"ZAR","ccyNbr":"710","ccyMnrUnts":"2"},{"ctryName":"LIBERIA","name":"Liberian Dollar","code":"LRD","ccyNbr":"430","ccyMnrUnts":"2"},{"ctryName":"LIBYA","name":"Libyan Dinar","code":"LYD","ccyNbr":"434","ccyMnrUnts":"3"},{"ctryName":"LIECHTENSTEIN","name":"Swiss Franc","code":"CHF","ccyNbr":"756","ccyMnrUnts":"2"},{"ctryName":"LITHUANIA","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"LUXEMBOURG","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"MACAO","name":"Pataca","code":"MOP","ccyNbr":"446","ccyMnrUnts":"2"},{"ctryName":"NORTH MACEDONIA","name":"Denar","code":"MKD","ccyNbr":"807","ccyMnrUnts":"2"},{"ctryName":"MADAGASCAR","name":"Malagasy Ariary","code":"MGA","ccyNbr":"969","ccyMnrUnts":"2"},{"ctryName":"MALAWI","name":"Malawi Kwacha","code":"MWK","ccyNbr":"454","ccyMnrUnts":"2"},{"ctryName":"MALAYSIA","name":"Malaysian Ringgit","code":"MYR","ccyNbr":"458","ccyMnrUnts":"2"},{"ctryName":"MALDIVES","name":"Rufiyaa","code":"MVR","ccyNbr":"462","ccyMnrUnts":"2"},{"ctryName":"MALI","name":"CFA Franc BCEAO","code":"XOF","ccyNbr":"952","ccyMnrUnts":"0"},{"ctryName":"MALTA","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"MARSHALL ISLANDS (THE)","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"MARTINIQUE","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"MAURITANIA","name":"Ouguiya","code":"MRU","ccyNbr":"929","ccyMnrUnts":"2"},{"ctryName":"MAURITIUS","name":"Mauritius Rupee","code":"MUR","ccyNbr":"480","ccyMnrUnts":"2"},{"ctryName":"MAYOTTE","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"MEMBER COUNTRIES OF THE AFRICAN DEVELOPMENT BANK GROUP","name":"ADB Unit of Account","code":"XUA","ccyNbr":"965","ccyMnrUnts":"N.A."},{"ctryName":"MEXICO","name":"Mexican Peso","code":"MXN","ccyNbr":"484","ccyMnrUnts":"2"},{"ctryName":"MICRONESIA (FEDERATED STATES OF)","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"MOLDOVA (THE REPUBLIC OF)","name":"Moldovan Leu","code":"MDL","ccyNbr":"498","ccyMnrUnts":"2"},{"ctryName":"MONACO","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"MONGOLIA","name":"Tugrik","code":"MNT","ccyNbr":"496","ccyMnrUnts":"2"},{"ctryName":"MONTENEGRO","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"MONTSERRAT","name":"East Caribbean Dollar","code":"XCD","ccyNbr":"951","ccyMnrUnts":"2"},{"ctryName":"MOROCCO","name":"Moroccan Dirham","code":"MAD","ccyNbr":"504","ccyMnrUnts":"2"},{"ctryName":"MOZAMBIQUE","name":"Mozambique Metical","code":"MZN","ccyNbr":"943","ccyMnrUnts":"2"},{"ctryName":"MYANMAR","name":"Kyat","code":"MMK","ccyNbr":"104","ccyMnrUnts":"2"},{"ctryName":"NAMIBIA","name":"Namibia Dollar","code":"NAD","ccyNbr":"516","ccyMnrUnts":"2"},{"ctryName":"NAMIBIA","name":"Rand","code":"ZAR","ccyNbr":"710","ccyMnrUnts":"2"},{"ctryName":"NAURU","name":"Australian Dollar","code":"AUD","ccyNbr":"036","ccyMnrUnts":"2"},{"ctryName":"NEPAL","name":"Nepalese Rupee","code":"NPR","ccyNbr":"524","ccyMnrUnts":"2"},{"ctryName":"NETHERLANDS (THE)","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"NEW CALEDONIA","name":"CFP Franc","code":"XPF","ccyNbr":"953","ccyMnrUnts":"0"},{"ctryName":"NEW ZEALAND","name":"New Zealand Dollar","code":"NZD","ccyNbr":"554","ccyMnrUnts":"2"},{"ctryName":"NICARAGUA","name":"Cordoba Oro","code":"NIO","ccyNbr":"558","ccyMnrUnts":"2"},{"ctryName":"NIGER (THE)","name":"CFA Franc BCEAO","code":"XOF","ccyNbr":"952","ccyMnrUnts":"0"},{"ctryName":"NIGERIA","name":"Naira","code":"NGN","ccyNbr":"566","ccyMnrUnts":"2"},{"ctryName":"NIUE","name":"New Zealand Dollar","code":"NZD","ccyNbr":"554","ccyMnrUnts":"2"},{"ctryName":"NORFOLK ISLAND","name":"Australian Dollar","code":"AUD","ccyNbr":"036","ccyMnrUnts":"2"},{"ctryName":"NORTHERN MARIANA ISLANDS (THE)","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"NORWAY","name":"Norwegian Krone","code":"NOK","ccyNbr":"578","ccyMnrUnts":"2"},{"ctryName":"OMAN","name":"Rial Omani","code":"OMR","ccyNbr":"512","ccyMnrUnts":"3"},{"ctryName":"PAKISTAN","name":"Pakistan Rupee","code":"PKR","ccyNbr":"586","ccyMnrUnts":"2"},{"ctryName":"PALAU","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"PANAMA","name":"Balboa","code":"PAB","ccyNbr":"590","ccyMnrUnts":"2"},{"ctryName":"PANAMA","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"PAPUA NEW GUINEA","name":"Kina","code":"PGK","ccyNbr":"598","ccyMnrUnts":"2"},{"ctryName":"PARAGUAY","name":"Guarani","code":"PYG","ccyNbr":"600","ccyMnrUnts":"0"},{"ctryName":"PERU","name":"Sol","code":"PEN","ccyNbr":"604","ccyMnrUnts":"2"},{"ctryName":"PHILIPPINES (THE)","name":"Philippine Peso","code":"PHP","ccyNbr":"608","ccyMnrUnts":"2"},{"ctryName":"PITCAIRN","name":"New Zealand Dollar","code":"NZD","ccyNbr":"554","ccyMnrUnts":"2"},{"ctryName":"POLAND","name":"Zloty","code":"PLN","ccyNbr":"985","ccyMnrUnts":"2"},{"ctryName":"PORTUGAL","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"PUERTO RICO","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"QATAR","name":"Qatari Rial","code":"QAR","ccyNbr":"634","ccyMnrUnts":"2"},{"ctryName":"RÉUNION","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"ROMANIA","name":"Romanian Leu","code":"RON","ccyNbr":"946","ccyMnrUnts":"2"},{"ctryName":"RUSSIAN FEDERATION (THE)","name":"Russian Ruble","code":"RUB","ccyNbr":"643","ccyMnrUnts":"2"},{"ctryName":"RWANDA","name":"Rwanda Franc","code":"RWF","ccyNbr":"646","ccyMnrUnts":"0"},{"ctryName":"SAINT BARTHÉLEMY","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"SAINT HELENA, ASCENSION AND TRISTAN DA CUNHA","name":"Saint Helena Pound","code":"SHP","ccyNbr":"654","ccyMnrUnts":"2"},{"ctryName":"SAINT KITTS AND NEVIS","name":"East Caribbean Dollar","code":"XCD","ccyNbr":"951","ccyMnrUnts":"2"},{"ctryName":"SAINT LUCIA","name":"East Caribbean Dollar","code":"XCD","ccyNbr":"951","ccyMnrUnts":"2"},{"ctryName":"SAINT MARTIN (FRENCH PART)","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"SAINT PIERRE AND MIQUELON","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"SAINT VINCENT AND THE GRENADINES","name":"East Caribbean Dollar","code":"XCD","ccyNbr":"951","ccyMnrUnts":"2"},{"ctryName":"SAMOA","name":"Tala","code":"WST","ccyNbr":"882","ccyMnrUnts":"2"},{"ctryName":"SAN MARINO","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"SAO TOME AND PRINCIPE","name":"Dobra","code":"STN","ccyNbr":"930","ccyMnrUnts":"2"},{"ctryName":"SAUDI ARABIA","name":"Saudi Riyal","code":"SAR","ccyNbr":"682","ccyMnrUnts":"2"},{"ctryName":"SENEGAL","name":"CFA Franc BCEAO","code":"XOF","ccyNbr":"952","ccyMnrUnts":"0"},{"ctryName":"SERBIA","name":"Serbian Dinar","code":"RSD","ccyNbr":"941","ccyMnrUnts":"2"},{"ctryName":"SEYCHELLES","name":"Seychelles Rupee","code":"SCR","ccyNbr":"690","ccyMnrUnts":"2"},{"ctryName":"SIERRA LEONE","name":"Leone","code":"SLL","ccyNbr":"694","ccyMnrUnts":"2"},{"ctryName":"SINGAPORE","name":"Singapore Dollar","code":"SGD","ccyNbr":"702","ccyMnrUnts":"2"},{"ctryName":"SINT MAARTEN (DUTCH PART)","name":"Netherlands Antillean Guilder","code":"ANG","ccyNbr":"532","ccyMnrUnts":"2"},{"ctryName":"SISTEMA UNITARIO DE COMPENSACION REGIONAL DE PAGOS(SUCRE)","name":"Sucre","code":"XSU","ccyNbr":"994","ccyMnrUnts":"N.A."},{"ctryName":"SLOVAKIA","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"SLOVENIA","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"SOLOMON ISLANDS","name":"Solomon Islands Dollar","code":"SBD","ccyNbr":"090","ccyMnrUnts":"2"},{"ctryName":"SOMALIA","name":"Somali Shilling","code":"SOS","ccyNbr":"706","ccyMnrUnts":"2"},{"ctryName":"SOUTH AFRICA","name":"Rand","code":"ZAR","ccyNbr":"710","ccyMnrUnts":"2"},{"ctryName":"SOUTH SUDAN","name":"South Sudanese Pound","code":"SSP","ccyNbr":"728","ccyMnrUnts":"2"},{"ctryName":"SPAIN","name":"Euro","code":"EUR","ccyNbr":"978","ccyMnrUnts":"2"},{"ctryName":"SRI LANKA","name":"Sri Lanka Rupee","code":"LKR","ccyNbr":"144","ccyMnrUnts":"2"},{"ctryName":"SUDAN (THE)","name":"Sudanese Pound","code":"SDG","ccyNbr":"938","ccyMnrUnts":"2"},{"ctryName":"SURINAME","name":"Surinam Dollar","code":"SRD","ccyNbr":"968","ccyMnrUnts":"2"},{"ctryName":"SVALBARD AND JAN MAYEN","name":"Norwegian Krone","code":"NOK","ccyNbr":"578","ccyMnrUnts":"2"},{"ctryName":"SWEDEN","name":"Swedish Krona","code":"SEK","ccyNbr":"752","ccyMnrUnts":"2"},{"ctryName":"SWITZERLAND","name":"Swiss Franc","code":"CHF","ccyNbr":"756","ccyMnrUnts":"2"},{"ctryName":"SYRIAN ARAB REPUBLIC","name":"Syrian Pound","code":"SYP","ccyNbr":"760","ccyMnrUnts":"2"},{"ctryName":"TAIWAN","name":"New Taiwan Dollar","code":"TWD","ccyNbr":"901","ccyMnrUnts":"2"},{"ctryName":"TAJIKISTAN","name":"Somoni","code":"TJS","ccyNbr":"972","ccyMnrUnts":"2"},{"ctryName":"TANZANIA, UNITED REPUBLIC OF","name":"Tanzanian Shilling","code":"TZS","ccyNbr":"834","ccyMnrUnts":"2"},{"ctryName":"THAILAND","name":"Baht","code":"THB","ccyNbr":"764","ccyMnrUnts":"2"},{"ctryName":"TIMOR-LESTE","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"TOGO","name":"CFA Franc BCEAO","code":"XOF","ccyNbr":"952","ccyMnrUnts":"0"},{"ctryName":"TOKELAU","name":"New Zealand Dollar","code":"NZD","ccyNbr":"554","ccyMnrUnts":"2"},{"ctryName":"TONGA","name":"Pa’anga","code":"TOP","ccyNbr":"776","ccyMnrUnts":"2"},{"ctryName":"TRINIDAD AND TOBAGO","name":"Trinidad and Tobago Dollar","code":"TTD","ccyNbr":"780","ccyMnrUnts":"2"},{"ctryName":"TUNISIA","name":"Tunisian Dinar","code":"TND","ccyNbr":"788","ccyMnrUnts":"3"},{"ctryName":"TURKEY","name":"Turkish Lira","code":"TRY","ccyNbr":"949","ccyMnrUnts":"2"},{"ctryName":"TURKMENISTAN","name":"Turkmenistan New Manat","code":"TMT","ccyNbr":"934","ccyMnrUnts":"2"},{"ctryName":"TURKS AND CAICOS ISLANDS (THE)","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"TUVALU","name":"Australian Dollar","code":"AUD","ccyNbr":"036","ccyMnrUnts":"2"},{"ctryName":"UGANDA","name":"Uganda Shilling","code":"UGX","ccyNbr":"800","ccyMnrUnts":"0"},{"ctryName":"UKRAINE","name":"Hryvnia","code":"UAH","ccyNbr":"980","ccyMnrUnts":"2"},{"ctryName":"UNITED ARAB EMIRATES (THE)","name":"UAE Dirham","code":"AED","ccyNbr":"784","ccyMnrUnts":"2"},{"ctryName":"UNITED KINGDOM OF GREAT BRITAIN AND NORTHERN IRELAND (THE)","name":"Pound Sterling","code":"GBP","ccyNbr":"826","ccyMnrUnts":"2"},{"ctryName":"UNITED STATES MINOR OUTLYING ISLANDS (THE)","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"UNITED STATES OF AMERICA (THE)","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"URUGUAY","name":"Peso Uruguayo","code":"UYU","ccyNbr":"858","ccyMnrUnts":"2"},{"ctryName":"URUGUAY","name":"Unidad Previsional","code":"UYW","ccyNbr":"927","ccyMnrUnts":"4"},{"ctryName":"UZBEKISTAN","name":"Uzbekistan Sum","code":"UZS","ccyNbr":"860","ccyMnrUnts":"2"},{"ctryName":"VANUATU","name":"Vatu","code":"VUV","ccyNbr":"548","ccyMnrUnts":"0"},{"ctryName":"VENEZUELA (BOLIVARIAN REPUBLIC OF)","name":"Bolívar Soberano","code":"VES","ccyNbr":"928","ccyMnrUnts":"2"},{"ctryName":"VIET NAM","name":"Dong","code":"VND","ccyNbr":"704","ccyMnrUnts":"0"},{"ctryName":"VIRGIN ISLANDS (BRITISH)","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"VIRGIN ISLANDS (U.S.)","name":"US Dollar","code":"USD","ccyNbr":"840","ccyMnrUnts":"2"},{"ctryName":"WALLIS AND FUTUNA","name":"CFP Franc","code":"XPF","ccyNbr":"953","ccyMnrUnts":"0"},{"ctryName":"WESTERN SAHARA","name":"Moroccan Dirham","code":"MAD","ccyNbr":"504","ccyMnrUnts":"2"},{"ctryName":"YEMEN","name":"Yemeni Rial","code":"YER","ccyNbr":"886","ccyMnrUnts":"2"},{"ctryName":"ZAMBIA","name":"Zambian Kwacha","code":"ZMW","ccyNbr":"967","ccyMnrUnts":"2"},{"ctryName":"ZIMBABWE","name":"Zimbabwe Dollar","code":"ZWL","ccyNbr":"932","ccyMnrUnts":"2"},{"ctryName":"ZZ01_Bond Markets Unit European_EURCO","name":"Bond Markets Unit European Composite Unit (EURCO)","code":"XBA","ccyNbr":"955","ccyMnrUnts":"N.A."},{"ctryName":"ZZ02_Bond Markets Unit European_EMU-6","name":"Bond Markets Unit European Monetary Unit (E.M.U.-6)","code":"XBB","ccyNbr":"956","ccyMnrUnts":"N.A."},{"ctryName":"ZZ03_Bond Markets Unit European_EUA-9","name":"Bond Markets Unit European Unit of Account 9 (E.U.A.-9)","code":"XBC","ccyNbr":"957","ccyMnrUnts":"N.A."},{"ctryName":"ZZ04_Bond Markets Unit European_EUA-17","name":"Bond Markets Unit European Unit of Account 17 (E.U.A.-17)","code":"XBD","ccyNbr":"958","ccyMnrUnts":"N.A."},{"ctryName":"ZZ06_Testing_Code","name":"Codes specifically reserved for testing purposes","code":"XTS","ccyNbr":"963","ccyMnrUnts":"N.A."},{"ctryName":"ZZ07_No_Currency","name":"The codes assigned for transactions where no currency is involved","code":"XXX","ccyNbr":"999","ccyMnrUnts":"N.A."},{"ctryName":"ZZ08_Gold","name":"Gold","code":"XAU","ccyNbr":"959","ccyMnrUnts":"N.A."},{"ctryName":"ZZ09_Palladium","name":"Palladium","code":"XPD","ccyNbr":"964","ccyMnrUnts":"N.A."},{"ctryName":"ZZ10_Platinum","name":"Platinum","code":"XPT","ccyNbr":"962","ccyMnrUnts":"N.A."},{"ctryName":"ZZ11_Silver","name":"Silver","code":"XAG","ccyNbr":"961","ccyMnrUnts":"N.A."}]',
                 'item_type' => 'array',
                 'item_tag' => 'commons',
                 'is_multilingual' => 0,
@@ -119,12 +112,11 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            7 =>
-            array (
+            ],
+            7 => [
                 'id' => 8,
                 'item_key' => 'language_codes',
-            'item_value' => '[{"name":"Abkhazian","code":"ab","localName":"Аҧсуа","writingDirection":"ltr"},{"name":"Afar","code":"aa","localName":"Qafár af","writingDirection":"ltr"},{"name":"Afrikaans","code":"af","localName":"Afrikaans","writingDirection":"ltr"},{"name":"Akan","code":"ak","localName":"Akan","writingDirection":"ltr"},{"name":"Albanian","code":"sq","localName":"Shqip","writingDirection":"ltr"},{"name":"Amharic","code":"am","localName":"አማርኛ","writingDirection":"ltr"},{"name":"Arabic","code":"ar","localName":"العربية","writingDirection":"rtl"},{"name":"Aragonese","code":"an","localName":"Aragonés","writingDirection":"ltr"},{"name":"Armenian","code":"hy","localName":"Հայերեն","writingDirection":"ltr"},{"name":"Assamese","code":"as","localName":"অসমীয়া","writingDirection":"ltr"},{"name":"Avaric","code":"av","localName":"Авар","writingDirection":"ltr"},{"name":"Avestan","code":"ae","localName":"𐬎𐬞𐬀𐬯𐬙𐬀𐬎𐬎𐬀𐬐𐬀𐬉𐬥𐬀","writingDirection":"rtl"},{"name":"Aymara","code":"ay","localName":"Aymar","writingDirection":"ltr"},{"name":"Azerbaijani","code":"az","localName":"Azərbaycanca","writingDirection":"ltr"},{"name":"Bambara","code":"bm","localName":"Bamanankan","writingDirection":"ltr"},{"name":"Bashkir","code":"ba","localName":"Башҡорт","writingDirection":"ltr"},{"name":"Basque","code":"eu","localName":"Euskara","writingDirection":"ltr"},{"name":"Belarusian","code":"be","localName":"Беларуская","writingDirection":"ltr"},{"name":"Bengali (Bangla)","code":"bn","localName":"বাংলা","writingDirection":"ltr"},{"name":"Bihari","code":"bh","localName":"भोजपुरी","writingDirection":"ltr"},{"name":"Bislama","code":"bi","localName":"Bislama","writingDirection":"ltr"},{"name":"Bosnian","code":"bs","localName":"Bosanski","writingDirection":"ltr"},{"name":"Breton","code":"br","localName":"Brezhoneg","writingDirection":"ltr"},{"name":"Bulgarian","code":"bg","localName":"Български","writingDirection":"ltr"},{"name":"Burmese","code":"my","localName":"Myanmasa","writingDirection":"ltr"},{"name":"Catalan","code":"ca","localName":"Català","writingDirection":"ltr"},{"name":"Chamorro","code":"ch","localName":"Chamoru","writingDirection":"ltr"},{"name":"Chechen","code":"ce","localName":"Нохчийн","writingDirection":"ltr"},{"name":"Chichewa, Chewa, Nyanja","code":"ny","localName":"Chicheŵa/Chi-Chewa/Nyanja","writingDirection":"ltr"},{"name":"Chinese (Simplified)","code":"zh-Hans","localName":"简体中文","writingDirection":"ltr"},{"name":"Chinese (Traditional)","code":"zh-Hant","localName":"繁體中文","writingDirection":"ltr"},{"name":"Church Slavic","code":"cu","localName":"Словѣ́ньскъ/ⰔⰎⰑⰂⰡⰐⰠⰔⰍⰟ","writingDirection":"ltr"},{"name":"Chuvash","code":"cv","localName":"Чăвашла","writingDirection":"ltr"},{"name":"Cornish","code":"kw","localName":"Kernewek","writingDirection":"ltr"},{"name":"Corsican","code":"co","localName":"Corsu","writingDirection":"ltr"},{"name":"Cree","code":"cr","localName":"Nēhiyawēwin/ᓀᐦᐃᔭᐍᐏᐣ","writingDirection":"ltr"},{"name":"Croatian","code":"hr","localName":"Hrvatski","writingDirection":"ltr"},{"name":"Czech","code":"cs","localName":"Česky","writingDirection":"ltr"},{"name":"Danish","code":"da","localName":"Dansk","writingDirection":"ltr"},{"name":"Divehi, Dhivehi, Maldivian","code":"dv","localName":"ދިވެހިބަސް","writingDirection":"rtl"},{"name":"Dutch","code":"nl","localName":"Nederlands","writingDirection":"ltr"},{"name":"Dzongkha","code":"dz","localName":"ཇོང་ཁ","writingDirection":"ltr"},{"name":"English","code":"en","localName":"English","writingDirection":"ltr"},{"name":"Esperanto","code":"eo","localName":"Esperanto","writingDirection":"ltr"},{"name":"Estonian","code":"et","localName":"Eesti","writingDirection":"ltr"},{"name":"Ewe","code":"ee","localName":"Eʋegbe","writingDirection":"ltr"},{"name":"Faroese","code":"fo","localName":"Føroyskt","writingDirection":"ltr"},{"name":"Fijian","code":"fj","localName":"Na Vosa Vakaviti","writingDirection":"ltr"},{"name":"Finnish","code":"fi","localName":"Suomi","writingDirection":"ltr"},{"name":"French","code":"fr","localName":"Français","writingDirection":"ltr"},{"name":"Fula, Fulah, Pulaar, Pular","code":"ff","localName":"Fulfulde","writingDirection":"ltr"},{"name":"Galician","code":"gl","localName":"Galego","writingDirection":"ltr"},{"name":"Gaelic (Scottish)","code":"gd","localName":"Gàidhlig","writingDirection":"ltr"},{"name":"Gaelic (Manx)","code":"gv","localName":"Gaelg","writingDirection":"ltr"},{"name":"Georgian","code":"ka","localName":"ქართული","writingDirection":"ltr"},{"name":"German","code":"de","localName":"Deutsch","writingDirection":"ltr"},{"name":"Greek","code":"el","localName":"Ελληνικά","writingDirection":"ltr"},{"name":"Guarani","code":"gn","localName":"Avañe\'ẽ","writingDirection":"ltr"},{"name":"Gujarati","code":"gu","localName":"ગુજરાતી","writingDirection":"ltr"},{"name":"Haitian Creole","code":"ht","localName":"Kreyòl ayisyen","writingDirection":"ltr"},{"name":"Hausa","code":"ha","localName":"هَوُسَ","writingDirection":"rtl"},{"name":"Hebrew","code":"he","localName":"עברית","writingDirection":"rtl"},{"name":"Herero","code":"hz","localName":"Otsiherero","writingDirection":"ltr"},{"name":"Hindi","code":"hi","localName":"हिन्दी","writingDirection":"ltr"},{"name":"Hiri Motu","code":"ho","localName":"Hiri Motu","writingDirection":"ltr"},{"name":"Hungarian","code":"hu","localName":"Magyar","writingDirection":"ltr"},{"name":"Icelandic","code":"is","localName":"Íslenska","writingDirection":"ltr"},{"name":"Ido","code":"io","localName":"Ido","writingDirection":"ltr"},{"name":"Igbo","code":"ig","localName":"Igbo","writingDirection":"ltr"},{"name":"Indonesian","code":"id","localName":"Bahasa Indonesia","writingDirection":"ltr"},{"name":"Interlingua","code":"ia","localName":"Interlingua","writingDirection":"ltr"},{"name":"Interlingue","code":"ie","localName":"Interlingue","writingDirection":"ltr"},{"name":"Inuktitut","code":"iu","localName":"ᐃᓄᒃᑎᑐᑦ","writingDirection":"ltr"},{"name":"Inupiaq","code":"ik","localName":"Iñupiak","writingDirection":"ltr"},{"name":"Irish","code":"ga","localName":"Gaeilge","writingDirection":"ltr"},{"name":"Italian","code":"it","localName":"Italiano","writingDirection":"ltr"},{"name":"Japanese","code":"ja","localName":"日本語","writingDirection":"ltr"},{"name":"Javanese","code":"jv","localName":"Basa Jawa","writingDirection":"ltr"},{"name":"Kalaallisut, Greenlandic","code":"kl","localName":"Kalaallisut","writingDirection":"ltr"},{"name":"Kannada","code":"kn","localName":"ಕನ್ನಡ","writingDirection":"ltr"},{"name":"Kanuri","code":"kr","localName":"Kanuri","writingDirection":"ltr"},{"name":"Kashmiri","code":"ks","localName":"कश्मीरी - (كشميري)","writingDirection":"rtl"},{"name":"Kazakh","code":"kk","localName":"Қазақша","writingDirection":"ltr"},{"name":"Khmer","code":"km","localName":"ភាសាខ្មែរ","writingDirection":"ltr"},{"name":"Kikuyu","code":"ki","localName":"Gĩkũyũ","writingDirection":"ltr"},{"name":"Kinyarwanda (Rwanda)","code":"rw","localName":"Kinyarwanda","writingDirection":"ltr"},{"name":"Kirghiz","code":"ky","localName":"Кыргызча","writingDirection":"ltr"},{"name":"Komi","code":"kv","localName":"Коми","writingDirection":"ltr"},{"name":"Kongo","code":"kg","localName":"Kongo","writingDirection":"ltr"},{"name":"Korean","code":"ko","localName":"한국어","writingDirection":"ltr"},{"name":"Kurdish","code":"ku","localName":"Kurdî/كوردی","writingDirection":"rtl"},{"name":"Kwanyama","code":"kj","localName":"Kuanyama","writingDirection":"ltr"},{"name":"Lao","code":"lo","localName":"ລາວ","writingDirection":"ltr"},{"name":"Latin","code":"la","localName":"Latina","writingDirection":"ltr"},{"name":"Latvian (Lettish)","code":"lv","localName":"Latviešu","writingDirection":"ltr"},{"name":"Limburgish, Limburger, Limburgan","code":"li","localName":"Limburgs","writingDirection":"ltr"},{"name":"Lingala","code":"ln","localName":"Lingála","writingDirection":"ltr"},{"name":"Lithuanian","code":"lt","localName":"Lietuvių","writingDirection":"ltr"},{"name":"Luga-Katanga","code":"lu","localName":"Luga-Katanga","writingDirection":"ltr"},{"name":"Luganda, Ganda","code":"lg","localName":"Luganda","writingDirection":"ltr"},{"name":"Luxembourgish","code":"lb","localName":"Lëtzebuergesch","writingDirection":"ltr"},{"name":"Manx","code":"gv","localName":"Gaelg","writingDirection":"ltr"},{"name":"Macedonian","code":"mk","localName":"Македонски","writingDirection":"ltr"},{"name":"Malagasy","code":"mg","localName":"Malagasy","writingDirection":"ltr"},{"name":"Malay","code":"ms","localName":"Bahasa Melayu","writingDirection":"ltr"},{"name":"Malayalam","code":"ml","localName":"മലയാളം","writingDirection":"ltr"},{"name":"Maltese","code":"mt","localName":"Malti","writingDirection":"ltr"},{"name":"Maori","code":"mi","localName":"Māori","writingDirection":"ltr"},{"name":"Marathi","code":"mr","localName":"मराठी","writingDirection":"ltr"},{"name":"Marshallese","code":"mh","localName":"Ebon","writingDirection":"ltr"},{"name":"Moldovan","code":"mo","localName":"Молдовеняскэ","writingDirection":"ltr"},{"name":"Mongolian","code":"mn","localName":"Монгол","writingDirection":"ltr"},{"name":"Nauru","code":"na","localName":"Ekakairũ Naoero","writingDirection":"ltr"},{"name":"Navajo","code":"nv","localName":"Diné bizaad","writingDirection":"ltr"},{"name":"Ndonga","code":"ng","localName":"Oshiwambo","writingDirection":"ltr"},{"name":"Northern Ndebele","code":"nd","localName":"siNdebele saseNyakatho","writingDirection":"ltr"},{"name":"Nepali","code":"ne","localName":"नेपाली","writingDirection":"ltr"},{"name":"Norwegian","code":"no","localName":"Norsk","writingDirection":"ltr"},{"name":"Norwegian bokmål","code":"nb","localName":"Norsk (bokmål)","writingDirection":"ltr"},{"name":"Norwegian Nynorsk","code":"nn","localName":"Norsk (nynorsk)","writingDirection":"ltr"},{"name":"Occitan","code":"oc","localName":"Occitan","writingDirection":"ltr"},{"name":"Ojibwe","code":"oj","localName":"ᐊᓂᔑᓈᐯᒧᐎᓐ","writingDirection":"ltr"},{"name":"Oriya","code":"or","localName":"ଓଡ଼ିଆ","writingDirection":"ltr"},{"name":"Oromo (Afaan Oromo)","code":"om","localName":"Oromoo","writingDirection":"ltr"},{"name":"Ossetian","code":"os","localName":"Иронау","writingDirection":"ltr"},{"name":"Pali","code":"pi","localName":"पािऴ","writingDirection":"ltr"},{"name":"Pashto, Pushto","code":"ps","localName":"پښتو","writingDirection":"rtl"},{"name":"Persian (Farsi)","code":"fa","localName":"فارسی","writingDirection":"rtl"},{"name":"Polish","code":"pl","localName":"Polski","writingDirection":"ltr"},{"name":"Portuguese","code":"pt","localName":"Português","writingDirection":"ltr"},{"name":"Punjabi (Eastern)","code":"pa","localName":"ਪੰਜਾਬੀ","writingDirection":"ltr"},{"name":"Quechua","code":"qu","localName":"Runa Simi","writingDirection":"ltr"},{"name":"Romansh","code":"rm","localName":"Rumantsch","writingDirection":"ltr"},{"name":"Romanian","code":"ro","localName":"Română","writingDirection":"ltr"},{"name":"Russian","code":"ru","localName":"Русский","writingDirection":"ltr"},{"name":"Rundi","code":"rn","localName":"Kirundi","writingDirection":"ltr"},{"name":"Sami","code":"se","localName":"Davvisámegiella","writingDirection":"ltr"},{"name":"Samoan","code":"sm","localName":"Gagana Samoa","writingDirection":"ltr"},{"name":"Sango","code":"sg","localName":"Sängö","writingDirection":"ltr"},{"name":"Sanskrit","code":"sa","localName":"संस्कृत","writingDirection":"ltr"},{"name":"Serbian","code":"sr","localName":"Српски/Srpski","writingDirection":"ltr"},{"name":"Serbo-Croatian","code":"sh","localName":"Srpskohrvatski/Српскохрватски","writingDirection":"ltr"},{"name":"Shona","code":"sn","localName":"chiShona","writingDirection":"ltr"},{"name":"Sichuan Yi","code":"ii","localName":"ꆇꉙ","writingDirection":"ltr"},{"name":"Sindhi","code":"sd","localName":"سنڌي","writingDirection":"rtl"},{"name":"Sinhalese (Sinhala)","code":"si","localName":"සිංහල","writingDirection":"ltr"},{"name":"Siswati (Swati)","code":"ss","localName":"SiSwati","writingDirection":"ltr"},{"name":"Slovak","code":"sk","localName":"Slovenčina","writingDirection":"ltr"},{"name":"Slovenian","code":"sl","localName":"Slovenščina","writingDirection":"ltr"},{"name":"Somali","code":"so","localName":"Soomaaliga","writingDirection":"ltr"},{"name":"Southern Ndebele","code":"nr","localName":"Southern Ndebele","writingDirection":"ltr"},{"name":"Southern Sotho","code":"st","localName":"Sesotho","writingDirection":"ltr"},{"name":"Spanish","code":"es","localName":"Español","writingDirection":"ltr"},{"name":"Sundanese","code":"su","localName":"Basa Sunda","writingDirection":"ltr"},{"name":"Swahili","code":"sw","localName":"Kiswahili","writingDirection":"ltr"},{"name":"Swedish","code":"sv","localName":"Svenska","writingDirection":"ltr"},{"name":"Tagalog","code":"tl","localName":"Tagalog","writingDirection":"ltr"},{"name":"Tahitian","code":"ty","localName":"Reo Mā`ohi","writingDirection":"ltr"},{"name":"Tajik","code":"tg","localName":"Тоҷикӣ/tojikī","writingDirection":"ltr"},{"name":"Tamil","code":"ta","localName":"தமிழ்","writingDirection":"ltr"},{"name":"Tatar","code":"tt","localName":"Tatarça/Татарча","writingDirection":"ltr"},{"name":"Telugu","code":"te","localName":"తెలుగు","writingDirection":"ltr"},{"name":"Thai","code":"th","localName":"ไทย","writingDirection":"ltr"},{"name":"Tibetan","code":"bo","localName":"བོད་ཡིག","writingDirection":"ltr"},{"name":"Tigrinya","code":"ti","localName":"ትግርኛ","writingDirection":"ltr"},{"name":"Tonga","code":"to","localName":"faka-Tonga","writingDirection":"ltr"},{"name":"Tsonga","code":"ts","localName":"Xitsonga","writingDirection":"ltr"},{"name":"Tswana","code":"tn","localName":"Setswana","writingDirection":"ltr"},{"name":"Turkish","code":"tr","localName":"Türkçe","writingDirection":"ltr"},{"name":"Turkmen","code":"tk","localName":"Türkmen","writingDirection":"ltr"},{"name":"Twi","code":"tw","localName":"Twi","writingDirection":"ltr"},{"name":"Uyghur","code":"ug","localName":"ئۇيغۇرچە","writingDirection":"rtl"},{"name":"Ukrainian","code":"uk","localName":"Українська","writingDirection":"ltr"},{"name":"Urdu","code":"ur","localName":"اردو","writingDirection":"rtl"},{"name":"Uzbek","code":"uz","localName":"O\'zbek","writingDirection":"ltr"},{"name":"Venda","code":"ve","localName":"Tshivenda","writingDirection":"ltr"},{"name":"Vietnamese","code":"vi","localName":"Tiếng Việt","writingDirection":"ltr"},{"name":"Volapük","code":"vo","localName":"Volapük","writingDirection":"ltr"},{"name":"Wallon","code":"wa","localName":"Walon","writingDirection":"ltr"},{"name":"Welsh","code":"cy","localName":"Cymraeg","writingDirection":"ltr"},{"name":"Wolof","code":"wo","localName":"Wolof","writingDirection":"ltr"},{"name":"Western Frisian","code":"fy","localName":"Frysk","writingDirection":"ltr"},{"name":"Xhosa","code":"xh","localName":"isiXhosa","writingDirection":"ltr"},{"name":"Yiddish","code":"yi","localName":"ייִדיש","writingDirection":"rtl"},{"name":"Yoruba","code":"yo","localName":"Yorùbá","writingDirection":"ltr"},{"name":"Zhuang, Chuang","code":"za","localName":"Cuengh","writingDirection":"ltr"},{"name":"Zulu","code":"zu","localName":"isiZulu","writingDirection":"ltr"}]',
+                'item_value' => '[{"name":"Abkhazian","code":"ab","localName":"Аҧсуа","writingDirection":"ltr"},{"name":"Afar","code":"aa","localName":"Qafár af","writingDirection":"ltr"},{"name":"Afrikaans","code":"af","localName":"Afrikaans","writingDirection":"ltr"},{"name":"Akan","code":"ak","localName":"Akan","writingDirection":"ltr"},{"name":"Albanian","code":"sq","localName":"Shqip","writingDirection":"ltr"},{"name":"Amharic","code":"am","localName":"አማርኛ","writingDirection":"ltr"},{"name":"Arabic","code":"ar","localName":"العربية","writingDirection":"rtl"},{"name":"Aragonese","code":"an","localName":"Aragonés","writingDirection":"ltr"},{"name":"Armenian","code":"hy","localName":"Հայերեն","writingDirection":"ltr"},{"name":"Assamese","code":"as","localName":"অসমীয়া","writingDirection":"ltr"},{"name":"Avaric","code":"av","localName":"Авар","writingDirection":"ltr"},{"name":"Avestan","code":"ae","localName":"𐬎𐬞𐬀𐬯𐬙𐬀𐬎𐬎𐬀𐬐𐬀𐬉𐬥𐬀","writingDirection":"rtl"},{"name":"Aymara","code":"ay","localName":"Aymar","writingDirection":"ltr"},{"name":"Azerbaijani","code":"az","localName":"Azərbaycanca","writingDirection":"ltr"},{"name":"Bambara","code":"bm","localName":"Bamanankan","writingDirection":"ltr"},{"name":"Bashkir","code":"ba","localName":"Башҡорт","writingDirection":"ltr"},{"name":"Basque","code":"eu","localName":"Euskara","writingDirection":"ltr"},{"name":"Belarusian","code":"be","localName":"Беларуская","writingDirection":"ltr"},{"name":"Bengali (Bangla)","code":"bn","localName":"বাংলা","writingDirection":"ltr"},{"name":"Bihari","code":"bh","localName":"भोजपुरी","writingDirection":"ltr"},{"name":"Bislama","code":"bi","localName":"Bislama","writingDirection":"ltr"},{"name":"Bosnian","code":"bs","localName":"Bosanski","writingDirection":"ltr"},{"name":"Breton","code":"br","localName":"Brezhoneg","writingDirection":"ltr"},{"name":"Bulgarian","code":"bg","localName":"Български","writingDirection":"ltr"},{"name":"Burmese","code":"my","localName":"Myanmasa","writingDirection":"ltr"},{"name":"Catalan","code":"ca","localName":"Català","writingDirection":"ltr"},{"name":"Chamorro","code":"ch","localName":"Chamoru","writingDirection":"ltr"},{"name":"Chechen","code":"ce","localName":"Нохчийн","writingDirection":"ltr"},{"name":"Chichewa, Chewa, Nyanja","code":"ny","localName":"Chicheŵa/Chi-Chewa/Nyanja","writingDirection":"ltr"},{"name":"Chinese (Simplified)","code":"zh-Hans","localName":"简体中文","writingDirection":"ltr"},{"name":"Chinese (Traditional)","code":"zh-Hant","localName":"繁體中文","writingDirection":"ltr"},{"name":"Church Slavic","code":"cu","localName":"Словѣ́ньскъ/ⰔⰎⰑⰂⰡⰐⰠⰔⰍⰟ","writingDirection":"ltr"},{"name":"Chuvash","code":"cv","localName":"Чăвашла","writingDirection":"ltr"},{"name":"Cornish","code":"kw","localName":"Kernewek","writingDirection":"ltr"},{"name":"Corsican","code":"co","localName":"Corsu","writingDirection":"ltr"},{"name":"Cree","code":"cr","localName":"Nēhiyawēwin/ᓀᐦᐃᔭᐍᐏᐣ","writingDirection":"ltr"},{"name":"Croatian","code":"hr","localName":"Hrvatski","writingDirection":"ltr"},{"name":"Czech","code":"cs","localName":"Česky","writingDirection":"ltr"},{"name":"Danish","code":"da","localName":"Dansk","writingDirection":"ltr"},{"name":"Divehi, Dhivehi, Maldivian","code":"dv","localName":"ދިވެހިބަސް","writingDirection":"rtl"},{"name":"Dutch","code":"nl","localName":"Nederlands","writingDirection":"ltr"},{"name":"Dzongkha","code":"dz","localName":"ཇོང་ཁ","writingDirection":"ltr"},{"name":"English","code":"en","localName":"English","writingDirection":"ltr"},{"name":"Esperanto","code":"eo","localName":"Esperanto","writingDirection":"ltr"},{"name":"Estonian","code":"et","localName":"Eesti","writingDirection":"ltr"},{"name":"Ewe","code":"ee","localName":"Eʋegbe","writingDirection":"ltr"},{"name":"Faroese","code":"fo","localName":"Føroyskt","writingDirection":"ltr"},{"name":"Fijian","code":"fj","localName":"Na Vosa Vakaviti","writingDirection":"ltr"},{"name":"Finnish","code":"fi","localName":"Suomi","writingDirection":"ltr"},{"name":"French","code":"fr","localName":"Français","writingDirection":"ltr"},{"name":"Fula, Fulah, Pulaar, Pular","code":"ff","localName":"Fulfulde","writingDirection":"ltr"},{"name":"Galician","code":"gl","localName":"Galego","writingDirection":"ltr"},{"name":"Gaelic (Scottish)","code":"gd","localName":"Gàidhlig","writingDirection":"ltr"},{"name":"Gaelic (Manx)","code":"gv","localName":"Gaelg","writingDirection":"ltr"},{"name":"Georgian","code":"ka","localName":"ქართული","writingDirection":"ltr"},{"name":"German","code":"de","localName":"Deutsch","writingDirection":"ltr"},{"name":"Greek","code":"el","localName":"Ελληνικά","writingDirection":"ltr"},{"name":"Guarani","code":"gn","localName":"Avañe\'ẽ","writingDirection":"ltr"},{"name":"Gujarati","code":"gu","localName":"ગુજરાતી","writingDirection":"ltr"},{"name":"Haitian Creole","code":"ht","localName":"Kreyòl ayisyen","writingDirection":"ltr"},{"name":"Hausa","code":"ha","localName":"هَوُسَ","writingDirection":"rtl"},{"name":"Hebrew","code":"he","localName":"עברית","writingDirection":"rtl"},{"name":"Herero","code":"hz","localName":"Otsiherero","writingDirection":"ltr"},{"name":"Hindi","code":"hi","localName":"हिन्दी","writingDirection":"ltr"},{"name":"Hiri Motu","code":"ho","localName":"Hiri Motu","writingDirection":"ltr"},{"name":"Hungarian","code":"hu","localName":"Magyar","writingDirection":"ltr"},{"name":"Icelandic","code":"is","localName":"Íslenska","writingDirection":"ltr"},{"name":"Ido","code":"io","localName":"Ido","writingDirection":"ltr"},{"name":"Igbo","code":"ig","localName":"Igbo","writingDirection":"ltr"},{"name":"Indonesian","code":"id","localName":"Bahasa Indonesia","writingDirection":"ltr"},{"name":"Interlingua","code":"ia","localName":"Interlingua","writingDirection":"ltr"},{"name":"Interlingue","code":"ie","localName":"Interlingue","writingDirection":"ltr"},{"name":"Inuktitut","code":"iu","localName":"ᐃᓄᒃᑎᑐᑦ","writingDirection":"ltr"},{"name":"Inupiaq","code":"ik","localName":"Iñupiak","writingDirection":"ltr"},{"name":"Irish","code":"ga","localName":"Gaeilge","writingDirection":"ltr"},{"name":"Italian","code":"it","localName":"Italiano","writingDirection":"ltr"},{"name":"Japanese","code":"ja","localName":"日本語","writingDirection":"ltr"},{"name":"Javanese","code":"jv","localName":"Basa Jawa","writingDirection":"ltr"},{"name":"Kalaallisut, Greenlandic","code":"kl","localName":"Kalaallisut","writingDirection":"ltr"},{"name":"Kannada","code":"kn","localName":"ಕನ್ನಡ","writingDirection":"ltr"},{"name":"Kanuri","code":"kr","localName":"Kanuri","writingDirection":"ltr"},{"name":"Kashmiri","code":"ks","localName":"कश्मीरी - (كشميري)","writingDirection":"rtl"},{"name":"Kazakh","code":"kk","localName":"Қазақша","writingDirection":"ltr"},{"name":"Khmer","code":"km","localName":"ភាសាខ្មែរ","writingDirection":"ltr"},{"name":"Kikuyu","code":"ki","localName":"Gĩkũyũ","writingDirection":"ltr"},{"name":"Kinyarwanda (Rwanda)","code":"rw","localName":"Kinyarwanda","writingDirection":"ltr"},{"name":"Kirghiz","code":"ky","localName":"Кыргызча","writingDirection":"ltr"},{"name":"Komi","code":"kv","localName":"Коми","writingDirection":"ltr"},{"name":"Kongo","code":"kg","localName":"Kongo","writingDirection":"ltr"},{"name":"Korean","code":"ko","localName":"한국어","writingDirection":"ltr"},{"name":"Kurdish","code":"ku","localName":"Kurdî/كوردی","writingDirection":"rtl"},{"name":"Kwanyama","code":"kj","localName":"Kuanyama","writingDirection":"ltr"},{"name":"Lao","code":"lo","localName":"ລາວ","writingDirection":"ltr"},{"name":"Latin","code":"la","localName":"Latina","writingDirection":"ltr"},{"name":"Latvian (Lettish)","code":"lv","localName":"Latviešu","writingDirection":"ltr"},{"name":"Limburgish, Limburger, Limburgan","code":"li","localName":"Limburgs","writingDirection":"ltr"},{"name":"Lingala","code":"ln","localName":"Lingála","writingDirection":"ltr"},{"name":"Lithuanian","code":"lt","localName":"Lietuvių","writingDirection":"ltr"},{"name":"Luga-Katanga","code":"lu","localName":"Luga-Katanga","writingDirection":"ltr"},{"name":"Luganda, Ganda","code":"lg","localName":"Luganda","writingDirection":"ltr"},{"name":"Luxembourgish","code":"lb","localName":"Lëtzebuergesch","writingDirection":"ltr"},{"name":"Manx","code":"gv","localName":"Gaelg","writingDirection":"ltr"},{"name":"Macedonian","code":"mk","localName":"Македонски","writingDirection":"ltr"},{"name":"Malagasy","code":"mg","localName":"Malagasy","writingDirection":"ltr"},{"name":"Malay","code":"ms","localName":"Bahasa Melayu","writingDirection":"ltr"},{"name":"Malayalam","code":"ml","localName":"മലയാളം","writingDirection":"ltr"},{"name":"Maltese","code":"mt","localName":"Malti","writingDirection":"ltr"},{"name":"Maori","code":"mi","localName":"Māori","writingDirection":"ltr"},{"name":"Marathi","code":"mr","localName":"मराठी","writingDirection":"ltr"},{"name":"Marshallese","code":"mh","localName":"Ebon","writingDirection":"ltr"},{"name":"Moldovan","code":"mo","localName":"Молдовеняскэ","writingDirection":"ltr"},{"name":"Mongolian","code":"mn","localName":"Монгол","writingDirection":"ltr"},{"name":"Nauru","code":"na","localName":"Ekakairũ Naoero","writingDirection":"ltr"},{"name":"Navajo","code":"nv","localName":"Diné bizaad","writingDirection":"ltr"},{"name":"Ndonga","code":"ng","localName":"Oshiwambo","writingDirection":"ltr"},{"name":"Northern Ndebele","code":"nd","localName":"siNdebele saseNyakatho","writingDirection":"ltr"},{"name":"Nepali","code":"ne","localName":"नेपाली","writingDirection":"ltr"},{"name":"Norwegian","code":"no","localName":"Norsk","writingDirection":"ltr"},{"name":"Norwegian bokmål","code":"nb","localName":"Norsk (bokmål)","writingDirection":"ltr"},{"name":"Norwegian Nynorsk","code":"nn","localName":"Norsk (nynorsk)","writingDirection":"ltr"},{"name":"Occitan","code":"oc","localName":"Occitan","writingDirection":"ltr"},{"name":"Ojibwe","code":"oj","localName":"ᐊᓂᔑᓈᐯᒧᐎᓐ","writingDirection":"ltr"},{"name":"Oriya","code":"or","localName":"ଓଡ଼ିଆ","writingDirection":"ltr"},{"name":"Oromo (Afaan Oromo)","code":"om","localName":"Oromoo","writingDirection":"ltr"},{"name":"Ossetian","code":"os","localName":"Иронау","writingDirection":"ltr"},{"name":"Pali","code":"pi","localName":"पािऴ","writingDirection":"ltr"},{"name":"Pashto, Pushto","code":"ps","localName":"پښتو","writingDirection":"rtl"},{"name":"Persian (Farsi)","code":"fa","localName":"فارسی","writingDirection":"rtl"},{"name":"Polish","code":"pl","localName":"Polski","writingDirection":"ltr"},{"name":"Portuguese","code":"pt","localName":"Português","writingDirection":"ltr"},{"name":"Punjabi (Eastern)","code":"pa","localName":"ਪੰਜਾਬੀ","writingDirection":"ltr"},{"name":"Quechua","code":"qu","localName":"Runa Simi","writingDirection":"ltr"},{"name":"Romansh","code":"rm","localName":"Rumantsch","writingDirection":"ltr"},{"name":"Romanian","code":"ro","localName":"Română","writingDirection":"ltr"},{"name":"Russian","code":"ru","localName":"Русский","writingDirection":"ltr"},{"name":"Rundi","code":"rn","localName":"Kirundi","writingDirection":"ltr"},{"name":"Sami","code":"se","localName":"Davvisámegiella","writingDirection":"ltr"},{"name":"Samoan","code":"sm","localName":"Gagana Samoa","writingDirection":"ltr"},{"name":"Sango","code":"sg","localName":"Sängö","writingDirection":"ltr"},{"name":"Sanskrit","code":"sa","localName":"संस्कृत","writingDirection":"ltr"},{"name":"Serbian","code":"sr","localName":"Српски/Srpski","writingDirection":"ltr"},{"name":"Serbo-Croatian","code":"sh","localName":"Srpskohrvatski/Српскохрватски","writingDirection":"ltr"},{"name":"Shona","code":"sn","localName":"chiShona","writingDirection":"ltr"},{"name":"Sichuan Yi","code":"ii","localName":"ꆇꉙ","writingDirection":"ltr"},{"name":"Sindhi","code":"sd","localName":"سنڌي","writingDirection":"rtl"},{"name":"Sinhalese (Sinhala)","code":"si","localName":"සිංහල","writingDirection":"ltr"},{"name":"Siswati (Swati)","code":"ss","localName":"SiSwati","writingDirection":"ltr"},{"name":"Slovak","code":"sk","localName":"Slovenčina","writingDirection":"ltr"},{"name":"Slovenian","code":"sl","localName":"Slovenščina","writingDirection":"ltr"},{"name":"Somali","code":"so","localName":"Soomaaliga","writingDirection":"ltr"},{"name":"Southern Ndebele","code":"nr","localName":"Southern Ndebele","writingDirection":"ltr"},{"name":"Southern Sotho","code":"st","localName":"Sesotho","writingDirection":"ltr"},{"name":"Spanish","code":"es","localName":"Español","writingDirection":"ltr"},{"name":"Sundanese","code":"su","localName":"Basa Sunda","writingDirection":"ltr"},{"name":"Swahili","code":"sw","localName":"Kiswahili","writingDirection":"ltr"},{"name":"Swedish","code":"sv","localName":"Svenska","writingDirection":"ltr"},{"name":"Tagalog","code":"tl","localName":"Tagalog","writingDirection":"ltr"},{"name":"Tahitian","code":"ty","localName":"Reo Mā`ohi","writingDirection":"ltr"},{"name":"Tajik","code":"tg","localName":"Тоҷикӣ/tojikī","writingDirection":"ltr"},{"name":"Tamil","code":"ta","localName":"தமிழ்","writingDirection":"ltr"},{"name":"Tatar","code":"tt","localName":"Tatarça/Татарча","writingDirection":"ltr"},{"name":"Telugu","code":"te","localName":"తెలుగు","writingDirection":"ltr"},{"name":"Thai","code":"th","localName":"ไทย","writingDirection":"ltr"},{"name":"Tibetan","code":"bo","localName":"བོད་ཡིག","writingDirection":"ltr"},{"name":"Tigrinya","code":"ti","localName":"ትግርኛ","writingDirection":"ltr"},{"name":"Tonga","code":"to","localName":"faka-Tonga","writingDirection":"ltr"},{"name":"Tsonga","code":"ts","localName":"Xitsonga","writingDirection":"ltr"},{"name":"Tswana","code":"tn","localName":"Setswana","writingDirection":"ltr"},{"name":"Turkish","code":"tr","localName":"Türkçe","writingDirection":"ltr"},{"name":"Turkmen","code":"tk","localName":"Türkmen","writingDirection":"ltr"},{"name":"Twi","code":"tw","localName":"Twi","writingDirection":"ltr"},{"name":"Uyghur","code":"ug","localName":"ئۇيغۇرچە","writingDirection":"rtl"},{"name":"Ukrainian","code":"uk","localName":"Українська","writingDirection":"ltr"},{"name":"Urdu","code":"ur","localName":"اردو","writingDirection":"rtl"},{"name":"Uzbek","code":"uz","localName":"O\'zbek","writingDirection":"ltr"},{"name":"Venda","code":"ve","localName":"Tshivenda","writingDirection":"ltr"},{"name":"Vietnamese","code":"vi","localName":"Tiếng Việt","writingDirection":"ltr"},{"name":"Volapük","code":"vo","localName":"Volapük","writingDirection":"ltr"},{"name":"Wallon","code":"wa","localName":"Walon","writingDirection":"ltr"},{"name":"Welsh","code":"cy","localName":"Cymraeg","writingDirection":"ltr"},{"name":"Wolof","code":"wo","localName":"Wolof","writingDirection":"ltr"},{"name":"Western Frisian","code":"fy","localName":"Frysk","writingDirection":"ltr"},{"name":"Xhosa","code":"xh","localName":"isiXhosa","writingDirection":"ltr"},{"name":"Yiddish","code":"yi","localName":"ייִדיש","writingDirection":"rtl"},{"name":"Yoruba","code":"yo","localName":"Yorùbá","writingDirection":"ltr"},{"name":"Zhuang, Chuang","code":"za","localName":"Cuengh","writingDirection":"ltr"},{"name":"Zulu","code":"zu","localName":"isiZulu","writingDirection":"ltr"}]',
                 'item_type' => 'array',
                 'item_tag' => 'commons',
                 'is_multilingual' => 0,
@@ -133,9 +125,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            8 =>
-            array (
+            ],
+            8 => [
                 'id' => 9,
                 'item_key' => 'utc',
                 'item_value' => '[{"value":"-12","name":"UTC-12"},{"value":"-11.5","name":"UTC-11:30"},{"value":"-11","name":"UTC-11"},{"value":"-10.5","name":"UTC-10:30"},{"value":"-10","name":"UTC-10"},{"value":"-9.5","name":"UTC-9:30"},{"value":"-9","name":"UTC-9"},{"value":"-8.5","name":"UTC-8:30"},{"value":"-8","name":"UTC-8"},{"value":"-7.5","name":"UTC-7:30"},{"value":"-7","name":"UTC-7"},{"value":"-6.5","name":"UTC-6:30"},{"value":"-6","name":"UTC-6"},{"value":"-5.5","name":"UTC-5:30"},{"value":"-5","name":"UTC-5"},{"value":"-4.5","name":"UTC-4:30"},{"value":"-4","name":"UTC-4"},{"value":"-3.5","name":"UTC-3:30"},{"value":"-3","name":"UTC-3"},{"value":"-2.5","name":"UTC-2:30"},{"value":"-2","name":"UTC-2"},{"value":"-1.5","name":"UTC-1:30"},{"value":"-1","name":"UTC-1"},{"value":"-0.5","name":"UTC-0:30"},{"value":"+0","name":"UTC+0"},{"value":"+0.5","name":"UTC+0:30"},{"value":"+1","name":"UTC+1"},{"value":"+1.5","name":"UTC+1:30"},{"value":"+2","name":"UTC+2"},{"value":"+2.5","name":"UTC+2:30"},{"value":"+3","name":"UTC+3"},{"value":"+3.5","name":"UTC+3:30"},{"value":"+4","name":"UTC+4"},{"value":"+4.5","name":"UTC+4:30"},{"value":"+5","name":"UTC+5"},{"value":"+5.5","name":"UTC+5:30"},{"value":"+5.75","name":"UTC+5:45"},{"value":"+6","name":"UTC+6"},{"value":"+6.5","name":"UTC+6:30"},{"value":"+7","name":"UTC+7"},{"value":"+7.5","name":"UTC+7:30"},{"value":"+8","name":"UTC+8"},{"value":"+8.5","name":"UTC+8:30"},{"value":"+8.75","name":"UTC+8:45"},{"value":"+9","name":"UTC+9"},{"value":"+9.5","name":"UTC+9:30"},{"value":"+10","name":"UTC+10"},{"value":"+10.5","name":"UTC+10:30"},{"value":"+11","name":"UTC+11"},{"value":"+11.5","name":"UTC+11:30"},{"value":"+12","name":"UTC+12"},{"value":"+12.75","name":"UTC+12:45"},{"value":"+13","name":"UTC+13"},{"value":"+13.75","name":"UTC+13:45"},{"value":"+14","name":"UTC+14"}]',
@@ -147,9 +138,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            9 =>
-            array (
+            ],
+            9 => [
                 'id' => 10,
                 'item_key' => 'timezones',
                 'item_value' => '{"Africa/Abidjan":"+0","Africa/Accra":"+0","Africa/Addis_Ababa":"+3","Africa/Algiers":"+1","Africa/Asmara":"+3","Africa/Bamako":"+0","Africa/Bangui":"+1","Africa/Banjul":"+0","Africa/Bissau":"+0","Africa/Blantyre":"+2","Africa/Brazzaville":"+1","Africa/Bujumbura":"+2","Africa/Cairo":"+2","Africa/Casablanca":"+0","Africa/Ceuta":"+1","Africa/Conakry":"+0","Africa/Dakar":"+0","Africa/Dar_es_Salaam":"+3","Africa/Djibouti":"+3","Africa/Douala":"+1","Africa/El_Aaiun":"+0","Africa/Freetown":"+0","Africa/Gaborone":"+2","Africa/Harare":"+2","Africa/Johannesburg":"+2","Africa/Juba":"+2","Africa/Kampala":"+3","Africa/Khartoum":"+2","Africa/Kigali":"+2","Africa/Kinshasa":"+1","Africa/Lagos":"+1","Africa/Libreville":"+1","Africa/Lome":"+0","Africa/Luanda":"+1","Africa/Lubumbashi":"+2","Africa/Lusaka":"+2","Africa/Malabo":"+1","Africa/Maputo":"+2","Africa/Maseru":"+2","Africa/Mbabane":"+2","Africa/Mogadishu":"+3","Africa/Monrovia":"+0","Africa/Nairobi":"+3","Africa/Ndjamena":"+1","Africa/Niamey":"+1","Africa/Nouakchott":"+0","Africa/Ouagadougou":"+0","Africa/Porto-Novo":"+1","Africa/Sao_Tome":"+0","Africa/Tripoli":"+2","Africa/Tunis":"+1","Africa/Windhoek":"+1","America/Adak":"-10","America/Anchorage":"-9","America/Anguilla":"-4","America/Antigua":"-4","America/Araguaina":"-3","America/Argentina/Buenos_Aires":"-3","America/Argentina/Catamarca":"-3","America/Argentina/Cordoba":"-3","America/Argentina/Jujuy":"-3","America/Argentina/La_Rioja":"-3","America/Argentina/Mendoza":"-3","America/Argentina/Rio_Gallegos":"-3","America/Argentina/Salta":"-3","America/Argentina/San_Juan":"-3","America/Argentina/San_Luis":"-3","America/Argentina/Tucuman":"-3","America/Argentina/Ushuaia":"-3","America/Aruba":"-4","America/Asuncion":"-4","America/Atikokan":"-5","America/Bahia":"-3","America/Bahia_Banderas":"-6","America/Barbados":"-4","America/Belem":"-3","America/Belize":"-6","America/Blanc-Sablon":"-4","America/Boa_Vista":"-4","America/Bogota":"-5","America/Boise":"-7","America/Cambridge_Bay":"-7","America/Campo_Grande":"-4","America/Cancun":"-5","America/Caracas":"-4","America/Cayenne":"-3","America/Cayman":"-5","America/Chicago":"-6","America/Chihuahua":"-7","America/Costa_Rica":"-6","America/Creston":"-7","America/Cuiaba":"-4","America/Curacao":"-4","America/Danmarkshavn":"+0","America/Dawson":"-7","America/Dawson_Creek":"-7","America/Denver":"-7","America/Detroit":"-5","America/Dominica":"-4","America/Edmonton":"-7","America/Eirunepe":"-5","America/El_Salvador":"-6","America/Fort_Nelson":"-7","America/Fortaleza":"-3","America/Glace_Bay":"-4","America/Goose_Bay":"-4","America/Grand_Turk":"-5","America/Grenada":"-4","America/Guadeloupe":"-4","America/Guatemala":"-6","America/Guayaquil":"-5","America/Guyana":"-4","America/Halifax":"-4","America/Havana":"-5","America/Hermosillo":"-7","America/Indiana/Indianapolis":"-5","America/Indiana/Knox":"-6","America/Indiana/Marengo":"-5","America/Indiana/Petersburg":"-5","America/Indiana/Tell_City":"-6","America/Indiana/Vevay":"-5","America/Indiana/Vincennes":"-5","America/Indiana/Winamac":"-5","America/Inuvik":"-7","America/Iqaluit":"-5","America/Jamaica":"-5","America/Juneau":"-9","America/Kentucky/Louisville":"-5","America/Kentucky/Monticello":"-5","America/Kralendijk":"-4","America/La_Paz":"-4","America/Lima":"-5","America/Los_Angeles":"-8","America/Lower_Princes":"-4","America/Maceio":"-3","America/Managua":"-6","America/Manaus":"-4","America/Marigot":"-4","America/Martinique":"-4","America/Matamoros":"-6","America/Mazatlan":"-7","America/Menominee":"-6","America/Merida":"-6","America/Metlakatla":"-9","America/Mexico_City":"-6","America/Miquelon":"-3","America/Moncton":"-4","America/Monterrey":"-6","America/Montevideo":"-3","America/Montserrat":"-4","America/Nassau":"-5","America/New_York":"-5","America/Nipigon":"-5","America/Nome":"-9","America/Noronha":"-2","America/North_Dakota/Beulah":"-6","America/North_Dakota/Center":"-6","America/North_Dakota/New_Salem":"-6","America/Nuuk":"-2","America/Ojinaga":"-7","America/Panama":"-5","America/Pangnirtung":"-5","America/Paramaribo":"-3","America/Phoenix":"-7","America/Port-au-Prince":"-5","America/Port_of_Spain":"-4","America/Porto_Velho":"-4","America/Puerto_Rico":"-4","America/Punta_Arenas":"-3","America/Rainy_River":"-6","America/Rankin_Inlet":"-6","America/Recife":"-3","America/Regina":"-6","America/Resolute":"-6","America/Rio_Branco":"-5","America/Santarem":"-3","America/Santiago":"-4","America/Santo_Domingo":"-4","America/Sao_Paulo":"-3","America/Scoresbysund":"-1","America/Sitka":"-9","America/St_Barthelemy":"-4","America/St_Johns":"-3.5","America/St_Kitts":"-4","America/St_Lucia":"-4","America/St_Thomas":"-4","America/St_Vincent":"-4","America/Swift_Current":"-6","America/Tegucigalpa":"-6","America/Thule":"-4","America/Thunder_Bay":"-5","America/Tijuana":"-8","America/Toronto":"-5","America/Tortola":"-4","America/Vancouver":"-8","America/Whitehorse":"-7","America/Winnipeg":"-6","America/Yakutat":"-9","America/Yellowknife":"-7","Antarctica/Casey":"+11","Antarctica/Davis":"+7","Antarctica/DumontDUrville":"+10","Antarctica/Macquarie":"+10","Antarctica/Mawson":"+5","Antarctica/McMurdo":"+12","Antarctica/Palmer":"-3","Antarctica/Rothera":"-3","Antarctica/Syowa":"+3","Antarctica/Troll":"+0","Antarctica/Vostok":"+6","Arctic/Longyearbyen":"+1","Asia/Aden":"+3","Asia/Almaty":"+6","Asia/Amman":"+2","Asia/Anadyr":"+12","Asia/Aqtau":"+5","Asia/Aqtobe":"+5","Asia/Ashgabat":"+5","Asia/Atyrau":"+5","Asia/Baghdad":"+3","Asia/Bahrain":"+3","Asia/Baku":"+4","Asia/Bangkok":"+7","Asia/Barnaul":"+7","Asia/Beirut":"+2","Asia/Bishkek":"+6","Asia/Brunei":"+8","Asia/Chita":"+9","Asia/Choibalsan":"+8","Asia/Colombo":"+5.5","Asia/Damascus":"+2","Asia/Dhaka":"+6","Asia/Dili":"+9","Asia/Dubai":"+4","Asia/Dushanbe":"+5","Asia/Famagusta":"+2","Asia/Gaza":"+2","Asia/Hebron":"+2","Asia/Ho_Chi_Minh":"+7","Asia/Hong_Kong":"+8","Asia/Hovd":"+7","Asia/Irkutsk":"+8","Asia/Jakarta":"+7","Asia/Jayapura":"+9","Asia/Jerusalem":"+2","Asia/Kabul":"+4.5","Asia/Kamchatka":"+12","Asia/Karachi":"+5","Asia/Kathmandu":"+5.75","Asia/Khandyga":"+9","Asia/Kolkata":"+5.5","Asia/Krasnoyarsk":"+7","Asia/Kuala_Lumpur":"+8","Asia/Kuching":"+8","Asia/Kuwait":"+3","Asia/Macau":"+8","Asia/Magadan":"+11","Asia/Makassar":"+8","Asia/Manila":"+8","Asia/Muscat":"+4","Asia/Nicosia":"+2","Asia/Novokuznetsk":"+7","Asia/Novosibirsk":"+7","Asia/Omsk":"+6","Asia/Oral":"+5","Asia/Phnom_Penh":"+7","Asia/Pontianak":"+7","Asia/Pyongyang":"+9","Asia/Qatar":"+3","Asia/Qostanay":"+6","Asia/Qyzylorda":"+5","Asia/Riyadh":"+3","Asia/Sakhalin":"+11","Asia/Samarkand":"+5","Asia/Seoul":"+9","Asia/Shanghai":"+8","Asia/Singapore":"+8","Asia/Srednekolymsk":"+11","Asia/Taipei":"+8","Asia/Tashkent":"+5","Asia/Tbilisi":"+4","Asia/Tehran":"+3.5","Asia/Thimphu":"+6","Asia/Tokyo":"+9","Asia/Tomsk":"+7","Asia/Ulaanbaatar":"+8","Asia/Urumqi":"+6","Asia/Ust-Nera":"+10","Asia/Vientiane":"+7","Asia/Vladivostok":"+10","Asia/Yakutsk":"+9","Asia/Yangon":"+6.5","Asia/Yekaterinburg":"+5","Asia/Yerevan":"+4","Atlantic/Azores":"-1","Atlantic/Bermuda":"-4","Atlantic/Canary":"+0","Atlantic/Cape_Verde":"-1","Atlantic/Faroe":"+0","Atlantic/Madeira":"+0","Atlantic/Reykjavik":"+0","Atlantic/South_Georgia":"-2","Atlantic/St_Helena":"+0","Atlantic/Stanley":"-3","Australia/Adelaide":"+9.5","Australia/Brisbane":"+10","Australia/Broken_Hill":"+9.5","Australia/Darwin":"+9.5","Australia/Eucla":"+8.75","Australia/Hobart":"+10","Australia/Lindeman":"+10","Australia/Lord_Howe":"+10.5","Australia/Melbourne":"+10","Australia/Perth":"+8","Australia/Sydney":"+10","Europe/Amsterdam":"+1","Europe/Andorra":"+1","Europe/Astrakhan":"+4","Europe/Athens":"+2","Europe/Belgrade":"+1","Europe/Berlin":"+1","Europe/Bratislava":"+1","Europe/Brussels":"+1","Europe/Bucharest":"+2","Europe/Budapest":"+1","Europe/Busingen":"+2","Europe/Chisinau":"+2","Europe/Copenhagen":"+1","Europe/Dublin":"+0","Europe/Gibraltar":"+1","Europe/Guernsey":"+0","Europe/Helsinki":"+2","Europe/Isle_of_Man":"+0","Europe/Istanbul":"+3","Europe/Jersey":"+0","Europe/Kaliningrad":"+2","Europe/Kiev":"+2","Europe/Kirov":"+3","Europe/Lisbon":"+0","Europe/Ljubljana":"+1","Europe/London":"+0","Europe/Luxembourg":"+1","Europe/Madrid":"+1","Europe/Malta":"+1","Europe/Mariehamn":"+2","Europe/Minsk":"+3","Europe/Monaco":"+1","Europe/Moscow":"+3","Europe/Oslo":"+1","Europe/Paris":"+1","Europe/Podgorica":"+1","Europe/Prague":"+1","Europe/Riga":"+2","Europe/Rome":"+1","Europe/Samara":"+4","Europe/San_Marino":"+1","Europe/Sarajevo":"+1","Europe/Saratov":"+4","Europe/Simferopol":"+3","Europe/Skopje":"+1","Europe/Sofia":"+2","Europe/Stockholm":"+1","Europe/Tallinn":"+2","Europe/Tirane":"+1","Europe/Ulyanovsk":"+4","Europe/Uzhgorod":"+2","Europe/Vaduz":"+1","Europe/Vatican":"+1","Europe/Vienna":"+1","Europe/Vilnius":"+2","Europe/Volgograd":"+3","Europe/Warsaw":"+1","Europe/Zagreb":"+1","Europe/Zaporozhye":"+2","Europe/Zurich":"+1","Indian/Antananarivo":"+3","Indian/Chagos":"+6","Indian/Christmas":"+7","Indian/Cocos":"+6.5","Indian/Comoro":"+3","Indian/Kerguelen":"+5","Indian/Mahe":"+4","Indian/Maldives":"+5","Indian/Mauritius":"+4","Indian/Mayotte":"+3","Indian/Reunion":"+4","Pacific/Apia":"+13","Pacific/Auckland":"+12","Pacific/Bougainville":"+11","Pacific/Chatham":"+12.75","Pacific/Chuuk":"+10","Pacific/Easter":"-6","Pacific/Efate":"+11","Pacific/Fakaofo":"+13","Pacific/Fiji":"+12","Pacific/Funafuti":"+12","Pacific/Galapagos":"-6","Pacific/Gambier":"-9","Pacific/Guadalcanal":"+11","Pacific/Guam":"+10","Pacific/Honolulu":"-10","Pacific/Kanton":"+13","Pacific/Kiritimati":"+14","Pacific/Kosrae":"+11","Pacific/Kwajalein":"+12","Pacific/Majuro":"+12","Pacific/Marquesas":"-9.5","Pacific/Midway":"-11","Pacific/Nauru":"+12","Pacific/Niue":"-11","Pacific/Norfolk":"+11","Pacific/Noumea":"+11","Pacific/Pago_Pago":"-11","Pacific/Palau":"+9","Pacific/Pitcairn":"-8","Pacific/Pohnpei":"+11","Pacific/Port_Moresby":"+10","Pacific/Rarotonga":"-10","Pacific/Saipan":"+10","Pacific/Tahiti":"-10","Pacific/Tarawa":"+12","Pacific/Tongatapu":"+13","Pacific/Wake":"+12","Pacific/Wallis":"+12"}',
@@ -161,9 +151,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            10 =>
-            array (
+            ],
+            10 => [
                 'id' => 11,
                 'item_key' => 'timezone_abbreviations',
                 'item_value' => '{"acdt":"+10.5","acst":"+9.5","act":"-5","acwst":"+8.75","adt":"-3","aedt":"+11","aest":"+10","aft":"+4.5","akdt":"-8","akst":"-9","amst":"-3","amt":"-4","art":"-3","ast":"-4","awst":"+8","azost":"+0","azot":"-1","azt":"+4","bdt":"+8","bnt":"+8","bot":"-4","brst":"-2","brt":"-3","bst":"+1","btt":"+6","cat":"+2","cct":"+6.5","cdt":"-5","cest":"+2","cet":"+1","chadt":"+13.75","chast":"+12.75","chost":"+9","chot":"+8","chst":"+10","chut":"+10","cit":"+8","ckt":"-10","clst":"-3","clt":"-4","cost":"-4","cot":"-5","cst":"-6","cvt":"-1","cxt":"+7","davt":"+7","ddut":"+10","easst":"-5","east":"-6","eat":"+3","ect":"-5","edt":"-4","eest":"+3","eet":"+2","egst":"+0","egt":"-1","eit":"+9","est":"-5","fet":"+3","fjt":"+12","fkst":"-3","fkt":"-4","fnt":"-2","galt":"-6","gamt":"-9","get":"+4","gft":"-3","gilt":"+12","git":"-9","gmt":"+0","gst":"+4","gyt":"-4","hadt":"-9","hast":"-10","hkt":"+8","hovst":"+8","hovt":"+7","ict":"+7","idt":"+3","irdt":"+4.5","irkt":"+8","irst":"+3.5","ist":"+5.5","jst":"+9","kgt":"+6","kost":"+11","krat":"+7","kst":"+9","lhdt":"+11","lhst":"+10.5","lint":"+14","magt":"+11","mart":"-9.5","mawt":"+5","mdt":"-6","mht":"+12","mist":"+11","mit":"-9.5","mmt":"+6.5","msk":"+3","mst":"-7","mut":"+4","mvt":"+5","myt":"+8","nct":"+11","ndt":"-2.5","nft":"+11","npt":"+5.75","nrt":"+12","nst":"-3.5","nt":"-3.5","nut":"-11","nzdt":"+13","nzst":"+12","omst":"+6","orat":"+5","pdt":"-7","pet":"-5","pett":"+12","pgt":"+10","phot":"+13","phst":"+8","pht":"+8","pkt":"+5","pmdt":"-2","pmst":"-3","pont":"+11","pst":"-8","pwt":"+9","pyst":"-3","pyt":"-4","ret":"+4","rott":"-3","sakt":"+11","samt":"+4","sast":"+2","sbt":"+11","sct":"+4","sgt":"+8","slst":"+5.5","srt":"-3","sst":"-11","syot":"+3","taht":"-10","tft":"+5","tha":"+7","tjt":"+5","tkt":"+13","tlt":"+9","tmt":"+5","tot":"+13","trt":"+3","tvt":"+12","ulast":"+9","ulat":"+8","usz1":"+2","uyst":"-2","uyt":"-3","uzt":"+5","vet":"-4","vlat":"+10","volt":"+4","vost":"+6","vut":"+11","wakt":"+12","wast":"+2","wat":"+1","west":"+1","wet":"+0","wft":"+12","wgst":"-2","wib":"+7","wit":"+9","yakt":"+9","yekt":"+5"}',
@@ -175,9 +164,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            11 =>
-            array (
+            ],
+            11 => [
                 'id' => 12,
                 'item_key' => 'ban_names',
                 'item_value' => '["fresns","config","configs","default","defaults","index","home","text","file","image","video","audio","doc","files","images","videos","audios","docs","admin","key","token","detail","details","list","lists","post","comment","group","hashtag","extend","content","posts","comments","groups","hashtags","extends","contents","emoji","emojis","upload","uploads","register","login","reset","restore","delete","edit","auth","message","messages","dialog","dialogs","profile","portal","header","footer","implant","implants","wallet","wallets","setting","settings","notify","notifies","dialog","dialogs","verify","domain","domains","mention","mentions","download","downloads","role","roles","stats","usage","usages","badge","badges","code","codes","html","css","javascript","font","fonts","java","php","python","visual","basic","sql","mysql","nosql","unicode","number","string","boolean","true","false","array","value","object","whitespace","null","template","templates","data","item","time","view","name","block","import","include","iframe","framework","theme","themes","plugin","plugins","client","clients","system","systems","dashboard","update","updates","language","languages"]',
@@ -189,9 +177,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            12 =>
-            array (
+            ],
+            12 => [
                 'id' => 13,
                 'item_key' => 'panel_path',
                 'item_value' => 'admin',
@@ -203,9 +190,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            13 =>
-            array (
+            ],
+            13 => [
                 'id' => 14,
                 'item_key' => 'panel_port',
                 'item_value' => null,
@@ -217,9 +203,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            14 =>
-            array (
+            ],
+            14 => [
                 'id' => 15,
                 'item_key' => 'panel_auth_ip',
                 'item_value' => null,
@@ -231,9 +216,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            15 =>
-            array (
+            ],
+            15 => [
                 'id' => 16,
                 'item_key' => 'panel_login_by_email',
                 'item_value' => 'true',
@@ -245,9 +229,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            16 =>
-            array (
+            ],
+            16 => [
                 'id' => 17,
                 'item_key' => 'panel_login_by_phone',
                 'item_value' => 'true',
@@ -259,9 +242,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            17 =>
-            array (
+            ],
+            17 => [
                 'id' => 18,
                 'item_key' => 'panel_login_by_aid',
                 'item_value' => 'true',
@@ -273,9 +255,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            18 =>
-            array (
+            ],
+            18 => [
                 'id' => 19,
                 'item_key' => 'install_datetime',
                 'item_value' => null,
@@ -287,9 +268,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            19 =>
-            array (
+            ],
+            19 => [
                 'id' => 20,
                 'item_key' => 'build_type',
                 'item_value' => '1',
@@ -301,9 +281,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            20 =>
-            array (
+            ],
+            20 => [
                 'id' => 21,
                 'item_key' => 'network_type',
                 'item_value' => 'IPv4',
@@ -315,9 +294,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            21 =>
-            array (
+            ],
+            21 => [
                 'id' => 22,
                 'item_key' => 'fresns_items',
                 'item_value' => '[]',
@@ -329,9 +307,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            22 =>
-            array (
+            ],
+            22 => [
                 'id' => 23,
                 'item_key' => 'crontab_items',
                 'item_value' => '[{"unikey":"Fresns","cmdWord":"checkUserRoleExpired","cronTableFormat":"*/10 * * * *"},{"unikey":"Fresns","cmdWord":"checkDeleteAccount","cronTableFormat":"* */6 * * *"},{"unikey":"Fresns","cmdWord":"checkExtensionsVersion","cronTableFormat":"* */12 * * *"}]',
@@ -343,9 +320,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            23 =>
-            array (
+            ],
+            23 => [
                 'id' => 24,
                 'item_key' => 'subscribe_items',
                 'item_value' => '[]',
@@ -357,9 +333,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            24 =>
-            array (
+            ],
+            24 => [
                 'id' => 25,
                 'item_key' => 'check_version_datetime',
                 'item_value' => null,
@@ -371,9 +346,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            25 =>
-            array (
+            ],
+            25 => [
                 'id' => 26,
                 'item_key' => 'system_url',
                 'item_value' => null,
@@ -385,9 +359,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            26 =>
-            array (
+            ],
+            26 => [
                 'id' => 27,
                 'item_key' => 'language_status',
                 'item_value' => 'false',
@@ -399,9 +372,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            27 =>
-            array (
+            ],
+            27 => [
                 'id' => 28,
                 'item_key' => 'language_menus',
                 'item_value' => '[{"rating":1,"langCode":"en","langName":"English","areaStatus":false,"areaCode":"","areaName":"","langTag":"en","writingDirection":"ltr","lengthUnit":"mi","dateFormat":"m/d/Y","timeFormatMinute":"{n} minute ago","timeFormatHour":"{n} hour ago","timeFormatDay":"{n} day ago","timeFormatMonth":"{n} month ago","packVersion":1,"isEnable":true},{"rating":2,"langCode":"zh-Hans","langName":"简体中文","areaStatus":false,"areaCode":"","areaName":"","langTag":"zh-Hans","writingDirection":"ltr","lengthUnit":"km","dateFormat":"Y-m-d","timeFormatMinute":"{n} 分钟前","timeFormatHour":"{n} 小时前","timeFormatDay":"{n} 天前","timeFormatMonth":"{n} 个月前","packVersion":1,"isEnable":true},{"rating":3,"langCode":"zh-Hant","langName":"繁體中文","areaStatus":false,"areaCode":"","areaName":"","langTag":"zh-Hant","writingDirection":"ltr","lengthUnit":"km","dateFormat":"Y-m-d","timeFormatMinute":"{n} 分鐘前","timeFormatHour":"{n} 小時前","timeFormatDay":"{n} 天前","timeFormatMonth":"{n} 個月前","packVersion":1,"isEnable":true}]',
@@ -413,9 +385,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            28 =>
-            array (
+            ],
+            28 => [
                 'id' => 29,
                 'item_key' => 'default_language',
                 'item_value' => 'zh-Hans',
@@ -427,9 +398,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            29 =>
-            array (
+            ],
+            29 => [
                 'id' => 30,
                 'item_key' => 'language_pack',
                 'item_value' => '[{"name":"language","canDelete":false},{"name":"errorUnknown","canDelete":false},{"name":"errorEmpty","canDelete":false},{"name":"errorNotExist","canDelete":false},{"name":"errorNotMatch","canDelete":false},{"name":"errorNoInfo","canDelete":false},{"name":"errorTimeout","canDelete":false},{"name":"errorRejection","canDelete":false},{"name":"errorUnavailable","canDelete":false},{"name":"errorIp","canDelete":false},{"name":"success","canDelete":false},{"name":"failed","canDelete":false},{"name":"warning","canDelete":false},{"name":"danger","canDelete":false},{"name":"setting","canDelete":false},{"name":"config","canDelete":false},{"name":"reset","canDelete":false},{"name":"modify","canDelete":false},{"name":"edit","canDelete":false},{"name":"delete","canDelete":false},{"name":"add","canDelete":false},{"name":"remove","canDelete":false},{"name":"previous","canDelete":false},{"name":"next","canDelete":false},{"name":"return","canDelete":false},{"name":"close","canDelete":false},{"name":"cancel","canDelete":false},{"name":"dismiss","canDelete":false},{"name":"activate","canDelete":false},{"name":"deactivate","canDelete":false},{"name":"install","canDelete":false},{"name":"uninstall","canDelete":false},{"name":"check","canDelete":false},{"name":"done","canDelete":false},{"name":"search","canDelete":false},{"name":"location","canDelete":false},{"name":"list","canDelete":false},{"name":"choose","canDelete":false},{"name":"update","canDelete":false},{"name":"recall","canDelete":false},{"name":"submit","canDelete":false},{"name":"save","canDelete":false},{"name":"saveChanges","canDelete":false},{"name":"confirm","canDelete":false},{"name":"send","canDelete":false},{"name":"rankNum","canDelete":false},{"name":"view","canDelete":false},{"name":"share","canDelete":false},{"name":"more","canDelete":false},{"name":"image","canDelete":false},{"name":"video","canDelete":false},{"name":"audio","canDelete":false},{"name":"document","canDelete":false},{"name":"learnMore","canDelete":false},{"name":"pleaseEnter","canDelete":false},{"name":"modifierCount","canDelete":false},{"name":"modifierOr","canDelete":false},{"name":"modifierYear","canDelete":false},{"name":"modifierMonth","canDelete":false},{"name":"modifierDay","canDelete":false},{"name":"modifierDays","canDelete":false},{"name":"modifierLength","canDelete":false},{"name":"optionLanguage","canDelete":false},{"name":"optionUser","canDelete":false},{"name":"private","canDelete":false},{"name":"email","canDelete":false},{"name":"newEmail","canDelete":false},{"name":"phone","canDelete":false},{"name":"newPhone","canDelete":false},{"name":"countryCode","canDelete":false},{"name":"verifyCode","canDelete":false},{"name":"emailVerifyCode","canDelete":false},{"name":"smsVerifyCode","canDelete":false},{"name":"newVerifyCode","canDelete":false},{"name":"sendVerifyCode","canDelete":false},{"name":"resendVerifyCode","canDelete":false},{"name":"account","canDelete":false},{"name":"accountPassword","canDelete":false},{"name":"accountType","canDelete":false},{"name":"accountRegister","canDelete":false},{"name":"accountRegisterError","canDelete":false},{"name":"accountLogin","canDelete":false},{"name":"accountLoginByPassword","canDelete":false},{"name":"accountLoginByCode","canDelete":false},{"name":"accountLoginByConnects","canDelete":false},{"name":"accountLogout","canDelete":false},{"name":"accountDelete","canDelete":false},{"name":"accountRestore","canDelete":false},{"name":"accountReset","canDelete":false},{"name":"accountError","canDelete":false},{"name":"accountInfo","canDelete":false},{"name":"accountPoliciesTerms","canDelete":false},{"name":"accountPoliciesPrivacy","canDelete":false},{"name":"accountPoliciesCookie","canDelete":false},{"name":"accountPoliciesDelete","canDelete":false},{"name":"password","canDelete":false},{"name":"passwordCurrent","canDelete":false},{"name":"passwordNew","canDelete":false},{"name":"passwordAgain","canDelete":false},{"name":"passwordAgainError","canDelete":false},{"name":"passwordError","canDelete":false},{"name":"passwordForgot","canDelete":false},{"name":"passwordInfo","canDelete":false},{"name":"passwordInfoNumbers","canDelete":false},{"name":"passwordInfoLowercaseLetters","canDelete":false},{"name":"passwordInfoUppercaseLetters","canDelete":false},{"name":"passwordInfoSymbols","canDelete":false},{"name":"userCurrent","canDelete":false},{"name":"userPassword","canDelete":false},{"name":"userAuthPassword","canDelete":false},{"name":"userAuth","canDelete":false},{"name":"userProfile","canDelete":false},{"name":"userAvatar","canDelete":false},{"name":"userGender","canDelete":false},{"name":"userBirthday","canDelete":false},{"name":"userTimeZone","canDelete":false},{"name":"userLanguage","canDelete":false},{"name":"userFollowMutual","canDelete":false},{"name":"userFollowMe","canDelete":false},{"name":"walletStatus","canDelete":false},{"name":"walletBalance","canDelete":false},{"name":"walletFreezeAmount","canDelete":false},{"name":"walletPassword","canDelete":false},{"name":"walletLogs","canDelete":false},{"name":"walletRecharge","canDelete":false},{"name":"walletWithdraw","canDelete":false},{"name":"notifyRead","canDelete":false},{"name":"notifyFollow","canDelete":false},{"name":"notifyLike","canDelete":false},{"name":"notifyComment","canDelete":false},{"name":"notifyMention","canDelete":false},{"name":"settingGeneral","canDelete":false},{"name":"settingPreference","canDelete":false},{"name":"settingAccount","canDelete":false},{"name":"settingConnect","canDelete":false},{"name":"settingType","canDelete":false},{"name":"settingAlready","canDelete":false},{"name":"settingNot","canDelete":false},{"name":"settingWarning","canDelete":false},{"name":"settingCheckError","canDelete":false},{"name":"settingAllowAll","canDelete":false},{"name":"settingAllowMyFollow","canDelete":false},{"name":"settingAllowMyFollowAndVerified","canDelete":false},{"name":"settingAllowNotAll","canDelete":false},{"name":"settingIntervalDays","canDelete":false},{"name":"settingLastTime","canDelete":false},{"name":"settingNameWarning","canDelete":false},{"name":"settingNicknameWarning","canDelete":false},{"name":"settingGenderNull","canDelete":false},{"name":"settingGenderMale","canDelete":false},{"name":"settingGenderFemale","canDelete":false},{"name":"settingConnectAdd","canDelete":false},{"name":"settingConnectRemove","canDelete":false},{"name":"editorFullFunctions","canDelete":false},{"name":"editorRequired","canDelete":false},{"name":"editorOptional","canDelete":false},{"name":"editorCreate","canDelete":false},{"name":"editorNoChooseGroup","canDelete":false},{"name":"editorNoGroup","canDelete":false},{"name":"editorMyFollowGroup","canDelete":false},{"name":"editorStickers","canDelete":false},{"name":"editorImages","canDelete":false},{"name":"editorVideos","canDelete":false},{"name":"editorVideoPlay","canDelete":false},{"name":"editorAudios","canDelete":false},{"name":"editorDocuments","canDelete":false},{"name":"editorTitle","canDelete":false},{"name":"editorMention","canDelete":false},{"name":"editorHashtag","canDelete":false},{"name":"editorExtends","canDelete":false},{"name":"editorContent","canDelete":false},{"name":"editorLocation","canDelete":false},{"name":"editorAnonymous","canDelete":false},{"name":"editorUpload","canDelete":false},{"name":"editorUploadInfo","canDelete":false},{"name":"editorUploadExtensions","canDelete":false},{"name":"editorUploadSize","canDelete":false},{"name":"editorUploadBtn","canDelete":false},{"name":"editorLimitTitle","canDelete":false},{"name":"editorLimitTypeName","canDelete":false},{"name":"editorLimitType1Desc","canDelete":false},{"name":"editorLimitType2Desc","canDelete":false},{"name":"editorLimitDateName","canDelete":false},{"name":"editorLimitCycleName","canDelete":false},{"name":"editorLimitRuleName","canDelete":false},{"name":"editorLimitRule1Desc","canDelete":false},{"name":"editorLimitRule2Desc","canDelete":false},{"name":"editorLimitTipName","canDelete":false},{"name":"editorRoleLimitTitle","canDelete":false},{"name":"editorMainRoleTitle","canDelete":false},{"name":"editorEditTimeTitle","canDelete":false},{"name":"editorEditTimeDesc","canDelete":false},{"name":"editorAllowTitle","canDelete":false},{"name":"editorAllowRoleName","canDelete":false},{"name":"editorAllowUserName","canDelete":false},{"name":"editorAllowProportionName","canDelete":false},{"name":"editorAllowBtnName","canDelete":false},{"name":"contentReview","canDelete":false},{"name":"contentLoginError","canDelete":false},{"name":"contentNewList","canDelete":false},{"name":"contentHotList","canDelete":false},{"name":"contentBrowse","canDelete":false},{"name":"contentDigest","canDelete":false},{"name":"contentSticky","canDelete":false},{"name":"contentFull","canDelete":false},{"name":"contentCreator","canDelete":false},{"name":"contentCreatorAnonymous","canDelete":false},{"name":"contentCreatorDeactivate","canDelete":false},{"name":"contentCreatorLiked","canDelete":false},{"name":"contentPublishedOn","canDelete":false},{"name":"contentEditedOn","canDelete":false},{"name":"contentFileUploader","canDelete":false},{"name":"contentFileDownloader","canDelete":false},{"name":"contentFileDownload","canDelete":false},{"name":"contentImageLong","canDelete":false},{"name":"contentVideoPlay","canDelete":false},{"name":"contentDocumentDetail","canDelete":false},{"name":"contentDocumentInfo","canDelete":false},{"name":"contentAllowInfo","canDelete":false},{"name":"contentTopComment","canDelete":false},{"name":"contentCommentCountDesc","canDelete":false},{"name":"contentCommentNotPublic","canDelete":false},{"name":"contentCommentVisibilityRuleTip","canDelete":false}]',
@@ -441,9 +411,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            30 =>
-            array (
+            ],
+            30 => [
                 'id' => 31,
                 'item_key' => 'language_pack_contents',
                 'item_value' => null,
@@ -455,9 +424,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            31 =>
-            array (
+            ],
+            31 => [
                 'id' => 32,
                 'item_key' => 'account_terms_status',
                 'item_value' => 'false',
@@ -469,9 +437,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            32 =>
-            array (
+            ],
+            32 => [
                 'id' => 33,
                 'item_key' => 'account_privacy_status',
                 'item_value' => 'false',
@@ -483,9 +450,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            33 =>
-            array (
+            ],
+            33 => [
                 'id' => 34,
                 'item_key' => 'account_cookie_status',
                 'item_value' => 'false',
@@ -497,9 +463,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            34 =>
-            array (
+            ],
+            34 => [
                 'id' => 35,
                 'item_key' => 'account_ip_location_status',
                 'item_value' => 'false',
@@ -511,9 +476,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            35 =>
-            array (
+            ],
+            35 => [
                 'id' => 36,
                 'item_key' => 'account_delete_status',
                 'item_value' => 'false',
@@ -525,9 +489,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            36 =>
-            array (
+            ],
+            36 => [
                 'id' => 37,
                 'item_key' => 'delete_account_type',
                 'item_value' => '1',
@@ -539,9 +502,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            37 =>
-            array (
+            ],
+            37 => [
                 'id' => 38,
                 'item_key' => 'delete_account_todo',
                 'item_value' => '7',
@@ -553,9 +515,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            38 =>
-            array (
+            ],
+            38 => [
                 'id' => 39,
                 'item_key' => 'account_terms',
                 'item_value' => 'Terms of Service',
@@ -567,9 +528,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            39 =>
-            array (
+            ],
+            39 => [
                 'id' => 40,
                 'item_key' => 'account_privacy',
                 'item_value' => 'Privacy Policy',
@@ -581,9 +541,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            40 =>
-            array (
+            ],
+            40 => [
                 'id' => 41,
                 'item_key' => 'account_cookie',
                 'item_value' => 'Cookie Policy',
@@ -595,9 +554,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            41 =>
-            array (
+            ],
+            41 => [
                 'id' => 42,
                 'item_key' => 'account_delete',
                 'item_value' => 'Deactivating or deleting your Fresns account',
@@ -609,9 +567,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            42 =>
-            array (
+            ],
+            42 => [
                 'id' => 43,
                 'item_key' => 'site_url',
                 'item_value' => null,
@@ -623,9 +580,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            43 =>
-            array (
+            ],
+            43 => [
                 'id' => 44,
                 'item_key' => 'site_name',
                 'item_value' => 'Fresns',
@@ -637,9 +593,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            44 =>
-            array (
+            ],
+            44 => [
                 'id' => 45,
                 'item_key' => 'site_desc',
                 'item_value' => 'Fresns is a free and open source social network service software, a general-purpose community product designed for cross-platform, and supports flexible and diverse content forms. It conforms to the trend of the times, satisfies a variety of operating scenarios, is more open and easier to re-development.',
@@ -651,9 +606,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            45 =>
-            array (
+            ],
+            45 => [
                 'id' => 46,
                 'item_key' => 'site_icon',
                 'item_value' => 'https://files.fresns.org/images/icon.png',
@@ -665,9 +619,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            46 =>
-            array (
+            ],
+            46 => [
                 'id' => 47,
                 'item_key' => 'site_logo',
                 'item_value' => 'https://files.fresns.org/images/logo.png',
@@ -679,9 +632,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            47 =>
-            array (
+            ],
+            47 => [
                 'id' => 48,
                 'item_key' => 'site_copyright',
                 'item_value' => 'Fresns',
@@ -693,9 +645,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            48 =>
-            array (
+            ],
+            48 => [
                 'id' => 49,
                 'item_key' => 'site_copyright_years',
                 'item_value' => '2021-Present',
@@ -707,9 +658,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            49 =>
-            array (
+            ],
+            49 => [
                 'id' => 50,
                 'item_key' => 'default_timezone',
                 'item_value' => '+8',
@@ -721,9 +671,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            50 =>
-            array (
+            ],
+            50 => [
                 'id' => 51,
                 'item_key' => 'site_mode',
                 'item_value' => 'public',
@@ -735,9 +684,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            51 =>
-            array (
+            ],
+            51 => [
                 'id' => 52,
                 'item_key' => 'site_public_status',
                 'item_value' => 'true',
@@ -749,9 +697,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            52 =>
-            array (
+            ],
+            52 => [
                 'id' => 53,
                 'item_key' => 'site_public_service',
                 'item_value' => null,
@@ -763,9 +710,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            53 =>
-            array (
+            ],
+            53 => [
                 'id' => 54,
                 'item_key' => 'site_register_email',
                 'item_value' => 'true',
@@ -777,9 +723,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            54 =>
-            array (
+            ],
+            54 => [
                 'id' => 55,
                 'item_key' => 'site_register_phone',
                 'item_value' => 'false',
@@ -791,9 +736,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            55 =>
-            array (
+            ],
+            55 => [
                 'id' => 56,
                 'item_key' => 'site_login_or_register',
                 'item_value' => 'false',
@@ -805,9 +749,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            56 =>
-            array (
+            ],
+            56 => [
                 'id' => 57,
                 'item_key' => 'site_private_status',
                 'item_value' => 'false',
@@ -819,9 +762,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            57 =>
-            array (
+            ],
+            57 => [
                 'id' => 58,
                 'item_key' => 'site_private_service',
                 'item_value' => null,
@@ -833,9 +775,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            58 =>
-            array (
+            ],
+            58 => [
                 'id' => 59,
                 'item_key' => 'site_private_end_after',
                 'item_value' => '1',
@@ -847,9 +788,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            59 =>
-            array (
+            ],
+            59 => [
                 'id' => 60,
                 'item_key' => 'site_email',
                 'item_value' => null,
@@ -861,9 +801,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            60 =>
-            array (
+            ],
+            60 => [
                 'id' => 61,
                 'item_key' => 'send_email_service',
                 'item_value' => null,
@@ -875,9 +814,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            61 =>
-            array (
+            ],
+            61 => [
                 'id' => 62,
                 'item_key' => 'send_sms_service',
                 'item_value' => null,
@@ -889,9 +827,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            62 =>
-            array (
+            ],
+            62 => [
                 'id' => 63,
                 'item_key' => 'send_sms_default_code',
                 'item_value' => '1',
@@ -903,9 +840,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            63 =>
-            array (
+            ],
+            63 => [
                 'id' => 64,
                 'item_key' => 'send_sms_supported_codes',
                 'item_value' => '["1"]',
@@ -917,9 +853,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            64 =>
-            array (
+            ],
+            64 => [
                 'id' => 65,
                 'item_key' => 'verifycode_template1',
                 'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>{sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】您的验证码","content":"<div>{sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】您的驗證碼","content":"<div>{sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
@@ -931,9 +866,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            65 =>
-            array (
+            ],
+            65 => [
                 'id' => 66,
                 'item_key' => 'verifycode_template2',
                 'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Welcome to {sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】您的验证码","content":"<div>欢迎来到 {sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】您的驗證碼","content":"<div>歡迎來到 {sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
@@ -945,9 +879,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            66 =>
-            array (
+            ],
+            66 => [
                 'id' => 67,
                 'item_key' => 'verifycode_template3',
                 'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Modify {sitename} account information</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>修改 {sitename} 账号资料</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>修改 {sitename} 賬號資料</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
@@ -959,9 +892,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            67 =>
-            array (
+            ],
+            67 => [
                 'id' => 68,
                 'item_key' => 'verifycode_template4',
                 'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Change {sitename} Phone Number</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>更换 {sitename} 手机号</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>更換 {sitename} 手機號</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
@@ -973,9 +905,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            68 =>
-            array (
+            ],
+            68 => [
                 'id' => 69,
                 'item_key' => 'verifycode_template5',
                 'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Reset Login Password</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>重置登录密码</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>重置登錄密碼</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
@@ -987,9 +918,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            69 =>
-            array (
+            ],
+            69 => [
                 'id' => 70,
                 'item_key' => 'verifycode_template6',
                 'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Reset Payment Password</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>重置支付密码</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>重置支付密碼</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
@@ -1001,9 +931,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            70 =>
-            array (
+            ],
+            70 => [
                 'id' => 71,
                 'item_key' => 'verifycode_template7',
                 'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Login with verification code</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>使用验证码登录</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>使用驗證碼登錄</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
@@ -1015,9 +944,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            71 =>
-            array (
+            ],
+            71 => [
                 'id' => 72,
                 'item_key' => 'account_connect_services',
                 'item_value' => null,
@@ -1029,9 +957,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            72 =>
-            array (
+            ],
+            72 => [
                 'id' => 73,
                 'item_key' => 'account_real_name_service',
                 'item_value' => null,
@@ -1043,9 +970,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            73 =>
-            array (
+            ],
+            73 => [
                 'id' => 74,
                 'item_key' => 'multi_user_status',
                 'item_value' => 'false',
@@ -1057,9 +983,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            74 =>
-            array (
+            ],
+            74 => [
                 'id' => 75,
                 'item_key' => 'multi_user_service',
                 'item_value' => null,
@@ -1071,9 +996,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            75 =>
-            array (
+            ],
+            75 => [
                 'id' => 76,
                 'item_key' => 'multi_user_roles',
                 'item_value' => null,
@@ -1085,9 +1009,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            76 =>
-            array (
+            ],
+            76 => [
                 'id' => 77,
                 'item_key' => 'default_role',
                 'item_value' => '4',
@@ -1099,9 +1022,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            77 =>
-            array (
+            ],
+            77 => [
                 'id' => 78,
                 'item_key' => 'default_avatar',
                 'item_value' => 'https://files.fresns.org/images/default-avatar.png',
@@ -1113,9 +1035,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            78 =>
-            array (
+            ],
+            78 => [
                 'id' => 79,
                 'item_key' => 'anonymous_avatar',
                 'item_value' => 'https://files.fresns.org/images/anonymous-avatar.png',
@@ -1127,9 +1048,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            79 =>
-            array (
+            ],
+            79 => [
                 'id' => 80,
                 'item_key' => 'deactivate_avatar',
                 'item_value' => 'https://files.fresns.org/images/deactivate-avatar.png',
@@ -1141,9 +1061,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            80 =>
-            array (
+            ],
+            80 => [
                 'id' => 81,
                 'item_key' => 'password_length',
                 'item_value' => '8',
@@ -1155,9 +1074,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            81 =>
-            array (
+            ],
+            81 => [
                 'id' => 82,
                 'item_key' => 'password_strength',
                 'item_value' => '["number","lowercase"]',
@@ -1169,9 +1087,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            82 =>
-            array (
+            ],
+            82 => [
                 'id' => 83,
                 'item_key' => 'user_identifier',
                 'item_value' => 'username',
@@ -1183,9 +1100,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            83 =>
-            array (
+            ],
+            83 => [
                 'id' => 84,
                 'item_key' => 'user_uid_digit',
                 'item_value' => '5',
@@ -1197,9 +1113,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            84 =>
-            array (
+            ],
+            84 => [
                 'id' => 85,
                 'item_key' => 'username_min',
                 'item_value' => '5',
@@ -1211,9 +1126,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            85 =>
-            array (
+            ],
+            85 => [
                 'id' => 86,
                 'item_key' => 'username_max',
                 'item_value' => '16',
@@ -1225,9 +1139,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            86 =>
-            array (
+            ],
+            86 => [
                 'id' => 87,
                 'item_key' => 'username_edit',
                 'item_value' => '30',
@@ -1239,9 +1152,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            87 =>
-            array (
+            ],
+            87 => [
                 'id' => 88,
                 'item_key' => 'nickname_min',
                 'item_value' => '2',
@@ -1253,9 +1165,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            88 =>
-            array (
+            ],
+            88 => [
                 'id' => 89,
                 'item_key' => 'nickname_max',
                 'item_value' => '20',
@@ -1267,9 +1178,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            89 =>
-            array (
+            ],
+            89 => [
                 'id' => 90,
                 'item_key' => 'nickname_edit',
                 'item_value' => '1',
@@ -1281,9 +1191,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            90 =>
-            array (
+            ],
+            90 => [
                 'id' => 91,
                 'item_key' => 'bio_length',
                 'item_value' => '128',
@@ -1295,9 +1204,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            91 =>
-            array (
+            ],
+            91 => [
                 'id' => 92,
                 'item_key' => 'bio_support_mention',
                 'item_value' => 'false',
@@ -1309,9 +1217,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            92 =>
-            array (
+            ],
+            92 => [
                 'id' => 93,
                 'item_key' => 'bio_support_link',
                 'item_value' => 'false',
@@ -1323,9 +1230,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            93 =>
-            array (
+            ],
+            93 => [
                 'id' => 94,
                 'item_key' => 'bio_support_hashtag',
                 'item_value' => 'false',
@@ -1337,9 +1243,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            94 =>
-            array (
+            ],
+            94 => [
                 'id' => 95,
                 'item_key' => 'extcredits1_name',
                 'item_value' => 'extcredits1',
@@ -1351,9 +1256,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            95 =>
-            array (
+            ],
+            95 => [
                 'id' => 96,
                 'item_key' => 'extcredits1_unit',
                 'item_value' => null,
@@ -1365,9 +1269,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            96 =>
-            array (
+            ],
+            96 => [
                 'id' => 97,
                 'item_key' => 'extcredits1_status',
                 'item_value' => '1',
@@ -1379,9 +1282,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            97 =>
-            array (
+            ],
+            97 => [
                 'id' => 98,
                 'item_key' => 'extcredits2_name',
                 'item_value' => 'extcredits2',
@@ -1393,9 +1295,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            98 =>
-            array (
+            ],
+            98 => [
                 'id' => 99,
                 'item_key' => 'extcredits2_unit',
                 'item_value' => null,
@@ -1407,9 +1308,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            99 =>
-            array (
+            ],
+            99 => [
                 'id' => 100,
                 'item_key' => 'extcredits2_status',
                 'item_value' => '1',
@@ -1421,9 +1321,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            100 =>
-            array (
+            ],
+            100 => [
                 'id' => 101,
                 'item_key' => 'extcredits3_name',
                 'item_value' => 'extcredits3',
@@ -1435,9 +1334,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            101 =>
-            array (
+            ],
+            101 => [
                 'id' => 102,
                 'item_key' => 'extcredits3_unit',
                 'item_value' => null,
@@ -1449,9 +1347,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            102 =>
-            array (
+            ],
+            102 => [
                 'id' => 103,
                 'item_key' => 'extcredits3_status',
                 'item_value' => '1',
@@ -1463,9 +1360,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            103 =>
-            array (
+            ],
+            103 => [
                 'id' => 104,
                 'item_key' => 'extcredits4_name',
                 'item_value' => 'extcredits4',
@@ -1477,9 +1373,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            104 =>
-            array (
+            ],
+            104 => [
                 'id' => 105,
                 'item_key' => 'extcredits4_unit',
                 'item_value' => null,
@@ -1491,9 +1386,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            105 =>
-            array (
+            ],
+            105 => [
                 'id' => 106,
                 'item_key' => 'extcredits4_status',
                 'item_value' => '1',
@@ -1505,9 +1399,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            106 =>
-            array (
+            ],
+            106 => [
                 'id' => 107,
                 'item_key' => 'extcredits5_name',
                 'item_value' => 'extcredits5',
@@ -1519,9 +1412,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            107 =>
-            array (
+            ],
+            107 => [
                 'id' => 108,
                 'item_key' => 'extcredits5_unit',
                 'item_value' => null,
@@ -1533,9 +1425,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            108 =>
-            array (
+            ],
+            108 => [
                 'id' => 109,
                 'item_key' => 'extcredits5_status',
                 'item_value' => '1',
@@ -1547,9 +1438,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            109 =>
-            array (
+            ],
+            109 => [
                 'id' => 110,
                 'item_key' => 'wallet_status',
                 'item_value' => 'false',
@@ -1561,9 +1451,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            110 =>
-            array (
+            ],
+            110 => [
                 'id' => 111,
                 'item_key' => 'wallet_currency_code',
                 'item_value' => 'USD',
@@ -1575,9 +1464,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            111 =>
-            array (
+            ],
+            111 => [
                 'id' => 112,
                 'item_key' => 'wallet_currency_name',
                 'item_value' => null,
@@ -1589,9 +1477,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            112 =>
-            array (
+            ],
+            112 => [
                 'id' => 113,
                 'item_key' => 'wallet_currency_unit',
                 'item_value' => null,
@@ -1603,9 +1490,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            113 =>
-            array (
+            ],
+            113 => [
                 'id' => 114,
                 'item_key' => 'wallet_currency_precision',
                 'item_value' => '2',
@@ -1617,9 +1503,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            114 =>
-            array (
+            ],
+            114 => [
                 'id' => 115,
                 'item_key' => 'wallet_withdraw_status',
                 'item_value' => 'false',
@@ -1631,9 +1516,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            115 =>
-            array (
+            ],
+            115 => [
                 'id' => 116,
                 'item_key' => 'wallet_withdraw_review',
                 'item_value' => 'false',
@@ -1645,9 +1529,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            116 =>
-            array (
+            ],
+            116 => [
                 'id' => 117,
                 'item_key' => 'wallet_withdraw_verify',
                 'item_value' => 'false',
@@ -1659,9 +1542,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            117 =>
-            array (
+            ],
+            117 => [
                 'id' => 118,
                 'item_key' => 'wallet_withdraw_interval_time',
                 'item_value' => '10',
@@ -1673,9 +1555,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            118 =>
-            array (
+            ],
+            118 => [
                 'id' => 119,
                 'item_key' => 'wallet_withdraw_rate',
                 'item_value' => '5',
@@ -1687,9 +1568,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            119 =>
-            array (
+            ],
+            119 => [
                 'id' => 120,
                 'item_key' => 'wallet_withdraw_min_sum',
                 'item_value' => '100',
@@ -1701,9 +1581,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            120 =>
-            array (
+            ],
+            120 => [
                 'id' => 121,
                 'item_key' => 'wallet_withdraw_max_sum',
                 'item_value' => '1000',
@@ -1715,9 +1594,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            121 =>
-            array (
+            ],
+            121 => [
                 'id' => 122,
                 'item_key' => 'wallet_withdraw_sum_limit',
                 'item_value' => '30000',
@@ -1729,9 +1607,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            122 =>
-            array (
+            ],
+            122 => [
                 'id' => 123,
                 'item_key' => 'image_service',
                 'item_value' => null,
@@ -1743,9 +1620,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            123 =>
-            array (
+            ],
+            123 => [
                 'id' => 124,
                 'item_key' => 'image_secret_id',
                 'item_value' => null,
@@ -1757,9 +1633,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            124 =>
-            array (
+            ],
+            124 => [
                 'id' => 125,
                 'item_key' => 'image_secret_key',
                 'item_value' => null,
@@ -1771,9 +1646,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            125 =>
-            array (
+            ],
+            125 => [
                 'id' => 126,
                 'item_key' => 'image_bucket_name',
                 'item_value' => null,
@@ -1785,9 +1659,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            126 =>
-            array (
+            ],
+            126 => [
                 'id' => 127,
                 'item_key' => 'image_bucket_area',
                 'item_value' => null,
@@ -1799,9 +1672,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            127 =>
-            array (
+            ],
+            127 => [
                 'id' => 128,
                 'item_key' => 'image_bucket_domain',
                 'item_value' => null,
@@ -1813,9 +1685,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            128 =>
-            array (
+            ],
+            128 => [
                 'id' => 129,
                 'item_key' => 'image_filesystem_disk',
                 'item_value' => 'remote',
@@ -1827,9 +1698,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            129 =>
-            array (
+            ],
+            129 => [
                 'id' => 130,
                 'item_key' => 'image_extension_names',
                 'item_value' => 'png,gif,jpg,jpeg,bmp,heic',
@@ -1841,9 +1711,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            130 =>
-            array (
+            ],
+            130 => [
                 'id' => 131,
                 'item_key' => 'image_max_size',
                 'item_value' => '5',
@@ -1855,9 +1724,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            131 =>
-            array (
+            ],
+            131 => [
                 'id' => 132,
                 'item_key' => 'image_url_status',
                 'item_value' => 'false',
@@ -1869,9 +1737,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            132 =>
-            array (
+            ],
+            132 => [
                 'id' => 133,
                 'item_key' => 'image_url_key',
                 'item_value' => null,
@@ -1883,9 +1750,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            133 =>
-            array (
+            ],
+            133 => [
                 'id' => 134,
                 'item_key' => 'image_url_expire',
                 'item_value' => '10',
@@ -1897,9 +1763,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            134 =>
-            array (
+            ],
+            134 => [
                 'id' => 135,
                 'item_key' => 'image_handle_position',
                 'item_value' => 'end',
@@ -1911,9 +1776,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            135 =>
-            array (
+            ],
+            135 => [
                 'id' => 136,
                 'item_key' => 'image_thumb_config',
                 'item_value' => null,
@@ -1925,9 +1789,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            136 =>
-            array (
+            ],
+            136 => [
                 'id' => 137,
                 'item_key' => 'image_thumb_avatar',
                 'item_value' => null,
@@ -1939,9 +1802,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            137 =>
-            array (
+            ],
+            137 => [
                 'id' => 138,
                 'item_key' => 'image_thumb_ratio',
                 'item_value' => null,
@@ -1953,9 +1815,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            138 =>
-            array (
+            ],
+            138 => [
                 'id' => 139,
                 'item_key' => 'image_thumb_square',
                 'item_value' => null,
@@ -1967,9 +1828,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            139 =>
-            array (
+            ],
+            139 => [
                 'id' => 140,
                 'item_key' => 'image_thumb_big',
                 'item_value' => null,
@@ -1981,9 +1841,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            140 =>
-            array (
+            ],
+            140 => [
                 'id' => 141,
                 'item_key' => 'video_service',
                 'item_value' => null,
@@ -1995,9 +1854,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            141 =>
-            array (
+            ],
+            141 => [
                 'id' => 142,
                 'item_key' => 'video_secret_id',
                 'item_value' => null,
@@ -2009,9 +1867,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            142 =>
-            array (
+            ],
+            142 => [
                 'id' => 143,
                 'item_key' => 'video_secret_key',
                 'item_value' => null,
@@ -2023,9 +1880,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            143 =>
-            array (
+            ],
+            143 => [
                 'id' => 144,
                 'item_key' => 'video_bucket_name',
                 'item_value' => null,
@@ -2037,9 +1893,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            144 =>
-            array (
+            ],
+            144 => [
                 'id' => 145,
                 'item_key' => 'video_bucket_area',
                 'item_value' => null,
@@ -2051,9 +1906,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            145 =>
-            array (
+            ],
+            145 => [
                 'id' => 146,
                 'item_key' => 'video_bucket_domain',
                 'item_value' => null,
@@ -2065,9 +1919,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            146 =>
-            array (
+            ],
+            146 => [
                 'id' => 147,
                 'item_key' => 'video_filesystem_disk',
                 'item_value' => 'remote',
@@ -2079,9 +1932,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            147 =>
-            array (
+            ],
+            147 => [
                 'id' => 148,
                 'item_key' => 'video_extension_names',
                 'item_value' => 'wmv,rm,mov,mpeg,mp4,3gp,flv,avi,rmvb',
@@ -2093,9 +1945,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            148 =>
-            array (
+            ],
+            148 => [
                 'id' => 149,
                 'item_key' => 'video_max_size',
                 'item_value' => '50',
@@ -2107,9 +1958,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            149 =>
-            array (
+            ],
+            149 => [
                 'id' => 150,
                 'item_key' => 'video_max_time',
                 'item_value' => '30',
@@ -2121,9 +1971,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            150 =>
-            array (
+            ],
+            150 => [
                 'id' => 151,
                 'item_key' => 'video_url_status',
                 'item_value' => 'false',
@@ -2135,9 +1984,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            151 =>
-            array (
+            ],
+            151 => [
                 'id' => 152,
                 'item_key' => 'video_url_key',
                 'item_value' => null,
@@ -2149,9 +1997,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            152 =>
-            array (
+            ],
+            152 => [
                 'id' => 153,
                 'item_key' => 'video_url_expire',
                 'item_value' => '10',
@@ -2163,9 +2010,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            153 =>
-            array (
+            ],
+            153 => [
                 'id' => 154,
                 'item_key' => 'video_transcode',
                 'item_value' => null,
@@ -2177,9 +2023,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            154 =>
-            array (
+            ],
+            154 => [
                 'id' => 155,
                 'item_key' => 'video_watermark',
                 'item_value' => null,
@@ -2191,9 +2036,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            155 =>
-            array (
+            ],
+            155 => [
                 'id' => 156,
                 'item_key' => 'video_screenshot',
                 'item_value' => null,
@@ -2205,9 +2049,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            156 =>
-            array (
+            ],
+            156 => [
                 'id' => 157,
                 'item_key' => 'video_gift',
                 'item_value' => null,
@@ -2219,9 +2062,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            157 =>
-            array (
+            ],
+            157 => [
                 'id' => 158,
                 'item_key' => 'audio_service',
                 'item_value' => null,
@@ -2233,9 +2075,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            158 =>
-            array (
+            ],
+            158 => [
                 'id' => 159,
                 'item_key' => 'audio_secret_id',
                 'item_value' => null,
@@ -2247,9 +2088,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            159 =>
-            array (
+            ],
+            159 => [
                 'id' => 160,
                 'item_key' => 'audio_secret_key',
                 'item_value' => null,
@@ -2261,9 +2101,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            160 =>
-            array (
+            ],
+            160 => [
                 'id' => 161,
                 'item_key' => 'audio_bucket_name',
                 'item_value' => null,
@@ -2275,9 +2114,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            161 =>
-            array (
+            ],
+            161 => [
                 'id' => 162,
                 'item_key' => 'audio_bucket_area',
                 'item_value' => null,
@@ -2289,9 +2127,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            162 =>
-            array (
+            ],
+            162 => [
                 'id' => 163,
                 'item_key' => 'audio_bucket_domain',
                 'item_value' => null,
@@ -2303,9 +2140,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            163 =>
-            array (
+            ],
+            163 => [
                 'id' => 164,
                 'item_key' => 'audio_filesystem_disk',
                 'item_value' => 'remote',
@@ -2317,9 +2153,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            164 =>
-            array (
+            ],
+            164 => [
                 'id' => 165,
                 'item_key' => 'audio_extension_names',
                 'item_value' => 'mp3,wav,m4a',
@@ -2331,9 +2166,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            165 =>
-            array (
+            ],
+            165 => [
                 'id' => 166,
                 'item_key' => 'audio_max_size',
                 'item_value' => '50',
@@ -2345,9 +2179,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            166 =>
-            array (
+            ],
+            166 => [
                 'id' => 167,
                 'item_key' => 'audio_max_time',
                 'item_value' => '60',
@@ -2359,9 +2192,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            167 =>
-            array (
+            ],
+            167 => [
                 'id' => 168,
                 'item_key' => 'audio_url_status',
                 'item_value' => 'false',
@@ -2373,9 +2205,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            168 =>
-            array (
+            ],
+            168 => [
                 'id' => 169,
                 'item_key' => 'audio_url_key',
                 'item_value' => null,
@@ -2387,9 +2218,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            169 =>
-            array (
+            ],
+            169 => [
                 'id' => 170,
                 'item_key' => 'audio_url_expire',
                 'item_value' => '10',
@@ -2401,9 +2231,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            170 =>
-            array (
+            ],
+            170 => [
                 'id' => 171,
                 'item_key' => 'audio_transcode',
                 'item_value' => null,
@@ -2415,9 +2244,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            171 =>
-            array (
+            ],
+            171 => [
                 'id' => 172,
                 'item_key' => 'document_service',
                 'item_value' => null,
@@ -2429,9 +2257,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            172 =>
-            array (
+            ],
+            172 => [
                 'id' => 173,
                 'item_key' => 'document_secret_id',
                 'item_value' => null,
@@ -2443,9 +2270,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            173 =>
-            array (
+            ],
+            173 => [
                 'id' => 174,
                 'item_key' => 'document_secret_key',
                 'item_value' => null,
@@ -2457,9 +2283,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            174 =>
-            array (
+            ],
+            174 => [
                 'id' => 175,
                 'item_key' => 'document_bucket_name',
                 'item_value' => null,
@@ -2471,9 +2296,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            175 =>
-            array (
+            ],
+            175 => [
                 'id' => 176,
                 'item_key' => 'document_bucket_area',
                 'item_value' => null,
@@ -2485,9 +2309,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            176 =>
-            array (
+            ],
+            176 => [
                 'id' => 177,
                 'item_key' => 'document_bucket_domain',
                 'item_value' => null,
@@ -2499,9 +2322,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            177 =>
-            array (
+            ],
+            177 => [
                 'id' => 178,
                 'item_key' => 'document_filesystem_disk',
                 'item_value' => 'remote',
@@ -2513,9 +2335,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            178 =>
-            array (
+            ],
+            178 => [
                 'id' => 179,
                 'item_key' => 'document_extension_names',
                 'item_value' => 'doc,docx,xls,xlsx,csv,ppt,pptx,pps,ppts,pdf,txt,md,markdown,rar,zip,7z,epub,mobi',
@@ -2527,9 +2348,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            179 =>
-            array (
+            ],
+            179 => [
                 'id' => 180,
                 'item_key' => 'document_max_size',
                 'item_value' => '10',
@@ -2541,9 +2361,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            180 =>
-            array (
+            ],
+            180 => [
                 'id' => 181,
                 'item_key' => 'document_url_status',
                 'item_value' => 'false',
@@ -2555,9 +2374,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            181 =>
-            array (
+            ],
+            181 => [
                 'id' => 182,
                 'item_key' => 'document_url_key',
                 'item_value' => null,
@@ -2569,9 +2387,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            182 =>
-            array (
+            ],
+            182 => [
                 'id' => 183,
                 'item_key' => 'document_url_expire',
                 'item_value' => '10',
@@ -2583,9 +2400,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            183 =>
-            array (
+            ],
+            183 => [
                 'id' => 184,
                 'item_key' => 'document_online_preview',
                 'item_value' => null,
@@ -2597,9 +2413,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            184 =>
-            array (
+            ],
+            184 => [
                 'id' => 185,
                 'item_key' => 'document_preview_extension_names',
                 'item_value' => 'doc,docx,xls,xlsx,csv,ppt,pptx,pps,ppts,pdf',
@@ -2611,9 +2426,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            185 =>
-            array (
+            ],
+            185 => [
                 'id' => 186,
                 'item_key' => 'image_substitution',
                 'item_value' => 'https://files.fresns.org/images/substitution-image.jpg',
@@ -2625,9 +2439,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            186 =>
-            array (
+            ],
+            186 => [
                 'id' => 187,
                 'item_key' => 'video_substitution',
                 'item_value' => 'https://files.fresns.org/images/substitution-video.jpg',
@@ -2639,9 +2452,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            187 =>
-            array (
+            ],
+            187 => [
                 'id' => 188,
                 'item_key' => 'audio_substitution',
                 'item_value' => 'https://files.fresns.org/images/substitution-audio.jpg',
@@ -2653,9 +2465,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            188 =>
-            array (
+            ],
+            188 => [
                 'id' => 189,
                 'item_key' => 'document_substitution',
                 'item_value' => 'https://files.fresns.org/images/substitution-document.jpg',
@@ -2667,9 +2478,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            189 =>
-            array (
+            ],
+            189 => [
                 'id' => 190,
                 'item_key' => 'user_name',
                 'item_value' => 'User',
@@ -2681,9 +2491,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            190 =>
-            array (
+            ],
+            190 => [
                 'id' => 191,
                 'item_key' => 'user_uid_name',
                 'item_value' => 'UID',
@@ -2695,9 +2504,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            191 =>
-            array (
+            ],
+            191 => [
                 'id' => 192,
                 'item_key' => 'user_username_name',
                 'item_value' => 'Username',
@@ -2709,9 +2517,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            192 =>
-            array (
+            ],
+            192 => [
                 'id' => 193,
                 'item_key' => 'user_nickname_name',
                 'item_value' => 'Nickname',
@@ -2723,9 +2530,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            193 =>
-            array (
+            ],
+            193 => [
                 'id' => 194,
                 'item_key' => 'user_role_name',
                 'item_value' => 'Role',
@@ -2737,9 +2543,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            194 =>
-            array (
+            ],
+            194 => [
                 'id' => 195,
                 'item_key' => 'user_bio_name',
                 'item_value' => 'Bio',
@@ -2751,9 +2556,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            195 =>
-            array (
+            ],
+            195 => [
                 'id' => 196,
                 'item_key' => 'group_name',
                 'item_value' => 'Group',
@@ -2765,9 +2569,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            196 =>
-            array (
+            ],
+            196 => [
                 'id' => 197,
                 'item_key' => 'hashtag_name',
                 'item_value' => 'Hashtag',
@@ -2779,9 +2582,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            197 =>
-            array (
+            ],
+            197 => [
                 'id' => 198,
                 'item_key' => 'post_name',
                 'item_value' => 'Post',
@@ -2793,9 +2595,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            198 =>
-            array (
+            ],
+            198 => [
                 'id' => 199,
                 'item_key' => 'comment_name',
                 'item_value' => 'Comment',
@@ -2807,9 +2608,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            199 =>
-            array (
+            ],
+            199 => [
                 'id' => 200,
                 'item_key' => 'publish_post_name',
                 'item_value' => 'Create Post',
@@ -2821,9 +2621,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            200 =>
-            array (
+            ],
+            200 => [
                 'id' => 201,
                 'item_key' => 'publish_comment_name',
                 'item_value' => 'Write a comment',
@@ -2835,9 +2634,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            201 =>
-            array (
+            ],
+            201 => [
                 'id' => 202,
                 'item_key' => 'like_user_name',
                 'item_value' => 'Like',
@@ -2849,9 +2647,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            202 =>
-            array (
+            ],
+            202 => [
                 'id' => 203,
                 'item_key' => 'like_group_name',
                 'item_value' => 'Like',
@@ -2863,9 +2660,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            203 =>
-            array (
+            ],
+            203 => [
                 'id' => 204,
                 'item_key' => 'like_hashtag_name',
                 'item_value' => 'Like',
@@ -2877,9 +2673,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            204 =>
-            array (
+            ],
+            204 => [
                 'id' => 205,
                 'item_key' => 'like_post_name',
                 'item_value' => 'Like',
@@ -2891,9 +2686,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            205 =>
-            array (
+            ],
+            205 => [
                 'id' => 206,
                 'item_key' => 'like_comment_name',
                 'item_value' => 'Like',
@@ -2905,9 +2699,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            206 =>
-            array (
+            ],
+            206 => [
                 'id' => 207,
                 'item_key' => 'dislike_user_name',
                 'item_value' => 'Dislike',
@@ -2919,9 +2712,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            207 =>
-            array (
+            ],
+            207 => [
                 'id' => 208,
                 'item_key' => 'dislike_group_name',
                 'item_value' => 'Dislike',
@@ -2933,9 +2725,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            208 =>
-            array (
+            ],
+            208 => [
                 'id' => 209,
                 'item_key' => 'dislike_hashtag_name',
                 'item_value' => 'Dislike',
@@ -2947,9 +2738,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            209 =>
-            array (
+            ],
+            209 => [
                 'id' => 210,
                 'item_key' => 'dislike_post_name',
                 'item_value' => 'Dislike',
@@ -2961,9 +2751,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            210 =>
-            array (
+            ],
+            210 => [
                 'id' => 211,
                 'item_key' => 'dislike_comment_name',
                 'item_value' => 'Dislike',
@@ -2975,9 +2764,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            211 =>
-            array (
+            ],
+            211 => [
                 'id' => 212,
                 'item_key' => 'follow_user_name',
                 'item_value' => 'Follow',
@@ -2989,9 +2777,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            212 =>
-            array (
+            ],
+            212 => [
                 'id' => 213,
                 'item_key' => 'follow_group_name',
                 'item_value' => 'Join',
@@ -3003,9 +2790,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            213 =>
-            array (
+            ],
+            213 => [
                 'id' => 214,
                 'item_key' => 'follow_hashtag_name',
                 'item_value' => 'Watching',
@@ -3017,9 +2803,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            214 =>
-            array (
+            ],
+            214 => [
                 'id' => 215,
                 'item_key' => 'follow_post_name',
                 'item_value' => 'Save post',
@@ -3031,9 +2816,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            215 =>
-            array (
+            ],
+            215 => [
                 'id' => 216,
                 'item_key' => 'follow_comment_name',
                 'item_value' => 'Save comment',
@@ -3045,9 +2829,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            216 =>
-            array (
+            ],
+            216 => [
                 'id' => 217,
                 'item_key' => 'block_user_name',
                 'item_value' => 'Block',
@@ -3059,9 +2842,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            217 =>
-            array (
+            ],
+            217 => [
                 'id' => 218,
                 'item_key' => 'block_group_name',
                 'item_value' => 'Block',
@@ -3073,9 +2855,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            218 =>
-            array (
+            ],
+            218 => [
                 'id' => 219,
                 'item_key' => 'block_hashtag_name',
                 'item_value' => 'Block',
@@ -3087,9 +2868,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            219 =>
-            array (
+            ],
+            219 => [
                 'id' => 220,
                 'item_key' => 'block_post_name',
                 'item_value' => 'Hide post',
@@ -3101,9 +2881,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            220 =>
-            array (
+            ],
+            220 => [
                 'id' => 221,
                 'item_key' => 'block_comment_name',
                 'item_value' => 'Hide comment',
@@ -3115,9 +2894,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            221 =>
-            array (
+            ],
+            221 => [
                 'id' => 222,
                 'item_key' => 'hashtag_show',
                 'item_value' => '1',
@@ -3129,9 +2907,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            222 =>
-            array (
+            ],
+            222 => [
                 'id' => 223,
                 'item_key' => 'top_comment_require',
                 'item_value' => '50',
@@ -3143,9 +2920,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            223 =>
-            array (
+            ],
+            223 => [
                 'id' => 224,
                 'item_key' => 'comment_visibility_rule',
                 'item_value' => '0',
@@ -3157,9 +2933,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            224 =>
-            array (
+            ],
+            224 => [
                 'id' => 225,
                 'item_key' => 'comment_preview',
                 'item_value' => '0',
@@ -3171,9 +2946,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            225 =>
-            array (
+            ],
+            225 => [
                 'id' => 226,
                 'item_key' => 'nearby_length_km',
                 'item_value' => '50',
@@ -3185,9 +2959,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            226 =>
-            array (
+            ],
+            226 => [
                 'id' => 227,
                 'item_key' => 'nearby_length_mi',
                 'item_value' => '30',
@@ -3199,9 +2972,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            227 =>
-            array (
+            ],
+            227 => [
                 'id' => 228,
                 'item_key' => 'dialog_status',
                 'item_value' => 'false',
@@ -3213,9 +2985,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            228 =>
-            array (
+            ],
+            228 => [
                 'id' => 229,
                 'item_key' => 'dialog_files',
                 'item_value' => '["image"]',
@@ -3227,9 +2998,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            229 =>
-            array (
+            ],
+            229 => [
                 'id' => 230,
                 'item_key' => 'view_posts_by_follow_object',
                 'item_value' => 'true',
@@ -3241,9 +3011,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            230 =>
-            array (
+            ],
+            230 => [
                 'id' => 231,
                 'item_key' => 'view_comments_by_follow_object',
                 'item_value' => 'false',
@@ -3255,9 +3024,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            231 =>
-            array (
+            ],
+            231 => [
                 'id' => 232,
                 'item_key' => 'like_user_setting',
                 'item_value' => 'false',
@@ -3269,9 +3037,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            232 =>
-            array (
+            ],
+            232 => [
                 'id' => 233,
                 'item_key' => 'like_group_setting',
                 'item_value' => 'false',
@@ -3283,9 +3050,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            233 =>
-            array (
+            ],
+            233 => [
                 'id' => 234,
                 'item_key' => 'like_hashtag_setting',
                 'item_value' => 'false',
@@ -3297,9 +3063,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            234 =>
-            array (
+            ],
+            234 => [
                 'id' => 235,
                 'item_key' => 'like_post_setting',
                 'item_value' => 'true',
@@ -3311,9 +3076,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            235 =>
-            array (
+            ],
+            235 => [
                 'id' => 236,
                 'item_key' => 'like_comment_setting',
                 'item_value' => 'true',
@@ -3325,9 +3089,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            236 =>
-            array (
+            ],
+            236 => [
                 'id' => 237,
                 'item_key' => 'dislike_user_setting',
                 'item_value' => 'false',
@@ -3339,9 +3102,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            237 =>
-            array (
+            ],
+            237 => [
                 'id' => 238,
                 'item_key' => 'dislike_group_setting',
                 'item_value' => 'false',
@@ -3353,9 +3115,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            238 =>
-            array (
+            ],
+            238 => [
                 'id' => 239,
                 'item_key' => 'dislike_hashtag_setting',
                 'item_value' => 'false',
@@ -3367,9 +3128,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            239 =>
-            array (
+            ],
+            239 => [
                 'id' => 240,
                 'item_key' => 'dislike_post_setting',
                 'item_value' => 'true',
@@ -3381,9 +3141,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            240 =>
-            array (
+            ],
+            240 => [
                 'id' => 241,
                 'item_key' => 'dislike_comment_setting',
                 'item_value' => 'true',
@@ -3395,9 +3154,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            241 =>
-            array (
+            ],
+            241 => [
                 'id' => 242,
                 'item_key' => 'follow_user_setting',
                 'item_value' => 'true',
@@ -3409,9 +3167,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            242 =>
-            array (
+            ],
+            242 => [
                 'id' => 243,
                 'item_key' => 'follow_group_setting',
                 'item_value' => 'true',
@@ -3423,9 +3180,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            243 =>
-            array (
+            ],
+            243 => [
                 'id' => 244,
                 'item_key' => 'follow_hashtag_setting',
                 'item_value' => 'false',
@@ -3437,9 +3193,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            244 =>
-            array (
+            ],
+            244 => [
                 'id' => 245,
                 'item_key' => 'follow_post_setting',
                 'item_value' => 'true',
@@ -3451,9 +3206,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            245 =>
-            array (
+            ],
+            245 => [
                 'id' => 246,
                 'item_key' => 'follow_comment_setting',
                 'item_value' => 'true',
@@ -3465,9 +3219,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            246 =>
-            array (
+            ],
+            246 => [
                 'id' => 247,
                 'item_key' => 'block_user_setting',
                 'item_value' => 'false',
@@ -3479,9 +3232,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            247 =>
-            array (
+            ],
+            247 => [
                 'id' => 248,
                 'item_key' => 'block_group_setting',
                 'item_value' => 'false',
@@ -3493,9 +3245,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            248 =>
-            array (
+            ],
+            248 => [
                 'id' => 249,
                 'item_key' => 'block_hashtag_setting',
                 'item_value' => 'false',
@@ -3507,9 +3258,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            249 =>
-            array (
+            ],
+            249 => [
                 'id' => 250,
                 'item_key' => 'block_post_setting',
                 'item_value' => 'false',
@@ -3521,9 +3271,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            250 =>
-            array (
+            ],
+            250 => [
                 'id' => 251,
                 'item_key' => 'block_comment_setting',
                 'item_value' => 'false',
@@ -3535,9 +3284,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            251 =>
-            array (
+            ],
+            251 => [
                 'id' => 252,
                 'item_key' => 'it_posts',
                 'item_value' => 'true',
@@ -3549,9 +3297,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            252 =>
-            array (
+            ],
+            252 => [
                 'id' => 253,
                 'item_key' => 'it_comments',
                 'item_value' => 'false',
@@ -3563,9 +3310,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            253 =>
-            array (
+            ],
+            253 => [
                 'id' => 254,
                 'item_key' => 'it_like_users',
                 'item_value' => 'false',
@@ -3577,9 +3323,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            254 =>
-            array (
+            ],
+            254 => [
                 'id' => 255,
                 'item_key' => 'it_like_groups',
                 'item_value' => 'false',
@@ -3591,9 +3336,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            255 =>
-            array (
+            ],
+            255 => [
                 'id' => 256,
                 'item_key' => 'it_like_hashtags',
                 'item_value' => 'false',
@@ -3605,9 +3349,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            256 =>
-            array (
+            ],
+            256 => [
                 'id' => 257,
                 'item_key' => 'it_like_posts',
                 'item_value' => 'true',
@@ -3619,9 +3362,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            257 =>
-            array (
+            ],
+            257 => [
                 'id' => 258,
                 'item_key' => 'it_like_comments',
                 'item_value' => 'false',
@@ -3633,9 +3375,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            258 =>
-            array (
+            ],
+            258 => [
                 'id' => 259,
                 'item_key' => 'it_dislike_users',
                 'item_value' => 'false',
@@ -3647,9 +3388,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            259 =>
-            array (
+            ],
+            259 => [
                 'id' => 260,
                 'item_key' => 'it_dislike_groups',
                 'item_value' => 'false',
@@ -3661,9 +3401,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            260 =>
-            array (
+            ],
+            260 => [
                 'id' => 261,
                 'item_key' => 'it_dislike_hashtags',
                 'item_value' => 'false',
@@ -3675,9 +3414,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            261 =>
-            array (
+            ],
+            261 => [
                 'id' => 262,
                 'item_key' => 'it_dislike_posts',
                 'item_value' => 'false',
@@ -3689,9 +3427,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            262 =>
-            array (
+            ],
+            262 => [
                 'id' => 263,
                 'item_key' => 'it_dislike_comments',
                 'item_value' => 'false',
@@ -3703,9 +3440,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            263 =>
-            array (
+            ],
+            263 => [
                 'id' => 264,
                 'item_key' => 'it_follow_users',
                 'item_value' => 'true',
@@ -3717,9 +3453,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            264 =>
-            array (
+            ],
+            264 => [
                 'id' => 265,
                 'item_key' => 'it_follow_groups',
                 'item_value' => 'true',
@@ -3731,9 +3466,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            265 =>
-            array (
+            ],
+            265 => [
                 'id' => 266,
                 'item_key' => 'it_follow_hashtags',
                 'item_value' => 'false',
@@ -3745,9 +3479,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            266 =>
-            array (
+            ],
+            266 => [
                 'id' => 267,
                 'item_key' => 'it_follow_posts',
                 'item_value' => 'false',
@@ -3759,9 +3492,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            267 =>
-            array (
+            ],
+            267 => [
                 'id' => 268,
                 'item_key' => 'it_follow_comments',
                 'item_value' => 'false',
@@ -3773,9 +3505,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            268 =>
-            array (
+            ],
+            268 => [
                 'id' => 269,
                 'item_key' => 'it_block_users',
                 'item_value' => 'false',
@@ -3787,9 +3518,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            269 =>
-            array (
+            ],
+            269 => [
                 'id' => 270,
                 'item_key' => 'it_block_groups',
                 'item_value' => 'false',
@@ -3801,9 +3531,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            270 =>
-            array (
+            ],
+            270 => [
                 'id' => 271,
                 'item_key' => 'it_block_hashtags',
                 'item_value' => 'false',
@@ -3815,9 +3544,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            271 =>
-            array (
+            ],
+            271 => [
                 'id' => 272,
                 'item_key' => 'it_block_posts',
                 'item_value' => 'false',
@@ -3829,9 +3557,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            272 =>
-            array (
+            ],
+            272 => [
                 'id' => 273,
                 'item_key' => 'it_block_comments',
                 'item_value' => 'false',
@@ -3843,9 +3570,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            273 =>
-            array (
+            ],
+            273 => [
                 'id' => 274,
                 'item_key' => 'it_home_list',
                 'item_value' => 'it_posts',
@@ -3857,9 +3583,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            274 =>
-            array (
+            ],
+            274 => [
                 'id' => 275,
                 'item_key' => 'my_likers',
                 'item_value' => 'false',
@@ -3871,9 +3596,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            275 =>
-            array (
+            ],
+            275 => [
                 'id' => 276,
                 'item_key' => 'my_dislikers',
                 'item_value' => 'false',
@@ -3885,9 +3609,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            276 =>
-            array (
+            ],
+            276 => [
                 'id' => 277,
                 'item_key' => 'my_followers',
                 'item_value' => 'true',
@@ -3899,9 +3622,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            277 =>
-            array (
+            ],
+            277 => [
                 'id' => 278,
                 'item_key' => 'my_blockers',
                 'item_value' => 'false',
@@ -3913,9 +3635,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            278 =>
-            array (
+            ],
+            278 => [
                 'id' => 279,
                 'item_key' => 'user_likers',
                 'item_value' => 'true',
@@ -3927,9 +3648,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            279 =>
-            array (
+            ],
+            279 => [
                 'id' => 280,
                 'item_key' => 'user_dislikers',
                 'item_value' => 'false',
@@ -3941,9 +3661,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            280 =>
-            array (
+            ],
+            280 => [
                 'id' => 281,
                 'item_key' => 'user_followers',
                 'item_value' => 'true',
@@ -3955,9 +3674,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            281 =>
-            array (
+            ],
+            281 => [
                 'id' => 282,
                 'item_key' => 'user_blockers',
                 'item_value' => 'false',
@@ -3969,9 +3687,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            282 =>
-            array (
+            ],
+            282 => [
                 'id' => 283,
                 'item_key' => 'group_likers',
                 'item_value' => 'true',
@@ -3983,9 +3700,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            283 =>
-            array (
+            ],
+            283 => [
                 'id' => 284,
                 'item_key' => 'group_dislikers',
                 'item_value' => 'false',
@@ -3997,9 +3713,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            284 =>
-            array (
+            ],
+            284 => [
                 'id' => 285,
                 'item_key' => 'group_followers',
                 'item_value' => 'true',
@@ -4011,9 +3726,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            285 =>
-            array (
+            ],
+            285 => [
                 'id' => 286,
                 'item_key' => 'group_blockers',
                 'item_value' => 'false',
@@ -4025,9 +3739,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            286 =>
-            array (
+            ],
+            286 => [
                 'id' => 287,
                 'item_key' => 'hashtag_likers',
                 'item_value' => 'true',
@@ -4039,9 +3752,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            287 =>
-            array (
+            ],
+            287 => [
                 'id' => 288,
                 'item_key' => 'hashtag_dislikers',
                 'item_value' => 'false',
@@ -4053,9 +3765,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            288 =>
-            array (
+            ],
+            288 => [
                 'id' => 289,
                 'item_key' => 'hashtag_followers',
                 'item_value' => 'false',
@@ -4067,9 +3778,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            289 =>
-            array (
+            ],
+            289 => [
                 'id' => 290,
                 'item_key' => 'hashtag_blockers',
                 'item_value' => 'false',
@@ -4081,9 +3791,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            290 =>
-            array (
+            ],
+            290 => [
                 'id' => 291,
                 'item_key' => 'post_likers',
                 'item_value' => 'true',
@@ -4095,9 +3804,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            291 =>
-            array (
+            ],
+            291 => [
                 'id' => 292,
                 'item_key' => 'post_dislikers',
                 'item_value' => 'false',
@@ -4109,9 +3817,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            292 =>
-            array (
+            ],
+            292 => [
                 'id' => 293,
                 'item_key' => 'post_followers',
                 'item_value' => 'false',
@@ -4123,9 +3830,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            293 =>
-            array (
+            ],
+            293 => [
                 'id' => 294,
                 'item_key' => 'post_blockers',
                 'item_value' => 'false',
@@ -4137,9 +3843,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            294 =>
-            array (
+            ],
+            294 => [
                 'id' => 295,
                 'item_key' => 'comment_likers',
                 'item_value' => 'true',
@@ -4151,9 +3856,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            295 =>
-            array (
+            ],
+            295 => [
                 'id' => 296,
                 'item_key' => 'comment_dislikers',
                 'item_value' => 'false',
@@ -4165,9 +3869,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            296 =>
-            array (
+            ],
+            296 => [
                 'id' => 297,
                 'item_key' => 'comment_followers',
                 'item_value' => 'false',
@@ -4179,9 +3882,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            297 =>
-            array (
+            ],
+            297 => [
                 'id' => 298,
                 'item_key' => 'comment_blockers',
                 'item_value' => 'false',
@@ -4193,9 +3895,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            298 =>
-            array (
+            ],
+            298 => [
                 'id' => 299,
                 'item_key' => 'post_email_verify',
                 'item_value' => 'false',
@@ -4207,9 +3908,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            299 =>
-            array (
+            ],
+            299 => [
                 'id' => 300,
                 'item_key' => 'post_phone_verify',
                 'item_value' => 'false',
@@ -4221,9 +3921,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            300 =>
-            array (
+            ],
+            300 => [
                 'id' => 301,
                 'item_key' => 'post_real_name_verify',
                 'item_value' => 'false',
@@ -4235,9 +3934,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            301 =>
-            array (
+            ],
+            301 => [
                 'id' => 302,
                 'item_key' => 'post_limit_status',
                 'item_value' => 'false',
@@ -4249,9 +3947,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            302 =>
-            array (
+            ],
+            302 => [
                 'id' => 303,
                 'item_key' => 'post_limit_type',
                 'item_value' => '1',
@@ -4263,9 +3960,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            303 =>
-            array (
+            ],
+            303 => [
                 'id' => 304,
                 'item_key' => 'post_limit_period_start',
                 'item_value' => null,
@@ -4277,9 +3973,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            304 =>
-            array (
+            ],
+            304 => [
                 'id' => 305,
                 'item_key' => 'post_limit_period_end',
                 'item_value' => null,
@@ -4291,9 +3986,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            305 =>
-            array (
+            ],
+            305 => [
                 'id' => 306,
                 'item_key' => 'post_limit_cycle_start',
                 'item_value' => null,
@@ -4305,9 +3999,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            306 =>
-            array (
+            ],
+            306 => [
                 'id' => 307,
                 'item_key' => 'post_limit_cycle_end',
                 'item_value' => null,
@@ -4319,9 +4012,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            307 =>
-            array (
+            ],
+            307 => [
                 'id' => 308,
                 'item_key' => 'post_limit_rule',
                 'item_value' => '1',
@@ -4333,9 +4025,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            308 =>
-            array (
+            ],
+            308 => [
                 'id' => 309,
                 'item_key' => 'post_limit_tip',
                 'item_value' => null,
@@ -4347,9 +4038,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            309 =>
-            array (
+            ],
+            309 => [
                 'id' => 310,
                 'item_key' => 'post_limit_whitelist',
                 'item_value' => '["1"]',
@@ -4361,9 +4051,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            310 =>
-            array (
+            ],
+            310 => [
                 'id' => 311,
                 'item_key' => 'post_edit',
                 'item_value' => 'false',
@@ -4375,9 +4064,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            311 =>
-            array (
+            ],
+            311 => [
                 'id' => 312,
                 'item_key' => 'post_edit_time_limit',
                 'item_value' => '30',
@@ -4389,9 +4077,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            312 =>
-            array (
+            ],
+            312 => [
                 'id' => 313,
                 'item_key' => 'post_edit_sticky_limit',
                 'item_value' => 'false',
@@ -4403,9 +4090,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            313 =>
-            array (
+            ],
+            313 => [
                 'id' => 314,
                 'item_key' => 'post_edit_digest_limit',
                 'item_value' => 'false',
@@ -4417,9 +4103,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            314 =>
-            array (
+            ],
+            314 => [
                 'id' => 315,
                 'item_key' => 'post_editor_service',
                 'item_value' => null,
@@ -4431,9 +4116,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            315 =>
-            array (
+            ],
+            315 => [
                 'id' => 316,
                 'item_key' => 'post_editor_group',
                 'item_value' => 'false',
@@ -4445,9 +4129,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            316 =>
-            array (
+            ],
+            316 => [
                 'id' => 317,
                 'item_key' => 'post_editor_title',
                 'item_value' => 'true',
@@ -4459,9 +4142,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            317 =>
-            array (
+            ],
+            317 => [
                 'id' => 318,
                 'item_key' => 'post_editor_sticker',
                 'item_value' => 'true',
@@ -4473,9 +4155,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            318 =>
-            array (
+            ],
+            318 => [
                 'id' => 319,
                 'item_key' => 'post_editor_image',
                 'item_value' => 'false',
@@ -4487,9 +4168,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            319 =>
-            array (
+            ],
+            319 => [
                 'id' => 320,
                 'item_key' => 'post_editor_video',
                 'item_value' => 'false',
@@ -4501,9 +4181,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            320 =>
-            array (
+            ],
+            320 => [
                 'id' => 321,
                 'item_key' => 'post_editor_audio',
                 'item_value' => 'false',
@@ -4515,9 +4194,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            321 =>
-            array (
+            ],
+            321 => [
                 'id' => 322,
                 'item_key' => 'post_editor_document',
                 'item_value' => 'false',
@@ -4529,9 +4207,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            322 =>
-            array (
+            ],
+            322 => [
                 'id' => 323,
                 'item_key' => 'post_editor_mention',
                 'item_value' => 'true',
@@ -4543,9 +4220,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            323 =>
-            array (
+            ],
+            323 => [
                 'id' => 324,
                 'item_key' => 'post_editor_hashtag',
                 'item_value' => 'true',
@@ -4557,9 +4233,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            324 =>
-            array (
+            ],
+            324 => [
                 'id' => 325,
                 'item_key' => 'post_editor_extend',
                 'item_value' => 'true',
@@ -4571,9 +4246,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            325 =>
-            array (
+            ],
+            325 => [
                 'id' => 326,
                 'item_key' => 'post_editor_location',
                 'item_value' => 'false',
@@ -4585,9 +4259,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            326 =>
-            array (
+            ],
+            326 => [
                 'id' => 327,
                 'item_key' => 'post_editor_anonymous',
                 'item_value' => 'false',
@@ -4599,9 +4272,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            327 =>
-            array (
+            ],
+            327 => [
                 'id' => 328,
                 'item_key' => 'post_editor_image_upload_number',
                 'item_value' => '9',
@@ -4613,9 +4285,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            328 =>
-            array (
+            ],
+            328 => [
                 'id' => 329,
                 'item_key' => 'post_editor_video_upload_number',
                 'item_value' => '1',
@@ -4627,9 +4298,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            329 =>
-            array (
+            ],
+            329 => [
                 'id' => 330,
                 'item_key' => 'post_editor_audio_upload_number',
                 'item_value' => '1',
@@ -4641,9 +4311,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            330 =>
-            array (
+            ],
+            330 => [
                 'id' => 331,
                 'item_key' => 'post_editor_document_upload_number',
                 'item_value' => '10',
@@ -4655,9 +4324,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            331 =>
-            array (
+            ],
+            331 => [
                 'id' => 332,
                 'item_key' => 'post_editor_group_required',
                 'item_value' => 'false',
@@ -4669,9 +4337,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            332 =>
-            array (
+            ],
+            332 => [
                 'id' => 333,
                 'item_key' => 'post_editor_title_view',
                 'item_value' => '1',
@@ -4683,9 +4350,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            333 =>
-            array (
+            ],
+            333 => [
                 'id' => 334,
                 'item_key' => 'post_editor_title_required',
                 'item_value' => 'false',
@@ -4697,9 +4363,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            334 =>
-            array (
+            ],
+            334 => [
                 'id' => 335,
                 'item_key' => 'post_editor_title_length',
                 'item_value' => '80',
@@ -4711,9 +4376,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            335 =>
-            array (
+            ],
+            335 => [
                 'id' => 336,
                 'item_key' => 'post_editor_content_length',
                 'item_value' => '20000',
@@ -4725,9 +4389,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            336 =>
-            array (
+            ],
+            336 => [
                 'id' => 337,
                 'item_key' => 'post_editor_brief_length',
                 'item_value' => '280',
@@ -4739,9 +4402,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            337 =>
-            array (
+            ],
+            337 => [
                 'id' => 338,
                 'item_key' => 'comment_email_verify',
                 'item_value' => 'false',
@@ -4753,9 +4415,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            338 =>
-            array (
+            ],
+            338 => [
                 'id' => 339,
                 'item_key' => 'comment_phone_verify',
                 'item_value' => 'false',
@@ -4767,9 +4428,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            339 =>
-            array (
+            ],
+            339 => [
                 'id' => 340,
                 'item_key' => 'comment_real_name_verify',
                 'item_value' => 'false',
@@ -4781,9 +4441,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            340 =>
-            array (
+            ],
+            340 => [
                 'id' => 341,
                 'item_key' => 'comment_limit_status',
                 'item_value' => 'false',
@@ -4795,9 +4454,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            341 =>
-            array (
+            ],
+            341 => [
                 'id' => 342,
                 'item_key' => 'comment_limit_type',
                 'item_value' => '1',
@@ -4809,9 +4467,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            342 =>
-            array (
+            ],
+            342 => [
                 'id' => 343,
                 'item_key' => 'comment_limit_period_start',
                 'item_value' => null,
@@ -4823,9 +4480,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            343 =>
-            array (
+            ],
+            343 => [
                 'id' => 344,
                 'item_key' => 'comment_limit_period_end',
                 'item_value' => null,
@@ -4837,9 +4493,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            344 =>
-            array (
+            ],
+            344 => [
                 'id' => 345,
                 'item_key' => 'comment_limit_cycle_start',
                 'item_value' => null,
@@ -4851,9 +4506,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            345 =>
-            array (
+            ],
+            345 => [
                 'id' => 346,
                 'item_key' => 'comment_limit_cycle_end',
                 'item_value' => null,
@@ -4865,9 +4519,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            346 =>
-            array (
+            ],
+            346 => [
                 'id' => 347,
                 'item_key' => 'comment_limit_rule',
                 'item_value' => '1',
@@ -4879,9 +4532,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            347 =>
-            array (
+            ],
+            347 => [
                 'id' => 348,
                 'item_key' => 'comment_limit_tip',
                 'item_value' => null,
@@ -4893,9 +4545,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            348 =>
-            array (
+            ],
+            348 => [
                 'id' => 349,
                 'item_key' => 'comment_limit_whitelist',
                 'item_value' => '["1"]',
@@ -4907,9 +4558,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            349 =>
-            array (
+            ],
+            349 => [
                 'id' => 350,
                 'item_key' => 'comment_edit',
                 'item_value' => 'false',
@@ -4921,9 +4571,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            350 =>
-            array (
+            ],
+            350 => [
                 'id' => 351,
                 'item_key' => 'comment_edit_time_limit',
                 'item_value' => '30',
@@ -4935,9 +4584,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            351 =>
-            array (
+            ],
+            351 => [
                 'id' => 352,
                 'item_key' => 'comment_edit_sticky_limit',
                 'item_value' => 'false',
@@ -4949,9 +4597,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            352 =>
-            array (
+            ],
+            352 => [
                 'id' => 353,
                 'item_key' => 'comment_edit_digest_limit',
                 'item_value' => 'false',
@@ -4963,9 +4610,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            353 =>
-            array (
+            ],
+            353 => [
                 'id' => 354,
                 'item_key' => 'comment_editor_service',
                 'item_value' => null,
@@ -4977,9 +4623,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            354 =>
-            array (
+            ],
+            354 => [
                 'id' => 355,
                 'item_key' => 'comment_editor_sticker',
                 'item_value' => 'true',
@@ -4991,9 +4636,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            355 =>
-            array (
+            ],
+            355 => [
                 'id' => 356,
                 'item_key' => 'comment_editor_image',
                 'item_value' => 'false',
@@ -5005,9 +4649,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            356 =>
-            array (
+            ],
+            356 => [
                 'id' => 357,
                 'item_key' => 'comment_editor_video',
                 'item_value' => 'false',
@@ -5019,9 +4662,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            357 =>
-            array (
+            ],
+            357 => [
                 'id' => 358,
                 'item_key' => 'comment_editor_audio',
                 'item_value' => 'false',
@@ -5033,9 +4675,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            358 =>
-            array (
+            ],
+            358 => [
                 'id' => 359,
                 'item_key' => 'comment_editor_document',
                 'item_value' => 'false',
@@ -5047,9 +4688,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            359 =>
-            array (
+            ],
+            359 => [
                 'id' => 360,
                 'item_key' => 'comment_editor_mention',
                 'item_value' => 'true',
@@ -5061,9 +4701,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            360 =>
-            array (
+            ],
+            360 => [
                 'id' => 361,
                 'item_key' => 'comment_editor_hashtag',
                 'item_value' => 'true',
@@ -5075,9 +4714,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            361 =>
-            array (
+            ],
+            361 => [
                 'id' => 362,
                 'item_key' => 'comment_editor_extend',
                 'item_value' => 'false',
@@ -5089,9 +4727,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            362 =>
-            array (
+            ],
+            362 => [
                 'id' => 363,
                 'item_key' => 'comment_editor_location',
                 'item_value' => 'false',
@@ -5103,9 +4740,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            363 =>
-            array (
+            ],
+            363 => [
                 'id' => 364,
                 'item_key' => 'comment_editor_anonymous',
                 'item_value' => 'false',
@@ -5117,9 +4753,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            364 =>
-            array (
+            ],
+            364 => [
                 'id' => 365,
                 'item_key' => 'comment_editor_image_upload_number',
                 'item_value' => '1',
@@ -5131,9 +4766,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            365 =>
-            array (
+            ],
+            365 => [
                 'id' => 366,
                 'item_key' => 'comment_editor_video_upload_number',
                 'item_value' => '0',
@@ -5145,9 +4779,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            366 =>
-            array (
+            ],
+            366 => [
                 'id' => 367,
                 'item_key' => 'comment_editor_audio_upload_number',
                 'item_value' => '0',
@@ -5159,9 +4792,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            367 =>
-            array (
+            ],
+            367 => [
                 'id' => 368,
                 'item_key' => 'comment_editor_document_upload_number',
                 'item_value' => '0',
@@ -5173,9 +4805,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            368 =>
-            array (
+            ],
+            368 => [
                 'id' => 369,
                 'item_key' => 'comment_editor_content_length',
                 'item_value' => '10000',
@@ -5187,9 +4818,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            369 =>
-            array (
+            ],
+            369 => [
                 'id' => 370,
                 'item_key' => 'comment_editor_brief_length',
                 'item_value' => '280',
@@ -5201,9 +4831,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            370 =>
-            array (
+            ],
+            370 => [
                 'id' => 371,
                 'item_key' => 'ip_service',
                 'item_value' => null,
@@ -5215,9 +4844,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            371 =>
-            array (
+            ],
+            371 => [
                 'id' => 372,
                 'item_key' => 'content_review_service',
                 'item_value' => null,
@@ -5229,9 +4857,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            372 =>
-            array (
+            ],
+            372 => [
                 'id' => 373,
                 'item_key' => 'post_list_service',
                 'item_value' => null,
@@ -5243,9 +4870,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            373 =>
-            array (
+            ],
+            373 => [
                 'id' => 374,
                 'item_key' => 'post_follow_service',
                 'item_value' => null,
@@ -5257,9 +4883,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            374 =>
-            array (
+            ],
+            374 => [
                 'id' => 375,
                 'item_key' => 'post_nearby_service',
                 'item_value' => null,
@@ -5271,9 +4896,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            375 =>
-            array (
+            ],
+            375 => [
                 'id' => 376,
                 'item_key' => 'post_detail_service',
                 'item_value' => null,
@@ -5285,9 +4909,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            376 =>
-            array (
+            ],
+            376 => [
                 'id' => 377,
                 'item_key' => 'search_users_service',
                 'item_value' => null,
@@ -5299,9 +4922,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            377 =>
-            array (
+            ],
+            377 => [
                 'id' => 378,
                 'item_key' => 'search_groups_service',
                 'item_value' => null,
@@ -5313,9 +4935,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            378 =>
-            array (
+            ],
+            378 => [
                 'id' => 379,
                 'item_key' => 'search_hashtags_service',
                 'item_value' => null,
@@ -5327,9 +4948,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            379 =>
-            array (
+            ],
+            379 => [
                 'id' => 380,
                 'item_key' => 'search_posts_service',
                 'item_value' => null,
@@ -5341,9 +4961,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            380 =>
-            array (
+            ],
+            380 => [
                 'id' => 381,
                 'item_key' => 'search_comments_service',
                 'item_value' => null,
@@ -5355,9 +4974,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            381 =>
-            array (
+            ],
+            381 => [
                 'id' => 382,
                 'item_key' => 'default_homepage',
                 'item_value' => 'group',
@@ -5369,9 +4987,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            382 =>
-            array (
+            ],
+            382 => [
                 'id' => 383,
                 'item_key' => 'menu_portal_name',
                 'item_value' => 'Portal',
@@ -5383,9 +5000,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            383 =>
-            array (
+            ],
+            383 => [
                 'id' => 384,
                 'item_key' => 'menu_portal_title',
                 'item_value' => 'Portal',
@@ -5397,9 +5013,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            384 =>
-            array (
+            ],
+            384 => [
                 'id' => 385,
                 'item_key' => 'menu_portal_keywords',
                 'item_value' => null,
@@ -5411,9 +5026,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            385 =>
-            array (
+            ],
+            385 => [
                 'id' => 386,
                 'item_key' => 'menu_portal_description',
                 'item_value' => null,
@@ -5425,9 +5039,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            386 =>
-            array (
+            ],
+            386 => [
                 'id' => 387,
                 'item_key' => 'menu_portal_status',
                 'item_value' => 'true',
@@ -5439,9 +5052,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            387 =>
-            array (
+            ],
+            387 => [
                 'id' => 388,
                 'item_key' => 'menu_user_name',
                 'item_value' => 'User',
@@ -5453,9 +5065,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            388 =>
-            array (
+            ],
+            388 => [
                 'id' => 389,
                 'item_key' => 'menu_user_title',
                 'item_value' => 'User',
@@ -5467,9 +5078,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            389 =>
-            array (
+            ],
+            389 => [
                 'id' => 390,
                 'item_key' => 'menu_user_keywords',
                 'item_value' => null,
@@ -5481,9 +5091,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            390 =>
-            array (
+            ],
+            390 => [
                 'id' => 391,
                 'item_key' => 'menu_user_description',
                 'item_value' => null,
@@ -5495,9 +5104,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            391 =>
-            array (
+            ],
+            391 => [
                 'id' => 392,
                 'item_key' => 'menu_user_status',
                 'item_value' => 'true',
@@ -5509,9 +5117,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            392 =>
-            array (
+            ],
+            392 => [
                 'id' => 393,
                 'item_key' => 'menu_user_query_state',
                 'item_value' => '2',
@@ -5523,9 +5130,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            393 =>
-            array (
+            ],
+            393 => [
                 'id' => 394,
                 'item_key' => 'menu_user_query_config',
                 'item_value' => null,
@@ -5537,9 +5143,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            394 =>
-            array (
+            ],
+            394 => [
                 'id' => 395,
                 'item_key' => 'menu_group_name',
                 'item_value' => 'Group',
@@ -5551,9 +5156,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            395 =>
-            array (
+            ],
+            395 => [
                 'id' => 396,
                 'item_key' => 'menu_group_title',
                 'item_value' => 'Group',
@@ -5565,9 +5169,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            396 =>
-            array (
+            ],
+            396 => [
                 'id' => 397,
                 'item_key' => 'menu_group_keywords',
                 'item_value' => null,
@@ -5579,9 +5182,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            397 =>
-            array (
+            ],
+            397 => [
                 'id' => 398,
                 'item_key' => 'menu_group_description',
                 'item_value' => null,
@@ -5593,9 +5195,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            398 =>
-            array (
+            ],
+            398 => [
                 'id' => 399,
                 'item_key' => 'menu_group_type',
                 'item_value' => 'tree',
@@ -5607,9 +5208,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            399 =>
-            array (
+            ],
+            399 => [
                 'id' => 400,
                 'item_key' => 'menu_group_status',
                 'item_value' => 'true',
@@ -5621,9 +5221,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            400 =>
-            array (
+            ],
+            400 => [
                 'id' => 401,
                 'item_key' => 'menu_group_query_state',
                 'item_value' => '2',
@@ -5635,9 +5234,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            401 =>
-            array (
+            ],
+            401 => [
                 'id' => 402,
                 'item_key' => 'menu_group_query_config',
                 'item_value' => null,
@@ -5649,9 +5247,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            402 =>
-            array (
+            ],
+            402 => [
                 'id' => 403,
                 'item_key' => 'menu_hashtag_name',
                 'item_value' => 'Hashtag',
@@ -5663,9 +5260,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            403 =>
-            array (
+            ],
+            403 => [
                 'id' => 404,
                 'item_key' => 'menu_hashtag_title',
                 'item_value' => 'Hashtag',
@@ -5677,9 +5273,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            404 =>
-            array (
+            ],
+            404 => [
                 'id' => 405,
                 'item_key' => 'menu_hashtag_keywords',
                 'item_value' => null,
@@ -5691,9 +5286,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            405 =>
-            array (
+            ],
+            405 => [
                 'id' => 406,
                 'item_key' => 'menu_hashtag_description',
                 'item_value' => null,
@@ -5705,9 +5299,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            406 =>
-            array (
+            ],
+            406 => [
                 'id' => 407,
                 'item_key' => 'menu_hashtag_status',
                 'item_value' => 'true',
@@ -5719,9 +5312,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            407 =>
-            array (
+            ],
+            407 => [
                 'id' => 408,
                 'item_key' => 'menu_hashtag_query_state',
                 'item_value' => '2',
@@ -5733,9 +5325,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            408 =>
-            array (
+            ],
+            408 => [
                 'id' => 409,
                 'item_key' => 'menu_hashtag_query_config',
                 'item_value' => null,
@@ -5747,9 +5338,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            409 =>
-            array (
+            ],
+            409 => [
                 'id' => 410,
                 'item_key' => 'menu_post_name',
                 'item_value' => 'Post',
@@ -5761,9 +5351,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            410 =>
-            array (
+            ],
+            410 => [
                 'id' => 411,
                 'item_key' => 'menu_post_title',
                 'item_value' => 'Post',
@@ -5775,9 +5364,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            411 =>
-            array (
+            ],
+            411 => [
                 'id' => 412,
                 'item_key' => 'menu_post_keywords',
                 'item_value' => null,
@@ -5789,9 +5377,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            412 =>
-            array (
+            ],
+            412 => [
                 'id' => 413,
                 'item_key' => 'menu_post_description',
                 'item_value' => null,
@@ -5803,9 +5390,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            413 =>
-            array (
+            ],
+            413 => [
                 'id' => 414,
                 'item_key' => 'menu_post_status',
                 'item_value' => 'true',
@@ -5817,9 +5403,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            414 =>
-            array (
+            ],
+            414 => [
                 'id' => 415,
                 'item_key' => 'menu_post_query_state',
                 'item_value' => '2',
@@ -5831,9 +5416,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            415 =>
-            array (
+            ],
+            415 => [
                 'id' => 416,
                 'item_key' => 'menu_post_query_config',
                 'item_value' => null,
@@ -5845,9 +5429,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            416 =>
-            array (
+            ],
+            416 => [
                 'id' => 417,
                 'item_key' => 'menu_comment_name',
                 'item_value' => 'Comment',
@@ -5859,9 +5442,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            417 =>
-            array (
+            ],
+            417 => [
                 'id' => 418,
                 'item_key' => 'menu_comment_title',
                 'item_value' => 'Comment',
@@ -5873,9 +5455,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            418 =>
-            array (
+            ],
+            418 => [
                 'id' => 419,
                 'item_key' => 'menu_comment_keywords',
                 'item_value' => null,
@@ -5887,9 +5468,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            419 =>
-            array (
+            ],
+            419 => [
                 'id' => 420,
                 'item_key' => 'menu_comment_description',
                 'item_value' => null,
@@ -5901,9 +5481,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            420 =>
-            array (
+            ],
+            420 => [
                 'id' => 421,
                 'item_key' => 'menu_comment_status',
                 'item_value' => 'true',
@@ -5915,9 +5494,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            421 =>
-            array (
+            ],
+            421 => [
                 'id' => 422,
                 'item_key' => 'menu_comment_query_state',
                 'item_value' => '2',
@@ -5929,9 +5507,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            422 =>
-            array (
+            ],
+            422 => [
                 'id' => 423,
                 'item_key' => 'menu_comment_query_config',
                 'item_value' => null,
@@ -5943,9 +5520,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            423 =>
-            array (
+            ],
+            423 => [
                 'id' => 424,
                 'item_key' => 'menu_user_list_name',
                 'item_value' => 'User List',
@@ -5957,9 +5533,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            424 =>
-            array (
+            ],
+            424 => [
                 'id' => 425,
                 'item_key' => 'menu_user_list_title',
                 'item_value' => 'User List',
@@ -5971,9 +5546,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            425 =>
-            array (
+            ],
+            425 => [
                 'id' => 426,
                 'item_key' => 'menu_user_list_keywords',
                 'item_value' => null,
@@ -5985,9 +5559,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            426 =>
-            array (
+            ],
+            426 => [
                 'id' => 427,
                 'item_key' => 'menu_user_list_description',
                 'item_value' => null,
@@ -5999,9 +5572,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            427 =>
-            array (
+            ],
+            427 => [
                 'id' => 428,
                 'item_key' => 'menu_user_list_status',
                 'item_value' => 'true',
@@ -6013,9 +5585,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            428 =>
-            array (
+            ],
+            428 => [
                 'id' => 429,
                 'item_key' => 'menu_user_list_query_state',
                 'item_value' => '2',
@@ -6027,9 +5598,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            429 =>
-            array (
+            ],
+            429 => [
                 'id' => 430,
                 'item_key' => 'menu_user_list_query_config',
                 'item_value' => null,
@@ -6041,9 +5611,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            430 =>
-            array (
+            ],
+            430 => [
                 'id' => 431,
                 'item_key' => 'menu_group_list_name',
                 'item_value' => 'Group List',
@@ -6055,9 +5624,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            431 =>
-            array (
+            ],
+            431 => [
                 'id' => 432,
                 'item_key' => 'menu_group_list_title',
                 'item_value' => 'Group List',
@@ -6069,9 +5637,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            432 =>
-            array (
+            ],
+            432 => [
                 'id' => 433,
                 'item_key' => 'menu_group_list_keywords',
                 'item_value' => null,
@@ -6083,9 +5650,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            433 =>
-            array (
+            ],
+            433 => [
                 'id' => 434,
                 'item_key' => 'menu_group_list_description',
                 'item_value' => null,
@@ -6097,9 +5663,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            434 =>
-            array (
+            ],
+            434 => [
                 'id' => 435,
                 'item_key' => 'menu_group_list_status',
                 'item_value' => 'true',
@@ -6111,9 +5676,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            435 =>
-            array (
+            ],
+            435 => [
                 'id' => 436,
                 'item_key' => 'menu_group_list_query_state',
                 'item_value' => '2',
@@ -6125,9 +5689,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            436 =>
-            array (
+            ],
+            436 => [
                 'id' => 437,
                 'item_key' => 'menu_group_list_query_config',
                 'item_value' => null,
@@ -6139,9 +5702,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            437 =>
-            array (
+            ],
+            437 => [
                 'id' => 438,
                 'item_key' => 'menu_hashtag_list_name',
                 'item_value' => 'Hashtag List',
@@ -6153,9 +5715,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            438 =>
-            array (
+            ],
+            438 => [
                 'id' => 439,
                 'item_key' => 'menu_hashtag_list_title',
                 'item_value' => 'Hashtag List',
@@ -6167,9 +5728,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            439 =>
-            array (
+            ],
+            439 => [
                 'id' => 440,
                 'item_key' => 'menu_hashtag_list_keywords',
                 'item_value' => null,
@@ -6181,9 +5741,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            440 =>
-            array (
+            ],
+            440 => [
                 'id' => 441,
                 'item_key' => 'menu_hashtag_list_description',
                 'item_value' => null,
@@ -6195,9 +5754,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            441 =>
-            array (
+            ],
+            441 => [
                 'id' => 442,
                 'item_key' => 'menu_hashtag_list_status',
                 'item_value' => 'true',
@@ -6209,9 +5767,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            442 =>
-            array (
+            ],
+            442 => [
                 'id' => 443,
                 'item_key' => 'menu_hashtag_list_query_state',
                 'item_value' => '2',
@@ -6223,9 +5780,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            443 =>
-            array (
+            ],
+            443 => [
                 'id' => 444,
                 'item_key' => 'menu_hashtag_list_query_config',
                 'item_value' => null,
@@ -6237,9 +5793,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            444 =>
-            array (
+            ],
+            444 => [
                 'id' => 445,
                 'item_key' => 'menu_post_list_name',
                 'item_value' => 'Post List',
@@ -6251,9 +5806,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            445 =>
-            array (
+            ],
+            445 => [
                 'id' => 446,
                 'item_key' => 'menu_post_list_title',
                 'item_value' => 'Post List',
@@ -6265,9 +5819,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            446 =>
-            array (
+            ],
+            446 => [
                 'id' => 447,
                 'item_key' => 'menu_post_list_keywords',
                 'item_value' => null,
@@ -6279,9 +5832,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            447 =>
-            array (
+            ],
+            447 => [
                 'id' => 448,
                 'item_key' => 'menu_post_list_description',
                 'item_value' => null,
@@ -6293,9 +5845,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            448 =>
-            array (
+            ],
+            448 => [
                 'id' => 449,
                 'item_key' => 'menu_post_list_status',
                 'item_value' => 'true',
@@ -6307,9 +5858,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            449 =>
-            array (
+            ],
+            449 => [
                 'id' => 450,
                 'item_key' => 'menu_post_list_query_state',
                 'item_value' => '2',
@@ -6321,9 +5871,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            450 =>
-            array (
+            ],
+            450 => [
                 'id' => 451,
                 'item_key' => 'menu_post_list_query_config',
                 'item_value' => null,
@@ -6335,9 +5884,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            451 =>
-            array (
+            ],
+            451 => [
                 'id' => 452,
                 'item_key' => 'menu_comment_list_name',
                 'item_value' => 'Comment List',
@@ -6349,9 +5897,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            452 =>
-            array (
+            ],
+            452 => [
                 'id' => 453,
                 'item_key' => 'menu_comment_list_title',
                 'item_value' => 'Comment List',
@@ -6363,9 +5910,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            453 =>
-            array (
+            ],
+            453 => [
                 'id' => 454,
                 'item_key' => 'menu_comment_list_keywords',
                 'item_value' => null,
@@ -6377,9 +5923,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            454 =>
-            array (
+            ],
+            454 => [
                 'id' => 455,
                 'item_key' => 'menu_comment_list_description',
                 'item_value' => null,
@@ -6391,9 +5936,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            455 =>
-            array (
+            ],
+            455 => [
                 'id' => 456,
                 'item_key' => 'menu_comment_list_status',
                 'item_value' => 'true',
@@ -6405,9 +5949,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            456 =>
-            array (
+            ],
+            456 => [
                 'id' => 457,
                 'item_key' => 'menu_comment_list_query_state',
                 'item_value' => '2',
@@ -6419,9 +5962,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            457 =>
-            array (
+            ],
+            457 => [
                 'id' => 458,
                 'item_key' => 'menu_comment_list_query_config',
                 'item_value' => null,
@@ -6433,9 +5975,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            458 =>
-            array (
+            ],
+            458 => [
                 'id' => 459,
                 'item_key' => 'menu_like_users',
                 'item_value' => 'My Like',
@@ -6447,9 +5988,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            459 =>
-            array (
+            ],
+            459 => [
                 'id' => 460,
                 'item_key' => 'menu_dislike_users',
                 'item_value' => 'My Dislike',
@@ -6461,9 +6001,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            460 =>
-            array (
+            ],
+            460 => [
                 'id' => 461,
                 'item_key' => 'menu_follow_users',
                 'item_value' => 'My Follow',
@@ -6475,9 +6014,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            461 =>
-            array (
+            ],
+            461 => [
                 'id' => 462,
                 'item_key' => 'menu_block_users',
                 'item_value' => 'Blacklist',
@@ -6489,9 +6027,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            462 =>
-            array (
+            ],
+            462 => [
                 'id' => 463,
                 'item_key' => 'menu_like_groups',
                 'item_value' => 'My Like',
@@ -6503,9 +6040,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            463 =>
-            array (
+            ],
+            463 => [
                 'id' => 464,
                 'item_key' => 'menu_dislike_groups',
                 'item_value' => 'My Dislike',
@@ -6517,9 +6053,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            464 =>
-            array (
+            ],
+            464 => [
                 'id' => 465,
                 'item_key' => 'menu_follow_groups',
                 'item_value' => 'My Join',
@@ -6531,9 +6066,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            465 =>
-            array (
+            ],
+            465 => [
                 'id' => 466,
                 'item_key' => 'menu_block_groups',
                 'item_value' => 'Blacklist',
@@ -6545,9 +6079,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            466 =>
-            array (
+            ],
+            466 => [
                 'id' => 467,
                 'item_key' => 'menu_like_hashtags',
                 'item_value' => 'My Like',
@@ -6559,9 +6092,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            467 =>
-            array (
+            ],
+            467 => [
                 'id' => 468,
                 'item_key' => 'menu_dislike_hashtags',
                 'item_value' => 'My Dislike',
@@ -6573,9 +6105,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            468 =>
-            array (
+            ],
+            468 => [
                 'id' => 469,
                 'item_key' => 'menu_follow_hashtags',
                 'item_value' => 'My Watching',
@@ -6587,9 +6118,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            469 =>
-            array (
+            ],
+            469 => [
                 'id' => 470,
                 'item_key' => 'menu_block_hashtags',
                 'item_value' => 'Blacklist',
@@ -6601,9 +6131,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            470 =>
-            array (
+            ],
+            470 => [
                 'id' => 471,
                 'item_key' => 'menu_nearby_posts',
                 'item_value' => 'Nearby',
@@ -6615,9 +6144,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            471 =>
-            array (
+            ],
+            471 => [
                 'id' => 472,
                 'item_key' => 'menu_location_posts',
                 'item_value' => 'Location',
@@ -6629,9 +6157,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            472 =>
-            array (
+            ],
+            472 => [
                 'id' => 473,
                 'item_key' => 'menu_like_posts',
                 'item_value' => 'My Like',
@@ -6643,9 +6170,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            473 =>
-            array (
+            ],
+            473 => [
                 'id' => 474,
                 'item_key' => 'menu_dislike_posts',
                 'item_value' => 'My Dislike',
@@ -6657,9 +6183,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            474 =>
-            array (
+            ],
+            474 => [
                 'id' => 475,
                 'item_key' => 'menu_follow_posts',
                 'item_value' => 'Favorites',
@@ -6671,9 +6196,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            475 =>
-            array (
+            ],
+            475 => [
                 'id' => 476,
                 'item_key' => 'menu_block_posts',
                 'item_value' => 'Blacklist',
@@ -6685,9 +6209,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            476 =>
-            array (
+            ],
+            476 => [
                 'id' => 477,
                 'item_key' => 'menu_nearby_comments',
                 'item_value' => 'Nearby',
@@ -6699,9 +6222,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            477 =>
-            array (
+            ],
+            477 => [
                 'id' => 478,
                 'item_key' => 'menu_location_comments',
                 'item_value' => 'Location',
@@ -6713,9 +6235,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            478 =>
-            array (
+            ],
+            478 => [
                 'id' => 479,
                 'item_key' => 'menu_like_comments',
                 'item_value' => 'My Like',
@@ -6727,9 +6248,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            479 =>
-            array (
+            ],
+            479 => [
                 'id' => 480,
                 'item_key' => 'menu_dislike_comments',
                 'item_value' => 'My Dislike',
@@ -6741,9 +6261,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            480 =>
-            array (
+            ],
+            480 => [
                 'id' => 481,
                 'item_key' => 'menu_follow_comments',
                 'item_value' => 'Favorites',
@@ -6755,9 +6274,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            481 =>
-            array (
+            ],
+            481 => [
                 'id' => 482,
                 'item_key' => 'menu_block_comments',
                 'item_value' => 'Blacklist',
@@ -6769,9 +6287,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            482 =>
-            array (
+            ],
+            482 => [
                 'id' => 483,
                 'item_key' => 'menu_follow_all_posts',
                 'item_value' => 'My Follows',
@@ -6783,9 +6300,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            483 =>
-            array (
+            ],
+            483 => [
                 'id' => 484,
                 'item_key' => 'menu_follow_user_posts',
                 'item_value' => 'Follow User Posts',
@@ -6797,9 +6313,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            484 =>
-            array (
+            ],
+            484 => [
                 'id' => 485,
                 'item_key' => 'menu_follow_group_posts',
                 'item_value' => 'Follow Group Posts',
@@ -6811,9 +6326,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            485 =>
-            array (
+            ],
+            485 => [
                 'id' => 486,
                 'item_key' => 'menu_follow_hashtag_posts',
                 'item_value' => 'Follow Hashtag Posts',
@@ -6825,9 +6339,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            486 =>
-            array (
+            ],
+            486 => [
                 'id' => 487,
                 'item_key' => 'menu_follow_all_comments',
                 'item_value' => 'My Follows',
@@ -6839,9 +6352,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            487 =>
-            array (
+            ],
+            487 => [
                 'id' => 488,
                 'item_key' => 'menu_follow_user_comments',
                 'item_value' => 'Follow User Comments',
@@ -6853,9 +6365,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            488 =>
-            array (
+            ],
+            488 => [
                 'id' => 489,
                 'item_key' => 'menu_follow_group_comments',
                 'item_value' => 'Follow Group Comments',
@@ -6867,9 +6378,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            489 =>
-            array (
+            ],
+            489 => [
                 'id' => 490,
                 'item_key' => 'menu_follow_hashtag_comments',
                 'item_value' => 'Follow Hashtag Comments',
@@ -6881,9 +6391,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            490 =>
-            array (
+            ],
+            490 => [
                 'id' => 491,
                 'item_key' => 'menu_account',
                 'item_value' => 'Account',
@@ -6895,9 +6404,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            491 =>
-            array (
+            ],
+            491 => [
                 'id' => 492,
                 'item_key' => 'menu_account_register',
                 'item_value' => 'Register',
@@ -6909,9 +6417,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            492 =>
-            array (
+            ],
+            492 => [
                 'id' => 493,
                 'item_key' => 'menu_account_login',
                 'item_value' => 'Login',
@@ -6923,9 +6430,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            493 =>
-            array (
+            ],
+            493 => [
                 'id' => 494,
                 'item_key' => 'menu_account_reset_password',
                 'item_value' => 'Forgot Password',
@@ -6937,9 +6443,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            494 =>
-            array (
+            ],
+            494 => [
                 'id' => 495,
                 'item_key' => 'menu_account_users',
                 'item_value' => 'Users',
@@ -6951,9 +6456,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            495 =>
-            array (
+            ],
+            495 => [
                 'id' => 496,
                 'item_key' => 'menu_account_wallet',
                 'item_value' => 'Wallet',
@@ -6965,9 +6469,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            496 =>
-            array (
+            ],
+            496 => [
                 'id' => 497,
                 'item_key' => 'menu_account_settings',
                 'item_value' => 'Settings',
@@ -6979,9 +6482,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            497 =>
-            array (
+            ],
+            497 => [
                 'id' => 498,
                 'item_key' => 'menu_dialogs',
                 'item_value' => 'Dialogs',
@@ -6993,9 +6495,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            498 =>
-            array (
+            ],
+            498 => [
                 'id' => 499,
                 'item_key' => 'menu_messages',
                 'item_value' => 'Messages',
@@ -7007,9 +6508,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            499 =>
-            array (
+            ],
+            499 => [
                 'id' => 500,
                 'item_key' => 'menu_notifies',
                 'item_value' => 'Notification',
@@ -7021,11 +6521,10 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-        ));
-        \DB::table('configs')->insert(array (
-            0 =>
-            array (
+            ],
+        ]);
+        \DB::table('configs')->insert([
+            0 => [
                 'id' => 501,
                 'item_key' => 'menu_notify_bulletins',
                 'item_value' => 'Systems',
@@ -7037,9 +6536,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            1 =>
-            array (
+            ],
+            1 => [
                 'id' => 502,
                 'item_key' => 'menu_notify_systems',
                 'item_value' => 'Systems',
@@ -7051,9 +6549,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            2 =>
-            array (
+            ],
+            2 => [
                 'id' => 503,
                 'item_key' => 'menu_notify_recommends',
                 'item_value' => 'Recommends',
@@ -7065,9 +6562,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            3 =>
-            array (
+            ],
+            3 => [
                 'id' => 504,
                 'item_key' => 'menu_notify_follows',
                 'item_value' => 'Follows',
@@ -7079,9 +6575,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            4 =>
-            array (
+            ],
+            4 => [
                 'id' => 505,
                 'item_key' => 'menu_notify_likes',
                 'item_value' => 'Likes',
@@ -7093,9 +6588,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            5 =>
-            array (
+            ],
+            5 => [
                 'id' => 506,
                 'item_key' => 'menu_notify_mentions',
                 'item_value' => 'Mentions',
@@ -7107,9 +6601,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            6 =>
-            array (
+            ],
+            6 => [
                 'id' => 507,
                 'item_key' => 'menu_notify_comments',
                 'item_value' => 'Comments',
@@ -7121,9 +6614,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            7 =>
-            array (
+            ],
+            7 => [
                 'id' => 508,
                 'item_key' => 'menu_search',
                 'item_value' => 'Search',
@@ -7135,9 +6627,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            8 =>
-            array (
+            ],
+            8 => [
                 'id' => 509,
                 'item_key' => 'menu_editor_functions',
                 'item_value' => 'Editor',
@@ -7149,9 +6640,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            9 =>
-            array (
+            ],
+            9 => [
                 'id' => 510,
                 'item_key' => 'menu_editor_drafts',
                 'item_value' => 'Drafts',
@@ -7163,9 +6653,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            10 =>
-            array (
+            ],
+            10 => [
                 'id' => 511,
                 'item_key' => 'menu_profile_likes',
                 'item_value' => 'Likes',
@@ -7177,9 +6666,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            11 =>
-            array (
+            ],
+            11 => [
                 'id' => 512,
                 'item_key' => 'menu_profile_dislikes',
                 'item_value' => 'Dislikes',
@@ -7191,9 +6679,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            12 =>
-            array (
+            ],
+            12 => [
                 'id' => 513,
                 'item_key' => 'menu_profile_followers',
                 'item_value' => 'Followers',
@@ -7205,9 +6692,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            13 =>
-            array (
+            ],
+            13 => [
                 'id' => 514,
                 'item_key' => 'menu_profile_blockers',
                 'item_value' => 'Blockers',
@@ -7219,9 +6705,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            14 =>
-            array (
+            ],
+            14 => [
                 'id' => 515,
                 'item_key' => 'menu_profile_like_users',
                 'item_value' => 'It like users',
@@ -7233,9 +6718,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            15 =>
-            array (
+            ],
+            15 => [
                 'id' => 516,
                 'item_key' => 'menu_profile_like_groups',
                 'item_value' => 'It like groups',
@@ -7247,9 +6731,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            16 =>
-            array (
+            ],
+            16 => [
                 'id' => 517,
                 'item_key' => 'menu_profile_like_hashtags',
                 'item_value' => 'It like hashtags',
@@ -7261,9 +6744,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            17 =>
-            array (
+            ],
+            17 => [
                 'id' => 518,
                 'item_key' => 'menu_profile_like_posts',
                 'item_value' => 'It like posts',
@@ -7275,9 +6757,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            18 =>
-            array (
+            ],
+            18 => [
                 'id' => 519,
                 'item_key' => 'menu_profile_like_comments',
                 'item_value' => 'It like comments',
@@ -7289,9 +6770,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            19 =>
-            array (
+            ],
+            19 => [
                 'id' => 520,
                 'item_key' => 'menu_profile_dislike_users',
                 'item_value' => 'It dislike users',
@@ -7303,9 +6783,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            20 =>
-            array (
+            ],
+            20 => [
                 'id' => 521,
                 'item_key' => 'menu_profile_dislike_groups',
                 'item_value' => 'It dislike groups',
@@ -7317,9 +6796,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            21 =>
-            array (
+            ],
+            21 => [
                 'id' => 522,
                 'item_key' => 'menu_profile_dislike_hashtags',
                 'item_value' => 'It dislike hashtags',
@@ -7331,9 +6809,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            22 =>
-            array (
+            ],
+            22 => [
                 'id' => 523,
                 'item_key' => 'menu_profile_dislike_posts',
                 'item_value' => 'It dislike posts',
@@ -7345,9 +6822,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            23 =>
-            array (
+            ],
+            23 => [
                 'id' => 524,
                 'item_key' => 'menu_profile_dislike_comments',
                 'item_value' => 'It dislike comments',
@@ -7359,9 +6835,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            24 =>
-            array (
+            ],
+            24 => [
                 'id' => 525,
                 'item_key' => 'menu_profile_follow_users',
                 'item_value' => 'It follow users',
@@ -7373,9 +6848,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            25 =>
-            array (
+            ],
+            25 => [
                 'id' => 526,
                 'item_key' => 'menu_profile_follow_groups',
                 'item_value' => 'It follow groups',
@@ -7387,9 +6861,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            26 =>
-            array (
+            ],
+            26 => [
                 'id' => 527,
                 'item_key' => 'menu_profile_follow_hashtags',
                 'item_value' => 'It follow hashtags',
@@ -7401,9 +6874,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            27 =>
-            array (
+            ],
+            27 => [
                 'id' => 528,
                 'item_key' => 'menu_profile_follow_posts',
                 'item_value' => 'It follow posts',
@@ -7415,9 +6887,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            28 =>
-            array (
+            ],
+            28 => [
                 'id' => 529,
                 'item_key' => 'menu_profile_follow_comments',
                 'item_value' => 'It follow comments',
@@ -7429,9 +6900,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            29 =>
-            array (
+            ],
+            29 => [
                 'id' => 530,
                 'item_key' => 'menu_profile_block_users',
                 'item_value' => 'It block users',
@@ -7443,9 +6913,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            30 =>
-            array (
+            ],
+            30 => [
                 'id' => 531,
                 'item_key' => 'menu_profile_block_groups',
                 'item_value' => 'It block groups',
@@ -7457,9 +6926,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            31 =>
-            array (
+            ],
+            31 => [
                 'id' => 532,
                 'item_key' => 'menu_profile_block_hashtags',
                 'item_value' => 'It block hashtags',
@@ -7471,9 +6939,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            32 =>
-            array (
+            ],
+            32 => [
                 'id' => 533,
                 'item_key' => 'menu_profile_block_posts',
                 'item_value' => 'It block posts',
@@ -7485,9 +6952,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            33 =>
-            array (
+            ],
+            33 => [
                 'id' => 534,
                 'item_key' => 'menu_profile_block_comments',
                 'item_value' => 'It block comments',
@@ -7499,9 +6965,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            34 =>
-            array (
+            ],
+            34 => [
                 'id' => 535,
                 'item_key' => 'website_portal_path',
                 'item_value' => 'portal',
@@ -7513,9 +6978,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            35 =>
-            array (
+            ],
+            35 => [
                 'id' => 536,
                 'item_key' => 'website_user_path',
                 'item_value' => 'users',
@@ -7527,9 +6991,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            36 =>
-            array (
+            ],
+            36 => [
                 'id' => 537,
                 'item_key' => 'website_group_path',
                 'item_value' => 'groups',
@@ -7541,9 +7004,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            37 =>
-            array (
+            ],
+            37 => [
                 'id' => 538,
                 'item_key' => 'website_hashtag_path',
                 'item_value' => 'hashtags',
@@ -7555,9 +7017,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            38 =>
-            array (
+            ],
+            38 => [
                 'id' => 539,
                 'item_key' => 'website_post_path',
                 'item_value' => 'posts',
@@ -7569,9 +7030,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            39 =>
-            array (
+            ],
+            39 => [
                 'id' => 540,
                 'item_key' => 'website_comment_path',
                 'item_value' => 'comments',
@@ -7583,9 +7043,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            40 =>
-            array (
+            ],
+            40 => [
                 'id' => 541,
                 'item_key' => 'website_user_detail_path',
                 'item_value' => 'u',
@@ -7597,9 +7056,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            41 =>
-            array (
+            ],
+            41 => [
                 'id' => 542,
                 'item_key' => 'website_group_detail_path',
                 'item_value' => 'group',
@@ -7611,9 +7069,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            42 =>
-            array (
+            ],
+            42 => [
                 'id' => 543,
                 'item_key' => 'website_hashtag_detail_path',
                 'item_value' => 'hashtag',
@@ -7625,9 +7082,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            43 =>
-            array (
+            ],
+            43 => [
                 'id' => 544,
                 'item_key' => 'website_post_detail_path',
                 'item_value' => 'post',
@@ -7639,9 +7095,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            44 =>
-            array (
+            ],
+            44 => [
                 'id' => 545,
                 'item_key' => 'website_comment_detail_path',
                 'item_value' => 'comment',
@@ -7653,9 +7108,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            45 =>
-            array (
+            ],
+            45 => [
                 'id' => 546,
                 'item_key' => 'engine_service',
                 'item_value' => 'FresnsEngine',
@@ -7667,9 +7121,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            46 =>
-            array (
+            ],
+            46 => [
                 'id' => 547,
                 'item_key' => 'engine_api_type',
                 'item_value' => 'local',
@@ -7681,9 +7134,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            47 =>
-            array (
+            ],
+            47 => [
                 'id' => 548,
                 'item_key' => 'engine_key_id',
                 'item_value' => null,
@@ -7695,9 +7147,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            48 =>
-            array (
+            ],
+            48 => [
                 'id' => 549,
                 'item_key' => 'engine_api_host',
                 'item_value' => null,
@@ -7709,9 +7160,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            49 =>
-            array (
+            ],
+            49 => [
                 'id' => 550,
                 'item_key' => 'engine_api_app_id',
                 'item_value' => null,
@@ -7723,9 +7173,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            50 =>
-            array (
+            ],
+            50 => [
                 'id' => 551,
                 'item_key' => 'engine_api_app_secret',
                 'item_value' => null,
@@ -7737,9 +7186,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            51 =>
-            array (
+            ],
+            51 => [
                 'id' => 552,
                 'item_key' => 'website_stat_code',
                 'item_value' => null,
@@ -7751,9 +7199,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            52 =>
-            array (
+            ],
+            52 => [
                 'id' => 553,
                 'item_key' => 'website_stat_position',
                 'item_value' => 'body',
@@ -7765,9 +7212,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            53 =>
-            array (
+            ],
+            53 => [
                 'id' => 554,
                 'item_key' => 'website_status',
                 'item_value' => 'true',
@@ -7779,9 +7225,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            54 =>
-            array (
+            ],
+            54 => [
                 'id' => 555,
                 'item_key' => 'website_number',
                 'item_value' => '5',
@@ -7793,9 +7238,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            55 =>
-            array (
+            ],
+            55 => [
                 'id' => 556,
                 'item_key' => 'website_proportion',
                 'item_value' => '30',
@@ -7807,9 +7251,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            56 =>
-            array (
+            ],
+            56 => [
                 'id' => 557,
                 'item_key' => 'site_china_mode',
                 'item_value' => 'false',
@@ -7821,9 +7264,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            57 =>
-            array (
+            ],
+            57 => [
                 'id' => 558,
                 'item_key' => 'china_icp_beian',
                 'item_value' => null,
@@ -7835,9 +7277,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            58 =>
-            array (
+            ],
+            58 => [
                 'id' => 559,
                 'item_key' => 'china_icp_license',
                 'item_value' => null,
@@ -7849,9 +7290,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            59 =>
-            array (
+            ],
+            59 => [
                 'id' => 560,
                 'item_key' => 'china_gongan_beian',
                 'item_value' => null,
@@ -7863,9 +7303,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            60 =>
-            array (
+            ],
+            60 => [
                 'id' => 561,
                 'item_key' => 'china_broadcasting_license',
                 'item_value' => null,
@@ -7877,9 +7316,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            61 =>
-            array (
+            ],
+            61 => [
                 'id' => 562,
                 'item_key' => 'FresnsEngine',
                 'item_value' => 'true',
@@ -7891,9 +7329,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            62 =>
-            array (
+            ],
+            62 => [
                 'id' => 563,
                 'item_key' => 'FresnsEngine_Pc',
                 'item_value' => null,
@@ -7905,9 +7342,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            63 =>
-            array (
+            ],
+            63 => [
                 'id' => 564,
                 'item_key' => 'FresnsEngine_Mobile',
                 'item_value' => null,
@@ -7919,9 +7355,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            64 =>
-            array (
+            ],
+            64 => [
                 'id' => 565,
                 'item_key' => 'ios_notify_service',
                 'item_value' => null,
@@ -7933,9 +7368,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            65 =>
-            array (
+            ],
+            65 => [
                 'id' => 566,
                 'item_key' => 'android_notify_service',
                 'item_value' => null,
@@ -7947,9 +7381,8 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            66 =>
-            array (
+            ],
+            66 => [
                 'id' => 567,
                 'item_key' => 'wechat_notify_service',
                 'item_value' => null,
@@ -7961,7 +7394,7 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-07-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-        ));
+            ],
+        ]);
     }
 }
