@@ -51,7 +51,7 @@ class UsersTableSeeder extends Seeder
                 'is_enable' => 1,
                 'wait_delete' => 0,
                 'wait_delete_at' => null,
-                'created_at' => '2022-07-18 17:00:00',
+                'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
             ],

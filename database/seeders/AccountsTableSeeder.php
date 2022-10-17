@@ -31,7 +31,7 @@ class AccountsTableSeeder extends Seeder
                 'phone' => '1123456789',
                 'email' => 'admin@admin.com',
                 'password' => '$2y$10$NAnHTCpECr8mR./fDq21q./Og2x/JKzhDUw0hX8VYFTuSb2UOrk3i', //password=123456
-                'last_login_at' => '2022-07-18 17:00:00',
+                'last_login_at' => '2022-10-18 17:00:00',
                 'is_verify' => 1,
                 'verify_plugin_unikey' => null,
                 'verify_real_name' => null,
@@ -44,7 +44,7 @@ class AccountsTableSeeder extends Seeder
                 'is_enable' => 1,
                 'wait_delete' => 0,
                 'wait_delete_at' => null,
-                'created_at' => '2022-07-18 17:00:00',
+                'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
             ],

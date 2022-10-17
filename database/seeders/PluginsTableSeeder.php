@@ -40,7 +40,7 @@ class PluginsTableSeeder extends Seeder
                 'upgrade_code' => null,
                 'upgrade_version' => null,
                 'is_enable' => 1,
-                'created_at' => '2022-07-18 17:00:00',
+                'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
