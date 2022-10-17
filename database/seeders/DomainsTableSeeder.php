@@ -55,6 +55,28 @@ class DomainsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
+            3 => [
+                'id' => 4,
+                'domain' => 'fresns.com',
+                'host' => 'marketplace.fresns.com',
+                'post_count' => 0,
+                'comment_count' => 0,
+                'is_enable' => 1,
+                'created_at' => '2022-07-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            4 => [
+                'id' => 5,
+                'domain' => 'fresns.com',
+                'host' => 'developer.fresns.com',
+                'post_count' => 0,
+                'comment_count' => 0,
+                'is_enable' => 1,
+                'created_at' => '2022-07-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
         ]);
     }
 }
