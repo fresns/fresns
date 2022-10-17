@@ -27,8 +27,25 @@
     <script src="{{ @asset('/static/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ @asset('/static/js/jquery.min.js') }}"></script>
     <script src="{{ @asset('/static/js/select2.min.js') }}"></script>
-    <script src="{{ route('panel.translations', ['locale' => \App::getLocale()]) }}"></script>
     <script src="{{ @asset('/static/js/fresns-panel.js?9c26d1a06118c93e') }}"></script>
+    <script>
+        $(document).ready(function () {
+            window.locale = $('html').attr('lang')
+            if (window.locale) {
+                $.ajax({
+                    url: "{{ route('panel.translations', ['locale' => \App::getLocale()]) }}",
+                    method: 'get',
+                    success(response) {
+                        if (response.data) {
+                            window.translations = response.data
+                        } else {
+                            console.error('Failed to get translation')
+                        }
+                    }
+                })
+            }
+        })
+    </script>
     @yield('js')
 </body>
 
