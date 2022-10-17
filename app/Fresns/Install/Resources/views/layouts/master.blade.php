@@ -23,7 +23,7 @@
     </main>
 
     <script src="{{ @asset('/static/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ @asset('/static/js/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ @asset('/static/js/jquery.min.js') }}"></script>
     @stack('js')
 </body>
 
