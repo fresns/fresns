@@ -635,6 +635,8 @@ class Content
                     'map_poi_id' => $dtoWordBody->mapJson['poiId'] ?? null,
                 ]);
 
+                InteractiveUtility::publishStats('comment', $comment->id, 'increment');
+
                 $primaryId = $comment->id;
                 $fsid = $comment->cid;
             break;
