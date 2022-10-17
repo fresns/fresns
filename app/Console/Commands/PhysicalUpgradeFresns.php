@@ -79,7 +79,7 @@ class PhysicalUpgradeFresns extends Command
     public function pluginComposerInstall()
     {
         try {
-            \Artisan::call('plugin:composer-install');
+            \Artisan::call('plugin:composer-update');
             $this->updateOutput(\Artisan::output());
         } catch (\Exception $e) {
             logger($e->getMessage());

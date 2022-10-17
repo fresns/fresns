@@ -38,7 +38,7 @@ trait SubscribeNotifyTrait
     {
         $eventData = [
             'uri' => sprintf('/%s', ltrim(\request()->getRequestUri(), '/')),
-            'header' => \request()->headers->all(),
+            'headers' => \request()->headers->all(),
             'body' => \request()->all(),
         ];
 

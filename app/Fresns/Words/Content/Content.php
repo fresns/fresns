@@ -82,7 +82,7 @@ class Content
         switch ($dtoWordBody->type) {
             // post
             case 1:
-                $groupId = PrimaryHelper::fresnsGroupIdByGid($dtoWordBody->gid);
+                $groupId = PrimaryHelper::fresnsGroupIdByGid($dtoWordBody->postGid);
 
                 $title = null;
                 if ($dtoWordBody->postTitle) {
@@ -106,9 +106,7 @@ class Content
 
                 if (! $checkLog) {
                     $logModel = PostLog::create($logData);
-                }
-
-                if (! $checkLog->content && ! $checkLog->files && ! $checkLog->extends) {
+                } else if (! $checkLog->content && ! $checkLog->files && ! $checkLog->extends) {
                     $logModel = $checkLog->update($logData);
                 } else {
                     $logModel = PostLog::create($logData);
@@ -402,6 +400,9 @@ class Content
     // contentDirectPublish
     public function contentDirectPublish($wordBody)
     {
+        $wordBody['createType'] = 1;
+        $wordBody['editorUnikey'] = null;
+
         $dtoWordBody = new CreateDraftDTO($wordBody);
         $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
@@ -501,7 +502,7 @@ class Content
             // comment
             case 'comment':
                 $post = PrimaryHelper::fresnsModelByFsid('post', $dtoWordBody->commentPid);
-                $group = PrimaryHelper::fresnsModelByFsid('group', $post->group_id);
+                $group = PrimaryHelper::fresnsModelById('group', $post->group_id);
                 $parentComment = PrimaryHelper::fresnsModelByFsid('comment', $dtoWordBody->commentCid);
 
                 $topParentId = null;
@@ -534,7 +535,7 @@ class Content
 
                 $checkReview = ValidationUtility::contentReviewWords($content);
 
-                if ($checkGroupPublishPerm['reviewComment'] || $checkReview) {
+                if ($checkGroupPublishPerm['reviewComment'] || ! $checkReview) {
                     $reviewResp = \FresnsCmdWord::plugin('Fresns')->createDraft($wordBody);
 
                     if ($reviewResp->isErrorResponse()) {
@@ -592,7 +593,7 @@ class Content
 
                 $checkReview = ValidationUtility::contentReviewWords($content);
 
-                if ($checkGroupPublishPerm['reviewComment'] || $checkReview) {
+                if ($checkGroupPublishPerm['reviewComment'] || ! $checkReview) {
                     $reviewResp = \FresnsCmdWord::plugin('Fresns')->createDraft($wordBody);
 
                     if ($reviewResp->isErrorResponse()) {
@@ -610,7 +611,6 @@ class Content
                 $comment = Comment::create([
                     'user_id' => $authUser->id,
                     'post_id' => $post->id,
-                    'group_id' => $post->group_id,
                     'top_parent_id' => $topParentId,
                     'parent_id' => $parentComment?->id ?? null,
                     'content' => $content,
@@ -622,16 +622,17 @@ class Content
                 ]);
 
                 CommentAppend::create([
-                    'map_json' => $$dtoWordBody->mapJson ?? null,
-                    'map_scale' => $$dtoWordBody->mapJson['scale'] ?? null,
-                    'map_continent_code' => $$dtoWordBody->mapJson['continentCode'] ?? null,
-                    'map_country_code' => $$dtoWordBody->mapJson['countryCode'] ?? null,
-                    'map_region_code' => $$dtoWordBody->mapJson['regionCode'] ?? null,
-                    'map_city_code' => $$dtoWordBody->mapJson['cityCode'] ?? null,
-                    'map_city' => $$dtoWordBody->mapJson['city'] ?? null,
-                    'map_zip' => $$dtoWordBody->mapJson['zip'] ?? null,
-                    'map_poi' => $$dtoWordBody->mapJson['poi'] ?? null,
-                    'map_poi_id' => $$dtoWordBody->mapJson['poiId'] ?? null,
+                    'comment_id' => $comment->id,
+                    'map_json' => $dtoWordBody->mapJson ?? null,
+                    'map_scale' => $dtoWordBody->mapJson['scale'] ?? null,
+                    'map_continent_code' => $dtoWordBody->mapJson['continentCode'] ?? null,
+                    'map_country_code' => $dtoWordBody->mapJson['countryCode'] ?? null,
+                    'map_region_code' => $dtoWordBody->mapJson['regionCode'] ?? null,
+                    'map_city_code' => $dtoWordBody->mapJson['cityCode'] ?? null,
+                    'map_city' => $dtoWordBody->mapJson['city'] ?? null,
+                    'map_zip' => $dtoWordBody->mapJson['zip'] ?? null,
+                    'map_poi' => $dtoWordBody->mapJson['poi'] ?? null,
+                    'map_poi_id' => $dtoWordBody->mapJson['poiId'] ?? null,
                 ]);
 
                 $primaryId = $comment->id;

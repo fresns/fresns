@@ -86,7 +86,7 @@ class Wallet
             'more_json' => $dtoWordBody->moreJson,
         ];
 
-        AccountWalletLog::createMany($logData);
+        AccountWalletLog::create($logData);
 
         static::balanceChange($wallet, 'increment', $transactionAmount);
 
@@ -172,7 +172,7 @@ class Wallet
             'more_json' => $dtoWordBody->moreJson,
         ];
 
-        AccountWalletLog::createMany($logData);
+        AccountWalletLog::create($logData);
         static::balanceChange($wallet, 'decrement', $amountTotal);
 
         return $this->success();
@@ -242,7 +242,7 @@ class Wallet
             'more_json' => $dtoWordBody->moreJson,
         ];
 
-        AccountWalletLog::createMany($logData);
+        AccountWalletLog::create($logData);
 
         $wallet->increment('freeze_amount', $amountTotal);
 
@@ -312,7 +312,7 @@ class Wallet
             'more_json' => $dtoWordBody->moreJson,
         ];
 
-        AccountWalletLog::createMany($logData);
+        AccountWalletLog::create($logData);
 
         $wallet->decrement('freeze_amount', $amountTotal);
 
@@ -384,7 +384,7 @@ class Wallet
 
         // Increase
         if (empty($originAccountId)) {
-            AccountWalletLog::createMany($logData);
+            AccountWalletLog::create($logData);
             static::balanceChange($wallet, 'increment', $transactionAmount);
         } else {
             $originWallet = AccountWallet::where('account_id', $originAccountId)->isEnable()->first();
@@ -416,7 +416,7 @@ class Wallet
             }
 
             // increase
-            $increaseLog = AccountWalletLog::createMany($logData);
+            $increaseLog = AccountWalletLog::create($logData);
             static::balanceChange($wallet, 'increment', $transactionAmount);
 
             $originClosingBalance = $originWallet->balance - $amountTotal;
@@ -442,7 +442,7 @@ class Wallet
             ];
 
             // decrement
-            AccountWalletLog::createMany($originLogData);
+            AccountWalletLog::create($originLogData);
             static::balanceChange($originWallet, 'decrement', $amountTotal);
         }
 
@@ -534,7 +534,7 @@ class Wallet
 
         // decrement
         if (empty($originAccountId)) {
-            AccountWalletLog::createMany($logData);
+            AccountWalletLog::create($logData);
             static::balanceChange($wallet, 'decrement', $amountTotal);
         } else {
             $originWallet = AccountWallet::where('account_id', $originAccountId)->isEnable()->first();
@@ -557,7 +557,7 @@ class Wallet
             }
 
             // decrement
-            $decrementLog = AccountWalletLog::createMany($logData);
+            $decrementLog = AccountWalletLog::create($logData);
             static::balanceChange($wallet, 'decrement', $amountTotal);
 
             $originClosingBalance = $originWallet->balance + $transactionAmount;
@@ -583,7 +583,7 @@ class Wallet
             ];
 
             // increment
-            AccountWalletLog::createMany($originLogData);
+            AccountWalletLog::create($originLogData);
             static::balanceChange($originWallet, 'increment', $transactionAmount);
         }
 
