@@ -152,6 +152,9 @@ class PrimaryHelper
                 case 'archive':
                     $model = Archive::withTrashed()->where('id', $id)->first();
                 break;
+                default:
+                    throw new \RuntimeException("unknown modelName {$modelName}");
+                break;
             }
 
             return $model;

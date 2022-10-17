@@ -105,6 +105,18 @@ class StrHelper
     }
 
     /**
+     * It returns true if the variable is a pure integer, false otherwise
+     *
+     * @param mixed variable The variable to check.
+     *
+     * @return A boolean value.
+     */
+    public static function isPureInt(mixed $variable)
+    {
+        return preg_match('/^\d*?$/', $variable);
+    }
+
+    /**
      * It takes a hostname as a string and returns the domain name as a string.
      *
      * @param string host The hostname you want to get the domain from.
@@ -187,5 +199,18 @@ class StrHelper
         $slug = Str::lower($slug);
 
         return $slug;
+    }
+
+    public static function infoTypeString(int $infoType)
+    {
+        $infoTypeString = match ($infoType) {
+            1 => 'basic',
+            2 => 'big',
+            3 => 'portrait',
+            4 => 'landscape',
+            default => 'basic',
+        };
+
+        return $infoTypeString;
     }
 }

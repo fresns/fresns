@@ -80,8 +80,51 @@ class FileHelper
             4 => ConfigHelper::fresnsConfigByItemKey('document_extension_names'),
         };
 
-        $accept = str_replace(',', ',.', $fileExt);
-        $fileAccept = Str::start($accept, '.');
+        $fileExt = Str::lower($fileExt);
+
+        // $accept = str_replace(',', ',.', $fileExt);
+        // $fileAccept = '';
+        // if ($accept) {
+        //     $fileAccept = Str::start($accept, '.');
+        // }
+
+        switch ($type) {
+            // image
+            case 1:
+                $accept = str_replace(',', ',image/', $fileExt);
+                $fileAccept = '';
+                if ($accept) {
+                    $fileAccept = Str::start($accept, 'image/');
+                }
+            break;
+
+            // video
+            case 2:
+                $accept = str_replace(',', ',video/', $fileExt);
+                $fileAccept = '';
+                if ($accept) {
+                    $fileAccept = Str::start($accept, 'video/');
+                }
+            break;
+
+            // audio
+            case 3:
+                $accept = str_replace(',', ',audio/', $fileExt);
+                $fileAccept = '';
+                if ($accept) {
+                    $fileAccept = Str::start($accept, 'audio/');
+                }
+            break;
+
+            // document
+            case 4:
+                $accept = str_replace(',', ',.', $fileExt);
+                $fileAccept = '';
+                if ($accept) {
+                    $fileAccept = Str::start($accept, '.');
+                }
+            break;
+        }
 
         return $fileAccept;
     }
@@ -122,7 +165,7 @@ class FileHelper
     public static function fresnsFileInfoById(string $fileIdOrFid)
     {
         /** @var File $file */
-        if (is_int($fileIdOrFid)) {
+        if (preg_match('/^\d*?$/', $fileIdOrFid)) {
             $file = File::whereId($fileIdOrFid)->first();
         } else {
             $file = File::whereFid($fileIdOrFid)->first();
@@ -175,7 +218,7 @@ class FileHelper
 
         $fileUsages = $fileUsageQuery->get();
 
-        $fileList = $fileUsages->map(fn ($fileUsage) => $fileUsage->file->getFileInfo())->groupBy('type');
+        $fileList = $fileUsages->map(fn ($fileUsage) => $fileUsage->file?->getFileInfo())->groupBy('type');
 
         $files['images'] = $fileList->get(File::TYPE_IMAGE)?->all() ?? null;
         $files['videos'] = $fileList->get(File::TYPE_VIDEO)?->all() ?? null;

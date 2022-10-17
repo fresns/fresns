@@ -153,13 +153,13 @@ class CacheHelper
     }
 
     // forget fresns api account
-    public static function forgetApiAccount(string $aid)
+    public static function forgetApiAccount(?string $aid)
     {
         return CacheHelper::forgetFresnsApiMultilingualInfo("fresns_api_auth_account_{$aid}");
     }
 
     // forget fresns api user
-    public static function forgetApiUser(int $uid)
+    public static function forgetApiUser(?int $uid)
     {
         return CacheHelper::forgetFresnsApiMultilingualInfo("fresns_api_auth_user_{$uid}");
     }
