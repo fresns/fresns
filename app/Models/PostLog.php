@@ -10,6 +10,13 @@ namespace App\Models;
 
 class PostLog extends Model
 {
+    protected $casts = [
+        'map_json' => 'json',
+        'allow_json' => 'json',
+        'user_list_json' => 'json',
+        'comment_btn_json' => 'json',
+    ];
+
     public function post()
     {
         return $this->belongsTo(Post::class, 'post_id', 'id');

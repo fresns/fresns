@@ -97,6 +97,7 @@ trait FileServiceTrait
         $imageConfig = ConfigHelper::fresnsConfigByItemKeys([
             'image_bucket_domain',
             'image_filesystem_disk',
+            'image_handle_position',
             'image_thumb_config',
             'image_thumb_avatar',
             'image_thumb_ratio',
@@ -116,11 +117,26 @@ trait FileServiceTrait
         $info['imageHeight'] = $fileData->image_height;
         $info['imageLong'] = (bool) $fileData->image_is_long;
         $info['imageDefaultUrl'] = $imageDefaultUrl;
-        $info['imageConfigUrl'] = $imageDefaultUrl.$imageConfig['image_thumb_config'];
-        $info['imageAvatarUrl'] = $imageDefaultUrl.$imageConfig['image_thumb_avatar'];
-        $info['imageRatioUrl'] = $imageDefaultUrl.$imageConfig['image_thumb_ratio'];
-        $info['imageSquareUrl'] = $imageDefaultUrl.$imageConfig['image_thumb_square'];
-        $info['imageBigUrl'] = $imageDefaultUrl.$imageConfig['image_thumb_big'];
+
+        if ($imageConfig['image_handle_position'] == 'start') {
+            $imageConfigPath = $imageConfig['image_thumb_config'].$filePath;
+            $imageAvatarPath = $imageConfig['image_thumb_avatar'].$filePath;
+            $imageRatioPath = $imageConfig['image_thumb_ratio'].$filePath;
+            $imageSquarePath = $imageConfig['image_thumb_square'].$filePath;
+            $imageBigPath = $imageConfig['image_thumb_big'].$filePath;
+
+            $info['imageConfigUrl'] = StrHelper::qualifyUrl($imageConfigPath, $imageConfig['image_bucket_domain']);
+            $info['imageAvatarUrl'] = StrHelper::qualifyUrl($imageAvatarPath, $imageConfig['image_bucket_domain']);
+            $info['imageRatioUrl'] = StrHelper::qualifyUrl($imageRatioPath, $imageConfig['image_bucket_domain']);
+            $info['imageSquareUrl'] = StrHelper::qualifyUrl($imageSquarePath, $imageConfig['image_bucket_domain']);
+            $info['imageBigUrl'] = StrHelper::qualifyUrl($imageBigPath, $imageConfig['image_bucket_domain']);
+        } else {
+            $info['imageConfigUrl'] = $imageDefaultUrl.$imageConfig['image_thumb_config'];
+            $info['imageAvatarUrl'] = $imageDefaultUrl.$imageConfig['image_thumb_avatar'];
+            $info['imageRatioUrl'] = $imageDefaultUrl.$imageConfig['image_thumb_ratio'];
+            $info['imageSquareUrl'] = $imageDefaultUrl.$imageConfig['image_thumb_square'];
+            $info['imageBigUrl'] = $imageDefaultUrl.$imageConfig['image_thumb_big'];
+        }
 
         return $info;
     }
