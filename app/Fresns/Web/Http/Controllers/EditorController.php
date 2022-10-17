@@ -272,6 +272,25 @@ class EditorController extends Controller
         return redirect()->to(fs_route(route('fresns.post.list')))->with('success', $response['message']);
     }
 
+    public function recall(string $type, int $draftId)
+    {
+        $type = match ($type) {
+            'posts' => 'post',
+            'comments' => 'comment',
+            'post' => 'post',
+            'comment' => 'comment',
+            default => 'post',
+        };
+
+        $response = ApiHelper::make()->patch("/api/v2/editor/{$type}/{$draftId}");
+
+        if ($response['code'] !== 0) {
+            throw new ErrorException($response['message'], $response['code']);
+        }
+
+        return back()->with('success', $response['message']);
+    }
+
     // get draft
     public static function getDraft(string $type, ?int $draftId = null)
     {

@@ -24,8 +24,10 @@ Route::prefix('engine')
 
         Route::get('url-sign', [ApiController::class, 'urlSign'])->name('url.sign')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class, CheckSiteModel::class]);
 
-        Route::get('input-tips', [ApiController::class, 'getInputTips'])->name('getInputTips')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
+        Route::get('input-tips', [ApiController::class, 'getInputTips'])->name('input.tips')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
+        Route::get('archives', [ApiController::class, 'getArchives'])->name('archives')->withoutMiddleware([UserAuthorize::class]);
         Route::post('send-verify-code', [ApiController::class, 'sendVerifyCode'])->name('send.verifyCode')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
+        Route::post('upload-file', [ApiController::class, 'uploadFile'])->name('upload.file');
 
         Route::prefix('account')->name('account.')->group(function () {
             Route::post('register', [ApiController::class, 'accountRegister'])->name('register')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
@@ -42,10 +44,16 @@ Route::prefix('engine')
             Route::put('mark-note', [ApiController::class, 'userMarkNote'])->name('mark.note');
         });
 
-        Route::delete('{type}/{fsid}', [ApiController::class, 'contentDelete'])->name('delete');
+        Route::prefix('message')->name('message.')->group(function () {
+            Route::put('{type}', [ApiController::class, 'messageMarkAsRead'])->name('mark.as.read');
+            Route::delete('{type}', [ApiController::class, 'messageDelete'])->name('delete');
+        });
 
-        Route::post('upload-file', [ApiController::class, 'uploadFile'])->name('upload.file');
-        Route::get('download/{fid}', [ApiController::class, 'downloadLink'])->name('file.download');
+        Route::prefix('content')->name('content.')->group(function () {
+            Route::get('type', [ApiController::class, 'contentType'])->name('type');
+            Route::get('download/{fid}', [ApiController::class, 'contentDownloadFile'])->name('file.download');
+            Route::delete('{type}/{fsid}', [ApiController::class, 'contentDelete'])->name('delete');
+        });
 
         Route::prefix('group')->name('group.')->group(function () {
             Route::get('list/{gid}', [ApiController::class, 'groupList'])->name('list');
@@ -55,6 +63,7 @@ Route::prefix('engine')
             Route::post('direct-publish', [ApiController::class, 'directPublish'])->name('direct.publish');
             Route::post('upload-file', [ApiController::class, 'editorUploadFile'])->name('upload.file');
             Route::post('{type}/update/{draftId}', [ApiController::class, 'editorUpdate'])->name('update');
+            Route::post('{type}/publish/{draftId}', [ApiController::class, 'editorPublish'])->name('publish');
             Route::patch('{type}/recall/{draftId}', [ApiController::class, 'editorRecall'])->name('recall');
             Route::delete('{type}/delete/{draftId}', [ApiController::class, 'editorDelete'])->name('delete');
         });

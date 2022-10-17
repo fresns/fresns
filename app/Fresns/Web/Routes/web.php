@@ -206,5 +206,6 @@ Route::prefix(LaravelLocalization::setLocale())
             Route::post('direct-publish', [EditorController::class, 'directPublish'])->name('direct.publish');
             Route::post('store/{type}', [EditorController::class, 'store'])->name('store');
             Route::post('publish/{type}/{draftId}', [EditorController::class, 'publish'])->name('publish');
+            Route::patch('recall/{type}/{draftId}', [EditorController::class, 'recall'])->name('recall');
         });
     });

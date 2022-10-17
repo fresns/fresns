@@ -97,6 +97,18 @@ class ApiController extends Controller
         return Response::json();
     }
 
+    // get archives
+    public function getArchives(Request $request, string $type)
+    {
+        $response = ApiHelper::make()->get("/api/v2/global/{$type}/archives", [
+            'query' => [
+                'unikey' => $request->get('unikey'),
+            ],
+        ]);
+
+        return \response()->json($response->toArray());
+    }
+
     // send verify code
     public function sendVerifyCode(Request $request)
     {
@@ -114,6 +126,35 @@ class ApiController extends Controller
 
         $response = ApiHelper::make()->post('/api/v2/common/send-verify-code', [
             'json' => \request()->all(),
+        ]);
+
+        return \response()->json($response->toArray());
+    }
+
+    // upload file
+    public function uploadFile()
+    {
+        $multipart = [];
+
+        foreach (\request()->file() as $name => $file) {
+            if ($file instanceof UploadedFile) {
+                /** @var UploadedFile $file */
+                $multipart[] = [
+                    'name' => $name,
+                    'filename' => $file->getClientOriginalName(),
+                    'contents' => $file->getContent(),
+                    'headers' => ['Content-Type' => $file->getClientMimeType()],
+                ];
+            }
+        }
+
+        foreach (\request()->post() as $name => $contents) {
+            $headers = ['Content-Type' => 'application/x-www-form-urlencoded'];
+            $multipart[] = compact('name', 'contents', 'headers');
+        }
+
+        $response = ApiHelper::make()->post('/api/v2/common/upload-file', [
+            'multipart' => $multipart,
         ]);
 
         return \response()->json($response->toArray());
@@ -316,9 +357,45 @@ class ApiController extends Controller
         return \response()->json($response->toArray());
     }
 
-    // user mark note
-    public function userMarkNote(Request $request)
+    // message mark-as-read
+    public function messageMarkAsRead(Request $request, string $type)
     {
+        $response = ApiHelper::make()->put("/api/v2/{$type}/mark-as-read", [
+            'json' => \request()->all(),
+        ]);
+
+        return \response()->json($response->toArray());
+    }
+
+    // message delete
+    public function messageDelete(Request $request, string $type)
+    {
+        $response = ApiHelper::make()->delete("/api/v2/{$type}/delete", [
+            'json' => \request()->all(),
+        ]);
+
+        return \response()->json($response->toArray());
+    }
+
+    // content type
+    public function contentType()
+    {
+        $response = ApiHelper::make()->get('/api/v2/global/content-type');
+
+        return \response()->json($response->toArray());
+    }
+
+    // content download file
+    public function contentDownloadFile(Request $request, $fid)
+    {
+        $response = ApiHelper::make()->get("/api/v2/common/file/{$fid}/download-link", [
+            'query' => [
+                'type' => $request->get('type'),
+                'fsid' => $request->get('fsid'),
+            ],
+        ]);
+
+        return \response()->json($response->toArray());
     }
 
     // content delete
@@ -333,48 +410,6 @@ class ApiController extends Controller
         };
 
         $response = ApiHelper::make()->delete("/api/v2/{$type}/{$fsid}");
-
-        return \response()->json($response->toArray());
-    }
-
-    // upload file
-    public function uploadFile()
-    {
-        $multipart = [];
-
-        foreach (\request()->file() as $name => $file) {
-            if ($file instanceof UploadedFile) {
-                /** @var UploadedFile $file */
-                $multipart[] = [
-                    'name' => $name,
-                    'filename' => $file->getClientOriginalName(),
-                    'contents' => $file->getContent(),
-                    'headers' => ['Content-Type' => $file->getClientMimeType()],
-                ];
-            }
-        }
-
-        foreach (\request()->post() as $name => $contents) {
-            $headers = ['Content-Type' => 'application/x-www-form-urlencoded'];
-            $multipart[] = compact('name', 'contents', 'headers');
-        }
-
-        $response = ApiHelper::make()->post('/api/v2/common/upload-file', [
-            'multipart' => $multipart,
-        ]);
-
-        return \response()->json($response->toArray());
-    }
-
-    // download link
-    public function downloadLink(Request $request, $fid)
-    {
-        $response = ApiHelper::make()->get("/api/v2/common/file/{$fid}/download-link", [
-            'query' => [
-                'type' => $request->get('type'),
-                'fsid' => $request->get('fsid'),
-            ],
-        ]);
 
         return \response()->json($response->toArray());
     }
@@ -543,6 +578,22 @@ class ApiController extends Controller
         $response = ApiHelper::make()->put("/api/v2/editor/{$type}/{$draftId}", [
             'json' => array_filter($params, fn ($val) => isset($val)),
         ]);
+
+        return \response()->json($response->toArray());
+    }
+
+    // editor publish
+    public function editorPublish(string $type, string $draftId)
+    {
+        $type = match ($type) {
+            'posts' => 'post',
+            'comments' => 'comment',
+            'post' => 'post',
+            'comment' => 'comment',
+            default => 'post',
+        };
+
+        $response = ApiHelper::make()->post("/api/v2/editor/{$type}/{$draftId}");
 
         return \response()->json($response->toArray());
     }
