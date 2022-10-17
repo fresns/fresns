@@ -45,7 +45,13 @@ class GroupController extends Controller
 
         $groups = Cache::remember($cacheKey, $cacheTime, function () use ($groupFilterIds) {
             return Group::with(['category', 'admins'])
-                ->where('sublevel_public', Group::SUBLEVEL_PUBLIC)
+                ->where(function ($query) {
+                    $query->whereIn('type', [1, 2])
+                        ->orWhere(function ($query) {
+                            $query->whereIn('type', [3])
+                                ->where('sublevel_public', Group::SUBLEVEL_PUBLIC);
+                        });
+                })
                 ->whereNotIn('id', $groupFilterIds)
                 ->isEnable()
                 ->orderBy('recommend_rating')

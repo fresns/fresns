@@ -56,7 +56,7 @@ class AccountController extends Controller
 
             $checkEmail = ValidationUtility::disposableEmail($dtoRequest->account);
             if (! $checkEmail) {
-                throw new ApiException(34109);
+                throw new ApiException(34110);
             }
         }
 
@@ -88,23 +88,23 @@ class AccountController extends Controller
         $validatePassword = ValidationUtility::password($password);
 
         if (! $validatePassword['length']) {
-            throw new ApiException(34104);
-        }
-
-        if (! $validatePassword['number']) {
             throw new ApiException(34105);
         }
 
-        if (! $validatePassword['lowercase']) {
+        if (! $validatePassword['number']) {
             throw new ApiException(34106);
         }
 
-        if (! $validatePassword['uppercase']) {
+        if (! $validatePassword['lowercase']) {
             throw new ApiException(34107);
         }
 
-        if (! $validatePassword['symbols']) {
+        if (! $validatePassword['uppercase']) {
             throw new ApiException(34108);
+        }
+
+        if (! $validatePassword['symbols']) {
+            throw new ApiException(34109);
         }
 
         // session log
@@ -116,7 +116,7 @@ class AccountController extends Controller
             'langTag' => $this->langTag(),
             'aid' => null,
             'uid' => null,
-            'objectName' => route('api.account.register'),
+            'objectName' => \request()->path(),
             'objectAction' => 'Account Register',
             'objectResult' => SessionLog::STATE_SUCCESS,
             'objectOrderId' => null,
@@ -230,7 +230,7 @@ class AccountController extends Controller
             'langTag' => $this->langTag(),
             'aid' => null,
             'uid' => null,
-            'objectName' => route('api.account.login'),
+            'objectName' => \request()->path(),
             'objectAction' => 'Account Login',
             'objectResult' => SessionLog::STATE_SUCCESS,
             'objectOrderId' => null,
@@ -317,7 +317,7 @@ class AccountController extends Controller
             'langTag' => $this->langTag(),
             'aid' => null,
             'uid' => null,
-            'objectName' => route('api.account.reset.password'),
+            'objectName' => \request()->path(),
             'objectAction' => 'Account Reset Password',
             'objectResult' => SessionLog::STATE_SUCCESS,
             'objectOrderId' => null,
@@ -364,23 +364,23 @@ class AccountController extends Controller
         $validatePassword = ValidationUtility::password($newPassword);
 
         if (! $validatePassword['length']) {
-            throw new ApiException(34104);
-        }
-
-        if (! $validatePassword['number']) {
             throw new ApiException(34105);
         }
 
-        if (! $validatePassword['lowercase']) {
+        if (! $validatePassword['number']) {
             throw new ApiException(34106);
         }
 
-        if (! $validatePassword['uppercase']) {
+        if (! $validatePassword['lowercase']) {
             throw new ApiException(34107);
         }
 
-        if (! $validatePassword['symbols']) {
+        if (! $validatePassword['uppercase']) {
             throw new ApiException(34108);
+        }
+
+        if (! $validatePassword['symbols']) {
+            throw new ApiException(34109);
         }
 
         $dataPassword = Hash::make($newPassword);
@@ -526,7 +526,7 @@ class AccountController extends Controller
             'langTag' => $this->langTag(),
             'aid' => $authAccount->aid,
             'uid' => null,
-            'objectName' => route('api.account.edit'),
+            'objectName' => \request()->path(),
             'objectAction' => 'Account Edit Data',
             'objectResult' => SessionLog::STATE_SUCCESS,
             'objectOrderId' => null,
@@ -539,7 +539,7 @@ class AccountController extends Controller
         if ($dtoRequest->editEmail) {
             $checkEmail = ValidationUtility::disposableEmail($dtoRequest->editEmail);
             if (! $checkEmail) {
-                throw new ApiException(34109);
+                throw new ApiException(34110);
             }
 
             if ($authAccount->email && empty($dtoRequest->verifyCode)) {
@@ -605,6 +605,10 @@ class AccountController extends Controller
                 throw new ApiException(31410);
             }
 
+            if ($dtoRequest->editPassword != $dtoRequest->editPasswordConfirm) {
+                throw new ApiException(34104);
+            }
+
             if ($dtoRequest->password) {
                 $password = base64_decode($dtoRequest->password, true);
 
@@ -634,6 +638,10 @@ class AccountController extends Controller
         if ($dtoRequest->editWalletPassword) {
             if (empty($dtoRequest->walletPassword) && empty($dtoRequest->verifyCode)) {
                 throw new ApiException(31410);
+            }
+
+            if ($dtoRequest->editWalletPassword != $dtoRequest->editWalletPasswordConfirm) {
+                throw new ApiException(34104);
             }
 
             $wallet = AccountWallet::where('account_id', $authAccount->id)->first();
@@ -759,7 +767,7 @@ class AccountController extends Controller
             'langTag' => $this->langTag(),
             'aid' => $authAccount->aid,
             'uid' => null,
-            'objectName' => route('api.account.apply.delete'),
+            'objectName' => \request()->path(),
             'objectAction' => 'Apply Delete Account',
             'objectResult' => SessionLog::STATE_SUCCESS,
             'objectOrderId' => null,
@@ -777,8 +785,8 @@ class AccountController extends Controller
         ]);
     }
 
-    // revokeDelete
-    public function revokeDelete()
+    // recallDelete
+    public function recallDelete()
     {
         $authAccount = $this->account();
 
@@ -796,7 +804,7 @@ class AccountController extends Controller
             'langTag' => $this->langTag(),
             'aid' => $authAccount->aid,
             'uid' => null,
-            'objectName' => route('api.account.revoke.delete'),
+            'objectName' => \request()->path(),
             'objectAction' => 'Revoke Delete Account',
             'objectResult' => SessionLog::STATE_SUCCESS,
             'objectOrderId' => null,

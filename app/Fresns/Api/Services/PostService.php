@@ -25,7 +25,6 @@ use App\Utilities\ExtendUtility;
 use App\Utilities\InteractiveUtility;
 use App\Utilities\LbsUtility;
 use App\Utilities\PermissionUtility;
-use Carbon\Carbon;
 use Illuminate\Support\Str;
 
 class PostService
@@ -38,6 +37,7 @@ class PostService
         }
 
         $postInfo = $post->getPostInfo($langTag, $timezone);
+        $postInfo['title'] = ContentUtility::replaceBlockWords('content', $postInfo['title']);
         $contentHandle = self::contentHandle($post, $type, $authUserId);
 
         if (! empty($post->map_id) && ! empty($authUserLng) && ! empty($authUserLat)) {
@@ -156,13 +156,14 @@ class PostService
         $briefLength = ConfigHelper::fresnsConfigByItemKey('post_editor_brief_length');
 
         $info['content'] = $content;
-        $info['isBrief'] = false;
-        if ($type == 'list') {
+
+        if ($type == 'list' && $contentLength > $briefLength) {
             $info['content'] = Str::limit($content, $briefLength);
             $info['isBrief'] = true;
         }
 
-        $info['content'] = ContentUtility::handleAndReplaceAll($info['content'], $post->is_markdown, Mention::TYPE_POST, $authUserId);
+        $info['content'] = ContentUtility::replaceBlockWords('content', $info['content']);
+        $info['content'] = ContentUtility::handleAndReplaceAll($info['content'], $post->is_markdown, Mention::TYPE_POST, $post->id);
 
         return $info;
     }
@@ -200,7 +201,7 @@ class PostService
         $info['isBrief'] = false;
 
         $briefLength = ConfigHelper::fresnsConfigByItemKey('post_editor_brief_length');
-        if ($type == 'list') {
+        if ($type == 'list' && $info['contentLength'] > $briefLength) {
             $info['content'] = Str::limit($log->content, $briefLength);
             $info['isBrief'] = true;
         }

@@ -69,7 +69,7 @@ Route::prefix('v2')->middleware([
         Route::put('edit', [AccountController::class, 'edit'])->name('edit');
         Route::delete('logout', [AccountController::class, 'logout'])->name('logout');
         Route::post('apply-delete', [AccountController::class, 'applyDelete'])->name('apply.delete');
-        Route::post('revoke-delete', [AccountController::class, 'revokeDelete'])->name('revoke.delete');
+        Route::post('recall-delete', [AccountController::class, 'recallDelete'])->name('recall.delete');
     });
 
     // user
@@ -143,6 +143,7 @@ Route::prefix('v2')->middleware([
 
     // editor
     Route::prefix('editor')->name('editor.')->group(function () {
+        Route::post('direct-publish', [EditorController::class, 'directPublish'])->name('direct.publish');
         Route::get('{type}/config', [EditorController::class, 'config'])->name('config');
         Route::get('{type}/drafts', [EditorController::class, 'drafts'])->name('drafts');
         Route::post('{type}/create', [EditorController::class, 'create'])->name('create');
@@ -150,8 +151,7 @@ Route::prefix('v2')->middleware([
         Route::get('{type}/{draftId}', [EditorController::class, 'detail'])->name('detail');
         Route::put('{type}/{draftId}', [EditorController::class, 'update'])->name('update');
         Route::post('{type}/{draftId}', [EditorController::class, 'publish'])->name('publish');
-        Route::patch('{type}/{draftId}', [EditorController::class, 'revoke'])->name('revoke');
+        Route::patch('{type}/{draftId}', [EditorController::class, 'recall'])->name('recall');
         Route::delete('{type}/{draftId}', [EditorController::class, 'delete'])->name('delete');
-        Route::post('direct-publish', [EditorController::class, 'directPublish'])->name('direct.publish');
     });
 });

@@ -390,6 +390,7 @@ class CommentController extends Controller
             throw new ApiException(36401);
         }
 
+        CommentLog::where('comment_id', $comment->id)->delete();
         $comment->delete();
 
         return $this->success();

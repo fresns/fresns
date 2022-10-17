@@ -44,8 +44,8 @@ class GroupService
 
         $adminList = null;
         foreach ($group->admins as $admin) {
-            $userProfile = $admin->user->getUserProfile($timezone);
-            $userMainRole = $admin->user->getUserMainRole($langTag, $timezone);
+            $userProfile = $admin->getUserProfile($timezone);
+            $userMainRole = $admin->getUserMainRole($langTag, $timezone);
 
             $adminList[] = array_merge($userProfile, $userMainRole);
         }

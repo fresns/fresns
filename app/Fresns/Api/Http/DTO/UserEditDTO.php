@@ -25,7 +25,7 @@ class UserEditDTO extends DTO
             'bannerFid' => ['string', 'nullable'],
             'bannerUrl' => ['url', 'nullable'],
             'gender' => ['integer', 'nullable', 'in:1,2,3'],
-            'birthday' => ['date', 'nullable', 'after:tomorrow', 'after_or_equal:1920-01-01 00:00:00'],
+            'birthday' => ['date', 'nullable', 'before:today', 'after_or_equal:1920-01-01 00:00:00'],
             'bio' => ['string', 'nullable'],
             'location' => ['string', 'nullable'],
             'dialogLimit' => ['string', 'nullable', 'in:1,2,3,4'],

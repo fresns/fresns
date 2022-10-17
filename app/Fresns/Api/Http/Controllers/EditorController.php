@@ -191,7 +191,7 @@ class EditorController extends Controller
             'mapJson' => $dtoRequest->mapJson,
             'eid' => $dtoRequest->eid,
         ];
-        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->generateDraft($wordBody);
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->createDraft($wordBody);
 
         if ($fresnsResp->isErrorResponse()) {
             return $fresnsResp->errorResponse();
@@ -210,7 +210,7 @@ class EditorController extends Controller
             'langTag' => $langTag,
             'aid' => $this->account()->aid,
             'uid' => $authUser->uid,
-            'objectName' => route('api.editor.create'),
+            'objectName' => \request()->path(),
             'objectAction' => 'Editor Create Draft',
             'objectResult' => SessionLog::STATE_SUCCESS,
             'objectOrderId' => $fresnsResp->getData('logId'),
@@ -261,7 +261,7 @@ class EditorController extends Controller
 
         $wordBody = [
             'type' => $wordType,
-            'createType' => $fsid,
+            'fsid' => $fsid,
         ];
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->generateDraft($wordBody);
 
@@ -282,7 +282,7 @@ class EditorController extends Controller
             'langTag' => $langTag,
             'aid' => $this->account()->aid,
             'uid' => $authUser->uid,
-            'objectName' => route('api.editor.generate'),
+            'objectName' => \request()->path(),
             'objectAction' => 'Editor Generate Draft',
             'objectResult' => SessionLog::STATE_SUCCESS,
             'objectOrderId' => $fresnsResp->getData('logId'),
@@ -312,6 +312,7 @@ class EditorController extends Controller
             break;
         }
 
+        $edit['isEdit'] = true;
         $edit['editableStatus'] = $fresnsResp->getData('editableStatus');
         $edit['editableTime'] = $fresnsResp->getData('editableTime');
         $edit['deadlineTime'] = $fresnsResp->getData('deadlineTime');
@@ -345,6 +346,7 @@ class EditorController extends Controller
             throw new ApiException(38102);
         }
 
+        $isEdit = false;
         $editableStatus = true;
         $editableTime = null;
         $deadlineTime = null;
@@ -357,7 +359,9 @@ class EditorController extends Controller
                 $service = new PostService();
                 $data['detail'] = $service->postLogData($draft, 'detail', $langTag, $timezone);
 
-                if (! $draft->post_id) {
+                if ($draft->post_id) {
+                    $isEdit = true;
+
                     $post = PrimaryHelper::fresnsModelById('post', $draft->post_id);
 
                     $checkContentEditPerm = PermissionUtility::checkContentEditPerm($post->created_at, $editTimeConfig, $timezone, $langTag);
@@ -372,7 +376,9 @@ class EditorController extends Controller
                 $service = new CommentService();
                 $data['detail'] = $service->commentLogData($draft, 'detail', $langTag, $timezone);
 
-                if (! $draft->comment_id) {
+                if ($draft->comment_id) {
+                    $isEdit = true;
+
                     $comment = PrimaryHelper::fresnsModelById('comment', $draft->comment_id);
 
                     $checkContentEditPerm = PermissionUtility::checkContentEditPerm($comment->created_at, $editTimeConfig, $timezone, $langTag);
@@ -383,6 +389,7 @@ class EditorController extends Controller
             break;
         }
 
+        $edit['isEdit'] = $isEdit;
         $edit['editableStatus'] = $editableStatus;
         $edit['editableTime'] = $editableTime;
         $edit['deadlineTime'] = $deadlineTime;
@@ -443,6 +450,60 @@ class EditorController extends Controller
             }
         }
 
+        // is post
+        if ($dtoRequest->type == 'post') {
+            // postGid
+            if ($dtoRequest->postGid) {
+                $group = PrimaryHelper::fresnsModelByFsid('group', $dtoRequest->postGid);
+
+                if (empty($group)) {
+                    throw new ApiException(37100);
+                }
+
+                if ($group->is_enable == 0) {
+                    throw new ApiException(37101);
+                }
+
+                $checkPerm = PermissionUtility::checkUserGroupPublishPerm($group->id, $group->permissions, $authUser->id);
+
+                if (! $checkPerm['allowPost']) {
+                    throw new ApiException(36311);
+                }
+
+                $draft->update([
+                    'group_id' => $group->id,
+                ]);
+            }
+
+            // postTitle
+            if ($dtoRequest->postTitle) {
+                $postTitle = Str::of($dtoRequest->postTitle)->trim();
+                $checkBanWords = ValidationUtility::contentBanWords($postTitle);
+
+                if (! $checkBanWords) {
+                    throw new ApiException(38206);
+                }
+
+                $draft->update([
+                    'title' => $postTitle,
+                ]);
+            }
+
+            // postIsComment
+            if ($dtoRequest->postIsComment) {
+                $draft->update([
+                    'is_comment' => $dtoRequest->postIsComment,
+                ]);
+            }
+
+            // postIsCommentPublic
+            if ($dtoRequest->postIsCommentPublic) {
+                $draft->update([
+                    'is_comment_public' => $dtoRequest->postIsCommentPublic,
+                ]);
+            }
+        }
+
         // content
         if ($dtoRequest->content) {
             $content = Str::of($dtoRequest->content)->trim();
@@ -485,141 +546,53 @@ class EditorController extends Controller
             ]);
         }
 
-        switch ($dtoRequest->type) {
-            // post
-            case 'post':
-                // postGid
-                if ($dtoRequest->postGid) {
-                    $group = PrimaryHelper::fresnsModelByFsid('group', $dtoRequest->postGid);
+        // deleteFile
+        if ($dtoRequest->deleteFile) {
+            $file = File::where('fid', $dtoRequest->deleteFile)->first();
 
-                    if (empty($group)) {
-                        throw new ApiException(37100);
-                    }
+            if (empty($file)) {
+                throw new ApiException(36400);
+            }
 
-                    if ($group->is_enable == 0) {
-                        throw new ApiException(37101);
-                    }
+            $tableName = match ($type) {
+                'post' => 'post_logs',
+                'comment' => 'comment_logs',
+            };
 
-                    $checkPerm = PermissionUtility::checkUserGroupPublishPerm($group->id, $group->permissions, $authUser->id);
+            FileUsage::where('file_id', $file->id)
+                ->where('table_name', $tableName)
+                ->where('table_column', 'id')
+                ->where('table_id', $draft->id)
+                ->delete();
+        }
 
-                    if (! $checkPerm['allowPost']) {
-                        throw new ApiException(36311);
-                    }
+        // deleteExtend
+        if ($dtoRequest->deleteExtend) {
+            $extend = Extend::where('eid', $dtoRequest->deleteExtend)->first();
 
-                    $draft->update([
-                        'group_id' => $group->id,
-                    ]);
-                }
+            if (empty($extend)) {
+                throw new ApiException(36400);
+            }
 
-                // postTitle
-                if ($dtoRequest->postTitle) {
-                    $postTitle = Str::of($dtoRequest->postTitle)->trim();
-                    $checkBanWords = ValidationUtility::contentBanWords($postTitle);
+            $usageType = match ($type) {
+                'post' => ExtendUsage::TYPE_POST_LOG,
+                'comment' => ExtendUsage::TYPE_COMMENT_LOG,
+            };
 
-                    if (! $checkBanWords) {
-                        throw new ApiException(38206);
-                    }
+            $extendUsage = ExtendUsage::where('usage_type', $usageType)
+                ->where('usage_id', $draft->id)
+                ->where('extend_id', $extend->id)
+                ->first();
 
-                    $draft->update([
-                        'title' => $postTitle,
-                    ]);
-                }
+            if (empty($extendUsage)) {
+                throw new ApiException(36400);
+            }
 
-                // postIsComment
-                if ($dtoRequest->postIsComment) {
-                    $draft->update([
-                        'is_comment' => $dtoRequest->postIsComment,
-                    ]);
-                }
+            if ($extendUsage->can_delete == 0) {
+                throw new ApiException(36401);
+            }
 
-                // postIsCommentPublic
-                if ($dtoRequest->postIsCommentPublic) {
-                    $draft->update([
-                        'is_comment_public' => $dtoRequest->postIsCommentPublic,
-                    ]);
-                }
-
-                // deleteFile
-                if ($dtoRequest->deleteFile) {
-                    $file = File::where('fid', $dtoRequest->deleteFile)->first();
-
-                    if (empty($file)) {
-                        throw new ApiException(36400);
-                    }
-
-                    FileUsage::where('file_id', $file->id)
-                        ->where('tableName', 'post_logs')
-                        ->where('tableColumn', 'id')
-                        ->where('tableId', $draft->id)
-                        ->delete();
-                }
-
-                // deleteExtend
-                if ($dtoRequest->deleteExtend) {
-                    $extend = Extend::where('eid', $dtoRequest->deleteExtend)->first();
-
-                    if (empty($extend)) {
-                        throw new ApiException(36400);
-                    }
-
-                    $extendUsage = ExtendUsage::where('usage_type', ExtendUsage::TYPE_POST_LOG)
-                        ->where('usage_id', $draft->id)
-                        ->where('extend_id', $extend->id)
-                        ->first();
-
-                    if (empty($extendUsage)) {
-                        throw new ApiException(36400);
-                    }
-
-                    if ($extendUsage->can_delete == 0) {
-                        throw new ApiException(36401);
-                    }
-
-                    $extendUsage->delete();
-                }
-            break;
-
-            // comment
-            case 'comment':
-                // deleteFile
-                if ($dtoRequest->deleteFile) {
-                    $file = File::where('fid', $dtoRequest->deleteFile)->first();
-
-                    if (empty($file)) {
-                        throw new ApiException(36400);
-                    }
-
-                    FileUsage::where('file_id', $file->id)
-                        ->where('tableName', 'comment_logs')
-                        ->where('tableColumn', 'id')
-                        ->where('tableId', $draft->id)
-                        ->delete();
-                }
-
-                // deleteExtend
-                if ($dtoRequest->deleteExtend) {
-                    $extend = Extend::where('eid', $dtoRequest->deleteExtend)->first();
-
-                    if (empty($extend)) {
-                        throw new ApiException(36400);
-                    }
-
-                    $extendUsage = ExtendUsage::where('usage_type', ExtendUsage::TYPE_POST_LOG)
-                        ->where('usage_id', $draft->id)
-                        ->where('extend_id', $extend->id)
-                        ->first();
-
-                    if (empty($extendUsage)) {
-                        throw new ApiException(36400);
-                    }
-
-                    if ($extendUsage->can_delete == 0) {
-                        throw new ApiException(36401);
-                    }
-
-                    $extendUsage->delete();
-                }
-            break;
+            $extendUsage->delete();
         }
 
         return $this->success();
@@ -753,7 +726,7 @@ class EditorController extends Controller
             'langTag' => $this->langTag(),
             'aid' => $this->account()->aid,
             'uid' => $authUser->uid,
-            'objectName' => route('api.editor.publish'),
+            'objectName' => \request()->path(),
             'objectAction' => 'Editor Publish',
             'objectResult' => SessionLog::STATE_UNKNOWN,
             'objectOrderId' => $draft->id,
@@ -778,14 +751,16 @@ class EditorController extends Controller
                 if (! $draft->post_id) {
                     $post = PrimaryHelper::fresnsModelById('post', $draft->post_id);
 
-                    $checkContentEditPerm = PermissionUtility::checkContentEditPerm($post->created_at, $$editorConfig['post_edit_time_limit'], $timezone, $langTag);
+                    if ($post?->created_at) {
+                        $checkContentEditPerm = PermissionUtility::checkContentEditPerm($post->created_at, $editorConfig['post_edit_time_limit'], $timezone, $langTag);
 
-                    if (! $checkContentEditPerm['editableStatus']) {
-                        throw new ApiException(36309);
+                        if (! $checkContentEditPerm['editableStatus']) {
+                            throw new ApiException(36309);
+                        }
                     }
                 }
 
-                if (! $draft->group_id) {
+                if ($draft->group_id) {
                     $group = PrimaryHelper::fresnsModelById('group', $draft->group_id);
 
                     if (! $group) {
@@ -872,7 +847,7 @@ class EditorController extends Controller
         }
 
         $checkReview = ValidationUtility::contentReviewWords($draft->content);
-        if ($checkReview) {
+        if (! $checkReview) {
             // upload session log
             \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
@@ -893,7 +868,7 @@ class EditorController extends Controller
             'submit_at' => now(),
         ]);
 
-        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->releaseContent($wordBody);
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->contentPublishByDraft($wordBody);
 
         if ($fresnsResp->isErrorResponse()) {
             return $fresnsResp->errorResponse();
@@ -912,8 +887,8 @@ class EditorController extends Controller
         return $this->success();
     }
 
-    // revoke
-    public function revoke($type, $draftId)
+    // recall
+    public function recall($type, $draftId)
     {
         $authUser = $this->user();
 
@@ -1001,7 +976,7 @@ class EditorController extends Controller
                 throw new ApiException(32104);
             }
 
-            if ($fileConfig['service']) {
+            if (! $fileConfig['service']) {
                 throw new ApiException(32104);
             }
         }
@@ -1014,8 +989,7 @@ class EditorController extends Controller
         $wordBody = [
             'uid' => $authUser->uid,
             'type' => $wordType,
-            'createType' => $dtoRequest->createType,
-            'editorUnikey' => $dtoRequest->editorUnikey,
+            'createType' => $wordType,
             'postGid' => $dtoRequest->postGid,
             'postTitle' => $dtoRequest->postTitle,
             'postIsComment' => $dtoRequest->postIsComment,
@@ -1095,7 +1069,7 @@ class EditorController extends Controller
             'langTag' => $this->langTag(),
             'aid' => $this->account()->aid,
             'uid' => $authUser->uid,
-            'objectName' => route('api.editor.direct.publish'),
+            'objectName' => \request()->path(),
             'objectAction' => 'Editor Create Post Log',
             'objectResult' => SessionLog::STATE_SUCCESS,
             'objectOrderId' => $tableId,
@@ -1107,10 +1081,10 @@ class EditorController extends Controller
         // upload session log
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
-        if (! $fsid) {
-            return $fresnsResp->getOrigin();
-        } else {
+        if ($fsid) {
             return $this->success();
+        } else {
+            throw new ApiException(38200);
         }
     }
 }

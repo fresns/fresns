@@ -14,6 +14,7 @@ use App\Models\ArchiveUsage;
 use App\Models\ExtendUsage;
 use App\Models\OperationUsage;
 use App\Models\User;
+use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractiveUtility;
 use App\Utilities\PermissionUtility;
@@ -28,6 +29,9 @@ class UserService
 
         $userProfile = $user->getUserProfile($langTag, $timezone);
         $userMainRole = $user->getUserMainRole($langTag, $timezone);
+
+        $userProfile['nickname'] = ContentUtility::replaceBlockWords('user', $userProfile['nickname']);
+        $userProfile['bio'] = ContentUtility::replaceBlockWords('user', $userProfile['bio']);
 
         $item['stats'] = $user->getUserStats($langTag);
         $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST, $user->id, $langTag);

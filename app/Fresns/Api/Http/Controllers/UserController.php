@@ -351,9 +351,9 @@ class UserController extends Controller
             'platformId' => $this->platformId(),
             'version' => $this->version(),
             'langTag' => $this->langTag(),
-            'aid' => $this->account()->aid,
+            'aid' => $this->account()?->aid,
             'uid' => $authUser->uid,
-            'objectName' => route('api.user.auth'),
+            'objectName' => \request()->path(),
             'objectAction' => 'User Auth',
             'objectResult' => SessionLog::STATE_SUCCESS,
             'objectOrderId' => null,
@@ -542,7 +542,7 @@ class UserController extends Controller
 
             $validateNickname = ValidationUtility::nickname($nickname);
 
-            if (! $validateNickname['formatString'] || ! $validateUsername['formatSpace']) {
+            if (! $validateNickname['formatString'] || ! $validateNickname['formatSpace']) {
                 throw new ApiException(35107);
             }
 
@@ -651,7 +651,7 @@ class UserController extends Controller
             }
 
             $authUser->update([
-                'gender' => $bio,
+                'bio' => $bio,
             ]);
         }
 
@@ -698,7 +698,7 @@ class UserController extends Controller
             'langTag' => $this->langTag(),
             'aid' => $this->account()->aid,
             'uid' => $authUser->uid,
-            'objectName' => route('api.user.edit'),
+            'objectName' => \request()->path(),
             'objectAction' => 'User Edit Data',
             'objectResult' => SessionLog::STATE_SUCCESS,
             'objectOrderId' => null,
@@ -769,6 +769,12 @@ class UserController extends Controller
 
                 InteractiveUtility::markUserBlock($authUserId, $markType, $primaryId);
             break;
+        }
+
+        if ($dtoRequest->markType == 'group') {
+            $cacheKey = "fresns_api_user_{$authUserId}_groups";
+
+            Cache::forget($cacheKey);
         }
 
         return $this->success();

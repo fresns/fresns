@@ -30,6 +30,7 @@ use App\Utilities\CollectionUtility;
 use App\Utilities\ExtendUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class GlobalController extends Controller
 {
@@ -125,7 +126,7 @@ class GlobalController extends Controller
                 $item['elementType'] = $archive->element_type;
                 $item['elementOptions'] = $archive->element_options;
                 $item['fileType'] = $archive->file_type;
-                $item['fileExt'] = $fileExt;
+                $item['fileExt'] = Str::lower($fileExt);
                 $item['fileAccept'] = FileHelper::fresnsFileAcceptByType($archive->file_type);
                 $item['isMultiple'] = (bool) $archive->is_multiple;
                 $item['isRequired'] = (bool) $archive->is_required;
