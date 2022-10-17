@@ -33,8 +33,8 @@ class RouteServiceProvider extends ServiceProvider
         $host = str_replace(['http://', 'https://'], '', rtrim($url, '/'));
         $currentAccessHost = \request()->httpHost();
 
-        $host = parse_url("//".$host, PHP_URL_HOST);
-        $currentAccessHost = parse_url("//".$currentAccessHost, PHP_URL_HOST);
+        $host = parse_url('//'.$host, PHP_URL_HOST);
+        $currentAccessHost = parse_url('//'.$currentAccessHost, PHP_URL_HOST);
 
         // Avoid home page conflicts when customizing domain names with plugins
         if ($host != $currentAccessHost) {

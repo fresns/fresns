@@ -9,10 +9,10 @@
 namespace App\Fresns\Api\Traits;
 
 use App\Helpers\AppHelper;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Symfony\Component\HttpFoundation\Response;
 use App\Helpers\ConfigHelper;
 use App\Utilities\ConfigUtility;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Symfony\Component\HttpFoundation\Response;
 
 trait ApiResponseTrait
 {

@@ -413,7 +413,7 @@ class ContentUtility
         }
 
         $permissions['users'] = null;
-        if (!empty($readAllowConfig['permissions']['users'])) {
+        if (! empty($readAllowConfig['permissions']['users'])) {
             $users = User::whereIn('uid', $readAllowConfig['permissions']['users'])->first();
             foreach ($users as $user) {
                 $userList = $user->getUserProfile($langTag, $timezone);
@@ -422,7 +422,7 @@ class ContentUtility
         }
 
         $permissions['roles'] = null;
-        if (!empty($readAllowConfig['permissions']['roles'])) {
+        if (! empty($readAllowConfig['permissions']['roles'])) {
             $roles = Role::whereIn('id', $readAllowConfig['permissions']['roles'])->first();
             foreach ($roles as $role) {
                 $roleItem['rid'] = $role->id;
@@ -595,7 +595,7 @@ class ContentUtility
             return;
         }
 
-        if (!empty($permArr['users'])) {
+        if (! empty($permArr['users'])) {
             PostAllow::where('post_id', $postId)->where('type', PostAllow::TYPE_USER)->where('is_initial', 1)->delete();
 
             foreach ($permArr['users'] as $userId) {
@@ -611,7 +611,7 @@ class ContentUtility
             }
         }
 
-        if (!empty($permArr['roles'])) {
+        if (! empty($permArr['roles'])) {
             PostAllow::where('post_id', $postId)->where('type', PostAllow::TYPE_ROLE)->where('is_initial', 1)->delete();
 
             foreach ($permArr['roles'] as $roleId) {

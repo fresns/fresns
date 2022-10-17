@@ -8,10 +8,10 @@
 
 namespace App\Fresns\Web\Http\Controllers;
 
+use App\Fresns\Web\Exceptions\ErrorException;
 use App\Fresns\Web\Helpers\ApiHelper;
 use App\Fresns\Web\Helpers\QueryHelper;
 use Illuminate\Http\Request;
-use App\Fresns\Web\Exceptions\ErrorException;
 
 class UserController extends Controller
 {

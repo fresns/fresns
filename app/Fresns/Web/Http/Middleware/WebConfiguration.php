@@ -80,7 +80,7 @@ class WebConfiguration
         }
     }
 
-    private function groupCategories():void
+    private function groupCategories(): void
     {
         $result = ApiHelper::make()->get('/api/v2/group/categories');
 

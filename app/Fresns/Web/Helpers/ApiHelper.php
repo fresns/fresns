@@ -84,6 +84,7 @@ class ApiHelper implements \ArrayAccess, \IteratorAggregate, \Countable
     {
         if (isset($data['code']) && $data['code'] != 0) {
             info('is error response', $data);
+
             return true;
         }
 
@@ -98,7 +99,7 @@ class ApiHelper implements \ArrayAccess, \IteratorAggregate, \Countable
             $message = 'Unknown api error';
         } else {
             if ($data['data'] ?? null) {
-                $message = "{$message} " . head($data['data']) ?? '';
+                $message = "{$message} ".head($data['data']) ?? '';
             }
         }
 

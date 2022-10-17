@@ -14,9 +14,9 @@ use App\Fresns\Web\Helpers\QueryHelper;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
@@ -72,19 +72,19 @@ class ApiController extends Controller
             'message' => 'ok',
             'data' => [
                 'sign' => $sign,
-            ]
+            ],
         ]);
     }
 
     // get input tips
     public function getInputTips(Request $request): JsonResponse
     {
-        if ($request->get('type') &&  $request->get('key')) {
-            $result = ApiHelper::make()->get("/api/v2/common/input-tips", [
+        if ($request->get('type') && $request->get('key')) {
+            $result = ApiHelper::make()->get('/api/v2/common/input-tips', [
                 'query' => [
                     'type' => $request->get('type'),
                     'key' => $request->get('key'),
-                ]
+                ],
             ]);
 
             if (data_get($result, 'code') !== 0) {
@@ -243,13 +243,13 @@ class ApiController extends Controller
         if ($editType = \request('edit_type')) {
             $editTypeMode = \request($editType.'_mode');
 
-            $codeType = match($editTypeMode) {
+            $codeType = match ($editTypeMode) {
                 default => null,
                 'phone_to_editPassword' => 'sms',
                 'email_to_editPassword' => 'email',
             };
 
-            $verifyCode = match($editTypeMode) {
+            $verifyCode = match ($editTypeMode) {
                 default => null,
                 'phone_to_editPassword' => \request('phone_verifyCode'),
                 'email_to_editPassword' => \request('email_verifyCode'),
@@ -373,7 +373,7 @@ class ApiController extends Controller
             'query' => [
                 'type' => $request->get('type'),
                 'fsid' => $request->get('fsid'),
-            ]
+            ],
         ]);
 
         return \response()->json($response->toArray());
@@ -382,13 +382,14 @@ class ApiController extends Controller
     /**
      * @param  string  $gid
      * @return JsonResponse
+     *
      * @throws GuzzleException
      */
-    public function groupList(string $gid):JsonResponse
+    public function groupList(string $gid): JsonResponse
     {
         $response = ApiHelper::make()->get('/api/v2/group/list', [
             'query' => [
-                'gid' => $gid
+                'gid' => $gid,
             ],
         ]);
 
@@ -457,8 +458,8 @@ class ApiController extends Controller
             ];
         }
 
-        $result = ApiHelper::make()->post("/api/v2/editor/direct-publish", [
-            'multipart' => array_filter($multipart, fn($val) => isset($val['contents']))
+        $result = ApiHelper::make()->post('/api/v2/editor/direct-publish', [
+            'multipart' => array_filter($multipart, fn ($val) => isset($val['contents'])),
         ])->toArray();
 
         return Response::json($result);
@@ -500,7 +501,6 @@ class ApiController extends Controller
             ],
         ];
 
-
         if (! $request->file('files')) {
             return Response::json([]);
         }
@@ -515,13 +515,13 @@ class ApiController extends Controller
                 'headers' => ['Content-Type' => $file->getClientMimeType()],
             ];
             $postAsyncs[] = ApiHelper::make()->postAsync('/api/v2/common/upload-file', [
-                'multipart' => array_filter($params, fn($val) => isset($val['contents']))
+                'multipart' => array_filter($params, fn ($val) => isset($val['contents'])),
             ]);
         }
 
         $results = ApiHelper::make()->handleUnwrap($postAsyncs)->toArray();
 
-        return Response::json(array_filter(array_map(fn($arr) => data_get($arr, 'data'), $results), fn($arr) => data_get($arr, 'code') !== 0));
+        return Response::json(array_filter(array_map(fn ($arr) => data_get($arr, 'data'), $results), fn ($arr) => data_get($arr, 'code') !== 0));
     }
 
     // editor update
@@ -541,7 +541,7 @@ class ApiController extends Controller
             'deleteExtend' => $request->post('deleteExtend'),
         ];
         $response = ApiHelper::make()->put("/api/v2/editor/{$type}/{$draftId}", [
-            'json' => array_filter($params, fn($val) => isset($val))
+            'json' => array_filter($params, fn ($val) => isset($val)),
         ]);
 
         return \response()->json($response->toArray());

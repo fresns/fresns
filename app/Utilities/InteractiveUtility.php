@@ -473,6 +473,7 @@ class InteractiveUtility
                 if ($actionType == 'increment') {
                     $userState?->increment("{$interactiveType}_user_count");
                     $userMeState?->increment("{$interactiveType}_me_count");
+
                     return;
                 }
 
@@ -518,6 +519,7 @@ class InteractiveUtility
                 if ($actionType == 'increment') {
                     $userState?->increment("{$interactiveType}_hashtag_count");
                     $hashtagState?->increment("{$interactiveType}_count");
+
                     return;
                 }
 
@@ -542,6 +544,7 @@ class InteractiveUtility
                     $userState?->increment("{$interactiveType}_post_count");
                     $post?->increment("{$interactiveType}_count");
                     $postCreatorState?->increment("post_{$interactiveType}_count");
+
                     return;
                 }
 
@@ -578,6 +581,7 @@ class InteractiveUtility
                     if (! empty($comment?->parent_id) || $comment?->parent_id != 0) {
                         InteractiveUtility::parentCommentStats($comment->parent_id, 'increment', "comment_{$interactiveType}_count");
                     }
+
                     return;
                 }
 

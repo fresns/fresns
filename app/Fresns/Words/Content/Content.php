@@ -106,7 +106,7 @@ class Content
 
                 if (! $checkLog) {
                     $logModel = PostLog::create($logData);
-                } else if (! $checkLog->content && ! $checkLog->files && ! $checkLog->extends) {
+                } elseif (! $checkLog->content && ! $checkLog->files && ! $checkLog->extends) {
                     $logModel = $checkLog->update($logData);
                 } else {
                     $logModel = PostLog::create($logData);

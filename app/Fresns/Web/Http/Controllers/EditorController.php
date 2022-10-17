@@ -73,7 +73,7 @@ class EditorController extends Controller
                     'postGid' => $postGid,
                     'commentPid' => $commentPid,
                     'commentCid' => $commentCid,
-                ]
+                ],
             ])->toArray();
 
             if (data_get($response, 'code') !== 0) {
@@ -102,7 +102,7 @@ class EditorController extends Controller
         $config = $draftInfo['config'];
         $stickers = $draftInfo['stickers'];
         $draft = $draftInfo['draft'];
-        $group = data_get($draftInfo, 'group.detail') ?? data_get($draft,'detail.group.0');
+        $group = data_get($draftInfo, 'group.detail') ?? data_get($draft, 'detail.group.0');
 
         $plid = null; // post log id
         $clid = null; // comment log id
@@ -177,8 +177,8 @@ class EditorController extends Controller
             ];
         }
 
-        $result = ApiHelper::make()->post("/api/v2/editor/direct-publish", [
-            'multipart' => array_filter($multipart, fn($val) => isset($val['contents']))
+        $result = ApiHelper::make()->post('/api/v2/editor/direct-publish', [
+            'multipart' => array_filter($multipart, fn ($val) => isset($val['contents'])),
         ]);
 
         if ($result['code'] !== 0) {
@@ -217,7 +217,7 @@ class EditorController extends Controller
                     'isAnonymous' => $request->input('anonymous'),
                     'mapJson' => $request->input('mapJson'),
                     'eid' => $request->input('eid'),
-                ]
+                ],
             ])->toArray();
         }
 
@@ -252,7 +252,7 @@ class EditorController extends Controller
                 'deleteMap' => $request->post('deleteMap'),
                 'deleteFile' => $request->post('deleteFile'),
                 'deleteExtend' => $request->post('deleteExtend'),
-            ]
+            ],
         ]);
 
         if ($response['code'] !== 0) {
