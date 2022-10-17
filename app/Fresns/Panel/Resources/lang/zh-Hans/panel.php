@@ -515,6 +515,7 @@ return [
     'storage_url_status_desc' => '如果插件不支持防盗链功能，请勿开启，否则将导致资源无法访问。',
     'storage_url_key' => '防盗链 Key',
     'storage_url_expire' => '防盗链签名有效期',
+    'storage_image_handle_position' => '图片处理位置',
     'storage_image_thumb_config' => '配置图',
     'storage_image_thumb_avatar' => '头像图',
     'storage_image_thumb_ratio' => '等比例缩略图',
@@ -1012,5 +1013,5 @@ return [
     'install_mode' => '安装方式',
     'install_mode_input' => '输入标识名',
     'install_mode_upload' => '上传安装包',
-    'install_mode_directory' => '输入目录',
+    'install_mode_directory' => '输入目录路径',
 ];

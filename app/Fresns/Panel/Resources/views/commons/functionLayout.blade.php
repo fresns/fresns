@@ -41,7 +41,7 @@
     </footer>
 
     <script src="{{ @asset('/static/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ @asset('/static/js/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ @asset('/static/js/jquery.min.js') }}"></script>
     <script src="{{ @asset('/static/js/select2.min.js') }}"></script>
     <script src="{{ route('panel.translations', ['locale' => \App::getLocale()]) }}"></script>
     <script src="{{ @asset('/static/js/fresns-functions.js?9c26d1a06118c93e') }}"></script>

@@ -515,6 +515,7 @@ return [
     'storage_url_status_desc' => 'यदि प्लगइन एंटी-चोरी चेन फ़ंक्शन का समर्थन नहीं करता है, तो खुलें, अन्यथा संसाधन सुलभ नहीं होगा।',
     'storage_url_key' => 'विरोधी चोरी की कुंजी',
     'storage_url_expire' => 'विरोधी चोरी श्रृंखला हस्ताक्षर वैधता अवधि',
+    'storage_image_handle_position' => 'छवि संभाल स्थिति',
     'storage_image_thumb_config' => 'विन्यास मानचित्र',
     'storage_image_thumb_avatar' => 'अवतार',
     'storage_image_thumb_ratio' => 'आइसोमेट्रिक थंबनेल',
@@ -1012,5 +1013,5 @@ return [
     'install_mode' => 'मोड स्थापित करें',
     'install_mode_input' => 'इनपुट Fresns कुंजी',
     'install_mode_upload' => 'ज़िप पैकेज अपलोड करें',
-    'install_mode_directory' => 'इनपुट निर्देशिका',
+    'install_mode_directory' => 'इनपुट निर्देशिका पथ',
 ];

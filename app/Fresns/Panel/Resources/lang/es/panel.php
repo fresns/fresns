@@ -515,6 +515,7 @@ return [
     'storage_url_status_desc' => 'Si el complemento no admite la función de la cadena antirrobo, no se abra, de lo contrario, el recurso no será accesible',
     'storage_url_key' => 'Clave de la cadena antirrobo',
     'storage_url_expire' => 'Período de validez de la firma de la cadena antirrobo',
+    'storage_image_handle_position' => 'Posición de la manija de la imagen',
     'storage_image_thumb_config' => 'Mapa de configuración',
     'storage_image_thumb_avatar' => 'Avatar',
     'storage_image_thumb_ratio' => 'Miniatura isométrica',
@@ -1012,5 +1013,5 @@ return [
     'install_mode' => 'Modo de instalación',
     'install_mode_input' => 'Introducir la clave de Fresns',
     'install_mode_upload' => 'Subir el paquete Zip',
-    'install_mode_directory' => 'Introduzca el directorio',
+    'install_mode_directory' => 'Ruta del directorio de entrada',
 ];

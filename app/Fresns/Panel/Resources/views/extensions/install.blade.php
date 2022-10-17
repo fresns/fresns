@@ -13,6 +13,6 @@
     </div>
     <!--install modal-->
     <div class="row">
-        <textarea class="form-control" rows="12" id="url_install_artisan_output" readonly>{{ __('FsLang::tips.install_in_progress') }}</textarea>
+        <pre class="form-control" id="url_install_artisan_output">{{ __('FsLang::tips.install_in_progress') }}</pre>
     </div>
 @endsection

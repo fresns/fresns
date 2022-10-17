@@ -161,7 +161,7 @@ class ExtensionController extends Controller
         return view('FsView::extensions.apps', compact('apps'));
     }
 
-    public function install(?string $unikey = null, Request $request)
+    public function install(Request $request, ?string $unikey = null)
     {
         if ($unikey) {
             $request->offsetSet('install_method', 'inputUrl');

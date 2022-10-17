@@ -516,6 +516,7 @@ return [
     'storage_url_status_desc' => '如果外掛不支持防盜鏈功能，請勿開啟，否則將導致資源無法訪問。',
     'storage_url_key' => '防盜鏈 Key',
     'storage_url_expire' => '防盜鏈簽名有效期',
+    'storage_image_handle_position' => '圖片處理位置',
     'storage_image_thumb_config' => '配置圖',
     'storage_image_thumb_avatar' => '頭像圖',
     'storage_image_thumb_ratio' => '等比例縮略圖',
@@ -1013,5 +1014,5 @@ return [
     'install_mode' => '安裝方式',
     'install_mode_input' => '輸入 key',
     'install_mode_upload' => '上傳 zip',
-    'install_mode_directory' => '输入目錄',
+    'install_mode_directory' => '输入目錄路徑',
 ];

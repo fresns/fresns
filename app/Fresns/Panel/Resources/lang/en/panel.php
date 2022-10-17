@@ -515,6 +515,7 @@ return [
     'storage_url_status_desc' => 'If the plugin does not support the anti-link chain function, please do not open, otherwise the resource will not be accessible',
     'storage_url_key' => 'Anti Link Key',
     'storage_url_expire' => 'Valid minutes for sign',
+    'storage_image_handle_position' => 'Image Handle Position',
     'storage_image_thumb_config' => 'Config Image',
     'storage_image_thumb_avatar' => 'Avatar Image',
     'storage_image_thumb_ratio' => 'Ratio Image',
@@ -1012,5 +1013,5 @@ return [
     'install_mode' => 'Install Mode',
     'install_mode_input' => 'Input Fresns Key',
     'install_mode_upload' => 'Upload Zip Package',
-    'install_mode_directory' => 'Input Directory',
+    'install_mode_directory' => 'Input Directory Path',
 ];

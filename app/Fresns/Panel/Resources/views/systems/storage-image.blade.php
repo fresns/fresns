@@ -104,6 +104,13 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.storage_function_image_config') }}:</label>
             <div class="col-lg-6">
                 <div class="input-group mb-3">
+                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_image_handle_position') }}</label>
+                    <select class="form-select" name="image_handle_position">
+                        <option value="start" {{ $params['image_handle_position'] == 'start' ? 'selected' : '' }}>start</option>
+                        <option value="end" {{ $params['image_handle_position'] == 'end' ? 'selected' : '' }}>end</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_image_thumb_config') }}</label>
                     <input type="text" class="form-control" name="image_thumb_config" value="{{ $params['image_thumb_config'] }}">
                 </div>

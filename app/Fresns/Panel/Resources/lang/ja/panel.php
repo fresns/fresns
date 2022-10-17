@@ -515,6 +515,7 @@ return [
     'storage_url_status_desc' => 'プラグインが盗難防止チェーン機能をサポートしていない場合は、開かないでください。そうしないと、リソースにアクセスできない。',
     'storage_url_key' => '盗難防止チェーンキー',
     'storage_url_expire' => '盗難防止チェーンシグネチャの有効期間',
+    'storage_image_handle_position' => '画像ハンドル位置',
     'storage_image_thumb_config' => '構成マップ',
     'storage_image_thumb_avatar' => 'アバター',
     'storage_image_thumb_ratio' => '等尺性サムネイル',
@@ -1012,5 +1013,5 @@ return [
     'install_mode' => 'インストールモード',
     'install_mode_input' => 'Fresnsキーの入力',
     'install_mode_upload' => 'Zipパッケージのアップロード',
-    'install_mode_directory' => 'ディレクトリを入力',
+    'install_mode_directory' => '入力ディレクトリパス',
 ];

@@ -515,6 +515,7 @@ return [
     'storage_url_status_desc' => 'Wenn das Plugin nicht die Anti-Diebstahl-Kettenfunktion unterstützt, öffnen Sie nicht, andernfalls ist die Ressource nicht zugänglich',
     'storage_url_key' => 'Diebstahlsicherungskettenschlüssel',
     'storage_url_expire' => 'Diebstahlsicherungskette Signatur-Gültigkeitszeitraum',
+    'storage_image_handle_position' => 'Bild Handgriff Position',
     'storage_image_thumb_config' => 'Konfigurationskarte',
     'storage_image_thumb_avatar' => 'Benutzerbild',
     'storage_image_thumb_ratio' => 'Isometrische thumbnail',
@@ -1012,5 +1013,5 @@ return [
     'install_mode' => 'Installieren Modus',
     'install_mode_input' => 'Fresns-Schlüssel eingeben',
     'install_mode_upload' => 'Zip-Paket hochladen',
-    'install_mode_directory' => 'Verzeichnis eingeben',
+    'install_mode_directory' => 'Eingabeverzeichnis Pfad',
 ];

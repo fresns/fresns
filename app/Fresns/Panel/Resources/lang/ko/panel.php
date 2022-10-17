@@ -515,6 +515,7 @@ return [
     'storage_url_status_desc' => '플러그인이 도난 방지 체인 기능을 지원하지 않으면 열지 마십시오. 그렇지 않으면 자원에 액세스 할 수 없습니다',
     'storage_url_key' => '도난 방지 체인 키',
     'storage_url_expire' => '도난 방지 체인 서명 유효 기간',
+    'storage_image_handle_position' => '이미지 핸들 위치',
     'storage_image_thumb_config' => '구성지도',
     'storage_image_thumb_avatar' => '화신',
     'storage_image_thumb_ratio' => '아이소 메트릭 썸네일',
@@ -1012,5 +1013,5 @@ return [
     'install_mode' => '설치 모드',
     'install_mode_input' => '입력 Fresns 키',
     'install_mode_upload' => 'Zip 패키지 업로드',
-    'install_mode_directory' => '입력 디렉토리',
+    'install_mode_directory' => '입력 디렉토리 경로',
 ];

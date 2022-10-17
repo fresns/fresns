@@ -123,11 +123,12 @@ class ThemeFunctionController extends Controller
                 'item_type' => $functionKey['itemType'],
                 'item_tag' => $functionKey['itemTag'],
                 'is_multilingual' => $functionKey['isMultilingual'],
+                'is_api' => 1,
             ];
         }
         ConfigUtility::changeFresnsConfigItems($fresnsConfigItems);
 
-        return $this->createSuccess();
+        return $this->updateSuccess();
     }
 
     public function updateLanguage(Request $request)
@@ -153,6 +154,7 @@ class ThemeFunctionController extends Controller
             'item_type' => $functionKey['itemType'],
             'item_tag' => $functionKey['itemTag'],
             'is_multilingual' => $functionKey['isMultilingual'],
+            'is_api' => 1,
         ];
 
         foreach ($request->languages as $langTag => $content) {
@@ -164,6 +166,6 @@ class ThemeFunctionController extends Controller
 
         ConfigUtility::changeFresnsConfigItems([$fresnsConfigItem]);
 
-        return $this->createSuccess();
+        return $this->updateSuccess();
     }
 }

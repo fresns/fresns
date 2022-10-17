@@ -14,7 +14,7 @@
                     <li><hr style="margin: 0.5rem 0"></li>
                     <li class="nav-item"><a class="nav-link {{ \Route::is('panel.keys.*') ? 'active' : '' }} " href="{{ route('panel.keys.index') }}"><i class="bi bi-key"></i> {{ __('FsLang::panel.sidebar_keys') }}</a></li>
                     <li><hr style="margin: 0.5rem 0"></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.iframe.market') ? 'active' : '' }}" href="{{ route('panel.iframe.market', ['url' => 'https://market.fresns.org']) }}"><i class="bi bi-shop"></i> {{ __('FsLang::panel.menu_market') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.iframe.market') ? 'active' : '' }}" href="{{ route('panel.iframe.market', ['url' => 'https://market.fresns.cn']) }}"><i class="bi bi-shop"></i> {{ __('FsLang::panel.menu_market') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="#installModal" data-bs-toggle="modal" role="button"><i class="bi bi-tools"></i> {{ __('FsLang::panel.install_application') }}</a></li>
                     <li><hr style="margin: 0.5rem 0"></li>
                 </ul>
@@ -24,6 +24,7 @@
     </nav>
 </div>
 
+<script src="/static/js/ansi_up.js"></script>
 <!--install modal-->
 <div class="modal fade" id="installModal" tabindex="-1" aria-labelledby="install" aria-hidden="true">
     <div class="modal-dialog">
@@ -78,14 +79,14 @@
 
 <!--install artisan output modal-->
 <div class="modal fade" id="installStepModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="installStepModal" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title"><i class="bi bi-tools"></i> {{ __('FsLang::panel.install_application') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <textarea class="form-control" rows="10" id="install_artisan_output" readonly>{{ __('FsLang::tips.install_in_progress') }}</textarea>
+                <pre class="form-control" id="install_artisan_output">{{ __('FsLang::tips.install_in_progress') }}</pre>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="reloadPage()">{{ __('FsLang::panel.button_close') }}</button>
@@ -118,14 +119,14 @@
 
 <!--uninstall artisan output modal-->
 <div class="modal fade" id="uninstallStepModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="uninstallStepModal" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">{{ __('FsLang::panel.button_uninstall') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <textarea class="form-control" rows="6" id="uninstall_artisan_output" readonly>{{ __('FsLang::tips.uninstall_in_progress') }}</textarea>
+                <pre class="form-control" id="uninstall_artisan_output">{{ __('FsLang::tips.uninstall_in_progress') }}</pre>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="reloadPage()">{{ __('FsLang::panel.button_close') }}</button>

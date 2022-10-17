@@ -163,7 +163,7 @@
                             <label class="form-check-label" for="view_posts_by_follow_object">{{ __('FsLang::panel.interactive_view_posts_by_follow_object') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input type="checkbox" id="view_comments_by_follow_object" name="view_comments_by_follow_object" value="true" class="form-check-input" {{ $params['view_comments_by_follow_object'] ? 'checked' : '' }}>
+                            <input type="checkbox" disabled id="view_comments_by_follow_object" name="view_comments_by_follow_object" value="true" class="form-check-input" {{ $params['view_comments_by_follow_object'] ? 'checked' : '' }}>
                             <label class="form-check-label" for="view_comments_by_follow_object">{{ __('FsLang::panel.interactive_view_comments_by_follow_object') }}</label>
                         </div>
                     </div>

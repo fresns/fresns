@@ -515,6 +515,7 @@ return [
     'storage_url_status_desc' => 'Se il plugin non supporta la funzione della catena antifurto, non aprire, altrimenti la risorsa non sarà accessibile',
     'storage_url_key' => 'Chiave a catena antifurto',
     'storage_url_expire' => 'Periodo di validità della firma della catena antifurto',
+    'storage_image_handle_position' => 'Posizione della maniglia dell\'immagine',
     'storage_image_thumb_config' => 'Mappa della configurazione',
     'storage_image_thumb_avatar' => 'Avatar',
     'storage_image_thumb_ratio' => 'Miniatura isometrica',
@@ -1012,5 +1013,5 @@ return [
     'install_mode' => 'Modalità di installazione',
     'install_mode_input' => 'Immettere la chiave Fresns',
     'install_mode_upload' => 'Caricare il pacchetto zip',
-    'install_mode_directory' => 'Inserire una directory',
+    'install_mode_directory' => 'Percorso della directory di ingresso',
 ];
