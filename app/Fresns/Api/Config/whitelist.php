@@ -15,7 +15,6 @@ return [
         'api.global.stickers',
         'api.global.block.words',
         'api.common.input.tips',
-        'api.common.callbacks',
         'api.common.send.verifyCode',
         'api.common.upload.log',
         'api.search.users',
@@ -54,7 +53,6 @@ return [
 
     'privateAccount' => [
         'api.global.configs',
-        'api.common.callbacks',
         'api.common.send.verifyCode',
         'api.common.upload.log',
         'api.account.login',
@@ -69,7 +67,6 @@ return [
         'api.global.stickers',
         'api.global.block.words',
         'api.common.input.tips',
-        'api.common.callbacks',
         'api.common.send.verifyCode',
         'api.common.upload.log',
         'api.search.users',
@@ -115,7 +112,6 @@ return [
 
     'privateUser' => [
         'api.global.configs',
-        'api.common.callbacks',
         'api.common.send.verifyCode',
         'api.common.upload.log',
         'api.account.login',

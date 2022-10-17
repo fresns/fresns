@@ -9,14 +9,12 @@
 namespace App\Fresns\Api\Http\Controllers;
 
 use App\Exceptions\ApiException;
-use App\Fresns\Api\Http\DTO\CommonCallbacksDTO;
 use App\Fresns\Api\Http\DTO\CommonDownloadFileDTO;
 use App\Fresns\Api\Http\DTO\CommonInputTipsDTO;
 use App\Fresns\Api\Http\DTO\CommonSendVerifyCodeDTO;
 use App\Fresns\Api\Http\DTO\CommonUploadFileDTO;
 use App\Fresns\Api\Http\DTO\CommonUploadLogDTO;
 use App\Fresns\Api\Http\DTO\PaginationDTO;
-use App\Fresns\Api\Services\AccountService;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
@@ -27,11 +25,8 @@ use App\Models\File;
 use App\Models\FileDownload;
 use App\Models\Hashtag;
 use App\Models\Language;
-use App\Models\Plugin;
-use App\Models\PluginCallback;
 use App\Models\Post;
 use App\Models\User;
-use App\Utilities\ContentUtility;
 use App\Utilities\ValidationUtility;
 use Illuminate\Http\Request;
 
@@ -173,86 +168,6 @@ class CommonController extends Controller
         return $this->success($data);
     }
 
-    // callbacks
-    public function callbacks(Request $request)
-    {
-        $dtoRequest = new CommonCallbacksDTO($request->all());
-        $langTag = $this->langTag();
-        $timezone = $this->timezone();
-
-        $plugin = Plugin::whereUnikey($dtoRequest->unikey)->first();
-        if (empty($plugin)) {
-            throw new ApiException(32303);
-        }
-
-        $callback = PluginCallback::whereUuid($dtoRequest->uuid)->first();
-
-        if (empty($callback)) {
-            throw new ApiException(32201);
-        }
-
-        if ($callback->is_use == 1) {
-            throw new ApiException(32204);
-        }
-
-        $timeDifference = time() - strtotime($callback->created_at);
-        if ($timeDifference > 600) {
-            throw new ApiException(32203);
-        }
-
-        $data['types'] = array_filter(explode(',', $callback->types));
-        $data['dbContent'] = $callback->content;
-        $data['apiContent'] = $callback->content;
-
-        if (in_array(2, $data['types'])) {
-            $service = new AccountService();
-            $data['apiContent']['account']['sessionToken'] = null;
-            $data['apiContent']['account']['detail'] = $service->accountDetail($callback->account_id, $langTag, $timezone);
-
-            $fresnsResponse = \FresnsCmdWord::plugin()->createSessionToken([
-                'platformId' => $this->platformId(),
-                'aid' => $data['apiContent']['account']['aid'],
-                'uid' => null,
-                'expiredTime' => null,
-            ]);
-
-            if ($fresnsResponse->isSuccessResponse()) {
-                $sessionToken['token'] = $fresnsResponse->getData('token') ?? null;
-                $sessionToken['token'] = $fresnsResponse->getData('expiredTime') ?? null;
-
-                $data['apiContent']['account']['sessionToken'] = $sessionToken;
-            }
-        }
-
-        if (in_array(PluginCallback::TYPE_FILE, $data['types'])) {
-            $fids = collect($callback->content['files'])->sortBy('rating')->pluck('fid')->toArray();
-
-            $data['apiContent']['files'] = FileHelper::fresnsAntiLinkFileInfoListByIds($fids);
-        }
-
-        if (in_array(PluginCallback::TYPE_EXTEND, $data['types'])) {
-            $data['apiContent']['extends'] = ContentUtility::extendJsonHandle($callback->content['extends'], $langTag);
-        }
-
-        if (in_array(PluginCallback::TYPE_READ_ALLOW_CONFIG, $data['types'])) {
-            $data['apiContent']['readAllowConfig'] = ContentUtility::readAllowJsonHandle($callback->content['readAllowConfig'], $langTag, $timezone);
-        }
-
-        if (in_array(PluginCallback::TYPE_USER_LIST_CONFIG, $data['types'])) {
-            $data['apiContent']['userListConfig'] = ContentUtility::userListJsonHandle($callback->content['userListConfig'], $langTag);
-        }
-
-        if (in_array(PluginCallback::TYPE_COMMENT_BTN_CONFIG, $data['types'])) {
-            $data['apiContent']['commentBtnConfig'] = ContentUtility::commentBtnJsonHandle($callback->content['commentBtnConfig'], $langTag);
-        }
-
-        $callback->is_use = 1;
-        $callback->use_plugin_unikey = $dtoRequest->unikey;
-        $callback->save();
-
-        return $this->success($data);
-    }
-
     // send verify code
     public function sendVerifyCode(Request $request)
     {
@@ -273,13 +188,13 @@ class CommonController extends Controller
 
         if ($dtoRequest->type == 'email') {
             $account = Account::where('email', $dtoRequest->account)->first();
-            $accountConfig = $account->email;
+            $accountConfig = $account?->email;
 
             $checkSend = ValidationUtility::sendCode($dtoRequest->account);
         } else {
             $phone = $dtoRequest->countryCode.$dtoRequest->account;
             $account = Account::where('phone', $phone)->first();
-            $accountConfig = $account->phone;
+            $accountConfig = $account?->phone;
 
             $checkSend = ValidationUtility::sendCode($dtoRequest->countryCode.$dtoRequest->account);
         }
@@ -327,17 +242,14 @@ class CommonController extends Controller
         } elseif ($dtoRequest->useType == 4 && ! empty($authAccount?->aid)) {
             switch ($dtoRequest->type) {
                 case 'email':
-                    $wordBody = [
-                        'account' => $authAccount->email,
-                    ];
+                    $wordBody['account'] = $authAccount->email;
 
                     $checkSend = ValidationUtility::sendCode($authAccount->email);
                 break;
                 case 'sms':
-                    $wordBody = [
-                        'account' => $authAccount->pure_phone,
-                        'countryCode' => $authAccount->country_code,
-                    ];
+                    $wordBody['account'] = $authAccount->pure_phone;
+                    $wordBody['countryCode'] = $authAccount->country_code;
+
 
                     $checkSend = ValidationUtility::sendCode($authAccount->phone);
                 break;
