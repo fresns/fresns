@@ -12,6 +12,7 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
+use App\Helpers\StrHelper;
 use App\Models\ArchiveUsage;
 use App\Models\Extend;
 use App\Models\ExtendUsage;
@@ -171,6 +172,7 @@ class ExtendUtility
             $item['textContent'] = $extendUsage->extend->text_content;
             $item['textIsMarkdown'] = (bool) $extendUsage->extend->text_is_markdown;
             $item['infoType'] = $extendUsage->extend->info_type;
+            $item['infoTypeString'] = StrHelper::infoTypeString($extendUsage->extend->info_type);
             $item['cover'] = FileHelper::fresnsFileUrlByTableColumn($extendUsage->extend->cover_file_id, $extendUsage->extend->cover_file_url);
             $item['title'] = LanguageHelper::fresnsLanguageByTableId('extends', 'title', $extendUsage->extend->id, $langTag) ?? $extendUsage->extend->title;
             $item['titleColor'] = $extendUsage->extend->title_color;

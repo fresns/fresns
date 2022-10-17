@@ -202,7 +202,7 @@ class ContentUtility
             // <a href="https://fresns.org" class="fresns_link" target="_blank">https://fresns.org</a>
             $title = $urlData->link_title ?? $url;
 
-            $replaceList[] = "{$url} ";
+            $replaceList[] = "{$url}";
             $linkList[] = sprintf(
                 '<a href="%s" class="fresns_link" target="_blank">%s</a> ',
                 $url,
@@ -253,7 +253,7 @@ class ContentUtility
                 $urlName = $user->username;
             }
 
-            $replaceList[] = "@{$user->nickname} ";
+            $replaceList[] = "@{$username} ";
 
             $linkList[] = sprintf(
                 '<a href="%s/%s/%s" class="fresns_mention" target="_blank">@%s</a> ',
@@ -270,7 +270,7 @@ class ContentUtility
     // Replace sticker
     public static function replaceSticker(string $content): string
     {
-        $stickerCodeList = ContentUtility::extractMention($content);
+        $stickerCodeList = ContentUtility::extractSticker($content);
         $stickerDataList = Sticker::whereIn('code', $stickerCodeList)->get();
 
         $replaceList = [];
@@ -282,7 +282,7 @@ class ContentUtility
             if (is_null($currentSticker)) {
                 $linkList[] = "[$sticker]";
             } else {
-                $stickerUrl = FileHelper::fresnsFileUrlByTableColumn($sticker->image_file_id, $sticker->image_file_url);
+                $stickerUrl = FileHelper::fresnsFileUrlByTableColumn($currentSticker->image_file_id, $currentSticker->image_file_url);
 
                 // <img src="$stickerUrl" class="fresns_sticker" alt="$sticker->code">
                 $linkList[] = sprintf('<img src="%s" class="fresns_sticker" alt="%s" />', $stickerUrl, $currentSticker->code);
@@ -328,16 +328,15 @@ class ContentUtility
         // add hashtag use
         $hashtagIdArr = Hashtag::whereIn('name', $hashtagArr)->pluck('id')->toArray();
 
-        $hashtagUseData = [];
         foreach ($hashtagIdArr as $hashtagId) {
-            $hashtagUseData[] = [
+            $hashtagUseDataItem = [
                 'usage_type' => $usageType,
                 'usage_id' => $useId,
                 'hashtag_id' => $hashtagId,
             ];
-        }
 
-        HashtagUsage::createMany($hashtagUseData);
+            HashtagUsage::create($hashtagUseDataItem);
+        }
     }
 
     // Save link
@@ -365,15 +364,16 @@ class ContentUtility
 
         // add domain link use
         $urlIdArr = DomainLink::whereIn('link_url', $urlArr)->pluck('id')->toArray();
-        $urlUseData = [];
+
         foreach ($urlIdArr as $urlId) {
-            $urlUseData[] = [
+            $urlUseDataItem = [
                 'usage_type' => $usageType,
                 'usage_id' => $useId,
                 'link_id' => $urlId,
             ];
+
+            DomainLinkUsage::create($urlUseDataItem);
         }
-        DomainLinkUsage::createMany($urlUseData);
     }
 
     // Save mention user
@@ -382,17 +382,16 @@ class ContentUtility
         $usernameArr = ContentUtility::extractMention($content);
         $userIdArr = User::whereIn('username', $usernameArr)->pluck('id')->toArray();
 
-        $mentionData = [];
         foreach ($userIdArr as $userId) {
-            $mentionData[] = [
+            $mentionDataItem = [
                 'user_id' => $authUserId,
                 'mention_type' => $mentionType,
                 'mention_id' => $mentionId,
                 'mention_user_id' => $userId,
             ];
-        }
 
-        Mention::createMany($mentionData);
+            Mention::create($mentionDataItem);
+        }
     }
 
     // Handle and save all(interactive content)
@@ -407,10 +406,14 @@ class ContentUtility
     }
 
     // handle read allow json
-    public static function handleAllowJson(array $readAllowConfig, string $langTag, string $timezone): array
+    public static function handleAllowJson(?array $readAllowConfig, string $langTag, string $timezone)
     {
+        if (! $readAllowConfig) {
+            return null;
+        }
+
         $permissions['users'] = null;
-        if (empty($readAllowConfig['permissions']['users'])) {
+        if (!empty($readAllowConfig['permissions']['users'])) {
             $users = User::whereIn('uid', $readAllowConfig['permissions']['users'])->first();
             foreach ($users as $user) {
                 $userList = $user->getUserProfile($langTag, $timezone);
@@ -419,7 +422,7 @@ class ContentUtility
         }
 
         $permissions['roles'] = null;
-        if (empty($readAllowConfig['permissions']['roles'])) {
+        if (!empty($readAllowConfig['permissions']['roles'])) {
             $roles = Role::whereIn('id', $readAllowConfig['permissions']['roles'])->first();
             foreach ($roles as $role) {
                 $roleItem['rid'] = $role->id;
@@ -446,8 +449,12 @@ class ContentUtility
     }
 
     // handle user list json
-    public static function handleUserListJson(array $userListConfig, string $langTag): array
+    public static function handleUserListJson(?array $userListConfig, string $langTag)
     {
+        if (! $userListConfig) {
+            return null;
+        }
+
         $item['isUserList'] = (bool) $userListConfig['isUserList'];
         $item['defaultLangUserListName'] = collect($userListConfig['userListName'])->where('langTag', $langTag)->first()['name'] ?? null;
         $item['userListName'] = $userListConfig['userListName'];
@@ -458,12 +465,16 @@ class ContentUtility
     }
 
     // handle comment btn json
-    public static function handleCommentBtnJson(array $commentBtnConfig, string $langTag): array
+    public static function handleCommentBtnJson(?array $commentBtnConfig, string $langTag)
     {
+        if (! $commentBtnConfig) {
+            return null;
+        }
+
         $item['isCommentBtn'] = (bool) $commentBtnConfig['isCommentBtn'];
         $item['defaultLangBtnName'] = collect($commentBtnConfig['btnName'])->where('langTag', $langTag)->first()['name'] ?? null;
         $item['btnName'] = $commentBtnConfig['btnName'];
-        $item['btnStyle'] = $commentBtnConfig['btnStyle'];
+        $item['btnStyle'] = $commentBtnConfig['btnStyle'] ?? null;
         $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByUnikey($commentBtnConfig['pluginUnikey']);
         $item['pluginUnikey'] = $commentBtnConfig['pluginUnikey'];
 
@@ -484,7 +495,7 @@ class ContentUtility
                 'table_id' => $tableId,
             ],
             [
-                'file_type' => $$fileModel->type,
+                'file_type' => $fileModel->type,
                 'usage_type' => $usageType,
                 'platform_id' => $platformId,
                 'rating' => $file['rating'],
@@ -554,7 +565,7 @@ class ContentUtility
     }
 
     // release lang name
-    public static function releaseLangName(string $tableName, string $tableColumn, int $tableId, array $langContentArr): string
+    public static function releaseLangName(string $tableName, string $tableColumn, int $tableId, array $langContentArr): ?string
     {
         $defaultLangTag = ConfigHelper::fresnsConfigDefaultLangTag();
 
@@ -580,32 +591,40 @@ class ContentUtility
     // release allow users and roles
     public static function releaseAllowUsersAndRoles(int $postId, array $permArr)
     {
-        PostAllow::where('post_id', $postId)->where('type', PostAllow::TYPE_USER)->where('is_initial', 1)->delete();
-
-        foreach ($permArr['users'] as $userId) {
-            PostAllow::withTrashed()->updateOrCreate([
-                'post_id' => $postId,
-                'type' => PostAllow::TYPE_USER,
-                'object_id' => $userId,
-            ],
-            [
-                'is_initial' => 1,
-                'deleted_at' => null,
-            ]);
+        if (empty($permArr)) {
+            return;
         }
 
-        PostAllow::where('post_id', $postId)->where('type', PostAllow::TYPE_ROLE)->where('is_initial', 1)->delete();
+        if (!empty($permArr['users'])) {
+            PostAllow::where('post_id', $postId)->where('type', PostAllow::TYPE_USER)->where('is_initial', 1)->delete();
 
-        foreach ($permArr['roles'] as $roleId) {
-            PostAllow::withTrashed()->updateOrCreate([
-                'post_id' => $postId,
-                'type' => PostAllow::TYPE_ROLE,
-                'object_id' => $roleId,
-            ],
-            [
-                'is_initial' => 1,
-                'deleted_at' => null,
-            ]);
+            foreach ($permArr['users'] as $userId) {
+                PostAllow::withTrashed()->updateOrCreate([
+                    'post_id' => $postId,
+                    'type' => PostAllow::TYPE_USER,
+                    'object_id' => $userId,
+                ],
+                [
+                    'is_initial' => 1,
+                    'deleted_at' => null,
+                ]);
+            }
+        }
+
+        if (!empty($permArr['roles'])) {
+            PostAllow::where('post_id', $postId)->where('type', PostAllow::TYPE_ROLE)->where('is_initial', 1)->delete();
+
+            foreach ($permArr['roles'] as $roleId) {
+                PostAllow::withTrashed()->updateOrCreate([
+                    'post_id' => $postId,
+                    'type' => PostAllow::TYPE_ROLE,
+                    'object_id' => $roleId,
+                ],
+                [
+                    'is_initial' => 1,
+                    'deleted_at' => null,
+                ]);
+            }
         }
     }
 
@@ -626,28 +645,25 @@ class ContentUtility
 
         $fileUsages = FileUsage::where('table_name', $logTableName)->where('table_column', 'id')->where('table_id', $logId)->get();
 
-        $fileData = [];
         $typeText = [];
-        foreach ($fileUsages as $file) {
-            $fileData[] = [
-                'file_id' => $file->id,
-                'file_type' => $file->file_type,
-                'usage_type' => $file->usage_type,
-                'platform_id' => $file->platform_id,
+        foreach ($fileUsages as $fileUsage) {
+            $fileDataItem = [
+                'file_id' => $fileUsage->file_id,
+                'file_type' => $fileUsage->file_type,
+                'usage_type' => $fileUsage->usage_type,
+                'platform_id' => $fileUsage->platform_id,
                 'table_name' => $tableName,
                 'table_column' => 'id',
                 'table_id' => $primaryId,
-                'rating' => $file->rating,
-                'account_id' => $file->account_id,
-                'user_id' => $file->user_id,
-                'remark' => $file->remark,
+                'rating' => $fileUsage->rating,
+                'account_id' => $fileUsage->account_id,
+                'user_id' => $fileUsage->user_id,
+                'remark' => $fileUsage->remark,
             ];
 
-            $typeText[] = File::TYPE_MAP[$file->file_type];
-        }
+            FileUsage::create($fileDataItem);
 
-        if ($fileData) {
-            FileUsage::createMany($fileData);
+            $typeText[] = File::TYPE_MAP[$fileUsage->file_type];
         }
 
         return $typeText;
@@ -670,18 +686,15 @@ class ContentUtility
 
         $operationUsages = OperationUsage::where('usage_type', $logUsageType)->where('usage_id', $logId)->get();
 
-        $operationData = [];
         foreach ($operationUsages as $operation) {
-            $operationData[] = [
+            $operationDataItem = [
                 'usage_type' => $usageType,
                 'usage_id' => $primaryId,
                 'operation_id' => $operation->operation_id,
                 'plugin_unikey' => $operation->plugin_unikey,
             ];
-        }
 
-        if ($operationData) {
-            OperationUsage::createMany($operationData);
+            OperationUsage::create($operationDataItem);
         }
     }
 
@@ -702,9 +715,8 @@ class ContentUtility
 
         $archiveUsages = ArchiveUsage::where('usage_type', $logUsageType)->where('usage_id', $logId)->get();
 
-        $archiveData = [];
         foreach ($archiveUsages as $archive) {
-            $archiveData[] = [
+            $archiveDataItem = [
                 'usage_type' => $usageType,
                 'usage_id' => $primaryId,
                 'archive_id' => $archive->archive_id,
@@ -712,15 +724,13 @@ class ContentUtility
                 'is_private' => $archive->is_private,
                 'plugin_unikey' => $archive->plugin_unikey,
             ];
-        }
 
-        if ($archiveData) {
-            ArchiveUsage::createMany($archiveData);
+            ArchiveUsage::create($archiveDataItem);
         }
     }
 
     // release extend usages
-    public static function releaseExtendUsages(int $type, int $logId, int $primaryId): array
+    public static function releaseExtendUsages(string $type, int $logId, int $primaryId): array
     {
         $logUsageType = match ($type) {
             'post' => ExtendUsage::TYPE_POST_LOG,
@@ -736,10 +746,9 @@ class ContentUtility
 
         $extendUsages = ExtendUsage::where('usage_type', $logUsageType)->where('usage_id', $logId)->get();
 
-        $extendData = [];
         $typeText = [];
         foreach ($extendUsages as $extend) {
-            $extendData[] = [
+            $extendDataItem = [
                 'usage_type' => $usageType,
                 'usage_id' => $primaryId,
                 'extend_id' => $extend->extend_id,
@@ -748,11 +757,9 @@ class ContentUtility
                 'plugin_unikey' => $extend->plugin_unikey,
             ];
 
-            $typeText[] = $extend->plugin_unikey;
-        }
+            ExtendUsage::create($extendDataItem);
 
-        if ($extendData) {
-            ExtendUsage::createMany($extendData);
+            $typeText[] = $extend->plugin_unikey;
         }
 
         return $typeText;
@@ -802,21 +809,21 @@ class ContentUtility
         }
 
         $postAppend = PostAppend::updateOrCreate([
-            'post_id' => $postLog->post_id,
+            'post_id' => $post->id,
         ],
         [
             'is_plugin_editor' => $postLog->is_plugin_editor,
             'editor_unikey' => $postLog->editor_unikey,
-            'is_allow' => $postLog->allow_json['isAllow'] ?? null,
+            'is_allow' => $postLog->allow_json['isAllow'] ?? false,
             'allow_proportion' => $postLog->allow_json['proportion'] ?? null,
             'allow_btn_name' => $allowBtnName,
             'allow_plugin_unikey' => $postLog->allow_json['pluginUnikey'] ?? null,
-            'is_user_list' => $postLog->user_list_json['isUserList'] ?? null,
+            'is_user_list' => $postLog->user_list_json['isUserList'] ?? false,
             'user_list_name' => $userListName,
             'user_list_plugin_unikey' => $postLog->user_list_json['pluginUnikey'] ?? null,
-            'is_comment' => $postLog->is_comment,
-            'is_comment_public' => $postLog->is_comment_public,
-            'is_comment_btn' => $postLog->comment_btn_json['isCommentBtn'] ?? null,
+            'is_comment' => $postLog->is_comment ?? true,
+            'is_comment_public' => $postLog->is_comment_public ?? true,
+            'is_comment_btn' => $postLog->comment_btn_json['isCommentBtn'] ?? false,
             'comment_btn_name' => $commentBtnName,
             'comment_btn_style' => $postLog->comment_btn_json['btnStyle'] ?? null,
             'comment_btn_plugin_unikey' => $postLog->comment_btn_json['pluginUnikey'] ?? null,
@@ -832,7 +839,7 @@ class ContentUtility
             'map_poi_id' => $postLog->map_json['poiId'] ?? null,
         ]);
 
-        ContentUtility::releaseAllowUsersAndRoles($post->id, $postLog->allow_json['permissions']);
+        ContentUtility::releaseAllowUsersAndRoles($post->id, $postLog->allow_json['permissions'] ?? []);
         ContentUtility::releaseArchiveUsages('post', $postLog->id, $post->id);
         ContentUtility::releaseOperationUsages('post', $postLog->id, $post->id);
         $fileTypeText = ContentUtility::releaseFileUsages('post', $postLog->id, $post->id);
@@ -916,7 +923,7 @@ class ContentUtility
         ]);
 
         $commentAppend = CommentAppend::updateOrCreate([
-            'comment_id' => $commentLog->comment_id,
+            'comment_id' => $comment->id,
         ],
         [
             'is_plugin_editor' => $commentLog->is_plugin_editor,
@@ -1004,42 +1011,43 @@ class ContentUtility
 
         // files
         $fileUsages = FileUsage::where('table_name', $tableName)->where('table_column', 'id')->where('table_id', $primaryId)->get();
-        $fileData = [];
-        foreach ($fileUsages as $file) {
-            $fileData[] = [
-                'file_id' => $file->id,
-                'file_type' => $file->file_type,
-                'usage_type' => $file->usage_type,
-                'platform_id' => $file->platform_id,
+        foreach ($fileUsages as $fileUsage) {
+            $fileDataItem = [
+                'file_id' => $fileUsage->file_id,
+                'file_type' => $fileUsage->file_type,
+                'usage_type' => $fileUsage->usage_type,
+                'platform_id' => $fileUsage->platform_id,
                 'table_name' => $logTableName,
                 'table_column' => 'id',
                 'table_id' => $logId,
-                'rating' => $file->rating,
-                'account_id' => $file->account_id,
-                'user_id' => $file->user_id,
-                'remark' => $file->remark,
+                'rating' => $fileUsage->rating,
+                'account_id' => $fileUsage->account_id,
+                'user_id' => $fileUsage->user_id,
+                'remark' => $fileUsage->remark,
             ];
+
+            FileUsage::create($fileDataItem);
         }
-        FileUsage::createMany($fileData);
 
         // operations
         $operationUsages = OperationUsage::where('usage_type', $usageType)->where('usage_id', $primaryId)->get();
-        $operationData = [];
+
         foreach ($operationUsages as $operation) {
-            $operationData[] = [
+            $operationDataItem = [
                 'usage_type' => $logUsageType,
                 'usage_id' => $logId,
                 'operation_id' => $operation->operation_id,
                 'plugin_unikey' => $operation->plugin_unikey,
             ];
+
+            OperationUsage::create($operationDataItem);
         }
-        OperationUsage::createMany($operationData);
 
         // archives
         $archiveUsages = ArchiveUsage::where('usage_type', $usageType)->where('usage_id', $primaryId)->get();
-        $archiveData = [];
+
         foreach ($archiveUsages as $archive) {
-            $archiveData[] = [
+            $archiveDataItem = [
                 'usage_type' => $logUsageType,
                 'usage_id' => $logId,
                 'archive_id' => $archive->archive_id,
@@ -1047,14 +1055,15 @@ class ContentUtility
                 'is_private' => $archive->is_private,
                 'plugin_unikey' => $archive->plugin_unikey,
             ];
+
+            ArchiveUsage::create($archiveDataItem);
         }
-        ArchiveUsage::createMany($archiveData);
 
         // extends
         $extendUsages = ExtendUsage::where('usage_type', $usageType)->where('usage_id', $primaryId)->get();
-        $extendData = [];
+
         foreach ($extendUsages as $extend) {
-            $extendData[] = [
+            $extendDataItem = [
                 'usage_type' => $logUsageType,
                 'usage_id' => $logId,
                 'extend_id' => $extend->extend_id,
@@ -1062,8 +1071,9 @@ class ContentUtility
                 'rating' => $extend->rating,
                 'plugin_unikey' => $extend->plugin_unikey,
             ];
+
+            ExtendUsage::create($extendDataItem);
         }
-        ExtendUsage::createMany($extendData);
     }
 
     // generate post draft
@@ -1085,8 +1095,8 @@ class ContentUtility
 
         $allowUserArr = PostAllow::where('post_id', $post->id)->where('is_initial', 1)->get()->groupBy('type');
 
-        $allowPermissions['users'] = $allowUserArr->get(PostAllow::TYPE_USER)->pluck('object_id')->all();
-        $allowPermissions['roles'] = $allowUserArr->get(PostAllow::TYPE_ROLE)->pluck('object_id')->all();
+        $allowPermissions['users'] = $allowUserArr->get(PostAllow::TYPE_USER)?->pluck('object_id')->all();
+        $allowPermissions['roles'] = $allowUserArr->get(PostAllow::TYPE_ROLE)?->pluck('object_id')->all();
 
         $allowJson['isAllow'] = $post->postAppend->is_allow;
         $allowJson['btnName'] = $allowBtnName;
@@ -1140,7 +1150,7 @@ class ContentUtility
             'comment_btn_json' => $commentBtnJson,
         ];
 
-        $postLog = PostLog::createMany($logData);
+        $postLog = PostLog::create($logData);
 
         ContentUtility::batchCopyContentExtends('post', $post->id, $postLog->id);
 
@@ -1174,7 +1184,7 @@ class ContentUtility
             'map_json' => $comment->commentAppend->map_json,
         ];
 
-        $commentLog = CommentLog::createMany($logData);
+        $commentLog = CommentLog::create($logData);
 
         ContentUtility::batchCopyContentExtends('comment', $comment->id, $commentLog->id);
 
@@ -1182,7 +1192,7 @@ class ContentUtility
     }
 
     // Replace block words
-    public static function replaceBlockWords(string $type, ?string $content = null): string
+    public static function replaceBlockWords(string $type, ?string $content = null): ?string
     {
         if (empty($content)) {
             return null;
@@ -1193,9 +1203,9 @@ class ContentUtility
 
         $blockWords = Cache::remember($cacheKey, $cacheTime, function () use ($type) {
             $blockWords = match ($type) {
-                'content' => BlockWord::where('content_mode', 2)->get('word', 'replace_word'),
-                'user' => BlockWord::where('user_mode', 2)->get('word', 'replace_word'),
-                'dialog' => BlockWord::where('dialog_mode', 2)->get('word', 'replace_word'),
+                'content' => BlockWord::where('content_mode', '!=', 1)->get(['word', 'replace_word']),
+                'user' => BlockWord::where('user_mode', '!=', 1)->get(['word', 'replace_word']),
+                'dialog' => BlockWord::where('dialog_mode', '!=', 1)->get(['word', 'replace_word']),
             };
 
             return $blockWords;

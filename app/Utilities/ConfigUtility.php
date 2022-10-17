@@ -21,6 +21,7 @@ use App\Models\PluginUsage;
 use App\Models\PostLog;
 use App\Models\SessionLog;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 class ConfigUtility
 {
@@ -161,14 +162,14 @@ class ConfigUtility
 
         // images
         $image['status'] = $editorConfig["{$type}_editor_image"] ? $rolePerm["{$type}_editor_image"] : false;
-        $image['extensions'] = $editorConfig['image_extension_names'];
+        $image['extensions'] = Str::lower($editorConfig['image_extension_names']);
         $image['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_IMAGE);
         $image['maxSize'] = $rolePerm['image_max_size'] ?? $editorConfig['image_max_size'];
         $image['uploadNumber'] = $rolePerm["{$type}_editor_image_upload_number"] ?? $editorConfig["{$type}_editor_image_upload_number"];
 
         // videos
         $video['status'] = $editorConfig["{$type}_editor_video"] ? $rolePerm["{$type}_editor_video"] : false;
-        $video['extensions'] = $editorConfig['video_extension_names'];
+        $video['extensions'] = Str::lower($editorConfig['video_extension_names']);
         $video['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_VIDEO);
         $video['maxSize'] = $rolePerm['video_max_size'] ?? $editorConfig['video_max_size'];
         $video['maxTime'] = $rolePerm['video_max_time'] ?? $editorConfig['video_max_time'];
@@ -176,7 +177,7 @@ class ConfigUtility
 
         // audios
         $audio['status'] = $editorConfig["{$type}_editor_audio"] ? $rolePerm["{$type}_editor_audio"] : false;
-        $audio['extensions'] = $editorConfig['audio_extension_names'];
+        $audio['extensions'] = Str::lower($editorConfig['audio_extension_names']);
         $audio['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_AUDIO);
         $audio['maxSize'] = $rolePerm['audio_max_size'] ?? $editorConfig['audio_max_size'];
         $audio['maxTime'] = $rolePerm['audio_max_time'] ?? $editorConfig['audio_max_time'];
@@ -184,7 +185,7 @@ class ConfigUtility
 
         // documents
         $document['status'] = $editorConfig["{$type}_editor_document"] ? $rolePerm["{$type}_editor_document"] : false;
-        $document['extensions'] = $editorConfig['document_extension_names'];
+        $document['extensions'] = Str::lower($editorConfig['document_extension_names']);
         $document['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_DOCUMENT);
         $document['maxSize'] = $rolePerm['document_max_size'] ?? $editorConfig['document_max_size'];
         $document['uploadNumber'] = $rolePerm["{$type}_editor_document_upload_number"] ?? $editorConfig["{$type}_editor_document_upload_number"];

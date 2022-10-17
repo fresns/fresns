@@ -185,12 +185,12 @@ class ValidationUtility
         }
 
         $minLength = true;
-        if ($length < $config['username_min']) {
+        if ($length < $config['nickname_min']) {
             $minLength = false;
         }
 
         $maxLength = true;
-        if ($length > $config['username_max']) {
+        if ($length > $config['nickname_max']) {
             $maxLength = false;
         }
 

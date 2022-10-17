@@ -288,8 +288,8 @@ class PermissionUtility
         }
 
         if ($permissions['publish_post'] == 1 && $permissions['publish_comment'] == 1) {
-            $perm['allowPost'] = true;
-            $perm['allowComment'] = true;
+            $perms['allowPost'] = true;
+            $perms['allowComment'] = true;
 
             return $perms;
         }
@@ -321,8 +321,8 @@ class PermissionUtility
             default => false,
         };
 
-        $perm['allowPost'] = $allowPost;
-        $perm['allowComment'] = $allowComment;
+        $perms['allowPost'] = $allowPost;
+        $perms['allowComment'] = $allowComment;
 
         return $perms;
     }

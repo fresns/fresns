@@ -142,13 +142,13 @@ class InteractiveUtility
             ->where('like_id', $likeId)
             ->first();
 
-        if ($userLike->trashed() || empty($userLike)) {
-            if ($userLike->trashed() && $userLike->mark_type == UserLike::MARK_TYPE_LIKE) {
+        if ($userLike?->trashed() || empty($userLike)) {
+            if ($userLike?->trashed() && $userLike->mark_type == UserLike::MARK_TYPE_LIKE) {
                 // trashed data, mark type=like
                 $userLike->restore();
 
                 InteractiveUtility::markStats($userId, 'like', $likeType, $likeId, 'increment');
-            } elseif ($userLike->trashed() && $userLike->mark_type == UserLike::MARK_TYPE_DISLIKE) {
+            } elseif ($userLike?->trashed() && $userLike->mark_type == UserLike::MARK_TYPE_DISLIKE) {
                 // trashed data, mark type=dislike
                 $userLike->restore();
 
@@ -207,13 +207,13 @@ class InteractiveUtility
             ->where('like_id', $dislikeId)
             ->first();
 
-        if ($userDislike->trashed() || empty($userDislike)) {
-            if ($userDislike->trashed() && $userDislike->mark_type == UserLike::MARK_TYPE_DISLIKE) {
+        if ($userDislike?->trashed() || empty($userDislike)) {
+            if ($userDislike?->trashed() && $userDislike->mark_type == UserLike::MARK_TYPE_DISLIKE) {
                 // trashed data, mark type=dislike
                 $userDislike->restore();
 
                 InteractiveUtility::markStats($userId, 'dislike', $dislikeType, $dislikeId, 'increment');
-            } elseif ($userDislike->trashed() && $userDislike->mark_type == UserLike::MARK_TYPE_LIKE) {
+            } elseif ($userDislike?->trashed() && $userDislike->mark_type == UserLike::MARK_TYPE_LIKE) {
                 // trashed data, mark type=like
                 $userDislike->restore();
 
@@ -261,8 +261,8 @@ class InteractiveUtility
             ->where('follow_id', $followId)
             ->first();
 
-        if ($userFollow->trashed() || empty($userFollow)) {
-            if ($userFollow->trashed()) {
+        if ($userFollow?->trashed() || empty($userFollow)) {
+            if ($userFollow?->trashed()) {
                 // trashed data
                 $userFollow->restore();
 
@@ -297,8 +297,8 @@ class InteractiveUtility
                 $myFollow->update(['is_mutual' => 1]);
                 $itFollow->update(['is_mutual' => 1]);
             } else {
-                $myFollow->update(['is_mutual' => 0]);
-                $itFollow->update(['is_mutual' => 0]);
+                $myFollow?->update(['is_mutual' => 0]);
+                $itFollow?->update(['is_mutual' => 0]);
             }
         }
 
@@ -316,8 +316,8 @@ class InteractiveUtility
             ->where('block_id', $blockId)
             ->first();
 
-        if ($userBlock->trashed() || empty($userBlock)) {
-            if ($userBlock->trashed()) {
+        if ($userBlock?->trashed() || empty($userBlock)) {
+            if ($userBlock?->trashed()) {
                 // trashed data
                 $userBlock->restore();
 
@@ -467,44 +467,143 @@ class InteractiveUtility
         switch ($tableClass) {
             // user
             case 'user':
-                UserStat::where('user_id', $userId)->$actionType("{$interactiveType}_user_count");
-                UserStat::where('user_id', $markId)->$actionType("{$interactiveType}_me_count");
+                $userState = UserStat::where('user_id', $userId)->first();
+                $userMeState = UserStat::where('user_id', $markId)->first();
+
+                if ($actionType == 'increment') {
+                    $userState?->increment("{$interactiveType}_user_count");
+                    $userMeState?->increment("{$interactiveType}_me_count");
+                    return;
+                }
+
+                $userStateCount = $userState?->{"{$interactiveType}_user_count"} ?? 0;
+                if ($userStateCount > 0) {
+                    $userState->decrement("{$interactiveType}_user_count");
+                }
+
+                $userMeStateCount = $userMeState?->{"{$interactiveType}_me_count"} ?? 0;
+                if ($userMeStateCount > 0) {
+                    $userMeState->decrement("{$interactiveType}_me_count");
+                }
             break;
 
             // group
             case 'group':
-                UserStat::where('user_id', $userId)->$actionType("{$interactiveType}_group_count");
-                Group::where('id', $markId)->$actionType("{$interactiveType}_count");
+                $userState = UserStat::where('user_id', $userId)->first();
+                $groupState = Group::where('id', $markId)->first();
+
+                if ($actionType == 'increment') {
+                    $userState?->increment("{$interactiveType}_group_count");
+                    $groupState?->increment("{$interactiveType}_count");
+
+                    return;
+                }
+
+                $userStateCount = $userState?->{"{$interactiveType}_group_count"} ?? 0;
+                if ($userStateCount > 0) {
+                    $userState->decrement("{$interactiveType}_group_count");
+                }
+
+                $groupStateCount = $groupState?->{"{$interactiveType}_count"} ?? 0;
+                if ($groupStateCount > 0) {
+                    $groupState->decrement("{$interactiveType}_count");
+                }
             break;
 
             // hashtag
             case 'hashtag':
-                UserStat::where('user_id', $userId)->$actionType("{$interactiveType}_hashtag_count");
-                Hashtag::where('id', $markId)->$actionType("{$interactiveType}_count");
+                $userState = UserStat::where('user_id', $userId)->first();
+                $hashtagState = Hashtag::where('id', $markId)->first();
+
+                if ($actionType == 'increment') {
+                    $userState?->increment("{$interactiveType}_hashtag_count");
+                    $hashtagState?->increment("{$interactiveType}_count");
+                    return;
+                }
+
+                $userStateCount = $userState?->{"{$interactiveType}_hashtag_count"} ?? 0;
+                if ($userStateCount > 0) {
+                    $userState->decrement("{$interactiveType}_hashtag_count");
+                }
+
+                $hashtagStateCount = $hashtagState?->{"{$interactiveType}_count"} ?? 0;
+                if ($hashtagStateCount > 0) {
+                    $hashtagState->decrement("{$interactiveType}_count");
+                }
             break;
 
             // post
             case 'post':
-                UserStat::where('user_id', $userId)->$actionType("{$interactiveType}_post_count");
-
+                $userState = UserStat::where('user_id', $userId)->first();
                 $post = Post::where('id', $markId)->first();
-                $post?->$actionType("{$interactiveType}_count");
+                $postCreatorState = UserStat::where('user_id', $post?->user_id)->first();
 
-                UserStat::where('user_id', $post?->user_id)->$actionType("post_{$interactiveType}_count");
+                if ($actionType == 'increment') {
+                    $userState?->increment("{$interactiveType}_post_count");
+                    $post?->increment("{$interactiveType}_count");
+                    $postCreatorState?->increment("post_{$interactiveType}_count");
+                    return;
+                }
+
+                $userStateCount = $userState?->{"{$interactiveType}_post_count"} ?? 0;
+                if ($userStateCount > 0) {
+                    $userState?->decrement("{$interactiveType}_post_count");
+                }
+
+                $postStateCount = $post?->{"{$interactiveType}_count"} ?? 0;
+                if ($postStateCount > 0) {
+                    $post?->decrement("{$interactiveType}_count");
+                }
+
+                $postCreatorStateCount = $postCreatorState?->{"post_{$interactiveType}_count"} ?? 0;
+                if ($postCreatorStateCount > 0) {
+                    $postCreatorState?->decrement("post_{$interactiveType}_count");
+                }
             break;
 
             // comment
             case 'comment':
-                UserStat::where('user_id', $userId)->$actionType("{$interactiveType}_comment_count");
-
+                $userState = UserStat::where('user_id', $userId)->first();
                 $comment = Comment::where('id', $markId)->first();
-                $comment?->$actionType("{$interactiveType}_count");
+                $commentCreatorState = UserStat::where('user_id', $comment?->user_id)->first();
+                $commentPost = Post::where('id', $comment?->post_id)->first();
 
-                UserStat::where('user_id', $comment?->user_id)->$actionType("comment_{$interactiveType}_count");
-                Post::where('id', $comment?->post_id)->$actionType("comment_{$interactiveType}_count");
+                if ($actionType == 'increment') {
+                    $userState->increment("{$interactiveType}_comment_count");
+                    $comment?->increment("{$interactiveType}_count");
+                    $commentCreatorState?->increment("comment_{$interactiveType}_count");
+                    $commentPost?->increment("comment_{$interactiveType}_count");
 
+                    // parent comment
+                    if (! empty($comment?->parent_id) || $comment?->parent_id != 0) {
+                        InteractiveUtility::parentCommentStats($comment->parent_id, 'increment', "comment_{$interactiveType}_count");
+                    }
+                    return;
+                }
+
+                $userStateCount = $userState?->{"{$interactiveType}_comment_count"} ?? 0;
+                if ($userStateCount > 0) {
+                    $userState?->decrement("{$interactiveType}_comment_count");
+                }
+
+                $commentStateCount = $comment?->{"{$interactiveType}_count"} ?? 0;
+                if ($commentStateCount > 0) {
+                    $comment?->decrement("{$interactiveType}_count");
+                }
+
+                $commentCreatorStateCount = $commentCreatorState?->{"comment_{$interactiveType}_count"} ?? 0;
+                if ($commentCreatorStateCount > 0) {
+                    $commentCreatorState?->decrement("comment_{$interactiveType}_count");
+                }
+
+                $commentPostCount = $commentPost?->{"comment_{$interactiveType}_count"} ?? 0;
+                if ($commentPostCount > 0) {
+                    $commentPost?->decrement("comment_{$interactiveType}_count");
+                }
+
+                // parent comment
                 if (! empty($comment?->parent_id) || $comment?->parent_id != 0) {
-                    InteractiveUtility::parentCommentStats($comment->parent_id, $actionType, "comment_{$interactiveType}_count");
+                    InteractiveUtility::parentCommentStats($comment->parent_id, 'decrement', "comment_{$interactiveType}_count");
                 }
             break;
         }
@@ -539,7 +638,7 @@ class InteractiveUtility
                 $domainIds = DomainLink::whereIn('id', $linkIds)->pluck('domain_id')->toArray();
                 Domain::whereIn('id', $domainIds)->$actionType('post_count');
 
-                $hashtagIds = array_column($post->hashtags, 'id');
+                $hashtagIds = $post->hashtags->pluck('id');
                 Hashtag::whereIn('id', $hashtagIds)->$actionType('post_count');
             break;
 
@@ -555,7 +654,7 @@ class InteractiveUtility
                 $domainIds = DomainLink::whereIn('id', $linkIds)->pluck('domain_id')->toArray();
                 Domain::whereIn('id', $domainIds)->$actionType('comment_count');
 
-                $hashtagIds = array_column($comment->hashtags, 'id');
+                $hashtagIds = $comment->hashtags->pluck('id');
                 Hashtag::whereIn('id', $hashtagIds)->$actionType('comment_count');
 
                 if (! empty($comment?->parent_id) || $comment?->parent_id != 0) {
@@ -597,7 +696,7 @@ class InteractiveUtility
         $domainIds = DomainLink::whereIn('id', $linkIds)->pluck('domain_id')->toArray();
         Domain::whereIn('id', $domainIds)->$actionType("{$type}_count");
 
-        $hashtagIds = array_column($content->hashtags, 'id');
+        $hashtagIds = $content->hashtags->pluck('id');
         Hashtag::whereIn('id', $hashtagIds)->$actionType("{$type}_count");
     }
 
@@ -657,8 +756,16 @@ class InteractiveUtility
             return;
         }
 
-        $comment->$actionType($tableColumn);
+        if ($actionType == 'increment') {
+            $comment->increment($tableColumn);
+        } else {
+            $commentColumnCount = $comment?->$tableColumn ?? 0;
+            if ($commentColumnCount > 0) {
+                $comment->decrement($tableColumn);
+            }
+        }
 
+        // parent comment
         if (! empty($comment->parent_id) || $comment->parent_id != 0) {
             InteractiveUtility::parentCommentStats($comment->parent_id, $actionType, $tableColumn);
         }
@@ -708,13 +815,14 @@ class InteractiveUtility
         $contentModel = match ($actionType) {
             Notify::ACTION_TYPE_POST => PrimaryHelper::fresnsModelById('post', $actionId),
             Notify::ACTION_TYPE_COMMENT => PrimaryHelper::fresnsModelById('comment', $actionId),
+            default => null,
         };
         $content = null;
         $isMarkdown = 0;
 
         // mention notify
         if ($type == Notify::TYPE_MENTION) {
-            if (empty($actionType) || empty($actionId) || $checkNotify) {
+            if (empty($actionType) || empty($actionId) || empty($contentModel) || $checkNotify) {
                 return;
             }
 
@@ -724,7 +832,7 @@ class InteractiveUtility
 
         // comment notify
         if ($type == Notify::TYPE_COMMENT) {
-            if (empty($actionType) || empty($actionId)) {
+            if (empty($actionType) || empty($actionId) || empty($contentModel)) {
                 return;
             }
 
