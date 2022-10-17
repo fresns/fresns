@@ -14,6 +14,13 @@ class ErrorException extends \Exception
 {
     public function render()
     {
+        if (\request()->wantsJson()) {
+            return \response()->json([
+                'code' => $this->getCode(),
+                'message' => $this->getMessage(),
+            ]);
+        }
+
         // 404 Not Found
         if (in_array($this->getCode(), [
             37100, 37200, 37300, 37302, 37400, 37402, 38100,

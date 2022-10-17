@@ -90,7 +90,7 @@ Route::prefix(LaravelLocalization::setLocale())
             Route::get('blocking', [PostController::class, 'blocking'])->name('blocking');
         });
 
-        // comment
+        // comments
         Route::name('comment.')->prefix(fs_db_config('website_comment_path'))->group(function () {
             Route::get('/', [CommentController::class, 'index'])->name('index')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
             Route::get('list', [CommentController::class, 'list'])->name('list')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
@@ -121,7 +121,7 @@ Route::prefix(LaravelLocalization::setLocale())
 
             Route::get('posts', [ProfileController::class, 'posts'])->name('posts');
             Route::get('comments', [ProfileController::class, 'comments'])->name('comments');
-            // mark
+            // mark records
             Route::get('likers', [ProfileController::class, 'likers'])->name('likers');
             Route::get('dislikers', [ProfileController::class, 'dislikers'])->name('dislikers');
             Route::get('followers', [ProfileController::class, 'followers'])->name('followers');
@@ -195,8 +195,16 @@ Route::prefix(LaravelLocalization::setLocale())
 
         // editor
         Route::name('editor.')->prefix('editor')->group(function () {
+            // draft box
             Route::get('drafts/{type}', [EditorController::class, 'drafts'])->name('drafts');
-            Route::get('post/{draftId}', [EditorController::class, 'post'])->name('post');
-            Route::get('comment/{draftId}', [EditorController::class, 'comment'])->name('comment');
+
+            // editor
+            Route::get('{type}', [EditorController::class, 'index'])->name('index');
+            Route::get('{type}/{draftId}', [EditorController::class, 'edit'])->name('edit');
+
+            // editor request
+            Route::post('direct-publish', [EditorController::class, 'directPublish'])->name('direct.publish');
+            Route::post('store/{type}', [EditorController::class, 'store'])->name('store');
+            Route::post('publish/{type}/{draftId}', [EditorController::class, 'publish'])->name('publish');
         });
     });

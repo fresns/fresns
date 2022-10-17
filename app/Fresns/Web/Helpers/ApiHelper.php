@@ -68,7 +68,7 @@ class ApiHelper implements \ArrayAccess, \IteratorAggregate, \Countable
     {
         return [
             'base_uri' => $this->getBaseUri(),
-            'timeout' => 30, // Request 5s timeout
+            'timeout' => 30000, // Request 5s timeout
             'http_errors' => false,
             'headers' => ApiHelper::getHeaders(),
         ];
@@ -82,7 +82,8 @@ class ApiHelper implements \ArrayAccess, \IteratorAggregate, \Countable
 
     public function isErrorResponse(array $data): bool
     {
-        if (! isset($data['code'])) {
+        if (isset($data['code']) && $data['code'] != 0) {
+            info('is error response', $data);
             return true;
         }
 
@@ -92,7 +93,16 @@ class ApiHelper implements \ArrayAccess, \IteratorAggregate, \Countable
     public function handleErrorResponse(?string $content = null, array $data = [])
     {
         info('error response, ApiException: '.var_export($content, true));
-        throw new ErrorException($data['message'] ?? $data['exception'] ?? 'Unknown api error', $data['code'] ?? 0);
+        $message = $data['message'] ?? $data['exception'] ?? '';
+        if (empty($message)) {
+            $message = 'Unknown api error';
+        } else {
+            if ($data['data'] ?? null) {
+                $message = "{$message} " . head($data['data']) ?? '';
+            }
+        }
+
+        throw new ErrorException($message, $data['code'] ?? 0);
     }
 
     public function hasPaginate(): bool
@@ -151,9 +161,9 @@ class ApiHelper implements \ArrayAccess, \IteratorAggregate, \Countable
             'sign' => null,
             'langTag' => current_lang_tag(),
             'timezone' => Cookie::get('timezone') ?: ConfigHelper::fresnsConfigByItemKey('default_timezone'),
-            'aid' => Cookie::get('fs_aid') ?? null,
-            'uid' => Cookie::get('fs_uid') ?? null,
-            'token' => Cookie::get('fs_uid_token') ?? Cookie::get('fs_aid_token') ?? null,
+            'aid' => Cookie::get('fs_aid', \request('fs_aid')),
+            'uid' => Cookie::get('fs_uid', \request('fs_uid')),
+            'token' => Cookie::get('fs_uid_token', \request('fs_uid_token')) ?? Cookie::get('fs_aid_token', \request('fs_aid_token')),
             'deviceInfo' => json_encode(AppUtility::getDeviceInfo()),
         ];
         $headers['sign'] = SignHelper::makeSign($headers, $appSecret);

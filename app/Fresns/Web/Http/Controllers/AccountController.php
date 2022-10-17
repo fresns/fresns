@@ -12,6 +12,7 @@ use App\Fresns\Web\Helpers\ApiHelper;
 use App\Fresns\Web\Helpers\QueryHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use App\Fresns\Web\Exceptions\ErrorException;
 
 class AccountController extends Controller
 {
@@ -67,6 +68,10 @@ class AccountController extends Controller
         $result = ApiHelper::make()->get('/api/v2/account/wallet-logs', [
             'query' => $request->all(),
         ]);
+
+        if (data_get($result, 'code') !== 0) {
+            throw new ErrorException($result['message']);
+        }
 
         $logs = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],

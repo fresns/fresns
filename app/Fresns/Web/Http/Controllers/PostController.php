@@ -24,6 +24,10 @@ class PostController extends Controller
             'query' => $query,
         ]);
 
+        if (data_get($result, 'code') !== 0) {
+            throw new ErrorException($result['message']);
+        }
+
         $posts = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],
             paginate: $result['data']['paginate'],

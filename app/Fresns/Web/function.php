@@ -6,6 +6,7 @@
  * Released under the Apache-2.0 License.
  */
 
+use App\Fresns\Web\Auth\UserGuard;
 use App\Fresns\Web\Helpers\ApiHelper;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;

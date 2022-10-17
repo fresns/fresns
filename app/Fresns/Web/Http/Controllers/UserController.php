@@ -11,6 +11,7 @@ namespace App\Fresns\Web\Http\Controllers;
 use App\Fresns\Web\Helpers\ApiHelper;
 use App\Fresns\Web\Helpers\QueryHelper;
 use Illuminate\Http\Request;
+use App\Fresns\Web\Exceptions\ErrorException;
 
 class UserController extends Controller
 {
@@ -22,6 +23,10 @@ class UserController extends Controller
         $result = ApiHelper::make()->get('/api/v2/user/list', [
             'query' => $query,
         ]);
+
+        if (data_get($result, 'code') !== 0) {
+            throw new ErrorException($result['message']);
+        }
 
         $users = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],
@@ -40,6 +45,10 @@ class UserController extends Controller
             'query' => $query,
         ]);
 
+        if (data_get($result, 'code') !== 0) {
+            throw new ErrorException($result['message']);
+        }
+
         $users = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],
             paginate: $result['data']['paginate'],
@@ -56,6 +65,10 @@ class UserController extends Controller
         $result = ApiHelper::make()->get("/api/v2/user/{$uid}/mark/like/users", [
             'query' => $request->all(),
         ]);
+
+        if (data_get($result, 'code') !== 0) {
+            throw new ErrorException($result['message']);
+        }
 
         $users = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],
@@ -74,6 +87,10 @@ class UserController extends Controller
             'query' => $request->all(),
         ]);
 
+        if (data_get($result, 'code') !== 0) {
+            throw new ErrorException($result['message']);
+        }
+
         $users = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],
             paginate: $result['data']['paginate'],
@@ -90,6 +107,10 @@ class UserController extends Controller
         $result = ApiHelper::make()->get("/api/v2/user/{$uid}/mark/follow/users", [
             'query' => $request->all(),
         ]);
+
+        if (data_get($result, 'code') !== 0) {
+            throw new ErrorException($result['message']);
+        }
 
         $users = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],

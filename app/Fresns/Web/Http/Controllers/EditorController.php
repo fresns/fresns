@@ -12,6 +12,7 @@ use App\Fresns\Web\Exceptions\ErrorException;
 use App\Fresns\Web\Helpers\ApiHelper;
 use App\Fresns\Web\Helpers\QueryHelper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class EditorController extends Controller
 {
@@ -44,36 +45,231 @@ class EditorController extends Controller
         return view('editor.drafts', compact('drafts', 'type'));
     }
 
-    // post
-    public function post(Request $request, ?int $draftId = null)
+    // index
+    public function index(string $type, ?string $postGid = null, ?string $commentPid = null, ?string $commentCid = null)
     {
-        $type = 'post';
-        $plid = $draftId;
-        $clid = null;
+        $type = match ($type) {
+            'posts' => 'post',
+            'comments' => 'comment',
+            'post' => 'post',
+            'comment' => 'comment',
+            default => 'post',
+        };
 
-        $draftInfo = self::getDraft('post', $draftId);
+        $client = ApiHelper::make();
 
-        $config = $draftInfo['config'];
-        $stickers = $draftInfo['stickers'];
-        $draft = $draftInfo['draft'];
+        $results = $client->handleUnwrap([
+            'config' => $client->getAsync("/api/v2/editor/{$type}/config"),
+            'drafts' => $client->getAsync("/api/v2/editor/{$type}/drafts"),
+        ]);
 
-        return view('editor.editor', compact('type', 'plid', 'clid', 'draftId', 'config', 'stickers', 'draft'));
+        $config = $results['config']['data'];
+        $drafts = $results['drafts']['data']['list'];
+
+        if (count($drafts) === 0) {
+            $response = ApiHelper::make()->post("/api/v2/editor/{$type}/create", [
+                'json' => [
+                    'createType' => 2,
+                    'postGid' => $postGid,
+                    'commentPid' => $commentPid,
+                    'commentCid' => $commentCid,
+                ]
+            ])->toArray();
+
+            if (data_get($response, 'code') !== 0) {
+                throw new ErrorException($response['message']);
+            }
+
+            return redirect()->to(fs_route(route('fresns.editor.edit', [$type, $response['data']['detail']['id']])));
+        }
+
+        return view('editor.index', compact('type', 'config', 'drafts'));
     }
 
-    // comment
-    public function comment(Request $request, ?int $draftId = null)
+    // edit
+    public function edit(Request $request, string $type, int $draftId)
     {
-        $type = 'comment';
-        $plid = null;
-        $clid = $draftId;
+        $type = match ($type) {
+            'posts' => 'post',
+            'comments' => 'comment',
+            'post' => 'post',
+            'comment' => 'comment',
+            default => 'post',
+        };
 
-        $draftInfo = self::getDraft('comment', $draftId);
+        $draftInfo = self::getDraft($type, $draftId);
 
         $config = $draftInfo['config'];
         $stickers = $draftInfo['stickers'];
         $draft = $draftInfo['draft'];
+        $group = data_get($draftInfo, 'group.detail') ?? data_get($draft,'detail.group.0');
 
-        return view('editor.editor', compact('type', 'plid', 'clid', 'draftId', 'config', 'stickers', 'draft'));
+        $plid = null; // post log id
+        $clid = null; // comment log id
+        if ($type == 'post') {
+            $plid = $draftId;
+        } else {
+            $clid = $draftId;
+        }
+
+        return view('editor.edit', compact('type', 'plid', 'clid', 'config', 'stickers', 'draft', 'group'));
+    }
+
+    // request: direct publish
+    public function directPublish(Request $request)
+    {
+        $validator = Validator::make($request->post(),
+            [
+                'type' => 'required',
+                'content' => 'required',
+                'postGid' => ($request->post('type') === 'post' && fs_api_config('post_editor_group_required')) ? 'required' : 'nullable',
+                'postTitle' => ($request->post('type') === 'post' && fs_api_config('post_editor_title_required')) ? 'required' : 'nullable',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+
+        $multipart = [
+            [
+                'name' => 'type',
+                'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
+                'contents' => $request->post('type'),
+            ],
+            [
+                'name' => 'postGid',
+                'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
+                'contents' => $request->post('postGid'),
+            ],
+            [
+                'name' => 'postTitle',
+                'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
+                'contents' => $request->post('postTitle'),
+            ],
+            [
+                'name' => 'content',
+                'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
+                'contents' => $request->post('content'),
+            ],
+            [
+                'name' => 'isAnonymous',
+                'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
+                'contents' => (bool) $request->post('anonymous', false),
+            ],
+            [
+                'name' => 'commentPid',
+                'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
+                'contents' => $request->post('commentPid'),
+            ],
+            [
+                'name' => 'commentCid',
+                'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
+                'contents' => $request->post('commentCid'),
+            ],
+        ];
+        if ($request->file('file')) {
+            $multipart[] = [
+                'name' => 'file',
+                'filename' => $request->file('file')->getClientOriginalName(),
+                'contents' => $request->file('file')->getContent(),
+                'headers' => ['Content-Type' => $request->file('file')->getClientMimeType()],
+            ];
+        }
+
+        $result = ApiHelper::make()->post("/api/v2/editor/direct-publish", [
+            'multipart' => array_filter($multipart, fn($val) => isset($val['contents']))
+        ]);
+
+        if ($result['code'] !== 0) {
+            throw new ErrorException($result['message']);
+        }
+
+        return back()->with('success', $result['message']);
+    }
+
+    // request: create or edit
+    public function store(Request $request, string $type)
+    {
+        $type = match ($type) {
+            'posts' => 'post',
+            'comments' => 'comment',
+            'post' => 'post',
+            'comment' => 'comment',
+            default => 'post',
+        };
+
+        $fsid = $request->input('fsid');
+
+        if ($fsid) {
+            $response = ApiHelper::make()->post("/api/v2/editor/{$type}/generate/{$fsid}")->toArray();
+        } else {
+            $response = ApiHelper::make()->post("/api/v2/editor/{$type}/create", [
+                'json' => [
+                    'createType' => 2,
+                    'editorUnikey' => $request->input('editorUnikey'),
+                    'postGid' => $request->input('postGid'),
+                    'postTitle' => $request->input('postTitle'),
+                    'postIsComment' => $request->input('postIsComment'),
+                    'postIsCommentPublic' => $request->input('postIsCommentPublic'),
+                    'content' => $request->input('content'),
+                    'isMarkdown' => $request->input('isMarkdown'),
+                    'isAnonymous' => $request->input('anonymous'),
+                    'mapJson' => $request->input('mapJson'),
+                    'eid' => $request->input('eid'),
+                ]
+            ])->toArray();
+        }
+
+        if (data_get($response, 'code') !== 0) {
+            throw new ErrorException($response['message']);
+        }
+
+        return redirect()->to(fs_route(route('fresns.editor.edit', [$type, $response['data']['detail']['id']])));
+    }
+
+    // request: publish
+    public function publish(Request $request, string $type, int $draftId)
+    {
+        $type = match ($type) {
+            'posts' => 'post',
+            'comments' => 'comment',
+            'post' => 'post',
+            'comment' => 'comment',
+            default => 'post',
+        };
+
+        $response = ApiHelper::make()->put("/api/v2/editor/{$type}/{$draftId}", [
+            'json' => [
+                'postGid' => $request->post('postGid'),
+                'postTitle' => $request->post('postTitle'),
+                'postIsComment' => $request->post('postIsComment'),
+                'postIsCommentPublic' => $request->post('postIsCommentPublic'),
+                'content' => $request->post('content'),
+                'isMarkdown' => $request->post('isMarkdown'),
+                'isAnonymous' => $request->post('anonymous'),
+                'mapJson' => $request->post('mapJson'),
+                'deleteMap' => $request->post('deleteMap'),
+                'deleteFile' => $request->post('deleteFile'),
+                'deleteExtend' => $request->post('deleteExtend'),
+            ]
+        ]);
+
+        if ($response['code'] !== 0) {
+            throw new ErrorException($response['message'], $response['code']);
+        }
+
+        $response = ApiHelper::make()->post("/api/v2/editor/{$type}/{$draftId}");
+
+        if ($response['code'] == 38200) {
+            return redirect()->to(fs_route(route('fresns.post.list')))->with('success', $response['message']);
+        }
+
+        if ($response['code'] !== 0) {
+            throw new ErrorException($response['message'], $response['code']);
+        }
+
+        return redirect()->to(fs_route(route('fresns.post.list')))->with('success', $response['message']);
     }
 
     // get draft
@@ -81,29 +277,25 @@ class EditorController extends Controller
     {
         $client = ApiHelper::make();
 
-        if (empty($draftId)) {
-            $results = $client->handleUnwrap([
-                'config' => $client->getAsync("/api/v2/editor/{$type}/config"),
-                'stickers' => $client->getAsync('/api/v2/global/stickers'),
-            ]);
+        $params = [
+            'config' => $client->getAsync("/api/v2/editor/{$type}/config"),
+            'stickers' => $client->getAsync('/api/v2/global/stickers'),
+        ];
 
-            $draftInfo['draft'] = null;
-        } else {
-            $results = $client->handleUnwrap([
-                'config' => $client->getAsync("/api/v2/editor/{$type}/config"),
-                'stickers' => $client->getAsync('/api/v2/global/stickers'),
-                'draft' => $client->getAsync("/api/v2/editor/post/{$draftId}"),
-            ]);
-
-            if ($results['draft']['code'] != 0) {
-                throw new ErrorException($results['draft']['message'], $results['draft']['code']);
-            }
-
-            $draftInfo['draft'] = $results['draft']['data'];
+        if ($draftId) {
+            $params['draft'] = $client->getAsync("/api/v2/editor/{$type}/{$draftId}");
         }
 
-        $draftInfo['config'] = $results['config']['data'];
-        $draftInfo['stickers'] = $results['stickers']['data'];
+        if ($gid = request('gid')) {
+            $params['group'] = $client->getAsync("/api/v2/group/{$gid}/detail");
+        }
+
+        $results = $client->handleUnwrap($params);
+
+        $draftInfo['config'] = data_get($results, 'config.data');
+        $draftInfo['stickers'] = data_get($results, 'stickers.data');
+        $draftInfo['draft'] = data_get($results, 'draft.data');
+        $draftInfo['group'] = data_get($results, 'group.data');
 
         return $draftInfo;
     }

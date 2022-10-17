@@ -133,7 +133,7 @@ class AccountGuard implements Guard
             }
         }
 
-        return $key ? $this->account[$key] : $this->account;
+        return $key ? $this->account?->$key : $this->account;
     }
 
     /**

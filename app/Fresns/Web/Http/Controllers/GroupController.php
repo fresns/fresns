@@ -26,6 +26,11 @@ class GroupController extends Controller
 
         if ($indexType == 'tree') {
             $result = ApiHelper::make()->get('/api/v2/group/tree');
+
+            if (data_get($result, 'code') !== 0) {
+                throw new ErrorException($result['message']);
+            }
+
             $groupTree = $result['data'];
         } else {
             $query = QueryHelper::convertOptionToRequestParam(QueryHelper::TYPE_GROUP, $request->all());
@@ -33,6 +38,10 @@ class GroupController extends Controller
             $result = ApiHelper::make()->get('/api/v2/group/list', [
                 'query' => $query,
             ]);
+
+            if (data_get($result, 'code') !== 0) {
+                throw new ErrorException($result['message']);
+            }
 
             $groups = QueryHelper::convertApiDataToPaginate(
                 items: $result['data']['list'],
@@ -52,6 +61,10 @@ class GroupController extends Controller
             'query' => $query,
         ]);
 
+        if (data_get($result, 'code') !== 0) {
+            throw new ErrorException($result['message']);
+        }
+
         $groups = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],
             paginate: $result['data']['paginate'],
@@ -68,6 +81,10 @@ class GroupController extends Controller
         $result = ApiHelper::make()->get("/api/v2/user/{$uid}/mark/like/groups", [
             'query' => $request->all(),
         ]);
+
+        if (data_get($result, 'code') !== 0) {
+            throw new ErrorException($result['message']);
+        }
 
         $groups = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],
@@ -86,6 +103,10 @@ class GroupController extends Controller
             'query' => $request->all(),
         ]);
 
+        if (data_get($result, 'code') !== 0) {
+            throw new ErrorException($result['message']);
+        }
+
         $groups = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],
             paginate: $result['data']['paginate'],
@@ -103,6 +124,10 @@ class GroupController extends Controller
             'query' => $request->all(),
         ]);
 
+        if (data_get($result, 'code') !== 0) {
+            throw new ErrorException($result['message']);
+        }
+
         $groups = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],
             paginate: $result['data']['paginate'],
@@ -119,6 +144,10 @@ class GroupController extends Controller
         $result = ApiHelper::make()->get("/api/v2/user/{$uid}/mark/block/groups", [
             'query' => $request->all(),
         ]);
+
+        if (data_get($result, 'code') !== 0) {
+            throw new ErrorException($result['message']);
+        }
 
         $groups = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],

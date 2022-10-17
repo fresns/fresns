@@ -24,6 +24,10 @@ class HashtagController extends Controller
             'query' => $query,
         ]);
 
+        if (data_get($result, 'code') !== 0) {
+            throw new ErrorException($result['message']);
+        }
+
         $hashtags = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],
             paginate: $result['data']['paginate'],
@@ -40,6 +44,10 @@ class HashtagController extends Controller
         $result = ApiHelper::make()->get('/api/v2/hashtag/list', [
             'query' => $query,
         ]);
+
+        if (data_get($result, 'code') !== 0) {
+            throw new ErrorException($result['message']);
+        }
 
         $hashtags = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],
@@ -58,6 +66,10 @@ class HashtagController extends Controller
             'query' => $request->all(),
         ]);
 
+        if (data_get($result, 'code') !== 0) {
+            throw new ErrorException($result['message']);
+        }
+
         $hashtags = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],
             paginate: $result['data']['paginate'],
@@ -74,6 +86,10 @@ class HashtagController extends Controller
         $result = ApiHelper::make()->get("/api/v2/user/{$uid}/mark/dislike/hashtags", [
             'query' => $request->all(),
         ]);
+
+        if (data_get($result, 'code') !== 0) {
+            throw new ErrorException($result['message']);
+        }
 
         $hashtags = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],
@@ -92,6 +108,10 @@ class HashtagController extends Controller
             'query' => $request->all(),
         ]);
 
+        if (data_get($result, 'code') !== 0) {
+            throw new ErrorException($result['message']);
+        }
+
         $hashtags = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],
             paginate: $result['data']['paginate'],
@@ -108,6 +128,10 @@ class HashtagController extends Controller
         $result = ApiHelper::make()->get("/api/v2/user/{$uid}/mark/block/hashtags", [
             'query' => $request->all(),
         ]);
+
+        if (data_get($result, 'code') !== 0) {
+            throw new ErrorException($result['message']);
+        }
 
         $hashtags = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],
