@@ -49,7 +49,7 @@ class PostController extends Controller
 
         if ($dataPluginUnikey) {
             $wordBody = [
-                'header' => \request()->headers->all(),
+                'headers' => \request()->headers->all(),
                 'body' => $dtoRequest->toArray(),
             ];
 
@@ -277,7 +277,7 @@ class PostController extends Controller
 
         if ($dataPluginUnikey) {
             $wordBody = [
-                'header' => \request()->headers->all(),
+                'headers' => \request()->headers->all(),
                 'body' => $dtoRequest->toArray(),
             ];
 
@@ -429,6 +429,7 @@ class PostController extends Controller
             throw new ApiException(36401);
         }
 
+        PostLog::where('post_id', $post->id)->delete();
         $post->delete();
 
         return $this->success();
@@ -450,7 +451,7 @@ class PostController extends Controller
 
         if ($dataPluginUnikey) {
             $wordBody = [
-                'header' => \request()->headers->all(),
+                'headers' => \request()->headers->all(),
                 'body' => $dtoRequest->toArray(),
             ];
 
@@ -515,7 +516,7 @@ class PostController extends Controller
 
         if ($dataPluginUnikey) {
             $wordBody = [
-                'header' => \request()->headers->all(),
+                'headers' => \request()->headers->all(),
                 'body' => $dtoRequest->toArray(),
             ];
 

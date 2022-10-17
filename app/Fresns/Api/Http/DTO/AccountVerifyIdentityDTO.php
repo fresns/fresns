@@ -18,7 +18,7 @@ class AccountVerifyIdentityDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => ['string', 'required', 'in:email,phone'],
+            'type' => ['string', 'required', 'in:email,sms'],
             'verifyCode' => ['string', 'required'],
         ];
     }

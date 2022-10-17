@@ -18,7 +18,7 @@ class SearchGroupDTO extends DTO
     public function rules(): array
     {
         return [
-            'key' => ['string', 'required'],
+            'searchKey' => ['string', 'required'],
             'gid' => ['string', 'nullable'],
             'recommend' => ['boolean', 'nullable'],
             'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // groups->created_at

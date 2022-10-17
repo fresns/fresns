@@ -29,7 +29,7 @@ class SearchController extends Controller
 
         if ($searchService) {
             $wordBody = [
-                'header' => \request()->headers->all(),
+                'headers' => \request()->headers->all(),
                 'body' => $dtoRequest->toArray(),
             ];
 
@@ -54,7 +54,7 @@ class SearchController extends Controller
 
         if ($searchService) {
             $wordBody = [
-                'header' => \request()->headers->all(),
+                'headers' => \request()->headers->all(),
                 'body' => $dtoRequest->toArray(),
             ];
 
@@ -79,7 +79,7 @@ class SearchController extends Controller
 
         if ($searchService) {
             $wordBody = [
-                'header' => \request()->headers->all(),
+                'headers' => \request()->headers->all(),
                 'body' => $dtoRequest->toArray(),
             ];
 
@@ -104,7 +104,7 @@ class SearchController extends Controller
 
         if ($searchService) {
             $wordBody = [
-                'header' => \request()->headers->all(),
+                'headers' => \request()->headers->all(),
                 'body' => $dtoRequest->toArray(),
             ];
 
@@ -129,7 +129,7 @@ class SearchController extends Controller
 
         if ($searchService) {
             $wordBody = [
-                'header' => \request()->headers->all(),
+                'headers' => \request()->headers->all(),
                 'body' => $dtoRequest->toArray(),
             ];
 

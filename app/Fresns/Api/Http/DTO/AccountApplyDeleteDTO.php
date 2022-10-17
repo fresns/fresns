@@ -20,7 +20,7 @@ class AccountApplyDeleteDTO extends DTO
         return [
             'password' => ['string', 'nullable', 'required_without:verifyCode'],
             'verifyCode' => ['string', 'nullable', 'required_without:password'],
-            'codeType' => ['string', 'required', 'in:email,phone'],
+            'codeType' => ['string', 'required', 'in:email,sms'],
         ];
     }
 }

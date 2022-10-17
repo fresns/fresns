@@ -18,7 +18,7 @@ class AccountEditDTO extends DTO
     public function rules(): array
     {
         return [
-            'codeType' => ['string', 'nullable', 'in:email,phone'],
+            'codeType' => ['string', 'nullable', 'in:email,sms'],
             'verifyCode' => ['string', 'nullable'],
             'newVerifyCode' => ['string', 'nullable', 'required_with:editEmail', 'required_with:editPhone'],
             'editEmail' => ['email', 'nullable'],
@@ -26,8 +26,10 @@ class AccountEditDTO extends DTO
             'editCountryCode' => ['integer', 'nullable', 'required_with:editPhone'],
             'password' => ['string', 'nullable'],
             'editPassword' => ['string', 'nullable'],
+            'editPasswordConfirm' => ['string', 'nullable', 'required_with:editPassword'],
             'walletPassword' => ['string', 'nullable'],
             'editWalletPassword' => ['string', 'nullable'],
+            'editWalletPasswordConfirm' => ['string', 'nullable', 'required_with:editWalletPassword'],
             'editLastLoginTime' => ['boolean', 'nullable'],
         ];
     }

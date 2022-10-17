@@ -18,7 +18,7 @@ class SearchHashtagDTO extends DTO
     public function rules(): array
     {
         return [
-            'key' => ['string', 'required'],
+            'searchKey' => ['string', 'required'],
             'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // hashtags->created_at
             'createDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createDateGt'],
             'likeCountGt' => ['integer', 'nullable', 'lt:likeCountLt'], // hashtags->like_count

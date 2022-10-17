@@ -18,7 +18,7 @@ class SearchUserDTO extends DTO
     public function rules(): array
     {
         return [
-            'key' => ['string', 'required'],
+            'searchKey' => ['string', 'required'],
             'verified' => ['boolean', 'nullable'],
             'gender' => ['integer', 'nullable', 'in:1,2,3'],
             'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // user_stats->created_at
