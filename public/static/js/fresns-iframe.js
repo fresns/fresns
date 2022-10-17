@@ -8,7 +8,7 @@ function sign() {
     let sign;
     $.ajaxSettings.async = false;
     $.get('/api/engine/url-sign', false, function (res) {
-        sign = res.sign;
+        sign = res.data.sign;
     });
     $.ajaxSettings.async = true;
 
