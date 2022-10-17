@@ -250,7 +250,6 @@ class CommonController extends Controller
                     $wordBody['account'] = $authAccount->pure_phone;
                     $wordBody['countryCode'] = $authAccount->country_code;
 
-
                     $checkSend = ValidationUtility::sendCode($authAccount->phone);
                 break;
             }
