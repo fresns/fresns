@@ -23,5 +23,6 @@ class EncryptCookies extends Middleware
         'fs_aid_token',
         'fs_uid',
         'fs_uid_token',
+        'lang',
     ];
 }
