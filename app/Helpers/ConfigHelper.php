@@ -23,6 +23,8 @@ class ConfigHelper
 
         if (is_null($defaultLangTag)) {
             Cache::forget('fresns_default_langTag');
+
+            $defaultLangTag = config('app.locale');
         }
 
         return $defaultLangTag;

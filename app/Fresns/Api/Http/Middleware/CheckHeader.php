@@ -37,10 +37,9 @@ class CheckHeader
 
         // check sign
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->verifySign($headers);
-
-        // if ($fresnsResp->isErrorResponse()) {
-        //     return $fresnsResp->errorResponse();
-        // }
+        if ($fresnsResp->isErrorResponse()) {
+            return $fresnsResp->errorResponse();
+        }
 
         // config
         $siteMode = ConfigHelper::fresnsConfigByItemKey('site_mode');
