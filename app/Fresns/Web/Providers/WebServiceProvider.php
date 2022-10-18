@@ -34,7 +34,7 @@ class WebServiceProvider extends ServiceProvider
             }
 
             // The database cannot query the language configuration information
-            if (empty ($defaultLanguage)) {
+            if (empty($defaultLanguage)) {
                 $defaultLanguage = config('app.locale');
             }
         } catch (\Throwable $e) {
