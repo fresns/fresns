@@ -307,7 +307,7 @@ Route::middleware(['panelAuth'])->group(function () {
         // dashboard upgrade page
         Route::patch('update-code', [ExtensionController::class, 'updateCode'])->name('plugin.update.code');
         // plugin install and upgrade
-        Route::match(['get', 'put'], 'install/{unikey?}', [ExtensionController::class, 'install'])->name('plugin.install');
+        Route::put('install', [ExtensionController::class, 'install'])->name('plugin.install');
         Route::put('upgrade', [ExtensionController::class, 'upgrade'])->name('plugin.upgrade');
         // activate or deactivate
         Route::patch('update', [ExtensionController::class, 'update'])->name('plugin.update');

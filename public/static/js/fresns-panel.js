@@ -960,10 +960,10 @@ $(document).ready(function () {
 
         let install_method = $('input[name=install_method]').val()
         let plugin_unikey = $('input[name=plugin_unikey]').val()
+        let plugin_directory = $('input[name=plugin_directory]').val()
         let plugin_zipball = $('input[name=plugin_zipball]').val()
-        let plugin_dir = $('input[name=plugin_dir]').val()
 
-        if (plugin_unikey || plugin_zipball || plugin_dir) {
+        if (plugin_unikey || plugin_zipball || plugin_directory) {
             $(this).submit()
             $('#installStepModal').modal('toggle')
             return;
@@ -975,15 +975,15 @@ $(document).ready(function () {
             return;
         }
 
-        if (install_method == 'inputFile' && !plugin_zipball) {
-            $('input[name=plugin_zipball]').addClass('is-invalid')
-            $('#inputUnikeyOrInputFile').text(trans('tips.install_not_upload_zip')).show() // FsLang
+        if (install_method == 'inputDirectory' && !plugin_zipball) {
+            $('input[name=plugin_directory]').addClass('is-invalid')
+            $('#inputUnikeyOrInputFile').text(trans('tips.install_not_entered_dir')).show() // FsLang
             return;
         }
 
-        if (install_method == 'inputDir' && !plugin_zipball) {
-            $('input[name=plugin_dir]').addClass('is-invalid')
-            $('#inputUnikeyOrInputFile').text(trans('tips.install_not_entered_dir')).show() // FsLang
+        if (install_method == 'inputZipball' && !plugin_zipball) {
+            $('input[name=plugin_zipball]').addClass('is-invalid')
+            $('#inputUnikeyOrInputFile').text(trans('tips.install_not_upload_zip')).show() // FsLang
             return;
         }
     });

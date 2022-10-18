@@ -161,81 +161,81 @@ class ExtensionController extends Controller
         return view('FsView::extensions.apps', compact('apps'));
     }
 
-    public function install(Request $request, ?string $unikey = null)
+    public function install(Request $request)
     {
-        if ($unikey) {
-            $request->offsetSet('install_method', 'inputUrl');
-        }
-
-        defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
-        defined('STDOUT') or define('STDOUT', fopen('php://stdout', 'r'));
-        defined('STDERR') or define('STDERR', fopen('php://stderr', 'r'));
-
-        $installType = $request->get('install_type');
-        $installMethod = $request->get('install_method');
+        $installType = $request->install_type;
+        $installMethod = $request->install_method;
 
         switch ($installMethod) {
-            case 'inputDir':
-                $inputDir = $request->get('plugin_dir');
-                if (str_starts_with($inputDir, '/')) {
-                    $dir = realpath($inputDir);
-                } else {
-                    $dir = realpath(base_path($request->get('plugin_dir')));
-                }
-
-                // php artisan market:require ...
-                \Artisan::call('market:require', [
-                    'unikey' => "$dir",
-                    'type' => $installType,
-                ]);
-
-                return \response(\Artisan::output()."\n".__('FsLang::tips.install_end'));
-            break;
-            case 'inputUrl':
+            // unikey
             case 'inputUnikey':
-                if ($unikey = $request->get('plugin_unikey', $unikey)) {
-                    // php artisan market:require ...
-                    \Artisan::call('market:require', [
-                        'unikey' => $unikey,
-                        'type' => $installType,
-                    ]);
-                    $output = \Artisan::output();
+                $pluginUnikey = $request->plugin_unikey;
 
-                    if ($installMethod == 'inputUrl') {
-                        if ($output == "\n") {
-                            return back()->with('failure', __('FsLang::tips.installFailure'));
-                        }
-
-                        return back()->with('success', "\n $unikey ".__('FsLang::tips.installSuccess'));
-                    } else {
-                        if ($output == "\n") {
-                            return \response("$unikey ".__('FsLang::tips.installFailure'));
-                        }
-
-                        return \response($output."\n $unikey ".__('FsLang::tips.installSuccess'));
-                    }
+                if (empty($pluginUnikey)) {
+                    return back()->with('failure', __('FsLang::tips.install_not_entered_key'));
                 }
+
+                // market-manager
+                \Artisan::call('market:require', [
+                    'unikey' => $pluginUnikey,
+                ]);
+                $output = \Artisan::output();
             break;
-            case 'inputFile':
+
+            // directory
+            case 'inputDirectory':
+                $pluginDirectory = $request->plugin_directory;
+
+                if (empty($pluginDirectory)) {
+                    return back()->with('failure', __('FsLang::tips.install_not_entered_dir'));
+                }
+
+                if (strpos($pluginDirectory, '/') == false) {
+                    $pluginDirectory = "extensions/{$installType}s/{$pluginDirectory}";
+                }
+
+                if (str_starts_with($pluginDirectory, '/')) {
+                    $pluginDirectory = realpath($pluginDirectory);
+                } else {
+                    $pluginDirectory = realpath(base_path($pluginDirectory));
+                }
+
+                // plugin-manager or theme-manager
+                \Artisan::call("{$installType}:install", [
+                    'path' => $pluginDirectory,
+                ]);
+                $output = \Artisan::output();
+            break;
+
+            // zipball
+            case 'inputZipball':
+                $pluginZipball = null;
                 $file = $request->file('plugin_zipball');
                 if ($file && $file->isValid()) {
-                    // php artisan market:require ...
-
                     $dir = storage_path('extensions');
                     $filename = $file->hashName();
                     $file->move($dir, $filename);
 
-                    \Artisan::call('market:require', [
-                        'unikey' => "$dir/$filename",
-                        'type' => $installType,
-                    ]);
-
-                    return \response(\Artisan::output()."\n".__('FsLang::tips.installSuccess'));
+                    $pluginZipball = "$dir/$filename";
                 }
+
+                if (empty($pluginZipball)) {
+                    return back()->with('failure', __('FsLang::tips.install_not_upload_zip'));
+                }
+
+                // plugin-manager or theme-manager
+                \Artisan::call("{$installType}:install", [
+                    'path' => $pluginZipball,
+                ]);
+                $output = \Artisan::output();
             break;
         }
 
-        return back()->with('failure', __('FsLang::tips.installFailure'));
+        if ($output == "\n") {
+            return \response(__('FsLang::tips.installFailure'));
+        }
+
+        return \response($output."\n ".__('FsLang::tips.installSuccess'));
     }
 
     public function upgrade(Request $request)

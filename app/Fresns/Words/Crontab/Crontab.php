@@ -153,7 +153,7 @@ class Crontab
 
         AppUtility::macroMarketHeader();
 
-        $response = Http::market()->get('/api/extensions/v2/check', [
+        $response = Http::market()->get('/api/marketplace/v2/check', [
             'unikeys' => json_encode($plugins->pluck('unikey')->all()),
         ]);
 
