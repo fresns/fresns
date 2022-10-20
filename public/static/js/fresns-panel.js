@@ -60,6 +60,66 @@ window.tips = function (message, code = 200) {
     setTimeoutToastHide();
 };
 
+const sleep = (delay = 500) => {
+    let t = Date.now();
+    while (Date.now() - t <= delay) {
+        continue;
+    }
+};
+
+// progress
+window.progress = {
+    total: 100,
+    valuenow: 0,
+    speed: 1000,
+    progressElement: null,
+    stop: false,
+    html: function (){
+        return `<div class="progress-bar" role="progressbar" style="width: ${progress.valuenow}%" aria-valuenow="${progress.valuenow}" aria-valuemin="0" aria-valuemax="100">${progress.valuenow}</div>`
+    },
+    setProgressElement: function (pe){
+        console.log(pe,111)
+        this.progressElement = pe;
+        return this;
+    },
+    init: function () {
+        this.total = 100;
+        this.valuenow = 0;
+        this.progressElement = null;
+        this.stop = false
+        return this;
+    },
+    work: function () {
+        this.add(progress);
+    },
+    add: function (obj) {
+        if (obj.stop !== true && obj.valuenow < obj.total) {
+            let num = parseFloat(obj.total) - parseFloat(obj.valuenow);
+            obj.valuenow = (parseFloat(obj.valuenow) + parseFloat(num / 100)).toFixed(2);
+            obj.progressElement.empty().append(obj.html())
+        } else {
+            obj.progressElement.empty().append(obj.html())
+            return;
+        }
+        setTimeout(function(){
+            obj.add(obj)
+        }, obj.speed)
+    },
+    exit: function () {
+        this.stop = true;
+        sleep(1000)
+        return this;
+    },
+    done: function () {
+        this.valuenow = this.total;
+        sleep(1000)
+        return this;
+    },
+    clearHtml: function () {
+        this.progressElement?.empty();
+    }
+};
+
 // copy url
 function copyToClipboard(element) {
     var $temp = $('<input>');
@@ -76,8 +136,41 @@ function reloadPage()
     location.reload();
 }
 
-// set
+function progressDown() {
+    progress.done();
+}
+
+function progressExit() {
+    progress.exit();
+}
+
+// settings
 $(document).ready(function () {
+    // progress bar
+    $(".fresns-modal").on('show.bs.modal', function() {
+        $('.ajax-progress-submit').show().removeAttr("disabled");
+        $('.ajax-progress-btn').show().removeAttr("disabled");
+        $(".ajax-progress").empty();
+    })
+
+    $(".ajax-progress-submit").on('click', function(event) {
+        event.preventDefault();
+        let obj = $(this)
+            // actionMethod = ($this).data('action-method')
+
+        if (obj.is(":disabled")) {
+            return;
+        }
+
+        $('.ajax-progress-btn').attr('disabled', true);
+
+        obj.attr('disabled', true);
+        obj.hide();
+
+        // set progress
+        progress.init().setProgressElement($('.ajax-progress').removeClass('d-none')).work();
+    })
+
     // upgrade
     $('#upgradeButton').click(function () {
         if ($(this).data('upgrading')) {
@@ -936,10 +1029,15 @@ $(document).ready(function () {
                 _method: 'delete'
             },
             success: function (response) {
+                processDown()
                 var ansi_up = new AnsiUp;
                 var html = ansi_up.ansi_to_html(response);
                 window.uninstallMessage = html;
                 $('#uninstallStepModal').find('#uninstall_artisan_output').html(html);
+            },
+            error: function (response) {
+                progressExit()
+                window.tips(response.responseJSON.message);
             },
         });
     });
@@ -2051,6 +2149,7 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (response) {
+                progressDown()
                 var ansi_up = new AnsiUp;
                 var html = ansi_up.ansi_to_html(response);
 
@@ -2058,6 +2157,7 @@ $(document).ready(function () {
                 $('#install_artisan_output').html(html || trans('tips.installSuccess')) //FsLang
             },
             error: function (response) {
+                progressExit()
                 window.tips(response.responseJSON.message);
             },
         });

@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary"  id="installSubmit">{{ __('FsLang::panel.button_confirm_install') }}</button>
+                    <button type="submit" class="btn btn-primary ajax-progress-submit"  id="installSubmit">{{ __('FsLang::panel.button_confirm_install') }}</button>
                 </div>
             </form>
         </div>
@@ -78,7 +78,7 @@
 </div>
 
 <!--install artisan output modal-->
-<div class="modal fade" id="installStepModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="installStepModal" aria-hidden="true">
+<div class="modal fade fresns-modal" id="installStepModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="installStepModal" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -87,6 +87,11 @@
             </div>
             <div class="modal-body">
                 <pre class="form-control" id="install_artisan_output">{{ __('FsLang::tips.install_in_progress') }}</pre>
+
+                <!--progress bar-->
+                <div class="mt-2">
+                    <div class="ajax-progress progress d-none" id="install-progress"></div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="reloadPage()">{{ __('FsLang::panel.button_close') }}</button>
@@ -111,7 +116,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('FsLang::panel.button_cancel') }}</button>
-                <button type="button" class="btn btn-danger uninstall-plugin" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#uninstallStepModal" id="uninstallSubmit">{{ __('FsLang::panel.button_confirm_uninstall') }}</button>
+                <button type="button" class="btn btn-danger uninstall-plugin ajax-progress-submit" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#uninstallStepModal" id="uninstallSubmit">{{ __('FsLang::panel.button_confirm_uninstall') }}</button>
             </div>
         </div>
     </div>
@@ -127,6 +132,11 @@
             </div>
             <div class="modal-body">
                 <pre class="form-control" id="uninstall_artisan_output">{{ __('FsLang::tips.uninstall_in_progress') }}</pre>
+
+                <!--progress bar-->
+                <div class="mt-2">
+                    <div class="ajax-progress progress w-100 d-none" id="uninstall-progress"></div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="reloadPage()">{{ __('FsLang::panel.button_close') }}</button>

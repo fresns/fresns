@@ -176,7 +176,7 @@ class ExtensionController extends Controller
                 }
 
                 // market-manager
-                \Artisan::call('market:require', [
+                $exitCode = \Artisan::call('market:require', [
                     'unikey' => $pluginUnikey,
                 ]);
                 $output = \Artisan::output();
@@ -201,7 +201,7 @@ class ExtensionController extends Controller
                 }
 
                 // plugin-manager or theme-manager
-                \Artisan::call("{$installType}:install", [
+                $exitCode = \Artisan::call("{$installType}:install", [
                     'path' => $pluginDirectory,
                 ]);
                 $output = \Artisan::output();
@@ -224,18 +224,18 @@ class ExtensionController extends Controller
                 }
 
                 // plugin-manager or theme-manager
-                \Artisan::call("{$installType}:install", [
+                $exitCode = \Artisan::call("{$installType}:install", [
                     'path' => $pluginZipball,
                 ]);
                 $output = \Artisan::output();
             break;
         }
 
-        if ($output == "\n") {
-            return \response(__('FsLang::tips.installFailure'));
+        if ($exitCode == 0) {
+            return \response($output."\n ".__('FsLang::tips.installSuccess'));
+        } else {
+            return \response($output."\n ".__('FsLang::tips.installFailure'));
         }
-
-        return \response($output."\n ".__('FsLang::tips.installSuccess'));
     }
 
     public function upgrade(Request $request)
