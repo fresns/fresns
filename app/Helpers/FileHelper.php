@@ -180,7 +180,7 @@ class FileHelper
         if ($storageConfig['antiLinkConfigStatus']) {
             $fresnsResponse = \FresnsCmdWord::plugin($storageConfig['service'])->getAntiLinkFileInfo([
                 'type' => $file->type,
-                'fileIdOrFid' => $file->id,
+                'fileIdOrFid' => strval($file->id),
             ]);
 
             return $fresnsResponse->getData() ?? null;
@@ -252,7 +252,7 @@ class FileHelper
         if ($antiLinkConfigStatus) {
             $fresnsResponse = \FresnsCmdWord::plugin()->getAntiLinkFileInfo([
                 'type' => $file->type,
-                'fileIdOrFid' => $file->id,
+                'fileIdOrFid' => strval($file->id),
             ]);
 
             return $fresnsResponse->getData($urlType) ?? null;
@@ -299,7 +299,7 @@ class FileHelper
         if ($storageConfig['antiLinkConfigStatus']) {
             $fresnsResponse = \FresnsCmdWord::plugin($storageConfig['service'])->getAntiLinkFileOriginalUrl([
                 'type' => $file->type,
-                'fileIdOrFid' => $file->id,
+                'fileIdOrFid' => strval($file->id),
             ]);
 
             return $fresnsResponse->getData('originalUrl') ?? null;
@@ -316,7 +316,7 @@ class FileHelper
         $documentStorageConfig = FileHelper::fresnsFileStorageConfigByType(File::TYPE_DOCUMENT);
 
         // image
-        if ($imageStorageConfig['antiLinkConfigStatus'] && empty($files['images'])) {
+        if ($imageStorageConfig['antiLinkConfigStatus'] && ! empty($files['images'])) {
             $fids = array_column($files['images'], 'fid');
 
             $fresnsResponse = \FresnsCmdWord::plugin($imageStorageConfig['service'])->getAntiLinkFileInfoList([
@@ -328,7 +328,7 @@ class FileHelper
         }
 
         // video
-        if ($videoStorageConfig['antiLinkConfigStatus'] && empty($files['videos'])) {
+        if ($videoStorageConfig['antiLinkConfigStatus'] && ! empty($files['videos'])) {
             $fids = array_column($files['videos'], 'fid');
 
             $fresnsResponse = \FresnsCmdWord::plugin($videoStorageConfig['service'])->getAntiLinkFileInfoList([
@@ -340,7 +340,7 @@ class FileHelper
         }
 
         // audio
-        if ($audioStorageConfig['antiLinkConfigStatus'] && empty($files['audios'])) {
+        if ($audioStorageConfig['antiLinkConfigStatus'] && ! empty($files['audios'])) {
             $fids = array_column($files['audios'], 'fid');
 
             $fresnsResponse = \FresnsCmdWord::plugin($audioStorageConfig['service'])->getAntiLinkFileInfoList([
@@ -352,7 +352,7 @@ class FileHelper
         }
 
         // document
-        if ($documentStorageConfig['antiLinkConfigStatus'] && empty($files['documents'])) {
+        if ($documentStorageConfig['antiLinkConfigStatus'] && ! empty($files['documents'])) {
             $fids = array_column($files['documents'], 'fid');
 
             $fresnsResponse = \FresnsCmdWord::plugin($documentStorageConfig['service'])->getAntiLinkFileInfoList([

@@ -277,6 +277,15 @@ class PermissionUtility
     // Check if the user has group publishing permissions
     public static function checkUserGroupPublishPerm(int $groupId, array $permissions, ?int $userId = null)
     {
+        $permissions = [
+            'publish_post' => $permissions['publish_post_review'] ?? 1,
+            'publish_post_roles' => $permissions['publish_post_roles'] ?? [],
+            'publish_post_review' => $permissions['publish_post_review'] ?? false,
+            'publish_comment' => $permissions['publish_comment_review'] ?? 1,
+            'publish_comment_roles' => $permissions['publish_comment_roles'] ?? [],
+            'publish_comment_review' => $permissions['publish_comment_review'] ?? false,
+        ];
+
         $perm['allowPost'] = false;
         $perm['reviewPost'] = $permissions['publish_post_review'];
         $perm['allowComment'] = false;

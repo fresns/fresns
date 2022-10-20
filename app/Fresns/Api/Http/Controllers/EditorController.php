@@ -979,6 +979,12 @@ class EditorController extends Controller
             if (! $fileConfig['service']) {
                 throw new ApiException(32104);
             }
+
+            $servicePlugin = Plugin::where('unikey', $fileConfig['service'])->isEnable()->first();
+
+            if (! $servicePlugin) {
+                throw new ApiException(32102);
+            }
         }
 
         $wordType = match ($dtoRequest->type) {

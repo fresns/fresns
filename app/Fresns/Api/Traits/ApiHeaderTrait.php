@@ -94,7 +94,7 @@ trait ApiHeaderTrait
         $langTag = $this->langTag();
 
         $cacheKey = 'fresns_api_auth_user_'.$uid.'_'.$langTag;
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(1);
 
         $authUser = Cache::remember($cacheKey, $cacheTime, function () use ($uid) {
             return User::withTrashed()->where('uid', $uid)->first();
@@ -118,7 +118,7 @@ trait ApiHeaderTrait
             $cacheKey = 'fresns_api_user_'.$authUser->uid.'_expire_info';
         }
 
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(1);
 
         $expireInfo = Cache::remember($cacheKey, $cacheTime, function () use ($authUser) {
             return PermissionUtility::checkUserStatusOfSiteMode($authUser?->id);
@@ -137,7 +137,7 @@ trait ApiHeaderTrait
         $authUser = $this->user();
 
         $cacheKey = 'fresns_api_user_'.$authUser?->uid.'_content_view_perm';
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(1);
 
         $config = Cache::remember($cacheKey, $cacheTime, function () use ($authUser) {
             return PermissionUtility::getUserContentViewPerm($authUser?->id);
