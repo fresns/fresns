@@ -26,7 +26,7 @@ Route::prefix('engine')
 
         Route::get('input-tips', [ApiController::class, 'getInputTips'])->name('input.tips')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
         Route::get('archives', [ApiController::class, 'getArchives'])->name('archives')->withoutMiddleware([UserAuthorize::class]);
-        Route::post('send-verify-code', [ApiController::class, 'sendVerifyCode'])->name('send.verifyCode')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
+        Route::post('send-verify-code', [ApiController::class, 'sendVerifyCode'])->name('send.verify.code')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
         Route::post('upload-file', [ApiController::class, 'uploadFile'])->name('upload.file');
 
         Route::prefix('account')->name('account.')->group(function () {

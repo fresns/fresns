@@ -12,7 +12,7 @@ use Browser;
 
 class PortalController extends Controller
 {
-    public function portal()
+    public function index()
     {
         $content = fs_db_config('portal_4') ?? (
             Browser::isMobile() ? fs_db_config('portal_3') : fs_db_config('portal_2')
