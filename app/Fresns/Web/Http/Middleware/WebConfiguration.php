@@ -9,6 +9,7 @@
 namespace App\Fresns\Web\Http\Middleware;
 
 use App\Fresns\Web\Helpers\ApiHelper;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Models\SessionKey;
 use Browser;
@@ -82,9 +83,28 @@ class WebConfiguration
 
     private function groupCategories(): void
     {
-        $result = ApiHelper::make()->get('/api/v2/group/categories');
+        if (fs_user()->check()) {
+            $langTag = current_lang_tag();
 
-        View::share('groupCategories', data_get($result, 'data.list', []));
+            $cacheKey = 'fresns_web_group_categories_'.$langTag;
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(1);
+
+            $groupCategories = Cache::remember($cacheKey, $cacheTime, function () {
+                $result = ApiHelper::make()->get('/api/v2/group/categories');
+
+                return data_get($result->toArray(), 'data.list', null);
+            });
+
+            if (is_null($groupCategories)) {
+                Cache::forget($cacheKey);
+
+                $groupCategories = [];
+            }
+
+            View::share('groupCategories', $groupCategories);
+        } else {
+            View::share('groupCategories', []);
+        }
     }
 
     public function loadLanguages()

@@ -16,7 +16,7 @@ class CheckSiteModel
     public function handle(Request $request, Closure $next)
     {
         if (fs_api_config('site_mode') == 'private' && fs_user()->guest()) {
-            return view('private');
+            return \response()->view('private');
         }
 
         return $next($request);
