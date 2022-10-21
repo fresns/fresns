@@ -23,6 +23,7 @@ return [
     'uninstallSuccess' => 'Успех деинсталляции',
     'uninstallFailure' => 'Неудачная деинсталляция',
     'copySuccess' => 'Копировать успех',
+    'viewLog' => 'Возникла проблема с реализацией, подробности смотрите в системном журнале Fresns',
     // request
     'request_in_progress' => 'запрос в процессе...',
     'requestSuccess' => 'Запросить успех',

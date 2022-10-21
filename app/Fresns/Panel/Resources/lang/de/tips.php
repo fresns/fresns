@@ -23,6 +23,7 @@ return [
     'uninstallSuccess' => 'Erfolgreiche Deinstallation',
     'uninstallFailure' => 'Deinstallation fehlgeschlagen',
     'copySuccess' => 'Erfolg kopieren',
+    'viewLog' => 'Bei der Implementierung ist ein Problem aufgetreten; Einzelheiten finden Sie im Fresns-Systemprotokoll',
     // request
     'request_in_progress' => 'Anfrage in Bearbeitung...',
     'requestSuccess' => 'Erfolg anfordern',

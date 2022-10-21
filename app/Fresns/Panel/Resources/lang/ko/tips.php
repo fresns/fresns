@@ -23,6 +23,7 @@ return [
     'uninstallSuccess' => '제거 성공',
     'uninstallFailure' => '제거 실패',
     'copySuccess' => '성공을 복사하십시오',
+    'viewLog' => '실행에 문제가 발생했습니다. 자세한 내용은 Fresns 시스템 로그를 확인하십시오.',
     // request
     'request_in_progress' => '요청 진행 중...',
     'requestSuccess' => '요청 성공',

@@ -23,6 +23,7 @@ return [
     'uninstallSuccess' => 'Uninstall Success',
     'uninstallFailure' => 'Uninstall Failure',
     'copySuccess' => 'Copy Success',
+    'viewLog' => 'There was a problem with the implementation, please see the Fresns system log for details',
     // request
     'request_in_progress' => 'Request in progress...',
     'requestSuccess' => 'Request Success',

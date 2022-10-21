@@ -23,6 +23,7 @@ return [
     'uninstallSuccess' => 'アンインストールの成功',
     'uninstallFailure' => 'アンインストールに失敗しました',
     'copySuccess' => '成功をコピーする',
+    'viewLog' => '実装に問題がありました。詳細はFresnsのシステムログをご覧ください。',
     // request
     'request_in_progress' => 'リクエスト中...',
     'requestSuccess' => 'リクエストサクセス',

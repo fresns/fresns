@@ -23,6 +23,7 @@ return [
     'uninstallSuccess' => 'Desinstalar o sucesso',
     'uninstallFailure' => 'Falha na desinstalação',
     'copySuccess' => 'Copie o sucesso',
+    'viewLog' => 'Houve um problema com a implementação, por favor consulte o registo do sistema Fresns para mais detalhes',
     // request
     'request_in_progress' => 'pedido em curso...',
     'requestSuccess' => 'Pedir sucesso',

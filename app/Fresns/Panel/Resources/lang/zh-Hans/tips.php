@@ -23,6 +23,7 @@ return [
     'uninstallSuccess' => '卸载成功',
     'uninstallFailure' => '卸载失败',
     'copySuccess' => '复制成功',
+    'viewLog' => '执行遇到了问题，详细信息请查看 Fresns 系统日志',
     // request
     'request_in_progress' => '正在请求中...',
     'requestSuccess' => '请求成功',

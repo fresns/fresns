@@ -23,6 +23,7 @@ return [
     'uninstallSuccess' => 'सफलता को अनइंस्टॉल करें',
     'uninstallFailure' => 'विफलता को अनइंस्टॉल करें',
     'copySuccess' => 'सफलतापूर्वक कॉपी करें',
+    'viewLog' => 'निष्पादन में कोई समस्या आई, कृपया विवरण के लिए फ़्रेस्न्स सिस्टम लॉग की जाँच करें',
     // request
     'request_in_progress' => 'अनुरोध जारी है...',
     'requestSuccess' => 'अनुरोध सफलता',

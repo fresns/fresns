@@ -234,6 +234,10 @@ class ExtensionController extends Controller
         if ($exitCode == 0) {
             return \response($output."\n ".__('FsLang::tips.installSuccess'));
         } else {
+            if ($output == '') {
+                $output = __('FsLang::tips.viewLog')."\n ".' /storage/logs';
+            }
+
             return \response($output."\n ".__('FsLang::tips.installFailure'));
         }
     }

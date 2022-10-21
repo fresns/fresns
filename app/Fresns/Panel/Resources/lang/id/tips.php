@@ -23,6 +23,7 @@ return [
     'uninstallSuccess' => 'Uninstall Sukses',
     'uninstallFailure' => 'Copot Pemasangan Gagal',
     'copySuccess' => 'Salin kesuksesan',
+    'viewLog' => 'Ada masalah dengan implementasi, silakan lihat log sistem Fresns untuk detailnya',
     // request
     'request_in_progress' => 'permintaan sedang diproses...',
     'requestSuccess' => 'Permintaan Sukses',
