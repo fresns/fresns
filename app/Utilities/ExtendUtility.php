@@ -134,7 +134,7 @@ class ExtendUtility
             $item['code'] = $archive->code;
             $item['name'] = LanguageHelper::fresnsLanguageByTableId('archives', 'name', $archive->id, $langTag);
 
-            if ($archive->api_type == 'file' && is_int($use->archive_value)) {
+            if ($archive->api_type == 'file' && StrHelper::isPureInt($use->archive_value)) {
                 $item['value'] = ConfigHelper::fresnsConfigFileUrlByItemKey($use->archive_value);
             } elseif ($archive->api_type == 'plugin') {
                 $item['value'] = PluginHelper::fresnsPluginUrlByUnikey($use->archive_value);

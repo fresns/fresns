@@ -11,6 +11,7 @@ namespace App\Utilities;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\PrimaryHelper;
+use App\Helpers\StrHelper;
 use App\Models\Group;
 use App\Models\GroupAdmin;
 use App\Models\PostAllow;
@@ -362,7 +363,7 @@ class PermissionUtility
             return false;
         }
 
-        if (is_int($pidOrPostId)) {
+        if (StrHelper::isPureInt($pidOrPostId)) {
             $post = PrimaryHelper::fresnsModelById('post', $pidOrPostId);
         } else {
             $post = PrimaryHelper::fresnsModelByFsid('post', $pidOrPostId);

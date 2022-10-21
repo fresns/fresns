@@ -284,7 +284,7 @@ class FileHelper
     // get file original url by file id or fid
     public static function fresnsFileOriginalUrlById(string $fileIdOrFid)
     {
-        if (is_int($fileIdOrFid)) {
+        if (StrHelper::isPureInt($fileIdOrFid)) {
             $file = File::whereId($fileIdOrFid)->first();
         } else {
             $file = File::whereFid($fileIdOrFid)->first();

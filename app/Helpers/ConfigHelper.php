@@ -166,7 +166,7 @@ class ConfigHelper
     {
         $file = ConfigHelper::fresnsConfigByItemKey($itemKey);
 
-        if (is_int($file)) {
+        if (StrHelper::isPureInt($file)) {
             return 'ID';
         }
 

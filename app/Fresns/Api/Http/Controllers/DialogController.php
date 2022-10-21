@@ -17,6 +17,7 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
+use App\Helpers\StrHelper;
 use App\Models\Dialog;
 use App\Models\DialogMessage;
 use App\Models\File;
@@ -77,7 +78,7 @@ class DialogController extends Controller
         $timezone = $this->timezone();
         $authUser = $this->user();
 
-        if (empty($dialogId) || ! is_int($dialogId)) {
+        if (empty($dialogId) || ! StrHelper::isPureInt($dialogId)) {
             throw new ApiException(30000);
         }
 
@@ -111,7 +112,7 @@ class DialogController extends Controller
         $timezone = $this->timezone();
         $authUser = $this->user();
 
-        if (empty($dialogId) || ! is_int($dialogId)) {
+        if (empty($dialogId) || ! StrHelper::isPureInt($dialogId)) {
             throw new ApiException(30000);
         }
 
