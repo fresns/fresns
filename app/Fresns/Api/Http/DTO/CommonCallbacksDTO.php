@@ -10,7 +10,7 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class GlobalConfigsDTO extends DTO
+class CommonCallbacksDTO extends DTO
 {
     /**
      * @return array
@@ -18,11 +18,8 @@ class GlobalConfigsDTO extends DTO
     public function rules(): array
     {
         return [
-            'keys' => ['string', 'nullable'],
-            'tags' => ['string', 'nullable'],
-            'isAll' => ['boolean', 'nullable'],
-            'pageSize' => ['integer', 'nullable', 'between:1,100'],
-            'page' => ['integer', 'nullable'],
+            'unikey' => ['string', 'required'],
+            'uuid' => ['uuid', 'required'],
         ];
     }
 }

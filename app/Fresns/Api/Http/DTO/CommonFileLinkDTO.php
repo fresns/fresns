@@ -10,7 +10,7 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class CommonDownloadFileDTO extends DTO
+class CommonFileLinkDTO extends DTO
 {
     /**
      * @return array
