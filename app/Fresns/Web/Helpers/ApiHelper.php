@@ -14,6 +14,7 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\SignHelper;
 use App\Models\SessionKey;
 use App\Utilities\AppUtility;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
 use Psr\Http\Message\ResponseInterface;
 
@@ -66,8 +67,12 @@ class ApiHelper implements \ArrayAccess, \IteratorAggregate, \Countable
 
     public function getOptions()
     {
+        $apiHost = Cache::rememberForever('fresns_web_api_host', function () {
+            return $this->getBaseUri();
+        });
+
         return [
-            'base_uri' => $this->getBaseUri(),
+            'base_uri' => $apiHost,
             'timeout' => 30000, // Request 5s timeout
             'http_errors' => false,
             'headers' => ApiHelper::getHeaders(),
@@ -138,26 +143,34 @@ class ApiHelper implements \ArrayAccess, \IteratorAggregate, \Countable
 
     public static function getHeaders()
     {
-        $engineApiType = ConfigHelper::fresnsConfigByItemKey('engine_api_type');
+        $keyConfig = Cache::rememberForever('fresns_web_api_key', function () {
+            $engineApiType = ConfigHelper::fresnsConfigByItemKey('engine_api_type');
 
-        if ($engineApiType == 'local') {
-            $keyId = ConfigHelper::fresnsConfigByItemKey('engine_key_id');
-            $keyInfo = SessionKey::find($keyId);
+            if ($engineApiType == 'local') {
+                $keyId = ConfigHelper::fresnsConfigByItemKey('engine_key_id');
+                $keyInfo = SessionKey::find($keyId);
 
-            $platformId = $keyInfo?->platform_id;
-            $appId = $keyInfo?->app_id;
-            $appSecret = $keyInfo?->app_secret;
-        } else {
-            $platformId = 4;
-            $appId = ConfigHelper::fresnsConfigByItemKey('engine_api_app_id');
-            $appSecret = ConfigHelper::fresnsConfigByItemKey('engine_api_app_secret');
-        }
+                $platformId = $keyInfo?->platform_id;
+                $appId = $keyInfo?->app_id;
+                $appSecret = $keyInfo?->app_secret;
+            } else {
+                $platformId = 4;
+                $appId = ConfigHelper::fresnsConfigByItemKey('engine_api_app_id');
+                $appSecret = ConfigHelper::fresnsConfigByItemKey('engine_api_app_secret');
+            }
+
+            return [
+                'platformId' => $platformId,
+                'appId' => $appId,
+                'appSecret' => $appSecret,
+            ];
+        });
 
         $headers = [
             'Accept' => 'application/json',
-            'platformId' => $platformId,
+            'platformId' => $keyConfig['platformId'],
             'version' => '2.0.0',
-            'appId' => $appId,
+            'appId' => $keyConfig['appId'],
             'timestamp' => now()->unix(),
             'sign' => null,
             'langTag' => current_lang_tag(),
@@ -167,7 +180,7 @@ class ApiHelper implements \ArrayAccess, \IteratorAggregate, \Countable
             'token' => Cookie::get('fs_uid_token', \request('fs_uid_token')) ?? Cookie::get('fs_aid_token', \request('fs_aid_token')),
             'deviceInfo' => json_encode(AppUtility::getDeviceInfo()),
         ];
-        $headers['sign'] = SignHelper::makeSign($headers, $appSecret);
+        $headers['sign'] = SignHelper::makeSign($headers, $keyConfig['appSecret']);
 
         return $headers;
     }

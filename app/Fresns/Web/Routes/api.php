@@ -51,7 +51,8 @@ Route::prefix('engine')
 
         Route::prefix('content')->name('content.')->group(function () {
             Route::get('type', [ApiController::class, 'contentType'])->name('type');
-            Route::get('download/{fid}', [ApiController::class, 'contentDownloadFile'])->name('file.download');
+            Route::get('file/{fid}/link', [ApiController::class, 'contentFileLink'])->name('file.link');
+            Route::get('file/{fid}/users', [ApiController::class, 'contentFileUsers'])->name('file.users');
             Route::delete('{type}/{fsid}', [ApiController::class, 'contentDelete'])->name('delete');
         });
 
