@@ -9,6 +9,7 @@
 namespace App\Helpers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class DateHelper
@@ -20,15 +21,19 @@ class DateHelper
      */
     public static function fresnsDatabaseTimezone()
     {
-        $standardTime = gmdate('Y-m-d H:i:s');
+        $timezone = Cache::rememberForever('fresns_database_timezone', function () {
+            $standardTime = gmdate('Y-m-d H:i:s');
 
-        $now = DateHelper::fresnsDatabaseCurrentDateTime();
-        $hour = Carbon::parse($standardTime)->floatDiffInHours($now, false);
-        if ($hour > 0) {
-            $hour = '+'.$hour;
-        }
+            $now = DateHelper::fresnsDatabaseCurrentDateTime();
+            $hour = Carbon::parse($standardTime)->floatDiffInHours($now, false);
+            if ($hour > 0) {
+                $hour = '+'.$hour;
+            }
 
-        return $hour;
+            return $hour;
+        });
+
+        return $timezone;
     }
 
     /**
@@ -65,7 +70,11 @@ class DateHelper
      */
     public static function fresnsDatabaseCurrentDateTime()
     {
-        return DB::selectOne('select now() as now')->now;
+        $datetime = Cache::remember('fresns_database_datetime', now()->addMinute(), function () {
+            return DB::selectOne('select now() as now')->now;
+        });
+
+        return $datetime;
     }
 
     /**

@@ -45,6 +45,8 @@ class CacheHelper
      */
     public static function forgetFresnsConfig()
     {
+        Cache::forget('fresns_database_timezone');
+        Cache::forget('fresns_database_datetime');
         Cache::forget('fresns_crontab_items');
         Cache::forget('fresns_default_langTag');
         Cache::forget('fresns_default_timezone');
