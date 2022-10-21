@@ -34,7 +34,7 @@ if (! function_exists('fs_api_config')) {
         $cacheKey = 'fresns_web_api_config_all_'.$langTag;
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
-        $apiConfig = Cache::remember($cacheKey, $cacheTime, function () use ($itemKey) {
+        $apiConfig = Cache::remember($cacheKey, $cacheTime, function () {
             $result = ApiHelper::make()->get('/api/v2/global/configs', [
                 'query' => [
                     'isAll' => true,
