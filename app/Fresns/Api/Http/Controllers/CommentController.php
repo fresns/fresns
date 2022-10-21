@@ -56,12 +56,12 @@ class CommentController extends Controller
 
             if ($filterGroupIdsArr) {
                 $commentQuery->whereHas('post', function ($query) use ($filterGroupIdsArr) {
-                    $query->whereNotIn('group_id', $filterGroupIdsArr);
+                    $query->whereNotIn('group_id', $filterGroupIdsArr)->orWhereNull('group_id');
                 });
             }
 
             if ($blockHashtagIds) {
-                $commentQuery->whereHas('hashtags', function ($query) use ($blockHashtagIds) {
+                $commentQuery->orWhereHas('hashtags', function ($query) use ($blockHashtagIds) {
                     $query->whereNotIn('hashtag_id', $blockHashtagIds);
                 });
             }
