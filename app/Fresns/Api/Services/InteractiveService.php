@@ -100,6 +100,10 @@ class InteractiveService
 
         $paginateData = [];
         foreach ($interactiveData as $interactive) {
+            if (empty($interactive->creator)) {
+                continue;
+            }
+
             $paginateData[] = $service->userData($interactive->creator, $langTag, $timezone, $authUserId);
         }
 
@@ -161,6 +165,10 @@ class InteractiveService
             case 'users':
                 $service = new UserService();
                 foreach ($markData as $mark) {
+                    if (empty($mark->user)) {
+                        continue;
+                    }
+
                     $paginateData[] = $service->userData($mark->user, $langTag, $timezone, $authUserId);
                 }
             break;
@@ -169,6 +177,10 @@ class InteractiveService
             case 'groups':
                 $service = new GroupService();
                 foreach ($markData as $mark) {
+                    if (empty($mark->group)) {
+                        continue;
+                    }
+
                     $paginateData[] = $service->groupData($mark->group, $langTag, $timezone, $authUserId);
                 }
             break;
@@ -177,6 +189,10 @@ class InteractiveService
             case 'hashtags':
                 $service = new HashtagService();
                 foreach ($markData as $mark) {
+                    if (empty($mark->hashtag)) {
+                        continue;
+                    }
+
                     $paginateData[] = $service->hashtagData($mark->hashtag, $langTag, $timezone, $authUserId);
                 }
             break;
@@ -185,6 +201,10 @@ class InteractiveService
             case 'posts':
                 $service = new PostService();
                 foreach ($markData as $mark) {
+                    if (empty($mark->post)) {
+                        continue;
+                    }
+
                     $paginateData[] = $service->postData($mark->post, 'list', $langTag, $timezone, $authUserId);
                 }
             break;
@@ -193,6 +213,10 @@ class InteractiveService
             case 'comments':
                 $service = new CommentService();
                 foreach ($markData as $mark) {
+                    if (empty($mark->comment)) {
+                        continue;
+                    }
+
                     $paginateData[] = $service->commentData($mark->comment, 'list', $langTag, $timezone, $authUserId);
                 }
             break;
