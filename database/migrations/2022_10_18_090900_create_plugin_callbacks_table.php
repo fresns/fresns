@@ -20,16 +20,17 @@ class CreatePluginCallbacksTable extends Migration
     public function up()
     {
         Schema::create('plugin_callbacks', function (Blueprint $table) {
-            $table->bigInteger('id', true);
+            $table->bigIncrements('id');
             $table->string('plugin_unikey', 64);
-            $table->bigInteger('user_id');
+            $table->unsignedBigInteger('account_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('uuid', 64)->unique('uuid');
             $table->unsignedSmallInteger('type')->default(1);
             $table->json('content');
-            $table->tinyInteger('status')->default(1);
+            $table->unsignedTinyInteger('is_use')->default(0);
             $table->string('use_plugin_unikey', 64)->nullable();
             $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
         });
     }
