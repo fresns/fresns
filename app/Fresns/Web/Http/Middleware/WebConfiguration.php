@@ -11,6 +11,7 @@ namespace App\Fresns\Web\Http\Middleware;
 use App\Fresns\Web\Helpers\ApiHelper;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
+use App\Models\File;
 use App\Models\SessionKey;
 use Browser;
 use Closure;
@@ -87,7 +88,7 @@ class WebConfiguration
             $langTag = current_lang_tag();
 
             $cacheKey = 'fresns_web_group_categories_'.$langTag;
-            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(1);
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
             $groupCategories = Cache::remember($cacheKey, $cacheTime, function () {
                 $result = ApiHelper::make()->get('/api/v2/group/categories', [

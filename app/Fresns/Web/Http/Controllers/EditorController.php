@@ -48,6 +48,18 @@ class EditorController extends Controller
     // index
     public function index(string $type, ?string $postGid = null, ?string $commentPid = null, ?string $commentCid = null)
     {
+        $editorPlugin = match ($type) {
+            'posts' => fs_api_config('post_editor_service'),
+            'comments' => fs_api_config('comment_editor_service'),
+            'post' => fs_api_config('post_editor_service'),
+            'comment' => fs_api_config('comment_editor_service'),
+            default => null,
+        };
+
+        if ($editorPlugin) {
+            return redirect()->to($editorPlugin."/{$type}");
+        }
+
         $type = match ($type) {
             'posts' => 'post',
             'comments' => 'comment',
@@ -83,12 +95,26 @@ class EditorController extends Controller
             return redirect()->to(fs_route(route('fresns.editor.edit', [$type, $response['data']['detail']['id']])));
         }
 
-        return view('editor.index', compact('type', 'config', 'drafts'));
+        $uploadInfo = ApiHelper::getUploadInfo();
+
+        return view('editor.index', compact('type', 'config', 'drafts', 'uploadInfo'));
     }
 
     // edit
     public function edit(Request $request, string $type, int $draftId)
     {
+        $editorPlugin = match ($type) {
+            'posts' => fs_api_config('post_editor_service'),
+            'comments' => fs_api_config('comment_editor_service'),
+            'post' => fs_api_config('post_editor_service'),
+            'comment' => fs_api_config('comment_editor_service'),
+            default => null,
+        };
+
+        if ($editorPlugin) {
+            return redirect()->to($editorPlugin."/{$type}/{$draftId}");
+        }
+
         $type = match ($type) {
             'posts' => 'post',
             'comments' => 'comment',
@@ -112,7 +138,23 @@ class EditorController extends Controller
             $clid = $draftId;
         }
 
-        return view('editor.edit', compact('type', 'plid', 'clid', 'config', 'stickers', 'draft', 'group'));
+        $usageType = match ($type) {
+            'posts' => 7,
+            'comments' => 8,
+            'post' => 7,
+            'comment' => 8,
+        };
+
+        $tableName = match ($type) {
+            'posts' => 'post_logs',
+            'comments' => 'comment_logs',
+            'post' => 'post_logs',
+            'comment' => 'comment_logs',
+        };
+
+        $uploadInfo = ApiHelper::getUploadInfo($usageType, $tableName, 'id', $draftId, null);
+
+        return view('editor.edit', compact('type', 'plid', 'clid', 'config', 'stickers', 'draft', 'group', 'uploadInfo'));
     }
 
     // request: direct publish
@@ -191,6 +233,20 @@ class EditorController extends Controller
     // request: create or edit
     public function store(Request $request, string $type)
     {
+        $fsid = $request->input('fsid');
+
+        $editorPlugin = match ($type) {
+            'posts' => fs_api_config('post_editor_service'),
+            'comments' => fs_api_config('comment_editor_service'),
+            'post' => fs_api_config('post_editor_service'),
+            'comment' => fs_api_config('comment_editor_service'),
+            default => null,
+        };
+
+        if ($editorPlugin) {
+            return redirect()->to($editorPlugin."/{$type}?fsid={$fsid}");
+        }
+
         $type = match ($type) {
             'posts' => 'post',
             'comments' => 'comment',
@@ -198,8 +254,6 @@ class EditorController extends Controller
             'comment' => 'comment',
             default => 'post',
         };
-
-        $fsid = $request->input('fsid');
 
         if ($fsid) {
             $response = ApiHelper::make()->post("/api/v2/editor/{$type}/generate/{$fsid}")->toArray();

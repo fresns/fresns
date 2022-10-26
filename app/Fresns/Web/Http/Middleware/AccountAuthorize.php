@@ -33,7 +33,7 @@ class AccountAuthorize
     public function shouldLoginRender(string $message, int $code = 401)
     {
         if (request()->ajax()) {
-            return Response::json(compact('message', $code), 401);
+            return Response::json(compact('message', 'code'), 401);
         } else {
             return redirect(fs_route(route('fresns.account.login')))->withErrors($message);
         }

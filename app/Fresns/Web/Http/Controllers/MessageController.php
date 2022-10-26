@@ -70,7 +70,7 @@ class MessageController extends Controller
         $query = $request->all();
         $query['types'] = $types;
 
-        $result = ApiHelper::make()->get('/api/v2/dialog/list', [
+        $result = ApiHelper::make()->get('/api/v2/notify/list', [
             'query' => $query,
         ]);
 
