@@ -61,26 +61,26 @@ class ArchiveUsage extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'usage_id', 'id')->where('usage_type', ArchiveUsage::TYPE_USER);
+        return $this->belongsTo(User::class, 'usage_id', 'id');
     }
 
     public function group()
     {
-        return $this->belongsTo(Group::class, 'usage_id', 'id')->where('usage_type', ArchiveUsage::TYPE_GROUP);
+        return $this->belongsTo(Group::class, 'usage_id', 'id');
     }
 
     public function hashtag()
     {
-        return $this->belongsTo(Hashtag::class, 'usage_id', 'id')->where('usage_type', ArchiveUsage::TYPE_HASHTAG);
+        return $this->belongsTo(Hashtag::class, 'usage_id', 'id');
     }
 
     public function post()
     {
-        return $this->belongsTo(Post::class, 'usage_id', 'id')->where('usage_type', ArchiveUsage::TYPE_POST);
+        return $this->belongsTo(Post::class, 'usage_id', 'id');
     }
 
     public function comment()
     {
-        return $this->belongsTo(Comment::class, 'usage_id', 'id')->where('usage_type', ArchiveUsage::TYPE_COMMENT);
+        return $this->belongsTo(Comment::class, 'usage_id', 'id');
     }
 }

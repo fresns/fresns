@@ -41,6 +41,7 @@ trait UserServiceTrait
         $profile['url'] = $url;
         $profile['nickname'] = $userData->nickname;
         $profile['avatar'] = static::getUserAvatar($userData->id);
+        $profile['decorate'] = null;
         $profile['banner'] = FileHelper::fresnsFileUrlByTableColumn($userData->banner_file_id, $userData->banner_file_url);
         $profile['gender'] = $userData->gender;
         $profile['birthday'] = DateHelper::fresnsDateTimeByTimezone($userData->birthday, $timezone, $langTag);
@@ -50,6 +51,7 @@ trait UserServiceTrait
         $profile['commentLimit'] = $userData->comment_limit;
         $profile['timezone'] = $userData->timezone ?? ConfigHelper::fresnsConfigByItemKey('default_timezone');
         $profile['verifiedStatus'] = (bool) $userData->verified_status;
+        $profile['verifiedIcon'] = null;
         $profile['verifiedDesc'] = $userData->verified_desc;
         $profile['verifiedDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData->verified_at, $timezone, $langTag);
         $profile['expiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData->expired_at, $timezone, $langTag);
@@ -83,10 +85,8 @@ trait UserServiceTrait
                 if (ConfigHelper::fresnsConfigFileValueTypeByItemKey('default_avatar') == 'URL') {
                     $userAvatar = $avatar['default_avatar'];
                 } else {
-                    $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink([
-                        'fileId' => $avatar['default_avatar'],
-                    ]);
-                    $userAvatar = $fresnsResp->getData('imageAvatarUrl');
+                    $fileInfo = FileHelper::fresnsFileInfoById($avatar['default_avatar']);
+                    $userAvatar = $fileInfo['imageAvatarUrl'];
                 }
             } else {
                 // user avatar
@@ -97,10 +97,8 @@ trait UserServiceTrait
             if (ConfigHelper::fresnsConfigFileValueTypeByItemKey('deactivate_avatar') == 'URL') {
                 $userAvatar = $avatar['deactivate_avatar'];
             } else {
-                $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink([
-                    'fileId' => $avatar['deactivate_avatar'],
-                ]);
-                $userAvatar = $fresnsResp->getData('imageAvatarUrl');
+                $fileInfo = FileHelper::fresnsFileInfoById($avatar['deactivate_avatar']);
+                $userAvatar = $fileInfo['imageAvatarUrl'];
             }
         }
 

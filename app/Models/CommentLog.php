@@ -20,13 +20,13 @@ class CommentLog extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function files()
+    public function fileUsages()
     {
-        return $this->hasMany(FileUsage::class, 'id', 'table_id')->where('table_name', 'comment_logs')->where('table_column', 'id');
+        return $this->hasMany(FileUsage::class, 'table_id', 'id')->where('table_name', 'comment_logs')->where('table_column', 'id');
     }
 
-    public function extends()
+    public function extendUsages()
     {
-        return $this->hasMany(ExtendUsage::class, 'id', 'usage_id')->where('usage_type', ExtendUsage::TYPE_COMMENT_LOG);
+        return $this->hasMany(ExtendUsage::class, 'usage_id', 'id')->where('usage_type', ExtendUsage::TYPE_COMMENT_LOG);
     }
 }

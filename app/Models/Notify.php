@@ -13,8 +13,8 @@ class Notify extends Model
     const TYPE_SYSTEM_TO_FULL = 1;
     const TYPE_SYSTEM_TO_USER = 2;
     const TYPE_RECOMMEND = 3;
-    const TYPE_LIKE = 4;
-    const TYPE_FOLLOW = 5;
+    const TYPE_FOLLOW = 4;
+    const TYPE_LIKE = 5;
     const TYPE_MENTION = 6;
     const TYPE_COMMENT = 7;
 
@@ -36,26 +36,26 @@ class Notify extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'action_id', 'id')->where('action_type', Notify::ACTION_TYPE_USER);
+        return $this->belongsTo(User::class, 'action_id', 'id');
     }
 
     public function group()
     {
-        return $this->belongsTo(Group::class, 'action_id', 'id')->where('action_type', Notify::ACTION_TYPE_GROUP);
+        return $this->belongsTo(Group::class, 'action_id', 'id');
     }
 
     public function hashtag()
     {
-        return $this->belongsTo(Hashtag::class, 'action_id', 'id')->where('action_type', Notify::ACTION_TYPE_HASHTAG);
+        return $this->belongsTo(Hashtag::class, 'action_id', 'id');
     }
 
     public function post()
     {
-        return $this->belongsTo(Post::class, 'action_id', 'id')->where('action_type', Notify::ACTION_TYPE_POST);
+        return $this->belongsTo(Post::class, 'action_id', 'id');
     }
 
     public function comment()
     {
-        return $this->belongsTo(Comment::class, 'action_id', 'id')->where('action_type', Notify::ACTION_TYPE_POST);
+        return $this->belongsTo(Comment::class, 'action_id', 'id');
     }
 }

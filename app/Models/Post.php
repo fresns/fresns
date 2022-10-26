@@ -41,7 +41,17 @@ class Post extends Model
 
     public function hashtags()
     {
-        return $this->belongsToMany(Hashtag::class, 'hashtag_usages', 'usage_id', 'hashtag_id')->wherePivot('usage_type', HashtagUsage::TYPE_POST);
+        return $this->belongsToMany(Hashtag::class, 'hashtag_usages', 'usage_id', 'hashtag_id')->wherePivot('usage_type', HashtagUsage::TYPE_POST)->wherePivot('deleted_at', null);
+    }
+
+    public function fileUsages()
+    {
+        return $this->hasMany(FileUsage::class, 'table_id', 'id')->where('table_name', 'posts')->where('table_column', 'id');
+    }
+
+    public function extendUsages()
+    {
+        return $this->hasMany(ExtendUsage::class, 'usage_id', 'id')->where('usage_type', ExtendUsage::TYPE_POST);
     }
 
     public function users()
