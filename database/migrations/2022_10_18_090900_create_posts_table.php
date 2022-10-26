@@ -23,8 +23,7 @@ class CreatePostsTable extends Migration
             $table->bigIncrements('id');
             $table->string('pid', 32)->unique('pid');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedInteger('group_id')->nullable();
-            $table->string('types', 128)->nullable()->index('types');
+            $table->unsignedInteger('group_id')->default(0);
             $table->string('title')->nullable();
             $table->longText('content')->nullable();
             $table->char('lang_tag', 16)->nullable();
