@@ -4977,7 +4977,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             381 => [
                 'id' => 382,
-                'item_key' => 'post_list_service',
+                'item_key' => 'content_list_service',
                 'item_value' => null,
                 'item_type' => 'plugin',
                 'item_tag' => 'extends',
@@ -4990,7 +4990,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             382 => [
                 'id' => 383,
-                'item_key' => 'post_follow_service',
+                'item_key' => 'content_follow_service',
                 'item_value' => null,
                 'item_type' => 'plugin',
                 'item_tag' => 'extends',
@@ -5003,7 +5003,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             383 => [
                 'id' => 384,
-                'item_key' => 'post_nearby_service',
+                'item_key' => 'content_nearby_service',
                 'item_value' => null,
                 'item_type' => 'plugin',
                 'item_tag' => 'extends',
@@ -5016,7 +5016,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             384 => [
                 'id' => 385,
-                'item_key' => 'post_detail_service',
+                'item_key' => 'content_detail_service',
                 'item_value' => null,
                 'item_type' => 'plugin',
                 'item_tag' => 'extends',
