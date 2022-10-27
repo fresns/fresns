@@ -23,8 +23,8 @@ use App\Models\UserFollow;
 use App\Models\UserLike;
 use App\Models\UserStat;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class InteractiveUtility
 {
