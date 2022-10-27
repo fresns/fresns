@@ -52,7 +52,7 @@ class GroupService
         $item['admins'] = $adminList;
 
         $interactiveConfig = InteractiveHelper::fresnsGroupInteractive($langTag);
-        $interactiveStatus = InteractiveUtility::checkInteractiveStatus(InteractiveUtility::TYPE_GROUP, $group->id, $authUserId);
+        $interactiveStatus = InteractiveUtility::getInteractiveStatus(InteractiveUtility::TYPE_GROUP, $group->id, $authUserId);
         $item['interactive'] = array_merge($interactiveConfig, $interactiveStatus);
 
         $data = array_merge($groupInfo, $item);

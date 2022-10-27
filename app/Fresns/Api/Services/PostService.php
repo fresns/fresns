@@ -60,7 +60,7 @@ class PostService
         $item['group'] = null;
         if ($post->group) {
             $groupInteractiveConfig = InteractiveHelper::fresnsGroupInteractive($langTag);
-            $groupInteractiveStatus = InteractiveUtility::checkInteractiveStatus(InteractiveUtility::TYPE_GROUP, $post->group->id, $authUserId);
+            $groupInteractiveStatus = InteractiveUtility::getInteractiveStatus(InteractiveUtility::TYPE_GROUP, $post->group->id, $authUserId);
 
             $groupItem = $post->group->getGroupInfo($langTag);
             $groupItem['interactive'] = array_merge($groupInteractiveConfig, $groupInteractiveStatus);
@@ -73,7 +73,7 @@ class PostService
             $hashtagService = new HashtagService;
 
             foreach ($post->hashtags as $hashtag) {
-                $hashtagItem[] = $hashtagService->hashtagData($hashtag, $langTag, $authUserId);
+                $hashtagItem[] = $hashtagService->hashtagData($hashtag, $langTag, $timezone, $authUserId);
             }
             $item['hashtags'] = $hashtagItem;
         }
@@ -113,7 +113,7 @@ class PostService
         $item['editStatus'] = $editStatus;
 
         $interactiveConfig = InteractiveHelper::fresnsPostInteractive($langTag);
-        $interactiveStatus = InteractiveUtility::checkInteractiveStatus(InteractiveUtility::TYPE_POST, $post->id, $authUserId);
+        $interactiveStatus = InteractiveUtility::getInteractiveStatus(InteractiveUtility::TYPE_POST, $post->id, $authUserId);
         $item['interactive'] = array_merge($interactiveConfig, $interactiveStatus);
 
         $commentVisibilityRule = ConfigHelper::fresnsConfigByItemKey('comment_visibility_rule');

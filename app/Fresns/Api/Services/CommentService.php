@@ -66,7 +66,7 @@ class CommentService
             $hashtagService = new HashtagService;
 
             foreach ($comment->hashtags as $hashtag) {
-                $hashtagItem[] = $hashtagService->hashtagData($hashtag, $langTag, $authUserId);
+                $hashtagItem[] = $hashtagService->hashtagData($hashtag, $langTag, $timezone, $authUserId);
             }
             $item['hashtags'] = $hashtagItem;
         }
@@ -132,7 +132,7 @@ class CommentService
         $item['editStatus'] = $editStatus;
 
         $interactiveConfig = InteractiveHelper::fresnsCommentInteractive($langTag);
-        $interactiveStatus = InteractiveUtility::checkInteractiveStatus(InteractiveUtility::TYPE_COMMENT, $comment->id, $authUserId);
+        $interactiveStatus = InteractiveUtility::getInteractiveStatus(InteractiveUtility::TYPE_COMMENT, $comment->id, $authUserId);
         $interactiveCreatorLike['postCreatorLikeStatus'] = InteractiveUtility::checkUserLike(InteractiveUtility::TYPE_COMMENT, $comment->id, $post->user_id);
         $item['interactive'] = array_merge($interactiveConfig, $interactiveStatus, $interactiveCreatorLike);
 

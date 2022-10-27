@@ -22,7 +22,6 @@ use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Account;
-use App\Models\Comment;
 use App\Models\Extend;
 use App\Models\File;
 use App\Models\FileDownload;
@@ -410,6 +409,7 @@ class CommonController extends Controller
     public function fileLink(string $fid, Request $request)
     {
         $dtoRequest = new CommonFileLinkDTO($request->all());
+        $authAccountId = $this->account()->id;
         $authUserId = $this->user()->id;
 
         $roleDownloadCount = PermissionUtility::getUserMainRolePerm($authUserId)['download_file_count'] ?? 0;
@@ -457,6 +457,21 @@ class CommonController extends Controller
 
         $data['originalUrl'] = FileHelper::fresnsFileOriginalUrlById($file->id);
 
+        $objectType = match ($dtoRequest->type) {
+            'post' => 4,
+            'comment' => 5,
+            'extend' => 6,
+        };
+        $downloader = [
+            'file_id' => $file->id,
+            'file_type' => $file->type,
+            'account_id' => $authAccountId,
+            'user_id' => $authUserId,
+            'object_type' => $objectType,
+            'object_id' => $model->id,
+        ];
+        FileDownload::create($downloader);
+
         return $this->success($data);
     }
 
@@ -476,9 +491,24 @@ class CommonController extends Controller
             throw new ApiException(37501);
         }
 
-        $downUsers = FileDownload::with('user')->latest()->paginate($request->get('pageSize', 15));
+        $downUsers = FileDownload::with('user')
+            ->select([
+                \DB::raw("any_value(id) as id"),
+                \DB::raw("any_value(file_id) as file_id"),
+                \DB::raw("any_value(file_type) as file_type"),
+                \DB::raw("any_value(account_id) as account_id"),
+                \DB::raw("any_value(user_id) as user_id"),
+                \DB::raw("any_value(plugin_unikey) as plugin_unikey"),
+                \DB::raw("any_value(object_type) as object_type"),
+                \DB::raw("any_value(object_id) as object_id"),
+                \DB::raw("any_value(created_at) as created_at"),
+            ])
+            ->where('file_id', $file->id)
+            ->latest()
+            ->groupBy('user_id')
+            ->paginate($request->get('pageSize', 15));
 
-        $item = null;
+        $items = null;
         foreach ($downUsers as $down) {
             if (empty($down->user)) {
                 continue;
@@ -486,10 +516,10 @@ class CommonController extends Controller
 
             $item['downloadTime'] = DateHelper::fresnsFormatDateTime($down->created_at, $timezone, $langTag);
             $item['downloadTimeFormat'] = DateHelper::fresnsFormatTime($down->created_at, $langTag);
-            $item['downloadUser'] = $down->user->getUserProfile();
-            $item[] = $item;
+            $item['downloadUser'] = $down->user->getUserProfile($langTag, $timezone);
+            $items[] = $item;
         }
 
-        return $this->fresnsPaginate($item, $downUsers->total(), $downUsers->perPage());
+        return $this->fresnsPaginate($items, $downUsers->total(), $downUsers->perPage());
     }
 }

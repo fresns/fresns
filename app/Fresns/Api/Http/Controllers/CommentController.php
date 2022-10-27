@@ -17,13 +17,14 @@ use App\Fresns\Api\Services\CommentService;
 use App\Fresns\Api\Services\InteractiveService;
 use App\Fresns\Api\Services\UserService;
 use App\Helpers\ConfigHelper;
+use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
 use App\Models\Comment;
 use App\Models\CommentLog;
 use App\Models\Seo;
-use App\Models\UserBlock;
-use App\Utilities\PermissionUtility;
+use App\Utilities\ConfigUtility;
+use App\Utilities\InteractiveUtility;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -37,35 +38,47 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $filterGroupIdsArr = PermissionUtility::getPostFilterByGroupIds($authUserId);
+        $commentQuery = Comment::with(['creator', 'post', 'hashtags'])->isEnable();
 
-        if (empty($authUserId)) {
-            $commentQuery = Comment::with(['creator', 'post', 'hashtags'])->isEnable();
-        } else {
-            $blockCommentIds = UserBlock::type(UserBlock::TYPE_COMMENT)->where('user_id', $authUserId)->pluck('block_id')->toArray();
-            $blockUserIds = UserBlock::type(UserBlock::TYPE_USER)->where('user_id', $authUserId)->pluck('block_id')->toArray();
-            $blockHashtagIds = UserBlock::type(UserBlock::TYPE_HASHTAG)->where('user_id', $authUserId)->pluck('block_id')->toArray();
+        $blockGroupIds = InteractiveUtility::getPrivateGroupIdArr();
 
-            $commentQuery = Comment::with(['creator', 'post', 'hashtags'])
-                ->where(function ($query) use ($blockCommentIds, $blockUserIds) {
-                    $query
-                        ->whereNotIn('id', $blockCommentIds)
-                        ->orWhereNotIn('user_id', $blockUserIds);
-                })
-                ->isEnable();
+        if ($authUserId) {
+            $blockPostIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_POST, $authUserId);
+            $blockCommentIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_COMMENT, $authUserId);
+            $blockUserIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_USER, $authUserId);
+            $blockGroupIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_GROUP, $authUserId);
+            $blockHashtagIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_HASHTAG, $authUserId);
 
-            if ($filterGroupIdsArr) {
-                $commentQuery->whereHas('post', function ($query) use ($filterGroupIdsArr) {
-                    $query->whereNotIn('group_id', $filterGroupIdsArr)->orWhereNull('group_id');
+            $commentQuery->when($blockCommentIds, function ($query, $value) {
+                $query->whereNotIn('id', $value);
+            });
+
+            if ($blockPostIds) {
+                $commentQuery->where(function ($commentQuery) use ($blockPostIds) {
+                    $commentQuery->whereHas('post', function ($query) use ($blockPostIds) {
+                        $query->whereNotIn('id', $blockPostIds);
+                    });
                 });
             }
 
+            $commentQuery->when($blockUserIds, function ($query, $value) {
+                $query->whereNotIn('user_id', $value);
+            });
+
             if ($blockHashtagIds) {
-                $commentQuery->orWhereHas('hashtags', function ($query) use ($blockHashtagIds) {
-                    $query->whereNotIn('hashtag_id', $blockHashtagIds);
+                $commentQuery->where(function ($commentQuery) use ($blockHashtagIds) {
+                    $commentQuery->whereDoesntHave('hashtags')->orWhereHas('hashtags', function ($query) use ($blockHashtagIds) {
+                        $query->whereNotIn('hashtag_id', $blockHashtagIds);
+                    });
                 });
             }
         }
+
+        $commentQuery->when($blockGroupIds, function ($query, $value) {
+            $query->whereHas('post', function ($query) use ($value) {
+                $query->whereNotIn('group_id', $value);
+            });
+        });
 
         if ($dtoRequest->uidOrUsername) {
             $commentConfig = ConfigHelper::fresnsConfigByItemKey('it_comments');
@@ -99,6 +112,27 @@ class CommentController extends Controller
 
             if ($viewPost->is_enable == 0) {
                 throw new ApiException(37301);
+            }
+
+            $commentVisibilityRule = ConfigHelper::fresnsConfigByItemKey('comment_visibility_rule');
+            if ($commentVisibilityRule > 0) {
+                $visibilityTime = $viewPost->created_at->addDay($commentVisibilityRule);
+
+                if ($visibilityTime->lt(now())) {
+                    return $this->failure(
+                        32203,
+                        ConfigUtility::getCodeMessage(32203, 'Fresns', $langTag),
+                        [
+                            'paginate' => [
+                                'total' => 0,
+                                'pageSize' => 0,
+                                'currentPage' => 1,
+                                'lastPage' => 1,
+                            ],
+                            'list' => [],
+                        ],
+                    );
+                }
             }
 
             $commentQuery->where('post_id', $viewPost->id);
@@ -165,14 +199,6 @@ class CommentController extends Controller
             $query->where('digest_state', $value);
         });
 
-        if ($dtoRequest->contentType && $dtoRequest->contentType != 'all') {
-            if ($dtoRequest->contentType == 'text') {
-                $commentQuery->whereNull('types');
-            } else {
-                $commentQuery->where('types', 'like', "%{$dtoRequest->contentType}%");
-            }
-        }
-
         $commentQuery->when($dtoRequest->createDateGt, function ($query, $value) {
             $query->whereDate('created_at', '>=', $value);
         });
@@ -221,6 +247,24 @@ class CommentController extends Controller
             $query->where('comment_count', '<=', $value);
         });
 
+        if ($dtoRequest->contentType && $dtoRequest->contentType != 'all') {
+            $contentType = $dtoRequest->contentType;
+
+            $fileTypeNumber = FileHelper::fresnsFileTypeNumber($contentType);
+
+            if ($contentType == 'text') {
+                $commentQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
+            } elseif ($fileTypeNumber) {
+                $commentQuery->whereHas('fileUsages', function ($query) use ($fileTypeNumber) {
+                    $query->where('file_type', $fileTypeNumber);
+                });
+            } else {
+                $commentQuery->whereHas('extendUsages', function ($query) use ($contentType) {
+                    $query->where('plugin_unikey', $contentType);
+                });
+            }
+        }
+
         $dateLimit = $this->userContentViewPerm()['dateLimit'];
         $commentQuery->when($dateLimit, function ($query, $value) {
             $query->where('created_at', '<=', $value);
@@ -249,6 +293,10 @@ class CommentController extends Controller
         $commentList = [];
         $service = new CommentService();
         foreach ($comments as $comment) {
+            if (empty($comment->post) || empty($comment->postAppend)) {
+                continue;
+            }
+
             $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
         }
 

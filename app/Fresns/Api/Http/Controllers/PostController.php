@@ -20,16 +20,16 @@ use App\Fresns\Api\Services\PostFollowService;
 use App\Fresns\Api\Services\PostService;
 use App\Fresns\Api\Services\UserService;
 use App\Helpers\ConfigHelper;
+use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
 use App\Models\Post;
 use App\Models\PostLog;
 use App\Models\PostUser;
 use App\Models\Seo;
-use App\Models\UserBlock;
 use App\Utilities\ExtendUtility;
+use App\Utilities\InteractiveUtility;
 use App\Utilities\LbsUtility;
-use App\Utilities\PermissionUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -63,36 +63,36 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $filterGroupIdsArr = PermissionUtility::getPostFilterByGroupIds($authUserId);
+        $postQuery = Post::with(['creator', 'group', 'hashtags'])->isEnable();
 
-        if (empty($authUserId)) {
-            $postQuery = Post::with(['creator', 'group', 'hashtags'])
-                ->where(function ($query) use ($filterGroupIdsArr) {
-                    $query->whereNull('group_id')
-                        ->orWhereNotIn('group_id', $filterGroupIdsArr);
-                })
-                ->isEnable();
-        } else {
-            $blockPostIds = UserBlock::type(UserBlock::TYPE_POST)->where('user_id', $authUserId)->pluck('block_id')->toArray();
-            $blockUserIds = UserBlock::type(UserBlock::TYPE_USER)->where('user_id', $authUserId)->pluck('block_id')->toArray();
-            $blockHashtagIds = UserBlock::type(UserBlock::TYPE_HASHTAG)->where('user_id', $authUserId)->pluck('block_id')->toArray();
+        $blockGroupIds = InteractiveUtility::getPrivateGroupIdArr();
 
-            $postQuery = Post::with(['creator', 'group', 'hashtags'])
-                ->where(function ($query) use ($blockPostIds, $blockUserIds, $filterGroupIdsArr) {
-                    $query
-                        ->whereNotIn('id', $blockPostIds)
-                        ->orWhereNotIn('user_id', $blockUserIds)
-                        ->orWhereNull('group_id')
-                        ->orWhereNotIn('group_id', $filterGroupIdsArr);
-                })
-                ->isEnable();
+        if ($authUserId) {
+            $blockPostIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_POST, $authUserId);
+            $blockUserIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_USER, $authUserId);
+            $blockGroupIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_GROUP, $authUserId);
+            $blockHashtagIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_HASHTAG, $authUserId);
+
+            $postQuery->when($blockPostIds, function ($query, $value) {
+                $query->whereNotIn('id', $value);
+            });
+
+            $postQuery->when($blockUserIds, function ($query, $value) {
+                $query->whereNotIn('user_id', $value);
+            });
 
             if ($blockHashtagIds) {
-                $postQuery->orWhereHas('hashtags', function ($query) use ($blockHashtagIds) {
-                    $query->whereNotIn('hashtag_id', $blockHashtagIds);
+                $postQuery->where(function ($postQuery) use ($blockHashtagIds) {
+                    $postQuery->whereDoesntHave('hashtags')->orWhereHas('hashtags', function ($query) use ($blockHashtagIds) {
+                        $query->whereNotIn('hashtag_id', $blockHashtagIds);
+                    });
                 });
             }
         }
+
+        $postQuery->when($blockGroupIds, function ($query, $value) {
+            $query->whereNotIn('group_id', $value);
+        });
 
         if ($dtoRequest->uidOrUsername) {
             $postConfig = ConfigHelper::fresnsConfigByItemKey('it_posts');
@@ -160,14 +160,6 @@ class PostController extends Controller
             $query->where('sticky_state', $value);
         });
 
-        if ($dtoRequest->contentType && $dtoRequest->contentType != 'all') {
-            if ($dtoRequest->contentType == 'text') {
-                $postQuery->whereNull('types');
-            } else {
-                $postQuery->where('types', 'like', "%{$dtoRequest->contentType}%");
-            }
-        }
-
         $postQuery->when($dtoRequest->createDateGt, function ($query, $value) {
             $query->whereDate('created_at', '>=', $value);
         });
@@ -215,6 +207,24 @@ class PostController extends Controller
         $postQuery->when($dtoRequest->commentCountGt, function ($query, $value) {
             $query->where('comment_count', '<=', $value);
         });
+
+        if ($dtoRequest->contentType && $dtoRequest->contentType != 'all') {
+            $contentType = $dtoRequest->contentType;
+
+            $fileTypeNumber = FileHelper::fresnsFileTypeNumber($contentType);
+
+            if ($contentType == 'text') {
+                $postQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
+            } elseif ($fileTypeNumber) {
+                $postQuery->whereHas('fileUsages', function ($query) use ($fileTypeNumber) {
+                    $query->where('file_type', $fileTypeNumber);
+                });
+            } else {
+                $postQuery->whereHas('extendUsages', function ($query) use ($contentType) {
+                    $query->where('plugin_unikey', $contentType);
+                });
+            }
+        }
 
         $dateLimit = $this->userContentViewPerm()['dateLimit'];
         $postQuery->when($dateLimit, function ($query, $value) {

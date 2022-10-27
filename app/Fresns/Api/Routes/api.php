@@ -87,7 +87,7 @@ Route::prefix('v2')->middleware([
 
     // notify
     Route::prefix('notify')->name('notify.')->group(function () {
-        Route::get('{type}/list', [NotifyController::class, 'list'])->name('list');
+        Route::get('list', [NotifyController::class, 'list'])->name('list');
         Route::put('mark-as-read', [NotifyController::class, 'markAsRead'])->name('read');
         Route::delete('delete', [NotifyController::class, 'delete'])->name('delete');
     });

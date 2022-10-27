@@ -11,6 +11,7 @@ namespace App\Fresns\Api\Traits;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Models\Account;
+use App\Models\File;
 use App\Models\User;
 use App\Utilities\PermissionUtility;
 use Illuminate\Support\Facades\Cache;
@@ -94,7 +95,7 @@ trait ApiHeaderTrait
         $langTag = $this->langTag();
 
         $cacheKey = 'fresns_api_auth_user_'.$uid.'_'.$langTag;
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(1);
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
         $authUser = Cache::remember($cacheKey, $cacheTime, function () use ($uid) {
             return User::withTrashed()->where('uid', $uid)->first();
@@ -118,7 +119,7 @@ trait ApiHeaderTrait
             $cacheKey = 'fresns_api_user_'.$authUser->uid.'_expire_info';
         }
 
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(1);
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
         $expireInfo = Cache::remember($cacheKey, $cacheTime, function () use ($authUser) {
             return PermissionUtility::checkUserStatusOfSiteMode($authUser?->id);
@@ -137,7 +138,7 @@ trait ApiHeaderTrait
         $authUser = $this->user();
 
         $cacheKey = 'fresns_api_user_'.$authUser?->uid.'_content_view_perm';
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(1);
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
         $config = Cache::remember($cacheKey, $cacheTime, function () use ($authUser) {
             return PermissionUtility::getUserContentViewPerm($authUser?->id);

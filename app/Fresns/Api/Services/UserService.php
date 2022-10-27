@@ -18,6 +18,7 @@ use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractiveUtility;
 use App\Utilities\PermissionUtility;
+use Illuminate\Support\Arr;
 
 class UserService
 {
@@ -39,10 +40,19 @@ class UserService
         $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_USER, $user->id, $langTag);
         $item['roles'] = $user->getUserRoles($langTag, $timezone);
 
+        if ($item['operations']['diversifyImages']) {
+            $decorate = Arr::pull($item['operations']['diversifyImages'], 'code', 'decorate');
+            $verifiedIcon = Arr::pull($item['operations']['diversifyImages'], 'code', 'verified');
+
+            $userProfile['decorate'] = $decorate['imageUrl'] ?? null;
+            $userProfile['verifiedIcon'] = $verifiedIcon['imageUrl'] ?? null;
+        }
+
         $interactiveConfig = InteractiveHelper::fresnsUserInteractive($langTag);
-        $interactiveStatus = InteractiveUtility::checkInteractiveStatus(InteractiveUtility::TYPE_USER, $user->id, $authUserId);
-        $followMeStatus['followMeStatus'] = InteractiveUtility::checkUserFollowMe($user->id, $authUserId);
-        $item['interactive'] = array_merge($interactiveConfig, $interactiveStatus, $followMeStatus);
+        $interactiveStatus = InteractiveUtility::getInteractiveStatus(InteractiveUtility::TYPE_USER, $user->id, $authUserId);
+        $followMeStatus['followMeStatus'] = InteractiveUtility::checkUserFollow(InteractiveUtility::TYPE_USER, $authUserId, $user->id);
+        $blockMeStatus['blockMeStatus'] = InteractiveUtility::checkUserBlock(InteractiveUtility::TYPE_USER, $authUserId, $user->id);
+        $item['interactive'] = array_merge($interactiveConfig, $interactiveStatus, $followMeStatus, $blockMeStatus);
 
         $item['dialog'] = PermissionUtility::checkUserDialogPerm($user->id, $authUserId, $langTag);
 

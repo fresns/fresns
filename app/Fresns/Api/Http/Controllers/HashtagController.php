@@ -27,6 +27,7 @@ class HashtagController extends Controller
         $dtoRequest = new HashtagListDTO($request->all());
 
         $langTag = $this->langTag();
+        $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
         $blockHashtagIds = UserBlock::type(UserBlock::TYPE_HASHTAG)->where('user_id', $authUserId)->pluck('block_id')->toArray();
@@ -113,7 +114,7 @@ class HashtagController extends Controller
         $hashtagList = [];
         $service = new HashtagService();
         foreach ($hashtagData as $hashtag) {
-            $hashtagList[] = $service->hashtagData($hashtag, $langTag, $authUserId);
+            $hashtagList[] = $service->hashtagData($hashtag, $langTag, $timezone, $authUserId);
         }
 
         return $this->fresnsPaginate($hashtagList, $hashtagData->total(), $hashtagData->perPage());
@@ -135,6 +136,7 @@ class HashtagController extends Controller
         }
 
         $langTag = $this->langTag();
+        $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
         $seoData = Seo::where('usage_type', Seo::TYPE_HASHTAG)->where('usage_id', $hashtag->id)->where('lang_tag', $langTag)->first();
@@ -145,7 +147,7 @@ class HashtagController extends Controller
         $data['items'] = $item;
 
         $service = new HashtagService();
-        $data['detail'] = $service->hashtagData($hashtag, $langTag, $authUserId);
+        $data['detail'] = $service->hashtagData($hashtag, $langTag, $timezone, $authUserId);
 
         return $this->success($data);
     }

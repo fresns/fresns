@@ -22,6 +22,7 @@ use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
+use App\Helpers\StrHelper;
 use App\Models\ArchiveUsage;
 use App\Models\BlockWord;
 use App\Models\CommentLog;
@@ -218,7 +219,7 @@ class UserController extends Controller
     // detail
     public function detail(string $uidOrUsername)
     {
-        if (preg_match('/^\d*?$/', $uidOrUsername)) {
+        if (StrHelper::isPureInt($uidOrUsername)) {
             $viewUser = User::where('uid', $uidOrUsername)->first();
         } else {
             $viewUser = User::where('username', $uidOrUsername)->first();
@@ -257,7 +258,7 @@ class UserController extends Controller
     // interactive
     public function interactive(string $uidOrUsername, string $type, Request $request)
     {
-        if (preg_match('/^\d*?$/', $uidOrUsername)) {
+        if (StrHelper::isPureInt($uidOrUsername)) {
             $viewUser = User::where('uid', $uidOrUsername)->first();
         } else {
             $viewUser = User::where('username', $uidOrUsername)->first();
@@ -292,7 +293,7 @@ class UserController extends Controller
     // markList
     public function markList(string $uidOrUsername, string $markType, string $listType, Request $request)
     {
-        if (preg_match('/^\d*?$/', $uidOrUsername)) {
+        if (StrHelper::isPureInt($uidOrUsername)) {
             $viewUser = User::where('uid', $uidOrUsername)->first();
         } else {
             $viewUser = User::where('username', $uidOrUsername)->first();
@@ -329,7 +330,7 @@ class UserController extends Controller
     {
         $dtoRequest = new UserAuthDTO($request->all());
 
-        if (preg_match('/^\d*?$/', $dtoRequest->uidOrUsername)) {
+        if (StrHelper::isPureInt($dtoRequest->uidOrUsername)) {
             $authUser = User::where('uid', $dtoRequest->uidOrUsername)->first();
         } else {
             $authUser = User::where('username', $dtoRequest->uidOrUsername)->first();
@@ -429,14 +430,14 @@ class UserController extends Controller
         $dialogUnread['message'] = $dialogMessageCount;
         $data['dialogUnread'] = $dialogUnread;
 
-        $notify = Notify::where('user_id', $authUserId)->where('is_read', 0);
+        $notifyUnread['all'] = Notify::where('type', '!=', 1)->where('user_id', $authUserId)->where('is_read', 0)->count();
         $notifyUnread['bulletin'] = Notify::where('type', 1)->where('is_read', 0)->count();
-        $notifyUnread['system'] = $notify->where('type', 2)->count();
-        $notifyUnread['recommend'] = $notify->where('type', 3)->count();
-        $notifyUnread['follow'] = $notify->where('type', 4)->count();
-        $notifyUnread['like'] = $notify->where('type', 5)->count();
-        $notifyUnread['mention'] = $notify->where('type', 6)->count();
-        $notifyUnread['comment'] = $notify->where('type', 7)->count();
+        $notifyUnread['system'] = Notify::where('type', 2)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['recommend'] = Notify::where('type', 3)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['follow'] = Notify::where('type', 4)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['like'] = Notify::where('type', 5)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['mention'] = Notify::where('type', 6)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['comment'] = Notify::where('type', 7)->where('user_id', $authUserId)->where('is_read', 0)->count();
         $data['notifyUnread'] = $notifyUnread;
 
         $draftCount['posts'] = PostLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count();
