@@ -50,7 +50,7 @@ class ConfigHelper
         $langTagArr = Cache::remember('fresns_lang_tags', now()->addDays(), function () {
             $langArr = Config::where('item_key', 'language_menus')->first()?->item_value;
 
-            if (!$langArr) {
+            if (! $langArr) {
                 return null;
             }
 
