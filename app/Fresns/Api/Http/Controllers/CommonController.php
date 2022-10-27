@@ -508,7 +508,7 @@ class CommonController extends Controller
             ->groupBy('user_id')
             ->paginate($request->get('pageSize', 15));
 
-        $items = null;
+        $items = [];
         foreach ($downUsers as $down) {
             if (empty($down->user)) {
                 continue;

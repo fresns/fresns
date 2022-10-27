@@ -128,7 +128,7 @@ class DialogController extends Controller
 
         $messages = DialogMessage::where('dialog_id', $dialog->id)->isEnable()->latest()->paginate($request->get('pageSize', 15));
 
-        $messageList = null;
+        $messageList = [];
         foreach ($messages as $message) {
             $sendUserIsMe = false;
             if ($message->send_user_id == $authUser->id) {

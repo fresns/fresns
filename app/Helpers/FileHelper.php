@@ -194,10 +194,10 @@ class FileHelper
     {
         $files = File::whereIn('id', $fileIdsOrFids)->orWhereIn('fid', $fileIdsOrFids)->get()->groupBy('type');
 
-        $data['images'] = $files->get(File::TYPE_IMAGE)?->all() ?? null;
-        $data['videos'] = $files->get(File::TYPE_VIDEO)?->all() ?? null;
-        $data['audios'] = $files->get(File::TYPE_AUDIO)?->all() ?? null;
-        $data['documents'] = $files->get(File::TYPE_DOCUMENT)?->all() ?? null;
+        $data['images'] = $files->get(File::TYPE_IMAGE)?->all() ?? [];
+        $data['videos'] = $files->get(File::TYPE_VIDEO)?->all() ?? [];
+        $data['audios'] = $files->get(File::TYPE_AUDIO)?->all() ?? [];
+        $data['documents'] = $files->get(File::TYPE_DOCUMENT)?->all() ?? [];
 
         return $data;
     }
@@ -220,10 +220,10 @@ class FileHelper
 
         $fileList = $fileUsages->map(fn ($fileUsage) => $fileUsage->file?->getFileInfo())->groupBy('type');
 
-        $files['images'] = $fileList->get(File::TYPE_IMAGE)?->all() ?? null;
-        $files['videos'] = $fileList->get(File::TYPE_VIDEO)?->all() ?? null;
-        $files['audios'] = $fileList->get(File::TYPE_AUDIO)?->all() ?? null;
-        $files['documents'] = $fileList->get(File::TYPE_DOCUMENT)?->all() ?? null;
+        $files['images'] = $fileList->get(File::TYPE_IMAGE)?->all() ?? [];
+        $files['videos'] = $fileList->get(File::TYPE_VIDEO)?->all() ?? [];
+        $files['audios'] = $fileList->get(File::TYPE_AUDIO)?->all() ?? [];
+        $files['documents'] = $fileList->get(File::TYPE_DOCUMENT)?->all() ?? [];
 
         return $files;
     }

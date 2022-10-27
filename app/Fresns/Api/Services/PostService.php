@@ -68,7 +68,7 @@ class PostService
             $item['group'] = $groupItem;
         }
 
-        $item['hashtags'] = null;
+        $item['hashtags'] = [];
         if ($post->hashtags->isNotEmpty()) {
             $hashtagService = new HashtagService;
 

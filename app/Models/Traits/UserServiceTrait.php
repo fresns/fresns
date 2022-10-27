@@ -137,7 +137,7 @@ trait UserServiceTrait
         $userRoleArr = UserRole::where('user_id', $userData->id)->get()->toArray();
         $roleArr = Role::whereIn('id', array_column($userRoleArr, 'role_id'))->get();
 
-        $roleList = null;
+        $roleList = [];
         foreach ($roleArr as $role) {
             foreach ($userRoleArr as $userRole) {
                 if ($userRole['role_id'] !== $role['id']) {

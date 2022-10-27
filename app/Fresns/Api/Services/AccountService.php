@@ -18,7 +18,7 @@ class AccountService
     public function accountDetail(Account $account, string $langTag, string $timezone)
     {
         $userArr = $account->users;
-        $userList = null;
+        $userList = [];
         foreach ($userArr as $user) {
             $userProfile = $user->getUserProfile($langTag, $timezone);
             $userMainRole = $user->getUserMainRole($langTag, $timezone);

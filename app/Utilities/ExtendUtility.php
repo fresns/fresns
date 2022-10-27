@@ -36,7 +36,7 @@ class ExtendUtility
             })->orderBy('rating')->get();
         }
 
-        $extendList = null;
+        $extendList = [];
         foreach ($extendArr as $extend) {
             if ($extend->is_group_admin == 1) {
                 if (! empty($userId) && ! empty($groupId)) {
@@ -108,10 +108,10 @@ class ExtendUtility
             return $item;
         })->groupBy('type');
 
-        $operationList['customizes'] = $operations->get(Operation::TYPE_CUSTOMIZE)?->all() ?? null;
-        $operationList['buttonIcons'] = $operations->get(Operation::TYPE_BUTTON_ICON)?->all() ?? null;
-        $operationList['diversifyImages'] = $operations->get(Operation::TYPE_DIVERSIFY_IMAGE)?->all() ?? null;
-        $operationList['tips'] = $operations->get(Operation::TYPE_TIP)?->all() ?? null;
+        $operationList['customizes'] = $operations->get(Operation::TYPE_CUSTOMIZE)?->all() ?? [];
+        $operationList['buttonIcons'] = $operations->get(Operation::TYPE_BUTTON_ICON)?->all() ?? [];
+        $operationList['diversifyImages'] = $operations->get(Operation::TYPE_DIVERSIFY_IMAGE)?->all() ?? [];
+        $operationList['tips'] = $operations->get(Operation::TYPE_TIP)?->all() ?? [];
 
         return $operationList;
     }
@@ -127,7 +127,7 @@ class ExtendUtility
 
         $archiveUsages = $archiveQuery->get();
 
-        $archiveList = null;
+        $archiveList = [];
         foreach ($archiveUsages as $use) {
             $archive = $use->archive;
 
@@ -189,9 +189,9 @@ class ExtendUtility
             return $item;
         })->groupBy('type');
 
-        $operationList['textBox'] = $extends->get(Extend::TYPE_TEXT_BOX)?->all() ?? null;
-        $operationList['infoBox'] = $extends->get(Extend::TYPE_INFO_BOX)?->all() ?? null;
-        $operationList['interactiveBox'] = $extends->get(Extend::TYPE_INTERACTIVE_BOX)?->all() ?? null;
+        $operationList['textBox'] = $extends->get(Extend::TYPE_TEXT_BOX)?->all() ?? [];
+        $operationList['infoBox'] = $extends->get(Extend::TYPE_INFO_BOX)?->all() ?? [];
+        $operationList['interactiveBox'] = $extends->get(Extend::TYPE_INTERACTIVE_BOX)?->all() ?? [];
 
         return $operationList;
     }

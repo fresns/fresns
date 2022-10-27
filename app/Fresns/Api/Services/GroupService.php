@@ -42,7 +42,7 @@ class GroupService
 
         $item['publishRule'] = PermissionUtility::checkUserGroupPublishPerm($group->id, $group->permissions, $authUserId);
 
-        $adminList = null;
+        $adminList = [];
         foreach ($group->admins as $admin) {
             $userProfile = $admin->getUserProfile($timezone);
             $userMainRole = $admin->getUserMainRole($langTag, $timezone);

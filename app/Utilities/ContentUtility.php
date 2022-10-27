@@ -412,7 +412,7 @@ class ContentUtility
             return null;
         }
 
-        $permissions['users'] = null;
+        $permissions['users'] = [];
         if (! empty($readAllowConfig['permissions']['users'])) {
             $users = User::whereIn('uid', $readAllowConfig['permissions']['users'])->first();
             foreach ($users as $user) {
@@ -421,7 +421,7 @@ class ContentUtility
             $permissions['users'] = $userList;
         }
 
-        $permissions['roles'] = null;
+        $permissions['roles'] = [];
         if (! empty($readAllowConfig['permissions']['roles'])) {
             $roles = Role::whereIn('id', $readAllowConfig['permissions']['roles'])->first();
             foreach ($roles as $role) {

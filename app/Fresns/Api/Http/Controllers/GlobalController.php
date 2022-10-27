@@ -100,11 +100,19 @@ class GlobalController extends Controller
         $langTag = $this->langTag();
         $unikey = $dtoRequest->unikey ?? null;
 
+        $usageType = match ($dtoRequest->type) {
+            'user' => Archive::TYPE_USER,
+            'group' => Archive::TYPE_GROUP,
+            'hashtag' => Archive::TYPE_HASHTAG,
+            'post' => Archive::TYPE_POST,
+            'comment' => Archive::TYPE_COMMENT,
+        };
+
         $cacheKey = "fresns_api_archives_{$dtoRequest->type}_{$unikey}_{$langTag}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
-        $archives = Cache::remember($cacheKey, $cacheTime, function () use ($type, $unikey) {
-            $archiveData = Archive::type($type)
+        $archives = Cache::remember($cacheKey, $cacheTime, function () use ($usageType, $unikey) {
+            $archiveData = Archive::type($usageType)
                 ->when($unikey, function ($query, $value) {
                     $query->where('plugin_unikey', $value);
                 })
@@ -119,7 +127,7 @@ class GlobalController extends Controller
                 'document_extension_names',
             ]);
 
-            $items = null;
+            $items = [];
             foreach ($archiveData as $archive) {
                 $fileExt = match ($archive->file_type) {
                     1 => $fileExtName['image_extension_names'],
@@ -211,7 +219,7 @@ class GlobalController extends Controller
 
         $roles = $roleQuery->paginate($request->get('pageSize', 15));
 
-        $roleList = null;
+        $roleList = [];
         foreach ($roles as $role) {
             foreach ($role->permissions as $perm) {
                 $permissions[$perm['permKey']] = $perm['permValue'];
@@ -298,7 +306,7 @@ class GlobalController extends Controller
 
         $words = $wordQuery->paginate($request->get('pageSize', 50));
 
-        $wordList = null;
+        $wordList = [];
         foreach ($words as $word) {
             $item['word'] = $word->word;
             $item['contentMode'] = $word->content_mode;

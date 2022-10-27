@@ -435,7 +435,7 @@ class AccountController extends Controller
 
         $walletLogs = $walletLogQuery->paginate($request->get('pageSize', 15));
 
-        $logList = null;
+        $logList = [];
         foreach ($walletLogs as $log) {
             $item['type'] = $log->object_type;
             $item['amountTotal'] = $log->amount_total;

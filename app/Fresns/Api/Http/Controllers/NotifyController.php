@@ -51,7 +51,7 @@ class NotifyController extends Controller
         $postService = new PostService();
         $commentService = new CommentService();
 
-        $notifyList = null;
+        $notifyList = [];
         foreach ($notifies as $notify) {
             $item['notifyId'] = $notify->id;
             $item['type'] = $notify->type;

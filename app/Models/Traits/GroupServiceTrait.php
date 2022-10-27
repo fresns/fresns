@@ -59,7 +59,7 @@ trait GroupServiceTrait
 
         $admins = GroupAdmin::with('user')->where('group_id', $groupData->id)->get();
 
-        $adminList = null;
+        $adminList = [];
         foreach ($admins as $admin) {
             $userProfile = $admin->user->getUserProfile($timezone);
             $userMainRole = $admin->user->getUserMainRole($langTag, $timezone);

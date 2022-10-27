@@ -61,7 +61,7 @@ class CommentService
         $fileCount['documents'] = collect($item['files']['documents'])->count();
         $item['fileCount'] = $fileCount;
 
-        $item['hashtags'] = null;
+        $item['hashtags'] = [];
         if ($comment->hashtags->isNotEmpty()) {
             $hashtagService = new HashtagService;
 
@@ -191,7 +191,7 @@ class CommentService
             ->limit($limit)
             ->get();
 
-        $commentList = null;
+        $commentList = [];
         $service = new CommentService();
 
         /** @var Comment $comment */
