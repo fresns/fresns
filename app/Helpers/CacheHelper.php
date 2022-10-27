@@ -38,6 +38,7 @@ class CacheHelper
         Cache::flush();
         \Artisan::call('view:cache');
         \Artisan::call('config:cache');
+        \Artisan::call('event:cache');
     }
 
     /**
@@ -143,8 +144,13 @@ class CacheHelper
     /**
      * forget fresns api info.
      *
+     * fresns_plugin_{$unikey}_url
+     * fresns_plugin_{$unikey}_{$parameterKey}_url
+     * fresns_user_follow_{$type}_{$authUserId}
+     * fresns_user_block_{$type}_{$authUserId}
      * fresns_api_guest_expire_info
      * fresns_api_guest_groups
+     * fresns_api_private_groups
      * fresns_api_user_{$uid}_expire_info
      * fresns_api_user_{$uid}_content_view_perm
      * fresns_api_user_{$authUserId}_groups
