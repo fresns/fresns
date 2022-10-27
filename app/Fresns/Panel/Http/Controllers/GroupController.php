@@ -301,7 +301,7 @@ class GroupController extends Controller
 
         // group category
         if ($request->is_category) {
-            $group->permission = [];
+            $group->permissions = [];
             if ($request->has('is_enable')) {
                 $group->is_enable = $request->is_enable;
             }

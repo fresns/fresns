@@ -332,7 +332,7 @@ Route::get('js/{locale?}/translations', function ($locale) {
         $langPath = app_path('Fresns/Panel/Resources/lang/'.config('app.locale'));
     }
 
-    $strings = Cache::rememberForever('translations.'.$locale, function () use ($langPath) {
+    $strings = Cache::rememberForever('fresns_panel_translations_'.$locale, function () use ($langPath) {
         return collect(File::allFiles($langPath))->flatMap(function ($file) {
             $name = basename($file, '.php');
             $strings[$name] = require $file;

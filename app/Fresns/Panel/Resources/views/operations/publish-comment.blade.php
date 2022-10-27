@@ -232,47 +232,63 @@
         <!--publish_editor_function_options-->
         <div class="row mb-3">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.publish_editor_function_options') }}:</label>
-            <div class="col-lg-6">
+            <div class="col-lg-10">
                 <div class="input-group">
+                    <label class="input-group-text">{{ __('FsLang::panel.editor_upload_image_form') }}</label>
+                    <select class="form-select" name="comment_editor_image_upload_form" id="comment_editor_image_upload_form">
+                        <option value="fresns" @if ($params['comment_editor_image_upload_form'] == 'fresns') selected @endif>Fresns Form</option>
+                        <option value="plugin" @if ($params['comment_editor_image_upload_form'] == 'plugin') selected @endif>Plugin Page</option>
+                    </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_image_number') }}</label>
                     <input type="number" class="form-control input-number" id="comment_editor_image_upload_number" name="comment_editor_image_upload_number" value="{{ $params['comment_editor_image_upload_number'] }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
                 </div>
             </div>
-            <div class="col-lg-4 form-text pt-1"></div>
         </div>
         <div class="row mb-3">
             <label class="col-lg-2 col-form-label text-lg-end"></label>
-            <div class="col-lg-6">
+            <div class="col-lg-10">
                 <div class="input-group">
+                    <label class="input-group-text">{{ __('FsLang::panel.editor_upload_video_form') }}</label>
+                    <select class="form-select" name="comment_editor_video_upload_form" id="comment_editor_video_upload_form">
+                        <option value="fresns" @if ($params['comment_editor_video_upload_form'] == 'fresns') selected @endif>Fresns Form</option>
+                        <option value="plugin" @if ($params['comment_editor_video_upload_form'] == 'plugin') selected @endif>Plugin Page</option>
+                    </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_video_number') }}</label>
                     <input type="number" class="form-control input-number" id="comment_editor_video_upload_number" name="comment_editor_video_upload_number" value="{{ $params['comment_editor_video_upload_number'] }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
                 </div>
             </div>
-            <div class="col-lg-4 form-text pt-1"></div>
         </div>
         <div class="row mb-3">
             <label class="col-lg-2 col-form-label text-lg-end"></label>
-            <div class="col-lg-6">
+            <div class="col-lg-10">
                 <div class="input-group">
+                    <label class="input-group-text">{{ __('FsLang::panel.editor_upload_audio_form') }}</label>
+                    <select class="form-select" name="comment_editor_audio_upload_form" id="comment_editor_audio_upload_form">
+                        <option value="fresns" @if ($params['comment_editor_audio_upload_form'] == 'fresns') selected @endif>Fresns Form</option>
+                        <option value="plugin" @if ($params['comment_editor_audio_upload_form'] == 'plugin') selected @endif>Plugin Page</option>
+                    </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_audio_number') }}</label>
                     <input type="number" class="form-control input-number" id="comment_editor_audio_upload_number" name="comment_editor_audio_upload_number" value="{{ $params['comment_editor_audio_upload_number'] }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
                 </div>
             </div>
-            <div class="col-lg-4 form-text pt-1"></div>
         </div>
         <div class="row mb-3">
             <label class="col-lg-2 col-form-label text-lg-end"></label>
-            <div class="col-lg-6">
+            <div class="col-lg-10">
                 <div class="input-group">
+                    <label class="input-group-text">{{ __('FsLang::panel.editor_upload_document_form') }}</label>
+                    <select class="form-select" name="comment_editor_document_upload_form" id="comment_editor_document_upload_form">
+                        <option value="fresns" @if ($params['comment_editor_document_upload_form'] == 'fresns') selected @endif>Fresns Form</option>
+                        <option value="plugin" @if ($params['comment_editor_document_upload_form'] == 'plugin') selected @endif>Plugin Page</option>
+                    </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_document_number') }}</label>
                     <input type="number" class="form-control input-number" id="comment_editor_document_upload_number" name="comment_editor_document_upload_number" value="{{ $params['comment_editor_document_upload_number'] }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
                 </div>
             </div>
-            <div class="col-lg-4 form-text pt-1"></div>
         </div>
         <div class="row mb-3">
             <label class="col-lg-2 col-form-label text-lg-end"></label>

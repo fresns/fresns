@@ -205,14 +205,29 @@ class RoleController extends Controller
 
     public function updatePermissions(Role $role, Request $request)
     {
-        $permissions = collect($request->permissions)->map(function ($value, $key) {
+        $formPermissions = $request->permissions;
+        $formPermissions['post_email_verify'] = $formPermissions['post_email_verify'] ?? 0;
+        $formPermissions['post_phone_verify'] = $formPermissions['post_phone_verify'] ?? 0;
+        $formPermissions['post_real_name_verify'] = $formPermissions['post_real_name_verify'] ?? 0;
+        $formPermissions['comment_email_verify'] = $formPermissions['comment_email_verify'] ?? 0;
+        $formPermissions['comment_phone_verify'] = $formPermissions['comment_phone_verify'] ?? 0;
+        $formPermissions['comment_real_name_verify'] = $formPermissions['comment_real_name_verify'] ?? 0;
+        $formPermissions['post_editor_image'] = $formPermissions['post_editor_image'] ?? 0;
+        $formPermissions['post_editor_video'] = $formPermissions['post_editor_video'] ?? 0;
+        $formPermissions['post_editor_audio'] = $formPermissions['post_editor_audio'] ?? 0;
+        $formPermissions['post_editor_document'] = $formPermissions['post_editor_document'] ?? 0;
+        $formPermissions['comment_editor_image'] = $formPermissions['comment_editor_image'] ?? 0;
+        $formPermissions['comment_editor_video'] = $formPermissions['comment_editor_video'] ?? 0;
+        $formPermissions['comment_editor_audio'] = $formPermissions['comment_editor_audio'] ?? 0;
+        $formPermissions['comment_editor_document'] = $formPermissions['comment_editor_document'] ?? 0;
+
+        $permissions = collect($formPermissions)->map(function ($value, $key) {
             $boolPerms = [
-                'content_view', 'dialog', 'post_publish', 'post_review',
-                'post_email_verify', 'post_phone_verify', 'post_real_name_verify', 'post_limit_status',
-                'comment_publish', 'comment_review', 'comment_email_verify', 'comment_phone_verify',
-                'comment_real_name_verify', 'post_editor_image', 'post_editor_video', 'post_editor_audio',
-                'post_editor_document', 'comment_editor_image', 'comment_editor_video', 'comment_editor_audio',
-                'comment_editor_document',
+                'content_view', 'dialog',
+                'post_publish', 'post_email_verify', 'post_phone_verify', 'post_real_name_verify', 'post_review', 'post_limit_status',
+                'comment_publish', 'comment_email_verify', 'comment_phone_verify', 'comment_review', 'comment_real_name_verify',
+                'post_editor_image', 'post_editor_video', 'post_editor_audio', 'post_editor_document',
+                'comment_editor_image', 'comment_editor_video', 'comment_editor_audio', 'comment_editor_document',
             ];
             if (in_array($key, $boolPerms)) {
                 $value = (bool) $value;
@@ -221,18 +236,18 @@ class RoleController extends Controller
             return [
                 'permKey' => $key,
                 'permValue' => $value,
-                'permStatus' => '',
                 'isCustom' => false,
             ];
         });
+
         $customPermissions = collect($request->custom_permissions['permKey'] ?? [])->filter()->map(function ($value, $key) use ($request) {
             return [
                 'permKey' => $value,
                 'permValue' => $request->custom_permissions['permValue'][$key] ?? '',
-                'permStatus' => '',
                 'isCustom' => true,
             ];
         });
+
         $role->permissions = $permissions->merge($customPermissions)->values()->toArray();
         $role->save();
 

@@ -372,6 +372,50 @@
                     <input type="number" class="form-control input-number" value="{{ $permissions['document_max_size']['permValue'] ?? '' }}" value="1" name="permissions[document_max_size]" placeholder="{{ __('FsLang::panel.storage_max_size') }}">
                     <span class="input-group-text">MB</span>
                 </div>
+                <!--upload image number-->
+                <div class="input-group mb-3">
+                    <label class="input-group-text">{{ __('FsLang::panel.editor_upload_image_number') }}</label>
+                    <span class="input-group-text">{{ __('FsLang::panel.post') }}</span>
+                    <input type="number" class="form-control input-number" value="{{ $permissions['post_editor_image_upload_number']['permValue'] ?? '' }}" value="1" name="permissions[post_editor_image_upload_number]" placeholder="{{ __('FsLang::panel.editor_upload_image_number') }}">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
+                    <span class="vr mx-3"></span>
+                    <span class="input-group-text">{{ __('FsLang::panel.comment') }}</span>
+                    <input type="number" class="form-control input-number" value="{{ $permissions['comment_editor_image_upload_number']['permValue'] ?? '' }}" value="1" name="permissions[comment_editor_image_upload_number]" placeholder="{{ __('FsLang::panel.editor_upload_image_number') }}">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
+                </div>
+                <!--upload video number-->
+                <div class="input-group mb-3">
+                    <label class="input-group-text">{{ __('FsLang::panel.editor_upload_video_number') }}</label>
+                    <span class="input-group-text">{{ __('FsLang::panel.post') }}</span>
+                    <input type="number" class="form-control input-number" value="{{ $permissions['post_editor_video_upload_number']['permValue'] ?? '' }}" value="1" name="permissions[post_editor_video_upload_number]" placeholder="{{ __('FsLang::panel.editor_upload_video_number') }}">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
+                    <span class="vr mx-3"></span>
+                    <span class="input-group-text">{{ __('FsLang::panel.comment') }}</span>
+                    <input type="number" class="form-control input-number" value="{{ $permissions['comment_editor_video_upload_number']['permValue'] ?? '' }}" value="1" name="permissions[comment_editor_video_upload_number]" placeholder="{{ __('FsLang::panel.editor_upload_video_number') }}">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
+                </div>
+                <!--upload audio number-->
+                <div class="input-group mb-3">
+                    <label class="input-group-text">{{ __('FsLang::panel.editor_upload_audio_number') }}</label>
+                    <span class="input-group-text">{{ __('FsLang::panel.post') }}</span>
+                    <input type="number" class="form-control input-number" value="{{ $permissions['post_editor_audio_upload_number']['permValue'] ?? '' }}" value="1" name="permissions[post_editor_audio_upload_number]" placeholder="{{ __('FsLang::panel.editor_upload_audio_number') }}">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
+                    <span class="vr mx-3"></span>
+                    <span class="input-group-text">{{ __('FsLang::panel.comment') }}</span>
+                    <input type="number" class="form-control input-number" value="{{ $permissions['comment_editor_audio_upload_number']['permValue'] ?? '' }}" value="1" name="permissions[comment_editor_audio_upload_number]" placeholder="{{ __('FsLang::panel.editor_upload_audio_number') }}">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
+                </div>
+                <!--upload document number-->
+                <div class="input-group mb-3">
+                    <label class="input-group-text">{{ __('FsLang::panel.editor_upload_document_number') }}</label>
+                    <span class="input-group-text">{{ __('FsLang::panel.post') }}</span>
+                    <input type="number" class="form-control input-number" value="{{ $permissions['post_editor_document_upload_number']['permValue'] ?? '' }}" value="1" name="permissions[post_editor_document_upload_number]" placeholder="{{ __('FsLang::panel.editor_upload_document_number') }}">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
+                    <span class="vr mx-3"></span>
+                    <span class="input-group-text">{{ __('FsLang::panel.comment') }}</span>
+                    <input type="number" class="form-control input-number" value="{{ $permissions['comment_editor_document_upload_number']['permValue'] ?? '' }}" value="1" name="permissions[comment_editor_document_upload_number]" placeholder="{{ __('FsLang::panel.editor_upload_document_number') }}">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
+                </div>
                 <div class="form-text"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.role_perm_upload_file_desc') }}</div>
             </div>
         </div>

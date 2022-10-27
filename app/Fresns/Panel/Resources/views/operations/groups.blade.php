@@ -27,47 +27,50 @@
 
     <!--group list-->
     <div class="row">
-        <div class="col-lg-3">
-            <div class="list-group">
-                @foreach ($categories as $category)
-                    @if ($category['is_enable'])
-                        <!--category activate-->
-                        <a href="{{ route('panel.groups.index', ['parent_id' => $category->id]) }}" class="list-group-item list-group-item-action {{ $category->id == $parentId ? 'active' : '' }} d-flex justify-content-between align-items-center">
-                            <input type="number" class="form-control input-number rating-number" data-action="{{ route('panel.groups.rating.update', $category->id) }}" value="{{ $category->rating }}" style="width:50px;">
-                            <span class="ms-2 text-nowrap overflow-hidden">{{ $category->name }}</span>
-                            <button type="button" data-params="{{ $category->toJson() }}"
-                                data-names="{{ $category->names->toJson() }}"
-                                data-default-name="{{ $category->getLangName($defaultLanguage) }}"
-                                data-default-desc="{{ $category->getLangDescription($defaultLanguage) }}"
-                                data-descriptions="{{ $category->descriptions->toJson() }}"
-                                data-action="{{ route('panel.groups.update', $category->id) }}"
-                                class="btn btn-outline-info btn-sm text-nowrap fs-9 ms-auto edit-group-category"
-                                data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.button_edit') }}">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                        </a>
-                    @else
-                        <!--category deactivate-->
-                        <a href="{{ route('panel.groups.index', ['parent_id' => $category->id]) }}" class="list-group-item list-group-item-secondary {{ $category->id == $parentId ? 'active' : '' }} d-flex justify-content-between align-items-center">
-                            <input type="number" class="form-control input-number rating-number" data-action="{{ route('panel.groups.rating.update', $category->id) }}" value="{{ $category->rating }}" style="width:50px;">
-                            <span class="ms-2 text-nowrap overflow-hidden">{{ $category->name }}</span>
-                            <button type="button" data-params="{{ $category->toJson() }}"
-                                data-names="{{ $category->names->toJson() }}"
-                                data-default-name="{{ $category->getLangName($defaultLanguage) }}"
-                                data-default-desc="{{ $category->getLangDescription($defaultLanguage) }}"
-                                data-descriptions="{{ $category->descriptions->toJson() }}"
-                                data-action="{{ route('panel.groups.update', $category->id) }}"
-                                class="btn btn-outline-info btn-sm text-nowrap fs-9 ms-auto edit-group-category"
-                                data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.button_edit') }}">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                            <button type="button" class="btn {{ $category->id == $parentId ? 'btn-outline-light' : 'btn-outline-secondary' }} btn-sm text-nowrap fs-9 ms-1 delete-group-category" data-action="{{ route('panel.groups.destroy', $category->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.button_delete') }}"><i class="bi bi-trash"></i></button>
-                        </a>
-                    @endif
-                @endforeach
+        @if ($categories->isNotEmpty())
+            <div class="col-lg-3">
+                <div class="list-group">
+                    @foreach ($categories as $category)
+                        @if ($category['is_enable'])
+                            <!--category activate-->
+                            <a href="{{ route('panel.groups.index', ['parent_id' => $category->id]) }}" class="list-group-item list-group-item-action {{ $category->id == $parentId ? 'active' : '' }} d-flex justify-content-between align-items-center">
+                                <input type="number" class="form-control input-number rating-number" data-action="{{ route('panel.groups.rating.update', $category->id) }}" value="{{ $category->rating }}" style="width:50px;">
+                                <span class="ms-2 text-nowrap overflow-hidden">{{ $category->name }}</span>
+                                <button type="button" data-params="{{ $category->toJson() }}"
+                                    data-names="{{ $category->names->toJson() }}"
+                                    data-default-name="{{ $category->getLangName($defaultLanguage) }}"
+                                    data-default-desc="{{ $category->getLangDescription($defaultLanguage) }}"
+                                    data-descriptions="{{ $category->descriptions->toJson() }}"
+                                    data-action="{{ route('panel.groups.update', $category->id) }}"
+                                    class="btn btn-outline-info btn-sm text-nowrap fs-9 ms-auto edit-group-category"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.button_edit') }}">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                            </a>
+                        @else
+                            <!--category deactivate-->
+                            <a href="{{ route('panel.groups.index', ['parent_id' => $category->id]) }}" class="list-group-item list-group-item-secondary {{ $category->id == $parentId ? 'active' : '' }} d-flex justify-content-between align-items-center">
+                                <input type="number" class="form-control input-number rating-number" data-action="{{ route('panel.groups.rating.update', $category->id) }}" value="{{ $category->rating }}" style="width:50px;">
+                                <span class="ms-2 text-nowrap overflow-hidden">{{ $category->name }}</span>
+                                <button type="button" data-params="{{ $category->toJson() }}"
+                                    data-names="{{ $category->names->toJson() }}"
+                                    data-default-name="{{ $category->getLangName($defaultLanguage) }}"
+                                    data-default-desc="{{ $category->getLangDescription($defaultLanguage) }}"
+                                    data-descriptions="{{ $category->descriptions->toJson() }}"
+                                    data-action="{{ route('panel.groups.update', $category->id) }}"
+                                    class="btn btn-outline-info btn-sm text-nowrap fs-9 ms-auto edit-group-category"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.button_edit') }}">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <button type="button" class="btn {{ $category->id == $parentId ? 'btn-outline-light' : 'btn-outline-secondary' }} btn-sm text-nowrap fs-9 ms-1 delete-group-category" data-action="{{ route('panel.groups.destroy', $category->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.button_delete') }}"><i class="bi bi-trash"></i></button>
+                            </a>
+                        @endif
+                    @endforeach
+                </div>
             </div>
-        </div>
-        <div class="col-lg-9">
+        @endif
+
+        <div @if($categories->isNotEmpty()) class="col-lg-9" @endif>
             <div class="table-responsive">
                 <table class="table table-hover align-middle text-nowrap">
                     <thead>

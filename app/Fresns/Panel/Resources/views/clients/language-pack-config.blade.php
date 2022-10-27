@@ -43,8 +43,8 @@
                 <tbody class="lang-pack-box">
                     @foreach ($languageKeys as $key)
                         <tr>
-                            <td><input type="text" class="form-control" name="keys[]" value="{{ $key['name'] }}" readonly></td>
-                            <td><input type="text" class="form-control" value="{{ $defaultLanguages[$key['name']] ?? '' }}" readonly></td>
+                            <td><input type="text" class="form-control" name="keys[]" value="{{ $key['name'] }}" disabled readonly></td>
+                            <td><input type="text" class="form-control" value="{{ $defaultLanguages[$key['name']] ?? '' }}" disabled readonly></td>
                             <td><input type="text" class="form-control" name="contents[]" value="{{ $languages[$key['name']] ?? '' }}"></td>
                             <td>
                                 @if ($key['canDelete'])
@@ -66,7 +66,7 @@
     <template id="languagePackTemplate">
         <tr>
             <td><input type="text" class="form-control" name="keys[]" value=""></td>
-            <td><input type="text" class="form-control" value="" readonly></td>
+            <td><input type="text" class="form-control" value="" readonly disabled></td>
             <td><input type="text" class="form-control" name="contents[]" value=""></td>
             <td><button type="button" class="btn btn-link link-danger ms-1 fresns-link fs-7">{{ __('FsLang::panel.button_delete') }}</button></td>
         </tr>
