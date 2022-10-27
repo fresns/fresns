@@ -163,10 +163,10 @@ class ConfigUtility
             'post_editor_group',
             'post_editor_group_required',
             "{$type}_editor_content_length",
-            "image_service",
-            "video_service",
-            "audio_service",
-            "document_service",
+            'image_service',
+            'video_service',
+            'audio_service',
+            'document_service',
         ]);
 
         $imageUploadUrl = PluginHelper::fresnsPluginUrlByUnikey($editorConfig['image_service']) ?? null;
@@ -189,7 +189,7 @@ class ConfigUtility
         $video['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_VIDEO);
         $video['maxSize'] = $rolePerm['video_max_size'] ?? $editorConfig['video_max_size'];
         $video['maxTime'] = $rolePerm['video_max_time'] ?? $editorConfig['video_max_time'];
-        $video['uploadForm'] =$videoUploadUrl ? $editorConfig["{$type}_editor_video_upload_form"] : 'fresns';
+        $video['uploadForm'] = $videoUploadUrl ? $editorConfig["{$type}_editor_video_upload_form"] : 'fresns';
         $video['uploadUrl'] = $videoUploadUrl;
         $video['uploadNumber'] = $rolePerm["{$type}_editor_video_upload_number"] ?? $editorConfig["{$type}_editor_video_upload_number"];
 
