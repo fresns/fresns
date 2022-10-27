@@ -20,7 +20,7 @@ class NotifyListDTO extends DTO
         return [
             'types' => ['string', 'nullable'],
             'status' => ['boolean', 'nullable'],
-            'pageSize' => ['integer', 'nullable', 'between:1,25'],
+            'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],
         ];
     }

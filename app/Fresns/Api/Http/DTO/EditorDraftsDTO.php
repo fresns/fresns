@@ -19,7 +19,7 @@ class EditorDraftsDTO extends DTO
     {
         return [
             'status' => ['integer', 'nullable', 'in:1,2'],
-            'pageSize' => ['integer', 'nullable', 'between:1,25'],
+            'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],
         ];
     }

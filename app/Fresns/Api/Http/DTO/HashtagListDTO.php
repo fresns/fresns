@@ -34,7 +34,7 @@ class HashtagListDTO extends DTO
             'postDigestCountLt' => ['integer', 'nullable', 'gt:postDigestCountGt'],
             'orderType' => ['string', 'nullable', 'in:createDate,like,follow,block,post,postDigest'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
-            'pageSize' => ['integer', 'nullable', 'between:1,25'],
+            'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],
         ];
     }

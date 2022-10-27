@@ -27,7 +27,7 @@ class SearchPostDTO extends DTO
             'hid' => ['string', 'nullable'], // hashtag_usages->hashtag_id
             'digestState' => ['integer', 'nullable', 'in:1,2,3'], // posts->digest_state
             'stickyState' => ['integer', 'nullable', 'in:1,2,3'], // posts->sticky_state
-            'contentType' => ['string', 'nullable'], // posts->types
+            'contentType' => ['string', 'nullable'],
             'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // posts->created_at
             'createDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createDateGt'],
             'likeCountGt' => ['integer', 'nullable', 'lt:likeCountLt'], // posts->like_count
@@ -43,7 +43,7 @@ class SearchPostDTO extends DTO
             'orderType' => ['string', 'nullable', 'in:createDate,like,dislike,follow,block,comment'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
             'pluginRatingId' => ['integer', 'nullable'],
-            'pageSize' => ['integer', 'nullable', 'between:1,25'],
+            'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],
         ];
     }

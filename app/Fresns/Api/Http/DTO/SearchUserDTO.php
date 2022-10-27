@@ -51,7 +51,7 @@ class SearchUserDTO extends DTO
             'extcredits5CountLt' => ['integer', 'nullable', 'gt:extcredits5CountGt'],
             'orderType' => ['string', 'nullable', 'in:createDate,like,dislike,follow,block,post,comment,postDigest,commentDigest,extcredits1,extcredits2,extcredits3,extcredits4,extcredits5'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
-            'pageSize' => ['integer', 'nullable', 'between:1,25'],
+            'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],
         ];
     }

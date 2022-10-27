@@ -28,7 +28,7 @@ class CommentListDTO extends DTO
             'hid' => ['string', 'nullable'],
             'sticky' => ['boolean', 'nullable'], // comments->is_sticky
             'digestState' => ['integer', 'nullable', 'in:1,2,3'], // comments->digest_state
-            'contentType' => ['string', 'nullable'], // comments->types
+            'contentType' => ['string', 'nullable'],
             'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // comments->created_at
             'createDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createDateGt'],
             'likeCountGt' => ['integer', 'nullable', 'lt:likeCountLt'], // comments->like_count
@@ -44,7 +44,7 @@ class CommentListDTO extends DTO
             'orderType' => ['string', 'nullable', 'in:createDate,like,dislike,follow,block,comment'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
             'pluginRatingId' => ['integer', 'nullable'],
-            'pageSize' => ['integer', 'nullable', 'between:1,25'],
+            'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],
         ];
     }

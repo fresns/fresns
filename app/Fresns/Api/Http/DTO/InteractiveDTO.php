@@ -20,7 +20,7 @@ class InteractiveDTO extends DTO
         return [
             'type' => ['string', 'required', 'in:like,dislike,follow,block'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
-            'pageSize' => ['integer', 'nullable', 'between:1,25'],
+            'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],
         ];
     }
