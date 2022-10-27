@@ -18,7 +18,7 @@ class ConfigHelper
     public static function fresnsConfigDefaultLangTag(): string
     {
         $defaultLangTag = Cache::remember('fresns_default_langTag', now()->addDays(), function () {
-            return Config::where('item_key', 'default_language')->value('item_value');
+            return Config::where('item_key', 'default_language')->first()?->item_value;
         });
 
         if (is_null($defaultLangTag)) {
@@ -34,7 +34,7 @@ class ConfigHelper
     public static function fresnsConfigDefaultTimezone(): string
     {
         $defaultLangTag = Cache::remember('fresns_default_timezone', now()->addDays(), function () {
-            return Config::where('item_key', 'default_timezone')->value('item_value');
+            return Config::where('item_key', 'default_timezone')->first()?->item_value;
         });
 
         if (is_null($defaultLangTag)) {
@@ -48,9 +48,13 @@ class ConfigHelper
     public static function fresnsConfigLangTags()
     {
         $langTagArr = Cache::remember('fresns_lang_tags', now()->addDays(), function () {
-            $langArr = Config::where('item_key', 'language_menus')->value('item_value');
+            $langArr = Config::where('item_key', 'language_menus')->first()?->item_value;
 
-            return collect($langArr)->pluck('langTag');
+            if (!$langArr) {
+                return null;
+            }
+
+            return collect($langArr)->pluck('langTag')->all();
         });
 
         if (is_null($langTagArr)) {
@@ -65,7 +69,7 @@ class ConfigHelper
      *
      * @param  string  $itemKey
      * @param  string  $langTag
-     * @return mixed
+     * @return string|null|array
      */
     public static function fresnsConfigByItemKey(string $itemKey, ?string $langTag = null)
     {
@@ -102,7 +106,8 @@ class ConfigHelper
      */
     public static function fresnsConfigByItemKeys(array $itemKeys, ?string $langTag = null): array
     {
-        $key = reset($itemKeys);
+        $key = reset($itemKeys).'_'.end($itemKeys).'_'.count($itemKeys);
+
         $configCacheKey = 'fresns_config_keys_'.$key.'_'.$langTag;
 
         $keysData = Cache::remember($configCacheKey, now()->addDays(), function () use ($itemKeys, $langTag) {
@@ -190,19 +195,17 @@ class ConfigHelper
         if (ConfigHelper::fresnsConfigFileValueTypeByItemKey($itemKey) == 'URL') {
             $fileUrl = $configValue;
         } else {
-            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink([
-                'fileId' => $configValue,
-            ]);
+            $fileInfo = FileHelper::fresnsFileInfoById($configValue);
 
-            $key = match ($fresnsResp->getData('type')) {
-                default => throw new \RuntimeException(),
+            $key = match ($fileInfo['type']) {
                 File::TYPE_IMAGE => 'imageConfig',
-                File::TYPE_IMAGE => 'video',
-                File::TYPE_IMAGE => 'audio',
-                File::TYPE_IMAGE => 'document',
+                File::TYPE_VIDEO => 'video',
+                File::TYPE_AUDIO => 'audio',
+                File::TYPE_DOCUMENT => 'document',
+                default => 'imageConfig',
             };
 
-            $fileUrl = $fresnsResp->getData("{$key}Url");
+            $fileUrl = $fileInfo["{$key}Url"];
         }
 
         return $fileUrl;
@@ -216,17 +219,17 @@ class ConfigHelper
      */
     public static function fresnsConfigLengthUnit(string $langTag)
     {
-        $language_menus = ConfigHelper::fresnsConfigByItemKey('language_menus');
+        $languageMenus = ConfigHelper::fresnsConfigByItemKey('language_menus');
 
-        if (empty($language_menus)) {
-            return null;
+        if (empty($languageMenus)) {
+            return 'km';
         }
 
         $lengthUnit = 'mi';
 
-        foreach ($language_menus as $menus) {
-            if ($menus['langTag'] == $langTag) {
-                $lengthUnit = $menus['lengthUnit'];
+        foreach ($languageMenus as $menu) {
+            if ($menu['langTag'] == $langTag) {
+                $lengthUnit = $menu['lengthUnit'];
             }
         }
 
@@ -241,17 +244,17 @@ class ConfigHelper
      */
     public static function fresnsConfigDateFormat(string $langTag)
     {
-        $language_menus = ConfigHelper::fresnsConfigByItemKey('language_menus');
+        $languageMenus = ConfigHelper::fresnsConfigByItemKey('language_menus');
 
-        if (empty($language_menus)) {
-            return null;
+        if (empty($languageMenus)) {
+            return 'mm/dd/yyyy';
         }
 
         $dateFormat = 'mm/dd/yyyy';
 
-        foreach ($language_menus as $menus) {
-            if ($menus['langTag'] == $langTag) {
-                $dateFormat = $menus['dateFormat'];
+        foreach ($languageMenus as $menu) {
+            if ($menu['langTag'] == $langTag) {
+                $dateFormat = $menu['dateFormat'];
             }
         }
 

@@ -165,7 +165,7 @@ class FileHelper
     public static function fresnsFileInfoById(string $fileIdOrFid)
     {
         /** @var File $file */
-        if (preg_match('/^\d*?$/', $fileIdOrFid)) {
+        if (StrHelper::isPureInt($fileIdOrFid)) {
             $file = File::whereId($fileIdOrFid)->first();
         } else {
             $file = File::whereFid($fileIdOrFid)->first();
@@ -306,6 +306,24 @@ class FileHelper
         }
 
         return $file->getFileOriginalUrl();
+    }
+
+    // get file type number
+    public static function fresnsFileTypeNumber(?string $fileName = null)
+    {
+        $fileTypeNumber = match ($fileName) {
+            'image' => 1,
+            'video' => 2,
+            'audio' => 3,
+            'document' => 4,
+            'images' => 1,
+            'videos' => 2,
+            'audios' => 3,
+            'documents' => 4,
+            default => null,
+        };
+
+        return $fileTypeNumber;
     }
 
     public static function handleAntiLinkFileInfoList(array $files)

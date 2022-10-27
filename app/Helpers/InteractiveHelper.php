@@ -246,10 +246,8 @@ class InteractiveHelper
         if (ConfigHelper::fresnsConfigFileValueTypeByItemKey('anonymous_avatar') == 'URL') {
             $userAvatar = $anonymousAvatar;
         } else {
-            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileUrlOfAntiLink([
-                'fileId' => $anonymousAvatar,
-            ]);
-            $userAvatar = $fresnsResp->getData('imageAvatarUrl');
+            $fileInfo = FileHelper::fresnsFileInfoById($anonymousAvatar);
+            $userAvatar = $fileInfo['imageAvatarUrl'];
         }
 
         $profile['fsid'] = null;

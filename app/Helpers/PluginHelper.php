@@ -9,6 +9,7 @@
 namespace App\Helpers;
 
 use App\Models\Plugin;
+use Illuminate\Support\Facades\Cache;
 
 class PluginHelper
 {
@@ -24,18 +25,28 @@ class PluginHelper
             return null;
         }
 
-        $plugin = Plugin::where('unikey', $unikey)->first(['plugin_host', 'access_path']);
-        if (empty($plugin)) {
-            return null;
+        $cacheKey = 'fresns_plugin_'.$unikey.'_url';
+
+        $pluginUrl = Cache::remember($cacheKey, now()->addDays(7), function () use ($unikey) {
+            $plugin = Plugin::where('unikey', $unikey)->first(['plugin_host', 'access_path']);
+            if (empty($plugin)) {
+                return null;
+            }
+
+            $system_url = ConfigHelper::fresnsConfigByItemKey('system_url');
+
+            $url = empty($plugin->plugin_host) ? $system_url : $plugin->plugin_host;
+
+            $link = StrHelper::qualifyUrl($plugin->access_path, $url);
+
+            return $link ?? null;
+        });
+
+        if (is_null($pluginUrl)) {
+            Cache::forget($cacheKey);
         }
 
-        $system_url = ConfigHelper::fresnsConfigByItemKey('system_url');
-
-        $url = empty($plugin->plugin_host) ? $system_url : $plugin->plugin_host;
-
-        $link = StrHelper::qualifyUrl($plugin->access_path, $url);
-
-        return $link;
+        return $pluginUrl;
     }
 
     /**
@@ -47,15 +58,26 @@ class PluginHelper
      */
     public static function fresnsPluginUsageUrl(string $unikey, ?string $parameter = null)
     {
-        $url = PluginHelper::fresnsPluginUrlByUnikey($unikey);
+        $parameterKey = ! empty($parameter) ? StrHelper::slug($parameter) : 'usage';
+        $cacheKey = 'fresns_plugin_'.$unikey.'_'.$parameterKey.'_url';
 
-        if (empty($parameter) || empty($url)) {
-            return $url;
+        $pluginUrl = Cache::remember($cacheKey, now()->addDays(7), function () use ($unikey, $parameter) {
+            $url = PluginHelper::fresnsPluginUrlByUnikey($unikey);
+
+            if (empty($parameter) || empty($url)) {
+                return $url;
+            }
+
+            $replaceUrl = str_replace('{parameter}', $parameter, $url);
+
+            return $replaceUrl;
+        });
+
+        if (is_null($pluginUrl)) {
+            Cache::forget($cacheKey);
         }
 
-        $replaceUrl = str_replace('{parameter}', $parameter, $url);
-
-        return $replaceUrl;
+        return $pluginUrl;
     }
 
     public static function fresnsPluginVersionByUnikey(string $unikey)
