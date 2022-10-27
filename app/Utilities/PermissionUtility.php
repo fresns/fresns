@@ -384,7 +384,7 @@ class PermissionUtility
                 return false;
             }
 
-            $checkUserFollow = InteractiveUtility::checkUserFollowMe($userId, $user->id);
+            $checkUserFollow = InteractiveUtility::checkUserFollow(InteractiveUtility::TYPE_USER, $user->id, $userId);
 
             if (! $checkUserFollow) {
                 return false;

@@ -11,6 +11,7 @@ namespace App\Utilities;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
+use App\Helpers\PluginHelper;
 use App\Models\Account;
 use App\Models\CodeMessage;
 use App\Models\CommentLog;
@@ -132,17 +133,21 @@ class ConfigUtility
             "{$type}_editor_document",
             'image_extension_names',
             'image_max_size',
+            "{$type}_editor_image_upload_form",
             "{$type}_editor_image_upload_number",
             'video_extension_names',
             'video_max_size',
             'video_max_time',
+            "{$type}_editor_video_upload_form",
             "{$type}_editor_video_upload_number",
             'audio_extension_names',
             'audio_max_size',
             'audio_max_time',
+            "{$type}_editor_audio_upload_form",
             "{$type}_editor_audio_upload_number",
             'document_extension_names',
             'document_max_size',
+            "{$type}_editor_document_upload_form",
             "{$type}_editor_document_upload_number",
             'post_editor_title',
             'post_editor_title_view',
@@ -158,13 +163,24 @@ class ConfigUtility
             'post_editor_group',
             'post_editor_group_required',
             "{$type}_editor_content_length",
+            "image_service",
+            "video_service",
+            "audio_service",
+            "document_service",
         ]);
+
+        $imageUploadUrl = PluginHelper::fresnsPluginUrlByUnikey($editorConfig['image_service']) ?? null;
+        $videoUploadUrl = PluginHelper::fresnsPluginUrlByUnikey($editorConfig['video_service']) ?? null;
+        $audioUploadUrl = PluginHelper::fresnsPluginUrlByUnikey($editorConfig['audio_service']) ?? null;
+        $documentUploadUrl = PluginHelper::fresnsPluginUrlByUnikey($editorConfig['document_service']) ?? null;
 
         // images
         $image['status'] = $editorConfig["{$type}_editor_image"] ? $rolePerm["{$type}_editor_image"] : false;
         $image['extensions'] = Str::lower($editorConfig['image_extension_names']);
         $image['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_IMAGE);
         $image['maxSize'] = $rolePerm['image_max_size'] ?? $editorConfig['image_max_size'];
+        $image['uploadForm'] = $imageUploadUrl ? $editorConfig["{$type}_editor_image_upload_form"] : 'fresns';
+        $image['uploadUrl'] = $imageUploadUrl;
         $image['uploadNumber'] = $rolePerm["{$type}_editor_image_upload_number"] ?? $editorConfig["{$type}_editor_image_upload_number"];
 
         // videos
@@ -173,6 +189,8 @@ class ConfigUtility
         $video['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_VIDEO);
         $video['maxSize'] = $rolePerm['video_max_size'] ?? $editorConfig['video_max_size'];
         $video['maxTime'] = $rolePerm['video_max_time'] ?? $editorConfig['video_max_time'];
+        $video['uploadForm'] =$videoUploadUrl ? $editorConfig["{$type}_editor_video_upload_form"] : 'fresns';
+        $video['uploadUrl'] = $videoUploadUrl;
         $video['uploadNumber'] = $rolePerm["{$type}_editor_video_upload_number"] ?? $editorConfig["{$type}_editor_video_upload_number"];
 
         // audios
@@ -181,6 +199,8 @@ class ConfigUtility
         $audio['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_AUDIO);
         $audio['maxSize'] = $rolePerm['audio_max_size'] ?? $editorConfig['audio_max_size'];
         $audio['maxTime'] = $rolePerm['audio_max_time'] ?? $editorConfig['audio_max_time'];
+        $audio['uploadForm'] = $audioUploadUrl ? $editorConfig["{$type}_editor_audio_upload_form"] : 'fresns';
+        $audio['uploadUrl'] = $audioUploadUrl;
         $audio['uploadNumber'] = $rolePerm["{$type}_editor_audio_upload_number"] ?? $editorConfig["{$type}_editor_audio_upload_number"];
 
         // documents
@@ -188,6 +208,8 @@ class ConfigUtility
         $document['extensions'] = Str::lower($editorConfig['document_extension_names']);
         $document['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_DOCUMENT);
         $document['maxSize'] = $rolePerm['document_max_size'] ?? $editorConfig['document_max_size'];
+        $document['uploadForm'] = $documentUploadUrl ? $editorConfig["{$type}_editor_document_upload_form"] : 'fresns';
+        $document['uploadUrl'] = $documentUploadUrl;
         $document['uploadNumber'] = $rolePerm["{$type}_editor_document_upload_number"] ?? $editorConfig["{$type}_editor_document_upload_number"];
 
         // title

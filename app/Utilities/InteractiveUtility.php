@@ -22,7 +22,9 @@ use App\Models\UserBlock;
 use App\Models\UserFollow;
 use App\Models\UserLike;
 use App\Models\UserStat;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class InteractiveUtility
 {
@@ -63,9 +65,9 @@ class InteractiveUtility
         return (bool) $checkDislike;
     }
 
-    public static function checkUserFollow(int $followType, int $followId, ?int $userId = null): bool
+    public static function checkUserFollow(int $followType, ?int $followId = null, ?int $userId = null): bool
     {
-        if (empty($userId)) {
+        if (empty($followId) || empty($userId)) {
             return false;
         }
 
@@ -77,9 +79,9 @@ class InteractiveUtility
         return (bool) $checkFollow;
     }
 
-    public static function checkUserBlock(int $blockType, int $blockId, ?int $userId = null): bool
+    public static function checkUserBlock(int $blockType, ?int $blockId = null, ?int $userId = null): bool
     {
-        if (empty($userId)) {
+        if (empty($blockId) || empty($userId)) {
             return false;
         }
 
@@ -91,7 +93,7 @@ class InteractiveUtility
         return (bool) $checkBlock;
     }
 
-    public static function checkInteractiveStatus(int $markType, int $markId, ?int $userId = null): array
+    public static function getInteractiveStatus(int $markType, int $markId, ?int $userId = null): array
     {
         if (empty($userId)) {
             $status['likeStatus'] = false;
@@ -112,25 +114,6 @@ class InteractiveUtility
         $status['blockNote'] = UserBlock::where('user_id', $userId)->type($markType)->where('block_id', $markId)->value('user_note');
 
         return $status;
-    }
-
-    // check follow me
-    public static function checkUserFollowMe(int $userId, ?int $myUserId = null): bool
-    {
-        if (empty($userId)) {
-            return false;
-        }
-
-        if ($userId == $myUserId) {
-            return false;
-        }
-
-        $checkFollowMe = UserFollow::where('user_id', $userId)
-            ->type(UserFollow::TYPE_USER)
-            ->where('follow_id', $myUserId)
-            ->first();
-
-        return (bool) $checkFollowMe;
     }
 
     // mark interactive
@@ -304,8 +287,14 @@ class InteractiveUtility
 
         $userBlock = UserBlock::where('user_id', $userId)->type($followType)->where('block_id', $followId)->first();
         if (! empty($userBlock)) {
-            InteractiveUtility::markUserBlock($userId, $followType, $followId);
+            $userBlock->delete();
+
+            InteractiveUtility::markStats($userId, 'block', $followType, $followId, 'decrement');
         }
+
+        CacheHelper::forgetFresnsApiInfo("fresns_user_follow_{$followType}_{$userId}");
+        CacheHelper::forgetFresnsApiInfo("fresns_user_block_{$followType}_{$userId}");
+        CacheHelper::forgetFresnsApiInfo("fresns_user_block_{$followType}_{$followId}");
     }
 
     public static function markUserBlock(int $userId, int $blockType, int $blockId)
@@ -340,12 +329,18 @@ class InteractiveUtility
 
         $userFollow = UserFollow::where('user_id', $userId)->type($blockType)->where('follow_id', $blockId)->first();
         if (! empty($userFollow)) {
-            InteractiveUtility::markUserFollow($userId, $blockType, $blockId);
+            $userFollow->delete();
+
+            InteractiveUtility::markStats($userId, 'follow', $blockType, $blockId, 'decrement');
         }
 
         if ($blockType == UserBlock::TYPE_GROUP) {
             CacheHelper::forgetFresnsApiInfo("fresns_api_user_{$userId}_groups");
         }
+
+        CacheHelper::forgetFresnsApiInfo("fresns_user_follow_{$blockType}_{$userId}");
+        CacheHelper::forgetFresnsApiInfo("fresns_user_block_{$blockType}_{$userId}");
+        CacheHelper::forgetFresnsApiInfo("fresns_user_block_{$blockType}_{$blockId}");
     }
 
     // mark content sticky
@@ -940,5 +935,90 @@ class InteractiveUtility
         ];
 
         Notify::create($notifyData);
+    }
+
+    // get follow id array
+    public static function getFollowIdArr(int $type, int $userId)
+    {
+        $cacheKey = "fresns_user_follow_{$type}_{$userId}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+
+        if ($type == UserFollow::TYPE_USER) {
+            $followIds = Cache::remember($cacheKey, $cacheTime, function () use ($userId) {
+                $followUserIds = UserFollow::type(UserFollow::TYPE_USER)->where('user_id', $userId)->pluck('follow_id')->toArray();
+                $blockMeUserIds = UserBlock::type(UserBlock::TYPE_USER)->where('block_id', $userId)->pluck('user_id')->toArray();
+
+                $filterIds = array_diff($followUserIds, $blockMeUserIds);
+
+                $allUserIds = $filterIds;
+                if ($filterIds) {
+                    $allUserIds = Arr::prepend($filterIds, $userId);
+                }
+
+                return array_values($allUserIds);
+            });
+        } else {
+            $followIds = Cache::remember($cacheKey, $cacheTime, function () use ($type, $userId) {
+                $followIds = UserFollow::type($type)->where('user_id', $userId)->pluck('follow_id')->toArray();
+
+                return array_values($followIds);
+            });
+        }
+
+        if (is_null($followIds) || empty($followIds)) {
+            Cache::forget($cacheKey);
+        }
+
+        return $followIds;
+    }
+
+    // get block id array
+    public static function getBlockIdArr(int $type, int $userId)
+    {
+        $cacheKey = "fresns_user_block_{$type}_{$userId}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+
+        if ($type == UserBlock::TYPE_USER) {
+            $blockIds = Cache::remember($cacheKey, $cacheTime, function () use ($userId) {
+                $myBlockUserIds = UserBlock::type(UserBlock::TYPE_USER)->where('user_id', $userId)->pluck('block_id')->toArray();
+                $blockMeUserIds = UserBlock::type(UserBlock::TYPE_USER)->where('block_id', $userId)->pluck('user_id')->toArray();
+
+                $allUserIds = array_unique(array_merge($myBlockUserIds, $blockMeUserIds));
+
+                return array_values($allUserIds);
+            });
+        } elseif ($type == UserBlock::TYPE_GROUP) {
+            $blockIds = Cache::remember($cacheKey, $cacheTime, function () use ($userId) {
+                return PermissionUtility::getPostFilterByGroupIds($userId);
+            });
+        } else {
+            $blockIds = Cache::remember($cacheKey, $cacheTime, function () use ($type, $userId) {
+                $blockIds = UserBlock::type($type)->where('user_id', $userId)->pluck('block_id')->toArray();
+
+                return array_values($blockIds);
+            });
+        }
+
+        if (is_null($blockIds) || empty($blockIds)) {
+            Cache::forget($cacheKey);
+        }
+
+        return $blockIds;
+    }
+
+    // get private group id array
+    public static function getPrivateGroupIdArr()
+    {
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+
+        $groupIdArr = Cache::remember('fresns_api_private_groups', $cacheTime, function () {
+            return Group::where('type_mode', Group::MODE_PRIVATE)->pluck('id')->toArray();
+        });
+
+        if (is_null($groupIdArr) || empty($groupIdArr)) {
+            Cache::forget('fresns_api_private_groups');
+        }
+
+        return $groupIdArr;
     }
 }

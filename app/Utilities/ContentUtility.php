@@ -628,47 +628,6 @@ class ContentUtility
         }
     }
 
-    // release file usages
-    public static function releaseFileUsages(string $type, int $logId, int $primaryId): array
-    {
-        $logTableName = match ($type) {
-            'post' => 'post_logs',
-            'comment' => 'comment_logs',
-        };
-
-        $tableName = match ($type) {
-            'post' => 'posts',
-            'comment' => 'comments',
-        };
-
-        FileUsage::where('table_name', $tableName)->where('table_column', 'id')->where('table_id', $primaryId)->delete();
-
-        $fileUsages = FileUsage::where('table_name', $logTableName)->where('table_column', 'id')->where('table_id', $logId)->get();
-
-        $typeText = [];
-        foreach ($fileUsages as $fileUsage) {
-            $fileDataItem = [
-                'file_id' => $fileUsage->file_id,
-                'file_type' => $fileUsage->file_type,
-                'usage_type' => $fileUsage->usage_type,
-                'platform_id' => $fileUsage->platform_id,
-                'table_name' => $tableName,
-                'table_column' => 'id',
-                'table_id' => $primaryId,
-                'rating' => $fileUsage->rating,
-                'account_id' => $fileUsage->account_id,
-                'user_id' => $fileUsage->user_id,
-                'remark' => $fileUsage->remark,
-            ];
-
-            FileUsage::create($fileDataItem);
-
-            $typeText[] = File::TYPE_MAP[$fileUsage->file_type];
-        }
-
-        return $typeText;
-    }
-
     // release operation usages
     public static function releaseOperationUsages(string $type, int $logId, int $primaryId)
     {
@@ -727,42 +686,6 @@ class ContentUtility
 
             ArchiveUsage::create($archiveDataItem);
         }
-    }
-
-    // release extend usages
-    public static function releaseExtendUsages(string $type, int $logId, int $primaryId): array
-    {
-        $logUsageType = match ($type) {
-            'post' => ExtendUsage::TYPE_POST_LOG,
-            'comment' => ExtendUsage::TYPE_COMMENT_LOG,
-        };
-
-        $usageType = match ($type) {
-            'post' => ExtendUsage::TYPE_POST,
-            'comment' => ExtendUsage::TYPE_COMMENT,
-        };
-
-        ExtendUsage::where('usage_type', $usageType)->where('usage_id', $primaryId)->delete();
-
-        $extendUsages = ExtendUsage::where('usage_type', $logUsageType)->where('usage_id', $logId)->get();
-
-        $typeText = [];
-        foreach ($extendUsages as $extend) {
-            $extendDataItem = [
-                'usage_type' => $usageType,
-                'usage_id' => $primaryId,
-                'extend_id' => $extend->extend_id,
-                'can_delete' => $extend->can_delete,
-                'rating' => $extend->rating,
-                'plugin_unikey' => $extend->plugin_unikey,
-            ];
-
-            ExtendUsage::create($extendDataItem);
-
-            $typeText[] = $extend->plugin_unikey;
-        }
-
-        return $typeText;
     }
 
     // release post
@@ -842,19 +765,6 @@ class ContentUtility
         ContentUtility::releaseAllowUsersAndRoles($post->id, $postLog->allow_json['permissions'] ?? []);
         ContentUtility::releaseArchiveUsages('post', $postLog->id, $post->id);
         ContentUtility::releaseOperationUsages('post', $postLog->id, $post->id);
-        $fileTypeText = ContentUtility::releaseFileUsages('post', $postLog->id, $post->id);
-        $extendTypeText = ContentUtility::releaseExtendUsages('post', $postLog->id, $post->id);
-
-        $typeArr = array_unique(Arr::collapse($fileTypeText, $extendTypeText));
-        $typesText = Str::lower(implode(',', $typeArr));
-
-        if (empty($typesText)) {
-            $typesText = null;
-        }
-
-        $post->update([
-            'types' => $typesText,
-        ]);
 
         if (empty($postLog->post_id)) {
             ContentUtility::handleAndSaveAllInteractive($postLog->content, Mention::TYPE_POST, $post->id, $postLog->user_id);
@@ -942,19 +852,6 @@ class ContentUtility
 
         ContentUtility::releaseArchiveUsages('comment', $commentLog->id, $comment->id);
         ContentUtility::releaseOperationUsages('comment', $commentLog->id, $comment->id);
-        $fileTypeText = ContentUtility::releaseFileUsages('comment', $commentLog->id, $comment->id);
-        $extendTypeText = ContentUtility::releaseExtendUsages('comment', $commentLog->id, $comment->id);
-
-        $typeArr = array_unique(Arr::collapse($fileTypeText, $extendTypeText));
-        $typesText = Str::lower(implode(',', $typeArr));
-
-        if (empty($typesText)) {
-            $typesText = null;
-        }
-
-        $comment->update([
-            'types' => $typesText,
-        ]);
 
         if (empty($commentLog->comment_id)) {
             ContentUtility::handleAndSaveAllInteractive($commentLog->content, Mention::TYPE_COMMENT, $comment->id, $commentLog->user_id);
