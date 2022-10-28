@@ -12,7 +12,6 @@ use Illuminate\Database\Seeder;
 
 class LanguagesTableSeeder extends Seeder
 {
-
     /**
      * Auto generated seed file.
      *
@@ -22,9 +21,8 @@ class LanguagesTableSeeder extends Seeder
     {
         \DB::table('languages')->delete();
 
-        \DB::table('languages')->insert(array (
-            0 =>
-            array (
+        \DB::table('languages')->insert([
+            0 => [
                 'id' => 1,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -35,9 +33,8 @@ class LanguagesTableSeeder extends Seeder
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            1 =>
-            array (
+            ],
+            1 => [
                 'id' => 2,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -48,9 +45,8 @@ class LanguagesTableSeeder extends Seeder
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            2 =>
-            array (
+            ],
+            2 => [
                 'id' => 3,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -61,9 +57,8 @@ class LanguagesTableSeeder extends Seeder
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            3 =>
-            array (
+            ],
+            3 => [
                 'id' => 4,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -76,9 +71,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            4 =>
-            array (
+            ],
+            4 => [
                 'id' => 5,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -91,9 +85,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            5 =>
-            array (
+            ],
+            5 => [
                 'id' => 6,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -106,9 +99,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            6 =>
-            array (
+            ],
+            6 => [
                 'id' => 7,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -121,9 +113,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            7 =>
-            array (
+            ],
+            7 => [
                 'id' => 8,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -134,9 +125,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            8 =>
-            array (
+            ],
+            8 => [
                 'id' => 9,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -147,9 +137,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            9 =>
-            array (
+            ],
+            9 => [
                 'id' => 10,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -160,9 +149,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            10 =>
-            array (
+            ],
+            10 => [
                 'id' => 11,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -173,9 +161,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            11 =>
-            array (
+            ],
+            11 => [
                 'id' => 12,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -186,9 +173,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            12 =>
-            array (
+            ],
+            12 => [
                 'id' => 13,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -199,9 +185,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            13 =>
-            array (
+            ],
+            13 => [
                 'id' => 14,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -212,9 +197,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            14 =>
-            array (
+            ],
+            14 => [
                 'id' => 15,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -225,9 +209,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            15 =>
-            array (
+            ],
+            15 => [
                 'id' => 16,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -238,9 +221,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            16 =>
-            array (
+            ],
+            16 => [
                 'id' => 17,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -251,9 +233,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            17 =>
-            array (
+            ],
+            17 => [
                 'id' => 18,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -264,9 +245,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            18 =>
-            array (
+            ],
+            18 => [
                 'id' => 19,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -277,9 +257,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            19 =>
-            array (
+            ],
+            19 => [
                 'id' => 20,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -290,9 +269,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            20 =>
-            array (
+            ],
+            20 => [
                 'id' => 21,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -303,9 +281,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            21 =>
-            array (
+            ],
+            21 => [
                 'id' => 22,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -316,9 +293,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            22 =>
-            array (
+            ],
+            22 => [
                 'id' => 23,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -329,9 +305,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            23 =>
-            array (
+            ],
+            23 => [
                 'id' => 24,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -342,9 +317,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            24 =>
-            array (
+            ],
+            24 => [
                 'id' => 25,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -355,9 +329,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            25 =>
-            array (
+            ],
+            25 => [
                 'id' => 26,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -368,9 +341,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            26 =>
-            array (
+            ],
+            26 => [
                 'id' => 27,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -381,9 +353,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            27 =>
-            array (
+            ],
+            27 => [
                 'id' => 28,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -394,9 +365,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            28 =>
-            array (
+            ],
+            28 => [
                 'id' => 29,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -407,9 +377,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            29 =>
-            array (
+            ],
+            29 => [
                 'id' => 30,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -420,9 +389,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            30 =>
-            array (
+            ],
+            30 => [
                 'id' => 31,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -433,9 +401,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            31 =>
-            array (
+            ],
+            31 => [
                 'id' => 32,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -446,9 +413,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            32 =>
-            array (
+            ],
+            32 => [
                 'id' => 33,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -459,9 +425,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            33 =>
-            array (
+            ],
+            33 => [
                 'id' => 34,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -472,9 +437,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            34 =>
-            array (
+            ],
+            34 => [
                 'id' => 35,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -485,9 +449,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            35 =>
-            array (
+            ],
+            35 => [
                 'id' => 36,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -498,9 +461,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            36 =>
-            array (
+            ],
+            36 => [
                 'id' => 37,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -511,9 +473,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            37 =>
-            array (
+            ],
+            37 => [
                 'id' => 38,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -524,9 +485,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            38 =>
-            array (
+            ],
+            38 => [
                 'id' => 39,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -537,9 +497,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            39 =>
-            array (
+            ],
+            39 => [
                 'id' => 40,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -550,9 +509,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            40 =>
-            array (
+            ],
+            40 => [
                 'id' => 41,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -563,9 +521,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            41 =>
-            array (
+            ],
+            41 => [
                 'id' => 42,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -576,9 +533,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            42 =>
-            array (
+            ],
+            42 => [
                 'id' => 43,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -589,9 +545,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            43 =>
-            array (
+            ],
+            43 => [
                 'id' => 44,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -602,9 +557,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            44 =>
-            array (
+            ],
+            44 => [
                 'id' => 45,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -615,9 +569,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            45 =>
-            array (
+            ],
+            45 => [
                 'id' => 46,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -628,9 +581,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            46 =>
-            array (
+            ],
+            46 => [
                 'id' => 47,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -641,9 +593,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            47 =>
-            array (
+            ],
+            47 => [
                 'id' => 48,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -654,9 +605,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            48 =>
-            array (
+            ],
+            48 => [
                 'id' => 49,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -667,9 +617,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            49 =>
-            array (
+            ],
+            49 => [
                 'id' => 50,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -680,9 +629,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            50 =>
-            array (
+            ],
+            50 => [
                 'id' => 51,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -693,9 +641,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            51 =>
-            array (
+            ],
+            51 => [
                 'id' => 52,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -706,9 +653,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            52 =>
-            array (
+            ],
+            52 => [
                 'id' => 53,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -719,9 +665,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            53 =>
-            array (
+            ],
+            53 => [
                 'id' => 54,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -732,9 +677,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            54 =>
-            array (
+            ],
+            54 => [
                 'id' => 55,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -745,9 +689,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            55 =>
-            array (
+            ],
+            55 => [
                 'id' => 56,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -758,9 +701,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            56 =>
-            array (
+            ],
+            56 => [
                 'id' => 57,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -771,9 +713,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            57 =>
-            array (
+            ],
+            57 => [
                 'id' => 58,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -784,9 +725,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            58 =>
-            array (
+            ],
+            58 => [
                 'id' => 59,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -797,9 +737,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            59 =>
-            array (
+            ],
+            59 => [
                 'id' => 60,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -810,9 +749,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            60 =>
-            array (
+            ],
+            60 => [
                 'id' => 61,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -823,9 +761,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            61 =>
-            array (
+            ],
+            61 => [
                 'id' => 62,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -836,9 +773,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            62 =>
-            array (
+            ],
+            62 => [
                 'id' => 63,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -849,9 +785,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            63 =>
-            array (
+            ],
+            63 => [
                 'id' => 64,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -862,9 +797,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            64 =>
-            array (
+            ],
+            64 => [
                 'id' => 65,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -875,9 +809,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            65 =>
-            array (
+            ],
+            65 => [
                 'id' => 66,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -888,9 +821,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            66 =>
-            array (
+            ],
+            66 => [
                 'id' => 67,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -901,9 +833,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            67 =>
-            array (
+            ],
+            67 => [
                 'id' => 68,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -914,9 +845,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            68 =>
-            array (
+            ],
+            68 => [
                 'id' => 69,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -927,9 +857,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            69 =>
-            array (
+            ],
+            69 => [
                 'id' => 70,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -940,9 +869,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            70 =>
-            array (
+            ],
+            70 => [
                 'id' => 71,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -953,9 +881,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            71 =>
-            array (
+            ],
+            71 => [
                 'id' => 72,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -966,9 +893,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            72 =>
-            array (
+            ],
+            72 => [
                 'id' => 73,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -979,9 +905,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            73 =>
-            array (
+            ],
+            73 => [
                 'id' => 74,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -992,9 +917,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            74 =>
-            array (
+            ],
+            74 => [
                 'id' => 75,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1005,9 +929,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            75 =>
-            array (
+            ],
+            75 => [
                 'id' => 76,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1018,9 +941,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            76 =>
-            array (
+            ],
+            76 => [
                 'id' => 77,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1031,9 +953,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            77 =>
-            array (
+            ],
+            77 => [
                 'id' => 78,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1044,9 +965,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            78 =>
-            array (
+            ],
+            78 => [
                 'id' => 79,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1057,9 +977,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            79 =>
-            array (
+            ],
+            79 => [
                 'id' => 80,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1070,9 +989,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            80 =>
-            array (
+            ],
+            80 => [
                 'id' => 81,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1083,9 +1001,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            81 =>
-            array (
+            ],
+            81 => [
                 'id' => 82,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1096,9 +1013,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            82 =>
-            array (
+            ],
+            82 => [
                 'id' => 83,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1109,9 +1025,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            83 =>
-            array (
+            ],
+            83 => [
                 'id' => 84,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1122,9 +1037,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            84 =>
-            array (
+            ],
+            84 => [
                 'id' => 85,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1135,9 +1049,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            85 =>
-            array (
+            ],
+            85 => [
                 'id' => 86,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1148,9 +1061,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            86 =>
-            array (
+            ],
+            86 => [
                 'id' => 87,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1161,9 +1073,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            87 =>
-            array (
+            ],
+            87 => [
                 'id' => 88,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1174,9 +1085,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            88 =>
-            array (
+            ],
+            88 => [
                 'id' => 89,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1187,9 +1097,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            89 =>
-            array (
+            ],
+            89 => [
                 'id' => 90,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1200,9 +1109,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            90 =>
-            array (
+            ],
+            90 => [
                 'id' => 91,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1213,9 +1121,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            91 =>
-            array (
+            ],
+            91 => [
                 'id' => 92,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1226,9 +1133,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            92 =>
-            array (
+            ],
+            92 => [
                 'id' => 93,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1239,9 +1145,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            93 =>
-            array (
+            ],
+            93 => [
                 'id' => 94,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1252,9 +1157,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            94 =>
-            array (
+            ],
+            94 => [
                 'id' => 95,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1265,9 +1169,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            95 =>
-            array (
+            ],
+            95 => [
                 'id' => 96,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1278,9 +1181,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            96 =>
-            array (
+            ],
+            96 => [
                 'id' => 97,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1291,9 +1193,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            97 =>
-            array (
+            ],
+            97 => [
                 'id' => 98,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1304,9 +1205,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            98 =>
-            array (
+            ],
+            98 => [
                 'id' => 99,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1317,9 +1217,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            99 =>
-            array (
+            ],
+            99 => [
                 'id' => 100,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1330,9 +1229,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            100 =>
-            array (
+            ],
+            100 => [
                 'id' => 101,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1343,9 +1241,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            101 =>
-            array (
+            ],
+            101 => [
                 'id' => 102,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1356,9 +1253,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            102 =>
-            array (
+            ],
+            102 => [
                 'id' => 103,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1369,9 +1265,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            103 =>
-            array (
+            ],
+            103 => [
                 'id' => 104,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1382,9 +1277,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            104 =>
-            array (
+            ],
+            104 => [
                 'id' => 105,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1395,9 +1289,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            105 =>
-            array (
+            ],
+            105 => [
                 'id' => 106,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1408,9 +1301,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            106 =>
-            array (
+            ],
+            106 => [
                 'id' => 107,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1421,9 +1313,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            107 =>
-            array (
+            ],
+            107 => [
                 'id' => 108,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1434,9 +1325,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            108 =>
-            array (
+            ],
+            108 => [
                 'id' => 109,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1447,9 +1337,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            109 =>
-            array (
+            ],
+            109 => [
                 'id' => 110,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1460,9 +1349,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            110 =>
-            array (
+            ],
+            110 => [
                 'id' => 111,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1473,9 +1361,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            111 =>
-            array (
+            ],
+            111 => [
                 'id' => 112,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1486,9 +1373,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            112 =>
-            array (
+            ],
+            112 => [
                 'id' => 113,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1499,9 +1385,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            113 =>
-            array (
+            ],
+            113 => [
                 'id' => 114,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1512,9 +1397,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            114 =>
-            array (
+            ],
+            114 => [
                 'id' => 115,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1525,9 +1409,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            115 =>
-            array (
+            ],
+            115 => [
                 'id' => 116,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1538,9 +1421,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            116 =>
-            array (
+            ],
+            116 => [
                 'id' => 117,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1551,9 +1433,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            117 =>
-            array (
+            ],
+            117 => [
                 'id' => 118,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1564,9 +1445,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            118 =>
-            array (
+            ],
+            118 => [
                 'id' => 119,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1577,9 +1457,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            119 =>
-            array (
+            ],
+            119 => [
                 'id' => 120,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1590,9 +1469,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            120 =>
-            array (
+            ],
+            120 => [
                 'id' => 121,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1603,9 +1481,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            121 =>
-            array (
+            ],
+            121 => [
                 'id' => 122,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1616,9 +1493,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            122 =>
-            array (
+            ],
+            122 => [
                 'id' => 123,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1629,9 +1505,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            123 =>
-            array (
+            ],
+            123 => [
                 'id' => 124,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1642,9 +1517,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            124 =>
-            array (
+            ],
+            124 => [
                 'id' => 125,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1655,9 +1529,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            125 =>
-            array (
+            ],
+            125 => [
                 'id' => 126,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1668,9 +1541,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            126 =>
-            array (
+            ],
+            126 => [
                 'id' => 127,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1681,9 +1553,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            127 =>
-            array (
+            ],
+            127 => [
                 'id' => 128,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1694,9 +1565,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            128 =>
-            array (
+            ],
+            128 => [
                 'id' => 129,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1707,9 +1577,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            129 =>
-            array (
+            ],
+            129 => [
                 'id' => 130,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1720,9 +1589,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            130 =>
-            array (
+            ],
+            130 => [
                 'id' => 131,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1733,9 +1601,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            131 =>
-            array (
+            ],
+            131 => [
                 'id' => 132,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1746,9 +1613,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            132 =>
-            array (
+            ],
+            132 => [
                 'id' => 133,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1759,9 +1625,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            133 =>
-            array (
+            ],
+            133 => [
                 'id' => 134,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1772,9 +1637,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            134 =>
-            array (
+            ],
+            134 => [
                 'id' => 135,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1785,9 +1649,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            135 =>
-            array (
+            ],
+            135 => [
                 'id' => 136,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1798,9 +1661,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            136 =>
-            array (
+            ],
+            136 => [
                 'id' => 137,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1811,9 +1673,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            137 =>
-            array (
+            ],
+            137 => [
                 'id' => 138,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1824,9 +1685,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            138 =>
-            array (
+            ],
+            138 => [
                 'id' => 139,
                 'table_name' => 'roles',
                 'table_column' => 'name',
@@ -1837,9 +1697,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            139 =>
-            array (
+            ],
+            139 => [
                 'id' => 140,
                 'table_name' => 'roles',
                 'table_column' => 'name',
@@ -1850,9 +1709,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            140 =>
-            array (
+            ],
+            140 => [
                 'id' => 141,
                 'table_name' => 'roles',
                 'table_column' => 'name',
@@ -1863,9 +1721,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            141 =>
-            array (
+            ],
+            141 => [
                 'id' => 142,
                 'table_name' => 'roles',
                 'table_column' => 'name',
@@ -1876,9 +1733,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            142 =>
-            array (
+            ],
+            142 => [
                 'id' => 143,
                 'table_name' => 'plugin_usages',
                 'table_column' => 'name',
@@ -1889,9 +1745,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            143 =>
-            array (
+            ],
+            143 => [
                 'id' => 144,
                 'table_name' => 'plugin_usages',
                 'table_column' => 'name',
@@ -1902,9 +1757,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            144 =>
-            array (
+            ],
+            144 => [
                 'id' => 145,
                 'table_name' => 'plugin_usages',
                 'table_column' => 'name',
@@ -1915,9 +1769,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            145 =>
-            array (
+            ],
+            145 => [
                 'id' => 146,
                 'table_name' => 'plugin_usages',
                 'table_column' => 'name',
@@ -1928,9 +1781,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            146 =>
-            array (
+            ],
+            146 => [
                 'id' => 147,
                 'table_name' => 'plugin_usages',
                 'table_column' => 'name',
@@ -1941,9 +1793,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            147 =>
-            array (
+            ],
+            147 => [
                 'id' => 148,
                 'table_name' => 'plugin_usages',
                 'table_column' => 'name',
@@ -1954,22 +1805,20 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            148 =>
-            array (
+            ],
+            148 => [
                 'id' => 149,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
                 'table_id' => null,
                 'table_key' => 'language_pack_contents',
                 'lang_tag' => 'zh-Hans',
-            'lang_content' => '{"language":"语言","errorUnknown":"未知错误","errorEmpty":"不能为空","errorNotExist":"不存在","errorNotMatch":"两次输入不一致","errorNoInfo":"无法获得信息","errorNoLogin":"未登录无法操作","errorTimeout":"服务超时","errorRejection":"服务被拒绝","errorUnavailable":"暂时无法使用","errorIp":"IP 属地未知","success":"成功","failed":"失败","warning":"警告","danger":"危险","setting":"设置","config":"配置","reset":"重置","modify":"修改","edit":"编辑","delete":"删除","add":"新增","remove":"移除","previous":"上一步","next":"下一步","return":"返回","close":"关闭","cancel":"取消","dismiss":"驳回","activate":"启用","deactivate":"停用","install":"安装","uninstall":"卸载","check":"验证","done":"完成","search":"搜索","location":"位置","list":"列表","choose":"选择","update":"更新","recall":"撤回","submit":"提交","save":"保存","saveChanges":"保存更改","confirm":"确认","send":"发送","rankNum":"排序","type":"类型","view":"查看","share":"分享","more":"更多","image":"图片","video":"视频","audio":"音频","document":"文档","learnMore":"了解详情","pleaseEnter":"请输入","copyLink":"复制链接","copySuccess":"复制成功","modifierCount":"共","modifierOr":"或","modifierYear":"年","modifierMonth":"月","modifierDay":"日","modifierDays":"天","modifierLength":"长度","unitSecond":"秒","unitMinute":"分钟","unitWithinMinute":"分钟以内","unitCharacter":"字符","unitNumber":"个数","unitNumberOfTimes":"次数","unitWordCount":"字数","unitKm":"公里","unitMi":"英里","optionLanguage":"切换语言","optionUser":"切换用户","private":"私有模式介绍","email":"邮箱","newEmail":"新邮箱","phone":"手机号","newPhone":"新手机号","countryCode":"国际区号","verifyCode":"验证码","emailVerifyCode":"邮件验证码","smsVerifyCode":"短信验证码","newVerifyCode":"新验证码","sendVerifyCode":"获取验证码","resendVerifyCode":"重新发送","account":"账号","accountPassword":"账号密码","accountType":"账号类型","accountJoin":"申请加入","accountRegister":"注册","accountRegisterError":"该注册通道已关闭，本页面无法注册","accountLogin":"登录","accountLoginByPassword":"密码登录","accountLoginByCode":"验证码登录","accountLoginByConnects":"一键快捷登录","accountLogout":"退出","accountDelete":"注销","accountRestore":"撤销注销","accountReset":"重置密码","accountError":"账号错误","accountInfo":"注册即表示同意本站条款","accountPoliciesTerms":"服务条款","accountPoliciesPrivacy":"隐私政策","accountPoliciesCookie":"Cookie 使用条款","accountPoliciesDelete":"注销说明","password":"密码","passwordCurrent":"当前密码","passwordNew":"新密码","passwordAgain":"再输一次密码","passwordAgainError":"两次输入的新密码不一致","passwordError":"密码错误","passwordForgot":"忘记密码","passwordInfo":"密码必须包含","passwordInfoNumbers":"数字","passwordInfoLowercaseLetters":"小写字母","passwordInfoUppercaseLetters":"大写字母","passwordInfoSymbols":"字符(除空格)","userCurrent":"当前用户","userPassword":"密码登录","userAuthPassword":"用户密码","userAuth":"进入社区","userProfile":"个人信息","userAvatar":"头像","userGender":"性别","userBirthday":"生日","userTimeZone":"时区","userLanguage":"语言","userFollowMutual":"互相关注","userFollowMe":"关注了你","userBlockMe":"拉黑了你","userFollowersYouKnow":"等人也关注了 TA","userFollowersYouFollow":"你关注的人也在关注他","walletStatus":"钱包状态","walletBalance":"余额","walletFreezeAmount":"不可用金额","walletPassword":"钱包密码","walletLogs":"钱包交易记录","walletRecharge":"充值","walletWithdraw":"提现","notifyMarkRead":"一键全部已读","notifyFollow":"关注了你","notifyLike":"点赞了你","notifyComment":"评论了你","notifyMention":"提及了你","settingGeneral":"个人资料","settingPreference":"偏好设置","settingAccount":"账号设置","settingConnect":"互联信息","settingType":"修改方式","settingAlready":"已设置","settingNot":"未设置","settingWarning":"为了保护你的帐号安全，请验证身份，验证成功后进行下一步操作","settingCheckError":"操作验证失败，请先通过验证再操作","settingAllowAll":"允许所有用户","settingAllowMyFollow":"仅允许我关注的用户","settingAllowMyFollowAndVerified":"我关注的用户和已认证的用户","settingAllowNotAll":"不允许所有用户","settingIntervalDays":"修改间隔天数","settingLastTime":"上次修改时间","settingNameWarning":"仅支持英文字母和数字，可以纯字母或者与数字混合，但不能纯数字","settingNicknameWarning":"不能带标点符号或特殊符号","settingGenderNull":"保密","settingGenderMale":"男","settingGenderFemale":"女","settingConnectAdd":"绑定","settingConnectRemove":"解绑","editorFullFunctions":"进入高级编辑模式","editorRequired":"必填","editorOptional":"非必填","editorCreate":"创建新草稿","editorNoChooseGroup":"未选择","editorNoGroup":"不发到","editorMyFollowGroup":"我关注的","editorStickers":"表情","editorImages":"图片","editorVideos":"视频","editorVideoPlay":"上传成功，发表后可播放","editorAudios":"音频","editorDocuments":"文档","editorTitle":"标题","editorMention":"艾特","editorHashtag":"话题","editorExtends":"扩展","editorContent":"正文","editorLocation":"添加位置","editorAnonymous":"是否匿名","editorUpload":"上传","editorUploadInfo":"请选择上传资源","editorUploadExtensions":"支持的扩展名","editorUploadMaxSize":"支持的最大尺寸","editorUploadMaxTime":"支持的最长时间","editorUploadNumber":"支持上传的数量","editorUploadBtn":"确认上传","editorLimitTitle":"发表限制提醒","editorLimitTypeName":"限制类型","editorLimitType1Desc":"指定日期范围内限制","editorLimitType2Desc":"每天的时间段范围内循环限制","editorLimitDateName":"日期范围","editorLimitCycleName":"时间范围","editorLimitRuleName":"限制规则","editorLimitRule1Desc":"可以发表，但是需要审核","editorLimitRule2Desc":"禁止发表","editorLimitPromptName":"限制说明","editorRoleLimitTitle":"角色权限发表限制信息","editorMainRoleTitle":"用户主角色","editorEditTimeTitle":"内容发表成功后，仅在规定时间内可以编辑，超时后不可再编辑，但可以删除。","editorEditTimeDesc":"剩余时间","editorAllowTitle":"权限信息","editorAllowRoleName":"指定用户角色可访问","editorAllowUserName":"指定用户可访问","editorAllowProportionName":"可试读前内容比例","editorAllowBtnName":"获取阅读权限按钮文字","editorCommentBtnTitle":"评论按钮信息","editorCommentBtnName":"按钮名称","editorUserListTitle":"特定成员配置","editorUserListName":"特定成员名称","contentReview":"内容审核中","contentLoginError":"需要登录后才能查看","contentAllList":"所有","contentNewList":"最新","contentHotList":"热门","contentBrowse":"浏览","contentDigest":"精华","contentSticky":"置顶","contentRecommend":"推荐","contentFull":"全文","contentViewOriginal":"查看原文","contentCreator":"作者","contentCreatorAnonymous":"匿名者","contentCreatorDeactivate":"账号已注销","contentCreatorLiked":"作者点赞了该评论","contentPublishTime":"发布时间","contentCommentTime":"评论时间","contentPublishedOn":"发表于","contentEditedOn":"编辑于","contentFileUploader":"上传者","contentFileDownloader":"用户下载记录","contentFileDownloaderDesc":"仅展示 30 名用户头像","contentFileDownload":"下载","contentImageLong":"长图","contentVideoPlay":"播放","contentDocumentDetail":"文件详情","contentDocumentInfo":"本文档受 Fresns 分享保护，仅限于本站用户下载查阅，所有下载均记录在案，请勿扩散。","contentAllowInfo":"可试读内容","contentTopComment":"热评","contentCommentCountDesc":"条回复","contentCommentNotPublic":"评论仅帖子作者可见","contentCommentVisibilityRuleTip":"评论已超出可见期限，不再显示"}',
+                'lang_content' => '{"language":"语言","errorUnknown":"未知错误","errorEmpty":"不能为空","errorNotExist":"不存在","errorNotMatch":"两次输入不一致","errorNoInfo":"无法获得信息","errorNoLogin":"未登录无法操作","errorTimeout":"服务超时","errorRejection":"服务被拒绝","errorUnavailable":"暂时无法使用","errorIp":"IP 属地未知","success":"成功","failed":"失败","warning":"警告","danger":"危险","setting":"设置","config":"配置","reset":"重置","modify":"修改","edit":"编辑","delete":"删除","add":"新增","remove":"移除","previous":"上一步","next":"下一步","return":"返回","close":"关闭","cancel":"取消","dismiss":"驳回","activate":"启用","deactivate":"停用","install":"安装","uninstall":"卸载","check":"验证","done":"完成","search":"搜索","location":"位置","list":"列表","choose":"选择","update":"更新","recall":"撤回","submit":"提交","save":"保存","saveChanges":"保存更改","confirm":"确认","send":"发送","rankNum":"排序","type":"类型","view":"查看","share":"分享","more":"更多","image":"图片","video":"视频","audio":"音频","document":"文档","learnMore":"了解详情","pleaseEnter":"请输入","copyLink":"复制链接","copySuccess":"复制成功","modifierCount":"共","modifierOr":"或","modifierYear":"年","modifierMonth":"月","modifierDay":"日","modifierDays":"天","modifierLength":"长度","unitSecond":"秒","unitMinute":"分钟","unitWithinMinute":"分钟以内","unitCharacter":"字符","unitNumber":"个数","unitNumberOfTimes":"次数","unitWordCount":"字数","unitKm":"公里","unitMi":"英里","optionLanguage":"切换语言","optionUser":"切换用户","private":"私有模式介绍","email":"邮箱","newEmail":"新邮箱","phone":"手机号","newPhone":"新手机号","countryCode":"国际区号","verifyCode":"验证码","emailVerifyCode":"邮件验证码","smsVerifyCode":"短信验证码","newVerifyCode":"新验证码","sendVerifyCode":"获取验证码","resendVerifyCode":"重新发送","account":"账号","accountPassword":"账号密码","accountType":"账号类型","accountJoin":"申请加入","accountRegister":"注册","accountRegisterError":"该注册通道已关闭，本页面无法注册","accountLogin":"登录","accountLoginByPassword":"密码登录","accountLoginByCode":"验证码登录","accountLoginByConnects":"一键快捷登录","accountLogout":"退出","accountDelete":"注销","accountRestore":"撤销注销","accountReset":"重置密码","accountError":"账号错误","accountInfo":"注册即表示同意本站条款","accountPoliciesTerms":"服务条款","accountPoliciesPrivacy":"隐私政策","accountPoliciesCookie":"Cookie 使用条款","accountPoliciesDelete":"注销说明","password":"密码","passwordCurrent":"当前密码","passwordNew":"新密码","passwordAgain":"再输一次密码","passwordAgainError":"两次输入的新密码不一致","passwordError":"密码错误","passwordForgot":"忘记密码","passwordInfo":"密码必须包含","passwordInfoNumbers":"数字","passwordInfoLowercaseLetters":"小写字母","passwordInfoUppercaseLetters":"大写字母","passwordInfoSymbols":"字符(除空格)","userCurrent":"当前用户","userPassword":"密码登录","userAuthPassword":"用户密码","userAuth":"进入社区","userProfile":"个人信息","userAvatar":"头像","userGender":"性别","userBirthday":"生日","userTimeZone":"时区","userLanguage":"语言","userFollowMutual":"互相关注","userFollowMe":"关注了你","userBlockMe":"拉黑了你","userFollowersYouKnow":"等人也关注了 TA","userFollowersYouFollow":"你关注的人也在关注他","walletStatus":"钱包状态","walletBalance":"余额","walletFreezeAmount":"不可用金额","walletPassword":"钱包密码","walletLogs":"钱包交易记录","walletRecharge":"充值","walletWithdraw":"提现","notifyMarkRead":"一键全部已读","notifyFollow":"关注了你","notifyLike":"点赞了你","notifyComment":"评论了你","notifyMention":"提及了你","settingGeneral":"个人资料","settingPreference":"偏好设置","settingAccount":"账号设置","settingConnect":"互联信息","settingType":"修改方式","settingAlready":"已设置","settingNot":"未设置","settingWarning":"为了保护你的帐号安全，请验证身份，验证成功后进行下一步操作","settingCheckError":"操作验证失败，请先通过验证再操作","settingAllowAll":"允许所有用户","settingAllowMyFollow":"仅允许我关注的用户","settingAllowMyFollowAndVerified":"我关注的用户和已认证的用户","settingAllowNotAll":"不允许所有用户","settingIntervalDays":"修改间隔天数","settingLastTime":"上次修改时间","settingNameWarning":"仅支持英文字母和数字，可以纯字母或者与数字混合，但不能纯数字","settingNicknameWarning":"不能带标点符号或特殊符号","settingGenderNull":"保密","settingGenderMale":"男","settingGenderFemale":"女","settingConnectAdd":"绑定","settingConnectRemove":"解绑","editorFullFunctions":"进入高级编辑模式","editorRequired":"必填","editorOptional":"非必填","editorCreate":"创建新草稿","editorNoChooseGroup":"未选择","editorNoGroup":"不发到","editorMyFollowGroup":"我关注的","editorStickers":"表情","editorImages":"图片","editorVideos":"视频","editorVideoPlay":"上传成功，发表后可播放","editorAudios":"音频","editorDocuments":"文档","editorTitle":"标题","editorMention":"艾特","editorHashtag":"话题","editorExtends":"扩展","editorContent":"正文","editorLocation":"添加位置","editorAnonymous":"是否匿名","editorUpload":"上传","editorUploadInfo":"请选择上传资源","editorUploadExtensions":"支持的扩展名","editorUploadMaxSize":"支持的最大尺寸","editorUploadMaxTime":"支持的最长时间","editorUploadNumber":"支持上传的数量","editorUploadBtn":"确认上传","editorLimitTitle":"发表限制提醒","editorLimitTypeName":"限制类型","editorLimitType1Desc":"指定日期范围内限制","editorLimitType2Desc":"每天的时间段范围内循环限制","editorLimitDateName":"日期范围","editorLimitCycleName":"时间范围","editorLimitRuleName":"限制规则","editorLimitRule1Desc":"可以发表，但是需要审核","editorLimitRule2Desc":"禁止发表","editorLimitPromptName":"限制说明","editorRoleLimitTitle":"角色权限发表限制信息","editorMainRoleTitle":"用户主角色","editorEditTimeTitle":"内容发表成功后，仅在规定时间内可以编辑，超时后不可再编辑，但可以删除。","editorEditTimeDesc":"剩余时间","editorAllowTitle":"权限信息","editorAllowRoleName":"指定用户角色可访问","editorAllowUserName":"指定用户可访问","editorAllowProportionName":"可试读前内容比例","editorAllowBtnName":"获取阅读权限按钮文字","editorCommentBtnTitle":"评论按钮信息","editorCommentBtnName":"按钮名称","editorUserListTitle":"特定成员配置","editorUserListName":"特定成员名称","contentReview":"内容审核中","contentLoginError":"需要登录后才能查看","contentAllList":"所有","contentNewList":"最新","contentHotList":"热门","contentBrowse":"浏览","contentDigest":"精华","contentSticky":"置顶","contentRecommend":"推荐","contentFull":"全文","contentViewOriginal":"查看原文","contentCreator":"作者","contentCreatorAnonymous":"匿名者","contentCreatorDeactivate":"账号已注销","contentCreatorLiked":"作者点赞了该评论","contentPublishTime":"发布时间","contentCommentTime":"评论时间","contentPublishedOn":"发表于","contentEditedOn":"编辑于","contentFileUploader":"上传者","contentFileDownloader":"用户下载记录","contentFileDownloaderDesc":"仅展示 30 名用户头像","contentFileDownload":"下载","contentImageLong":"长图","contentVideoPlay":"播放","contentDocumentDetail":"文件详情","contentDocumentInfo":"本文档受 Fresns 分享保护，仅限于本站用户下载查阅，所有下载均记录在案，请勿扩散。","contentAllowInfo":"可试读内容","contentTopComment":"热评","contentCommentCountDesc":"条回复","contentCommentNotPublic":"评论仅帖子作者可见","contentCommentVisibilityRuleTip":"评论已超出可见期限，不再显示"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            149 =>
-            array (
+            ],
+            149 => [
                 'id' => 150,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1980,9 +1829,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            150 =>
-            array (
+            ],
+            150 => [
                 'id' => 151,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -1993,9 +1841,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            151 =>
-            array (
+            ],
+            151 => [
                 'id' => 152,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2008,9 +1855,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            152 =>
-            array (
+            ],
+            152 => [
                 'id' => 153,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2023,9 +1869,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            153 =>
-            array (
+            ],
+            153 => [
                 'id' => 154,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2038,9 +1883,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            154 =>
-            array (
+            ],
+            154 => [
                 'id' => 155,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2053,9 +1897,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            155 =>
-            array (
+            ],
+            155 => [
                 'id' => 156,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2066,9 +1909,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            156 =>
-            array (
+            ],
+            156 => [
                 'id' => 157,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2079,9 +1921,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            157 =>
-            array (
+            ],
+            157 => [
                 'id' => 158,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2092,9 +1933,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            158 =>
-            array (
+            ],
+            158 => [
                 'id' => 159,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2105,9 +1945,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            159 =>
-            array (
+            ],
+            159 => [
                 'id' => 160,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2118,9 +1957,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            160 =>
-            array (
+            ],
+            160 => [
                 'id' => 161,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2131,9 +1969,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            161 =>
-            array (
+            ],
+            161 => [
                 'id' => 162,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2144,9 +1981,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            162 =>
-            array (
+            ],
+            162 => [
                 'id' => 163,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2157,9 +1993,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            163 =>
-            array (
+            ],
+            163 => [
                 'id' => 164,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2170,9 +2005,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            164 =>
-            array (
+            ],
+            164 => [
                 'id' => 165,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2183,9 +2017,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            165 =>
-            array (
+            ],
+            165 => [
                 'id' => 166,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2196,9 +2029,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            166 =>
-            array (
+            ],
+            166 => [
                 'id' => 167,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2209,9 +2041,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            167 =>
-            array (
+            ],
+            167 => [
                 'id' => 168,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2222,9 +2053,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            168 =>
-            array (
+            ],
+            168 => [
                 'id' => 169,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2235,9 +2065,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            169 =>
-            array (
+            ],
+            169 => [
                 'id' => 170,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2248,9 +2077,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            170 =>
-            array (
+            ],
+            170 => [
                 'id' => 171,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2261,9 +2089,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            171 =>
-            array (
+            ],
+            171 => [
                 'id' => 172,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2274,9 +2101,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            172 =>
-            array (
+            ],
+            172 => [
                 'id' => 173,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2287,9 +2113,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            173 =>
-            array (
+            ],
+            173 => [
                 'id' => 174,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2300,9 +2125,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            174 =>
-            array (
+            ],
+            174 => [
                 'id' => 175,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2313,9 +2137,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            175 =>
-            array (
+            ],
+            175 => [
                 'id' => 176,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2326,9 +2149,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            176 =>
-            array (
+            ],
+            176 => [
                 'id' => 177,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2339,9 +2161,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            177 =>
-            array (
+            ],
+            177 => [
                 'id' => 178,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2352,9 +2173,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            178 =>
-            array (
+            ],
+            178 => [
                 'id' => 179,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2365,9 +2185,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            179 =>
-            array (
+            ],
+            179 => [
                 'id' => 180,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2378,9 +2197,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            180 =>
-            array (
+            ],
+            180 => [
                 'id' => 181,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2391,9 +2209,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            181 =>
-            array (
+            ],
+            181 => [
                 'id' => 182,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2404,9 +2221,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            182 =>
-            array (
+            ],
+            182 => [
                 'id' => 183,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2417,9 +2233,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            183 =>
-            array (
+            ],
+            183 => [
                 'id' => 184,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2430,9 +2245,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            184 =>
-            array (
+            ],
+            184 => [
                 'id' => 185,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2443,9 +2257,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            185 =>
-            array (
+            ],
+            185 => [
                 'id' => 186,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2456,9 +2269,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            186 =>
-            array (
+            ],
+            186 => [
                 'id' => 187,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2469,9 +2281,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            187 =>
-            array (
+            ],
+            187 => [
                 'id' => 188,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2482,9 +2293,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            188 =>
-            array (
+            ],
+            188 => [
                 'id' => 189,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2495,9 +2305,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            189 =>
-            array (
+            ],
+            189 => [
                 'id' => 190,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2508,9 +2317,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            190 =>
-            array (
+            ],
+            190 => [
                 'id' => 191,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2521,9 +2329,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            191 =>
-            array (
+            ],
+            191 => [
                 'id' => 192,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2534,9 +2341,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            192 =>
-            array (
+            ],
+            192 => [
                 'id' => 193,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2547,9 +2353,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            193 =>
-            array (
+            ],
+            193 => [
                 'id' => 194,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2560,9 +2365,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            194 =>
-            array (
+            ],
+            194 => [
                 'id' => 195,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2573,9 +2377,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            195 =>
-            array (
+            ],
+            195 => [
                 'id' => 196,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2586,9 +2389,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            196 =>
-            array (
+            ],
+            196 => [
                 'id' => 197,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2599,9 +2401,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            197 =>
-            array (
+            ],
+            197 => [
                 'id' => 198,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2612,9 +2413,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            198 =>
-            array (
+            ],
+            198 => [
                 'id' => 199,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2625,9 +2425,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            199 =>
-            array (
+            ],
+            199 => [
                 'id' => 200,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2638,9 +2437,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            200 =>
-            array (
+            ],
+            200 => [
                 'id' => 201,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2651,9 +2449,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            201 =>
-            array (
+            ],
+            201 => [
                 'id' => 202,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2664,9 +2461,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            202 =>
-            array (
+            ],
+            202 => [
                 'id' => 203,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2677,9 +2473,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            203 =>
-            array (
+            ],
+            203 => [
                 'id' => 204,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2690,9 +2485,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            204 =>
-            array (
+            ],
+            204 => [
                 'id' => 205,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2703,9 +2497,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            205 =>
-            array (
+            ],
+            205 => [
                 'id' => 206,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2716,9 +2509,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            206 =>
-            array (
+            ],
+            206 => [
                 'id' => 207,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2729,9 +2521,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            207 =>
-            array (
+            ],
+            207 => [
                 'id' => 208,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2742,9 +2533,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            208 =>
-            array (
+            ],
+            208 => [
                 'id' => 209,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2755,9 +2545,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            209 =>
-            array (
+            ],
+            209 => [
                 'id' => 210,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2768,9 +2557,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            210 =>
-            array (
+            ],
+            210 => [
                 'id' => 211,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2781,9 +2569,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            211 =>
-            array (
+            ],
+            211 => [
                 'id' => 212,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2794,9 +2581,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            212 =>
-            array (
+            ],
+            212 => [
                 'id' => 213,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2807,9 +2593,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            213 =>
-            array (
+            ],
+            213 => [
                 'id' => 214,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2820,9 +2605,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            214 =>
-            array (
+            ],
+            214 => [
                 'id' => 215,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2833,9 +2617,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            215 =>
-            array (
+            ],
+            215 => [
                 'id' => 216,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2846,9 +2629,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            216 =>
-            array (
+            ],
+            216 => [
                 'id' => 217,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2859,9 +2641,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            217 =>
-            array (
+            ],
+            217 => [
                 'id' => 218,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2872,9 +2653,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            218 =>
-            array (
+            ],
+            218 => [
                 'id' => 219,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2885,9 +2665,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            219 =>
-            array (
+            ],
+            219 => [
                 'id' => 220,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2898,9 +2677,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            220 =>
-            array (
+            ],
+            220 => [
                 'id' => 221,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2911,9 +2689,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            221 =>
-            array (
+            ],
+            221 => [
                 'id' => 222,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2924,9 +2701,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            222 =>
-            array (
+            ],
+            222 => [
                 'id' => 223,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2937,9 +2713,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            223 =>
-            array (
+            ],
+            223 => [
                 'id' => 224,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2950,9 +2725,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            224 =>
-            array (
+            ],
+            224 => [
                 'id' => 225,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2963,9 +2737,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            225 =>
-            array (
+            ],
+            225 => [
                 'id' => 226,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2976,9 +2749,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            226 =>
-            array (
+            ],
+            226 => [
                 'id' => 227,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -2989,9 +2761,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            227 =>
-            array (
+            ],
+            227 => [
                 'id' => 228,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3002,9 +2773,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            228 =>
-            array (
+            ],
+            228 => [
                 'id' => 229,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3015,9 +2785,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            229 =>
-            array (
+            ],
+            229 => [
                 'id' => 230,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3028,9 +2797,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            230 =>
-            array (
+            ],
+            230 => [
                 'id' => 231,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3041,9 +2809,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            231 =>
-            array (
+            ],
+            231 => [
                 'id' => 232,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3054,9 +2821,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            232 =>
-            array (
+            ],
+            232 => [
                 'id' => 233,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3067,9 +2833,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            233 =>
-            array (
+            ],
+            233 => [
                 'id' => 234,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3080,9 +2845,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            234 =>
-            array (
+            ],
+            234 => [
                 'id' => 235,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3093,9 +2857,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            235 =>
-            array (
+            ],
+            235 => [
                 'id' => 236,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3106,9 +2869,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            236 =>
-            array (
+            ],
+            236 => [
                 'id' => 237,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3119,9 +2881,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            237 =>
-            array (
+            ],
+            237 => [
                 'id' => 238,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3132,9 +2893,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            238 =>
-            array (
+            ],
+            238 => [
                 'id' => 239,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3145,9 +2905,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            239 =>
-            array (
+            ],
+            239 => [
                 'id' => 240,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3158,9 +2917,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            240 =>
-            array (
+            ],
+            240 => [
                 'id' => 241,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3171,9 +2929,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            241 =>
-            array (
+            ],
+            241 => [
                 'id' => 242,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3184,9 +2941,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            242 =>
-            array (
+            ],
+            242 => [
                 'id' => 243,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3197,9 +2953,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            243 =>
-            array (
+            ],
+            243 => [
                 'id' => 244,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3210,9 +2965,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            244 =>
-            array (
+            ],
+            244 => [
                 'id' => 245,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3223,9 +2977,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            245 =>
-            array (
+            ],
+            245 => [
                 'id' => 246,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3236,9 +2989,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            246 =>
-            array (
+            ],
+            246 => [
                 'id' => 247,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3249,9 +3001,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            247 =>
-            array (
+            ],
+            247 => [
                 'id' => 248,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3262,9 +3013,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            248 =>
-            array (
+            ],
+            248 => [
                 'id' => 249,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3275,9 +3025,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            249 =>
-            array (
+            ],
+            249 => [
                 'id' => 250,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3288,9 +3037,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            250 =>
-            array (
+            ],
+            250 => [
                 'id' => 251,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3301,9 +3049,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            251 =>
-            array (
+            ],
+            251 => [
                 'id' => 252,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3314,9 +3061,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            252 =>
-            array (
+            ],
+            252 => [
                 'id' => 253,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3327,9 +3073,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            253 =>
-            array (
+            ],
+            253 => [
                 'id' => 254,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3340,9 +3085,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            254 =>
-            array (
+            ],
+            254 => [
                 'id' => 255,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3353,9 +3097,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            255 =>
-            array (
+            ],
+            255 => [
                 'id' => 256,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3366,9 +3109,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            256 =>
-            array (
+            ],
+            256 => [
                 'id' => 257,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3379,9 +3121,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            257 =>
-            array (
+            ],
+            257 => [
                 'id' => 258,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3392,9 +3133,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            258 =>
-            array (
+            ],
+            258 => [
                 'id' => 259,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3405,9 +3145,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            259 =>
-            array (
+            ],
+            259 => [
                 'id' => 260,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3418,9 +3157,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            260 =>
-            array (
+            ],
+            260 => [
                 'id' => 261,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3431,9 +3169,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            261 =>
-            array (
+            ],
+            261 => [
                 'id' => 262,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3444,9 +3181,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            262 =>
-            array (
+            ],
+            262 => [
                 'id' => 263,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3457,9 +3193,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            263 =>
-            array (
+            ],
+            263 => [
                 'id' => 264,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3470,9 +3205,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            264 =>
-            array (
+            ],
+            264 => [
                 'id' => 265,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3483,9 +3217,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            265 =>
-            array (
+            ],
+            265 => [
                 'id' => 266,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3496,9 +3229,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            266 =>
-            array (
+            ],
+            266 => [
                 'id' => 267,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3509,9 +3241,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            267 =>
-            array (
+            ],
+            267 => [
                 'id' => 268,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3522,9 +3253,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            268 =>
-            array (
+            ],
+            268 => [
                 'id' => 269,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3535,9 +3265,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            269 =>
-            array (
+            ],
+            269 => [
                 'id' => 270,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3548,9 +3277,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            270 =>
-            array (
+            ],
+            270 => [
                 'id' => 271,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3561,9 +3289,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            271 =>
-            array (
+            ],
+            271 => [
                 'id' => 272,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3574,9 +3301,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            272 =>
-            array (
+            ],
+            272 => [
                 'id' => 273,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3587,9 +3313,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            273 =>
-            array (
+            ],
+            273 => [
                 'id' => 274,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3600,9 +3325,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            274 =>
-            array (
+            ],
+            274 => [
                 'id' => 275,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3613,9 +3337,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            275 =>
-            array (
+            ],
+            275 => [
                 'id' => 276,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3626,9 +3349,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            276 =>
-            array (
+            ],
+            276 => [
                 'id' => 277,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3639,9 +3361,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            277 =>
-            array (
+            ],
+            277 => [
                 'id' => 278,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3652,9 +3373,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            278 =>
-            array (
+            ],
+            278 => [
                 'id' => 279,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3665,9 +3385,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            279 =>
-            array (
+            ],
+            279 => [
                 'id' => 280,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3678,9 +3397,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            280 =>
-            array (
+            ],
+            280 => [
                 'id' => 281,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3691,9 +3409,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            281 =>
-            array (
+            ],
+            281 => [
                 'id' => 282,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3704,9 +3421,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            282 =>
-            array (
+            ],
+            282 => [
                 'id' => 283,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3717,9 +3433,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            283 =>
-            array (
+            ],
+            283 => [
                 'id' => 284,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3730,9 +3445,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            284 =>
-            array (
+            ],
+            284 => [
                 'id' => 285,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3743,9 +3457,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            285 =>
-            array (
+            ],
+            285 => [
                 'id' => 286,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3756,9 +3469,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            286 =>
-            array (
+            ],
+            286 => [
                 'id' => 287,
                 'table_name' => 'roles',
                 'table_column' => 'name',
@@ -3769,9 +3481,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            287 =>
-            array (
+            ],
+            287 => [
                 'id' => 288,
                 'table_name' => 'roles',
                 'table_column' => 'name',
@@ -3782,9 +3493,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            288 =>
-            array (
+            ],
+            288 => [
                 'id' => 289,
                 'table_name' => 'roles',
                 'table_column' => 'name',
@@ -3795,9 +3505,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            289 =>
-            array (
+            ],
+            289 => [
                 'id' => 290,
                 'table_name' => 'roles',
                 'table_column' => 'name',
@@ -3808,9 +3517,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            290 =>
-            array (
+            ],
+            290 => [
                 'id' => 291,
                 'table_name' => 'plugin_usages',
                 'table_column' => 'name',
@@ -3821,9 +3529,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            291 =>
-            array (
+            ],
+            291 => [
                 'id' => 292,
                 'table_name' => 'plugin_usages',
                 'table_column' => 'name',
@@ -3834,9 +3541,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            292 =>
-            array (
+            ],
+            292 => [
                 'id' => 293,
                 'table_name' => 'plugin_usages',
                 'table_column' => 'name',
@@ -3847,9 +3553,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            293 =>
-            array (
+            ],
+            293 => [
                 'id' => 294,
                 'table_name' => 'plugin_usages',
                 'table_column' => 'name',
@@ -3860,9 +3565,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            294 =>
-            array (
+            ],
+            294 => [
                 'id' => 295,
                 'table_name' => 'plugin_usages',
                 'table_column' => 'name',
@@ -3873,9 +3577,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            295 =>
-            array (
+            ],
+            295 => [
                 'id' => 296,
                 'table_name' => 'plugin_usages',
                 'table_column' => 'name',
@@ -3886,22 +3589,20 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            296 =>
-            array (
+            ],
+            296 => [
                 'id' => 297,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
                 'table_id' => null,
                 'table_key' => 'language_pack_contents',
                 'lang_tag' => 'zh-Hant',
-            'lang_content' => '{"language":"語言","errorUnknown":"未知錯誤","errorEmpty":"不能為空","errorNotExist":"不存在","errorNotMatch":"兩次輸入不一致","errorNoInfo":"无法获得信息","errorNoLogin":"未登錄無法操作","errorTimeout":"服務超時","errorRejection":"服務被拒絕","errorUnavailable":"暫時無法使用","errorIp":"IP 屬地未知","success":"成功","failed":"失敗","warning":"警告","danger":"危險","setting":"設定","config":"配置","reset":"重置","modify":"修改","edit":"編輯","delete":"刪除","add":"新增","remove":"移除","previous":"上一步","next":"下一步","return":"返回","close":"關閉","cancel":"取消","dismiss":"駁回","activate":"啟用","deactivate":"停用","install":"安裝","uninstall":"卸載","check":"驗證","done":"完成","search":"搜索","location":"位置","list":"列表","choose":"選擇","update":"更新","recall":"撤回","submit":"提交","save":"儲存","saveChanges":"儲存變更","confirm":"確認","send":"發送","rankNum":"排序","type":"類型","view":"查看","share":"分享","more":"更多","image":"圖片","video":"視頻","audio":"音頻","document":"文檔","learnMore":"瞭解詳情","pleaseEnter":"請輸入","copyLink":"複製鏈接","copySuccess":"複製成功","modifierCount":"共","modifierOr":"或","modifierYear":"年","modifierMonth":"月","modifierDay":"日","modifierDays":"天","modifierLength":"長度","unitSecond":"秒","unitMinute":"分鐘","unitWithinMinute":"分鐘以內","unitCharacter":"字符","unitNumber":"個數","unitNumberOfTimes":"次數","unitWordCount":"字數","unitKm":"公里","unitMi":"英里","optionLanguage":"切換語言","optionUser":"切換用戶","private":"私有模式介紹","email":"郵箱","newEmail":"新郵箱","phone":"手機號","newPhone":"新手機號","countryCode":"國際區號","verifyCode":"驗證碼","emailVerifyCode":"郵件驗證碼","smsVerifyCode":"短信驗證碼","newVerifyCode":"新驗證碼","sendVerifyCode":"獲取驗證碼","resendVerifyCode":"重新發送","account":"賬號","accountPassword":"賬號密碼","accountType":"賬號類型","accountJoin":"申請加入","accountRegister":"註冊","accountRegisterError":"該註冊通道已關閉，本頁面無法註冊","accountLogin":"登錄","accountLoginByPassword":"密碼登錄","accountLoginByCode":"驗證碼登錄","accountLoginByConnects":"快捷登錄","accountLogout":"登出","accountDelete":"註銷","accountRestore":"撤銷註銷","accountReset":"重置密碼","accountError":"賬號錯誤","accountInfo":"註冊即表示同意本站條款","accountPoliciesTerms":"服務條款","accountPoliciesPrivacy":"隱私政策","accountPoliciesCookie":"Cookie 使用條款","accountPoliciesDelete":"註銷說明","password":"密碼","passwordCurrent":"當前密碼","passwordNew":"新密碼","passwordAgain":"再輸一次密碼","passwordAgainError":"兩次輸入的新密碼不一致","passwordError":"密碼錯誤","passwordForgot":"忘記密碼","passwordInfo":"密碼必須包含","passwordInfoNumbers":"數字","passwordInfoLowercaseLetters":"小寫字母","passwordInfoUppercaseLetters":"大寫字母","passwordInfoSymbols":"字符(除空格)","userCurrent":"當前用戶","userPassword":"密碼登錄","userAuthPassword":"用戶密碼","userAuth":"進入社區","userProfile":"個人信息","userAvatar":"頭像","userGender":"性別","userBirthday":"生日","userTimeZone":"時區","userLanguage":"語言","userFollowMutual":"互相跟隨","userFollowMe":"跟隨了你","userBlockMe":"封鎖了你","userFollowersYouKnow":"等人也跟隨了他","userFollowersYouFollow":"你跟隨的人也在跟隨他","walletStatus":"錢包狀態","walletBalance":"餘額","walletFreezeAmount":"不可用金額","walletPassword":"錢包密碼","walletLogs":"交易記錄","walletRecharge":"充值","walletWithdraw":"提現","notifyMarkRead":"全部已讀","notifyFollow":"跟隨了你","notifyLike":"讚了你","notifyComment":"留言了你","notifyMention":"提及了你","settingGeneral":"個人資料","settingPreference":"偏好設定","settingAccount":"賬號設定","settingConnect":"互聯信息","settingType":"修改方式","settingAlready":"已設定","settingNot":"未設定","settingWarning":"為了保護你的帳號安全，請驗證身份，驗證成功後進行下一步操作","settingCheckError":"操作驗證失敗，請先通過驗證再操作","settingAllowAll":"允許所有用戶","settingAllowMyFollow":"僅允許我跟隨的用戶","settingAllowMyFollowAndVerified":"我跟隨的用戶和已認證的用戶","settingAllowNotAll":"不允許所有用戶","settingIntervalDays":"修改間隔天數","settingLastTime":"上次修改時間","settingNameWarning":"僅支持英文字母和數字，可以純字母或者與數字混合，但不能純數字","settingNicknameWarning":"不能帶標點符號或特殊符號","settingGenderNull":"保密","settingGenderMale":"男","settingGenderFemale":"女","settingConnectAdd":"關聯","settingConnectRemove":"解除","editorFullFunctions":"進入高級編輯模式","editorRequired":"必填","editorOptional":"非必填","editorCreate":"創建新草稿","editorNoChooseGroup":"未選擇","editorNoGroup":"不發到","editorMyFollowGroup":"我跟隨的","editorStickers":"表情","editorImages":"圖片","editorVideos":"視頻","editorVideoPlay":"上傳成功，發表後可播放","editorAudios":"音頻","editorDocuments":"文檔","editorTitle":"標題","editorMention":"艾特","editorHashtag":"話題","editorExtends":"擴展","editorContent":"正文","editorLocation":"添加位置","editorAnonymous":"是否匿名","editorUpload":"上傳","editorUploadInfo":"請選擇上傳資源","editorUploadExtensions":"支持的擴展名","editorUploadMaxSize":"支持的最大尺寸","editorUploadMaxTime":"支持的最长时间","editorUploadNumber":"支持上傳的數量","editorUploadBtn":"確認上傳","editorLimitTitle":"發表限制提醒","editorLimitTypeName":"限制類型","editorLimitType1Desc":"指定日期範圍內限制","editorLimitType2Desc":"每天的時間段範圍內循環限制","editorLimitDateName":"日期範圍","editorLimitCycleName":"時間範圍","editorLimitRuleName":"限制規則","editorLimitRule1Desc":"可以發表，但是需要審核","editorLimitRule2Desc":"禁止發表","editorLimitPromptName":"限制說明","editorRoleLimitTitle":"角色權限發表限制信息","editorMainRoleTitle":"用戶主角色","editorEditTimeTitle":"內容髮表成功後，僅在規定時間內可以編輯，超時後不可再編輯，但可以刪除。","editorEditTimeDesc":"剩餘時間","editorAllowTitle":"權限信息","editorAllowRoleName":"指定用戶角色可訪問","editorAllowUserName":"指定用戶可訪問","editorAllowProportionName":"可試讀前內容比例","editorAllowBtnName":"獲取閱讀權限按鈕文字","editorCommentBtnTitle":"留言按鈕信息","editorCommentBtnName":"按鈕名稱","editorUserListTitle":"特定成員配置","editorUserListName":"特定成員名稱","contentReview":"內容審查中","contentLoginError":"需要登錄後才能查看","contentAllList":"所有","contentNewList":"最新","contentHotList":"熱門","contentBrowse":"瀏覽","contentDigest":"精華","contentSticky":"置頂","contentRecommend":"推薦","contentFull":"全文","contentViewOriginal":"查看原文","contentCreator":"作者","contentCreatorAnonymous":"匿名者","contentCreatorDeactivate":"賬號已註銷","contentCreatorLiked":"作者點讚了該留言","contentPublishTime":"發表時間","contentCommentTime":"留言時間","contentPublishedOn":"發表於","contentEditedOn":"編輯於","contentFileUploader":"上傳者","contentFileDownloader":"用戶下載記錄","contentFileDownloaderDesc":"僅展示 30 名用戶頭像","contentFileDownload":"下載","contentImageLong":"長圖","contentVideoPlay":"播放","contentDocumentDetail":"文件詳情","contentDocumentInfo":"本文檔受 Fresns 分享保護，僅限於本站用戶下載查閱，所有下載均記錄在案，請勿擴散。","contentAllowInfo":"可試讀內容","contentTopComment":"熱評","contentCommentCountDesc":"條留言","contentCommentNotPublic":"留言僅貼文作者可見","contentCommentVisibilityRuleTip":"留言已超出可見期限，不再顯示"}',
+                'lang_content' => '{"language":"語言","errorUnknown":"未知錯誤","errorEmpty":"不能為空","errorNotExist":"不存在","errorNotMatch":"兩次輸入不一致","errorNoInfo":"无法获得信息","errorNoLogin":"未登錄無法操作","errorTimeout":"服務超時","errorRejection":"服務被拒絕","errorUnavailable":"暫時無法使用","errorIp":"IP 屬地未知","success":"成功","failed":"失敗","warning":"警告","danger":"危險","setting":"設定","config":"配置","reset":"重置","modify":"修改","edit":"編輯","delete":"刪除","add":"新增","remove":"移除","previous":"上一步","next":"下一步","return":"返回","close":"關閉","cancel":"取消","dismiss":"駁回","activate":"啟用","deactivate":"停用","install":"安裝","uninstall":"卸載","check":"驗證","done":"完成","search":"搜索","location":"位置","list":"列表","choose":"選擇","update":"更新","recall":"撤回","submit":"提交","save":"儲存","saveChanges":"儲存變更","confirm":"確認","send":"發送","rankNum":"排序","type":"類型","view":"查看","share":"分享","more":"更多","image":"圖片","video":"視頻","audio":"音頻","document":"文檔","learnMore":"瞭解詳情","pleaseEnter":"請輸入","copyLink":"複製鏈接","copySuccess":"複製成功","modifierCount":"共","modifierOr":"或","modifierYear":"年","modifierMonth":"月","modifierDay":"日","modifierDays":"天","modifierLength":"長度","unitSecond":"秒","unitMinute":"分鐘","unitWithinMinute":"分鐘以內","unitCharacter":"字符","unitNumber":"個數","unitNumberOfTimes":"次數","unitWordCount":"字數","unitKm":"公里","unitMi":"英里","optionLanguage":"切換語言","optionUser":"切換用戶","private":"私有模式介紹","email":"郵箱","newEmail":"新郵箱","phone":"手機號","newPhone":"新手機號","countryCode":"國際區號","verifyCode":"驗證碼","emailVerifyCode":"郵件驗證碼","smsVerifyCode":"短信驗證碼","newVerifyCode":"新驗證碼","sendVerifyCode":"獲取驗證碼","resendVerifyCode":"重新發送","account":"賬號","accountPassword":"賬號密碼","accountType":"賬號類型","accountJoin":"申請加入","accountRegister":"註冊","accountRegisterError":"該註冊通道已關閉，本頁面無法註冊","accountLogin":"登錄","accountLoginByPassword":"密碼登錄","accountLoginByCode":"驗證碼登錄","accountLoginByConnects":"快捷登錄","accountLogout":"登出","accountDelete":"註銷","accountRestore":"撤銷註銷","accountReset":"重置密碼","accountError":"賬號錯誤","accountInfo":"註冊即表示同意本站條款","accountPoliciesTerms":"服務條款","accountPoliciesPrivacy":"隱私政策","accountPoliciesCookie":"Cookie 使用條款","accountPoliciesDelete":"註銷說明","password":"密碼","passwordCurrent":"當前密碼","passwordNew":"新密碼","passwordAgain":"再輸一次密碼","passwordAgainError":"兩次輸入的新密碼不一致","passwordError":"密碼錯誤","passwordForgot":"忘記密碼","passwordInfo":"密碼必須包含","passwordInfoNumbers":"數字","passwordInfoLowercaseLetters":"小寫字母","passwordInfoUppercaseLetters":"大寫字母","passwordInfoSymbols":"字符(除空格)","userCurrent":"當前用戶","userPassword":"密碼登錄","userAuthPassword":"用戶密碼","userAuth":"進入社區","userProfile":"個人信息","userAvatar":"頭像","userGender":"性別","userBirthday":"生日","userTimeZone":"時區","userLanguage":"語言","userFollowMutual":"互相跟隨","userFollowMe":"跟隨了你","userBlockMe":"封鎖了你","userFollowersYouKnow":"等人也跟隨了他","userFollowersYouFollow":"你跟隨的人也在跟隨他","walletStatus":"錢包狀態","walletBalance":"餘額","walletFreezeAmount":"不可用金額","walletPassword":"錢包密碼","walletLogs":"交易記錄","walletRecharge":"充值","walletWithdraw":"提現","notifyMarkRead":"全部已讀","notifyFollow":"跟隨了你","notifyLike":"讚了你","notifyComment":"留言了你","notifyMention":"提及了你","settingGeneral":"個人資料","settingPreference":"偏好設定","settingAccount":"賬號設定","settingConnect":"互聯信息","settingType":"修改方式","settingAlready":"已設定","settingNot":"未設定","settingWarning":"為了保護你的帳號安全，請驗證身份，驗證成功後進行下一步操作","settingCheckError":"操作驗證失敗，請先通過驗證再操作","settingAllowAll":"允許所有用戶","settingAllowMyFollow":"僅允許我跟隨的用戶","settingAllowMyFollowAndVerified":"我跟隨的用戶和已認證的用戶","settingAllowNotAll":"不允許所有用戶","settingIntervalDays":"修改間隔天數","settingLastTime":"上次修改時間","settingNameWarning":"僅支持英文字母和數字，可以純字母或者與數字混合，但不能純數字","settingNicknameWarning":"不能帶標點符號或特殊符號","settingGenderNull":"保密","settingGenderMale":"男","settingGenderFemale":"女","settingConnectAdd":"關聯","settingConnectRemove":"解除","editorFullFunctions":"進入高級編輯模式","editorRequired":"必填","editorOptional":"非必填","editorCreate":"創建新草稿","editorNoChooseGroup":"未選擇","editorNoGroup":"不發到","editorMyFollowGroup":"我跟隨的","editorStickers":"表情","editorImages":"圖片","editorVideos":"視頻","editorVideoPlay":"上傳成功，發表後可播放","editorAudios":"音頻","editorDocuments":"文檔","editorTitle":"標題","editorMention":"艾特","editorHashtag":"話題","editorExtends":"擴展","editorContent":"正文","editorLocation":"添加位置","editorAnonymous":"是否匿名","editorUpload":"上傳","editorUploadInfo":"請選擇上傳資源","editorUploadExtensions":"支持的擴展名","editorUploadMaxSize":"支持的最大尺寸","editorUploadMaxTime":"支持的最长时间","editorUploadNumber":"支持上傳的數量","editorUploadBtn":"確認上傳","editorLimitTitle":"發表限制提醒","editorLimitTypeName":"限制類型","editorLimitType1Desc":"指定日期範圍內限制","editorLimitType2Desc":"每天的時間段範圍內循環限制","editorLimitDateName":"日期範圍","editorLimitCycleName":"時間範圍","editorLimitRuleName":"限制規則","editorLimitRule1Desc":"可以發表，但是需要審核","editorLimitRule2Desc":"禁止發表","editorLimitPromptName":"限制說明","editorRoleLimitTitle":"角色權限發表限制信息","editorMainRoleTitle":"用戶主角色","editorEditTimeTitle":"內容髮表成功後，僅在規定時間內可以編輯，超時後不可再編輯，但可以刪除。","editorEditTimeDesc":"剩餘時間","editorAllowTitle":"權限信息","editorAllowRoleName":"指定用戶角色可訪問","editorAllowUserName":"指定用戶可訪問","editorAllowProportionName":"可試讀前內容比例","editorAllowBtnName":"獲取閱讀權限按鈕文字","editorCommentBtnTitle":"留言按鈕信息","editorCommentBtnName":"按鈕名稱","editorUserListTitle":"特定成員配置","editorUserListName":"特定成員名稱","contentReview":"內容審查中","contentLoginError":"需要登錄後才能查看","contentAllList":"所有","contentNewList":"最新","contentHotList":"熱門","contentBrowse":"瀏覽","contentDigest":"精華","contentSticky":"置頂","contentRecommend":"推薦","contentFull":"全文","contentViewOriginal":"查看原文","contentCreator":"作者","contentCreatorAnonymous":"匿名者","contentCreatorDeactivate":"賬號已註銷","contentCreatorLiked":"作者點讚了該留言","contentPublishTime":"發表時間","contentCommentTime":"留言時間","contentPublishedOn":"發表於","contentEditedOn":"編輯於","contentFileUploader":"上傳者","contentFileDownloader":"用戶下載記錄","contentFileDownloaderDesc":"僅展示 30 名用戶頭像","contentFileDownload":"下載","contentImageLong":"長圖","contentVideoPlay":"播放","contentDocumentDetail":"文件詳情","contentDocumentInfo":"本文檔受 Fresns 分享保護，僅限於本站用戶下載查閱，所有下載均記錄在案，請勿擴散。","contentAllowInfo":"可試讀內容","contentTopComment":"熱評","contentCommentCountDesc":"條留言","contentCommentNotPublic":"留言僅貼文作者可見","contentCommentVisibilityRuleTip":"留言已超出可見期限，不再顯示"}',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            297 =>
-            array (
+            ],
+            297 => [
                 'id' => 298,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3912,9 +3613,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            298 =>
-            array (
+            ],
+            298 => [
                 'id' => 299,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3925,9 +3625,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            299 =>
-            array (
+            ],
+            299 => [
                 'id' => 300,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3940,9 +3639,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            300 =>
-            array (
+            ],
+            300 => [
                 'id' => 301,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3955,9 +3653,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            301 =>
-            array (
+            ],
+            301 => [
                 'id' => 302,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3970,9 +3667,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            302 =>
-            array (
+            ],
+            302 => [
                 'id' => 303,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3985,9 +3681,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            303 =>
-            array (
+            ],
+            303 => [
                 'id' => 304,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -3998,9 +3693,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            304 =>
-            array (
+            ],
+            304 => [
                 'id' => 305,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4011,9 +3705,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            305 =>
-            array (
+            ],
+            305 => [
                 'id' => 306,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4024,9 +3717,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            306 =>
-            array (
+            ],
+            306 => [
                 'id' => 307,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4037,9 +3729,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            307 =>
-            array (
+            ],
+            307 => [
                 'id' => 308,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4050,9 +3741,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            308 =>
-            array (
+            ],
+            308 => [
                 'id' => 309,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4063,9 +3753,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            309 =>
-            array (
+            ],
+            309 => [
                 'id' => 310,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4076,9 +3765,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            310 =>
-            array (
+            ],
+            310 => [
                 'id' => 311,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4089,9 +3777,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            311 =>
-            array (
+            ],
+            311 => [
                 'id' => 312,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4102,9 +3789,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            312 =>
-            array (
+            ],
+            312 => [
                 'id' => 313,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4115,9 +3801,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            313 =>
-            array (
+            ],
+            313 => [
                 'id' => 314,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4128,9 +3813,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            314 =>
-            array (
+            ],
+            314 => [
                 'id' => 315,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4141,9 +3825,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            315 =>
-            array (
+            ],
+            315 => [
                 'id' => 316,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4154,9 +3837,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            316 =>
-            array (
+            ],
+            316 => [
                 'id' => 317,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4167,9 +3849,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            317 =>
-            array (
+            ],
+            317 => [
                 'id' => 318,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4180,9 +3861,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            318 =>
-            array (
+            ],
+            318 => [
                 'id' => 319,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4193,9 +3873,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            319 =>
-            array (
+            ],
+            319 => [
                 'id' => 320,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4206,9 +3885,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            320 =>
-            array (
+            ],
+            320 => [
                 'id' => 321,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4219,9 +3897,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            321 =>
-            array (
+            ],
+            321 => [
                 'id' => 322,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4232,9 +3909,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            322 =>
-            array (
+            ],
+            322 => [
                 'id' => 323,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4245,9 +3921,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            323 =>
-            array (
+            ],
+            323 => [
                 'id' => 324,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4258,9 +3933,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            324 =>
-            array (
+            ],
+            324 => [
                 'id' => 325,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4271,9 +3945,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            325 =>
-            array (
+            ],
+            325 => [
                 'id' => 326,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4284,9 +3957,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            326 =>
-            array (
+            ],
+            326 => [
                 'id' => 327,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4297,9 +3969,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            327 =>
-            array (
+            ],
+            327 => [
                 'id' => 328,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4310,9 +3981,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            328 =>
-            array (
+            ],
+            328 => [
                 'id' => 329,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4323,9 +3993,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            329 =>
-            array (
+            ],
+            329 => [
                 'id' => 330,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4336,9 +4005,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            330 =>
-            array (
+            ],
+            330 => [
                 'id' => 331,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4349,9 +4017,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            331 =>
-            array (
+            ],
+            331 => [
                 'id' => 332,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4362,9 +4029,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            332 =>
-            array (
+            ],
+            332 => [
                 'id' => 333,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4375,9 +4041,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            333 =>
-            array (
+            ],
+            333 => [
                 'id' => 334,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4388,9 +4053,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            334 =>
-            array (
+            ],
+            334 => [
                 'id' => 335,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4401,9 +4065,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            335 =>
-            array (
+            ],
+            335 => [
                 'id' => 336,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4414,9 +4077,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            336 =>
-            array (
+            ],
+            336 => [
                 'id' => 337,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4427,9 +4089,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            337 =>
-            array (
+            ],
+            337 => [
                 'id' => 338,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4440,9 +4101,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            338 =>
-            array (
+            ],
+            338 => [
                 'id' => 339,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4453,9 +4113,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            339 =>
-            array (
+            ],
+            339 => [
                 'id' => 340,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4466,9 +4125,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            340 =>
-            array (
+            ],
+            340 => [
                 'id' => 341,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4479,9 +4137,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            341 =>
-            array (
+            ],
+            341 => [
                 'id' => 342,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4492,9 +4149,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            342 =>
-            array (
+            ],
+            342 => [
                 'id' => 343,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4505,9 +4161,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            343 =>
-            array (
+            ],
+            343 => [
                 'id' => 344,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4518,9 +4173,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            344 =>
-            array (
+            ],
+            344 => [
                 'id' => 345,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4531,9 +4185,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            345 =>
-            array (
+            ],
+            345 => [
                 'id' => 346,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4544,9 +4197,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            346 =>
-            array (
+            ],
+            346 => [
                 'id' => 347,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4557,9 +4209,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            347 =>
-            array (
+            ],
+            347 => [
                 'id' => 348,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4570,9 +4221,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            348 =>
-            array (
+            ],
+            348 => [
                 'id' => 349,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4583,9 +4233,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            349 =>
-            array (
+            ],
+            349 => [
                 'id' => 350,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4596,9 +4245,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            350 =>
-            array (
+            ],
+            350 => [
                 'id' => 351,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4609,9 +4257,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            351 =>
-            array (
+            ],
+            351 => [
                 'id' => 352,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4622,9 +4269,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            352 =>
-            array (
+            ],
+            352 => [
                 'id' => 353,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4635,9 +4281,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            353 =>
-            array (
+            ],
+            353 => [
                 'id' => 354,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4648,9 +4293,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            354 =>
-            array (
+            ],
+            354 => [
                 'id' => 355,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4661,9 +4305,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            355 =>
-            array (
+            ],
+            355 => [
                 'id' => 356,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4674,9 +4317,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            356 =>
-            array (
+            ],
+            356 => [
                 'id' => 357,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4687,9 +4329,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            357 =>
-            array (
+            ],
+            357 => [
                 'id' => 358,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4700,9 +4341,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            358 =>
-            array (
+            ],
+            358 => [
                 'id' => 359,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4713,9 +4353,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            359 =>
-            array (
+            ],
+            359 => [
                 'id' => 360,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4726,9 +4365,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            360 =>
-            array (
+            ],
+            360 => [
                 'id' => 361,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4739,9 +4377,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            361 =>
-            array (
+            ],
+            361 => [
                 'id' => 362,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4752,9 +4389,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            362 =>
-            array (
+            ],
+            362 => [
                 'id' => 363,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4765,9 +4401,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            363 =>
-            array (
+            ],
+            363 => [
                 'id' => 364,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4778,9 +4413,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            364 =>
-            array (
+            ],
+            364 => [
                 'id' => 365,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4791,9 +4425,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            365 =>
-            array (
+            ],
+            365 => [
                 'id' => 366,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4804,9 +4437,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            366 =>
-            array (
+            ],
+            366 => [
                 'id' => 367,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4817,9 +4449,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            367 =>
-            array (
+            ],
+            367 => [
                 'id' => 368,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4830,9 +4461,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            368 =>
-            array (
+            ],
+            368 => [
                 'id' => 369,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4843,9 +4473,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            369 =>
-            array (
+            ],
+            369 => [
                 'id' => 370,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4856,9 +4485,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            370 =>
-            array (
+            ],
+            370 => [
                 'id' => 371,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4869,9 +4497,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            371 =>
-            array (
+            ],
+            371 => [
                 'id' => 372,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4882,9 +4509,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            372 =>
-            array (
+            ],
+            372 => [
                 'id' => 373,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4895,9 +4521,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            373 =>
-            array (
+            ],
+            373 => [
                 'id' => 374,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4908,9 +4533,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            374 =>
-            array (
+            ],
+            374 => [
                 'id' => 375,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4921,9 +4545,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            375 =>
-            array (
+            ],
+            375 => [
                 'id' => 376,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4934,9 +4557,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            376 =>
-            array (
+            ],
+            376 => [
                 'id' => 377,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4947,9 +4569,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            377 =>
-            array (
+            ],
+            377 => [
                 'id' => 378,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4960,9 +4581,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            378 =>
-            array (
+            ],
+            378 => [
                 'id' => 379,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4973,9 +4593,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            379 =>
-            array (
+            ],
+            379 => [
                 'id' => 380,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4986,9 +4605,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            380 =>
-            array (
+            ],
+            380 => [
                 'id' => 381,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -4999,9 +4617,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            381 =>
-            array (
+            ],
+            381 => [
                 'id' => 382,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5012,9 +4629,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            382 =>
-            array (
+            ],
+            382 => [
                 'id' => 383,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5025,9 +4641,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            383 =>
-            array (
+            ],
+            383 => [
                 'id' => 384,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5038,9 +4653,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            384 =>
-            array (
+            ],
+            384 => [
                 'id' => 385,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5051,9 +4665,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            385 =>
-            array (
+            ],
+            385 => [
                 'id' => 386,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5064,9 +4677,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            386 =>
-            array (
+            ],
+            386 => [
                 'id' => 387,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5077,9 +4689,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            387 =>
-            array (
+            ],
+            387 => [
                 'id' => 388,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5090,9 +4701,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            388 =>
-            array (
+            ],
+            388 => [
                 'id' => 389,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5103,9 +4713,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            389 =>
-            array (
+            ],
+            389 => [
                 'id' => 390,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5116,9 +4725,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            390 =>
-            array (
+            ],
+            390 => [
                 'id' => 391,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5129,9 +4737,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            391 =>
-            array (
+            ],
+            391 => [
                 'id' => 392,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5142,9 +4749,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            392 =>
-            array (
+            ],
+            392 => [
                 'id' => 393,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5155,9 +4761,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            393 =>
-            array (
+            ],
+            393 => [
                 'id' => 394,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5168,9 +4773,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            394 =>
-            array (
+            ],
+            394 => [
                 'id' => 395,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5181,9 +4785,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            395 =>
-            array (
+            ],
+            395 => [
                 'id' => 396,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5194,9 +4797,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            396 =>
-            array (
+            ],
+            396 => [
                 'id' => 397,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5207,9 +4809,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            397 =>
-            array (
+            ],
+            397 => [
                 'id' => 398,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5220,9 +4821,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            398 =>
-            array (
+            ],
+            398 => [
                 'id' => 399,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5233,9 +4833,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            399 =>
-            array (
+            ],
+            399 => [
                 'id' => 400,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5246,9 +4845,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            400 =>
-            array (
+            ],
+            400 => [
                 'id' => 401,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5259,9 +4857,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            401 =>
-            array (
+            ],
+            401 => [
                 'id' => 402,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5272,9 +4869,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            402 =>
-            array (
+            ],
+            402 => [
                 'id' => 403,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5285,9 +4881,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            403 =>
-            array (
+            ],
+            403 => [
                 'id' => 404,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5298,9 +4893,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            404 =>
-            array (
+            ],
+            404 => [
                 'id' => 405,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5311,9 +4905,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            405 =>
-            array (
+            ],
+            405 => [
                 'id' => 406,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5324,9 +4917,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            406 =>
-            array (
+            ],
+            406 => [
                 'id' => 407,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5337,9 +4929,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            407 =>
-            array (
+            ],
+            407 => [
                 'id' => 408,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5350,9 +4941,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            408 =>
-            array (
+            ],
+            408 => [
                 'id' => 409,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5363,9 +4953,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            409 =>
-            array (
+            ],
+            409 => [
                 'id' => 410,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5376,9 +4965,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            410 =>
-            array (
+            ],
+            410 => [
                 'id' => 411,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5389,9 +4977,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            411 =>
-            array (
+            ],
+            411 => [
                 'id' => 412,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5402,9 +4989,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            412 =>
-            array (
+            ],
+            412 => [
                 'id' => 413,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5415,9 +5001,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            413 =>
-            array (
+            ],
+            413 => [
                 'id' => 414,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5428,9 +5013,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            414 =>
-            array (
+            ],
+            414 => [
                 'id' => 415,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5441,9 +5025,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            415 =>
-            array (
+            ],
+            415 => [
                 'id' => 416,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5454,9 +5037,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            416 =>
-            array (
+            ],
+            416 => [
                 'id' => 417,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5467,9 +5049,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            417 =>
-            array (
+            ],
+            417 => [
                 'id' => 418,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5480,9 +5061,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            418 =>
-            array (
+            ],
+            418 => [
                 'id' => 419,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5493,9 +5073,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            419 =>
-            array (
+            ],
+            419 => [
                 'id' => 420,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5506,9 +5085,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            420 =>
-            array (
+            ],
+            420 => [
                 'id' => 421,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5519,9 +5097,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            421 =>
-            array (
+            ],
+            421 => [
                 'id' => 422,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5532,9 +5109,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            422 =>
-            array (
+            ],
+            422 => [
                 'id' => 423,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5545,9 +5121,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            423 =>
-            array (
+            ],
+            423 => [
                 'id' => 424,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5558,9 +5133,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            424 =>
-            array (
+            ],
+            424 => [
                 'id' => 425,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5571,9 +5145,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            425 =>
-            array (
+            ],
+            425 => [
                 'id' => 426,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5584,9 +5157,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            426 =>
-            array (
+            ],
+            426 => [
                 'id' => 427,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5597,9 +5169,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            427 =>
-            array (
+            ],
+            427 => [
                 'id' => 428,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5610,9 +5181,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            428 =>
-            array (
+            ],
+            428 => [
                 'id' => 429,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5623,9 +5193,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            429 =>
-            array (
+            ],
+            429 => [
                 'id' => 430,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5636,9 +5205,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            430 =>
-            array (
+            ],
+            430 => [
                 'id' => 431,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5649,9 +5217,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            431 =>
-            array (
+            ],
+            431 => [
                 'id' => 432,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5662,9 +5229,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            432 =>
-            array (
+            ],
+            432 => [
                 'id' => 433,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5675,9 +5241,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            433 =>
-            array (
+            ],
+            433 => [
                 'id' => 434,
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
@@ -5688,9 +5253,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            434 =>
-            array (
+            ],
+            434 => [
                 'id' => 435,
                 'table_name' => 'roles',
                 'table_column' => 'name',
@@ -5701,9 +5265,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            435 =>
-            array (
+            ],
+            435 => [
                 'id' => 436,
                 'table_name' => 'roles',
                 'table_column' => 'name',
@@ -5714,9 +5277,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            436 =>
-            array (
+            ],
+            436 => [
                 'id' => 437,
                 'table_name' => 'roles',
                 'table_column' => 'name',
@@ -5727,9 +5289,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            437 =>
-            array (
+            ],
+            437 => [
                 'id' => 438,
                 'table_name' => 'roles',
                 'table_column' => 'name',
@@ -5740,9 +5301,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            438 =>
-            array (
+            ],
+            438 => [
                 'id' => 439,
                 'table_name' => 'plugin_usages',
                 'table_column' => 'name',
@@ -5753,9 +5313,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            439 =>
-            array (
+            ],
+            439 => [
                 'id' => 440,
                 'table_name' => 'plugin_usages',
                 'table_column' => 'name',
@@ -5766,9 +5325,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            440 =>
-            array (
+            ],
+            440 => [
                 'id' => 441,
                 'table_name' => 'plugin_usages',
                 'table_column' => 'name',
@@ -5779,9 +5337,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            441 =>
-            array (
+            ],
+            441 => [
                 'id' => 442,
                 'table_name' => 'plugin_usages',
                 'table_column' => 'name',
@@ -5792,9 +5349,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            442 =>
-            array (
+            ],
+            442 => [
                 'id' => 443,
                 'table_name' => 'plugin_usages',
                 'table_column' => 'name',
@@ -5805,9 +5361,8 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-            443 =>
-            array (
+            ],
+            443 => [
                 'id' => 444,
                 'table_name' => 'plugin_usages',
                 'table_column' => 'name',
@@ -5818,7 +5373,7 @@ To be edited',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-        ));
+            ],
+        ]);
     }
 }
