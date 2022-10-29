@@ -23,8 +23,8 @@ class CreateCommentsTable extends Migration
             $table->bigIncrements('id');
             $table->string('cid', 32)->unique('cid');
             $table->unsignedBigInteger('post_id');
-            $table->unsignedBigInteger('top_parent_id')->nullable();
-            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->unsignedBigInteger('top_parent_id')->default(0);
+            $table->unsignedBigInteger('parent_id')->default(0);
             $table->unsignedBigInteger('user_id');
             $table->longText('content')->nullable();
             $table->char('lang_tag', 16)->nullable();

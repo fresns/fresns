@@ -28,7 +28,8 @@ class CreateNotifiesTable extends Migration
             $table->string('plugin_unikey', 64)->nullable();
             $table->unsignedTinyInteger('is_access_plugin')->default(0);
             $table->unsignedBigInteger('action_user_id')->nullable();
-            $table->unsignedTinyInteger('action_type')->nullable();
+            $table->unsignedSmallInteger('action_type')->nullable();
+            $table->unsignedTinyInteger('action_object')->nullable();
             $table->unsignedBigInteger('action_id')->nullable();
             $table->unsignedTinyInteger('is_read')->default(0);
             $table->timestamp('created_at')->useCurrent();

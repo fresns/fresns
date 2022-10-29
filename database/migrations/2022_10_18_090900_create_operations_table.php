@@ -24,7 +24,7 @@ class CreateOperationsTable extends Migration
             $table->unsignedTinyInteger('type')->default(1);
             $table->string('code', 32);
             $table->string('style', 64);
-            $table->string('title', 128)->nullable();
+            $table->string('name', 128)->nullable();
             $table->text('description')->nullable();
             $table->unsignedBigInteger('image_file_id')->nullable();
             $table->string('image_file_url')->nullable();

@@ -22,7 +22,7 @@ class CreateGroupsTable extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->increments('id');
             $table->string('gid', 32)->unique('gid');
-            $table->unsignedInteger('parent_id')->nullable();
+            $table->unsignedInteger('parent_id')->default(0);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('name', 64);
             $table->string('description')->nullable();
