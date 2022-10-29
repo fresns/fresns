@@ -6521,9 +6521,9 @@ class ConfigsTableSeeder extends Seeder
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
-            ),
-        ));
-        \DB::table('configs')->insert(array (
+            ],
+        ]);
+        \DB::table('configs')->insert([
             0 => [
                 'id' => 501,
                 'item_key' => 'menu_block_groups',
