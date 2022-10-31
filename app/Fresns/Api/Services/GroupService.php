@@ -31,23 +31,18 @@ class GroupService
         $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_GROUP, $group->id, $langTag);
         $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_GROUP, $group->id, $langTag);
 
-        $creator = $group->creator;
+        $userService = new UserService;
 
         $item['creator'] = null;
-        if (! empty($creator)) {
-            $userProfile = $creator->getUserProfile($langTag, $timezone);
-            $userMainRole = $creator->getUserMainRole($langTag, $timezone);
-            $item['creator'] = array_merge($userProfile, $userMainRole);
+        if (! empty($group?->creator)) {
+            $item['creator'] = $userService->userData($group->creator, $langTag, $timezone);
         }
 
         $item['publishRule'] = PermissionUtility::checkUserGroupPublishPerm($group->id, $group->permissions, $authUserId);
 
         $adminList = [];
         foreach ($group->admins as $admin) {
-            $userProfile = $admin->getUserProfile($timezone);
-            $userMainRole = $admin->getUserMainRole($langTag, $timezone);
-
-            $adminList[] = array_merge($userProfile, $userMainRole);
+            $adminList[] = $userService->userData($admin, $langTag, $timezone);
         }
         $item['admins'] = $adminList;
 

@@ -73,7 +73,7 @@ trait ApiHeaderTrait
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
         $authAccount = Cache::remember($cacheKey, $cacheTime, function () use ($aid) {
-            return Account::withTrashed()->where('aid', $aid)->first();
+            return Account::withTrashed()->with(['users', 'connects'])->where('aid', $aid)->first();
         });
 
         if (is_null($authAccount)) {

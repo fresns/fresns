@@ -73,22 +73,22 @@ class InteractiveService
                 // like
             case 'like':
                 $interactiveQuery = UserLike::markType(UserLike::MARK_TYPE_LIKE)->where('like_id', $markId);
-                break;
+            break;
 
                 // dislike
             case 'dislike':
                 $interactiveQuery = UserLike::markType(UserLike::MARK_TYPE_DISLIKE)->where('like_id', $markId);
-                break;
+            break;
 
                 // follow
             case 'follow':
                 $interactiveQuery = UserFollow::where('follow_id', $markId);
-                break;
+            break;
 
                 // block
             case 'block':
                 $interactiveQuery = UserBlock::where('block_id', $markId);
-                break;
+            break;
         }
 
         $interactiveData = $interactiveQuery->with('creator')

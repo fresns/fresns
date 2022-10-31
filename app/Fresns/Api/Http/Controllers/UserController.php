@@ -308,14 +308,16 @@ class UserController extends Controller
         $requestData['listType'] = $listType;
         $dtoRequest = new UserMarkListDTO($requestData);
 
-        $markSet = ConfigHelper::fresnsConfigByItemKey("it_{$dtoRequest->markType}_{$dtoRequest->listType}");
-        if (! $markSet) {
-            throw new ApiException(36201);
-        }
-
         $langTag = $this->langTag();
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
+
+        if ($viewUser != $authUserId) {
+            $markSet = ConfigHelper::fresnsConfigByItemKey("it_{$dtoRequest->markType}_{$dtoRequest->listType}");
+            if (! $markSet) {
+                throw new ApiException(36201);
+            }
+        }
 
         $orderDirection = $dtoRequest->orderDirection ?: 'desc';
 
@@ -426,18 +428,18 @@ class UserController extends Controller
         $dialogACount = Dialog::where('a_user_id', $authUserId)->where('a_is_read', 0)->where('a_is_display', 1)->count();
         $dialogBCount = Dialog::where('b_user_id', $authUserId)->where('b_is_read', 0)->where('b_is_display', 1)->count();
         $dialogMessageCount = DialogMessage::where('receive_user_id', $authUserId)->whereNull('receive_read_at')->whereNull('receive_deleted_at')->isEnable()->count();
-        $dialogUnread['dialog'] = $dialogACount + $dialogBCount;
-        $dialogUnread['message'] = $dialogMessageCount;
+        $dialogUnread['dialogs'] = $dialogACount + $dialogBCount;
+        $dialogUnread['messages'] = $dialogMessageCount;
         $data['dialogUnread'] = $dialogUnread;
 
-        $notifyUnread['all'] = Notify::where('type', '!=', 1)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notifyUnread['bulletin'] = Notify::where('type', 1)->where('is_read', 0)->count();
-        $notifyUnread['system'] = Notify::where('type', 2)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notifyUnread['recommend'] = Notify::where('type', 3)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notifyUnread['follow'] = Notify::where('type', 4)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notifyUnread['like'] = Notify::where('type', 5)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notifyUnread['mention'] = Notify::where('type', 6)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notifyUnread['comment'] = Notify::where('type', 7)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['system'] = Notify::where('type', 1)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['recommend'] = Notify::where('type', 2)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['like'] = Notify::where('type', 3)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['dislike'] = Notify::where('type', 4)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['follow'] = Notify::where('type', 5)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['block'] = Notify::where('type', 6)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['mention'] = Notify::where('type', 7)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['comment'] = Notify::where('type', 8)->where('user_id', $authUserId)->where('is_read', 0)->count();
         $data['notifyUnread'] = $notifyUnread;
 
         $draftCount['posts'] = PostLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count();

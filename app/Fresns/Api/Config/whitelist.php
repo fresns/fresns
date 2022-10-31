@@ -7,6 +7,7 @@
  */
 
 return [
+    // No login for public mode account
     'publicAccount' => [
         'api.global.configs',
         'api.global.roles',
@@ -18,6 +19,7 @@ return [
         'api.common.callback',
         'api.common.send.verifyCode',
         'api.common.upload.log',
+        'api.common.file.users',
         'api.search.users',
         'api.search.groups',
         'api.search.hashtags',
@@ -52,6 +54,7 @@ return [
         'api.comment.log.detail',
     ],
 
+    // No login for private mode account
     'privateAccount' => [
         'api.global.configs',
         'api.common.callback',
@@ -61,6 +64,7 @@ return [
         'api.account.reset.password',
     ],
 
+    // No login for public mode user
     'publicUser' => [
         'api.global.configs',
         'api.global.roles',
@@ -72,6 +76,7 @@ return [
         'api.common.callback',
         'api.common.send.verifyCode',
         'api.common.upload.log',
+        'api.common.file.users',
         'api.search.users',
         'api.search.groups',
         'api.search.hashtags',
@@ -113,6 +118,7 @@ return [
         'api.comment.log.detail',
     ],
 
+    // No login for private mode user
     'privateUser' => [
         'api.global.configs',
         'api.common.callback',

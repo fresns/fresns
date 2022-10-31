@@ -44,17 +44,15 @@ class DialogController extends Controller
 
         $dialogs = $aDialogs->union($bDialogs)->latest('updated_at')->paginate($request->get('pageSize', 15));
 
+        $userService = new UserService;
+
         $item = null;
         foreach ($dialogs as $dialog) {
             if ($dialog->a_user_id == $authUser->id) {
-                $userProfile = $dialog->aUser?->getUserProfile($langTag, $timezone);
-                $userMainRole = $dialog->aUser?->getUserMainRole($langTag, $timezone);
+                $dialogUser = $userService->userData($dialog->aUser, $langTag, $timezone, $authUser->id);
             } else {
-                $userProfile = $dialog->bUser?->getUserProfile($langTag, $timezone);
-                $userMainRole = $dialog->bUser?->getUserMainRole($langTag, $timezone);
+                $dialogUser = $userService->userData($dialog->bUser, $langTag, $timezone, $authUser->id);
             }
-
-            $dialogUser = array_merge($userProfile, $userMainRole);
 
             $latestMessage['messageId'] = $dialog->latest_message_id;
             $latestMessage['time'] = DateHelper::fresnsDateTimeByTimezone($dialog->created_at, $timezone, $langTag);
@@ -128,6 +126,8 @@ class DialogController extends Controller
 
         $messages = DialogMessage::where('dialog_id', $dialog->id)->isEnable()->latest()->paginate($request->get('pageSize', 15));
 
+        $userService = new UserService;
+
         $messageList = [];
         foreach ($messages as $message) {
             $sendUserIsMe = false;
@@ -142,7 +142,7 @@ class DialogController extends Controller
             }
 
             $item['messageId'] = $message->id;
-            $item['sendUser'] = $message->sendUser?->getUserProfile($langTag, $timezone);
+            $item['sendUser'] = $userService->userData($message->sendUser, $langTag, $timezone, $authUser->id);
             $item['sendUserIsMe'] = $sendUserIsMe;
             $item['sendTime'] = DateHelper::fresnsDateTimeByTimezone($message->created_at, $timezone, $langTag);
             $item['sendTimeFormat'] = DateHelper::fresnsFormatDateTime($message->created_at, $timezone, $langTag);
@@ -257,9 +257,11 @@ class DialogController extends Controller
             'latest_message_text' => Str::limit($messageText, 140),
         ]);
 
+        $userService = new UserService;
+
         // return
         $data['messageId'] = $dialogMessage->id;
-        $data['sendUser'] = $dialogMessage->sendUser?->getUserProfile($langTag, $timezone);
+        $data['sendUser'] = $userService->userData($dialogMessage->sendUser, $langTag, $timezone, $authUser->id);
         $data['sendTime'] = DateHelper::fresnsDateTimeByTimezone($dialogMessage->created_at, $timezone, $langTag);
         $data['sendTimeFormat'] = DateHelper::fresnsFormatDateTime($dialogMessage->created_at, $timezone, $langTag);
         $data['sendUserIsMe'] = true;

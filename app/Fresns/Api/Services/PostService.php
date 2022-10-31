@@ -49,7 +49,7 @@ class PostService
         $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST, $post->id, $langTag);
         $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_POST, $post->id, $langTag);
         $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_POST, $post->id, $langTag);
-        $item['files'] = FileHelper::fresnsAntiLinkFileInfoListByTableColumn('posts', 'id', $post->id);
+        $item['files'] = FileHelper::fresnsFileInfoListByTableColumn('posts', 'id', $post->id);
 
         $fileCount['images'] = collect($item['files']['images'])->count();
         $fileCount['videos'] = collect($item['files']['videos'])->count();
@@ -80,11 +80,9 @@ class PostService
 
         $item['creator'] = InteractiveHelper::fresnsUserAnonymousProfile();
         if (! $post->is_anonymous) {
-            $creatorProfile = $post->creator->getUserProfile($langTag, $timezone);
-            $creatorMainRole = $post->creator->getUserMainRole($langTag, $timezone);
-            $creatorOperations['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_USER, $post->creator->id, $langTag);
+            $userService = new UserService;
 
-            $item['creator'] = array_merge($creatorProfile, $creatorMainRole, $creatorOperations);
+            $item['creator'] = $userService->userData($post->creator, $langTag, $timezone, $authUserId);
         }
 
         $item['topComment'] = null;
@@ -171,11 +169,7 @@ class PostService
     // get top comment
     public static function getTopComment(int $postId, string $langTag, string $timezone)
     {
-        $comment = Comment::with('creator')
-            ->where('post_id', $postId)
-            ->whereNull('top_parent_id')
-            ->orderByDesc('like_count')
-            ->first();
+        $comment = Comment::with(['commentAppend', 'post', 'creator', 'hashtags'])->where('post_id', $postId)->where('top_parent_id', 0)->orderByDesc('like_count')->first();
 
         $service = new CommentService();
 
@@ -219,10 +213,9 @@ class PostService
 
         $info['creator'] = InteractiveHelper::fresnsUserAnonymousProfile();
         if (! $log->is_anonymous) {
-            $creatorProfile = $log->creator->getUserProfile($langTag, $timezone);
-            $creatorMainRole = $log->creator->getUserMainRole($langTag, $timezone);
-            $creatorOperations['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_USER, $log->creator->id, $langTag);
-            $item['creator'] = array_merge($creatorProfile, $creatorMainRole, $creatorOperations);
+            $userService = new UserService;
+
+            $item['creator'] = $userService->userData($log->creator, $langTag, $timezone);
         }
 
         if ($group) {
@@ -234,7 +227,7 @@ class PostService
         $info['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST_LOG, $log->id, $langTag);
         $info['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_POST_LOG, $log->id, $langTag);
         $info['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_POST_LOG, $log->id, $langTag);
-        $info['files'] = FileHelper::fresnsAntiLinkFileInfoListByTableColumn('post_logs', 'id', $log->id);
+        $info['files'] = FileHelper::fresnsFileInfoListByTableColumn('post_logs', 'id', $log->id);
 
         $fileCount['images'] = collect($info['files']['images'])->count();
         $fileCount['videos'] = collect($info['files']['videos'])->count();

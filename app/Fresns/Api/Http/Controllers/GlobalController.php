@@ -250,11 +250,23 @@ class GlobalController extends Controller
     }
 
     // contentType
-    public function contentType()
+    public function contentType($type)
     {
+        $scene = match ($type) {
+            'post' => 1,
+            'comment' => 2,
+            'posts' => 1,
+            'comments' => 2,
+            default => null,
+        };
+
+        if (empty($scene)) {
+            throw new ApiException(30002);
+        }
+
         $langTag = $this->langTag();
 
-        $data = ExtendUtility::getPluginUsages(PluginUsage::TYPE_CONTENT, null, null, null, $langTag);
+        $data = ExtendUtility::getPluginUsages(PluginUsage::TYPE_CONTENT, null, $scene, null, $langTag);
 
         return $this->success($data);
     }
