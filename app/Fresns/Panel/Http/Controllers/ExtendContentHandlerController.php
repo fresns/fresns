@@ -19,11 +19,12 @@ class ExtendContentHandlerController extends Controller
         // config keys
         $configKeys = [
             'ip_service',
+            'notify_service',
             'content_review_service',
-            'post_list_service',
-            'post_follow_service',
-            'post_nearby_service',
-            'post_detail_service',
+            'content_list_service',
+            'content_follow_service',
+            'content_nearby_service',
+            'content_detail_service',
             'search_users_service',
             'search_groups_service',
             'search_hashtags_service',
@@ -58,11 +59,12 @@ class ExtendContentHandlerController extends Controller
         // config keys
         $configKeys = [
             'ip_service',
+            'notify_service',
             'content_review_service',
-            'post_list_service',
-            'post_follow_service',
-            'post_nearby_service',
-            'post_detail_service',
+            'content_list_service',
+            'content_follow_service',
+            'content_nearby_service',
+            'content_detail_service',
             'search_users_service',
             'search_groups_service',
             'search_hashtags_service',

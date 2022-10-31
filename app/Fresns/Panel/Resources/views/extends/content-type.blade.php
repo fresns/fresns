@@ -29,6 +29,7 @@
                     <th scope="col">{{ __('FsLang::panel.table_plugin') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_name') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_data_source') }}</th>
+                    <th scope="col">{{ __('FsLang::panel.table_scene') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_status') }}</th>
                     <th scope="col" style="width:8rem;">{{ __('FsLang::panel.table_options') }}</th>
                 </tr>
@@ -63,6 +64,14 @@
                                     data-params="{{ json_encode($item->data_sources['postByNearby']['pluginRating'] ?? []) }} "
                                     data-default_language="{{$defaultLanguage}}"
                                     data-bs-target="#pluginRatingModal">{{ __('FsLang::panel.extend_content_type_option_post_nearby') }}</button>
+                            @endif
+                        </td>
+                        <td>
+                            @if (in_array(1, explode(',', $item->scene)))
+                                <span class="badge bg-light text-dark">{{ __('FsLang::panel.post') }}</span>
+                            @endif
+                            @if (in_array(2, explode(',', $item->scene)))
+                                <span class="badge bg-light text-dark">{{ __('FsLang::panel.comment') }}</span>
                             @endif
                         </td>
                         <td>
@@ -141,7 +150,7 @@
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_data_source') }}</label>
                             <div class="col-sm-9">
                                 <div class="form-floating mb-3">
-                                    <select class="form-select" id="floatingSelect" name="post_all" aria-label="Floating label select example">
+                                    <select class="form-select" id="floatingSelect" name="post_all">
                                         <option disabled>{{ __('FsLang::panel.select_box_tip_data_source') }}</option>
                                         <option value="" selected>{{ __('FsLang::panel.option_default') }}</option>
                                         @foreach ($plugins as $plugin)
@@ -151,7 +160,7 @@
                                     <label for="floatingSelect">/api/v2/post/list</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <select class="form-select" id="floatingSelect" name="post_follow" aria-label="Floating label select example">
+                                    <select class="form-select" id="floatingSelect" name="post_follow">
                                         <option disabled>{{ __('FsLang::panel.select_box_tip_data_source') }}</option>
                                         <option value="" selected>{{ __('FsLang::panel.option_default') }}</option>
                                         @foreach ($plugins as $plugin)
@@ -161,7 +170,7 @@
                                     <label for="floatingSelect">/api/v2/post/follow</label>
                                 </div>
                                 <div class="form-floating">
-                                    <select class="form-select" id="floatingSelect" name="post_nearby" aria-label="Floating label select example">
+                                    <select class="form-select" id="floatingSelect" name="post_nearby">
                                         <option disabled>{{ __('FsLang::panel.select_box_tip_data_source') }}</option>
                                         <option value="" selected>{{ __('FsLang::panel.option_default') }}</option>
                                         @foreach ($plugins as $plugin)
@@ -169,6 +178,19 @@
                                         @endforeach
                                     </select>
                                     <label for="floatingSelect">/api/v2/post/nearby</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_scene') }}</label>
+                            <div class="col-sm-9 pt-2">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="1" name="scene[]" checked>
+                                    <label class="form-check-label" for="inlineCheckbox1">{{ __('FsLang::panel.post') }}</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="2" name="scene[]">
+                                    <label class="form-check-label" for="inlineCheckbox2">{{ __('FsLang::panel.comment') }}</label>
                                 </div>
                             </div>
                         </div>

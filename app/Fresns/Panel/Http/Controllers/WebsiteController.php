@@ -32,9 +32,9 @@ class WebsiteController extends Controller
             'website_number',
             'website_proportion',
             'site_china_mode',
-            'china_icp_beian',
+            'china_icp_filing',
             'china_icp_license',
-            'china_gongan_beian',
+            'china_psb_filing',
             'china_broadcasting_license',
         ];
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -93,9 +93,9 @@ class WebsiteController extends Controller
             'website_number',
             'website_proportion',
             'site_china_mode',
-            'china_icp_beian',
+            'china_icp_filing',
             'china_icp_license',
-            'china_gongan_beian',
+            'china_psb_filing',
             'china_broadcasting_license',
         ];
 

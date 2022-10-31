@@ -48,7 +48,7 @@ class GroupController extends Controller
             ->with('names', 'descriptions')
             ->get();
 
-        $parentId = $request->parent_id ?: (optional($categories->first())->id ?: null);
+        $parentId = $request->parent_id ?: (optional($categories->first())->id ?: 0);
 
         $groups = [];
 
@@ -167,7 +167,7 @@ class GroupController extends Controller
         $group->banner_file_url = $request->banner_file_url;
         // group category
         if ($request->is_category) {
-            $group->parent_id = null;
+            $group->parent_id = 0;
             $group->type = 1;
             $group->permissions = [];
             if ($request->has('is_enable')) {

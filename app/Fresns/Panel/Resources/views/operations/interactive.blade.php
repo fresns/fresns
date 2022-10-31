@@ -163,7 +163,7 @@
                             <label class="form-check-label" for="view_posts_by_follow_object">{{ __('FsLang::panel.interactive_view_posts_by_follow_object') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input type="checkbox" disabled id="view_comments_by_follow_object" name="view_comments_by_follow_object" value="true" class="form-check-input" {{ $params['view_comments_by_follow_object'] ? 'checked' : '' }}>
+                            <input type="checkbox" id="view_comments_by_follow_object" name="view_comments_by_follow_object" value="true" class="form-check-input" {{ $params['view_comments_by_follow_object'] ? 'checked' : '' }}>
                             <label class="form-check-label" for="view_comments_by_follow_object">{{ __('FsLang::panel.interactive_view_comments_by_follow_object') }}</label>
                         </div>
                     </div>
@@ -285,6 +285,10 @@
                         <div class="form-check form-check-inline">
                             <input type="checkbox" id="it_comments" name="it_comments" value="true" class="form-check-input" {{ $params['it_comments'] ? 'checked' : '' }}>
                             <label class="form-check-label" for="it_comments">{{ __('FsLang::panel.interactive_it_comments') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="it_followers_you_follow" name="it_followers_you_follow" value="true" class="form-check-input" {{ $params['it_followers_you_follow'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="it_followers_you_follow">{{ __('FsLang::panel.interactive_it_followers_you_follow') }}</label>
                         </div>
                     </li>
                     <li class="list-group-item">
@@ -505,10 +509,202 @@
         <!--interactive_mark_config-->
         <div class="row mt-5">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.interactive_mark_config') }}:</label>
-            <!--interactive_my_content-->
+            <!--interactive_mark_content-->
             <div class="col-lg-10 mb-3">
                 <ul class="list-group">
-                    <li class="list-group-item list-group-item-secondary">{{ __('FsLang::panel.interactive_my_content') }}</li>
+                    <li class="list-group-item list-group-item-secondary">{{ __('FsLang::panel.interactive_mark_content') }}</li>
+                    <!--user-->
+                    <li class="list-group-item">
+                        <span class="badge text-bg-light d-block p-3 mb-2 fw-normal fw-semibold fs-8">{{ __('FsLang::panel.user') }}</span>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="user_likers" name="user_likers" value="true" class="form-check-input" {{ $params['user_likers'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="user_likers">{{ __('FsLang::panel.interactive_like_it') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="user_dislikers" name="user_dislikers" value="true" class="form-check-input" {{ $params['user_dislikers'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="user_dislikers">{{ __('FsLang::panel.interactive_dislike_it') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="user_followers" name="user_followers" value="true" class="form-check-input" {{ $params['user_followers'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="user_followers">{{ __('FsLang::panel.interactive_follow_it') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="user_blockers" name="user_blockers" value="true" class="form-check-input" {{ $params['user_blockers'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="user_blockers">{{ __('FsLang::panel.interactive_block_it') }}</label>
+                        </div>
+                        <br>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="user_liker_count" name="user_liker_count" value="true" class="form-check-input" {{ $params['user_liker_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="user_liker_count">{{ __('FsLang::panel.interactive_like_it_count') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="user_disliker_count" name="user_disliker_count" value="true" class="form-check-input" {{ $params['user_disliker_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="user_disliker_count">{{ __('FsLang::panel.interactive_dislike_it_count') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="user_follower_count" name="user_follower_count" value="true" class="form-check-input" {{ $params['user_follower_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="user_follower_count">{{ __('FsLang::panel.interactive_follow_it_count') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="user_blocker_count" name="user_blocker_count" value="true" class="form-check-input" {{ $params['user_blocker_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="user_blocker_count">{{ __('FsLang::panel.interactive_block_it_count') }}</label>
+                        </div>
+                    </li>
+                    <!--group-->
+                    <li class="list-group-item">
+                        <span class="badge text-bg-light d-block p-3 mb-2 fw-normal fw-semibold fs-8">{{ __('FsLang::panel.group') }}</span>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="group_likers" name="group_likers" value="true" class="form-check-input" {{ $params['group_likers'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="group_likers">{{ __('FsLang::panel.interactive_like_it') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="group_dislikers" name="group_dislikers" value="true" class="form-check-input" {{ $params['group_dislikers'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="group_dislikers">{{ __('FsLang::panel.interactive_dislike_it') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="group_followers" name="group_followers" value="true" class="form-check-input" {{ $params['group_followers'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="group_followers">{{ __('FsLang::panel.interactive_follow_it') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="group_blockers" name="group_blockers" value="true" class="form-check-input" {{ $params['group_blockers'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="group_blockers">{{ __('FsLang::panel.interactive_block_it') }}</label>
+                        </div>
+                        <br>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="group_liker_count" name="group_liker_count" value="true" class="form-check-input" {{ $params['group_liker_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="group_liker_count">{{ __('FsLang::panel.interactive_like_it_count') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="group_disliker_count" name="group_disliker_count" value="true" class="form-check-input" {{ $params['group_disliker_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="group_disliker_count">{{ __('FsLang::panel.interactive_dislike_it_count') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="group_follower_count" name="group_follower_count" value="true" class="form-check-input" {{ $params['group_follower_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="group_follower_count">{{ __('FsLang::panel.interactive_follow_it_count') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="group_blocker_count" name="group_blocker_count" value="true" class="form-check-input" {{ $params['group_blocker_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="group_blocker_count">{{ __('FsLang::panel.interactive_block_it_count') }}</label>
+                        </div>
+                    </li>
+                    <!--hashtag-->
+                    <li class="list-group-item">
+                        <span class="badge text-bg-light d-block p-3 mb-2 fw-normal fw-semibold fs-8">{{ __('FsLang::panel.hashtag') }}</span>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="hashtag_likers" name="hashtag_likers" value="true" class="form-check-input" {{ $params['hashtag_likers'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="hashtag_likers">{{ __('FsLang::panel.interactive_like_it') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="hashtag_dislikers" name="hashtag_dislikers" value="true" class="form-check-input" {{ $params['hashtag_dislikers'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="hashtag_dislikers">{{ __('FsLang::panel.interactive_dislike_it') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="hashtag_followers" name="hashtag_followers" value="true" class="form-check-input" {{ $params['hashtag_followers'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="hashtag_followers">{{ __('FsLang::panel.interactive_follow_it') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="hashtag_blockers" name="hashtag_blockers" value="true" class="form-check-input" {{ $params['hashtag_blockers'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="hashtag_blockers">{{ __('FsLang::panel.interactive_block_it') }}</label>
+                        </div>
+                        <br>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="hashtag_liker_count" name="hashtag_liker_count" value="true" class="form-check-input" {{ $params['hashtag_liker_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="hashtag_liker_count">{{ __('FsLang::panel.interactive_like_it_count') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="hashtag_disliker_count" name="hashtag_disliker_count" value="true" class="form-check-input" {{ $params['hashtag_disliker_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="hashtag_disliker_count">{{ __('FsLang::panel.interactive_dislike_it_count') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="hashtag_follower_count" name="hashtag_follower_count" value="true" class="form-check-input" {{ $params['hashtag_follower_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="hashtag_follower_count">{{ __('FsLang::panel.interactive_follow_it_count') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="hashtag_blocker_count" name="hashtag_blocker_count" value="true" class="form-check-input" {{ $params['hashtag_blocker_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="hashtag_blocker_count">{{ __('FsLang::panel.interactive_block_it_count') }}</label>
+                        </div>
+                    </li>
+                    <!--post-->
+                    <li class="list-group-item">
+                        <span class="badge text-bg-light d-block p-3 mb-2 fw-normal fw-semibold fs-8">{{ __('FsLang::panel.post') }}</span>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="post_likers" name="post_likers" value="true" class="form-check-input" {{ $params['post_likers'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="post_likers">{{ __('FsLang::panel.interactive_like_it') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="post_dislikers" name="post_dislikers" value="true" class="form-check-input" {{ $params['post_dislikers'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="post_dislikers">{{ __('FsLang::panel.interactive_dislike_it') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="post_followers" name="post_followers" value="true" class="form-check-input" {{ $params['post_followers'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="post_followers">{{ __('FsLang::panel.interactive_follow_it') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="post_blockers" name="post_blockers" value="true" class="form-check-input" {{ $params['post_blockers'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="post_blockers">{{ __('FsLang::panel.interactive_block_it') }}</label>
+                        </div>
+                        <br>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="post_liker_count" name="post_liker_count" value="true" class="form-check-input" {{ $params['post_liker_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="post_liker_count">{{ __('FsLang::panel.interactive_like_it_count') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="post_disliker_count" name="post_disliker_count" value="true" class="form-check-input" {{ $params['post_disliker_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="post_disliker_count">{{ __('FsLang::panel.interactive_dislike_it_count') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="post_follower_count" name="post_follower_count" value="true" class="form-check-input" {{ $params['post_follower_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="post_follower_count">{{ __('FsLang::panel.interactive_follow_it_count') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="post_blocker_count" name="post_blocker_count" value="true" class="form-check-input" {{ $params['post_blocker_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="post_blocker_count">{{ __('FsLang::panel.interactive_block_it_count') }}</label>
+                        </div>
+                    </li>
+                    <!--comment-->
+                    <li class="list-group-item">
+                        <span class="badge text-bg-light d-block p-3 mb-2 fw-normal fw-semibold fs-8">{{ __('FsLang::panel.comment') }}</span>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="comment_likers" name="comment_likers" value="true" class="form-check-input" {{ $params['comment_likers'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="comment_likers">{{ __('FsLang::panel.interactive_like_it') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="comment_dislikers" name="comment_dislikers" value="true" class="form-check-input" {{ $params['comment_dislikers'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="comment_dislikers">{{ __('FsLang::panel.interactive_dislike_it') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="comment_followers" name="comment_followers" value="true" class="form-check-input" {{ $params['comment_followers'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="comment_followers">{{ __('FsLang::panel.interactive_follow_it') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="comment_blockers" name="comment_blockers" value="true" class="form-check-input" {{ $params['comment_blockers'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="comment_blockers">{{ __('FsLang::panel.interactive_block_it') }}</label>
+                        </div>
+                        <br>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="comment_liker_count" name="comment_liker_count" value="true" class="form-check-input" {{ $params['comment_liker_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="comment_liker_count">{{ __('FsLang::panel.interactive_like_it_count') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="comment_disliker_count" name="comment_disliker_count" value="true" class="form-check-input" {{ $params['comment_disliker_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="comment_disliker_count">{{ __('FsLang::panel.interactive_dislike_it_count') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="comment_follower_count" name="comment_follower_count" value="true" class="form-check-input" {{ $params['comment_follower_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="comment_follower_count">{{ __('FsLang::panel.interactive_follow_it_count') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" id="comment_blocker_count" name="comment_blocker_count" value="true" class="form-check-input" {{ $params['comment_blocker_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="comment_blocker_count">{{ __('FsLang::panel.interactive_block_it_count') }}</label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!--interactive_my_content-->
+            <label class="col-lg-2"></label>
+            <div class="col-lg-10 mb-3">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-secondary">{{ __('FsLang::panel.interactive_my_content') }} {{ '('.__('FsLang::panel.interactive_my_content_desc').')' }}</li>
                     <li class="list-group-item">
                         <div class="form-check form-check-inline">
                             <input type="checkbox" id="my_likers" name="my_likers" value="true" class="form-check-input" {{ $params['my_likers'] ? 'checked' : '' }}>
@@ -526,112 +722,22 @@
                             <input type="checkbox" id="my_blockers" name="my_blockers" value="true" class="form-check-input" {{ $params['my_blockers'] ? 'checked' : '' }}>
                             <label class="form-check-label" for="my_blockers">{{ __('FsLang::panel.interactive_my_blockers') }}</label>
                         </div>
-                    </li>
-                </ul>
-            </div>
-            <label class="col-lg-2"></label>
-            <!--interactive_mark_content-->
-            <div class="col-lg-10 mb-3">
-                <ul class="list-group">
-                    <li class="list-group-item list-group-item-secondary">{{ __('FsLang::panel.interactive_mark_content') }}</li>
-                    <!--user-->
-                    <li class="list-group-item">
-                        <span class="badge text-bg-info me-3 fs-8 fw-normal">{{ __('FsLang::panel.user') }}</span>
+                        <br>
                         <div class="form-check form-check-inline">
-                            <input type="checkbox" id="user_likers" name="user_likers" value="true" class="form-check-input" {{ $params['user_likers'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="user_likers">{{ __('FsLang::panel.interactive_like_it') }}</label>
+                            <input type="checkbox" id="my_liker_count" name="my_liker_count" value="true" class="form-check-input" {{ $params['my_liker_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="my_liker_count">{{ __('FsLang::panel.interactive_my_liker_count') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input type="checkbox" id="user_dislikers" name="user_dislikers" value="true" class="form-check-input" {{ $params['user_dislikers'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="user_dislikers">{{ __('FsLang::panel.interactive_dislike_it') }}</label>
+                            <input type="checkbox" id="my_disliker_count" name="my_disliker_count" value="true" class="form-check-input" {{ $params['my_disliker_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="my_disliker_count">{{ __('FsLang::panel.interactive_my_disliker_count') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input type="checkbox" id="user_followers" name="user_followers" value="true" class="form-check-input" {{ $params['user_followers'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="user_followers">{{ __('FsLang::panel.interactive_follow_it') }}</label>
+                            <input type="checkbox" id="my_follower_count" name="my_follower_count" value="true" class="form-check-input" {{ $params['my_follower_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="my_follower_count">{{ __('FsLang::panel.interactive_my_follower_count') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input type="checkbox" id="user_blockers" name="user_blockers" value="true" class="form-check-input" {{ $params['user_blockers'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="user_blockers">{{ __('FsLang::panel.interactive_block_it') }}</label>
-                        </div>
-                    </li>
-                    <!--group-->
-                    <li class="list-group-item">
-                        <span class="badge text-bg-info me-3 fs-8 fw-normal">{{ __('FsLang::panel.group') }}</span>
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="group_likers" name="group_likers" value="true" class="form-check-input" {{ $params['group_likers'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="group_likers">{{ __('FsLang::panel.interactive_like_it') }}</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="group_dislikers" name="group_dislikers" value="true" class="form-check-input" {{ $params['group_dislikers'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="group_dislikers">{{ __('FsLang::panel.interactive_dislike_it') }}</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="group_followers" name="group_followers" value="true" class="form-check-input" {{ $params['group_followers'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="group_followers">{{ __('FsLang::panel.interactive_follow_it') }}</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="group_blockers" name="group_blockers" value="true" class="form-check-input" {{ $params['group_blockers'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="group_blockers">{{ __('FsLang::panel.interactive_block_it') }}</label>
-                        </div>
-                    </li>
-                    <!--hashtag-->
-                    <li class="list-group-item">
-                        <span class="badge text-bg-info me-3 fs-8 fw-normal">{{ __('FsLang::panel.hashtag') }}</span>
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="hashtag_likers" name="hashtag_likers" value="true" class="form-check-input" {{ $params['hashtag_likers'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="hashtag_likers">{{ __('FsLang::panel.interactive_like_it') }}</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="hashtag_dislikers" name="hashtag_dislikers" value="true" class="form-check-input" {{ $params['hashtag_dislikers'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="hashtag_dislikers">{{ __('FsLang::panel.interactive_dislike_it') }}</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="hashtag_followers" name="hashtag_followers" value="true" class="form-check-input" {{ $params['hashtag_followers'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="hashtag_followers">{{ __('FsLang::panel.interactive_follow_it') }}</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="hashtag_blockers" name="hashtag_blockers" value="true" class="form-check-input" {{ $params['hashtag_blockers'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="hashtag_blockers">{{ __('FsLang::panel.interactive_block_it') }}</label>
-                        </div>
-                    </li>
-                    <!--post-->
-                    <li class="list-group-item">
-                        <span class="badge text-bg-info me-3 fs-8 fw-normal">{{ __('FsLang::panel.post') }}</span>
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="post_likers" name="post_likers" value="true" class="form-check-input" {{ $params['post_likers'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="post_likers">{{ __('FsLang::panel.interactive_like_it') }}</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="post_dislikers" name="post_dislikers" value="true" class="form-check-input" {{ $params['post_dislikers'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="post_dislikers">{{ __('FsLang::panel.interactive_dislike_it') }}</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="post_followers" name="post_followers" value="true" class="form-check-input" {{ $params['post_followers'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="post_followers">{{ __('FsLang::panel.interactive_follow_it') }}</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="post_blockers" name="post_blockers" value="true" class="form-check-input" {{ $params['post_blockers'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="post_blockers">{{ __('FsLang::panel.interactive_block_it') }}</label>
-                        </div>
-                    </li>
-                    <!--comment-->
-                    <li class="list-group-item">
-                        <span class="badge text-bg-info me-3 fs-8 fw-normal">{{ __('FsLang::panel.comment') }}</span>
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="comment_likers" name="comment_likers" value="true" class="form-check-input" {{ $params['comment_likers'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="comment_likers">{{ __('FsLang::panel.interactive_like_it') }}</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="comment_dislikers" name="comment_dislikers" value="true" class="form-check-input" {{ $params['comment_dislikers'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="comment_dislikers">{{ __('FsLang::panel.interactive_dislike_it') }}</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="comment_followers" name="comment_followers" value="true" class="form-check-input" {{ $params['comment_followers'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="comment_followers">{{ __('FsLang::panel.interactive_follow_it') }}</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" id="comment_blockers" name="comment_blockers" value="true" class="form-check-input" {{ $params['comment_blockers'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="comment_blockers">{{ __('FsLang::panel.interactive_block_it') }}</label>
+                            <input type="checkbox" id="my_blocker_count" name="my_blocker_count" value="true" class="form-check-input" {{ $params['my_blocker_count'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="my_blocker_count">{{ __('FsLang::panel.interactive_my_blocker_count') }}</label>
                         </div>
                     </li>
                 </ul>

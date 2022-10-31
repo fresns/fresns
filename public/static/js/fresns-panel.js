@@ -1793,9 +1793,16 @@ $(document).ready(function () {
         let postByAll = dataSources.postByAll ? dataSources.postByAll.pluginUnikey : null;
         let postByFollow = dataSources.postByFollow ? dataSources.postByFollow.pluginUnikey : null;
         let postByNearby = dataSources.postByNearby ? dataSources.postByNearby.pluginUnikey : null;
+        let commentByAll = dataSources.commentByAll ? dataSources.commentByAll.pluginUnikey : null;
+        let commentByFollow = dataSources.commentByFollow ? dataSources.commentByFollow.pluginUnikey : null;
+        let commentByNearby = dataSources.commentByNearby ? dataSources.commentByNearby.pluginUnikey : null;
+
+        $('#inlineCheckbox1').removeAttr('checked');
+        $('#inlineCheckbox2').removeAttr('checked');
 
         $(this).find('input[name=rating]').val(params.rating);
         $(this).find('select[name=plugin_unikey]').val(params.plugin_unikey);
+
         if (postByAll) {
             $(this).find('select[name=post_all]').val(postByAll);
         }
@@ -1804,6 +1811,27 @@ $(document).ready(function () {
         }
         if (postByNearby) {
             $(this).find('select[name=post_nearby]').val(postByNearby);
+        }
+        if (commentByAll) {
+            $(this).find('select[name=comment_all]').val(commentByAll);
+        }
+        if (commentByFollow) {
+            $(this).find('select[name=comment_follow]').val(commentByFollow);
+        }
+        if (commentByNearby) {
+            $(this).find('select[name=comment_nearby]').val(commentByNearby);
+        }
+
+        if (params.scene) {
+            scene = params.scene.split(',');
+            for (var i = 0; i < scene.length; i++) {
+                if (scene[i] == 1) {
+                    $('#inlineCheckbox1').attr('checked', 'checked');
+                }
+                if (scene[i] == 2) {
+                    $('#inlineCheckbox2').attr('checked', 'checked');
+                }
+            }
         }
 
         $(this)

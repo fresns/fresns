@@ -40,7 +40,7 @@ class ExtendGroupController extends Controller
 
         $roles = Role::with('names')->get();
 
-        $groups = Group::whereNull('parent_id')->with('groups')->get();
+        $groups = Group::where('parent_id', 0)->with('groups')->get();
         $groupSelect = Group::find($groupId);
 
         return view('FsView::extends.group', compact('pluginUsages', 'plugins', 'roles', 'groups', 'groupId', 'groupSelect'));

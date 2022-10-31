@@ -33,6 +33,7 @@ class ExtendContentTypeController extends Controller
         $pluginUsage = new PluginUsage;
         $pluginUsage->usage_type = PluginUsage::TYPE_CONTENT;
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
+        $pluginUsage->scene = $request->scene ? implode(',', $request->scene) : '';
         $pluginUsage->plugin_unikey = $request->plugin_unikey;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rating = $request->rating;
@@ -86,6 +87,7 @@ class ExtendContentTypeController extends Controller
     {
         $pluginUsage = PluginUsage::findOrFail($id);
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
+        $pluginUsage->scene = $request->scene ? implode(',', $request->scene) : '';
         $pluginUsage->plugin_unikey = $request->plugin_unikey;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rating = $request->rating;
@@ -108,6 +110,27 @@ class ExtendContentTypeController extends Controller
         if ($request->post_nearby != ($dataSources['postByNearby']['pluginUnikey'] ?? null)) {
             $dataSources['postByNearby'] = [
                 'pluginUnikey' => $request->post_nearby,
+                'pluginRating' => [],
+            ];
+        }
+
+        if ($request->comment_all != ($dataSources['commentByAll']['pluginUnikey'] ?? null)) {
+            $dataSources['commentByAll'] = [
+                'pluginUnikey' => $request->comment_all,
+                'pluginRating' => [],
+            ];
+        }
+
+        if ($request->comment_follow != ($dataSources['commentByFollow']['pluginUnikey'] ?? null)) {
+            $dataSources['commentByFollow'] = [
+                'pluginUnikey' => $request->comment_follow,
+                'pluginRating' => [],
+            ];
+        }
+
+        if ($request->comment_nearby != ($dataSources['commentByNearby']['pluginUnikey'] ?? null)) {
+            $dataSources['commentByNearby'] = [
+                'pluginUnikey' => $request->comment_nearby,
                 'pluginRating' => [],
             ];
         }
