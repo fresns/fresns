@@ -13,6 +13,7 @@ use App\Fresns\Words\Account\DTO\CreateSessionTokenDTO;
 use App\Fresns\Words\Account\DTO\LogicalDeletionAccountDTO;
 use App\Fresns\Words\Account\DTO\VerifyAccountDTO;
 use App\Fresns\Words\Account\DTO\VerifySessionTokenDTO;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Account as AccountModel;
@@ -23,6 +24,7 @@ use App\Utilities\ConfigUtility;
 use App\Utilities\PermissionUtility;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 
 class Account
@@ -242,12 +244,23 @@ class Account
         $dtoWordBody = new VerifySessionTokenDTO($wordBody);
         $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
-        $condition = [
-            'platform_id' => $dtoWordBody->platformId,
-            'account_id' => $dtoWordBody->aid,
-            'user_id' => $dtoWordBody->uid ?? null,
-        ];
-        $session = SessionToken::where($condition)->first();
+        $platformId = $dtoWordBody->platformId;
+        $aid = $dtoWordBody->aid;
+        $uid = $dtoWordBody->uid ?? null;
+
+        $cacheKey = "fresns_api_token_{$platformId}_{$aid}_{$uid}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+
+        $session = Cache::remember($cacheKey, $cacheTime, function () use ($platformId, $aid, $uid) {
+            $condition = [
+                'platform_id' => $platformId,
+                'account_id' => $aid,
+                'user_id' => $uid ?? null,
+            ];
+            $session = SessionToken::where($condition)->first();
+
+            return $session;
+        });
 
         if ($session?->token != $dtoWordBody->token) {
             return $this->failure(

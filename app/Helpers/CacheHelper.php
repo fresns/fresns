@@ -16,13 +16,17 @@ class CacheHelper
     public static function fresnsCacheTimeByFileType(?int $fileType = null)
     {
         if (empty($fileType)) {
-            return now()->addHours();
+            $digital = rand(6, 72);
+
+            return now()->addHours($digital);
         }
 
         $fileConfig = FileHelper::fresnsFileStorageConfigByType($fileType);
 
         if (! $fileConfig['antiLinkStatus']) {
-            return now()->addHours();
+            $digital = rand(72, 168);
+
+            return now()->addHours($digital);
         }
 
         $cacheTime = now()->addMinutes($fileConfig['antiLinkExpire'] - 1);
@@ -46,6 +50,10 @@ class CacheHelper
      */
     public static function forgetFresnsConfig()
     {
+        Cache::forget('fresns_panel_path');
+        Cache::forget('fresns_news');
+        Cache::forget('fresns_current_version');
+        Cache::forget('fresns_new_version');
         Cache::forget('fresns_database_timezone');
         Cache::forget('fresns_database_datetime');
         Cache::forget('fresns_crontab_items');
@@ -98,6 +106,8 @@ class CacheHelper
     /**
      * forget fresns api multilingual info.
      *
+     * fresns_api_account_{$uid}_{$langTag}
+     * fresns_api_user_{$uid}_{$langTag}
      * fresns_api_auth_account_{$aid}_{$langTag}
      * fresns_api_auth_user_{$uid}_{$langTag}
      * fresns_api_archives_{$type}_{$unikey}_{$langTag}
@@ -148,12 +158,15 @@ class CacheHelper
      * fresns_plugin_{$unikey}_{$parameterKey}_url
      * fresns_user_follow_{$type}_{$authUserId}
      * fresns_user_block_{$type}_{$authUserId}
+     * fresns_api_key_{$appId}
+     * fresns_api_token_{$platformId}_{$aid}_{$uid}
      * fresns_api_guest_expire_info
      * fresns_api_guest_groups
      * fresns_api_private_groups
      * fresns_api_user_{$uid}_expire_info
      * fresns_api_user_{$uid}_content_view_perm
      * fresns_api_user_{$authUserId}_groups
+     * fresns_web_key_{$keyId}
      */
     public static function forgetFresnsApiInfo(string $cacheKey)
     {
@@ -161,14 +174,20 @@ class CacheHelper
     }
 
     // forget fresns api account
-    public static function forgetApiAccount(?string $aid)
+    public static function forgetApiAccount(?string $aid = null)
     {
-        return CacheHelper::forgetFresnsApiMultilingualInfo("fresns_api_auth_account_{$aid}");
+        CacheHelper::forgetFresnsApiMultilingualInfo("fresns_api_account_{$aid}");
+        CacheHelper::forgetFresnsApiMultilingualInfo("fresns_api_auth_account_{$aid}");
+
+        return;
     }
 
     // forget fresns api user
-    public static function forgetApiUser(?int $uid)
+    public static function forgetApiUser(?int $uid = null)
     {
-        return CacheHelper::forgetFresnsApiMultilingualInfo("fresns_api_auth_user_{$uid}");
+        CacheHelper::forgetFresnsApiMultilingualInfo("fresns_api_user_{$uid}");
+        CacheHelper::forgetFresnsApiMultilingualInfo("fresns_api_auth_user_{$uid}");
+
+        return;
     }
 }

@@ -13,6 +13,7 @@ use App\Fresns\Words\Basic\DTO\SendCodeDTO;
 use App\Fresns\Words\Basic\DTO\UploadSessionLogDTO;
 use App\Fresns\Words\Basic\DTO\VerifySignDTO;
 use App\Fresns\Words\Basic\DTO\VerifyUrlSignDTO;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\SignHelper;
@@ -21,6 +22,7 @@ use App\Models\SessionLog;
 use App\Models\VerifyCode;
 use App\Utilities\ConfigUtility;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
+use Illuminate\Support\Facades\Cache;
 
 class Basic
 {
@@ -37,7 +39,14 @@ class Basic
         $dtoWordBody = new VerifySignDTO($wordBody);
         $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
-        $keyInfo = SessionKey::where('app_id', $dtoWordBody->appId)->isEnable()->first();
+        $appId = $dtoWordBody->appId;
+
+        $cacheKey = "fresns_api_key_{$appId}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+
+        $keyInfo = Cache::remember($cacheKey, $cacheTime, function () use ($appId) {
+            return SessionKey::where('app_id', $appId)->isEnable()->first();
+        });
 
         if (empty($keyInfo)) {
             return $this->failure(
