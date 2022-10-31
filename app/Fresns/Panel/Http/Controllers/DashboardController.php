@@ -27,9 +27,9 @@ class DashboardController extends Controller
     {
         $overview = InteractiveHelper::fresnsOverview();
 
-        $news = Cache::remember('news', 86400, function () {
+        $news = Cache::remember('fresns_news', now()->addHours(3), function () {
             try {
-                $newUrl = AppUtility::getApiHost().'/news.json';
+                $newUrl = AppUtility::getAppHost().'/news.json';
                 $client = new \GuzzleHttp\Client(['verify' => false]);
                 $response = $client->request('GET', $newUrl);
                 $news = json_decode($response->getBody(), true);
@@ -40,9 +40,12 @@ class DashboardController extends Controller
             return $news;
         });
 
-        $newsData = collect($news)->where('langTag', \App::getLocale())->first();
-        $defaultNewsData = collect($news)->where('langTag', config('app.locale'))->first();
-        $newsList = $newsData['news'] ?? $defaultNewsData['news'] ?? [];
+        $newsList = [];
+        if ($news) {
+            $newsData = collect($news)->where('langTag', \App::getLocale())->first();
+            $defaultNewsData = collect($news)->where('langTag', config('app.locale'))->first();
+            $newsList = $newsData['news'] ?? $defaultNewsData['news'] ?? [];
+        }
 
         $currentVersion = AppUtility::currentVersion();
         $newVersion = AppUtility::newVersion();

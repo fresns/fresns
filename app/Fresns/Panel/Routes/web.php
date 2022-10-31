@@ -55,8 +55,13 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 try {
-    $loginConfig = Config::where('item_key', 'panel_path')->first();
-    $loginUrl = $loginConfig ? $loginConfig->item_value : 'admin';
+    $panelPath = Cache::remember('fresns_panel_path', now()->addMinutes(5), function () {
+        $loginConfig = Config::where('item_key', 'panel_path')->first();
+
+        return $loginConfig->item_value;
+    });
+
+    $loginUrl = $panelPath ?? 'admin';
 } catch (\Exception $e) {
     $loginUrl = 'admin';
 }
