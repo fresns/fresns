@@ -192,14 +192,19 @@ class FileHelper
     // get file info list by file id or fid
     public static function fresnsFileInfoListByIds(array $fileIdsOrFids)
     {
-        $files = File::whereIn('id', $fileIdsOrFids)->orWhereIn('fid', $fileIdsOrFids)->get()->groupBy('type');
+        $files = File::whereIn('id', $fileIdsOrFids)
+            ->orWhereIn('fid', $fileIdsOrFids)
+            ->get()
+            ->groupBy('type');
 
         $data['images'] = $files->get(File::TYPE_IMAGE)?->all() ?? [];
         $data['videos'] = $files->get(File::TYPE_VIDEO)?->all() ?? [];
         $data['audios'] = $files->get(File::TYPE_AUDIO)?->all() ?? [];
         $data['documents'] = $files->get(File::TYPE_DOCUMENT)?->all() ?? [];
 
-        return $data;
+        $fileList = FileHelper::handleAntiLinkFileInfoList($data);
+
+        return $fileList;
     }
 
     // get file info list by table column
@@ -218,14 +223,16 @@ class FileHelper
 
         $fileUsages = $fileUsageQuery->get();
 
-        $fileList = $fileUsages->map(fn ($fileUsage) => $fileUsage->file?->getFileInfo())->groupBy('type');
+        $fileData = $fileUsages->map(fn ($fileUsage) => $fileUsage->file)->groupBy('type');
 
-        $files['images'] = $fileList->get(File::TYPE_IMAGE)?->all() ?? [];
-        $files['videos'] = $fileList->get(File::TYPE_VIDEO)?->all() ?? [];
-        $files['audios'] = $fileList->get(File::TYPE_AUDIO)?->all() ?? [];
-        $files['documents'] = $fileList->get(File::TYPE_DOCUMENT)?->all() ?? [];
+        $data['images'] = $fileData->get(File::TYPE_IMAGE)?->all() ?? [];
+        $data['videos'] = $fileData->get(File::TYPE_VIDEO)?->all() ?? [];
+        $data['audios'] = $fileData->get(File::TYPE_AUDIO)?->all() ?? [];
+        $data['documents'] = $fileData->get(File::TYPE_DOCUMENT)?->all() ?? [];
 
-        return $files;
+        $fileList = FileHelper::handleAntiLinkFileInfoList($data);
+
+        return $fileList;
     }
 
     // get file url by table column
@@ -259,26 +266,6 @@ class FileHelper
         }
 
         return $file->getFileInfo()[$urlType] ?? null;
-    }
-
-    // get anti link file info list
-    public static function fresnsAntiLinkFileInfoListByIds(array $fileIdsOrFids)
-    {
-        $files = FileHelper::fresnsFileInfoListByIds($fileIdsOrFids);
-
-        $fileList = FileHelper::handleAntiLinkFileInfoList($files);
-
-        return $fileList;
-    }
-
-    // get anti link file info list by table column
-    public static function fresnsAntiLinkFileInfoListByTableColumn(string $tableName, string $tableColumn, ?int $tableId = null, ?string $tableKey = null)
-    {
-        $files = FileHelper::fresnsFileInfoListByTableColumn($tableName, $tableColumn, $tableId, $tableKey);
-
-        $fileList = FileHelper::handleAntiLinkFileInfoList($files);
-
-        return $fileList;
     }
 
     // get file original url by file id or fid
@@ -343,6 +330,8 @@ class FileHelper
             ]);
 
             $files['images'] = $fresnsResponse->getData();
+        } else {
+            $files['images'] = array_map(fn ($item) => $item->getFileInfo(), $files['images']);
         }
 
         // video
@@ -355,6 +344,8 @@ class FileHelper
             ]);
 
             $files['videos'] = $fresnsResponse->getData();
+        } else {
+            $files['videos'] = array_map(fn ($item) => $item->getFileInfo(), $files['videos']);
         }
 
         // audio
@@ -367,6 +358,8 @@ class FileHelper
             ]);
 
             $files['audios'] = $fresnsResponse->getData();
+        } else {
+            $files['audios'] = array_map(fn ($item) => $item->getFileInfo(), $files['audios']);
         }
 
         // document
@@ -379,6 +372,8 @@ class FileHelper
             ]);
 
             $files['documents'] = $fresnsResponse->getData();
+        } else {
+            $files['documents'] = array_map(fn ($item) => $item->getFileInfo(), $files['documents']);
         }
 
         return $files;

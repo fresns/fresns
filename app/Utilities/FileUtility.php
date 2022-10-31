@@ -18,6 +18,28 @@ use Illuminate\Support\Str;
 
 class FileUtility
 {
+    /**
+     * Get the mime-type of a given file.
+     *
+     * @param  string  $path
+     * @return string|false
+     */
+    public static function mimeTypeFromPath($path)
+    {
+        return finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
+    }
+
+    /**
+     * Get the mime-type of a given content.
+     *
+     * @param  string  $path
+     * @return string|false
+     */
+    public static function mimeTypeFromContent($content)
+    {
+        return finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $content);
+    }
+
     // uploadFile
     public static function uploadFile(array $bodyInfo, UploadedFile $file)
     {
@@ -43,14 +65,51 @@ class FileUtility
     // uploadFileInfo
     public static function uploadFileInfo(array $bodyInfo)
     {
-        if (! Str::isJson($bodyInfo['fileInfo'])) {
-            return null;
-        }
+        // $bodyInfoExample = [
+        //     'platformId' => 'file_usages->platform_id',
+        //     'aid' => 'file_usages->account_id',
+        //     'uid' => 'file_usages->user_id',
+        //     'usageType' => 'file_usages->usage_type',
+        //     'tableName' => 'file_usages->table_name',
+        //     'tableColumn' => 'file_usages->table_column',
+        //     'tableId' => 'file_usages->table_id',
+        //     'tableKey' => 'file_usages->table_key',
+        //     'type' => 'files->type and file_usages->file_type',
+        //     'fileInfo' => [
+        //         [
+        //             'name' => 'files->name',
+        //             'mime' => 'files->mime',
+        //             'extension' => 'files->extension',
+        //             'size' => 'files->size', // Unit: Byte
+        //             'md5' => 'files->md5',
+        //             'sha' => 'files->sha',
+        //             'shaType' => 'files->sha_type',
+        //             'path' => 'files->path',
+        //             'imageWidth' => 'Image Only: files->image_width',
+        //             'imageHeight' => 'Image Only: files->image_height',
+        //             'videoTime' => 'Video Only: files->video_time',
+        //             'videoCoverPath' => 'Video Only: files->video_cover_path',
+        //             'videoGifPath' => 'Video Only: files->video_gif_path',
+        //             'audioTime' => 'Audio Only: files->audio_time',
+        //             'transcodingState' => 'Audio and Video Only: files->transcoding_state',
+        //             'moreJson' => [
+        //                 // files->more_json
+        //             ],
+        //             'originalPath' => 'files->original_path',
+        //             'rating' => 'file_usages->rating',
+        //             'remark' => 'file_usages->remark',
+        //         ]
+        //     ]
+        // ];
+
+        // if (! Str::isJson($bodyInfo['fileInfo'])) {
+        //     return null;
+        // }
 
         $fileIdArr = [];
         foreach ($bodyInfo['fileInfo'] as $fileInfo) {
             $imageIsLong = 0;
-            if ($fileInfo['type'] == 1 && ! empty($fileInfo['imageWidth']) >= 700) {
+            if ($bodyInfo['type'] == 1 && ! empty($fileInfo['imageWidth']) >= 700) {
                 if ($fileInfo['imageHeight'] >= $fileInfo['imageWidth'] * 3) {
                     $imageIsLong = 1;
                 }
@@ -78,8 +137,6 @@ class FileUtility
             ];
             $fileId = File::create($fileInput)->id;
 
-            $fileIdArr[] = $fileId;
-
             $accountId = PrimaryHelper::fresnsAccountIdByAid($bodyInfo['aid']);
             $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($bodyInfo['uid']);
 
@@ -97,22 +154,26 @@ class FileUtility
                 'table_column' => $bodyInfo['tableColumn'],
                 'table_id' => $tableId,
                 'table_key' => $bodyInfo['tableKey'] ?? null,
-                'rating' => $bodyInfo['rating'] ?? 9,
+                'rating' => $fileInfo['rating'] ?? 9,
+                'remark' => $fileInfo['remark'] ?? null,
                 'account_id' => $accountId,
                 'user_id' => $userId,
             ];
 
             FileUsage::create($useInput);
+
+            $fileIdArr[] = $fileId;
         }
 
-        $fileTypeName = match ($bodyInfo['type']) {
+        $fileTypeName = match (intval($bodyInfo['type'])) {
+            default => throw new \RuntimeException("未知文件类型 ".$bodyInfo['type']),
             1 => 'images',
             2 => 'videos',
             3 => 'audios',
             4 => 'documents',
         };
 
-        $fileInfo = FileHelper::fresnsAntiLinkFileInfoListByIds($fileIdArr)[$fileTypeName];
+        $fileInfo = FileHelper::fresnsFileInfoListByIds($fileIdArr)[$fileTypeName];
 
         return $fileInfo;
     }
