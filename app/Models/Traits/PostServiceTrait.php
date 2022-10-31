@@ -25,6 +25,14 @@ trait PostServiceTrait
         $configKey = ConfigHelper::fresnsConfigByItemKeys([
             'website_post_detail_path',
             'site_url',
+            'post_liker_count',
+            'post_disliker_count',
+            'post_follower_count',
+            'post_blocker_count',
+            'comment_liker_count',
+            'comment_disliker_count',
+            'comment_follower_count',
+            'comment_blocker_count',
         ]);
 
         $info['pid'] = $postData->pid;
@@ -39,16 +47,16 @@ trait PostServiceTrait
         $info['isAnonymous'] = (bool) $postData->is_anonymous;
         $info['stickyState'] = $postData->sticky_state;
         $info['digestState'] = $postData->digest_state;
-        $info['likeCount'] = $postData->like_count;
-        $info['dislikeCount'] = $postData->dislike_count;
-        $info['followCount'] = $postData->follow_count;
-        $info['blockCount'] = $postData->block_count;
+        $info['likeCount'] = $configKey['post_liker_count'] ? $postData->like_count : null;
+        $info['dislikeCount'] = $configKey['post_disliker_count'] ? $postData->dislike_count : null;
+        $info['followCount'] = $configKey['post_follower_count'] ? $postData->follow_count : null;
+        $info['blockCount'] = $configKey['post_blocker_count'] ? $postData->block_count : null;
         $info['commentCount'] = $postData->comment_count;
         $info['commentDigestCount'] = $postData->comment_digest_count;
-        $info['commentLikeCount'] = $postData->comment_like_count;
-        $info['commentDislikeCount'] = $postData->comment_dislike_count;
-        $info['commentFollowCount'] = $postData->comment_follow_count;
-        $info['commentBlockCount'] = $postData->comment_block_count;
+        $info['commentLikeCount'] = $configKey['comment_liker_count'] ? $postData->comment_like_count : null;
+        $info['commentDislikeCount'] = $configKey['comment_disliker_count'] ? $postData->comment_dislike_count : null;
+        $info['commentFollowCount'] = $configKey['comment_follower_count'] ? $postData->comment_follow_count : null;
+        $info['commentBlockCount'] = $configKey['comment_blocker_count'] ? $postData->comment_block_count : null;
         $info['createTime'] = DateHelper::fresnsFormatDateTime($postData->created_at, $timezone, $langTag);
         $info['createTimeFormat'] = DateHelper::fresnsFormatTime($postData->created_at, $langTag);
         $info['editTime'] = DateHelper::fresnsFormatDateTime($postData->latest_edit_at, $timezone, $langTag);

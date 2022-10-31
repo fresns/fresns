@@ -25,6 +25,10 @@ trait GroupServiceTrait
         $configKey = ConfigHelper::fresnsConfigByItemKeys([
             'website_group_detail_path',
             'site_url',
+            'group_liker_count',
+            'group_disliker_count',
+            'group_follower_count',
+            'group_blocker_count',
         ]);
 
         $info['gid'] = $groupData->gid;
@@ -41,12 +45,14 @@ trait GroupServiceTrait
         $info['followUrl'] = ! empty($groupData->plugin_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($groupData->plugin_unikey) : null;
         $info['parentGid'] = $parentGroup?->gid ?? null;
         $info['category'] = $parentGroup?->getCategoryInfo($langTag) ?? null;
-        $info['likeCount'] = $groupData->like_count;
-        $info['dislikeCount'] = $groupData->dislike_count;
-        $info['followCount'] = $groupData->follow_count;
-        $info['blockCount'] = $groupData->block_count;
+        $info['likeCount'] = $configKey['group_liker_count'] ? $groupData->like_count : null;
+        $info['dislikeCount'] = $configKey['group_disliker_count'] ? $groupData->dislike_count : null;
+        $info['followCount'] = $configKey['group_follower_count'] ? $groupData->follow_count : null;
+        $info['blockCount'] = $configKey['group_blocker_count'] ? $groupData->block_count : null;
         $info['postCount'] = $groupData->post_count;
         $info['postDigestCount'] = $groupData->post_digest_count;
+        $info['commentCount'] = $groupData->comment_count;
+        $info['commentDigestCount'] = $groupData->comment_digest_count;
         $info['permissions'] = $groupData->permissions;
         $info['createDate'] = date(ConfigHelper::fresnsConfigDateFormat($langTag), strtotime(DateHelper::fresnsDateTimeByTimezone($groupData->created_at, $timezone, $langTag)));
 

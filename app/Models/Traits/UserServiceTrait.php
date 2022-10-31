@@ -163,12 +163,15 @@ trait UserServiceTrait
     {
         $statsData = $this->stat;
 
-        $extcredits = ConfigHelper::fresnsConfigByItemKeys([
+        $statConfig = ConfigHelper::fresnsConfigByItemKeys([
             'extcredits1_status', 'extcredits1_name', 'extcredits1_unit',
             'extcredits2_status', 'extcredits2_name', 'extcredits2_unit',
             'extcredits3_status', 'extcredits3_name', 'extcredits3_unit',
             'extcredits4_status', 'extcredits4_name', 'extcredits4_unit',
             'extcredits5_status', 'extcredits5_name', 'extcredits5_unit',
+
+            'post_liker_count', 'post_disliker_count', 'post_follower_count', 'post_blocker_count',
+            'comment_liker_count', 'comment_disliker_count', 'comment_follower_count', 'comment_blocker_count',
         ], $langTag);
 
         $stats['likeUserCount'] = $statsData->like_user_count;
@@ -176,57 +179,64 @@ trait UserServiceTrait
         $stats['likeHashtagCount'] = $statsData->like_hashtag_count;
         $stats['likePostCount'] = $statsData->like_post_count;
         $stats['likeCommentCount'] = $statsData->like_comment_count;
+
         $stats['dislikeUserCount'] = $statsData->dislike_user_count;
         $stats['dislikeGroupCount'] = $statsData->dislike_group_count;
         $stats['dislikeHashtagCount'] = $statsData->dislike_hashtag_count;
         $stats['dislikePostCount'] = $statsData->dislike_post_count;
         $stats['dislikeCommentCount'] = $statsData->dislike_comment_count;
+
         $stats['followUserCount'] = $statsData->follow_user_count;
         $stats['followGroupCount'] = $statsData->follow_group_count;
         $stats['followHashtagCount'] = $statsData->follow_hashtag_count;
         $stats['followPostCount'] = $statsData->follow_post_count;
         $stats['followCommentCount'] = $statsData->follow_comment_count;
+
         $stats['blockUserCount'] = $statsData->block_user_count;
         $stats['blockGroupCount'] = $statsData->block_group_count;
         $stats['blockHashtagCount'] = $statsData->block_hashtag_count;
         $stats['blockPostCount'] = $statsData->block_post_count;
         $stats['blockCommentCount'] = $statsData->block_comment_count;
+
         $stats['likeMeCount'] = $statsData->like_me_count;
         $stats['dislikeMeCount'] = $statsData->dislike_me_count;
         $stats['followMeCount'] = $statsData->follow_me_count;
         $stats['blockMeCount'] = $statsData->block_me_count;
+
         $stats['postPublishCount'] = $statsData->post_publish_count;
         $stats['postDigestCount'] = $statsData->post_digest_count;
-        $stats['postLikeCount'] = $statsData->post_like_count;
-        $stats['postDislikeCount'] = $statsData->post_dislike_count;
-        $stats['postFollowCount'] = $statsData->post_follow_count;
-        $stats['postBlockCount'] = $statsData->post_block_count;
+        $stats['postLikeCount'] = $statConfig['post_liker_count'] ? $statsData->post_like_count : null;
+        $stats['postDislikeCount'] = $statConfig['post_disliker_count'] ? $statsData->post_dislike_count : null;
+        $stats['postFollowCount'] = $statConfig['post_follower_count'] ? $statsData->post_follow_count : null;
+        $stats['postBlockCount'] = $statConfig['post_blocker_count'] ? $statsData->post_block_count : null;
+
         $stats['commentPublishCount'] = $statsData->comment_publish_count;
         $stats['commentDigestCount'] = $statsData->comment_digest_count;
-        $stats['commentLikeCount'] = $statsData->comment_like_count;
-        $stats['commentDislikeCount'] = $statsData->comment_dislike_count;
-        $stats['commentFollowCount'] = $statsData->comment_follow_count;
-        $stats['commentBlockCount'] = $statsData->comment_block_count;
-        $stats['extcredits1'] = $statsData->extcredits1;
-        $stats['extcredits1Status'] = $extcredits['extcredits1_status'];
-        $stats['extcredits1Name'] = $extcredits['extcredits1_name'];
-        $stats['extcredits1Unit'] = $extcredits['extcredits1_unit'];
-        $stats['extcredits2'] = $statsData->extcredits2;
-        $stats['extcredits2Status'] = $extcredits['extcredits2_status'];
-        $stats['extcredits2Name'] = $extcredits['extcredits2_name'];
-        $stats['extcredits2Unit'] = $extcredits['extcredits2_unit'];
-        $stats['extcredits3'] = $statsData->extcredits3;
-        $stats['extcredits3Status'] = $extcredits['extcredits3_status'];
-        $stats['extcredits3Name'] = $extcredits['extcredits3_name'];
-        $stats['extcredits3Unit'] = $extcredits['extcredits3_unit'];
-        $stats['extcredits4'] = $statsData->extcredits4;
-        $stats['extcredits4Status'] = $extcredits['extcredits4_status'];
-        $stats['extcredits4Name'] = $extcredits['extcredits4_name'];
-        $stats['extcredits4Unit'] = $extcredits['extcredits4_unit'];
-        $stats['extcredits5'] = $statsData->extcredits5;
-        $stats['extcredits5Status'] = $extcredits['extcredits5_status'];
-        $stats['extcredits5Name'] = $extcredits['extcredits5_name'];
-        $stats['extcredits5Unit'] = $extcredits['extcredits5_unit'];
+        $stats['commentLikeCount'] = $statConfig['comment_liker_count'] ? $statsData->comment_like_count : null;
+        $stats['commentDislikeCount'] = $statConfig['comment_disliker_count'] ? $statsData->comment_dislike_count : null;
+        $stats['commentFollowCount'] = $statConfig['comment_follower_count'] ? $statsData->comment_follow_count : null;
+        $stats['commentBlockCount'] = $statConfig['comment_blocker_count'] ? $statsData->comment_block_count : null;
+
+        $stats['extcredits1'] = ($statConfig['extcredits1_status'] != 1) ? $statsData->extcredits1 : null;
+        $stats['extcredits1Status'] = $statConfig['extcredits1_status'];
+        $stats['extcredits1Name'] = $statConfig['extcredits1_name'];
+        $stats['extcredits1Unit'] = $statConfig['extcredits1_unit'];
+        $stats['extcredits2'] = ($statConfig['extcredits2_status'] != 1) ? $statsData->extcredits2 : null;
+        $stats['extcredits2Status'] = $statConfig['extcredits2_status'];
+        $stats['extcredits2Name'] = $statConfig['extcredits2_name'];
+        $stats['extcredits2Unit'] = $statConfig['extcredits2_unit'];
+        $stats['extcredits3'] = ($statConfig['extcredits3_status'] != 1) ? $statsData->extcredits3 : null;
+        $stats['extcredits3Status'] = $statConfig['extcredits3_status'];
+        $stats['extcredits3Name'] = $statConfig['extcredits3_name'];
+        $stats['extcredits3Unit'] = $statConfig['extcredits3_unit'];
+        $stats['extcredits4'] = ($statConfig['extcredits4_status'] != 1) ? $statsData->extcredits4 : null;
+        $stats['extcredits4Status'] = $statConfig['extcredits4_status'];
+        $stats['extcredits4Name'] = $statConfig['extcredits4_name'];
+        $stats['extcredits4Unit'] = $statConfig['extcredits4_unit'];
+        $stats['extcredits5'] = ($statConfig['extcredits5_status'] != 1) ? $statsData->extcredits5 : null;
+        $stats['extcredits5Status'] = $statConfig['extcredits5_status'];
+        $stats['extcredits5Name'] = $statConfig['extcredits5_name'];
+        $stats['extcredits5Unit'] = $statConfig['extcredits5_unit'];
 
         return $stats;
     }
