@@ -16,6 +16,7 @@ use App\Models\DomainLink;
 use App\Models\DomainLinkUsage;
 use App\Models\Group;
 use App\Models\Hashtag;
+use App\Models\Mention;
 use App\Models\Notify;
 use App\Models\Post;
 use App\Models\UserBlock;
@@ -154,16 +155,8 @@ class InteractiveUtility
                 InteractiveUtility::markStats($userId, 'like', $likeType, $likeId, 'increment');
             }
 
-            // like notify
-            if ($likeType == UserLike::TYPE_USER || $likeType == UserLike::TYPE_POST || $likeType == UserLike::TYPE_COMMENT) {
-                $toUserId = match ($likeType) {
-                    UserLike::TYPE_USER => PrimaryHelper::fresnsModelById('user', $likeId)->id,
-                    UserLike::TYPE_POST => PrimaryHelper::fresnsModelById('post', $likeId)->user_id,
-                    UserLike::TYPE_COMMENT => PrimaryHelper::fresnsModelById('comment', $likeId)->user_id,
-                };
-
-                InteractiveUtility::generateNotify($toUserId, Notify::TYPE_LIKE, $userId, $likeType, $likeId);
-            }
+            // send notify
+            InteractiveUtility::sendMarkNotify(Notify::TYPE_LIKE, $userId, $likeType, $likeId);
         } else {
             if ($userLike->mark_type == UserLike::MARK_TYPE_LIKE) {
                 // documented, mark type=like
@@ -218,6 +211,9 @@ class InteractiveUtility
 
                 InteractiveUtility::markStats($userId, 'dislike', $dislikeType, $dislikeId, 'increment');
             }
+
+            // send notify
+            InteractiveUtility::sendMarkNotify(Notify::TYPE_DISLIKE, $userId, $dislikeType, $dislikeId);
         } else {
             if ($userDislike->mark_type == UserLike::MARK_TYPE_DISLIKE) {
                 // documented, mark type=dislike
@@ -261,10 +257,8 @@ class InteractiveUtility
                 InteractiveUtility::markStats($userId, 'follow', $followType, $followId, 'increment');
             }
 
-            // follow notify
-            if ($followType == UserFollow::TYPE_USER) {
-                InteractiveUtility::generateNotify($followId, Notify::TYPE_FOLLOW, $userId);
-            }
+            // send notify
+            InteractiveUtility::sendMarkNotify(Notify::TYPE_FOLLOW, $userId, $followType, $followId);
         } else {
             $userFollow->delete();
 
@@ -321,6 +315,9 @@ class InteractiveUtility
 
                 InteractiveUtility::markStats($userId, 'block', $blockType, $blockId, 'increment');
             }
+
+            // send notify
+            InteractiveUtility::sendMarkNotify(Notify::TYPE_BLOCK, $userId, $blockType, $blockId);
         } else {
             $userBlock->delete();
 
@@ -573,7 +570,7 @@ class InteractiveUtility
                     $commentPost?->increment("comment_{$interactiveType}_count");
 
                     // parent comment
-                    if (! empty($comment?->parent_id) || $comment?->parent_id != 0) {
+                    if (! empty($comment?->parent_id) && $comment?->parent_id != 0) {
                         InteractiveUtility::parentCommentStats($comment->parent_id, 'increment', "comment_{$interactiveType}_count");
                     }
 
@@ -601,7 +598,7 @@ class InteractiveUtility
                 }
 
                 // parent comment
-                if (! empty($comment?->parent_id) || $comment?->parent_id != 0) {
+                if (! empty($comment?->parent_id) && $comment?->parent_id != 0) {
                     InteractiveUtility::parentCommentStats($comment->parent_id, 'decrement', "comment_{$interactiveType}_count");
                 }
             break;
@@ -697,7 +694,7 @@ class InteractiveUtility
                     Hashtag::whereIn('id', $hashtagIds)->where('comment_count', '>', 0)->decrement('comment_count');
                 }
 
-                if (! empty($comment?->parent_id)) {
+                if (! empty($comment?->parent_id) && $comment?->parent_id != 0) {
                     InteractiveUtility::parentCommentStats($comment->parent_id, $actionType, 'comment_count');
                 }
             break;
@@ -824,11 +821,41 @@ class InteractiveUtility
                     Hashtag::whereIn('id', $hashtagIds)->where('comment_digest_count', '>', 0)->decrement('comment_digest_count');
                 }
 
-                if (! empty($comment?->parent_id)) {
+                if (! empty($comment?->parent_id) && $comment?->parent_id != 0) {
                     InteractiveUtility::parentCommentStats($comment->parent_id, $actionType, 'comment_digest_count');
                 }
             break;
         }
+
+        $uid = match ($type) {
+            'post' => PrimaryHelper::fresnsModelById('user', $post->user_id)->uid,
+            'comment' => PrimaryHelper::fresnsModelById('user', $comment->user_id)->uid,
+        };
+        $actionObject = match ($type) {
+            'post' => Notify::ACTION_OBJECT_POST,
+            'comment' => Notify::ACTION_OBJECT_COMMENT,
+        };
+        $actionFsid = match ($type) {
+            'post' => $post->pid,
+            'comment' => $comment->cid,
+        };
+
+        $wordBody = [
+            'uid' => $uid,
+            'type' => Notify::TYPE_SYSTEM,
+            'content' => null,
+            'isMarkdown' => null,
+            'isMultilingual' => null,
+            'isAccessPlugin' => null,
+            'pluginUnikey' => null,
+            'actionUid' => null,
+            'actionType' => Notify::ACTION_TYPE_DIGEST,
+            'actionObject' => $actionObject,
+            'actionFsid' => $actionFsid,
+            'actionCid' => null,
+        ];
+
+        \FresnsCmdWord::plugin('Fresns')->sendNotify($wordBody);
     }
 
     protected static function parentCommentStats(int $parentId, string $actionType, string $tableColumn)
@@ -849,92 +876,147 @@ class InteractiveUtility
         }
 
         // parent comment
-        if (! empty($comment?->parent_id)) {
+        if (! empty($comment?->parent_id) && $comment?->parent_id != 0) {
             InteractiveUtility::parentCommentStats($comment->parent_id, $actionType, $tableColumn);
         }
     }
 
-    /**
-     * It generates a notification.
-     *
-     * @param int toUserId The user who receives the notification
-     * @param int type The type of notification, which is defined in the Notify model.
-     * @param int actionUserId The user who triggered the notification
-     * @param actionType The type of action that triggered the notification.
-     * @param actionId The ID of the action, such as the ID of the post or comment.
-     */
-    public static function generateNotify(int $toUserId, int $type, int $actionUserId, ?int $actionType = null, ?int $actionId = null)
+    // send mark notify
+    public static function sendMarkNotify(int $notifyType, int $userId, int $markType, int $markId)
     {
-        if ($type == Notify::TYPE_SYSTEM_TO_FULL || $type == Notify::TYPE_SYSTEM_TO_USER || $type == Notify::TYPE_RECOMMEND) {
+        $user = PrimaryHelper::fresnsModelById('user', $userId);
+
+        $actionModel = match ($markType) {
+            Notify::ACTION_OBJECT_USER => PrimaryHelper::fresnsModelById('user', $markId),
+            Notify::ACTION_OBJECT_GROUP => PrimaryHelper::fresnsModelById('group', $markId),
+            Notify::ACTION_OBJECT_HASHTAG => PrimaryHelper::fresnsModelById('hashtag', $markId),
+            Notify::ACTION_OBJECT_POST => PrimaryHelper::fresnsModelById('post', $markId),
+            Notify::ACTION_OBJECT_COMMENT => PrimaryHelper::fresnsModelById('comment', $markId),
+        };
+        $uid = match ($markType) {
+            Notify::ACTION_OBJECT_USER => $actionModel->uid,
+            Notify::ACTION_OBJECT_GROUP => PrimaryHelper::fresnsModelById('user', $actionModel?->user_id)?->uid,
+            Notify::ACTION_OBJECT_HASHTAG => null,
+            Notify::ACTION_OBJECT_POST => PrimaryHelper::fresnsModelById('user', $actionModel?->user_id)?->uid,
+            Notify::ACTION_OBJECT_COMMENT => PrimaryHelper::fresnsModelById('user', $actionModel?->user_id)?->uid,
+        };
+
+        if (empty($uid)) {
             return;
         }
 
-        // check notify
-        $checkNotify = Notify::withTrashed()
-            ->type($type)
-            ->where('user_id', $toUserId)
-            ->where('action_user_id', $actionUserId)
-            ->when($actionType, function ($query, $value) {
-                $query->where('action_type', $value);
-            })
-            ->when($actionId, function ($query, $value) {
-                $query->where('action_id', $value);
-            })
-            ->first();
+        $actionFsid = match ($markType) {
+            Notify::ACTION_OBJECT_USER => $actionModel->uid,
+            Notify::ACTION_OBJECT_GROUP => $actionModel->gid,
+            Notify::ACTION_OBJECT_HASHTAG => $actionModel->hid,
+            Notify::ACTION_OBJECT_POST => $actionModel->pid,
+            Notify::ACTION_OBJECT_COMMENT => $actionModel->cid,
+        };
+        $actionType = match ($notifyType) {
+            Notify::TYPE_LIKE => Notify::ACTION_TYPE_LIKE,
+            Notify::TYPE_DISLIKE => Notify::ACTION_TYPE_DISLIKE,
+            Notify::TYPE_FOLLOW => Notify::ACTION_TYPE_FOLLOW,
+            Notify::TYPE_BLOCK => Notify::ACTION_TYPE_BLOCK,
+        };
 
-        // follow notify
-        if ($type == Notify::TYPE_FOLLOW && $checkNotify) {
-            return;
-        }
+        $notifyWordBody = [
+            'uid' => $uid,
+            'type' => $notifyType,
+            'content' => null,
+            'isMarkdown' => null,
+            'isMultilingual' => null,
+            'isAccessPlugin' => null,
+            'pluginUnikey' => null,
+            'actionUid' => $user->uid,
+            'actionType' => $actionType,
+            'actionObject' => $markType,
+            'actionFsid' => $actionFsid,
+            'actionCid' => null,
+        ];
+        \FresnsCmdWord::plugin('Fresns')->sendNotify($notifyWordBody);
+    }
 
-        // like notify
-        if ($type == Notify::TYPE_LIKE) {
-            if (empty($actionType) || empty($actionId) || $checkNotify) {
-                return;
-            }
-        }
-
-        // content
-        $contentModel = match ($actionType) {
-            Notify::ACTION_TYPE_POST => PrimaryHelper::fresnsModelById('post', $actionId),
-            Notify::ACTION_TYPE_COMMENT => PrimaryHelper::fresnsModelById('comment', $actionId),
+    // send publish notify
+    public static function sendPublishNotify(string $type, int $contentId)
+    {
+        $actionModel = match ($type) {
+            'post' => PrimaryHelper::fresnsModelById('post', $contentId),
+            'comment' => PrimaryHelper::fresnsModelById('comment', $contentId),
             default => null,
         };
-        $content = null;
-        $isMarkdown = 0;
 
-        // mention notify
-        if ($type == Notify::TYPE_MENTION) {
-            if (empty($actionType) || empty($actionId) || empty($contentModel) || $checkNotify) {
-                return;
-            }
-
-            $content = Str::limit($contentModel->content);
-            $isMarkdown = $contentModel->is_markdown;
+        if (empty($actionModel)) {
+            return;
         }
 
-        // comment notify
-        if ($type == Notify::TYPE_COMMENT) {
-            if (empty($actionType) || empty($actionId) || empty($contentModel)) {
-                return;
-            }
+        $actionUser = PrimaryHelper::fresnsModelById('user', $actionModel->user_id);
+        $actionObject = match ($type) {
+            'post' => Notify::ACTION_OBJECT_POST,
+            'comment' => Notify::ACTION_OBJECT_COMMENT,
+        };
+        $actionFsid = match ($type) {
+            'post' => $actionModel->pid,
+            'comment' => $actionModel->cid,
+        };
 
-            $content = Str::limit($contentModel->content);
-            $isMarkdown = $contentModel->is_markdown;
+        $typeNumber = match ($type) {
+            'post' => 4,
+            'comment' => 5,
+        };
+
+        $mentions = Mention::where('user_id', $actionUser->id)
+            ->where('mention_type', $typeNumber)
+            ->where('mention_id', $actionModel->id)
+            ->get()
+            ->toArray();
+
+        if ($mentions) {
+            foreach ($mentions as $mention) {
+                $mentionUser = PrimaryHelper::fresnsModelById('user', $mention['mention_user_id']);
+
+                $mentionWordBody = [
+                    'uid' => $mentionUser->uid,
+                    'type' => Notify::TYPE_MENTION,
+                    'content' => Str::limit($actionModel->content),
+                    'isMarkdown' => 0,
+                    'isMultilingual' => 0,
+                    'isAccessPlugin' => null,
+                    'pluginUnikey' => null,
+                    'actionUid' => $actionUser->uid,
+                    'actionType' => Notify::ACTION_TYPE_PUBLISH,
+                    'actionObject' => $actionObject,
+                    'actionFsid' => $actionFsid,
+                    'actionCid' => null,
+                ];
+
+                \FresnsCmdWord::plugin('Fresns')->sendNotify($mentionWordBody);
+            }
         }
 
-        // notify data
-        $notifyData = [
-            'user_id' => $toUserId,
-            'type' => $type,
-            'content' => $content,
-            'is_markdown' => $isMarkdown,
-            'action_user_id' => $actionUserId,
-            'action_type' => $actionType ?? null,
-            'action_id' => $actionId ?? null,
-        ];
+        if ($type == 'comment') {
+            $post = PrimaryHelper::fresnsModelById('post', $actionModel->post_id);
+            $comment = PrimaryHelper::fresnsModelById('comment', $actionModel->parent_id);
 
-        Notify::create($notifyData);
+            $userId = $actionModel->top_parent_id ? $comment->user_id : $post->user_id;
+            $user = PrimaryHelper::fresnsModelById('user', $userId);
+
+            $commentWordBody = [
+                'uid' => $user->uid,
+                'type' => Notify::TYPE_COMMENT,
+                'content' => Str::limit($actionModel->content),
+                'isMarkdown' => 0,
+                'isMultilingual' => 0,
+                'isAccessPlugin' => null,
+                'pluginUnikey' => null,
+                'actionUid' => $actionUser->uid,
+                'actionType' => Notify::ACTION_TYPE_PUBLISH,
+                'actionObject' => $actionModel->top_parent_id ? Notify::ACTION_OBJECT_COMMENT : Notify::ACTION_OBJECT_POST,
+                'actionFsid' => $actionModel->top_parent_id ? $comment->cid : $post->pid,
+                'actionCid' => $actionFsid,
+            ];
+
+            \FresnsCmdWord::plugin('Fresns')->sendNotify($commentWordBody);
+        }
     }
 
     // get follow id array
@@ -1020,5 +1102,45 @@ class InteractiveUtility
         }
 
         return $groupIdArr;
+    }
+
+    // get follow type
+    public static function getFollowType(int $creatorId, ?int $authUserId = null, ?int $groupId = null, ?array $hashtags = null)
+    {
+        if (empty($authUserId)) {
+            return null;
+        }
+
+        $checkFollowUser = InteractiveUtility::checkUserFollow(InteractiveUtility::TYPE_USER, $creatorId, $authUserId);
+        if ($checkFollowUser) {
+            return 'user';
+        }
+
+        if (empty($groupId) && empty($hashtags)) {
+            return 'digest';
+        }
+
+        if ($groupId) {
+            $checkFollowGroup = InteractiveUtility::checkUserFollow(InteractiveUtility::TYPE_USER, $groupId, $authUserId);
+
+            if ($checkFollowGroup) {
+                return 'group';
+            }
+        }
+
+        if ($hashtags) {
+            $hashtagIds = array_column($hashtags, 'id');
+
+            $checkFollowHashtag = UserFollow::where('user_id', $authUserId)
+                ->type(UserFollow::TYPE_HASHTAG)
+                ->whereIn('follow_id', $hashtagIds)
+                ->first();
+
+            if ($checkFollowHashtag) {
+                return 'hashtag';
+            }
+        }
+
+        return null;
     }
 }

@@ -24,7 +24,6 @@ use App\Models\Domain;
 use App\Models\DomainLink;
 use App\Models\DomainLinkUsage;
 use App\Models\ExtendUsage;
-use App\Models\File;
 use App\Models\FileUsage;
 use App\Models\Group;
 use App\Models\Hashtag;
@@ -39,9 +38,7 @@ use App\Models\PostLog;
 use App\Models\Role;
 use App\Models\Sticker;
 use App\Models\User;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Str;
 
 class ContentUtility
 {
@@ -481,31 +478,6 @@ class ContentUtility
         return $item;
     }
 
-    // save file usages
-    // $files = [{"fid": "fid", "rating": 9, "remark": "remark"}]
-    public static function saveFileUsages(int $usageType, string $tableName, string $tableColumn, int $tableId, array $files, int $platformId, int $accountId, int $userId)
-    {
-        foreach ($files as $file) {
-            $fileModel = PrimaryHelper::fresnsModelByFsid('file', $file['fid']);
-
-            FileUsage::updateOrCreate([
-                'file_id' => $fileModel->id,
-                'table_name' => $tableName,
-                'table_column' => $tableColumn,
-                'table_id' => $tableId,
-            ],
-            [
-                'file_type' => $fileModel->type,
-                'usage_type' => $usageType,
-                'platform_id' => $platformId,
-                'rating' => $file['rating'],
-                'account_id' => $accountId,
-                'user_id' => $userId,
-                'remark' => $file['remark'],
-            ]);
-        }
-    }
-
     // save operation usages
     // $operations = [{"id": "id", "pluginUnikey": null}]
     public static function saveOperationUsages(string $usageType, int $usageId, array $operations)
@@ -586,6 +558,73 @@ class ContentUtility
         }
 
         return $defaultLangName ?? null;
+    }
+
+    // release file usages
+    public static function releaseFileUsages(string $type, int $logId, int $primaryId)
+    {
+        $logTableName = match ($type) {
+            'post' => 'post_logs',
+            'comment' => 'comment_logs',
+        };
+
+        $tableName = match ($type) {
+            'post' => 'posts',
+            'comment' => 'comments',
+        };
+
+        FileUsage::where('table_name', $tableName)->where('table_column', 'id')->where('table_id', $primaryId)->delete();
+
+        $fileUsages = FileUsage::where('table_name', $logTableName)->where('table_column', 'id')->where('table_id', $logId)->get();
+
+        foreach ($fileUsages as $fileUsage) {
+            $fileDataItem = [
+                'file_id' => $fileUsage->file_id,
+                'file_type' => $fileUsage->file_type,
+                'usage_type' => $fileUsage->usage_type,
+                'platform_id' => $fileUsage->platform_id,
+                'table_name' => $tableName,
+                'table_column' => 'id',
+                'table_id' => $primaryId,
+                'rating' => $fileUsage->rating,
+                'account_id' => $fileUsage->account_id,
+                'user_id' => $fileUsage->user_id,
+                'remark' => $fileUsage->remark,
+            ];
+
+            FileUsage::create($fileDataItem);
+        }
+    }
+
+    // release extend usages
+    public static function releaseExtendUsages(string $type, int $logId, int $primaryId)
+    {
+        $logUsageType = match ($type) {
+            'post' => ExtendUsage::TYPE_POST_LOG,
+            'comment' => ExtendUsage::TYPE_COMMENT_LOG,
+        };
+
+        $usageType = match ($type) {
+            'post' => ExtendUsage::TYPE_POST,
+            'comment' => ExtendUsage::TYPE_COMMENT,
+        };
+
+        ExtendUsage::where('usage_type', $usageType)->where('usage_id', $primaryId)->delete();
+
+        $extendUsages = ExtendUsage::where('usage_type', $logUsageType)->where('usage_id', $logId)->get();
+
+        foreach ($extendUsages as $extend) {
+            $extendDataItem = [
+                'usage_type' => $usageType,
+                'usage_id' => $primaryId,
+                'extend_id' => $extend->extend_id,
+                'can_delete' => $extend->can_delete,
+                'rating' => $extend->rating,
+                'plugin_unikey' => $extend->plugin_unikey,
+            ];
+
+            ExtendUsage::create($extendDataItem);
+        }
     }
 
     // release allow users and roles
@@ -700,7 +739,7 @@ class ContentUtility
         ],
         [
             'user_id' => $postLog->user_id,
-            'group_id' => $postLog->group_id,
+            'group_id' => $postLog->group_id ?? 0,
             'title' => $postLog->title,
             'content' => $postLog->content,
             'is_markdown' => $postLog->is_markdown,
@@ -762,6 +801,8 @@ class ContentUtility
             'map_poi_id' => $postLog->map_json['poiId'] ?? null,
         ]);
 
+        ContentUtility::releaseFileUsages('post', $postLog->id, $post->id);
+        ContentUtility::releaseExtendUsages('post', $postLog->id, $post->id);
         ContentUtility::releaseAllowUsersAndRoles($post->id, $postLog->allow_json['permissions'] ?? []);
         ContentUtility::releaseArchiveUsages('post', $postLog->id, $post->id);
         ContentUtility::releaseOperationUsages('post', $postLog->id, $post->id);
@@ -803,6 +844,9 @@ class ContentUtility
             'state' => 3,
         ]);
 
+        // send notify
+        InteractiveUtility::sendPublishNotify('post', $post->id);
+
         return $post;
     }
 
@@ -811,9 +855,9 @@ class ContentUtility
     {
         $parentComment = PrimaryHelper::fresnsModelById('comment', $commentLog->parent_id);
 
-        $topParentId = null;
+        $topParentId = 0;
         if (! $parentComment) {
-            $topParentId = $parentComment?->top_parent_id ?? null;
+            $topParentId = $parentComment?->top_parent_id ?? 0;
         }
 
         $comment = Comment::updateOrCreate([
@@ -823,7 +867,7 @@ class ContentUtility
             'user_id' => $commentLog->user_id,
             'post_id' => $commentLog->post_id,
             'top_parent_id' => $topParentId,
-            'parent_id' => $commentLog->parent_comment_id,
+            'parent_id' => $commentLog->parent_comment_id ?? 0,
             'content' => $commentLog->content,
             'is_markdown' => $commentLog->is_markdown,
             'is_anonymous' => $commentLog->is_anonymous,
@@ -850,6 +894,8 @@ class ContentUtility
             'map_poi_id' => $commentLog->map_json['poiId'] ?? null,
         ]);
 
+        ContentUtility::releaseFileUsages('comment', $commentLog->id, $comment->id);
+        ContentUtility::releaseExtendUsages('comment', $commentLog->id, $comment->id);
         ContentUtility::releaseArchiveUsages('comment', $commentLog->id, $comment->id);
         ContentUtility::releaseOperationUsages('comment', $commentLog->id, $comment->id);
 
@@ -879,6 +925,9 @@ class ContentUtility
             'comment_id' => $comment->id,
             'state' => 3,
         ]);
+
+        // send notify
+        InteractiveUtility::sendPublishNotify('comment', $comment->id);
 
         return $comment;
     }
@@ -1057,7 +1106,7 @@ class ContentUtility
     // generate comment draft
     public static function generateCommentDraft(Comment $comment): CommentLog
     {
-        if (! empty($comment->top_parent_id) || $comment->top_parent_id == 0) {
+        if ($comment->top_parent_id != 0) {
             return null;
         }
 
