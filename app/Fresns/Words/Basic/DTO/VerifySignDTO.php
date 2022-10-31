@@ -26,11 +26,11 @@ class VerifySignDTO extends DTO
         return [
             'platformId' => ['integer', 'required', 'between:1,13'],
             'version' => ['string', 'required'],
-            'appId' => ['string', 'required', 'exists:App\Models\SessionKey,app_id'],
+            'appId' => ['string', 'required'],
             'timestamp' => ['integer', 'required', 'digits_between:10,13'],
             'sign' => ['string', 'required'],
-            'aid' => ['string', 'nullable', 'exists:App\Models\Account,aid'],
-            'uid' => ['integer', 'nullable', 'exists:App\Models\User,uid'],
+            'aid' => ['string', 'nullable'],
+            'uid' => ['integer', 'nullable'],
             'token' => ['string', 'nullable', 'required_with:aid'],
         ];
     }
