@@ -17,5 +17,9 @@
                 <p lang="ja">ログアウトしていてコンソールページにアクセスできません。ログインポータルにアクセスしてログインしてください。</p>
             </div>
         </div>
+
+        <div class="text-center">
+            <p class="my-5 text-muted">&copy; 2021-2022 Fresns</p>
+        </div>
     </main>
 @endsection
