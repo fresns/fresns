@@ -179,7 +179,6 @@ class CacheHelper
         CacheHelper::forgetFresnsApiMultilingualInfo("fresns_api_account_{$aid}");
         CacheHelper::forgetFresnsApiMultilingualInfo("fresns_api_auth_account_{$aid}");
 
-        return;
     }
 
     // forget fresns api user
@@ -188,6 +187,5 @@ class CacheHelper
         CacheHelper::forgetFresnsApiMultilingualInfo("fresns_api_user_{$uid}");
         CacheHelper::forgetFresnsApiMultilingualInfo("fresns_api_auth_user_{$uid}");
 
-        return;
     }
 }
