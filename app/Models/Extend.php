@@ -21,6 +21,7 @@ class Extend extends Model
 
     use Traits\IsEnableTrait;
     use Traits\FsidTrait;
+    use Traits\ExtendServiceTrait;
 
     public function getFsidKey()
     {
