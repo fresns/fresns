@@ -166,7 +166,7 @@ class FileUtility
         }
 
         $fileTypeName = match (intval($bodyInfo['type'])) {
-            default => throw new \RuntimeException('未知文件类型 '.$bodyInfo['type']),
+            default => throw new \RuntimeException('Unknown file type: '.$bodyInfo['type']),
             1 => 'images',
             2 => 'videos',
             3 => 'audios',
