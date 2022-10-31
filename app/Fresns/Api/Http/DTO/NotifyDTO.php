@@ -19,7 +19,7 @@ class NotifyDTO extends DTO
     {
         return [
             'type' => ['string', 'required', 'in:all,choose'],
-            'notifyType' => ['integer', 'nullable', 'in:2,3,4,5,6,7', 'required_without:notifyIds', 'required_if:type,all'],
+            'notifyType' => ['integer', 'nullable', 'between:1,8', 'required_without:notifyIds', 'required_if:type,all'],
             'notifyIds' => ['string', 'nullable', 'required_without:notifyType', 'required_if:type,choose'],
         ];
     }

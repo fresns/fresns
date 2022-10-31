@@ -23,7 +23,7 @@ class CommentListDTO extends DTO
             'mapLat' => ['numeric', 'nullable'],
             'uidOrUsername' => ['string', 'nullable'], // comments->user_id
             'pid' => ['string', 'nullable'], // comments->post_id
-            'cid' => ['string', 'nullable'], // comments->parent_id
+            'cid' => ['string', 'nullable'], // comments->top_parent_id
             'gid' => ['string', 'nullable'], // comments->post_id->group_id
             'hid' => ['string', 'nullable'],
             'sticky' => ['boolean', 'nullable'], // comments->is_sticky

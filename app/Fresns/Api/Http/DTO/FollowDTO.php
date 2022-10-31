@@ -10,7 +10,7 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class PostFollowDTO extends DTO
+class FollowDTO extends DTO
 {
     /**
      * @return array

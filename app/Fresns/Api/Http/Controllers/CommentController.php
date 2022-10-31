@@ -11,9 +11,12 @@ namespace App\Fresns\Api\Http\Controllers;
 use App\Exceptions\ApiException;
 use App\Fresns\Api\Http\DTO\CommentDetailDTO;
 use App\Fresns\Api\Http\DTO\CommentListDTO;
+use App\Fresns\Api\Http\DTO\FollowDTO;
 use App\Fresns\Api\Http\DTO\InteractiveDTO;
+use App\Fresns\Api\Http\DTO\NearbyDTO;
 use App\Fresns\Api\Http\DTO\PaginationDTO;
 use App\Fresns\Api\Services\CommentService;
+use App\Fresns\Api\Services\FollowService;
 use App\Fresns\Api\Services\InteractiveService;
 use App\Fresns\Api\Services\UserService;
 use App\Helpers\ConfigHelper;
@@ -24,6 +27,7 @@ use App\Models\Comment;
 use App\Models\CommentLog;
 use App\Models\Seo;
 use App\Utilities\ConfigUtility;
+use App\Utilities\ExtendUtility;
 use App\Utilities\InteractiveUtility;
 use Illuminate\Http\Request;
 
@@ -38,7 +42,7 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $commentQuery = Comment::with(['creator', 'post', 'hashtags'])->isEnable();
+        $commentQuery = Comment::with(['commentAppend', 'post', 'creator', 'hashtags'])->isEnable();
 
         $blockGroupIds = InteractiveUtility::getPrivateGroupIdArr();
 
@@ -135,7 +139,7 @@ class CommentController extends Controller
                 }
             }
 
-            $commentQuery->where('post_id', $viewPost->id);
+            $commentQuery->where('post_id', $viewPost->id)->where('top_parent_id', 0);
         }
 
         if ($dtoRequest->cid) {
@@ -150,8 +154,6 @@ class CommentController extends Controller
             }
 
             $commentQuery->where('top_parent_id', $viewComment->id);
-        } else {
-            $commentQuery->whereNull('top_parent_id');
         }
 
         if ($dtoRequest->gid) {
@@ -311,7 +313,7 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $comment = Comment::with(['creator', 'hashtags'])->where('cid', $cid)->first();
+        $comment = Comment::with(['commentAppend', 'post', 'creator', 'hashtags'])->where('cid', $cid)->first();
 
         if (empty($comment)) {
             throw new ApiException(37400);
@@ -442,5 +444,137 @@ class CommentController extends Controller
         $comment->delete();
 
         return $this->success();
+    }
+
+    // follow
+    public function follow(string $type, Request $request)
+    {
+        $requestData = $request->all();
+        $requestData['type'] = $type;
+        $dtoRequest = new FollowDTO($requestData);
+
+        // Plugin provides data
+        $dataPluginUnikey = ConfigHelper::fresnsConfigByItemKey('content_follow_service');
+
+        if ($dtoRequest->contentType && ! $dataPluginUnikey) {
+            $dataPluginUnikey = ExtendUtility::getDataExtend($dtoRequest->contentType, 'commentByFollow');
+        }
+
+        if ($dataPluginUnikey) {
+            $wordBody = [
+                'headers' => \request()->headers->all(),
+                'body' => $dtoRequest->toArray(),
+            ];
+
+            $fresnsResp = \FresnsCmdWord::plugin($dataPluginUnikey)->getCommentByAll($wordBody);
+
+            return $fresnsResp->getOrigin();
+        }
+
+        // Fresns provides data
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUser = $this->user();
+        $userContentViewPerm = $this->userContentViewPerm();
+
+        $followService = new FollowService();
+
+        switch ($dtoRequest->type) {
+            // all
+            case 'all':
+                $comments = $followService->getCommentListByFollowAll($authUser->id, $dtoRequest->contentType, $userContentViewPerm['dateLimit']);
+            break;
+
+            // user
+            case 'user':
+                $comments = $followService->getCommentListByFollowUsers($authUser->id, $dtoRequest->contentType, $userContentViewPerm['dateLimit']);
+            break;
+
+            // group
+            case 'group':
+                $comments = $followService->getCommentListByFollowGroups($authUser->id, $dtoRequest->contentType, $userContentViewPerm['dateLimit']);
+            break;
+
+            // hashtag
+            case 'hashtag':
+                $comments = $followService->getCommentListByFollowHashtags($authUser->id, $dtoRequest->contentType, $userContentViewPerm['dateLimit']);
+            break;
+        }
+
+        $commentList = [];
+        $service = new CommentService();
+        foreach ($comments as $comment) {
+            $listItem = $service->commentData($comment, 'list', $langTag, $timezone, $authUser->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+            $listItem['followType'] = InteractiveUtility::getFollowType($comment->user_id, $authUser?->id, $comment?->group_id, $comment?->hashtags?->toArray());
+
+            $commentList[] = $listItem;
+        }
+
+        return $this->fresnsPaginate($commentList, $comments->total(), $comments->perPage());
+    }
+
+    // nearby
+    public function nearby(Request $request)
+    {
+        $dtoRequest = new NearbyDTO($request->all());
+
+        // Plugin provides data
+        $dataPluginUnikey = ConfigHelper::fresnsConfigByItemKey('content_nearby_service');
+
+        if ($dtoRequest->contentType && ! $dataPluginUnikey) {
+            $dataPluginUnikey = ExtendUtility::getDataExtend($dtoRequest->contentType, 'commentByNearby');
+        }
+
+        if ($dataPluginUnikey) {
+            $wordBody = [
+                'headers' => \request()->headers->all(),
+                'body' => $dtoRequest->toArray(),
+            ];
+
+            $fresnsResp = \FresnsCmdWord::plugin($dataPluginUnikey)->getCommentByNearby($wordBody);
+
+            return $fresnsResp->getOrigin();
+        }
+
+        // Fresns provides data
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUser = $this->user();
+        $userContentViewPerm = $this->userContentViewPerm();
+
+        if ($userContentViewPerm['type'] == 2) {
+            throw new ApiException(35303);
+        }
+
+        $nearbyConfig = ConfigHelper::fresnsConfigByItemKeys([
+            'nearby_length_km',
+            'nearby_length_mi',
+        ]);
+
+        $unit = $dtoRequest->unit ?? ConfigHelper::fresnsConfigLengthUnit($langTag);
+        $length = $dtoRequest->length ?? $nearbyConfig["nearby_length_{$unit}"];
+
+        $nearbyLength = match ($unit) {
+            'km' => $length,
+            'mi' => $length * 0.6214,
+            default => $length,
+        };
+
+        $comments = Post::query()
+            ->select([
+                DB::raw('*'),
+                DB::raw(LbsUtility::getDistanceSql('map_longitude', 'map_latitude', $dtoRequest->mapLng, $dtoRequest->mapLat)),
+            ])
+            ->having('distance', '<=', $nearbyLength)
+            ->orderBy('distance')
+            ->paginate();
+
+        $commentList = [];
+        $service = new CommentService();
+        foreach ($comments as $comment) {
+            $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, $authUser->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+        }
+
+        return $this->fresnsPaginate($commentList, $comments->total(), $comments->perPage());
     }
 }

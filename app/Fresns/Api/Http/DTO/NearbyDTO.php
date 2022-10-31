@@ -10,7 +10,7 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class PostNearbyDTO extends DTO
+class NearbyDTO extends DTO
 {
     /**
      * @return array
