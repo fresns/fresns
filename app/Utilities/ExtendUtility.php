@@ -98,7 +98,7 @@ class ExtendUtility
             $item['type'] = $operationUse->operation->type;
             $item['code'] = $operationUse->operation->code;
             $item['style'] = $operationUse->operation->style;
-            $item['title'] = LanguageHelper::fresnsLanguageByTableId('operations', 'title', $operationUse->operation->id, $langTag);
+            $item['name'] = LanguageHelper::fresnsLanguageByTableId('operations', 'name', $operationUse->operation->id, $langTag);
             $item['description'] = LanguageHelper::fresnsLanguageByTableId('operations', 'description', $operationUse->operation->id, $langTag);
             $item['imageUrl'] = FileHelper::fresnsFileUrlByTableColumn($operationUse->operation->image_file_id, $operationUse->operation->image_file_url);
             $item['imageActiveUrl'] = FileHelper::fresnsFileUrlByTableColumn($operationUse->operation->image_active_file_id, $operationUse->operation->image_active_file_url);

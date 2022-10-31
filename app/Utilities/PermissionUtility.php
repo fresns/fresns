@@ -278,26 +278,26 @@ class PermissionUtility
     // Check if the user has group publishing permissions
     public static function checkUserGroupPublishPerm(int $groupId, array $permissions, ?int $userId = null)
     {
-        $permissions = [
-            'publish_post' => $permissions['publish_post_review'] ?? 1,
+        $permConfig = [
+            'publish_post' => $permissions['publish_post'] ?? 1,
             'publish_post_roles' => $permissions['publish_post_roles'] ?? [],
             'publish_post_review' => $permissions['publish_post_review'] ?? false,
-            'publish_comment' => $permissions['publish_comment_review'] ?? 1,
+            'publish_comment' => $permissions['publish_comment'] ?? 1,
             'publish_comment_roles' => $permissions['publish_comment_roles'] ?? [],
             'publish_comment_review' => $permissions['publish_comment_review'] ?? false,
         ];
 
         $perm['allowPost'] = false;
-        $perm['reviewPost'] = $permissions['publish_post_review'];
+        $perm['reviewPost'] = $permConfig['publish_post_review'];
         $perm['allowComment'] = false;
-        $perm['reviewComment'] = $permissions['publish_comment_review'];
+        $perm['reviewComment'] = $permConfig['publish_comment_review'];
         $perms = $perm;
 
         if (empty($userId)) {
             return $perms;
         }
 
-        if ($permissions['publish_post'] == 1 && $permissions['publish_comment'] == 1) {
+        if ($permConfig['publish_post'] == 1 && $permConfig['publish_comment'] == 1) {
             $perms['allowPost'] = true;
             $perms['allowComment'] = true;
 
@@ -315,18 +315,18 @@ class PermissionUtility
             return $adminPerm;
         }
 
-        $allowPost = match ($permissions['publish_post']) {
+        $allowPost = match ($permConfig['publish_post']) {
             1 => true,
             2 => InteractiveUtility::checkUserFollow(InteractiveUtility::TYPE_GROUP, $groupId, $userId),
-            3 => static::checkUserRolePerm($userId, $permissions['publish_post_roles']),
+            3 => static::checkUserRolePerm($userId, $permConfig['publish_post_roles']),
             4 => false,
             default => false,
         };
 
-        $allowComment = match ($permissions['publish_comment']) {
+        $allowComment = match ($permConfig['publish_comment']) {
             1 => true,
             2 => InteractiveUtility::checkUserFollow(InteractiveUtility::TYPE_GROUP, $groupId, $userId),
-            3 => static::checkUserRolePerm($userId, $permissions['publish_comment_roles']),
+            3 => static::checkUserRolePerm($userId, $permConfig['publish_comment_roles']),
             4 => false,
             default => false,
         };

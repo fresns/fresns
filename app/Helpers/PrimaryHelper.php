@@ -37,7 +37,7 @@ class PrimaryHelper
             switch ($modelName) {
                 // account
                 case 'account':
-                    $model = Account::withTrashed()->where('aid', $fsid)->first();
+                    $model = Account::withTrashed()->with(['users', 'connects'])->where('aid', $fsid)->first();
                 break;
 
                 // user
@@ -47,7 +47,7 @@ class PrimaryHelper
 
                 // group
                 case 'group':
-                    $model = Group::withTrashed()->where('gid', $fsid)->first();
+                    $model = Group::withTrashed()->with(['creator', 'admins'])->where('gid', $fsid)->first();
                 break;
 
                 // hashtag
@@ -57,12 +57,12 @@ class PrimaryHelper
 
                 // post
                 case 'post':
-                    $model = Post::withTrashed()->with('postAppend')->where('pid', $fsid)->first();
+                    $model = Post::withTrashed()->with(['postAppend', 'creator', 'group', 'hashtags'])->where('pid', $fsid)->first();
                 break;
 
                 // comment
                 case 'comment':
-                    $model = Comment::withTrashed()->with('commentAppend')->where('cid', $fsid)->first();
+                    $model = Comment::withTrashed()->with(['commentAppend', 'post', 'creator', 'hashtags'])->where('cid', $fsid)->first();
                 break;
 
                 // file
@@ -94,7 +94,7 @@ class PrimaryHelper
     // get model by id
     public static function fresnsModelById(string $modelName, ?string $id = null)
     {
-        if (empty($id)) {
+        if (empty($id) || $id == 0) {
             return null;
         }
 
@@ -105,7 +105,7 @@ class PrimaryHelper
             switch ($modelName) {
                 // account
                 case 'account':
-                    $model = Account::withTrashed()->where('id', $id)->first();
+                    $model = Account::withTrashed()->with(['users', 'connects'])->where('id', $id)->first();
                 break;
 
                 // user
@@ -115,7 +115,7 @@ class PrimaryHelper
 
                 // group
                 case 'group':
-                    $model = Group::withTrashed()->where('id', $id)->first();
+                    $model = Group::withTrashed()->with(['creator', 'admins'])->where('id', $id)->first();
                 break;
 
                 // hashtag
@@ -125,12 +125,12 @@ class PrimaryHelper
 
                 // post
                 case 'post':
-                    $model = Post::withTrashed()->with('postAppend')->where('id', $id)->first();
+                    $model = Post::withTrashed()->with(['postAppend', 'creator', 'group', 'hashtags'])->where('id', $id)->first();
                 break;
 
                 // comment
                 case 'comment':
-                    $model = Comment::withTrashed()->with('commentAppend')->where('id', $id)->first();
+                    $model = Comment::withTrashed()->with(['commentAppend', 'post', 'creator', 'hashtags'])->where('id', $id)->first();
                 break;
 
                 // file

@@ -179,6 +179,7 @@ class ConfigUtility
         $image['extensions'] = Str::lower($editorConfig['image_extension_names']);
         $image['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_IMAGE);
         $image['maxSize'] = $rolePerm['image_max_size'] ?? $editorConfig['image_max_size'];
+        $image['maxTime'] = null;
         $image['uploadForm'] = $imageUploadUrl ? $editorConfig["{$type}_editor_image_upload_form"] : 'fresns';
         $image['uploadUrl'] = $imageUploadUrl;
         $image['uploadNumber'] = $rolePerm["{$type}_editor_image_upload_number"] ?? $editorConfig["{$type}_editor_image_upload_number"];
@@ -208,6 +209,7 @@ class ConfigUtility
         $document['extensions'] = Str::lower($editorConfig['document_extension_names']);
         $document['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_DOCUMENT);
         $document['maxSize'] = $rolePerm['document_max_size'] ?? $editorConfig['document_max_size'];
+        $document['maxTime'] = null;
         $document['uploadForm'] = $documentUploadUrl ? $editorConfig["{$type}_editor_document_upload_form"] : 'fresns';
         $document['uploadUrl'] = $documentUploadUrl;
         $document['uploadNumber'] = $rolePerm["{$type}_editor_document_upload_number"] ?? $editorConfig["{$type}_editor_document_upload_number"];
