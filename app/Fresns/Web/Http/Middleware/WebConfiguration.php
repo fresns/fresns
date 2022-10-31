@@ -42,7 +42,13 @@ class WebConfiguration
                 ], 500);
             }
 
-            $keyInfo = SessionKey::find(fs_db_config('engine_key_id'));
+            $keyId = fs_db_config('engine_key_id');
+            $cacheKey = "fresns_web_key_{$keyId}";
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+
+            $keyInfo = Cache::remember($cacheKey, $cacheTime, function () use ($keyId) {
+                return SessionKey::find($keyId);
+            });
 
             if (! $keyInfo) {
                 return Response::view('error', [

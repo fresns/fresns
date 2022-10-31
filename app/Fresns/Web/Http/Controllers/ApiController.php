@@ -450,10 +450,12 @@ class ApiController extends Controller
         $response = ApiHelper::make()->get('/api/v2/group/list', [
             'query' => [
                 'gid' => $gid,
+                'pageSize' => request()->get('pageSize'),
+                'page' => request()->get('page'),
             ],
         ]);
 
-        return Response::json(data_get($response->toArray(), 'data.list', []));
+        return Response::json(data_get($response->toArray(), 'data', []));
     }
 
     // direct publish
