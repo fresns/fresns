@@ -28,6 +28,7 @@ class CreateGroupsTable extends Migration
             $table->string('description')->nullable();
             $table->unsignedTinyInteger('type')->default(2);
             $table->unsignedTinyInteger('type_mode')->default(1);
+            $table->unsignedTinyInteger('type_mode_end_after')->default(1);
             $table->unsignedTinyInteger('type_find')->default(1);
             $table->unsignedTinyInteger('type_follow')->default(1);
             $table->string('plugin_unikey', 64)->nullable();

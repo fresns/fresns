@@ -26,6 +26,7 @@ class CreateUserFollowsTable extends Migration
             $table->unsignedBigInteger('follow_id');
             $table->string('user_note', 128)->nullable();
             $table->unsignedTinyInteger('is_mutual')->default(0);
+            $table->timestamp('expired_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
