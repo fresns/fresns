@@ -135,4 +135,26 @@ return [
         'api.account.revoke.delete',
         'api.user.auth',
     ],
+
+    // Private mode inaccessible routes
+    'privateRoutes' => [
+        'api.common.upload.file',
+        'api.common.file.link',
+        'api.user.edit',
+        'api.user.mark',
+        'api.user.mark.note',
+        'api.notify.delete',
+        'api.dialog.send.message',
+        'api.dialog.delete',
+        'api.post.delete',
+        'api.comment.delete',
+        'api.editor.direct.publish',
+        'api.editor.create',
+        'api.editor.generate',
+        'api.editor.detail',
+        'api.editor.update',
+        'api.editor.publish',
+        'api.editor.recall',
+        'api.editor.delete',
+    ],
 ];

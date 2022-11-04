@@ -19,15 +19,17 @@ use App\Fresns\Api\Http\Controllers\PostController;
 use App\Fresns\Api\Http\Controllers\SearchController;
 use App\Fresns\Api\Http\Controllers\UserController;
 use App\Fresns\Api\Http\Middleware\CheckHeader;
+use App\Fresns\Api\Http\Middleware\CheckSiteModel;
 use App\Fresns\Subscribe\Middleware\UserActivate;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v2')->middleware([
     CheckHeader::class,
+    CheckSiteModel::class,
     UserActivate::class,
 ])->group(function () {
     // global
-    Route::prefix('global')->name('global.')->group(function () {
+    Route::prefix('global')->name('global.')->withoutMiddleware([CheckSiteModel::class])->group(function () {
         Route::get('configs', [GlobalController::class, 'configs'])->name('configs');
         Route::get('{type}/archives', [GlobalController::class, 'archives'])->name('archives');
         Route::get('upload-token', [GlobalController::class, 'uploadToken'])->name('upload.token');
@@ -41,9 +43,9 @@ Route::prefix('v2')->middleware([
     // common
     Route::prefix('common')->name('common.')->group(function () {
         Route::get('input-tips', [CommonController::class, 'inputTips'])->name('input.tips');
-        Route::get('callback', [CommonController::class, 'callback'])->name('callback');
+        Route::get('callback', [CommonController::class, 'callback'])->name('callback')->withoutMiddleware([CheckSiteModel::class]);
         Route::post('send-verify-code', [CommonController::class, 'sendVerifyCode'])->name('send.verifyCode');
-        Route::post('upload-log', [CommonController::class, 'uploadLog'])->name('upload.log');
+        Route::post('upload-log', [CommonController::class, 'uploadLog'])->name('upload.log')->withoutMiddleware([CheckSiteModel::class]);
         Route::post('upload-file', [CommonController::class, 'uploadFile'])->name('upload.file');
         Route::get('file/{fid}/link', [CommonController::class, 'fileLink'])->name('file.link');
         Route::get('file/{fid}/users', [CommonController::class, 'fileUsers'])->name('file.users');
@@ -59,7 +61,7 @@ Route::prefix('v2')->middleware([
     });
 
     // account
-    Route::prefix('account')->name('account.')->group(function () {
+    Route::prefix('account')->name('account.')->withoutMiddleware([CheckSiteModel::class])->group(function () {
         Route::post('register', [AccountController::class, 'register'])->name('register');
         Route::post('login', [AccountController::class, 'login'])->name('login');
         Route::put('reset-password', [AccountController::class, 'resetPassword'])->name('reset.password');
@@ -75,11 +77,12 @@ Route::prefix('v2')->middleware([
     // user
     Route::prefix('user')->name('user.')->group(function () {
         Route::get('list', [UserController::class, 'list'])->name('list');
-        Route::get('{uidOrUsername}/detail', [UserController::class, 'detail'])->name('detail');
+        Route::get('{uidOrUsername}/detail', [UserController::class, 'detail'])->name('detail')->withoutMiddleware([CheckSiteModel::class]);
+        Route::get('{uidOrUsername}/followers-you-follow', [UserController::class, 'followersYouFollow'])->name('followers.you.follow');
         Route::get('{uidOrUsername}/interactive/{type}', [UserController::class, 'interactive'])->name('interactive');
         Route::get('{uidOrUsername}/mark/{markType}/{listType}', [UserController::class, 'markList'])->name('mark.list');
-        Route::post('auth', [UserController::class, 'auth'])->name('auth');
-        Route::get('panel', [UserController::class, 'panel'])->name('panel');
+        Route::post('auth', [UserController::class, 'auth'])->name('auth')->withoutMiddleware([CheckSiteModel::class]);
+        Route::get('panel', [UserController::class, 'panel'])->name('panel')->withoutMiddleware([CheckSiteModel::class]);
         Route::put('edit', [UserController::class, 'edit'])->name('edit');
         Route::post('mark', [UserController::class, 'mark'])->name('mark');
         Route::put('mark-note', [UserController::class, 'markNote'])->name('mark.note');
@@ -105,7 +108,7 @@ Route::prefix('v2')->middleware([
     // group
     Route::prefix('group')->name('group.')->group(function () {
         Route::get('tree', [GroupController::class, 'tree'])->name('tree');
-        Route::get('categories', [GroupController::class, 'categories'])->name('categories');
+        Route::get('categories', [GroupController::class, 'categories'])->name('categories')->withoutMiddleware([CheckSiteModel::class]);
         Route::get('list', [GroupController::class, 'list'])->name('list');
         Route::get('{gid}/detail', [GroupController::class, 'detail'])->name('detail');
         Route::get('{gid}/interactive/{type}', [GroupController::class, 'interactive'])->name('interactive');
@@ -139,6 +142,8 @@ Route::prefix('v2')->middleware([
         Route::get('{cid}/logs', [CommentController::class, 'commentLogs'])->name('logs');
         Route::get('{cid}/log/{logId}', [CommentController::class, 'logDetail'])->name('log.detail');
         Route::delete('{cid}', [CommentController::class, 'delete'])->name('delete');
+        Route::get('follow/{type}', [CommentController::class, 'follow'])->name('follow');
+        Route::get('nearby', [CommentController::class, 'nearby'])->name('nearby');
     });
 
     // editor
