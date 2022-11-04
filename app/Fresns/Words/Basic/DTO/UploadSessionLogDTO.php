@@ -24,17 +24,17 @@ class UploadSessionLogDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => ['integer', 'required', 'between:1,16'],
+            'type' => ['integer', 'required'],
             'platformId' => ['integer', 'required', 'between:1,13'],
             'version' => ['string', 'required'],
             'langTag' => ['string', 'nullable'],
-            'pluginUnikey' => ['string', 'nullable', 'exists:App\Models\Plugin,unikey'],
-            'aid' => ['string', 'nullable', 'exists:App\Models\Account,aid'],
-            'uid' => ['integer', 'nullable', 'exists:App\Models\User,uid'],
+            'pluginUnikey' => ['string', 'nullable'],
+            'aid' => ['string', 'nullable'],
+            'uid' => ['integer', 'nullable'],
             'objectName' => ['string', 'required'],
             'objectAction' => ['string', 'required'],
             'objectResult' => ['integer', 'required', 'in:1,2,3'],
-            'objectOrderId' => ['string', 'nullable'],
+            'objectOrderId' => ['integer', 'nullable'],
             'deviceInfo' => ['array', 'nullable'],
             'deviceToken' => ['string', 'nullable'],
             'moreJson' => ['array', 'nullable'],
