@@ -419,10 +419,22 @@
                 <div class="form-text"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.role_perm_upload_file_desc') }}</div>
             </div>
         </div>
-        <!--role_perm_download_config-->
+        <!--role_perm_interactive_config-->
         <div class="row mb-4">
-            <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.role_perm_download_config') }}:</label>
-            <div class="col-lg-10">
+            <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.role_perm_interactive_config') }}:</label>
+            <div class="col-lg-6">
+                <!--role_perm_follow_user_max_count-->
+                <div class="input-group mb-3">
+                    <label class="input-group-text">{{ __('FsLang::panel.role_perm_follow_user_max_count') }}</label>
+                    <input type="number" class="form-control input-number" value="{{ $permissions['follow_user_max_count']['permValue'] ?? '' }}" name="permissions[follow_user_max_count]" placeholder="500">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
+                </div>
+                <!--role_perm_block_user_max_count-->
+                <div class="input-group mb-3">
+                    <label class="input-group-text">{{ __('FsLang::panel.role_perm_block_user_max_count') }}</label>
+                    <input type="number" class="form-control input-number" value="{{ $permissions['block_user_max_count']['permValue'] ?? '' }}" name="permissions[block_user_max_count]" placeholder="500">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
+                </div>
                 <!--role_perm_download_file_count-->
                 <div class="input-group mb-3">
                     <label class="input-group-text">{{ __('FsLang::panel.role_perm_download_file_count') }}</label>
