@@ -48,6 +48,23 @@ trait ApiResponseTrait
         );
     }
 
+    public function warning(int $code, ?string $message = 'unknown warning', array|object $data = null)
+    {
+        $data = [
+            'paginate' => [
+                'total' => 0,
+                'pageSize' => 0,
+                'currentPage' => 1,
+                'lastPage' => 1,
+            ],
+            'list' => [],
+        ];
+
+        $message = ConfigUtility::getCodeMessage($code, null, \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag())) ?? 'unknown warning';
+
+        return $this->success($data, $message);
+    }
+
     public function failure($code = 30000, $message = 'unknown error', $data = null, $headers = [])
     {
         $message = ConfigUtility::getCodeMessage($code, null, \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag()));
