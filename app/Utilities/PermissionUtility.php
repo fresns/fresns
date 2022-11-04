@@ -24,38 +24,6 @@ use Carbon\Carbon;
 
 class PermissionUtility
 {
-    // Get user content view perm permission
-    public static function getUserContentViewPerm(?int $userId = null): array
-    {
-        $userExpireInfo = PermissionUtility::checkUserStatusOfSiteMode($userId);
-
-        if (empty($userId) && $userExpireInfo['siteMode'] == 'public') {
-            $item['type'] = 1;
-            $item['dateLimit'] = null;
-
-            return $item;
-        }
-
-        if (! $userExpireInfo['userStatus'] && $userExpireInfo['expireAfter'] == 1) {
-            $item['type'] = 3;
-            $item['dateLimit'] = $userExpireInfo['expireTime'];
-
-            return $item;
-        }
-
-        if (! $userExpireInfo['userStatus'] && $userExpireInfo['expireAfter'] == 2) {
-            $item['type'] = 2;
-            $item['dateLimit'] = $userExpireInfo['expireTime'];
-
-            return $item;
-        }
-
-        $item['type'] = 1;
-        $item['dateLimit'] = null;
-
-        return $item;
-    }
-
     // Get user main role permission
     public static function getUserMainRolePerm(int $userId): array
     {
@@ -127,41 +95,6 @@ class PermissionUtility
         $userAccountId = User::where('id', $userId)->value('account_id');
 
         return $userAccountId == $accountId ? true : false;
-    }
-
-    // Check user status of the site mode
-    public static function checkUserStatusOfSiteMode(?int $userId = null): array
-    {
-        $modeConfig = ConfigHelper::fresnsConfigByItemKey('site_mode');
-
-        $config['siteMode'] = $modeConfig;
-        $config['userStatus'] = false;
-        $config['expireTime'] = null;
-        $config['expireAfter'] = ConfigHelper::fresnsConfigByItemKey('site_private_end_after');
-
-        if (empty($userId)) {
-            return $config;
-        }
-
-        if ($modeConfig == 'public') {
-            $config['userStatus'] = true;
-
-            return $config;
-        }
-
-        $userSet = User::where('id', $userId)->value('expired_at');
-
-        $now = time();
-        $expireTime = strtotime($userSet->expired_at);
-
-        if ($expireTime && $expireTime < $now) {
-            $config['userStatus'] = true;
-            $config['expireTime'] = $userSet->expired_at;
-
-            return $config;
-        }
-
-        return $config;
     }
 
     // Check user permissions

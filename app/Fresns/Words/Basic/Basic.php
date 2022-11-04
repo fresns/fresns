@@ -239,25 +239,24 @@ class Basic
             $account = $dtoWordBody->countryCode.$dtoWordBody->account;
         }
 
-        $term = [
-            'type' => $dtoWordBody->type,
-            'account' => $account,
-            'code' => $dtoWordBody->verifyCode,
-            'is_enable' => 1,
-        ];
-        $verifyInfo = VerifyCode::where($term)->where('expired_at', '>', date('Y-m-d H:i:s'))->first();
+        $verifyInfo = VerifyCode::where('type', $dtoWordBody->type)
+            ->where('account', $account)
+            ->where('code', $dtoWordBody->verifyCode)
+            ->where('expired_at', '>', date('Y-m-d H:i:s'))
+            ->where('is_enable', 1)
+            ->first();
 
-        if ($verifyInfo) {
-            VerifyCode::where('id', $verifyInfo->id)->update([
-                'is_enable' => 0,
-            ]);
-
-            return $this->success();
-        } else {
+        if (! $verifyInfo) {
             return $this->failure(
                 33203,
                 ConfigUtility::getCodeMessage(33203, 'Fresns', $langTag),
             );
         }
+
+        VerifyCode::where('id', $verifyInfo->id)->update([
+            'is_enable' => 0,
+        ]);
+
+        return $this->success();
     }
 }

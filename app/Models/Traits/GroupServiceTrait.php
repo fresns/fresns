@@ -40,6 +40,7 @@ trait GroupServiceTrait
         $info['banner'] = FileHelper::fresnsFileUrlByTableColumn($groupData->banner_file_id, $groupData->banner_file_url);
         $info['recommend'] = (bool) $groupData->is_recommend;
         $info['mode'] = $groupData->type_mode;
+        $info['modeEndAfter'] = $groupData->type_mode_end_after;
         $info['find'] = $groupData->type_find;
         $info['followType'] = $groupData->type_follow;
         $info['followUrl'] = ! empty($groupData->plugin_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($groupData->plugin_unikey) : null;

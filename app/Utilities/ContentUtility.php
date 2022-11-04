@@ -844,6 +844,11 @@ class ContentUtility
             'state' => 3,
         ]);
 
+        $creator = PrimaryHelper::fresnsModelById('user', $post->user_id);
+        $creator->update([
+            'last_post_at' => now(),
+        ]);
+
         // send notify
         InteractiveUtility::sendPublishNotify('post', $post->id);
 
@@ -924,6 +929,11 @@ class ContentUtility
         $commentLog->update([
             'comment_id' => $comment->id,
             'state' => 3,
+        ]);
+
+        $creator = PrimaryHelper::fresnsModelById('user', $comment->user_id);
+        $creator->update([
+            'last_comment_at' => now(),
         ]);
 
         // send notify

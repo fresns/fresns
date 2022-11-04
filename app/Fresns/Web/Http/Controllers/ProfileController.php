@@ -24,25 +24,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'posts'   => $client->getAsync('/api/v2/post/list', [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $posts = QueryHelper::convertApiDataToPaginate(
             items: $results['posts']['data']['list'],
             paginate: $results['posts']['data']['paginate'],
         );
 
-        return view('profile.posts', compact('items', 'user', 'posts'));
+        return view('profile.posts', compact('items', 'profile', 'posts'));
     }
 
     // comments
@@ -54,25 +54,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'comments'   => $client->getAsync('/api/v2/comment/list', [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $comments = QueryHelper::convertApiDataToPaginate(
             items: $results['comments']['data']['list'],
             paginate: $results['comments']['data']['paginate'],
         );
 
-        return view('profile.comments', compact('items', 'user', 'comments'));
+        return view('profile.comments', compact('items', 'profile', 'comments'));
     }
 
     // likers
@@ -83,25 +83,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/interactive/like", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $users = QueryHelper::convertApiDataToPaginate(
             items: $results['users']['data']['list'],
             paginate: $results['users']['data']['paginate'],
         );
 
-        return view('profile.likers', compact('items', 'user', 'users'));
+        return view('profile.likers', compact('items', 'profile', 'users'));
     }
 
     // dislikers
@@ -112,25 +112,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/interactive/like", [
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/interactive/dislike", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $users = QueryHelper::convertApiDataToPaginate(
             items: $results['users']['data']['list'],
             paginate: $results['users']['data']['paginate'],
         );
 
-        return view('profile.dislikers', compact('items', 'user', 'users'));
+        return view('profile.dislikers', compact('items', 'profile', 'users'));
     }
 
     // followers
@@ -141,25 +141,54 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/interactive/like", [
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/interactive/follow", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $users = QueryHelper::convertApiDataToPaginate(
             items: $results['users']['data']['list'],
             paginate: $results['users']['data']['paginate'],
         );
 
-        return view('profile.followers', compact('items', 'user', 'users'));
+        return view('profile.followers', compact('items', 'profile', 'users'));
+    }
+
+    // followers you follow
+    public function followersYouFollow(Request $request, string $uidOrUsername)
+    {
+        $query = $request->all();
+
+        $client = ApiHelper::make();
+
+        $results = $client->handleUnwrap([
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => $query,
+            ]),
+        ]);
+
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
+        }
+
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
+
+        $users = QueryHelper::convertApiDataToPaginate(
+            items: $results['users']['data']['list'],
+            paginate: $results['users']['data']['paginate'],
+        );
+
+        return view('profile.followers-you-follow', compact('items', 'profile', 'users'));
     }
 
     // blockers
@@ -170,25 +199,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/interactive/like", [
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/interactive/block", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $users = QueryHelper::convertApiDataToPaginate(
             items: $results['users']['data']['list'],
             paginate: $results['users']['data']['paginate'],
         );
 
-        return view('profile.blockers', compact('items', 'user', 'users'));
+        return view('profile.blockers', compact('items', 'profile', 'users'));
     }
 
     /**
@@ -203,25 +232,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/like/users", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $users = QueryHelper::convertApiDataToPaginate(
             items: $results['users']['data']['list'],
             paginate: $results['users']['data']['paginate'],
         );
 
-        return view('profile.likes.users', compact('items', 'user', 'users'));
+        return view('profile.likes.users', compact('items', 'profile', 'users'));
     }
 
     // likeGroups
@@ -232,25 +261,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'groups'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/like/groups", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $groups = QueryHelper::convertApiDataToPaginate(
             items: $results['groups']['data']['list'],
             paginate: $results['groups']['data']['paginate'],
         );
 
-        return view('profile.likes.groups', compact('items', 'user', 'groups'));
+        return view('profile.likes.groups', compact('items', 'profile', 'groups'));
     }
 
     // likeHashtags
@@ -261,25 +290,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'hashtags'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/like/hashtags", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $hashtags = QueryHelper::convertApiDataToPaginate(
             items: $results['hashtags']['data']['list'],
             paginate: $results['hashtags']['data']['paginate'],
         );
 
-        return view('profile.likes.hashtags', compact('items', 'user', 'hashtags'));
+        return view('profile.likes.hashtags', compact('items', 'profile', 'hashtags'));
     }
 
     // likePosts
@@ -290,25 +319,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'posts'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/like/posts", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $posts = QueryHelper::convertApiDataToPaginate(
             items: $results['posts']['data']['list'],
             paginate: $results['posts']['data']['paginate'],
         );
 
-        return view('profile.likes.posts', compact('items', 'user', 'posts'));
+        return view('profile.likes.posts', compact('items', 'profile', 'posts'));
     }
 
     // likeComments
@@ -319,25 +348,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'comments'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/like/comments", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $comments = QueryHelper::convertApiDataToPaginate(
             items: $results['comments']['data']['list'],
             paginate: $results['comments']['data']['paginate'],
         );
 
-        return view('profile.likes.comments', compact('items', 'user', 'comments'));
+        return view('profile.likes.comments', compact('items', 'profile', 'comments'));
     }
 
     /**
@@ -352,25 +381,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/dislike/users", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $users = QueryHelper::convertApiDataToPaginate(
             items: $results['users']['data']['list'],
             paginate: $results['users']['data']['paginate'],
         );
 
-        return view('profile.dislikes.users', compact('items', 'user', 'users'));
+        return view('profile.dislikes.users', compact('items', 'profile', 'users'));
     }
 
     // dislikeGroups
@@ -381,25 +410,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'groups'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/dislike/groups", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $groups = QueryHelper::convertApiDataToPaginate(
             items: $results['groups']['data']['list'],
             paginate: $results['groups']['data']['paginate'],
         );
 
-        return view('profile.dislikes.groups', compact('items', 'user', 'groups'));
+        return view('profile.dislikes.groups', compact('items', 'profile', 'groups'));
     }
 
     // dislikeHashtags
@@ -410,25 +439,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'hashtags'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/dislike/hashtags", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $hashtags = QueryHelper::convertApiDataToPaginate(
             items: $results['hashtags']['data']['list'],
             paginate: $results['hashtags']['data']['paginate'],
         );
 
-        return view('profile.dislikes.hashtags', compact('items', 'user', 'hashtags'));
+        return view('profile.dislikes.hashtags', compact('items', 'profile', 'hashtags'));
     }
 
     // dislikePosts
@@ -439,25 +468,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'posts'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/dislike/posts", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $posts = QueryHelper::convertApiDataToPaginate(
             items: $results['posts']['data']['list'],
             paginate: $results['posts']['data']['paginate'],
         );
 
-        return view('profile.dislikes.posts', compact('items', 'user', 'posts'));
+        return view('profile.dislikes.posts', compact('items', 'profile', 'posts'));
     }
 
     // dislikeComments
@@ -468,25 +497,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'comments'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/dislike/comments", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $comments = QueryHelper::convertApiDataToPaginate(
             items: $results['comments']['data']['list'],
             paginate: $results['comments']['data']['paginate'],
         );
 
-        return view('profile.dislikes.comments', compact('items', 'user', 'comments'));
+        return view('profile.dislikes.comments', compact('items', 'profile', 'comments'));
     }
 
     /**
@@ -501,25 +530,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/users", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $users = QueryHelper::convertApiDataToPaginate(
             items: $results['users']['data']['list'],
             paginate: $results['users']['data']['paginate'],
         );
 
-        return view('profile.following.users', compact('items', 'user', 'users'));
+        return view('profile.following.users', compact('items', 'profile', 'users'));
     }
 
     // followingGroups
@@ -530,25 +559,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'groups'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/groups", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $groups = QueryHelper::convertApiDataToPaginate(
             items: $results['groups']['data']['list'],
             paginate: $results['groups']['data']['paginate'],
         );
 
-        return view('profile.following.groups', compact('items', 'user', 'groups'));
+        return view('profile.following.groups', compact('items', 'profile', 'groups'));
     }
 
     // followingHashtags
@@ -559,25 +588,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'hashtags'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/hashtags", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $hashtags = QueryHelper::convertApiDataToPaginate(
             items: $results['hashtags']['data']['list'],
             paginate: $results['hashtags']['data']['paginate'],
         );
 
-        return view('profile.following.hashtags', compact('items', 'user', 'hashtags'));
+        return view('profile.following.hashtags', compact('items', 'profile', 'hashtags'));
     }
 
     // followingPosts
@@ -588,25 +617,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'posts'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/posts", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $posts = QueryHelper::convertApiDataToPaginate(
             items: $results['posts']['data']['list'],
             paginate: $results['posts']['data']['paginate'],
         );
 
-        return view('profile.following.posts', compact('items', 'user', 'posts'));
+        return view('profile.following.posts', compact('items', 'profile', 'posts'));
     }
 
     // followingComments
@@ -617,25 +646,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'comments'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/comments", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $comments = QueryHelper::convertApiDataToPaginate(
             items: $results['comments']['data']['list'],
             paginate: $results['comments']['data']['paginate'],
         );
 
-        return view('profile.following.comments', compact('items', 'user', 'comments'));
+        return view('profile.following.comments', compact('items', 'profile', 'comments'));
     }
 
     /**
@@ -650,25 +679,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/block/users", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $users = QueryHelper::convertApiDataToPaginate(
             items: $results['users']['data']['list'],
             paginate: $results['users']['data']['paginate'],
         );
 
-        return view('profile.blocking.users', compact('items', 'user', 'users'));
+        return view('profile.blocking.users', compact('items', 'profile', 'users'));
     }
 
     // blockingGroups
@@ -679,25 +708,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'groups'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/block/groups", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $groups = QueryHelper::convertApiDataToPaginate(
             items: $results['groups']['data']['list'],
             paginate: $results['groups']['data']['paginate'],
         );
 
-        return view('profile.blocking.groups', compact('items', 'user', 'groups'));
+        return view('profile.blocking.groups', compact('items', 'profile', 'groups'));
     }
 
     // blockingHashtags
@@ -708,25 +737,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'hashtags'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/block/hashtags", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $hashtags = QueryHelper::convertApiDataToPaginate(
             items: $results['hashtags']['data']['list'],
             paginate: $results['hashtags']['data']['paginate'],
         );
 
-        return view('profile.blocking.hashtags', compact('items', 'user', 'hashtags'));
+        return view('profile.blocking.hashtags', compact('items', 'profile', 'hashtags'));
     }
 
     // blockingPosts
@@ -737,25 +766,25 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'posts'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/block/posts", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $posts = QueryHelper::convertApiDataToPaginate(
             items: $results['posts']['data']['list'],
             paginate: $results['posts']['data']['paginate'],
         );
 
-        return view('profile.blocking.posts', compact('items', 'user', 'posts'));
+        return view('profile.blocking.posts', compact('items', 'profile', 'posts'));
     }
 
     // blockingComments
@@ -766,24 +795,24 @@ class ProfileController extends Controller
         $client = ApiHelper::make();
 
         $results = $client->handleUnwrap([
-            'user' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
+            'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'comments'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/block/comments", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['user']['code'] != 0) {
-            throw new ErrorException($results['user']['message'], $results['user']['code']);
+        if ($results['profile']['code'] != 0) {
+            throw new ErrorException($results['profile']['message'], $results['profile']['code']);
         }
 
-        $items = $results['user']['data']['items'];
-        $user = $results['user']['data']['detail'];
+        $items = $results['profile']['data']['items'];
+        $profile = $results['profile']['data']['detail'];
 
         $comments = QueryHelper::convertApiDataToPaginate(
             items: $results['comments']['data']['list'],
             paginate: $results['comments']['data']['paginate'],
         );
 
-        return view('profile.blocking.comments', compact('items', 'user', 'comments'));
+        return view('profile.blocking.comments', compact('items', 'profile', 'comments'));
     }
 }

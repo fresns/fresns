@@ -26,6 +26,7 @@ trait UserServiceTrait
             'user_identifier',
             'website_user_detail_path',
             'site_url',
+            'site_mode',
         ]);
 
         if ($configKey['user_identifier'] == 'uid') {
@@ -34,6 +35,18 @@ trait UserServiceTrait
         } else {
             $profile['fsid'] = $userData->username;
             $url = $configKey['site_url'].'/'.$configKey['website_user_detail_path'].'/'.$userData->username;
+        }
+
+        $isExpiry = false;
+        if ($configKey['site_mode'] == 'private') {
+            if (empty($userData->expired_at)) {
+                $isExpiry = true;
+            } else {
+                $now = time();
+                $expireTime = strtotime($userData->expired_at);
+
+                $isExpiry = ($expireTime < $now) ? true : false;
+            }
         }
 
         $profile['uid'] = $userData->uid;
@@ -54,6 +67,7 @@ trait UserServiceTrait
         $profile['verifiedIcon'] = null;
         $profile['verifiedDesc'] = $userData->verified_desc;
         $profile['verifiedDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData->verified_at, $timezone, $langTag);
+        $profile['isExpiry'] = $isExpiry;
         $profile['expiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData->expired_at, $timezone, $langTag);
         $profile['lastPublishPost'] = DateHelper::fresnsDateTimeByTimezone($userData->last_post_at, $timezone, $langTag);
         $profile['lastPublishComment'] = DateHelper::fresnsDateTimeByTimezone($userData->last_comment_at, $timezone, $langTag);
