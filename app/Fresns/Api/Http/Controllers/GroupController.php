@@ -32,14 +32,14 @@ class GroupController extends Controller
     {
         $langTag = $this->langTag();
         $timezone = $this->timezone();
-        $authUserId = $this->user()?->id;
+        $authUser = $this->user();
 
-        $groupFilterIds = PermissionUtility::getGroupFilterIds($authUserId);
+        $groupFilterIds = PermissionUtility::getGroupFilterIds($authUser?->id);
 
-        if (empty($authUserId)) {
+        if (empty($authUser)) {
             $cacheKey = 'fresns_api_guest_groups';
         } else {
-            $cacheKey = "fresns_api_user_{$authUserId}_groups";
+            $cacheKey = "fresns_user_groups_{$authUser?->uid}";
         }
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
@@ -62,7 +62,7 @@ class GroupController extends Controller
         $service = new GroupService();
         $groupData = [];
         foreach ($groups as $index => $group) {
-            $groupData[$index] = $service->groupData($group, $langTag, $timezone, $authUserId);
+            $groupData[$index] = $service->groupData($group, $langTag, $timezone, $authUser?->id);
         }
 
         $groupTree = CollectionUtility::toTree($groupData, 'gid', 'parentGid', 'groups');

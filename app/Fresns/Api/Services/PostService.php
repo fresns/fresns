@@ -66,6 +66,23 @@ class PostService
             $groupItem['interactive'] = array_merge($groupInteractiveConfig, $groupInteractiveStatus);
 
             $item['group'] = $groupItem;
+
+            $groupDateLimit = GroupService::getGroupContentDateLimit($post->group->id, $authUserId);
+            if ($groupDateLimit) {
+                $postTime = strtotime($post->created_at);
+                $dateLimit = strtotime($groupDateLimit);
+
+                if ($postTime > $dateLimit) {
+                    $item['content'] = null;
+                    $item['isBrief'] = true;
+                    $item['files'] = [
+                        'images' => [],
+                        'videos' => [],
+                        'audios' => [],
+                        'documents' => [],
+                    ];
+                }
+            }
         }
 
         $item['hashtags'] = [];

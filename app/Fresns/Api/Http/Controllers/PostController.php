@@ -16,6 +16,7 @@ use App\Fresns\Api\Http\DTO\PaginationDTO;
 use App\Fresns\Api\Http\DTO\PostDetailDTO;
 use App\Fresns\Api\Http\DTO\PostListDTO;
 use App\Fresns\Api\Services\FollowService;
+use App\Fresns\Api\Services\GroupService;
 use App\Fresns\Api\Services\InteractiveService;
 use App\Fresns\Api\Services\PostService;
 use App\Fresns\Api\Services\UserService;
@@ -117,6 +118,7 @@ class PostController extends Controller
             $postQuery->where('user_id', $viewUser->id)->where('is_anonymous', 0);
         }
 
+        $groupDateLimit = null;
         if ($dtoRequest->gid) {
             $viewGroup = PrimaryHelper::fresnsModelByFsid('group', $dtoRequest->gid);
 
@@ -128,6 +130,9 @@ class PostController extends Controller
             if ($viewGroup->is_enable == 0) {
                 throw new ApiException(37101);
             }
+
+            // group mode
+            $groupDateLimit = GroupService::getGroupContentDateLimit($viewGroup->id, $authUserId);
 
             $postQuery->where('group_id', $viewGroup->id);
         }
@@ -226,7 +231,7 @@ class PostController extends Controller
             }
         }
 
-        $dateLimit = $this->userContentViewPerm()['dateLimit'];
+        $dateLimit = $groupDateLimit ?? UserService::getContentDateLimit($authUserId);
         $postQuery->when($dateLimit, function ($query, $value) {
             $query->where('created_at', '<=', $value);
         });
@@ -282,6 +287,7 @@ class PostController extends Controller
         }
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
+        GroupService::checkGroupContentViewPerm($post->created_at, $post?->group->id ,$authUserId);
 
         // Plugin provides data
         $dataPluginUnikey = ConfigHelper::fresnsConfigByItemKey('content_detail_service');
@@ -475,29 +481,29 @@ class PostController extends Controller
         $langTag = $this->langTag();
         $timezone = $this->timezone();
         $authUser = $this->user();
-        $userContentViewPerm = $this->userContentViewPerm();
+        $dateLimit = UserService::getContentDateLimit($authUser->id);
 
         $followService = new FollowService();
 
         switch ($dtoRequest->type) {
             // all
             case 'all':
-                $posts = $followService->getPostListByFollowAll($authUser->id, $dtoRequest->contentType, $userContentViewPerm['dateLimit']);
+                $posts = $followService->getPostListByFollowAll($authUser->id, $dtoRequest->contentType, $dateLimit);
             break;
 
             // user
             case 'user':
-                $posts = $followService->getPostListByFollowUsers($authUser->id, $dtoRequest->contentType, $userContentViewPerm['dateLimit']);
+                $posts = $followService->getPostListByFollowUsers($authUser->id, $dtoRequest->contentType, $dateLimit);
             break;
 
             // group
             case 'group':
-                $posts = $followService->getPostListByFollowGroups($authUser->id, $dtoRequest->contentType, $userContentViewPerm['dateLimit']);
+                $posts = $followService->getPostListByFollowGroups($authUser->id, $dtoRequest->contentType, $dateLimit);
             break;
 
             // hashtag
             case 'hashtag':
-                $posts = $followService->getPostListByFollowHashtags($authUser->id, $dtoRequest->contentType, $userContentViewPerm['dateLimit']);
+                $posts = $followService->getPostListByFollowHashtags($authUser->id, $dtoRequest->contentType, $dateLimit);
             break;
         }
 
@@ -540,11 +546,6 @@ class PostController extends Controller
         $langTag = $this->langTag();
         $timezone = $this->timezone();
         $authUser = $this->user();
-        $userContentViewPerm = $this->userContentViewPerm();
-
-        if ($userContentViewPerm['type'] == 2) {
-            throw new ApiException(35303);
-        }
 
         $nearbyConfig = ConfigHelper::fresnsConfigByItemKeys([
             'nearby_length_km',
