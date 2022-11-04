@@ -60,6 +60,7 @@ class LanguagePackController extends Controller
             'table_key' => 'language_pack_contents',
             'lang_tag' => $langTag,
         ])->first();
+
         if (! $languageContent) {
             $languageContent = new Language;
             $languageContent->table_name = 'configs';
