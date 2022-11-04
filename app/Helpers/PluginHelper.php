@@ -25,7 +25,7 @@ class PluginHelper
             return null;
         }
 
-        $cacheKey = 'fresns_plugin_'.$unikey.'_url';
+        $cacheKey = "fresns_plugin_{$unikey}_url";
 
         $pluginUrl = Cache::remember($cacheKey, now()->addDays(7), function () use ($unikey) {
             $plugin = Plugin::where('unikey', $unikey)->first(['plugin_host', 'access_path']);
@@ -59,7 +59,7 @@ class PluginHelper
     public static function fresnsPluginUsageUrl(string $unikey, ?string $parameter = null)
     {
         $parameterKey = ! empty($parameter) ? StrHelper::slug($parameter) : 'usage';
-        $cacheKey = 'fresns_plugin_'.$unikey.'_'.$parameterKey.'_url';
+        $cacheKey = "fresns_plugin_{$unikey}_{$parameterKey}_url";
 
         $pluginUrl = Cache::remember($cacheKey, now()->addDays(7), function () use ($unikey, $parameter) {
             $url = PluginHelper::fresnsPluginUrlByUnikey($unikey);

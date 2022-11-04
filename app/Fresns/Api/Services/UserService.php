@@ -12,6 +12,7 @@ use App\Exceptions\ApiException;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\InteractiveHelper;
+use App\Helpers\PrimaryHelper;
 use App\Models\ArchiveUsage;
 use App\Models\ExtendUsage;
 use App\Models\File;
@@ -32,7 +33,7 @@ class UserService
             return null;
         }
 
-        $cacheKey = "fresns_api_user_{$user->id}_{$langTag}";
+        $cacheKey = "fresns_api_user_{$user?->uid}_{$langTag}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
         $userProfile = Cache::remember($cacheKey, $cacheTime, function () use ($user, $langTag, $timezone) {
@@ -74,7 +75,7 @@ class UserService
         return $data;
     }
 
-    // check content view perm permission
+    // get user stats
     public static function getUserStats(User $user, string $langTag, ?int $authUserId = null)
     {
         $stats = $user->getUserStats($langTag);
@@ -168,18 +169,45 @@ class UserService
         return $stats;
     }
 
-    // check content view perm permission
+    // check content view permission
     public static function checkUserContentViewPerm(string $dateTime, ?int $authUserId = null)
     {
-        $userContentViewPerm = PermissionUtility::getUserContentViewPerm($authUserId);
-
-        if ($userContentViewPerm['type'] == 2) {
-            $dateLimit = strtotime($userContentViewPerm['dateLimit']);
-            $contentCreateTime = strtotime($dateTime);
-
-            if ($dateLimit < $contentCreateTime) {
-                throw new ApiException(35304);
-            }
+        if (empty($authUserId)) {
+            return;
         }
+
+        $modeConfig = ConfigHelper::fresnsConfigByItemKey('site_mode');
+        if ($modeConfig == 'public') {
+            return;
+        }
+
+        $authUser = PrimaryHelper::fresnsModelById('user', $authUserId);
+
+        $contentCreateTime = strtotime($dateTime);
+        $dateLimit = strtotime($authUser->expired_at);
+
+        if ($contentCreateTime > $dateLimit) {
+            throw new ApiException(35304);
+        }
+
+        return;
+    }
+
+    // get content date limit
+    public static function getContentDateLimit(?int $authUserId = null)
+    {
+        if (empty($authUserId)) {
+            return null;
+        }
+
+        $modeConfig = ConfigHelper::fresnsConfigByItemKey('site_mode');
+
+        if ($modeConfig == 'public') {
+            return null;
+        }
+
+        $authUser = PrimaryHelper::fresnsModelById('user', $authUserId);
+
+        return $authUser?->expired_at;
     }
 }

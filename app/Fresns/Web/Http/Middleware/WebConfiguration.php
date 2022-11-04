@@ -43,7 +43,7 @@ class WebConfiguration
             }
 
             $keyId = fs_db_config('engine_key_id');
-            $cacheKey = "fresns_web_key_{$keyId}";
+            $cacheKey = "fresns_web_key_model";
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
             $keyInfo = Cache::remember($cacheKey, $cacheTime, function () use ($keyId) {
@@ -93,7 +93,7 @@ class WebConfiguration
         if (fs_user()->check()) {
             $langTag = current_lang_tag();
 
-            $cacheKey = 'fresns_web_group_categories_'.$langTag;
+            $cacheKey = "fresns_web_group_categories_{$langTag}";
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
             $groupCategories = Cache::remember($cacheKey, $cacheTime, function () {

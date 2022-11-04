@@ -30,7 +30,7 @@ class ApiController extends Controller
     {
         $langTag = current_lang_tag();
 
-        $cacheKey = 'fresns_web_api_top_list_'.$langTag;
+        $cacheKey = "fresns_web_api_top_list_{$langTag}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
         $data = Cache::remember($cacheKey, $cacheTime, function () {

@@ -17,9 +17,13 @@ use Illuminate\Support\Facades\Cache;
 
 class AccountService
 {
-    public function accountDetail(Account $account, string $langTag, string $timezone)
+    public function accountDetail(?Account $account, string $langTag, string $timezone)
     {
-        $cacheKey = "fresns_api_account_{$account->id}_{$langTag}";
+        if (! $account) {
+            return null;
+        }
+
+        $cacheKey = "fresns_api_account_{$account->aid}_{$langTag}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
         $accountInfo = Cache::remember($cacheKey, $cacheTime, function () use ($account, $langTag, $timezone) {

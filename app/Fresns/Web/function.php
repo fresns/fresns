@@ -27,11 +27,11 @@ if (! function_exists('current_lang_tag')) {
 
 // fresns api config
 if (! function_exists('fs_api_config')) {
-    function fs_api_config(string $itemKey)
+    function fs_api_config(string $itemKey, mixed $default = null)
     {
         $langTag = current_lang_tag();
 
-        $cacheKey = 'fresns_web_api_config_all_'.$langTag;
+        $cacheKey = "fresns_web_api_config_all_{$langTag}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
         $apiConfig = Cache::remember($cacheKey, $cacheTime, function () {
@@ -48,17 +48,17 @@ if (! function_exists('fs_api_config')) {
             Cache::forget($cacheKey);
         }
 
-        return data_get($apiConfig, "data.list.{$itemKey}");
+        return data_get($apiConfig, "data.list.{$itemKey}") ?? $default;
     }
 }
 
 // fresns db config
 if (! function_exists('fs_db_config')) {
-    function fs_db_config(string $itemKey)
+    function fs_db_config(string $itemKey, mixed $default = null)
     {
         $langTag = current_lang_tag();
 
-        $cacheKey = 'fresns_web_db_config_'.$itemKey.'_'.$langTag;
+        $cacheKey = "fresns_web_db_config_{$itemKey}_{$langTag}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
         $dbConfig = Cache::remember($cacheKey, $cacheTime, function () use ($itemKey, $langTag) {
@@ -94,7 +94,7 @@ if (! function_exists('fs_db_config')) {
             Cache::forget($cacheKey);
         }
 
-        return $dbConfig;
+        return $dbConfig ?? $default;
     }
 }
 

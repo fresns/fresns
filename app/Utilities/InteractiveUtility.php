@@ -286,9 +286,8 @@ class InteractiveUtility
             InteractiveUtility::markStats($userId, 'block', $followType, $followId, 'decrement');
         }
 
-        CacheHelper::forgetFresnsApiInfo("fresns_user_follow_{$followType}_{$userId}");
-        CacheHelper::forgetFresnsApiInfo("fresns_user_block_{$followType}_{$userId}");
-        CacheHelper::forgetFresnsApiInfo("fresns_user_block_{$followType}_{$followId}");
+        CacheHelper::forgetFresnsInteractive($followType, $userId);
+        CacheHelper::forgetFresnsInteractive($followType, $followId);
     }
 
     public static function markUserBlock(int $userId, int $blockType, int $blockId)
@@ -331,13 +330,8 @@ class InteractiveUtility
             InteractiveUtility::markStats($userId, 'follow', $blockType, $blockId, 'decrement');
         }
 
-        if ($blockType == UserBlock::TYPE_GROUP) {
-            CacheHelper::forgetFresnsApiInfo("fresns_api_user_{$userId}_groups");
-        }
-
-        CacheHelper::forgetFresnsApiInfo("fresns_user_follow_{$blockType}_{$userId}");
-        CacheHelper::forgetFresnsApiInfo("fresns_user_block_{$blockType}_{$userId}");
-        CacheHelper::forgetFresnsApiInfo("fresns_user_block_{$blockType}_{$blockId}");
+        CacheHelper::forgetFresnsInteractive($blockType, $userId);
+        CacheHelper::forgetFresnsInteractive($blockType, $blockId);
     }
 
     // mark content sticky
@@ -1022,7 +1016,7 @@ class InteractiveUtility
     // get follow id array
     public static function getFollowIdArr(int $type, int $userId)
     {
-        $cacheKey = "fresns_user_follow_{$type}_{$userId}";
+        $cacheKey = "fresns_user_follow_array_{$type}_{$userId}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
         if ($type == UserFollow::TYPE_USER) {
@@ -1057,7 +1051,7 @@ class InteractiveUtility
     // get block id array
     public static function getBlockIdArr(int $type, int $userId)
     {
-        $cacheKey = "fresns_user_block_{$type}_{$userId}";
+        $cacheKey = "fresns_user_block_array_{$type}_{$userId}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
         if ($type == UserBlock::TYPE_USER) {
