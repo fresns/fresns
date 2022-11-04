@@ -46,6 +46,7 @@ class ExtendEditorController extends Controller
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rating = $request->rating;
+        $pluginUsage->editor_toolbar = $request->editor_toolbar;
         $pluginUsage->editor_number = $request->editor_number;
         $pluginUsage->roles = $request->roles ? implode(',', $request->roles) : '';
         $pluginUsage->scene = $request->scene ? implode(',', $request->scene) : '';
@@ -111,6 +112,7 @@ class ExtendEditorController extends Controller
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rating = $request->rating;
+        $pluginUsage->editor_toolbar = $request->editor_toolbar;
         $pluginUsage->editor_number = $request->editor_number;
         $pluginUsage->roles = $request->roles ? implode(',', $request->roles) : '';
         $pluginUsage->scene = $request->scene ? implode(',', $request->scene) : '';

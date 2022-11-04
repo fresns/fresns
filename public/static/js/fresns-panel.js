@@ -1534,8 +1534,8 @@ $(document).ready(function () {
             );
         });
 
-    //expend-edit-modal
-    $('.expend-edit-modal').on('show.bs.modal', function (e) {
+    //expend-editor-modal
+    $('.expend-editor-modal').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget);
         let params = button.data('params');
 
@@ -1575,6 +1575,10 @@ $(document).ready(function () {
         if (params.name) {
             $(this).find('.name-button').text(params.name);
         }
+        $(this)
+            .find('input:radio[name=editor_toolbar][value="' + params.editor_toolbar + '"]')
+            .prop('checked', true)
+            .click();
         $(this)
             .find('input:radio[name=is_enable][value="' + params.is_enable + '"]')
             .prop('checked', true)

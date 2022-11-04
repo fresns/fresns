@@ -105,7 +105,7 @@
         @method('post')
         <input type="hidden" name="update_name" value="0">
         <!-- Config Modal -->
-        <div class="modal fade name-lang-parent expend-edit-modal" id="configModal" tabindex="-1" aria-labelledby="configModal" aria-hidden="true">
+        <div class="modal fade name-lang-parent expend-editor-modal" id="configModal" tabindex="-1" aria-labelledby="configModal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -160,6 +160,19 @@
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="2" name="scene[]">
                                     <label class="form-check-label" for="inlineCheckbox2">{{ __('FsLang::panel.comment') }}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_position') }}</label>
+                            <div class="col-sm-9 pt-2">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="editor_toolbar" id="inlineRadio1" value="0" checked>
+                                    <label class="form-check-label" for="inlineRadio1">{{ __('FsLang::panel.extend_editor_menus') }}</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="editor_toolbar" id="inlineRadio2" value="1">
+                                    <label class="form-check-label" for="inlineRadio2">{{ __('FsLang::panel.extend_editor_toolbar') }}</label>
                                 </div>
                             </div>
                         </div>
