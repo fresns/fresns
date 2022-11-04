@@ -8,8 +8,8 @@
 
 namespace App\Fresns\Api\Http\Middleware;
 
-use App\Fresns\Api\Traits\ApiHeaderTrait;
 use App\Exceptions\ApiException;
+use App\Fresns\Api\Traits\ApiHeaderTrait;
 use App\Helpers\ConfigHelper;
 use Closure;
 use Illuminate\Http\Request;
