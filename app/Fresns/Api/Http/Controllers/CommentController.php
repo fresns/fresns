@@ -316,7 +316,7 @@ class CommentController extends Controller
         }
 
         UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
-        GroupService::checkGroupContentViewPerm($comment->created_at, $comment?->post->group_id ,$authUserId);
+        GroupService::checkGroupContentViewPerm($comment->created_at, $comment?->post->group_id, $authUserId);
 
         $seoData = Seo::where('usage_type', Seo::TYPE_COMMENT)->where('usage_id', $comment->id)->where('lang_tag', $langTag)->first();
 

@@ -156,6 +156,5 @@ class GroupService
             throw new ApiException(37106);
         }
 
-        return;
     }
 }

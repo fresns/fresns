@@ -43,7 +43,7 @@ class WebConfiguration
             }
 
             $keyId = fs_db_config('engine_key_id');
-            $cacheKey = "fresns_web_key_model";
+            $cacheKey = 'fresns_web_key_model';
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
             $keyInfo = Cache::remember($cacheKey, $cacheTime, function () use ($keyId) {

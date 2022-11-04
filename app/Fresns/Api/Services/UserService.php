@@ -190,7 +190,6 @@ class UserService
             throw new ApiException(35304);
         }
 
-        return;
     }
 
     // get content date limit

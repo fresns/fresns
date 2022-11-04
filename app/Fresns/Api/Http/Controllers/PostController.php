@@ -287,7 +287,7 @@ class PostController extends Controller
         }
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
-        GroupService::checkGroupContentViewPerm($post->created_at, $post?->group->id ,$authUserId);
+        GroupService::checkGroupContentViewPerm($post->created_at, $post?->group->id, $authUserId);
 
         // Plugin provides data
         $dataPluginUnikey = ConfigHelper::fresnsConfigByItemKey('content_detail_service');

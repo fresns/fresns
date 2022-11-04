@@ -290,7 +290,7 @@ class UserController extends Controller
             }
 
             $userIdArr = array_merge($viewUserFollowers, $authUserFollowing);
-            $uniqueArr = array_unique ($userIdArr);
+            $uniqueArr = array_unique($userIdArr);
 
             $youKnowArr = array_diff_assoc($userIdArr, $uniqueArr);
         } else {
