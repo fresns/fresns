@@ -125,6 +125,7 @@ Route::prefix(LaravelLocalization::setLocale())
             Route::get('likers', [ProfileController::class, 'likers'])->name('likers');
             Route::get('dislikers', [ProfileController::class, 'dislikers'])->name('dislikers');
             Route::get('followers', [ProfileController::class, 'followers'])->name('followers');
+            Route::get('followers-you-follow', [ProfileController::class, 'followersYouFollow'])->name('followers.you.follow');
             Route::get('blockers', [ProfileController::class, 'blockers'])->name('blockers');
             // likers
             Route::get('likes/users', [ProfileController::class, 'likeUsers'])->name('likes.users');
@@ -175,11 +176,11 @@ Route::prefix(LaravelLocalization::setLocale())
         });
 
         // account
-        Route::name('account.')->prefix('account')->group(function () {
+        Route::name('account.')->prefix('account')->withoutMiddleware([CheckSiteModel::class])->group(function () {
             Route::get('register', [AccountController::class, 'register'])->name('register')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
-            Route::get('login', [AccountController::class, 'login'])->name('login')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class, CheckSiteModel::class]);
-            Route::get('logout', [AccountController::class, 'logout'])->name('logout')->withoutMiddleware([UserAuthorize::class, CheckSiteModel::class]);
-            Route::get('reset-password', [AccountController::class, 'resetPassword'])->name('resetPassword')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class, CheckSiteModel::class]);
+            Route::get('login', [AccountController::class, 'login'])->name('login')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
+            Route::get('logout', [AccountController::class, 'logout'])->name('logout')->withoutMiddleware([UserAuthorize::class]);
+            Route::get('reset-password', [AccountController::class, 'resetPassword'])->name('resetPassword')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
             Route::get('/', [AccountController::class, 'index'])->name('index')->withoutMiddleware([UserAuthorize::class]);
             Route::get('wallet', [AccountController::class, 'wallet'])->name('wallet')->withoutMiddleware([UserAuthorize::class]);
             Route::get('users', [AccountController::class, 'users'])->name('users')->withoutMiddleware([UserAuthorize::class]);

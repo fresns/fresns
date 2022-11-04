@@ -29,16 +29,16 @@ Route::prefix('engine')
         Route::post('send-verify-code', [ApiController::class, 'sendVerifyCode'])->name('send.verify.code')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
         Route::post('upload-file', [ApiController::class, 'uploadFile'])->name('upload.file');
 
-        Route::prefix('account')->name('account.')->group(function () {
-            Route::post('register', [ApiController::class, 'accountRegister'])->name('register')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
-            Route::post('login', [ApiController::class, 'accountLogin'])->name('login')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class, CheckSiteModel::class]);
-            Route::post('reset-password', [ApiController::class, 'accountResetPassword'])->name('reset.password')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class, CheckSiteModel::class]);
-            Route::post('verify-identity', [ApiController::class, 'accountVerifyIdentity'])->name('verify.identity')->withoutMiddleware([UserAuthorize::class]);
-            Route::post('edit', [ApiController::class, 'accountEdit'])->name('edit')->withoutMiddleware([UserAuthorize::class]);
+        Route::prefix('account')->name('account.')->withoutMiddleware([UserAuthorize::class, CheckSiteModel::class])->group(function () {
+            Route::post('register', [ApiController::class, 'accountRegister'])->name('register')->withoutMiddleware([AccountAuthorize::class]);
+            Route::post('login', [ApiController::class, 'accountLogin'])->name('login')->withoutMiddleware([AccountAuthorize::class]);
+            Route::post('reset-password', [ApiController::class, 'accountResetPassword'])->name('reset.password')->withoutMiddleware([AccountAuthorize::class]);
+            Route::post('verify-identity', [ApiController::class, 'accountVerifyIdentity'])->name('verify.identity');
+            Route::post('edit', [ApiController::class, 'accountEdit'])->name('edit');
         });
 
         Route::prefix('user')->name('user.')->group(function () {
-            Route::post('auth', [ApiController::class, 'userAuth'])->name('auth')->withoutMiddleware([UserAuthorize::class]);
+            Route::post('auth', [ApiController::class, 'userAuth'])->name('auth')->withoutMiddleware([UserAuthorize::class, CheckSiteModel::class]);
             Route::post('edit', [ApiController::class, 'userEdit'])->name('edit');
             Route::post('mark', [ApiController::class, 'userMark'])->name('mark');
             Route::put('mark-note', [ApiController::class, 'userMarkNote'])->name('mark.note');
@@ -77,5 +77,5 @@ Route::prefix('engine')
             return \response()->json([
                 'data' => $languagePack,
             ]);
-        })->name('translations')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
+        })->name('translations')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class, CheckSiteModel::class]);
     });
