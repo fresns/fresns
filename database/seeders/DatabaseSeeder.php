@@ -26,8 +26,10 @@ class DatabaseSeeder extends Seeder
         $this->call(DomainsTableSeeder::class);
         $this->call(LanguagesTableSeeder::class);
         $this->call(RolesTableSeeder::class);
-        $this->call(PluginsTableSeeder::class);
         $this->call(PluginUsagesTableSeeder::class);
+
+        // Packaged release data
+        // $this->call(PluginsTableSeeder::class);
 
         // Test data (account and user)
         //$this->call(AccountsTableSeeder::class);
