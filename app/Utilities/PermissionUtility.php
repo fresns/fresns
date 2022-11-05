@@ -12,8 +12,10 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
+use App\Models\Comment;
 use App\Models\Group;
 use App\Models\GroupAdmin;
+use App\Models\Post;
 use App\Models\PostAllow;
 use App\Models\Role;
 use App\Models\User;
@@ -394,5 +396,34 @@ class PermissionUtility
         $perm['deadlineTime'] = DateHelper::fresnsFormatDateTime($editableDateTime->format('Y-m-d H:i:s'), $timezone, $langTag);
 
         return $perm;
+    }
+
+    // Check content interval time
+    public static function checkContentIntervalTime(int $userId, string $type): bool
+    {
+        $model = match ($type) {
+            'post' => Post::where('user_id', $userId)->latest()->first(),
+            'comment' => Comment::where('user_id', $userId)->latest()->first(),
+        };
+
+        if (! $model) {
+            return true;
+        }
+
+        $rolePerm = PermissionUtility::getUserMainRolePerm($userId);
+        $interval = $rolePerm["{$type}_minute_interval"] ?? 0;
+
+        if ($interval == 0) {
+            return true;
+        }
+
+        $contentTime = strtotime($model->created_at);
+        $compareTime = now()->addMinutes($interval);
+
+        if ($contentTime < $compareTime) {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -605,6 +605,11 @@ class EditorController extends Controller
         $timezone = $this->timezone();
         $authUser = $this->user();
 
+        $contentInterval = PermissionUtility::checkContentIntervalTime($authUser->id, $type);
+        if (! $contentInterval) {
+            throw new ApiException(36117);
+        }
+
         $draft = match ($type) {
             'post' => PostLog::with('creator')->where('id', $draftId)->where('user_id', $authUser->id)->first(),
             'comment' => CommentLog::with('creator')->where('id', $draftId)->where('user_id', $authUser->id)->first(),
@@ -969,6 +974,11 @@ class EditorController extends Controller
         $dtoRequest = new EditorDirectPublishDTO($request->all());
 
         $authUser = $this->user();
+
+        $contentInterval = PermissionUtility::checkContentIntervalTime($authUser->id, $dtoRequest->type);
+        if (! $contentInterval) {
+            throw new ApiException(36117);
+        }
 
         $fileConfig = FileHelper::fresnsFileStorageConfigByType(File::TYPE_IMAGE);
         if ($dtoRequest->file) {

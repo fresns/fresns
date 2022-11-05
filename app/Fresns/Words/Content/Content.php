@@ -51,14 +51,14 @@ class Content
         $dtoWordBody = new CreateDraftDTO($wordBody);
         $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
-        $authUser = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
-        if (! $authUser) {
+        $creator = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
+        if (! $creator) {
             return $this->failure(
                 35201,
                 ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
             );
         }
-        if ($authUser->is_enable == 0) {
+        if ($creator->is_enable == 0) {
             return $this->failure(
                 35202,
                 ConfigUtility::getCodeMessage(35202, 'Fresns', $langTag)
@@ -89,10 +89,10 @@ class Content
                     $title = Str::of($dtoWordBody->postTitle)->trim();
                 }
 
-                $checkLog = PostLog::with(['files', 'extends'])->where('user_id', $authUser->id)->where('create_type', 1)->where('state', 1)->first();
+                $checkLog = PostLog::with(['files', 'extends'])->where('user_id', $creator->id)->where('create_type', 1)->where('state', 1)->first();
 
                 $logData = [
-                    'user_id' => $authUser->id,
+                    'user_id' => $creator->id,
                     'create_type' => $dtoWordBody->createType,
                     'is_plugin_editor' => $isPluginEditor,
                     'editor_unikey' => $editorUnikey,
@@ -124,10 +124,10 @@ class Content
                     );
                 }
 
-                $checkLog = CommentLog::with(['files', 'extends'])->where('user_id', $authUser->id)->where('create_type', 1)->where('state', 1)->first();
+                $checkLog = CommentLog::with(['files', 'extends'])->where('user_id', $creator->id)->where('create_type', 1)->where('state', 1)->first();
 
                 $logData = [
-                    'user_id' => $authUser->id,
+                    'user_id' => $creator->id,
                     'create_type' => $dtoWordBody->createType,
                     'is_plugin_editor' => $isPluginEditor,
                     'editor_unikey' => $editorUnikey,
@@ -406,14 +406,14 @@ class Content
         $dtoWordBody = new CreateDraftDTO($wordBody);
         $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
-        $authUser = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
-        if (! $authUser) {
+        $creator = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
+        if (! $creator) {
             return $this->failure(
                 35201,
                 ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
             );
         }
-        if ($authUser->is_enable == 0) {
+        if ($creator->is_enable == 0) {
             return $this->failure(
                 35202,
                 ConfigUtility::getCodeMessage(35202, 'Fresns', $langTag)
@@ -513,7 +513,7 @@ class Content
         }
 
         if ($group) {
-            $checkGroupPublishPerm = PermissionUtility::checkUserGroupPublishPerm($group->id, $group->permissions, $authUser->id);
+            $checkGroupPublishPerm = PermissionUtility::checkUserGroupPublishPerm($group->id, $group->permissions, $creator->id);
         } else {
             $checkGroupPublishPerm = [
                 'allowPost' => true,
@@ -551,7 +551,7 @@ class Content
                 }
 
                 $post = Post::create([
-                    'user_id' => $authUser->id,
+                    'user_id' => $creator->id,
                     'group_id' => $group?->id ?? 0,
                     'title' => $title,
                     'content' => $content,
@@ -580,6 +580,10 @@ class Content
 
                 $primaryId = $post->id;
                 $fsid = $post->pid;
+
+                $creator->update([
+                    'last_post_at' => now(),
+                ]);
             break;
 
             // comment
@@ -609,7 +613,7 @@ class Content
                 }
 
                 $comment = Comment::create([
-                    'user_id' => $authUser->id,
+                    'user_id' => $creator->id,
                     'post_id' => $post->id,
                     'top_parent_id' => $topParentId,
                     'parent_id' => $parentComment?->id ?? 0,
@@ -639,6 +643,10 @@ class Content
 
                 $primaryId = $comment->id;
                 $fsid = $comment->cid;
+
+                $creator->update([
+                    'last_comment_at' => now(),
+                ]);
             break;
         }
 
