@@ -51,7 +51,7 @@ class ArrUtility
     }
 
     // pull key value
-    public static function pull(?array $arrays = [], string $key, string|array $values)
+    public static function pull(?array &$arrays = [], string $key, string|array $values)
     {
         if (empty($arrays)) {
             return [];
