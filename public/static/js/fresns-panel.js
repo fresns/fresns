@@ -1029,14 +1029,14 @@ $(document).ready(function () {
                 _method: 'delete'
             },
             success: function (response) {
-                processDown()
+                progressDown && progressDown()
                 var ansi_up = new AnsiUp;
                 var html = ansi_up.ansi_to_html(response);
                 window.uninstallMessage = html;
                 $('#uninstallStepModal').find('#uninstall_artisan_output').html(html);
             },
             error: function (response) {
-                progressExit()
+                progressExit && progressExit()
                 window.tips(response.responseJSON.message);
             },
         });
@@ -2181,7 +2181,7 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (response) {
-                progressDown()
+                progressDown && progressDown()
                 var ansi_up = new AnsiUp;
                 var html = ansi_up.ansi_to_html(response);
 
@@ -2189,7 +2189,7 @@ $(document).ready(function () {
                 $('#install_artisan_output').html(html || trans('tips.installSuccess')) //FsLang
             },
             error: function (response) {
-                progressExit()
+                progressExit && progressExit()
                 window.tips(response.responseJSON.message);
             },
         });
