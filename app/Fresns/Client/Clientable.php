@@ -84,7 +84,7 @@ trait Clientable
         if (method_exists(Utils::class, $method)) {
             $results = call_user_func_array([Utils::class, $method], $args);
 
-            if (!is_array($results)) {
+            if (! is_array($results)) {
                 return $results;
             }
 
@@ -98,20 +98,20 @@ trait Clientable
             return $this->data;
         }
         // Synchronization Request
-        else if (method_exists($this->getHttpClient(), $method)) {
+        elseif (method_exists($this->getHttpClient(), $method)) {
             $this->response = $this->getHttpClient()->$method(...$args);
 
             // return Promise response
             if ($this->response instanceof Promise) {
                 return $this->response;
             }
-    
+
             // Response results processing
             if ($this->response instanceof Response) {
                 $this->data = $this->castResponse($this->response);
             }
         } else {
-            throw new \RuntimeException(sprintf("unknown method %s::%s", get_class($this), $method));
+            throw new \RuntimeException(sprintf('unknown method %s::%s', get_class($this), $method));
         }
 
         // api data
