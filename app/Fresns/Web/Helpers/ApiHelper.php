@@ -14,9 +14,9 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\SignHelper;
 use App\Models\SessionKey;
 use App\Utilities\AppUtility;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class ApiHelper
 {
@@ -44,7 +44,7 @@ class ApiHelper
 
     public function paginate()
     {
-        if (!data_get($this->result, 'data.paginate', false)) {
+        if (! data_get($this->result, 'data.paginate', false)) {
             return null;
         }
 
@@ -56,7 +56,7 @@ class ApiHelper
         );
 
         $paginate
-            ->withPath('/' . \request()->path())
+            ->withPath('/'.\request()->path())
             ->withQueryString();
 
         return $paginate;
@@ -100,18 +100,18 @@ class ApiHelper
         $data = json_decode($content, true) ?? [];
 
         if (empty($data)) {
-            info('empty response, ApiException: ' . var_export($content, true));
+            info('empty response, ApiException: '.var_export($content, true));
             throw new ErrorException($response?->getReasonPhrase(), $response?->getStatusCode());
         }
 
         if (array_key_exists('code', $data) && $data['code'] != 0) {
-            info('error response, ApiException: ' . var_export($content, true));
+            info('error response, ApiException: '.var_export($content, true));
 
             $message = $data['message'] ?? $data['exception'] ?? '';
             if (empty($message)) {
                 $message = 'Unknown api error';
-            } else if ($data['data'] ?? null) {
-                $message = "{$message} " . head($data['data']) ?? '';
+            } elseif ($data['data'] ?? null) {
+                $message = "{$message} ".head($data['data']) ?? '';
             }
 
             throw new ErrorException($message, $data['code']);
