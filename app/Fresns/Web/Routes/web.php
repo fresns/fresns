@@ -20,12 +20,12 @@ use App\Fresns\Web\Http\Controllers\SearchController;
 use App\Fresns\Web\Http\Controllers\UserController;
 use App\Fresns\Web\Http\Middleware\AccountAuthorize;
 use App\Fresns\Web\Http\Middleware\CheckSiteModel;
+use App\Fresns\Web\Http\Middleware\LaravelLocalizationRedirectFilter;
 use App\Fresns\Web\Http\Middleware\UserAuthorize;
 use App\Fresns\Web\Http\Middleware\WebConfiguration;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-use App\Fresns\Web\Http\Middleware\LaravelLocalizationRedirectFilter;
 
 Route::prefix(LaravelLocalization::setLocale())
     ->middleware([
