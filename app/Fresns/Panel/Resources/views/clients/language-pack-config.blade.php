@@ -43,7 +43,7 @@
                 <tbody class="lang-pack-box">
                     @foreach ($languageKeys as $key)
                         <tr>
-                            <td><input type="text" class="form-control" name="keys[]" value="{{ $key['name'] }}" disabled readonly></td>
+                            <td><input type="text" class="form-control bg-secondary bg-opacity-25" name="keys[]" value="{{ $key['name'] }}" readonly></td>
                             <td><input type="text" class="form-control" value="{{ $defaultLanguages[$key['name']] ?? '' }}" disabled readonly></td>
                             <td><input type="text" class="form-control" name="contents[]" value="{{ $languages[$key['name']] ?? '' }}"></td>
                             <td>
