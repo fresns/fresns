@@ -155,6 +155,5 @@ class GroupService
         if ($contentCreateTime > $dateLimit) {
             throw new ApiException(37106);
         }
-
     }
 }

@@ -189,7 +189,6 @@ class UserService
         if ($contentCreateTime > $dateLimit) {
             throw new ApiException(35304);
         }
-
     }
 
     // get content date limit
