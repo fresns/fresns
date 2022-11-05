@@ -80,10 +80,6 @@ class QueryHelper
 
     public static function convertApiDataToPaginate($items, $paginate)
     {
-        if (method_exists($items, 'toArray')) {
-            $items = $items->toArray();
-        }
-
         $items = (array) $items;
         $total = $paginate['total'] ?? 0;
         $pageSize = $paginate['pageSize'] ?? 15;

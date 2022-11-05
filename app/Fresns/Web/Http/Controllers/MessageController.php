@@ -25,7 +25,7 @@ class MessageController extends Controller
         ]);
 
         if (data_get($result, 'code') !== 0) {
-            throw new ErrorException($result['message']);
+            throw new ErrorException($result['message'], $result['code']);
         }
 
         $dialogs = QueryHelper::convertApiDataToPaginate(
@@ -43,7 +43,7 @@ class MessageController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'dialog' => $client->getAsync("/api/v2/dialog/{$dialogId}/detail"),
             'messages'   => $client->getAsync("/api/v2/dialog/{$dialogId}/messages", [
                 'query' => $query,
@@ -75,7 +75,7 @@ class MessageController extends Controller
         ]);
 
         if (data_get($result, 'code') !== 0) {
-            throw new ErrorException($result['message']);
+            throw new ErrorException($result['message'], $result['code']);
         }
 
         $notifies = QueryHelper::convertApiDataToPaginate(

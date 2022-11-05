@@ -25,7 +25,7 @@ class PostController extends Controller
         ]);
 
         if (data_get($result, 'code') !== 0) {
-            throw new ErrorException($result['message']);
+            throw new ErrorException($result['message'], $result['code']);
         }
 
         $posts = QueryHelper::convertApiDataToPaginate(
@@ -185,7 +185,7 @@ class PostController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'post' => $client->getAsync("/api/v2/post/{$pid}/detail"),
             'comments' => $client->getAsync('/api/v2/comment/list', [
                 'query' => $query,

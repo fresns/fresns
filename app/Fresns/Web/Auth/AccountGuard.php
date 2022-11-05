@@ -126,14 +126,19 @@ class AccountGuard implements Guard
         if ($aid && $token) {
             try {
                 $result = ApiHelper::make()->get('/api/v2/account/detail');
-                $this->account = $result['data'];
+
+                $this->account = data_get($result, 'data');
             } catch (\Throwable $e) {
                 $this->logout();
                 throw $e;
             }
         }
 
-        return $key ? $this->account?->$key : $this->account;
+        if ($key) {
+            return data_get($this->account, $key);
+        }
+
+        return $this->account;
     }
 
     /**

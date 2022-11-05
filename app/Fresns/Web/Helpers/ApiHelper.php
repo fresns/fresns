@@ -16,36 +16,50 @@ use App\Models\SessionKey;
 use App\Utilities\AppUtility;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
-use Psr\Http\Message\ResponseInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
 
-class ApiHelper implements \ArrayAccess, \IteratorAggregate, \Countable
+class ApiHelper
 {
-    use Clientable {
-        __call as forwardCall;
-    }
+    use Clientable;
 
     protected array $result = [];
 
-    public function __call(string $method, array $args)
+    public function caseForwardCallResult($result)
     {
-        $response = $this->forwardCall($method, $args);
-
-        if ($response instanceof \Illuminate\Http\RedirectResponse) {
+        if ($result instanceof \Illuminate\Http\RedirectResponse) {
             throw new ErrorException(session('failure'), session('code'));
         }
 
-        return $response;
+        return $result;
     }
 
-    public function handleUnwrap(array $requests)
+    public function caseUnwrapRequests(array $results)
     {
-        $results = $this->unwrap($requests);
-
         if ($results instanceof \Illuminate\Http\RedirectResponse) {
             throw new ErrorException(session('failure'), (int) session('code'));
         }
 
         return $results;
+    }
+
+    public function paginate()
+    {
+        if (!data_get($this->result, 'data.paginate', false)) {
+            return null;
+        }
+
+        $paginate = new LengthAwarePaginator(
+            items: data_get($this->result, 'data.list'),
+            total: data_get($this->result, 'data.paginate.total'),
+            perPage: data_get($this->result, 'data.paginate.pageSize'),
+            currentPage: data_get($this->result, 'data.paginate.currentPage'),
+        );
+
+        $paginate
+            ->withPath('/' . \request()->path())
+            ->withQueryString();
+
+        return $paginate;
     }
 
     public function getBaseUri(): ?string
@@ -79,66 +93,31 @@ class ApiHelper implements \ArrayAccess, \IteratorAggregate, \Countable
         ];
     }
 
-    public function handleEmptyResponse(?string $content = null, ?ResponseInterface $response = null)
+    public function castResponse($response)
     {
-        info('empty response, ApiException: '.var_export($content, true));
-        throw new ErrorException($response?->getReasonPhrase(), $response?->getStatusCode());
-    }
+        $content = $response->getBody()->getContents();
 
-    public function isErrorResponse(array $data): bool
-    {
-        if (isset($data['code']) && $data['code'] != 0) {
-            info('is error response', $data);
+        $data = json_decode($content, true) ?? [];
 
-            return true;
+        if (empty($data)) {
+            info('empty response, ApiException: ' . var_export($content, true));
+            throw new ErrorException($response?->getReasonPhrase(), $response?->getStatusCode());
         }
 
-        return false;
-    }
+        if (array_key_exists('code', $data) && $data['code'] != 0) {
+            info('error response, ApiException: ' . var_export($content, true));
 
-    public function handleErrorResponse(?string $content = null, array $data = [])
-    {
-        info('error response, ApiException: '.var_export($content, true));
-        $message = $data['message'] ?? $data['exception'] ?? '';
-        if (empty($message)) {
-            $message = 'Unknown api error';
-        } else {
-            if ($data['data'] ?? null) {
-                $message = "{$message} ".head($data['data']) ?? '';
+            $message = $data['message'] ?? $data['exception'] ?? '';
+            if (empty($message)) {
+                $message = 'Unknown api error';
+            } else if ($data['data'] ?? null) {
+                $message = "{$message} " . head($data['data']) ?? '';
             }
+
+            throw new ErrorException($message, $data['code']);
         }
 
-        throw new ErrorException($message, $data['code'] ?? 0);
-    }
-
-    public function hasPaginate(): bool
-    {
-        return (bool) $this['data.paginate'];
-    }
-
-    public function getTotal(): ?int
-    {
-        return $this['data.paginate.total'];
-    }
-
-    public function getPageSize(): ?int
-    {
-        return $this['data.paginate.pageSize'];
-    }
-
-    public function getCurrentPage(): ?int
-    {
-        return $this['data.paginate.currentPage'];
-    }
-
-    public function getLastPage(): ?int
-    {
-        return $this['data.paginate.lastPage'];
-    }
-
-    public function getDataList(): static|array|null
-    {
-        return $this['data.list']->toArray();
+        return $data;
     }
 
     public static function getHeaders()

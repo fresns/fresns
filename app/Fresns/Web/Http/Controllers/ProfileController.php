@@ -23,7 +23,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'posts'   => $client->getAsync('/api/v2/post/list', [
                 'query' => $query,
@@ -53,7 +53,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'comments'   => $client->getAsync('/api/v2/comment/list', [
                 'query' => $query,
@@ -82,7 +82,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/interactive/like", [
                 'query' => $query,
@@ -111,7 +111,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/interactive/dislike", [
                 'query' => $query,
@@ -140,7 +140,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/interactive/follow", [
                 'query' => $query,
@@ -169,7 +169,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
                 'query' => $query,
@@ -198,7 +198,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/interactive/block", [
                 'query' => $query,
@@ -231,7 +231,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/like/users", [
                 'query' => $query,
@@ -260,7 +260,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'groups'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/like/groups", [
                 'query' => $query,
@@ -289,7 +289,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'hashtags'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/like/hashtags", [
                 'query' => $query,
@@ -318,7 +318,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'posts'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/like/posts", [
                 'query' => $query,
@@ -347,7 +347,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'comments'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/like/comments", [
                 'query' => $query,
@@ -380,7 +380,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/dislike/users", [
                 'query' => $query,
@@ -409,7 +409,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'groups'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/dislike/groups", [
                 'query' => $query,
@@ -438,7 +438,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'hashtags'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/dislike/hashtags", [
                 'query' => $query,
@@ -467,7 +467,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'posts'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/dislike/posts", [
                 'query' => $query,
@@ -496,7 +496,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'comments'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/dislike/comments", [
                 'query' => $query,
@@ -529,7 +529,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/users", [
                 'query' => $query,
@@ -558,7 +558,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'groups'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/groups", [
                 'query' => $query,
@@ -587,7 +587,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'hashtags'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/hashtags", [
                 'query' => $query,
@@ -616,7 +616,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'posts'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/posts", [
                 'query' => $query,
@@ -645,7 +645,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'comments'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/comments", [
                 'query' => $query,
@@ -678,7 +678,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/block/users", [
                 'query' => $query,
@@ -707,7 +707,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'groups'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/block/groups", [
                 'query' => $query,
@@ -736,7 +736,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'hashtags'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/block/hashtags", [
                 'query' => $query,
@@ -765,7 +765,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'posts'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/block/posts", [
                 'query' => $query,
@@ -794,7 +794,7 @@ class ProfileController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
             'comments'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/block/comments", [
                 'query' => $query,

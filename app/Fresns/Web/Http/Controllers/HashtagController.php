@@ -25,7 +25,7 @@ class HashtagController extends Controller
         ]);
 
         if (data_get($result, 'code') !== 0) {
-            throw new ErrorException($result['message']);
+            throw new ErrorException($result['message'], $result['code']);
         }
 
         $hashtags = QueryHelper::convertApiDataToPaginate(
@@ -46,7 +46,7 @@ class HashtagController extends Controller
         ]);
 
         if (data_get($result, 'code') !== 0) {
-            throw new ErrorException($result['message']);
+            throw new ErrorException($result['message'], $result['code']);
         }
 
         $hashtags = QueryHelper::convertApiDataToPaginate(
@@ -67,7 +67,7 @@ class HashtagController extends Controller
         ]);
 
         if (data_get($result, 'code') !== 0) {
-            throw new ErrorException($result['message']);
+            throw new ErrorException($result['message'], $result['code']);
         }
 
         $hashtags = QueryHelper::convertApiDataToPaginate(
@@ -88,7 +88,7 @@ class HashtagController extends Controller
         ]);
 
         if (data_get($result, 'code') !== 0) {
-            throw new ErrorException($result['message']);
+            throw new ErrorException($result['message'], $result['code']);
         }
 
         $hashtags = QueryHelper::convertApiDataToPaginate(
@@ -109,7 +109,7 @@ class HashtagController extends Controller
         ]);
 
         if (data_get($result, 'code') !== 0) {
-            throw new ErrorException($result['message']);
+            throw new ErrorException($result['message'], $result['code']);
         }
 
         $hashtags = QueryHelper::convertApiDataToPaginate(
@@ -130,7 +130,7 @@ class HashtagController extends Controller
         ]);
 
         if (data_get($result, 'code') !== 0) {
-            throw new ErrorException($result['message']);
+            throw new ErrorException($result['message'], $result['code']);
         }
 
         $hashtags = QueryHelper::convertApiDataToPaginate(
@@ -149,7 +149,7 @@ class HashtagController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'hashtag' => $client->getAsync("/api/v2/hashtag/{$hid}/detail"),
             'posts'   => $client->getAsync('/api/v2/post/list', [
                 'query' => $query,

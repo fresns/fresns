@@ -106,7 +106,6 @@ class UserGuard implements Guard
 
     /**
      * @param  string|null  $key
-     * @return array|\ArrayAccess|mixed|null
      *
      * @throws GuzzleException
      */
@@ -127,16 +126,18 @@ class UserGuard implements Guard
             try {
                 $result = ApiHelper::make()->get("/api/v2/user/{$uid}/detail");
 
-                if ($result instanceof \ArrayAccess) {
-                    $this->user = $result['data'];
-                }
+                $this->user = data_get($result, 'data');
             } catch (\Throwable $e) {
                 $this->logout();
                 throw $e;
             }
         }
 
-        return $key ? $this->user?->$key : $this->user;
+        if ($key) {
+            return data_get($this->user, $key);
+        }
+
+        return $this->user;
     }
 
     public function logout(): void

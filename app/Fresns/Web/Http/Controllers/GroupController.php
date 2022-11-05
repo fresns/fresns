@@ -28,7 +28,7 @@ class GroupController extends Controller
             $result = ApiHelper::make()->get('/api/v2/group/tree');
 
             if (data_get($result, 'code') !== 0) {
-                throw new ErrorException($result['message']);
+                throw new ErrorException($result['message'], $result['code']);
             }
 
             $groupTree = $result['data'];
@@ -40,7 +40,7 @@ class GroupController extends Controller
             ]);
 
             if (data_get($result, 'code') !== 0) {
-                throw new ErrorException($result['message']);
+                throw new ErrorException($result['message'], $result['code']);
             }
 
             $groups = QueryHelper::convertApiDataToPaginate(
@@ -62,7 +62,7 @@ class GroupController extends Controller
         ]);
 
         if (data_get($result, 'code') !== 0) {
-            throw new ErrorException($result['message']);
+            throw new ErrorException($result['message'], $result['code']);
         }
 
         $groups = QueryHelper::convertApiDataToPaginate(
@@ -83,7 +83,7 @@ class GroupController extends Controller
         ]);
 
         if (data_get($result, 'code') !== 0) {
-            throw new ErrorException($result['message']);
+            throw new ErrorException($result['message'], $result['code']);
         }
 
         $groups = QueryHelper::convertApiDataToPaginate(
@@ -104,7 +104,7 @@ class GroupController extends Controller
         ]);
 
         if (data_get($result, 'code') !== 0) {
-            throw new ErrorException($result['message']);
+            throw new ErrorException($result['message'], $result['code']);
         }
 
         $groups = QueryHelper::convertApiDataToPaginate(
@@ -125,7 +125,7 @@ class GroupController extends Controller
         ]);
 
         if (data_get($result, 'code') !== 0) {
-            throw new ErrorException($result['message']);
+            throw new ErrorException($result['message'], $result['code']);
         }
 
         $groups = QueryHelper::convertApiDataToPaginate(
@@ -146,7 +146,7 @@ class GroupController extends Controller
         ]);
 
         if (data_get($result, 'code') !== 0) {
-            throw new ErrorException($result['message']);
+            throw new ErrorException($result['message'], $result['code']);
         }
 
         $groups = QueryHelper::convertApiDataToPaginate(
@@ -165,7 +165,7 @@ class GroupController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'group' => $client->getAsync("/api/v2/group/{$gid}/detail"),
             'posts'   => $client->getAsync('/api/v2/post/list', [
                 'query' => $query,

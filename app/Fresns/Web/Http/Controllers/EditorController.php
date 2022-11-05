@@ -70,7 +70,7 @@ class EditorController extends Controller
 
         $client = ApiHelper::make();
 
-        $results = $client->handleUnwrap([
+        $results = $client->unwrapRequests([
             'config' => $client->getAsync("/api/v2/editor/{$type}/config"),
             'drafts' => $client->getAsync("/api/v2/editor/{$type}/drafts"),
         ]);
@@ -86,10 +86,10 @@ class EditorController extends Controller
                     'commentPid' => $commentPid,
                     'commentCid' => $commentCid,
                 ],
-            ])->toArray();
+            ]);
 
             if (data_get($response, 'code') !== 0) {
-                throw new ErrorException($response['message']);
+                throw new ErrorException($response['message'], $response['code']);
             }
 
             return redirect()->to(fs_route(route('fresns.editor.edit', [$type, $response['data']['detail']['id']])));
@@ -224,7 +224,7 @@ class EditorController extends Controller
         ]);
 
         if ($result['code'] !== 0) {
-            throw new ErrorException($result['message']);
+            throw new ErrorException($result['message'], $result['code']);
         }
 
         return back()->with('success', $result['message']);
@@ -256,7 +256,7 @@ class EditorController extends Controller
         };
 
         if ($fsid) {
-            $response = ApiHelper::make()->post("/api/v2/editor/{$type}/generate/{$fsid}")->toArray();
+            $response = ApiHelper::make()->post("/api/v2/editor/{$type}/generate/{$fsid}");
         } else {
             $response = ApiHelper::make()->post("/api/v2/editor/{$type}/create", [
                 'json' => [
@@ -272,11 +272,11 @@ class EditorController extends Controller
                     'mapJson' => $request->input('mapJson'),
                     'eid' => $request->input('eid'),
                 ],
-            ])->toArray();
+            ]);
         }
 
         if (data_get($response, 'code') !== 0) {
-            throw new ErrorException($response['message']);
+            throw new ErrorException($response['message'], $response['code']);
         }
 
         return redirect()->to(fs_route(route('fresns.editor.edit', [$type, $response['data']['detail']['id']])));
@@ -363,7 +363,7 @@ class EditorController extends Controller
             $params['group'] = $client->getAsync("/api/v2/group/{$gid}/detail");
         }
 
-        $results = $client->handleUnwrap($params);
+        $results = $client->unwrapRequests($params);
 
         $draftInfo['config'] = data_get($results, 'config.data');
         $draftInfo['stickers'] = data_get($results, 'stickers.data');

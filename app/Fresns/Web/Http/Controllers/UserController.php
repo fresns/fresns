@@ -25,7 +25,7 @@ class UserController extends Controller
         ]);
 
         if (data_get($result, 'code') !== 0) {
-            throw new ErrorException($result['message']);
+            throw new ErrorException($result['message'], $result['code']);
         }
 
         $users = QueryHelper::convertApiDataToPaginate(
@@ -46,7 +46,7 @@ class UserController extends Controller
         ]);
 
         if (data_get($result, 'code') !== 0) {
-            throw new ErrorException($result['message']);
+            throw new ErrorException($result['message'], $result['code']);
         }
 
         $users = QueryHelper::convertApiDataToPaginate(
@@ -67,7 +67,7 @@ class UserController extends Controller
         ]);
 
         if (data_get($result, 'code') !== 0) {
-            throw new ErrorException($result['message']);
+            throw new ErrorException($result['message'], $result['code']);
         }
 
         $users = QueryHelper::convertApiDataToPaginate(
@@ -88,7 +88,7 @@ class UserController extends Controller
         ]);
 
         if (data_get($result, 'code') !== 0) {
-            throw new ErrorException($result['message']);
+            throw new ErrorException($result['message'], $result['code']);
         }
 
         $users = QueryHelper::convertApiDataToPaginate(
@@ -109,7 +109,7 @@ class UserController extends Controller
         ]);
 
         if (data_get($result, 'code') !== 0) {
-            throw new ErrorException($result['message']);
+            throw new ErrorException($result['message'], $result['code']);
         }
 
         $users = QueryHelper::convertApiDataToPaginate(

@@ -42,7 +42,7 @@ class ApiController extends Controller
 
             $client = ApiHelper::make();
 
-            $results = $client->handleUnwrap([
+            $results = $client->unwrapRequests([
                 'users' => $client->getAsync('/api/v2/user/list', [
                     'query' => $userQuery,
                 ]),
@@ -99,11 +99,11 @@ class ApiController extends Controller
                 ],
             ]);
 
-            if (data_get($result, 'code') !== 0) {
+            if ($result['code'] !== 0) {
                 throw new ErrorException($result['message'], $result['code']);
             }
 
-            return Response::json(data_get($result->toArray(), 'data'));
+            return Response::json($result['data']);
         }
 
         return Response::json();
@@ -118,7 +118,7 @@ class ApiController extends Controller
             ],
         ]);
 
-        return \response()->json($response->toArray());
+        return \response()->json($response);
     }
 
     // send verify code
@@ -140,7 +140,7 @@ class ApiController extends Controller
             'json' => \request()->all(),
         ]);
 
-        return \response()->json($response->toArray());
+        return \response()->json($response);
     }
 
     // upload file
@@ -169,7 +169,7 @@ class ApiController extends Controller
             'multipart' => $multipart,
         ]);
 
-        return \response()->json($response->toArray());
+        return \response()->json($response);
     }
 
     // account register
@@ -187,7 +187,7 @@ class ApiController extends Controller
             ],
         ]);
 
-        return \response()->json($response->toArray());
+        return \response()->json($response);
     }
 
     // account login
@@ -219,7 +219,7 @@ class ApiController extends Controller
         Cookie::queue('fs_aid_token', $data['sessionToken']['token']);
 
         // Number of users under the account
-        $users = $data['detail']['users']->toArray();
+        $users = $data['detail']['users'];
         $userCount = count($users);
 
         // Only one user and no password
@@ -229,6 +229,17 @@ class ApiController extends Controller
             if ($user['hasPassword']) {
                 // User has password
                 // header.blade.php
+
+                if ($request->wantsJson()) {
+                    return \response()->json([
+                        'code' => 0,
+                        'message' => 'success',
+                        'data' => [
+                            'prev_url' => fs_route(route('fresns.account.login')),
+                        ],
+                    ]);
+                }
+
                 return redirect()->intended(fs_route(route('fresns.account.login')));
             } else {
                 // User does not have a password
@@ -243,15 +254,36 @@ class ApiController extends Controller
                     ],
                 ]);
 
-                Cookie::queue('fs_uid', $userResult['data.detail.uid']);
-                Cookie::queue('fs_uid_token', $userResult['data.sessionToken.token']);
-                Cookie::queue('timezone', $userResult['data.detail.timezone']);
+                Cookie::queue('fs_uid', data_get($userResult, 'data.detail.uid'));
+                Cookie::queue('fs_uid_token', data_get($userResult, 'data.sessionToken.token'));
+                Cookie::queue('timezone', data_get($userResult, 'data.detail.timezone'));
+
+                if ($request->wantsJson()) {
+                    return \response()->json([
+                        'code' => 0,
+                        'message' => 'success',
+                        'data' => [
+                            'prev_url' => fs_route(route('fresns.account.index')),
+                        ],
+                    ]);
+                }
 
                 return redirect()->intended(fs_route(route('fresns.account.index')));
             }
         } elseif ($userCount > 1) {
             // There are more than one user
             // header.blade.php
+
+            if ($request->wantsJson()) {
+                return \response()->json([
+                    'code' => 0,
+                    'message' => 'success',
+                    'data' => [
+                        'prev_url' => fs_route(route('fresns.account.login')),
+                    ],
+                ]);
+            }
+
             return redirect()->intended(fs_route(route('fresns.account.login')));
         }
     }
@@ -277,7 +309,7 @@ class ApiController extends Controller
             ],
         ]);
 
-        return \response()->json($response->toArray());
+        return \response()->json($response);
     }
 
     // account verify identity
@@ -287,7 +319,7 @@ class ApiController extends Controller
             'json' => \request()->all(),
         ]);
 
-        return \response()->json($response->toArray());
+        return \response()->json($response);
     }
 
     // account edit
@@ -328,7 +360,7 @@ class ApiController extends Controller
             'json' => \request()->all(),
         ]);
 
-        return \response()->json($response->toArray());
+        return \response()->json($response);
     }
 
     // user auth
@@ -342,9 +374,23 @@ class ApiController extends Controller
             ],
         ]);
 
-        Cookie::queue('fs_uid', $result['data.detail.uid']);
-        Cookie::queue('fs_uid_token', $result['data.sessionToken.token']);
-        Cookie::queue('timezone', $result['data.detail.timezone']);
+        if ($result['code'] != 0) {
+            throw new ErrorException($result['message'], $result['code']);
+        }
+
+        Cookie::queue('fs_uid', $result['data']['detail']['uid']);
+        Cookie::queue('fs_uid_token', $result['data']['sessionToken']['token']);
+        Cookie::queue('timezone', $result['data']['detail']['timezone']);
+
+        if ($request->wantsJson()) {
+            return \response()->json([
+                'code' => 0,
+                'message' => 'success',
+                'data' => [
+                    'prev_url' => fs_route(route('fresns.account.index')),
+                ],
+            ]);
+        }
 
         return redirect()->intended(fs_route(route('fresns.account.index')));
     }
@@ -356,7 +402,7 @@ class ApiController extends Controller
             'json' => \request()->all(),
         ]);
 
-        return \response()->json($response->toArray());
+        return \response()->json($response);
     }
 
     // user mark
@@ -366,7 +412,7 @@ class ApiController extends Controller
             'json' => \request()->all(),
         ]);
 
-        return \response()->json($response->toArray());
+        return \response()->json($response);
     }
 
     // message mark-as-read
@@ -376,7 +422,7 @@ class ApiController extends Controller
             'json' => \request()->all(),
         ]);
 
-        return \response()->json($response->toArray());
+        return \response()->json($response);
     }
 
     // message delete
@@ -386,7 +432,7 @@ class ApiController extends Controller
             'json' => \request()->all(),
         ]);
 
-        return \response()->json($response->toArray());
+        return \response()->json($response);
     }
 
     // content type
@@ -394,7 +440,7 @@ class ApiController extends Controller
     {
         $response = ApiHelper::make()->get('/api/v2/global/content-type');
 
-        return \response()->json($response->toArray());
+        return \response()->json($response);
     }
 
     // content download file
@@ -407,7 +453,7 @@ class ApiController extends Controller
             ],
         ]);
 
-        return \response()->json($response->toArray());
+        return \response()->json($response);
     }
 
     // content download users
@@ -420,7 +466,7 @@ class ApiController extends Controller
             ],
         ]);
 
-        return \response()->json($response->toArray());
+        return \response()->json($response);
     }
 
     // content delete
@@ -436,7 +482,7 @@ class ApiController extends Controller
 
         $response = ApiHelper::make()->delete("/api/v2/{$type}/{$fsid}");
 
-        return \response()->json($response->toArray());
+        return \response()->json($response);
     }
 
     /**
@@ -455,7 +501,7 @@ class ApiController extends Controller
             ],
         ]);
 
-        return Response::json(data_get($response->toArray(), 'data', []));
+        return Response::json(data_get($response, 'data', []));
     }
 
     // direct publish
@@ -522,7 +568,7 @@ class ApiController extends Controller
 
         $result = ApiHelper::make()->post('/api/v2/editor/direct-publish', [
             'multipart' => array_filter($multipart, fn ($val) => isset($val['contents'])),
-        ])->toArray();
+        ]);
 
         return Response::json($result);
     }
@@ -581,7 +627,7 @@ class ApiController extends Controller
             ]);
         }
 
-        $results = ApiHelper::make()->handleUnwrap($postAsyncs)->toArray();
+        $results = ApiHelper::make()->unwrapRequests($postAsyncs);
 
         $data = [];
         foreach ($results as $result) {
@@ -614,7 +660,7 @@ class ApiController extends Controller
             'json' => array_filter($params, fn ($val) => isset($val)),
         ]);
 
-        return \response()->json($response->toArray());
+        return \response()->json($response);
     }
 
     // editor publish
@@ -630,7 +676,7 @@ class ApiController extends Controller
 
         $response = ApiHelper::make()->post("/api/v2/editor/{$type}/{$draftId}");
 
-        return \response()->json($response->toArray());
+        return \response()->json($response);
     }
 
     // editor recall
@@ -646,7 +692,7 @@ class ApiController extends Controller
 
         $response = ApiHelper::make()->patch("/api/v2/editor/{$type}/{$draftId}");
 
-        return \response()->json($response->toArray());
+        return \response()->json($response);
     }
 
     // editor delete
@@ -662,6 +708,6 @@ class ApiController extends Controller
 
         $response = ApiHelper::make()->delete("/api/v2/editor/{$type}/{$draftId}");
 
-        return \response()->json($response->toArray());
+        return \response()->json($response);
     }
 }
