@@ -12,24 +12,23 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Promise\Utils;
 use GuzzleHttp\Psr7\Response;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Psr\Http\Message\ResponseInterface;
 
 trait Clientable
 {
-    use Arrayable;
-
     /** @var Response */
     protected $response;
 
-    protected array $result = [];
+    protected array $data = [];
 
     public static function make(): static|Utils|Client
     {
         return new static();
     }
 
-    abstract public function getBaseUri(): ?string;
+    public function getBaseUri(): ?string
+    {
+        return null;
+    }
 
     public function getOptions()
     {
@@ -48,66 +47,44 @@ trait Clientable
         return new Client($this->getOptions());
     }
 
-    abstract public function handleEmptyResponse(?string $content = null, ?ResponseInterface $response = null);
-
-    abstract public function isErrorResponse(array $data): bool;
-
-    abstract public function handleErrorResponse(?string $content = null, array $data = []);
-
-    abstract public function hasPaginate(): bool;
-
-    abstract public function getTotal(): ?int;
-
-    abstract public function getPageSize(): ?int;
-
-    abstract public function getCurrentPage(): ?int;
-
-    abstract public function getLastPage(): ?int;
-
-    abstract public function getDataList(): static|array|null;
-
     public function castResponse($response)
     {
-        $data = json_decode($content = $response->getBody()->getContents(), true) ?? [];
+        $content = $response->getBody()->getContents();
 
-        if (empty($data)) {
-            $this->handleEmptyResponse($content, $response);
-        }
-
-        if ($this->isErrorResponse($data)) {
-            $this->handleErrorResponse($content, $data);
-        }
+        $data = json_decode($content, true) ?? [];
 
         return $data;
     }
 
-    public function paginate()
+    public function unwrapRequests(array $requests)
     {
-        if (! $this->hasPaginate()) {
-            return null;
+        $results = $this->unwrap($requests);
+
+        if (method_exists($this, 'caseUnwrapRequests')) {
+            $results = $this->caseUnwrapRequests($results);
         }
 
-        $paginate = new LengthAwarePaginator(
-            items: $this->getDataList(),
-            total: $this->getTotal(),
-            perPage: $this->getPageSize(),
-            currentPage: $this->getCurrentPage(),
-        );
-
-        $paginate
-            ->withPath('/'.\request()->path())
-            ->withQueryString();
-
-        return $paginate;
+        return $results;
     }
 
-    public function __call($method, $args)
+    public function __call(string $method, array $args)
+    {
+        $result = $this->forwardCall($method, $args);
+
+        if (method_exists($this, 'caseForwardCallResult')) {
+            $result = $this->caseForwardCallResult($result);
+        }
+
+        return $result;
+    }
+
+    public function forwardCall($method, $args)
     {
         // Asynchronous requests
         if (method_exists(Utils::class, $method)) {
             $results = call_user_func_array([Utils::class, $method], $args);
 
-            if (! is_array($results)) {
+            if (!is_array($results)) {
                 return $results;
             }
 
@@ -116,28 +93,28 @@ trait Clientable
                 $data[$key] = $this->castResponse($promise);
             }
 
-            $this->setAttributes($data);
+            $this->data = $data;
 
-            return $this;
+            return $this->data;
         }
-
         // Synchronization Request
-        if (method_exists($this->getHttpClient(), $method)) {
+        else if (method_exists($this->getHttpClient(), $method)) {
             $this->response = $this->getHttpClient()->$method(...$args);
+
+            // return Promise response
+            if ($this->response instanceof Promise) {
+                return $this->response;
+            }
+    
+            // Response results processing
+            if ($this->response instanceof Response) {
+                $this->data = $this->castResponse($this->response);
+            }
+        } else {
+            throw new \RuntimeException(sprintf("unknown method %s::%s", get_class($this), $method));
         }
 
-        // Response results processing
-        if ($this->response instanceof Response) {
-            $this->result = $this->castResponse($this->response);
-
-            $this->setAttributes($this->result);
-        }
-
-        // Return the promise request directly to
-        if ($this->response instanceof Promise) {
-            return $this->response;
-        }
-
-        return $this;
+        // api data
+        return $this->data;
     }
 }
