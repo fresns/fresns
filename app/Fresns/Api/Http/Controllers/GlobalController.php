@@ -76,9 +76,9 @@ class GlobalController extends Controller
             } elseif ($config->item_type == 'plugins') {
                 if ($config->item_value) {
                     foreach ($config->item_value as $plugin) {
-                        $item['code'] = $plugin['code'];
-                        $item['url'] = PluginHelper::fresnsPluginUrlByUnikey($plugin['unikey']);
-                        $itemArr[] = $item;
+                        $pluginItem['code'] = $plugin['code'];
+                        $pluginItem['url'] = PluginHelper::fresnsPluginUrlByUnikey($plugin['unikey']);
+                        $itemArr[] = $pluginItem;
                     }
                     $item[$config->item_key] = $itemArr;
                 }

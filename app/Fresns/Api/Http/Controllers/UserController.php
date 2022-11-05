@@ -498,14 +498,14 @@ class UserController extends Controller
         $dialogUnread['messages'] = $dialogMessageCount;
         $data['dialogUnread'] = $dialogUnread;
 
-        $notifyUnread['system'] = Notify::where('type', 1)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notifyUnread['recommend'] = Notify::where('type', 2)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notifyUnread['like'] = Notify::where('type', 3)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notifyUnread['dislike'] = Notify::where('type', 4)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notifyUnread['follow'] = Notify::where('type', 5)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notifyUnread['block'] = Notify::where('type', 6)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notifyUnread['mention'] = Notify::where('type', 7)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notifyUnread['comment'] = Notify::where('type', 8)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['systems'] = Notify::where('type', 1)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['recommends'] = Notify::where('type', 2)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['likes'] = Notify::where('type', 3)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['dislikes'] = Notify::where('type', 4)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['follows'] = Notify::where('type', 5)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['blocks'] = Notify::where('type', 6)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['mentions'] = Notify::where('type', 7)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notifyUnread['comments'] = Notify::where('type', 8)->where('user_id', $authUserId)->where('is_read', 0)->count();
         $data['notifyUnread'] = $notifyUnread;
 
         $draftCount['posts'] = PostLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count();
@@ -521,7 +521,7 @@ class UserController extends Controller
 
             return $publish;
         });
-        $data['publish'] = $publish;
+        $data['publishConfig'] = $publish;
 
         $fileAccept['images'] = FileHelper::fresnsFileAcceptByType(File::TYPE_IMAGE);
         $fileAccept['videos'] = FileHelper::fresnsFileAcceptByType(File::TYPE_VIDEO);
