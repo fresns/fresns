@@ -24,7 +24,7 @@ class WebServiceProvider extends ServiceProvider
 
         // Keep the default configuration if you can't query data from the database
         try {
-            $defaultLanguage = fs_db_config('default_language');
+            $defaultLanguage = \request()->header('langTag') ?? \request()->cookie('lang') ?? fs_db_config('default_language');
 
             $supportedLocales = Cache::get('supportedLocales');
             if (! $supportedLocales) {
@@ -38,7 +38,7 @@ class WebServiceProvider extends ServiceProvider
                 $defaultLanguage = config('app.locale');
             }
         } catch (\Throwable $e) {
-            $defaultLanguage = config('app.locale');
+            $defaultLanguage = \request()->header('langTag') ?? \request()->cookie('lang') ?? config('app.locale');
 
             $supportedLocales = [
                 $defaultLanguage => ['name' => $defaultLanguage],

@@ -90,33 +90,29 @@ class WebConfiguration
 
     private function groupCategories(): void
     {
-        if (fs_user()->check()) {
-            $langTag = current_lang_tag();
+        $langTag = current_lang_tag();
 
-            $cacheKey = "fresns_web_group_categories_{$langTag}";
-            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+        $cacheKey = "fresns_web_group_categories_{$langTag}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
-            $groupCategories = Cache::remember($cacheKey, $cacheTime, function () {
-                $result = ApiHelper::make()->get('/api/v2/group/categories', [
-                    'query' => [
-                        'pageSize' => 100,
-                        'page' => 1,
-                    ],
-                ]);
+        $groupCategories = Cache::remember($cacheKey, $cacheTime, function () {
+            $result = ApiHelper::make()->get('/api/v2/group/categories', [
+                'query' => [
+                    'pageSize' => 100,
+                    'page' => 1,
+                ],
+            ]);
 
-                return data_get($result->toArray(), 'data.list', null);
-            });
+            return $result['data']['list'] ?? [];
+        });
 
-            if (is_null($groupCategories)) {
-                Cache::forget($cacheKey);
+        if (is_null($groupCategories)) {
+            Cache::forget($cacheKey);
 
-                $groupCategories = [];
-            }
-
-            View::share('groupCategories', $groupCategories);
-        } else {
-            View::share('groupCategories', []);
+            $groupCategories = [];
         }
+
+        View::share('groupCategories', $groupCategories);
     }
 
     public function loadLanguages()

@@ -41,7 +41,7 @@ if (! function_exists('fs_api_config')) {
                 ],
             ]);
 
-            return $result->toArray();
+            return $result;
         });
 
         if (! $apiConfig) {
@@ -79,9 +79,9 @@ if (! function_exists('fs_db_config')) {
             } elseif ($config->item_type == 'plugins') {
                 if ($config->item_value) {
                     foreach ($config->item_value as $plugin) {
-                        $item['code'] = $plugin['code'];
-                        $item['url'] = PluginHelper::fresnsPluginUrlByUnikey($plugin['unikey']);
-                        $itemArr[] = $item;
+                        $pluginItem['code'] = $plugin['code'];
+                        $pluginItem['url'] = PluginHelper::fresnsPluginUrlByUnikey($plugin['unikey']);
+                        $itemArr[] = $pluginItem;
                     }
                     $itemValue = $itemArr;
                 }

@@ -25,13 +25,13 @@ use App\Fresns\Web\Http\Middleware\WebConfiguration;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-use Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter;
+use App\Fresns\Web\Http\Middleware\LaravelLocalizationRedirectFilter;
 
 Route::prefix(LaravelLocalization::setLocale())
     ->middleware([
         'web',
-        WebConfiguration::class,
         LaravelLocalizationRedirectFilter::class,
+        WebConfiguration::class,
         AccountAuthorize::class,
         UserAuthorize::class,
         CheckSiteModel::class,
