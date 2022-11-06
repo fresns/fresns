@@ -16,14 +16,14 @@ class ChangeLocale
     public function handle($request, Closure $next)
     {
         if ($request->lang) {
-            Cookie::queue('lang', $request->lang);
+            Cookie::queue('panel_lang', $request->lang);
 
-            return back()->withInput($request->except('lang'));
+            return back()->withInput($request->except('panel_lang'));
         }
 
-        \App::setLocale(Cookie::get('lang', config('app.locale')));
+        \App::setLocale(Cookie::get('panel_lang', config('app.locale')));
 
-        $request->headers->set('langTag', \App::getLocale());
+        $request->headers->set('panel_lang', \App::getLocale());
 
         return $next($request);
     }

@@ -46,7 +46,7 @@
     <script src="{{ @asset('/static/js/fresns-functions.js?202ad23cb9db3f68') }}"></script>
     <script>
         $(document).ready(function () {
-            window.locale = $('html').attr('lang')
+            window.locale = $('html').attr('panel_lang')
             if (window.locale) {
                 $.ajax({
                     url: "{{ route('panel.translations', ['locale' => \App::getLocale()]) }}",
