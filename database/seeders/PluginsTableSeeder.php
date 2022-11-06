@@ -28,7 +28,7 @@ class PluginsTableSeeder extends Seeder
                 'type' => 4,
                 'name' => 'Theme Frame',
                 'description' => 'Fresns theme framework to showcase web-side functionality and interaction flow.',
-                'version' => '1.0.0',
+                'version' => '2.0.0-alpha.5',
                 'author' => 'Fresns',
                 'author_link' => 'https://fresns.org',
                 'scene' => null,
