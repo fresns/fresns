@@ -43,6 +43,7 @@ class ErrorException extends \Exception
 
         // 500 Internal Server Error
         if (in_array($this->getCode(), [
+            500,
             31000,
             31101, 31102, 31103,
             31201, 31202,

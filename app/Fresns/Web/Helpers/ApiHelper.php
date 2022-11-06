@@ -104,6 +104,14 @@ class ApiHelper
             throw new ErrorException($response?->getReasonPhrase(), $response?->getStatusCode());
         }
 
+        if (! array_key_exists('code', $data)) {
+            $code = 500;
+
+            $message = $data['message'] ?? $data['exception'] ?? '';
+
+            throw new ErrorException($message, $code);
+        }
+
         if (array_key_exists('code', $data) && $data['code'] != 0) {
             info('error response, ApiException: '.var_export($content, true));
 
