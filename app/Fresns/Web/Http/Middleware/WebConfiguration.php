@@ -70,6 +70,7 @@ class WebConfiguration
         $this->loadLanguages();
         $finder = app('view')->getFinder();
         $finder->prependLocation(base_path("extensions/themes/{$path}"));
+        $this->webLangTag();
         $this->userPanel();
         $this->groupCategories();
 
@@ -127,5 +128,22 @@ class WebConfiguration
         app()->get('laravellocalization')->setSupportedLocales($supportedLocales);
 
         fs_api_config('language_status') ? Cache::put('supportedLocales', $supportedLocales) : Cache::forget('supportedLocales');
+    }
+
+    public function webLangTag()
+    {
+        $params = explode('/', \request()->getPathInfo());
+        array_shift($params);
+
+        $langTag = ConfigHelper::fresnsConfigByItemKey('default_language');
+        if (\count($params) > 0) {
+            $locale = $params[0];
+
+            if (app('laravellocalization')->checkLocaleInSupportedLocales($locale)) {
+                $langTag = $locale;
+            }
+        }
+
+        Cookie::queue('langTag', $langTag);
     }
 }

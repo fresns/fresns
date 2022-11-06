@@ -21,7 +21,7 @@ class AccountAuthorize
             if (fs_account()->check()) {
                 return $next($request);
             } else {
-                $accountLoginTip = ConfigUtility::getCodeMessage(31501, 'Fresns', current_lang_tag());
+                $accountLoginTip = ConfigUtility::getCodeMessage(31501, 'Fresns', \request()->cookie('langTag'));
 
                 return $this->shouldLoginRender($accountLoginTip);
             }
