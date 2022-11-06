@@ -18,11 +18,12 @@ class EncryptCookies extends Middleware
      * @var array<int, string>
      */
     protected $except = [
+        'panel_lang',
+        'langTag',
         'timezone',
         'fs_aid',
         'fs_aid_token',
         'fs_uid',
         'fs_uid_token',
-        'lang',
     ];
 }
