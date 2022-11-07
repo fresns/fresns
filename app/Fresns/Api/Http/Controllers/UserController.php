@@ -259,6 +259,11 @@ class UserController extends Controller
     // followers you follow
     public function followersYouFollow(Request $request, string $uidOrUsername)
     {
+        $authUser = $this->user();
+        if (empty($authUser)) {
+            return $this->warning(31601);
+        }
+
         if (StrHelper::isPureInt($uidOrUsername)) {
             $viewUser = User::where('uid', $uidOrUsername)->first();
         } else {
@@ -279,7 +284,6 @@ class UserController extends Controller
 
         $langTag = $this->langTag();
         $timezone = $this->timezone();
-        $authUser = $this->user();
 
         if ($authUser->id != $viewUser->id) {
             $viewUserFollowers = UserFollow::type(UserFollow::TYPE_USER)->where('follow_id', $viewUser->id)->latest()->pluck('user_id')->toArray();
