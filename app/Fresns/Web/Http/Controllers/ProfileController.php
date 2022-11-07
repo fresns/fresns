@@ -25,7 +25,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'posts'   => $client->getAsync('/api/v2/post/list', [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'posts' => $client->getAsync('/api/v2/post/list', [
                 'query' => $query,
             ]),
         ]);
@@ -36,13 +42,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $posts = QueryHelper::convertApiDataToPaginate(
             items: $results['posts']['data']['list'],
             paginate: $results['posts']['data']['paginate'],
         );
 
-        return view('profile.posts', compact('items', 'profile', 'posts'));
+        return view('profile.posts', compact('items', 'profile', 'followersYouFollow', 'posts'));
     }
 
     // comments
@@ -55,7 +62,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'comments'   => $client->getAsync('/api/v2/comment/list', [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'comments' => $client->getAsync('/api/v2/comment/list', [
                 'query' => $query,
             ]),
         ]);
@@ -66,13 +79,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $comments = QueryHelper::convertApiDataToPaginate(
             items: $results['comments']['data']['list'],
             paginate: $results['comments']['data']['paginate'],
         );
 
-        return view('profile.comments', compact('items', 'profile', 'comments'));
+        return view('profile.comments', compact('items', 'profile', 'followersYouFollow', 'comments'));
     }
 
     // likers
@@ -84,7 +98,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/interactive/like", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'users' => $client->getAsync("/api/v2/user/{$uidOrUsername}/interactive/like", [
                 'query' => $query,
             ]),
         ]);
@@ -95,13 +115,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $users = QueryHelper::convertApiDataToPaginate(
             items: $results['users']['data']['list'],
             paginate: $results['users']['data']['paginate'],
         );
 
-        return view('profile.likers', compact('items', 'profile', 'users'));
+        return view('profile.likers', compact('items', 'profile', 'followersYouFollow', 'users'));
     }
 
     // dislikers
@@ -113,7 +134,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/interactive/dislike", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'users' => $client->getAsync("/api/v2/user/{$uidOrUsername}/interactive/dislike", [
                 'query' => $query,
             ]),
         ]);
@@ -124,13 +151,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $users = QueryHelper::convertApiDataToPaginate(
             items: $results['users']['data']['list'],
             paginate: $results['users']['data']['paginate'],
         );
 
-        return view('profile.dislikers', compact('items', 'profile', 'users'));
+        return view('profile.dislikers', compact('items', 'profile', 'followersYouFollow', 'users'));
     }
 
     // followers
@@ -142,7 +170,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/interactive/follow", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'users' => $client->getAsync("/api/v2/user/{$uidOrUsername}/interactive/follow", [
                 'query' => $query,
             ]),
         ]);
@@ -153,13 +187,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $users = QueryHelper::convertApiDataToPaginate(
             items: $results['users']['data']['list'],
             paginate: $results['users']['data']['paginate'],
         );
 
-        return view('profile.followers', compact('items', 'profile', 'users'));
+        return view('profile.followers', compact('items', 'profile', 'followersYouFollow', 'users'));
     }
 
     // followers you follow
@@ -171,7 +206,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'users' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
                 'query' => $query,
             ]),
         ]);
@@ -182,13 +223,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $users = QueryHelper::convertApiDataToPaginate(
             items: $results['users']['data']['list'],
             paginate: $results['users']['data']['paginate'],
         );
 
-        return view('profile.followers-you-follow', compact('items', 'profile', 'users'));
+        return view('profile.followers-you-follow', compact('items', 'profile', 'followersYouFollow', 'users'));
     }
 
     // blockers
@@ -200,7 +242,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/interactive/block", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'users' => $client->getAsync("/api/v2/user/{$uidOrUsername}/interactive/block", [
                 'query' => $query,
             ]),
         ]);
@@ -211,13 +259,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $users = QueryHelper::convertApiDataToPaginate(
             items: $results['users']['data']['list'],
             paginate: $results['users']['data']['paginate'],
         );
 
-        return view('profile.blockers', compact('items', 'profile', 'users'));
+        return view('profile.blockers', compact('items', 'profile', 'followersYouFollow', 'users'));
     }
 
     /**
@@ -233,7 +282,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/like/users", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'users' => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/like/users", [
                 'query' => $query,
             ]),
         ]);
@@ -244,13 +299,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $users = QueryHelper::convertApiDataToPaginate(
             items: $results['users']['data']['list'],
             paginate: $results['users']['data']['paginate'],
         );
 
-        return view('profile.likes.users', compact('items', 'profile', 'users'));
+        return view('profile.likes.users', compact('items', 'profile', 'followersYouFollow', 'users'));
     }
 
     // likeGroups
@@ -262,7 +318,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'groups'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/like/groups", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'groups' => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/like/groups", [
                 'query' => $query,
             ]),
         ]);
@@ -273,13 +335,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $groups = QueryHelper::convertApiDataToPaginate(
             items: $results['groups']['data']['list'],
             paginate: $results['groups']['data']['paginate'],
         );
 
-        return view('profile.likes.groups', compact('items', 'profile', 'groups'));
+        return view('profile.likes.groups', compact('items', 'profile', 'followersYouFollow', 'groups'));
     }
 
     // likeHashtags
@@ -291,7 +354,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'hashtags'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/like/hashtags", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'hashtags' => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/like/hashtags", [
                 'query' => $query,
             ]),
         ]);
@@ -302,13 +371,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $hashtags = QueryHelper::convertApiDataToPaginate(
             items: $results['hashtags']['data']['list'],
             paginate: $results['hashtags']['data']['paginate'],
         );
 
-        return view('profile.likes.hashtags', compact('items', 'profile', 'hashtags'));
+        return view('profile.likes.hashtags', compact('items', 'profile', 'followersYouFollow', 'hashtags'));
     }
 
     // likePosts
@@ -320,7 +390,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'posts'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/like/posts", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'posts' => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/like/posts", [
                 'query' => $query,
             ]),
         ]);
@@ -331,13 +407,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $posts = QueryHelper::convertApiDataToPaginate(
             items: $results['posts']['data']['list'],
             paginate: $results['posts']['data']['paginate'],
         );
 
-        return view('profile.likes.posts', compact('items', 'profile', 'posts'));
+        return view('profile.likes.posts', compact('items', 'profile', 'followersYouFollow', 'posts'));
     }
 
     // likeComments
@@ -349,7 +426,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'comments'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/like/comments", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'comments' => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/like/comments", [
                 'query' => $query,
             ]),
         ]);
@@ -360,13 +443,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $comments = QueryHelper::convertApiDataToPaginate(
             items: $results['comments']['data']['list'],
             paginate: $results['comments']['data']['paginate'],
         );
 
-        return view('profile.likes.comments', compact('items', 'profile', 'comments'));
+        return view('profile.likes.comments', compact('items', 'profile', 'followersYouFollow', 'comments'));
     }
 
     /**
@@ -382,7 +466,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/dislike/users", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'users' => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/dislike/users", [
                 'query' => $query,
             ]),
         ]);
@@ -393,13 +483,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $users = QueryHelper::convertApiDataToPaginate(
             items: $results['users']['data']['list'],
             paginate: $results['users']['data']['paginate'],
         );
 
-        return view('profile.dislikes.users', compact('items', 'profile', 'users'));
+        return view('profile.dislikes.users', compact('items', 'profile', 'followersYouFollow', 'users'));
     }
 
     // dislikeGroups
@@ -411,7 +502,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'groups'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/dislike/groups", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'groups' => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/dislike/groups", [
                 'query' => $query,
             ]),
         ]);
@@ -422,13 +519,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $groups = QueryHelper::convertApiDataToPaginate(
             items: $results['groups']['data']['list'],
             paginate: $results['groups']['data']['paginate'],
         );
 
-        return view('profile.dislikes.groups', compact('items', 'profile', 'groups'));
+        return view('profile.dislikes.groups', compact('items', 'profile', 'followersYouFollow', 'groups'));
     }
 
     // dislikeHashtags
@@ -440,7 +538,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'hashtags'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/dislike/hashtags", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'hashtags' => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/dislike/hashtags", [
                 'query' => $query,
             ]),
         ]);
@@ -451,13 +555,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $hashtags = QueryHelper::convertApiDataToPaginate(
             items: $results['hashtags']['data']['list'],
             paginate: $results['hashtags']['data']['paginate'],
         );
 
-        return view('profile.dislikes.hashtags', compact('items', 'profile', 'hashtags'));
+        return view('profile.dislikes.hashtags', compact('items', 'profile', 'followersYouFollow', 'hashtags'));
     }
 
     // dislikePosts
@@ -469,7 +574,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'posts'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/dislike/posts", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'posts' => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/dislike/posts", [
                 'query' => $query,
             ]),
         ]);
@@ -480,13 +591,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $posts = QueryHelper::convertApiDataToPaginate(
             items: $results['posts']['data']['list'],
             paginate: $results['posts']['data']['paginate'],
         );
 
-        return view('profile.dislikes.posts', compact('items', 'profile', 'posts'));
+        return view('profile.dislikes.posts', compact('items', 'profile', 'followersYouFollow', 'posts'));
     }
 
     // dislikeComments
@@ -498,7 +610,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'comments'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/dislike/comments", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'comments' => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/dislike/comments", [
                 'query' => $query,
             ]),
         ]);
@@ -509,13 +627,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $comments = QueryHelper::convertApiDataToPaginate(
             items: $results['comments']['data']['list'],
             paginate: $results['comments']['data']['paginate'],
         );
 
-        return view('profile.dislikes.comments', compact('items', 'profile', 'comments'));
+        return view('profile.dislikes.comments', compact('items', 'profile', 'followersYouFollow', 'comments'));
     }
 
     /**
@@ -531,7 +650,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/users", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'users' => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/users", [
                 'query' => $query,
             ]),
         ]);
@@ -542,13 +667,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $users = QueryHelper::convertApiDataToPaginate(
             items: $results['users']['data']['list'],
             paginate: $results['users']['data']['paginate'],
         );
 
-        return view('profile.following.users', compact('items', 'profile', 'users'));
+        return view('profile.following.users', compact('items', 'profile', 'followersYouFollow', 'users'));
     }
 
     // followingGroups
@@ -560,7 +686,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'groups'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/groups", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'groups' => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/groups", [
                 'query' => $query,
             ]),
         ]);
@@ -571,13 +703,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $groups = QueryHelper::convertApiDataToPaginate(
             items: $results['groups']['data']['list'],
             paginate: $results['groups']['data']['paginate'],
         );
 
-        return view('profile.following.groups', compact('items', 'profile', 'groups'));
+        return view('profile.following.groups', compact('items', 'profile', 'followersYouFollow', 'groups'));
     }
 
     // followingHashtags
@@ -589,7 +722,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'hashtags'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/hashtags", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'hashtags' => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/hashtags", [
                 'query' => $query,
             ]),
         ]);
@@ -600,13 +739,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $hashtags = QueryHelper::convertApiDataToPaginate(
             items: $results['hashtags']['data']['list'],
             paginate: $results['hashtags']['data']['paginate'],
         );
 
-        return view('profile.following.hashtags', compact('items', 'profile', 'hashtags'));
+        return view('profile.following.hashtags', compact('items', 'profile', 'followersYouFollow', 'hashtags'));
     }
 
     // followingPosts
@@ -618,7 +758,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'posts'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/posts", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'posts' => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/posts", [
                 'query' => $query,
             ]),
         ]);
@@ -629,13 +775,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $posts = QueryHelper::convertApiDataToPaginate(
             items: $results['posts']['data']['list'],
             paginate: $results['posts']['data']['paginate'],
         );
 
-        return view('profile.following.posts', compact('items', 'profile', 'posts'));
+        return view('profile.following.posts', compact('items', 'profile', 'followersYouFollow', 'posts'));
     }
 
     // followingComments
@@ -647,7 +794,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'comments'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/comments", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'comments' => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/follow/comments", [
                 'query' => $query,
             ]),
         ]);
@@ -658,13 +811,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $comments = QueryHelper::convertApiDataToPaginate(
             items: $results['comments']['data']['list'],
             paginate: $results['comments']['data']['paginate'],
         );
 
-        return view('profile.following.comments', compact('items', 'profile', 'comments'));
+        return view('profile.following.comments', compact('items', 'profile', 'followersYouFollow', 'comments'));
     }
 
     /**
@@ -680,7 +834,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'users'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/block/users", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'users' => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/block/users", [
                 'query' => $query,
             ]),
         ]);
@@ -691,13 +851,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $users = QueryHelper::convertApiDataToPaginate(
             items: $results['users']['data']['list'],
             paginate: $results['users']['data']['paginate'],
         );
 
-        return view('profile.blocking.users', compact('items', 'profile', 'users'));
+        return view('profile.blocking.users', compact('items', 'profile', 'followersYouFollow', 'users'));
     }
 
     // blockingGroups
@@ -709,7 +870,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'groups'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/block/groups", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'groups' => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/block/groups", [
                 'query' => $query,
             ]),
         ]);
@@ -720,13 +887,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $groups = QueryHelper::convertApiDataToPaginate(
             items: $results['groups']['data']['list'],
             paginate: $results['groups']['data']['paginate'],
         );
 
-        return view('profile.blocking.groups', compact('items', 'profile', 'groups'));
+        return view('profile.blocking.groups', compact('items', 'profile', 'followersYouFollow', 'groups'));
     }
 
     // blockingHashtags
@@ -738,7 +906,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'hashtags'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/block/hashtags", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'hashtags' => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/block/hashtags", [
                 'query' => $query,
             ]),
         ]);
@@ -749,13 +923,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $hashtags = QueryHelper::convertApiDataToPaginate(
             items: $results['hashtags']['data']['list'],
             paginate: $results['hashtags']['data']['paginate'],
         );
 
-        return view('profile.blocking.hashtags', compact('items', 'profile', 'hashtags'));
+        return view('profile.blocking.hashtags', compact('items', 'profile', 'followersYouFollow', 'hashtags'));
     }
 
     // blockingPosts
@@ -767,7 +942,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'posts'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/block/posts", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'posts' => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/block/posts", [
                 'query' => $query,
             ]),
         ]);
@@ -778,13 +959,14 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $posts = QueryHelper::convertApiDataToPaginate(
             items: $results['posts']['data']['list'],
             paginate: $results['posts']['data']['paginate'],
         );
 
-        return view('profile.blocking.posts', compact('items', 'profile', 'posts'));
+        return view('profile.blocking.posts', compact('items', 'profile', 'followersYouFollow', 'posts'));
     }
 
     // blockingComments
@@ -796,7 +978,13 @@ class ProfileController extends Controller
 
         $results = $client->unwrapRequests([
             'profile' => $client->getAsync("/api/v2/user/{$uidOrUsername}/detail"),
-            'comments'   => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/block/comments", [
+            'followersYouFollow' => $client->getAsync("/api/v2/user/{$uidOrUsername}/followers-you-follow", [
+                'query' => [
+                    'pageSize' => 3,
+                    'page' => 1,
+                ],
+            ]),
+            'comments' => $client->getAsync("/api/v2/user/{$uidOrUsername}/mark/block/comments", [
                 'query' => $query,
             ]),
         ]);
@@ -807,12 +995,13 @@ class ProfileController extends Controller
 
         $items = $results['profile']['data']['items'];
         $profile = $results['profile']['data']['detail'];
+        $followersYouFollow = $results['followersYouFollow']['data']['list'];
 
         $comments = QueryHelper::convertApiDataToPaginate(
             items: $results['comments']['data']['list'],
             paginate: $results['comments']['data']['paginate'],
         );
 
-        return view('profile.blocking.comments', compact('items', 'profile', 'comments'));
+        return view('profile.blocking.comments', compact('items', 'profile', 'followersYouFollow', 'comments'));
     }
 }
