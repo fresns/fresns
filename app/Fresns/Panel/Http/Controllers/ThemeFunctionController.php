@@ -79,7 +79,14 @@ class ThemeFunctionController extends Controller
 
         $plugins = Plugin::all();
 
-        return view($view, compact('themeParams', 'plugins'));
+        $lang = [];
+        if ($themeConfig['functionLang'] ?? null) {
+            $panelLang = \request()->cookie('panel_lang');
+
+            $lang = $themeConfig['functionLang']["{$panelLang}"] ?? head($themeConfig['functionLang']);
+        }
+
+        return view($view, compact('themeParams', 'plugins', 'lang'));
     }
 
     public function update(Request $request)
