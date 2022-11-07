@@ -11,7 +11,10 @@ namespace App\Fresns\Web\Http\Controllers;
 use App\Fresns\Web\Exceptions\ErrorException;
 use App\Fresns\Web\Helpers\ApiHelper;
 use App\Fresns\Web\Helpers\QueryHelper;
+use App\Helpers\CacheHelper;
+use App\Models\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class CommentController extends Controller
 {
@@ -56,22 +59,30 @@ class CommentController extends Controller
     // nearby
     public function nearby(Request $request)
     {
-        if (empty($request->mapLng) || empty($request->mapLat)) {
-            return back()->with([
-                'failure' => fs_lang('location').': '.fs_lang('errorEmpty'),
-            ]);
-        }
-
         $query = $request->all();
-        $query['mapId'] = $request->mapId;
-        $query['mapLng'] = $request->mapLng;
-        $query['mapLat'] = $request->mapLat;
+        $query['mapId'] = $request->mapId ?? 1;
+        $query['mapLng'] = $request->mapLng ?? null;
+        $query['mapLat'] = $request->mapLat ?? null;
         $query['unit'] = $request->unit ?? null;
         $query['length'] = $request->length ?? null;
 
-        $result = ApiHelper::make()->get('/api/v2/comment/nearby', [
-            'query' => $query,
-        ]);
+        if (empty($request->mapLng) || empty($request->mapLat)) {
+            $result = [
+                'data' => [
+                    'paginate' => [
+                        'total' => 0,
+                        'pageSize' => 15,
+                        'currentPage' => 1,
+                        'lastPage' => 1,
+                    ],
+                    'list' => [],
+                ]
+            ];
+        } else {
+            $result = ApiHelper::make()->get('/api/v2/comment/nearby', [
+                'query' => $query,
+            ]);
+        }
 
         $comments = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],
@@ -82,31 +93,73 @@ class CommentController extends Controller
     }
 
     // location
-    public function location(Request $request)
+    public function location(Request $request, string $cid, ?string $type = null)
     {
-        if (empty($request->mapLng) || empty($request->mapLat)) {
+        $langTag = current_lang_tag();
+
+        $cacheKey = "fresns_web_comment_{$cid}_{$langTag}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
+
+        $comment = Cache::remember($cacheKey, $cacheTime, function () use ($cid) {
+            return ApiHelper::make()->get("/api/v2/comment/{$cid}/detail");
+        });
+
+        if ($comment['code'] != 0) {
+            Cache::forget($cacheKey);
+
+            throw new ErrorException($comment['message'], $comment['code']);
+        }
+
+        $archive = $comment['data']['detail'];
+
+        $isLbs = $archive['location']['isLbs'] ?? false;
+        $mapId = $archive['location']['mapId'] ?? 1;
+        $latitude = $archive['location']['latitude'] ?? null;
+        $longitude = $archive['location']['longitude'] ?? null;
+
+        if (! $isLbs || empty($latitude) || empty($longitude)) {
             return back()->with([
                 'failure' => fs_lang('location').': '.fs_lang('errorEmpty'),
             ]);
         }
 
+        $type = match ($type) {
+            'posts' => 'posts',
+            'comments' => 'comments',
+            default => 'comments',
+        };
+
         $query = $request->all();
-        $query['mapId'] = $request->mapId;
-        $query['mapLng'] = $request->mapLng;
-        $query['mapLat'] = $request->mapLat;
-        $query['unit'] = $request->unit ?? null;
-        $query['length'] = $request->length ?? null;
+        $query['mapId'] = $mapId;
+        $query['mapLng'] = $longitude;
+        $query['mapLat'] = $latitude;
+        $query['unit'] = $comment['detail']['location']['unit'] ?? null;
 
-        $result = ApiHelper::make()->get('/api/v2/comment/nearby', [
-            'query' => $query,
-        ]);
+        if ($type == 'comments') {
+            $result = ApiHelper::make()->get('/api/v2/comment/nearby', [
+                'query' => $query,
+            ]);
 
-        $comments = QueryHelper::convertApiDataToPaginate(
-            items: $result['data']['list'],
-            paginate: $result['data']['paginate'],
-        );
+            $comments = QueryHelper::convertApiDataToPaginate(
+                items: $result['data']['list'],
+                paginate: $result['data']['paginate'],
+            );
 
-        return view('comments.location', compact('comments'));
+            $posts = [];
+        } else {
+            $result = ApiHelper::make()->get('/api/v2/post/nearby', [
+                'query' => $query,
+            ]);
+
+            $posts = QueryHelper::convertApiDataToPaginate(
+                items: $result['data']['list'],
+                paginate: $result['data']['paginate'],
+            );
+
+            $comments = [];
+        }
+
+        return view('comments.location', compact('archive', 'type', 'comments', 'posts'));
     }
 
     // likes
@@ -187,7 +240,7 @@ class CommentController extends Controller
 
         $results = $client->unwrapRequests([
             'comment' => $client->getAsync("/api/v2/comment/{$cid}/detail"),
-            'comments'   => $client->getAsync('/api/v2/comment/list', [
+            'comments' => $client->getAsync('/api/v2/comment/list', [
                 'query' => $query,
             ]),
         ]);

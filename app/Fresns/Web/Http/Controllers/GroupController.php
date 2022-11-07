@@ -167,8 +167,14 @@ class GroupController extends Controller
 
         $results = $client->unwrapRequests([
             'group' => $client->getAsync("/api/v2/group/{$gid}/detail"),
-            'posts'   => $client->getAsync('/api/v2/post/list', [
+            'posts' => $client->getAsync('/api/v2/post/list', [
                 'query' => $query,
+            ]),
+            'stickies' => $client->getAsync('/api/v2/post/list', [
+                'query' => [
+                    'gid' => $gid,
+                    'stickyState' => 2,
+                ],
             ]),
         ]);
 
@@ -184,6 +190,8 @@ class GroupController extends Controller
             paginate: $results['posts']['data']['paginate'],
         );
 
-        return view('groups.detail', compact('items', 'group', 'posts'));
+        $stickies = data_get($results, 'stickies.data.list', []);
+
+        return view('groups.detail', compact('items', 'group', 'posts', 'stickies'));
     }
 }

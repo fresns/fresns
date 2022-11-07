@@ -83,7 +83,7 @@ Route::prefix(LaravelLocalization::setLocale())
             Route::get('/', [PostController::class, 'index'])->name('index')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
             Route::get('list', [PostController::class, 'list'])->name('list')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
             Route::get('nearby', [PostController::class, 'nearby'])->name('nearby')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
-            Route::get('location', [PostController::class, 'location'])->name('location')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
+            Route::get('location/{pid}/{type?}', [PostController::class, 'location'])->name('location')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
             Route::get('likes', [PostController::class, 'likes'])->name('likes');
             Route::get('dislikes', [PostController::class, 'dislikes'])->name('dislikes');
             Route::get('following', [PostController::class, 'following'])->name('following');
@@ -95,7 +95,7 @@ Route::prefix(LaravelLocalization::setLocale())
             Route::get('/', [CommentController::class, 'index'])->name('index')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
             Route::get('list', [CommentController::class, 'list'])->name('list')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
             Route::get('nearby', [CommentController::class, 'nearby'])->name('nearby')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
-            Route::get('location', [CommentController::class, 'location'])->name('location')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
+            Route::get('location/{cid}/{type?}', [CommentController::class, 'location'])->name('location')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
             Route::get('likes', [CommentController::class, 'likes'])->name('likes');
             Route::get('dislikes', [CommentController::class, 'dislikes'])->name('dislikes');
             Route::get('following', [CommentController::class, 'following'])->name('following');
