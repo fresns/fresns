@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 trait ApiResponseTrait
 {
-    public function success($data = null, $message = 'success', $code = 0, $headers = [])
+    public function success($data = null, ?string $message = null, $code = 0, $headers = [])
     {
         if (is_string($data)) {
             $code = $message;
@@ -31,7 +31,7 @@ trait ApiResponseTrait
             extract($data);
         }
 
-        $message = ConfigUtility::getCodeMessage($code, null, \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag()));
+        $message = $message ?? ConfigUtility::getCodeMessage($code, null, \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag()));
 
         $data = $data ?: null;
         $fresnsResponse = compact('code', 'message', 'data') + array_filter(compact('paginate'));
@@ -53,7 +53,7 @@ trait ApiResponseTrait
         $data = [
             'paginate' => [
                 'total' => 0,
-                'pageSize' => 0,
+                'pageSize' => 15,
                 'currentPage' => 1,
                 'lastPage' => 1,
             ],
@@ -61,8 +61,9 @@ trait ApiResponseTrait
         ];
 
         $message = ConfigUtility::getCodeMessage($code, null, \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag())) ?? 'unknown warning';
+        $newMessage = '('.$code.') '.$message;
 
-        return $this->success($data, $message);
+        return $this->success($data, $newMessage);
     }
 
     public function failure($code = 30000, $message = 'unknown error', $data = null, $headers = [])
