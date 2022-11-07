@@ -23,6 +23,7 @@ return [
     'password' => 'Passwort',
     'enter' => 'Eingeben',
     'operation' => 'Bedienung des Bedienfelds',
+    'site_home' => 'Website Startseite',
     'switch_language' => 'Schalter Sprache',
     'logout' => 'Ausloggen',
     // Header menus

@@ -23,6 +23,7 @@ return [
     'password' => 'Mot de passe',
     'enter' => 'Entrer',
     'operation' => 'Fonctionnement du panneau',
+    'site_home' => 'Accueil du site web',
     'switch_language' => 'Langue du commutateur',
     'logout' => 'Se déconnecter',
     // Header menus

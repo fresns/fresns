@@ -23,6 +23,7 @@ return [
     'password' => 'Password',
     'enter' => 'Enter',
     'operation' => 'Panel Operation',
+    'site_home' => 'Website Home',
     'switch_language' => 'Switch Language',
     'logout' => 'Logout',
     // Header menus

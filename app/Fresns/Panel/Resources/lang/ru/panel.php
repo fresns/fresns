@@ -23,6 +23,7 @@ return [
     'password' => 'Пароль',
     'enter' => 'Войти',
     'operation' => 'Управление панелью',
+    'site_home' => 'Главная страница сайта',
     'switch_language' => 'Язык переключателя',
     'logout' => 'Выйти',
     // Header menus

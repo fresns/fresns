@@ -23,6 +23,7 @@ return [
     'password' => 'कुंजिका',
     'enter' => 'प्रवेश करना',
     'operation' => 'पैनल ऑपरेशन',
+    'site_home' => 'वेबसाइट होम',
     'switch_language' => 'भाषा बदलें',
     'logout' => 'लॉग आउट',
     // Header menus

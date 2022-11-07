@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Helpers\ConfigHelper;
 use App\Models\Config;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -51,6 +52,12 @@ class Controller extends BaseController
             $areaCodeConfig = Config::where('item_key', 'area_codes')->first();
             $areaCodes = $areaCodeConfig ? $areaCodeConfig->item_value : [];
             View::share('areaCodes', collect($areaCodes));
+
+            // site home url
+            $siteUrlConfig = Config::where('item_key', 'site_url')->first();
+            $siteUrl = $siteUrlConfig->item_value ?? '/';
+
+            View::share('siteUrl', $siteUrl);
         } catch (\Exception $e) {
         }
     }

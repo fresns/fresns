@@ -23,6 +23,7 @@ return [
     'password' => 'Clave',
     'enter' => 'Ingresar',
     'operation' => 'Funcionamiento del panel',
+    'site_home' => 'Inicio del sitio web',
     'switch_language' => 'Idioma del interruptor',
     'logout' => 'Cerrar sesión',
     // Header menus

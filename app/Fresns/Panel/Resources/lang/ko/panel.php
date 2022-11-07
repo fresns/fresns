@@ -23,6 +23,7 @@ return [
     'password' => '비밀번호',
     'enter' => '입력하다',
     'operation' => '패널 작동',
+    'site_home' => '웹사이트 홈',
     'switch_language' => '언어 전환',
     'logout' => '로그 아웃',
     // Header menus

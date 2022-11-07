@@ -23,6 +23,7 @@ return [
     'password' => 'Kata sandi',
     'enter' => 'Memasuki',
     'operation' => 'Operasi Panel',
+    'site_home' => 'Situs Web Rumah',
     'switch_language' => 'Ganti Bahasa',
     'logout' => 'Keluar',
     // Header menus

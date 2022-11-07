@@ -23,6 +23,7 @@ return [
     'password' => 'Senha',
     'enter' => 'Entrar',
     'operation' => 'Funcionamento do Painel',
+    'site_home' => 'Página de Internet',
     'switch_language' => 'Mudar de língua',
     'logout' => 'Sair',
     // Header menus

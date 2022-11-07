@@ -23,6 +23,7 @@ return [
     'password' => 'パスワード',
     'enter' => '入力',
     'operation' => 'パネル操作',
+    'site_home' => 'ウェブサイトホーム',
     'switch_language' => 'スイッチの言語',
     'logout' => 'ログアウト',
     // Header menus

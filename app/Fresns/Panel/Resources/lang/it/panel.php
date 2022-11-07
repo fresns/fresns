@@ -23,6 +23,7 @@ return [
     'password' => 'Parola d\'ordine',
     'enter' => 'accedere',
     'operation' => 'Funzionamento del pannello',
+    'site_home' => 'Sito web Home',
     'switch_language' => 'Lingua degli interruttori',
     'logout' => 'Disconnettersi',
     // Header menus

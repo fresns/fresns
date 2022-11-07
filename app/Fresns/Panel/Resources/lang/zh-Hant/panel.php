@@ -23,6 +23,7 @@ return [
     'password' => '密碼',
     'enter' => '進入',
     'operation' => '面板操作',
+    'site_home' => '網站首頁',
     'switch_language' => '切換語言',
     'logout' => '登出',
     // Header menus
