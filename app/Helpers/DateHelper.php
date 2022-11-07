@@ -124,6 +124,8 @@ class DateHelper
             return null;
         }
 
+        $datetime = date('Y-m-d H:i:s', strtotime($datetime));
+
         $timezone = $timezone ?? ConfigHelper::fresnsConfigDefaultTimezone();
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
