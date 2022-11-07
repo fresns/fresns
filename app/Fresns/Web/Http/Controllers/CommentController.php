@@ -76,7 +76,7 @@ class CommentController extends Controller
                         'lastPage' => 1,
                     ],
                     'list' => [],
-                ]
+                ],
             ];
         } else {
             $result = ApiHelper::make()->get('/api/v2/comment/nearby', [
