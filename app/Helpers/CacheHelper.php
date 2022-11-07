@@ -8,6 +8,7 @@
 
 namespace App\Helpers;
 
+use App\Models\File;
 use Illuminate\Support\Facades\Cache;
 
 class CacheHelper
@@ -21,15 +22,43 @@ class CacheHelper
             return now()->addHours($digital);
         }
 
-        $fileConfig = FileHelper::fresnsFileStorageConfigByType($fileType);
+        if ($fileType != File::TYPE_ALL) {
+            $fileConfig = FileHelper::fresnsFileStorageConfigByType($fileType);
 
-        if (! $fileConfig['antiLinkStatus']) {
-            $digital = rand(72, 168);
+            if (! $fileConfig['antiLinkStatus']) {
+                $digital = rand(72, 168);
+
+                return now()->addHours($digital);
+            }
+
+            $cacheTime = now()->addMinutes($fileConfig['antiLinkExpire'] - 1);
+
+            return $cacheTime;
+        }
+
+        $imageConfig = FileHelper::fresnsFileStorageConfigByType(File::TYPE_IMAGE);
+        $videoConfig = FileHelper::fresnsFileStorageConfigByType(File::TYPE_VIDEO);
+        $audioConfig = FileHelper::fresnsFileStorageConfigByType(File::TYPE_AUDIO);
+        $documentConfig = FileHelper::fresnsFileStorageConfigByType(File::TYPE_DOCUMENT);
+
+        $antiLinkExpire = [
+            $imageConfig['antiLinkStatus'] ? $imageConfig['antiLinkExpire'] : 0,
+            $videoConfig['antiLinkStatus'] ? $videoConfig['antiLinkExpire'] : 0,
+            $audioConfig['antiLinkStatus'] ? $audioConfig['antiLinkExpire'] : 0,
+            $documentConfig['antiLinkStatus'] ? $documentConfig['antiLinkExpire'] : 0,
+        ];
+
+        $newAntiLinkExpire = array_filter($antiLinkExpire);
+
+        if (empty($newAntiLinkExpire)) {
+            $digital = rand(6, 72);
 
             return now()->addHours($digital);
         }
 
-        $cacheTime = now()->addMinutes($fileConfig['antiLinkExpire'] - 1);
+        $minAntiLinkExpire = min($newAntiLinkExpire);
+
+        $cacheTime = now()->addMinutes($minAntiLinkExpire - 1);
 
         return $cacheTime;
     }
@@ -219,8 +248,10 @@ class CacheHelper
     {
         Cache::forget('fresns_web_api_host');
         Cache::forget('fresns_web_api_key');
-        Cache::forget('fresns_web_key_model');
+        // Cache::forget("fresns_web_key_{$keyId}");
         // CacheHelper::forgetFresnsMultilingual("fresns_web_api_config_all_{$itemKey}");
+        // CacheHelper::forgetFresnsMultilingual("fresns_web_post_{$pid}");
+        // CacheHelper::forgetFresnsMultilingual("fresns_web_comment_{$cid}");
         CacheHelper::forgetFresnsMultilingual('fresns_web_api_config_all');
         CacheHelper::forgetFresnsMultilingual('fresns_web_group_categories');
         CacheHelper::forgetFresnsMultilingual('fresns_web_api_top_list');

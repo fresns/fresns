@@ -10,6 +10,7 @@ namespace App\Models;
 
 class File extends Model
 {
+    const TYPE_ALL = 0;
     const TYPE_IMAGE = 1;
     const TYPE_VIDEO = 2;
     const TYPE_AUDIO = 3;

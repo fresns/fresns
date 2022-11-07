@@ -14,6 +14,7 @@ use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
 use App\Helpers\StrHelper;
 use App\Models\Config;
+use App\Models\File;
 use Illuminate\Support\Facades\Cache;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -32,7 +33,7 @@ if (! function_exists('fs_api_config')) {
         $langTag = current_lang_tag();
 
         $cacheKey = "fresns_web_api_config_all_{$langTag}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
 
         $apiConfig = Cache::remember($cacheKey, $cacheTime, function () {
             $result = ApiHelper::make()->get('/api/v2/global/configs', [
@@ -59,7 +60,7 @@ if (! function_exists('fs_db_config')) {
         $langTag = current_lang_tag();
 
         $cacheKey = "fresns_web_db_config_{$itemKey}_{$langTag}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
 
         $dbConfig = Cache::remember($cacheKey, $cacheTime, function () use ($itemKey, $langTag) {
             $config = Config::where('item_key', $itemKey)->first();

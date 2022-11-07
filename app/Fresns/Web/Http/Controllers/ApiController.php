@@ -31,7 +31,7 @@ class ApiController extends Controller
         $langTag = current_lang_tag();
 
         $cacheKey = "fresns_web_api_top_list_{$langTag}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
 
         $data = Cache::remember($cacheKey, $cacheTime, function () {
             $userQuery = QueryHelper::configToQuery(QueryHelper::TYPE_USER);
