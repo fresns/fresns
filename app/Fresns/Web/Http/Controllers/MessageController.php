@@ -45,7 +45,7 @@ class MessageController extends Controller
 
         $results = $client->unwrapRequests([
             'dialog' => $client->getAsync("/api/v2/dialog/{$dialogId}/detail"),
-            'messages'   => $client->getAsync("/api/v2/dialog/{$dialogId}/messages", [
+            'messages' => $client->getAsync("/api/v2/dialog/{$dialogId}/messages", [
                 'query' => $query,
             ]),
         ]);

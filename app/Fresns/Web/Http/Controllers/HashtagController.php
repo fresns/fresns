@@ -151,7 +151,7 @@ class HashtagController extends Controller
 
         $results = $client->unwrapRequests([
             'hashtag' => $client->getAsync("/api/v2/hashtag/{$hid}/detail"),
-            'posts'   => $client->getAsync('/api/v2/post/list', [
+            'posts' => $client->getAsync('/api/v2/post/list', [
                 'query' => $query,
             ]),
         ]);
