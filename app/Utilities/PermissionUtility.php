@@ -417,10 +417,7 @@ class PermissionUtility
             return true;
         }
 
-        $contentTime = strtotime($model->created_at);
-        $compareTime = now()->addMinutes($interval);
-
-        if ($contentTime < $compareTime) {
+        if ($model->created_at < now()->subMinutes($interval)) {
             return true;
         }
 
