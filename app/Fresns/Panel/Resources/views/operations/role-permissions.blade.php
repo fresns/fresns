@@ -62,12 +62,12 @@
                     <label class="input-group-text">{{ __('FsLang::panel.role_perm_post_publish') }}</label>
                     <div class="form-control bg-white">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" {{ $permissions['post_publish']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[post_publish]" id="publish.post.0" value="0">
-                            <label class="form-check-label" for="publish.post.0">{{ __('FsLang::panel.option_yes') }}</label>
+                            <input class="form-check-input" type="radio" {{ $permissions['post_publish']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[post_publish]" id="publish.post.1" value="1">
+                            <label class="form-check-label" for="publish.post.1">{{ __('FsLang::panel.option_yes') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" {{ !($permissions['post_publish']['permValue'] ?? '') ? 'checked' : '' }} name="permissions[post_publish]" id="publish.post.1" value="1">
-                            <label class="form-check-label" for="publish.post.1">{{ __('FsLang::panel.option_no') }}</label>
+                            <input class="form-check-input" type="radio" {{ !($permissions['post_publish']['permValue'] ?? '') ? 'checked' : '' }} name="permissions[post_publish]" id="publish.post.0" value="0">
+                            <label class="form-check-label" for="publish.post.0">{{ __('FsLang::panel.option_no') }}</label>
                         </div>
                     </div>
                 </div>
@@ -190,12 +190,12 @@
                     <label class="input-group-text">{{ __('FsLang::panel.role_perm_comment_publish') }}</label>
                     <div class="form-control bg-white">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" {{ $permissions['comment_publish']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[comment_publish]" id="publish.comment.0" value="0">
-                            <label class="form-check-label" for="publish.comment.0">{{ __('FsLang::panel.option_yes') }}</label>
+                            <input class="form-check-input" type="radio" {{ $permissions['comment_publish']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[comment_publish]" id="publish.comment.1" value="1">
+                            <label class="form-check-label" for="publish.comment.1">{{ __('FsLang::panel.option_yes') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" {{ !($permissions['comment_publish']['permValue'] ?? '') ? 'checked' : '' }} name="permissions[comment_publish]" id="publish.comment.1" value="1">
-                            <label class="form-check-label" for="publish.comment.1">{{ __('FsLang::panel.option_no') }}</label>
+                            <input class="form-check-input" type="radio" {{ !($permissions['comment_publish']['permValue'] ?? '') ? 'checked' : '' }} name="permissions[comment_publish]" id="publish.comment.0" value="0">
+                            <label class="form-check-label" for="publish.comment.0">{{ __('FsLang::panel.option_no') }}</label>
                         </div>
                     </div>
                 </div>
