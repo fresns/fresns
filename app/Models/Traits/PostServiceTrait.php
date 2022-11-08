@@ -62,6 +62,8 @@ trait PostServiceTrait
         $info['editTime'] = DateHelper::fresnsFormatDateTime($postData->latest_edit_at, $timezone, $langTag);
         $info['editTimeFormat'] = DateHelper::fresnsFormatTime($postData->latest_edit_at, $langTag);
         $info['editCount'] = $appendData->edit_count;
+        $info['rankState'] = $postData->rank_state;
+        $info['status'] = (bool) $postData->is_enable;
 
         $info['isAllow'] = (bool) $appendData->is_allow;
         $info['allowProportion'] = $appendData->allow_proportion;

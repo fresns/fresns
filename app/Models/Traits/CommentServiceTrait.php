@@ -57,6 +57,8 @@ trait CommentServiceTrait
         $info['editTime'] = DateHelper::fresnsFormatDateTime($commentData->latest_edit_at, $timezone, $langTag);
         $info['editTimeFormat'] = DateHelper::fresnsFormatTime($commentData->latest_edit_at, $langTag);
         $info['editCount'] = $appendData->edit_count;
+        $info['rankState'] = $commentData->rank_state;
+        $info['status'] = (bool) $commentData->is_enable;
 
         $info['isCommentBtn'] = (bool) $postAppendData->is_comment_btn;
         $info['commentBtnName'] = LanguageHelper::fresnsLanguageByTableId('post_appends', 'comment_btn_name', $commentData->post_id, $langTag);
