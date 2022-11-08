@@ -28,16 +28,16 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.app_ios_config') }}:</label>
             <div class="col-lg-6">
                 <div class="input-group mb-3">
-                    <label class="input-group-text">{{ __('FsLang::panel.app_notify') }}</label>
-                    <select class="form-select" name="ios_notify_service">
-                        <option value="" {{ !$params['ios_notify_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
-                        @foreach ($pluginParams['appNotify'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['ios_notify_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                    <label class="input-group-text">{{ __('FsLang::panel.app_notifications') }}</label>
+                    <select class="form-select" name="ios_notifications_service">
+                        <option value="" {{ !$params['ios_notifications_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
+                        @foreach ($pluginParams['appNotifications'] as $plugin)
+                            <option value="{{ $plugin->unikey }}" {{ $params['ios_notifications_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.app_ios_notify_desc') }}</div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.app_ios_notifications_desc') }}</div>
         </div>
 
         <!--android_config-->
@@ -45,16 +45,16 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.app_android_config') }}:</label>
             <div class="col-lg-6">
                 <div class="input-group mb-3">
-                    <label class="input-group-text">{{ __('FsLang::panel.app_notify') }}</label>
-                    <select class="form-select" name="android_notify_service">
-                        <option value="" {{ !$params['android_notify_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
-                        @foreach ($pluginParams['appNotify'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['android_notify_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                    <label class="input-group-text">{{ __('FsLang::panel.app_notifications') }}</label>
+                    <select class="form-select" name="android_notifications_service">
+                        <option value="" {{ !$params['android_notifications_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
+                        @foreach ($pluginParams['appNotifications'] as $plugin)
+                            <option value="{{ $plugin->unikey }}" {{ $params['android_notifications_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.app_android_notify_desc') }}</div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.app_android_notifications_desc') }}</div>
         </div>
 
         <!--wechat_config-->
@@ -62,16 +62,16 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.app_wechat_config') }}:</label>
             <div class="col-lg-6">
                 <div class="input-group mb-3">
-                    <label class="input-group-text">{{ __('FsLang::panel.app_notify') }}</label>
-                    <select class="form-select" name="wechat_notify_service">
-                        <option value="" {{ !$params['wechat_notify_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
-                        @foreach ($pluginParams['appNotify'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['wechat_notify_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                    <label class="input-group-text">{{ __('FsLang::panel.app_notifications') }}</label>
+                    <select class="form-select" name="wechat_notifications_service">
+                        <option value="" {{ !$params['wechat_notifications_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
+                        @foreach ($pluginParams['appNotifications'] as $plugin)
+                            <option value="{{ $plugin->unikey }}" {{ $params['wechat_notifications_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.app_wechat_notify_desc') }}</div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.app_wechat_notifications_desc') }}</div>
         </div>
 
         <!--button_save-->

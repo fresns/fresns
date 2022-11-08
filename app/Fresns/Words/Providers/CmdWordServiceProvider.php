@@ -40,7 +40,7 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         // Send
         ['word' => 'sendEmail', 'provider' => [Send::class, 'sendEmail']],
         ['word' => 'sendSms', 'provider' => [Send::class, 'sendSms']],
-        ['word' => 'sendNotify', 'provider' => [Send::class, 'sendNotify']],
+        ['word' => 'sendNotification', 'provider' => [Send::class, 'sendNotification']],
         ['word' => 'sendAppNotification', 'provider' => [Send::class, 'sendAppNotification']],
         ['word' => 'sendWechatMessage', 'provider' => [Send::class, 'sendWechatMessage']],
 

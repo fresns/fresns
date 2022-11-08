@@ -26,13 +26,13 @@ use App\Helpers\StrHelper;
 use App\Models\ArchiveUsage;
 use App\Models\BlockWord;
 use App\Models\CommentLog;
-use App\Models\Dialog;
-use App\Models\DialogMessage;
+use App\Models\Conversation;
+use App\Models\ConversationMessage;
 use App\Models\DomainLinkUsage;
 use App\Models\File;
 use App\Models\HashtagUsage;
 use App\Models\Mention;
-use App\Models\Notify;
+use App\Models\Notification;
 use App\Models\PluginUsage;
 use App\Models\PostLog;
 use App\Models\Seo;
@@ -495,22 +495,22 @@ class UserController extends Controller
         $data['features'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_FEATURE, null, null, $authUserId, $langTag);
         $data['profiles'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_PROFILE, null, null, $authUserId, $langTag);
 
-        $dialogACount = Dialog::where('a_user_id', $authUserId)->where('a_is_read', 0)->where('a_is_display', 1)->count();
-        $dialogBCount = Dialog::where('b_user_id', $authUserId)->where('b_is_read', 0)->where('b_is_display', 1)->count();
-        $dialogMessageCount = DialogMessage::where('receive_user_id', $authUserId)->whereNull('receive_read_at')->whereNull('receive_deleted_at')->isEnable()->count();
-        $dialogUnread['dialogs'] = $dialogACount + $dialogBCount;
-        $dialogUnread['messages'] = $dialogMessageCount;
-        $data['dialogUnread'] = $dialogUnread;
+        $conversationACount = Conversation::where('a_user_id', $authUserId)->where('a_is_read', 0)->where('a_is_display', 1)->count();
+        $conversationBCount = Conversation::where('b_user_id', $authUserId)->where('b_is_read', 0)->where('b_is_display', 1)->count();
+        $conversationMessageCount = ConversationMessage::where('receive_user_id', $authUserId)->whereNull('receive_read_at')->whereNull('receive_deleted_at')->isEnable()->count();
+        $conversationUnread['conversations'] = $conversationACount + $conversationBCount;
+        $conversationUnread['messages'] = $conversationMessageCount;
+        $data['conversationUnread'] = $conversationUnread;
 
-        $notifyUnread['systems'] = Notify::where('type', 1)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notifyUnread['recommends'] = Notify::where('type', 2)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notifyUnread['likes'] = Notify::where('type', 3)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notifyUnread['dislikes'] = Notify::where('type', 4)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notifyUnread['follows'] = Notify::where('type', 5)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notifyUnread['blocks'] = Notify::where('type', 6)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notifyUnread['mentions'] = Notify::where('type', 7)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notifyUnread['comments'] = Notify::where('type', 8)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $data['notifyUnread'] = $notifyUnread;
+        $notificationUnread['systems'] = Notification::where('type', 1)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notificationUnread['recommends'] = Notification::where('type', 2)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notificationUnread['likes'] = Notification::where('type', 3)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notificationUnread['dislikes'] = Notification::where('type', 4)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notificationUnread['follows'] = Notification::where('type', 5)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notificationUnread['blocks'] = Notification::where('type', 6)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notificationUnread['mentions'] = Notification::where('type', 7)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $notificationUnread['comments'] = Notification::where('type', 8)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $data['notificationUnread'] = $notificationUnread;
 
         $draftCount['posts'] = PostLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count();
         $draftCount['comments'] = CommentLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count();
@@ -736,10 +736,10 @@ class UserController extends Controller
             ]);
         }
 
-        // edit dialogLimit
-        if ($dtoRequest->dialogLimit) {
+        // edit conversationLimit
+        if ($dtoRequest->conversationLimit) {
             $authUser->update([
-                'dialog_limit' => $dtoRequest->dialogLimit,
+                'conversation_limit' => $dtoRequest->conversationLimit,
             ]);
         }
 

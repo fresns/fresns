@@ -33,7 +33,7 @@ class BlockWordsImport implements ToModel, WithHeadingRow
             'word' => $row['word'],
             'content_mode' => $row['content_mode'],
             'user_mode' => $row['user_mode'],
-            'dialog_mode' => $row['dialog_mode'],
+            'conversation_mode' => $row['conversation_mode'],
             'replace_word' => $row['replace_word'],
         ]);
     }

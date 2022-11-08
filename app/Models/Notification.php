@@ -8,7 +8,7 @@
 
 namespace App\Models;
 
-class Notify extends Model
+class Notification extends Model
 {
     const TYPE_SYSTEM = 1;
     const TYPE_RECOMMEND = 2;

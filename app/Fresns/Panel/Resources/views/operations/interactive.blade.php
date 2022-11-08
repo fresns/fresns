@@ -102,53 +102,53 @@
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interactive_nearby_length_desc') }}</div>
         </div>
 
-        <!--interactive_dialog_config-->
+        <!--interactive_conversation_config-->
         <div class="row mb-3">
-            <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.interactive_dialog_config') }}:</label>
+            <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.interactive_conversation_config') }}:</label>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <label class="input-group-text">{{ __('FsLang::panel.interactive_dialog_status') }}</label>
+                    <label class="input-group-text">{{ __('FsLang::panel.interactive_conversation_status') }}</label>
                     <div class="form-control bg-white">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="dialog_status" id="dialog_status_true" value="true" data-bs-toggle="collapse" data-bs-target="#dialog_setting:not(.show)" aria-expanded="false" aria-controls="dialog_setting" {{ $params['dialog_status'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="dialog_status_true">{{ __('FsLang::panel.option_open') }}</label>
+                            <input class="form-check-input" type="radio" name="conversation_status" id="conversation_status_true" value="true" data-bs-toggle="collapse" data-bs-target="#conversation_setting:not(.show)" aria-expanded="false" aria-controls="conversation_setting" {{ $params['conversation_status'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="conversation_status_true">{{ __('FsLang::panel.option_open') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="dialog_status" id="dialog_status_false" value="false" data-bs-toggle="collapse" data-bs-target="#dialog_setting.show" aria-expanded="false" aria-controls="dialog_setting" {{ !$params['dialog_status'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="dialog_status_false">{{ __('FsLang::panel.option_close') }}</label>
+                            <input class="form-check-input" type="radio" name="conversation_status" id="conversation_status_false" value="false" data-bs-toggle="collapse" data-bs-target="#conversation_setting.show" aria-expanded="false" aria-controls="conversation_setting" {{ !$params['conversation_status'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="conversation_status_false">{{ __('FsLang::panel.option_close') }}</label>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interactive_dialog_status_desc') }}</div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interactive_conversation_status_desc') }}</div>
         </div>
-        <div class="collapse {{ $params['dialog_status'] ? 'show' : '' }}" id="dialog_setting">
+        <div class="collapse {{ $params['conversation_status'] ? 'show' : '' }}" id="conversation_setting">
             <div class="row">
                 <label class="col-lg-2 col-form-label text-lg-end"></label>
                 <div class="col-lg-6">
                     <div class="input-group">
-                        <label class="input-group-text">{{ __('FsLang::panel.interactive_dialog_files') }}</label>
+                        <label class="input-group-text">{{ __('FsLang::panel.interactive_conversation_files') }}</label>
                         <div class="form-control bg-white">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="dialog_file_image" name="dialog_files[]" value="image" {{ in_array('image', $params['dialog_files']) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="dialog_file_image">{{ __('FsLang::panel.editor_image') }}</label>
+                                <input class="form-check-input" type="checkbox" id="conversation_file_image" name="conversation_files[]" value="image" {{ in_array('image', $params['conversation_files']) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="conversation_file_image">{{ __('FsLang::panel.editor_image') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="dialog_file_video" name="dialog_files[]" value="video" {{ in_array('video', $params['dialog_files']) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="dialog_file_video">{{ __('FsLang::panel.editor_video') }}</label>
+                                <input class="form-check-input" type="checkbox" id="conversation_file_video" name="conversation_files[]" value="video" {{ in_array('video', $params['conversation_files']) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="conversation_file_video">{{ __('FsLang::panel.editor_video') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="dialog_file_audio" name="dialog_files[]" value="audio" {{ in_array('audio', $params['dialog_files']) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="dialog_file_audio">{{ __('FsLang::panel.editor_audio') }}</label>
+                                <input class="form-check-input" type="checkbox" id="conversation_file_audio" name="conversation_files[]" value="audio" {{ in_array('audio', $params['conversation_files']) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="conversation_file_audio">{{ __('FsLang::panel.editor_audio') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="dialog_file_document" name="dialog_files[]" value="document" {{ in_array('document', $params['dialog_files']) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="dialog_file_document">{{ __('FsLang::panel.editor_document') }}</label>
+                                <input class="form-check-input" type="checkbox" id="conversation_file_document" name="conversation_files[]" value="document" {{ in_array('document', $params['conversation_files']) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="conversation_file_document">{{ __('FsLang::panel.editor_document') }}</label>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interactive_dialog_files_desc') }}</div>
+                <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interactive_conversation_files_desc') }}</div>
             </div>
         </div>
 

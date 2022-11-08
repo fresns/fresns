@@ -10,7 +10,7 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class NotifyDTO extends DTO
+class NotificationDTO extends DTO
 {
     /**
      * @return array
@@ -19,8 +19,8 @@ class NotifyDTO extends DTO
     {
         return [
             'type' => ['string', 'required', 'in:all,choose'],
-            'notifyType' => ['integer', 'nullable', 'between:1,8', 'required_without:notifyIds', 'required_if:type,all'],
-            'notifyIds' => ['string', 'nullable', 'required_without:notifyType', 'required_if:type,choose'],
+            'notificationType' => ['integer', 'nullable', 'between:1,8', 'required_without:notificationIds', 'required_if:type,all'],
+            'notificationIds' => ['string', 'nullable', 'required_without:notificationType', 'required_if:type,choose'],
         ];
     }
 }

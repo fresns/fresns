@@ -113,13 +113,13 @@ class PermissionUtility
         return array_intersect($userRoles, $permRoleIds) ? true : false;
     }
 
-    // Check user dialog permission
-    public static function checkUserDialogPerm(int $receiveUserId, ?int $authUserId = null, ?string $langTag = null)
+    // Check user conversation permission
+    public static function checkUserConversationPerm(int $receiveUserId, ?int $authUserId = null, ?string $langTag = null)
     {
-        $dialogStatus = ConfigHelper::fresnsConfigByItemKey('dialog_status');
+        $conversationStatus = ConfigHelper::fresnsConfigByItemKey('conversation_status');
         $receiveUser = PrimaryHelper::fresnsModelById('user', $receiveUserId);
 
-        $info['status'] = $dialogStatus;
+        $info['status'] = $conversationStatus;
         $info['code'] = 0;
         $info['message'] = 'ok';
 
@@ -131,7 +131,7 @@ class PermissionUtility
             return  $info;
         }
 
-        if (! $dialogStatus) {
+        if (! $conversationStatus) {
             $info['status'] = false;
             $info['code'] = 36600;
             $info['message'] = ConfigUtility::getCodeMessage(36600, 'Fresns', $langTag);
@@ -164,7 +164,7 @@ class PermissionUtility
         }
 
         $authUserRolePerm = PermissionUtility::getUserMainRolePerm($receiveUser->id);
-        if (! $authUserRolePerm['dialog']) {
+        if (! $authUserRolePerm['conversation']) {
             $info['status'] = false;
             $info['code'] = 36114;
             $info['message'] = ConfigUtility::getCodeMessage(36114, 'Fresns', $langTag);
@@ -173,7 +173,7 @@ class PermissionUtility
         }
 
         $checkBlock = InteractiveUtility::checkUserBlock(InteractiveUtility::TYPE_USER, $authUserId, $receiveUser->id);
-        if ($receiveUser->dialog_limit == 4 || $checkBlock) {
+        if ($receiveUser->conversation_limit == 4 || $checkBlock) {
             $info['status'] = false;
             $info['code'] = 36608;
             $info['message'] = ConfigUtility::getCodeMessage(36608, 'Fresns', $langTag);
@@ -183,7 +183,7 @@ class PermissionUtility
 
         $checkFollow = InteractiveUtility::checkUserFollow(InteractiveUtility::TYPE_USER, $receiveUser->id, $authUserId);
         $authUserVerifiedStatus = User::where('id', $authUserId)->value('verified_status') ?? 0;
-        if ($receiveUser->dialog_limit == 3 && ! $checkFollow && ! $authUserVerifiedStatus) {
+        if ($receiveUser->conversation_limit == 3 && ! $checkFollow && ! $authUserVerifiedStatus) {
             $info['status'] = false;
             $info['code'] = 36607;
             $info['message'] = ConfigUtility::getCodeMessage(36607, 'Fresns', $langTag);
@@ -191,7 +191,7 @@ class PermissionUtility
             return  $info;
         }
 
-        if ($receiveUser->dialog_limit == 2 && ! $checkFollow) {
+        if ($receiveUser->conversation_limit == 2 && ! $checkFollow) {
             $info['status'] = false;
             $info['code'] = 36606;
             $info['message'] = ConfigUtility::getCodeMessage(36606, 'Fresns', $langTag);

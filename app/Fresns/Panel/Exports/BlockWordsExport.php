@@ -29,7 +29,7 @@ class BlockWordsExport implements FromCollection, WithHeadings, WithMapping
             'word',
             'content_mode',
             'user_mode',
-            'dialog_mode',
+            'conversation_mode',
             'replace_word',
         ];
     }
@@ -40,7 +40,7 @@ class BlockWordsExport implements FromCollection, WithHeadings, WithMapping
             $word->word,
             $word->content_mode,
             $word->user_mode,
-            $word->dialog_mode,
+            $word->conversation_mode,
             $word->replace_word,
         ];
     }

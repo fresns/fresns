@@ -15,7 +15,7 @@ class FileUsage extends Model
     const TYPE_OPERATION = 3;
     const TYPE_STICKER = 4;
     const TYPE_USER = 5;
-    const TYPE_DIALOG = 6;
+    const TYPE_CONVERSATION = 6;
     const TYPE_POST = 7;
     const TYPE_COMMENT = 8;
     const TYPE_EXTEND = 9;

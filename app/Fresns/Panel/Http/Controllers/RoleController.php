@@ -223,7 +223,7 @@ class RoleController extends Controller
 
         $permissions = collect($formPermissions)->map(function ($value, $key) {
             $boolPerms = [
-                'content_view', 'dialog',
+                'content_view', 'conversation',
                 'post_publish', 'post_email_verify', 'post_phone_verify', 'post_real_name_verify', 'post_review', 'post_limit_status',
                 'comment_publish', 'comment_email_verify', 'comment_phone_verify', 'comment_review', 'comment_real_name_verify',
                 'post_editor_image', 'post_editor_video', 'post_editor_audio', 'post_editor_document',

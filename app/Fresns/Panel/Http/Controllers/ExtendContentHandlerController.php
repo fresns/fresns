@@ -19,7 +19,7 @@ class ExtendContentHandlerController extends Controller
         // config keys
         $configKeys = [
             'ip_service',
-            'notify_service',
+            'notifications_service',
             'content_review_service',
             'content_list_service',
             'content_follow_service',
@@ -41,6 +41,7 @@ class ExtendContentHandlerController extends Controller
             'extendIp',
             'extendReview',
             'extendData',
+            'extendNotification',
             'extendSearch',
         ];
         $plugins = Plugin::all();
@@ -59,7 +60,7 @@ class ExtendContentHandlerController extends Controller
         // config keys
         $configKeys = [
             'ip_service',
-            'notify_service',
+            'notifications_service',
             'content_review_service',
             'content_list_service',
             'content_follow_service',

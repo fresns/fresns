@@ -145,7 +145,7 @@ class FileHelper
             3 => '/operations/{YYYYMM}/',
             4 => '/stickers/{YYYYMM}/',
             5 => '/users/{YYYYMM}/{DD}/',
-            6 => '/dialogs/{YYYYMM}/{DD}/',
+            6 => '/conversations/{YYYYMM}/{DD}/',
             7 => '/posts/{YYYYMM}/{DD}/',
             8 => '/comments/{YYYYMM}/{DD}/',
             9 => '/extends/{YYYYMM}/{DD}/',

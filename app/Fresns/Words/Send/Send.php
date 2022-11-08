@@ -10,14 +10,14 @@ namespace App\Fresns\Words\Send;
 
 use App\Fresns\Words\Send\DTO\SendAppNotificationDTO;
 use App\Fresns\Words\Send\DTO\SendEmailDTO;
-use App\Fresns\Words\Send\DTO\SendNotifyDTO;
+use App\Fresns\Words\Send\DTO\SendNotificationDTO;
 use App\Fresns\Words\Send\DTO\SendSmsDTO;
 use App\Fresns\Words\Send\DTO\SendWechatMessageDTO;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\CommentLog;
 use App\Models\Language;
-use App\Models\Notify;
+use App\Models\Notification;
 use App\Models\PostLog;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
@@ -71,11 +71,11 @@ class Send
      *
      * @throws \Throwable
      */
-    public function sendNotify($wordBody)
+    public function sendNotification($wordBody)
     {
-        $dtoWordBody = new SendNotifyDTO($wordBody);
+        $dtoWordBody = new SendNotificationDTO($wordBody);
 
-        $service = ConfigHelper::fresnsConfigByItemKey('notify_service');
+        $service = ConfigHelper::fresnsConfigByItemKey('notifications_service');
 
         if ($service) {
             $fresnsResp = \FresnsCmdWord::plugin($service)->sendSms($wordBody);
@@ -83,9 +83,9 @@ class Send
             return $fresnsResp->getOrigin();
         }
 
-        // Fresns Generate Notify
+        // Fresns Generate Notification
 
-        if ($dtoWordBody->type == Notify::TYPE_LIKE || $dtoWordBody->type == Notify::TYPE_DISLIKE || $dtoWordBody->type == Notify::TYPE_FOLLOW || $dtoWordBody->type == Notify::TYPE_BLOCK) {
+        if ($dtoWordBody->type == Notification::TYPE_LIKE || $dtoWordBody->type == Notification::TYPE_DISLIKE || $dtoWordBody->type == Notification::TYPE_FOLLOW || $dtoWordBody->type == Notification::TYPE_BLOCK) {
             // Such message notifications are not supported
             return $this->failure(22200);
         }
@@ -101,7 +101,7 @@ class Send
             }
         }
 
-        $send = Send::generateNotify($user->id, $dtoWordBody->toArray());
+        $send = Send::generateNotification($user->id, $dtoWordBody->toArray());
 
         if ($send != 0) {
             return $this->failure($send);
@@ -162,8 +162,8 @@ class Send
         }
     }
 
-    // generate notify
-    public static function generateNotify(int $userId, array $dtoWordBody): int
+    // generate notification
+    public static function generateNotification(int $userId, array $dtoWordBody): int
     {
         $actionUser = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody['actionUid']);
 
@@ -171,14 +171,14 @@ class Send
         $fsid = $dtoWordBody['actionFsid'];
 
         $actionModel = match ($dtoWordBody['actionObject']) {
-            Notify::ACTION_OBJECT_USER => PrimaryHelper::fresnsModelByFsid('user', $fsid),
-            Notify::ACTION_OBJECT_GROUP => PrimaryHelper::fresnsModelByFsid('group', $fsid),
-            Notify::ACTION_OBJECT_HASHTAG => PrimaryHelper::fresnsModelByFsid('hashtag', $fsid),
-            Notify::ACTION_OBJECT_POST => PrimaryHelper::fresnsModelByFsid('post', $fsid),
-            Notify::ACTION_OBJECT_COMMENT => PrimaryHelper::fresnsModelByFsid('comment', $fsid),
-            Notify::ACTION_OBJECT_POST_LOG => PostLog::withTrashed()->where('id', $fsid)->first(),
-            Notify::ACTION_OBJECT_COMMENT_LOG => CommentLog::withTrashed()->where('id', $fsid)->first(),
-            Notify::ACTION_OBJECT_EXTEND => PrimaryHelper::fresnsModelByFsid('extend', $fsid),
+            Notification::ACTION_OBJECT_USER => PrimaryHelper::fresnsModelByFsid('user', $fsid),
+            Notification::ACTION_OBJECT_GROUP => PrimaryHelper::fresnsModelByFsid('group', $fsid),
+            Notification::ACTION_OBJECT_HASHTAG => PrimaryHelper::fresnsModelByFsid('hashtag', $fsid),
+            Notification::ACTION_OBJECT_POST => PrimaryHelper::fresnsModelByFsid('post', $fsid),
+            Notification::ACTION_OBJECT_COMMENT => PrimaryHelper::fresnsModelByFsid('comment', $fsid),
+            Notification::ACTION_OBJECT_POST_LOG => PostLog::withTrashed()->where('id', $fsid)->first(),
+            Notification::ACTION_OBJECT_COMMENT_LOG => CommentLog::withTrashed()->where('id', $fsid)->first(),
+            Notification::ACTION_OBJECT_EXTEND => PrimaryHelper::fresnsModelByFsid('extend', $fsid),
             default => null,
         };
 
@@ -186,30 +186,30 @@ class Send
             return 22202; // Action model does not exist
         }
 
-        $notifyQuery = Notify::withTrashed()->where('user_id', $userId)->type($dtoWordBody['type']);
+        $notificationQuery = Notification::withTrashed()->where('user_id', $userId)->type($dtoWordBody['type']);
 
-        $notifyQuery->when($actionUser, function ($query, $value) {
+        $notificationQuery->when($actionUser, function ($query, $value) {
             $query->where('action_user_id', $value->id);
         });
 
-        $notifyQuery->when($dtoWordBody['actionType'], function ($query, $value) {
+        $notificationQuery->when($dtoWordBody['actionType'], function ($query, $value) {
             $query->where('action_type', $value);
         });
 
-        $notifyQuery->when($actionModel, function ($query, $value) use ($actionObject) {
+        $notificationQuery->when($actionModel, function ($query, $value) use ($actionObject) {
             $query->where('action_object', $actionObject)->where('action_id', $value->id);
         });
 
-        $checkNotify = $notifyQuery->first();
+        $checkNotification = $notificationQuery->first();
 
-        if ($checkNotify) {
+        if ($checkNotification) {
             return 22203; // The same message has been notified
         }
 
         $isMultilingual = $dtoWordBody['isMultilingual'] ?? 0;
 
-        // notify data
-        $notifyData = [
+        // notification data
+        $notificationData = [
             'user_id' => $userId,
             'type' => $dtoWordBody['type'],
             'content' => $isMultilingual ? null : $dtoWordBody['content'],
@@ -224,16 +224,16 @@ class Send
             'action_comment_id' => $dtoWordBody['actionCid'] ? PrimaryHelper::fresnsModelByFsid('comment', $dtoWordBody['actionCid'])?->id : null,
         ];
 
-        $notify = Notify::create($notifyData);
+        $notification = Notification::create($notificationData);
 
         if ($isMultilingual) {
             $contentArr = json_decode($dtoWordBody['content'], true);
 
             foreach ($contentArr as $content) {
                 $langItems = [
-                    'table_name' => 'notifies',
+                    'table_name' => 'notifications',
                     'table_column' => 'content',
-                    'table_id' => $notify->id,
+                    'table_id' => $notification->id,
                     'table_key' => null,
                     'lang_tag' => $content['langTag'],
                     'lang_content' => $content['content'],

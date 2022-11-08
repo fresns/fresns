@@ -13,7 +13,7 @@ use App\Fresns\Words\User\DTO\LogicalDeletionUserDTO;
 use App\Fresns\Words\User\DTO\VerifyUserDTO;
 use App\Helpers\ConfigHelper;
 use App\Models\Account;
-use App\Models\Dialog;
+use App\Models\Conversation;
 use App\Models\File;
 use App\Models\User as UserModel;
 use App\Models\UserRole;
@@ -144,8 +144,8 @@ class User
 
         $user->delete();
 
-        Dialog::where('a_user_id', $user->id)->update(['a_is_deactivate' => 0]);
-        Dialog::where('b_user_id', $user->id)->update(['b_is_deactivate' => 0]);
+        Conversation::where('a_user_id', $user->id)->update(['a_is_deactivate' => 0]);
+        Conversation::where('b_user_id', $user->id)->update(['b_is_deactivate' => 0]);
 
         return $this->success();
     }

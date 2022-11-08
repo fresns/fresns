@@ -24,7 +24,7 @@ class CreateBlockWordsTable extends Migration
             $table->string('word', 32)->unique('word');
             $table->unsignedTinyInteger('content_mode')->default(1);
             $table->unsignedTinyInteger('user_mode')->default(1);
-            $table->unsignedTinyInteger('dialog_mode')->default(1);
+            $table->unsignedTinyInteger('conversation_mode')->default(1);
             $table->string('replace_word', 64)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();

@@ -312,8 +312,8 @@ class GlobalController extends Controller
             $wordQuery = BlockWord::where('content_mode', '!=', 1);
         } elseif ($dtoRequest->type = 'user') {
             $wordQuery = BlockWord::where('user_mode', '!=', 1);
-        } elseif ($dtoRequest->type = 'dialog') {
-            $wordQuery = BlockWord::where('dialog_mode', '!=', 1);
+        } elseif ($dtoRequest->type = 'conversation') {
+            $wordQuery = BlockWord::where('conversation_mode', '!=', 1);
         }
 
         $words = $wordQuery->paginate($request->get('pageSize', 50));
@@ -323,7 +323,7 @@ class GlobalController extends Controller
             $item['word'] = $word->word;
             $item['contentMode'] = $word->content_mode;
             $item['userMode'] = $word->user_mode;
-            $item['dialogMode'] = $word->dialog_mode;
+            $item['conversationMode'] = $word->conversation_mode;
             $item['replaceWord'] = $word->replace_word;
             $wordList[] = $item;
         }

@@ -668,8 +668,8 @@ class Content
             }
         }
 
-        // send notify
-        InteractiveUtility::sendPublishNotify($type, $primaryId);
+        // send notification
+        InteractiveUtility::sendPublishNotification($type, $primaryId);
 
         return $this->success([
             'type' => $dtoWordBody->type,

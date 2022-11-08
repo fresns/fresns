@@ -28,7 +28,7 @@ class UserEditDTO extends DTO
             'birthday' => ['date', 'nullable', 'before:today', 'after_or_equal:1920-01-01 00:00:00'],
             'bio' => ['string', 'nullable'],
             'location' => ['string', 'nullable'],
-            'dialogLimit' => ['string', 'nullable', 'in:1,2,3,4'],
+            'conversationLimit' => ['string', 'nullable', 'in:1,2,3,4'],
             'commentLimit' => ['string', 'nullable', 'in:1,2,3,4'],
             'timezone' => ['string', 'nullable'],
             'archives' => ['array', 'nullable'],

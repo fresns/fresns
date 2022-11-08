@@ -9,12 +9,12 @@
 use App\Fresns\Api\Http\Controllers\AccountController;
 use App\Fresns\Api\Http\Controllers\CommentController;
 use App\Fresns\Api\Http\Controllers\CommonController;
-use App\Fresns\Api\Http\Controllers\DialogController;
+use App\Fresns\Api\Http\Controllers\ConversationController;
 use App\Fresns\Api\Http\Controllers\EditorController;
 use App\Fresns\Api\Http\Controllers\GlobalController;
 use App\Fresns\Api\Http\Controllers\GroupController;
 use App\Fresns\Api\Http\Controllers\HashtagController;
-use App\Fresns\Api\Http\Controllers\NotifyController;
+use App\Fresns\Api\Http\Controllers\NotificationController;
 use App\Fresns\Api\Http\Controllers\PostController;
 use App\Fresns\Api\Http\Controllers\SearchController;
 use App\Fresns\Api\Http\Controllers\UserController;
@@ -88,21 +88,21 @@ Route::prefix('v2')->middleware([
         Route::put('mark-note', [UserController::class, 'markNote'])->name('mark.note');
     });
 
-    // notify
-    Route::prefix('notify')->name('notify.')->group(function () {
-        Route::get('list', [NotifyController::class, 'list'])->name('list');
-        Route::put('mark-as-read', [NotifyController::class, 'markAsRead'])->name('read');
-        Route::delete('delete', [NotifyController::class, 'delete'])->name('delete');
+    // notification
+    Route::prefix('notification')->name('notification.')->group(function () {
+        Route::get('list', [NotificationController::class, 'list'])->name('list');
+        Route::put('mark-as-read', [NotificationController::class, 'markAsRead'])->name('read');
+        Route::delete('delete', [NotificationController::class, 'delete'])->name('delete');
     });
 
-    // dialog
-    Route::prefix('dialog')->name('dialog.')->group(function () {
-        Route::get('list', [DialogController::class, 'list'])->name('list');
-        Route::get('{dialogId}/detail', [DialogController::class, 'detail'])->name('detail');
-        Route::get('{dialogId}/messages', [DialogController::class, 'messages'])->name('messages');
-        Route::post('send-message', [DialogController::class, 'sendMessage'])->name('send.message');
-        Route::put('mark-as-read', [DialogController::class, 'markAsRead'])->name('read');
-        Route::delete('delete', [DialogController::class, 'delete'])->name('delete');
+    // conversation
+    Route::prefix('conversation')->name('conversation.')->group(function () {
+        Route::get('list', [ConversationController::class, 'list'])->name('list');
+        Route::get('{uidOrUsername}/detail', [ConversationController::class, 'detail'])->name('detail');
+        Route::get('{uidOrUsername}/messages', [ConversationController::class, 'messages'])->name('messages');
+        Route::post('send-message', [ConversationController::class, 'sendMessage'])->name('send.message');
+        Route::put('mark-as-read', [ConversationController::class, 'markAsRead'])->name('read');
+        Route::delete('delete', [ConversationController::class, 'delete'])->name('delete');
     });
 
     // group

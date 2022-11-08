@@ -37,7 +37,7 @@ class CreateUsersTable extends Migration
             $table->unsignedTinyInteger('verified_status')->default(0);
             $table->string('verified_desc')->nullable();
             $table->timestamp('verified_at')->nullable();
-            $table->unsignedTinyInteger('dialog_limit')->default(1);
+            $table->unsignedTinyInteger('conversation_limit')->default(1);
             $table->unsignedTinyInteger('comment_limit')->default(1);
             $table->string('timezone', 16)->nullable();
             $table->timestamp('expired_at')->nullable();

@@ -38,15 +38,15 @@ class BlockWordController extends Controller
             3 => __('FsLang::panel.block_word_user_mode_3'),
         ];
 
-        $dialogModeLabels = [
-            1 => __('FsLang::panel.block_word_dialog_mode_1'),
-            2 => __('FsLang::panel.block_word_dialog_mode_2'),
-            3 => __('FsLang::panel.block_word_dialog_mode_3'),
+        $conversationModeLabels = [
+            1 => __('FsLang::panel.block_word_conversation_mode_1'),
+            2 => __('FsLang::panel.block_word_conversation_mode_2'),
+            3 => __('FsLang::panel.block_word_conversation_mode_3'),
         ];
 
         return view('FsView::operations.block-words', compact(
             'words', 'contentModeLabels', 'userModeLabels',
-            'dialogModeLabels', 'keyword'
+            'conversationModeLabels', 'keyword'
         ));
     }
 

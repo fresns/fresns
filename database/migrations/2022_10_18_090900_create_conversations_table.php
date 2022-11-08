@@ -10,7 +10,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDialogsTable extends Migration
+class CreateConversationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -19,7 +19,7 @@ class CreateDialogsTable extends Migration
      */
     public function up()
     {
-        Schema::create('dialogs', function (Blueprint $table) {
+        Schema::create('conversations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('a_user_id');
             $table->unsignedBigInteger('b_user_id');
@@ -45,6 +45,6 @@ class CreateDialogsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dialogs');
+        Schema::dropIfExists('conversations');
     }
 }

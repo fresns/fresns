@@ -99,7 +99,7 @@ class Subscribe
             'posts',
             'comments',
             'files',
-            'dialog_messages',
+            'conversation_messages',
         ];
 
         return in_array($this->getSubTableName(), $tableNames);

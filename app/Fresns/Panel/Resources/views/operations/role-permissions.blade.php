@@ -37,17 +37,17 @@
                         </div>
                     </div>
                 </div>
-                <!--role_perm_dialog-->
+                <!--role_perm_conversation-->
                 <div class="input-group">
-                    <label class="input-group-text">{{ __('FsLang::panel.role_perm_dialog') }}</label>
+                    <label class="input-group-text">{{ __('FsLang::panel.role_perm_conversation') }}</label>
                     <div class="form-control bg-white">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" {{ $permissions['dialog']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[dialog]" id="dialog.1" value="1">
-                            <label class="form-check-label" for="dialog.1">{{ __('FsLang::panel.option_yes') }}</label>
+                            <input class="form-check-input" type="radio" {{ $permissions['conversation']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[conversation]" id="conversation.1" value="1">
+                            <label class="form-check-label" for="conversation.1">{{ __('FsLang::panel.option_yes') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" {{ !($permissions['dialog']['permValue'] ?? '') ? 'checked' : '' }} name="permissions[dialog]" id="dialog.0" value="0">
-                            <label class="form-check-label" for="dialog.0">{{ __('FsLang::panel.option_no') }}</label>
+                            <input class="form-check-input" type="radio" {{ !($permissions['conversation']['permValue'] ?? '') ? 'checked' : '' }} name="permissions[conversation]" id="conversation.0" value="0">
+                            <label class="form-check-label" for="conversation.0">{{ __('FsLang::panel.option_no') }}</label>
                         </div>
                     </div>
                 </div>

@@ -41,7 +41,7 @@ class SessionLog extends Model
     const TYPE_MARK_FOLLOW = 29;
     const TYPE_MARK_BLOCK = 30;
     const TYPE_UPLOAD_FILE = 31;
-    const TYPE_DIALOG_MESSAGE = 32;
+    const TYPE_CONVERSATION_MESSAGE = 32;
 
     const STATE_UNKNOWN = 1;
     const STATE_SUCCESS = 2;

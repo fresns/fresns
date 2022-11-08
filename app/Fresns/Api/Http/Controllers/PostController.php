@@ -573,7 +573,7 @@ class PostController extends Controller
         $postList = [];
         $service = new PostService();
         foreach ($posts as $post) {
-            $postList[] = $service->postData($post, 'list', $langTag, $timezone, $authUser->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+            $postList[] = $service->postData($post, 'list', $langTag, $timezone, $authUser?->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
         }
 
         return $this->fresnsPaginate($postList, $posts->total(), $posts->perPage());

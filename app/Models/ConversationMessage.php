@@ -8,7 +8,7 @@
 
 namespace App\Models;
 
-class DialogMessage extends Model
+class ConversationMessage extends Model
 {
     use Traits\IsEnableTrait;
 

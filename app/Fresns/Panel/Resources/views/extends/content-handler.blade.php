@@ -28,11 +28,11 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.extend_content_service') }}:</label>
             <div class="col-lg-6">
                 <div class="input-group mb-3">
-                    <label class="input-group-text">{{ __('FsLang::panel.extend_content_notify_service') }}</label>
-                    <select class="form-select" name="notify_service">
-                        <option value="" {{ !$params['notify_service'] ? 'selected' : '' }}>{{ __('FsLang::panel.option_default') }}</option>
-                        @foreach ($pluginParams['extendData'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['notify_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                    <label class="input-group-text">{{ __('FsLang::panel.extend_content_notifications_service') }}</label>
+                    <select class="form-select" name="notifications_service">
+                        <option value="" {{ !$params['notifications_service'] ? 'selected' : '' }}>{{ __('FsLang::panel.option_default') }}</option>
+                        @foreach ($pluginParams['extendNotification'] as $plugin)
+                            <option value="{{ $plugin->unikey }}" {{ $params['notifications_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>

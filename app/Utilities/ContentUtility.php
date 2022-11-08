@@ -849,8 +849,8 @@ class ContentUtility
             'last_post_at' => now(),
         ]);
 
-        // send notify
-        InteractiveUtility::sendPublishNotify('post', $post->id);
+        // send notification
+        InteractiveUtility::sendPublishNotification('post', $post->id);
 
         return $post;
     }
@@ -936,8 +936,8 @@ class ContentUtility
             'last_comment_at' => now(),
         ]);
 
-        // send notify
-        InteractiveUtility::sendPublishNotify('comment', $comment->id);
+        // send notification
+        InteractiveUtility::sendPublishNotification('comment', $comment->id);
 
         return $comment;
     }
@@ -1161,7 +1161,7 @@ class ContentUtility
             $blockWords = match ($type) {
                 'content' => BlockWord::where('content_mode', '!=', 1)->get(['word', 'replace_word']),
                 'user' => BlockWord::where('user_mode', '!=', 1)->get(['word', 'replace_word']),
-                'dialog' => BlockWord::where('dialog_mode', '!=', 1)->get(['word', 'replace_word']),
+                'conversation' => BlockWord::where('conversation_mode', '!=', 1)->get(['word', 'replace_word']),
             };
 
             return $blockWords;

@@ -60,7 +60,7 @@ trait UserServiceTrait
         $profile['birthday'] = DateHelper::fresnsDateTimeByTimezone($userData->birthday, $timezone, $langTag);
         $profile['bio'] = $userData->bio;
         $profile['location'] = $userData->location;
-        $profile['dialogLimit'] = $userData->dialog_limit;
+        $profile['conversationLimit'] = $userData->conversation_limit;
         $profile['commentLimit'] = $userData->comment_limit;
         $profile['timezone'] = $userData->timezone ?? ConfigHelper::fresnsConfigByItemKey('default_timezone');
         $profile['verifiedStatus'] = (bool) $userData->verified_status;
@@ -75,6 +75,7 @@ trait UserServiceTrait
         $profile['lastEditNickname'] = DateHelper::fresnsDateTimeByTimezone($userData->last_nickname_at, $timezone, $langTag);
         $profile['registerDate'] = date(ConfigHelper::fresnsConfigDateFormat($langTag), strtotime(DateHelper::fresnsDateTimeByTimezone($userData->created_at, $timezone, $langTag)));
         $profile['hasPassword'] = (bool) $userData->password;
+        $profile['rankState'] = $userData->rank_state;
         $profile['status'] = (bool) $userData->is_enable;
         $profile['waitDelete'] = (bool) $userData->wait_delete;
         $profile['waitDeleteDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData->wait_delete_at, $timezone, $langTag);
@@ -138,6 +139,7 @@ trait UserServiceTrait
         $mainRole['roleIcon'] = FileHelper::fresnsFileUrlByTableColumn($roleData->icon_file_id, $roleData->icon_file_url);
         $mainRole['roleIconDisplay'] = (bool) $roleData->is_display_icon;
         $mainRole['roleExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($mainRoleData->expired_at, $timezone, $langTag);
+        $mainRole['roleRankState'] = $roleData->rank_state;
         $mainRole['rolePermissions'] = $permission;
         $mainRole['roleStatus'] = (bool) $roleData->is_enable;
 

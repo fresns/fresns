@@ -20,7 +20,7 @@ class MessageController extends Controller
     {
         $query = $request->all();
 
-        $result = ApiHelper::make()->get('/api/v2/dialog/list', [
+        $result = ApiHelper::make()->get('/api/v2/conversation/list', [
             'query' => $query,
         ]);
 
@@ -28,49 +28,49 @@ class MessageController extends Controller
             throw new ErrorException($result['message'], $result['code']);
         }
 
-        $dialogs = QueryHelper::convertApiDataToPaginate(
+        $conversations = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],
             paginate: $result['data']['paginate'],
         );
 
-        return view('messages.index', compact('dialogs'));
+        return view('messages.index', compact('conversations'));
     }
 
-    // dialog
-    public function dialog(Request $request, int $dialogId)
+    // conversation
+    public function conversation(Request $request, string $uidOrUsername)
     {
         $query = $request->all();
 
         $client = ApiHelper::make();
 
         $results = $client->unwrapRequests([
-            'dialog' => $client->getAsync("/api/v2/dialog/{$dialogId}/detail"),
-            'messages' => $client->getAsync("/api/v2/dialog/{$dialogId}/messages", [
+            'conversation' => $client->getAsync("/api/v2/conversation/{$uidOrUsername}/detail"),
+            'messages' => $client->getAsync("/api/v2/conversation/{$uidOrUsername}/messages", [
                 'query' => $query,
             ]),
         ]);
 
-        if ($results['dialog']['code'] != 0) {
-            throw new ErrorException($results['dialog']['message'], $results['dialog']['code']);
+        if ($results['conversation']['code'] != 0) {
+            throw new ErrorException($results['conversation']['message'], $results['conversation']['code']);
         }
 
-        $dialog = $results['dialog']['data'];
+        $conversation = $results['conversation']['data'];
 
         $messages = QueryHelper::convertApiDataToPaginate(
             items: $results['messages']['data']['list'],
             paginate: $results['messages']['data']['paginate'],
         );
 
-        return view('messages.dialog', compact('dialog', 'messages'));
+        return view('messages.conversation', compact('conversation', 'messages'));
     }
 
-    // notify
-    public function notify(Request $request, string $types)
+    // notification
+    public function notifications(Request $request, ?string $types = null)
     {
         $query = $request->all();
         $query['types'] = $types;
 
-        $result = ApiHelper::make()->get('/api/v2/notify/list', [
+        $result = ApiHelper::make()->get('/api/v2/notification/list', [
             'query' => $query,
         ]);
 
@@ -78,11 +78,11 @@ class MessageController extends Controller
             throw new ErrorException($result['message'], $result['code']);
         }
 
-        $notifies = QueryHelper::convertApiDataToPaginate(
+        $notifications = QueryHelper::convertApiDataToPaginate(
             items: $result['data']['list'],
             paginate: $result['data']['paginate'],
         );
 
-        return view('messages.notify', compact('notifies', 'types'));
+        return view('messages.notification', compact('notifications', 'types'));
     }
 }

@@ -320,8 +320,8 @@ class ValidationUtility
     {
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
-        $lowerBanWords = Cache::remember('fresns_dialog_ban_words', $cacheTime, function () {
-            $banWords = BlockWord::where('dialog_mode', 3)->pluck('word')->toArray();
+        $lowerBanWords = Cache::remember('fresns_conversation_ban_words', $cacheTime, function () {
+            $banWords = BlockWord::where('conversation_mode', 3)->pluck('word')->toArray();
 
             return array_map('strtolower', $banWords);
         });

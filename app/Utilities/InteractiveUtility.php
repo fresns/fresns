@@ -17,7 +17,7 @@ use App\Models\DomainLinkUsage;
 use App\Models\Group;
 use App\Models\Hashtag;
 use App\Models\Mention;
-use App\Models\Notify;
+use App\Models\Notification;
 use App\Models\Post;
 use App\Models\UserBlock;
 use App\Models\UserFollow;
@@ -155,8 +155,8 @@ class InteractiveUtility
                 InteractiveUtility::markStats($userId, 'like', $likeType, $likeId, 'increment');
             }
 
-            // send notify
-            InteractiveUtility::sendMarkNotify(Notify::TYPE_LIKE, $userId, $likeType, $likeId);
+            // send notification
+            InteractiveUtility::sendMarkNotification(Notification::TYPE_LIKE, $userId, $likeType, $likeId);
         } else {
             if ($userLike->mark_type == UserLike::MARK_TYPE_LIKE) {
                 // documented, mark type=like
@@ -212,8 +212,8 @@ class InteractiveUtility
                 InteractiveUtility::markStats($userId, 'dislike', $dislikeType, $dislikeId, 'increment');
             }
 
-            // send notify
-            InteractiveUtility::sendMarkNotify(Notify::TYPE_DISLIKE, $userId, $dislikeType, $dislikeId);
+            // send notification
+            InteractiveUtility::sendMarkNotification(Notification::TYPE_DISLIKE, $userId, $dislikeType, $dislikeId);
         } else {
             if ($userDislike->mark_type == UserLike::MARK_TYPE_DISLIKE) {
                 // documented, mark type=dislike
@@ -257,8 +257,8 @@ class InteractiveUtility
                 InteractiveUtility::markStats($userId, 'follow', $followType, $followId, 'increment');
             }
 
-            // send notify
-            InteractiveUtility::sendMarkNotify(Notify::TYPE_FOLLOW, $userId, $followType, $followId);
+            // send notification
+            InteractiveUtility::sendMarkNotification(Notification::TYPE_FOLLOW, $userId, $followType, $followId);
         } else {
             $userFollow->delete();
 
@@ -315,8 +315,8 @@ class InteractiveUtility
                 InteractiveUtility::markStats($userId, 'block', $blockType, $blockId, 'increment');
             }
 
-            // send notify
-            InteractiveUtility::sendMarkNotify(Notify::TYPE_BLOCK, $userId, $blockType, $blockId);
+            // send notification
+            InteractiveUtility::sendMarkNotification(Notification::TYPE_BLOCK, $userId, $blockType, $blockId);
         } else {
             $userBlock->delete();
 
@@ -826,8 +826,8 @@ class InteractiveUtility
             'comment' => PrimaryHelper::fresnsModelById('user', $comment->user_id)->uid,
         };
         $actionObject = match ($type) {
-            'post' => Notify::ACTION_OBJECT_POST,
-            'comment' => Notify::ACTION_OBJECT_COMMENT,
+            'post' => Notification::ACTION_OBJECT_POST,
+            'comment' => Notification::ACTION_OBJECT_COMMENT,
         };
         $actionFsid = match ($type) {
             'post' => $post->pid,
@@ -836,20 +836,20 @@ class InteractiveUtility
 
         $wordBody = [
             'uid' => $uid,
-            'type' => Notify::TYPE_SYSTEM,
+            'type' => Notification::TYPE_SYSTEM,
             'content' => null,
             'isMarkdown' => null,
             'isMultilingual' => null,
             'isAccessPlugin' => null,
             'pluginUnikey' => null,
             'actionUid' => null,
-            'actionType' => Notify::ACTION_TYPE_DIGEST,
+            'actionType' => Notification::ACTION_TYPE_DIGEST,
             'actionObject' => $actionObject,
             'actionFsid' => $actionFsid,
             'actionCid' => null,
         ];
 
-        \FresnsCmdWord::plugin('Fresns')->sendNotify($wordBody);
+        \FresnsCmdWord::plugin('Fresns')->sendNotification($wordBody);
     }
 
     protected static function parentCommentStats(int $parentId, string $actionType, string $tableColumn)
@@ -875,24 +875,24 @@ class InteractiveUtility
         }
     }
 
-    // send mark notify
-    public static function sendMarkNotify(int $notifyType, int $userId, int $markType, int $markId)
+    // send mark notification
+    public static function sendMarkNotification(int $notificationType, int $userId, int $markType, int $markId)
     {
         $user = PrimaryHelper::fresnsModelById('user', $userId);
 
         $actionModel = match ($markType) {
-            Notify::ACTION_OBJECT_USER => PrimaryHelper::fresnsModelById('user', $markId),
-            Notify::ACTION_OBJECT_GROUP => PrimaryHelper::fresnsModelById('group', $markId),
-            Notify::ACTION_OBJECT_HASHTAG => PrimaryHelper::fresnsModelById('hashtag', $markId),
-            Notify::ACTION_OBJECT_POST => PrimaryHelper::fresnsModelById('post', $markId),
-            Notify::ACTION_OBJECT_COMMENT => PrimaryHelper::fresnsModelById('comment', $markId),
+            Notification::ACTION_OBJECT_USER => PrimaryHelper::fresnsModelById('user', $markId),
+            Notification::ACTION_OBJECT_GROUP => PrimaryHelper::fresnsModelById('group', $markId),
+            Notification::ACTION_OBJECT_HASHTAG => PrimaryHelper::fresnsModelById('hashtag', $markId),
+            Notification::ACTION_OBJECT_POST => PrimaryHelper::fresnsModelById('post', $markId),
+            Notification::ACTION_OBJECT_COMMENT => PrimaryHelper::fresnsModelById('comment', $markId),
         };
         $uid = match ($markType) {
-            Notify::ACTION_OBJECT_USER => $actionModel->uid,
-            Notify::ACTION_OBJECT_GROUP => PrimaryHelper::fresnsModelById('user', $actionModel?->user_id)?->uid,
-            Notify::ACTION_OBJECT_HASHTAG => null,
-            Notify::ACTION_OBJECT_POST => PrimaryHelper::fresnsModelById('user', $actionModel?->user_id)?->uid,
-            Notify::ACTION_OBJECT_COMMENT => PrimaryHelper::fresnsModelById('user', $actionModel?->user_id)?->uid,
+            Notification::ACTION_OBJECT_USER => $actionModel->uid,
+            Notification::ACTION_OBJECT_GROUP => PrimaryHelper::fresnsModelById('user', $actionModel?->user_id)?->uid,
+            Notification::ACTION_OBJECT_HASHTAG => null,
+            Notification::ACTION_OBJECT_POST => PrimaryHelper::fresnsModelById('user', $actionModel?->user_id)?->uid,
+            Notification::ACTION_OBJECT_COMMENT => PrimaryHelper::fresnsModelById('user', $actionModel?->user_id)?->uid,
         };
 
         if (empty($uid)) {
@@ -900,22 +900,22 @@ class InteractiveUtility
         }
 
         $actionFsid = match ($markType) {
-            Notify::ACTION_OBJECT_USER => $actionModel->uid,
-            Notify::ACTION_OBJECT_GROUP => $actionModel->gid,
-            Notify::ACTION_OBJECT_HASHTAG => $actionModel->hid,
-            Notify::ACTION_OBJECT_POST => $actionModel->pid,
-            Notify::ACTION_OBJECT_COMMENT => $actionModel->cid,
+            Notification::ACTION_OBJECT_USER => $actionModel->uid,
+            Notification::ACTION_OBJECT_GROUP => $actionModel->gid,
+            Notification::ACTION_OBJECT_HASHTAG => $actionModel->hid,
+            Notification::ACTION_OBJECT_POST => $actionModel->pid,
+            Notification::ACTION_OBJECT_COMMENT => $actionModel->cid,
         };
-        $actionType = match ($notifyType) {
-            Notify::TYPE_LIKE => Notify::ACTION_TYPE_LIKE,
-            Notify::TYPE_DISLIKE => Notify::ACTION_TYPE_DISLIKE,
-            Notify::TYPE_FOLLOW => Notify::ACTION_TYPE_FOLLOW,
-            Notify::TYPE_BLOCK => Notify::ACTION_TYPE_BLOCK,
+        $actionType = match ($notificationType) {
+            Notification::TYPE_LIKE => Notification::ACTION_TYPE_LIKE,
+            Notification::TYPE_DISLIKE => Notification::ACTION_TYPE_DISLIKE,
+            Notification::TYPE_FOLLOW => Notification::ACTION_TYPE_FOLLOW,
+            Notification::TYPE_BLOCK => Notification::ACTION_TYPE_BLOCK,
         };
 
-        $notifyWordBody = [
+        $notificationWordBody = [
             'uid' => $uid,
-            'type' => $notifyType,
+            'type' => $notificationType,
             'content' => null,
             'isMarkdown' => null,
             'isMultilingual' => null,
@@ -927,11 +927,11 @@ class InteractiveUtility
             'actionFsid' => $actionFsid,
             'actionCid' => null,
         ];
-        \FresnsCmdWord::plugin('Fresns')->sendNotify($notifyWordBody);
+        \FresnsCmdWord::plugin('Fresns')->sendNotification($notificationWordBody);
     }
 
-    // send publish notify
-    public static function sendPublishNotify(string $type, int $contentId)
+    // send publish notification
+    public static function sendPublishNotification(string $type, int $contentId)
     {
         $actionModel = match ($type) {
             'post' => PrimaryHelper::fresnsModelById('post', $contentId),
@@ -945,8 +945,8 @@ class InteractiveUtility
 
         $actionUser = PrimaryHelper::fresnsModelById('user', $actionModel->user_id);
         $actionObject = match ($type) {
-            'post' => Notify::ACTION_OBJECT_POST,
-            'comment' => Notify::ACTION_OBJECT_COMMENT,
+            'post' => Notification::ACTION_OBJECT_POST,
+            'comment' => Notification::ACTION_OBJECT_COMMENT,
         };
         $actionFsid = match ($type) {
             'post' => $actionModel->pid,
@@ -970,20 +970,20 @@ class InteractiveUtility
 
                 $mentionWordBody = [
                     'uid' => $mentionUser->uid,
-                    'type' => Notify::TYPE_MENTION,
+                    'type' => Notification::TYPE_MENTION,
                     'content' => Str::limit($actionModel->content),
                     'isMarkdown' => 0,
                     'isMultilingual' => 0,
                     'isAccessPlugin' => null,
                     'pluginUnikey' => null,
                     'actionUid' => $actionUser->uid,
-                    'actionType' => Notify::ACTION_TYPE_PUBLISH,
+                    'actionType' => Notification::ACTION_TYPE_PUBLISH,
                     'actionObject' => $actionObject,
                     'actionFsid' => $actionFsid,
                     'actionCid' => null,
                 ];
 
-                \FresnsCmdWord::plugin('Fresns')->sendNotify($mentionWordBody);
+                \FresnsCmdWord::plugin('Fresns')->sendNotification($mentionWordBody);
             }
         }
 
@@ -996,20 +996,20 @@ class InteractiveUtility
 
             $commentWordBody = [
                 'uid' => $user->uid,
-                'type' => Notify::TYPE_COMMENT,
+                'type' => Notification::TYPE_COMMENT,
                 'content' => Str::limit($actionModel->content),
                 'isMarkdown' => 0,
                 'isMultilingual' => 0,
                 'isAccessPlugin' => null,
                 'pluginUnikey' => null,
                 'actionUid' => $actionUser->uid,
-                'actionType' => Notify::ACTION_TYPE_PUBLISH,
-                'actionObject' => $actionModel->top_parent_id ? Notify::ACTION_OBJECT_COMMENT : Notify::ACTION_OBJECT_POST,
+                'actionType' => Notification::ACTION_TYPE_PUBLISH,
+                'actionObject' => $actionModel->top_parent_id ? Notification::ACTION_OBJECT_COMMENT : Notification::ACTION_OBJECT_POST,
                 'actionFsid' => $actionModel->top_parent_id ? $comment->cid : $post->pid,
                 'actionCid' => $actionFsid,
             ];
 
-            \FresnsCmdWord::plugin('Fresns')->sendNotify($commentWordBody);
+            \FresnsCmdWord::plugin('Fresns')->sendNotification($commentWordBody);
         }
     }
 

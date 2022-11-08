@@ -181,7 +181,7 @@ class ConfigsTableSeeder extends Seeder
             12 => [
                 'id' => 13,
                 'item_key' => 'ban_names',
-                'item_value' => '["fresns","config","configs","default","defaults","index","home","text","file","image","video","audio","doc","files","images","videos","audios","docs","admin","key","token","detail","details","list","lists","post","comment","group","hashtag","extend","content","posts","comments","groups","hashtags","extends","contents","emoji","emojis","upload","uploads","register","login","reset","restore","delete","edit","auth","message","messages","dialog","dialogs","profile","portal","header","footer","implant","implants","wallet","wallets","setting","settings","notify","notifies","dialog","dialogs","verify","domain","domains","mention","mentions","download","downloads","role","roles","stats","usage","usages","badge","badges","code","codes","html","css","javascript","font","fonts","java","php","python","visual","basic","sql","mysql","nosql","unicode","number","string","boolean","true","false","array","value","object","whitespace","null","template","templates","data","item","time","view","name","block","import","include","iframe","framework","theme","themes","plugin","plugins","client","clients","system","systems","dashboard","update","updates","language","languages"]',
+                'item_value' => '["fresns","admin"]',
                 'item_type' => 'array',
                 'item_tag' => 'commons',
                 'is_multilingual' => 0,
@@ -441,7 +441,7 @@ class ConfigsTableSeeder extends Seeder
             32 => [
                 'id' => 33,
                 'item_key' => 'language_pack',
-                'item_value' => '[{"name":"language","canDelete":false},{"name":"errorUnknown","canDelete":false},{"name":"errorEmpty","canDelete":false},{"name":"errorNotExist","canDelete":false},{"name":"errorNotMatch","canDelete":false},{"name":"errorNoInfo","canDelete":false},{"name":"errorNoLogin","canDelete":false},{"name":"errorTimeout","canDelete":false},{"name":"errorRejection","canDelete":false},{"name":"errorUnavailable","canDelete":false},{"name":"errorIp","canDelete":false},{"name":"loading","canDelete":false},{"name":"loadMore","canDelete":false},{"name":"clickToLoadMore","canDelete":false},{"name":"scrollUpToLoadMore","canDelete":false},{"name":"scrollDownToLoadMore","canDelete":false},{"name":"success","canDelete":false},{"name":"failed","canDelete":false},{"name":"warning","canDelete":false},{"name":"danger","canDelete":false},{"name":"setting","canDelete":false},{"name":"config","canDelete":false},{"name":"reset","canDelete":false},{"name":"refresh","canDelete":false},{"name":"reload","canDelete":false},{"name":"modify","canDelete":false},{"name":"edit","canDelete":false},{"name":"delete","canDelete":false},{"name":"add","canDelete":false},{"name":"remove","canDelete":false},{"name":"previous","canDelete":false},{"name":"next","canDelete":false},{"name":"return","canDelete":false},{"name":"close","canDelete":false},{"name":"cancel","canDelete":false},{"name":"dismiss","canDelete":false},{"name":"activate","canDelete":false},{"name":"deactivate","canDelete":false},{"name":"install","canDelete":false},{"name":"uninstall","canDelete":false},{"name":"check","canDelete":false},{"name":"done","canDelete":false},{"name":"search","canDelete":false},{"name":"location","canDelete":false},{"name":"list","canDelete":false},{"name":"choose","canDelete":false},{"name":"update","canDelete":false},{"name":"recall","canDelete":false},{"name":"submit","canDelete":false},{"name":"save","canDelete":false},{"name":"saveChanges","canDelete":false},{"name":"confirm","canDelete":false},{"name":"send","canDelete":false},{"name":"rankNum","canDelete":false},{"name":"type","canDelete":false},{"name":"view","canDelete":false},{"name":"share","canDelete":false},{"name":"more","canDelete":false},{"name":"image","canDelete":false},{"name":"video","canDelete":false},{"name":"audio","canDelete":false},{"name":"document","canDelete":false},{"name":"learnMore","canDelete":false},{"name":"pleaseEnter","canDelete":false},{"name":"copyLink","canDelete":false},{"name":"copySuccess","canDelete":false},{"name":"modifierCount","canDelete":false},{"name":"modifierOr","canDelete":false},{"name":"modifierYear","canDelete":false},{"name":"modifierMonth","canDelete":false},{"name":"modifierDay","canDelete":false},{"name":"modifierDays","canDelete":false},{"name":"modifierLength","canDelete":false},{"name":"unitSecond","canDelete":false},{"name":"unitMinute","canDelete":false},{"name":"unitWithinMinute","canDelete":false},{"name":"unitCharacter","canDelete":false},{"name":"unitNumber","canDelete":false},{"name":"unitNumberOfTimes","canDelete":false},{"name":"unitWordCount","canDelete":false},{"name":"unitKm","canDelete":false},{"name":"unitMi","canDelete":false},{"name":"ipLocation","canDelete":false},{"name":"optionLanguage","canDelete":false},{"name":"optionUser","canDelete":false},{"name":"private","canDelete":false},{"name":"email","canDelete":false},{"name":"newEmail","canDelete":false},{"name":"phone","canDelete":false},{"name":"newPhone","canDelete":false},{"name":"countryCode","canDelete":false},{"name":"verifyCode","canDelete":false},{"name":"emailVerifyCode","canDelete":false},{"name":"smsVerifyCode","canDelete":false},{"name":"newVerifyCode","canDelete":false},{"name":"sendVerifyCode","canDelete":false},{"name":"resendVerifyCode","canDelete":false},{"name":"account","canDelete":false},{"name":"accountPassword","canDelete":false},{"name":"accountType","canDelete":false},{"name":"accountJoin","canDelete":false},{"name":"accountRegister","canDelete":false},{"name":"accountRegisterError","canDelete":false},{"name":"accountLogin","canDelete":false},{"name":"accountLoginByPassword","canDelete":false},{"name":"accountLoginByCode","canDelete":false},{"name":"accountLoginByConnects","canDelete":false},{"name":"accountLogout","canDelete":false},{"name":"accountDelete","canDelete":false},{"name":"accountRestore","canDelete":false},{"name":"accountReset","canDelete":false},{"name":"accountError","canDelete":false},{"name":"accountInfo","canDelete":false},{"name":"accountPoliciesTerms","canDelete":false},{"name":"accountPoliciesPrivacy","canDelete":false},{"name":"accountPoliciesCookie","canDelete":false},{"name":"accountPoliciesDelete","canDelete":false},{"name":"password","canDelete":false},{"name":"passwordCurrent","canDelete":false},{"name":"passwordNew","canDelete":false},{"name":"passwordAgain","canDelete":false},{"name":"passwordAgainError","canDelete":false},{"name":"passwordError","canDelete":false},{"name":"passwordForgot","canDelete":false},{"name":"passwordInfo","canDelete":false},{"name":"passwordInfoNumbers","canDelete":false},{"name":"passwordInfoLowercaseLetters","canDelete":false},{"name":"passwordInfoUppercaseLetters","canDelete":false},{"name":"passwordInfoSymbols","canDelete":false},{"name":"userCurrent","canDelete":false},{"name":"userPassword","canDelete":false},{"name":"userAuthPassword","canDelete":false},{"name":"userAuth","canDelete":false},{"name":"userProfile","canDelete":false},{"name":"userAvatar","canDelete":false},{"name":"userGender","canDelete":false},{"name":"userBirthday","canDelete":false},{"name":"userTimeZone","canDelete":false},{"name":"userLanguage","canDelete":false},{"name":"userFollowMutual","canDelete":false},{"name":"userFollowMe","canDelete":false},{"name":"userBlockMe","canDelete":false},{"name":"userFollowersYouKnow","canDelete":false},{"name":"userFollowersYouFollow","canDelete":false},{"name":"walletStatus","canDelete":false},{"name":"walletBalance","canDelete":false},{"name":"walletFreezeAmount","canDelete":false},{"name":"walletPassword","canDelete":false},{"name":"walletLogs","canDelete":false},{"name":"walletRecharge","canDelete":false},{"name":"walletWithdraw","canDelete":false},{"name":"notifyMarkAllAsRead","canDelete":false},{"name":"notifyMarkAsRead","canDelete":false},{"name":"notifyLike","canDelete":false},{"name":"notifyDislike","canDelete":false},{"name":"notifyFollow","canDelete":false},{"name":"notifyBlock","canDelete":false},{"name":"notifyMention","canDelete":false},{"name":"notifyComment","canDelete":false},{"name":"settingGeneral","canDelete":false},{"name":"settingPreference","canDelete":false},{"name":"settingAccount","canDelete":false},{"name":"settingConnect","canDelete":false},{"name":"settingType","canDelete":false},{"name":"settingAlready","canDelete":false},{"name":"settingNot","canDelete":false},{"name":"settingWarning","canDelete":false},{"name":"settingCheckError","canDelete":false},{"name":"settingAllowAll","canDelete":false},{"name":"settingAllowMyFollow","canDelete":false},{"name":"settingAllowMyFollowAndVerified","canDelete":false},{"name":"settingAllowNotAll","canDelete":false},{"name":"settingIntervalDays","canDelete":false},{"name":"settingLastTime","canDelete":false},{"name":"settingNameWarning","canDelete":false},{"name":"settingNicknameWarning","canDelete":false},{"name":"settingGenderNull","canDelete":false},{"name":"settingGenderMale","canDelete":false},{"name":"settingGenderFemale","canDelete":false},{"name":"settingConnectAdd","canDelete":false},{"name":"settingConnectRemove","canDelete":false},{"name":"editorFullFunctions","canDelete":false},{"name":"editorRequired","canDelete":false},{"name":"editorOptional","canDelete":false},{"name":"editorCreate","canDelete":false},{"name":"editorNoChooseGroup","canDelete":false},{"name":"editorNoGroup","canDelete":false},{"name":"editorMyFollowGroup","canDelete":false},{"name":"editorStickers","canDelete":false},{"name":"editorImages","canDelete":false},{"name":"editorVideos","canDelete":false},{"name":"editorVideoPlay","canDelete":false},{"name":"editorAudios","canDelete":false},{"name":"editorDocuments","canDelete":false},{"name":"editorTitle","canDelete":false},{"name":"editorMention","canDelete":false},{"name":"editorHashtag","canDelete":false},{"name":"editorExtends","canDelete":false},{"name":"editorContent","canDelete":false},{"name":"editorLocation","canDelete":false},{"name":"editorAnonymous","canDelete":false},{"name":"editorUpload","canDelete":false},{"name":"editorUploadInfo","canDelete":false},{"name":"editorUploadExtensions","canDelete":false},{"name":"editorUploadMaxSize","canDelete":false},{"name":"editorUploadMaxTime","canDelete":false},{"name":"editorUploadNumber","canDelete":false},{"name":"editorUploadBtn","canDelete":false},{"name":"editorLimitTitle","canDelete":false},{"name":"editorLimitTypeName","canDelete":false},{"name":"editorLimitType1Desc","canDelete":false},{"name":"editorLimitType2Desc","canDelete":false},{"name":"editorLimitDateName","canDelete":false},{"name":"editorLimitCycleName","canDelete":false},{"name":"editorLimitRuleName","canDelete":false},{"name":"editorLimitRule1Desc","canDelete":false},{"name":"editorLimitRule2Desc","canDelete":false},{"name":"editorRoleLimitTitle","canDelete":false},{"name":"editorMainRoleTitle","canDelete":false},{"name":"editorEditTimeTitle","canDelete":false},{"name":"editorEditTimeDesc","canDelete":false},{"name":"editorAllowTitle","canDelete":false},{"name":"editorAllowRoleName","canDelete":false},{"name":"editorAllowUserName","canDelete":false},{"name":"editorAllowProportionName","canDelete":false},{"name":"editorAllowBtnName","canDelete":false},{"name":"editorCommentBtnTitle","canDelete":false},{"name":"editorCommentBtnName","canDelete":false},{"name":"editorUserListTitle","canDelete":false},{"name":"editorUserListName","canDelete":false},{"name":"contentReview","canDelete":false},{"name":"contentLoginError","canDelete":false},{"name":"contentAllList","canDelete":false},{"name":"contentNewList","canDelete":false},{"name":"contentHotList","canDelete":false},{"name":"contentBrowse","canDelete":false},{"name":"contentDigest","canDelete":false},{"name":"contentSticky","canDelete":false},{"name":"contentRecommend","canDelete":false},{"name":"contentFull","canDelete":false},{"name":"contentViewOriginal","canDelete":false},{"name":"contentCreator","canDelete":false},{"name":"contentCreatorAnonymous","canDelete":false},{"name":"contentCreatorDeactivate","canDelete":false},{"name":"contentCreatorLiked","canDelete":false},{"name":"contentPublishTime","canDelete":false},{"name":"contentCommentTime","canDelete":false},{"name":"contentPublishedOn","canDelete":false},{"name":"contentEditedOn","canDelete":false},{"name":"contentFileUploader","canDelete":false},{"name":"contentFileDownloader","canDelete":false},{"name":"contentFileDownloaderDesc","canDelete":false},{"name":"contentFileDownload","canDelete":false},{"name":"contentImageLong","canDelete":false},{"name":"contentVideoPlay","canDelete":false},{"name":"contentDocumentDetail","canDelete":false},{"name":"contentDocumentInfo","canDelete":false},{"name":"contentAllowInfo","canDelete":false},{"name":"contentTopComment","canDelete":false},{"name":"contentCommentCountDesc","canDelete":false},{"name":"contentCommentNotPublic","canDelete":false},{"name":"contentCommentVisibilityRuleTip","canDelete":false},{"name":"getLocation","canDelete":false},{"name":"getLocationError","canDelete":false}]',
+                'item_value' => '',
                 'item_type' => 'array',
                 'item_tag' => 'languages',
                 'is_multilingual' => 0,
@@ -649,7 +649,7 @@ class ConfigsTableSeeder extends Seeder
             48 => [
                 'id' => 49,
                 'item_key' => 'site_icon',
-                'item_value' => 'https://files.fresns.org/images/icon.png',
+                'item_value' => 'https://cdn.fresns.cn/images/icon.png',
                 'item_type' => 'file',
                 'item_tag' => 'general',
                 'is_multilingual' => 0,
@@ -662,7 +662,7 @@ class ConfigsTableSeeder extends Seeder
             49 => [
                 'id' => 50,
                 'item_key' => 'site_logo',
-                'item_value' => 'https://files.fresns.org/images/logo.png',
+                'item_value' => 'https://cdn.fresns.cn/images/logo.png',
                 'item_type' => 'file',
                 'item_tag' => 'general',
                 'is_multilingual' => 0,
@@ -870,7 +870,7 @@ class ConfigsTableSeeder extends Seeder
             65 => [
                 'id' => 66,
                 'item_key' => 'send_sms_default_code',
-                'item_value' => '1',
+                'item_value' => '86',
                 'item_type' => 'number',
                 'item_tag' => 'sends',
                 'is_multilingual' => 0,
@@ -883,7 +883,7 @@ class ConfigsTableSeeder extends Seeder
             66 => [
                 'id' => 67,
                 'item_key' => 'send_sms_supported_codes',
-                'item_value' => '["1"]',
+                'item_value' => '["86"]',
                 'item_type' => 'array',
                 'item_tag' => 'sends',
                 'is_multilingual' => 0,
@@ -1065,7 +1065,7 @@ class ConfigsTableSeeder extends Seeder
             80 => [
                 'id' => 81,
                 'item_key' => 'default_avatar',
-                'item_value' => 'https://files.fresns.org/images/default-avatar.png',
+                'item_value' => 'https://cdn.fresns.cn/images/default-avatar.png',
                 'item_type' => 'file',
                 'item_tag' => 'users',
                 'is_multilingual' => 0,
@@ -1078,7 +1078,7 @@ class ConfigsTableSeeder extends Seeder
             81 => [
                 'id' => 82,
                 'item_key' => 'anonymous_avatar',
-                'item_value' => 'https://files.fresns.org/images/anonymous-avatar.png',
+                'item_value' => 'https://cdn.fresns.cn/images/anonymous-avatar.png',
                 'item_type' => 'file',
                 'item_tag' => 'users',
                 'is_multilingual' => 0,
@@ -1091,7 +1091,7 @@ class ConfigsTableSeeder extends Seeder
             82 => [
                 'id' => 83,
                 'item_key' => 'deactivate_avatar',
-                'item_value' => 'https://files.fresns.org/images/deactivate-avatar.png',
+                'item_value' => 'https://cdn.fresns.cn/images/deactivate-avatar.png',
                 'item_type' => 'file',
                 'item_tag' => 'users',
                 'is_multilingual' => 0,
@@ -2469,7 +2469,7 @@ class ConfigsTableSeeder extends Seeder
             188 => [
                 'id' => 189,
                 'item_key' => 'image_substitution',
-                'item_value' => 'https://files.fresns.org/images/substitution-image.jpg',
+                'item_value' => 'https://cdn.fresns.cn/images/substitution-image.jpg',
                 'item_type' => 'file',
                 'item_tag' => 'storages',
                 'is_multilingual' => 0,
@@ -2482,7 +2482,7 @@ class ConfigsTableSeeder extends Seeder
             189 => [
                 'id' => 190,
                 'item_key' => 'video_substitution',
-                'item_value' => 'https://files.fresns.org/images/substitution-video.jpg',
+                'item_value' => 'https://cdn.fresns.cn/images/substitution-video.jpg',
                 'item_type' => 'file',
                 'item_tag' => 'storages',
                 'is_multilingual' => 0,
@@ -2495,7 +2495,7 @@ class ConfigsTableSeeder extends Seeder
             190 => [
                 'id' => 191,
                 'item_key' => 'audio_substitution',
-                'item_value' => 'https://files.fresns.org/images/substitution-audio.jpg',
+                'item_value' => 'https://cdn.fresns.cn/images/substitution-audio.jpg',
                 'item_type' => 'file',
                 'item_tag' => 'storages',
                 'is_multilingual' => 0,
@@ -2508,7 +2508,7 @@ class ConfigsTableSeeder extends Seeder
             191 => [
                 'id' => 192,
                 'item_key' => 'document_substitution',
-                'item_value' => 'https://files.fresns.org/images/substitution-document.jpg',
+                'item_value' => 'https://cdn.fresns.cn/images/substitution-document.jpg',
                 'item_type' => 'file',
                 'item_tag' => 'storages',
                 'is_multilingual' => 0,
@@ -3014,7 +3014,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             230 => [
                 'id' => 231,
-                'item_key' => 'dialog_status',
+                'item_key' => 'conversation_status',
                 'item_value' => 'false',
                 'item_type' => 'boolean',
                 'item_tag' => 'interactives',
@@ -3027,7 +3027,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             231 => [
                 'id' => 232,
-                'item_key' => 'dialog_files',
+                'item_key' => 'conversation_files',
                 'item_value' => '["image"]',
                 'item_type' => 'array',
                 'item_tag' => 'interactives',
@@ -5315,7 +5315,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             407 => [
                 'id' => 408,
-                'item_key' => 'notify_service',
+                'item_key' => 'notifications_service',
                 'item_value' => null,
                 'item_type' => 'plugin',
                 'item_tag' => 'extends',
@@ -6968,8 +6968,8 @@ class ConfigsTableSeeder extends Seeder
             ],
             34 => [
                 'id' => 535,
-                'item_key' => 'menu_dialogs',
-                'item_value' => 'Dialogs',
+                'item_key' => 'menu_conversations',
+                'item_value' => 'Conversations',
                 'item_type' => 'string',
                 'item_tag' => 'menus',
                 'is_multilingual' => 1,
@@ -6981,8 +6981,8 @@ class ConfigsTableSeeder extends Seeder
             ],
             35 => [
                 'id' => 536,
-                'item_key' => 'menu_messages',
-                'item_value' => 'Messages',
+                'item_key' => 'menu_notifications',
+                'item_value' => 'Notifications',
                 'item_type' => 'string',
                 'item_tag' => 'menus',
                 'is_multilingual' => 1,
@@ -6994,8 +6994,8 @@ class ConfigsTableSeeder extends Seeder
             ],
             36 => [
                 'id' => 537,
-                'item_key' => 'menu_notifies',
-                'item_value' => 'Notification',
+                'item_key' => 'menu_notifications_all',
+                'item_value' => 'All',
                 'item_type' => 'string',
                 'item_tag' => 'menus',
                 'is_multilingual' => 1,
@@ -7007,7 +7007,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             37 => [
                 'id' => 538,
-                'item_key' => 'menu_notify_systems',
+                'item_key' => 'menu_notifications_systems',
                 'item_value' => 'Systems',
                 'item_type' => 'string',
                 'item_tag' => 'menus',
@@ -7020,7 +7020,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             38 => [
                 'id' => 539,
-                'item_key' => 'menu_notify_recommends',
+                'item_key' => 'menu_notifications_recommends',
                 'item_value' => 'Recommends',
                 'item_type' => 'string',
                 'item_tag' => 'menus',
@@ -7033,7 +7033,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             39 => [
                 'id' => 540,
-                'item_key' => 'menu_notify_likes',
+                'item_key' => 'menu_notifications_likes',
                 'item_value' => 'Likes',
                 'item_type' => 'string',
                 'item_tag' => 'menus',
@@ -7046,7 +7046,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             40 => [
                 'id' => 541,
-                'item_key' => 'menu_notify_dislikes',
+                'item_key' => 'menu_notifications_dislikes',
                 'item_value' => 'Dislikes',
                 'item_type' => 'string',
                 'item_tag' => 'menus',
@@ -7059,7 +7059,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             41 => [
                 'id' => 542,
-                'item_key' => 'menu_notify_follows',
+                'item_key' => 'menu_notifications_follows',
                 'item_value' => 'Follows',
                 'item_type' => 'string',
                 'item_tag' => 'menus',
@@ -7072,7 +7072,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             42 => [
                 'id' => 543,
-                'item_key' => 'menu_notify_blocks',
+                'item_key' => 'menu_notifications_blocks',
                 'item_value' => 'Blocks',
                 'item_type' => 'string',
                 'item_tag' => 'menus',
@@ -7085,7 +7085,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             43 => [
                 'id' => 544,
-                'item_key' => 'menu_notify_mentions',
+                'item_key' => 'menu_notifications_mentions',
                 'item_value' => 'Mentions',
                 'item_type' => 'string',
                 'item_tag' => 'menus',
@@ -7098,7 +7098,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             44 => [
                 'id' => 545,
-                'item_key' => 'menu_notify_comments',
+                'item_key' => 'menu_notifications_comments',
                 'item_value' => 'Comments',
                 'item_type' => 'string',
                 'item_tag' => 'menus',
@@ -7865,7 +7865,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             103 => [
                 'id' => 604,
-                'item_key' => 'ios_notify_service',
+                'item_key' => 'ios_notifications_service',
                 'item_value' => null,
                 'item_type' => 'plugin',
                 'item_tag' => 'apps',
@@ -7878,7 +7878,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             104 => [
                 'id' => 605,
-                'item_key' => 'android_notify_service',
+                'item_key' => 'android_notifications_service',
                 'item_value' => null,
                 'item_type' => 'plugin',
                 'item_tag' => 'apps',
@@ -7891,7 +7891,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             105 => [
                 'id' => 606,
-                'item_key' => 'wechat_notify_service',
+                'item_key' => 'wechat_notifications_service',
                 'item_value' => null,
                 'item_type' => 'plugin',
                 'item_tag' => 'apps',

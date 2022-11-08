@@ -18,7 +18,7 @@ class GlobalBlockWordsDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => ['string', 'nullable', 'in:content,user,dialog'],
+            'type' => ['string', 'nullable', 'in:content,user,conversation'],
             'pageSize' => ['integer', 'nullable', 'between:1,100'],
             'page' => ['integer', 'nullable'],
         ];

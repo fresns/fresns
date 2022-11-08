@@ -262,7 +262,7 @@ class InteractiveHelper
         $profile['birthday'] = null;
         $profile['bio'] = null;
         $profile['location'] = null;
-        $profile['dialogLimit'] = null;
+        $profile['conversationLimit'] = null;
         $profile['commentLimit'] = null;
         $profile['timezone'] = null;
         $profile['verifiedStatus'] = false;

@@ -18,9 +18,9 @@ class AppController extends Controller
     {
         // config keys
         $configKeys = [
-            'ios_notify_service',
-            'android_notify_service',
-            'wechat_notify_service',
+            'ios_notifications_service',
+            'android_notifications_service',
+            'wechat_notifications_service',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -30,7 +30,7 @@ class AppController extends Controller
         }
 
         $pluginScenes = [
-            'appNotify',
+            'appNotifications',
         ];
 
         $plugins = Plugin::all();
@@ -48,9 +48,9 @@ class AppController extends Controller
     public function update(Request $request)
     {
         $configKeys = [
-            'ios_notify_service',
-            'android_notify_service',
-            'wechat_notify_service',
+            'ios_notifications_service',
+            'android_notifications_service',
+            'wechat_notifications_service',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();

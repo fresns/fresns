@@ -10,7 +10,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDialogMessagesTable extends Migration
+class CreateConversationMessagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -19,9 +19,9 @@ class CreateDialogMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('dialog_messages', function (Blueprint $table) {
+        Schema::create('conversation_messages', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('dialog_id');
+            $table->unsignedBigInteger('conversation_id');
             $table->unsignedBigInteger('send_user_id');
             $table->timestamp('send_deleted_at')->nullable();
             $table->unsignedTinyInteger('message_type')->default(1);
@@ -44,6 +44,6 @@ class CreateDialogMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dialog_messages');
+        Schema::dropIfExists('conversation_messages');
     }
 }

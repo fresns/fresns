@@ -8,7 +8,7 @@
 
 namespace App\Models;
 
-class Dialog extends Model
+class Conversation extends Model
 {
     public function aUser()
     {
@@ -22,6 +22,6 @@ class Dialog extends Model
 
     public function messages()
     {
-        return $this->hasMany(DialogMessage::class)->isEnable();
+        return $this->hasMany(ConversationMessage::class)->isEnable();
     }
 }

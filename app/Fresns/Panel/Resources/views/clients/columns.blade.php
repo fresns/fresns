@@ -423,102 +423,102 @@
         <label class="col-lg-2">{{ __('FsLang::panel.columns_message_rename') }}:</label>
         <div class="col-lg-6">
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_dialogs') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_conversations') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_dialogs']) }}"
-                    data-languages="{{ optional($configs['menu_dialogs'])->languages->toJson() }}"
-                    data-item_key="menu_dialogs"
-                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_dialogs'] ?? '' }}
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_conversations']) }}"
+                    data-languages="{{ optional($configs['menu_conversations'])->languages->toJson() }}"
+                    data-item_key="menu_conversations"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_conversations'] ?? '' }}
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_messages') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_notifications') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_messages']) }}"
-                    data-languages="{{ optional($configs['menu_messages'])->languages->toJson() }}"
-                    data-item_key="menu_messages"
-                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_messages'] ?? '' }}
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_notifications']) }}"
+                    data-languages="{{ optional($configs['menu_notifications'])->languages->toJson() }}"
+                    data-item_key="menu_notifications"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notifications'] ?? '' }}
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_notifies') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_notifications_all') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_notifies']) }}"
-                    data-languages="{{ optional($configs['menu_notifies'])->languages->toJson() }}"
-                    data-item_key="menu_notifies"
-                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notifies'] ?? '' }}
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_notifications_all']) }}"
+                    data-languages="{{ optional($configs['menu_notifications_all'])->languages->toJson() }}"
+                    data-item_key="menu_notifications_all"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notifications_all'] ?? '' }}
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_notify_systems') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_notifications_systems') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_notify_systems']) }}"
-                    data-languages="{{ optional($configs['menu_notify_systems'])->languages->toJson() }}"
-                    data-item_key="menu_notify_systems"
-                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notify_systems'] ?? '' }}
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_notifications_systems']) }}"
+                    data-languages="{{ optional($configs['menu_notifications_systems'])->languages->toJson() }}"
+                    data-item_key="menu_notifications_systems"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notifications_systems'] ?? '' }}
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_notify_recommends') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_notifications_recommends') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_notify_recommends']) }}"
-                    data-languages="{{ optional($configs['menu_notify_recommends'])->languages->toJson() }}"
-                    data-item_key="menu_notify_recommends"
-                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notify_recommends'] ?? '' }}
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_notifications_recommends']) }}"
+                    data-languages="{{ optional($configs['menu_notifications_recommends'])->languages->toJson() }}"
+                    data-item_key="menu_notifications_recommends"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notifications_recommends'] ?? '' }}
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_notify_likes') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_notifications_likes') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_notify_likes']) }}"
-                    data-languages="{{ optional($configs['menu_notify_likes'])->languages->toJson() }}"
-                    data-item_key="menu_notify_likes"
-                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notify_likes'] ?? '' }}
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_notifications_likes']) }}"
+                    data-languages="{{ optional($configs['menu_notifications_likes'])->languages->toJson() }}"
+                    data-item_key="menu_notifications_likes"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notifications_likes'] ?? '' }}
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_notify_dislikes') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_notifications_dislikes') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_notify_dislikes']) }}"
-                    data-languages="{{ optional($configs['menu_notify_dislikes'])->languages->toJson() }}"
-                    data-item_key="menu_notify_dislikes"
-                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notify_dislikes'] ?? '' }}
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_notifications_dislikes']) }}"
+                    data-languages="{{ optional($configs['menu_notifications_dislikes'])->languages->toJson() }}"
+                    data-item_key="menu_notifications_dislikes"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notifications_dislikes'] ?? '' }}
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_notify_follows') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_notifications_follows') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_notify_follows']) }}"
-                    data-languages="{{ optional($configs['menu_notify_follows'])->languages->toJson() }}"
-                    data-item_key="menu_notify_follows"
-                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notify_follows'] ?? '' }}
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_notifications_follows']) }}"
+                    data-languages="{{ optional($configs['menu_notifications_follows'])->languages->toJson() }}"
+                    data-item_key="menu_notifications_follows"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notifications_follows'] ?? '' }}
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_notify_blocks') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_notifications_blocks') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_notify_blocks']) }}"
-                    data-languages="{{ optional($configs['menu_notify_blocks'])->languages->toJson() }}"
-                    data-item_key="menu_notify_blocks"
-                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notify_blocks'] ?? '' }}
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_notifications_blocks']) }}"
+                    data-languages="{{ optional($configs['menu_notifications_blocks'])->languages->toJson() }}"
+                    data-item_key="menu_notifications_blocks"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notifications_blocks'] ?? '' }}
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_notify_mentions') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_notifications_mentions') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_notify_mentions']) }}"
-                    data-languages="{{ optional($configs['menu_notify_mentions'])->languages->toJson() }}"
-                    data-item_key="menu_notify_mentions"
-                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notify_mentions'] ?? '' }}
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_notifications_mentions']) }}"
+                    data-languages="{{ optional($configs['menu_notifications_mentions'])->languages->toJson() }}"
+                    data-item_key="menu_notifications_mentions"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notifications_mentions'] ?? '' }}
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_notify_comments') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_notifications_comments') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
-                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_notify_comments']) }}"
-                    data-languages="{{ optional($configs['menu_notify_comments'])->languages->toJson() }}"
-                    data-item_key="menu_notify_comments"
-                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notify_comments'] ?? '' }}
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_notifications_comments']) }}"
+                    data-languages="{{ optional($configs['menu_notifications_comments'])->languages->toJson() }}"
+                    data-item_key="menu_notifications_comments"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notifications_comments'] ?? '' }}
                 </button>
             </div>
         </div>

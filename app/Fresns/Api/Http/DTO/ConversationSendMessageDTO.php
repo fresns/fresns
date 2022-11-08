@@ -10,7 +10,7 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class NotifyListDTO extends DTO
+class ConversationSendMessageDTO extends DTO
 {
     /**
      * @return array
@@ -18,10 +18,9 @@ class NotifyListDTO extends DTO
     public function rules(): array
     {
         return [
-            'types' => ['string', 'nullable'],
-            'status' => ['boolean', 'nullable'],
-            'pageSize' => ['integer', 'nullable', 'between:1,30'],
-            'page' => ['integer', 'nullable'],
+            'uidOrUsername' => ['string', 'required'],
+            'message' => ['string', 'nullable', 'required_without:fid'],
+            'fid' => ['string', 'nullable', 'required_without:message'],
         ];
     }
 }

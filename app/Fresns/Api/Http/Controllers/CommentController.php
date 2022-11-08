@@ -560,7 +560,7 @@ class CommentController extends Controller
         $commentList = [];
         $service = new CommentService();
         foreach ($comments as $comment) {
-            $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, $authUser->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+            $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, $authUser?->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
         }
 
         return $this->fresnsPaginate($commentList, $comments->total(), $comments->perPage());

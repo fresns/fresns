@@ -190,8 +190,8 @@ Route::prefix(LaravelLocalization::setLocale())
         // messages
         Route::name('message.')->prefix('messages')->group(function () {
             Route::get('/', [MessageController::class, 'index'])->name('index');
-            Route::get('dialog/{dialogId}', [MessageController::class, 'dialog'])->name('dialog');
-            Route::get('notify/{types}', [MessageController::class, 'notify'])->name('notify');
+            Route::get('conversation/{uidOrUsername}', [MessageController::class, 'conversation'])->name('conversation');
+            Route::get('notifications/{types?}', [MessageController::class, 'notifications'])->name('notifications');
         });
 
         // editor
