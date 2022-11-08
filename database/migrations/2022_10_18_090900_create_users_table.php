@@ -45,6 +45,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('last_comment_at')->nullable();
             $table->timestamp('last_username_at')->nullable();
             $table->timestamp('last_nickname_at')->nullable();
+            $table->unsignedTinyInteger('rank_state')->default(1);
             $table->unsignedTinyInteger('is_enable')->default(1);
             $table->unsignedTinyInteger('wait_delete')->default(0);
             $table->timestamp('wait_delete_at')->nullable();

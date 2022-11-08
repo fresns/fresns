@@ -47,6 +47,7 @@ class CreatePostsTable extends Migration
             $table->unsignedInteger('comment_block_count')->default(0);
             $table->timestamp('latest_edit_at')->nullable();
             $table->timestamp('latest_comment_at')->nullable();
+            $table->unsignedTinyInteger('rank_state')->default(1);
             $table->unsignedTinyInteger('is_enable')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
