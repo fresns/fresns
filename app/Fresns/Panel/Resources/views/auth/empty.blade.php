@@ -1,20 +1,22 @@
 @extends('FsView::commons.layout')
 
 @section('body')
+    <header class="form-signin text-center">
+        <img class="mt-3 mb-2" src="{{ @asset('/static/images/icon.png') }}" alt="Fresns" width="72" height="72">
+        <h2 class="mb-5">{{ __('FsLang::panel.fresns_panel') }}</h2>
+        <h4 class="mb-3 fw-normal">{{ __('FsLang::panel.language') }}</h4>
+        <select class="form-select mb-5 change-lang" aria-label=".form-select-lg example">
+            @foreach ($langs as $code => $lang)
+                <option value="{{ $code }}" @if ($code == \App::getLocale()) selected @endif>{{ $lang }}</option>
+            @endforeach
+        </select>
+    </header>
+
     <main class="container">
         <div class="card mx-auto my-5" style="max-width:800px;">
             <div class="card-body p-5">
-                <h3 class="card-title" lang="en">Please use the correct portal to login to the console</h3>
-                <p lang="en">You are logged out and cannot access the console page, please visit the login portal to login.</p>
-
-                <h3 class="card-title mt-5" lang="zh-Hant">請使用正確的入口登錄控制台</h3>
-                <p lang="zh-Hant">您已退出登錄，無法訪問控制台頁面，請訪問登錄入口頁登錄。</p>
-
-                <h3 class="card-title mt-5" lang="zh-Hans">请使用正确的入口登录控制台</h3>
-                <p lang="zh-Hans">您已退出登录，无法访问控制台页面，请访问登录入口页登录。</p>
-
-                <h3 class="card-title mt-5" lang="ja">正しいポータルを使ってコンソールにログインしてください</h3>
-                <p lang="ja">ログアウトしていてコンソールページにアクセスできません。ログインポータルにアクセスしてログインしてください。</p>
+                <h3 class="card-title">{{ __('FsLang::tips.auth_empty_title') }}</h3>
+                <p class="mt-3 mb-0">{{ __('FsLang::tips.auth_empty_description') }}</p>
             </div>
         </div>
 
@@ -22,4 +24,15 @@
             <p class="my-5 text-muted">&copy; 2021-2022 Fresns</p>
         </div>
     </main>
+@endsection
+
+@section('js')
+    <script>
+        $('.change-lang').change(function() {
+            var lang = $(this).val();
+            let url = new URL(window.location.href);
+            url.searchParams.set('lang', lang);
+            window.location.href = url.href;
+        });
+    </script>
 @endsection

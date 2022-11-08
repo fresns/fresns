@@ -24,6 +24,9 @@ return [
     'uninstallFailure' => 'Uninstall Failure',
     'copySuccess' => 'Copy Success',
     'viewLog' => 'There was a problem with the implementation, please see the Fresns system log for details',
+    // auth empty
+    'auth_empty_title' => 'Please use the correct portal to login to the panel',
+    'auth_empty_description' => 'You have logged out or your login has timed out, please visit the login portal to log in again.',
     // request
     'request_in_progress' => 'Request in progress...',
     'requestSuccess' => 'Request Success',
@@ -62,6 +65,7 @@ return [
     // website
     'website_path_empty_error' => 'Failed to save, path parameter is not allowed to be empty',
     'website_path_format_error' => 'Failed to save, path parameters only support plain English letters',
+    'website_path_reserved_error' => 'Save failed, path parameter contains system reserved parameter name',
     'website_path_unique_error' => 'Failed to save, duplicate path parameters, path parameter names are not allowed to duplicate each other',
     // theme
     'theme_error' => 'The theme is incorrect or does not exist',

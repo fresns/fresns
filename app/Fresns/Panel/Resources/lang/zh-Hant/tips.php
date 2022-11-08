@@ -24,6 +24,9 @@ return [
     'uninstallFailure' => '卸載失敗',
     'copySuccess' => '複製成功',
     'viewLog' => '執行遇到了問題，詳細信息請查看 Fresns 系統日誌',
+    // auth empty
+    'auth_empty_title' => '請使用正確的入口登錄面板',
+    'auth_empty_description' => '您已退出登錄或者登錄超時，請訪問登錄入口重新登錄。',
     // request
     'request_in_progress' => '正在請求中...',
     'requestSuccess' => '請求成功',
@@ -62,6 +65,7 @@ return [
     // website
     'website_path_empty_error' => '保存失敗，路徑參數不允許為空',
     'website_path_format_error' => '保存失敗，路徑參數僅支持純英文字母',
+    'website_path_reserved_error' => '保存失敗，路徑參數含有系統保留參數名',
     'website_path_unique_error' => '保存失敗，路徑參數重複，路徑參數名不允許彼此重複',
     // theme
     'theme_error' => '主題錯誤或者不存在',

@@ -24,6 +24,9 @@ return [
     'uninstallFailure' => '卸载失败',
     'copySuccess' => '复制成功',
     'viewLog' => '执行遇到了问题，详细信息请查看 Fresns 系统日志',
+    // auth empty
+    'auth_empty_title' => '请使用正确的入口登录面板',
+    'auth_empty_description' => '您已退出登录或者登录超时，请访问登录入口重新登录。',
     // request
     'request_in_progress' => '正在请求中...',
     'requestSuccess' => '请求成功',
@@ -62,6 +65,7 @@ return [
     // website
     'website_path_empty_error' => '保存失败，路径参数不允许为空',
     'website_path_format_error' => '保存失败，路径参数仅支持纯英文字母',
+    'website_path_reserved_error' => '保存失败，路径参数含有系统保留参数名',
     'website_path_unique_error' => '保存失败，路径参数重复，路径参数名不允许彼此重复',
     // theme
     'theme_error' => '主题错误或者不存在',

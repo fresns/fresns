@@ -24,6 +24,9 @@ return [
     'uninstallFailure' => 'Copot Pemasangan Gagal',
     'copySuccess' => 'Salin kesuksesan',
     'viewLog' => 'Ada masalah dengan implementasi, silakan lihat log sistem Fresns untuk detailnya',
+    // auth empty
+    'auth_empty_title' => 'Harap gunakan portal yang benar untuk masuk ke panel',
+    'auth_empty_description' => 'Anda telah keluar atau waktu login Anda telah habis, silakan kunjungi portal login untuk masuk kembali.',
     // request
     'request_in_progress' => 'permintaan sedang diproses...',
     'requestSuccess' => 'Permintaan Sukses',
@@ -62,6 +65,7 @@ return [
     // website
     'website_path_empty_error' => 'Gagal menyimpan, parameter jalur tidak diperbolehkan kosong',
     'website_path_format_error' => 'Gagal disimpan, parameter jalur hanya didukung dalam huruf Inggris biasa',
+    'website_path_reserved_error' => 'Simpan gagal, parameter jalur berisi nama parameter yang dicadangkan sistem',
     'website_path_unique_error' => 'Gagal menyimpan, parameter jalur duplikat, nama parameter jalur tidak diperbolehkan untuk saling mengulang',
     // theme
     'theme_error' => 'Temanya salah atau tidak ada',

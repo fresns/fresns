@@ -24,6 +24,9 @@ return [
     'uninstallFailure' => 'Disinstallazione fallita',
     'copySuccess' => 'Copia il successo',
     'viewLog' => 'Si è verificato un problema con l\'implementazione; per maggiori dettagli, consultare il log di sistema di Fresns.',
+    // auth empty
+    'auth_empty_title' => 'Si prega di utilizzare il portale corretto per accedere al pannello',
+    'auth_empty_description' => 'L\'accesso è stato interrotto o il login è scaduto, si prega di visitare il portale di login per accedere nuovamente.',
     // request
     'request_in_progress' => 'richiesta in corso...',
     'requestSuccess' => 'Richiesta di successo',
@@ -62,6 +65,7 @@ return [
     // website
     'website_path_empty_error' => 'Salvataggio fallito, il parametro percorso non può essere vuoto',
     'website_path_format_error' => 'non è riuscito a salvare, i parametri di percorso sono supportati solo in lettere semplici.',
+    'website_path_reserved_error' => 'Salvataggio fallito, il parametro percorso contiene un nome di parametro riservato al sistema',
     'website_path_unique_error' => 'Salvataggio fallito, parametri di percorso duplicati, i nomi dei parametri di percorso non possono ripetersi.',
     // theme
     'theme_error' => 'Il tema non è corretto o non esiste',

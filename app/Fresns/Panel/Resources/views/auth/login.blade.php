@@ -32,7 +32,7 @@
         $('.change-lang').change(function() {
             var lang = $(this).val();
             let url = new URL(window.location.href);
-            url.searchParams.set('panel_lang', lang);
+            url.searchParams.set('lang', lang);
             window.location.href = url.href;
         });
     </script>

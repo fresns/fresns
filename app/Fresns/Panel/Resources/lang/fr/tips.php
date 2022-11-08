@@ -24,6 +24,9 @@ return [
     'uninstallFailure' => 'Échec de la désinstallation',
     'copySuccess' => 'Copier le succès',
     'viewLog' => 'Il y a eu un problème avec l\'implémentation, veuillez consulter le journal système de Fresns pour plus de détails.',
+    // auth empty
+    'auth_empty_title' => 'Veuillez utiliser le bon portail pour vous connecter au panneau.',
+    'auth_empty_description' => 'Vous vous êtes déconnecté ou votre connexion a expiré, veuillez visiter le portail de connexion pour vous reconnecter.',
     // request
     'request_in_progress' => 'demande en cours...',
     'requestSuccess' => 'Demande de succès',
@@ -62,6 +65,7 @@ return [
     // website
     'website_path_empty_error' => 'Échec de la sauvegarde, le paramètre "path" ne doit pas être vide.',
     'website_path_format_error' => 'a échoué à enregistrer, les paramètres de chemin d\'accès ne sont supportés qu\'en lettres anglaises simples.',
+    'website_path_reserved_error' => 'L\'enregistrement a échoué, le paramètre path contient un nom de paramètre réservé au système.',
     'website_path_unique_error' => 'Échec de l\'enregistrement, paramètres de chemin en double, les noms des paramètres de chemin ne sont pas autorisés à se répéter les uns les autres.',
     // theme
     'theme_error' => 'Le thème est incorrect ou n\'existe pas',

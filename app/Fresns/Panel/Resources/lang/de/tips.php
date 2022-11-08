@@ -24,6 +24,9 @@ return [
     'uninstallFailure' => 'Deinstallation fehlgeschlagen',
     'copySuccess' => 'Erfolg kopieren',
     'viewLog' => 'Bei der Implementierung ist ein Problem aufgetreten; Einzelheiten finden Sie im Fresns-Systemprotokoll',
+    // auth empty
+    'auth_empty_title' => 'Bitte verwenden Sie das richtige Portal, um sich am Panel anzumelden',
+    'auth_empty_description' => 'Sie haben sich abgemeldet oder Ihr Login hat sich verzögert. Bitte besuchen Sie das Login-Portal, um sich erneut anzumelden.',
     // request
     'request_in_progress' => 'Anfrage in Bearbeitung...',
     'requestSuccess' => 'Erfolg anfordern',
@@ -62,6 +65,7 @@ return [
     // website
     'website_path_empty_error' => 'Speichern fehlgeschlagen, Pfadparameter darf nicht leer sein',
     'website_path_format_error' => 'konnte nicht gespeichert werden, Pfadparameter werden nur in Klartext unterstützt',
+    'website_path_reserved_error' => 'Speichern fehlgeschlagen, Pfadparameter enthält vom System reservierten Parameternamen',
     'website_path_unique_error' => 'Speichern fehlgeschlagen, doppelte Pfadparameter, die Namen der Pfadparameter dürfen sich nicht wiederholen',
     // theme
     'theme_error' => 'Das Thema ist falsch oder existiert nicht',

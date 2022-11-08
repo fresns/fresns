@@ -24,6 +24,9 @@ return [
     'uninstallFailure' => '제거 실패',
     'copySuccess' => '성공을 복사하십시오',
     'viewLog' => '실행에 문제가 발생했습니다. 자세한 내용은 Fresns 시스템 로그를 확인하십시오.',
+    // auth empty
+    'auth_empty_title' => '올바른 항목을 사용하여 패널에 로그인하십시오.',
+    'auth_empty_description' => '로그아웃했거나 로그인 시간이 초과되었습니다. 로그인 포털을 방문하여 다시 로그인하십시오.',
     // request
     'request_in_progress' => '요청 진행 중...',
     'requestSuccess' => '요청 성공',
@@ -62,6 +65,7 @@ return [
     // website
     'website_path_empty_error' => '저장하지 못했습니다. 경로 매개변수는 비워둘 수 없습니다.',
     'website_path_format_error' => '저장에 실패했습니다. 경로 매개변수는 순수 영문자만 지원합니다.',
+    'website_path_reserved_error' => '저장하지 못했습니다. 경로 매개변수에 시스템 예약 매개변수 이름이 포함되어 있습니다.',
     'website_path_unique_error' => '저장에 실패했습니다. 경로 매개변수를 복제했습니다. 경로 매개변수 이름은 서로 복제할 수 없습니다.',
     // theme
     'theme_error' => '테마가 잘못되었거나 존재하지 않습니다.',

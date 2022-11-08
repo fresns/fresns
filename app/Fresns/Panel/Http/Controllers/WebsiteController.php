@@ -166,12 +166,26 @@ class WebsiteController extends Controller
             'website_comment_detail_path',
         ];
 
+        // system reserved
+        $pathKeys = [
+            'fresns',
+            'location',
+            'notifications',
+            'conversations',
+            'messages',
+            'drafts',
+        ];
+
         $rules = [];
         $messages = [];
         foreach ($configKeys as $key) {
             $rules[$key] = ['required', 'regex:/^[a-z]+$/i'];
             $messages["$key.required"] = __('FsLang::tips.website_path_empty_error');
             $messages["$key.regex"] = __('FsLang::tips.website_path_format_error');
+
+            if (in_array($request->{$key}, $pathKeys)) {
+                return back()->with('failure', sprintf(__('FsLang::tips.website_path_reserved_error').' -> ', $key));
+            }
         }
 
         $data = $request->only($configKeys);
