@@ -94,11 +94,21 @@ class CacheHelper
         // Cache::forget("fresns_config_tag_*");
         Cache::forget('fresns_content_block_words');
         Cache::forget('fresns_user_block_words');
-        Cache::forget('fresns_dialog_block_words');
+        Cache::forget('fresns_conversation_block_words');
         Cache::forget('fresns_content_ban_words');
         Cache::forget('fresns_content_review_words');
         Cache::forget('fresns_user_ban_words');
-        Cache::forget('fresns_dialog_ban_words');
+        Cache::forget('fresns_conversation_ban_words');
+    }
+
+    /**
+     * forget fresns keys.
+     */
+    public static function forgetFresnsKeys(array $keys)
+    {
+        foreach ($keys as $key) {
+            Cache::forget($key);
+        }
     }
 
     /**
