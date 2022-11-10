@@ -24,7 +24,7 @@ class CreateVerifyCodesTable extends Migration
             $table->unsignedTinyInteger('template_id');
             $table->unsignedTinyInteger('type');
             $table->string('account', 128)->index('account');
-            $table->char('code', 8);
+            $table->char('code', 12);
             $table->unsignedTinyInteger('is_enable')->default(1);
             $table->timestamp('expired_at');
             $table->timestamp('created_at')->useCurrent();
