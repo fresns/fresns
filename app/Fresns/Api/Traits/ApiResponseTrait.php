@@ -96,7 +96,7 @@ trait ApiResponseTrait
         $paginate = new LengthAwarePaginator(
             items: $items,
             total: $total,
-            perPage: $pageSize,
+            perPage: $pageSize ?: 15,
             currentPage: \request('page'),
         );
 
