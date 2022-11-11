@@ -88,7 +88,7 @@ class ConversationController extends Controller
                 $message = File::TYPE_MAP[$latestMessageModel->file->type];
             } else {
                 $message = ContentUtility::replaceBlockWords('conversation', $latestMessageModel?->message_text);
-            };
+            }
 
             $latestMessage['id'] = $latestMessageModel?->id;
             $latestMessage['type'] = $latestMessageModel?->type;
