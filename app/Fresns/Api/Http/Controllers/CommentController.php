@@ -29,7 +29,9 @@ use App\Models\CommentLog;
 use App\Models\Seo;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractiveUtility;
+use App\Utilities\LbsUtility;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller
 {
@@ -548,7 +550,7 @@ class CommentController extends Controller
             default => $length,
         };
 
-        $comments = Post::query()
+        $comments = Comment::query()
             ->select([
                 DB::raw('*'),
                 DB::raw(LbsUtility::getDistanceSql('map_longitude', 'map_latitude', $dtoRequest->mapLng, $dtoRequest->mapLat)),
