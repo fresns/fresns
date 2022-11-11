@@ -397,8 +397,8 @@ class Content
         ]);
     }
 
-    // contentDirectPublish
-    public function contentDirectPublish($wordBody)
+    // contentQuickPublish
+    public function contentQuickPublish($wordBody)
     {
         $wordBody['createType'] = 1;
         $wordBody['editorUnikey'] = null;

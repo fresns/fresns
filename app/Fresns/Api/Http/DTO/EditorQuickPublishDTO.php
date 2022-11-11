@@ -10,7 +10,7 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class EditorDirectPublishDTO extends DTO
+class EditorQuickPublishDTO extends DTO
 {
     /**
      * @return array

@@ -10,8 +10,8 @@ namespace App\Fresns\Api\Http\Controllers;
 
 use App\Exceptions\ApiException;
 use App\Fresns\Api\Http\DTO\EditorCreateDTO;
-use App\Fresns\Api\Http\DTO\EditorDirectPublishDTO;
 use App\Fresns\Api\Http\DTO\EditorDraftsDTO;
+use App\Fresns\Api\Http\DTO\EditorQuickPublishDTO;
 use App\Fresns\Api\Http\DTO\EditorUpdateDTO;
 use App\Fresns\Api\Services\CommentService;
 use App\Fresns\Api\Services\PostService;
@@ -968,10 +968,12 @@ class EditorController extends Controller
         return $this->success();
     }
 
-    // directPublish
-    public function directPublish(Request $request)
+    // quick publish
+    public function quickPublish($type, Request $request)
     {
-        $dtoRequest = new EditorDirectPublishDTO($request->all());
+        $requestData = $request->all();
+        $requestData['type'] = $type;
+        $dtoRequest = new EditorQuickPublishDTO($requestData);
 
         $authUser = $this->user();
 
@@ -980,8 +982,9 @@ class EditorController extends Controller
             throw new ApiException(36117);
         }
 
-        $fileConfig = FileHelper::fresnsFileStorageConfigByType(File::TYPE_IMAGE);
         if ($dtoRequest->file) {
+            $fileConfig = FileHelper::fresnsFileStorageConfigByType(File::TYPE_IMAGE);
+
             if (! $fileConfig['storageConfigStatus']) {
                 throw new ApiException(32104);
             }
@@ -1005,7 +1008,7 @@ class EditorController extends Controller
         $wordBody = [
             'uid' => $authUser->uid,
             'type' => $wordType,
-            'createType' => $wordType,
+            'createType' => 1,
             'postGid' => $dtoRequest->postGid,
             'postTitle' => $dtoRequest->postTitle,
             'postIsComment' => $dtoRequest->postIsComment,
@@ -1018,7 +1021,7 @@ class EditorController extends Controller
             'mapJson' => $dtoRequest->mapJson,
             'eid' => $dtoRequest->eid,
         ];
-        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->contentDirectPublish($wordBody);
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->contentQuickPublish($wordBody);
 
         if ($fresnsResp->isErrorResponse()) {
             return $fresnsResp->errorResponse();
@@ -1086,7 +1089,7 @@ class EditorController extends Controller
             'aid' => $this->account()->aid,
             'uid' => $authUser->uid,
             'objectName' => \request()->path(),
-            'objectAction' => 'Editor Create Post Log',
+            'objectAction' => "Editor quick publish {$dtoRequest->type}",
             'objectResult' => SessionLog::STATE_SUCCESS,
             'objectOrderId' => $tableId,
             'deviceInfo' => $this->deviceInfo(),

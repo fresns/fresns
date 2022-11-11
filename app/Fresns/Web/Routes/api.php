@@ -62,12 +62,12 @@ Route::prefix('engine')
         });
 
         Route::prefix('editor')->name('editor.')->group(function () {
-            Route::post('direct-publish', [ApiController::class, 'directPublish'])->name('direct.publish');
-            Route::post('upload-file', [ApiController::class, 'editorUploadFile'])->name('upload.file');
+            Route::post('{type}/quick-publish', [ApiController::class, 'editorQuickPublish'])->name('quick.publish');
             Route::post('{type}/update/{draftId}', [ApiController::class, 'editorUpdate'])->name('update');
             Route::post('{type}/publish/{draftId}', [ApiController::class, 'editorPublish'])->name('publish');
             Route::patch('{type}/recall/{draftId}', [ApiController::class, 'editorRecall'])->name('recall');
             Route::delete('{type}/delete/{draftId}', [ApiController::class, 'editorDelete'])->name('delete');
+            Route::post('upload-file', [ApiController::class, 'editorUploadFile'])->name('upload.file');
         });
 
         // FsLang

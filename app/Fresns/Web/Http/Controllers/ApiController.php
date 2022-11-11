@@ -514,12 +514,11 @@ class ApiController extends Controller
         return Response::json(data_get($response, 'data', []));
     }
 
-    // direct publish
-    public function directPublish(Request $request)
+    // quick publish
+    public function editorQuickPublish(Request $request, string $type)
     {
         $validator = Validator::make($request->post(),
             [
-                'type' => 'required',
                 'content' => 'required',
                 'postGid' => ($request->post('type') === 'post' && fs_api_config('post_editor_group_required')) ? 'required' : 'nullable',
                 'postTitle' => ($request->post('type') === 'post' && fs_api_config('post_editor_title_required')) ? 'required' : 'nullable',
@@ -531,11 +530,6 @@ class ApiController extends Controller
         }
 
         $multipart = [
-            [
-                'name' => 'type',
-                'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
-                'contents' => $request->post('type'),
-            ],
             [
                 'name' => 'postGid',
                 'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
@@ -576,7 +570,7 @@ class ApiController extends Controller
             ];
         }
 
-        $result = ApiHelper::make()->post('/api/v2/editor/direct-publish', [
+        $result = ApiHelper::make()->post("/api/v2/editor/{$type}/quick-publish", [
             'multipart' => array_filter($multipart, fn ($val) => isset($val['contents'])),
         ]);
 

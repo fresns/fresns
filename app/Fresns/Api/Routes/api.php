@@ -150,7 +150,7 @@ Route::prefix('v2')->middleware([
 
     // editor
     Route::prefix('editor')->name('editor.')->group(function () {
-        Route::post('direct-publish', [EditorController::class, 'directPublish'])->name('direct.publish');
+        Route::post('{type}/quick-publish', [EditorController::class, 'quickPublish'])->name('quick.publish');
         Route::get('{type}/config', [EditorController::class, 'config'])->name('config');
         Route::get('{type}/drafts', [EditorController::class, 'drafts'])->name('drafts');
         Route::post('{type}/create', [EditorController::class, 'create'])->name('create');

@@ -154,7 +154,7 @@ return [
         'api.conversation.delete',
         'api.post.delete',
         'api.comment.delete',
-        'api.editor.direct.publish',
+        'api.editor.quick.publish',
         'api.editor.create',
         'api.editor.generate',
         'api.editor.detail',
