@@ -11,6 +11,7 @@ namespace App\Fresns\Api\Http\Controllers;
 use App\Exceptions\ApiException;
 use App\Fresns\Api\Http\DTO\GlobalArchivesDTO;
 use App\Fresns\Api\Http\DTO\GlobalBlockWordsDTO;
+use App\Fresns\Api\Http\DTO\GlobalCodeMessagesDTO;
 use App\Fresns\Api\Http\DTO\GlobalConfigsDTO;
 use App\Fresns\Api\Http\DTO\GlobalRolesDTO;
 use App\Fresns\Api\Http\DTO\GlobalUploadTokenDTO;
@@ -22,6 +23,7 @@ use App\Helpers\PluginHelper;
 use App\Helpers\StrHelper;
 use App\Models\Archive;
 use App\Models\BlockWord;
+use App\Models\CodeMessage;
 use App\Models\Config;
 use App\Models\File;
 use App\Models\PluginUsage;
@@ -56,6 +58,7 @@ class GlobalController extends Controller
 
         if ($dtoRequest->isAll) {
             $configs = $configQuery->get();
+
             $total = $configs->count();
             $perPage = $total;
         } else {
@@ -88,6 +91,32 @@ class GlobalController extends Controller
         }
 
         return $this->fresnsPaginate($item, $total, $perPage);
+    }
+
+    // code messages
+    public function codeMessages(Request $request)
+    {
+        $dtoRequest = new GlobalCodeMessagesDTO($request->all());
+        $langTag = $this->langTag();
+
+        $isAll = $dtoRequest->isAll ?? false;
+        $codeArr = array_filter(explode(',', $dtoRequest->codes));
+        $unikey = $dtoRequest->unikey ?? 'Fresns';
+
+        $messagesQuery = CodeMessage::where('lang_tag', $langTag)->where('plugin_unikey', $unikey);
+
+        if ($isAll) {
+            $codeMessages = $messagesQuery->get();
+        } else {
+            $codeMessages = $messagesQuery->whereIn('code', $codeArr)->get();
+        }
+
+        $item = null;
+        foreach ($codeMessages as $message) {
+            $item[$message->code] = $message->message;
+        }
+
+        return $this->success($item);
     }
 
     // archives

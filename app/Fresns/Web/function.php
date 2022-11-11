@@ -101,12 +101,40 @@ if (! function_exists('fs_db_config')) {
 
 // fs_lang
 if (! function_exists('fs_lang')) {
-    function fs_lang(string $langKey): ?string
+    function fs_lang(string $langKey, ?string $default = null): ?string
     {
         $langArr = fs_api_config('language_pack_contents');
-        $result = $langArr[$langKey] ?? null;
+        $result = $langArr[$langKey] ?? $default;
 
         return $result;
+    }
+}
+
+// fs_code_message
+if (! function_exists('fs_code_message')) {
+    function fs_code_message(int $code, ?string $unikey = 'Fresns', ?string $default = null): ?string
+    {
+        $langTag = current_lang_tag();
+
+        $cacheKey = "fresns_web_code_message_all_{$unikey}_{$langTag}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+
+        $codeMessages = Cache::remember($cacheKey, $cacheTime, function () use ($unikey) {
+            $result = ApiHelper::make()->get('/api/v2/global/code-messages', [
+                'query' => [
+                    'unikey' => $unikey,
+                    'isAll' => true,
+                ],
+            ]);
+
+            return $result;
+        });
+
+        if (! $codeMessages) {
+            Cache::forget($cacheKey);
+        }
+
+        return data_get($codeMessages, "data.{$code}") ?? $default;
     }
 }
 

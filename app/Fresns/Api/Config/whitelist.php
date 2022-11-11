@@ -10,6 +10,7 @@ return [
     // No login for public mode account
     'publicAccount' => [
         'api.global.configs',
+        'api.global.code.messages',
         'api.global.roles',
         'api.global.maps',
         'api.global.content.type',
@@ -58,6 +59,7 @@ return [
     // No login for private mode account
     'privateAccount' => [
         'api.global.configs',
+        'api.global.code.messages',
         'api.common.callback',
         'api.common.send.verifyCode',
         'api.common.upload.log',
@@ -68,6 +70,7 @@ return [
     // No login for public mode user
     'publicUser' => [
         'api.global.configs',
+        'api.global.code.messages',
         'api.global.roles',
         'api.global.maps',
         'api.global.content.type',
@@ -123,6 +126,7 @@ return [
     // No login for private mode user
     'privateUser' => [
         'api.global.configs',
+        'api.global.code.messages',
         'api.common.callback',
         'api.common.send.verifyCode',
         'api.common.upload.log',
