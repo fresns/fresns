@@ -276,6 +276,7 @@ class InteractiveHelper
         $profile['lastEditNickname'] = null;
         $profile['registerDateTime'] = null;
         $profile['hasPassword'] = false;
+        $profile['rankState'] = 1;
         $profile['status'] = true;
         $profile['deactivate'] = false;
         $profile['deactivateTime'] = null;
@@ -287,6 +288,7 @@ class InteractiveHelper
         $profile['roleIcon'] = null;
         $profile['roleIconDisplay'] = false;
         $profile['roleExpiryDateTime'] = null;
+        $profile['roleRankState'] = 1;
         $profile['rolePermissions'] = null;
         $profile['roleStatus'] = true;
 

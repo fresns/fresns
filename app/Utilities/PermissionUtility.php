@@ -128,7 +128,7 @@ class PermissionUtility
             $info['code'] = 31601;
             $info['message'] = ConfigUtility::getCodeMessage(31601, 'Fresns', $langTag);
 
-            return  $info;
+            return $info;
         }
 
         if (! $conversationStatus) {
@@ -136,7 +136,7 @@ class PermissionUtility
             $info['code'] = 36600;
             $info['message'] = ConfigUtility::getCodeMessage(36600, 'Fresns', $langTag);
 
-            return  $info;
+            return $info;
         }
 
         if ($receiveUser->id == $authUserId) {
@@ -144,7 +144,7 @@ class PermissionUtility
             $info['code'] = 31602;
             $info['message'] = ConfigUtility::getCodeMessage(31602, 'Fresns', $langTag);
 
-            return  $info;
+            return $info;
         }
 
         if (! is_null($receiveUser->deleted_at)) {
@@ -152,7 +152,7 @@ class PermissionUtility
             $info['code'] = 35203;
             $info['message'] = ConfigUtility::getCodeMessage(35203, 'Fresns', $langTag);
 
-            return  $info;
+            return $info;
         }
 
         if (! $receiveUser->is_enable) {
@@ -160,16 +160,18 @@ class PermissionUtility
             $info['code'] = 35202;
             $info['message'] = ConfigUtility::getCodeMessage(35202, 'Fresns', $langTag);
 
-            return  $info;
+            return $info;
         }
 
         $authUserRolePerm = PermissionUtility::getUserMainRolePerm($receiveUser->id);
-        if (! $authUserRolePerm['conversation']) {
+        $conversationConfig = $authUserRolePerm['conversation'] ?? false;
+
+        if (! $conversationConfig) {
             $info['status'] = false;
             $info['code'] = 36114;
             $info['message'] = ConfigUtility::getCodeMessage(36114, 'Fresns', $langTag);
 
-            return  $info;
+            return $info;
         }
 
         $checkBlock = InteractiveUtility::checkUserBlock(InteractiveUtility::TYPE_USER, $authUserId, $receiveUser->id);
@@ -178,7 +180,7 @@ class PermissionUtility
             $info['code'] = 36608;
             $info['message'] = ConfigUtility::getCodeMessage(36608, 'Fresns', $langTag);
 
-            return  $info;
+            return $info;
         }
 
         $checkFollow = InteractiveUtility::checkUserFollow(InteractiveUtility::TYPE_USER, $receiveUser->id, $authUserId);
@@ -188,7 +190,7 @@ class PermissionUtility
             $info['code'] = 36607;
             $info['message'] = ConfigUtility::getCodeMessage(36607, 'Fresns', $langTag);
 
-            return  $info;
+            return $info;
         }
 
         if ($receiveUser->conversation_limit == 2 && ! $checkFollow) {
@@ -196,10 +198,10 @@ class PermissionUtility
             $info['code'] = 36606;
             $info['message'] = ConfigUtility::getCodeMessage(36606, 'Fresns', $langTag);
 
-            return  $info;
+            return $info;
         }
 
-        return  $info;
+        return $info;
     }
 
     // Check if the user is a group administrator
