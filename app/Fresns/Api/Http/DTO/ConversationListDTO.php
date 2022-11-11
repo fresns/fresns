@@ -10,7 +10,7 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class CommonFileLinkDTO extends DTO
+class ConversationListDTO extends DTO
 {
     /**
      * @return array
@@ -18,8 +18,9 @@ class CommonFileLinkDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => ['string', 'required', 'in:post,comment,extend,conversation'],
-            'fsid' => ['string', 'required'],
+            'isPin' => ['boolean', 'nullable'],
+            'pageSize' => ['integer', 'nullable', 'between:1,30'],
+            'page' => ['integer', 'nullable'],
         ];
     }
 }

@@ -435,6 +435,16 @@ class ApiController extends Controller
         return \response()->json($response);
     }
 
+    // send message
+    public function messageSend(Request $request)
+    {
+        $response = ApiHelper::make()->post('/api/v2/conversation/send-message', [
+            'json' => \request()->all(),
+        ]);
+
+        return \response()->json($response);
+    }
+
     // content type
     public function contentType()
     {

@@ -18,6 +18,7 @@ class FileDownload extends Model
     const TYPE_POST_LOG = 6;
     const TYPE_COMMENT_LOG = 7;
     const TYPE_EXTEND = 8;
+    const TYPE_CONVERSATION = 9;
 
     public function scopeFileType($query, int $type)
     {

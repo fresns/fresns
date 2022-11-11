@@ -20,6 +20,11 @@ class Conversation extends Model
         return $this->belongsTo(User::class, 'b_user_id', 'id');
     }
 
+    public function latestMessage()
+    {
+        return $this->hasOne(ConversationMessage::class)->isEnable()->latest();
+    }
+
     public function messages()
     {
         return $this->hasMany(ConversationMessage::class)->isEnable();

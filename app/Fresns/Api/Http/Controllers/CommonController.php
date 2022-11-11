@@ -22,6 +22,7 @@ use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Account;
+use App\Models\ConversationMessage;
 use App\Models\Extend;
 use App\Models\File;
 use App\Models\FileDownload;
@@ -412,12 +413,14 @@ class CommonController extends Controller
         $authAccountId = $this->account()->id;
         $authUserId = $this->user()->id;
 
+        // check down count
         $roleDownloadCount = PermissionUtility::getUserMainRolePerm($authUserId)['download_file_count'] ?? 0;
         $userDownloadCount = FileDownload::where('user_id', $authUserId)->whereDate('created_at', now())->count();
         if ($roleDownloadCount < $userDownloadCount) {
             throw new ApiException(36115);
         }
 
+        // check file
         $file = File::whereFid($fid)->first();
         if (empty($file)) {
             throw new ApiException(37500);
@@ -427,8 +430,24 @@ class CommonController extends Controller
             throw new ApiException(37501);
         }
 
-        $model = PrimaryHelper::fresnsModelByFsid($dtoRequest->type, $dtoRequest->fsid);
+        // get model
+        if ($dtoRequest->type == 'conversation') {
+            $model = ConversationMessage::where('id', $dtoRequest->fsid)->first();
+            $fileUsage = FileUsage::where('file_id', $file->id)
+                ->where('table_name', 'conversation_messages')
+                ->where('table_column', 'message_file_id')
+                ->where('table_id', $model?->id)
+                ->first();
+        } else {
+            $model = PrimaryHelper::fresnsModelByFsid($dtoRequest->type, $dtoRequest->fsid);
+            $fileUsage = FileUsage::where('file_id', $file->id)
+                ->where('table_name', "{$dtoRequest->type}s")
+                ->where('table_column', 'id')
+                ->where('table_id', $model?->id)
+                ->first();
+        }
 
+        // check model
         if (empty($model)) {
             throw new ApiException(32201);
         }
@@ -437,17 +456,8 @@ class CommonController extends Controller
             throw new ApiException(32304);
         }
 
-        $fileUsage = FileUsage::where('file_id', $file->id)
-            ->where('table_name', "{$dtoRequest->type}s")
-            ->where('table_column', 'id')
-            ->where('table_id', $model->id)
-            ->first();
-
-        if (empty($fileUsage)) {
-            throw new ApiException(32304);
-        }
-
-        if ($dtoRequest->type == 'post' && $model->postAppend->is_allow == 1) {
+        // check permission
+        if ($dtoRequest->type == 'post' && $model?->postAppend?->is_allow == 1) {
             $checkPostAllow = PermissionUtility::checkPostAllow($model->id, $authUserId);
 
             if (! $checkPostAllow) {
@@ -455,12 +465,23 @@ class CommonController extends Controller
             }
         }
 
+        if ($dtoRequest->type == 'conversation') {
+            if ($model->send_user_id != $authUserId && $model->receive_user_id != $authUserId) {
+                throw new ApiException(36602);
+            }
+        }
+
+        if (empty($fileUsage)) {
+            throw new ApiException(32304);
+        }
+
         $data['originalUrl'] = FileHelper::fresnsFileOriginalUrlById($file->id);
 
         $objectType = match ($dtoRequest->type) {
-            'post' => 4,
-            'comment' => 5,
-            'extend' => 6,
+            'post' => FileDownload::TYPE_POST,
+            'comment' => FileDownload::TYPE_COMMENT,
+            'extend' => FileDownload::TYPE_EXTEND,
+            'conversation' => FileDownload::TYPE_CONVERSATION,
         };
         $downloader = [
             'file_id' => $file->id,

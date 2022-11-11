@@ -495,22 +495,23 @@ class UserController extends Controller
         $data['features'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_FEATURE, null, null, $authUserId, $langTag);
         $data['profiles'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_PROFILE, null, null, $authUserId, $langTag);
 
-        $conversationACount = Conversation::where('a_user_id', $authUserId)->where('a_is_read', 0)->where('a_is_display', 1)->count();
-        $conversationBCount = Conversation::where('b_user_id', $authUserId)->where('b_is_read', 0)->where('b_is_display', 1)->count();
+        $aConversations = Conversation::where('a_user_id', $authUserId)->where('a_is_display', 1);
+        $bConversations = Conversation::where('b_user_id', $authUserId)->where('b_is_display', 1);
+        $conversationCount = $aConversations->union($bConversations)->count();
         $conversationMessageCount = ConversationMessage::where('receive_user_id', $authUserId)->whereNull('receive_read_at')->whereNull('receive_deleted_at')->isEnable()->count();
-        $conversationUnread['conversations'] = $conversationACount + $conversationBCount;
-        $conversationUnread['messages'] = $conversationMessageCount;
-        $data['conversationUnread'] = $conversationUnread;
+        $conversations['conversationCount'] = $conversationCount;
+        $conversations['unreadMessages'] = $conversationMessageCount;
+        $data['conversations'] = $conversations;
 
-        $notificationUnread['systems'] = Notification::where('type', 1)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notificationUnread['recommends'] = Notification::where('type', 2)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notificationUnread['likes'] = Notification::where('type', 3)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notificationUnread['dislikes'] = Notification::where('type', 4)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notificationUnread['follows'] = Notification::where('type', 5)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notificationUnread['blocks'] = Notification::where('type', 6)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notificationUnread['mentions'] = Notification::where('type', 7)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $notificationUnread['comments'] = Notification::where('type', 8)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $data['notificationUnread'] = $notificationUnread;
+        $unreadNotifications['systems'] = Notification::where('type', 1)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $unreadNotifications['recommends'] = Notification::where('type', 2)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $unreadNotifications['likes'] = Notification::where('type', 3)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $unreadNotifications['dislikes'] = Notification::where('type', 4)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $unreadNotifications['follows'] = Notification::where('type', 5)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $unreadNotifications['blocks'] = Notification::where('type', 6)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $unreadNotifications['mentions'] = Notification::where('type', 7)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $unreadNotifications['comments'] = Notification::where('type', 8)->where('user_id', $authUserId)->where('is_read', 0)->count();
+        $data['unreadNotifications'] = $unreadNotifications;
 
         $draftCount['posts'] = PostLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count();
         $draftCount['comments'] = CommentLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count();

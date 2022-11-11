@@ -12,6 +12,7 @@ use App\Models\Account;
 use App\Models\Archive;
 use App\Models\Comment;
 use App\Models\Config;
+use App\Models\Conversation;
 use App\Models\Extend;
 use App\Models\File;
 use App\Models\Group;
@@ -78,6 +79,11 @@ class PrimaryHelper
                 // archive
                 case 'archive':
                     $model = Archive::withTrashed()->where('code', $fsid)->first();
+                break;
+
+                // default
+                default:
+                    throw new \RuntimeException("unknown modelName {$modelName}");
                 break;
             }
 
@@ -152,12 +158,50 @@ class PrimaryHelper
                 case 'archive':
                     $model = Archive::withTrashed()->where('id', $id)->first();
                 break;
+
+                // conversation
+                case 'conversation':
+                    $model = Conversation::withTrashed()->with(['aUser', 'bUser', 'latestMessage'])->where('id', $id)->first();
+                break;
+
+                // default
                 default:
                     throw new \RuntimeException("unknown modelName {$modelName}");
                 break;
             }
 
             return $model;
+        });
+
+        if (empty($fresnsModel)) {
+            Cache::forget($cacheKey);
+        }
+
+        return $fresnsModel;
+    }
+
+    // get conversation model
+    public static function fresnsModelConversation(int $authUserId, int $conversationUserId)
+    {
+        $cacheKey = "fresns_model_conversation_{$authUserId}_{$conversationUserId}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+
+        $fresnsModel = Cache::remember($cacheKey, $cacheTime, function () use ($authUserId, $conversationUserId) {
+            $aConversation = Conversation::with(['aUser', 'latestMessage'])->where('a_user_id', $conversationUserId)->where('b_user_id', $authUserId)->first();
+            $bConversation = Conversation::with(['bUser', 'latestMessage'])->where('b_user_id', $conversationUserId)->where('a_user_id', $authUserId)->first();
+
+            if (empty($aConversation) && empty($bConversation)) {
+                $conversationColumn['a_user_id'] = $authUserId;
+                $conversationColumn['b_user_id'] = $conversationUserId;
+
+                $conversation = Conversation::create($conversationColumn);
+            } elseif (empty($aConversation)) {
+                $conversation = $bConversation;
+            } else {
+                $conversation = $aConversation;
+            }
+
+            return $conversation;
         });
 
         if (empty($fresnsModel)) {

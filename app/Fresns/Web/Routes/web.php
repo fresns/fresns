@@ -180,7 +180,7 @@ Route::prefix(LaravelLocalization::setLocale())
             Route::get('register', [AccountController::class, 'register'])->name('register')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
             Route::get('login', [AccountController::class, 'login'])->name('login')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
             Route::get('logout', [AccountController::class, 'logout'])->name('logout')->withoutMiddleware([UserAuthorize::class]);
-            Route::get('reset-password', [AccountController::class, 'resetPassword'])->name('resetPassword')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
+            Route::get('reset-password', [AccountController::class, 'resetPassword'])->name('reset.password')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
             Route::get('/', [AccountController::class, 'index'])->name('index')->withoutMiddleware([UserAuthorize::class]);
             Route::get('wallet', [AccountController::class, 'wallet'])->name('wallet')->withoutMiddleware([UserAuthorize::class]);
             Route::get('users', [AccountController::class, 'users'])->name('users')->withoutMiddleware([UserAuthorize::class]);
@@ -190,7 +190,7 @@ Route::prefix(LaravelLocalization::setLocale())
         // messages
         Route::name('message.')->prefix('messages')->group(function () {
             Route::get('/', [MessageController::class, 'index'])->name('index');
-            Route::get('conversation/{uidOrUsername}', [MessageController::class, 'conversation'])->name('conversation');
+            Route::get('conversation/{conversationId}', [MessageController::class, 'conversation'])->name('conversation');
             Route::get('notifications/{types?}', [MessageController::class, 'notifications'])->name('notifications');
         });
 
