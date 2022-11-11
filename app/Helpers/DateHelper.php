@@ -24,8 +24,11 @@ class DateHelper
         $timezone = Cache::rememberForever('fresns_database_timezone', function () {
             $standardTime = gmdate('Y-m-d H:i:s');
 
-            $now = DateHelper::fresnsDatabaseCurrentDateTime();
-            $hour = Carbon::parse($standardTime)->floatDiffInHours($now, false);
+            $dbNow = DateHelper::fresnsDatabaseCurrentDateTime();
+            $hour = Carbon::parse($standardTime)->floatDiffInHours($dbNow, false);
+
+            $hour = round($hour);
+
             if ($hour > 0) {
                 $hour = '+'.$hour;
             }
@@ -126,7 +129,7 @@ class DateHelper
 
         $datetime = date('Y-m-d H:i:s', strtotime($datetime));
 
-        $timezone = $timezone ?? ConfigHelper::fresnsConfigDefaultTimezone();
+        $timezone = $timezone ?: ConfigHelper::fresnsConfigDefaultTimezone();
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
         $dateFormat = ConfigHelper::fresnsConfigDateFormat($langTag);
