@@ -157,8 +157,8 @@ class EditorController extends Controller
                 }
 
                 $checkCommentPerm = PermissionUtility::checkPostCommentPerm($dtoRequest->pid, $authUser->id);
-                if (! $checkCommentPerm) {
-                    throw new ApiException(38108);
+                if (! $checkCommentPerm['status']) {
+                    throw new ApiException($checkCommentPerm['code']);
                 }
 
                 $checkLogCount = CommentLog::where('user_id', $authUser->id)->whereIn('state', [1, 2, 4])->count();
@@ -631,8 +631,8 @@ class EditorController extends Controller
         if ($type == 'comment') {
             $checkCommentPerm = PermissionUtility::checkPostCommentPerm($draft->post_id, $authUser->id);
 
-            if (! $checkCommentPerm) {
-                throw new ApiException(38108);
+            if (! $checkCommentPerm['status']) {
+                throw new ApiException($checkCommentPerm['code']);
             }
         }
 
@@ -976,6 +976,14 @@ class EditorController extends Controller
         $dtoRequest = new EditorQuickPublishDTO($requestData);
 
         $authUser = $this->user();
+
+        if ($dtoRequest->type == 'comment') {
+            $checkCommentPerm = PermissionUtility::checkPostCommentPerm($dtoRequest->commentPid, $authUser->id);
+
+            if (! $checkCommentPerm['status']) {
+                throw new ApiException($checkCommentPerm['code']);
+            }
+        }
 
         $contentInterval = PermissionUtility::checkContentIntervalTime($authUser->id, $dtoRequest->type);
         if (! $contentInterval) {

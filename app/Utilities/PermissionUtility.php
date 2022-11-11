@@ -294,10 +294,19 @@ class PermissionUtility
     }
 
     // Check post comment perm
-    public static function checkPostCommentPerm(?string $pidOrPostId = null, ?int $userId = null): bool
+    public static function checkPostCommentPerm(?string $pidOrPostId = null, ?int $userId = null): array
     {
-        if (empty($pidOrPostId) || empty($userId)) {
-            return false;
+        $commentPerm['status'] = false;
+        $commentPerm['code'] = 37300;
+
+        if (empty($pidOrPostId)) {
+            return $commentPerm;
+        }
+
+        if (empty($userId)) {
+            $commentPerm['code'] = 31602;
+
+            return $commentPerm;
         }
 
         if (StrHelper::isPureInt($pidOrPostId)) {
@@ -307,33 +316,43 @@ class PermissionUtility
         }
 
         if (empty($post)) {
-            return false;
+            return $commentPerm;
         }
 
         if (! $post->postAppend->is_comment) {
-            return false;
+            $commentPerm['code'] = 38108;
+
+            return $commentPerm;
         }
 
         $user = PrimaryHelper::fresnsModelById('user', $post->user_id);
 
         if ($user->comment_limit != 1) {
             if ($user->comment_limit == 4) {
-                return false;
+                $commentPerm['code'] = 38211;
+
+                return $commentPerm;
             }
 
-            $checkUserFollow = InteractiveUtility::checkUserFollow(InteractiveUtility::TYPE_USER, $user->id, $userId);
-
+            $checkUserFollow = InteractiveUtility::checkUserFollow(InteractiveUtility::TYPE_USER, $post->user_id, $userId);
             if (! $checkUserFollow) {
-                return false;
+                $commentPerm['code'] = 38209;
+
+                return $commentPerm;
             }
 
             $checkUserVerified = PrimaryHelper::fresnsModelById('user', $userId)->verified_status;
             if ($user->comment_limit == 3 && ! $checkUserVerified) {
-                return false;
+                $commentPerm['code'] = 38210;
+
+                return $commentPerm;
             }
         }
 
-        return true;
+        $commentPerm['status'] = true;
+        $commentPerm['code'] = 0;
+
+        return $commentPerm;
     }
 
     // Check content is can edit
