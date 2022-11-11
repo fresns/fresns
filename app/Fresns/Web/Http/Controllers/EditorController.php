@@ -12,7 +12,6 @@ use App\Fresns\Web\Exceptions\ErrorException;
 use App\Fresns\Web\Helpers\ApiHelper;
 use App\Fresns\Web\Helpers\QueryHelper;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class EditorController extends Controller
 {
@@ -157,73 +156,6 @@ class EditorController extends Controller
         return view('editor.edit', compact('type', 'plid', 'clid', 'config', 'stickers', 'draft', 'group', 'uploadInfo'));
     }
 
-    // request: quick publish
-    public function quickPublish(Request $request, string $type)
-    {
-        $validator = Validator::make($request->post(),
-            [
-                'content' => 'required',
-                'postGid' => ($request->post('type') === 'post' && fs_api_config('post_editor_group_required')) ? 'required' : 'nullable',
-                'postTitle' => ($request->post('type') === 'post' && fs_api_config('post_editor_title_required')) ? 'required' : 'nullable',
-            ]
-        );
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator);
-        }
-
-        $multipart = [
-            [
-                'name' => 'postGid',
-                'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
-                'contents' => $request->post('postGid'),
-            ],
-            [
-                'name' => 'postTitle',
-                'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
-                'contents' => $request->post('postTitle'),
-            ],
-            [
-                'name' => 'content',
-                'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
-                'contents' => $request->post('content'),
-            ],
-            [
-                'name' => 'isAnonymous',
-                'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
-                'contents' => (bool) $request->post('anonymous', false),
-            ],
-            [
-                'name' => 'commentPid',
-                'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
-                'contents' => $request->post('commentPid'),
-            ],
-            [
-                'name' => 'commentCid',
-                'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
-                'contents' => $request->post('commentCid'),
-            ],
-        ];
-        if ($request->file('file')) {
-            $multipart[] = [
-                'name' => 'file',
-                'filename' => $request->file('file')->getClientOriginalName(),
-                'contents' => $request->file('file')->getContent(),
-                'headers' => ['Content-Type' => $request->file('file')->getClientMimeType()],
-            ];
-        }
-
-        $result = ApiHelper::make()->post("/api/v2/editor/{$type}/quick-publish", [
-            'multipart' => array_filter($multipart, fn ($val) => isset($val['contents'])),
-        ]);
-
-        if ($result['code'] !== 0) {
-            throw new ErrorException($result['message'], $result['code']);
-        }
-
-        return back()->with('success', $result['message']);
-    }
-
     // request: create or edit
     public function store(Request $request, string $type)
     {
@@ -318,25 +250,6 @@ class EditorController extends Controller
         }
 
         return redirect()->to(fs_route(route('fresns.post.list')))->with('success', $response['message']);
-    }
-
-    public function recall(string $type, int $draftId)
-    {
-        $type = match ($type) {
-            'posts' => 'post',
-            'comments' => 'comment',
-            'post' => 'post',
-            'comment' => 'comment',
-            default => 'post',
-        };
-
-        $response = ApiHelper::make()->patch("/api/v2/editor/{$type}/{$draftId}");
-
-        if ($response['code'] !== 0) {
-            throw new ErrorException($response['message'], $response['code']);
-        }
-
-        return back()->with('success', $response['message']);
     }
 
     // get draft

@@ -520,8 +520,9 @@ class ApiController extends Controller
         $validator = Validator::make($request->post(),
             [
                 'content' => 'required',
-                'postGid' => ($request->post('type') === 'post' && fs_api_config('post_editor_group_required')) ? 'required' : 'nullable',
-                'postTitle' => ($request->post('type') === 'post' && fs_api_config('post_editor_title_required')) ? 'required' : 'nullable',
+                'postGid' => ($type === 'post' && fs_api_config('post_editor_group_required')) ? 'required' : 'nullable',
+                'postTitle' => ($type === 'post' && fs_api_config('post_editor_title_required')) ? 'required' : 'nullable',
+                'commentPid' => ($type === 'comment') ? 'required' : 'nullable',
             ]
         );
 

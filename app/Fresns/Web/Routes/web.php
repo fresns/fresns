@@ -204,9 +204,7 @@ Route::prefix(LaravelLocalization::setLocale())
             Route::get('{type}/{draftId}', [EditorController::class, 'edit'])->name('edit');
 
             // editor request
-            Route::post('quick-publish/{type}', [EditorController::class, 'quickPublish'])->name('quick.publish');
             Route::post('store/{type}', [EditorController::class, 'store'])->name('store');
             Route::post('publish/{type}/{draftId}', [EditorController::class, 'publish'])->name('publish');
-            Route::patch('recall/{type}/{draftId}', [EditorController::class, 'recall'])->name('recall');
         });
     });
