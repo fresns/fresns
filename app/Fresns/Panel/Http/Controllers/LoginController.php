@@ -15,6 +15,7 @@ use App\Utilities\ConfigUtility;
 use Browser;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 
 class LoginController extends Controller
 {
@@ -125,6 +126,11 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
+        $panelLang = \request()->cookie('panel_lang');
+        if (empty($panelLang)) {
+            Cookie::queue('panel_lang', config('app.locale'));
+        }
+
         return view('FsView::auth.login');
     }
 
