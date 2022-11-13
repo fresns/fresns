@@ -52,7 +52,7 @@
                     <th scope="col">{{ __('FsLang::panel.block_word') }}</th>
                     <th scope="col">{{ __('FsLang::panel.block_word_content_mode_desc') }}</th>
                     <th scope="col">{{ __('FsLang::panel.block_word_user_mode_desc') }}</th>
-                    <th scope="col">{{ __('FsLang::panel.block_word_dialog_mode_desc') }}</th>
+                    <th scope="col">{{ __('FsLang::panel.block_word_conversation_mode_desc') }}</th>
                     <th scope="col">{{ __('FsLang::panel.replace_word') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_options') }}</th>
                 </tr>
@@ -63,7 +63,7 @@
                         <td><input type="text" class="form-control" disabled value="{{ $word->word }}"></td>
                         <td>{{ $contentModeLabels[$word->content_mode] ?? '' }}</td>
                         <td>{{ $userModeLabels[$word->user_mode] ?? '' }}</td>
-                        <td>{{ $dialogModeLabels[$word->dialog_mode] ?? '' }}</td>
+                        <td>{{ $conversationModeLabels[$word->conversation_mode] ?? '' }}</td>
                         <td><input type="text" class="form-control" disabled value="{{ $word->replace_word }}"></td>
                         <td>
                             <form action="{{ route('panel.block-words.destroy', $word) }}" method="post">
@@ -121,9 +121,9 @@
                             </select>
                         </div>
                         <div class="input-group mb-3">
-                            <label class="input-group-text">{{ __('FsLang::panel.block_word_dialog_mode') }}</label>
-                            <select class="form-select" aria-label="Default select example" name="dialog_mode">
-                                @foreach ($dialogModeLabels as $key => $label)
+                            <label class="input-group-text">{{ __('FsLang::panel.block_word_conversation_mode') }}</label>
+                            <select class="form-select" aria-label="Default select example" name="conversation_mode">
+                                @foreach ($conversationModeLabels as $key => $label)
                                     <option value="{{ $key }}">{{ $label }}</option>
                                 @endforeach
                             </select>
