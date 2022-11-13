@@ -316,7 +316,10 @@ return [
     'system_info_database_engine' => 'データ在庫エンジン',
     'system_info_database_collation' => 'データベースの並べ替えルール',
     'system_info_database_size' => '現在のデータベースサイズ',
+    'notes' => '使用説明書',
     'news' => 'Fresnsイベント＆ニュース',
+    // Dashboard-Notes
+    'note_config' => 'コンフィギュレーションを変更した後、新しいコンフィギュレーションを有効にする前に、キャッシュをクリアする必要があります。',
     // Dashboard-Events
     'event_subscribe_table' => 'データテーブルを購読する',
     'event_crontab_time' => '実行サイクル',

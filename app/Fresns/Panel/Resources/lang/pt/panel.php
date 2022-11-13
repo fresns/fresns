@@ -316,7 +316,10 @@ return [
     'system_info_database_engine' => 'Data Stock Engine',
     'system_info_database_collation' => 'Regras de classificação do banco de dados',
     'system_info_database_size' => 'Tamanho atual do banco de dados',
+    'notes' => 'Instruções de utilização',
     'news' => 'Atividades e notícias fresns',
+    // Dashboard-Notes
+    'note_config' => 'Após a modificação da configuração, a cache precisa de ser limpa antes que a nova configuração possa ter efeito.',
     // Dashboard-Events
     'event_subscribe_table' => 'Subscrever a tabela de dados',
     'event_crontab_time' => 'Ciclo de Execução',

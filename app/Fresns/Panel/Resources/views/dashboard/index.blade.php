@@ -116,8 +116,8 @@
     <!--row-->
     <div class="row">
         <!--system info-->
-        <div class="col-md mb-4">
-            <div class="card">
+        <div class="col-md">
+            <div class="card mb-4">
                 <div class="card-header">{{ __('FsLang::panel.system_info') }}</div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
@@ -170,9 +170,19 @@
                 </div>
             </div>
         </div>
-        <!--news-->
-        <div class="col-md mb-4">
-            <div class="card">
+        <!--notes and news-->
+        <div class="col-md">
+            <!--notes-->
+            <div class="card mb-4">
+                <div class="card-header">{{ __('FsLang::panel.notes') }}</div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item text-secondary">{{ __('FsLang::panel.note_config') }}</li>
+                    </ul>
+                </div>
+            </div>
+            <!--news-->
+            <div class="card mb-4">
                 <div class="card-header">{{ __('FsLang::panel.news') }}</div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">

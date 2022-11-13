@@ -316,7 +316,10 @@ return [
     'system_info_database_engine' => 'ДАННЫЕ ДВИЖЕНИЯ',
     'system_info_database_collation' => 'Правила сортировки баз',
     'system_info_database_size' => 'Текущая база данных Размер',
+    'notes' => 'Инструкции по применению',
     'news' => 'Мероприятия и новости Fresns',
+    // Dashboard-Notes
+    'note_config' => 'После изменения конфигурации необходимо очистить кэш, прежде чем новая конфигурация вступит в силу.',
     // Dashboard-Events
     'event_subscribe_table' => 'Подписка на таблицу данных',
     'event_crontab_time' => 'Цикл выполнения',

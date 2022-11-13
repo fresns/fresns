@@ -316,7 +316,10 @@ return [
     'system_info_database_engine' => 'Motore automatico dei dati',
     'system_info_database_collation' => 'Regole di ordinamento del database',
     'system_info_database_size' => 'Dimensioni del database corrente',
+    'notes' => 'Istruzioni per l\'uso',
     'news' => 'Attività e notizie di Fresns',
+    // Dashboard-Notes
+    'note_config' => 'Dopo aver modificato la configurazione, è necessario cancellare la cache prima che la nuova configurazione diventi effettiva.',
     // Dashboard-Events
     'event_subscribe_table' => 'Sottoscrivere la tabella dei dati',
     'event_crontab_time' => 'Ciclo di esecuzione',

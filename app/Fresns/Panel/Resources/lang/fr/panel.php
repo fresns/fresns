@@ -316,7 +316,10 @@ return [
     'system_info_database_engine' => 'Moteur de stockage de données',
     'system_info_database_collation' => 'Règles de tri de la base de données',
     'system_info_database_size' => 'Taille de la base de données actuelle',
+    'notes' => 'Mode d\'emploi',
     'news' => 'Fresns Activités et nouvelles',
+    // Dashboard-Notes
+    'note_config' => 'Après avoir modifié la configuration, le cache doit être effacé avant que la nouvelle configuration puisse prendre effet.',
     // Dashboard-Events
     'event_subscribe_table' => 'S\'abonner à la table des données',
     'event_crontab_time' => 'Cycle d\'exécution',

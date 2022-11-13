@@ -316,7 +316,10 @@ return [
     'system_info_database_engine' => 'आँकड़ा स्टॉक इंजन',
     'system_info_database_collation' => 'डाटाबेस सॉर्टिंग नियम',
     'system_info_database_size' => 'वर्तमान डेटाबेस आकार',
+    'notes' => 'उपयोग के लिए निर्देश',
     'news' => 'Fresns गतिविधियाँ और समाचार',
+    // Dashboard-Notes
+    'note_config' => 'कॉन्फ़िगरेशन को संशोधित करने के बाद, आपको नए कॉन्फ़िगरेशन के प्रभावी होने के लिए कैश साफ़ करना होगा।',
     // Dashboard-Events
     'event_subscribe_table' => 'डेटा तालिका की सदस्यता लें',
     'event_crontab_time' => 'निष्पादन चक्र',
