@@ -33,7 +33,7 @@ return [
     'requestFailure' => 'Pedir falha',
     // install
     'install_not_entered_key' => 'Por favor introduza a chave fresns',
-    'install_not_entered_dir' => 'Por favor, introduza um directório',
+    'install_not_entered_directory' => 'Por favor, introduza um directório',
     'install_not_upload_zip' => 'Por favor, seleccione o pacote de instalação',
     'install_in_progress' => 'Instalação em curso...',
     'install_end' => 'Fim da instalação',

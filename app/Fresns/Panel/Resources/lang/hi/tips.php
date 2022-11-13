@@ -33,7 +33,7 @@ return [
     'requestFailure' => 'अनुरोध विफलता',
     // install
     'install_not_entered_key' => 'कृपया fresns कुंजी दर्ज करें',
-    'install_not_entered_dir' => 'कृपया एक निर्देशिका दर्ज करें',
+    'install_not_entered_directory' => 'कृपया एक निर्देशिका दर्ज करें',
     'install_not_upload_zip' => 'कृपया स्थापना पैकेज का चयन करें',
     'install_in_progress' => 'इंस्टॉल हो रहा है...',
     'install_end' => 'स्थापना का अंत',

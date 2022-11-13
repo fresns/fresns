@@ -33,7 +33,7 @@ return [
     'requestFailure' => '请求失败',
     // install
     'install_not_entered_key' => '请输入标识名',
-    'install_not_entered_dir' => '请输入目录',
+    'install_not_entered_directory' => '请输入目录',
     'install_not_upload_zip' => '请选择安装包',
     'install_in_progress' => '正在安装中...',
     'install_end' => '安装结束',

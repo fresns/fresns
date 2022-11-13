@@ -33,7 +33,7 @@ return [
     'requestFailure' => 'Permintaan Gagal',
     // install
     'install_not_entered_key' => 'Silakan masukkan kunci fresns',
-    'install_not_entered_dir' => 'Silakan masukkan direktori',
+    'install_not_entered_directory' => 'Silakan masukkan direktori',
     'install_not_upload_zip' => 'Silakan pilih paket instalasi',
     'install_in_progress' => 'Instal sedang berlangsung...',
     'install_end' => 'Akhir pemasangan',

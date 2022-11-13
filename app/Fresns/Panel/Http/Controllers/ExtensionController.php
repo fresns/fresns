@@ -187,7 +187,7 @@ class ExtensionController extends Controller
                 $pluginDirectory = $request->plugin_directory;
 
                 if (empty($pluginDirectory)) {
-                    return back()->with('failure', __('FsLang::tips.install_not_entered_dir'));
+                    return back()->with('failure', __('FsLang::tips.install_not_entered_directory'));
                 }
 
                 if (strpos($pluginDirectory, '/') == false) {

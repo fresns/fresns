@@ -33,7 +33,7 @@ return [
     'requestFailure' => '요청 실패',
     // install
     'install_not_entered_key' => 'fresns 키를 입력하세요.',
-    'install_not_entered_dir' => '디렉토리를 입력하세요',
+    'install_not_entered_directory' => '디렉토리를 입력하세요',
     'install_not_upload_zip' => '설치 패키지를 선택하십시오',
     'install_in_progress' => '설치 진행 중...',
     'install_end' => '설치 종료',
