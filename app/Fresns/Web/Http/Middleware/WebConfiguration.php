@@ -118,10 +118,10 @@ class WebConfiguration
 
     public function loadLanguages()
     {
-        $menus = fs_api_config('language_menus');
+        $menus = fs_api_config('language_menus') ?? [];
 
         $supportedLocales = [];
-        foreach ($menus ?? [] as $menu) {
+        foreach ($menus as $menu) {
             $supportedLocales[$menu['langTag']] = ['name' => $menu['langName']];
         }
 
