@@ -38,6 +38,7 @@ use App\Models\PostLog;
 use App\Models\Role;
 use App\Models\Sticker;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
 
 class ContentUtility
@@ -297,6 +298,10 @@ class ContentUtility
         // Replace mention
         // Replace sticker
         if ($isMarkdown == 0) {
+            $content = Str::swap([
+                '<' => '&lt;',
+                '>' => '&gt;',
+            ], $content);
             $content = static::replaceLink($content);
         }
         $content = static::replaceHashtag($content);
