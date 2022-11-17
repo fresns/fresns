@@ -16,6 +16,7 @@ use App\Helpers\PrimaryHelper;
 use App\Models\ArchiveUsage;
 use App\Models\ExtendUsage;
 use App\Models\File;
+use App\Models\Mention;
 use App\Models\OperationUsage;
 use App\Models\User;
 use App\Utilities\ArrUtility;
@@ -42,6 +43,23 @@ class UserService
 
             $userProfile['nickname'] = ContentUtility::replaceBlockWords('user', $userProfile['nickname']);
             $userProfile['bio'] = ContentUtility::replaceBlockWords('user', $userProfile['bio']);
+
+            $bioConfig = ConfigHelper::fresnsConfigByItemKeys([
+                'bio_support_mention',
+                'bio_support_link',
+                'bio_support_hashtag',
+            ]);
+            $userProfile['bio'] = htmlentities($userProfile['bio']);
+            if ($bioConfig['bio_support_mention']) {
+                $userProfile['bio'] = ContentUtility::replaceMention($userProfile['bio'], Mention::TYPE_USER, $user->id);
+            }
+            if ($bioConfig['bio_support_link']) {
+                $userProfile['bio'] = ContentUtility::replaceLink($userProfile['bio']);
+            }
+            if ($bioConfig['bio_support_hashtag']) {
+                $userProfile['bio'] = ContentUtility::replaceHashtag($userProfile['bio']);
+            }
+            $userProfile['bio'] = ContentUtility::replaceSticker($userProfile['bio']);
 
             $item['stats'] = $user->getUserStats($langTag);
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST, $user->id, $langTag);
