@@ -104,7 +104,7 @@
                     <a class="fresns-link" href="https://fresns.org/community/join.html" target="_blank">{{ __('FsLang::panel.support_join') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://discuss.fresns.org" target="_blank">{{ __('FsLang::panel.support_community') }}</a>
+                    <a class="fresns-link" href="https://discuss.fresns.com" target="_blank">{{ __('FsLang::panel.support_community') }}</a>
                 </li>
                 <li class="list-group-item">
                     <a class="fresns-link" href="https://marketplace.fresns.com/open-source" target="_blank">{{ __('FsLang::panel.support_market') }}</a>

@@ -81,14 +81,14 @@ class AppUtility
 
     public static function getAppHost()
     {
-        $appHost = base64_decode('aHR0cHM6Ly9hcGkuZnJlc25zLm9yZw==', true);
+        $appHost = base64_decode('aHR0cHM6Ly9hcHAuZnJlc25zLm9yZw==', true);
 
         return $appHost;
     }
 
     public static function getApiHost()
     {
-        $apiHost = base64_decode('aHR0cHM6Ly9hcGkuZnJlc25zLm9yZw==', true);
+        $apiHost = base64_decode('aHR0cHM6Ly9tYXJrZXRwbGFjZS5mcmVzbnMuY29t', true);
 
         return $apiHost;
     }
@@ -112,6 +112,7 @@ class AppUtility
         $appConfig = ConfigHelper::fresnsConfigByItemKeys([
             'install_datetime',
             'build_type',
+            'site_url',
             'site_name',
             'site_desc',
             'site_copyright',
@@ -126,12 +127,14 @@ class AppUtility
             'version' => self::currentVersion()['version'],
             'versionInt' => self::currentVersion()['versionInt'],
             'httpSsl' => $isHttps ? 1 : 0,
-            'httpHost' => \request()->getHttpHost(),
-            'siteName' => $appConfig['site_name'],
-            'siteDesc' => $appConfig['site_desc'],
-            'siteCopyright' => $appConfig['site_copyright'],
-            'timezone' => $appConfig['default_timezone'],
-            'language' => $appConfig['default_language'],
+            'httpHost' => \request()->getHost(),
+            'httpPort' => \request()->getPort(),
+            'siteUrl' => $appConfig['site_url'],
+            'siteName' => base64_encode($appConfig['site_name']),
+            'siteDesc' => base64_encode($appConfig['site_desc']),
+            'siteCopyright' => base64_encode($appConfig['site_copyright']),
+            'siteTimezone' => $appConfig['default_timezone'],
+            'siteLanguage' => $appConfig['default_language'],
         ];
 
         return $header;
