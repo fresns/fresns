@@ -298,12 +298,20 @@ class ContentUtility
         // Replace mention
         // Replace sticker
         if ($isMarkdown == 0) {
-            $content = Str::swap([
-                '<' => '&lt;',
-                '>' => '&gt;',
-            ], $content);
+            $content = htmlentities($content);
+
             $content = static::replaceLink($content);
+        } else {
+            $content = Str::swap([
+                '<script>' => '&lt;script&gt;',
+                '</script>' => '&lt;/script&gt;',
+                '<iframe>' => '&lt;iframe&gt;',
+                '</iframe>' => '&lt;/iframe&gt;',
+                '"javascript' => '&#34;javascript',
+                "'javascript" => '&#39;javascript',
+            ], $content);
         }
+
         $content = static::replaceHashtag($content);
         if ($mentionType && $mentionId) {
             $content = static::replaceMention($content, $mentionType, $mentionId);
