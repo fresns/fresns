@@ -88,43 +88,28 @@ class FileHelper
         //     $fileAccept = Str::start($accept, '.');
         // }
 
-        switch ($type) {
-            // image
-            case 1:
-                $accept = str_replace(',', ',image/', $fileExt);
-                $fileAccept = '';
-                if ($accept) {
-                    $fileAccept = Str::start($accept, 'image/');
-                }
-            break;
+        // $builder = \Mimey\MimeMappingBuilder::create();
+        // $mapping = $builder->getMapping();
+        // $mapping['mimes'];
+        // $mapping['extensions'];
+        // foreach ($mapping['mimes'] as $ext => $mimes) {
+        // }
+        // foreach ($mapping['extensions'] as $mime => $exts) {
+        // }
 
-            // video
-            case 2:
-                $accept = str_replace(',', ',video/', $fileExt);
-                $fileAccept = '';
-                if ($accept) {
-                    $fileAccept = Str::start($accept, 'video/');
-                }
-            break;
+        $mimes = new \Mimey\MimeTypes;
 
-            // audio
-            case 3:
-                $accept = str_replace(',', ',audio/', $fileExt);
-                $fileAccept = '';
-                if ($accept) {
-                    $fileAccept = Str::start($accept, 'audio/');
-                }
-            break;
+        $fileExts = explode(',', $fileExt);
 
-            // document
-            case 4:
-                $accept = str_replace(',', ',.', $fileExt);
-                $fileAccept = '';
-                if ($accept) {
-                    $fileAccept = Str::start($accept, '.');
-                }
-            break;
+        $result = [];
+        foreach ($fileExts as $ext) {
+            $fileExtMimes = $mimes->getAllMimeTypes($ext);
+            foreach ($fileExtMimes as $fileExtMime) {
+                $result[] = $fileExtMime;
+            }
         }
+
+        $fileAccept = implode(',', $result);
 
         return $fileAccept;
     }
