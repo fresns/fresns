@@ -15,6 +15,7 @@ use App\Helpers\PluginHelper;
 use App\Helpers\StrHelper;
 use App\Models\Config;
 use App\Models\File;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -22,7 +23,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 if (! function_exists('current_lang_tag')) {
     function current_lang_tag()
     {
-        return \App::getLocale() ?? ConfigHelper::fresnsConfigByItemKey('default_language');
+        return App::getLocale() ?? ConfigHelper::fresnsConfigByItemKey('default_language');
     }
 }
 
