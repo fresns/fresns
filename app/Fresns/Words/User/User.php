@@ -111,8 +111,8 @@ class User
         if (! empty($user->password)) {
             if (empty($dtoWordBody->password)) {
                 return $this->failure(
-                    31410,
-                    ConfigUtility::getCodeMessage(31410, 'Fresns', $langTag),
+                    34111,
+                    ConfigUtility::getCodeMessage(34111, 'Fresns', $langTag),
                 );
             }
 

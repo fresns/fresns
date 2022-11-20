@@ -602,7 +602,7 @@ class AccountController extends Controller
         // edit password
         if ($dtoRequest->editPassword) {
             if (empty($dtoRequest->password) && empty($dtoRequest->verifyCode)) {
-                throw new ApiException(31410);
+                throw new ApiException(34111);
             }
 
             if ($dtoRequest->editPassword != $dtoRequest->editPasswordConfirm) {
@@ -637,7 +637,7 @@ class AccountController extends Controller
         // edit wallet password
         if ($dtoRequest->editWalletPassword) {
             if (empty($dtoRequest->walletPassword) && empty($dtoRequest->verifyCode)) {
-                throw new ApiException(31410);
+                throw new ApiException(34111);
             }
 
             if ($dtoRequest->editWalletPassword != $dtoRequest->editWalletPasswordConfirm) {

@@ -249,7 +249,7 @@ class ApiController extends Controller
     {
         if (\request('password') !== \request('password_confirmation')) {
             return \response()->json([
-                'code' => 30000,
+                'code' => 34104,
                 'message' => fs_api_config('passwordAgainError'),
                 'data' => null,
             ]);
