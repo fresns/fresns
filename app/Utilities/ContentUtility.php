@@ -220,7 +220,7 @@ class ContentUtility
 
                     case 3:
                         if (! $urlData?->domain?->is_enable || ! $urlData?->is_enable) {
-                            continue;
+                            break;
                         }
 
                         $title = $urlData?->link_title ?? $url;
@@ -234,7 +234,7 @@ class ContentUtility
                     break;
 
                     default:
-                        continue;
+                        break;
                     break;
                 }
             }
