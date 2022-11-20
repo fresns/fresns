@@ -11,6 +11,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Models\Config;
 use App\Models\Plugin;
 use App\Utilities\ConfigUtility;
+use App\Utilities\AppUtility;
 use Illuminate\Http\Request;
 
 class ExtensionController extends Controller
@@ -245,11 +246,17 @@ class ExtensionController extends Controller
     public function upgrade(Request $request)
     {
         $unikey = $request->get('unikey');
-        $installType = $request->get('install_type');
+        $packageType = match ($request->get('type')) {
+            default => 'plugin',
+            4 => 'theme',
+        };
+        $installType = $request->get('install_type', 'market');
 
+        AppUtility::macroMarketHeader();
         \Artisan::call('market:upgrade', [
             'unikey' => $unikey,
-            'type' => $installType,
+            'package_type' => $packageType,
+            '--install_type' => $installType,
         ]);
 
         return \response()->json([

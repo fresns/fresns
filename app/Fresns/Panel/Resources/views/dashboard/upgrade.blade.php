@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+    <script src="/static/js/ansi_up.js"></script>
     <div class="row mb-4 border-bottom">
         <div class="col-lg-5">
             <h3>{{ __('FsLang::panel.sidebar_upgrades') }}</h3>
@@ -84,6 +85,7 @@
                                             data-bs-toggle="modal"
                                             data-bs-target="#upgradeExtensions"
                                             data-unikey="{{ $plugin->unikey }}"
+                                            data-type="{{ $plugin->type }}"
                                             data-name="{{ $plugin->name }}"
                                             data-version="{{ $plugin->version }}"
                                             data-new-version="{{ $plugin->upgrade_version }}">
@@ -121,6 +123,7 @@
                                             data-bs-toggle="modal"
                                             data-bs-target="#upgradeExtensions"
                                             data-unikey="{{ $app->unikey }}"
+                                            data-type="{{ $app->type }}"
                                             data-name="{{ $app->name }}"
                                             data-version="{{ $app->version }}"
                                             data-new-version="{{ $app->upgrade_version }}">
@@ -158,6 +161,7 @@
                                             data-bs-toggle="modal"
                                             data-bs-target="#upgradeExtensions"
                                             data-unikey="{{ $engine->unikey }}"
+                                            data-type="{{ $engine->type }}"
                                             data-name="{{ $engine->name }}"
                                             data-version="{{ $engine->version }}"
                                             data-new-version="{{ $engine->upgrade_version }}">
@@ -195,6 +199,7 @@
                                             data-bs-toggle="modal"
                                             data-bs-target="#upgradeExtensions"
                                             data-unikey="{{ $theme->unikey }}"
+                                            data-type="{{ $theme->type }}"
                                             data-name="{{ $theme->name }}"
                                             data-version="{{ $theme->version }}"
                                             data-new-version="{{ $theme->upgrade_version }}">
@@ -368,6 +373,7 @@
                         @csrf
                         @method('put')
                         <input type="hidden" name="unikey">
+                        <input type="hidden" name="type">
                         <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#upgradeStepModal" id="extensionsUpgradeSubmit">{{ __('FsLang::panel.button_confirm_upgrade') }}</button>
                     </form>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('FsLang::panel.button_cancel') }}</button>
