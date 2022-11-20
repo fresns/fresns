@@ -23,36 +23,43 @@ use App\Models\UserBlock;
 use App\Models\UserFollow;
 use App\Models\UserRole;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class PermissionUtility
 {
     // Get user main role permission
     public static function getUserMainRolePerm(int $userId): array
     {
-        $defaultRoleId = ConfigHelper::fresnsConfigByItemKey('default_role');
-        $userRole = UserRole::where('user_id', $userId)->where('is_main', 1)->first();
+        $cacheKey = "fresns_user_main_role_{$userId}";
 
-        $roleId = $userRole->role_id ?? $defaultRoleId;
-        $restoreRoleId = $userRole->restore_role_id ?? $defaultRoleId;
-        $expireTime = strtotime($userRole->expired_at ?? null);
-        $now = time();
+        $permissions = Cache::remember($cacheKey, now()->addMinutes(10), function () use($userId) {
+            $defaultRoleId = ConfigHelper::fresnsConfigByItemKey('default_role');
+            $userRole = UserRole::where('user_id', $userId)->where('is_main', 1)->first();
 
-        if (! empty($userRole) && $expireTime && $expireTime < $now) {
-            $roleId = $restoreRoleId;
-        }
+            $roleId = $userRole->role_id ?? $defaultRoleId;
+            $restoreRoleId = $userRole->restore_role_id ?? $defaultRoleId;
+            $expireTime = strtotime($userRole->expired_at ?? null);
+            $now = time();
 
-        $rolePerm = Role::whereId($roleId)->isEnable()->value('permissions');
-        if (empty($rolePerm)) {
-            $roleId = null;
-            $rolePerm = Role::whereId($defaultRoleId)->isEnable()->value('permissions') ?? [];
-        }
+            if (! empty($userRole) && $expireTime && $expireTime < $now) {
+                $roleId = $restoreRoleId;
+            }
 
-        foreach ($rolePerm as $perm) {
-            $permission['rid'] = $roleId;
-            $permission[$perm['permKey']] = $perm['permValue'];
-        }
+            $rolePerm = Role::whereId($roleId)->isEnable()->value('permissions');
+            if (empty($rolePerm)) {
+                $roleId = null;
+                $rolePerm = Role::whereId($defaultRoleId)->isEnable()->value('permissions') ?? [];
+            }
 
-        return $permission;
+            foreach ($rolePerm as $perm) {
+                $permission['rid'] = $roleId;
+                $permission[$perm['permKey']] = $perm['permValue'];
+            }
+
+            return $permission;
+        });
+
+        return $permissions;
     }
 
     // Get group filter ids

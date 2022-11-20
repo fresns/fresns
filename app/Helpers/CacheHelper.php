@@ -182,6 +182,7 @@ class CacheHelper
         Cache::forget("fresns_user_follow_array_{$type}_{$userId}");
         Cache::forget("fresns_user_follow_group_model_{$userId}");
         Cache::forget("fresns_user_block_array_{$type}_{$userId}");
+        Cache::forget("fresns_user_main_role_{$userId}");
 
         $userModel = PrimaryHelper::fresnsModelById('user', $userId);
         Cache::forget("fresns_user_groups_{$userModel?->uid}");

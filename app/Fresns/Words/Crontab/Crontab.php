@@ -100,6 +100,8 @@ class Crontab
 
                 $role->delete();
             }
+
+            Cache::forget("fresns_user_main_role_{$role->user_id}");
         }
 
         return $this->success();
