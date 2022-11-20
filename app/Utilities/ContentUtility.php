@@ -184,28 +184,60 @@ class ContentUtility
     }
 
     // Replace link
-    public static function replaceLink(string $content): string
+    public static function replaceLink(string $content, ?int $userId = null): string
     {
         $urlList = ContentUtility::extractLink($content);
 
-        $urlDataList = DomainLink::whereIn('link_url', $urlList)->get();
+        $urlDataList = DomainLink::with('domain')->whereIn('link_url', $urlList)->get();
+
+        $siteDomain = StrHelper::extractDomainByUrl(ConfigHelper::fresnsConfigByItemKey('site_url'));
+        $userMainRole = $userId ? PermissionUtility::getUserMainRolePerm($userId) : null;
+        $contentLinkHandle = $userMainRole['content_link_handle'] ?? 1;
 
         $replaceList = [];
         $linkList = [];
         foreach ($urlList as $url) {
             $urlData = $urlDataList->where('link_url', $url)->first();
 
-            // <a href="https://fresns.org" class="fresns_link" target="_blank">Fresns Website</a>
-            // or
-            // <a href="https://fresns.org" class="fresns_link" target="_blank">https://fresns.org</a>
-            $title = $urlData->link_title ?? $url;
+            if ($urlData?->domain?->domain == $siteDomain) {
+                // <a href="https://fresns.org" class="fresns_link" target="_blank">Fresns Website</a>
+                // or
+                // <a href="https://fresns.org" class="fresns_link" target="_blank">https://fresns.org</a>
+                $title = $urlData?->link_title ?? $url;
 
-            $replaceList[] = "{$url}";
-            $linkList[] = sprintf(
-                '<a href="%s" class="fresns_link" target="_blank">%s</a> ',
-                $url,
-                $title,
-            );
+                $replaceList[] = "{$url}";
+                $linkList[] = sprintf(
+                    '<a href="%s" class="fresns_link" target="_blank">%s</a> ',
+                    $url,
+                    $title,
+                );
+            } else {
+                switch ($contentLinkHandle) {
+                    case 1:
+                        $replaceList[] = "{$url}";
+                        $linkList[] = Str::replace($urlData?->domain?->host, '******', $url);
+                    break;
+
+                    case 3:
+                        if (! $urlData?->domain?->is_enable || ! $urlData?->is_enable) {
+                            continue;
+                        }
+
+                        $title = $urlData?->link_title ?? $url;
+
+                        $replaceList[] = "{$url}";
+                        $linkList[] = sprintf(
+                            '<a href="%s" class="fresns_link" target="_blank">%s</a> ',
+                            $url,
+                            $title,
+                        );
+                    break;
+
+                    default:
+                        continue;
+                    break;
+                }
+            }
         }
 
         return str_replace($replaceList, $linkList, $content);
@@ -291,7 +323,7 @@ class ContentUtility
     }
 
     // Handle and replace all
-    public static function handleAndReplaceAll(string $content, int $isMarkdown, ?int $mentionType = null, ?int $mentionId = null): string
+    public static function handleAndReplaceAll(string $content, int $isMarkdown, ?int $userId = null, ?int $mentionType = null, ?int $mentionId = null): string
     {
         // Replace link
         // Replace hashtag
@@ -300,7 +332,7 @@ class ContentUtility
         if ($isMarkdown == 0) {
             $content = htmlentities($content);
 
-            $content = static::replaceLink($content);
+            $content = static::replaceLink($content, $userId);
         } else {
             $content = Str::swap([
                 '<script>' => '&lt;script&gt;',

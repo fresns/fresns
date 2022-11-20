@@ -167,7 +167,7 @@ class CommentService
         }
 
         $commentInfo['content'] = ContentUtility::replaceBlockWords('content', $commentInfo['content']);
-        $commentInfo['content'] = ContentUtility::handleAndReplaceAll($commentInfo['content'], $comment->is_markdown, Mention::TYPE_COMMENT, $authUserId);
+        $commentInfo['content'] = ContentUtility::handleAndReplaceAll($commentInfo['content'], $comment->is_markdown, $comment->user_id, Mention::TYPE_COMMENT, $authUserId);
 
         return $commentInfo;
     }

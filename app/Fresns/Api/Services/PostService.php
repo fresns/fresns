@@ -178,7 +178,7 @@ class PostService
         }
 
         $info['content'] = ContentUtility::replaceBlockWords('content', $info['content']);
-        $info['content'] = ContentUtility::handleAndReplaceAll($info['content'], $post->is_markdown, Mention::TYPE_POST, $post->id);
+        $info['content'] = ContentUtility::handleAndReplaceAll($info['content'], $post->is_markdown, $post->user_id, Mention::TYPE_POST, $post->id);
 
         return $info;
     }

@@ -578,6 +578,9 @@ class Content
                     'map_poi_id' => $dtoWordBody->mapJson['poiId'] ?? null,
                 ]);
 
+                ContentUtility::handleAndSaveAllInteractive($post->content, Mention::TYPE_POST, $post->id, $post->user_id);
+                InteractiveUtility::publishStats('post', $post->id, 'increment');
+
                 $primaryId = $post->id;
                 $fsid = $post->pid;
 
@@ -639,6 +642,7 @@ class Content
                     'map_poi_id' => $dtoWordBody->mapJson['poiId'] ?? null,
                 ]);
 
+                ContentUtility::handleAndSaveAllInteractive($comment->content, Mention::TYPE_COMMENT, $comment->id, $comment->user_id);
                 InteractiveUtility::publishStats('comment', $comment->id, 'increment');
 
                 $primaryId = $comment->id;
