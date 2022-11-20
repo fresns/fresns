@@ -11,4 +11,9 @@ namespace App\Models;
 class DomainLink extends Model
 {
     use Traits\IsEnableTrait;
+
+    public function domain()
+    {
+        return $this->belongsTo(Domain::class, 'domain_id', 'id');
+    }
 }
