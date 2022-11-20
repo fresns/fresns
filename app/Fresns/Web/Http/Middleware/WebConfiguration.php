@@ -9,6 +9,7 @@
 namespace App\Fresns\Web\Http\Middleware;
 
 use App\Fresns\Web\Helpers\ApiHelper;
+use App\Fresns\Web\Helpers\DataHelper;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Models\File;
@@ -71,8 +72,11 @@ class WebConfiguration
         $finder = app('view')->getFinder();
         $finder->prependLocation(base_path("extensions/themes/{$path}"));
         $this->webLangTag();
+
         $this->userPanel();
         $this->groupCategories();
+
+        View::share('topList', DataHelper::getTopList());
 
         $timezone = fs_user('detail.timezone') ?: ConfigHelper::fresnsConfigByItemKey('default_timezone');
         Cookie::queue('timezone', $timezone);
@@ -83,9 +87,16 @@ class WebConfiguration
     private function userPanel(): void
     {
         if (fs_user()->check()) {
-            $result = ApiHelper::make()->get('/api/v2/user/panel');
+            $langTag = current_lang_tag();
+            $uid = fs_user('detail.uid');
 
-            View::share('userPanel', $result['data']);
+            $cacheKey = "fresns_web_user_panel_{$uid}_{$langTag}";
+
+            $userPanel = Cache::remember($cacheKey, now()->addMinutes(), function () {
+                return ApiHelper::make()->get('/api/v2/user/panel');
+            });
+
+            View::share('userPanel', data_get($userPanel, 'data', null));
         }
     }
 
@@ -104,7 +115,7 @@ class WebConfiguration
                 ],
             ]);
 
-            return $result['data']['list'] ?? [];
+            return data_get($result, 'data.list', []);
         });
 
         if (is_null($groupCategories)) {

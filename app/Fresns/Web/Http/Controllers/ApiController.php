@@ -10,15 +10,12 @@ namespace App\Fresns\Web\Http\Controllers;
 
 use App\Fresns\Web\Exceptions\ErrorException;
 use App\Fresns\Web\Helpers\ApiHelper;
-use App\Fresns\Web\Helpers\QueryHelper;
-use App\Helpers\CacheHelper;
-use App\Models\File;
+use App\Fresns\Web\Helpers\DataHelper;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
@@ -28,48 +25,7 @@ class ApiController extends Controller
     // top list
     public function topList()
     {
-        $langTag = current_lang_tag();
-
-        $cacheKey = "fresns_web_api_top_list_{$langTag}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
-
-        $data = Cache::remember($cacheKey, $cacheTime, function () {
-            $userQuery = QueryHelper::configToQuery(QueryHelper::TYPE_USER);
-            $groupQuery = QueryHelper::configToQuery(QueryHelper::TYPE_GROUP);
-            $hashtagQuery = QueryHelper::configToQuery(QueryHelper::TYPE_HASHTAG);
-            $postQuery = QueryHelper::configToQuery(QueryHelper::TYPE_POST);
-            $commentQuery = QueryHelper::configToQuery(QueryHelper::TYPE_COMMENT);
-
-            $client = ApiHelper::make();
-
-            $results = $client->unwrapRequests([
-                'users' => $client->getAsync('/api/v2/user/list', [
-                    'query' => $userQuery,
-                ]),
-                'groups' => $client->getAsync('/api/v2/group/list', [
-                    'query' => $groupQuery,
-                ]),
-                'hashtags' => $client->getAsync('/api/v2/hashtag/list', [
-                    'query' => $hashtagQuery,
-                ]),
-                'posts' => $client->getAsync('/api/v2/post/list', [
-                    'query' => $postQuery,
-                ]),
-                'comments' => $client->getAsync('/api/v2/comment/list', [
-                    'query' => $commentQuery,
-                ]),
-            ]);
-
-            $data['users'] = $results['users']['data']['list'];
-            $data['groups'] = $results['groups']['data']['list'];
-            $data['hashtags'] = $results['hashtags']['data']['list'];
-            $data['posts'] = $results['posts']['data']['list'];
-            $data['comments'] = $results['comments']['data']['list'];
-
-            return $data;
-        });
-
-        return $data;
+        return DataHelper::getTopList();
     }
 
     // url sign
@@ -228,7 +184,7 @@ class ApiController extends Controller
 
             if ($user['hasPassword']) {
                 // User has password
-                // header.blade.php
+                // user-auth.blade.php
 
                 if ($request->wantsJson()) {
                     return \response()->json([
@@ -272,7 +228,7 @@ class ApiController extends Controller
             }
         } elseif ($userCount > 1) {
             // There are more than one user
-            // header.blade.php
+            // user-auth.blade.php
 
             if ($request->wantsJson()) {
                 return \response()->json([

@@ -10,6 +10,7 @@ namespace App\Fresns\Web\Http\Controllers;
 
 use App\Fresns\Web\Exceptions\ErrorException;
 use App\Fresns\Web\Helpers\ApiHelper;
+use App\Fresns\Web\Helpers\DataHelper;
 use App\Fresns\Web\Helpers\QueryHelper;
 use Illuminate\Http\Request;
 
@@ -94,7 +95,7 @@ class EditorController extends Controller
             return redirect()->to(fs_route(route('fresns.editor.edit', [$type, $response['data']['detail']['id']])));
         }
 
-        $uploadInfo = ApiHelper::getUploadInfo();
+        $uploadInfo = DataHelper::getUploadInfo();
 
         return view('editor.index', compact('type', 'config', 'drafts', 'uploadInfo'));
     }
@@ -151,7 +152,7 @@ class EditorController extends Controller
             'comment' => 'comment_logs',
         };
 
-        $uploadInfo = ApiHelper::getUploadInfo($usageType, $tableName, 'id', $draftId, null);
+        $uploadInfo = DataHelper::getUploadInfo($usageType, $tableName, 'id', $draftId, null);
 
         return view('editor.edit', compact('type', 'plid', 'clid', 'config', 'stickers', 'draft', 'group', 'uploadInfo'));
     }

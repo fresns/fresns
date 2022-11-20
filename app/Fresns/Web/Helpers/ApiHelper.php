@@ -182,44 +182,4 @@ class ApiHelper
 
         return $headers;
     }
-
-    public static function getUploadInfo(?int $usageType = null, ?string $tableName = null, ?string $tableColumn = null, ?int $tableId = null, ?string $tableKey = null)
-    {
-        $uploadInfo = [
-            'image' => [
-                'usageType' => $usageType,
-                'tableName' => $tableName,
-                'tableColumn' => $tableColumn,
-                'tableId' => $tableId,
-                'tableKey' => $tableKey,
-                'type' => 'image',
-            ],
-            'video' => [
-                'usageType' => $usageType,
-                'tableName' => $tableName,
-                'tableColumn' => $tableColumn,
-                'tableId' => $tableId,
-                'tableKey' => $tableKey,
-                'type' => 'video',
-            ],
-            'audio' => [
-                'usageType' => $usageType,
-                'tableName' => $tableName,
-                'tableColumn' => $tableColumn,
-                'tableId' => $tableId,
-                'tableKey' => $tableKey,
-                'type' => 'audio',
-            ],
-            'document' => [
-                'usageType' => $usageType,
-                'tableName' => $tableName,
-                'tableColumn' => $tableColumn,
-                'tableId' => $tableId,
-                'tableKey' => $tableKey,
-                'type' => 'document',
-            ],
-        ];
-
-        return $uploadInfo;
-    }
 }
