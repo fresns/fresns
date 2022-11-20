@@ -47,13 +47,13 @@ class CheckHeader
 
         // account login
         $accountLogin = false;
-        if ($headers['aid'] ?? null) {
+        if ($headers['aid']) {
             $accountLogin = true;
         }
 
         // user login
         $userLogin = false;
-        if ($headers['uid'] ?? null) {
+        if ($headers['uid']) {
             $userLogin = true;
         }
 

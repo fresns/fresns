@@ -21,7 +21,7 @@ class SignHelper
     ];
 
     // Check Sign
-    public static function checkSign(array $signMap, string $appSecret)
+    public static function checkSign(array $signMap, string $appSecret): bool
     {
         $inputSign = $signMap['sign'];
         unset($signMap['sign']);
@@ -32,7 +32,7 @@ class SignHelper
     }
 
     // Make Sign
-    public static function makeSign(array $signMap, string $appSecret)
+    public static function makeSign(array $signMap, string $appSecret): string
     {
         $signParams = collect($signMap)->filter(function ($value, $key) {
             return in_array($key, SignHelper::SIGN_PARAM_ARR);

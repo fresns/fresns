@@ -102,21 +102,25 @@ class Basic
 
         $checkSign = SignHelper::checkSign($withoutEmptyCheckArr, $keyInfo->app_secret);
 
-        if ($checkSign !== true) {
+        if (! $checkSign) {
             return $this->failure(
                 31302,
                 ConfigUtility::getCodeMessage(31302, 'Fresns', $langTag),
             );
         }
 
-        if (isset($dtoWordBody->aid)) {
+        if ($dtoWordBody->aid) {
             $verifySessionTokenArr = array_filter([
                 'platformId' => $dtoWordBody->platformId,
                 'aid' => $dtoWordBody->aid,
                 'uid' => $dtoWordBody->uid ?? null,
                 'token' => $dtoWordBody->token,
             ]);
-            \FresnsCmdWord::plugin()->verifySessionToken($verifySessionTokenArr);
+            $verifySessionToken = \FresnsCmdWord::plugin()->verifySessionToken($verifySessionTokenArr);
+
+            if ($verifySessionToken->isErrorResponse()) {
+                return $verifySessionToken->errorResponse();
+            }
         }
 
         return $this->success();

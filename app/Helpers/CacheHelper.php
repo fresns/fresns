@@ -229,6 +229,10 @@ class CacheHelper
     // forget fresns api account
     public static function forgetApiAccount(?string $aid = null)
     {
+        if (empty($aid)) {
+            return;
+        }
+
         CacheHelper::forgetFresnsMultilingual("fresns_api_account_{$aid}");
         CacheHelper::forgetFresnsModel('account', $aid);
     }
@@ -236,6 +240,10 @@ class CacheHelper
     // forget fresns api user
     public static function forgetApiUser(?int $uid = null)
     {
+        if (empty($uid)) {
+            return;
+        }
+
         CacheHelper::forgetFresnsMultilingual("fresns_api_user_{$uid}");
         CacheHelper::forgetFresnsModel('user', $uid);
         Cache::forget("fresns_user_groups_{$uid}");

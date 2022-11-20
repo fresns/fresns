@@ -142,8 +142,6 @@ class UserGuard implements Guard
 
     public function logout(): void
     {
-        Cookie::queue(Cookie::forget('fs_aid'));
-        Cookie::queue(Cookie::forget('fs_aid_token'));
         Cookie::queue(Cookie::forget('fs_uid'));
         Cookie::queue(Cookie::forget('fs_uid_token'));
         Cookie::queue(Cookie::forget('timezone'));
