@@ -234,7 +234,6 @@ class ContentUtility
                     break;
 
                     default:
-                        break;
                     break;
                 }
             }
