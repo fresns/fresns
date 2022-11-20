@@ -320,6 +320,7 @@ return [
     'news' => 'Fresns Activités et nouvelles',
     // Dashboard-Notes
     'note_config' => 'Après avoir modifié la configuration, le cache doit être effacé avant que la nouvelle configuration puisse prendre effet.',
+    'note_plugin_install_or_upgrade' => 'Après l\'installation ou la mise à jour du plugin, celui-ci est désactivé par défaut et doit être activé manuellement afin d\'éviter les problèmes de système causés par des erreurs dans le plugin.',
     // Dashboard-Events
     'event_subscribe_table' => 'S\'abonner à la table des données',
     'event_crontab_time' => 'Cycle d\'exécution',

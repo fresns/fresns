@@ -320,6 +320,7 @@ return [
     'news' => 'Fresns 活动和新闻',
     // Dashboard-Notes
     'note_config' => '修改配置后，需要清空缓存才能生效新配置。',
+    'note_plugin_install_or_upgrade' => '插件安装或升级后，为避免插件的错误导致系统问题，所以默认为关闭状态，需手动启用。',
     // Dashboard-Events
     'event_subscribe_table' => '订阅的数据表',
     'event_crontab_time' => '执行周期',

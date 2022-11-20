@@ -320,6 +320,7 @@ return [
     'news' => 'Fresns Acara dan Berita',
     // Dashboard-Notes
     'note_config' => 'Setelah memodifikasi konfigurasi, cache perlu dibersihkan sebelum konfigurasi baru dapat berlaku.',
+    'note_plugin_install_or_upgrade' => 'Setelah plugin diinstal atau di-upgrade, plugin dimatikan secara default dan perlu diaktifkan secara manual untuk menghindari masalah sistem yang disebabkan oleh kesalahan pada plugin.',
     // Dashboard-Events
     'event_subscribe_table' => 'Berlangganan ke tabel data',
     'event_crontab_time' => 'Siklus Eksekusi',

@@ -178,6 +178,7 @@
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item text-secondary">{{ __('FsLang::panel.note_config') }}</li>
+                        <li class="list-group-item text-secondary">{{ __('FsLang::panel.note_plugin_install_or_upgrade') }}</li>
                     </ul>
                 </div>
             </div>

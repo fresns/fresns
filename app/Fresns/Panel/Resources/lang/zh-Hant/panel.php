@@ -130,7 +130,7 @@ return [
     'sidebar_columns_intro' => '統一為客戶端各個欄目配置命名。',
     'sidebar_paths_intro' => '自定義路徑結構可以為鏈接提高美感、可用性和前向兼容性。',
     'sidebar_language_packs_intro' => '為多語言客戶端配置各項文本的多語言內容。',
-    'sidebar_code_messages_intro' => '為主程序和插件配置狀態碼的多語言描述。',
+    'sidebar_code_messages_intro' => '為主程序和外掛配置狀態碼的多語言描述。',
     'sidebar_website_intro' => '可選的引擎，可靈活的部署，輕鬆實現一套數據在多個引擎上差異化運營。',
     'sidebar_app_intro' => '標準的 API，強大的擴展，隨心打造多樣的運營場景和應用模式。',
     'sidebar_plugins_intro' => '靈活的功能，強大的擴充，助您自由發揮心中所想。',
@@ -321,6 +321,7 @@ return [
     'news' => 'Fresns 活動和新聞',
     // Dashboard-Notes
     'note_config' => '修改配置後，需要清空緩存才能生效新配置。',
+    'note_plugin_install_or_upgrade' => '外掛安裝或升級後，為避免外掛的錯誤導致系統問題，所以默認為關閉狀態，需手動啟用。',
     // Dashboard-Events
     'event_subscribe_table' => '訂閱的數據表',
     'event_crontab_time' => '執行週期',
