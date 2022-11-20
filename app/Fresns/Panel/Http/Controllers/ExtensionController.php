@@ -10,8 +10,8 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Models\Config;
 use App\Models\Plugin;
-use App\Utilities\ConfigUtility;
 use App\Utilities\AppUtility;
+use App\Utilities\ConfigUtility;
 use Illuminate\Http\Request;
 
 class ExtensionController extends Controller
