@@ -13,7 +13,7 @@ class UserActivateEvent
     protected object $event;
 
     protected string $uri;
-    protected array $header;
+    protected array $headers;
     protected array $body;
 
     public function __construct(object $event)
@@ -21,7 +21,7 @@ class UserActivateEvent
         $this->event = $event;
 
         $this->uri = $event->uri;
-        $this->header = $event->header;
+        $this->headers = $event->headers;
         $this->body = $event->body;
     }
 
@@ -37,7 +37,7 @@ class UserActivateEvent
 
         \FresnsCmdWord::plugin($unikey)->$cmdWord([
             'uri' => $this->uri,
-            'header' => $this->header,
+            'headers' => $this->headers,
             'body' => $this->body,
         ]);
     }
