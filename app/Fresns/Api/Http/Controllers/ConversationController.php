@@ -315,7 +315,7 @@ class ConversationController extends Controller
 
             $fileUsage->update([
                 'table_id' => $conversationMessage->id,
-                'table_key' => $conversation->id,
+                'table_key' => 'Conversation-'.$conversation->id,
             ]);
         }
 
