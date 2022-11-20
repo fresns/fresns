@@ -60,7 +60,13 @@ class DataHelper
     {
         $langTag = current_lang_tag();
 
-        $cacheKey = "fresns_web_api_top_list_{$langTag}";
+        if (fs_user()->check()) {
+            $uid = fs_user('detail.uid');
+            $cacheKey = "fresns_web_api_{$uid}_top_list_{$langTag}";
+        } else {
+            $cacheKey = "fresns_web_api_guest_top_list_{$langTag}";
+        }
+
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
 
         $data = Cache::remember($cacheKey, $cacheTime, function () {
