@@ -21,7 +21,7 @@ class TableDataChangeEvent
 
         $this->event = $event;
 
-        $this->tableName = $event->tableName;
+        $this->tableName = qualifyTableName($event->tableName);
         $this->primaryId = $event->primaryId;
         $this->changeType = $event->changeType;
     }
