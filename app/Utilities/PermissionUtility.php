@@ -32,7 +32,7 @@ class PermissionUtility
     {
         $cacheKey = "fresns_user_main_role_{$userId}";
 
-        $permissions = Cache::remember($cacheKey, now()->addMinutes(10), function () use($userId) {
+        $permissions = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($userId) {
             $defaultRoleId = ConfigHelper::fresnsConfigByItemKey('default_role');
             $userRole = UserRole::where('user_id', $userId)->where('is_main', 1)->first();
 
