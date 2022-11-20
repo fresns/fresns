@@ -33,7 +33,7 @@ return [
     'menu_extends' => 'Расширяется',
     'menu_clients' => 'Клиенты',
     'menu_app_center' => 'Центр приложений',
-    'menu_market' => 'Рынок',
+    'menu_marketplace' => 'Рынок',
     // Sidebar menus
     'sidebar_home' => 'Дома',
     'sidebar_admins' => 'Админы',
@@ -298,7 +298,7 @@ return [
     'support_sponsor' => 'Спонсор',
     'support_join' => 'Присоединяйтесь к нам',
     'support_community' => 'Сообщество поддержки',
-    'support_market' => 'Рынок приложений',
+    'support_marketplace' => 'Рынок приложений',
     'system_info' => 'Системное сообщение',
     'system_info_server' => 'Серверная система',
     'system_info_web' => 'Веб-среда',

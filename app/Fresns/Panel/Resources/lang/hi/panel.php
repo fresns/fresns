@@ -33,7 +33,7 @@ return [
     'menu_extends' => 'विस्तार',
     'menu_clients' => 'ग्राहकों',
     'menu_app_center' => 'एप्लिकेशन केंद्र',
-    'menu_market' => 'मंडी',
+    'menu_marketplace' => 'मंडी',
     // Sidebar menus
     'sidebar_home' => 'घर',
     'sidebar_admins' => 'व्यवस्थापक',
@@ -298,7 +298,7 @@ return [
     'support_sponsor' => 'प्रायोजक',
     'support_join' => 'हमसे जुड़ें',
     'support_community' => 'समर्थन समुदाय',
-    'support_market' => 'आवेदन बाजार',
+    'support_marketplace' => 'आवेदन बाजार',
     'system_info' => 'सिस्टम संदेश',
     'system_info_server' => 'सर्वर सिस्टम',
     'system_info_web' => 'वेब चल रहा है',

@@ -33,7 +33,7 @@ return [
     'menu_extends' => '扩展',
     'menu_clients' => '客户端',
     'menu_app_center' => '应用中心',
-    'menu_market' => '应用市场',
+    'menu_marketplace' => '应用市场',
     // Sidebar menus
     'sidebar_home' => '首页',
     'sidebar_admins' => '管理员',
@@ -298,7 +298,7 @@ return [
     'support_sponsor' => '赞助我们',
     'support_join' => '加入我们',
     'support_community' => '支持社区',
-    'support_market' => '应用市场',
+    'support_marketplace' => '应用市场',
     'system_info' => '系统信息',
     'system_info_server' => '服务器系统',
     'system_info_web' => 'Web 运行环境',

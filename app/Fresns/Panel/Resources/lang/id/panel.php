@@ -33,7 +33,7 @@ return [
     'menu_extends' => 'Extends',
     'menu_clients' => 'Klien',
     'menu_app_center' => 'Pusat Aplikasi',
-    'menu_market' => 'Pasar',
+    'menu_marketplace' => 'Pasar',
     // Sidebar menus
     'sidebar_home' => 'Rumah',
     'sidebar_admins' => 'Admin',
@@ -298,7 +298,7 @@ return [
     'support_sponsor' => 'Sponsor',
     'support_join' => 'Bergabunglah dengan Fresns',
     'support_community' => 'Masyarakat',
-    'support_market' => 'Pasar',
+    'support_marketplace' => 'Pasar',
     'system_info' => 'Sistem Informasi',
     'system_info_server' => 'Arsitektur Server',
     'system_info_web' => 'Server Web',

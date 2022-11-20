@@ -33,7 +33,7 @@ return [
     'menu_extends' => '擴充',
     'menu_clients' => '客戶端',
     'menu_app_center' => '應用中心',
-    'menu_market' => '應用市場',
+    'menu_marketplace' => '應用市場',
     // Sidebar menus
     'sidebar_home' => '首頁',
     'sidebar_admins' => '管理員',
@@ -299,7 +299,7 @@ return [
     'support_sponsor' => '贊助我們',
     'support_join' => '加入我們',
     'support_community' => '支持社區',
-    'support_market' => '應用市場',
+    'support_marketplace' => '應用市場',
     'system_info' => '系統信息',
     'system_info_server' => '伺服器系統',
     'system_info_web' => 'Web 運行環境',

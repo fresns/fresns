@@ -33,7 +33,7 @@ return [
     'menu_extends' => 'Se développe',
     'menu_clients' => 'Clients',
     'menu_app_center' => 'Centre d\'applications',
-    'menu_market' => 'Marché',
+    'menu_marketplace' => 'Marché',
     // Sidebar menus
     'sidebar_home' => 'Maison',
     'sidebar_admins' => 'Administrateur',
@@ -298,7 +298,7 @@ return [
     'support_sponsor' => 'Sponsor',
     'support_join' => 'Rejoignez-nous',
     'support_community' => 'Communauté de soutien',
-    'support_market' => 'Marché des applications',
+    'support_marketplace' => 'Marché des applications',
     'system_info' => 'Message système',
     'system_info_server' => 'Système de serveur',
     'system_info_web' => 'Environnement de fonctionnement Web',

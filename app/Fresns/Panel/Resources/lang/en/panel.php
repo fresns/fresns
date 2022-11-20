@@ -33,7 +33,7 @@ return [
     'menu_extends' => 'Extends',
     'menu_clients' => 'Clients',
     'menu_app_center' => 'App Center',
-    'menu_market' => 'Market',
+    'menu_marketplace' => 'Market',
     // Sidebar menus
     'sidebar_home' => 'Home',
     'sidebar_admins' => 'Admins',
@@ -298,7 +298,7 @@ return [
     'support_sponsor' => 'Sponsor',
     'support_join' => 'Join Fresns',
     'support_community' => 'Community',
-    'support_market' => 'Market',
+    'support_marketplace' => 'Market',
     'system_info' => 'System Info',
     'system_info_server' => 'Server architecture',
     'system_info_web' => 'Web server',

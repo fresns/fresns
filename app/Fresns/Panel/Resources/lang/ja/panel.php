@@ -33,7 +33,7 @@ return [
     'menu_extends' => '伸びる',
     'menu_clients' => 'クライアント',
     'menu_app_center' => 'アプリセンター',
-    'menu_market' => '市場',
+    'menu_marketplace' => '市場',
     // Sidebar menus
     'sidebar_home' => '家',
     'sidebar_admins' => 'アドミン',
@@ -298,7 +298,7 @@ return [
     'support_sponsor' => 'スポンサー',
     'support_join' => '参加しませんか',
     'support_community' => 'コミュニティをサポートします',
-    'support_market' => 'アプリケーションマーケット',
+    'support_marketplace' => 'アプリケーションマーケット',
     'system_info' => 'システムメッセージ',
     'system_info_server' => 'サーバーシステム',
     'system_info_web' => 'Webランニング環境',

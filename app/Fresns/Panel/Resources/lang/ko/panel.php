@@ -33,7 +33,7 @@ return [
     'menu_extends' => '확장',
     'menu_clients' => '클라이언트',
     'menu_app_center' => '앱 센터',
-    'menu_market' => '시장',
+    'menu_marketplace' => '시장',
     // Sidebar menus
     'sidebar_home' => '집',
     'sidebar_admins' => 'admins',
@@ -298,7 +298,7 @@ return [
     'support_sponsor' => '스폰서',
     'support_join' => '우리와 함께하십시오',
     'support_community' => '커뮤니티 지원',
-    'support_market' => '신청 시장',
+    'support_marketplace' => '신청 시장',
     'system_info' => '시스템 메시지',
     'system_info_server' => '서버 시스템',
     'system_info_web' => '웹 실행 환경',
