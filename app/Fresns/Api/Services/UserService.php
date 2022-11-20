@@ -49,17 +49,17 @@ class UserService
                 'bio_support_link',
                 'bio_support_hashtag',
             ]);
-            $userProfile['bio'] = htmlentities($userProfile['bio']);
+            $bioHtml = htmlentities($userProfile['bio']);
             if ($bioConfig['bio_support_mention']) {
-                $userProfile['bio'] = ContentUtility::replaceMention($userProfile['bio'], Mention::TYPE_USER, $user->id);
+                $userProfile['bioHtml'] = ContentUtility::replaceMention($bioHtml, Mention::TYPE_USER, $user->id);
             }
             if ($bioConfig['bio_support_link']) {
-                $userProfile['bio'] = ContentUtility::replaceLink($userProfile['bio']);
+                $userProfile['bioHtml'] = ContentUtility::replaceLink($bioHtml);
             }
             if ($bioConfig['bio_support_hashtag']) {
-                $userProfile['bio'] = ContentUtility::replaceHashtag($userProfile['bio']);
+                $userProfile['bioHtml'] = ContentUtility::replaceHashtag($bioHtml);
             }
-            $userProfile['bio'] = ContentUtility::replaceSticker($userProfile['bio']);
+            $userProfile['bioHtml'] = ContentUtility::replaceSticker($bioHtml);
 
             $item['stats'] = $user->getUserStats($langTag);
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST, $user->id, $langTag);
