@@ -10,7 +10,6 @@ namespace App\Fresns\Web\Http\Controllers;
 
 use App\Fresns\Web\Exceptions\ErrorException;
 use App\Fresns\Web\Helpers\ApiHelper;
-use App\Fresns\Web\Helpers\DataHelper;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,12 +21,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ApiController extends Controller
 {
-    // top list
-    public function topList()
-    {
-        return DataHelper::getTopList();
-    }
-
     // url sign
     public function urlSign()
     {

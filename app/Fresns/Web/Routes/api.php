@@ -20,8 +20,6 @@ Route::prefix('engine')
         CheckSiteModel::class,
     ])
     ->group(function () {
-        Route::get('top-list', [ApiController::class, 'topList'])->name('top.list')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);
-
         Route::get('url-sign', [ApiController::class, 'urlSign'])->name('url.sign')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class, CheckSiteModel::class]);
 
         Route::get('input-tips', [ApiController::class, 'getInputTips'])->name('input.tips')->withoutMiddleware([AccountAuthorize::class, UserAuthorize::class]);

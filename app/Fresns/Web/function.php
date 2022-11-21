@@ -8,18 +8,15 @@
 
 use App\Fresns\Web\Auth\UserGuard;
 use App\Fresns\Web\Helpers\ApiHelper;
+use App\Fresns\Web\Helpers\DataHelper;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
-use App\Helpers\LanguageHelper;
-use App\Helpers\PluginHelper;
-use App\Helpers\StrHelper;
-use App\Models\Config;
 use App\Models\File;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-// current langTag
+// current_lang_tag
 if (! function_exists('current_lang_tag')) {
     function current_lang_tag()
     {
@@ -27,7 +24,7 @@ if (! function_exists('current_lang_tag')) {
     }
 }
 
-// fresns api config
+// fs_api_config
 if (! function_exists('fs_api_config')) {
     function fs_api_config(string $itemKey, mixed $default = null)
     {
@@ -54,49 +51,11 @@ if (! function_exists('fs_api_config')) {
     }
 }
 
-// fresns db config
+// fs_db_config
 if (! function_exists('fs_db_config')) {
     function fs_db_config(string $itemKey, mixed $default = null)
     {
-        $langTag = current_lang_tag();
-
-        $cacheKey = "fresns_web_db_config_{$itemKey}_{$langTag}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
-
-        $dbConfig = Cache::remember($cacheKey, $cacheTime, function () use ($itemKey, $langTag) {
-            $config = Config::where('item_key', $itemKey)->first();
-
-            if (! $config) {
-                return null;
-            }
-
-            $itemValue = $config->item_value;
-
-            if ($config->is_multilingual == 1) {
-                $itemValue = LanguageHelper::fresnsLanguageByTableKey($config->item_key, $config->item_type, $langTag);
-            } elseif ($config->item_type == 'file' && StrHelper::isPureInt($config->item_value)) {
-                $itemValue = ConfigHelper::fresnsConfigFileUrlByItemKey($config->item_value);
-            } elseif ($config->item_type == 'plugin') {
-                $itemValue = PluginHelper::fresnsPluginUrlByUnikey($config->item_value);
-            } elseif ($config->item_type == 'plugins') {
-                if ($config->item_value) {
-                    foreach ($config->item_value as $plugin) {
-                        $pluginItem['code'] = $plugin['code'];
-                        $pluginItem['url'] = PluginHelper::fresnsPluginUrlByUnikey($plugin['unikey']);
-                        $itemArr[] = $pluginItem;
-                    }
-                    $itemValue = $itemArr;
-                }
-            }
-
-            return $itemValue;
-        });
-
-        if (! $dbConfig) {
-            Cache::forget($cacheKey);
-        }
-
-        return $dbConfig ?? $default;
+        return DataHelper::getConfigByItemKey($itemKey) ?? $default;
     }
 }
 
@@ -139,6 +98,7 @@ if (! function_exists('fs_code_message')) {
     }
 }
 
+// fs_route
 if (! function_exists('fs_route')) {
     /**
      * @param  string|null  $url
@@ -151,6 +111,7 @@ if (! function_exists('fs_route')) {
     }
 }
 
+// fs_account
 if (! function_exists('fs_account')) {
     /**
      * @return AccountGuard|mixin
@@ -165,6 +126,7 @@ if (! function_exists('fs_account')) {
     }
 }
 
+// fs_user
 if (! function_exists('fs_user')) {
     /**
      * @return UserGuard|mixin
@@ -176,5 +138,65 @@ if (! function_exists('fs_user')) {
         }
 
         return app('fresns.user');
+    }
+}
+
+// fs_user_panel
+if (! function_exists('fs_user_panel')) {
+    /**
+     * @param  string|null  $key
+     * @return array
+     */
+    function fs_user_panel(?string $key = null)
+    {
+        return DataHelper::getFresnsUserPanel($key);
+    }
+}
+
+// fs_groups
+if (! function_exists('fs_groups')) {
+    /**
+     * @param  string|null  $listKey
+     * @return array
+     */
+    function fs_groups(?string $listKey = null)
+    {
+        return DataHelper::getFresnsGroups($listKey);
+    }
+}
+
+// fs_index_list
+if (! function_exists('fs_index_list')) {
+    /**
+     * @param  string|null  $listKey
+     * @return array
+     */
+    function fs_index_list(?string $listKey = null)
+    {
+        return DataHelper::getFresnsIndexList($listKey);
+    }
+}
+
+// fs_list
+if (! function_exists('fs_list')) {
+    /**
+     * @param  string|null  $listKey
+     * @return array
+     */
+    function fs_list(?string $listKey = null)
+    {
+        return DataHelper::getFresnsList($listKey);
+    }
+}
+
+// fs_stickies
+if (! function_exists('fs_stickies')) {
+    /**
+     * @param  string|null  $listKey
+     * @return array
+     */
+    function fs_stickies()
+    {
+        return DataHelper::getFresnsStickies();
     }
 }

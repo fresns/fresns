@@ -8,11 +8,8 @@
 
 namespace App\Fresns\Web\Http\Middleware;
 
-use App\Fresns\Web\Helpers\ApiHelper;
-use App\Fresns\Web\Helpers\DataHelper;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
-use App\Models\File;
 use App\Models\SessionKey;
 use Browser;
 use Closure;
@@ -20,7 +17,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\View;
 
 class WebConfiguration
 {
@@ -73,58 +69,10 @@ class WebConfiguration
         $finder->prependLocation(base_path("extensions/themes/{$path}"));
         $this->webLangTag();
 
-        $this->userPanel();
-        $this->groupCategories();
-
-        View::share('topList', DataHelper::getTopList());
-
         $timezone = fs_user('detail.timezone') ?: ConfigHelper::fresnsConfigByItemKey('default_timezone');
         Cookie::queue('timezone', $timezone);
 
         return $next($request);
-    }
-
-    private function userPanel(): void
-    {
-        if (fs_user()->check()) {
-            $langTag = current_lang_tag();
-            $uid = fs_user('detail.uid');
-
-            $cacheKey = "fresns_web_user_panel_{$uid}_{$langTag}";
-
-            $userPanel = Cache::remember($cacheKey, now()->addMinutes(), function () {
-                return ApiHelper::make()->get('/api/v2/user/panel');
-            });
-
-            View::share('userPanel', data_get($userPanel, 'data', null));
-        }
-    }
-
-    private function groupCategories(): void
-    {
-        $langTag = current_lang_tag();
-
-        $cacheKey = "fresns_web_group_categories_{$langTag}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-
-        $groupCategories = Cache::remember($cacheKey, $cacheTime, function () {
-            $result = ApiHelper::make()->get('/api/v2/group/categories', [
-                'query' => [
-                    'pageSize' => 100,
-                    'page' => 1,
-                ],
-            ]);
-
-            return data_get($result, 'data.list', []);
-        });
-
-        if (is_null($groupCategories)) {
-            Cache::forget($cacheKey);
-
-            $groupCategories = [];
-        }
-
-        View::share('groupCategories', $groupCategories);
     }
 
     public function loadLanguages()
