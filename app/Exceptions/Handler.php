@@ -8,7 +8,6 @@
 
 namespace App\Exceptions;
 
-use App\Fresns\Web\Exceptions\ErrorException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -30,7 +29,6 @@ class Handler extends ExceptionHandler
      */
     protected $dontReport = [
         ApiException::class,
-        ErrorException::class,
     ];
 
     /**

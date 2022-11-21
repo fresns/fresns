@@ -250,29 +250,15 @@ class CacheHelper
         Cache::forget("fresns_user_groups_{$uid}");
     }
 
-    /**
-     * forget fresns api.
-     *
-     * fresns_plugin_{$unikey}_url
-     * fresns_plugin_{$unikey}_{$parameterKey}_url
-     * fresns_api_key_{$appId}
-     * fresns_api_token_{$platformId}_{$aid}_{$uid}
-     * fresns_api_guest_groups
-     * fresns_api_private_groups
-     * fresns_api_stickers_{$langTag}
-     */
-
-    // forget fresns web
-    public static function forgetFresnsWeb(?string $itemKey = null)
+    // forget fresns api
+    public static function forgetFresnsApi()
     {
-        Cache::forget('fresns_web_api_host');
-        Cache::forget('fresns_web_api_key');
-        // Cache::forget("fresns_web_key_{$keyId}");
-        // CacheHelper::forgetFresnsMultilingual("fresns_web_api_config_all_{$itemKey}");
-        // CacheHelper::forgetFresnsMultilingual("fresns_web_post_{$pid}");
-        // CacheHelper::forgetFresnsMultilingual("fresns_web_comment_{$cid}");
-        CacheHelper::forgetFresnsMultilingual('fresns_web_api_config_all');
-        CacheHelper::forgetFresnsMultilingual('fresns_web_group_categories');
-        CacheHelper::forgetFresnsMultilingual('fresns_web_api_top_list');
+        // fresns_plugin_{$unikey}_url
+        // fresns_plugin_{$unikey}_{$parameterKey}_url
+        // fresns_api_key_{$appId}
+        // fresns_api_token_{$platformId}_{$aid}_{$uid}
+        // fresns_api_guest_groups
+        // fresns_api_private_groups
+        // fresns_api_stickers_{$langTag}
     }
 }
