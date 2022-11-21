@@ -2186,6 +2186,7 @@ $(document).ready(function () {
     // extensions upgrade
     $('.upgrade-extensions').on('click', function () {
         let unikey = $(this).data('unikey');
+        let type = $(this).data('type');
         let name = $(this).data('name');
         let version = $(this).data('version');
         let upgradeVersion = $(this).data('new-version');
@@ -2194,6 +2195,7 @@ $(document).ready(function () {
         $('.extension-version').text(version)
         $('.extension-new-version').text(upgradeVersion)
         $('input[name=unikey]').val(unikey)
+        $('input[name=type]').val(type)
     });
 
     // extensions upgrade form
