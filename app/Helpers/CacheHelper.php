@@ -69,9 +69,17 @@ class CacheHelper
     public static function clearAllCache()
     {
         Cache::flush();
-        \Artisan::call('view:cache');
+        \Artisan::call('clear-compiled');
+        \Artisan::call('auth:clear-resets');
+        \Artisan::call('cache:clear');
         \Artisan::call('config:cache');
         \Artisan::call('event:cache');
+        \Artisan::call('optimize:clear');
+        \Artisan::call('queue:clear');
+        \Artisan::call('route:clear');
+        \Artisan::call('route:trans:clear');
+        \Artisan::call('schedule:clear-cache');
+        \Artisan::call('view:cache');
     }
 
     /**
