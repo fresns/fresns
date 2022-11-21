@@ -695,15 +695,14 @@ class AccountController extends Controller
     // logout
     public function logout()
     {
+        $platformId = $this->platformId();
         $authAccount = $this->account();
         $authUser = $this->user();
 
-        $condition = [
-            'platform_id' => $this->platformId(),
-            'account_id' => $authAccount->id,
-            'user_id' => $authUser?->id,
-        ];
-        SessionToken::where($condition)->forceDelete();
+        SessionToken::where('platform_id', $platformId)
+            ->where('account_id', $authAccount->id)
+            ->where('user_id', $authUser?->id)
+            ->delete();
 
         CacheHelper::forgetApiAccount($authAccount->aid);
         CacheHelper::forgetApiUser($authUser?->uid);

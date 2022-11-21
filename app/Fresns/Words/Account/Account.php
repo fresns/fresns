@@ -21,7 +21,6 @@ use App\Models\AccountConnect;
 use App\Models\AccountWallet;
 use App\Models\SessionToken;
 use App\Utilities\ConfigUtility;
-use App\Utilities\PermissionUtility;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 use Illuminate\Support\Facades\Cache;
@@ -196,19 +195,29 @@ class Account
     public function createSessionToken($wordBody)
     {
         $dtoWordBody = new CreateSessionTokenDTO($wordBody);
+        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
+        $platformId = $dtoWordBody->platformId;
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
 
-        $condition = [
-            'platform_id' => $dtoWordBody->platformId,
-            'account_id' => $accountId,
-            'user_id' => $userId,
-        ];
+        if (empty($accountId)) {
+            return $this->failure(
+                31502,
+                ConfigUtility::getCodeMessage(31502, 'Fresns', $langTag)
+            );
+        }
 
-        $tokenInfo = SessionToken::where($condition)->first();
+        $tokenInfo = SessionToken::where('platform_id', $platformId)
+            ->where('account_id', $accountId)
+            ->where('user_id', $userId)
+            ->first();
+
         if (! empty($tokenInfo)) {
-            $tokenInfo->forceDelete();
+            SessionToken::where('platform_id', $platformId)
+                ->where('account_id', $accountId)
+                ->where('user_id', $userId)
+                ->delete();
         }
 
         $token = \Str::random(32);
@@ -220,8 +229,13 @@ class Account
             $expiredAt = date('Y-m-d H:i:s', $expiredTime);
         }
 
-        $condition['token'] = $token;
-        $condition['expired_at'] = $expiredAt;
+        $condition = [
+            'platform_id' => $platformId,
+            'account_id' => $accountId,
+            'user_id' => $userId,
+            'token' => $token,
+            'expired_at' => $expiredAt,
+        ];
 
         SessionToken::create($condition);
 
