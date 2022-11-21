@@ -13,6 +13,7 @@
         </div>
         <div class="col-lg-5">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
+                <a class="btn btn-outline-primary" href="{{ route('panel.website.index') }}" role="button">{{ __('FsLang::panel.button_config').'('.__('FsLang::panel.sidebar_website').')' }}</a>
                 <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a>
             </div>
         </div>
@@ -30,7 +31,7 @@
             </thead>
             <tbody>
                 <!--default engine-->
-                <tr>
+                {{-- <tr>
                     <th scope="row" class="py-3">{{ __('FsLang::panel.website_engine_default') }}</th>
                     <td><a href="https://fresns.org" target="_blank" class="link-info fresns-link fs-7">Fresns</a></td>
                     <td>
@@ -62,12 +63,14 @@
                             <button type="button" class="btn btn-outline-success btn-sm plugin-manage" data-action="{{ route('panel.defaultEngine.theme.update') }}" data-enable="1">{{ __('FsLang::panel.button_activate') }}</button>
                         @endif
                     </td>
-                </tr>
+                </tr> --}}
 
                 <!--engine list-->
                 @foreach ($engines as $engine)
                     <tr>
-                        <th scope="row" class="py-3">{{ $engine->name }} <span class="badge bg-secondary plugin-version">{{ $engine->version }}</span>
+                        <th scope="row" class="py-3">
+                            <img src="/assets/plugins/{{ $engine->unikey }}/fresns.png" class="me-2" width="44" height="44">
+                            {{ $engine->name }} <span class="badge bg-secondary plugin-version">{{ $engine->version }}</span>
                             @if ($engine->is_upgrade)
                                 <a href="{{ route('panel.upgrades') }}"><span class="badge rounded-pill bg-danger plugin-version">{{ __('FsLang::panel.new_version') }}</span></a>
                             @endif
