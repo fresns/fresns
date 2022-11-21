@@ -51,13 +51,13 @@ class UserService
             ]);
             $bioHtml = htmlentities($userProfile['bio']);
             if ($bioConfig['bio_support_mention']) {
-                $userProfile['bioHtml'] = ContentUtility::replaceMention($bioHtml, Mention::TYPE_USER, $user->id);
+                $bioHtml = ContentUtility::replaceMention($bioHtml, Mention::TYPE_USER, $user->id);
             }
             if ($bioConfig['bio_support_link']) {
-                $userProfile['bioHtml'] = ContentUtility::replaceLink($bioHtml);
+                $bioHtml = ContentUtility::replaceLink($bioHtml);
             }
             if ($bioConfig['bio_support_hashtag']) {
-                $userProfile['bioHtml'] = ContentUtility::replaceHashtag($bioHtml);
+                $bioHtml = ContentUtility::replaceHashtag($bioHtml);
             }
             $userProfile['bioHtml'] = ContentUtility::replaceSticker($bioHtml);
 
