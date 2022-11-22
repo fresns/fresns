@@ -1025,7 +1025,7 @@ return [
     'engine_table_name_desc' => 'If you want to deploy a website standalone, or a mobile app without a website. Simply "deactivate" or "uninstall" the website engine so that Fresns will just be a back-end system with APIs and plugins running',
     'engine_table_options_desc' => 'Support to enable multiple engines, as long as they do not conflict with each other\'s routing paths, please consult the engine developers for details',
     'engine_theme_title' => 'Config Theme',
-    'engine_theme_pc' => 'PC Theme',
+    'engine_theme_desktop' => 'Desktop Theme',
     'engine_theme_mobile' => 'Mobile Theme',
     // App-Center-Keys
     'key_select_platform' => 'Select a key application platform',

@@ -122,12 +122,12 @@
             <div class="col-lg-5">
                 <div class="input-group mb-3">
                     <div class="form-control bg-white" style="padding:0.28rem 0.75rem;">
-                        @if ($themeUnikey['pc'])
-                            <span class="badge bg-success fw-normal ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.engine_theme_pc') }}">
-                                <i class="bi bi-laptop"></i> {{ $themeName['pc'] ?? $themeUnikey['pc'] }}
+                        @if ($themeUnikey['desktop'])
+                            <span class="badge bg-success fw-normal ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.engine_theme_desktop') }}">
+                                <i class="bi bi-laptop"></i> {{ $themeName['desktop'] ?? $themeUnikey['desktop'] }}
                             </span>
                         @else
-                            <span class="badge bg-secondary fw-normal ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.engine_theme_pc') }}">
+                            <span class="badge bg-secondary fw-normal ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.engine_theme_desktop') }}">
                                 <i class="bi bi-laptop"></i> {{ __('FsLang::panel.option_not_set') }}
                             </span>
                         @endif

@@ -1025,7 +1025,7 @@ return [
     'engine_table_name_desc' => 'Webサイトを単独で展開したい場合、またはWebサイトを持たないモバイルアプリケーションを展開したい場合。 ウェブサイトエンジンを「停止」または「アンインストール」するだけで、FresnsはAPIとプラグインが動作するバックエンドシステムとなります。',
     'engine_table_options_desc' => '複数のエンジンを有効にするためのサポート、互いに渡す必要があるだけで、詳細についてはエンジン開発者を参照してください。',
     'engine_theme_title' => '関連テーマテンプレート',
-    'engine_theme_pc' => 'コンピュータサイドのテーマ',
+    'engine_theme_desktop' => 'コンピュータサイドのテーマ',
     'engine_theme_mobile' => '携帯電話のトピック',
     // App-Center-Keys
     'key_select_platform' => 'キーアプリケーションプラットフォームを選択します',

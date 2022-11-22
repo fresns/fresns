@@ -1025,7 +1025,7 @@ return [
     'engine_table_name_desc' => 'Se si desidera distribuire un sito Web in modo indipendente, oppure non è necessario un\'app mobile sitifica. Semplicemente "disattivare" o "Disinstalla" il motore del sito Web in modo da Fresns sarà solo un sistema di back-rend che viene eseguito su API e plugin',
     'engine_table_options_desc' => 'Supporto Per abilitare più motori, devi solo passare l\'un l\'altro, consultare lo sviluppatore del motore per i dettagli',
     'engine_theme_title' => 'Modello tematico di associazione',
-    'engine_theme_pc' => 'Tema del computer',
+    'engine_theme_desktop' => 'Tema del computer',
     'engine_theme_mobile' => 'Argomento del telefono cellulare',
     // App-Center-Keys
     'key_select_platform' => 'Seleziona la piattaforma di applicazione chiave',

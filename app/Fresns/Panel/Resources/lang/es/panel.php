@@ -1025,7 +1025,7 @@ return [
     'engine_table_name_desc' => 'Si desea implementar un sitio web de forma independiente, o no necesita una aplicación móvil de un sitio web. Simplemente "desactivar" o "desinstalar" el motor del sitio web, por lo que FRESNS solo será solo un sistema de backend que se ejecute en una API y el complemento',
     'engine_table_options_desc' => 'Soporte Para habilitar múltiples motores, solo debe transmitirse entre sí, consulte al desarrollador del motor para obtener más información',
     'engine_theme_title' => 'Plantilla de tema de asociación',
-    'engine_theme_pc' => 'Tema del lado de la computadora',
+    'engine_theme_desktop' => 'Tema del lado de la computadora',
     'engine_theme_mobile' => 'Tema de telefonía móvil',
     // App-Center-Keys
     'key_select_platform' => 'Seleccione la plataforma de aplicaciones clave',

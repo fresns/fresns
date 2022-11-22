@@ -1025,7 +1025,7 @@ return [
     'engine_table_name_desc' => 'Si vous souhaitez déployer un site Web indépendamment, ou si vous n\'avez pas besoin d\'une application mobile de site Web. Simplement "désactiver" ou "désinstaller" le moteur de site Web afin que Fresns ne soit qu\'un système de backend qui fonctionne sur une API et un plugin',
     'engine_table_options_desc' => 'Soutien Pour activer plusieurs moteurs, il suffit de passer l\'autre, veuillez consulter le développeur de moteur pour plus de détails',
     'engine_theme_title' => 'Modèle de thème de l\'association',
-    'engine_theme_pc' => 'Thème côté ordinateur',
+    'engine_theme_desktop' => 'Thème côté ordinateur',
     'engine_theme_mobile' => 'Sujet de téléphone portable',
     // App-Center-Keys
     'key_select_platform' => 'Sélectionnez la plate-forme d\'application clé',

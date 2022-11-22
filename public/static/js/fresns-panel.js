@@ -1079,18 +1079,18 @@ $(document).ready(function () {
         let button = $(e.relatedTarget);
         let action = button.data('action');
         let unikey = button.data('unikey');
-        let pcPlugin = button.data('pc_plugin');
+        let desktopPlugin = button.data('desktop_plugin');
         let mobilePlugin = button.data('mobile_plugin');
 
         $(this).find('form').attr('action', action);
         $(this)
-            .find('#pcTheme')
-            .attr('name', unikey + '_Pc');
+            .find('#desktopTheme')
+            .attr('name', unikey + '_Desktop');
         $(this)
             .find('#mobileTheme')
             .attr('name', unikey + '_Mobile');
 
-        $(this).find('#pcTheme').val(pcPlugin);
+        $(this).find('#desktopTheme').val(desktopPlugin);
         $(this).find('#mobileTheme').val(mobilePlugin);
     });
 

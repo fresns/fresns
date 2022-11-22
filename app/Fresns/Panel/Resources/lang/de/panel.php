@@ -1025,7 +1025,7 @@ return [
     'engine_table_name_desc' => 'Wenn Sie eine Website unabhängig bereitstellen möchten, oder benötigen Sie keine mobile App-App. Wählen Sie einfach "Deaktivieren" oder "Deinstallieren" der Website-Engine, sodass FRESNS nur ein Backend-System sein wird, das auf einer API und einem Plug-In ausgeführt wird',
     'engine_table_options_desc' => 'Unterstützung, um mehrere Motoren zu aktivieren, müssen Sie einfach weitergeben, wenden Sie sich bitte an den Motorentwickler',
     'engine_theme_title' => 'Association Theme Template',
-    'engine_theme_pc' => 'Computerseite',
+    'engine_theme_desktop' => 'Computerseite',
     'engine_theme_mobile' => 'Handythema',
     // App-Center-Keys
     'key_select_platform' => 'Wählen Sie die wichtigste Anwendungsplattform aus',

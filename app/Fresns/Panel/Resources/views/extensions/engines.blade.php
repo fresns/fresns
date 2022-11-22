@@ -36,8 +36,8 @@
                     <td><a href="https://fresns.org" target="_blank" class="link-info fresns-link fs-7">Fresns</a></td>
                     <td>
                         <span class="badge bg-light text-dark"><i class="bi bi-laptop"></i>
-                            @if ($themeUnikey['pc'])
-                                {{ $themeName['pc'] ?? $themeUnikey['pc'] }}
+                            @if ($themeUnikey['desktop'])
+                                {{ $themeName['desktop'] ?? $themeUnikey['desktop'] }}
                             @else
                                 {{ __('FsLang::panel.option_not_set') }}
                             @endif
@@ -56,7 +56,7 @@
                             <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                 data-action="{{ route('panel.engine.theme.update', ['unikey' => 'FresnsEngine']) }}"
                                 data-unikey="FresnsEngine"
-                                data-pc_plugin="{{ $themeUnikey['pc'] }}"
+                                data-desktop_plugin="{{ $themeUnikey['desktop'] }}"
                                 data-mobile_plugin="{{ $themeUnikey['mobile'] }}"
                                 data-bs-target="#themeSetting">{{ __('FsLang::panel.engine_theme_title') }}</button>
                         @else
@@ -78,8 +78,8 @@
                         <td><a href="{{ $engine->author_link }}" target="_blank" class="link-info fresns-link fs-7">{{ $engine->author }}</a></td>
                         <td>
                             <span class="badge bg-light text-dark"><i class="bi bi-laptop"></i>
-                                @if ($pcPlugin = optional($configs->where('item_key', $engine->unikey.'_Pc')->first())->item_value )
-                                    {{ $plugins[$pcPlugin] ?? $pcPlugin ?? '' }}
+                                @if ($desktopPlugin = optional($configs->where('item_key', $engine->unikey.'_Desktop')->first())->item_value )
+                                    {{ $plugins[$desktopPlugin] ?? $desktopPlugin ?? '' }}
                                 @else
                                     {{ __('FsLang::panel.option_not_set') }}
                                 @endif
@@ -98,7 +98,7 @@
                                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                     data-action="{{ route('panel.engine.theme.update', ['unikey' => $engine->unikey]) }}"
                                     data-unikey="{{ $engine->unikey }}"
-                                    data-pc_plugin="{{ optional($configs->where('item_key', $engine->unikey . '_Pc')->first())->item_value }}"
+                                    data-desktop_plugin="{{ optional($configs->where('item_key', $engine->unikey . '_Desktop')->first())->item_value }}"
                                     data-mobile_plugin="{{ optional($configs->where('item_key', $engine->unikey . '_Mobile')->first())->item_value }}"
                                     data-bs-target="#themeSetting">{{ __('FsLang::panel.engine_theme_title') }}</button>
                                 @if ($engine->settings_path)
@@ -129,13 +129,13 @@
                         @csrf
                         @method('put')
                         <div class="form-floating mb-3">
-                            <select class="form-select" id="pcTheme">
+                            <select class="form-select" id="desktopTheme">
                                 <option value="" >{{ __('FsLang::panel.option_no_use') }}</option>
                                 @foreach ($themes as $theme)
-                                    <option value="{{ $theme->unikey }}" @if($themeUnikey['pc'] == $theme->unikey) selected @endif>{{ $theme->name }}</option>
+                                    <option value="{{ $theme->unikey }}" @if($themeUnikey['desktop'] == $theme->unikey) selected @endif>{{ $theme->name }}</option>
                                 @endforeach
                             </select>
-                            <label for="PCtheme"><i class="bi bi-laptop"></i> {{ __('FsLang::panel.engine_theme_pc') }}</label>
+                            <label for="desktopTheme"><i class="bi bi-laptop"></i> {{ __('FsLang::panel.engine_theme_desktop') }}</label>
                         </div>
                         <div class="form-floating mb-4">
                             <select class="form-select" id="mobileTheme">

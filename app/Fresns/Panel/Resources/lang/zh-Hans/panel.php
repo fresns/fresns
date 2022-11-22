@@ -1025,7 +1025,7 @@ return [
     'engine_table_name_desc' => '如果你希望独立部署网站，或者是不需要网站的移动应用。只需“停用”或“卸载”网站引擎，这样 Fresns 将只是一个 API 和插件运行的后端系统。',
     'engine_table_options_desc' => '支持启用多个引擎，只需要彼此路径不冲突即可，详情请咨询引擎开发者。',
     'engine_theme_title' => '关联主题模板',
-    'engine_theme_pc' => '电脑端主题',
+    'engine_theme_desktop' => '电脑端主题',
     'engine_theme_mobile' => '手机端主题',
     // App-Center-Keys
     'key_select_platform' => '选择密钥应用平台',

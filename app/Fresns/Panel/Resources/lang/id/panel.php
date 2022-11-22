@@ -1025,7 +1025,7 @@ return [
     'engine_table_name_desc' => 'Jika Anda ingin menyebarkan situs web secara independen, atau Anda tidak memerlukan aplikasi seluler situs web. Cukup "nonaktifkan" atau "hapus instalan" mesin situs web sehingga Fresns hanya akan hanya sistem backend yang berjalan pada API dan plugin',
     'engine_table_options_desc' => 'Dukungan untuk memungkinkan beberapa mesin, hanya perlu saling lewat, silakan berkonsultasi dengan pengembang mesin untuk detailnya',
     'engine_theme_title' => 'Template Tema Asosiasi',
-    'engine_theme_pc' => 'Tema sisi komputer',
+    'engine_theme_desktop' => 'Tema sisi komputer',
     'engine_theme_mobile' => 'Topik Ponsel',
     // App-Center-Keys
     'key_select_platform' => 'Pilih Platform Aplikasi Kunci',

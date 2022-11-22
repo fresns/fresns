@@ -1025,7 +1025,7 @@ return [
     'engine_table_name_desc' => '웹 사이트를 독립적으로 배포하려는 경우 또는 웹 사이트 모바일 앱이 필요하지 않습니다. FRESNS는 API 및 플러그인에서 실행되는 백엔드 시스템 일뿐 만 아니라 FRESNS만이 "비활성화"또는 "제거"또는 "제거"웹 사이트 엔진 일뿐입니다',
     'engine_table_options_desc' => '여러 엔진을 사용하도록 지원하며 서로를 통과 해야하는 경우 엔진 개발자에게 자세한 내용을 참조하십시오',
     'engine_theme_title' => '협회 테마 템플릿',
-    'engine_theme_pc' => '컴퓨터 측 테마',
+    'engine_theme_desktop' => '컴퓨터 측 테마',
     'engine_theme_mobile' => '휴대 전화 주제',
     // App-Center-Keys
     'key_select_platform' => '키 응용 프로그램 플랫폼을 선택하십시오',
