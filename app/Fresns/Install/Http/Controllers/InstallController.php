@@ -68,7 +68,7 @@ class InstallController extends Controller
         try {
             \request()->validate([
                 'step' => 'required|integer',
-                'lang' => 'required_if:step,1',
+                'install_lang' => 'required_if:step,1',
                 'admin_info.password' => 'required_if:step,5|confirmed',
             ]);
         } catch (\Illuminate\Validation\ValidationException $exception) {
@@ -425,6 +425,8 @@ class InstallController extends Controller
         $result = Account::whereAid($aid)->update([
             'type' => 1,
         ]);
+
+        AppHelper::setInitialConfiguration();
 
         info('update type', [$result, $aid]);
     }

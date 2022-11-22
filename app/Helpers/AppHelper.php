@@ -8,8 +8,12 @@
 
 namespace App\Helpers;
 
+use App\Models\Config;
+use App\Models\SessionKey;
 use App\Utilities\CommandUtility;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class AppHelper
 {
@@ -107,7 +111,7 @@ class AppHelper
     // get themes
     public static function getThemes()
     {
-        $themeFiles = glob('extensions/themes/*/theme.json');
+        $themeFiles = glob(config('themes.paths.themes').'/*/theme.json');
 
         $themes = [];
         foreach ($themeFiles as $file) {
@@ -123,16 +127,72 @@ class AppHelper
         return $themes;
     }
 
+    // get plugin config
+    public static function getPluginConfig(string $plugin)
+    {
+        $pluginJsonFile = config('plugins.paths.plugins').'/'.$plugin.'/plugin.json';
+        if (! $pluginJsonFile) {
+            return null;
+        }
+
+        $themeConfig = json_decode(File::get($pluginJsonFile), true);
+
+        return $themeConfig;
+    }
+
     // get theme config
     public static function getThemeConfig(string $theme)
     {
-        $themeJsonFile = base_path('extensions/themes/'.$theme.'/theme.json');
+        $themeJsonFile = config('themes.paths.themes').'/'.$theme.'/theme.json';
         if (! $themeJsonFile) {
             return null;
         }
 
-        $themeConfig = json_decode(\File::get($themeJsonFile), true);
+        $themeConfig = json_decode(File::get($themeJsonFile), true);
 
         return $themeConfig;
+    }
+
+    // set initial configuration
+    public static function setInitialConfiguration()
+    {
+        $plugin = AppHelper::getPluginConfig('FresnsEngine');
+        $theme = AppHelper::getThemeConfig('ThemeFrame');
+
+        if (empty($plugin) && empty($theme)) {
+            return;
+        }
+
+        $appKey = new SessionKey;
+        $appKey->platform_id = 4;
+        $appKey->name = 'Fresns Official Engine';
+        $appKey->app_id = Str::random(8);
+        $appKey->app_secret = Str::random(32);
+        $appKey->save();
+
+        $configKeys = [
+            'engine_service',
+            'engine_key_id',
+            'FresnsEngine_Desktop',
+            'FresnsEngine_Mobile',
+        ];
+
+        $configValues = [
+            'engine_service' => 'FresnsEngine',
+            'engine_key_id' => $appKey->id,
+            'FresnsEngine_Desktop' => 'ThemeFrame',
+            'FresnsEngine_Mobile' => 'ThemeFrame',
+        ];
+
+        $configs = Config::whereIn('item_key', $configKeys)->get();
+
+        foreach ($configKeys as $configKey) {
+            $config = $configs->where('item_key', $configKey)->first();
+
+            $config->item_value = $configValues[$configKey];
+            $config->save();
+        }
+
+        \Artisan::call('market:activate', ['unikey' => 'FresnsEngine']);
     }
 }
