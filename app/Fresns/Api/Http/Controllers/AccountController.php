@@ -531,7 +531,7 @@ class AccountController extends Controller
             'objectResult' => SessionLog::STATE_SUCCESS,
             'objectOrderId' => null,
             'deviceInfo' => $this->deviceInfo(),
-            'deviceToken' => null,
+            'deviceToken' => $dtoRequest->deviceToken,
             'moreJson' => null,
         ];
 

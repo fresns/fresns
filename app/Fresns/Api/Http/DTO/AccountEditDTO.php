@@ -31,6 +31,7 @@ class AccountEditDTO extends DTO
             'editWalletPassword' => ['string', 'nullable'],
             'editWalletPasswordConfirm' => ['string', 'nullable', 'required_with:editWalletPassword'],
             'editLastLoginTime' => ['boolean', 'nullable'],
+            'deviceToken' => ['string', 'nullable'],
         ];
     }
 }

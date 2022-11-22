@@ -32,6 +32,7 @@ class UserEditDTO extends DTO
             'commentLimit' => ['string', 'nullable', 'in:1,2,3,4'],
             'timezone' => ['string', 'nullable'],
             'archives' => ['array', 'nullable'],
+            'deviceToken' => ['string', 'nullable'],
         ];
     }
 }
