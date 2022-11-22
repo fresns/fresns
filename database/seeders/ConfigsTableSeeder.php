@@ -310,8 +310,8 @@ class ConfigsTableSeeder extends Seeder
             ],
             22 => [
                 'id' => 23,
-                'item_key' => 'fresns_items',
-                'item_value' => '[]',
+                'item_key' => 'packagist_mirrors',
+                'item_value' => '[{"name":"Global, CloudFlare","repo":"https://packagist.pages.dev"},{"name":"Africa, South Africa","repo":"https://packagist.co.za"},{"name":"Asia, China Tencent","repo":"https://mirrors.tencent.com/composer/"},{"name":"Asia, China SJTU","repo":"https://packagist.mirrors.sjtug.sjtu.edu.cn"},{"name":"Asia, India","repo":"https://packagist.in"},{"name":"Asia, Indonesia","repo":"https://packagist.phpindonesia.id"},{"name":"Asia, Japan","repo":"https://packagist.jp"},{"name":"Asia, South Korea","repo":"https://packagist.kr"},{"name":"Asia, Thailand","repo":"https://packagist.mycools.in.th/"},{"name":"Asia, Taiwan","repo":"https://packagist.tw/"},{"name":"Europe, Finland","repo":"https://packagist.fi"},{"name":"Europe, Germany","repo":"https://packagist.hesse.im"},{"name":"South America, Brazil","repo":"https://packagist.com.br"}]',
                 'item_type' => 'array',
                 'item_tag' => 'systems',
                 'is_multilingual' => 0,
