@@ -1,6 +1,12 @@
 <!doctype html>
 <html lang="{{ App::getLocale() }}">
 
+@php
+    use App\Helpers\ConfigHelper;
+
+    $email = ConfigHelper::fresnsConfigByItemKey('site_email');
+@endphp
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -29,8 +35,11 @@
             <div class="card-body p-5">
                 <h3 class="card-title">Fresns {{ $code }}</h3>
                 <div class="mt-4">{!! $message !!}</div>
+                <div class="mt-4">Administrator Email: <a href="mailto:{{ $email }}">{{ $email }}</a></div>
 
-                <a class="btn btn-outline-success btn-sm mt-4 clear-cookie" href="#" data-method="DELETE" data-action="{{ route('panel.clear.web.cookie') }}">Clear Cookie</a>
+                @if ($code == 31505 || $code == 31603)
+                    <a class="btn btn-outline-success btn-sm mt-4 clear-cookie" href="#" data-method="DELETE" data-action="{{ route('panel.clear.web.cookie') }}">Clear Cookie</a>
+                @endif
             </div>
         </div>
     </main>
