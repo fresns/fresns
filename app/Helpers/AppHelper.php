@@ -158,13 +158,15 @@ class AppHelper
     // set initial configuration
     public static function setInitialConfiguration()
     {
-        $plugin = AppHelper::getPluginConfig('FresnsEngine');
+        $engine = AppHelper::getPluginConfig('FresnsEngine');
         $theme = AppHelper::getThemeConfig('ThemeFrame');
 
-        if (empty($plugin) && empty($theme)) {
+        // check web engine and theme
+        if (empty($engine) && empty($theme)) {
             return;
         }
 
+        // create key
         $appKey = new SessionKey;
         $appKey->platform_id = 4;
         $appKey->name = 'Fresns Official Engine';
@@ -172,6 +174,7 @@ class AppHelper
         $appKey->app_secret = Str::random(32);
         $appKey->save();
 
+        // config web engine and theme
         $configKeys = [
             'engine_service',
             'engine_key_id',
@@ -195,6 +198,7 @@ class AppHelper
             $config->save();
         }
 
+        // activate web engine
         \Artisan::call('market:activate', ['unikey' => 'FresnsEngine']);
     }
 }
