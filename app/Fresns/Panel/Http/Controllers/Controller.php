@@ -8,7 +8,7 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
-use App\Helpers\ConfigHelper;
+use App\Helpers\AppHelper;
 use App\Models\Config;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -58,6 +58,8 @@ class Controller extends BaseController
             $siteUrl = $siteUrlConfig->item_value ?? '/';
 
             View::share('siteUrl', $siteUrl);
+
+            View::share('versionMd5', AppHelper::VERSION_MD5_16BIT);
         } catch (\Exception $e) {
         }
     }
