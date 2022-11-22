@@ -25,7 +25,7 @@ class ThemeFunctionController extends Controller
             abort(404, __('FsLang::tips.theme_error'));
         }
 
-        $themeJsonFile = base_path('extensions/themes/'.$theme.'/theme.json');
+        $themeJsonFile = config('themes.paths.themes').'/'.$theme.'/theme.json';
         if (! $themeJsonFile) {
             abort(403, __('FsLang::tips.theme_json_file_error'));
         }
