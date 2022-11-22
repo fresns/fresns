@@ -18,6 +18,7 @@ class EncryptCookies extends Middleware
      * @var array<int, string>
      */
     protected $except = [
+        'install_lang',
         'panel_lang',
         'langTag',
         'timezone',

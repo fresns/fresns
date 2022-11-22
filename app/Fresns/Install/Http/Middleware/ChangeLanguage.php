@@ -21,13 +21,13 @@ class ChangeLanguage
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($currentLang = \request()->input('lang')) {
-            Cookie::queue('lang', $currentLang);
+        if ($currentLang = \request()->input('install_lang')) {
+            Cookie::queue('install_lang', $currentLang);
         }
 
-        \App::setLocale(Cookie::get('lang', config('app.locale')));
+        \App::setLocale(Cookie::get('install_lang', config('app.locale')));
 
-        $request->headers->set('langTag', \App::getLocale());
+        $request->headers->set('install_lang', \App::getLocale());
 
         return $next($request);
     }

@@ -136,15 +136,15 @@
     <form>
         <!--step 1: lang select-->
         <template x-if="step === 1">
-            <div class="card-body" x-data="{ langs: {{ Js::from($langs) }}, lang: null, }">
-                <select class="form-select" size="12" aria-label="size 12 select lang" x-model="lang">
+            <div class="card-body" x-data="{ langs: {{ Js::from($langs) }}, install_lang: null, }">
+                <select class="form-select" size="12" aria-label="size 12 select install_lang" x-model="install_lang">
                     <template x-for="(post, key) in langs">
                         <option x-bind:value="key" x-text="post"></option>
                     </template>
                 </select>
 
                 <div class="d-flex justify-content-end">
-                    <button type="button" class="flex-end btn btn-outline-primary mt-3" @click="next_step({step, lang})">→</button>
+                    <button type="button" class="flex-end btn btn-outline-primary mt-3" @click="next_step({step, install_lang})">→</button>
                 </div>
             </div>
         </template>
