@@ -31,7 +31,7 @@
     "require": {
         "php": "^8.0.2",
         "guzzlehttp/guzzle": "^7.5",
-        "laravel/framework": "^9.40",
+        "laravel/framework": "^9.41",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.1",
@@ -39,7 +39,7 @@
         "fresns/cmd-word-manager": "^1.2",
         "fresns/plugin-manager": "^2.1",
         "fresns/theme-manager": "^2.0",
-        "fresns/market-manager": "^2.0",
+        "fresns/market-manager": "^2.1",
         "mcamara/laravel-localization": "^1.7",
         "hisorange/browser-detect": "^4.5",
         "maatwebsite/excel": "^3.1",
