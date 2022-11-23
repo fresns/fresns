@@ -75,7 +75,6 @@ class CacheHelper
         \Artisan::call('config:cache');
         \Artisan::call('event:cache');
         \Artisan::call('optimize:clear');
-        \Artisan::call('queue:clear');
         \Artisan::call('route:clear');
         \Artisan::call('route:trans:clear');
         \Artisan::call('schedule:clear-cache');
