@@ -88,7 +88,7 @@ class AppUtility
 
     public static function getApiHost()
     {
-        $apiHost = base64_decode('aHR0cHM6Ly9tYXJrZXRwbGFjZS5mcmVzbnMuY29t', true);
+        $apiHost = base64_decode('aHR0cHM6Ly9tYXJrZXQuZnJlc25zLmNvbQ==', true);
 
         return $apiHost;
     }
