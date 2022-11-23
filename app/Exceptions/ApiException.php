@@ -16,9 +16,12 @@ class ApiException extends \Exception
 {
     use ApiResponseTrait;
 
-    public function __construct(int $code, ?string $unikey = '')
+    protected $data;
+
+    public function __construct(int $code, ?string $unikey = '', mixed $data = null)
     {
         $message = $this->getCodeMessage($code, $unikey);
+        $this->data = $data;
 
         parent::__construct($message, $code);
     }
@@ -30,6 +33,6 @@ class ApiException extends \Exception
 
     public function render()
     {
-        return $this->failure($this->getCode(), $this->getMessage());
+        return $this->failure($this->getCode(), $this->getMessage(), $this->data);
     }
 }
