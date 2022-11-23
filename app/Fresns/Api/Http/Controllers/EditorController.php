@@ -15,8 +15,8 @@ use App\Fresns\Api\Http\DTO\EditorQuickPublishDTO;
 use App\Fresns\Api\Http\DTO\EditorUpdateDTO;
 use App\Fresns\Api\Services\CommentService;
 use App\Fresns\Api\Services\PostService;
+use App\Fresns\Api\Services\UserService;
 use App\Helpers\ConfigHelper;
-use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\CommentLog;
@@ -30,7 +30,6 @@ use App\Models\SessionLog;
 use App\Utilities\ConfigUtility;
 use App\Utilities\PermissionUtility;
 use App\Utilities\ValidationUtility;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -605,11 +604,6 @@ class EditorController extends Controller
         $timezone = $this->timezone();
         $authUser = $this->user();
 
-        $contentInterval = PermissionUtility::checkContentIntervalTime($authUser->id, $type);
-        if (! $contentInterval) {
-            throw new ApiException(36117);
-        }
-
         $draft = match ($type) {
             'post' => PostLog::with('creator')->where('id', $draftId)->where('user_id', $authUser->id)->first(),
             'comment' => CommentLog::with('creator')->where('id', $draftId)->where('user_id', $authUser->id)->first(),
@@ -627,6 +621,16 @@ class EditorController extends Controller
         if ($draft->state == 3) {
             throw new ApiException(38104);
         }
+
+        $mainId = match ($type) {
+            'post' => $draft->post_id,
+            'comment' => $draft->comment_id,
+            default => null,
+        };
+
+        // check publish prem
+        $publishService = new UserService;
+        $publishService->checkPublishPerm($type, $authUser->id, $mainId, $langTag, $timezone);
 
         if ($type == 'comment') {
             $checkCommentPerm = PermissionUtility::checkPostCommentPerm($draft->post_id, $authUser->id);
@@ -666,55 +670,6 @@ class EditorController extends Controller
             $checkContentBanWords = ValidationUtility::contentBanWords($draft->content);
             if (! $checkContentBanWords) {
                 throw new ApiException(38207);
-            }
-        }
-
-        $publishConfig = ConfigUtility::getPublishConfigByType($authUser->id, $type, $langTag, $timezone);
-
-        if (! $publishConfig['perm']['publish']) {
-            return $this->failure([
-                36104,
-                ConfigUtility::getCodeMessage(36104, 'Fresns', $langTag),
-                $publishConfig['perm']['tips'],
-            ]);
-        }
-
-        if ($publishConfig['limit']['status']) {
-            switch ($publishConfig['limit']['type']) {
-                // period Y-m-d H:i:s
-                case 1:
-                    $dbDateTime = DateHelper::fresnsDatabaseCurrentDateTime();
-                    $newDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $dbDateTime);
-                    $periodStart = Carbon::createFromFormat('Y-m-d H:i:s', $publishConfig['limit']['periodStart']);
-                    $periodEnd = Carbon::createFromFormat('Y-m-d H:i:s', $publishConfig['limit']['periodEnd']);
-
-                    $isInTime = $newDateTime->between($periodStart, $periodEnd);
-                    if ($isInTime) {
-                        throw new ApiException(36304);
-                    }
-                break;
-
-                // cycle H:i
-                case 2:
-                    $dbDateTime = DateHelper::fresnsDatabaseCurrentDateTime();
-                    $newDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $dbDateTime);
-                    $dbDate = date('Y-m-d', $dbDateTime);
-                    $cycleStart = "{$dbDate} {$publishConfig['limit']['cycleStart']}:00"; // Y-m-d H:i:s
-                    $cycleEnd = "{$dbDate} {$publishConfig['limit']['cycleEnd']}:00"; // Y-m-d H:i:s
-
-                    $periodStart = Carbon::createFromFormat('Y-m-d H:i:s', $cycleStart); // 2022-07-01 22:30:00
-                    $periodEnd = Carbon::createFromFormat('Y-m-d H:i:s', $cycleEnd); // 2022-07-01 08:30:00
-
-                    if ($periodEnd->lt($periodStart)) {
-                        // next day 2022-07-02 08:30:00
-                        $periodEnd = $periodEnd->addDay();
-                    }
-
-                    $isInTime = $newDateTime->between($periodStart, $periodEnd);
-                    if ($isInTime) {
-                        throw new ApiException(36304);
-                    }
-                break;
             }
         }
 
@@ -975,6 +930,8 @@ class EditorController extends Controller
         $requestData['type'] = $type;
         $dtoRequest = new EditorQuickPublishDTO($requestData);
 
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
         $authUser = $this->user();
 
         if ($dtoRequest->type == 'comment') {
@@ -985,10 +942,9 @@ class EditorController extends Controller
             }
         }
 
-        $contentInterval = PermissionUtility::checkContentIntervalTime($authUser->id, $dtoRequest->type);
-        if (! $contentInterval) {
-            throw new ApiException(36117);
-        }
+        // check publish prem
+        $publishService = new UserService;
+        $publishService->checkPublishPerm($dtoRequest->type, $authUser->id, null, $langTag, $timezone);
 
         if ($dtoRequest->file) {
             $fileConfig = FileHelper::fresnsFileStorageConfigByType(File::TYPE_IMAGE);
