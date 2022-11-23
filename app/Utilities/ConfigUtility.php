@@ -309,7 +309,7 @@ class ConfigUtility
             $perm['draft'] = false;
         }
 
-        $publishTip = null;
+        $publishTip = $perm['publish'] ? null : ConfigUtility::getCodeMessage(36104, 'Fresns', $langTag);
         $emailTip = null;
         $phoneTip = null;
         $realNameTip = null;
@@ -317,7 +317,7 @@ class ConfigUtility
         if ($perm['publish']) {
             if ($perm['emailRequired'] && empty($account->email)) {
                 $perm['publish'] = false;
-                $publishTip = ConfigUtility::getCodeMessage(36104, 'Fresns', $langTag);
+                $emailTip = ConfigUtility::getCodeMessage(36301, 'Fresns', $langTag);
             }
 
             if ($perm['phoneRequired'] && empty($account->phone)) {
@@ -331,7 +331,7 @@ class ConfigUtility
             }
         }
 
-        $perm['tips'] = array_filter([$publishTip, $emailTip, $phoneTip, $realNameTip]);
+        $perm['tips'] = \Arr::flatten(array_filter([$publishTip, $emailTip, $phoneTip, $realNameTip]));
 
         if ($limitConfig["{$type}_limit_status"]) {
             $checkWhiteList = PermissionUtility::checkUserRolePerm($userId, $limitConfig["{$type}_limit_whitelist"]);

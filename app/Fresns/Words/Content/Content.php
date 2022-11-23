@@ -338,24 +338,24 @@ class Content
         $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         if (empty($logModel)) {
-            return $this->failure([
+            return $this->failure(
                 38100,
                 ConfigUtility::getCodeMessage(38100, 'Fresns', $langTag),
-            ]);
+            );
         }
 
         if ($logModel->state == 2) {
-            return $this->failure([
+            return $this->failure(
                 38103,
                 ConfigUtility::getCodeMessage(38103, 'Fresns', $langTag),
-            ]);
+            );
         }
 
         if ($logModel->state == 3) {
-            return $this->failure([
+            return $this->failure(
                 38104,
                 ConfigUtility::getCodeMessage(38104, 'Fresns', $langTag),
-            ]);
+            );
         }
 
         $creator = PrimaryHelper::fresnsModelById('user', $logModel->user_id);
