@@ -210,7 +210,7 @@ $(document).ready(function () {
 
         if (!physicalUpgradeTimer) {
             getPhysicalUpgradeOutput(action);
-            physicalUpgradeTimer = setInterval(getPhysicalUpgradeOutput, 5000, action);
+            physicalUpgradeTimer = setInterval(getPhysicalUpgradeOutput, 1000, action);
         }
     });
 
@@ -262,13 +262,7 @@ $(document).ready(function () {
             method: 'get',
             url: action,
             success: function (response) {
-                let upgradeStep = response.upgrade_step;
-
-                if (!upgradeStep || upgradeStep == 6) {
-                    $('#upgradeStepModal').data('upgradeSuccess', 1);
-                    clearInterval(upgradeTimer);
-                    return;
-                }
+                let upgradeStep = response.upgrade_step || 6;
 
                 let step = $('#upgrade').find('#upgrade' + upgradeStep);
                 step.find('i').remove();
@@ -278,6 +272,18 @@ $(document).ready(function () {
                     $(completeStep).find('i').remove();
                     $(completeStep).prepend('<i class="bi bi-check-lg text-success me-2"></i>');
                 });
+
+                if (!upgradeStep || upgradeStep == 6) {
+                    step.find('i').remove();
+                    step.prepend('<i class="bi bi-check-lg text-success me-2"></i>');
+
+                    $('#upgradeButton').addClass('btn-light').removeClass('btn-info').text(trans('tips.upgradeSuccess')); //FsLang
+                    $('#upgradeButton').data('upgrading', true);
+
+                    $('#upgradeStepModal').data('upgradeSuccess', 1);
+                    clearInterval(upgradeTimer);
+                    return;
+                }
             },
         });
     }
@@ -288,7 +294,7 @@ $(document).ready(function () {
 
         if (!upgradeTimer) {
             checkUpgradeStep(action);
-            upgradeTimer = setInterval(checkUpgradeStep, 5000, action);
+            upgradeTimer = setInterval(checkUpgradeStep, 1000, action);
         }
     });
 

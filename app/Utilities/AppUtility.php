@@ -73,7 +73,7 @@ class AppUtility
         $currentVersion['version'] = $version;
         $currentVersion['versionInt'] = $versionInt;
 
-        $editContent = json_encode($currentVersion, JSON_PRETTY_PRINT);
+        $editContent = json_encode($currentVersion, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
         file_put_contents($path, $editContent);
 
         return true;

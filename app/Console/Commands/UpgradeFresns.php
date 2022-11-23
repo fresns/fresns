@@ -31,6 +31,7 @@ class UpgradeFresns extends Command
     const STEP_EXTRACT = 3;
     const STEP_INSTALL = 4;
     const STEP_CLEAR = 5;
+    const STEP_DONE = 6;
 
     public function __construct()
     {
@@ -59,6 +60,8 @@ class UpgradeFresns extends Command
 
         $this->clear();
 
+        $this->updateStep(self::STEP_DONE);
+
         return Command::SUCCESS;
     }
 
@@ -69,7 +72,7 @@ class UpgradeFresns extends Command
         return Cache::put('upgradeStep', $step);
     }
 
-    // step 1: download upgrade pack(zip)
+    // step 2: download upgrade pack(zip)
     public function download(): bool
     {
         logger('upgrade:download');
@@ -97,7 +100,7 @@ class UpgradeFresns extends Command
         return true;
     }
 
-    // step 2: unzip and replace the files
+    // step 3: unzip and replace the files
     public function extractFile(): bool
     {
         $this->updateStep(self::STEP_EXTRACT);
@@ -122,7 +125,7 @@ class UpgradeFresns extends Command
         return true;
     }
 
-    // step 3: execute the version command
+    // step 4-1: execute the version command
     public function upgradeCommand()
     {
         logger('upgrade:install');
@@ -131,12 +134,9 @@ class UpgradeFresns extends Command
         AppUtility::executeUpgradeCommand();
     }
 
-    // step 4: edit fresns version info
+    // step 4-2: edit fresns version info
     public function upgradeFinish(): bool
     {
-        Cache::forget('currentVersion');
-        Cache::forget('upgradeStep');
-
         $newVersion = AppHelper::VERSION;
         $newVersionInt = AppHelper::VERSION_INT;
 
