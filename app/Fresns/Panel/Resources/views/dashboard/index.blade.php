@@ -107,7 +107,7 @@
                     <a class="fresns-link" href="https://discuss.fresns.com" target="_blank">{{ __('FsLang::panel.support_community') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://marketplace.fresns.com/open-source" target="_blank">{{ __('FsLang::panel.support_marketplace') }}</a>
+                    <a class="fresns-link" href="https://market.fresns.com/open-source" target="_blank">{{ __('FsLang::panel.support_marketplace') }}</a>
                 </li>
             </ul>
         </div>
@@ -160,12 +160,12 @@
                                 <span class="badge rounded-pill bg-secondary ms-2 fs-9">{{ $databaseInfo['envTimezoneToUtc'] }}</span>
                             </span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                        {{-- <li class="list-group-item d-flex justify-content-between align-items-start">
                             {{ __('FsLang::panel.system_info_database_collation') }}: <span>{{ $databaseInfo['collation'] }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-start">
                             {{ __('FsLang::panel.system_info_database_size') }}: <span>{{ $databaseInfo['sizeMb'].' MB' }}</span>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
             </div>

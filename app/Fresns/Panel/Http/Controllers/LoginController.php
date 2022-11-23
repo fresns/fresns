@@ -9,6 +9,7 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\AppHelper;
+use App\Models\Config;
 use App\Models\SessionLog;
 use App\Utilities\AppUtility;
 use App\Utilities\ConfigUtility;
@@ -141,7 +142,11 @@ class LoginController extends Controller
 
     public function emptyPage()
     {
-        return view('FsView::auth.empty');
+        // site home url
+        $siteUrlConfig = Config::where('item_key', 'site_url')->first();
+        $siteUrl = $siteUrlConfig->item_value ?? '/';
+
+        return view('FsView::auth.empty', compact('siteUrl'));
     }
 
     // web cookie
