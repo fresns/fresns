@@ -27,13 +27,6 @@ class Upgrade1Command extends Command
     {
         $this->composerInstall();
 
-        $this->call('migrate', ['--force' => true]);
-
-        $this->call('db:seed', [
-            '--class' => 'UserRolesTableSeeder',
-            '--force' => true,
-        ]);
-
         return Command::SUCCESS;
     }
 
