@@ -178,6 +178,7 @@ class ExtensionController extends Controller
                 }
 
                 // market-manager
+                AppUtility::macroMarketHeader();
                 $exitCode = \Artisan::call('market:require', [
                     'unikey' => $pluginUnikey,
                 ]);
