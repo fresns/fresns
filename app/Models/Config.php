@@ -26,7 +26,7 @@ class Config extends Model
     public function setItemValueAttribute($value)
     {
         if (in_array($this->item_type, ['array', 'plugins', 'object']) || is_array($value)) {
-            $value = json_encode($value);
+            $value = json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
         }
 
         if ($this->item_type == 'boolean') {
