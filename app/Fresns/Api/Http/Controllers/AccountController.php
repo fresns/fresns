@@ -134,24 +134,9 @@ class AccountController extends Controller
             'password' => $password,
         ];
 
-        $fresnsAccountResp = \FresnsCmdWord::plugin('Fresns')->addAccount($addAccountWordBody);
-
-        if ($fresnsAccountResp->isErrorResponse()) {
-            // upload session log
-            $sessionLog['objectAction'] = 'addAccount';
-            $sessionLog['objectResult'] = SessionLog::STATE_FAILURE;
-            \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
-
-            return $fresnsAccountResp->errorResponse();
-        }
-
-        // upload session log
-        $sessionLog['aid'] = $fresnsAccountResp->getData('aid');
-        \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
-
         // add user
         $addUserWordBody = [
-            'aid' => $fresnsAccountResp->getData('aid'),
+            'aid' => null,
             'nickname' => $dtoRequest->nickname,
             'username' => null,
             'password' => null,
@@ -162,29 +147,22 @@ class AccountController extends Controller
             'timezone' => null,
             'language' => null,
         ];
-        $fresnsUserResp = \FresnsCmdWord::plugin('Fresns')->addUser($addUserWordBody);
 
-        if ($fresnsUserResp->isErrorResponse()) {
-            // upload session log
-            $sessionLog['type'] = SessionLog::TYPE_USER_ADD;
-            $sessionLog['objectAction'] = 'addUser';
-            $sessionLog['objectResult'] = SessionLog::STATE_FAILURE;
-            \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
+        $response = AccountService::registerAccount($sessionLog, $addAccountWordBody, $addUserWordBody);
 
-            return $fresnsUserResp->errorResponse();
+        if ($response['account']['code'] != 0) {
+            return $this->failure($response['account']['code'], $response['account']['message']);
         }
 
-        // upload session log
-        $sessionLog['type'] = SessionLog::TYPE_USER_ADD;
-        $sessionLog['aid'] = $fresnsAccountResp->getData('aid');
-        $sessionLog['uid'] = $fresnsUserResp->getData('uid');
-        \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
+        if ($response['user']['code'] != 0) {
+            return $this->failure($response['user']['code'], $response['user']['message']);
+        }
 
         // create token
         $createTokenWordBody = [
             'platformId' => $this->platformId(),
-            'aid' => $fresnsUserResp->getData('aid'),
-            'uid' => $fresnsUserResp->getData('uid'),
+            'aid' => $response['account']['data']['aid'],
+            'uid' => $response['user']['data']['uid'],
             'expiredTime' => null,
         ];
         $fresnsTokenResponse = \FresnsCmdWord::plugin('Fresns')->createSessionToken($createTokenWordBody);
@@ -193,9 +171,30 @@ class AccountController extends Controller
             return $fresnsTokenResponse->errorResponse();
         }
 
+        // create token session log
+        $tokenSessionLog = [
+            'type' => SessionLog::TYPE_ACCOUNT_LOGIN,
+            'pluginUnikey' => 'Fresns',
+            'platformId' => $this->platformId(),
+            'version' => $this->version(),
+            'langTag' => $this->langTag(),
+            'aid' => $response['account']['data']['aid'],
+            'uid' => $response['user']['data']['uid'],
+            'objectName' => \request()->path(),
+            'objectAction' => 'Login after account registration',
+            'objectResult' => SessionLog::STATE_SUCCESS,
+            'objectOrderId' => $fresnsTokenResponse->getData('tokenId'),
+            'deviceInfo' => $this->deviceInfo(),
+            'deviceToken' => $dtoRequest->deviceToken,
+            'moreJson' => null,
+        ];
+        \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($tokenSessionLog);
+
         // get account token
         $token['token'] = $fresnsTokenResponse->getData('token');
-        $token['expiredTime'] = $fresnsTokenResponse->getData('expiredTime');
+        $token['expiredHours'] = $fresnsTokenResponse->getData('expiredHours');
+        $token['expiredDays'] = $fresnsTokenResponse->getData('expiredDays');
+        $token['expiredDateTime'] = $fresnsTokenResponse->getData('expiredDateTime');
         $sessionToken['sessionToken'] = $token;
 
         // get account data
@@ -249,6 +248,7 @@ class AccountController extends Controller
         ];
         $fresnsResponse = \FresnsCmdWord::plugin('Fresns')->verifyAccount($wordBody);
 
+        $response = null;
         if ($fresnsResponse->isErrorResponse()) {
             // upload session log
             $sessionLog['aid'] = $fresnsResponse->getData('aid') ?? null;
@@ -256,13 +256,43 @@ class AccountController extends Controller
             $sessionLog['objectResult'] = SessionLog::STATE_FAILURE;
             \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
-            return $fresnsResponse->errorResponse();
+            $loginOrRegister = ConfigHelper::fresnsConfigByItemKey('site_login_or_register');
+
+            if (! $loginOrRegister || empty($password) || $fresnsResponse->getCode() == 33203) {
+                return $fresnsResponse->errorResponse();
+            }
+
+            // add user
+            $addUserWordBody = [
+                'aid' => null,
+                'nickname' => \Str::random(8),
+                'username' => null,
+                'password' => null,
+                'avatarFid' => null,
+                'avatarUrl' => null,
+                'gender' => null,
+                'birthday' => null,
+                'timezone' => null,
+                'language' => null,
+            ];
+
+            $response = AccountService::registerAccount($sessionLog, $wordBody, $addUserWordBody);
+
+            // upload session log
+            $sessionLog['type'] = SessionLog::TYPE_ACCOUNT_REGISTER;
+            $sessionLog['aid'] = $response['account']['data']['aid'];
+            $sessionLog['uid'] = $response['user']['data']['uid'];
+            $sessionLog['objectAction'] = 'No account is automatically registered when the verify code is logged in';
+            \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
         }
+
+        // aid
+        $aid = $fresnsResponse->getData('aid') ?? $response['account']['data']['aid'];
 
         // create token
         $createTokenWordBody = [
             'platformId' => $this->platformId(),
-            'aid' => $fresnsResponse->getData('aid'),
+            'aid' => $aid,
             'uid' => null,
             'expiredTime' => null,
         ];
@@ -270,7 +300,7 @@ class AccountController extends Controller
 
         if ($fresnsTokenResponse->isErrorResponse()) {
             // upload session log
-            $sessionLog['aid'] = $fresnsResponse->getData('aid');
+            $sessionLog['aid'] = $aid;
             $sessionLog['objectAction'] = 'createSessionToken';
             $sessionLog['objectResult'] = SessionLog::STATE_FAILURE;
             \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
@@ -279,16 +309,19 @@ class AccountController extends Controller
         }
 
         // upload session log
-        $sessionLog['aid'] = $fresnsResponse->getData('aid');
+        $sessionLog['aid'] = $aid;
+        $sessionLog['objectOrderId'] = $fresnsResponse->getData('tokenId');
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
         // get account token
         $token['token'] = $fresnsTokenResponse->getData('token');
-        $token['expiredTime'] = $fresnsTokenResponse->getData('expiredTime');
+        $token['expiredHours'] = $fresnsTokenResponse->getData('expiredHours');
+        $token['expiredDays'] = $fresnsTokenResponse->getData('expiredDays');
+        $token['expiredDateTime'] = $fresnsTokenResponse->getData('expiredDateTime');
         $sessionToken['sessionToken'] = $token;
 
         // get account data
-        $account = Account::whereAid($fresnsTokenResponse->getData('aid'))->first();
+        $account = Account::whereAid($aid)->first();
 
         $service = new AccountService();
         $detail = $service->accountData($account, $this->langTag(), $this->timezone());
@@ -695,14 +728,19 @@ class AccountController extends Controller
     // logout
     public function logout()
     {
-        $platformId = $this->platformId();
         $authAccount = $this->account();
         $authUser = $this->user();
+        $token = \request()->header('token');
 
-        SessionToken::where('platform_id', $platformId)
-            ->where('account_id', $authAccount->id)
-            ->where('user_id', $authUser?->id)
-            ->delete();
+        if (empty($authAccount)) {
+            throw new ApiException(31502);
+        }
+
+        if (empty($token)) {
+            throw new ApiException(31505);
+        }
+
+        SessionToken::where('account_id', $authAccount->id)->where('token', $token)->delete();
 
         CacheHelper::forgetApiAccount($authAccount->aid);
         CacheHelper::forgetApiUser($authUser?->uid);

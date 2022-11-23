@@ -12,6 +12,7 @@ use App\Helpers\CacheHelper;
 use App\Helpers\InteractiveHelper;
 use App\Models\Account;
 use App\Models\PluginUsage;
+use App\Models\SessionLog;
 use App\Utilities\ExtendUtility;
 use Illuminate\Support\Facades\Cache;
 
@@ -60,5 +61,68 @@ class AccountService
         $data['detail'] = $service->accountDetail($account, $langTag, $timezone);
 
         return $data;
+    }
+
+    public static function registerAccount(array $sessionLog, array $addAccountWordBody, array $addUserWordBody)
+    {
+        $response['account'] = null;
+        $response['user'] = null;
+
+        // add account
+        $addAccountResp = \FresnsCmdWord::plugin('Fresns')->addAccount($addAccountWordBody);
+
+        if ($addAccountResp->isErrorResponse()) {
+            // upload session log
+            $sessionLog['objectAction'] = 'addAccount / '.$addAccountWordBody['account'];
+            $sessionLog['objectResult'] = SessionLog::STATE_FAILURE;
+            \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
+
+            $response['account'] = $addAccountResp->errorResponse();
+
+            return $response;
+        }
+
+        // upload session log
+        $sessionLog['aid'] = $addAccountResp->getData('aid');
+        \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
+
+        $response['account'] = [
+            'code' => $addAccountResp->getCode(),
+            'message' => $addAccountResp->getMessage(),
+            'data' => $addAccountResp->getData(),
+        ];
+
+        $addUserWordBody['aid'] = $addAccountResp->getData('aid');
+
+        // add user
+        $addUserResp = \FresnsCmdWord::plugin('Fresns')->addUser($addUserWordBody);
+
+        if ($addUserResp->isErrorResponse()) {
+            // upload session log
+            $sessionLog['type'] = SessionLog::TYPE_USER_ADD;
+            $sessionLog['objectAction'] = 'addUser';
+            $sessionLog['objectResult'] = SessionLog::STATE_FAILURE;
+            $sessionLog['aid'] = $addAccountResp->getData('aid');
+            \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
+
+            $response['account'] = $addAccountResp->errorResponse();
+            $response['user'] = $addUserResp->errorResponse();
+
+            return $response;
+        }
+
+        // upload session log
+        $sessionLog['type'] = SessionLog::TYPE_USER_ADD;
+        $sessionLog['aid'] = $addAccountResp->getData('aid');
+        $sessionLog['uid'] = $addUserResp->getData('uid');
+        \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
+
+        $response['user'] = [
+            'code' => $addUserResp->getCode(),
+            'message' => $addUserResp->getMessage(),
+            'data' => $addUserResp->getData(),
+        ];
+
+        return $response;
     }
 }

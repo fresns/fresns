@@ -21,6 +21,7 @@ use App\Models\AccountConnect;
 use App\Models\AccountWallet;
 use App\Models\SessionToken;
 use App\Utilities\ConfigUtility;
+use Carbon\Carbon;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 use Illuminate\Support\Facades\Cache;
@@ -208,25 +209,20 @@ class Account
             );
         }
 
-        $tokenInfo = SessionToken::where('platform_id', $platformId)
-            ->where('account_id', $accountId)
-            ->where('user_id', $userId)
-            ->first();
-
-        if (! empty($tokenInfo)) {
-            SessionToken::where('platform_id', $platformId)
-                ->where('account_id', $accountId)
-                ->where('user_id', $userId)
-                ->delete();
-        }
-
         $token = \Str::random(32);
-        $expiredAt = null;
+        $expiredHours = null;
+        $expiredDays = null;
+        $expiredDateTime = null;
         if ($dtoWordBody->expiredTime) {
             $now = time();
             $time = $dtoWordBody->expiredTime * 3600;
             $expiredTime = $now + $time;
-            $expiredAt = date('Y-m-d H:i:s', $expiredTime);
+
+            $dt = Carbon::parse($expiredTime);
+
+            $expiredHours = $dtoWordBody->expiredTime;
+            $expiredDays = $dt->diffInDays(Carbon::now());
+            $expiredDateTime = date('Y-m-d H:i:s', $expiredTime);
         }
 
         $condition = [
@@ -234,16 +230,19 @@ class Account
             'account_id' => $accountId,
             'user_id' => $userId,
             'token' => $token,
-            'expired_at' => $expiredAt,
+            'expired_at' => $expiredDateTime,
         ];
 
-        SessionToken::create($condition);
+        $tokenModel = SessionToken::create($condition);
 
         return $this->success([
             'aid' => $dtoWordBody->aid,
             'uid' => $dtoWordBody->uid,
+            'tokenId' => $tokenModel->id,
             'token' => $token,
-            'expiredTime' => $expiredAt,
+            'expiredHours' => $expiredHours,
+            'expiredDays' => $expiredDays,
+            'expiredDateTime' => $expiredDateTime,
         ]);
     }
 
