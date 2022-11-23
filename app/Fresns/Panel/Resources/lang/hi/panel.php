@@ -384,6 +384,7 @@ return [
     'site_mode_public_register_type' => 'खाता सहायता रजिस्टर करें',
     'site_mode_public_register_type_email' => 'ई मेल का पंजीकरण',
     'site_mode_public_register_type_phone' => 'मोबाइल फोन नंबर पंजीकरण',
+    'site_mode_public_login_or_register' => 'जब सत्यापन कोड लॉग इन होता है, यदि कोई खाता नहीं है, तो यह स्वचालित रूप से पंजीकृत हो जाएगा',
     'site_mode_private_join_status' => 'क्या यह बाहर के लिए खुला है?',
     'site_mode_private_join_service' => 'चैनल समर्थन प्लगइन में शामिल हों',
     'site_mode_private_content_policy' => 'निजी काल',

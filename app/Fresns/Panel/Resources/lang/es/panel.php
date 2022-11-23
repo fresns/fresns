@@ -384,6 +384,7 @@ return [
     'site_mode_public_register_type' => 'Soporte de cuenta de registro',
     'site_mode_public_register_type_email' => 'registro de email',
     'site_mode_public_register_type_phone' => 'Registro de números de teléfono móvil',
+    'site_mode_public_login_or_register' => 'Registro automático si no hay ninguna cuenta disponible cuando se inicia la sesión con el código de verificación',
     'site_mode_private_join_status' => '¿Está abierto al exterior?',
     'site_mode_private_join_service' => 'Únete al complemento de soporte del canal',
     'site_mode_private_content_policy' => 'Estado privado vencido',

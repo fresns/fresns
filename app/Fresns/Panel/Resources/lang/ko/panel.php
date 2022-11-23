@@ -384,6 +384,7 @@ return [
     'site_mode_public_register_type' => '계정 지원 등록',
     'site_mode_public_register_type_email' => '이메일 등록',
     'site_mode_public_register_type_phone' => '휴대 전화 번호 등록',
+    'site_mode_public_login_or_register' => '인증코드 로그인 시 계정이 없으면 자동으로 등록됩니다.',
     'site_mode_private_join_status' => '그것은 외부에 열리고 있습니까?',
     'site_mode_private_join_service' => '채널 지원 플러그인에 가입하십시오',
     'site_mode_private_content_policy' => '개인 만료 된 상태',

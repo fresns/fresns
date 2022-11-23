@@ -385,6 +385,7 @@ return [
     'site_mode_public_register_type' => '註冊帳號支持',
     'site_mode_public_register_type_email' => '郵箱註冊',
     'site_mode_public_register_type_phone' => '手機號註冊',
+    'site_mode_public_login_or_register' => '驗證碼登錄時，無賬號則自動註冊',
     'site_mode_private_join_status' => '是否對外開放加入',
     'site_mode_private_join_service' => '加入通道支持外掛',
     'site_mode_private_content_policy' => '私有到期後的狀態',

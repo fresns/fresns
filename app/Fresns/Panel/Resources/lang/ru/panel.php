@@ -384,6 +384,7 @@ return [
     'site_mode_public_register_type' => 'Зарегистрируйте поддержку аккаунта',
     'site_mode_public_register_type_email' => 'Регистрация электронной почты',
     'site_mode_public_register_type_phone' => 'Регистрация мобильного телефона',
+    'site_mode_public_login_or_register' => 'Автоматическая регистрация при отсутствии учетной записи при входе в систему с проверочным кодом',
     'site_mode_private_join_status' => 'Это открыто для снаружи?',
     'site_mode_private_join_service' => 'Присоединяйтесь к плагину поддержки канала',
     'site_mode_private_content_policy' => 'Частный срок действия состояния',

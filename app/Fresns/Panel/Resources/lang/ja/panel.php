@@ -384,6 +384,7 @@ return [
     'site_mode_public_register_type' => 'アカウントのサポートを登録します',
     'site_mode_public_register_type_email' => '電子メール登録',
     'site_mode_public_register_type_phone' => '携帯電話番号登録',
+    'site_mode_public_login_or_register' => '認証コードログイン時に利用可能なアカウントがない場合の自動登録',
     'site_mode_private_join_status' => '外側に開いていますか？',
     'site_mode_private_join_service' => 'チャネルサポートプラグインに参加してください',
     'site_mode_private_content_policy' => '民間期限切れの状態',

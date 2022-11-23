@@ -384,6 +384,7 @@ return [
     'site_mode_public_register_type' => 'Enregistrer le support de compte',
     'site_mode_public_register_type_email' => 'Enregistrement par courrier électronique',
     'site_mode_public_register_type_phone' => 'Enregistrement de numéro de téléphone mobile',
+    'site_mode_public_login_or_register' => 'Enregistrement automatique si aucun compte n\'est disponible lors de la connexion du code de vérification',
     'site_mode_private_join_status' => 'Est-il ouvert à l\'extérieur?',
     'site_mode_private_join_service' => 'Rejoignez le plugin de support de canal',
     'site_mode_private_content_policy' => 'Etat privé expiré',

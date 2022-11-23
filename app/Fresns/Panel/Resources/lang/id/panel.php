@@ -384,6 +384,7 @@ return [
     'site_mode_public_register_type' => 'Daftar Dukungan Akun',
     'site_mode_public_register_type_email' => 'registrasi email',
     'site_mode_public_register_type_phone' => 'Pendaftaran Nomor Ponsel',
+    'site_mode_public_login_or_register' => 'Registrasi otomatis jika tidak ada akun yang tersedia saat kode verifikasi masuk',
     'site_mode_private_join_status' => 'Apakah terbuka ke luar?',
     'site_mode_private_join_service' => 'Bergabunglah dengan Plugin Dukungan Saluran',
     'site_mode_private_content_policy' => 'Keadaan Kedaluwarsa Pribadi',

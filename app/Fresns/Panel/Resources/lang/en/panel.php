@@ -384,6 +384,7 @@ return [
     'site_mode_public_register_type' => 'Register account support',
     'site_mode_public_register_type_email' => 'Email',
     'site_mode_public_register_type_phone' => 'Phone',
+    'site_mode_public_login_or_register' => 'No account will be registered automatically when the verify code is logged in',
     'site_mode_private_join_status' => 'Whether open to the public',
     'site_mode_private_join_service' => 'Add support plugin',
     'site_mode_private_content_policy' => 'Status after private expiration',

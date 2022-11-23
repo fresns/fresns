@@ -384,6 +384,7 @@ return [
     'site_mode_public_register_type' => 'Konto-Unterstützung registrieren',
     'site_mode_public_register_type_email' => 'E-Mail Registrierung',
     'site_mode_public_register_type_phone' => 'Registrierung der Mobiltelefonnummer',
+    'site_mode_public_login_or_register' => 'Automatische Registrierung, wenn kein Konto vorhanden ist, wenn der Verifizierungscode eingeloggt wird',
     'site_mode_private_join_status' => 'Ist es offen nach außen?',
     'site_mode_private_join_service' => 'Verbinden Sie dem Kanal-Support-Plugin',
     'site_mode_private_content_policy' => 'Privat abgelaufener Zustand',

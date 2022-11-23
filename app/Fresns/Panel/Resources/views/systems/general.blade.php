@@ -155,7 +155,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="input-group mb-1">
+                            <div class="input-group mb-3">
                                 <label class="input-group-text">{{ __('FsLang::panel.site_mode_public_register_type') }}</label>
                                 <div class="form-control bg-white">
                                     <div class="form-check form-check-inline">
@@ -167,6 +167,13 @@
                                         <label class="form-check-label" for="account_phone">{{ __('FsLang::panel.site_mode_public_register_type_phone') }}</label>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="input-group mb-1">
+                                <label class="input-group-text" for="site_login_or_register">{{ __('FsLang::panel.site_mode_public_login_or_register') }}</label>
+                                <select class="form-select" id="site_login_or_register" name="site_login_or_register">
+                                    <option value="false" {{ $params['site_login_or_register'] == 'false' ? 'selected' : '' }}>{{ __('FsLang::panel.option_no') }}</option>
+                                    <option value="true" {{ $params['site_login_or_register'] == 'true' ? 'selected' : '' }}>{{ __('FsLang::panel.option_yes') }}</option>
+                                </select>
                             </div>
                             <!--public config end-->
                         </div>
