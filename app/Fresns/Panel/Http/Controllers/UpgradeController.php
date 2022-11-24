@@ -9,7 +9,7 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\AppHelper;
-use App\Helpers\ConfigHelper;
+use App\Models\Config;
 use App\Models\Plugin;
 use App\Utilities\AppUtility;
 use Illuminate\Support\Facades\Cache;
@@ -23,7 +23,7 @@ class UpgradeController extends Controller
         $newVersion = AppUtility::newVersion();
         $checkVersion = AppUtility::checkVersion();
         $appVersion = AppHelper::VERSION;
-        $versionCheckTime = ConfigHelper::fresnsConfigByItemKey('check_version_datetime');
+        $versionCheckTime = Config::where('item_key', 'check_version_datetime')->first()?->item_value;
 
         $upgradeStep = cache('upgradeStep');
         $physicalUpgrading = cache('physicalUpgrading');

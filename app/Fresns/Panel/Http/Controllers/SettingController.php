@@ -9,7 +9,6 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Fresns\Panel\Http\Requests\UpdateConfigRequest;
-use App\Helpers\ConfigHelper;
 use App\Models\Config;
 use App\Models\Plugin;
 
@@ -17,13 +16,22 @@ class SettingController extends Controller
 {
     public function show()
     {
-        $buildType = ConfigHelper::fresnsConfigByItemKey('build_type');
-        $systemUrl = ConfigHelper::fresnsConfigByItemKey('system_url');
-        $panelPath = ConfigHelper::fresnsConfigByItemKey('panel_path') ?? 'admin';
+        // config keys
+        $configKeys = [
+            'build_type',
+            'system_url',
+            'panel_path',
+        ];
+
+        $configs = Config::whereIn('item_key', $configKeys)->get();
+
+        foreach ($configs as $config) {
+            $params[$config->item_key] = $config->item_value;
+        }
 
         $pluginUpgradeCount = Plugin::where('is_upgrade', 1)->count();
 
-        return view('FsView::dashboard.settings', compact('buildType', 'systemUrl', 'panelPath', 'pluginUpgradeCount'));
+        return view('FsView::dashboard.settings', compact('params', 'pluginUpgradeCount'));
     }
 
     public function update(UpdateConfigRequest $request)

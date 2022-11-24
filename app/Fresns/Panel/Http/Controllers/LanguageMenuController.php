@@ -11,6 +11,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Fresns\Panel\Http\Requests\UpdateDefaultLanguageRequest;
 use App\Fresns\Panel\Http\Requests\UpdateLanguageMenuRequest;
 use App\Fresns\Panel\Http\Requests\UpdateLanguageRankRequest;
+use App\Helpers\CacheHelper;
 use App\Models\CodeMessage;
 use App\Models\Config;
 use App\Models\Language;
@@ -47,6 +48,8 @@ class LanguageMenuController extends Controller
         $statusConfig->item_value = ! $statusConfig->item_value;
         $statusConfig->save();
 
+        CacheHelper::forgetFresnsMultilingual('language_status');
+
         return $this->updateSuccess();
     }
 
@@ -56,7 +59,8 @@ class LanguageMenuController extends Controller
         $defaultLanguageConfig->item_value = $request->default_language;
         $defaultLanguageConfig->save();
 
-        cache()->forget('fresns_default_langTag');
+        CacheHelper::forgetFresnsMultilingual('default_language');
+        CacheHelper::forgetFresnsKeys(['fresns_default_langTag']);
 
         return $this->updateSuccess();
     }

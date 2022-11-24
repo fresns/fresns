@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Config;
@@ -467,6 +468,8 @@ class StorageController extends Controller
             $value = $request->$configKey;
             $config->item_value = $value;
             $config->save();
+
+            CacheHelper::forgetFresnsMultilingual($configKey);
         }
 
         return $this->updateSuccess();

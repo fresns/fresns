@@ -10,10 +10,10 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
-use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\InteractiveHelper;
 use App\Models\Account;
+use App\Models\Config;
 use App\Models\Plugin;
 use App\Models\SessionKey;
 use App\Utilities\AppUtility;
@@ -91,8 +91,19 @@ class DashboardController extends Controller
     {
         $pluginUpgradeCount = Plugin::where('is_upgrade', 1)->count();
 
-        $subscribeList = ConfigHelper::fresnsConfigByItemKey('subscribe_items');
-        $crontabList = ConfigHelper::fresnsConfigByItemKey('crontab_items');
+        // config keys
+        $configKeys = [
+            'subscribe_items',
+            'crontab_items',
+        ];
+        $configs = Config::whereIn('item_key', $configKeys)->get();
+
+        foreach ($configs as $config) {
+            $params[$config->item_key] = $config->item_value;
+        }
+
+        $subscribeList = $params['subscribe_items'];
+        $crontabList = $params['crontab_items'];
 
         return view('FsView::dashboard.events', compact('pluginUpgradeCount', 'subscribeList', 'crontabList'));
     }

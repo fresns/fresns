@@ -8,8 +8,8 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
-use App\Helpers\ConfigHelper;
 use App\Models\CodeMessage;
+use App\Models\Config;
 use App\Models\Plugin;
 use Illuminate\Http\Request;
 
@@ -17,7 +17,17 @@ class CodeMessageController extends Controller
 {
     public function index(Request $request)
     {
-        $languageConfig = ConfigHelper::fresnsConfigByItemKeys(['language_status', 'default_language', 'language_menus']);
+        $configKeys = [
+            'language_status',
+            'default_language',
+            'language_menus',
+        ];
+
+        $langConfigs = Config::whereIn('item_key', $configKeys)->get();
+
+        foreach ($langConfigs as $config) {
+            $languageConfig[$config->item_key] = $config->item_value;
+        }
 
         $unikeyArr = CodeMessage::pluck('plugin_unikey')->toArray();
         $unikeys = array_unique($unikeyArr);

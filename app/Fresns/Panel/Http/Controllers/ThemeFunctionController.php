@@ -8,7 +8,9 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
+use App\Helpers\PrimaryHelper;
 use App\Models\Config;
 use App\Models\File;
 use App\Models\FileUsage;
@@ -117,6 +119,8 @@ class ThemeFunctionController extends Controller
                 } elseif ($request->get($functionKey['itemKey'].'_url')) {
                     $request->request->set($functionKey['itemKey'], $request->get($functionKey['itemKey'].'_url'));
                 }
+
+                CacheHelper::forgetFresnsMultilingual($functionKey['itemKey']);
             }
 
             $value = $request->{$functionKey['itemKey']};

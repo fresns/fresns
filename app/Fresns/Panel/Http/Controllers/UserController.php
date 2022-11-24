@@ -9,6 +9,7 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Fresns\Panel\Http\Requests\UpdateUserConfigRequest;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Config;
@@ -214,6 +215,10 @@ class UserController extends Controller
         $config = Config::where('item_key', 'account_connect_services')->first();
         $config->item_value = $services;
         $config->save();
+
+        CacheHelper::forgetFresnsMultilingual('default_avatar');
+        CacheHelper::forgetFresnsMultilingual('anonymous_avatar');
+        CacheHelper::forgetFresnsMultilingual('deactivate_avatar');
 
         return $this->updateSuccess();
     }

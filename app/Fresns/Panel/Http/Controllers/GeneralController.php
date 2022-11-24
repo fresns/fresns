@@ -9,6 +9,7 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Fresns\Panel\Http\Requests\UpdateGeneralRequest;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Config;
@@ -158,7 +159,9 @@ class GeneralController extends Controller
             $config->save();
         }
 
-        cache()->forget('fresns_default_timezone');
+        CacheHelper::forgetFresnsMultilingual('fresns_config_site_icon');
+        CacheHelper::forgetFresnsMultilingual('fresns_config_site_logo');
+        CacheHelper::forgetFresnsKeys(['fresns_default_timezone']);
 
         return $this->updateSuccess();
     }
