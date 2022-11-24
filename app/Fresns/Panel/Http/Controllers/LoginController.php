@@ -9,6 +9,7 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\AppHelper;
+use App\Helpers\ConfigHelper;
 use App\Models\Config;
 use App\Models\SessionLog;
 use App\Utilities\AppUtility;
@@ -152,9 +153,11 @@ class LoginController extends Controller
     // web cookie
     public function clearWebCookie()
     {
-        Cookie::queue(Cookie::forget('fs_aid'));
-        Cookie::queue(Cookie::forget('fs_aid_token'));
-        Cookie::queue(Cookie::forget('fs_uid'));
-        Cookie::queue(Cookie::forget('fs_uid_token'));
+        $cookiePrefix = ConfigHelper::fresnsConfigByItemKey('engine_cookie_prefix') ?? 'fresns_';
+
+        Cookie::queue(Cookie::forget("{$cookiePrefix}aid"));
+        Cookie::queue(Cookie::forget("{$cookiePrefix}aid_token"));
+        Cookie::queue(Cookie::forget("{$cookiePrefix}uid"));
+        Cookie::queue(Cookie::forget("{$cookiePrefix}uid_token"));
     }
 }

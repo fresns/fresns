@@ -20,11 +20,21 @@ class EncryptCookies extends Middleware
     protected $except = [
         'install_lang',
         'panel_lang',
-        'langTag',
-        'timezone',
-        'fs_aid',
-        'fs_aid_token',
-        'fs_uid',
-        'fs_uid_token',
+
+        // website engine
+        'fresns_lang_tag',
+        'fresns_timezone',
+        'fresns_aid',
+        'fresns_aid_token',
+        'fresns_uid',
+        'fresns_uid_token',
+
+        // website single engine
+        'fresns_single_lang_tag',
+        'fresns_single_timezone',
+        'fresns_single_aid',
+        'fresns_single_aid_token',
+        'fresns_single_uid',
+        'fresns_single_uid_token',
     ];
 }
