@@ -36,6 +36,7 @@ class GroupController extends Controller
             1 => __('FsLang::panel.group_option_publish_all'),
             2 => __('FsLang::panel.group_option_publish_follow'),
             3 => __('FsLang::panel.group_option_publish_role'),
+            4 => __('FsLang::panel.group_option_publish_admin'),
         ];
     }
 

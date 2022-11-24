@@ -158,6 +158,10 @@
                                 <input class="form-check-input" type="radio" name="permissions[publish_post]" id="publish.post.3" value="3" data-bs-toggle="collapse" data-bs-target="#publish_post_setting:not(.show)" aria-expanded="false" aria-controls="publish_post_setting">
                                 <label class="form-check-label" for="publish.post.3">{{ __('FsLang::panel.group_option_publish_role') }}</label>
                             </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="permissions[publish_post]" id="publish.post.4" value="4" data-bs-toggle="collapse" data-bs-target="#publish_post_setting.show" aria-expanded="false" aria-controls="publish_post_setting">
+                                <label class="form-check-label" for="publish.post.4">{{ __('FsLang::panel.group_option_publish_admin') }}</label>
+                            </div>
                             <div class="collapse mt-2" id="publish_post_setting">
                                 <div class="input-group">
                                     <span class="input-group-text">{{ __('FsLang::panel.group_table_publish_perm_role') }}</span>
@@ -197,6 +201,10 @@
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="permissions[publish_comment]" id="publish.comment.3" value="3" data-bs-toggle="collapse" data-bs-target="#publish_comment_setting:not(.show)" aria-expanded="false" aria-controls="publish_comment_setting">
                                 <label class="form-check-label" for="publish.comment.3">{{ __('FsLang::panel.group_option_publish_role') }}</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="permissions[publish_comment]" id="publish.comment.4" value="4" data-bs-toggle="collapse" data-bs-target="#publish_comment_setting.show" aria-expanded="false" aria-controls="publish_comment_setting">
+                                <label class="form-check-label" for="publish.comment.4">{{ __('FsLang::panel.group_option_publish_admin') }}</label>
                             </div>
                             <div class="collapse mt-2" id="publish_comment_setting">
                                 <div class="input-group">
