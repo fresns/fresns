@@ -35,7 +35,7 @@
             <div class="card-body p-5">
                 <h3 class="card-title">Fresns {{ $code }}</h3>
                 <div class="mt-4">{!! $message !!}</div>
-                <div class="mt-4">Administrator Email: <a href="mailto:{{ $email }}">{{ $email }}</a></div>
+                <div class="mt-4 pt-3">Administrator Email: <a href="mailto:{{ $email }}">{{ $email }}</a></div>
 
                 @if ($code == 31505 || $code == 31603)
                     <a class="btn btn-outline-success btn-sm mt-4 clear-cookie" href="#" data-method="DELETE" data-action="{{ route('panel.clear.web.cookie') }}">Clear Cookie</a>
