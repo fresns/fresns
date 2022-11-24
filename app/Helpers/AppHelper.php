@@ -176,14 +176,12 @@ class AppHelper
 
         // config web engine and theme
         $configKeys = [
-            'engine_service',
             'engine_key_id',
             'FresnsEngine_Desktop',
             'FresnsEngine_Mobile',
         ];
 
         $configValues = [
-            'engine_service' => 'FresnsEngine',
             'engine_key_id' => $appKey->id,
             'FresnsEngine_Desktop' => 'ThemeFrame',
             'FresnsEngine_Mobile' => 'ThemeFrame',

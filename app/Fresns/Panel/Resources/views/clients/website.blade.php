@@ -13,6 +13,7 @@
         </div>
         <div class="col-lg-3">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
+                <a class="btn btn-outline-primary" href="{{ route('panel.engines.index') }}" role="button">{{ __('FsLang::panel.button_config').'('.__('FsLang::panel.sidebar_engines').')' }}</a>
                 <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a>
             </div>
         </div>
@@ -27,17 +28,17 @@
         <div class="row mb-4">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.website_engine_config') }}:</label>
             <div class="col-lg-5">
-                <div class="input-group mb-3">
+                {{-- <div class="input-group mb-3">
                     <label class="input-group-text">{{ __('FsLang::panel.website_engine_service') }}</label>
                     <select class="form-select" name="engine_service">
-                        {{-- <option value="FresnsEngine" {{ !$params['engine_service'] ? 'selected' : '' }}>
+                        <option value="FresnsEngine" {{ !$params['engine_service'] ? 'selected' : '' }}>
                             @if ($FresnsEngine)
                                 🟢
                             @else
                                 ⚪
                             @endif
                             {{ __('FsLang::panel.website_engine_default') }}
-                        </option> --}}
+                        </option>
                         @foreach ($pluginParams['engine'] as $plugin)
                             <option value="{{ $plugin->unikey }}" {{ $params['engine_service'] == $plugin->unikey ? 'selected' : '' }}>
                                 @if ($plugin->is_enable)
@@ -53,6 +54,13 @@
                     @if ($engineSettingsPath)
                         <a class="btn btn-outline-secondary" href="{{ route('panel.iframe.setting', ['url' => $engineSettingsPath]) }}" role="button">{{ __('FsLang::panel.button_setting') }}</a>
                     @endif
+                </div> --}}
+                <div class="input-group mb-3">
+                    <label class="input-group-text">{{ __('FsLang::panel.website_engine_cookie_prefix') }}</label>
+                    <select class="form-select" name="engine_cookie_prefix">
+                        <option value="fresns_" {{ $params['engine_cookie_prefix'] == 'fresns_' ? 'selected' : '' }}>fresns_</option>
+                        <option value="fresns_single_" {{ $params['engine_cookie_prefix'] == 'fresns_single_' ? 'selected' : '' }}>fresns_single_</option>
+                    </select>
                 </div>
                 <!--engine_api_type-->
                 <div id="accordionApiType">
@@ -117,7 +125,7 @@
         </div>
 
         <!--website_theme_config-->
-        <div class="row mb-4">
+        {{-- <div class="row mb-4">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.website_theme_config') }}:</label>
             <div class="col-lg-5">
                 <div class="input-group mb-3">
@@ -146,7 +154,7 @@
                 </div>
             </div>
             <div class="col-lg-5 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.sidebar_themes_intro') }}</div>
-        </div>
+        </div> --}}
 
         <!--website_stat_code-->
         <div class="row mb-4">
