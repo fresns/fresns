@@ -88,7 +88,7 @@ class GroupService
         }
 
         if (empty($authUserId)) {
-            throw new ApiException(31601);
+            throw new ApiException(37103);
         }
 
         $cacheKey = "fresns_user_follow_group_model_{$authUserId}";
@@ -127,7 +127,7 @@ class GroupService
         }
 
         if (empty($authUserId)) {
-            throw new ApiException(31601);
+            throw new ApiException(37103);
         }
 
         $cacheKey = "fresns_user_follow_group_model_{$authUserId}";
