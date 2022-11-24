@@ -10,6 +10,7 @@ namespace App\Utilities;
 
 use App\Helpers\AppHelper;
 use App\Helpers\ConfigHelper;
+use App\Models\Plugin;
 use Browser;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -77,6 +78,24 @@ class AppUtility
         file_put_contents($path, $editContent);
 
         return true;
+    }
+
+    public static function checkPluginsStatus(int $type)
+    {
+        $fresnsJsonFile = file_get_contents(config('plugins.manager.default.file'));
+
+        $fresnsJson = json_decode($fresnsJsonFile, true);
+
+        $plugins = $fresnsJson['plugins'] ?? null;
+
+        $pluginModels = Plugin::type($type)->get();
+
+        foreach ($pluginModels as $plugin) {
+            $status = $plugins[$plugin->unikey] ?? false;
+
+            $plugin->is_enable = $status;
+            $plugin->save();
+        }
     }
 
     public static function getAppHost()
