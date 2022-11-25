@@ -62,9 +62,9 @@
                         </div>
                     </div>
                 </div>
-                <!--policy_cookie-->
+                <!--policy_cookies-->
                 <div class="row mb-3">
-                    <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.policy_cookie') }}:</label>
+                    <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.policy_cookies') }}:</label>
                     <div class="col-lg-6 pt-2">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="account_cookie_status" id="account_cookie_false" value="false" {{ !$params['account_cookie_status'] ? 'checked' : '' }}>
@@ -149,7 +149,7 @@
                         <th scope="col">{{ __('FsLang::panel.table_lang_name') }}</th>
                         <th scope="col">{{ __('FsLang::panel.policy_terms') }}</th>
                         <th scope="col">{{ __('FsLang::panel.policy_privacy') }}</th>
-                        <th scope="col">{{ __('FsLang::panel.policy_cookie') }}</th>
+                        <th scope="col">{{ __('FsLang::panel.policy_cookies') }}</th>
                         <th scope="col">{{ __('FsLang::panel.policy_delete_account') }}</th>
                     </tr>
                 </thead>
@@ -192,7 +192,7 @@
                                     data-action="{{ route('panel.languages.update', ['itemKey' => 'account_cookie']) }}"
                                     data-lang_tag_desc="{{ $langName }}" data-lang_tag="{{ $lang['langTag'] }}"
                                     data-key="account_cookie"
-                                    data-title="{{ __('FsLang::panel.policy_cookie') }}"
+                                    data-title="{{ __('FsLang::panel.policy_cookies') }}"
                                     data-content="{{ $langParams['account_cookie'][$lang['langTag']] ?? '' }}">{{ __('FsLang::panel.button_edit') }}</button>
                             </td>
                             <td><button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"

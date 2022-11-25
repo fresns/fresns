@@ -314,9 +314,15 @@ class GroupController extends Controller
             $group->is_recommend = $request->is_recommend;
             $group->plugin_unikey = $request->plugin_unikey;
 
-            $permissions = $request->permissions;
-            $permissions['publish_post_review'] = (bool) ($permissions['publish_post_review'] ?? 0);
-            $permissions['publish_comment_review'] = (bool) ($permissions['publish_comment_review'] ?? 0);
+            $requestPerms = $request->permissions;
+
+            $permissions = $group->permissions;
+            $permissions['publish_post'] = $requestPerms['publish_post'];
+            $permissions['publish_post_roles'] = $requestPerms['publish_post_roles'] ?? [];
+            $permissions['publish_post_review'] = (bool) ($requestPerms['publish_post_review'] ?? 0);
+            $permissions['publish_comment'] = $requestPerms['publish_comment'];
+            $permissions['publish_comment_roles'] = $requestPerms['publish_comment_roles'] ?? [];
+            $permissions['publish_comment_review'] = (bool) ($requestPerms['publish_comment_review'] ?? 0);
 
             $group->permissions = $permissions;
 
