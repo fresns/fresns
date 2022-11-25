@@ -95,16 +95,16 @@ class Upgrade3Command extends Command
 
             $addPackKeys = [
                 [
-                    "name" => "executionDate",
-                    "canDelete" => false
+                    'name' => 'executionDate',
+                    'canDelete' => false,
                 ],
                 [
-                    "name" => "accountApplyDelete",
-                    "canDelete" => false
+                    'name' => 'accountApplyDelete',
+                    'canDelete' => false,
                 ],
                 [
-                    "name" => "accountWaitDelete",
-                    "canDelete" => false
+                    'name' => 'accountWaitDelete',
+                    'canDelete' => false,
                 ],
             ];
 
