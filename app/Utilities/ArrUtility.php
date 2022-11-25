@@ -73,4 +73,63 @@ class ArrUtility
 
         return $data;
     }
+
+    // edit value
+    public static function editValue(?array $array, string $key, string $value, string $newValue)
+    {
+        if (empty($array)) {
+            return [];
+        }
+
+        // $array format
+        // [
+        //     {
+        //         "name":"language",
+        //         "canDelete":false
+        //     }
+        // ]
+
+        // $key = name
+        // $value = language
+        // $newValue = lang
+
+        foreach ($array as $arrayKey => $arrayItem) {
+            if (! is_array($arrayItem)) {
+                continue;
+            }
+
+            if (! array_key_exists($key, $arrayItem)) {
+                continue;
+            }
+
+            if ($arrayItem[$key] == $value) {
+                $array[$arrayKey][$key] = $newValue;
+            }
+        }
+
+        return $array;
+    }
+
+    // edit key name
+    public static function editKey(?object $object, string $key, string $newKey)
+    {
+        if (empty($object)) {
+            return null;
+        }
+
+        // $object format
+        // {
+        //     "language": "Language"
+        // }
+
+        // $key = language
+        // $newKey = lang
+
+        if (property_exists($object, $key)) {
+            $object->$newKey = $object->$key;
+            unset($object->$key);
+        }
+
+        return $object;
+    }
 }
