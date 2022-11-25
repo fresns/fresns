@@ -9,6 +9,7 @@
 namespace App\Fresns\Words\Basic;
 
 use App\Fresns\Words\Basic\DTO\CheckCodeDTO;
+use App\Fresns\Words\Basic\DTO\IpInfoDTO;
 use App\Fresns\Words\Basic\DTO\SendCodeDTO;
 use App\Fresns\Words\Basic\DTO\UploadSessionLogDTO;
 use App\Fresns\Words\Basic\DTO\VerifySignDTO;
@@ -262,5 +263,16 @@ class Basic
         ]);
 
         return $this->success();
+    }
+
+    public function ipInfo($wordBody)
+    {
+        $dtoWordBody = new IpInfoDTO($wordBody);
+
+        $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('ip_service');
+
+        $fresnsResp = \FresnsCmdWord::plugin($pluginUniKey)->ipInfo($wordBody);
+
+        return $fresnsResp->getOrigin();
     }
 }
