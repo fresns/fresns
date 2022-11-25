@@ -395,7 +395,7 @@ return [
     // System-Policy
     'policy_terms' => 'Conditions d\'utilisation',
     'policy_privacy' => 'politique de confidentialité',
-    'policy_cookie' => 'Politique de cookie',
+    'policy_cookies' => 'Politique de cookies',
     'policy_ip_location' => 'Emplacement IP',
     'policy_delete_account' => 'Instructions de déconnexion',
     'policy_delete_options' => 'Fonction de déconnexion',
@@ -420,6 +420,7 @@ return [
     'send_code_template_5' => 'Réinitialiser le mot de passe de connexion',
     'send_code_template_6' => 'Réinitialiser le mot de passe de paiement',
     'send_code_template_7' => 'Connectez-vous avec un code de vérification',
+    'send_code_template_8' => 'Supprimer le compte en utilisant le code de vérification',
     'send_code_template_table_email_desc' => 'Supporte le format HTMl',
     'send_code_template_table_sms_sign' => 'Nom SMS Signature',
     'send_code_template_table_sms_code' => 'Paramètres de modèle',

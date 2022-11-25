@@ -395,7 +395,7 @@ return [
     // System-Policy
     'policy_terms' => '利用規約',
     'policy_privacy' => 'プライバシーポリシー',
-    'policy_cookie' => 'クッキーポリシー',
+    'policy_cookies' => 'クッキーポリシー',
     'policy_ip_location' => 'IPロケーション',
     'policy_delete_account' => 'ログアウトの指示',
     'policy_delete_options' => 'ログアウト機能',
@@ -420,6 +420,7 @@ return [
     'send_code_template_5' => 'ログインパスワードをリセットします',
     'send_code_template_6' => '支払いパスワードをリセットします',
     'send_code_template_7' => '確認コードでログインします',
+    'send_code_template_8' => 'ベリファイコードによるアカウント削除',
     'send_code_template_table_email_desc' => 'HTMLフォーマットをサポートします',
     'send_code_template_table_sms_sign' => 'SMS署名の名前',
     'send_code_template_table_sms_code' => 'テンプレートパラメータ',

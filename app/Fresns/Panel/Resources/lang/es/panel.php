@@ -395,7 +395,7 @@ return [
     // System-Policy
     'policy_terms' => 'Términos de servicio',
     'policy_privacy' => 'política de privacidad',
-    'policy_cookie' => 'Política de cookies',
+    'policy_cookies' => 'Política de cookies',
     'policy_ip_location' => 'Ubicación IP',
     'policy_delete_account' => 'Instrucciones de cierre de sesión',
     'policy_delete_options' => 'Función de cierre de sesión',
@@ -420,6 +420,7 @@ return [
     'send_code_template_5' => 'Restablecer la contraseña de inicio de sesión',
     'send_code_template_6' => 'Restablecer la contraseña de pago',
     'send_code_template_7' => 'Inicie sesión con un código de verificación',
+    'send_code_template_8' => 'Eliminar la cuenta con el código de verificación',
     'send_code_template_table_email_desc' => 'APOYO FORMATO HTML',
     'send_code_template_table_sms_sign' => 'Nombre de la firma de SMS',
     'send_code_template_table_sms_code' => 'Parámetros de la plantilla',

@@ -395,7 +395,7 @@ return [
     // System-Policy
     'policy_terms' => 'Ketentuan Layanan',
     'policy_privacy' => 'Kebijakan pribadi',
-    'policy_cookie' => 'Kebijakan Cookie',
+    'policy_cookies' => 'Kebijakan Cookies',
     'policy_ip_location' => 'Lokasi IP',
     'policy_delete_account' => 'Petunjuk Logout',
     'policy_delete_options' => 'Fungsi Logout',
@@ -420,6 +420,7 @@ return [
     'send_code_template_5' => 'Atur ulang kata sandi login',
     'send_code_template_6' => 'Atur ulang kata sandi pembayaran',
     'send_code_template_7' => 'Masuk dengan kode verifikasi',
+    'send_code_template_8' => 'Hapus akun menggunakan kode verifikasi',
     'send_code_template_table_email_desc' => 'Mendukung format HTML',
     'send_code_template_table_sms_sign' => 'Nama Signature SMS',
     'send_code_template_table_sms_code' => 'Parameter template',

@@ -395,7 +395,7 @@ return [
     // System-Policy
     'policy_terms' => 'Termos de serviço',
     'policy_privacy' => 'política de Privacidade',
-    'policy_cookie' => 'Política de cookie',
+    'policy_cookies' => 'Política de cookies',
     'policy_ip_location' => 'Localização IP',
     'policy_delete_account' => 'Instruções de logout',
     'policy_delete_options' => 'Função de logout',
@@ -420,6 +420,7 @@ return [
     'send_code_template_5' => 'Redefinir senha de login',
     'send_code_template_6' => 'Redefinir senha de pagamento',
     'send_code_template_7' => 'Faça o login com um código de verificação',
+    'send_code_template_8' => 'Apagar conta usando código de verificação',
     'send_code_template_table_email_desc' => 'Suporte formato HTML',
     'send_code_template_table_sms_sign' => 'Nome da assinatura SMS',
     'send_code_template_table_sms_code' => 'Parâmetros de modelo',

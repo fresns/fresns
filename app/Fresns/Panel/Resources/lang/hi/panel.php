@@ -395,7 +395,7 @@ return [
     // System-Policy
     'policy_terms' => 'सेवा की शर्तें',
     'policy_privacy' => 'गोपनीयता नीति',
-    'policy_cookie' => 'कूकी नीति',
+    'policy_cookies' => 'कूकी नीति',
     'policy_ip_location' => 'आईपी स्थान',
     'policy_delete_account' => 'लॉगआउट निर्देश',
     'policy_delete_options' => 'लॉगआउट समारोह',
@@ -420,6 +420,7 @@ return [
     'send_code_template_5' => 'लॉगिन पासवर्ड रीसेट करें',
     'send_code_template_6' => 'भुगतान पासवर्ड रीसेट करें',
     'send_code_template_7' => 'एक सत्यापन कोड के साथ लॉग इन करें',
+    'send_code_template_8' => 'सत्यापित कोड का उपयोग करके खाता हटाएं',
     'send_code_template_table_email_desc' => 'समर्थन एचटीएमएल प्रारूप',
     'send_code_template_table_sms_sign' => 'एसएमएस हस्ताक्षर नाम',
     'send_code_template_table_sms_code' => 'टेम्पलेट पैरामीटर',

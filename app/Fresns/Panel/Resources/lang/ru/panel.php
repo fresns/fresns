@@ -395,7 +395,7 @@ return [
     // System-Policy
     'policy_terms' => 'Условия использования',
     'policy_privacy' => 'политика конфиденциальности',
-    'policy_cookie' => 'Политика cookie',
+    'policy_cookies' => 'Политика cookies',
     'policy_ip_location' => 'Местоположение IP-адреса',
     'policy_delete_account' => 'Инструкции из системы',
     'policy_delete_options' => 'Функция выхода из системы',
@@ -420,6 +420,7 @@ return [
     'send_code_template_5' => 'Сбросить пароль входа',
     'send_code_template_6' => 'Сбросить пароль оплаты',
     'send_code_template_7' => 'Войдите в систему с подтверждением',
+    'send_code_template_8' => 'Удаление аккаунта с помощью кода проверки',
     'send_code_template_table_email_desc' => 'Поддержка HTML формат',
     'send_code_template_table_sms_sign' => 'SMS Signature Имя',
     'send_code_template_table_sms_code' => 'Параметры шаблона',

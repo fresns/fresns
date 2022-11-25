@@ -396,7 +396,7 @@ return [
     // System-Policy
     'policy_terms' => '服務條款',
     'policy_privacy' => '隱私權政策',
-    'policy_cookie' => 'Cookie 政策',
+    'policy_cookies' => 'Cookies 政策',
     'policy_ip_location' => 'IP 屬地',
     'policy_delete_account' => '註銷說明',
     'policy_delete_options' => '註銷功能',
@@ -421,6 +421,7 @@ return [
     'send_code_template_5' => '重設登錄密碼',
     'send_code_template_6' => '重設支付密碼',
     'send_code_template_7' => '使用驗證碼登錄',
+    'send_code_template_8' => '使用驗證碼註銷賬號',
     'send_code_template_table_email_desc' => '支持 HTML 格式',
     'send_code_template_table_sms_sign' => '短信簽名名稱',
     'send_code_template_table_sms_code' => '模板參數',
