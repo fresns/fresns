@@ -20,7 +20,7 @@ class CommonSendVerifyCodeDTO extends DTO
         return [
             'type' => ['string', 'required', 'in:email,sms'],
             'useType' => ['integer', 'required', 'in:1,2,3,4,5'],
-            'templateId' => ['integer', 'required', 'in:1,2,3,4,5,6,7'],
+            'templateId' => ['integer', 'required', 'in:1,2,3,4,5,6,7,8'],
             'account' => ['string', 'required'],
             'countryCode' => ['integer', 'nullable', 'required_if:type,sms'],
         ];

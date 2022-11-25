@@ -32,6 +32,7 @@ class SendController extends Controller
             __('FsLang::panel.send_code_template_5') => 'verifycode_template5',
             __('FsLang::panel.send_code_template_6') => 'verifycode_template6',
             __('FsLang::panel.send_code_template_7') => 'verifycode_template7',
+            __('FsLang::panel.send_code_template_8') => 'verifycode_template8',
         ];
 
         $codeConfigs = Config::whereIn('item_key', $templateConfigKeys)->get();

@@ -163,6 +163,7 @@ class AppUtility
     {
         $deviceInfo = [
             'type' => Browser::deviceType(),
+            'mac' => '',
             'brand' => Browser::deviceFamily(),
             'model' => Browser::deviceModel(),
             'platformName' => Browser::platformFamily(),
@@ -184,6 +185,11 @@ class AppUtility
             'networkMobile' => '',
             'networkProxy' => '',
             'networkHosting' => '',
+            'appImei' => '',
+            'appAndroidId' => '',
+            'appOaid' => '',
+            'appIdfa' => '',
+            'simImsi' => '',
             'mapId' => '',
             'latitude' => '',
             'longitude' => '',

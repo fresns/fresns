@@ -70,7 +70,6 @@ class CacheHelper
     {
         Cache::flush();
         \Artisan::call('clear-compiled');
-        \Artisan::call('auth:clear-resets');
         \Artisan::call('cache:clear');
         \Artisan::call('config:cache');
         \Artisan::call('event:cache');

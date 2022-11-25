@@ -169,7 +169,7 @@ class AppHelper
         // create key
         $appKey = new SessionKey;
         $appKey->platform_id = 4;
-        $appKey->name = 'Fresns Official Engine';
+        $appKey->name = 'Fresns Engine';
         $appKey->app_id = Str::random(8);
         $appKey->app_secret = Str::random(32);
         $appKey->save();

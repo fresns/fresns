@@ -14,8 +14,8 @@ class Subscribe
 {
     protected array $wordBody;
 
-    const SUBSCRIBE_TYPE_TABLE_DATA_CHANGE = 1;
-    const SUBSCRIBE_TYPE_USER_ACTIVATE = 2;
+    const TYPE_TABLE_DATA_CHANGE = 1;
+    const TYPE_USER_ACTIVATE = 2;
 
     protected int $type;
     protected string $unikey;
@@ -175,14 +175,14 @@ class Subscribe
     {
         return collect($this->getCurrentSubscribes())
             ->map(fn ($item) => static::make($item))
-            ->filter(fn ($item) => $item->getType() === static::SUBSCRIBE_TYPE_TABLE_DATA_CHANGE);
+            ->filter(fn ($item) => $item->getType() === static::TYPE_TABLE_DATA_CHANGE);
     }
 
     public function getUserActivateSubscribes()
     {
         return collect($this->getCurrentSubscribes())
             ->map(fn ($item) => static::make($item))
-            ->filter(fn ($item) => $item->getType() === static::SUBSCRIBE_TYPE_USER_ACTIVATE);
+            ->filter(fn ($item) => $item->getType() === static::TYPE_USER_ACTIVATE);
     }
 
     public function save()
