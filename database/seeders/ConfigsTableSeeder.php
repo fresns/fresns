@@ -297,19 +297,6 @@ class ConfigsTableSeeder extends Seeder
             ],
             21 => [
                 'id' => 22,
-                'item_key' => 'network_type',
-                'item_value' => 'IPv4',
-                'item_type' => 'string',
-                'item_tag' => 'systems',
-                'is_multilingual' => 0,
-                'is_custom' => 0,
-                'is_api' => 0,
-                'created_at' => '2022-10-18 17:00:00',
-                'updated_at' => null,
-                'deleted_at' => null,
-            ],
-            22 => [
-                'id' => 23,
                 'item_key' => 'packagist_mirrors',
                 'item_value' => '[{"name":"Global, CloudFlare","repo":"https://packagist.pages.dev"},{"name":"Africa, South Africa","repo":"https://packagist.co.za"},{"name":"Asia, China Tencent","repo":"https://mirrors.tencent.com/composer/"},{"name":"Asia, China SJTU","repo":"https://packagist.mirrors.sjtug.sjtu.edu.cn"},{"name":"Asia, India","repo":"https://packagist.in"},{"name":"Asia, Indonesia","repo":"https://packagist.phpindonesia.id"},{"name":"Asia, Japan","repo":"https://packagist.jp"},{"name":"Asia, South Korea","repo":"https://packagist.kr"},{"name":"Asia, Thailand","repo":"https://packagist.mycools.in.th/"},{"name":"Asia, Taiwan","repo":"https://packagist.tw/"},{"name":"Europe, Finland","repo":"https://packagist.fi"},{"name":"Europe, Germany","repo":"https://packagist.hesse.im"},{"name":"South America, Brazil","repo":"https://packagist.com.br"}]',
                 'item_type' => 'array',
@@ -321,8 +308,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            23 => [
-                'id' => 24,
+            22 => [
+                'id' => 23,
                 'item_key' => 'crontab_items',
                 'item_value' => '[{"unikey":"Fresns","cmdWord":"checkUserRoleExpired","cronTableFormat":"*/10 * * * *"},{"unikey":"Fresns","cmdWord":"checkDeleteAccount","cronTableFormat":"* */6 * * *"},{"unikey":"Fresns","cmdWord":"checkExtensionsVersion","cronTableFormat":"* */12 * * *"}]',
                 'item_type' => 'array',
@@ -334,8 +321,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            24 => [
-                'id' => 25,
+            23 => [
+                'id' => 24,
                 'item_key' => 'subscribe_items',
                 'item_value' => '[]',
                 'item_type' => 'array',
@@ -347,9 +334,22 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
+            24 => [
+                'id' => 25,
+                'item_key' => 'check_version_datetime',
+                'item_value' => null,
+                'item_type' => 'string',
+                'item_tag' => 'systems',
+                'is_multilingual' => 0,
+                'is_custom' => 0,
+                'is_api' => 0,
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
             25 => [
                 'id' => 26,
-                'item_key' => 'check_version_datetime',
+                'item_key' => 'system_url',
                 'item_value' => null,
                 'item_type' => 'string',
                 'item_tag' => 'systems',
@@ -362,19 +362,6 @@ class ConfigsTableSeeder extends Seeder
             ],
             26 => [
                 'id' => 27,
-                'item_key' => 'system_url',
-                'item_value' => null,
-                'item_type' => 'string',
-                'item_tag' => 'systems',
-                'is_multilingual' => 0,
-                'is_custom' => 0,
-                'is_api' => 0,
-                'created_at' => '2022-10-18 17:00:00',
-                'updated_at' => null,
-                'deleted_at' => null,
-            ],
-            27 => [
-                'id' => 28,
                 'item_key' => 'system_bulletin_name',
                 'item_value' => 'Fresns Bulletin',
                 'item_type' => 'string',
@@ -386,8 +373,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            28 => [
-                'id' => 29,
+            27 => [
+                'id' => 28,
                 'item_key' => 'system_bulletin_contents',
                 'item_value' => '[]',
                 'item_type' => 'array',
@@ -399,8 +386,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            29 => [
-                'id' => 30,
+            28 => [
+                'id' => 29,
                 'item_key' => 'language_status',
                 'item_value' => 'false',
                 'item_type' => 'boolean',
@@ -412,8 +399,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            30 => [
-                'id' => 31,
+            29 => [
+                'id' => 30,
                 'item_key' => 'language_menus',
                 'item_value' => '[{"rating":1,"langCode":"en","langName":"English","areaStatus":false,"areaCode":"","areaName":"","langTag":"en","writingDirection":"ltr","lengthUnit":"mi","dateFormat":"m/d/Y","timeFormatMinute":"{n} minute ago","timeFormatHour":"{n} hour ago","timeFormatDay":"{n} day ago","timeFormatMonth":"{n} month ago","packVersion":1,"isEnable":true},{"rating":2,"langCode":"zh-Hans","langName":"简体中文","areaStatus":false,"areaCode":"","areaName":"","langTag":"zh-Hans","writingDirection":"ltr","lengthUnit":"km","dateFormat":"Y-m-d","timeFormatMinute":"{n} 分钟前","timeFormatHour":"{n} 小时前","timeFormatDay":"{n} 天前","timeFormatMonth":"{n} 个月前","packVersion":1,"isEnable":true},{"rating":3,"langCode":"zh-Hant","langName":"繁體中文","areaStatus":false,"areaCode":"","areaName":"","langTag":"zh-Hant","writingDirection":"ltr","lengthUnit":"km","dateFormat":"Y-m-d","timeFormatMinute":"{n} 分鐘前","timeFormatHour":"{n} 小時前","timeFormatDay":"{n} 天前","timeFormatMonth":"{n} 個月前","packVersion":1,"isEnable":true}]',
                 'item_type' => 'array',
@@ -425,8 +412,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            31 => [
-                'id' => 32,
+            30 => [
+                'id' => 31,
                 'item_key' => 'default_language',
                 'item_value' => 'zh-Hans',
                 'item_type' => 'string',
@@ -438,10 +425,10 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            32 => [
-                'id' => 33,
+            31 => [
+                'id' => 32,
                 'item_key' => 'language_pack',
-                'item_value' => '[{"name":"language","canDelete":false},{"name":"errorUnknown","canDelete":false},{"name":"errorEmpty","canDelete":false},{"name":"errorNotExist","canDelete":false},{"name":"errorNotMatch","canDelete":false},{"name":"errorNoInfo","canDelete":false},{"name":"errorNoLogin","canDelete":false},{"name":"errorTimeout","canDelete":false},{"name":"errorRejection","canDelete":false},{"name":"errorUnavailable","canDelete":false},{"name":"errorIp","canDelete":false},{"name":"loading","canDelete":false},{"name":"loadMore","canDelete":false},{"name":"clickToLoadMore","canDelete":false},{"name":"scrollUpToLoadMore","canDelete":false},{"name":"scrollDownToLoadMore","canDelete":false},{"name":"success","canDelete":false},{"name":"failed","canDelete":false},{"name":"warning","canDelete":false},{"name":"danger","canDelete":false},{"name":"setting","canDelete":false},{"name":"config","canDelete":false},{"name":"reset","canDelete":false},{"name":"refresh","canDelete":false},{"name":"reload","canDelete":false},{"name":"modify","canDelete":false},{"name":"edit","canDelete":false},{"name":"delete","canDelete":false},{"name":"add","canDelete":false},{"name":"remove","canDelete":false},{"name":"previous","canDelete":false},{"name":"next","canDelete":false},{"name":"return","canDelete":false},{"name":"close","canDelete":false},{"name":"cancel","canDelete":false},{"name":"dismiss","canDelete":false},{"name":"activate","canDelete":false},{"name":"deactivate","canDelete":false},{"name":"install","canDelete":false},{"name":"uninstall","canDelete":false},{"name":"check","canDelete":false},{"name":"done","canDelete":false},{"name":"search","canDelete":false},{"name":"location","canDelete":false},{"name":"list","canDelete":false},{"name":"choose","canDelete":false},{"name":"update","canDelete":false},{"name":"recall","canDelete":false},{"name":"submit","canDelete":false},{"name":"save","canDelete":false},{"name":"saveChanges","canDelete":false},{"name":"confirm","canDelete":false},{"name":"send","canDelete":false},{"name":"rankNum","canDelete":false},{"name":"type","canDelete":false},{"name":"view","canDelete":false},{"name":"share","canDelete":false},{"name":"more","canDelete":false},{"name":"file","canDelete":false},{"name":"image","canDelete":false},{"name":"video","canDelete":false},{"name":"audio","canDelete":false},{"name":"document","canDelete":false},{"name":"learnMore","canDelete":false},{"name":"pleaseEnter","canDelete":false},{"name":"copyLink","canDelete":false},{"name":"copySuccess","canDelete":false},{"name":"modifierCount","canDelete":false},{"name":"modifierOr","canDelete":false},{"name":"modifierYear","canDelete":false},{"name":"modifierMonth","canDelete":false},{"name":"modifierDay","canDelete":false},{"name":"modifierDays","canDelete":false},{"name":"modifierLength","canDelete":false},{"name":"unitSecond","canDelete":false},{"name":"unitMinute","canDelete":false},{"name":"unitWithinMinute","canDelete":false},{"name":"unitCharacter","canDelete":false},{"name":"unitNumber","canDelete":false},{"name":"unitNumberOfTimes","canDelete":false},{"name":"unitWordCount","canDelete":false},{"name":"unitKm","canDelete":false},{"name":"unitMi","canDelete":false},{"name":"ipLocation","canDelete":false},{"name":"optionLanguage","canDelete":false},{"name":"optionUser","canDelete":false},{"name":"private","canDelete":false},{"name":"email","canDelete":false},{"name":"newEmail","canDelete":false},{"name":"phone","canDelete":false},{"name":"newPhone","canDelete":false},{"name":"countryCode","canDelete":false},{"name":"verifyCode","canDelete":false},{"name":"emailVerifyCode","canDelete":false},{"name":"smsVerifyCode","canDelete":false},{"name":"newVerifyCode","canDelete":false},{"name":"sendVerifyCode","canDelete":false},{"name":"resendVerifyCode","canDelete":false},{"name":"account","canDelete":false},{"name":"accountPassword","canDelete":false},{"name":"accountType","canDelete":false},{"name":"accountJoin","canDelete":false},{"name":"accountRegister","canDelete":false},{"name":"accountLogin","canDelete":false},{"name":"accountLoginByPassword","canDelete":false},{"name":"accountLoginByCode","canDelete":false},{"name":"accountLoginByConnects","canDelete":false},{"name":"accountLogout","canDelete":false},{"name":"accountDelete","canDelete":false},{"name":"accountRestore","canDelete":false},{"name":"accountReset","canDelete":false},{"name":"accountError","canDelete":false},{"name":"accountInfo","canDelete":false},{"name":"accountPoliciesTerms","canDelete":false},{"name":"accountPoliciesPrivacy","canDelete":false},{"name":"accountPoliciesCookie","canDelete":false},{"name":"accountPoliciesDelete","canDelete":false},{"name":"password","canDelete":false},{"name":"passwordCurrent","canDelete":false},{"name":"passwordNew","canDelete":false},{"name":"passwordAgain","canDelete":false},{"name":"passwordAgainError","canDelete":false},{"name":"passwordError","canDelete":false},{"name":"passwordForgot","canDelete":false},{"name":"passwordInfo","canDelete":false},{"name":"passwordInfoNumbers","canDelete":false},{"name":"passwordInfoLowercaseLetters","canDelete":false},{"name":"passwordInfoUppercaseLetters","canDelete":false},{"name":"passwordInfoSymbols","canDelete":false},{"name":"userCurrent","canDelete":false},{"name":"userPassword","canDelete":false},{"name":"userAuthPassword","canDelete":false},{"name":"userAuth","canDelete":false},{"name":"userProfile","canDelete":false},{"name":"userAvatar","canDelete":false},{"name":"userGender","canDelete":false},{"name":"userBirthday","canDelete":false},{"name":"userTimeZone","canDelete":false},{"name":"userLanguage","canDelete":false},{"name":"userFollowMutual","canDelete":false},{"name":"userFollowMe","canDelete":false},{"name":"userBlockMe","canDelete":false},{"name":"userFollowersYouKnow","canDelete":false},{"name":"userFollowersYouFollow","canDelete":false},{"name":"walletStatus","canDelete":false},{"name":"walletBalance","canDelete":false},{"name":"walletFreezeAmount","canDelete":false},{"name":"walletPassword","canDelete":false},{"name":"walletLogs","canDelete":false},{"name":"walletRecharge","canDelete":false},{"name":"walletWithdraw","canDelete":false},{"name":"notificationEmpty","canDelete":false},{"name":"notificationMarkAllAsRead","canDelete":false},{"name":"notificationMarkAsRead","canDelete":false},{"name":"notificationLike","canDelete":false},{"name":"notificationDislike","canDelete":false},{"name":"notificationFollow","canDelete":false},{"name":"notificationBlock","canDelete":false},{"name":"notificationMention","canDelete":false},{"name":"notificationComment","canDelete":false},{"name":"settingGeneral","canDelete":false},{"name":"settingPreference","canDelete":false},{"name":"settingAccount","canDelete":false},{"name":"settingConnect","canDelete":false},{"name":"settingType","canDelete":false},{"name":"settingAlready","canDelete":false},{"name":"settingNot","canDelete":false},{"name":"settingWarning","canDelete":false},{"name":"settingCheckError","canDelete":false},{"name":"settingAllowAll","canDelete":false},{"name":"settingAllowMyFollow","canDelete":false},{"name":"settingAllowMyFollowAndVerified","canDelete":false},{"name":"settingAllowNotAll","canDelete":false},{"name":"settingIntervalDays","canDelete":false},{"name":"settingLastTime","canDelete":false},{"name":"settingNameWarning","canDelete":false},{"name":"settingNicknameWarning","canDelete":false},{"name":"settingGenderNull","canDelete":false},{"name":"settingGenderMale","canDelete":false},{"name":"settingGenderFemale","canDelete":false},{"name":"settingConnectAdd","canDelete":false},{"name":"settingConnectRemove","canDelete":false},{"name":"editorFullFunctions","canDelete":false},{"name":"editorRequired","canDelete":false},{"name":"editorOptional","canDelete":false},{"name":"editorCreate","canDelete":false},{"name":"editorNoChooseGroup","canDelete":false},{"name":"editorNoGroup","canDelete":false},{"name":"editorMyFollowGroup","canDelete":false},{"name":"editorStickers","canDelete":false},{"name":"editorImages","canDelete":false},{"name":"editorVideos","canDelete":false},{"name":"editorVideoPlay","canDelete":false},{"name":"editorAudios","canDelete":false},{"name":"editorDocuments","canDelete":false},{"name":"editorTitle","canDelete":false},{"name":"editorMention","canDelete":false},{"name":"editorHashtag","canDelete":false},{"name":"editorExtends","canDelete":false},{"name":"editorContent","canDelete":false},{"name":"editorLocation","canDelete":false},{"name":"editorAnonymous","canDelete":false},{"name":"editorUpload","canDelete":false},{"name":"editorUploadInfo","canDelete":false},{"name":"editorUploadExtensions","canDelete":false},{"name":"editorUploadMaxSize","canDelete":false},{"name":"editorUploadMaxTime","canDelete":false},{"name":"editorUploadNumber","canDelete":false},{"name":"editorUploadBtn","canDelete":false},{"name":"editorLimitTitle","canDelete":false},{"name":"editorLimitTypeName","canDelete":false},{"name":"editorLimitType1Desc","canDelete":false},{"name":"editorLimitType2Desc","canDelete":false},{"name":"editorLimitDateName","canDelete":false},{"name":"editorLimitCycleName","canDelete":false},{"name":"editorLimitRuleName","canDelete":false},{"name":"editorLimitRule1Desc","canDelete":false},{"name":"editorLimitRule2Desc","canDelete":false},{"name":"editorRoleLimitTitle","canDelete":false},{"name":"editorMainRoleTitle","canDelete":false},{"name":"editorEditTimeTitle","canDelete":false},{"name":"editorEditTimeDesc","canDelete":false},{"name":"editorAllowTitle","canDelete":false},{"name":"editorAllowRoleName","canDelete":false},{"name":"editorAllowUserName","canDelete":false},{"name":"editorAllowProportionName","canDelete":false},{"name":"editorAllowBtnName","canDelete":false},{"name":"editorCommentBtnTitle","canDelete":false},{"name":"editorCommentBtnName","canDelete":false},{"name":"editorUserListTitle","canDelete":false},{"name":"editorUserListName","canDelete":false},{"name":"contentReview","canDelete":false},{"name":"contentLoginError","canDelete":false},{"name":"contentAllList","canDelete":false},{"name":"contentNewList","canDelete":false},{"name":"contentHotList","canDelete":false},{"name":"contentBrowse","canDelete":false},{"name":"contentDigest","canDelete":false},{"name":"contentSticky","canDelete":false},{"name":"contentRecommend","canDelete":false},{"name":"contentFull","canDelete":false},{"name":"contentViewOriginal","canDelete":false},{"name":"contentCreator","canDelete":false},{"name":"contentCreatorAnonymous","canDelete":false},{"name":"contentCreatorDeactivate","canDelete":false},{"name":"contentCreatorLiked","canDelete":false},{"name":"contentPublishTime","canDelete":false},{"name":"contentCommentTime","canDelete":false},{"name":"contentPublishedOn","canDelete":false},{"name":"contentEditedOn","canDelete":false},{"name":"contentFileUploader","canDelete":false},{"name":"contentFileDownloader","canDelete":false},{"name":"contentFileDownloaderDesc","canDelete":false},{"name":"contentFileDownload","canDelete":false},{"name":"contentImageLong","canDelete":false},{"name":"contentVideoPlay","canDelete":false},{"name":"contentDocumentDetail","canDelete":false},{"name":"contentDocumentInfo","canDelete":false},{"name":"contentAllowInfo","canDelete":false},{"name":"contentTopComment","canDelete":false},{"name":"contentCommentWho","canDelete":false},{"name":"contentCommentClose","canDelete":false},{"name":"contentCommentCountDesc","canDelete":false},{"name":"contentCommentNotPublic","canDelete":false},{"name":"contentCommentVisibilityRuleTip","canDelete":false},{"name":"getLocation","canDelete":false},{"name":"reloadLocation","canDelete":false},{"name":"locationLoading","canDelete":false},{"name":"getLocationError","canDelete":false}]',
+                'item_value' => '[{"name":"language","canDelete":false},{"name":"errorUnknown","canDelete":false},{"name":"errorEmpty","canDelete":false},{"name":"errorNotExist","canDelete":false},{"name":"errorNotMatch","canDelete":false},{"name":"errorNoInfo","canDelete":false},{"name":"errorNoLogin","canDelete":false},{"name":"errorTimeout","canDelete":false},{"name":"errorRejection","canDelete":false},{"name":"errorUnavailable","canDelete":false},{"name":"errorIp","canDelete":false},{"name":"loading","canDelete":false},{"name":"loadMore","canDelete":false},{"name":"clickToLoadMore","canDelete":false},{"name":"scrollUpToLoadMore","canDelete":false},{"name":"scrollDownToLoadMore","canDelete":false},{"name":"executionDate","canDelete":false},{"name":"success","canDelete":false},{"name":"failed","canDelete":false},{"name":"warning","canDelete":false},{"name":"danger","canDelete":false},{"name":"setting","canDelete":false},{"name":"config","canDelete":false},{"name":"reset","canDelete":false},{"name":"refresh","canDelete":false},{"name":"reload","canDelete":false},{"name":"modify","canDelete":false},{"name":"edit","canDelete":false},{"name":"delete","canDelete":false},{"name":"add","canDelete":false},{"name":"remove","canDelete":false},{"name":"previous","canDelete":false},{"name":"next","canDelete":false},{"name":"return","canDelete":false},{"name":"close","canDelete":false},{"name":"cancel","canDelete":false},{"name":"dismiss","canDelete":false},{"name":"activate","canDelete":false},{"name":"deactivate","canDelete":false},{"name":"install","canDelete":false},{"name":"uninstall","canDelete":false},{"name":"check","canDelete":false},{"name":"done","canDelete":false},{"name":"search","canDelete":false},{"name":"location","canDelete":false},{"name":"list","canDelete":false},{"name":"choose","canDelete":false},{"name":"update","canDelete":false},{"name":"recall","canDelete":false},{"name":"submit","canDelete":false},{"name":"save","canDelete":false},{"name":"saveChanges","canDelete":false},{"name":"confirm","canDelete":false},{"name":"send","canDelete":false},{"name":"rankNum","canDelete":false},{"name":"type","canDelete":false},{"name":"view","canDelete":false},{"name":"share","canDelete":false},{"name":"more","canDelete":false},{"name":"file","canDelete":false},{"name":"image","canDelete":false},{"name":"video","canDelete":false},{"name":"audio","canDelete":false},{"name":"document","canDelete":false},{"name":"learnMore","canDelete":false},{"name":"pleaseEnter","canDelete":false},{"name":"copyLink","canDelete":false},{"name":"copySuccess","canDelete":false},{"name":"modifierCount","canDelete":false},{"name":"modifierOr","canDelete":false},{"name":"modifierYear","canDelete":false},{"name":"modifierMonth","canDelete":false},{"name":"modifierDay","canDelete":false},{"name":"modifierDays","canDelete":false},{"name":"modifierLength","canDelete":false},{"name":"unitSecond","canDelete":false},{"name":"unitMinute","canDelete":false},{"name":"unitWithinMinute","canDelete":false},{"name":"unitCharacter","canDelete":false},{"name":"unitNumber","canDelete":false},{"name":"unitNumberOfTimes","canDelete":false},{"name":"unitWordCount","canDelete":false},{"name":"unitKm","canDelete":false},{"name":"unitMi","canDelete":false},{"name":"ipLocation","canDelete":false},{"name":"optionLanguage","canDelete":false},{"name":"optionUser","canDelete":false},{"name":"private","canDelete":false},{"name":"email","canDelete":false},{"name":"newEmail","canDelete":false},{"name":"phone","canDelete":false},{"name":"newPhone","canDelete":false},{"name":"countryCode","canDelete":false},{"name":"verifyCode","canDelete":false},{"name":"emailVerifyCode","canDelete":false},{"name":"smsVerifyCode","canDelete":false},{"name":"newVerifyCode","canDelete":false},{"name":"sendVerifyCode","canDelete":false},{"name":"resendVerifyCode","canDelete":false},{"name":"account","canDelete":false},{"name":"accountPassword","canDelete":false},{"name":"accountType","canDelete":false},{"name":"accountJoin","canDelete":false},{"name":"accountRegister","canDelete":false},{"name":"accountLogin","canDelete":false},{"name":"accountLoginByPassword","canDelete":false},{"name":"accountLoginByCode","canDelete":false},{"name":"accountLoginByConnects","canDelete":false},{"name":"accountLogout","canDelete":false},{"name":"accountDelete","canDelete":false},{"name":"accountApplyDelete","canDelete":false},{"name":"accountWaitDelete","canDelete":false},{"name":"accountRecallDelete","canDelete":false},{"name":"accountReset","canDelete":false},{"name":"accountError","canDelete":false},{"name":"accountInfo","canDelete":false},{"name":"accountPoliciesTerms","canDelete":false},{"name":"accountPoliciesPrivacy","canDelete":false},{"name":"accountPoliciesCookies","canDelete":false},{"name":"accountPoliciesDelete","canDelete":false},{"name":"password","canDelete":false},{"name":"passwordCurrent","canDelete":false},{"name":"passwordNew","canDelete":false},{"name":"passwordAgain","canDelete":false},{"name":"passwordAgainError","canDelete":false},{"name":"passwordError","canDelete":false},{"name":"passwordForgot","canDelete":false},{"name":"passwordInfo","canDelete":false},{"name":"passwordInfoNumbers","canDelete":false},{"name":"passwordInfoLowercaseLetters","canDelete":false},{"name":"passwordInfoUppercaseLetters","canDelete":false},{"name":"passwordInfoSymbols","canDelete":false},{"name":"userCurrent","canDelete":false},{"name":"userPassword","canDelete":false},{"name":"userAuthPassword","canDelete":false},{"name":"userAuth","canDelete":false},{"name":"userProfile","canDelete":false},{"name":"userAvatar","canDelete":false},{"name":"userGender","canDelete":false},{"name":"userBirthday","canDelete":false},{"name":"userTimeZone","canDelete":false},{"name":"userLanguage","canDelete":false},{"name":"userFollowMutual","canDelete":false},{"name":"userFollowMe","canDelete":false},{"name":"userBlockMe","canDelete":false},{"name":"userFollowersYouKnow","canDelete":false},{"name":"userFollowersYouFollow","canDelete":false},{"name":"walletStatus","canDelete":false},{"name":"walletBalance","canDelete":false},{"name":"walletFreezeAmount","canDelete":false},{"name":"walletPassword","canDelete":false},{"name":"walletLogs","canDelete":false},{"name":"walletRecharge","canDelete":false},{"name":"walletWithdraw","canDelete":false},{"name":"notificationEmpty","canDelete":false},{"name":"notificationMarkAllAsRead","canDelete":false},{"name":"notificationMarkAsRead","canDelete":false},{"name":"notificationLike","canDelete":false},{"name":"notificationDislike","canDelete":false},{"name":"notificationFollow","canDelete":false},{"name":"notificationBlock","canDelete":false},{"name":"notificationMention","canDelete":false},{"name":"notificationComment","canDelete":false},{"name":"settingGeneral","canDelete":false},{"name":"settingPreference","canDelete":false},{"name":"settingAccount","canDelete":false},{"name":"settingConnect","canDelete":false},{"name":"settingType","canDelete":false},{"name":"settingAlready","canDelete":false},{"name":"settingNot","canDelete":false},{"name":"settingWarning","canDelete":false},{"name":"settingCheckError","canDelete":false},{"name":"settingAllowAll","canDelete":false},{"name":"settingAllowMyFollow","canDelete":false},{"name":"settingAllowMyFollowAndVerified","canDelete":false},{"name":"settingAllowNotAll","canDelete":false},{"name":"settingIntervalDays","canDelete":false},{"name":"settingLastTime","canDelete":false},{"name":"settingNameWarning","canDelete":false},{"name":"settingNicknameWarning","canDelete":false},{"name":"settingGenderNull","canDelete":false},{"name":"settingGenderMale","canDelete":false},{"name":"settingGenderFemale","canDelete":false},{"name":"settingConnectAdd","canDelete":false},{"name":"settingConnectRemove","canDelete":false},{"name":"editorFullFunctions","canDelete":false},{"name":"editorRequired","canDelete":false},{"name":"editorOptional","canDelete":false},{"name":"editorCreate","canDelete":false},{"name":"editorNoChooseGroup","canDelete":false},{"name":"editorNoGroup","canDelete":false},{"name":"editorMyFollowGroup","canDelete":false},{"name":"editorStickers","canDelete":false},{"name":"editorImages","canDelete":false},{"name":"editorVideos","canDelete":false},{"name":"editorVideoPlay","canDelete":false},{"name":"editorAudios","canDelete":false},{"name":"editorDocuments","canDelete":false},{"name":"editorTitle","canDelete":false},{"name":"editorMention","canDelete":false},{"name":"editorHashtag","canDelete":false},{"name":"editorExtends","canDelete":false},{"name":"editorContent","canDelete":false},{"name":"editorLocation","canDelete":false},{"name":"editorAnonymous","canDelete":false},{"name":"editorUpload","canDelete":false},{"name":"editorUploadInfo","canDelete":false},{"name":"editorUploadExtensions","canDelete":false},{"name":"editorUploadMaxSize","canDelete":false},{"name":"editorUploadMaxTime","canDelete":false},{"name":"editorUploadNumber","canDelete":false},{"name":"editorUploadBtn","canDelete":false},{"name":"editorLimitTitle","canDelete":false},{"name":"editorLimitTypeName","canDelete":false},{"name":"editorLimitType1Desc","canDelete":false},{"name":"editorLimitType2Desc","canDelete":false},{"name":"editorLimitDateName","canDelete":false},{"name":"editorLimitCycleName","canDelete":false},{"name":"editorLimitRuleName","canDelete":false},{"name":"editorLimitRule1Desc","canDelete":false},{"name":"editorLimitRule2Desc","canDelete":false},{"name":"editorRoleLimitTitle","canDelete":false},{"name":"editorMainRoleTitle","canDelete":false},{"name":"editorEditTimeTitle","canDelete":false},{"name":"editorEditTimeDesc","canDelete":false},{"name":"editorAllowTitle","canDelete":false},{"name":"editorAllowRoleName","canDelete":false},{"name":"editorAllowUserName","canDelete":false},{"name":"editorAllowProportionName","canDelete":false},{"name":"editorAllowBtnName","canDelete":false},{"name":"editorCommentBtnTitle","canDelete":false},{"name":"editorCommentBtnName","canDelete":false},{"name":"editorUserListTitle","canDelete":false},{"name":"editorUserListName","canDelete":false},{"name":"contentReview","canDelete":false},{"name":"contentLoginError","canDelete":false},{"name":"contentAllList","canDelete":false},{"name":"contentNewList","canDelete":false},{"name":"contentHotList","canDelete":false},{"name":"contentBrowse","canDelete":false},{"name":"contentDigest","canDelete":false},{"name":"contentSticky","canDelete":false},{"name":"contentRecommend","canDelete":false},{"name":"contentFull","canDelete":false},{"name":"contentViewOriginal","canDelete":false},{"name":"contentCreator","canDelete":false},{"name":"contentCreatorAnonymous","canDelete":false},{"name":"contentCreatorDeactivate","canDelete":false},{"name":"contentCreatorLiked","canDelete":false},{"name":"contentPublishTime","canDelete":false},{"name":"contentCommentTime","canDelete":false},{"name":"contentPublishedOn","canDelete":false},{"name":"contentEditedOn","canDelete":false},{"name":"contentFileUploader","canDelete":false},{"name":"contentFileDownloader","canDelete":false},{"name":"contentFileDownloaderDesc","canDelete":false},{"name":"contentFileDownload","canDelete":false},{"name":"contentImageLong","canDelete":false},{"name":"contentVideoPlay","canDelete":false},{"name":"contentDocumentDetail","canDelete":false},{"name":"contentDocumentInfo","canDelete":false},{"name":"contentAllowInfo","canDelete":false},{"name":"contentTopComment","canDelete":false},{"name":"contentCommentWho","canDelete":false},{"name":"contentCommentClose","canDelete":false},{"name":"contentCommentCountDesc","canDelete":false},{"name":"contentCommentNotPublic","canDelete":false},{"name":"contentCommentVisibilityRuleTip","canDelete":false},{"name":"getLocation","canDelete":false},{"name":"reloadLocation","canDelete":false},{"name":"locationLoading","canDelete":false},{"name":"getLocationError","canDelete":false}]',
                 'item_type' => 'array',
                 'item_tag' => 'languages',
                 'is_multilingual' => 0,
@@ -451,8 +438,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            33 => [
-                'id' => 34,
+            32 => [
+                'id' => 33,
                 'item_key' => 'language_pack_contents',
                 'item_value' => null,
                 'item_type' => 'object',
@@ -464,9 +451,22 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
+            33 => [
+                'id' => 34,
+                'item_key' => 'account_terms_status',
+                'item_value' => 'false',
+                'item_type' => 'boolean',
+                'item_tag' => 'policies',
+                'is_multilingual' => 0,
+                'is_custom' => 0,
+                'is_api' => 1,
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
             34 => [
                 'id' => 35,
-                'item_key' => 'account_terms_status',
+                'item_key' => 'account_privacy_status',
                 'item_value' => 'false',
                 'item_type' => 'boolean',
                 'item_tag' => 'policies',
@@ -479,7 +479,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             35 => [
                 'id' => 36,
-                'item_key' => 'account_privacy_status',
+                'item_key' => 'account_cookies_status',
                 'item_value' => 'false',
                 'item_type' => 'boolean',
                 'item_tag' => 'policies',
@@ -492,7 +492,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             36 => [
                 'id' => 37,
-                'item_key' => 'account_cookie_status',
+                'item_key' => 'account_ip_location_status',
                 'item_value' => 'false',
                 'item_type' => 'boolean',
                 'item_tag' => 'policies',
@@ -505,7 +505,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             37 => [
                 'id' => 38,
-                'item_key' => 'account_ip_location_status',
+                'item_key' => 'account_delete_status',
                 'item_value' => 'false',
                 'item_type' => 'boolean',
                 'item_tag' => 'policies',
@@ -518,19 +518,6 @@ class ConfigsTableSeeder extends Seeder
             ],
             38 => [
                 'id' => 39,
-                'item_key' => 'account_delete_status',
-                'item_value' => 'false',
-                'item_type' => 'boolean',
-                'item_tag' => 'policies',
-                'is_multilingual' => 0,
-                'is_custom' => 0,
-                'is_api' => 1,
-                'created_at' => '2022-10-18 17:00:00',
-                'updated_at' => null,
-                'deleted_at' => null,
-            ],
-            39 => [
-                'id' => 40,
                 'item_key' => 'delete_account_type',
                 'item_value' => '1',
                 'item_type' => 'number',
@@ -542,8 +529,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            40 => [
-                'id' => 41,
+            39 => [
+                'id' => 40,
                 'item_key' => 'delete_account_todo',
                 'item_value' => '7',
                 'item_type' => 'number',
@@ -555,8 +542,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            41 => [
-                'id' => 42,
+            40 => [
+                'id' => 41,
                 'item_key' => 'account_terms',
                 'item_value' => 'Terms of Service',
                 'item_type' => 'string',
@@ -568,8 +555,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            42 => [
-                'id' => 43,
+            41 => [
+                'id' => 42,
                 'item_key' => 'account_privacy',
                 'item_value' => 'Privacy Policy',
                 'item_type' => 'string',
@@ -581,10 +568,10 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            43 => [
-                'id' => 44,
-                'item_key' => 'account_cookie',
-                'item_value' => 'Cookie Policy',
+            42 => [
+                'id' => 43,
+                'item_key' => 'account_cookies',
+                'item_value' => 'Cookies Policy',
                 'item_type' => 'string',
                 'item_tag' => 'policies',
                 'is_multilingual' => 1,
@@ -594,8 +581,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            44 => [
-                'id' => 45,
+            43 => [
+                'id' => 44,
                 'item_key' => 'account_delete',
                 'item_value' => 'Deactivating or deleting your Fresns account',
                 'item_type' => 'string',
@@ -607,8 +594,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            45 => [
-                'id' => 46,
+            44 => [
+                'id' => 45,
                 'item_key' => 'site_url',
                 'item_value' => null,
                 'item_type' => 'string',
@@ -620,8 +607,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            46 => [
-                'id' => 47,
+            45 => [
+                'id' => 46,
                 'item_key' => 'site_name',
                 'item_value' => 'Fresns',
                 'item_type' => 'string',
@@ -633,8 +620,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            47 => [
-                'id' => 48,
+            46 => [
+                'id' => 47,
                 'item_key' => 'site_desc',
                 'item_value' => 'Fresns is a free and open source social network service software, a general-purpose community product designed for cross-platform, and supports flexible and diverse content forms. It conforms to the trend of the times, satisfies a variety of operating scenarios, is more open and easier to re-development.',
                 'item_type' => 'string',
@@ -646,8 +633,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            48 => [
-                'id' => 49,
+            47 => [
+                'id' => 48,
                 'item_key' => 'site_icon',
                 'item_value' => 'https://files.fresns.org/images/icon.png',
                 'item_type' => 'file',
@@ -659,8 +646,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            49 => [
-                'id' => 50,
+            48 => [
+                'id' => 49,
                 'item_key' => 'site_logo',
                 'item_value' => 'https://files.fresns.org/images/logo.png',
                 'item_type' => 'file',
@@ -672,8 +659,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            50 => [
-                'id' => 51,
+            49 => [
+                'id' => 50,
                 'item_key' => 'site_copyright',
                 'item_value' => 'Fresns',
                 'item_type' => 'string',
@@ -685,8 +672,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            51 => [
-                'id' => 52,
+            50 => [
+                'id' => 51,
                 'item_key' => 'site_copyright_years',
                 'item_value' => '2021-Present',
                 'item_type' => 'string',
@@ -698,8 +685,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            52 => [
-                'id' => 53,
+            51 => [
+                'id' => 52,
                 'item_key' => 'default_timezone',
                 'item_value' => '+8',
                 'item_type' => 'string',
@@ -711,8 +698,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            53 => [
-                'id' => 54,
+            52 => [
+                'id' => 53,
                 'item_key' => 'site_mode',
                 'item_value' => 'public',
                 'item_type' => 'string',
@@ -724,8 +711,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            54 => [
-                'id' => 55,
+            53 => [
+                'id' => 54,
                 'item_key' => 'site_public_status',
                 'item_value' => 'true',
                 'item_type' => 'boolean',
@@ -737,8 +724,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            55 => [
-                'id' => 56,
+            54 => [
+                'id' => 55,
                 'item_key' => 'site_public_service',
                 'item_value' => null,
                 'item_type' => 'plugin',
@@ -750,8 +737,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            56 => [
-                'id' => 57,
+            55 => [
+                'id' => 56,
                 'item_key' => 'site_register_email',
                 'item_value' => 'true',
                 'item_type' => 'boolean',
@@ -763,9 +750,22 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
+            56 => [
+                'id' => 57,
+                'item_key' => 'site_register_phone',
+                'item_value' => 'false',
+                'item_type' => 'boolean',
+                'item_tag' => 'general',
+                'is_multilingual' => 0,
+                'is_custom' => 0,
+                'is_api' => 1,
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
             57 => [
                 'id' => 58,
-                'item_key' => 'site_register_phone',
+                'item_key' => 'site_login_or_register',
                 'item_value' => 'false',
                 'item_type' => 'boolean',
                 'item_tag' => 'general',
@@ -778,7 +778,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             58 => [
                 'id' => 59,
-                'item_key' => 'site_login_or_register',
+                'item_key' => 'site_private_status',
                 'item_value' => 'false',
                 'item_type' => 'boolean',
                 'item_tag' => 'general',
@@ -791,19 +791,6 @@ class ConfigsTableSeeder extends Seeder
             ],
             59 => [
                 'id' => 60,
-                'item_key' => 'site_private_status',
-                'item_value' => 'false',
-                'item_type' => 'boolean',
-                'item_tag' => 'general',
-                'is_multilingual' => 0,
-                'is_custom' => 0,
-                'is_api' => 1,
-                'created_at' => '2022-10-18 17:00:00',
-                'updated_at' => null,
-                'deleted_at' => null,
-            ],
-            60 => [
-                'id' => 61,
                 'item_key' => 'site_private_service',
                 'item_value' => null,
                 'item_type' => 'plugin',
@@ -815,8 +802,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            61 => [
-                'id' => 62,
+            60 => [
+                'id' => 61,
                 'item_key' => 'site_private_end_after',
                 'item_value' => '1',
                 'item_type' => 'number',
@@ -828,8 +815,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            62 => [
-                'id' => 63,
+            61 => [
+                'id' => 62,
                 'item_key' => 'site_email',
                 'item_value' => null,
                 'item_type' => 'string',
@@ -841,9 +828,22 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
+            62 => [
+                'id' => 63,
+                'item_key' => 'send_email_service',
+                'item_value' => null,
+                'item_type' => 'plugin',
+                'item_tag' => 'sends',
+                'is_multilingual' => 0,
+                'is_custom' => 0,
+                'is_api' => 0,
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
             63 => [
                 'id' => 64,
-                'item_key' => 'send_email_service',
+                'item_key' => 'send_sms_service',
                 'item_value' => null,
                 'item_type' => 'plugin',
                 'item_tag' => 'sends',
@@ -856,19 +856,6 @@ class ConfigsTableSeeder extends Seeder
             ],
             64 => [
                 'id' => 65,
-                'item_key' => 'send_sms_service',
-                'item_value' => null,
-                'item_type' => 'plugin',
-                'item_tag' => 'sends',
-                'is_multilingual' => 0,
-                'is_custom' => 0,
-                'is_api' => 0,
-                'created_at' => '2022-10-18 17:00:00',
-                'updated_at' => null,
-                'deleted_at' => null,
-            ],
-            65 => [
-                'id' => 66,
                 'item_key' => 'send_sms_default_code',
                 'item_value' => '1',
                 'item_type' => 'number',
@@ -880,8 +867,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            66 => [
-                'id' => 67,
+            65 => [
+                'id' => 66,
                 'item_key' => 'send_sms_supported_codes',
                 'item_value' => '["1"]',
                 'item_type' => 'array',
@@ -893,8 +880,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            67 => [
-                'id' => 68,
+            66 => [
+                'id' => 67,
                 'item_key' => 'verifycode_template1',
                 'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>{sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】您的验证码","content":"<div>{sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】您的驗證碼","content":"<div>{sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
                 'item_type' => 'array',
@@ -906,8 +893,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            68 => [
-                'id' => 69,
+            67 => [
+                'id' => 68,
                 'item_key' => 'verifycode_template2',
                 'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Welcome to {sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】您的验证码","content":"<div>欢迎来到 {sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】您的驗證碼","content":"<div>歡迎來到 {sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
                 'item_type' => 'array',
@@ -919,8 +906,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            69 => [
-                'id' => 70,
+            68 => [
+                'id' => 69,
                 'item_key' => 'verifycode_template3',
                 'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Modify {sitename} account information</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>修改 {sitename} 账号资料</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>修改 {sitename} 賬號資料</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
                 'item_type' => 'array',
@@ -932,8 +919,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            70 => [
-                'id' => 71,
+            69 => [
+                'id' => 70,
                 'item_key' => 'verifycode_template4',
                 'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Change {sitename} Phone Number</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>更换 {sitename} 手机号</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>更換 {sitename} 手機號</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
                 'item_type' => 'array',
@@ -945,8 +932,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            71 => [
-                'id' => 72,
+            70 => [
+                'id' => 71,
                 'item_key' => 'verifycode_template5',
                 'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Reset Login Password</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>重置登录密码</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>重置登錄密碼</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
                 'item_type' => 'array',
@@ -958,8 +945,8 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            72 => [
-                'id' => 73,
+            71 => [
+                'id' => 72,
                 'item_key' => 'verifycode_template6',
                 'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Reset Payment Password</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>重置支付密码</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>重置支付密碼</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
                 'item_type' => 'array',
@@ -971,9 +958,22 @@ class ConfigsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
+            72 => [
+                'id' => 73,
+                'item_key' => 'verifycode_template7',
+                'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Login with verification code</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>使用验证码登录</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>使用驗證碼登錄</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
+                'item_type' => 'array',
+                'item_tag' => 'verifyCodes',
+                'is_multilingual' => 0,
+                'is_custom' => 0,
+                'is_api' => 0,
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
             73 => [
                 'id' => 74,
-                'item_key' => 'verifycode_template7',
+                'item_key' => 'verifycode_template8',
                 'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Login with verification code</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>使用验证码登录</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>使用驗證碼登錄</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
                 'item_type' => 'array',
                 'item_tag' => 'verifyCodes',
@@ -7826,10 +7826,10 @@ class ConfigsTableSeeder extends Seeder
             ],
             100 => [
                 'id' => 601,
-                'item_key' => 'FresnsEngine_Desktop',
+                'item_key' => 'desktop_notifications_service',
                 'item_value' => null,
-                'item_type' => 'string',
-                'item_tag' => 'themes',
+                'item_type' => 'plugin',
+                'item_tag' => 'apps',
                 'is_multilingual' => 0,
                 'is_custom' => 0,
                 'is_api' => 0,
@@ -7839,10 +7839,10 @@ class ConfigsTableSeeder extends Seeder
             ],
             101 => [
                 'id' => 602,
-                'item_key' => 'FresnsEngine_Mobile',
+                'item_key' => 'ios_notifications_service',
                 'item_value' => null,
-                'item_type' => 'string',
-                'item_tag' => 'themes',
+                'item_type' => 'plugin',
+                'item_tag' => 'apps',
                 'is_multilingual' => 0,
                 'is_custom' => 0,
                 'is_api' => 0,
@@ -7852,7 +7852,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             102 => [
                 'id' => 603,
-                'item_key' => 'desktop_notifications_service',
+                'item_key' => 'android_notifications_service',
                 'item_value' => null,
                 'item_type' => 'plugin',
                 'item_tag' => 'apps',
@@ -7865,7 +7865,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             103 => [
                 'id' => 604,
-                'item_key' => 'ios_notifications_service',
+                'item_key' => 'wechat_notifications_service',
                 'item_value' => null,
                 'item_type' => 'plugin',
                 'item_tag' => 'apps',
@@ -7878,10 +7878,10 @@ class ConfigsTableSeeder extends Seeder
             ],
             104 => [
                 'id' => 605,
-                'item_key' => 'android_notifications_service',
+                'item_key' => 'FresnsEngine_Desktop',
                 'item_value' => null,
-                'item_type' => 'plugin',
-                'item_tag' => 'apps',
+                'item_type' => 'string',
+                'item_tag' => 'themes',
                 'is_multilingual' => 0,
                 'is_custom' => 0,
                 'is_api' => 0,
@@ -7891,10 +7891,10 @@ class ConfigsTableSeeder extends Seeder
             ],
             105 => [
                 'id' => 606,
-                'item_key' => 'wechat_notifications_service',
+                'item_key' => 'FresnsEngine_Mobile',
                 'item_value' => null,
-                'item_type' => 'plugin',
-                'item_tag' => 'apps',
+                'item_type' => 'string',
+                'item_tag' => 'themes',
                 'is_multilingual' => 0,
                 'is_custom' => 0,
                 'is_api' => 0,
