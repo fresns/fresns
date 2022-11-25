@@ -754,6 +754,12 @@ class AccountController extends Controller
         $dtoRequest = new AccountApplyDeleteDTO($request->all());
         $authAccount = $this->account();
 
+        $deleteType = ConfigHelper::fresnsConfigByItemKey('delete_account_type');
+
+        if ($deleteType == 1) {
+            throw new ApiException(33100);
+        }
+
         $todoDay = ConfigHelper::fresnsConfigByItemKey('delete_account_todo');
 
         if ($dtoRequest->password) {
