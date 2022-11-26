@@ -278,7 +278,7 @@ class InstallController extends Controller
     {
         $composerVersion = AppHelper::getComposerVersionInfo()['version'];
 
-        return version_compare($composerVersion, '2.3.0', '>=');
+        return version_compare($composerVersion, '2.4.0', '>=');
     }
 
     protected function getDirPermission()

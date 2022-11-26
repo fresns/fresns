@@ -33,7 +33,7 @@ return [
     // server
     'server_title' => '基礎環境檢查',
     'server_check_php_version' => 'PHP 版本要求 8.0.2 或以上',
-    'server_check_composer_version' => 'Composer 版本要求 2.3 或以上',
+    'server_check_composer_version' => 'Composer 版本要求 2.4 或以上',
     'server_check_https' => '網站推薦使用 HTTPS',
     'server_check_folder_ownership' => '目錄權限',
     'server_check_php_extensions' => 'PHP 擴展檢查',

@@ -33,7 +33,7 @@ return [
     // server
     'server_title' => 'सर्वर आवश्यकताएँ',
     'server_check_php_version' => 'PHP 8.0.2+',
-    'server_check_composer_version' => 'Composer 2.3+',
+    'server_check_composer_version' => 'Composer 2.4+',
     'server_check_https' => 'साइटों के लिए HTTPS की अनुशंसा की जाती है',
     'server_check_folder_ownership' => 'फ़ोल्डर स्वामित्व',
     'server_check_php_extensions' => 'पीएचपी एक्सटेंशन',

@@ -33,7 +33,7 @@ return [
     // server
     'server_title' => 'Exigences relatives au serveur',
     'server_check_php_version' => 'PHP 8.0.2+',
-    'server_check_composer_version' => 'Composer 2.3+',
+    'server_check_composer_version' => 'Composer 2.4+',
     'server_check_https' => 'HTTPS est recommandé pour les sites',
     'server_check_folder_ownership' => 'Propriété des dossiers',
     'server_check_php_extensions' => 'Extensions PHP',

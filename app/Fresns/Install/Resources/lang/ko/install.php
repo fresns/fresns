@@ -33,7 +33,7 @@ return [
     // server
     'server_title' => '서버 요구 사항',
     'server_check_php_version' => 'PHP 8.0.2+',
-    'server_check_composer_version' => 'Composer 2.3+',
+    'server_check_composer_version' => 'Composer 2.4+',
     'server_check_https' => '사이트에는 HTTPS가 권장됩니다.',
     'server_check_folder_ownership' => '폴더 소유권',
     'server_check_php_extensions' => 'PHP 확장',
