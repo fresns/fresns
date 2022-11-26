@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary ajax-progress-submit"  id="installSubmit">{{ __('FsLang::panel.button_confirm_install') }}</button>
+                    <button type="submit" class="btn btn-primary ajax-progress-submit" id="installSubmit">{{ __('FsLang::panel.button_confirm_install') }}</button>
                 </div>
             </form>
         </div>
