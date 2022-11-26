@@ -67,12 +67,12 @@
                     <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.policy_cookies') }}:</label>
                     <div class="col-lg-6 pt-2">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="account_cookie_status" id="account_cookie_false" value="false" {{ !$params['account_cookie_status'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="account_cookie_false">{{ __('FsLang::panel.option_hidden') }}</label>
+                            <input class="form-check-input" type="radio" name="account_cookies_status" id="account_cookies_false" value="false" {{ !$params['account_cookies_status'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="account_cookies_false">{{ __('FsLang::panel.option_hidden') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="account_cookie_status" id="account_cookie_true" value="true" {{ $params['account_cookie_status'] ? 'checked' : '' }}>
-                            <label class="form-check-label" for="account_cookie_true">{{ __('FsLang::panel.option_visible') }}</label>
+                            <input class="form-check-input" type="radio" name="account_cookies_status" id="account_cookies_true" value="true" {{ $params['account_cookies_status'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="account_cookies_true">{{ __('FsLang::panel.option_visible') }}</label>
                         </div>
                     </div>
                 </div>
@@ -189,11 +189,11 @@
                             </td>
                             <td><button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#updateLanguage"
-                                    data-action="{{ route('panel.languages.update', ['itemKey' => 'account_cookie']) }}"
+                                    data-action="{{ route('panel.languages.update', ['itemKey' => 'account_cookies']) }}"
                                     data-lang_tag_desc="{{ $langName }}" data-lang_tag="{{ $lang['langTag'] }}"
-                                    data-key="account_cookie"
+                                    data-key="account_cookies"
                                     data-title="{{ __('FsLang::panel.policy_cookies') }}"
-                                    data-content="{{ $langParams['account_cookie'][$lang['langTag']] ?? '' }}">{{ __('FsLang::panel.button_edit') }}</button>
+                                    data-content="{{ $langParams['account_cookies'][$lang['langTag']] ?? '' }}">{{ __('FsLang::panel.button_edit') }}</button>
                             </td>
                             <td><button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#updateLanguage"

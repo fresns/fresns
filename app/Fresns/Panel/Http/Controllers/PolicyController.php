@@ -20,7 +20,7 @@ class PolicyController extends Controller
         $configKeys = [
             'account_terms_status',
             'account_privacy_status',
-            'account_cookie_status',
+            'account_cookies_status',
             'account_ip_location_status',
             'account_delete_status',
             'delete_account_type',
@@ -31,7 +31,7 @@ class PolicyController extends Controller
         $langKeys = [
             'account_terms',
             'account_privacy',
-            'account_cookie',
+            'account_cookies',
             'account_delete',
         ];
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -55,7 +55,7 @@ class PolicyController extends Controller
         $configKeys = [
             'account_terms_status',
             'account_privacy_status',
-            'account_cookie_status',
+            'account_cookies_status',
             'account_ip_location_status',
             'account_delete_status',
             'delete_account_type',
