@@ -11,7 +11,9 @@ namespace App\Fresns\Api\Http\Controllers;
 use App\Exceptions\ApiException;
 use App\Fresns\Api\Http\DTO\AccountApplyDeleteDTO;
 use App\Fresns\Api\Http\DTO\AccountEditDTO;
+use App\Fresns\Api\Http\DTO\AccountEmailDTO;
 use App\Fresns\Api\Http\DTO\AccountLoginDTO;
+use App\Fresns\Api\Http\DTO\AccountPhoneDTO;
 use App\Fresns\Api\Http\DTO\AccountRegisterDTO;
 use App\Fresns\Api\Http\DTO\AccountResetPasswordDTO;
 use App\Fresns\Api\Http\DTO\AccountVerifyIdentityDTO;
@@ -54,14 +56,20 @@ class AccountController extends Controller
                 throw new ApiException(34202);
             }
 
+            new AccountEmailDTO($request->all());
+
             $checkEmail = ValidationUtility::disposableEmail($dtoRequest->account);
             if (! $checkEmail) {
                 throw new ApiException(34110);
             }
         }
 
-        if ($dtoRequest->type == 'phone' && ! $configs['site_register_phone']) {
-            throw new ApiException(34203);
+        if ($dtoRequest->type == 'phone') {
+            new AccountPhoneDTO($request->all());
+
+            if (! $configs['site_register_phone']) {
+                throw new ApiException(34203);
+            }
         }
 
         $accountType = match ($dtoRequest->type) {
@@ -213,6 +221,12 @@ class AccountController extends Controller
     {
         $dtoRequest = new AccountLoginDTO($request->all());
 
+        if ($dtoRequest->type == 'email') {
+            new AccountEmailDTO($request->all());
+        } else {
+            new AccountPhoneDTO($request->all());
+        }
+
         $accountType = match ($dtoRequest->type) {
             'email' => 1,
             'phone' => 2,
@@ -256,10 +270,28 @@ class AccountController extends Controller
             $sessionLog['objectResult'] = SessionLog::STATE_FAILURE;
             \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
-            $loginOrRegister = ConfigHelper::fresnsConfigByItemKey('site_login_or_register');
+            $siteConfigs = ConfigHelper::fresnsConfigByItemKeys(['site_login_or_register', 'site_register_email']);
 
-            if (! $loginOrRegister || empty($password) || $fresnsResponse->getCode() == 33203) {
+            if (! $siteConfigs['site_login_or_register'] || empty($dtoRequest->verifyCode)) {
                 return $fresnsResponse->errorResponse();
+            }
+
+            if ($dtoRequest->type == 'email') {
+                if (! $siteConfigs['site_register_email']) {
+                    return $fresnsResponse->errorResponse();
+                }
+
+                $checkEmail = ValidationUtility::disposableEmail($dtoRequest->account);
+                if (! $checkEmail) {
+                    throw new ApiException(34110);
+                }
+            }
+
+            // check code
+            $fresnsCheckCodeResp = \FresnsCmdWord::plugin('Fresns')->checkCode($wordBody);
+
+            if ($fresnsCheckCodeResp->isErrorResponse()) {
+                return $fresnsCheckCodeResp->errorResponse();
             }
 
             // add user

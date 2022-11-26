@@ -9,6 +9,8 @@
 namespace App\Fresns\Api\Http\Controllers;
 
 use App\Exceptions\ApiException;
+use App\Fresns\Api\Http\DTO\AccountEmailDTO;
+use App\Fresns\Api\Http\DTO\AccountPhoneDTO;
 use App\Fresns\Api\Http\DTO\CommonCallbacksDTO;
 use App\Fresns\Api\Http\DTO\CommonFileLinkDTO;
 use App\Fresns\Api\Http\DTO\CommonInputTipsDTO;
@@ -36,6 +38,7 @@ use App\Models\User;
 use App\Utilities\PermissionUtility;
 use App\Utilities\ValidationUtility;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CommonController extends Controller
 {
@@ -234,11 +237,20 @@ class CommonController extends Controller
         }
 
         if ($dtoRequest->type == 'email') {
+            new AccountEmailDTO($request->all());
+
+            $checkEmail = ValidationUtility::disposableEmail($dtoRequest->account);
+            if (! $checkEmail) {
+                throw new ApiException(34110);
+            }
+
             $account = Account::where('email', $dtoRequest->account)->first();
             $accountConfig = $account?->email;
 
             $checkSend = ValidationUtility::sendCode($dtoRequest->account);
         } else {
+            new AccountPhoneDTO($request->all());
+
             $phone = $dtoRequest->countryCode.$dtoRequest->account;
             $account = Account::where('phone', $phone)->first();
             $accountConfig = $account?->phone;
