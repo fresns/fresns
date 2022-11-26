@@ -81,40 +81,6 @@ class Subscribe
         return $this->subTableName;
     }
 
-    /**
-     * Table name verification: support for subscribed table names.
-     *
-     * @param  string  $table
-     * @return bool
-     *
-     * @see https://fresns.org/extensions/command-word/subscribe.html
-     */
-    protected function isAvaliableTableName(): bool
-    {
-        $tableNames = [
-            'accounts',
-            'users',
-            'groups',
-            'hashtags',
-            'posts',
-            'comments',
-            'files',
-            'conversation_messages',
-        ];
-
-        return in_array($this->getSubTableName(), $tableNames);
-    }
-
-    public function supportSubscribe()
-    {
-        return $this->isAvaliableTableName();
-    }
-
-    public function isNotSupportSubscribe()
-    {
-        return ! $this->supportSubscribe();
-    }
-
     public function same(Subscribe $subscribe)
     {
         return $this->getType() === $subscribe->getType()

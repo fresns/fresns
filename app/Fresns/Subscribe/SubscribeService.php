@@ -23,11 +23,6 @@ class SubscribeService
     {
         $subscribe = Subscribe::make($wordBody);
 
-        // Table does not support subscribe
-        if ($subscribe->isNotSupportSubscribe()) {
-            ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_RESP_ERROR)::throw("unsupported subscription forms {$subscribe->getSubTableName()}");
-        }
-
         // Subscribe already exists
         if ($subscribe->ensureSubscribeExists()) {
             ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_RESP_ERROR)::throw("unikey {$subscribe->getUnikey()} already subscribed table {$subscribe->getSubTableName()}");
