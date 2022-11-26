@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 trait ApiResponseTrait
 {
-    public function success($data = null, ?string $message = null, $code = 0, $headers = [])
+    public function success(mixed $data = null, ?string $message = null, int $code = 0, array $headers = [])
     {
         if (is_string($data)) {
             $code = $message;
@@ -31,7 +31,7 @@ trait ApiResponseTrait
             extract($data);
         }
 
-        $message = $message ?? ConfigUtility::getCodeMessage($code, null, \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag()));
+        $message = $message ?: ConfigUtility::getCodeMessage($code, 'Fresns', \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag()));
 
         $data = $data ?: null;
         $fresnsResponse = compact('code', 'message', 'data') + array_filter(compact('paginate'));
@@ -48,7 +48,7 @@ trait ApiResponseTrait
         );
     }
 
-    public function warning(int $code, ?string $message = 'unknown warning', array|object $data = null)
+    public function warning(int $code, ?string $message = null, mixed $data = null)
     {
         $data = [
             'paginate' => [
@@ -60,16 +60,14 @@ trait ApiResponseTrait
             'list' => [],
         ];
 
-        $message = ConfigUtility::getCodeMessage($code, null, \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag())) ?? 'unknown warning';
+        $message = ConfigUtility::getCodeMessage($code, 'Fresns', \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag())) ?? 'Unknown Warning';
         $newMessage = '('.$code.') '.$message;
 
         return $this->success($data, $newMessage);
     }
 
-    public function failure($code = 30000, $message = 'unknown error', $data = null, $headers = [])
+    public function failure(int $code = 30000, ?string $message = null, mixed $data = null, array $headers = [])
     {
-        $message = ConfigUtility::getCodeMessage($code, null, \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag()));
-
         if (! \request()->wantsJson()) {
             $message = \json_encode(compact('code', 'message', 'data'), \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE | \JSON_PRETTY_PRINT);
             if (! array_key_exists($code, Response::$statusTexts)) {
@@ -88,7 +86,7 @@ trait ApiResponseTrait
             );
         }
 
-        return $this->success($data, $message ?: 'unknown error', $code ?: 3e4, $headers);
+        return $this->success($data, $message ?: 'Unknown Error', $code ?: 3e4, $headers);
     }
 
     public function fresnsPaginate($items, $total, $pageSize = 15)
