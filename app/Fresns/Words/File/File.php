@@ -153,7 +153,7 @@ class File
             );
         }
 
-        if ($storageConfig['antiLinkConfigStatus']) {
+        if ($storageConfig['antiLinkStatus']) {
             $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->getAntiLinkFileInfo($wordBody);
 
             return $fresnsResp->getOrigin();
@@ -182,7 +182,7 @@ class File
             );
         }
 
-        if ($storageConfig['antiLinkConfigStatus']) {
+        if ($storageConfig['antiLinkStatus']) {
             $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->getAntiLinkFileInfoList($wordBody);
 
             return $fresnsResp->getOrigin();
@@ -211,7 +211,7 @@ class File
             );
         }
 
-        if ($storageConfig['antiLinkConfigStatus']) {
+        if ($storageConfig['antiLinkStatus']) {
             $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->getAntiLinkFileOriginalUrl($wordBody);
 
             return $fresnsResp->getOrigin();
