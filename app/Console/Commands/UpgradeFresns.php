@@ -121,7 +121,6 @@ class UpgradeFresns extends Command
 
         Cache::put('autoUpgradeStep', $step);
         Cache::put('autoUpgradeTip', $content);
-
     }
 
     // step 2: download upgrade pack(zip)
