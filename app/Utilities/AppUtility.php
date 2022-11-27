@@ -24,9 +24,7 @@ class AppUtility
                 base_path('fresns.json')
             );
 
-            $currentVersion = json_decode($fresnsJson, true);
-
-            return $currentVersion;
+            return json_decode($fresnsJson, true);
         });
     }
 
@@ -70,6 +68,9 @@ class AppUtility
         );
 
         $currentVersion = json_decode($fresnsJson, true);
+        if (! $currentVersion) {
+            throw new \RuntimeException('Failed to update version information');
+        }
 
         $currentVersion['version'] = $version;
         $currentVersion['versionInt'] = $versionInt;
@@ -225,7 +226,10 @@ class AppUtility
             $versionInt++;
             $command = 'fresns:upgrade-'.$versionInt;
             if (\Artisan::has($command)) {
-                \Artisan::call($command);
+                $exitCode = \Artisan::call($command);
+                if ($exitCode) {
+                    return false;
+                }
             }
         }
 

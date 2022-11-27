@@ -159,90 +159,62 @@ $(document).ready(function () {
         progress.init().setProgressElement($('.ajax-progress').removeClass('d-none')).work();
     })
 
-    // upgrade
-    $('#upgradeButton').click(function () {
+    // fresns upgrade button
+    $('#autoUpgradeButton').click(function () {
         if ($(this).data('upgrading')) {
-            $('#upgrade').modal('show');
+            $('#autoUpgradeStepModal').modal('show');
         } else {
-            $('#upgradeConfirm').modal('show');
+            $('#autoUpgradeModal').modal('show');
         }
     });
-
-    var physicalUpgradeTimer = null;
-
-    function getPhysicalUpgradeOutput(action) {
-        if (!action) {
-            return;
-        }
-        $.ajax({
-            method: 'get',
-            url: action,
-            success: function (response) {
-                if (response.upgradeContent) {
-                    $('#physicalUpgradeOutput').val(response.upgradeContent)
-                }
-                if (!response.physicalUpgrading) {
-                    console.log('physical upgrade');
-                    $('#physicalUpgradeOutputModal').data('upgradeSuccess', 1);
-                    clearInterval(physicalUpgradeTimer);
-                    return;
-                }
-            },
-        });
-    }
-
-    $('#physicalUpgradeOutputModal, #upgradeStepModal').on('hide.bs.modal', function(e) {
-        if ($(this).data('upgradeSuccess') == 1) {
-            window.location.reload();
-        }
-    })
-
     $('#physicalUpgradeButton').click(function () {
         if ($(this).data('upgrading')) {
-            $('#physicalUpgradeOutputModal').modal('show');
+            $('#physicalUpgradeStepModal').modal('show');
         } else {
             $('#physicalUpgradeModal').modal('show');
         }
     });
 
-    $('#physicalUpgradeOutputModal').on('show.bs.modal', function (e) {
-        let action = $(this).data('action');
+    // fresns auto upgrade form
+    $('#autoUpgradeForm').submit(function () {
+        $('#autoUpgradeModal').modal('hide');
+        $.ajax({
+            method: 'POST',
+            dataType: 'json',
+            url: $(this).attr('action'),
+            success: function (response) {
+                $('#physicalUpgradeButton').addClass('d-none');
+                $('#physicalUpgradeGuide').addClass('d-none');
 
-        if (!physicalUpgradeTimer) {
-            getPhysicalUpgradeOutput(action);
-            physicalUpgradeTimer = setInterval(getPhysicalUpgradeOutput, 1000, action);
-        }
+                $('#autoUpgradeButton').removeClass('btn-primary').addClass('btn-info').text(trans('tips.upgrade_in_progress')); //FsLang
+
+                $('#autoUpgradeButton').data('upgrading', true);
+
+                $('#autoUpgradeStepModal').modal('show');
+            },
+            error: function (response) {
+                window.tips(response.responseJSON.message);
+            },
+        });
+
+        return false;
     });
 
-    $('#physicalUpgradeForm').submit(function() {
+    // fresns physical upgrade form
+    $('#physicalUpgradeForm').submit(function () {
         $('#physicalUpgradeModal').modal('hide');
         $.ajax({
             method: 'POST',
             dataType: 'json',
             url: $(this).attr('action'),
             success: function (response) {
+                $('#autoUpgradeButton').addClass('d-none');
+
+                $('#physicalUpgradeButton').removeClass('btn-primary').addClass('btn-info').text(trans('tips.upgrade_in_progress')); //FsLang
+
                 $('#physicalUpgradeButton').data('upgrading', true);
-                $('#physicalUpgradeOutputModal').modal('show');
-            },
-            error: function (response) {
-                window.tips(response.responseJSON.message);
-            },
-        });
-        return false;
-    });
 
-    $('#upgradeForm').submit(function () {
-        $('#upgradeConfirm').modal('hide');
-        $.ajax({
-            method: 'POST',
-            dataType: 'json',
-            url: $(this).attr('action'),
-            success: function (response) {
-                $('#upgradeButton').removeClass('btn-primary').addClass('btn-info').text(trans('tips.upgrade_in_progress')); //FsLang
-
-                $('#upgradeButton').data('upgrading', true);
-
-                $('#upgrade').modal('show');
+                $('#physicalUpgradeStepModal').modal('show');
             },
             error: function (response) {
                 window.tips(response.responseJSON.message);
@@ -254,7 +226,8 @@ $(document).ready(function () {
 
     var upgradeTimer = null;
 
-    function checkUpgradeStep(action) {
+    // check upgrade step
+    function checkAutoUpgradeStep(action) {
         if (!action) {
             return;
         }
@@ -262,9 +235,10 @@ $(document).ready(function () {
             method: 'get',
             url: action,
             success: function (response) {
-                let upgradeStep = response.upgrade_step || 6;
+                let autoUpgradeStep = response.autoUpgradeStep || 6,
+                    autoUpgradeTip = response.autoUpgradeTip;
 
-                let step = $('#upgrade').find('#upgrade' + upgradeStep);
+                let step = $('#autoUpgradeStepModal').find('#auto-upgrade-' + autoUpgradeStep);
                 step.find('i').remove();
                 step.prepend('<i class="upgrade-step spinner-border spinner-border-sm me-2" role="status"></i>');
 
@@ -273,12 +247,72 @@ $(document).ready(function () {
                     $(completeStep).prepend('<i class="bi bi-check-lg text-success me-2"></i>');
                 });
 
-                if (!upgradeStep || upgradeStep == 6) {
+                if (autoUpgradeStep == 0) {
+                    step.find('i').remove();
+                    step.prepend('<i class="bi bi-x-lg text-danger me-2"></i>');
+
+                    $('#autoUpgradeButton').addClass('btn-danger').removeClass('btn-info').text(trans('tips.installFailure')); //FsLang
+                    $('#autoUpgradeButton').data('upgrading', true);
+                    $('#autoUpgradeTip').removeClass('d-none').text(autoUpgradeTip);
+
+                    $('#upgradeStepModal').data('installFailure', 1);
+                    clearInterval(upgradeTimer);
+                    return;
+                }
+
+                if (!autoUpgradeStep || autoUpgradeStep == 6) {
                     step.find('i').remove();
                     step.prepend('<i class="bi bi-check-lg text-success me-2"></i>');
 
-                    $('#upgradeButton').addClass('btn-light').removeClass('btn-info').text(trans('tips.upgradeSuccess')); //FsLang
-                    $('#upgradeButton').data('upgrading', true);
+                    $('#autoUpgradeButton').addClass('btn-light').removeClass('btn-info').text(trans('tips.upgradeSuccess')); //FsLang
+                    $('#autoUpgradeButton').data('upgrading', true);
+
+                    $('#upgradeStepModal').data('upgradeSuccess', 1);
+                    clearInterval(upgradeTimer);
+                    return;
+                }
+            },
+        });
+    }
+    function checkPhysicalUpgradeStep(action) {
+        if (!action) {
+            return;
+        }
+        $.ajax({
+            method: 'get',
+            url: action,
+            success: function (response) {
+                let physicalUpgradeStep = response.physicalUpgradeStep || 7,
+                    physicalUpgradeTip = response.physicalUpgradeTip;
+
+                let step = $('#physicalUpgradeStepModal').find('#physical-upgrade-' + physicalUpgradeStep);
+                step.find('i').remove();
+                step.prepend('<i class="upgrade-step spinner-border spinner-border-sm me-2" role="status"></i>');
+
+                step.prevAll().map((index, completeStep) => {
+                    $(completeStep).find('i').remove();
+                    $(completeStep).prepend('<i class="bi bi-check-lg text-success me-2"></i>');
+                });
+
+                if (physicalUpgradeStep == 0) {
+                    step.find('i').remove();
+                    step.prepend('<i class="bi bi-x-lg text-danger me-2"></i>');
+
+                    $('#physicalUpgradeButton').addClass('btn-danger').removeClass('btn-info').text(trans('tips.installFailure')); //FsLang
+                    $('#physicalUpgradeButton').data('upgrading', true);
+                    $('#physicalUpgradeTip').removeClass('d-none').text(physicalUpgradeTip);
+
+                    $('#upgradeStepModal').data('installFailure', 1);
+                    clearInterval(upgradeTimer);
+                    return;
+                }
+
+                if (!physicalUpgradeStep || physicalUpgradeStep == 7) {
+                    step.find('i').remove();
+                    step.prepend('<i class="bi bi-check-lg text-success me-2"></i>');
+
+                    $('#physicalUpgradeButton').addClass('btn-light').removeClass('btn-info').text(trans('tips.upgradeSuccess')); //FsLang
+                    $('#physicalUpgradeButton').data('upgrading', true);
 
                     $('#upgradeStepModal').data('upgradeSuccess', 1);
                     clearInterval(upgradeTimer);
@@ -288,24 +322,24 @@ $(document).ready(function () {
         });
     }
 
-    $('#upgrade').on('show.bs.modal', function (e) {
-        let button = $('#upgradeButton');
+    // monitoring and upgrading process
+    $('#autoUpgradeStepModal').on('show.bs.modal', function (e) {
+        let button = $('#autoUpgradeButton');
         let action = button.data('action');
 
         if (!upgradeTimer) {
-            checkUpgradeStep(action);
-            upgradeTimer = setInterval(checkUpgradeStep, 1000, action);
+            checkAutoUpgradeStep(action);
+            upgradeTimer = setInterval(checkAutoUpgradeStep, 1000, action);
         }
     });
+    $('#physicalUpgradeStepModal').on('show.bs.modal', function (e) {
+        let button = $('#physicalUpgradeButton');
+        let action = button.data('action');
 
-    $('#fresnsUpgrade').click(function () {
-        $.ajax({
-            method: 'post',
-            url: $(this).data('action'),
-            success: function (response) {
-                window.tips(response.message);
-            },
-        });
+        if (!upgradeTimer) {
+            checkPhysicalUpgradeStep(action);
+            upgradeTimer = setInterval(checkPhysicalUpgradeStep, 1000, action);
+        }
     });
 
     // select2
@@ -2208,6 +2242,9 @@ $(document).ready(function () {
     $('#upgradeExtensions form').submit(function (event) {
         event.preventDefault();
 
+        // set progress
+        progress.init().setProgressElement($('.ajax-progress').removeClass('d-none')).work();
+
         $.ajax({
             method: $(this).attr('method'),
             url: $(this).attr('action'),
@@ -2216,12 +2253,14 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (response) {
+                progressDown && progressDown()
                 console.log('upgrade response', response)
                 var ansi_up = new AnsiUp;
                 var html = ansi_up.ansi_to_html(response.data.output);
                 $('#upgrade_artisan_output').html(html || trans('tips.upgradeSuccess')) //FsLang
             },
             error: function (response) {
+                progressExit && progressExit()
                 window.tips(response.responseJSON.message);
             },
         });

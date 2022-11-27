@@ -9,10 +9,13 @@
 namespace App\Console\Commands;
 
 use App\Helpers\AppHelper;
+use App\Helpers\CacheHelper;
 use App\Utilities\AppUtility;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class UpgradeFresns extends Command
 {
@@ -26,6 +29,7 @@ class UpgradeFresns extends Command
 
     protected $extractPath;
 
+    const STEP_FAILURE = 0;
     const STEP_START = 1;
     const STEP_DOWNLOAD = 2;
     const STEP_EXTRACT = 3;
@@ -41,41 +45,87 @@ class UpgradeFresns extends Command
     // execute the console command
     public function handle()
     {
+        Cache::forget('autoUpgradeTip');
         $this->updateStep(self::STEP_START);
 
         // Check if an upgrade is needed
         $checkVersion = AppUtility::checkVersion();
         if (! $checkVersion) {
-            return $this->info('No new version, Already the latest version of Fresns.');
+            $checkVersionTip = 'No new version, Already the latest version of Fresns.';
+
+            $this->info($checkVersionTip);
+            $this->info('Step --: Upgrade end');
+
+            Cache::put('autoUpgradeStep', self::STEP_DONE);
+            Cache::put('autoUpgradeTip', $checkVersionTip);
+
+            return Command::SUCCESS;
         }
 
         try {
             $this->download();
-            $this->extractFile();
+            if (! $this->extractFile()) {
+                $extractFileTip = 'Failed to download upgrade package.';
+
+                $this->error($extractFileTip);
+
+                Cache::put('autoUpgradeStep', self::STEP_FAILURE);
+                Cache::put('autoUpgradeTip', $extractFileTip);
+
+                return Command::FAILURE;
+            };
             $this->upgradeCommand();
             $this->upgradeFinish();
         } catch (\Exception $e) {
-            $this->info($e->getMessage());
+            logger($e->getMessage());
+            $this->error($e->getMessage());
+            $this->updateStep(self::STEP_FAILURE);
+            return Command::FAILURE;
         }
 
         $this->clear();
-
         $this->updateStep(self::STEP_DONE);
 
         return Command::SUCCESS;
     }
 
     // output update step info
-    public function updateStep(string $step): bool
+    public function updateStep(int $step)
     {
+        $stepInfo = match ($step) {
+            self::STEP_FAILURE => 'Step --: Upgrade failure',
+            self::STEP_START => 'Step 1/6: Initialization verification',
+            self::STEP_DOWNLOAD => 'Step 2/6: Download upgrade package',
+            self::STEP_EXTRACT => 'Step 3/6: Unzip the upgrade package',
+            self::STEP_INSTALL => 'Step 4/6: Run the upgrade package to install the new version',
+            self::STEP_CLEAR => 'Step 5/6: Clear cache',
+            self::STEP_DONE => 'Step 6/6: Done',
+            default => 'Step --: Upgrade end',
+        };
+
         // upgrade step
-        return Cache::put('upgradeStep', $step);
+        return $this->updateOutput($stepInfo, $step);
+    }
+
+    public function updateOutput($content, $step)
+    {
+        if ($step == self::STEP_FAILURE) {
+            $this->error($content);
+        } else {
+            $this->info($content);
+        }
+
+        $output = cache('autoUpgradeTip')."\n";
+        $output .= $content;
+
+        Cache::put('autoUpgradeStep', $step);
+        Cache::put('autoUpgradeTip', $content);
+        return;
     }
 
     // step 2: download upgrade pack(zip)
     public function download(): bool
     {
-        logger('upgrade:download');
         $this->updateStep(self::STEP_DOWNLOAD);
 
         $client = new \GuzzleHttp\Client();
@@ -84,9 +134,9 @@ class UpgradeFresns extends Command
 
         $filename = basename($downloadUrl);
 
-        $path = \Storage::path($this->path);
+        $path = Storage::path($this->path);
         if (! file_exists($path)) {
-            \File::makeDirectory($path, 0775, true);
+            File::makeDirectory($path, 0775, true);
         }
 
         $file = $path.'/'.$filename;
@@ -115,12 +165,12 @@ class UpgradeFresns extends Command
 
         $zipFile = new \PhpZip\ZipFile();
 
-        if (! file_exists(\Storage::path($extractPath))) {
-            \File::makeDirectory(\Storage::path($extractPath), 0775, true);
+        if (! file_exists(Storage::path($extractPath))) {
+            File::makeDirectory(Storage::path($extractPath), 0775, true);
         }
-        $zipFile->openFile($this->file)->extractTo(\Storage::path($extractPath));
+        $zipFile->openFile($this->file)->extractTo(Storage::path($extractPath));
 
-        $this->copyMerge(\Storage::path($extractPath.'/fresns'), base_path());
+        $this->copyMerge(Storage::path($extractPath.'/fresns'), base_path());
 
         return true;
     }
@@ -128,7 +178,6 @@ class UpgradeFresns extends Command
     // step 4-1: execute the version command
     public function upgradeCommand()
     {
-        logger('upgrade:install');
         $this->updateStep(self::STEP_INSTALL);
 
         AppUtility::executeUpgradeCommand();
@@ -148,11 +197,9 @@ class UpgradeFresns extends Command
     // step 5: clear cache
     public function clear()
     {
-        logger('upgrade:clear');
         $this->updateStep(self::STEP_CLEAR);
 
-        $this->call('cache:clear');
-        $this->call('config:clear');
+        CacheHelper::clearAllCache();
 
         if ($this->path) {
             $file = new Filesystem;

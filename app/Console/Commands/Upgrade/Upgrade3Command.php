@@ -29,13 +29,14 @@ class Upgrade3Command extends Command
     public function handle()
     {
         $this->updateData();
+        $this->call('migrate', ['--force' => true]);
         $this->composerInstall();
 
         return Command::SUCCESS;
     }
 
     // update data
-    public function updateData()
+    public function updateData(): bool
     {
         // modify cookie prefix
         $cookiePrefix = Config::where('item_key', 'engine_cookie_prefix')->first();
@@ -110,7 +111,7 @@ class Upgrade3Command extends Command
 
             $newData = array_merge($newPackData, $addPackKeys);
 
-            $languagePack->item_value = json_encode($newData);
+            $languagePack->item_value = $newData;
             $languagePack->save();
         }
 
@@ -147,7 +148,7 @@ class Upgrade3Command extends Command
 
             $langNewContent = (object) array_merge((array) $newContent, (array) $langAddContent);
 
-            $packContent->lang_content = json_encode($langNewContent);
+            $packContent->lang_content = json_encode($langNewContent, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
             $packContent->save();
         }
 

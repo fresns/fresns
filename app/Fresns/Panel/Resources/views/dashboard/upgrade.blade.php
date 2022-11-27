@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
-    <script src="/static/js/ansi_up.js"></script>
     <div class="row mb-4 border-bottom">
         <div class="col-lg-5">
             <h3>{{ __('FsLang::panel.sidebar_upgrades') }}</h3>
@@ -41,20 +40,26 @@
                     @endif
                 </div>
 
-                @if ($upgradeStep)
-                    <button id="upgradeButton" type="button" class="btn btn-info" data-action="{{ route('panel.upgrade.info') }}" data-upgrading="1">
-                        {{ __('FsLang::tips.upgrade_in_progress') }}
-                    </button>
+                @if ($autoUpgradeStepInt || $physicalUpgradeStepInt)
+                    @if ($autoUpgradeStepInt)
+                        <button type="button" class="btn btn-info" id="autoUpgradeButton" data-action="{{ route('panel.upgrade.info') }}" data-upgrading="{{ $autoUpgradeStepInt }}">
+                            {{ __('FsLang::tips.upgrade_in_progress') }}
+                        </button>
+                    @else
+                        <button type="button" class="btn btn-info" id="physicalUpgradeButton" data-action="{{ route('panel.upgrade.info') }}" data-upgrading="{{ $physicalUpgradeStepInt }}">
+                            {{ __('FsLang::tips.upgrade_in_progress') }}
+                        </button>
+                    @endif
                 @else
                     @if($newVersion['upgradeAuto'])
-                        <button type="button" class="btn btn-primary me-3" id="upgradeButton" data-action="{{ route('panel.upgrade.info') }}">
+                        <button type="button" class="btn btn-primary me-3" id="autoUpgradeButton" data-action="{{ route('panel.upgrade.info') }}">
                             {{ __('FsLang::panel.button_automatic_upgrade') }}
                         </button>
                     @endif
-                    <button type="button" class="btn btn-outline-primary" id="physicalUpgradeButton" data-upgrading="{{ $physicalUpgrading }}">
+                    <button type="button" class="btn btn-outline-primary" id="physicalUpgradeButton" data-action="{{ route('panel.upgrade.info') }}">
                         {{ __('FsLang::panel.button_physical_upgrade') }}
                     </button>
-                    <a class="link-success ms-2" href="https://fresns.org/guide/upgrade.html#physical-upgrade" target="_blank">{{ __('FsLang::tips.physical_upgrade_guide') }}</a>
+                    <a class="link-success ms-2" href="https://fresns.org/guide/upgrade.html#physical-upgrade" target="_blank" id="physicalUpgradeGuide">{{ __('FsLang::tips.physical_upgrade_guide') }}</a>
                 @endif
             @else
                 <div class="p-5 text-center">
@@ -219,10 +224,13 @@
         </div>
     </div>
 
-    <!-- Fresns Upgrade Modal: upgrade confirm -->
-    <div class="modal fade" id="upgradeConfirm" tabindex="-1" aria-labelledby="upgrade" aria-hidden="true">
+    {{-- JS --}}
+    <script src="/static/js/ansi_up.js"></script>
+
+    <!-- Fresns Upgrade Modal: auto upgrade confirm -->
+    <div class="modal fade" id="autoUpgradeModal" tabindex="-1" aria-labelledby="upgrade" aria-hidden="true">
         <div class="modal-dialog">
-            <form method="post" action="{{ route('panel.upgrade') }}" id="upgradeForm">
+            <form method="post" action="{{ route('panel.upgrade.auto') }}" id="autoUpgradeForm">
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
@@ -243,29 +251,34 @@
         </div>
     </div>
 
-    <!-- Fresns Upgrade Modal: upgrade step -->
-    <div class="modal fade" id="upgrade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="upgrade" aria-hidden="true">
+    <!-- Fresns Upgrade Modal: auto upgrade step -->
+    <div class="modal fade" id="autoUpgradeStepModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="upgrade" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title"><i class="bi bi-laptop"></i> {{ __('FsLang::panel.fresns_core') }}
                         <span class="badge bg-secondary">{{ $currentVersion['version'] ?? '' }}</span> to <span class="badge bg-primary">{{ $newVersion['version'] ?? '' }}</span>
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="reloadPage()"></button>
                 </div>
                 <div class="modal-body ps-5">
-                    @foreach($steps as $step => $description)
-                        <p id="upgrade{{$step}}">
-                        @if ($upgradeStep < $step)
-                            <i class="bi bi-hourglass text-secondary me-2"></i>
-                        @elseif($upgradeStep == $step)
-                            <i class="spinner-border spinner-border-sm me-2" role="status"></i>
-                        @else
-                            <i class="bi bi-check-lg text-success me-2"></i>
-                        @endif
-                        {{$description}}
+                    @foreach($autoUpgradeSteps as $step => $description)
+                        <p id="auto-upgrade-{{$step}}">
+                            @if ($autoUpgradeStepInt < $step)
+                                <i class="bi bi-hourglass text-secondary me-2"></i>
+                            @elseif($autoUpgradeStepInt == $step)
+                                <i class="spinner-border spinner-border-sm me-2" role="status"></i>
+                            @elseif ($autoUpgradeStepInt == 0)
+                                <i class="bi bi-x-lg text-danger me-2"></i>
+                            @else
+                                <i class="bi bi-check-lg text-success me-2"></i>
+                            @endif
+                            {{$description}}
                         </p>
                     @endforeach
+
+                    {{-- autoUpgradeTip --}}
+                    <div class="alert alert-danger d-none" role="alert" id="autoUpgradeTip"></div>
                 </div>
             </div>
         </div>
@@ -274,7 +287,7 @@
     <!-- Fresns Upgrade Modal: physical upgrade confirm -->
     <div class="modal fade" id="physicalUpgradeModal" tabindex="-1" aria-labelledby="physicalUpgradeModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form method="post" action="{{ route('panel.physical.upgrade') }}" id="physicalUpgradeForm">
+            <form method="post" action="{{ route('panel.upgrade.physical') }}" id="physicalUpgradeForm">
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
@@ -303,19 +316,34 @@
         </div>
     </div>
 
-    <!-- Fresns Upgrade Modal: physical upgrade artisan output -->
-    <div class="modal fade" id="physicalUpgradeOutputModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" data-action="{{ route('panel.physical.upgrade.info') }}" aria-labelledby="physicalUpgradeOutputModal" aria-hidden="true">
+    <!-- Fresns Upgrade Modal: physical upgrade step -->
+    <div class="modal fade" id="physicalUpgradeStepModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="upgrade" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">{{ __('FsLang::panel.button_physical_upgrade') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title"><i class="bi bi-laptop"></i> {{ __('FsLang::panel.fresns_core') }}
+                        <span class="badge bg-secondary">{{ $currentVersion['version'] ?? '' }}</span> to <span class="badge bg-primary">{{ $newVersion['version'] ?? '' }}</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="reloadPage()"></button>
                 </div>
-                <div class="modal-body">
-                    <textarea class="form-control" rows="10" id="physicalUpgradeOutput" readonly>{{ __('FsLang::tips.upgrade_in_progress') }}</textarea>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal" onclick="reloadPage()">{{ __('FsLang::panel.button_close') }}</button>
+                <div class="modal-body ps-5">
+                    @foreach($physicalUpgradeSteps as $step => $description)
+                        <p id="physical-upgrade-{{$step}}">
+                            @if ($physicalUpgradeStepInt < $step)
+                                <i class="bi bi-hourglass text-secondary me-2"></i>
+                            @elseif($physicalUpgradeStepInt == $step)
+                                <i class="spinner-border spinner-border-sm me-2" role="status"></i>
+                            @elseif ($physicalUpgradeStepInt == 0)
+                                <i class="bi bi-x-lg text-danger me-2"></i>
+                            @else
+                                <i class="bi bi-check-lg text-success me-2"></i>
+                            @endif
+                            {{$description}}
+                        </p>
+                    @endforeach
+
+                    {{-- physicalUpgradeTip --}}
+                    <div class="alert alert-danger d-none" role="alert" id="physicalUpgradeTip"></div>
                 </div>
             </div>
         </div>
@@ -396,9 +424,14 @@
                 </div>
                 <div class="modal-body">
                     <pre class="form-control" id="upgrade_artisan_output">{{ __('FsLang::tips.upgrade_in_progress') }}</pre>
+
+                    <!--progress bar-->
+                    <div class="mt-2">
+                        <div class="ajax-progress progress d-none" id="upgrade-extension-progress"></div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('FsLang::panel.button_close') }}</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal" onclick="reloadPage()">{{ __('FsLang::panel.button_close') }}</button>
                 </div>
             </div>
         </div>
