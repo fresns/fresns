@@ -191,10 +191,6 @@ class GlobalController extends Controller
             return $items;
         });
 
-        if (is_null($archives)) {
-            Cache::forget($cacheKey);
-        }
-
         return $this->success($archives);
     }
 
@@ -322,10 +318,6 @@ class GlobalController extends Controller
 
             return CollectionUtility::toTree($stickerData, 'code', 'parentCode', 'stickers');
         });
-
-        if (is_null($stickerTree)) {
-            Cache::forget($cacheKey);
-        }
 
         return $this->success($stickerTree);
     }

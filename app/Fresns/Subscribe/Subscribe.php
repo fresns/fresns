@@ -8,6 +8,8 @@
 
 namespace App\Fresns\Subscribe;
 
+use App\Helpers\CacheHelper;
+use App\Helpers\ConfigHelper;
 use App\Models\Config;
 
 class Subscribe
@@ -134,7 +136,7 @@ class Subscribe
 
     public function getCurrentSubscribes()
     {
-        return $this->getSubscribeItemConfig()->item_value;
+        return ConfigHelper::fresnsConfigByItemKey('subscribe_items');
     }
 
     public function getTableDataChangeSubscribes()
@@ -157,9 +159,13 @@ class Subscribe
 
         array_push($subscribes, $this->toArray());
 
-        return $this->getSubscribeItemConfig()->update([
+        $fresnsSave = $this->getSubscribeItemConfig()->update([
             'item_value' => $subscribes,
         ]);
+
+        CacheHelper::forgetFresnsKeys(['subscribe_items']);
+
+        return $fresnsSave;
     }
 
     public function remove()
@@ -168,8 +174,12 @@ class Subscribe
 
         $filterData = $filterData->flatten()->map->toArray()->toArray();
 
-        $this->getSubscribeItemConfig()->update([
+        $fresnsRemove = $this->getSubscribeItemConfig()->update([
             'item_value' => $filterData,
         ]);
+
+        CacheHelper::forgetFresnsKeys(['subscribe_items']);
+
+        return $fresnsRemove;
     }
 }
