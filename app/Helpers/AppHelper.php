@@ -133,20 +133,22 @@ class AppHelper
     public static function getPluginConfig(string $plugin)
     {
         $pluginJsonFile = config('plugins.paths.plugins').'/'.$plugin.'/plugin.json';
-        if (! $pluginJsonFile) {
+
+        if (! file_exists($pluginJsonFile)) {
             return null;
         }
 
-        $themeConfig = json_decode(File::get($pluginJsonFile), true);
+        $pluginConfig = json_decode(File::get($pluginJsonFile), true);
 
-        return $themeConfig;
+        return $pluginConfig;
     }
 
     // get theme config
     public static function getThemeConfig(string $theme)
     {
         $themeJsonFile = config('themes.paths.themes').'/'.$theme.'/theme.json';
-        if (! $themeJsonFile) {
+
+        if (! file_exists($themeJsonFile)) {
             return null;
         }
 
