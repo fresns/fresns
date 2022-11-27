@@ -89,6 +89,7 @@ class LoginController extends Controller
                 'pluginUnikey' => 'Fresns',
                 'platformId' => Browser::isMobile() ? 3 : 2,
                 'version' => AppHelper::VERSION,
+                'appId' => null,
                 'langTag' => $langTag,
                 'aid' => (string) $account->aid,
                 'uid' => null,

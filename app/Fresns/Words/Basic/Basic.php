@@ -182,6 +182,7 @@ class Basic
             'plugin_unikey' => $dtoWordBody->pluginUnikey ?? 'Fresns',
             'platform_id' => $dtoWordBody->platformId,
             'version' => $dtoWordBody->version,
+            'app_id' => $dtoWordBody->appId ?? null,
             'lang_tag' => $dtoWordBody->langTag ?? null,
             'account_id' => $accountId,
             'user_id' => $userId,
