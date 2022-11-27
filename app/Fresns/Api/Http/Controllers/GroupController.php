@@ -46,11 +46,9 @@ class GroupController extends Controller
         $groups = Cache::remember($cacheKey, $cacheTime, function () use ($groupFilterIds) {
             return Group::with(['category', 'admins'])
                 ->where(function ($query) {
-                    $query->whereIn('type', [1, 2])
-                        ->orWhere(function ($query) {
-                            $query->whereIn('type', [3])
-                                ->where('sublevel_public', Group::SUBLEVEL_PUBLIC);
-                        });
+                    $query->whereIn('type', [1, 2])->orWhere(function ($query) {
+                        $query->whereIn('type', [3])->where('sublevel_public', Group::SUBLEVEL_PUBLIC);
+                    });
                 })
                 ->whereNotIn('id', $groupFilterIds)
                 ->isEnable()
@@ -103,6 +101,12 @@ class GroupController extends Controller
             ->whereNotIn('id', $groupFilterIds)
             ->isEnable();
 
+        $groupQuery->where(function ($query) {
+            $query->whereIn('type', [1, 2])->orWhere(function ($query) {
+                $query->whereIn('type', [3])->where('sublevel_public', Group::SUBLEVEL_PUBLIC);
+            });
+        });
+
         if ($dtoRequest->gid) {
             $parentGroup = PrimaryHelper::fresnsModelByFsid('group', $dtoRequest->gid);
 
@@ -114,17 +118,7 @@ class GroupController extends Controller
                 throw new ApiException(37101);
             }
 
-            switch ($parentGroup->type) {
-                case Group::TYPE_CATEGORY:
-                    $groupQuery->where('parent_id', $parentGroup->id)->where('sublevel_public', Group::SUBLEVEL_PUBLIC);
-                break;
-
-                case Group::TYPE_GROUP:
-                    $groupQuery->where('parent_id', $parentGroup->id);
-                break;
-            }
-        } else {
-            $groupQuery->where('sublevel_public', Group::SUBLEVEL_PUBLIC);
+            $groupQuery->where('parent_id', $parentGroup->id);
         }
 
         $groupQuery->when($dtoRequest->recommend, function ($query, $value) {
