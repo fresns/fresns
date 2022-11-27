@@ -11,7 +11,7 @@ namespace App\Utilities;
 class ArrUtility
 {
     // get key value
-    public static function get(?array $arrays = [], string $key, string|array $values)
+    public static function get(?array $arrays, string $key, string|array $values)
     {
         if (empty($arrays)) {
             return [];
@@ -32,11 +32,11 @@ class ArrUtility
         return $data;
     }
 
-    // remove key value
-    public static function forget(?array $arrays = [], string $key, string|array $values)
+    // forget key value
+    public static function forget(?array $arrays, string $key, string|array $values)
     {
         if (empty($arrays)) {
-            return false;
+            return [];
         }
 
         $values = (array) $values;
@@ -45,13 +45,17 @@ class ArrUtility
             return in_array($item[$key], $values);
         });
 
-        $arrays = $otherData->values()->toArray();
+        $data = $otherData->values()->toArray();
 
-        return true;
+        if (count($data) == 1) {
+            return $data[0];
+        }
+
+        return $data;
     }
 
     // pull key value
-    public static function pull(?array &$arrays = [], string $key, string|array $values)
+    public static function pull(?array &$arrays, string $key, string|array $values)
     {
         if (empty($arrays)) {
             return [];
