@@ -73,13 +73,14 @@ class UpgradeFresns extends Command
                 Cache::put('autoUpgradeTip', $extractFileTip);
 
                 return Command::FAILURE;
-            };
+            }
             $this->upgradeCommand();
             $this->upgradeFinish();
         } catch (\Exception $e) {
             logger($e->getMessage());
             $this->error($e->getMessage());
             $this->updateStep(self::STEP_FAILURE);
+
             return Command::FAILURE;
         }
 
@@ -120,7 +121,7 @@ class UpgradeFresns extends Command
 
         Cache::put('autoUpgradeStep', $step);
         Cache::put('autoUpgradeTip', $content);
-        return;
+
     }
 
     // step 2: download upgrade pack(zip)
