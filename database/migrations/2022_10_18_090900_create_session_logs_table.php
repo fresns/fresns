@@ -25,6 +25,7 @@ class CreateSessionLogsTable extends Migration
             $table->unsignedTinyInteger('type')->default(1);
             $table->unsignedTinyInteger('platform_id');
             $table->string('version', 16);
+            $table->char('app_id', 8)->nullable();
             $table->char('lang_tag', 16)->nullable();
             $table->string('object_name', 128);
             $table->string('object_action', 128)->nullable();
