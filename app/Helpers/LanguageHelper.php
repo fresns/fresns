@@ -56,10 +56,6 @@ class LanguageHelper
             return $langContent;
         });
 
-        if (is_null($langContentCache)) {
-            Cache::forget($cacheKey);
-        }
-
         return $langContentCache;
     }
 

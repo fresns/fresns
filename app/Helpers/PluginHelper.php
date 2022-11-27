@@ -42,10 +42,6 @@ class PluginHelper
             return $link ?? null;
         });
 
-        if (is_null($pluginUrl)) {
-            Cache::forget($cacheKey);
-        }
-
         return $pluginUrl;
     }
 
@@ -72,10 +68,6 @@ class PluginHelper
 
             return $replaceUrl;
         });
-
-        if (is_null($pluginUrl)) {
-            Cache::forget($cacheKey);
-        }
 
         return $pluginUrl;
     }

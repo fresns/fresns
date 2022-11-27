@@ -90,10 +90,6 @@ class ConfigHelper
             return $itemData->item_value ?? null;
         });
 
-        if (is_null($itemValue)) {
-            Cache::forget($configCacheKey);
-        }
-
         return $itemValue;
     }
 
@@ -118,10 +114,6 @@ class ConfigHelper
 
             return $data ?? null;
         });
-
-        if (is_null($keysData)) {
-            Cache::forget($configCacheKey);
-        }
 
         return $keysData;
     }
@@ -153,10 +145,6 @@ class ConfigHelper
 
             return $itemDataArr;
         });
-
-        if (is_null($tagData)) {
-            Cache::forget($configCacheKey);
-        }
 
         return $tagData;
     }
