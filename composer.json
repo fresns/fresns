@@ -37,7 +37,7 @@
         "laravel/ui": "^4.1",
         "fresns/dto": "^1.1",
         "fresns/cmd-word-manager": "^1.2",
-        "fresns/plugin-manager": "^2.1",
+        "fresns/plugin-manager": "^2.2",
         "fresns/theme-manager": "^2.0",
         "fresns/market-manager": "^2.1",
         "mcamara/laravel-localization": "^1.7",
