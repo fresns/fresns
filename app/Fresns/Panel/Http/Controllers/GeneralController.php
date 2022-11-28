@@ -17,6 +17,7 @@ use App\Models\File;
 use App\Models\FileUsage;
 use App\Models\Language;
 use App\Models\Plugin;
+use Illuminate\Support\Str;
 
 class GeneralController extends Controller
 {
@@ -148,6 +149,7 @@ class GeneralController extends Controller
         foreach ($configKeys as $configKey) {
             $config = $configs->where('item_key', $configKey)->first();
             if (! $config) {
+                continue;
             }
 
             if (! $request->has($configKey)) {
@@ -155,6 +157,12 @@ class GeneralController extends Controller
                 $config->save();
                 continue;
             }
+
+            if ($configKey == 'site_url' && $request->$configKey) {
+                $request->$configKey = Str::of($request->configKey)->trim();
+                $request->$configKey = Str::of($request->$configKey)->rtrim('/');
+            }
+
             $config->item_value = $request->$configKey;
             $config->save();
         }

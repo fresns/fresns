@@ -11,6 +11,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Fresns\Panel\Http\Requests\UpdateConfigRequest;
 use App\Models\Config;
 use App\Models\Plugin;
+use Illuminate\Support\Str;
 
 class SettingController extends Controller
 {
@@ -36,7 +37,7 @@ class SettingController extends Controller
 
     public function update(UpdateConfigRequest $request)
     {
-        if ($request->path && \Str::startsWith($request->path, config('FsConfig.route_blacklist'))) {
+        if ($request->path && Str::startsWith($request->path, config('FsConfig.route_blacklist'))) {
             return back()->with('failure', __('FsLang::tips.secure_entry_route_conflicts'));
         }
 
@@ -47,14 +48,20 @@ class SettingController extends Controller
         }
 
         if ($request->systemUrl) {
+            $url = Str::of($request->systemUrl)->trim();
+            $url = Str::of($url)->rtrim('/');
+
             $systemUrl = Config::where('item_key', 'system_url')->firstOrNew();
-            $systemUrl->item_value = $request->systemUrl;
+            $systemUrl->item_value = $url;
             $systemUrl->save();
         }
 
         if ($request->panelPath) {
+            $path = Str::of($request->panelPath)->trim();
+            $path = Str::of($path)->rtrim('/');
+
             $pathConfig = Config::where('item_key', 'panel_path')->firstOrNew();
-            $pathConfig->item_value = trim($request->panelPath, '/');
+            $pathConfig->item_value = $path;
             $pathConfig->save();
         }
 
