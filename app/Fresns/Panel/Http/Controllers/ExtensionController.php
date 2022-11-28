@@ -258,14 +258,19 @@ class ExtensionController extends Controller
         $installType = $request->get('install_type', 'market');
 
         AppUtility::macroMarketHeader();
-        \Artisan::call('market:upgrade', [
+        $code = \Artisan::call('market:upgrade', [
             'unikey' => $unikey,
             'package_type' => $packageType,
             '--install_type' => $installType,
         ]);
+        
+        $message = __('FsLang::tips.upgradeSuccess');
+        if ($code != 0) {
+            $message = __('FsLang::tips.installFailure');
+        }
 
         return \response()->json([
-            'message' => __('FsLang::tips.upgradeSuccess'),
+            'message' => $message,
             'data' => [
                 'output' => \Artisan::output()."\n".__('FsLang::tips.upgradeSuccess'),
             ],
