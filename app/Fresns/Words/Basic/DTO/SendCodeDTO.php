@@ -24,7 +24,7 @@ class SendCodeDTO extends DTO
             'type' => ['integer', 'required', 'in:1,2'],
             'account' => ['string', 'required'],
             'countryCode' => ['integer', 'nullable', 'required_if:type,2'],
-            'templateId' => ['integer', 'required', 'in:1,2,3,4,5,6,7'],
+            'templateId' => ['integer', 'required', 'in:1,2,3,4,5,6,7,8'],
             'langTag' => ['string', 'required'],
         ];
     }

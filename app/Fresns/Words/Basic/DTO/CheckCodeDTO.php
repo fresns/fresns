@@ -25,6 +25,7 @@ class CheckCodeDTO extends DTO
             'account' => ['string', 'required'],
             'countryCode' => ['integer', 'nullable', 'required_if:type,2'],
             'verifyCode' => ['string', 'required'],
+            'templateId' => ['integer', 'required', 'in:1,2,3,4,5,6,7,8'],
         ];
     }
 }

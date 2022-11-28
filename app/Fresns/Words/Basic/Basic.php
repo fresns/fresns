@@ -245,7 +245,8 @@ class Basic
             $account = $dtoWordBody->countryCode.$dtoWordBody->account;
         }
 
-        $verifyInfo = VerifyCode::where('type', $dtoWordBody->type)
+        $verifyInfo = VerifyCode::where('template_id', $dtoWordBody->templateId)
+            ->where('type', $dtoWordBody->type)
             ->where('account', $account)
             ->where('code', $dtoWordBody->verifyCode)
             ->where('expired_at', '>', date('Y-m-d H:i:s'))
@@ -259,7 +260,7 @@ class Basic
             );
         }
 
-        VerifyCode::where('id', $verifyInfo->id)->update([
+        $verifyInfo->update([
             'is_enable' => 0,
         ]);
 

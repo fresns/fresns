@@ -20,6 +20,7 @@ use App\Models\Account as AccountModel;
 use App\Models\AccountConnect;
 use App\Models\AccountWallet;
 use App\Models\SessionToken;
+use App\Models\VerifyCode;
 use App\Utilities\ConfigUtility;
 use Carbon\Carbon;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
@@ -148,12 +149,20 @@ class Account
             );
         }
 
-        if (empty($dtoWordBody->password)) {
+        if ($dtoWordBody->password) {
+            if (! Hash::check($dtoWordBody->password, $account->password)) {
+                return $this->failure(
+                    34304,
+                    ConfigUtility::getCodeMessage(34304, 'Fresns', $langTag),
+                );
+            }
+        } else {
             $codeWordBody = [
                 'type' => $dtoWordBody->type,
                 'account' => $dtoWordBody->account,
                 'countryCode' => $dtoWordBody->countryCode,
                 'verifyCode' => $dtoWordBody->verifyCode,
+                'templateId' => VerifyCode::TEMPLATE_LOGIN,
             ];
 
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkCode($codeWordBody);
@@ -161,20 +170,6 @@ class Account
             if ($fresnsResp->isErrorResponse()) {
                 return $fresnsResp->getOrigin();
             }
-
-            if ($fresnsResp->isSuccessResponse()) {
-                return $this->success([
-                    'type' => $account->type,
-                    'aid' => $account->aid,
-                ]);
-            }
-        }
-
-        if (! Hash::check($dtoWordBody->password, $account->password)) {
-            return $this->failure(
-                34304,
-                ConfigUtility::getCodeMessage(34304, 'Fresns', $langTag),
-            );
         }
 
         $account->update([
