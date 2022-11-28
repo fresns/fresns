@@ -176,6 +176,7 @@ class StorageController extends Controller
         foreach ($configKeys as $configKey) {
             $config = $configs->where('item_key', $configKey)->first();
             if (! $config) {
+                continue;
             }
 
             $value = $request->$configKey;
@@ -330,6 +331,7 @@ class StorageController extends Controller
         foreach ($configKeys as $configKey) {
             $config = $configs->where('item_key', $configKey)->first();
             if (! $config) {
+                continue;
             }
 
             $value = $request->$configKey;
@@ -463,6 +465,7 @@ class StorageController extends Controller
         foreach ($configKeys as $configKey) {
             $config = $configs->where('item_key', $configKey)->first();
             if (! $config) {
+                continue;
             }
 
             $value = $request->$configKey;

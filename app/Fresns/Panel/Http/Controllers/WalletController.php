@@ -83,6 +83,7 @@ class WalletController extends Controller
         foreach ($configKeys as $configKey) {
             $config = $configs->where('item_key', $configKey)->first();
             if (! $config) {
+                continue;
             }
 
             if (! $request->has($configKey)) {
