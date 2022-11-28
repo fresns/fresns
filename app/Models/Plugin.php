@@ -10,9 +10,9 @@ namespace App\Models;
 
 class Plugin extends Model
 {
-    const TYPE_EXTENSION = 1;
+    const TYPE_PLUGIN = 1;
     const TYPE_PANEL = 2;
-    const TYPE_DIVERSIFY_IMAGE = 3;
+    const TYPE_ENGINE = 3;
     const TYPE_THEME = 4;
 
     use Traits\IsEnableTrait;
