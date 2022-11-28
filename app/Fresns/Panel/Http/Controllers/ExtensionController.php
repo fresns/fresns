@@ -263,7 +263,7 @@ class ExtensionController extends Controller
             'package_type' => $packageType,
             '--install_type' => $installType,
         ]);
-        
+
         $message = __('FsLang::tips.upgradeSuccess');
         if ($code != 0) {
             $message = __('FsLang::tips.installFailure');
