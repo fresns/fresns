@@ -107,6 +107,7 @@
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_image_handle_position') }}</label>
                     <select class="form-select" name="image_handle_position">
                         <option value="start" {{ $params['image_handle_position'] == 'start' ? 'selected' : '' }}>start</option>
+                        <option value="middle" {{ $params['image_handle_position'] == 'middle' ? 'selected' : '' }}>middle</option>
                         <option value="end" {{ $params['image_handle_position'] == 'end' ? 'selected' : '' }}>end</option>
                     </select>
                 </div>
@@ -131,7 +132,9 @@
                     <input type="text" class="form-control" name="image_thumb_big" value="{{ $params['image_thumb_big'] }}">
                 </div>
             </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_function_image_config_desc') }}</div>
+            <div class="col-lg-4 form-text pt-1">
+                <i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_function_image_config_desc') }}
+            </div>
         </div>
         <!--button_save-->
         <div class="row my-3">

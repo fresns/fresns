@@ -130,6 +130,27 @@ trait FileServiceTrait
             $info['imageRatioUrl'] = StrHelper::qualifyUrl($imageRatioPath, $imageConfig['image_bucket_domain']);
             $info['imageSquareUrl'] = StrHelper::qualifyUrl($imageSquarePath, $imageConfig['image_bucket_domain']);
             $info['imageBigUrl'] = StrHelper::qualifyUrl($imageBigPath, $imageConfig['image_bucket_domain']);
+        } elseif ($imageConfig['image_handle_position'] == 'middle') {
+            $pathElement = explode('/', $filePath);
+            $fileName = array_pop($pathElement);
+
+            $configFileName = $imageConfig['image_thumb_config'].$fileName;
+            $avatarFileName = $imageConfig['image_thumb_avatar'].$fileName;
+            $ratioFileName = $imageConfig['image_thumb_ratio'].$fileName;
+            $squareFileName = $imageConfig['image_thumb_square'].$fileName;
+            $bigFileName = $imageConfig['image_thumb_big'].$fileName;
+
+            $imageConfigPath = array_push($pathElement, $configFileName);
+            $imageAvatarPath = array_push($pathElement, $avatarFileName);
+            $imageRatioPath = array_push($pathElement, $ratioFileName);
+            $imageSquarePath = array_push($pathElement, $squareFileName);
+            $imageBigPath = array_push($pathElement, $bigFileName);
+
+            $info['imageConfigUrl'] = StrHelper::qualifyUrl($imageConfigPath, $imageConfig['image_bucket_domain']);
+            $info['imageAvatarUrl'] = StrHelper::qualifyUrl($imageAvatarPath, $imageConfig['image_bucket_domain']);
+            $info['imageRatioUrl'] = StrHelper::qualifyUrl($imageRatioPath, $imageConfig['image_bucket_domain']);
+            $info['imageSquareUrl'] = StrHelper::qualifyUrl($imageSquarePath, $imageConfig['image_bucket_domain']);
+            $info['imageBigUrl'] = StrHelper::qualifyUrl($imageBigPath, $imageConfig['image_bucket_domain']);
         } else {
             $info['imageConfigUrl'] = $imageDefaultUrl.$imageConfig['image_thumb_config'];
             $info['imageAvatarUrl'] = $imageDefaultUrl.$imageConfig['image_thumb_avatar'];
