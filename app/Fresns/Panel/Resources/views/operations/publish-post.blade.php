@@ -247,7 +247,7 @@
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_image_form') }}</label>
                     <select class="form-select" name="post_editor_image_upload_form" id="post_editor_image_upload_form">
                         <option value="fresns" @if ($params['post_editor_image_upload_form'] == 'fresns') selected @endif>Fresns Form</option>
-                        <option value="plugin" @if ($params['post_editor_image_upload_form'] == 'plugin') selected @endif>Plugin Page</option>
+                        <option value="plugin" @if ($params['post_editor_image_upload_form'] == 'plugin') selected @endif @if (! $uploadPlugin['image']['uploadPage']) disabled @endif>Plugin Page @if ($uploadPlugin['image']['name']) {{ '('.$uploadPlugin['image']['name'].')' }} @endif </option>
                     </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_image_number') }}</label>
                     <input type="number" class="form-control input-number" id="post_editor_image_upload_number" name="post_editor_image_upload_number" value="{{ $params['post_editor_image_upload_number'] }}">
@@ -262,7 +262,7 @@
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_video_form') }}</label>
                     <select class="form-select" name="post_editor_video_upload_form" id="post_editor_video_upload_form">
                         <option value="fresns" @if ($params['post_editor_video_upload_form'] == 'fresns') selected @endif>Fresns Form</option>
-                        <option value="plugin" @if ($params['post_editor_video_upload_form'] == 'plugin') selected @endif>Plugin Page</option>
+                        <option value="plugin" @if ($params['post_editor_video_upload_form'] == 'plugin') selected @endif @if (! $uploadPlugin['video']['uploadPage']) disabled @endif>Plugin Page @if ($uploadPlugin['video']['name']) {{ '('.$uploadPlugin['video']['name'].')' }} @endif</option>
                     </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_video_number') }}</label>
                     <input type="number" class="form-control input-number" id="post_editor_video_upload_number" name="post_editor_video_upload_number" value="{{ $params['post_editor_video_upload_number'] }}">
@@ -277,7 +277,7 @@
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_audio_form') }}</label>
                     <select class="form-select" name="post_editor_audio_upload_form" id="post_editor_audio_upload_form">
                         <option value="fresns" @if ($params['post_editor_audio_upload_form'] == 'fresns') selected @endif>Fresns Form</option>
-                        <option value="plugin" @if ($params['post_editor_audio_upload_form'] == 'plugin') selected @endif>Plugin Page</option>
+                        <option value="plugin" @if ($params['post_editor_audio_upload_form'] == 'plugin') selected @endif @if (! $uploadPlugin['audio']['uploadPage']) disabled @endif>Plugin Page @if ($uploadPlugin['audio']['name']) {{ '('.$uploadPlugin['audio']['name'].')' }} @endif</option>
                     </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_audio_number') }}</label>
                     <input type="number" class="form-control input-number" id="post_editor_audio_upload_number" name="post_editor_audio_upload_number" value="{{ $params['post_editor_audio_upload_number'] }}">
@@ -292,7 +292,7 @@
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_document_form') }}</label>
                     <select class="form-select" name="post_editor_document_upload_form" id="post_editor_document_upload_form">
                         <option value="fresns" @if ($params['post_editor_document_upload_form'] == 'fresns') selected @endif>Fresns Form</option>
-                        <option value="plugin" @if ($params['post_editor_document_upload_form'] == 'plugin') selected @endif>Plugin Page</option>
+                        <option value="plugin" @if ($params['post_editor_document_upload_form'] == 'plugin') selected @endif @if (! $uploadPlugin['document']['uploadPage']) disabled @endif>Plugin Page @if ($uploadPlugin['document']['name']) {{ '('.$uploadPlugin['document']['name'].')' }} @endif</option>
                     </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_document_number') }}</label>
                     <input type="number" class="form-control input-number" id="post_editor_document_upload_number" name="post_editor_document_upload_number" value="{{ $params['post_editor_document_upload_number'] }}">

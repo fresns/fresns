@@ -21,6 +21,10 @@ class PublishController extends Controller
     {
         // config keys
         $configKeys = [
+            'image_service',
+            'video_service',
+            'audio_service',
+            'document_service',
             'post_email_verify',
             'post_phone_verify',
             'post_real_name_verify',
@@ -76,13 +80,41 @@ class PublishController extends Controller
         $ruleTimezone = 'UTC'.DateHelper::fresnsDatabaseTimezone();
 
         $plugins = Plugin::all();
+
+        $imageService = $plugins->where('unikey', $params['image_service'])->first();
+        $videoService = $plugins->where('unikey', $params['video_service'])->first();
+        $audioService = $plugins->where('unikey', $params['audio_service'])->first();
+        $documentService = $plugins->where('unikey', $params['document_service'])->first();
+        $uploadPlugin = [
+            'image' => [
+                'unikey' => $imageService?->unikey,
+                'name' => $imageService?->name,
+                'uploadPage' => $imageService?->access_path ? true : false,
+            ],
+            'video' => [
+                'unikey' => $videoService?->unikey,
+                'name' => $videoService?->name,
+                'uploadPage' => $videoService?->access_path ? true : false,
+            ],
+            'audio' => [
+                'unikey' => $audioService?->unikey,
+                'name' => $audioService?->name,
+                'uploadPage' => $audioService?->access_path ? true : false,
+            ],
+            'document' => [
+                'unikey' => $documentService?->unikey,
+                'name' => $documentService?->name,
+                'uploadPage' => $documentService?->access_path ? true : false,
+            ],
+        ];
+
         $plugins = $plugins->filter(function ($plugin) {
             return in_array('editor', $plugin->scene);
         });
 
         $roles = Role::all();
 
-        return view('FsView::operations.publish-post', compact('params', 'ruleTimezone', 'languages', 'plugins', 'roles'));
+        return view('FsView::operations.publish-post', compact('params', 'ruleTimezone', 'languages', 'plugins', 'uploadPlugin', 'roles'));
     }
 
     public function postUpdate(Request $request)
@@ -180,6 +212,10 @@ class PublishController extends Controller
     {
         // config keys
         $configKeys = [
+            'image_service',
+            'video_service',
+            'audio_service',
+            'document_service',
             'comment_email_verify',
             'comment_phone_verify',
             'comment_real_name_verify',
@@ -230,13 +266,41 @@ class PublishController extends Controller
         $ruleTimezone = 'UTC'.DateHelper::fresnsDatabaseTimezone();
 
         $plugins = Plugin::all();
+
+        $imageService = $plugins->where('unikey', $params['image_service'])->first();
+        $videoService = $plugins->where('unikey', $params['video_service'])->first();
+        $audioService = $plugins->where('unikey', $params['audio_service'])->first();
+        $documentService = $plugins->where('unikey', $params['document_service'])->first();
+        $uploadPlugin = [
+            'image' => [
+                'unikey' => $imageService?->unikey,
+                'name' => $imageService?->name,
+                'uploadPage' => $imageService?->access_path ? true : false,
+            ],
+            'video' => [
+                'unikey' => $videoService?->unikey,
+                'name' => $videoService?->name,
+                'uploadPage' => $videoService?->access_path ? true : false,
+            ],
+            'audio' => [
+                'unikey' => $audioService?->unikey,
+                'name' => $audioService?->name,
+                'uploadPage' => $audioService?->access_path ? true : false,
+            ],
+            'document' => [
+                'unikey' => $documentService?->unikey,
+                'name' => $documentService?->name,
+                'uploadPage' => $documentService?->access_path ? true : false,
+            ],
+        ];
+
         $plugins = $plugins->filter(function ($plugin) {
             return in_array('editor', $plugin->scene);
         });
 
         $roles = Role::all();
 
-        return view('FsView::operations.publish-comment', compact('params', 'ruleTimezone', 'languages', 'plugins', 'roles'));
+        return view('FsView::operations.publish-comment', compact('params', 'ruleTimezone', 'languages', 'plugins', 'uploadPlugin', 'roles'));
     }
 
     public function commentUpdate(Request $request)
