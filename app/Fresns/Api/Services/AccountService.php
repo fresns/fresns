@@ -9,6 +9,7 @@
 namespace App\Fresns\Api\Services;
 
 use App\Helpers\CacheHelper;
+use App\Helpers\DateHelper;
 use App\Helpers\InteractiveHelper;
 use App\Models\Account;
 use App\Models\File;
@@ -28,8 +29,8 @@ class AccountService
         $cacheKey = "fresns_api_account_{$account->aid}_{$langTag}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
 
-        $accountInfo = Cache::remember($cacheKey, $cacheTime, function () use ($account, $langTag, $timezone) {
-            $accountInfo = $account->getAccountInfo($langTag, $timezone);
+        $accountInfo = Cache::remember($cacheKey, $cacheTime, function () use ($account, $langTag) {
+            $accountInfo = $account->getAccountInfo();
 
             $item['connects'] = $account->getAccountConnects();
             $item['wallet'] = $account->getAccountWallet($langTag);
@@ -49,7 +50,7 @@ class AccountService
 
         $data = array_merge($accountInfo, $item);
 
-        return $data;
+        return self::handleAccountDate($data, $timezone, $langTag);
     }
 
     public function accountData(Account $account, string $langTag, string $timezone)
@@ -70,6 +71,21 @@ class AccountService
         $data['detail'] = $service->accountDetail($account, $langTag, $timezone);
 
         return $data;
+    }
+
+    // handle account data date
+    public static function handleAccountDate(?array $accountData, string $timezone, string $langTag)
+    {
+        if (empty($accountData)) {
+            return $accountData;
+        }
+
+        $accountData['verifyDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountData['verifyDateTime'], $timezone, $langTag);
+        $accountData['registerDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountData['registerDateTime'], $timezone, $langTag);
+        $accountData['waitDeleteDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountData['waitDeleteDateTime'], $timezone, $langTag);
+        $accountData['deactivateTime'] = DateHelper::fresnsDateTimeByTimezone($accountData['deactivateTime'], $timezone, $langTag);
+
+        return $accountData;
     }
 
     public static function registerAccount(array $sessionLog, array $addAccountWordBody, array $addUserWordBody)
