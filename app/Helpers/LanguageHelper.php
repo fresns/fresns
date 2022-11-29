@@ -9,6 +9,7 @@
 namespace App\Helpers;
 
 use App\Models\Language;
+use App\Models\Seo;
 use Illuminate\Support\Facades\Cache;
 
 class LanguageHelper
@@ -25,8 +26,9 @@ class LanguageHelper
     public static function fresnsLanguageByTableId(string $tableName, string $tableColumn, int $tableId, ?string $langTag = null)
     {
         $cacheKey = "fresns_{$tableName}_{$tableColumn}_{$tableId}_{$langTag}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
-        $langContentCache = Cache::remember($cacheKey, now()->addDays(), function () use ($tableName, $tableColumn, $tableId, $langTag) {
+        $langContentCache = Cache::remember($cacheKey, $cacheTime, function () use ($tableName, $tableColumn, $tableId, $langTag) {
             if (empty($langTag)) {
                 $languageArr = Language::where([
                     'table_name' => $tableName,
@@ -98,5 +100,29 @@ class LanguageHelper
         }
 
         return $langContent;
+    }
+
+    // get fresns seo language data
+    public static function fresnsLanguageSeoDataById(string $type, int $id, ?string $langTag = null)
+    {
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
+        $usageType = match ($type) {
+            'user' => Seo::TYPE_USER,
+            'group' => Seo::TYPE_GROUP,
+            'hashtag' => Seo::TYPE_HASHTAG,
+            'post' => Seo::TYPE_POST,
+            'comment' => Seo::TYPE_COMMENT,
+        };
+
+        $cacheKey = "fresns_seo_{$type}_{$id}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+
+        $seoData = Cache::remember($cacheKey, $cacheTime, function () use ($usageType, $id) {
+            return Seo::where('usage_type', $usageType)->where('usage_id', $id)->get();
+        });
+
+        $langContent = $seoData->where('lang_tag', $langTag)->first();
+
+        return $langContent ?? $seoData->first();
     }
 }
