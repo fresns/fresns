@@ -437,9 +437,9 @@
                 <div class="form-text"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.role_perm_upload_file_desc') }}</div>
             </div>
         </div>
-        <!--role_perm_interactive_config-->
+        <!--role_perm_interaction_config-->
         <div class="row mb-4">
-            <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.role_perm_interactive_config') }}:</label>
+            <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.role_perm_interaction_config') }}:</label>
             <div class="col-lg-6">
                 <!--role_perm_follow_user_max_count-->
                 <div class="input-group mb-3">

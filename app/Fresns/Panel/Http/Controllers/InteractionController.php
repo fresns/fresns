@@ -11,7 +11,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Models\Config;
 use Illuminate\Http\Request;
 
-class InteractiveController extends Controller
+class InteractionController extends Controller
 {
     public function show()
     {
@@ -127,7 +127,7 @@ class InteractiveController extends Controller
             $params[$config->item_key] = $config->item_value;
         }
 
-        return view('FsView::operations.interactive', compact('params'));
+        return view('FsView::operations.interaction', compact('params'));
     }
 
     public function update(Request $request)

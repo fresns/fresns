@@ -180,9 +180,9 @@ class CacheHelper
     }
 
     /**
-     * forget fresns interactive.
+     * forget fresns interaction.
      */
-    public static function forgetFresnsInteractive(int $type, int $userId)
+    public static function forgetFresnsInteraction(int $type, int $userId)
     {
         CacheHelper::forgetFresnsKeys([
             "fresns_user_follow_array_{$type}_{$userId}",
@@ -255,6 +255,7 @@ class CacheHelper
         // user data
         CacheHelper::forgetFresnsMultilingual("fresns_api_user_{$uid}");
         CacheHelper::forgetFresnsModel('user', $uid);
+
     }
 
     /**
@@ -263,7 +264,7 @@ class CacheHelper
 
     // fresns_group_admins_{$groupId}
 
-    // fresns_interactive_status_{$markType}_{$markId}_{$userId}
+    // fresns_interaction_status_{$markType}_{$markId}_{$userId}
 
     // fresns_api_user_{$uid}_{$langTag}
     // fresns_api_group_{$gid}_{$langTag}

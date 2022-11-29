@@ -11,7 +11,7 @@ namespace App\Fresns\Api\Services;
 use App\Exceptions\ApiException;
 use App\Helpers\CacheHelper;
 use App\Helpers\DateHelper;
-use App\Helpers\InteractiveHelper;
+use App\Helpers\InteractionHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\ArchiveUsage;
 use App\Models\ExtendUsage;
@@ -20,7 +20,7 @@ use App\Models\Group;
 use App\Models\OperationUsage;
 use App\Models\UserFollow;
 use App\Utilities\ExtendUtility;
-use App\Utilities\InteractiveUtility;
+use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
 use Illuminate\Support\Facades\Cache;
 
@@ -60,10 +60,10 @@ class GroupService
 
         $item['publishRule'] = PermissionUtility::checkUserGroupPublishPerm($group->id, $group->permissions, $authUserId);
 
-        $interactiveConfig = InteractiveHelper::fresnsGroupInteractive($langTag);
-        $interactiveStatus = InteractiveUtility::getInteractiveStatus(InteractiveUtility::TYPE_GROUP, $group->id, $authUserId);
+        $interactionConfig = InteractionHelper::fresnsGroupInteraction($langTag);
+        $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_GROUP, $group->id, $authUserId);
 
-        $item['interactive'] = array_merge($interactiveConfig, $interactiveStatus);
+        $item['interaction'] = array_merge($interactionConfig, $interactionStatus);
 
         $data = array_merge($groupInfo, $item);
 
@@ -87,7 +87,7 @@ class GroupService
         }
         $groupData['admins'] = $adminList;
 
-        $groupData['interactive']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($groupData['interactive']['followExpiryDateTime'], $timezone, $langTag);
+        $groupData['interaction']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($groupData['interaction']['followExpiryDateTime'], $timezone, $langTag);
 
         return $groupData;
     }

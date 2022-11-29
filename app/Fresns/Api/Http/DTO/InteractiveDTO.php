@@ -10,7 +10,7 @@ namespace App\Fresns\Api\Http\DTO;
 
 use Fresns\DTO\DTO;
 
-class InteractiveDTO extends DTO
+class InteractionDTO extends DTO
 {
     /**
      * @return array

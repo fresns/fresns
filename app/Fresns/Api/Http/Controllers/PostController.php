@@ -10,14 +10,14 @@ namespace App\Fresns\Api\Http\Controllers;
 
 use App\Exceptions\ApiException;
 use App\Fresns\Api\Http\DTO\FollowDTO;
-use App\Fresns\Api\Http\DTO\InteractiveDTO;
+use App\Fresns\Api\Http\DTO\InteractionDTO;
 use App\Fresns\Api\Http\DTO\NearbyDTO;
 use App\Fresns\Api\Http\DTO\PaginationDTO;
 use App\Fresns\Api\Http\DTO\PostDetailDTO;
 use App\Fresns\Api\Http\DTO\PostListDTO;
 use App\Fresns\Api\Services\FollowService;
 use App\Fresns\Api\Services\GroupService;
-use App\Fresns\Api\Services\InteractiveService;
+use App\Fresns\Api\Services\InteractionService;
 use App\Fresns\Api\Services\PostService;
 use App\Fresns\Api\Services\UserService;
 use App\Helpers\ConfigHelper;
@@ -29,7 +29,7 @@ use App\Models\Post;
 use App\Models\PostLog;
 use App\Models\PostUser;
 use App\Utilities\ExtendUtility;
-use App\Utilities\InteractiveUtility;
+use App\Utilities\InteractionUtility;
 use App\Utilities\LbsUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -66,13 +66,13 @@ class PostController extends Controller
 
         $postQuery = Post::with(['hashtags'])->isEnable();
 
-        $blockGroupIds = InteractiveUtility::getPrivateGroupIdArr();
+        $blockGroupIds = InteractionUtility::getPrivateGroupIdArr();
 
         if ($authUserId) {
-            $blockPostIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_POST, $authUserId);
-            $blockUserIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_USER, $authUserId);
-            $blockGroupIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_GROUP, $authUserId);
-            $blockHashtagIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_HASHTAG, $authUserId);
+            $blockPostIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_POST, $authUserId);
+            $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
+            $blockGroupIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_GROUP, $authUserId);
+            $blockHashtagIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_HASHTAG, $authUserId);
 
             $postQuery->when($blockPostIds, function ($query, $value) {
                 $query->whereNotIn('id', $value);
@@ -317,12 +317,12 @@ class PostController extends Controller
         return $this->success($data);
     }
 
-    // interactive
-    public function interactive(string $pid, string $type, Request $request)
+    // interaction
+    public function interaction(string $pid, string $type, Request $request)
     {
         $requestData = $request->all();
         $requestData['type'] = $type;
-        $dtoRequest = new InteractiveDTO($requestData);
+        $dtoRequest = new InteractionDTO($requestData);
 
         $langTag = $this->langTag();
         $timezone = $this->timezone();
@@ -336,14 +336,14 @@ class PostController extends Controller
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
 
-        InteractiveService::checkInteractiveSetting($dtoRequest->type, 'post');
+        InteractionService::checkInteractionSetting($dtoRequest->type, 'post');
 
         $orderDirection = $dtoRequest->orderDirection ?: 'desc';
 
-        $service = new InteractiveService();
-        $data = $service->getUsersWhoMarkIt($dtoRequest->type, InteractiveService::TYPE_POST, $post->id, $orderDirection, $langTag, $timezone, $authUserId);
+        $service = new InteractionService();
+        $data = $service->getUsersWhoMarkIt($dtoRequest->type, InteractionService::TYPE_POST, $post->id, $orderDirection, $langTag, $timezone, $authUserId);
 
-        return $this->fresnsPaginate($data['paginateData'], $data['interactiveData']->total(), $data['interactiveData']->perPage());
+        return $this->fresnsPaginate($data['paginateData'], $data['interactionData']->total(), $data['interactionData']->perPage());
     }
 
     // userList
@@ -511,7 +511,7 @@ class PostController extends Controller
         $service = new PostService();
         foreach ($posts as $post) {
             $listItem = $service->postData($post, 'list', $langTag, $timezone, $authUser->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
-            $listItem['followType'] = InteractiveUtility::getFollowType($post->user_id, $authUser?->id, $post->group_id, $post?->hashtags?->toArray());
+            $listItem['followType'] = InteractionUtility::getFollowType($post->user_id, $authUser?->id, $post->group_id, $post?->hashtags?->toArray());
 
             $postList[] = $listItem;
         }

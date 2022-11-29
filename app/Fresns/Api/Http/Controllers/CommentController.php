@@ -12,13 +12,13 @@ use App\Exceptions\ApiException;
 use App\Fresns\Api\Http\DTO\CommentDetailDTO;
 use App\Fresns\Api\Http\DTO\CommentListDTO;
 use App\Fresns\Api\Http\DTO\FollowDTO;
-use App\Fresns\Api\Http\DTO\InteractiveDTO;
+use App\Fresns\Api\Http\DTO\InteractionDTO;
 use App\Fresns\Api\Http\DTO\NearbyDTO;
 use App\Fresns\Api\Http\DTO\PaginationDTO;
 use App\Fresns\Api\Services\CommentService;
 use App\Fresns\Api\Services\FollowService;
 use App\Fresns\Api\Services\GroupService;
-use App\Fresns\Api\Services\InteractiveService;
+use App\Fresns\Api\Services\InteractionService;
 use App\Fresns\Api\Services\UserService;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
@@ -28,7 +28,7 @@ use App\Helpers\StrHelper;
 use App\Models\Comment;
 use App\Models\CommentLog;
 use App\Utilities\ExtendUtility;
-use App\Utilities\InteractiveUtility;
+use App\Utilities\InteractionUtility;
 use App\Utilities\LbsUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -46,14 +46,14 @@ class CommentController extends Controller
 
         $commentQuery = Comment::with(['hashtags'])->isEnable();
 
-        $blockGroupIds = InteractiveUtility::getPrivateGroupIdArr();
+        $blockGroupIds = InteractionUtility::getPrivateGroupIdArr();
 
         if ($authUserId) {
-            $blockPostIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_POST, $authUserId);
-            $blockCommentIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_COMMENT, $authUserId);
-            $blockUserIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_USER, $authUserId);
-            $blockGroupIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_GROUP, $authUserId);
-            $blockHashtagIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_HASHTAG, $authUserId);
+            $blockPostIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_POST, $authUserId);
+            $blockCommentIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_COMMENT, $authUserId);
+            $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
+            $blockGroupIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_GROUP, $authUserId);
+            $blockHashtagIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_HASHTAG, $authUserId);
 
             $commentQuery->when($blockCommentIds, function ($query, $value) {
                 $query->whereNotIn('id', $value);
@@ -333,8 +333,8 @@ class CommentController extends Controller
         return $this->success($data);
     }
 
-    // interactive
-    public function interactive(string $cid, string $type, Request $request)
+    // interaction
+    public function interaction(string $cid, string $type, Request $request)
     {
         $langTag = $this->langTag();
         $timezone = $this->timezone();
@@ -350,16 +350,16 @@ class CommentController extends Controller
 
         $requestData = $request->all();
         $requestData['type'] = $type;
-        $dtoRequest = new InteractiveDTO($requestData);
+        $dtoRequest = new InteractionDTO($requestData);
 
-        InteractiveService::checkInteractiveSetting($dtoRequest->type, 'comment');
+        InteractionService::checkInteractionSetting($dtoRequest->type, 'comment');
 
         $orderDirection = $dtoRequest->orderDirection ?: 'desc';
 
-        $service = new InteractiveService();
-        $data = $service->getUsersWhoMarkIt($dtoRequest->type, InteractiveService::TYPE_COMMENT, $comment->id, $orderDirection, $langTag, $timezone, $authUserId);
+        $service = new InteractionService();
+        $data = $service->getUsersWhoMarkIt($dtoRequest->type, InteractionService::TYPE_COMMENT, $comment->id, $orderDirection, $langTag, $timezone, $authUserId);
 
-        return $this->fresnsPaginate($data['paginateData'], $data['interactiveData']->total(), $data['interactiveData']->perPage());
+        return $this->fresnsPaginate($data['paginateData'], $data['interactionData']->total(), $data['interactionData']->perPage());
     }
 
     // commentLogs
@@ -500,7 +500,7 @@ class CommentController extends Controller
         $service = new CommentService();
         foreach ($comments as $comment) {
             $listItem = $service->commentData($comment, 'list', $langTag, $timezone, $authUser->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
-            $listItem['followType'] = InteractiveUtility::getFollowType($comment->user_id, $authUser?->id, $comment?->group_id, $comment?->hashtags?->toArray());
+            $listItem['followType'] = InteractionUtility::getFollowType($comment->user_id, $authUser?->id, $comment?->group_id, $comment?->hashtags?->toArray());
 
             $commentList[] = $listItem;
         }

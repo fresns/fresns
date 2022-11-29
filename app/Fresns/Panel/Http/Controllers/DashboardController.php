@@ -11,7 +11,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
 use App\Helpers\DateHelper;
-use App\Helpers\InteractiveHelper;
+use App\Helpers\InteractionHelper;
 use App\Models\Account;
 use App\Models\Config;
 use App\Models\Plugin;
@@ -25,7 +25,7 @@ class DashboardController extends Controller
 {
     public function show()
     {
-        $overview = InteractiveHelper::fresnsOverview();
+        $overview = InteractionHelper::fresnsOverview();
 
         $news = Cache::remember('fresns_news', now()->addHours(3), function () {
             try {

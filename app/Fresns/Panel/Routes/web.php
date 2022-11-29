@@ -24,7 +24,7 @@ use App\Fresns\Panel\Http\Controllers\ExtensionController;
 use App\Fresns\Panel\Http\Controllers\GeneralController;
 use App\Fresns\Panel\Http\Controllers\GroupController;
 use App\Fresns\Panel\Http\Controllers\IframeController;
-use App\Fresns\Panel\Http\Controllers\InteractiveController;
+use App\Fresns\Panel\Http\Controllers\InteractionController;
 use App\Fresns\Panel\Http\Controllers\LanguageController;
 use App\Fresns\Panel\Http\Controllers\LanguageMenuController;
 use App\Fresns\Panel\Http\Controllers\LanguagePackController;
@@ -172,9 +172,9 @@ Route::middleware(['panelAuth'])->group(function () {
     Route::prefix('operations')->group(function () {
         // rename
         Route::get('rename', [RenameController::class, 'show'])->name('rename.index');
-        // interactive
-        Route::get('interactive', [InteractiveController::class, 'show'])->name('interactive.index');
-        Route::put('interactive', [InteractiveController::class, 'update'])->name('interactive.update');
+        // interaction
+        Route::get('interaction', [InteractionController::class, 'show'])->name('interaction.index');
+        Route::put('interaction', [InteractionController::class, 'update'])->name('interaction.update');
         // stickers
         Route::resource('stickers', StickerGroupController::class)->only([
             'index', 'store', 'update', 'destroy',

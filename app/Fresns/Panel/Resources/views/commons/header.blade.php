@@ -30,7 +30,7 @@
                     <li class="nav-item">
                         <a class="nav-link {{ \Route::is([
                             'panel.rename.*',
-                            'panel.interactive.*',
+                            'panel.interaction.*',
                             'panel.stickers.*',
                             'panel.publish.post.*',
                             'panel.publish.comment.*',

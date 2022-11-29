@@ -191,7 +191,7 @@ class ExtendUtility
 
         $operationList['textBox'] = $extends->get(Extend::TYPE_TEXT_BOX)?->all() ?? [];
         $operationList['infoBox'] = $extends->get(Extend::TYPE_INFO_BOX)?->all() ?? [];
-        $operationList['interactiveBox'] = $extends->get(Extend::TYPE_INTERACTIVE_BOX)?->all() ?? [];
+        $operationList['interactionBox'] = $extends->get(Extend::TYPE_INTERACTIVE_BOX)?->all() ?? [];
 
         return $operationList;
     }

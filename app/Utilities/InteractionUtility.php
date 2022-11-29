@@ -27,7 +27,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
-class InteractiveUtility
+class InteractionUtility
 {
     const TYPE_USER = 1;
     const TYPE_GROUP = 2;
@@ -35,7 +35,7 @@ class InteractiveUtility
     const TYPE_POST = 4;
     const TYPE_COMMENT = 5;
 
-    // check interactive
+    // check interaction
     public static function checkUserLike(int $likeType, int $likeId, ?int $userId = null): bool
     {
         if (empty($userId)) {
@@ -94,7 +94,7 @@ class InteractiveUtility
         return (bool) $checkBlock;
     }
 
-    public static function getInteractiveStatus(int $markType, int $markId, ?int $userId = null): array
+    public static function getInteractionStatus(int $markType, int $markId, ?int $userId = null): array
     {
         if (empty($userId)) {
             $status['likeStatus'] = false;
@@ -109,7 +109,7 @@ class InteractiveUtility
             return $status;
         }
 
-        $cacheKey = "fresns_interactive_status_{$markType}_{$markId}_{$userId}";
+        $cacheKey = "fresns_interaction_status_{$markType}_{$markId}_{$userId}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
         $status = Cache::remember($cacheKey, $cacheTime, function () use ($markType, $markId, $userId) {
@@ -134,7 +134,7 @@ class InteractiveUtility
         return $status;
     }
 
-    // mark interactive
+    // mark interaction
     public static function markUserLike(int $userId, int $likeType, int $likeId)
     {
         $userLike = UserLike::withTrashed()
@@ -148,7 +148,7 @@ class InteractiveUtility
                 // trashed data, mark type=like
                 $userLike->restore();
 
-                InteractiveUtility::markStats($userId, 'like', $likeType, $likeId, 'increment');
+                InteractionUtility::markStats($userId, 'like', $likeType, $likeId, 'increment');
             } elseif ($userLike?->trashed() && $userLike->mark_type == UserLike::MARK_TYPE_DISLIKE) {
                 // trashed data, mark type=dislike
                 $userLike->restore();
@@ -157,8 +157,8 @@ class InteractiveUtility
                     'mark_type' => UserLike::MARK_TYPE_LIKE,
                 ]);
 
-                InteractiveUtility::markStats($userId, 'like', $likeType, $likeId, 'increment');
-                InteractiveUtility::markStats($userId, 'dislike', $likeType, $likeId, 'decrement');
+                InteractionUtility::markStats($userId, 'like', $likeType, $likeId, 'increment');
+                InteractionUtility::markStats($userId, 'dislike', $likeType, $likeId, 'decrement');
             } else {
                 // like null
                 UserLike::updateOrCreate([
@@ -169,25 +169,25 @@ class InteractiveUtility
                     'mark_type' => UserLike::MARK_TYPE_LIKE,
                 ]);
 
-                InteractiveUtility::markStats($userId, 'like', $likeType, $likeId, 'increment');
+                InteractionUtility::markStats($userId, 'like', $likeType, $likeId, 'increment');
             }
 
             // send notification
-            InteractiveUtility::sendMarkNotification(Notification::TYPE_LIKE, $userId, $likeType, $likeId);
+            InteractionUtility::sendMarkNotification(Notification::TYPE_LIKE, $userId, $likeType, $likeId);
         } else {
             if ($userLike->mark_type == UserLike::MARK_TYPE_LIKE) {
                 // documented, mark type=like
                 $userLike->delete();
 
-                InteractiveUtility::markStats($userId, 'like', $likeType, $likeId, 'decrement');
+                InteractionUtility::markStats($userId, 'like', $likeType, $likeId, 'decrement');
             } else {
                 // documented, mark type=dislike
                 $userLike->update([
                     'mark_type' => UserLike::MARK_TYPE_LIKE,
                 ]);
 
-                InteractiveUtility::markStats($userId, 'like', $likeType, $likeId, 'increment');
-                InteractiveUtility::markStats($userId, 'dislike', $likeType, $likeId, 'decrement');
+                InteractionUtility::markStats($userId, 'like', $likeType, $likeId, 'increment');
+                InteractionUtility::markStats($userId, 'dislike', $likeType, $likeId, 'decrement');
             }
         }
     }
@@ -205,7 +205,7 @@ class InteractiveUtility
                 // trashed data, mark type=dislike
                 $userDislike->restore();
 
-                InteractiveUtility::markStats($userId, 'dislike', $dislikeType, $dislikeId, 'increment');
+                InteractionUtility::markStats($userId, 'dislike', $dislikeType, $dislikeId, 'increment');
             } elseif ($userDislike?->trashed() && $userDislike->mark_type == UserLike::MARK_TYPE_LIKE) {
                 // trashed data, mark type=like
                 $userDislike->restore();
@@ -214,8 +214,8 @@ class InteractiveUtility
                     'mark_type' => UserLike::MARK_TYPE_DISLIKE,
                 ]);
 
-                InteractiveUtility::markStats($userId, 'dislike', $dislikeType, $dislikeId, 'increment');
-                InteractiveUtility::markStats($userId, 'like', $dislikeType, $dislikeId, 'decrement');
+                InteractionUtility::markStats($userId, 'dislike', $dislikeType, $dislikeId, 'increment');
+                InteractionUtility::markStats($userId, 'like', $dislikeType, $dislikeId, 'decrement');
             } else {
                 // dislike null
                 UserLike::updateOrCreate([
@@ -226,25 +226,25 @@ class InteractiveUtility
                     'mark_type' => UserLike::MARK_TYPE_DISLIKE,
                 ]);
 
-                InteractiveUtility::markStats($userId, 'dislike', $dislikeType, $dislikeId, 'increment');
+                InteractionUtility::markStats($userId, 'dislike', $dislikeType, $dislikeId, 'increment');
             }
 
             // send notification
-            InteractiveUtility::sendMarkNotification(Notification::TYPE_DISLIKE, $userId, $dislikeType, $dislikeId);
+            InteractionUtility::sendMarkNotification(Notification::TYPE_DISLIKE, $userId, $dislikeType, $dislikeId);
         } else {
             if ($userDislike->mark_type == UserLike::MARK_TYPE_DISLIKE) {
                 // documented, mark type=dislike
                 $userDislike->delete();
 
-                InteractiveUtility::markStats($userId, 'dislike', $dislikeType, $dislikeId, 'decrement');
+                InteractionUtility::markStats($userId, 'dislike', $dislikeType, $dislikeId, 'decrement');
             } else {
                 // documented, mark type=like
                 $userDislike->update([
                     'mark_type' => UserLike::MARK_TYPE_DISLIKE,
                 ]);
 
-                InteractiveUtility::markStats($userId, 'dislike', $dislikeType, $dislikeId, 'increment');
-                InteractiveUtility::markStats($userId, 'like', $dislikeType, $dislikeId, 'decrement');
+                InteractionUtility::markStats($userId, 'dislike', $dislikeType, $dislikeId, 'increment');
+                InteractionUtility::markStats($userId, 'like', $dislikeType, $dislikeId, 'decrement');
             }
         }
     }
@@ -262,7 +262,7 @@ class InteractiveUtility
                 // trashed data
                 $userFollow->restore();
 
-                InteractiveUtility::markStats($userId, 'follow', $followType, $followId, 'increment');
+                InteractionUtility::markStats($userId, 'follow', $followType, $followId, 'increment');
             } else {
                 // follow null
                 UserFollow::updateOrCreate([
@@ -271,15 +271,15 @@ class InteractiveUtility
                     'follow_id' => $followId,
                 ]);
 
-                InteractiveUtility::markStats($userId, 'follow', $followType, $followId, 'increment');
+                InteractionUtility::markStats($userId, 'follow', $followType, $followId, 'increment');
             }
 
             // send notification
-            InteractiveUtility::sendMarkNotification(Notification::TYPE_FOLLOW, $userId, $followType, $followId);
+            InteractionUtility::sendMarkNotification(Notification::TYPE_FOLLOW, $userId, $followType, $followId);
         } else {
             $userFollow->delete();
 
-            InteractiveUtility::markStats($userId, 'follow', $followType, $followId, 'decrement');
+            InteractionUtility::markStats($userId, 'follow', $followType, $followId, 'decrement');
         }
 
         // is_mutual
@@ -300,11 +300,11 @@ class InteractiveUtility
         if (! empty($userBlock)) {
             $userBlock->delete();
 
-            InteractiveUtility::markStats($userId, 'block', $followType, $followId, 'decrement');
+            InteractionUtility::markStats($userId, 'block', $followType, $followId, 'decrement');
         }
 
-        CacheHelper::forgetFresnsInteractive($followType, $userId);
-        CacheHelper::forgetFresnsInteractive($followType, $followId);
+        CacheHelper::forgetFresnsInteraction($followType, $userId);
+        CacheHelper::forgetFresnsInteraction($followType, $followId);
     }
 
     public static function markUserBlock(int $userId, int $blockType, int $blockId)
@@ -320,7 +320,7 @@ class InteractiveUtility
                 // trashed data
                 $userBlock->restore();
 
-                InteractiveUtility::markStats($userId, 'block', $blockType, $blockId, 'increment');
+                InteractionUtility::markStats($userId, 'block', $blockType, $blockId, 'increment');
             } else {
                 // block null
                 UserBlock::updateOrCreate([
@@ -329,26 +329,26 @@ class InteractiveUtility
                     'block_id' => $blockId,
                 ]);
 
-                InteractiveUtility::markStats($userId, 'block', $blockType, $blockId, 'increment');
+                InteractionUtility::markStats($userId, 'block', $blockType, $blockId, 'increment');
             }
 
             // send notification
-            InteractiveUtility::sendMarkNotification(Notification::TYPE_BLOCK, $userId, $blockType, $blockId);
+            InteractionUtility::sendMarkNotification(Notification::TYPE_BLOCK, $userId, $blockType, $blockId);
         } else {
             $userBlock->delete();
 
-            InteractiveUtility::markStats($userId, 'block', $blockType, $blockId, 'decrement');
+            InteractionUtility::markStats($userId, 'block', $blockType, $blockId, 'decrement');
         }
 
         $userFollow = UserFollow::where('user_id', $userId)->type($blockType)->where('follow_id', $blockId)->first();
         if (! empty($userFollow)) {
             $userFollow->delete();
 
-            InteractiveUtility::markStats($userId, 'follow', $blockType, $blockId, 'decrement');
+            InteractionUtility::markStats($userId, 'follow', $blockType, $blockId, 'decrement');
         }
 
-        CacheHelper::forgetFresnsInteractive($blockType, $userId);
-        CacheHelper::forgetFresnsInteractive($blockType, $blockId);
+        CacheHelper::forgetFresnsInteraction($blockType, $userId);
+        CacheHelper::forgetFresnsInteraction($blockType, $blockId);
     }
 
     // mark content sticky
@@ -400,13 +400,13 @@ class InteractiveUtility
                         'digest_state' => $digestState,
                     ]);
 
-                    InteractiveUtility::digestStats('post', $post->id, 'increment');
+                    InteractionUtility::digestStats('post', $post->id, 'increment');
                 } elseif ($post->digest_state != 1 && $digestStats == 'no') {
                     $post->update([
                         'digest_state' => $digestState,
                     ]);
 
-                    InteractiveUtility::digestStats('post', $post->id, 'decrement');
+                    InteractionUtility::digestStats('post', $post->id, 'decrement');
                 } else {
                     $post->update([
                         'digest_state' => $digestState,
@@ -423,13 +423,13 @@ class InteractiveUtility
                         'digest_state' => $digestState,
                     ]);
 
-                    InteractiveUtility::digestStats('comment', $comment->id, 'increment');
+                    InteractionUtility::digestStats('comment', $comment->id, 'increment');
                 } elseif ($comment->digest_state != 1 && $digestStats == 'no') {
                     $comment->update([
                         'digest_state' => $digestState,
                     ]);
 
-                    InteractiveUtility::digestStats('comment', $comment->id, 'decrement');
+                    InteractionUtility::digestStats('comment', $comment->id, 'decrement');
                 } else {
                     $comment->update([
                         'digest_state' => $digestState,
@@ -444,18 +444,18 @@ class InteractiveUtility
      * interacted with.
      *
      * @param int userId The user who is performing the action.
-     * @param string interactiveType The type of interactive action(like, dislike, follow, block).
+     * @param string interactionType The type of interaction action(like, dislike, follow, block).
      * @param int markType 1 = user, 2 = group, 3 = hashtag, 4 = post, 5 = comment
      * @param int markId The id of the user, group, hashtag, post, or comment that is being marked.
      * @param string actionType increment or decrement
      */
-    public static function markStats(int $userId, string $interactiveType, int $markType, int $markId, string $actionType)
+    public static function markStats(int $userId, string $interactionType, int $markType, int $markId, string $actionType)
     {
         if (! in_array($actionType, ['increment', 'decrement'])) {
             return;
         }
 
-        if (! in_array($interactiveType, ['like', 'dislike', 'follow', 'block'])) {
+        if (! in_array($interactionType, ['like', 'dislike', 'follow', 'block'])) {
             return;
         }
 
@@ -474,20 +474,20 @@ class InteractiveUtility
                 $userMeState = UserStat::where('user_id', $markId)->first();
 
                 if ($actionType == 'increment') {
-                    $userState?->increment("{$interactiveType}_user_count");
-                    $userMeState?->increment("{$interactiveType}_me_count");
+                    $userState?->increment("{$interactionType}_user_count");
+                    $userMeState?->increment("{$interactionType}_me_count");
 
                     return;
                 }
 
-                $userStateCount = $userState?->{"{$interactiveType}_user_count"} ?? 0;
+                $userStateCount = $userState?->{"{$interactionType}_user_count"} ?? 0;
                 if ($userStateCount > 0) {
-                    $userState->decrement("{$interactiveType}_user_count");
+                    $userState->decrement("{$interactionType}_user_count");
                 }
 
-                $userMeStateCount = $userMeState?->{"{$interactiveType}_me_count"} ?? 0;
+                $userMeStateCount = $userMeState?->{"{$interactionType}_me_count"} ?? 0;
                 if ($userMeStateCount > 0) {
-                    $userMeState->decrement("{$interactiveType}_me_count");
+                    $userMeState->decrement("{$interactionType}_me_count");
                 }
             break;
 
@@ -497,20 +497,20 @@ class InteractiveUtility
                 $groupState = Group::where('id', $markId)->first();
 
                 if ($actionType == 'increment') {
-                    $userState?->increment("{$interactiveType}_group_count");
-                    $groupState?->increment("{$interactiveType}_count");
+                    $userState?->increment("{$interactionType}_group_count");
+                    $groupState?->increment("{$interactionType}_count");
 
                     return;
                 }
 
-                $userStateCount = $userState?->{"{$interactiveType}_group_count"} ?? 0;
+                $userStateCount = $userState?->{"{$interactionType}_group_count"} ?? 0;
                 if ($userStateCount > 0) {
-                    $userState->decrement("{$interactiveType}_group_count");
+                    $userState->decrement("{$interactionType}_group_count");
                 }
 
-                $groupStateCount = $groupState?->{"{$interactiveType}_count"} ?? 0;
+                $groupStateCount = $groupState?->{"{$interactionType}_count"} ?? 0;
                 if ($groupStateCount > 0) {
-                    $groupState->decrement("{$interactiveType}_count");
+                    $groupState->decrement("{$interactionType}_count");
                 }
             break;
 
@@ -520,20 +520,20 @@ class InteractiveUtility
                 $hashtagState = Hashtag::where('id', $markId)->first();
 
                 if ($actionType == 'increment') {
-                    $userState?->increment("{$interactiveType}_hashtag_count");
-                    $hashtagState?->increment("{$interactiveType}_count");
+                    $userState?->increment("{$interactionType}_hashtag_count");
+                    $hashtagState?->increment("{$interactionType}_count");
 
                     return;
                 }
 
-                $userStateCount = $userState?->{"{$interactiveType}_hashtag_count"} ?? 0;
+                $userStateCount = $userState?->{"{$interactionType}_hashtag_count"} ?? 0;
                 if ($userStateCount > 0) {
-                    $userState->decrement("{$interactiveType}_hashtag_count");
+                    $userState->decrement("{$interactionType}_hashtag_count");
                 }
 
-                $hashtagStateCount = $hashtagState?->{"{$interactiveType}_count"} ?? 0;
+                $hashtagStateCount = $hashtagState?->{"{$interactionType}_count"} ?? 0;
                 if ($hashtagStateCount > 0) {
-                    $hashtagState->decrement("{$interactiveType}_count");
+                    $hashtagState->decrement("{$interactionType}_count");
                 }
             break;
 
@@ -544,26 +544,26 @@ class InteractiveUtility
                 $postCreatorState = UserStat::where('user_id', $post?->user_id)->first();
 
                 if ($actionType == 'increment') {
-                    $userState?->increment("{$interactiveType}_post_count");
-                    $post?->increment("{$interactiveType}_count");
-                    $postCreatorState?->increment("post_{$interactiveType}_count");
+                    $userState?->increment("{$interactionType}_post_count");
+                    $post?->increment("{$interactionType}_count");
+                    $postCreatorState?->increment("post_{$interactionType}_count");
 
                     return;
                 }
 
-                $userStateCount = $userState?->{"{$interactiveType}_post_count"} ?? 0;
+                $userStateCount = $userState?->{"{$interactionType}_post_count"} ?? 0;
                 if ($userStateCount > 0) {
-                    $userState?->decrement("{$interactiveType}_post_count");
+                    $userState?->decrement("{$interactionType}_post_count");
                 }
 
-                $postStateCount = $post?->{"{$interactiveType}_count"} ?? 0;
+                $postStateCount = $post?->{"{$interactionType}_count"} ?? 0;
                 if ($postStateCount > 0) {
-                    $post?->decrement("{$interactiveType}_count");
+                    $post?->decrement("{$interactionType}_count");
                 }
 
-                $postCreatorStateCount = $postCreatorState?->{"post_{$interactiveType}_count"} ?? 0;
+                $postCreatorStateCount = $postCreatorState?->{"post_{$interactionType}_count"} ?? 0;
                 if ($postCreatorStateCount > 0) {
-                    $postCreatorState?->decrement("post_{$interactiveType}_count");
+                    $postCreatorState?->decrement("post_{$interactionType}_count");
                 }
             break;
 
@@ -575,42 +575,42 @@ class InteractiveUtility
                 $commentPost = Post::where('id', $comment?->post_id)->first();
 
                 if ($actionType == 'increment') {
-                    $userState->increment("{$interactiveType}_comment_count");
-                    $comment?->increment("{$interactiveType}_count");
-                    $commentCreatorState?->increment("comment_{$interactiveType}_count");
-                    $commentPost?->increment("comment_{$interactiveType}_count");
+                    $userState->increment("{$interactionType}_comment_count");
+                    $comment?->increment("{$interactionType}_count");
+                    $commentCreatorState?->increment("comment_{$interactionType}_count");
+                    $commentPost?->increment("comment_{$interactionType}_count");
 
                     // parent comment
                     if (! empty($comment?->parent_id) && $comment?->parent_id != 0) {
-                        InteractiveUtility::parentCommentStats($comment->parent_id, 'increment', "comment_{$interactiveType}_count");
+                        InteractionUtility::parentCommentStats($comment->parent_id, 'increment', "comment_{$interactionType}_count");
                     }
 
                     return;
                 }
 
-                $userStateCount = $userState?->{"{$interactiveType}_comment_count"} ?? 0;
+                $userStateCount = $userState?->{"{$interactionType}_comment_count"} ?? 0;
                 if ($userStateCount > 0) {
-                    $userState?->decrement("{$interactiveType}_comment_count");
+                    $userState?->decrement("{$interactionType}_comment_count");
                 }
 
-                $commentStateCount = $comment?->{"{$interactiveType}_count"} ?? 0;
+                $commentStateCount = $comment?->{"{$interactionType}_count"} ?? 0;
                 if ($commentStateCount > 0) {
-                    $comment?->decrement("{$interactiveType}_count");
+                    $comment?->decrement("{$interactionType}_count");
                 }
 
-                $commentCreatorStateCount = $commentCreatorState?->{"comment_{$interactiveType}_count"} ?? 0;
+                $commentCreatorStateCount = $commentCreatorState?->{"comment_{$interactionType}_count"} ?? 0;
                 if ($commentCreatorStateCount > 0) {
-                    $commentCreatorState?->decrement("comment_{$interactiveType}_count");
+                    $commentCreatorState?->decrement("comment_{$interactionType}_count");
                 }
 
-                $commentPostCount = $commentPost?->{"comment_{$interactiveType}_count"} ?? 0;
+                $commentPostCount = $commentPost?->{"comment_{$interactionType}_count"} ?? 0;
                 if ($commentPostCount > 0) {
-                    $commentPost?->decrement("comment_{$interactiveType}_count");
+                    $commentPost?->decrement("comment_{$interactionType}_count");
                 }
 
                 // parent comment
                 if (! empty($comment?->parent_id) && $comment?->parent_id != 0) {
-                    InteractiveUtility::parentCommentStats($comment->parent_id, 'decrement', "comment_{$interactiveType}_count");
+                    InteractionUtility::parentCommentStats($comment->parent_id, 'decrement', "comment_{$interactionType}_count");
                 }
             break;
         }
@@ -706,7 +706,7 @@ class InteractiveUtility
                 }
 
                 if (! empty($comment?->parent_id) && $comment?->parent_id != 0) {
-                    InteractiveUtility::parentCommentStats($comment->parent_id, $actionType, 'comment_count');
+                    InteractionUtility::parentCommentStats($comment->parent_id, $actionType, 'comment_count');
                 }
             break;
         }
@@ -833,7 +833,7 @@ class InteractiveUtility
                 }
 
                 if (! empty($comment?->parent_id) && $comment?->parent_id != 0) {
-                    InteractiveUtility::parentCommentStats($comment->parent_id, $actionType, 'comment_digest_count');
+                    InteractionUtility::parentCommentStats($comment->parent_id, $actionType, 'comment_digest_count');
                 }
             break;
         }
@@ -888,7 +888,7 @@ class InteractiveUtility
 
         // parent comment
         if (! empty($comment?->parent_id) && $comment?->parent_id != 0) {
-            InteractiveUtility::parentCommentStats($comment->parent_id, $actionType, $tableColumn);
+            InteractionUtility::parentCommentStats($comment->parent_id, $actionType, $tableColumn);
         }
     }
 
@@ -1130,7 +1130,7 @@ class InteractiveUtility
             return null;
         }
 
-        $checkFollowUser = InteractiveUtility::checkUserFollow(InteractiveUtility::TYPE_USER, $creatorId, $authUserId);
+        $checkFollowUser = InteractionUtility::checkUserFollow(InteractionUtility::TYPE_USER, $creatorId, $authUserId);
         if ($checkFollowUser) {
             return 'user';
         }
@@ -1140,7 +1140,7 @@ class InteractiveUtility
         }
 
         if ($groupId) {
-            $checkFollowGroup = InteractiveUtility::checkUserFollow(InteractiveUtility::TYPE_USER, $groupId, $authUserId);
+            $checkFollowGroup = InteractionUtility::checkUserFollow(InteractionUtility::TYPE_USER, $groupId, $authUserId);
 
             if ($checkFollowGroup) {
                 return 'group';

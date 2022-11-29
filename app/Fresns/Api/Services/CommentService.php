@@ -12,7 +12,7 @@ use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
-use App\Helpers\InteractiveHelper;
+use App\Helpers\InteractionHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
 use App\Models\ArchiveUsage;
@@ -26,7 +26,7 @@ use App\Models\PluginUsage;
 use App\Models\Post;
 use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
-use App\Utilities\InteractiveUtility;
+use App\Utilities\InteractionUtility;
 use App\Utilities\LbsUtility;
 use App\Utilities\PermissionUtility;
 use Illuminate\Support\Facades\Cache;
@@ -64,7 +64,7 @@ class CommentService
             $item['fileCount'] = $fileCount;
 
             $item['hashtags'] = [];
-            $item['creator'] = InteractiveHelper::fresnsUserAnonymousProfile();
+            $item['creator'] = InteractionHelper::fresnsUserAnonymousProfile();
             $item['creator']['isPostCreator'] = false;
             $item['replyToUser'] = null;
             $item['subComments'] = [];
@@ -120,7 +120,7 @@ class CommentService
         // reply to user
         if ($comment->top_parent_id != $comment->parent_id && ! $comment?->parentComment) {
             if ($comment->parentComment->is_anonymous) {
-                $item['replyToUser'] = InteractiveHelper::fresnsUserAnonymousProfile();
+                $item['replyToUser'] = InteractionHelper::fresnsUserAnonymousProfile();
             }
 
             $commentData['replyToUser'] = $userService->userData($comment->parentComment->creator, $langTag, $timezone, $authUserId);
@@ -171,11 +171,11 @@ class CommentService
             return ExtendUtility::getPluginUsages(PluginUsage::TYPE_MANAGE, null, PluginUsage::SCENE_COMMENT, $authUserId, $langTag);
         });
 
-        // interactive
-        $interactiveConfig = InteractiveHelper::fresnsCommentInteractive($langTag);
-        $interactiveStatus = InteractiveUtility::getInteractiveStatus(InteractiveUtility::TYPE_COMMENT, $comment->id, $authUserId);
-        $interactiveCreatorLike['postCreatorLikeStatus'] = InteractiveUtility::checkUserLike(InteractiveUtility::TYPE_COMMENT, $comment->id, $post->user_id);
-        $item['interactive'] = array_merge($interactiveConfig, $interactiveStatus, $interactiveCreatorLike);
+        // interaction
+        $interactionConfig = InteractionHelper::fresnsCommentInteraction($langTag);
+        $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_COMMENT, $comment->id, $authUserId);
+        $interactionCreatorLike['postCreatorLikeStatus'] = InteractionUtility::checkUserLike(InteractionUtility::TYPE_COMMENT, $comment->id, $post->user_id);
+        $item['interaction'] = array_merge($interactionConfig, $interactionStatus, $interactionCreatorLike);
 
         $data = array_merge($commentData, $contentHandle, $item);
 
@@ -220,7 +220,7 @@ class CommentService
         $commentData['editTime'] = DateHelper::fresnsFormatDateTime($commentData['editTime'], $timezone, $langTag);
         $commentData['editTimeFormat'] = DateHelper::fresnsFormatTime($commentData['editTimeFormat'], $langTag);
 
-        $commentData['interactive']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($commentData['interactive']['followExpiryDateTime'], $timezone, $langTag);
+        $commentData['interaction']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($commentData['interaction']['followExpiryDateTime'], $timezone, $langTag);
 
         return $commentData;
     }
@@ -281,7 +281,7 @@ class CommentService
         $info['state'] = $log->state;
         $info['reason'] = $log->reason;
 
-        $info['creator'] = InteractiveHelper::fresnsUserAnonymousProfile();
+        $info['creator'] = InteractionHelper::fresnsUserAnonymousProfile();
         if (! $log->is_anonymous) {
             $userService = new UserService;
 

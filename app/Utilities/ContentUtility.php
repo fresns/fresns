@@ -436,8 +436,8 @@ class ContentUtility
         }
     }
 
-    // Handle and save all(interactive content)
-    public static function handleAndSaveAllInteractive(string $content, int $type, int $id, ?int $authUserId = null)
+    // Handle and save all(interaction content)
+    public static function handleAndSaveAllInteraction(string $content, int $type, int $id, ?int $authUserId = null)
     {
         static::saveHashtag($content, $type, $id);
         static::saveLink($content, $type, $id);
@@ -853,8 +853,8 @@ class ContentUtility
         ContentUtility::releaseOperationUsages('post', $postLog->id, $post->id);
 
         if (empty($postLog->post_id)) {
-            ContentUtility::handleAndSaveAllInteractive($postLog->content, Mention::TYPE_POST, $post->id, $postLog->user_id);
-            InteractiveUtility::publishStats('post', $post->id, 'increment');
+            ContentUtility::handleAndSaveAllInteraction($postLog->content, Mention::TYPE_POST, $post->id, $postLog->user_id);
+            InteractionUtility::publishStats('post', $post->id, 'increment');
         } else {
             if ($postLog->group_id != $oldPost->group_id) {
                 Group::where('id', $oldPost->group_id)->decrement('post_count');
@@ -866,14 +866,14 @@ class ContentUtility
                 Group::where('id', $oldPost->group_id)->decrement('comment_count', $groupCommentCount);
             }
 
-            InteractiveUtility::editStats('post', $post->id, 'decrement');
+            InteractionUtility::editStats('post', $post->id, 'decrement');
 
             HashtagUsage::where('usage_type', HashtagUsage::TYPE_POST)->where('usage_id', $post->id)->delete();
             DomainLinkUsage::where('usage_type', DomainLinkUsage::TYPE_POST)->where('usage_id', $post->id)->delete();
             Mention::where('user_id', $postLog->user_id)->where('mention_type', Mention::TYPE_POST)->where('mention_id', $post->id)->delete();
 
-            ContentUtility::handleAndSaveAllInteractive($postLog->content, Mention::TYPE_POST, $post->id, $postLog->user_id);
-            InteractiveUtility::editStats('post', $post->id, 'increment');
+            ContentUtility::handleAndSaveAllInteraction($postLog->content, Mention::TYPE_POST, $post->id, $postLog->user_id);
+            InteractionUtility::editStats('post', $post->id, 'increment');
 
             $post->update([
                 'latest_edit_at' => now(),
@@ -895,7 +895,7 @@ class ContentUtility
         ]);
 
         // send notification
-        InteractiveUtility::sendPublishNotification('post', $post->id);
+        InteractionUtility::sendPublishNotification('post', $post->id);
 
         return $post;
     }
@@ -950,17 +950,17 @@ class ContentUtility
         ContentUtility::releaseOperationUsages('comment', $commentLog->id, $comment->id);
 
         if (empty($commentLog->comment_id)) {
-            ContentUtility::handleAndSaveAllInteractive($commentLog->content, Mention::TYPE_COMMENT, $comment->id, $commentLog->user_id);
-            InteractiveUtility::publishStats('comment', $comment->id, 'increment');
+            ContentUtility::handleAndSaveAllInteraction($commentLog->content, Mention::TYPE_COMMENT, $comment->id, $commentLog->user_id);
+            InteractionUtility::publishStats('comment', $comment->id, 'increment');
         } else {
-            InteractiveUtility::editStats('comment', $comment->id, 'decrement');
+            InteractionUtility::editStats('comment', $comment->id, 'decrement');
 
             HashtagUsage::where('usage_type', HashtagUsage::TYPE_COMMENT)->where('usage_id', $comment->id)->delete();
             DomainLinkUsage::where('usage_type', DomainLinkUsage::TYPE_COMMENT)->where('usage_id', $comment->id)->delete();
             Mention::where('user_id', $commentLog->user_id)->where('mention_type', Mention::TYPE_COMMENT)->where('mention_id', $comment->id)->delete();
 
-            ContentUtility::handleAndSaveAllInteractive($commentLog->content, Mention::TYPE_COMMENT, $comment->id, $commentLog->user_id);
-            InteractiveUtility::editStats('comment', $comment->id, 'increment');
+            ContentUtility::handleAndSaveAllInteraction($commentLog->content, Mention::TYPE_COMMENT, $comment->id, $commentLog->user_id);
+            InteractionUtility::editStats('comment', $comment->id, 'increment');
 
             $comment->update([
                 'latest_edit_at' => now(),
@@ -982,7 +982,7 @@ class ContentUtility
         ]);
 
         // send notification
-        InteractiveUtility::sendPublishNotification('comment', $comment->id);
+        InteractionUtility::sendPublishNotification('comment', $comment->id);
 
         return $comment;
     }

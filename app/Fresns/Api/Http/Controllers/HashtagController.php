@@ -10,14 +10,14 @@ namespace App\Fresns\Api\Http\Controllers;
 
 use App\Exceptions\ApiException;
 use App\Fresns\Api\Http\DTO\HashtagListDTO;
-use App\Fresns\Api\Http\DTO\InteractiveDTO;
+use App\Fresns\Api\Http\DTO\InteractionDTO;
 use App\Fresns\Api\Services\HashtagService;
-use App\Fresns\Api\Services\InteractiveService;
+use App\Fresns\Api\Services\InteractionService;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
 use App\Models\Hashtag;
-use App\Utilities\InteractiveUtility;
+use App\Utilities\InteractionUtility;
 use Illuminate\Http\Request;
 
 class HashtagController extends Controller
@@ -33,7 +33,7 @@ class HashtagController extends Controller
 
         $hashtagQuery = Hashtag::isEnable();
 
-        $blockHashtagIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_HASHTAG, $authUserId);
+        $blockHashtagIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_HASHTAG, $authUserId);
         $hashtagQuery->when($blockHashtagIds, function ($query, $value) {
             $query->whereNotIn('id', $value);
         });
@@ -156,8 +156,8 @@ class HashtagController extends Controller
         return $this->success($data);
     }
 
-    // interactive
-    public function interactive(string $hid, string $type, Request $request)
+    // interaction
+    public function interaction(string $hid, string $type, Request $request)
     {
         $hashtag = Hashtag::where('slug', $hid)->isEnable()->first();
         if (empty($hashtag)) {
@@ -166,9 +166,9 @@ class HashtagController extends Controller
 
         $requestData = $request->all();
         $requestData['type'] = $type;
-        $dtoRequest = new InteractiveDTO($requestData);
+        $dtoRequest = new InteractionDTO($requestData);
 
-        InteractiveService::checkInteractiveSetting($dtoRequest->type, 'hashtag');
+        InteractionService::checkInteractionSetting($dtoRequest->type, 'hashtag');
 
         $orderDirection = $dtoRequest->orderDirection ?: 'desc';
 
@@ -176,9 +176,9 @@ class HashtagController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $service = new InteractiveService();
-        $data = $service->getUsersWhoMarkIt($dtoRequest->type, InteractiveService::TYPE_HASHTAG, $hashtag->id, $orderDirection, $langTag, $timezone, $authUserId);
+        $service = new InteractionService();
+        $data = $service->getUsersWhoMarkIt($dtoRequest->type, InteractionService::TYPE_HASHTAG, $hashtag->id, $orderDirection, $langTag, $timezone, $authUserId);
 
-        return $this->fresnsPaginate($data['paginateData'], $data['interactiveData']->total(), $data['interactiveData']->perPage());
+        return $this->fresnsPaginate($data['paginateData'], $data['interactionData']->total(), $data['interactionData']->perPage());
     }
 }

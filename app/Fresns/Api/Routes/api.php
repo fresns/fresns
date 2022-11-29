@@ -80,7 +80,7 @@ Route::prefix('v2')->middleware([
         Route::get('list', [UserController::class, 'list'])->name('list');
         Route::get('{uidOrUsername}/detail', [UserController::class, 'detail'])->name('detail')->withoutMiddleware([CheckSiteModel::class]);
         Route::get('{uidOrUsername}/followers-you-follow', [UserController::class, 'followersYouFollow'])->name('followers.you.follow');
-        Route::get('{uidOrUsername}/interactive/{type}', [UserController::class, 'interactive'])->name('interactive');
+        Route::get('{uidOrUsername}/interaction/{type}', [UserController::class, 'interaction'])->name('interaction');
         Route::get('{uidOrUsername}/mark/{markType}/{listType}', [UserController::class, 'markList'])->name('mark.list');
         Route::post('auth', [UserController::class, 'auth'])->name('auth')->withoutMiddleware([CheckSiteModel::class]);
         Route::get('panel', [UserController::class, 'panel'])->name('panel')->withoutMiddleware([CheckSiteModel::class]);
@@ -113,21 +113,21 @@ Route::prefix('v2')->middleware([
         Route::get('categories', [GroupController::class, 'categories'])->name('categories')->withoutMiddleware([CheckSiteModel::class]);
         Route::get('list', [GroupController::class, 'list'])->name('list');
         Route::get('{gid}/detail', [GroupController::class, 'detail'])->name('detail');
-        Route::get('{gid}/interactive/{type}', [GroupController::class, 'interactive'])->name('interactive');
+        Route::get('{gid}/interaction/{type}', [GroupController::class, 'interaction'])->name('interaction');
     });
 
     // hashtag
     Route::prefix('hashtag')->name('hashtag.')->group(function () {
         Route::get('list', [HashtagController::class, 'list'])->name('list');
         Route::get('{hid}/detail', [HashtagController::class, 'detail'])->name('detail');
-        Route::get('{hid}/interactive/{type}', [HashtagController::class, 'interactive'])->name('interactive');
+        Route::get('{hid}/interaction/{type}', [HashtagController::class, 'interaction'])->name('interaction');
     });
 
     // post
     Route::prefix('post')->name('post.')->group(function () {
         Route::get('list', [PostController::class, 'list'])->name('list');
         Route::get('{pid}/detail', [PostController::class, 'detail'])->name('detail');
-        Route::get('{pid}/interactive/{type}', [PostController::class, 'interactive'])->name('interactive');
+        Route::get('{pid}/interaction/{type}', [PostController::class, 'interaction'])->name('interaction');
         Route::get('{pid}/user-list', [PostController::class, 'userList'])->name('user.list');
         Route::get('{pid}/logs', [PostController::class, 'postLogs'])->name('logs');
         Route::get('{pid}/log/{logId}', [PostController::class, 'logDetail'])->name('log.detail');
@@ -140,7 +140,7 @@ Route::prefix('v2')->middleware([
     Route::prefix('comment')->name('comment.')->group(function () {
         Route::get('list', [CommentController::class, 'list'])->name('list');
         Route::get('{cid}/detail', [CommentController::class, 'detail'])->name('detail');
-        Route::get('{cid}/interactive/{type}', [CommentController::class, 'interactive'])->name('interactive');
+        Route::get('{cid}/interaction/{type}', [CommentController::class, 'interaction'])->name('interaction');
         Route::get('{cid}/logs', [CommentController::class, 'commentLogs'])->name('logs');
         Route::get('{cid}/log/{logId}', [CommentController::class, 'logDetail'])->name('log.detail');
         Route::delete('{cid}', [CommentController::class, 'delete'])->name('delete');

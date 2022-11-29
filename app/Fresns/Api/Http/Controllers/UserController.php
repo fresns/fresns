@@ -9,14 +9,14 @@
 namespace App\Fresns\Api\Http\Controllers;
 
 use App\Exceptions\ApiException;
-use App\Fresns\Api\Http\DTO\InteractiveDTO;
+use App\Fresns\Api\Http\DTO\InteractionDTO;
 use App\Fresns\Api\Http\DTO\UserAuthDTO;
 use App\Fresns\Api\Http\DTO\UserEditDTO;
 use App\Fresns\Api\Http\DTO\UserListDTO;
 use App\Fresns\Api\Http\DTO\UserMarkDTO;
 use App\Fresns\Api\Http\DTO\UserMarkListDTO;
 use App\Fresns\Api\Http\DTO\UserMarkNoteDTO;
-use App\Fresns\Api\Services\InteractiveService;
+use App\Fresns\Api\Services\InteractionService;
 use App\Fresns\Api\Services\UserService;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
@@ -44,7 +44,7 @@ use App\Models\UserStat;
 use App\Utilities\ConfigUtility;
 use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
-use App\Utilities\InteractiveUtility;
+use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
 use App\Utilities\ValidationUtility;
 use Illuminate\Http\Request;
@@ -332,8 +332,8 @@ class UserController extends Controller
         return $this->fresnsPaginate($userList, $userQuery->total(), $userQuery->perPage());
     }
 
-    // interactive
-    public function interactive(string $uidOrUsername, string $type, Request $request)
+    // interaction
+    public function interaction(string $uidOrUsername, string $type, Request $request)
     {
         if (StrHelper::isPureInt($uidOrUsername)) {
             $viewUser = User::where('uid', $uidOrUsername)->first();
@@ -347,7 +347,7 @@ class UserController extends Controller
 
         $requestData = $request->all();
         $requestData['type'] = $type;
-        $dtoRequest = new InteractiveDTO($requestData);
+        $dtoRequest = new InteractionDTO($requestData);
 
         $orderDirection = $dtoRequest->orderDirection ?: 'desc';
 
@@ -356,15 +356,15 @@ class UserController extends Controller
         $authUserId = $this->user()?->id;
 
         if ($viewUser->id == $authUserId) {
-            InteractiveService::checkMyInteractiveSetting($dtoRequest->type, 'user');
+            InteractionService::checkMyInteractionSetting($dtoRequest->type, 'user');
         } else {
-            InteractiveService::checkInteractiveSetting($dtoRequest->type, 'user');
+            InteractionService::checkInteractionSetting($dtoRequest->type, 'user');
         }
 
-        $service = new InteractiveService();
-        $data = $service->getUsersWhoMarkIt($dtoRequest->type, InteractiveService::TYPE_USER, $viewUser->id, $orderDirection, $langTag, $timezone, $authUserId);
+        $service = new InteractionService();
+        $data = $service->getUsersWhoMarkIt($dtoRequest->type, InteractionService::TYPE_USER, $viewUser->id, $orderDirection, $langTag, $timezone, $authUserId);
 
-        return $this->fresnsPaginate($data['paginateData'], $data['interactiveData']->total(), $data['interactiveData']->perPage());
+        return $this->fresnsPaginate($data['paginateData'], $data['interactionData']->total(), $data['interactionData']->perPage());
     }
 
     // markList
@@ -398,7 +398,7 @@ class UserController extends Controller
 
         $orderDirection = $dtoRequest->orderDirection ?: 'desc';
 
-        $service = new InteractiveService();
+        $service = new InteractionService();
         $data = $service->getItMarkList($dtoRequest->markType, $dtoRequest->listType, $viewUser->id, $orderDirection, $langTag, $timezone, $authUserId);
 
         return $this->fresnsPaginate($data['paginateData'], $data['markData']->total(), $data['markData']->perPage());
@@ -835,7 +835,7 @@ class UserController extends Controller
     {
         $dtoRequest = new UserMarkDTO($request->all());
 
-        $markSet = ConfigHelper::fresnsConfigByItemKey("{$dtoRequest->interactiveType}_{$dtoRequest->markType}_setting");
+        $markSet = ConfigHelper::fresnsConfigByItemKey("{$dtoRequest->interactionType}_{$dtoRequest->markType}_setting");
         if (! $markSet) {
             throw new ApiException(36200);
         }
@@ -855,15 +855,15 @@ class UserController extends Controller
             'comment' => 5,
         };
 
-        switch ($dtoRequest->interactiveType) {
+        switch ($dtoRequest->interactionType) {
             // like
             case 'like':
-                InteractiveUtility::markUserLike($authUserId, $markType, $primaryId);
+                InteractionUtility::markUserLike($authUserId, $markType, $primaryId);
             break;
 
             // dislike
             case 'dislike':
-                InteractiveUtility::markUserDislike($authUserId, $markType, $primaryId);
+                InteractionUtility::markUserDislike($authUserId, $markType, $primaryId);
             break;
 
             // follow
@@ -882,7 +882,7 @@ class UserController extends Controller
                     }
                 }
 
-                InteractiveUtility::markUserFollow($authUserId, $markType, $primaryId);
+                InteractionUtility::markUserFollow($authUserId, $markType, $primaryId);
             break;
 
             // block
@@ -901,12 +901,12 @@ class UserController extends Controller
                     }
                 }
 
-                InteractiveUtility::markUserBlock($authUserId, $markType, $primaryId);
+                InteractionUtility::markUserBlock($authUserId, $markType, $primaryId);
             break;
         }
 
-        CacheHelper::forgetFresnsInteractive($markType, $authUserId);
-        CacheHelper::forgetFresnsInteractive($markType, $primaryId);
+        CacheHelper::forgetFresnsInteraction($markType, $authUserId);
+        CacheHelper::forgetFresnsInteraction($markType, $primaryId);
 
         return $this->success();
     }
@@ -931,7 +931,7 @@ class UserController extends Controller
             'comment' => 5,
         };
 
-        switch ($dtoRequest->interactiveType) {
+        switch ($dtoRequest->interactionType) {
             // follow
             case 'follow':
                 $userNote = UserFollow::withTrashed()->where('user_id', $authUserId)->type($markType)->where('follow_id', $primaryId)->first();

@@ -18,7 +18,7 @@ class UserMarkDTO extends DTO
     public function rules(): array
     {
         return [
-            'interactiveType' => ['string', 'required', 'in:like,dislike,follow,block'],
+            'interactionType' => ['string', 'required', 'in:like,dislike,follow,block'],
             'markType' => ['string', 'required', 'in:user,group,hashtag,post,comment'],
             'fsid' => ['string', 'required'],
         ];

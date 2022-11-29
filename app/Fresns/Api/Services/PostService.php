@@ -12,7 +12,7 @@ use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
-use App\Helpers\InteractiveHelper;
+use App\Helpers\InteractionHelper;
 use App\Helpers\PluginHelper;
 use App\Models\ArchiveUsage;
 use App\Models\Comment;
@@ -25,7 +25,7 @@ use App\Models\Post;
 use App\Models\PostLog;
 use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
-use App\Utilities\InteractiveUtility;
+use App\Utilities\InteractionUtility;
 use App\Utilities\LbsUtility;
 use App\Utilities\PermissionUtility;
 use Illuminate\Support\Facades\Cache;
@@ -61,7 +61,7 @@ class PostService
 
             $item['group'] = null;
             $item['hashtags'] = [];
-            $item['creator'] = InteractiveHelper::fresnsUserAnonymousProfile();
+            $item['creator'] = InteractionHelper::fresnsUserAnonymousProfile();
             $item['topComment'] = null;
             $item['manages'] = [];
             $item['editStatus'] = [
@@ -155,10 +155,10 @@ class PostService
             return ExtendUtility::getPluginUsages(PluginUsage::TYPE_MANAGE, null, PluginUsage::SCENE_POST, $authUserId, $langTag);
         });
 
-        // interactive
-        $interactiveConfig = InteractiveHelper::fresnsPostInteractive($langTag);
-        $interactiveStatus = InteractiveUtility::getInteractiveStatus(InteractiveUtility::TYPE_POST, $post->id, $authUserId);
-        $postData['interactive'] = array_merge($interactiveConfig, $interactiveStatus);
+        // interaction
+        $interactionConfig = InteractionHelper::fresnsPostInteraction($langTag);
+        $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_POST, $post->id, $authUserId);
+        $postData['interaction'] = array_merge($interactionConfig, $interactionStatus);
 
         $commentVisibilityRule = ConfigHelper::fresnsConfigByItemKey('comment_visibility_rule');
         if ($commentVisibilityRule > 0) {
@@ -234,7 +234,7 @@ class PostService
 
         $postData['topComment'] = CommentService::handleCommentDate($postData['topComment'], $timezone, $langTag);
 
-        $postData['interactive']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($postData['interactive']['followExpiryDateTime'], $timezone, $langTag);
+        $postData['interaction']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($postData['interaction']['followExpiryDateTime'], $timezone, $langTag);
 
         return $postData;
     }
@@ -284,7 +284,7 @@ class PostService
         $info['state'] = $log->state;
         $info['reason'] = $log->reason;
 
-        $info['creator'] = InteractiveHelper::fresnsUserAnonymousProfile();
+        $info['creator'] = InteractionHelper::fresnsUserAnonymousProfile();
         if (! $log->is_anonymous) {
             $userService = new UserService;
 

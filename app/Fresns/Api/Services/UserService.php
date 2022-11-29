@@ -12,7 +12,7 @@ use App\Exceptions\ApiException;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
-use App\Helpers\InteractiveHelper;
+use App\Helpers\InteractionHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\ArchiveUsage;
 use App\Models\ExtendUsage;
@@ -24,7 +24,7 @@ use App\Utilities\ArrUtility;
 use App\Utilities\ConfigUtility;
 use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
-use App\Utilities\InteractiveUtility;
+use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -81,11 +81,11 @@ class UserService
             return array_merge($userProfile, $userMainRole, $item);
         });
 
-        $interactiveConfig = InteractiveHelper::fresnsUserInteractive($langTag);
-        $interactiveStatus = InteractiveUtility::getInteractiveStatus(InteractiveUtility::TYPE_USER, $user->id, $authUserId);
-        $followMeStatus['followMeStatus'] = InteractiveUtility::checkUserFollow(InteractiveUtility::TYPE_USER, $authUserId, $user->id);
-        $blockMeStatus['blockMeStatus'] = InteractiveUtility::checkUserBlock(InteractiveUtility::TYPE_USER, $authUserId, $user->id);
-        $userData['interactive'] = array_merge($interactiveConfig, $interactiveStatus, $followMeStatus, $blockMeStatus);
+        $interactionConfig = InteractionHelper::fresnsUserInteraction($langTag);
+        $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_USER, $user->id, $authUserId);
+        $followMeStatus['followMeStatus'] = InteractionUtility::checkUserFollow(InteractionUtility::TYPE_USER, $authUserId, $user->id);
+        $blockMeStatus['blockMeStatus'] = InteractionUtility::checkUserBlock(InteractionUtility::TYPE_USER, $authUserId, $user->id);
+        $userData['interaction'] = array_merge($interactionConfig, $interactionStatus, $followMeStatus, $blockMeStatus);
 
         $userData['conversation'] = PermissionUtility::checkUserConversationPerm($user->id, $authUserId, $langTag);
 
@@ -215,7 +215,7 @@ class UserService
 
         $userData['roleExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData['roleExpiryDateTime'], $timezone, $langTag);
 
-        $userData['interactive']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData['interactive']['followExpiryDateTime'], $timezone, $langTag);
+        $userData['interaction']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData['interaction']['followExpiryDateTime'], $timezone, $langTag);
 
         return $userData;
     }

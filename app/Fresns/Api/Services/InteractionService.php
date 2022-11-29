@@ -14,7 +14,7 @@ use App\Models\UserBlock;
 use App\Models\UserFollow;
 use App\Models\UserLike;
 
-class InteractiveService
+class InteractionService
 {
     const TYPE_USER = 1;
     const TYPE_GROUP = 2;
@@ -22,46 +22,46 @@ class InteractiveService
     const TYPE_POST = 4;
     const TYPE_COMMENT = 5;
 
-    // check interactive setting
-    public static function checkInteractiveSetting(string $interactiveType, string $markType)
+    // check interaction setting
+    public static function checkInteractionSetting(string $interactionType, string $markType)
     {
-        $setKey = match ($interactiveType) {
+        $setKey = match ($interactionType) {
             'like' => "{$markType}_likers",
             'dislike' => "{$markType}_dislikers",
             'follow' => "{$markType}_followers",
             'block' => "{$markType}_blockers",
         };
 
-        $interactiveSet = ConfigHelper::fresnsConfigByItemKey($setKey);
-        if (! $interactiveSet) {
+        $interactionSet = ConfigHelper::fresnsConfigByItemKey($setKey);
+        if (! $interactionSet) {
             throw new ApiException(36201);
         }
     }
 
-    // check my interactive setting
-    public static function checkMyInteractiveSetting(string $interactiveType, string $markType)
+    // check my interaction setting
+    public static function checkMyInteractionSetting(string $interactionType, string $markType)
     {
-        $setKey = match ($interactiveType) {
+        $setKey = match ($interactionType) {
             'like' => "{$markType}_likers",
             'dislike' => "{$markType}_dislikers",
             'follow' => "{$markType}_followers",
             'block' => "{$markType}_blockers",
         };
 
-        $interactiveSet = ConfigHelper::fresnsConfigByItemKey($setKey);
-        if ($interactiveSet) {
+        $interactionSet = ConfigHelper::fresnsConfigByItemKey($setKey);
+        if ($interactionSet) {
             return;
         }
 
-        $mySetKey = match ($interactiveType) {
+        $mySetKey = match ($interactionType) {
             'like' => 'my_likers',
             'dislike' => 'my_dislikers',
             'follow' => 'my_followers',
             'block' => 'my_blockers',
         };
 
-        $myInteractiveSet = ConfigHelper::fresnsConfigByItemKey($mySetKey);
-        if (! $myInteractiveSet) {
+        $myInteractionSet = ConfigHelper::fresnsConfigByItemKey($mySetKey);
+        if (! $myInteractionSet) {
             throw new ApiException(36201);
         }
     }
@@ -72,26 +72,26 @@ class InteractiveService
         switch ($getType) {
                 // like
             case 'like':
-                $interactiveQuery = UserLike::markType(UserLike::MARK_TYPE_LIKE)->where('like_id', $markId);
+                $interactionQuery = UserLike::markType(UserLike::MARK_TYPE_LIKE)->where('like_id', $markId);
             break;
 
                 // dislike
             case 'dislike':
-                $interactiveQuery = UserLike::markType(UserLike::MARK_TYPE_DISLIKE)->where('like_id', $markId);
+                $interactionQuery = UserLike::markType(UserLike::MARK_TYPE_DISLIKE)->where('like_id', $markId);
             break;
 
                 // follow
             case 'follow':
-                $interactiveQuery = UserFollow::where('follow_id', $markId);
+                $interactionQuery = UserFollow::where('follow_id', $markId);
             break;
 
                 // block
             case 'block':
-                $interactiveQuery = UserBlock::where('block_id', $markId);
+                $interactionQuery = UserBlock::where('block_id', $markId);
             break;
         }
 
-        $interactiveData = $interactiveQuery->with('creator')
+        $interactionData = $interactionQuery->with('creator')
             ->type($markType)
             ->orderBy('created_at', $orderDirection)
             ->paginate(\request()->get('pageSize', 15));
@@ -99,17 +99,17 @@ class InteractiveService
         $service = new UserService();
 
         $paginateData = [];
-        foreach ($interactiveData as $interactive) {
-            if (empty($interactive->creator)) {
+        foreach ($interactionData as $interaction) {
+            if (empty($interaction->creator)) {
                 continue;
             }
 
-            $paginateData[] = $service->userData($interactive->creator, $langTag, $timezone, $authUserId);
+            $paginateData[] = $service->userData($interaction->creator, $langTag, $timezone, $authUserId);
         }
 
         return [
             'paginateData' => $paginateData,
-            'interactiveData' => $interactiveData,
+            'interactionData' => $interactionData,
         ];
     }
 

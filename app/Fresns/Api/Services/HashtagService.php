@@ -11,14 +11,14 @@ namespace App\Fresns\Api\Services;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
-use App\Helpers\InteractiveHelper;
+use App\Helpers\InteractionHelper;
 use App\Models\ArchiveUsage;
 use App\Models\ExtendUsage;
 use App\Models\File;
 use App\Models\Hashtag;
 use App\Models\OperationUsage;
 use App\Utilities\ExtendUtility;
-use App\Utilities\InteractiveUtility;
+use App\Utilities\InteractionUtility;
 use Illuminate\Support\Facades\Cache;
 
 class HashtagService
@@ -53,9 +53,9 @@ class HashtagService
         $data['followCount'] = $configKeys['hashtag_follower_count'] ? $hashtag->follow_count : null;
         $data['blockCount'] = $configKeys['hashtag_blocker_count'] ? $hashtag->block_count : null;
 
-        $interactiveConfig = InteractiveHelper::fresnsHashtagInteractive($langTag);
-        $interactiveStatus = InteractiveUtility::getInteractiveStatus(InteractiveUtility::TYPE_HASHTAG, $hashtag->id, $authUserId);
-        $data['interactive'] = array_merge($interactiveConfig, $interactiveStatus);
+        $interactionConfig = InteractionHelper::fresnsHashtagInteraction($langTag);
+        $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_HASHTAG, $hashtag->id, $authUserId);
+        $data['interaction'] = array_merge($interactionConfig, $interactionStatus);
 
         return HashtagService::handleHashtagDate($data, $timezone, $langTag);
     }
@@ -69,7 +69,7 @@ class HashtagService
 
         $hashtagData['createDate'] = DateHelper::fresnsDateTimeByTimezone($hashtagData['createDate'], $timezone, $langTag);
 
-        $hashtagData['interactive']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($hashtagData['interactive']['followExpiryDateTime'], $timezone, $langTag);
+        $hashtagData['interaction']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($hashtagData['interaction']['followExpiryDateTime'], $timezone, $langTag);
 
         return $hashtagData;
     }

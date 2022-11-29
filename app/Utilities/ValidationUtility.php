@@ -264,17 +264,17 @@ class ValidationUtility
             };
         }
 
-        if ($markType == InteractiveUtility::TYPE_USER && $userId == $markId) {
+        if ($markType == InteractionUtility::TYPE_USER && $userId == $markId) {
             return false;
         }
 
-        if ($markType == InteractiveUtility::TYPE_POST || $markType == InteractiveUtility::TYPE_COMMENT) {
+        if ($markType == InteractionUtility::TYPE_POST || $markType == InteractionUtility::TYPE_COMMENT) {
             switch ($markType) {
-                case InteractiveUtility::TYPE_POST:
+                case InteractionUtility::TYPE_POST:
                     $creator = Post::where('id', $markId)->value('user_id');
                 break;
 
-                case InteractiveUtility::TYPE_COMMENT:
+                case InteractionUtility::TYPE_COMMENT:
                     $creator = Comment::where('id', $markId)->value('user_id');
                 break;
             }

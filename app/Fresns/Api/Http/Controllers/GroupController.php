@@ -10,9 +10,9 @@ namespace App\Fresns\Api\Http\Controllers;
 
 use App\Exceptions\ApiException;
 use App\Fresns\Api\Http\DTO\GroupListDTO;
-use App\Fresns\Api\Http\DTO\InteractiveDTO;
+use App\Fresns\Api\Http\DTO\InteractionDTO;
 use App\Fresns\Api\Services\GroupService;
-use App\Fresns\Api\Services\InteractiveService;
+use App\Fresns\Api\Services\InteractionService;
 use App\Helpers\CacheHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PrimaryHelper;
@@ -240,8 +240,8 @@ class GroupController extends Controller
         return $this->success($data);
     }
 
-    // interactive
-    public function interactive(string $gid, string $type, Request $request)
+    // interaction
+    public function interaction(string $gid, string $type, Request $request)
     {
         $group = Group::where('gid', $gid)->isEnable()->first();
         if (empty($group)) {
@@ -250,9 +250,9 @@ class GroupController extends Controller
 
         $requestData = $request->all();
         $requestData['type'] = $type;
-        $dtoRequest = new InteractiveDTO($requestData);
+        $dtoRequest = new InteractionDTO($requestData);
 
-        InteractiveService::checkInteractiveSetting($dtoRequest->type, 'group');
+        InteractionService::checkInteractionSetting($dtoRequest->type, 'group');
 
         $orderDirection = $dtoRequest->orderDirection ?: 'desc';
 
@@ -260,9 +260,9 @@ class GroupController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $service = new InteractiveService();
-        $data = $service->getUsersWhoMarkIt($dtoRequest->type, InteractiveService::TYPE_GROUP, $group->id, $orderDirection, $langTag, $timezone, $authUserId);
+        $service = new InteractionService();
+        $data = $service->getUsersWhoMarkIt($dtoRequest->type, InteractionService::TYPE_GROUP, $group->id, $orderDirection, $langTag, $timezone, $authUserId);
 
-        return $this->fresnsPaginate($data['paginateData'], $data['interactiveData']->total(), $data['interactiveData']->perPage());
+        return $this->fresnsPaginate($data['paginateData'], $data['interactionData']->total(), $data['interactionData']->perPage());
     }
 }

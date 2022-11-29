@@ -34,7 +34,7 @@ use App\Models\PostLog;
 use App\Models\PostUser;
 use App\Utilities\ConfigUtility;
 use App\Utilities\ContentUtility;
-use App\Utilities\InteractiveUtility;
+use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
 use App\Utilities\ValidationUtility;
 use Carbon\Carbon;
@@ -578,8 +578,8 @@ class Content
                     'map_poi_id' => $dtoWordBody->mapJson['poiId'] ?? null,
                 ]);
 
-                ContentUtility::handleAndSaveAllInteractive($post->content, Mention::TYPE_POST, $post->id, $post->user_id);
-                InteractiveUtility::publishStats('post', $post->id, 'increment');
+                ContentUtility::handleAndSaveAllInteraction($post->content, Mention::TYPE_POST, $post->id, $post->user_id);
+                InteractionUtility::publishStats('post', $post->id, 'increment');
 
                 $primaryId = $post->id;
                 $fsid = $post->pid;
@@ -642,8 +642,8 @@ class Content
                     'map_poi_id' => $dtoWordBody->mapJson['poiId'] ?? null,
                 ]);
 
-                ContentUtility::handleAndSaveAllInteractive($comment->content, Mention::TYPE_COMMENT, $comment->id, $comment->user_id);
-                InteractiveUtility::publishStats('comment', $comment->id, 'increment');
+                ContentUtility::handleAndSaveAllInteraction($comment->content, Mention::TYPE_COMMENT, $comment->id, $comment->user_id);
+                InteractionUtility::publishStats('comment', $comment->id, 'increment');
 
                 $primaryId = $comment->id;
                 $fsid = $comment->cid;
@@ -673,7 +673,7 @@ class Content
         }
 
         // send notification
-        InteractiveUtility::sendPublishNotification($type, $primaryId);
+        InteractionUtility::sendPublishNotification($type, $primaryId);
 
         return $this->success([
             'type' => $dtoWordBody->type,
@@ -705,7 +705,7 @@ class Content
                     2 => 'comment',
                 };
 
-                InteractiveUtility::publishStats($type, $model->id, 'decrement');
+                InteractionUtility::publishStats($type, $model->id, 'decrement');
 
                 if ($dtoWordBody->type == 1) {
                     PostAllow::where('post_id', $model->id)->delete();
@@ -783,7 +783,7 @@ class Content
                     2 => 'comment',
                 };
 
-                InteractiveUtility::publishStats($type, $model->id, 'decrement');
+                InteractionUtility::publishStats($type, $model->id, 'decrement');
 
                 if ($dtoWordBody->type == 1) {
                     PostAllow::where('post_id', $model->id)->forceDelete();

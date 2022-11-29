@@ -18,7 +18,7 @@ class UserMarkNoteDTO extends DTO
     public function rules(): array
     {
         return [
-            'interactiveType' => ['string', 'required', 'in:follow,block'],
+            'interactionType' => ['string', 'required', 'in:follow,block'],
             'markType' => ['string', 'required', 'in:user,group,hashtag,post,comment'],
             'fsid' => ['string', 'required'],
             'note' => ['string', 'nullable'],

@@ -569,9 +569,9 @@
     <div class="row mb-4">
         <label class="col-lg-2">{{ __('FsLang::panel.columns_profile_rename') }}:</label>
         <div class="col-lg-6">
-            <!--It Interactive-->
+            <!--It Interaction-->
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_like_it') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_like_it') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_likes']) }}"
                     data-languages="{{ optional($configs['menu_profile_likes'])->languages->toJson() }}"
@@ -580,7 +580,7 @@
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_dislike_it') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_dislike_it') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_dislikes']) }}"
                     data-languages="{{ optional($configs['menu_profile_dislikes'])->languages->toJson() }}"
@@ -589,7 +589,7 @@
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_follow_it') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_follow_it') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_followers']) }}"
                     data-languages="{{ optional($configs['menu_profile_followers'])->languages->toJson() }}"
@@ -598,7 +598,7 @@
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_block_it') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_block_it') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_blockers']) }}"
                     data-languages="{{ optional($configs['menu_profile_blockers'])->languages->toJson() }}"
@@ -608,7 +608,7 @@
             </div>
             <!--Followers You Follow-->
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_followers_you_follow') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_followers_you_follow') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_followers_you_follow']) }}"
                     data-languages="{{ optional($configs['menu_profile_followers_you_follow'])->languages->toJson() }}"
@@ -618,7 +618,7 @@
             </div>
             <!--It Like-->
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_like_users') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_like_users') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_like_users']) }}"
                     data-languages="{{ optional($configs['menu_profile_like_users'])->languages->toJson() }}"
@@ -627,7 +627,7 @@
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_like_groups') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_like_groups') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_like_groups']) }}"
                     data-languages="{{ optional($configs['menu_profile_like_groups'])->languages->toJson() }}"
@@ -636,7 +636,7 @@
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_like_hashtags') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_like_hashtags') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_like_hashtags']) }}"
                     data-languages="{{ optional($configs['menu_profile_like_hashtags'])->languages->toJson() }}"
@@ -645,7 +645,7 @@
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_like_posts') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_like_posts') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_like_posts']) }}"
                     data-languages="{{ optional($configs['menu_profile_like_posts'])->languages->toJson() }}"
@@ -654,7 +654,7 @@
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_like_comments') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_like_comments') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_like_comments']) }}"
                     data-languages="{{ optional($configs['menu_profile_like_comments'])->languages->toJson() }}"
@@ -664,7 +664,7 @@
             </div>
             <!--It Dislike-->
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_dislike_users') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_dislike_users') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_dislike_users']) }}"
                     data-languages="{{ optional($configs['menu_profile_dislike_users'])->languages->toJson() }}"
@@ -673,7 +673,7 @@
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_dislike_groups') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_dislike_groups') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_dislike_groups']) }}"
                     data-languages="{{ optional($configs['menu_profile_dislike_groups'])->languages->toJson() }}"
@@ -682,7 +682,7 @@
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_dislike_hashtags') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_dislike_hashtags') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_dislike_hashtags']) }}"
                     data-languages="{{ optional($configs['menu_profile_dislike_hashtags'])->languages->toJson() }}"
@@ -691,7 +691,7 @@
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_dislike_posts') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_dislike_posts') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_dislike_posts']) }}"
                     data-languages="{{ optional($configs['menu_profile_dislike_posts'])->languages->toJson() }}"
@@ -700,7 +700,7 @@
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_dislike_comments') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_dislike_comments') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_dislike_comments']) }}"
                     data-languages="{{ optional($configs['menu_profile_dislike_comments'])->languages->toJson() }}"
@@ -710,7 +710,7 @@
             </div>
             <!--It Follow-->
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_follow_users') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_follow_users') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_follow_users']) }}"
                     data-languages="{{ optional($configs['menu_profile_follow_users'])->languages->toJson() }}"
@@ -719,7 +719,7 @@
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_follow_groups') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_follow_groups') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_follow_groups']) }}"
                     data-languages="{{ optional($configs['menu_profile_follow_groups'])->languages->toJson() }}"
@@ -728,7 +728,7 @@
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_follow_hashtags') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_follow_hashtags') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_follow_hashtags']) }}"
                     data-languages="{{ optional($configs['menu_profile_follow_hashtags'])->languages->toJson() }}"
@@ -737,7 +737,7 @@
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_follow_posts') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_follow_posts') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_follow_posts']) }}"
                     data-languages="{{ optional($configs['menu_profile_follow_posts'])->languages->toJson() }}"
@@ -746,7 +746,7 @@
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_follow_comments') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_follow_comments') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_follow_comments']) }}"
                     data-languages="{{ optional($configs['menu_profile_follow_comments'])->languages->toJson() }}"
@@ -756,7 +756,7 @@
             </div>
             <!--It Block-->
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_block_users') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_block_users') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_block_users']) }}"
                     data-languages="{{ optional($configs['menu_profile_block_users'])->languages->toJson() }}"
@@ -765,7 +765,7 @@
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_block_groups') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_block_groups') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_block_groups']) }}"
                     data-languages="{{ optional($configs['menu_profile_block_groups'])->languages->toJson() }}"
@@ -774,7 +774,7 @@
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_block_hashtags') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_block_hashtags') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_block_hashtags']) }}"
                     data-languages="{{ optional($configs['menu_profile_block_hashtags'])->languages->toJson() }}"
@@ -783,7 +783,7 @@
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_block_posts') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_block_posts') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_block_posts']) }}"
                     data-languages="{{ optional($configs['menu_profile_block_posts'])->languages->toJson() }}"
@@ -792,7 +792,7 @@
                 </button>
             </div>
             <div class="input-group mb-3">
-                <label class="input-group-text rename-label">{{ __('FsLang::panel.interactive_it_block_comments') }}</label>
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.interaction_it_block_comments') }}</label>
                 <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                     data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_profile_block_comments']) }}"
                     data-languages="{{ optional($configs['menu_profile_block_comments'])->languages->toJson() }}"

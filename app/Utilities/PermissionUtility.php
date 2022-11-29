@@ -192,7 +192,7 @@ class PermissionUtility
             return $info;
         }
 
-        $checkBlock = InteractiveUtility::checkUserBlock(InteractiveUtility::TYPE_USER, $authUserId, $receiveUser->id);
+        $checkBlock = InteractionUtility::checkUserBlock(InteractionUtility::TYPE_USER, $authUserId, $receiveUser->id);
         if ($receiveUser->conversation_limit == 4 || $checkBlock) {
             $info['status'] = false;
             $info['code'] = 36608;
@@ -201,7 +201,7 @@ class PermissionUtility
             return $info;
         }
 
-        $checkFollow = InteractiveUtility::checkUserFollow(InteractiveUtility::TYPE_USER, $receiveUser->id, $authUserId);
+        $checkFollow = InteractionUtility::checkUserFollow(InteractionUtility::TYPE_USER, $receiveUser->id, $authUserId);
         $authUserVerifiedStatus = User::where('id', $authUserId)->value('verified_status') ?? 0;
         if ($receiveUser->conversation_limit == 3 && ! $checkFollow && ! $authUserVerifiedStatus) {
             $info['status'] = false;
@@ -277,7 +277,7 @@ class PermissionUtility
 
         $allowPost = match ($permConfig['publish_post']) {
             1 => true,
-            2 => InteractiveUtility::checkUserFollow(InteractiveUtility::TYPE_GROUP, $groupId, $userId),
+            2 => InteractionUtility::checkUserFollow(InteractionUtility::TYPE_GROUP, $groupId, $userId),
             3 => static::checkUserRolePerm($userId, $permConfig['publish_post_roles']),
             4 => false,
             default => false,
@@ -285,7 +285,7 @@ class PermissionUtility
 
         $allowComment = match ($permConfig['publish_comment']) {
             1 => true,
-            2 => InteractiveUtility::checkUserFollow(InteractiveUtility::TYPE_GROUP, $groupId, $userId),
+            2 => InteractionUtility::checkUserFollow(InteractionUtility::TYPE_GROUP, $groupId, $userId),
             3 => static::checkUserRolePerm($userId, $permConfig['publish_comment_roles']),
             4 => false,
             default => false,
@@ -357,7 +357,7 @@ class PermissionUtility
                 return $commentPerm;
             }
 
-            $checkUserFollow = InteractiveUtility::checkUserFollow(InteractiveUtility::TYPE_USER, $post->user_id, $userId);
+            $checkUserFollow = InteractionUtility::checkUserFollow(InteractionUtility::TYPE_USER, $post->user_id, $userId);
             if (! $checkUserFollow) {
                 $commentPerm['code'] = 38209;
 
