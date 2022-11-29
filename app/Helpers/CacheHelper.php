@@ -255,7 +255,6 @@ class CacheHelper
         // user data
         CacheHelper::forgetFresnsMultilingual("fresns_api_user_{$uid}");
         CacheHelper::forgetFresnsModel('user', $uid);
-
     }
 
     /**
