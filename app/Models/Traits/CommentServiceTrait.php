@@ -9,7 +9,6 @@
 namespace App\Models\Traits;
 
 use App\Helpers\ConfigHelper;
-use App\Helpers\DateHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
 use Illuminate\Support\Str;
@@ -22,7 +21,7 @@ trait CommentServiceTrait
         $appendData = $this->commentAppend;
         $postAppendData = $this->post->postAppend;
 
-        $configKey = ConfigHelper::fresnsConfigByItemKeys([
+        $configKeys = ConfigHelper::fresnsConfigByItemKeys([
             'website_comment_detail_path',
             'site_url',
             'comment_liker_count',
@@ -32,7 +31,7 @@ trait CommentServiceTrait
         ]);
 
         $info['cid'] = $commentData->cid;
-        $info['url'] = $configKey['site_url'].'/'.$configKey['website_comment_detail_path'].'/'.$commentData->cid;
+        $info['url'] = $configKeys['site_url'].'/'.$configKeys['website_comment_detail_path'].'/'.$commentData->cid;
         $info['content'] = $commentData->content;
         $info['contentLength'] = Str::length($commentData->content);
         $info['langTag'] = $commentData->lang_tag;
@@ -42,20 +41,20 @@ trait CommentServiceTrait
         $info['isAnonymous'] = (bool) $commentData->is_anonymous;
         $info['isSticky'] = (bool) $commentData->is_sticky;
         $info['digestState'] = $commentData->digest_state;
-        $info['likeCount'] = $configKey['comment_liker_count'] ? $commentData->like_count : null;
-        $info['dislikeCount'] = $configKey['comment_disliker_count'] ? $commentData->dislike_count : null;
-        $info['followCount'] = $configKey['comment_follower_count'] ? $commentData->follow_count : null;
-        $info['blockCount'] = $configKey['comment_blocker_count'] ? $commentData->block_count : null;
+        $info['likeCount'] = $configKeys['comment_liker_count'] ? $commentData->like_count : null;
+        $info['dislikeCount'] = $configKeys['comment_disliker_count'] ? $commentData->dislike_count : null;
+        $info['followCount'] = $configKeys['comment_follower_count'] ? $commentData->follow_count : null;
+        $info['blockCount'] = $configKeys['comment_blocker_count'] ? $commentData->block_count : null;
         $info['commentCount'] = $commentData->comment_count;
         $info['commentDigestCount'] = $commentData->comment_digest_count;
-        $info['commentLikeCount'] = $configKey['comment_liker_count'] ? $commentData->comment_like_count : null;
-        $info['commentDislikeCount'] = $configKey['comment_disliker_count'] ? $commentData->comment_dislike_count : null;
-        $info['commentFollowCount'] = $configKey['comment_follower_count'] ? $commentData->comment_follow_count : null;
-        $info['commentBlockCount'] = $configKey['comment_blocker_count'] ? $commentData->comment_block_count : null;
-        $info['createTime'] = DateHelper::fresnsFormatDateTime($commentData->created_at, $timezone, $langTag);
-        $info['createTimeFormat'] = DateHelper::fresnsFormatTime($commentData->created_at, $langTag);
-        $info['editTime'] = DateHelper::fresnsFormatDateTime($commentData->latest_edit_at, $timezone, $langTag);
-        $info['editTimeFormat'] = DateHelper::fresnsFormatTime($commentData->latest_edit_at, $langTag);
+        $info['commentLikeCount'] = $configKeys['comment_liker_count'] ? $commentData->comment_like_count : null;
+        $info['commentDislikeCount'] = $configKeys['comment_disliker_count'] ? $commentData->comment_dislike_count : null;
+        $info['commentFollowCount'] = $configKeys['comment_follower_count'] ? $commentData->comment_follow_count : null;
+        $info['commentBlockCount'] = $configKeys['comment_blocker_count'] ? $commentData->comment_block_count : null;
+        $info['createTime'] = $commentData->created_at;
+        $info['createTimeFormat'] = $commentData->created_at;
+        $info['editTime'] = $commentData->latest_edit_at;
+        $info['editTimeFormat'] = $commentData->latest_edit_at;
         $info['editCount'] = $appendData->edit_count;
         $info['rankState'] = $commentData->rank_state;
         $info['status'] = (bool) $commentData->is_enable;

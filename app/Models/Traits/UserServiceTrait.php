@@ -9,7 +9,6 @@
 namespace App\Models\Traits;
 
 use App\Helpers\ConfigHelper;
-use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
 use App\Models\Role;
@@ -18,27 +17,27 @@ use App\Models\UserRole;
 
 trait UserServiceTrait
 {
-    public function getUserProfile(?string $langTag = null, ?string $timezone = null)
+    public function getUserProfile()
     {
         $userData = $this;
 
-        $configKey = ConfigHelper::fresnsConfigByItemKeys([
+        $configKeys = ConfigHelper::fresnsConfigByItemKeys([
             'user_identifier',
             'website_user_detail_path',
             'site_url',
             'site_mode',
         ]);
 
-        if ($configKey['user_identifier'] == 'uid') {
+        if ($configKeys['user_identifier'] == 'uid') {
             $profile['fsid'] = $userData->uid;
-            $url = $configKey['site_url'].'/'.$configKey['website_user_detail_path'].'/'.$userData->uid;
+            $url = $configKeys['site_url'].'/'.$configKeys['website_user_detail_path'].'/'.$userData->uid;
         } else {
             $profile['fsid'] = $userData->username;
-            $url = $configKey['site_url'].'/'.$configKey['website_user_detail_path'].'/'.$userData->username;
+            $url = $configKeys['site_url'].'/'.$configKeys['website_user_detail_path'].'/'.$userData->username;
         }
 
         $isExpiry = false;
-        if ($configKey['site_mode'] == 'private') {
+        if ($configKeys['site_mode'] == 'private') {
             if (empty($userData->expired_at)) {
                 $isExpiry = true;
             } else {
@@ -57,7 +56,7 @@ trait UserServiceTrait
         $profile['decorate'] = null;
         $profile['banner'] = FileHelper::fresnsFileUrlByTableColumn($userData->banner_file_id, $userData->banner_file_url);
         $profile['gender'] = $userData->gender;
-        $profile['birthday'] = DateHelper::fresnsDateTimeByTimezone($userData->birthday, $timezone, $langTag);
+        $profile['birthday'] = $userData->birthday;
         $profile['bio'] = $userData->bio;
         $profile['location'] = $userData->location;
         $profile['conversationLimit'] = $userData->conversation_limit;
@@ -66,21 +65,21 @@ trait UserServiceTrait
         $profile['verifiedStatus'] = (bool) $userData->verified_status;
         $profile['verifiedIcon'] = null;
         $profile['verifiedDesc'] = $userData->verified_desc;
-        $profile['verifiedDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData->verified_at, $timezone, $langTag);
+        $profile['verifiedDateTime'] = $userData->verified_at;
         $profile['isExpiry'] = $isExpiry;
-        $profile['expiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData->expired_at, $timezone, $langTag);
-        $profile['lastPublishPost'] = DateHelper::fresnsDateTimeByTimezone($userData->last_post_at, $timezone, $langTag);
-        $profile['lastPublishComment'] = DateHelper::fresnsDateTimeByTimezone($userData->last_comment_at, $timezone, $langTag);
-        $profile['lastEditUsername'] = DateHelper::fresnsDateTimeByTimezone($userData->last_username_at, $timezone, $langTag);
-        $profile['lastEditNickname'] = DateHelper::fresnsDateTimeByTimezone($userData->last_nickname_at, $timezone, $langTag);
-        $profile['registerDate'] = date(ConfigHelper::fresnsConfigDateFormat($langTag), strtotime(DateHelper::fresnsDateTimeByTimezone($userData->created_at, $timezone, $langTag)));
+        $profile['expiryDateTime'] = $userData->expired_at;
+        $profile['lastPublishPost'] = $userData->last_post_at;
+        $profile['lastPublishComment'] = $userData->last_comment_at;
+        $profile['lastEditUsername'] = $userData->last_username_at;
+        $profile['lastEditNickname'] = $userData->last_nickname_at;
+        $profile['registerDate'] = $userData->created_at;
         $profile['hasPassword'] = (bool) $userData->password;
         $profile['rankState'] = $userData->rank_state;
         $profile['status'] = (bool) $userData->is_enable;
         $profile['waitDelete'] = (bool) $userData->wait_delete;
-        $profile['waitDeleteDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData->wait_delete_at, $timezone, $langTag);
+        $profile['waitDeleteDateTime'] = $userData->wait_delete_at;
         $profile['deactivate'] = (bool) $userData->deleted_at;
-        $profile['deactivateTime'] = DateHelper::fresnsDateTimeByTimezone($userData->deleted_at, $timezone, $langTag);
+        $profile['deactivateTime'] = $userData->deleted_at;
 
         return $profile;
     }
@@ -120,7 +119,7 @@ trait UserServiceTrait
         return $userAvatar;
     }
 
-    public function getUserMainRole(?string $langTag = null, ?string $timezone = null)
+    public function getUserMainRole(?string $langTag = null)
     {
         $userData = $this;
 
@@ -138,7 +137,7 @@ trait UserServiceTrait
         $mainRole['roleNameDisplay'] = (bool) $roleData->is_display_name;
         $mainRole['roleIcon'] = FileHelper::fresnsFileUrlByTableColumn($roleData->icon_file_id, $roleData->icon_file_url);
         $mainRole['roleIconDisplay'] = (bool) $roleData->is_display_icon;
-        $mainRole['roleExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($mainRoleData->expired_at, $timezone, $langTag);
+        $mainRole['roleExpiryDateTime'] = $mainRoleData->expired_at;
         $mainRole['roleRankState'] = $roleData->rank_state;
         $mainRole['rolePermissions'] = $permission;
         $mainRole['roleStatus'] = (bool) $roleData->is_enable;
@@ -146,7 +145,7 @@ trait UserServiceTrait
         return $mainRole;
     }
 
-    public function getUserRoles(?string $langTag = null, ?string $timezone = null)
+    public function getUserRoles(?string $langTag = null)
     {
         $userData = $this;
 
@@ -161,7 +160,6 @@ trait UserServiceTrait
                 }
                 $item['rid'] = $role['id'];
                 $item['isMain'] = (bool) $userRole['is_main'];
-                $item['expiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($userRole['expired_at'], $timezone, $langTag);
                 $item['nicknameColor'] = $role['nickname_color'];
                 $item['name'] = LanguageHelper::fresnsLanguageByTableId('roles', 'name', $role['id'], $langTag);
                 $item['nameDisplay'] = (bool) $role['is_display_name'];

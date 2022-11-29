@@ -9,13 +9,12 @@
 namespace App\Models\Traits;
 
 use App\Helpers\ConfigHelper;
-use App\Helpers\DateHelper;
 use App\Helpers\PluginHelper;
 use App\Helpers\StrHelper;
 
 trait AccountServiceTrait
 {
-    public function getAccountInfo(?string $langTag = null, ?string $timezone = null)
+    public function getAccountInfo()
     {
         $accountData = $this;
 
@@ -34,13 +33,13 @@ trait AccountServiceTrait
         $info['verifyCertType'] = $accountData->verify_cert_type;
         $info['verifyCertNumber'] = ! empty($accountData->verify_cert_number) ? StrHelper::maskName($accountData->verify_cert_number) : null;
         $info['verifyIdentityType'] = $accountData->verify_identity_type;
-        $info['verifyDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountData->verify_at, $timezone, $langTag);
-        $info['registerDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountData->created_at, $timezone, $langTag);
+        $info['verifyDateTime'] = $accountData->verify_at;
+        $info['registerDateTime'] = $accountData->created_at;
         $info['status'] = (bool) $accountData->is_enable;
         $info['waitDelete'] = (bool) $accountData->wait_delete;
-        $info['waitDeleteDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountData->wait_delete_at, $timezone, $langTag);
+        $info['waitDeleteDateTime'] = $accountData->wait_delete_at;
         $info['deactivate'] = (bool) $accountData->deleted_at;
-        $info['deactivateTime'] = DateHelper::fresnsDateTimeByTimezone($accountData->deleted_at, $timezone, $langTag);
+        $info['deactivateTime'] = $accountData->deleted_at;
 
         return $info;
     }

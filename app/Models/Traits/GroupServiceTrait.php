@@ -9,7 +9,6 @@
 namespace App\Models\Traits;
 
 use App\Helpers\ConfigHelper;
-use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
@@ -17,12 +16,12 @@ use App\Models\GroupAdmin;
 
 trait GroupServiceTrait
 {
-    public function getGroupInfo(?string $langTag = null, ?string $timezone = null)
+    public function getGroupInfo(?string $langTag = null)
     {
         $groupData = $this;
         $parentGroup = $this->category;
 
-        $configKey = ConfigHelper::fresnsConfigByItemKeys([
+        $configKeys = ConfigHelper::fresnsConfigByItemKeys([
             'website_group_detail_path',
             'site_url',
             'group_liker_count',
@@ -32,7 +31,7 @@ trait GroupServiceTrait
         ]);
 
         $info['gid'] = $groupData->gid;
-        $info['url'] = $configKey['site_url'].'/'.$configKey['website_group_detail_path'].'/'.$groupData->gid;
+        $info['url'] = $configKeys['site_url'].'/'.$configKeys['website_group_detail_path'].'/'.$groupData->gid;
         $info['type'] = $groupData->type;
         $info['gname'] = LanguageHelper::fresnsLanguageByTableId('groups', 'name', $groupData->id, $langTag);
         $info['description'] = LanguageHelper::fresnsLanguageByTableId('groups', 'description', $groupData->id, $langTag);
@@ -46,21 +45,21 @@ trait GroupServiceTrait
         $info['followUrl'] = ! empty($groupData->plugin_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($groupData->plugin_unikey) : null;
         $info['parentGid'] = $parentGroup?->gid ?? null;
         $info['category'] = $parentGroup?->getCategoryInfo($langTag) ?? null;
-        $info['likeCount'] = $configKey['group_liker_count'] ? $groupData->like_count : null;
-        $info['dislikeCount'] = $configKey['group_disliker_count'] ? $groupData->dislike_count : null;
-        $info['followCount'] = $configKey['group_follower_count'] ? $groupData->follow_count : null;
-        $info['blockCount'] = $configKey['group_blocker_count'] ? $groupData->block_count : null;
+        $info['likeCount'] = $configKeys['group_liker_count'] ? $groupData->like_count : null;
+        $info['dislikeCount'] = $configKeys['group_disliker_count'] ? $groupData->dislike_count : null;
+        $info['followCount'] = $configKeys['group_follower_count'] ? $groupData->follow_count : null;
+        $info['blockCount'] = $configKeys['group_blocker_count'] ? $groupData->block_count : null;
         $info['postCount'] = $groupData->post_count;
         $info['postDigestCount'] = $groupData->post_digest_count;
         $info['commentCount'] = $groupData->comment_count;
         $info['commentDigestCount'] = $groupData->comment_digest_count;
         $info['permissions'] = $groupData->permissions;
-        $info['createDate'] = date(ConfigHelper::fresnsConfigDateFormat($langTag), strtotime(DateHelper::fresnsDateTimeByTimezone($groupData->created_at, $timezone, $langTag)));
+        $info['createDate'] = $groupData->created_at;
 
         return $info;
     }
 
-    public function getGroupAdmins(?string $langTag = null, ?string $timezone = null)
+    public function getGroupAdmins(?string $langTag = null)
     {
         $groupData = $this;
 
@@ -68,8 +67,8 @@ trait GroupServiceTrait
 
         $adminList = [];
         foreach ($admins as $admin) {
-            $userProfile = $admin->user->getUserProfile($timezone);
-            $userMainRole = $admin->user->getUserMainRole($langTag, $timezone);
+            $userProfile = $admin->user->getUserProfile();
+            $userMainRole = $admin->user->getUserMainRole($langTag);
 
             $adminList[] = array_merge($userProfile, $userMainRole);
         }
