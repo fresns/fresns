@@ -18,6 +18,7 @@ use App\Fresns\Api\Http\DTO\CommonSendVerifyCodeDTO;
 use App\Fresns\Api\Http\DTO\CommonUploadFileDTO;
 use App\Fresns\Api\Http\DTO\CommonUploadLogDTO;
 use App\Fresns\Api\Http\DTO\PaginationDTO;
+use App\Fresns\Api\Services\UserService;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
@@ -514,6 +515,7 @@ class CommonController extends Controller
         $dtoRequest = new PaginationDTO($request->all());
         $langTag = $this->langTag();
         $timezone = $this->timezone();
+        $authUser = $this->user();
 
         $file = File::whereFid($fid)->first();
         if (empty($file)) {
@@ -541,6 +543,8 @@ class CommonController extends Controller
             ->groupBy('user_id')
             ->paginate($request->get('pageSize', 15));
 
+        $userService = new UserService;
+
         $items = [];
         foreach ($downUsers as $down) {
             if (empty($down->user)) {
@@ -549,7 +553,7 @@ class CommonController extends Controller
 
             $item['downloadTime'] = DateHelper::fresnsFormatDateTime($down->created_at, $timezone, $langTag);
             $item['downloadTimeFormat'] = DateHelper::fresnsFormatTime($down->created_at, $langTag);
-            $item['downloadUser'] = $down->user->getUserProfile($langTag, $timezone);
+            $item['downloadUser'] = $userService->userData($down->user, $langTag, $timezone, $authUser?->id);
             $items[] = $item;
         }
 

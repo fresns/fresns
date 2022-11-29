@@ -14,11 +14,11 @@ use App\Fresns\Api\Http\DTO\InteractiveDTO;
 use App\Fresns\Api\Services\GroupService;
 use App\Fresns\Api\Services\InteractiveService;
 use App\Helpers\CacheHelper;
+use App\Helpers\LanguageHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\File;
 use App\Models\Group;
 use App\Models\PluginUsage;
-use App\Models\Seo;
 use App\Utilities\CollectionUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\PermissionUtility;
@@ -34,16 +34,16 @@ class GroupController extends Controller
         $timezone = $this->timezone();
         $authUser = $this->user();
 
-        $groupFilterIds = PermissionUtility::getGroupFilterIds($authUser?->id);
-
         if (empty($authUser)) {
-            $cacheKey = 'fresns_api_guest_groups';
+            $cacheKey = 'fresns_guest_all_group';
         } else {
-            $cacheKey = "fresns_user_groups_{$authUser?->uid}";
+            $cacheKey = "fresns_user_all_group_{$authUser->id}";
         }
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
-        $groups = Cache::remember($cacheKey, $cacheTime, function () use ($groupFilterIds) {
+        $groups = Cache::remember($cacheKey, $cacheTime, function () use ($authUser) {
+            $groupFilterIds = PermissionUtility::getGroupFilterIds($authUser?->id);
+
             return Group::with(['category', 'admins'])
                 ->where(function ($query) {
                     $query->whereIn('type', [1, 2])->orWhere(function ($query) {
@@ -96,10 +96,7 @@ class GroupController extends Controller
 
         $groupFilterIds = PermissionUtility::getGroupFilterIds($authUserId);
 
-        $groupQuery = Group::with(['category', 'admins'])
-            ->where('type', '!=', Group::TYPE_CATEGORY)
-            ->whereNotIn('id', $groupFilterIds)
-            ->isEnable();
+        $groupQuery = Group::where('type', '!=', Group::TYPE_CATEGORY)->whereNotIn('id', $groupFilterIds)->isEnable();
 
         $groupQuery->where(function ($query) {
             $query->whereIn('type', [1, 2])->orWhere(function ($query) {
@@ -215,7 +212,7 @@ class GroupController extends Controller
     // detail
     public function detail(string $gid)
     {
-        $group = Group::where('gid', $gid)->first();
+        $group = PrimaryHelper::fresnsModelByFsid('group', $gid);
 
         if (empty($group)) {
             throw new ApiException(37100);
@@ -229,11 +226,11 @@ class GroupController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $seoData = Seo::where('usage_type', Seo::TYPE_GROUP)->where('usage_id', $group->id)->where('lang_tag', $langTag)->first();
+        $seoData = LanguageHelper::fresnsLanguageSeoDataById('group', $group->id, $langTag);
 
-        $item['title'] = $seoData->title ?? null;
-        $item['keywords'] = $seoData->keywords ?? null;
-        $item['description'] = $seoData->description ?? null;
+        $item['title'] = $seoData?->title;
+        $item['keywords'] = $seoData?->keywords;
+        $item['description'] = $seoData?->description;
         $item['extensions'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_GROUP, $group->id, null, $authUserId, $langTag);
         $data['items'] = $item;
 

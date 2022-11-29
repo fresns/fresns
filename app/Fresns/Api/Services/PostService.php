@@ -8,13 +8,16 @@
 
 namespace App\Fresns\Api\Services;
 
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
+use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\InteractiveHelper;
 use App\Helpers\PluginHelper;
 use App\Models\ArchiveUsage;
 use App\Models\Comment;
 use App\Models\ExtendUsage;
+use App\Models\File;
 use App\Models\Mention;
 use App\Models\OperationUsage;
 use App\Models\PluginUsage;
@@ -25,6 +28,7 @@ use App\Utilities\ExtendUtility;
 use App\Utilities\InteractiveUtility;
 use App\Utilities\LbsUtility;
 use App\Utilities\PermissionUtility;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class PostService
@@ -36,36 +40,57 @@ class PostService
             return null;
         }
 
-        $postInfo = $post->getPostInfo($langTag, $timezone);
-        $postInfo['title'] = ContentUtility::replaceBlockWords('content', $postInfo['title']);
-        $contentHandle = self::contentHandle($post, $type, $authUserId);
+        $cacheKey = "fresns_api_post_{$post->pid}_{$langTag}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
 
+        // post data cache
+        $postData = Cache::remember($cacheKey, $cacheTime, function () use ($post, $langTag) {
+            $postInfo = $post->getPostInfo($langTag);
+            $postInfo['title'] = ContentUtility::replaceBlockWords('content', $postInfo['title']);
+
+            $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST, $post->id, $langTag);
+            $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_POST, $post->id, $langTag);
+            $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_POST, $post->id, $langTag);
+            $item['files'] = FileHelper::fresnsFileInfoListByTableColumn('posts', 'id', $post->id);
+
+            $fileCount['images'] = collect($item['files']['images'])->count();
+            $fileCount['videos'] = collect($item['files']['videos'])->count();
+            $fileCount['audios'] = collect($item['files']['audios'])->count();
+            $fileCount['documents'] = collect($item['files']['documents'])->count();
+            $item['fileCount'] = $fileCount;
+
+            $item['group'] = null;
+            $item['hashtags'] = [];
+            $item['creator'] = InteractiveHelper::fresnsUserAnonymousProfile();
+            $item['topComment'] = null;
+            $item['manages'] = [];
+            $item['editStatus'] = [
+                'isMe' => false,
+                'canDelete' => false,
+                'canEdit' => false,
+                'isPluginEditor' => false,
+                'editorUrl' => null,
+            ];
+            $item['commentHidden'] = false;
+            $item['followType'] = null;
+
+            return array_merge($postInfo, $item);
+        });
+
+        $contentHandle = self::handlePostContent($post, $type, $authUserId);
+
+        // location
         if (! empty($post->map_id) && ! empty($authUserLng) && ! empty($authUserLat)) {
             $postLng = $post->map_longitude;
             $postLat = $post->map_latitude;
-            $postInfo['location']['distance'] = LbsUtility::getDistanceWithUnit($langTag, $postLng, $postLat, $authUserLng, $authUserLat);
+
+            $postData['location']['distance'] = LbsUtility::getDistanceWithUnit($langTag, $postLng, $postLat, $authUserLng, $authUserLat);
         }
 
-        $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST, $post->id, $langTag);
-        $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_POST, $post->id, $langTag);
-        $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_POST, $post->id, $langTag);
-        $item['files'] = FileHelper::fresnsFileInfoListByTableColumn('posts', 'id', $post->id);
-
-        $fileCount['images'] = collect($item['files']['images'])->count();
-        $fileCount['videos'] = collect($item['files']['videos'])->count();
-        $fileCount['audios'] = collect($item['files']['audios'])->count();
-        $fileCount['documents'] = collect($item['files']['documents'])->count();
-        $item['fileCount'] = $fileCount;
-
-        $item['group'] = null;
-        if ($post->group) {
-            $groupInteractiveConfig = InteractiveHelper::fresnsGroupInteractive($langTag);
-            $groupInteractiveStatus = InteractiveUtility::getInteractiveStatus(InteractiveUtility::TYPE_GROUP, $post->group->id, $authUserId);
-
-            $groupItem = $post->group->getGroupInfo($langTag);
-            $groupItem['interactive'] = array_merge($groupInteractiveConfig, $groupInteractiveStatus);
-
-            $item['group'] = $groupItem;
+        // group
+        if ($post->group_id != 0) {
+            $groupService = new GroupService;
+            $postData['group'] = $groupService->groupData($post->group, $langTag, $timezone);
 
             $groupDateLimit = GroupService::getGroupContentDateLimit($post->group->id, $authUserId);
             if ($groupDateLimit) {
@@ -73,9 +98,9 @@ class PostService
                 $dateLimit = strtotime($groupDateLimit);
 
                 if ($postTime > $dateLimit) {
-                    $item['content'] = null;
-                    $item['isBrief'] = true;
-                    $item['files'] = [
+                    $postData['content'] = null;
+                    $postData['isBrief'] = true;
+                    $postData['files'] = [
                         'images' => [],
                         'videos' => [],
                         'audios' => [],
@@ -85,68 +110,70 @@ class PostService
             }
         }
 
-        $item['hashtags'] = [];
+        // hashtags
         if ($post->hashtags->isNotEmpty()) {
             $hashtagService = new HashtagService;
 
             foreach ($post->hashtags as $hashtag) {
                 $hashtagItem[] = $hashtagService->hashtagData($hashtag, $langTag, $timezone, $authUserId);
             }
-            $item['hashtags'] = $hashtagItem;
+            $postData['hashtags'] = $hashtagItem;
         }
 
-        $item['creator'] = InteractiveHelper::fresnsUserAnonymousProfile();
+        // creator
         if (! $post->is_anonymous) {
             $userService = new UserService;
 
-            $item['creator'] = $userService->userData($post->creator, $langTag, $timezone, $authUserId);
+            $postData['creator'] = $userService->userData($post->creator, $langTag, $timezone, $authUserId);
         }
 
-        $item['topComment'] = null;
-
-        $topCommentRequire = ConfigHelper::fresnsConfigByItemKey('top_comment_require');
-        if ($type == 'list' && $topCommentRequire != 0 && $topCommentRequire < $post->comment_like_count) {
-            $item['topComment'] = self::getTopComment($post->id, $langTag, $timezone);
-        }
-
-        $item['manages'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_MANAGE, $post->group_id, PluginUsage::SCENE_POST, $authUserId, $langTag);
-
-        $editStatus['isMe'] = false;
-        $editStatus['canDelete'] = false;
-        $editStatus['canEdit'] = false;
-        $editStatus['isPluginEditor'] = false;
-        $editStatus['editorUrl'] = null;
-
-        $isMe = $post->user_id == $authUserId ? true : false;
-        if ($isMe) {
+        // auth user is creator
+        if ($post->user_id == $authUserId) {
             $editStatus['isMe'] = true;
             $editStatus['canDelete'] = (bool) $post->postAppend->can_delete;
             $editStatus['canEdit'] = PermissionUtility::checkContentIsCanEdit('post', $post->created_at, $post->sticky_state, $post->digest_state, $langTag, $timezone);
             $editStatus['isPluginEditor'] = (bool) $post->postAppend->is_plugin_editor;
             $editStatus['editorUrl'] = ! empty($post->postAppend->editor_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($post->postAppend->editor_unikey) : null;
-        }
-        $item['editStatus'] = $editStatus;
 
+            $postData['editStatus'] = $editStatus;
+        }
+
+        // get top comments
+        $topCommentRequire = ConfigHelper::fresnsConfigByItemKey('top_comment_require');
+        if ($type == 'list' && $topCommentRequire != 0 && $topCommentRequire < $post->comment_like_count) {
+            $postData['topComment'] = self::getTopComment($post->id, $langTag, $timezone);
+        }
+
+        // manages
+        if ($authUserId) {
+            $manageCacheKey = "fresns_api_post_manages_{$authUserId}_{$langTag}";
+        } else {
+            $manageCacheKey = "fresns_api_post_manages_guest_{$langTag}";
+        }
+        $manageCacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+        $postData['manages'] = Cache::remember($manageCacheKey, $manageCacheTime, function () use ($authUserId, $langTag) {
+            return ExtendUtility::getPluginUsages(PluginUsage::TYPE_MANAGE, null, PluginUsage::SCENE_POST, $authUserId, $langTag);
+        });
+
+        // interactive
         $interactiveConfig = InteractiveHelper::fresnsPostInteractive($langTag);
         $interactiveStatus = InteractiveUtility::getInteractiveStatus(InteractiveUtility::TYPE_POST, $post->id, $authUserId);
-        $item['interactive'] = array_merge($interactiveConfig, $interactiveStatus);
+        $postData['interactive'] = array_merge($interactiveConfig, $interactiveStatus);
 
         $commentVisibilityRule = ConfigHelper::fresnsConfigByItemKey('comment_visibility_rule');
-        $item['commentHidden'] = false;
         if ($commentVisibilityRule > 0) {
             $visibilityTime = $post->created_at->addDay($commentVisibilityRule);
 
-            $item['commentHidden'] = $visibilityTime->lt(now());
+            $postData['commentHidden'] = $visibilityTime->lt(now());
         }
 
-        $item['followType'] = null;
+        $data = array_merge($postData, $contentHandle);
 
-        $detail = array_merge($postInfo, $contentHandle, $item);
-
-        return $detail;
+        return self::handlePostDate($data, $timezone, $langTag);
     }
 
-    public static function contentHandle(Post $post, string $type, ?int $authUserId = null)
+    // handle post content
+    public static function handlePostContent(Post $post, string $type, ?int $authUserId = null)
     {
         $appendData = $post->postAppend;
         $contentLength = Str::length($post->content);
@@ -181,6 +208,35 @@ class PostService
         $info['content'] = ContentUtility::handleAndReplaceAll($info['content'], $post->is_markdown, $post->user_id, Mention::TYPE_POST, $post->id);
 
         return $info;
+    }
+
+    // handle post data date
+    public static function handlePostDate(?array $postData, string $timezone, string $langTag)
+    {
+        if (empty($postData)) {
+            return $postData;
+        }
+
+        $postData['createTime'] = DateHelper::fresnsFormatDateTime($postData['createTime'], $timezone, $langTag);
+        $postData['createTimeFormat'] = DateHelper::fresnsFormatTime($postData['createTimeFormat'], $langTag);
+        $postData['editTime'] = DateHelper::fresnsFormatDateTime($postData['editTime'], $timezone, $langTag);
+        $postData['editTimeFormat'] = DateHelper::fresnsFormatTime($postData['editTimeFormat'], $langTag);
+
+        $postData['group'] = GroupService::handleGroupDate($postData['group'], $timezone, $langTag);
+
+        $hashtagList = [];
+        foreach ($postData['hashtags'] as $hashtag) {
+            $hashtagList[] = HashtagService::handleHashtagDate($hashtag, $timezone, $langTag);
+        }
+        $postData['hashtags'] = $hashtagList;
+
+        $postData['creator'] = UserService::handleUserDate($postData['creator'], $timezone, $langTag);
+
+        $postData['topComment'] = CommentService::handleCommentDate($postData['topComment'], $timezone, $langTag);
+
+        $postData['interactive']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($postData['interactive']['followExpiryDateTime'], $timezone, $langTag);
+
+        return $postData;
     }
 
     // get top comment

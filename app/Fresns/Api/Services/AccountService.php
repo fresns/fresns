@@ -11,6 +11,7 @@ namespace App\Fresns\Api\Services;
 use App\Helpers\CacheHelper;
 use App\Helpers\InteractiveHelper;
 use App\Models\Account;
+use App\Models\File;
 use App\Models\PluginUsage;
 use App\Models\SessionLog;
 use App\Utilities\ExtendUtility;
@@ -25,7 +26,7 @@ class AccountService
         }
 
         $cacheKey = "fresns_api_account_{$account->aid}_{$langTag}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
 
         $accountInfo = Cache::remember($cacheKey, $cacheTime, function () use ($account, $langTag, $timezone) {
             $accountInfo = $account->getAccountInfo($langTag, $timezone);
@@ -53,9 +54,17 @@ class AccountService
 
     public function accountData(Account $account, string $langTag, string $timezone)
     {
-        $item['walletRecharges'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_WALLET_RECHARGE, null, null, $account->id, $langTag);
-        $item['walletWithdraws'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_WALLET_WITHDRAW, null, null, $account->id, $langTag);
-        $data['items'] = $item;
+        $cacheKey = "fresns_api_account_wallet_extends_{$account->aid}_{$langTag}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+
+        $items = Cache::remember($cacheKey, $cacheTime, function () use ($account, $langTag) {
+            $item['walletRecharges'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_WALLET_RECHARGE, null, null, $account->id, $langTag);
+            $item['walletWithdraws'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_WALLET_WITHDRAW, null, null, $account->id, $langTag);
+
+            return $item;
+        });
+
+        $data['items'] = $items;
 
         $service = new AccountService();
         $data['detail'] = $service->accountDetail($account, $langTag, $timezone);

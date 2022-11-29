@@ -28,16 +28,16 @@ class FollowService
         $blockHashtagIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_HASHTAG, $authUserId);
 
         // follow user post
-        $userPostQuery = Post::with(['postAppend', 'creator', 'group', 'hashtags'])->whereIn('user_id', $followUserIds)->where('is_anonymous', 0)->isEnable()->latest();
+        $userPostQuery = Post::with(['hashtags'])->whereIn('user_id', $followUserIds)->where('is_anonymous', 0)->isEnable()->latest();
         // follow group post
-        $groupPostQuery = Post::with(['postAppend', 'creator', 'group', 'hashtags'])->whereIn('group_id', $followGroupIds)->where('digest_state', 2)->isEnable()->latest();
+        $groupPostQuery = Post::with(['hashtags'])->whereIn('group_id', $followGroupIds)->where('digest_state', 2)->isEnable()->latest();
         // follow hashtag post
-        $hashtagPostQuery = Post::with(['postAppend', 'creator', 'group', 'hashtags'])->where('digest_state', 2)->isEnable()->latest();
+        $hashtagPostQuery = Post::with(['hashtags'])->where('digest_state', 2)->isEnable()->latest();
         $hashtagPostQuery->whereHas('hashtags', function ($query) use ($followHashtagIds) {
             $query->whereIn('hashtags.id', $followHashtagIds);
         });
         // digest post query
-        $digestPostQuery = Post::with(['postAppend', 'creator', 'group', 'hashtags'])->where('digest_state', 3)->latest();
+        $digestPostQuery = Post::with(['hashtags'])->where('digest_state', 3)->latest();
 
         // block post
         if ($blockPostIds) {
@@ -137,7 +137,7 @@ class FollowService
         $blockGroupIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_GROUP, $authUserId);
         $blockHashtagIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_HASHTAG, $authUserId);
 
-        $postQuery = Post::with(['postAppend', 'creator', 'group', 'hashtags'])->whereIn('user_id', $followUserIds)->where('is_anonymous', 0)->isEnable()->latest();
+        $postQuery = Post::with(['hashtags'])->whereIn('user_id', $followUserIds)->where('is_anonymous', 0)->isEnable()->latest();
 
         // block post
         $postQuery->when($blockPostIds, function ($query, $value) {
@@ -194,7 +194,7 @@ class FollowService
         $blockUserIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_USER, $authUserId);
         $blockHashtagIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_HASHTAG, $authUserId);
 
-        $postQuery = Post::with(['postAppend', 'creator', 'group', 'hashtags'])->whereIn('group_id', $followGroupIds)->isEnable()->latest();
+        $postQuery = Post::with(['hashtags'])->whereIn('group_id', $followGroupIds)->isEnable()->latest();
 
         // block post
         $postQuery->when($blockPostIds, function ($query, $value) {
@@ -251,7 +251,7 @@ class FollowService
         $blockUserIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_USER, $authUserId);
         $blockGroupIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_GROUP, $authUserId);
 
-        $postQuery = Post::with(['postAppend', 'creator', 'group', 'hashtags'])->isEnable()->latest();
+        $postQuery = Post::with(['hashtags'])->isEnable()->latest();
 
         // follow hashtags
         $postQuery->whereHas('hashtags', function ($query) use ($followHashtagIds) {
@@ -314,19 +314,19 @@ class FollowService
         $blockHashtagIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_HASHTAG, $authUserId);
 
         // follow user post
-        $userCommentQuery = Comment::with(['commentAppend', 'post', 'creator', 'hashtags'])->whereIn('user_id', $followUserIds)->where('is_anonymous', 0)->isEnable()->latest();
+        $userCommentQuery = Comment::with(['post', 'hashtags'])->whereIn('user_id', $followUserIds)->where('is_anonymous', 0)->isEnable()->latest();
         // follow group post
-        $groupCommentQuery = Comment::with(['commentAppend', 'post', 'creator', 'hashtags'])->where('digest_state', 2)->isEnable()->latest();
+        $groupCommentQuery = Comment::with(['post', 'hashtags'])->where('digest_state', 2)->isEnable()->latest();
         $groupCommentQuery->whereHas('post', function ($query) use ($followGroupIds) {
             $query->whereIn('group_id', $followGroupIds);
         });
         // follow hashtag post
-        $hashtagCommentQuery = Comment::with(['commentAppend', 'post', 'creator', 'hashtags'])->where('digest_state', 2)->isEnable()->latest();
+        $hashtagCommentQuery = Comment::with(['post', 'hashtags'])->where('digest_state', 2)->isEnable()->latest();
         $hashtagCommentQuery->whereHas('hashtags', function ($query) use ($followHashtagIds) {
             $query->whereIn('hashtags.id', $followHashtagIds);
         });
         // digest post query
-        $digestCommentQuery = Comment::with(['commentAppend', 'post', 'creator', 'hashtags'])->where('digest_state', 3)->latest();
+        $digestCommentQuery = Comment::with(['post', 'hashtags'])->where('digest_state', 3)->latest();
 
         // block comment
         if ($blockCommentIds) {
@@ -446,7 +446,7 @@ class FollowService
         $blockGroupIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_GROUP, $authUserId);
         $blockHashtagIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_HASHTAG, $authUserId);
 
-        $commentQuery = Comment::with(['commentAppend', 'post', 'creator', 'hashtags'])->whereIn('user_id', $followUserIds)->where('is_anonymous', 0)->isEnable()->latest();
+        $commentQuery = Comment::with(['post', 'hashtags'])->whereIn('user_id', $followUserIds)->where('is_anonymous', 0)->isEnable()->latest();
 
         // block comment
         $commentQuery->when($blockCommentIds, function ($query, $value) {
@@ -511,7 +511,7 @@ class FollowService
         $blockUserIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_USER, $authUserId);
         $blockHashtagIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_HASHTAG, $authUserId);
 
-        $commentQuery = Comment::with(['commentAppend', 'post', 'creator', 'hashtags'])->where('top_parent_id', 0)->isEnable()->latest();
+        $commentQuery = Comment::with(['post', 'hashtags'])->where('top_parent_id', 0)->isEnable()->latest();
 
         $commentQuery->when($followGroupIds, function ($query, $value) {
             $query->whereHas('post', function ($query) use ($value) {
@@ -580,7 +580,7 @@ class FollowService
         $blockUserIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_USER, $authUserId);
         $blockGroupIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_GROUP, $authUserId);
 
-        $commentQuery = Comment::with(['commentAppend', 'post', 'creator', 'hashtags'])->where('top_parent_id', 0)->isEnable()->latest();
+        $commentQuery = Comment::with(['post', 'hashtags'])->where('top_parent_id', 0)->isEnable()->latest();
 
         $commentQuery->whereHas('hashtags', function ($query) use ($followHashtagIds) {
             $query->whereIn('hashtag_id', $followHashtagIds);

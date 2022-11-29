@@ -101,18 +101,35 @@ class InteractiveUtility
             $status['dislikeStatus'] = false;
             $status['followStatus'] = false;
             $status['followNote'] = null;
+            $status['followIsExpiry'] = false;
+            $status['followExpiryDateTime'] = null;
             $status['blockStatus'] = false;
             $status['blockNote'] = null;
 
             return $status;
         }
 
-        $status['likeStatus'] = self::checkUserLike($markType, $markId, $userId);
-        $status['dislikeStatus'] = self::checkUserDislike($markType, $markId, $userId);
-        $status['followStatus'] = self::checkUserFollow($markType, $markId, $userId);
-        $status['followNote'] = UserFollow::where('user_id', $userId)->type($markType)->where('follow_id', $markId)->value('user_note');
-        $status['blockStatus'] = self::checkUserBlock($markType, $markId, $userId);
-        $status['blockNote'] = UserBlock::where('user_id', $userId)->type($markType)->where('block_id', $markId)->value('user_note');
+        $cacheKey = "fresns_interactive_status_{$markType}_{$markId}_{$userId}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+
+        $status = Cache::remember($cacheKey, $cacheTime, function () use ($markType, $markId, $userId) {
+            $userFollow = UserFollow::where('user_id', $userId)->type($markType)->where('follow_id', $markId)->first();
+            $userBlock = UserBlock::where('user_id', $userId)->type($markType)->where('block_id', $markId)->first();
+
+            $now = time();
+            $expireTime = strtotime($userFollow?->expired_at);
+
+            $status['likeStatus'] = self::checkUserLike($markType, $markId, $userId);
+            $status['dislikeStatus'] = self::checkUserDislike($markType, $markId, $userId);
+            $status['followStatus'] = self::checkUserFollow($markType, $markId, $userId);
+            $status['followNote'] = $userFollow?->user_note;
+            $status['followIsExpiry'] = ($expireTime < $now) ? true : false;
+            $status['followExpiryDateTime'] = $userFollow?->expired_at;
+            $status['blockStatus'] = self::checkUserBlock($markType, $markId, $userId);
+            $status['blockNote'] = $userBlock?->user_note;
+
+            return $status;
+        });
 
         return $status;
     }
@@ -1014,8 +1031,12 @@ class InteractiveUtility
     }
 
     // get follow id array
-    public static function getFollowIdArr(int $type, int $userId)
+    public static function getFollowIdArr(int $type, ?int $userId = null)
     {
+        if (empty($userId)) {
+            return [];
+        }
+
         $cacheKey = "fresns_user_follow_array_{$type}_{$userId}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
@@ -1049,8 +1070,12 @@ class InteractiveUtility
     }
 
     // get block id array
-    public static function getBlockIdArr(int $type, int $userId)
+    public static function getBlockIdArr(int $type, ?int $userId = null)
     {
+        if (empty($userId)) {
+            return [];
+        }
+
         $cacheKey = "fresns_user_block_array_{$type}_{$userId}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
@@ -1087,12 +1112,12 @@ class InteractiveUtility
     {
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
-        $groupIdArr = Cache::remember('fresns_api_private_groups', $cacheTime, function () {
+        $groupIdArr = Cache::remember('fresns_private_groups', $cacheTime, function () {
             return Group::where('type_mode', Group::MODE_PRIVATE)->pluck('id')->toArray();
         });
 
         if (is_null($groupIdArr) || empty($groupIdArr)) {
-            Cache::forget('fresns_api_private_groups');
+            Cache::forget('fresns_private_groups');
         }
 
         return $groupIdArr;

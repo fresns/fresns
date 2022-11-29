@@ -22,12 +22,12 @@ use App\Fresns\Api\Services\PostService;
 use App\Fresns\Api\Services\UserService;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
+use App\Helpers\LanguageHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
 use App\Models\Post;
 use App\Models\PostLog;
 use App\Models\PostUser;
-use App\Models\Seo;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractiveUtility;
 use App\Utilities\LbsUtility;
@@ -64,7 +64,7 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $postQuery = Post::with(['postAppend', 'creator', 'group', 'hashtags'])->isEnable();
+        $postQuery = Post::with(['hashtags'])->isEnable();
 
         $blockGroupIds = InteractiveUtility::getPrivateGroupIdArr();
 
@@ -276,7 +276,7 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $post = Post::with(['postAppend', 'creator', 'group', 'hashtags'])->where('pid', $pid)->first();
+        $post = PrimaryHelper::fresnsModelByFsid('post', $pid);
 
         if (empty($post)) {
             throw new ApiException(37300);
@@ -287,7 +287,7 @@ class PostController extends Controller
         }
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
-        GroupService::checkGroupContentViewPerm($post->created_at, $post?->group?->id, $authUserId);
+        GroupService::checkGroupContentViewPerm($post->created_at, $post->group_id, $authUserId);
 
         // Plugin provides data
         $dataPluginUnikey = ConfigHelper::fresnsConfigByItemKey('content_detail_service');
@@ -304,11 +304,11 @@ class PostController extends Controller
         }
 
         // Fresns provides data
-        $seoData = Seo::where('usage_type', Seo::TYPE_POST)->where('usage_id', $post->id)->where('lang_tag', $langTag)->first();
+        $seoData = LanguageHelper::fresnsLanguageSeoDataById('post', $post->id, $langTag);
 
-        $item['title'] = $seoData->title ?? null;
-        $item['keywords'] = $seoData->keywords ?? null;
-        $item['description'] = $seoData->description ?? null;
+        $item['title'] = $seoData?->title;
+        $item['keywords'] = $seoData?->keywords;
+        $item['description'] = $seoData?->description;
         $data['items'] = $item;
 
         $service = new PostService();
@@ -511,7 +511,7 @@ class PostController extends Controller
         $service = new PostService();
         foreach ($posts as $post) {
             $listItem = $service->postData($post, 'list', $langTag, $timezone, $authUser->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
-            $listItem['followType'] = InteractiveUtility::getFollowType($post->user_id, $authUser?->id, $post?->group_id, $post?->hashtags?->toArray());
+            $listItem['followType'] = InteractiveUtility::getFollowType($post->user_id, $authUser?->id, $post->group_id, $post?->hashtags?->toArray());
 
             $postList[] = $listItem;
         }

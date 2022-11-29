@@ -31,18 +31,18 @@ use Illuminate\Support\Facades\Cache;
 
 class UserService
 {
-    public function userData(?User $user, string $langTag, string $timezone, ?int $authUserId = null)
+    public function userData(?User $user, string $langTag, ?string $timezone = null, ?int $authUserId = null)
     {
         if (! $user) {
             return null;
         }
 
-        $cacheKey = "fresns_api_user_{$user?->uid}_{$langTag}";
+        $cacheKey = "fresns_api_user_{$user->uid}_{$langTag}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
-        $userProfile = Cache::remember($cacheKey, $cacheTime, function () use ($user, $langTag, $timezone) {
-            $userProfile = $user->getUserProfile($langTag, $timezone);
-            $userMainRole = $user->getUserMainRole($langTag, $timezone);
+        $userData = Cache::remember($cacheKey, $cacheTime, function () use ($user, $langTag) {
+            $userProfile = $user->getUserProfile();
+            $userMainRole = $user->getUserMainRole($langTag);
 
             $userProfile['nickname'] = ContentUtility::replaceBlockWords('user', $userProfile['nickname']);
             $userProfile['bio'] = ContentUtility::replaceBlockWords('user', $userProfile['bio']);
@@ -64,11 +64,11 @@ class UserService
             }
             $userProfile['bioHtml'] = ContentUtility::replaceSticker($bioHtml);
 
-            $item['stats'] = $user->getUserStats($langTag);
+            $item['stats'] = UserService::getUserStats($user, $langTag);
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST, $user->id, $langTag);
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_USER, $user->id, $langTag);
             $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_USER, $user->id, $langTag);
-            $item['roles'] = $user->getUserRoles($langTag, $timezone);
+            $item['roles'] = $user->getUserRoles($langTag);
 
             if ($item['operations']['diversifyImages']) {
                 $decorate = ArrUtility::pull($item['operations']['diversifyImages'], 'code', 'decorate');
@@ -81,19 +81,19 @@ class UserService
             return array_merge($userProfile, $userMainRole, $item);
         });
 
-        $item['stats'] = UserService::getUserStats($user, $langTag, $authUserId);
-
         $interactiveConfig = InteractiveHelper::fresnsUserInteractive($langTag);
         $interactiveStatus = InteractiveUtility::getInteractiveStatus(InteractiveUtility::TYPE_USER, $user->id, $authUserId);
         $followMeStatus['followMeStatus'] = InteractiveUtility::checkUserFollow(InteractiveUtility::TYPE_USER, $authUserId, $user->id);
         $blockMeStatus['blockMeStatus'] = InteractiveUtility::checkUserBlock(InteractiveUtility::TYPE_USER, $authUserId, $user->id);
-        $item['interactive'] = array_merge($interactiveConfig, $interactiveStatus, $followMeStatus, $blockMeStatus);
+        $userData['interactive'] = array_merge($interactiveConfig, $interactiveStatus, $followMeStatus, $blockMeStatus);
 
-        $item['conversation'] = PermissionUtility::checkUserConversationPerm($user->id, $authUserId, $langTag);
+        $userData['conversation'] = PermissionUtility::checkUserConversationPerm($user->id, $authUserId, $langTag);
 
-        $data = array_merge($userProfile, $item);
+        if ($timezone) {
+            return UserService::handleUserDate($userData, $timezone, $langTag);
+        }
 
-        return $data;
+        return $userData;
     }
 
     // get user stats
@@ -188,6 +188,36 @@ class UserService
         }
 
         return $stats;
+    }
+
+    // handle user data date
+    public static function handleUserDate(?array $userData, string $timezone, string $langTag)
+    {
+        if (empty($userData)) {
+            return $userData;
+        }
+
+        $userData['birthday'] = DateHelper::fresnsDateTimeByTimezone($userData['birthday'], $timezone, $langTag);
+
+        $userData['verifiedDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData['verifiedDateTime'], $timezone, $langTag);
+
+        $userData['expiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData['expiryDateTime'], $timezone, $langTag);
+
+        $userData['lastPublishPost'] = DateHelper::fresnsDateTimeByTimezone($userData['lastPublishPost'], $timezone, $langTag);
+        $userData['lastPublishComment'] = DateHelper::fresnsDateTimeByTimezone($userData['lastPublishComment'], $timezone, $langTag);
+        $userData['lastEditUsername'] = DateHelper::fresnsDateTimeByTimezone($userData['lastEditUsername'], $timezone, $langTag);
+        $userData['lastEditNickname'] = DateHelper::fresnsDateTimeByTimezone($userData['lastEditNickname'], $timezone, $langTag);
+
+        $userData['registerDate'] = DateHelper::fresnsDateTimeByTimezone($userData['registerDate'], $timezone, $langTag);
+
+        $userData['waitDeleteDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData['waitDeleteDateTime'], $timezone, $langTag);
+        $userData['deactivateTime'] = DateHelper::fresnsDateTimeByTimezone($userData['deactivateTime'], $timezone, $langTag);
+
+        $userData['roleExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData['roleExpiryDateTime'], $timezone, $langTag);
+
+        $userData['interactive']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData['interactive']['followExpiryDateTime'], $timezone, $langTag);
+
+        return $userData;
     }
 
     // check content view permission

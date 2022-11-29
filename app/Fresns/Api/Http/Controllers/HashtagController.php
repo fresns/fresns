@@ -13,10 +13,11 @@ use App\Fresns\Api\Http\DTO\HashtagListDTO;
 use App\Fresns\Api\Http\DTO\InteractiveDTO;
 use App\Fresns\Api\Services\HashtagService;
 use App\Fresns\Api\Services\InteractiveService;
+use App\Helpers\LanguageHelper;
+use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
 use App\Models\Hashtag;
-use App\Models\Seo;
-use App\Models\UserBlock;
+use App\Utilities\InteractiveUtility;
 use Illuminate\Http\Request;
 
 class HashtagController extends Controller
@@ -30,9 +31,12 @@ class HashtagController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $blockHashtagIds = UserBlock::type(UserBlock::TYPE_HASHTAG)->where('user_id', $authUserId)->pluck('block_id')->toArray();
+        $hashtagQuery = Hashtag::isEnable();
 
-        $hashtagQuery = Hashtag::whereNotIn('id', $blockHashtagIds)->isEnable();
+        $blockHashtagIds = InteractiveUtility::getBlockIdArr(InteractiveUtility::TYPE_HASHTAG, $authUserId);
+        $hashtagQuery->when($blockHashtagIds, function ($query, $value) {
+            $query->whereNotIn('id', $value);
+        });
 
         $hashtagQuery->when($dtoRequest->createDateGt, function ($query, $value) {
             $query->whereDate('created_at', '>=', $value);
@@ -125,7 +129,7 @@ class HashtagController extends Controller
     {
         $hid = StrHelper::slug($hid);
 
-        $hashtag = Hashtag::where('slug', $hid)->first();
+        $hashtag = PrimaryHelper::fresnsModelByFsid('hashtag', $hid);
 
         if (empty($hashtag)) {
             throw new ApiException(37200);
@@ -139,11 +143,11 @@ class HashtagController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $seoData = Seo::where('usage_type', Seo::TYPE_HASHTAG)->where('usage_id', $hashtag->id)->where('lang_tag', $langTag)->first();
+        $seoData = LanguageHelper::fresnsLanguageSeoDataById('hashtag', $hashtag->id, $langTag);
 
-        $item['title'] = $seoData->title ?? null;
-        $item['keywords'] = $seoData->keywords ?? null;
-        $item['description'] = $seoData->description ?? null;
+        $item['title'] = $seoData?->title;
+        $item['keywords'] = $seoData?->keywords;
+        $item['description'] = $seoData?->description;
         $data['items'] = $item;
 
         $service = new HashtagService();

@@ -184,13 +184,14 @@ class CacheHelper
      */
     public static function forgetFresnsInteractive(int $type, int $userId)
     {
-        Cache::forget("fresns_user_follow_array_{$type}_{$userId}");
-        Cache::forget("fresns_user_follow_group_model_{$userId}");
-        Cache::forget("fresns_user_block_array_{$type}_{$userId}");
-        Cache::forget("fresns_user_main_role_{$userId}");
-
-        $userModel = PrimaryHelper::fresnsModelById('user', $userId);
-        Cache::forget("fresns_user_groups_{$userModel?->uid}");
+        CacheHelper::forgetFresnsKeys([
+            "fresns_user_follow_array_{$type}_{$userId}",
+            "fresns_user_follow_group_model_{$userId}",
+            "fresns_user_filter_groups_{$userId}",
+            "fresns_user_block_array_{$type}_{$userId}",
+            "fresns_user_main_role_{$userId}",
+            "fresns_user_all_group_{$userId}",
+        ]);
     }
 
     /**
@@ -205,18 +206,31 @@ class CacheHelper
         CacheHelper::forgetFresnsMultilingual($cacheKey);
     }
 
-    /**
-     * forget fresns api multilingual and timezone info.
-     *
-     * fresns_api_publish_{$authUserId}_{$langTag}_{$timezone}
-     */
-    public static function forgetFresnsApiLangAndTimezoneInfo(string $cacheName)
+    // forget fresns api account
+    public static function forgetApiAccount(?string $aid = null)
     {
+        if (empty($aid)) {
+            return;
+        }
+
+        CacheHelper::forgetFresnsMultilingual("fresns_api_account_{$aid}");
+        CacheHelper::forgetFresnsMultilingual("fresns_api_account_wallet_extends_{$aid}");
+        CacheHelper::forgetFresnsModel('account', $aid);
+    }
+
+    // forget fresns api user
+    public static function forgetApiUser(?int $uid = null)
+    {
+        if (empty($uid)) {
+            return;
+        }
+
+        // user panel
         $langTagArr = ConfigHelper::fresnsConfigLangTags();
 
-        $langCacheKeyArr = null;
+        $langCacheKeyArr = [];
         foreach ($langTagArr as $langTag) {
-            $cacheKey = "{$cacheName}_{$langTag}";
+            $cacheKey = "fresns_api_user_panel_publish_{$uid}_{$langTag}";
 
             $langCacheKeyArr[] = $cacheKey;
         }
@@ -230,40 +244,50 @@ class CacheHelper
                 Cache::forget($cacheKey);
             }
         }
-    }
 
-    // forget fresns api account
-    public static function forgetApiAccount(?string $aid = null)
-    {
-        if (empty($aid)) {
-            return;
-        }
+        CacheHelper::forgetFresnsMultilingual("fresns_api_user_panel_plugins_{$uid}");
+        CacheHelper::forgetFresnsKeys([
+            "fresns_api_user_panel_conversations_{$uid}",
+            "fresns_api_user_panel_notifications_{$uid}",
+            "fresns_api_user_panel_drafts_{$uid}",
+        ]);
 
-        CacheHelper::forgetFresnsMultilingual("fresns_api_account_{$aid}");
-        CacheHelper::forgetFresnsModel('account', $aid);
-    }
-
-    // forget fresns api user
-    public static function forgetApiUser(?int $uid = null)
-    {
-        if (empty($uid)) {
-            return;
-        }
-
+        // user data
         CacheHelper::forgetFresnsMultilingual("fresns_api_user_{$uid}");
         CacheHelper::forgetFresnsModel('user', $uid);
-        Cache::forget("fresns_user_groups_{$uid}");
+
     }
 
-    // forget fresns api
-    public static function forgetFresnsApi()
-    {
-        // fresns_plugin_{$unikey}_url
-        // fresns_plugin_{$unikey}_{$parameterKey}_url
-        // fresns_api_key_{$appId}
-        // fresns_api_token_{$platformId}_{$aid}_{$uid}
-        // fresns_api_guest_groups
-        // fresns_api_private_groups
-        // fresns_api_stickers_{$langTag}
-    }
+    /**
+     * fresns all cache.
+     */
+
+    // fresns_group_admins_{$groupId}
+
+    // fresns_interactive_status_{$markType}_{$markId}_{$userId}
+
+    // fresns_api_user_{$uid}_{$langTag}
+    // fresns_api_group_{$gid}_{$langTag}
+    // fresns_api_hashtag_{$hid}_{$langTag}
+    // fresns_api_post_{$pid}_{$langTag}
+    // fresns_api_comment_{$cid}_{$langTag}
+
+    // fresns_api_{$type}_manages_guest_{$langTag}
+    // fresns_api_{$type}_manages_{$authUserId}_{$langTag}
+
+    // fresns_seo_user_{$id}
+    // fresns_seo_group_{$id}
+    // fresns_seo_hashtag_{$id}
+    // fresns_seo_post_{$id}
+    // fresns_seo_comment_{$id}
+
+    // fresns_plugin_{$unikey}_url
+    // fresns_plugin_{$unikey}_{$parameterKey}_url
+    // fresns_api_key_{$appId}
+    // fresns_api_token_{$platformId}_{$aid}_{$uid}
+    // fresns_api_stickers_{$langTag}
+
+    // fresns_guest_all_group
+    // fresns_guest_filter_groups
+    // fresns_private_groups
 }

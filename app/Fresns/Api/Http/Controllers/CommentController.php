@@ -22,11 +22,11 @@ use App\Fresns\Api\Services\InteractiveService;
 use App\Fresns\Api\Services\UserService;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
+use App\Helpers\LanguageHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
 use App\Models\Comment;
 use App\Models\CommentLog;
-use App\Models\Seo;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractiveUtility;
 use App\Utilities\LbsUtility;
@@ -44,7 +44,7 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $commentQuery = Comment::with(['commentAppend', 'post', 'creator', 'hashtags'])->isEnable();
+        $commentQuery = Comment::with(['hashtags'])->isEnable();
 
         $blockGroupIds = InteractiveUtility::getPrivateGroupIdArr();
 
@@ -60,10 +60,8 @@ class CommentController extends Controller
             });
 
             if ($blockPostIds) {
-                $commentQuery->where(function ($commentQuery) use ($blockPostIds) {
-                    $commentQuery->whereHas('post', function ($query) use ($blockPostIds) {
-                        $query->whereNotIn('id', $blockPostIds);
-                    });
+                $commentQuery->when($blockPostIds, function ($query, $value) {
+                    $query->whereNotIn('post_id', $value);
                 });
             }
 
@@ -289,11 +287,13 @@ class CommentController extends Controller
         $commentList = [];
         $service = new CommentService();
         foreach ($comments as $comment) {
-            if (empty($comment->post) || empty($comment->postAppend)) {
+            $fresnsCommentModel = PrimaryHelper::fresnsModelById('comment', $comment->id);
+
+            if (empty($fresnsCommentModel->post) || empty($fresnsCommentModel->postAppend)) {
                 continue;
             }
 
-            $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+            $commentList[] = $service->commentData($fresnsCommentModel, 'list', $langTag, $timezone, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
         }
 
         return $this->fresnsPaginate($commentList, $comments->total(), $comments->perPage());
@@ -307,7 +307,7 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $comment = Comment::with(['commentAppend', 'post', 'creator', 'hashtags'])->where('cid', $cid)->first();
+        $comment = PrimaryHelper::fresnsModelByFsid('comment', $cid);
 
         if (empty($comment)) {
             throw new ApiException(37400);
@@ -320,11 +320,11 @@ class CommentController extends Controller
         UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
         GroupService::checkGroupContentViewPerm($comment->created_at, $comment?->post->group_id, $authUserId);
 
-        $seoData = Seo::where('usage_type', Seo::TYPE_COMMENT)->where('usage_id', $comment->id)->where('lang_tag', $langTag)->first();
+        $seoData = LanguageHelper::fresnsLanguageSeoDataById('comment', $comment->id, $langTag);
 
-        $item['title'] = $seoData->title ?? null;
-        $item['keywords'] = $seoData->keywords ?? null;
-        $item['description'] = $seoData->description ?? null;
+        $item['title'] = $seoData?->title;
+        $item['keywords'] = $seoData?->keywords;
+        $item['description'] = $seoData?->description;
         $data['items'] = $item;
 
         $service = new CommentService();

@@ -63,7 +63,7 @@ class PrimaryHelper
 
                 // comment
                 case 'comment':
-                    $model = Comment::withTrashed()->with(['commentAppend', 'post', 'creator', 'hashtags'])->where('cid', $fsid)->first();
+                    $model = Comment::withTrashed()->with(['commentAppend', 'post', 'postAppend', 'creator', 'hashtags'])->where('cid', $fsid)->first();
                 break;
 
                 // file
@@ -136,7 +136,7 @@ class PrimaryHelper
 
                 // comment
                 case 'comment':
-                    $model = Comment::withTrashed()->with(['commentAppend', 'post', 'creator', 'hashtags'])->where('id', $id)->first();
+                    $model = Comment::withTrashed()->with(['commentAppend', 'post', 'postAppend', 'creator', 'hashtags'])->where('id', $id)->first();
                 break;
 
                 // file

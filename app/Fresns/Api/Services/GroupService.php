@@ -15,6 +15,7 @@ use App\Helpers\InteractiveHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\ArchiveUsage;
 use App\Models\ExtendUsage;
+use App\Models\File;
 use App\Models\Group;
 use App\Models\OperationUsage;
 use App\Models\UserFollow;
@@ -31,51 +32,64 @@ class GroupService
             return null;
         }
 
-        $groupInfo = $group->getGroupInfo($langTag);
+        $cacheKey = "fresns_api_group_{$group->gid}_{$langTag}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
-        $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_GROUP, $group->id, $langTag);
-        $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_GROUP, $group->id, $langTag);
-        $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_GROUP, $group->id, $langTag);
+        $groupInfo = Cache::remember($cacheKey, $cacheTime, function () use ($group, $langTag) {
+            $groupInfo = $group->getGroupInfo($langTag);
 
-        $userService = new UserService;
+            $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_GROUP, $group->id, $langTag);
+            $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_GROUP, $group->id, $langTag);
+            $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_GROUP, $group->id, $langTag);
 
-        $item['creator'] = null;
-        if (! empty($group?->creator)) {
-            $item['creator'] = $userService->userData($group->creator, $langTag, $timezone);
-        }
+            $userService = new UserService;
+
+            $item['creator'] = null;
+            if ($group?->creator) {
+                $item['creator'] = $userService->userData($group->creator, $langTag);
+            }
+
+            $adminList = [];
+            foreach ($group->admins as $admin) {
+                $adminList[] = $userService->userData($admin, $langTag);
+            }
+            $item['admins'] = $adminList;
+
+            return array_merge($groupInfo, $item);
+        });
 
         $item['publishRule'] = PermissionUtility::checkUserGroupPublishPerm($group->id, $group->permissions, $authUserId);
 
-        $adminList = [];
-        foreach ($group->admins as $admin) {
-            $adminList[] = $userService->userData($admin, $langTag, $timezone);
-        }
-        $item['admins'] = $adminList;
-
         $interactiveConfig = InteractiveHelper::fresnsGroupInteractive($langTag);
         $interactiveStatus = InteractiveUtility::getInteractiveStatus(InteractiveUtility::TYPE_GROUP, $group->id, $authUserId);
-        $interactiveStatus['followIsExpiry'] = false;
-        $interactiveStatus['followExpiryDateTime'] = null;
-
-        $cacheKey = "fresns_user_follow_group_model_{$authUserId}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
-        $follow = Cache::remember($cacheKey, $cacheTime, function () use ($authUserId, $group) {
-            return UserFollow::where('user_id', $authUserId)->where('follow_type', UserFollow::TYPE_GROUP)->where('follow_id', $group->id)->first();
-        });
-
-        if ($group->type_mode == 2 && $group->type_mode_end_after != 1 && $follow) {
-            $now = time();
-            $expireTime = strtotime($follow?->expired_at);
-
-            $interactiveStatus['followIsExpiry'] = ($expireTime < $now) ? true : false;
-            $interactiveStatus['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($follow?->expired_at, $timezone, $langTag);
-        }
 
         $item['interactive'] = array_merge($interactiveConfig, $interactiveStatus);
 
         $data = array_merge($groupInfo, $item);
 
-        return $data;
+        return GroupService::handleGroupDate($data, $timezone, $langTag);
+    }
+
+    // handle group data date
+    public static function handleGroupDate(?array $groupData, string $timezone, string $langTag)
+    {
+        if (empty($groupData)) {
+            return $groupData;
+        }
+
+        $groupData['createDate'] = DateHelper::fresnsDateTimeByTimezone($groupData['createDate'], $timezone, $langTag);
+
+        $groupData['creator'] = UserService::handleUserDate($groupData['creator'], $timezone, $langTag);
+
+        $adminList = [];
+        foreach ($groupData['admins'] as $admin) {
+            $adminList[] = UserService::handleUserDate($admin, $timezone, $langTag);
+        }
+        $groupData['admins'] = $adminList;
+
+        $groupData['interactive']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($groupData['interactive']['followExpiryDateTime'], $timezone, $langTag);
+
+        return $groupData;
     }
 
     // get group content date limit

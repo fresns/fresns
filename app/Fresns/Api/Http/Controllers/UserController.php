@@ -21,6 +21,7 @@ use App\Fresns\Api\Services\UserService;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
+use App\Helpers\LanguageHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
 use App\Models\ArchiveUsage;
@@ -35,7 +36,6 @@ use App\Models\Mention;
 use App\Models\Notification;
 use App\Models\PluginUsage;
 use App\Models\PostLog;
-use App\Models\Seo;
 use App\Models\SessionLog;
 use App\Models\User;
 use App\Models\UserBlock;
@@ -220,11 +220,7 @@ class UserController extends Controller
     // detail
     public function detail(string $uidOrUsername)
     {
-        if (StrHelper::isPureInt($uidOrUsername)) {
-            $viewUser = User::where('uid', $uidOrUsername)->first();
-        } else {
-            $viewUser = User::where('username', $uidOrUsername)->first();
-        }
+        $viewUser = PrimaryHelper::fresnsModelByFsid('user', $uidOrUsername);
 
         if (empty($viewUser)) {
             throw new ApiException(31602);
@@ -242,12 +238,23 @@ class UserController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $seoData = Seo::where('usage_type', Seo::TYPE_USER)->where('usage_id', $viewUser->id)->where('lang_tag', $langTag)->first();
+        // manages
+        if ($authUserId) {
+            $manageCacheKey = "fresns_api_user_manages_{$authUserId}_{$langTag}";
+        } else {
+            $manageCacheKey = "fresns_api_user_manages_guest_{$langTag}";
+        }
+        $manageCacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+        $userManages = Cache::remember($manageCacheKey, $manageCacheTime, function () use ($authUserId, $langTag) {
+            return ExtendUtility::getPluginUsages(PluginUsage::TYPE_MANAGE, null, PluginUsage::SCENE_USER, $authUserId, $langTag);
+        });
 
-        $item['title'] = $seoData->title ?? null;
-        $item['keywords'] = $seoData->keywords ?? null;
-        $item['description'] = $seoData->description ?? null;
-        $item['manages'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_MANAGE, null, PluginUsage::SCENE_USER, $authUserId, $langTag);
+        $seoData = LanguageHelper::fresnsLanguageSeoDataById('user', $viewUser->id, $langTag);
+
+        $item['title'] = $seoData?->title;
+        $item['keywords'] = $seoData?->keywords;
+        $item['description'] = $seoData?->description;
+        $item['manages'] = $userManages;
         $data['items'] = $item;
 
         $service = new UserService();
@@ -494,48 +501,79 @@ class UserController extends Controller
         $langTag = $this->langTag();
         $timezone = $this->timezone();
         $authUserId = $this->user()->id;
+        $authUid = \request()->header('uid');
 
-        $data['features'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_FEATURE, null, null, $authUserId, $langTag);
-        $data['profiles'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_PROFILE, null, null, $authUserId, $langTag);
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
-        $aConversations = Conversation::where('a_user_id', $authUserId)->where('a_is_display', 1);
-        $bConversations = Conversation::where('b_user_id', $authUserId)->where('b_is_display', 1);
-        $conversationCount = $aConversations->union($bConversations)->count();
-        $conversationMessageCount = ConversationMessage::where('receive_user_id', $authUserId)->whereNull('receive_read_at')->whereNull('receive_deleted_at')->isEnable()->count();
-        $conversations['conversationCount'] = $conversationCount;
-        $conversations['unreadMessages'] = $conversationMessageCount;
-        $data['conversations'] = $conversations;
+        $pluginsCacheKey = "fresns_api_user_panel_plugins_{$authUid}_{$langTag}";
+        $extends = Cache::remember($pluginsCacheKey, $cacheTime, function () use ($authUserId, $langTag) {
+            $extend['features'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_FEATURE, null, null, $authUserId, $langTag);
+            $extend['profiles'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_PROFILE, null, null, $authUserId, $langTag);
 
-        $unreadNotifications['systems'] = Notification::where('type', 1)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $unreadNotifications['recommends'] = Notification::where('type', 2)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $unreadNotifications['likes'] = Notification::where('type', 3)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $unreadNotifications['dislikes'] = Notification::where('type', 4)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $unreadNotifications['follows'] = Notification::where('type', 5)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $unreadNotifications['blocks'] = Notification::where('type', 6)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $unreadNotifications['mentions'] = Notification::where('type', 7)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $unreadNotifications['comments'] = Notification::where('type', 8)->where('user_id', $authUserId)->where('is_read', 0)->count();
-        $data['unreadNotifications'] = $unreadNotifications;
+            return $extend;
+        });
 
-        $draftCount['posts'] = PostLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count();
-        $draftCount['comments'] = CommentLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count();
-        $data['draftCount'] = $draftCount;
+        $conversationsCacheKey = "fresns_api_user_panel_conversations_{$authUid}";
+        $conversations = Cache::remember($conversationsCacheKey, $cacheTime, function () use ($authUserId) {
+            $aConversations = Conversation::where('a_user_id', $authUserId)->where('a_is_display', 1);
+            $bConversations = Conversation::where('b_user_id', $authUserId)->where('b_is_display', 1);
 
-        $cacheKey = "fresns_api_publish_{$authUserId}_{$langTag}_{$timezone}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+            $conversationCount = $aConversations->union($bConversations)->count();
+            $conversationMessageCount = ConversationMessage::where('receive_user_id', $authUserId)->whereNull('receive_read_at')->whereNull('receive_deleted_at')->isEnable()->count();
 
-        $publish = Cache::remember($cacheKey, $cacheTime, function () use ($authUserId, $langTag, $timezone) {
+            $conversations['conversationCount'] = $conversationCount;
+            $conversations['unreadMessages'] = $conversationMessageCount;
+
+            return $conversations;
+        });
+
+        $notificationsCacheKey = "fresns_api_user_panel_notifications_{$authUid}";
+        $notifications = Cache::remember($notificationsCacheKey, $cacheTime, function () use ($authUserId) {
+            $unreadNotifications['systems'] = Notification::where('type', 1)->where('user_id', $authUserId)->where('is_read', 0)->count();
+            $unreadNotifications['recommends'] = Notification::where('type', 2)->where('user_id', $authUserId)->where('is_read', 0)->count();
+            $unreadNotifications['likes'] = Notification::where('type', 3)->where('user_id', $authUserId)->where('is_read', 0)->count();
+            $unreadNotifications['dislikes'] = Notification::where('type', 4)->where('user_id', $authUserId)->where('is_read', 0)->count();
+            $unreadNotifications['follows'] = Notification::where('type', 5)->where('user_id', $authUserId)->where('is_read', 0)->count();
+            $unreadNotifications['blocks'] = Notification::where('type', 6)->where('user_id', $authUserId)->where('is_read', 0)->count();
+            $unreadNotifications['mentions'] = Notification::where('type', 7)->where('user_id', $authUserId)->where('is_read', 0)->count();
+            $unreadNotifications['comments'] = Notification::where('type', 8)->where('user_id', $authUserId)->where('is_read', 0)->count();
+
+            return $unreadNotifications;
+        });
+
+        $draftsCacheKey = "fresns_api_user_panel_drafts_{$authUid}";
+        $drafts = Cache::remember($draftsCacheKey, $cacheTime, function () use ($authUserId) {
+            $draftCount['posts'] = PostLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count();
+            $draftCount['comments'] = CommentLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count();
+
+            return $draftCount;
+        });
+
+        $publishCacheKey = "fresns_api_user_panel_publish_{$authUid}_{$langTag}_{$timezone}";
+        $publishConfig = Cache::remember($publishCacheKey, $cacheTime, function () use ($authUserId, $langTag, $timezone) {
             $publish['post'] = ConfigUtility::getPublishConfigByType($authUserId, 'post', $langTag, $timezone);
             $publish['comment'] = ConfigUtility::getPublishConfigByType($authUserId, 'comment', $langTag, $timezone);
 
             return $publish;
         });
-        $data['publishConfig'] = $publish;
 
-        $fileAccept['images'] = FileHelper::fresnsFileAcceptByType(File::TYPE_IMAGE);
-        $fileAccept['videos'] = FileHelper::fresnsFileAcceptByType(File::TYPE_VIDEO);
-        $fileAccept['audios'] = FileHelper::fresnsFileAcceptByType(File::TYPE_AUDIO);
-        $fileAccept['documents'] = FileHelper::fresnsFileAcceptByType(File::TYPE_DOCUMENT);
-        $data['fileAccept'] = $fileAccept;
+        $fileAcceptCacheKey = 'fresns_api_user_panel_file_accept';
+        $fileAcceptConfig = Cache::remember($fileAcceptCacheKey, $cacheTime, function () {
+            $fileAccept['images'] = FileHelper::fresnsFileAcceptByType(File::TYPE_IMAGE);
+            $fileAccept['videos'] = FileHelper::fresnsFileAcceptByType(File::TYPE_VIDEO);
+            $fileAccept['audios'] = FileHelper::fresnsFileAcceptByType(File::TYPE_AUDIO);
+            $fileAccept['documents'] = FileHelper::fresnsFileAcceptByType(File::TYPE_DOCUMENT);
+
+            return $fileAccept;
+        });
+
+        $data['features'] = $extends['features'];
+        $data['profiles'] = $extends['profiles'];
+        $data['conversations'] = $conversations;
+        $data['unreadNotifications'] = $notifications;
+        $data['draftCount'] = $drafts;
+        $data['publishConfig'] = $publishConfig;
+        $data['fileAccept'] = $fileAcceptConfig;
 
         return $this->success($data);
     }

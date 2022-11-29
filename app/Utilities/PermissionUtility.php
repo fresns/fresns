@@ -8,6 +8,7 @@
 
 namespace App\Utilities;
 
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\PrimaryHelper;
@@ -65,15 +66,25 @@ class PermissionUtility
     // Get group filter ids
     public static function getGroupFilterIds(?int $userId = null): array
     {
-        $hiddenGroupIds = Group::where('type_find', Group::FIND_HIDDEN)->pluck('id')->toArray();
+        $guestCacheKey = "fresns_guest_filter_groups";
+        $userCacheKey = "fresns_user_filter_groups_{$userId}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+
+        $hiddenGroupIds = Cache::remember($guestCacheKey, $cacheTime, function () {
+            return Group::where('type_find', Group::FIND_HIDDEN)->pluck('id')->toArray();
+        });
 
         if (empty($userId)) {
             return $hiddenGroupIds;
         }
 
-        $followGroupIds = UserFollow::type(UserFollow::TYPE_GROUP)->where('user_id', $userId)->pluck('follow_id')->toArray();
+        $filterIds = Cache::remember($userCacheKey, $cacheTime, function () use ($hiddenGroupIds) {
+            $followGroupIds = UserFollow::type(UserFollow::TYPE_GROUP)->where('user_id', $userId)->pluck('follow_id')->toArray();
 
-        $filterIds = array_values(array_diff($hiddenGroupIds, $followGroupIds));
+            $filterIds = array_values(array_diff($hiddenGroupIds, $followGroupIds));
+
+            return $filterIds;
+        });
 
         return $filterIds;
     }
@@ -214,7 +225,12 @@ class PermissionUtility
     // Check if the user is a group administrator
     public static function checkUserGroupAdmin(int $groupId, int $userId)
     {
-        $groupAdminArr = GroupAdmin::where('group_id', $groupId)->pluck('user_id')->toArray();
+        $cacheKey = "fresns_group_admins_{$groupId}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+
+        $groupAdminArr = Cache::remember($cacheKey, $cacheTime, function () use ($groupId) {
+            return GroupAdmin::where('group_id', $groupId)->pluck('user_id')->toArray();
+        });
 
         return in_array($userId, $groupAdminArr) ? true : false;
     }
