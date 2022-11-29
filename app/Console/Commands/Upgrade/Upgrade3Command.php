@@ -18,7 +18,7 @@ class Upgrade3Command extends Command
 {
     protected $signature = 'fresns:upgrade-3';
 
-    protected $description = 'upgrade to 3';
+    protected $description = 'upgrade to fresns v2.0.0-beta.3';
 
     public function __construct()
     {
