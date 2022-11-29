@@ -66,7 +66,7 @@ class PermissionUtility
     // Get group filter ids
     public static function getGroupFilterIds(?int $userId = null): array
     {
-        $guestCacheKey = "fresns_guest_filter_groups";
+        $guestCacheKey = 'fresns_guest_filter_groups';
         $userCacheKey = "fresns_user_filter_groups_{$userId}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
