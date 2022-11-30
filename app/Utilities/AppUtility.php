@@ -103,14 +103,14 @@ class AppUtility
 
     public static function getAppHost()
     {
-        $appHost = base64_decode('aHR0cHM6Ly9hcHAuZnJlc25zLmNu', true);
+        $appHost = base64_decode('aHR0cHM6Ly9hcHAuZnJlc25zLm9yZw==', true);
 
         return $appHost;
     }
 
     public static function getApiHost()
     {
-        $apiHost = base64_decode('aHR0cHM6Ly9tYXJrZXQuZnJlc25zLmNu', true);
+        $apiHost = base64_decode('aHR0cHM6Ly9tYXJrZXQuZnJlc25zLmNvbQ==', true);
 
         return $apiHost;
     }
