@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Cache;
 
 class CacheHelper
 {
+    const NULL_CACHE_KEY_PREFIX = 'null_key_';
+    const NULL_CACHE_COUNT = 3;
+
     // cache time
     public static function fresnsCacheTimeByFileType(?int $fileType = null)
     {
@@ -62,6 +65,22 @@ class CacheHelper
         $cacheTime = now()->addMinutes($minAntiLinkExpire - 1);
 
         return $cacheTime;
+    }
+
+    // get null cache key
+    public static function getNullCacheKey(string $cacheKey)
+    {
+        return CacheHelper::NULL_CACHE_KEY_PREFIX.$cacheKey;
+    }
+
+    // null cache count
+    public static function nullCacheCount(string $cacheKey, string $nullCacheKey)
+    {
+        Cache::pull($cacheKey);
+
+        $currentCacheKeyNullNum = (int) Cache::get($nullCacheKey);
+
+        Cache::put($nullCacheKey, ++$currentCacheKeyNullNum, CacheHelper::fresnsCacheTimeByFileType());
     }
 
     /**

@@ -26,6 +26,13 @@ class LanguageHelper
     public static function fresnsLanguageByTableId(string $tableName, string $tableColumn, int $tableId, ?string $langTag = null)
     {
         $cacheKey = "fresns_{$tableName}_{$tableColumn}_{$tableId}_{$langTag}";
+        $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
+
+        // null cache count
+        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
+            return null;
+        }
+
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
         // Cache::tags(['fresnsLanguages'])
@@ -58,6 +65,11 @@ class LanguageHelper
 
             return $langContent;
         });
+
+        // null cache count
+        if (empty($langContentCache)) {
+            CacheHelper::nullCacheCount($cacheKey, $nullCacheKey);
+        }
 
         return $langContentCache;
     }

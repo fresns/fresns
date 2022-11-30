@@ -26,6 +26,12 @@ class PluginHelper
         }
 
         $cacheKey = "fresns_plugin_url_{$unikey}";
+        $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
+
+        // null cache count
+        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
+            return null;
+        }
 
         // Cache::tags(['fresnsConfigs'])
         $pluginUrl = Cache::remember($cacheKey, now()->addDays(7), function () use ($unikey) {
@@ -42,6 +48,11 @@ class PluginHelper
 
             return $link ?? null;
         });
+
+        // null cache count
+        if (empty($pluginUrl)) {
+            CacheHelper::nullCacheCount($cacheKey, $nullCacheKey);
+        }
 
         return $pluginUrl;
     }

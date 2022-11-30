@@ -303,6 +303,13 @@ class GlobalController extends Controller
         $langTag = $this->langTag();
 
         $cacheKey = "fresns_api_stickers_{$langTag}";
+        $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
+
+        // null cache count
+        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
+            return $this->success([]);
+        }
+
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
         // Cache::tags(['fresnsConfigs'])
@@ -320,6 +327,11 @@ class GlobalController extends Controller
 
             return CollectionUtility::toTree($stickerData, 'code', 'parentCode', 'stickers');
         });
+
+        // null cache count
+        if (empty($stickerTree)) {
+            CacheHelper::nullCacheCount($cacheKey, $nullCacheKey);
+        }
 
         return $this->success($stickerTree);
     }

@@ -79,6 +79,12 @@ class ConfigHelper
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
         $configCacheKey = "fresns_config_{$itemKey}_{$langTag}";
+        $nullCacheKey = CacheHelper::getNullCacheKey($configCacheKey);
+
+        // null cache count
+        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
+            return null;
+        }
 
         // Cache::tags(['fresnsConfigs'])
         $itemValue = Cache::remember($configCacheKey, now()->addDays(), function () use ($itemKey, $langTag) {
@@ -93,6 +99,11 @@ class ConfigHelper
 
             return $itemData->item_value ?? null;
         });
+
+        // null cache count
+        if (empty($itemValue)) {
+            CacheHelper::nullCacheCount($configCacheKey, $nullCacheKey);
+        }
 
         return $itemValue;
     }
@@ -109,6 +120,12 @@ class ConfigHelper
         $key = reset($itemKeys).'_'.end($itemKeys).'_'.count($itemKeys);
 
         $configCacheKey = "fresns_config_keys_{$key}_{$langTag}";
+        $nullCacheKey = CacheHelper::getNullCacheKey($configCacheKey);
+
+        // null cache count
+        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
+            return null;
+        }
 
         // Cache::tags(['fresnsConfigs'])
         $keysData = Cache::remember($configCacheKey, now()->addDays(), function () use ($itemKeys, $langTag) {
@@ -119,6 +136,11 @@ class ConfigHelper
 
             return $data ?? null;
         });
+
+        // null cache count
+        if (empty($keysData)) {
+            CacheHelper::nullCacheCount($configCacheKey, $nullCacheKey);
+        }
 
         return $keysData;
     }
@@ -135,6 +157,12 @@ class ConfigHelper
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
         $configCacheKey = "fresns_config_tag_{$itemTag}_{$langTag}";
+        $nullCacheKey = CacheHelper::getNullCacheKey($configCacheKey);
+
+        // null cache count
+        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
+            return null;
+        }
 
         // Cache::tags(['fresnsConfigs'])
         $tagData = Cache::remember($configCacheKey, now()->addDays(), function () use ($itemTag, $langTag) {
@@ -151,6 +179,11 @@ class ConfigHelper
 
             return $itemDataArr;
         });
+
+        // null cache count
+        if (empty($tagData)) {
+            CacheHelper::nullCacheCount($configCacheKey, $nullCacheKey);
+        }
 
         return $tagData;
     }
