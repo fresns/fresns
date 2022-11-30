@@ -31,8 +31,8 @@ use App\Utilities\ConfigUtility;
 use App\Utilities\PermissionUtility;
 use App\Utilities\ValidationUtility;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class EditorController extends Controller
 {

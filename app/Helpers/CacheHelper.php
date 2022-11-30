@@ -330,9 +330,9 @@ class CacheHelper
 
             // guest
             case 'guest':
-                self::forgetFresnsMultilingual("fresns_api_guest_user_manages");
-                self::forgetFresnsMultilingual("fresns_api_guest_post_manages");
-                self::forgetFresnsMultilingual("fresns_api_guest_comment_manages");
+                self::forgetFresnsMultilingual('fresns_api_guest_user_manages');
+                self::forgetFresnsMultilingual('fresns_api_guest_post_manages');
+                self::forgetFresnsMultilingual('fresns_api_guest_comment_manages');
                 self::forgetFresnsKeys([
                     'fresns_guest_all_group',
                     'fresns_guest_filter_groups',

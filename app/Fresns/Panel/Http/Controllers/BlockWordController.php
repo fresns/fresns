@@ -13,8 +13,8 @@ use App\Fresns\Panel\Http\Requests\UpdateBlockWordRequest;
 use App\Fresns\Panel\Imports\BlockWordsImport;
 use App\Helpers\CacheHelper;
 use App\Models\BlockWord;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BlockWordController extends Controller
 {
