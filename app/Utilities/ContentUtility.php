@@ -1202,6 +1202,7 @@ class ContentUtility
         $cacheKey = "fresns_{$type}_block_words";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
+        // Cache::tags(['fresnsConfigs'])
         $blockWords = Cache::remember($cacheKey, $cacheTime, function () use ($type) {
             $blockWords = match ($type) {
                 'content' => BlockWord::where('content_mode', '!=', 1)->get(['word', 'replace_word']),

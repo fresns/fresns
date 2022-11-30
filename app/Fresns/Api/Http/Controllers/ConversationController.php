@@ -29,6 +29,7 @@ use App\Utilities\PermissionUtility;
 use App\Utilities\ValidationUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class ConversationController extends Controller
 {
@@ -332,6 +333,9 @@ class ConversationController extends Controller
         $data['datetimeFormat'] = DateHelper::fresnsFormatDateTime($conversationMessage->created_at, $timezone, $langTag);
         $data['readStatus'] = (bool) $conversationMessage->receive_read_at;
 
+        Cache::forget("fresns_api_user_panel_conversations_{$authUser->uid}");
+        Cache::forget("fresns_api_user_panel_conversations_{$receiveUser->uid}");
+
         return $this->success($data);
     }
 
@@ -362,6 +366,8 @@ class ConversationController extends Controller
                 'receive_read_at' => now(),
             ]);
         }
+
+        Cache::forget("fresns_api_user_panel_conversations_{$authUser->uid}");
 
         return $this->success();
     }

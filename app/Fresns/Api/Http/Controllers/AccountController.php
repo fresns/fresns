@@ -764,8 +764,8 @@ class AccountController extends Controller
         $sessionLog['objectAction'] = 'Account Edit Data';
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
-        CacheHelper::forgetApiAccount($authAccount->aid);
-        CacheHelper::forgetApiUser($this->user()?->uid);
+        CacheHelper::forgetFresnsAccount($authAccount->aid);
+        CacheHelper::forgetFresnsUser($this->user()?->uid);
 
         return $this->success();
     }
@@ -787,8 +787,8 @@ class AccountController extends Controller
 
         SessionToken::where('account_id', $authAccount->id)->where('token', $token)->delete();
 
-        CacheHelper::forgetApiAccount($authAccount->aid);
-        CacheHelper::forgetApiUser($authUser?->uid);
+        CacheHelper::forgetFresnsAccount($authAccount->aid);
+        CacheHelper::forgetFresnsUser($authUser?->uid);
 
         return $this->success();
     }
@@ -863,7 +863,7 @@ class AccountController extends Controller
         ];
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
-        CacheHelper::forgetApiAccount($authAccount->aid);
+        CacheHelper::forgetFresnsAccount($authAccount->aid);
 
         return $this->success([
             'day' => $todoDay,
@@ -901,6 +901,6 @@ class AccountController extends Controller
         ];
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
-        CacheHelper::forgetApiAccount($authAccount->aid);
+        CacheHelper::forgetFresnsAccount($authAccount->aid);
     }
 }

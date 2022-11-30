@@ -21,6 +21,7 @@ use App\Helpers\PluginHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Notification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class NotificationController extends Controller
 {
@@ -97,19 +98,21 @@ class NotificationController extends Controller
     {
         $dtoRequest = new NotificationDTO($request->all());
 
-        $authUserId = $this->user()->id;
+        $authUser = $this->user();
 
         if ($dtoRequest->type == 'all') {
-            Notification::where('user_id', $authUserId)->where('type', $dtoRequest->notificationType)->where('is_read', 0)->update([
+            Notification::where('user_id', $authUser->id)->where('type', $dtoRequest->notificationType)->where('is_read', 0)->update([
                 'is_read' => 1,
             ]);
         } else {
             $idArr = array_filter(explode(',', $dtoRequest->notificationIds));
 
-            Notification::where('user_id', $authUserId)->whereIn('id', $idArr)->where('is_read', 0)->update([
+            Notification::where('user_id', $authUser->id)->whereIn('id', $idArr)->where('is_read', 0)->update([
                 'is_read' => 1,
             ]);
         }
+
+        Cache::forget("fresns_api_user_panel_notifications_{$authUser->uid}");
 
         return $this->success();
     }

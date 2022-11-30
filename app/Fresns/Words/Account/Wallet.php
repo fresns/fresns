@@ -15,6 +15,7 @@ use App\Fresns\Words\Account\DTO\WalletRechargeDTO;
 use App\Fresns\Words\Account\DTO\WalletRevokeDTO;
 use App\Fresns\Words\Account\DTO\WalletUnfreezeDTO;
 use App\Fresns\Words\Account\DTO\WalletWithdrawDTO;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\AccountWallet;
@@ -89,6 +90,8 @@ class Wallet
         AccountWalletLog::create($logData);
 
         static::balanceChange($wallet, 'increment', $transactionAmount);
+
+        CacheHelper::forgetFresnsAccount($dtoWordBody->aid);
 
         return $this->success();
     }
@@ -175,6 +178,8 @@ class Wallet
         AccountWalletLog::create($logData);
         static::balanceChange($wallet, 'decrement', $amountTotal);
 
+        CacheHelper::forgetFresnsAccount($dtoWordBody->aid);
+
         return $this->success();
     }
 
@@ -246,6 +251,8 @@ class Wallet
 
         $wallet->increment('freeze_amount', $amountTotal);
 
+        CacheHelper::forgetFresnsAccount($dtoWordBody->aid);
+
         return $this->success();
     }
 
@@ -315,6 +322,8 @@ class Wallet
         AccountWalletLog::create($logData);
 
         $wallet->decrement('freeze_amount', $amountTotal);
+
+        CacheHelper::forgetFresnsAccount($dtoWordBody->aid);
 
         return $this->success();
     }
@@ -445,6 +454,8 @@ class Wallet
             AccountWalletLog::create($originLogData);
             static::balanceChange($originWallet, 'decrement', $amountTotal);
         }
+
+        CacheHelper::forgetFresnsAccount($dtoWordBody->aid);
 
         return $this->success();
     }
@@ -587,6 +598,8 @@ class Wallet
             static::balanceChange($originWallet, 'increment', $transactionAmount);
         }
 
+        CacheHelper::forgetFresnsAccount($dtoWordBody->aid);
+
         return $this->success();
     }
 
@@ -677,6 +690,8 @@ class Wallet
                 }
             break;
         }
+
+        CacheHelper::forgetFresnsAccount($dtoWordBody->aid);
 
         return $this->success();
     }

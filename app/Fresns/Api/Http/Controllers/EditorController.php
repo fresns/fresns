@@ -32,6 +32,7 @@ use App\Utilities\PermissionUtility;
 use App\Utilities\ValidationUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class EditorController extends Controller
 {
@@ -240,6 +241,8 @@ class EditorController extends Controller
             break;
         }
 
+        Cache::forget("fresns_api_user_panel_drafts_{$authUser->uid}");
+
         return $this->success($data);
     }
 
@@ -318,6 +321,8 @@ class EditorController extends Controller
         $edit['editableTime'] = $fresnsResp->getData('editableTime');
         $edit['deadlineTime'] = $fresnsResp->getData('deadlineTime');
         $data['edit'] = $edit;
+
+        Cache::forget("fresns_api_user_panel_drafts_{$authUser->uid}");
 
         return $this->success($data);
     }
@@ -847,6 +852,8 @@ class EditorController extends Controller
         $sessionLog['objectOrderId'] = $fresnsResp->getData('id');
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
+        Cache::forget("fresns_api_user_panel_drafts_{$authUser->uid}");
+
         return $this->success();
     }
 
@@ -922,6 +929,8 @@ class EditorController extends Controller
         }
 
         $draft->delete();
+
+        Cache::forget("fresns_api_user_panel_drafts_{$authUser->uid}");
 
         return $this->success();
     }
@@ -1068,10 +1077,12 @@ class EditorController extends Controller
         // upload session log
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
-        if ($fsid) {
-            return $this->success();
-        } else {
+        Cache::forget("fresns_api_user_panel_drafts_{$authUser->uid}");
+
+        if (! $fsid) {
             throw new ApiException(38200);
         }
+
+        return $this->success();
     }
 }

@@ -33,6 +33,7 @@ class PermissionUtility
     {
         $cacheKey = "fresns_user_main_role_{$userId}";
 
+        // Cache::tags(['fresnsConfigs'])
         $permissions = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($userId) {
             $defaultRoleId = ConfigHelper::fresnsConfigByItemKey('default_role');
             $userRole = UserRole::where('user_id', $userId)->where('is_main', 1)->first();
@@ -70,6 +71,7 @@ class PermissionUtility
         $userCacheKey = "fresns_user_filter_groups_{$userId}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
+        // Cache::tags(['fresnsUserInteraction'])
         $hiddenGroupIds = Cache::remember($guestCacheKey, $cacheTime, function () {
             return Group::where('type_find', Group::FIND_HIDDEN)->pluck('id')->toArray();
         });
@@ -78,7 +80,8 @@ class PermissionUtility
             return $hiddenGroupIds;
         }
 
-        $filterIds = Cache::remember($userCacheKey, $cacheTime, function () use ($hiddenGroupIds) {
+        // Cache::tags(['fresnsUserInteraction'])
+        $filterIds = Cache::remember($userCacheKey, $cacheTime, function () use ($hiddenGroupIds, $userId) {
             $followGroupIds = UserFollow::type(UserFollow::TYPE_GROUP)->where('user_id', $userId)->pluck('follow_id')->toArray();
 
             $filterIds = array_values(array_diff($hiddenGroupIds, $followGroupIds));
@@ -228,6 +231,7 @@ class PermissionUtility
         $cacheKey = "fresns_group_admins_{$groupId}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
+        // Cache::tags(['fresnsConfigs'])
         $groupAdminArr = Cache::remember($cacheKey, $cacheTime, function () use ($groupId) {
             return GroupAdmin::where('group_id', $groupId)->pluck('user_id')->toArray();
         });

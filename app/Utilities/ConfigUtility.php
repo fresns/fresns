@@ -8,6 +8,7 @@
 
 namespace App\Utilities;
 
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
@@ -23,6 +24,7 @@ use App\Models\PostLog;
 use App\Models\SessionLog;
 use App\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class ConfigUtility
 {
@@ -97,10 +99,17 @@ class ConfigUtility
     public static function getCodeMessage(int $code, ?string $unikey = null, ?string $langTag = null)
     {
         $unikey = $unikey ?: 'Fresns';
-
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
-        $message = CodeMessage::where('plugin_unikey', $unikey)->where('code', $code)->where('lang_tag', $langTag)->value('message');
+        $cacheKey = "fresns_code_messages_{$unikey}_{$langTag}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+
+        // Cache::tags(['fresnsConfigs'])
+        $codeMessages = Cache::remember($cacheKey, $cacheTime, function () use ($unikey, $langTag) {
+            return CodeMessage::where('plugin_unikey', $unikey)->where('lang_tag', $langTag)->get();
+        });
+
+        $message = $codeMessages->where('code', $code)?->value('message');
 
         return $message ?? 'Unknown Error';
     }

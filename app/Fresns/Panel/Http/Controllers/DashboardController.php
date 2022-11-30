@@ -27,6 +27,7 @@ class DashboardController extends Controller
     {
         $overview = InteractionHelper::fresnsOverview();
 
+        // Cache::tags(['fresnsSystems'])
         $news = Cache::remember('fresns_news', now()->addHours(3), function () {
             try {
                 $newUrl = AppUtility::getAppHost().'/news.json';

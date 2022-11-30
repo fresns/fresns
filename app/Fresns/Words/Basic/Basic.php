@@ -45,6 +45,7 @@ class Basic
         $cacheKey = "fresns_api_key_{$appId}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
+        // Cache::tags(['fresnsSystems'])
         $keyInfo = Cache::remember($cacheKey, $cacheTime, function () use ($appId) {
             return SessionKey::where('app_id', $appId)->isEnable()->first();
         });

@@ -262,6 +262,7 @@ class Account
         $cacheKey = "fresns_api_token_{$platformId}_{$accountId}_{$userId}_{$token}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
+        // Cache::tags(['fresnsSystems'])
         $session = Cache::remember($cacheKey, $cacheTime, function () use ($accountId, $token) {
             return SessionToken::where('account_id', $accountId)->where('token', $token)->first();
         });

@@ -10,6 +10,7 @@ namespace App\Fresns\Api\Services;
 
 use App\Exceptions\ApiException;
 use App\Helpers\CacheHelper;
+use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\InteractionHelper;
 use App\Helpers\PrimaryHelper;
@@ -35,6 +36,7 @@ class GroupService
         $cacheKey = "fresns_api_group_{$group->gid}_{$langTag}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
+        // Cache::tags(['fresnsApiData'])
         $groupInfo = Cache::remember($cacheKey, $cacheTime, function () use ($group, $langTag) {
             $groupInfo = $group->getGroupInfo($langTag);
 
@@ -67,7 +69,36 @@ class GroupService
 
         $data = array_merge($groupInfo, $item);
 
-        return GroupService::handleGroupDate($data, $timezone, $langTag);
+        $groupData = self::handleGroupCount($group, $data);
+        $groupData = self::handleGroupDate($groupData, $timezone, $langTag);
+
+        return $groupData;
+    }
+
+    // handle group data count
+    public static function handleGroupCount(?Group $group, ?array $groupData)
+    {
+        if (empty($group) || empty($groupData)) {
+            return $groupData;
+        }
+
+        $configKeys = ConfigHelper::fresnsConfigByItemKeys([
+            'group_liker_count',
+            'group_disliker_count',
+            'group_follower_count',
+            'group_blocker_count',
+        ]);
+
+        $groupData['likeCount'] = $configKeys['group_liker_count'] ? $group->like_count : null;
+        $groupData['dislikeCount'] = $configKeys['group_disliker_count'] ? $group->dislike_count : null;
+        $groupData['followCount'] = $configKeys['group_follower_count'] ? $group->follow_count : null;
+        $groupData['blockCount'] = $configKeys['group_blocker_count'] ? $group->block_count : null;
+        $groupData['postCount'] = $group->post_count;
+        $groupData['postDigestCount'] = $group->post_digest_count;
+        $groupData['commentCount'] = $group->comment_count;
+        $groupData['commentDigestCount'] = $group->comment_digest_count;
+
+        return $groupData;
     }
 
     // handle group data date
@@ -108,6 +139,7 @@ class GroupService
         $cacheKey = "fresns_user_follow_group_model_{$authUserId}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
+        // Cache::tags(['fresnsModels'])
         $follow = Cache::remember($cacheKey, $cacheTime, function () use ($authUserId, $group) {
             return UserFollow::where('user_id', $authUserId)->where('follow_type', UserFollow::TYPE_GROUP)->where('follow_id', $group->id)->first();
         });
@@ -147,6 +179,7 @@ class GroupService
         $cacheKey = "fresns_user_follow_group_model_{$authUserId}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
+        // Cache::tags(['fresnsModels'])
         $follow = Cache::remember($cacheKey, $cacheTime, function () use ($authUserId, $group) {
             return UserFollow::where('user_id', $authUserId)->where('follow_type', UserFollow::TYPE_GROUP)->where('follow_id', $group->id)->first();
         });

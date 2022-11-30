@@ -21,6 +21,7 @@ class DateHelper
      */
     public static function fresnsDatabaseTimezone()
     {
+        // Cache::tags(['fresnsConfigs'])
         $timezone = Cache::rememberForever('fresns_database_timezone', function () {
             $standardTime = gmdate('Y-m-d H:i:s');
 
@@ -73,6 +74,7 @@ class DateHelper
      */
     public static function fresnsDatabaseCurrentDateTime()
     {
+        // Cache::tags(['fresnsConfigs'])
         $datetime = Cache::remember('fresns_database_datetime', now()->addMinute(), function () {
             return DB::selectOne('select now() as now')->now;
         });

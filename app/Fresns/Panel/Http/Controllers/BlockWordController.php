@@ -11,7 +11,9 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Fresns\Panel\Exports\BlockWordsExport;
 use App\Fresns\Panel\Http\Requests\UpdateBlockWordRequest;
 use App\Fresns\Panel\Imports\BlockWordsImport;
+use App\Helpers\CacheHelper;
 use App\Models\BlockWord;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
 class BlockWordController extends Controller
@@ -55,12 +57,32 @@ class BlockWordController extends Controller
         $blockWord->fill($request->all());
         $blockWord->save();
 
+        CacheHelper::forgetFresnsKeys([
+            'fresns_content_block_words',
+            'fresns_user_block_words',
+            'fresns_conversation_block_words',
+            'fresns_content_ban_words',
+            'fresns_content_review_words',
+            'fresns_user_ban_words',
+            'fresns_conversation_ban_words',
+        ]);
+
         return $this->createSuccess();
     }
 
     public function update(BlockWord $blockWord, UpdateBlockWordRequest $request)
     {
         $blockWord->update($request->all());
+
+        CacheHelper::forgetFresnsKeys([
+            'fresns_content_block_words',
+            'fresns_user_block_words',
+            'fresns_conversation_block_words',
+            'fresns_content_ban_words',
+            'fresns_content_review_words',
+            'fresns_user_ban_words',
+            'fresns_conversation_ban_words',
+        ]);
 
         return $this->updateSuccess();
     }
@@ -69,17 +91,27 @@ class BlockWordController extends Controller
     {
         $blockWord->delete();
 
+        CacheHelper::forgetFresnsKeys([
+            'fresns_content_block_words',
+            'fresns_user_block_words',
+            'fresns_conversation_block_words',
+            'fresns_content_ban_words',
+            'fresns_content_review_words',
+            'fresns_user_ban_words',
+            'fresns_conversation_ban_words',
+        ]);
+
         return $this->deleteSuccess();
     }
 
     public function export()
     {
-        return \Excel::download(new BlockWordsExport, 'block_words.xlsx');
+        return Excel::download(new BlockWordsExport, 'fresns-block-words.xlsx');
     }
 
     public function import(Request $request)
     {
-        \Excel::import(new BlockWordsImport, $request->file('file'));
+        Excel::import(new BlockWordsImport, $request->file('file'));
 
         return back();
     }

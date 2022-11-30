@@ -21,6 +21,7 @@ use App\Models\Notification;
 use App\Models\PostLog;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class Send
@@ -101,7 +102,9 @@ class Send
             }
         }
 
-        $send = Send::generateNotification($user->id, $dtoWordBody->toArray());
+        $send = self::generateNotification($user->id, $dtoWordBody->toArray());
+
+        Cache::forget("fresns_api_user_panel_notifications_{$dtoWordBody->uid}");
 
         if ($send != 0) {
             return $this->failure($send);

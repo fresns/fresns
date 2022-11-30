@@ -112,6 +112,7 @@ class InteractionUtility
         $cacheKey = "fresns_interaction_status_{$markType}_{$markId}_{$userId}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
+        // Cache::tags(['fresnsUserInteraction'])
         $status = Cache::remember($cacheKey, $cacheTime, function () use ($markType, $markId, $userId) {
             $userFollow = UserFollow::where('user_id', $userId)->type($markType)->where('follow_id', $markId)->first();
             $userBlock = UserBlock::where('user_id', $userId)->type($markType)->where('block_id', $markId)->first();
@@ -302,9 +303,6 @@ class InteractionUtility
 
             InteractionUtility::markStats($userId, 'block', $followType, $followId, 'decrement');
         }
-
-        CacheHelper::forgetFresnsInteraction($followType, $userId);
-        CacheHelper::forgetFresnsInteraction($followType, $followId);
     }
 
     public static function markUserBlock(int $userId, int $blockType, int $blockId)
@@ -346,9 +344,6 @@ class InteractionUtility
 
             InteractionUtility::markStats($userId, 'follow', $blockType, $blockId, 'decrement');
         }
-
-        CacheHelper::forgetFresnsInteraction($blockType, $userId);
-        CacheHelper::forgetFresnsInteraction($blockType, $blockId);
     }
 
     // mark content sticky
@@ -1041,6 +1036,7 @@ class InteractionUtility
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
         if ($type == UserFollow::TYPE_USER) {
+            // Cache::tags(['fresnsUserInteraction'])
             $followIds = Cache::remember($cacheKey, $cacheTime, function () use ($userId) {
                 $followUserIds = UserFollow::type(UserFollow::TYPE_USER)->where('user_id', $userId)->pluck('follow_id')->toArray();
                 $blockMeUserIds = UserBlock::type(UserBlock::TYPE_USER)->where('block_id', $userId)->pluck('user_id')->toArray();
@@ -1055,6 +1051,7 @@ class InteractionUtility
                 return array_values($allUserIds);
             });
         } else {
+            // Cache::tags(['fresnsUserInteraction'])
             $followIds = Cache::remember($cacheKey, $cacheTime, function () use ($type, $userId) {
                 $followIds = UserFollow::type($type)->where('user_id', $userId)->pluck('follow_id')->toArray();
 
@@ -1080,6 +1077,7 @@ class InteractionUtility
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
         if ($type == UserBlock::TYPE_USER) {
+            // Cache::tags(['fresnsUserInteraction'])
             $blockIds = Cache::remember($cacheKey, $cacheTime, function () use ($userId) {
                 $myBlockUserIds = UserBlock::type(UserBlock::TYPE_USER)->where('user_id', $userId)->pluck('block_id')->toArray();
                 $blockMeUserIds = UserBlock::type(UserBlock::TYPE_USER)->where('block_id', $userId)->pluck('user_id')->toArray();
@@ -1089,10 +1087,12 @@ class InteractionUtility
                 return array_values($allUserIds);
             });
         } elseif ($type == UserBlock::TYPE_GROUP) {
+            // Cache::tags(['fresnsUserInteraction'])
             $blockIds = Cache::remember($cacheKey, $cacheTime, function () use ($userId) {
                 return PermissionUtility::getPostFilterByGroupIds($userId);
             });
         } else {
+            // Cache::tags(['fresnsUserInteraction'])
             $blockIds = Cache::remember($cacheKey, $cacheTime, function () use ($type, $userId) {
                 $blockIds = UserBlock::type($type)->where('user_id', $userId)->pluck('block_id')->toArray();
 
@@ -1112,6 +1112,7 @@ class InteractionUtility
     {
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
+        // Cache::tags(['fresnsConfigs'])
         $groupIdArr = Cache::remember('fresns_private_groups', $cacheTime, function () {
             return Group::where('type_mode', Group::MODE_PRIVATE)->pluck('id')->toArray();
         });

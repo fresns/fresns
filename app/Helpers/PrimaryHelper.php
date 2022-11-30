@@ -34,6 +34,7 @@ class PrimaryHelper
         $cacheKey = "fresns_model_{$modelName}_{$fsid}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
+        // Cache::tags(['fresnsModels'])
         $fresnsModel = Cache::remember($cacheKey, $cacheTime, function () use ($modelName, $fsid) {
             switch ($modelName) {
                 // account
@@ -107,6 +108,7 @@ class PrimaryHelper
         $cacheKey = "fresns_model_{$modelName}_{$id}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
+        // Cache::tags(['fresnsModels'])
         $fresnsModel = Cache::remember($cacheKey, $cacheTime, function () use ($modelName, $id) {
             switch ($modelName) {
                 // account
@@ -186,6 +188,7 @@ class PrimaryHelper
         $cacheKey = "fresns_model_conversation_{$authUserId}_{$conversationUserId}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
+        // Cache::tags(['fresnsModels'])
         $fresnsModel = Cache::remember($cacheKey, $cacheTime, function () use ($authUserId, $conversationUserId) {
             $aConversation = Conversation::with(['aUser', 'latestMessage'])->where('a_user_id', $conversationUserId)->where('b_user_id', $authUserId)->first();
             $bConversation = Conversation::with(['bUser', 'latestMessage'])->where('b_user_id', $conversationUserId)->where('a_user_id', $authUserId)->first();

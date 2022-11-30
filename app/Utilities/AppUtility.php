@@ -19,6 +19,7 @@ class AppUtility
 {
     public static function currentVersion()
     {
+        // Cache::tags(['fresnsSystems'])
         return Cache::remember('fresns_current_version', now()->addDays(), function () {
             $fresnsJson = file_get_contents(
                 base_path('fresns.json')
@@ -30,6 +31,7 @@ class AppUtility
 
     public static function newVersion()
     {
+        // Cache::tags(['fresnsSystems'])
         return Cache::remember('fresns_new_version', now()->addHours(6), function () {
             try {
                 $versionInfoUrl = AppUtility::getAppHost().'/version.json';
@@ -101,14 +103,14 @@ class AppUtility
 
     public static function getAppHost()
     {
-        $appHost = base64_decode('aHR0cHM6Ly9hcHAuZnJlc25zLm9yZw==', true);
+        $appHost = base64_decode('aHR0cHM6Ly9hcHAuZnJlc25zLmNu', true);
 
         return $appHost;
     }
 
     public static function getApiHost()
     {
-        $apiHost = base64_decode('aHR0cHM6Ly9tYXJrZXQuZnJlc25zLmNvbQ==', true);
+        $apiHost = base64_decode('aHR0cHM6Ly9tYXJrZXQuZnJlc25zLmNu', true);
 
         return $apiHost;
     }

@@ -195,6 +195,8 @@ class ValidationUtility
         }
 
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+
+        // Cache::tags(['fresnsConfigs'])
         $banNames = Cache::remember('fresns_user_ban_words', $cacheTime, function () {
             $banNames = BlockWord::where('user_mode', 3)->pluck('word')->toArray();
 
@@ -230,6 +232,8 @@ class ValidationUtility
         }
 
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+
+        // Cache::tags(['fresnsConfigs'])
         $banNames = Cache::remember('fresns_user_ban_words', $cacheTime, function () {
             $banNames = BlockWord::where('user_mode', 3)->pluck('word')->toArray();
 
@@ -292,6 +296,7 @@ class ValidationUtility
     {
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
+        // Cache::tags(['fresnsConfigs'])
         $lowerBanWords = Cache::remember('fresns_content_ban_words', $cacheTime, function () {
             $banWords = BlockWord::where('content_mode', 3)->pluck('word')->toArray();
 
@@ -306,6 +311,7 @@ class ValidationUtility
     {
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
+        // Cache::tags(['fresnsConfigs'])
         $lowerReviewWords = Cache::remember('fresns_content_review_words', $cacheTime, function () {
             $reviewWords = BlockWord::where('content_mode', 4)->pluck('word')->toArray();
 
@@ -320,6 +326,7 @@ class ValidationUtility
     {
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
+        // Cache::tags(['fresnsConfigs'])
         $lowerBanWords = Cache::remember('fresns_conversation_ban_words', $cacheTime, function () {
             $banWords = BlockWord::where('conversation_mode', 3)->pluck('word')->toArray();
 

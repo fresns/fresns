@@ -41,6 +41,7 @@ class GroupController extends Controller
         }
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
+        // Cache::tags(['fresnsApiData'])
         $groups = Cache::remember($cacheKey, $cacheTime, function () use ($authUser) {
             $groupFilterIds = PermissionUtility::getGroupFilterIds($authUser?->id);
 
@@ -212,7 +213,7 @@ class GroupController extends Controller
     // detail
     public function detail(string $gid)
     {
-        $group = PrimaryHelper::fresnsModelByFsid('group', $gid);
+        $group = Group::where('gid', $gid)->first();
 
         if (empty($group)) {
             throw new ApiException(37100);

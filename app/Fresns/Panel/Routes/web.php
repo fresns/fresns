@@ -55,6 +55,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 try {
+    // Cache::tags(['fresnsSystems'])
     $panelPath = Cache::remember('fresns_panel_path', now()->addMinutes(5), function () {
         $loginConfig = Config::where('item_key', 'panel_path')->first();
 
@@ -336,6 +337,7 @@ Route::get('js/{locale?}/translations', function ($locale) {
         $langPath = app_path('Fresns/Panel/Resources/lang/'.config('app.locale'));
     }
 
+    // Cache::tags(['fresnsSystems'])
     $strings = Cache::rememberForever('fresns_panel_translations_'.$locale, function () use ($langPath) {
         return collect(File::allFiles($langPath))->flatMap(function ($file) {
             $name = basename($file, '.php');
