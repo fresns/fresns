@@ -80,16 +80,17 @@ class Crontab
         $roleArr = UserRole::where('is_main', 1)->where('expired_at', '<', now())->get();
 
         foreach ($roleArr as $role) {
-            if (! empty($role['restore_role_id'])) {
-                $nextRole = UserRole::where([
-                    'user_id' => $role['user_id'],
-                    'role_id' => $role['restore_role_id'],
-                ])->where('id', '!=', $role['id'])->first();
+            if ($role->restore_role_id) {
+                $nextRole = UserRole::where('id', '!=', $role->id)
+                    ->where('user_id', $role->user_id)
+                    ->where('role_id', $role->restore_role_id)
+                    ->first();
 
+                // change role
                 if (empty($nextRole)) {
                     UserRole::create([
-                        'user_id' => $role['user_id'],
-                        'role_id' => $role['restore_role_id'],
+                        'user_id' => $role->user_id,
+                        'role_id' => $role->restore_role_id,
                         'is_main' => 1,
                     ]);
                 } else {
@@ -98,9 +99,11 @@ class Crontab
                     ]);
                 }
 
+                // delete old role
                 $role->delete();
             }
 
+            // clear role cache
             Cache::forget("fresns_user_main_role_{$role->user_id}");
         }
 
