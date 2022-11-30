@@ -35,7 +35,7 @@ use Illuminate\Support\Str;
 class CommentService
 {
     // $type = list or detail
-    public function commentData(?Comment $comment, string $type, string $langTag, string $timezone, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLng = null, ?string $authUserLat = null, ?bool $isCommentPreview = true)
+    public function commentData(?Comment $comment, string $type, string $langTag, string $timezone, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLng = null, ?string $authUserLat = null, ?bool $outputSubComments = false)
     {
         if (! $comment) {
             return null;
@@ -44,17 +44,20 @@ class CommentService
         $cacheKey = "fresns_api_comment_{$comment->cid}_{$langTag}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
 
-        $commentAppend = $comment->commentAppend;
-        $post = $comment->post;
-        $postAppend = $comment->postAppend;
+        // Cache::tags(['fresnsApiData'])
+        $commentData = Cache::remember($cacheKey, $cacheTime, function () use ($comment, $langTag) {
+            $commentAppend = $comment->commentAppend;
+            $post = $comment->post;
+            $postAppend = $comment->postAppend;
 
-        // comment data cache
-        $commentData = Cache::remember($cacheKey, $cacheTime, function () use ($comment, $langTag, $post) {
             $commentInfo = $comment->getCommentInfo($langTag);
 
+            // extend list
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_COMMENT, $comment->id, $langTag);
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_COMMENT, $comment->id, $langTag);
             $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_COMMENT, $comment->id, $langTag);
+
+            // file
             $item['files'] = FileHelper::fresnsFileInfoListByTableColumn('comments', 'id', $comment->id);
 
             $fileCount['images'] = collect($item['files']['images'])->count();
@@ -63,27 +66,72 @@ class CommentService
             $fileCount['documents'] = collect($item['files']['documents'])->count();
             $item['fileCount'] = $fileCount;
 
+            $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
+
+            // hashtags
             $item['hashtags'] = [];
+            if ($comment->hashtags->isNotEmpty()) {
+                $hashtagService = new HashtagService;
+
+                foreach ($comment->hashtags as $hashtag) {
+                    $hashtagItem[] = $hashtagService->hashtagData($hashtag, $langTag, $timezone);
+                }
+
+                $item['hashtags'] = $hashtagItem;
+            }
+
+            // creator
             $item['creator'] = InteractionHelper::fresnsUserAnonymousProfile();
             $item['creator']['isPostCreator'] = false;
+            if (! $comment->is_anonymous) {
+                $item['creator']['isPostCreator'] = $comment->user_id == $post->user_id ? true : false;
+            }
+
+            // reply to user
             $item['replyToUser'] = null;
+            if ($comment->top_parent_id != $comment->parent_id && ! $comment?->parentComment) {
+                if ($comment->parentComment->is_anonymous) {
+                    $item['replyToUser'] = InteractionHelper::fresnsUserAnonymousProfile();
+                }
+
+                $userService = new UserService;
+
+                $item['replyToUser'] = $userService->userData($comment->parentComment->creator, $langTag, $timezone);
+            }
+
             $item['subComments'] = [];
+
             $item['commentBtn'] = [
-                'status' => false,
+                'status' => true,
                 'name' => null,
-                'url' => null,
                 'style' => null,
+                'url' => null,
             ];
+            if ($commentAppend->is_close_btn) {
+                $commentBtn['status'] = true;
+                if ($commentAppend->is_change_btn) {
+                    $commentBtn['name'] = LanguageHelper::fresnsLanguageByTableId('posts', 'comment_btn_name', $postAppend->post_id, $langTag);
+                    $commentBtn['style'] = $postAppend->comment_btn_style;
+                } else {
+                    $commentBtn['name'] = ConfigHelper::fresnsConfigByItemKey($commentAppend->btn_name_key, $langTag);
+                    $commentBtn['style'] = $commentAppend->btn_style;
+                }
+                $commentBtn['url'] = ! empty($postAppend->comment_btn_plugin_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($postAppend->comment_btn_plugin_unikey) : null;
+
+                $item['commentBtn'] = $commentBtn;
+            }
+
             $item['manages'] = [];
             $item['editStatus'] = [
-                'isMe' => false,
-                'canDelete' => false,
+                'isMe' => true,
+                'canDelete' => (bool) $commentAppend->can_delete,
                 'canEdit' => false,
-                'isPluginEditor' => false,
-                'editorUrl' => null,
+                'isPluginEditor' => (bool) $commentAppend->is_plugin_editor,
+                'editorUrl' => ! empty($commentAppend->editor_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($commentAppend->editor_unikey) : null,
             ];
-            $item['post'] = self::getPost($post, $langTag);
+            $item['interaction']['postCreatorLikeStatus'] = $post->user_id;
             $item['followType'] = null;
+            $item['post'] = self::getPost($post, $langTag);
 
             return array_merge($commentInfo, $item);
         });
@@ -98,75 +146,50 @@ class CommentService
             $commentData['location']['distance'] = LbsUtility::getDistanceWithUnit($langTag, $postLng, $postLat, $authUserLng, $authUserLat);
         }
 
-        // hashtags
-        if ($comment->hashtags->isNotEmpty()) {
-            $hashtagService = new HashtagService;
-
-            foreach ($comment->hashtags as $hashtag) {
-                $hashtagItem[] = $hashtagService->hashtagData($hashtag, $langTag, $timezone, $authUserId);
-            }
-
-            $commentData['hashtags'] = $hashtagItem;
-        }
-
         // creator
-        $userService = new UserService;
         if (! $comment->is_anonymous) {
+            $isPostCreator = $commentData['creator']['isPostCreator'];
+
+            $userService = new UserService;
             $commentData['creator'] = $userService->userData($comment->creator, $langTag, $timezone, $authUserId);
 
-            $commentData['creator']['isPostCreator'] = $comment->user_id == $post->user_id ? true : false;
+            $commentData['creator']['isPostCreator'] = $isPostCreator;
         }
 
-        // reply to user
-        if ($comment->top_parent_id != $comment->parent_id && ! $comment?->parentComment) {
-            if ($comment->parentComment->is_anonymous) {
-                $item['replyToUser'] = InteractionHelper::fresnsUserAnonymousProfile();
-            }
-
-            $commentData['replyToUser'] = $userService->userData($comment->parentComment->creator, $langTag, $timezone, $authUserId);
-        }
-
-        // comment preview
+        // whether to output sub-level comments
         $previewConfig = ConfigHelper::fresnsConfigByItemKey('comment_preview');
-        if ($type == 'list' && $isCommentPreview && $previewConfig != 0) {
-            $commentData['subComments'] = self::getSubComments($comment->id, $previewConfig, $langTag, $timezone);
-        }
-
-        $isMe = $comment->user_id == $authUserId ? true : false;
-
-        // comment btn
-        if ($isMe && $commentAppend->is_close_btn) {
-            $commentBtn['status'] = true;
-            if ($commentAppend->is_change_btn) {
-                $commentBtn['name'] = LanguageHelper::fresnsLanguageByTableId('posts', 'comment_btn_name', $postAppend->post_id, $langTag);
-                $commentBtn['style'] = $postAppend->comment_btn_style;
-            } else {
-                $commentBtn['name'] = ConfigHelper::fresnsConfigByItemKey($commentAppend->btn_name_key, $langTag);
-                $commentBtn['style'] = $commentAppend->btn_style;
-            }
-            $commentBtn['url'] = ! empty($postAppend->comment_btn_plugin_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($postAppend->comment_btn_plugin_unikey) : null;
-
-            $commentData['commentBtn'] = $commentBtn;
+        if ($outputSubComments && $previewConfig != 0) {
+            $commentData['subComments'] = self::getSubComments($comment->id, $previewConfig, $langTag);
         }
 
         // auth user is creator
+        $isMe = $comment->user_id == $authUserId ? true : false;
         if ($isMe) {
-            $editStatus['isMe'] = true;
-            $editStatus['canDelete'] = (bool) $commentAppend->can_delete;
-            $editStatus['canEdit'] = PermissionUtility::checkContentIsCanEdit('comment', $comment->created_at, $comment->is_sticky, $comment->digest_state, $langTag, $timezone);
-            $editStatus['isPluginEditor'] = (bool) $commentAppend->is_plugin_editor;
-            $editStatus['editorUrl'] = ! empty($commentAppend->editor_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($commentAppend->editor_unikey) : null;
-
-            $commentData['editStatus'] = $editStatus;
+            $commentData['editStatus']['canEdit'] = PermissionUtility::checkContentIsCanEdit('comment', $comment->created_at, $comment->is_sticky, $comment->digest_state, $langTag, $timezone);
+        } else {
+            $commentData['commentBtn'] = [
+                'status' => false,
+                'name' => null,
+                'style' => null,
+                'url' => null,
+            ];
+            $commentData['editStatus'] = [
+                'isMe' => false,
+                'canDelete' => false,
+                'canEdit' => false,
+                'isPluginEditor' => false,
+                'editorUrl' => null,
+            ];
         }
 
         // manages
         if ($authUserId) {
             $manageCacheKey = "fresns_api_comment_manages_{$authUserId}_{$langTag}";
         } else {
-            $manageCacheKey = "fresns_api_comment_manages_guest_{$langTag}";
+            $manageCacheKey = "fresns_api_guest_comment_manages_{$langTag}";
         }
         $manageCacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+        // Cache::tags(['fresnsApiExtensions'])
         $commentData['manages'] = Cache::remember($manageCacheKey, $manageCacheTime, function () use ($authUserId, $langTag) {
             return ExtendUtility::getPluginUsages(PluginUsage::TYPE_MANAGE, null, PluginUsage::SCENE_COMMENT, $authUserId, $langTag);
         });
@@ -174,12 +197,15 @@ class CommentService
         // interaction
         $interactionConfig = InteractionHelper::fresnsCommentInteraction($langTag);
         $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_COMMENT, $comment->id, $authUserId);
-        $interactionCreatorLike['postCreatorLikeStatus'] = InteractionUtility::checkUserLike(InteractionUtility::TYPE_COMMENT, $comment->id, $post->user_id);
+        $interactionCreatorLike['postCreatorLikeStatus'] = InteractionUtility::checkUserLike(InteractionUtility::TYPE_COMMENT, $comment->id, $commentData['interaction']['postCreatorLikeStatus']);
         $item['interaction'] = array_merge($interactionConfig, $interactionStatus, $interactionCreatorLike);
 
         $data = array_merge($commentData, $contentHandle, $item);
 
-        return self::handleCommentDate($data, $timezone, $langTag);
+        $commentData = self::handleCommentCount($comment, $data);
+        $commentData = self::handleCommentDate($commentData, $timezone, $langTag);
+
+        return $commentData;
     }
 
     // handle comment content
@@ -208,6 +234,34 @@ class CommentService
         return $commentInfo;
     }
 
+    // handle comment data count
+    public static function handleCommentCount(?Comment $comment, ?array $commentData)
+    {
+        if (empty($comment) || empty($commentData)) {
+            return $commentData;
+        }
+
+        $configKeys = ConfigHelper::fresnsConfigByItemKeys([
+            'comment_liker_count',
+            'comment_disliker_count',
+            'comment_follower_count',
+            'comment_blocker_count',
+        ]);
+
+        $commentData['likeCount'] = $configKeys['comment_liker_count'] ? $comment->like_count : null;
+        $commentData['dislikeCount'] = $configKeys['comment_disliker_count'] ? $comment->dislike_count : null;
+        $commentData['followCount'] = $configKeys['comment_follower_count'] ? $comment->follow_count : null;
+        $commentData['blockCount'] = $configKeys['comment_blocker_count'] ? $comment->block_count : null;
+        $commentData['commentCount'] = $comment->comment_count;
+        $commentData['commentDigestCount'] = $comment->comment_digest_count;
+        $commentData['commentLikeCount'] = $configKeys['comment_liker_count'] ? $comment->comment_like_count : null;
+        $commentData['commentDislikeCount'] = $configKeys['comment_disliker_count'] ? $comment->comment_dislike_count : null;
+        $commentData['commentFollowCount'] = $configKeys['comment_follower_count'] ? $comment->comment_follow_count : null;
+        $commentData['commentBlockCount'] = $configKeys['comment_blocker_count'] ? $comment->comment_block_count : null;
+
+        return $commentData;
+    }
+
     // handle comment data date
     public static function handleCommentDate(?array $commentData, string $timezone, string $langTag)
     {
@@ -226,21 +280,24 @@ class CommentService
     }
 
     // get sub comments
-    public static function getSubComments(int $commentId, int $limit, string $langTag, string $timezone)
+    public static function getSubComments(int $commentId, int $limit, string $langTag)
     {
-        $comments = Comment::with(['commentAppend', 'post', 'creator', 'hashtags'])
-            ->where('parent_id', $commentId)
-            ->orderByDesc('like_count')
-            ->limit($limit)
-            ->get();
+        $cacheKey = "fresns_api_comment_{$commentId}_sub_comments_{$langTag}";
 
-        $commentList = [];
-        $service = new CommentService();
+        $commentList = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($commentId, $limit, $langTag) {
+            $comments =  Comment::with(['creator'])->where('parent_id', $commentId)->orderByDesc('like_count')->limit($limit)->get();
 
-        /** @var Comment $comment */
-        foreach ($comments as $comment) {
-            $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, null, null, null, null, false);
-        }
+            $commentList = [];
+            $service = new CommentService();
+            $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
+
+            /** @var Comment $comment */
+            foreach ($comments as $comment) {
+                $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone);
+            }
+
+            return $commentList;
+        });
 
         return $commentList;
     }

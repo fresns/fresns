@@ -130,6 +130,7 @@ class CommentController extends Controller
             $commentQuery->where('post_id', $viewPost->id)->where('top_parent_id', 0);
         }
 
+        $outputSubComments = true;
         if ($dtoRequest->cid) {
             $viewComment = PrimaryHelper::fresnsModelByFsid('comment', $dtoRequest->cid);
 
@@ -142,6 +143,8 @@ class CommentController extends Controller
             }
 
             $commentQuery->where('top_parent_id', $viewComment->id);
+
+            $outputSubComments = false;
         }
 
         $groupDateLimit = null;
@@ -293,7 +296,7 @@ class CommentController extends Controller
                 continue;
             }
 
-            $commentList[] = $service->commentData($fresnsCommentModel, 'list', $langTag, $timezone, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+            $commentList[] = $service->commentData($fresnsCommentModel, 'list', $langTag, $timezone, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat, $outputSubComments);
         }
 
         return $this->fresnsPaginate($commentList, $comments->total(), $comments->perPage());
@@ -307,7 +310,7 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $comment = PrimaryHelper::fresnsModelByFsid('comment', $cid);
+        $comment = Comment::with(['creator'])->where('cid', $cid)->first();
 
         if (empty($comment)) {
             throw new ApiException(37400);

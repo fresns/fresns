@@ -40,6 +40,7 @@ class UserService
         $cacheKey = "fresns_api_user_{$user->uid}_{$langTag}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
+        // Cache::tags(['fresnsApiData'])
         $userData = Cache::remember($cacheKey, $cacheTime, function () use ($user, $langTag) {
             $userProfile = $user->getUserProfile();
             $userMainRole = $user->getUserMainRole($langTag);
@@ -80,6 +81,8 @@ class UserService
 
             return array_merge($userProfile, $userMainRole, $item);
         });
+
+        $userData['stats'] = UserService::getUserStats($user, $langTag);
 
         $interactionConfig = InteractionHelper::fresnsUserInteraction($langTag);
         $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_USER, $user->id, $authUserId);

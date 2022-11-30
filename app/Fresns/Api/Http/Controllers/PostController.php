@@ -276,7 +276,7 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $post = PrimaryHelper::fresnsModelByFsid('post', $pid);
+        $post = Post::with(['creator'])->where('pid', $pid)->first();
 
         if (empty($post)) {
             throw new ApiException(37300);

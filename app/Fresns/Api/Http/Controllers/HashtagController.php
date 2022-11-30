@@ -129,7 +129,7 @@ class HashtagController extends Controller
     {
         $hid = StrHelper::slug($hid);
 
-        $hashtag = PrimaryHelper::fresnsModelByFsid('hashtag', $hid);
+        $hashtag = Hashtag::where('slug', $hid)->first();
 
         if (empty($hashtag)) {
             throw new ApiException(37200);
