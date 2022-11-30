@@ -285,7 +285,7 @@ class CommentService
         $cacheKey = "fresns_api_comment_{$commentId}_sub_comments_{$langTag}";
 
         $commentList = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($commentId, $limit, $langTag) {
-            $comments =  Comment::with(['creator'])->where('parent_id', $commentId)->orderByDesc('like_count')->limit($limit)->get();
+            $comments = Comment::with(['creator'])->where('parent_id', $commentId)->orderByDesc('like_count')->limit($limit)->get();
 
             $commentList = [];
             $service = new CommentService();
