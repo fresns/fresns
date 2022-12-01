@@ -9,10 +9,15 @@
 namespace App\Fresns\Api\Services;
 
 use App\Exceptions\ApiException;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
+use App\Models\File;
+use App\Models\PluginUsage;
 use App\Models\UserBlock;
 use App\Models\UserFollow;
 use App\Models\UserLike;
+use App\Utilities\ExtendUtility;
+use Illuminate\Support\Facades\Cache;
 
 class InteractionService
 {
@@ -226,5 +231,37 @@ class InteractionService
             'paginateData' => $paginateData,
             'markData' => $markData,
         ];
+    }
+
+    // get manage extends
+    public static function getManageExtends(string $type, string $langTag, ?int $authUserId = null)
+    {
+        $cacheKey = $authUserId ? "fresns_api_{$type}_manages_{$authUserId}_{$langTag}" : "fresns_api_guest_{$type}_manages_{$langTag}";
+        $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
+
+        // null cache count
+        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
+            return [];
+        }
+
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+
+        $scene = match ($type) {
+            'post' => PluginUsage::SCENE_POST,
+            'comment' => PluginUsage::SCENE_COMMENT,
+            'user' => PluginUsage::SCENE_USER,
+        };
+
+        // Cache::tags(['fresnsApiExtensions'])
+        $manages = Cache::remember($cacheKey, $cacheTime, function () use ($scene, $authUserId, $langTag) {
+            return ExtendUtility::getPluginUsages(PluginUsage::TYPE_MANAGE, null, $scene, $authUserId, $langTag);
+        });
+
+        // null cache count
+        if (empty($manages)) {
+            CacheHelper::nullCacheCount($cacheKey, $nullCacheKey);
+        }
+
+        return $manages;
     }
 }

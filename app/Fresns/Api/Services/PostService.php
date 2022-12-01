@@ -20,7 +20,6 @@ use App\Models\ExtendUsage;
 use App\Models\File;
 use App\Models\Mention;
 use App\Models\OperationUsage;
-use App\Models\PluginUsage;
 use App\Models\Post;
 use App\Models\PostLog;
 use App\Utilities\ContentUtility;
@@ -80,7 +79,8 @@ class PostService
             }
 
             // creator
-            $item['creator'] = InteractionHelper::fresnsUserAnonymousProfile();
+            $userService = new UserService;
+            $item['creator'] = $userService->userData($post->creator, $langTag, $timezone);
 
             $item['topComment'] = null;
             $item['manages'] = [];
@@ -98,10 +98,14 @@ class PostService
             return array_merge($postInfo, $item);
         });
 
-        $contentHandle = self::handlePostContent($post, $type, $authUserId);
+        // Cache::tags(['fresnsApiData'])
+        $contentCacheKey = "fresns_api_post_{$post->pid}_{$authUserId}_{$langTag}";
+        $contentHandle = Cache::remember($contentCacheKey, $cacheTime, function () use ($post, $type, $authUserId) {
+            return self::handlePostContent($post, $type, $authUserId);
+        });
 
         // location
-        if (! empty($post->map_id) && ! empty($authUserLng) && ! empty($authUserLat)) {
+        if ($post->map_id && $authUserLng && $authUserLat) {
             $postLng = $post->map_longitude;
             $postLat = $post->map_latitude;
 
@@ -129,10 +133,8 @@ class PostService
         }
 
         // creator
-        if (! $post->is_anonymous) {
-            $userService = new UserService;
-
-            $postData['creator'] = $userService->userData($post->creator, $langTag, $timezone, $authUserId);
+        if ($post->is_anonymous) {
+            $postData['creator'] = InteractionHelper::fresnsUserAnonymousProfile();
         }
 
         // get top comments
@@ -155,17 +157,7 @@ class PostService
         }
 
         // manages
-        if ($authUserId) {
-            $manageCacheKey = "fresns_api_post_manages_{$authUserId}_{$langTag}";
-        } else {
-            $manageCacheKey = "fresns_api_guest_post_manages_{$langTag}";
-        }
-        $manageCacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-
-        // Cache::tags(['fresnsApiExtensions'])
-        $postData['manages'] = Cache::remember($manageCacheKey, $manageCacheTime, function () use ($authUserId, $langTag) {
-            return ExtendUtility::getPluginUsages(PluginUsage::TYPE_MANAGE, null, PluginUsage::SCENE_POST, $authUserId, $langTag);
-        });
+        $postData['manages'] = InteractionService::getManageExtends('post', $langTag, $authUserId);
 
         // interaction
         $interactionConfig = InteractionHelper::fresnsPostInteraction($langTag);
@@ -269,16 +261,6 @@ class PostService
         $postData['editTime'] = DateHelper::fresnsFormatDateTime($postData['editTime'], $timezone, $langTag);
         $postData['editTimeFormat'] = DateHelper::fresnsFormatTime($postData['editTimeFormat'], $langTag);
 
-        $postData['group'] = GroupService::handleGroupDate($postData['group'], $timezone, $langTag);
-
-        $hashtagList = [];
-        foreach ($postData['hashtags'] as $hashtag) {
-            $hashtagList[] = HashtagService::handleHashtagDate($hashtag, $timezone, $langTag);
-        }
-        $postData['hashtags'] = $hashtagList;
-
-        $postData['creator'] = UserService::handleUserDate($postData['creator'], $timezone, $langTag);
-
         $postData['topComment'] = CommentService::handleCommentDate($postData['topComment'], $timezone, $langTag);
 
         $postData['interaction']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($postData['interaction']['followExpiryDateTime'], $timezone, $langTag);
@@ -290,15 +272,26 @@ class PostService
     public static function getTopComment(int $postId, string $langTag)
     {
         $cacheKey = "fresns_api_post_{$postId}_top_comment_{$langTag}";
+        $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
+
+        // null cache count
+        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
+            return [];
+        }
 
         $comment = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($postId, $langTag) {
-            $comment = Comment::with(['creator'])->where('post_id', $postId)->where('top_parent_id', 0)->orderByDesc('like_count')->first();
+            $comment = Comment::where('post_id', $postId)->where('top_parent_id', 0)->orderByDesc('like_count')->first();
             $service = new CommentService();
 
             $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
 
             return $service->commentData($comment, 'list', $langTag, $timezone);
         });
+
+        // null cache count
+        if (empty($comment)) {
+            CacheHelper::nullCacheCount($cacheKey, $nullCacheKey, 10);
+        }
 
         return $comment;
     }
