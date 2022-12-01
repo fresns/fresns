@@ -8,6 +8,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Config;
 use App\Models\File;
 use App\Utilities\InteractionUtility;
 use Illuminate\Support\Facades\Cache;
@@ -108,6 +109,16 @@ class CacheHelper
         \Artisan::call('route:clear');
         \Artisan::call('schedule:clear-cache');
         \Artisan::call('view:cache');
+
+        // time of the latest cache
+        $cacheConfig = Config::where('item_key', 'cache_datetime')->firstOrNew();
+        $cacheConfig->item_value = now();
+        $cacheConfig->item_type = 'string';
+        $cacheConfig->item_tag = 'systems';
+        $cacheConfig->is_multilingual = 0;
+        $cacheConfig->is_custom = 0;
+        $cacheConfig->is_api = 1;
+        $cacheConfig->save();
     }
 
     /**
