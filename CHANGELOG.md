@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.0.0-beta.4 (2022-12-01)
+
+### Added
+- API: New cache to improve access speed
+- Panel: When saving `URL` and `Path`, filter for left and right spaces and ending `/` symbols
+- Model: Add `middle` option to the file information to stitch image parameters from the beginning of the file name
+- Data: Add `is_enable` field to data table `user_follows`
+- Add Font Awesome Free 6.x to the built-in resources of the main program
+
+### Fixes
+- Panel: Extension installation fails with a text mismatch
+
+### Changed
+- `interactive` Modify to `interaction`
+- API: The verification code is moved to the parameter format after the judgment, to avoid the format error that causes the verification code to expire early
+- API: The `App Secret` splice of the signature is modified from `&key=` to `&appSecret=`
+- Panel:`foreach` when configuration is saved `continue` when model is empty in loop
+- Frame: laravel/framework to v9.42.2
+
+
 ## 2.0.0-beta.3 (2022-11-28)
 
 ### Added
