@@ -74,13 +74,15 @@ class CacheHelper
     }
 
     // null cache count
-    public static function nullCacheCount(string $cacheKey, string $nullCacheKey)
+    public static function nullCacheCount(string $cacheKey, string $nullCacheKey, ?int $cacheMinutes = null)
     {
         Cache::pull($cacheKey);
 
         $currentCacheKeyNullNum = (int) Cache::get($nullCacheKey);
 
-        Cache::put($nullCacheKey, ++$currentCacheKeyNullNum, CacheHelper::fresnsCacheTimeByFileType());
+        $now = $cacheMinutes ? now()->addMinutes($cacheMinutes) : CacheHelper::fresnsCacheTimeByFileType();
+
+        Cache::put($nullCacheKey, ++$currentCacheKeyNullNum, $now);
     }
 
     /**
@@ -255,7 +257,7 @@ class CacheHelper
 
         foreach ($langCacheKeyArr as $langCacheKey) {
             foreach ($utcArr as $utc) {
-                $cacheKey = "{$langCacheKey}_{$utc}";
+                $cacheKey = "{$langCacheKey}_{$utc['value']}";
 
                 Cache::forget($cacheKey);
             }
@@ -393,7 +395,9 @@ class CacheHelper
     // fresns_api_group_{$gid}_{$langTag}
     // fresns_api_hashtag_{$hid}_{$langTag}
     // fresns_api_post_{$pid}_{$langTag}
+    // fresns_api_post_{$pid}_{$userId}_{$langTag}
     // fresns_api_comment_{$cid}_{$langTag}
+    // fresns_api_comment_{$cid}_{$userId}_{$langTag}
 
     // fresns_seo_user_{$id}
     // fresns_seo_group_{$id}

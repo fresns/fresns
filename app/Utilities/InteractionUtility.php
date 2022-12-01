@@ -1033,11 +1033,18 @@ class InteractionUtility
         }
 
         $cacheKey = "fresns_user_follow_array_{$type}_{$userId}";
+        $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
+
+        // null cache count
+        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
+            return [];
+        }
+
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
-        if ($type == UserFollow::TYPE_USER) {
-            // Cache::tags(['fresnsUserInteraction'])
-            $followIds = Cache::remember($cacheKey, $cacheTime, function () use ($userId) {
+        // Cache::tags(['fresnsUserInteraction'])
+        $followIds = Cache::remember($cacheKey, $cacheTime, function () use ($type, $userId) {
+            if ($type == UserFollow::TYPE_USER) {
                 $followUserIds = UserFollow::type(UserFollow::TYPE_USER)->where('user_id', $userId)->pluck('follow_id')->toArray();
                 $blockMeUserIds = UserBlock::type(UserBlock::TYPE_USER)->where('block_id', $userId)->pluck('user_id')->toArray();
 
@@ -1049,18 +1056,16 @@ class InteractionUtility
                 }
 
                 return array_values($allUserIds);
-            });
-        } else {
-            // Cache::tags(['fresnsUserInteraction'])
-            $followIds = Cache::remember($cacheKey, $cacheTime, function () use ($type, $userId) {
-                $followIds = UserFollow::type($type)->where('user_id', $userId)->pluck('follow_id')->toArray();
+            }
 
-                return array_values($followIds);
-            });
-        }
+            $followIds = UserFollow::type($type)->where('user_id', $userId)->pluck('follow_id')->toArray();
 
-        if (is_null($followIds) || empty($followIds)) {
-            Cache::forget($cacheKey);
+            return array_values($followIds);
+        });
+
+        // null cache count
+        if (empty($followIds)) {
+            CacheHelper::nullCacheCount($cacheKey, $nullCacheKey);
         }
 
         return $followIds;
@@ -1074,34 +1079,38 @@ class InteractionUtility
         }
 
         $cacheKey = "fresns_user_block_array_{$type}_{$userId}";
+        $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
+
+        // null cache count
+        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
+            return [];
+        }
+
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
-        if ($type == UserBlock::TYPE_USER) {
-            // Cache::tags(['fresnsUserInteraction'])
-            $blockIds = Cache::remember($cacheKey, $cacheTime, function () use ($userId) {
+        // Cache::tags(['fresnsUserInteraction'])
+        $blockIds = Cache::remember($cacheKey, $cacheTime, function () use ($type, $userId) {
+            if ($type == UserBlock::TYPE_USER) {
                 $myBlockUserIds = UserBlock::type(UserBlock::TYPE_USER)->where('user_id', $userId)->pluck('block_id')->toArray();
                 $blockMeUserIds = UserBlock::type(UserBlock::TYPE_USER)->where('block_id', $userId)->pluck('user_id')->toArray();
 
                 $allUserIds = array_unique(array_merge($myBlockUserIds, $blockMeUserIds));
 
                 return array_values($allUserIds);
-            });
-        } elseif ($type == UserBlock::TYPE_GROUP) {
-            // Cache::tags(['fresnsUserInteraction'])
-            $blockIds = Cache::remember($cacheKey, $cacheTime, function () use ($userId) {
+            }
+
+            if ($type == UserBlock::TYPE_GROUP) {
                 return PermissionUtility::getPostFilterByGroupIds($userId);
-            });
-        } else {
-            // Cache::tags(['fresnsUserInteraction'])
-            $blockIds = Cache::remember($cacheKey, $cacheTime, function () use ($type, $userId) {
-                $blockIds = UserBlock::type($type)->where('user_id', $userId)->pluck('block_id')->toArray();
+            }
 
-                return array_values($blockIds);
-            });
-        }
+            $blockIds = UserBlock::type($type)->where('user_id', $userId)->pluck('block_id')->toArray();
 
-        if (is_null($blockIds) || empty($blockIds)) {
-            Cache::forget($cacheKey);
+            return array_values($blockIds);
+        });
+
+        // null cache count
+        if (empty($blockIds)) {
+            CacheHelper::nullCacheCount($cacheKey, $nullCacheKey);
         }
 
         return $blockIds;

@@ -124,7 +124,7 @@ class ConfigHelper
 
         // null cache count
         if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
-            return null;
+            return [];
         }
 
         // Cache::tags(['fresnsConfigs'])
@@ -161,7 +161,7 @@ class ConfigHelper
 
         // null cache count
         if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
-            return null;
+            return [];
         }
 
         // Cache::tags(['fresnsConfigs'])

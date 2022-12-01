@@ -118,7 +118,6 @@ class LanguageHelper
     // get fresns seo language data
     public static function fresnsLanguageSeoDataById(string $type, int $id, ?string $langTag = null)
     {
-        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
         $usageType = match ($type) {
             'user' => Seo::TYPE_USER,
             'group' => Seo::TYPE_GROUP,
@@ -128,6 +127,13 @@ class LanguageHelper
         };
 
         $cacheKey = "fresns_seo_{$type}_{$id}";
+        $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
+
+        // null cache count
+        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
+            return null;
+        }
+
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
         // Cache::tags(['fresnsConfigs'])
@@ -135,7 +141,13 @@ class LanguageHelper
             return Seo::where('usage_type', $usageType)->where('usage_id', $id)->get();
         });
 
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
         $langContent = $seoData->where('lang_tag', $langTag)->first();
+
+        // null cache count
+        if (empty($seoData)) {
+            CacheHelper::nullCacheCount($cacheKey, $nullCacheKey);
+        }
 
         return $langContent ?? $seoData->first();
     }
