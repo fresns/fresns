@@ -44,7 +44,7 @@ class SignHelper
 
         $params = http_build_query($signParams);
 
-        $signData = $params."&key={$appSecret}";
+        $signData = $params."&appSecret={$appSecret}";
 
         // Generate sign
         $sign = md5($signData);
