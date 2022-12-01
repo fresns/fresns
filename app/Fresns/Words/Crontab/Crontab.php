@@ -189,7 +189,7 @@ class Crontab
             ]);
         }
 
-        // Time to cache execution detection
+        // Time of the latest check version
         $checkConfig = Config::where('item_key', 'check_version_datetime')->firstOrNew();
         $checkConfig->item_value = now();
         $checkConfig->save();
