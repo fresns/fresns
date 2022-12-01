@@ -101,7 +101,7 @@ return [
     'sidebar_admins_intro' => 'Usuários que têm o direito de efetuar login no painel de controle',
     'sidebar_events_intro' => 'Ver tarefas cronometradas e eventos de subscrição no sistema',
     'sidebar_upgrades_intro' => 'Finalmente',
-    'sidebar_settings_intro' => 'Por favor, limpar a cache quando a configuração estiver completa, ou esperar 5 minutos para que a nova cache tenha efeito.',
+    'sidebar_settings_intro' => 'Por favor, limpar a cache quando a configuração estiver completa, ou esperar 10 minutos para que a nova cache tenha efeito.',
     'sidebar_languages_intro' => 'Multi-linguagem precisa configurar as opções de idioma aqui antes de poder inserir conteúdo multilíngue no item de configuração correspondente',
     'sidebar_general_intro' => 'Salvaguardar os itens de configuração do sistema em execução',
     'sidebar_policy_intro' => 'De acordo com os regulamentos legais de dados relevantes no país do mercado-alvo',

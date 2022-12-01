@@ -101,7 +101,7 @@ return [
     'sidebar_admins_intro' => '有权登录控制面板的用户',
     'sidebar_events_intro' => '查看系统中定时任务和订阅事件',
     'sidebar_upgrades_intro' => '最后检查于',
-    'sidebar_settings_intro' => '配置完成后请清空缓存，或者等待 5 分钟后新缓存生效。',
+    'sidebar_settings_intro' => '配置完成后请清空缓存，或者等待 10 分钟后新缓存生效。',
     'sidebar_languages_intro' => '多语言需要先在这里配置语言选项，然后才能在对应配置项时录入多语言内容。',
     'sidebar_general_intro' => '保障系统正常运行的设置项。',
     'sidebar_policy_intro' => '根据目标市场所在国的相关数据法律条例配置功能。',

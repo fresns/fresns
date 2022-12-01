@@ -101,7 +101,7 @@ return [
     'sidebar_admins_intro' => 'コントロールパネルにログインする権利を持つユーザー',
     'sidebar_events_intro' => 'システム上の時間指定タスクと購読イベントの表示',
     'sidebar_upgrades_intro' => 'ついに',
-    'sidebar_settings_intro' => '設定完了後、キャッシュをクリアするか、新しいキャッシュが有効になるまで5分ほどお待ちください。',
+    'sidebar_settings_intro' => '設定完了後、キャッシュをクリアするか、新しいキャッシュが有効になるまで10分ほどお待ちください。',
     'sidebar_languages_intro' => '多言語は、対応する設定項目に多言語コンテンツを入力する前に、ここで言語オプションを構成する必要があります。',
     'sidebar_general_intro' => '実行中のシステムの設定項目を保護します。',
     'sidebar_policy_intro' => 'ターゲット市場の国に関する関連データ法規制によると。',

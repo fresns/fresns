@@ -101,7 +101,7 @@ return [
     'sidebar_admins_intro' => 'Los usuarios que tienen derecho a iniciar sesión en el panel de control',
     'sidebar_events_intro' => 'Ver las tareas cronometradas y los eventos de suscripción en el sistema',
     'sidebar_upgrades_intro' => 'Finalmente',
-    'sidebar_settings_intro' => 'Por favor, borre la caché cuando la configuración esté completa, o espere 5 minutos para que la nueva caché tenga efecto.',
+    'sidebar_settings_intro' => 'Por favor, borre la caché cuando la configuración esté completa, o espere 10 minutos para que la nueva caché tenga efecto.',
     'sidebar_languages_intro' => 'Multi-idioma necesita configurar las opciones de idioma aquí antes de poder ingresar contenido multilingüe en el elemento de configuración correspondiente',
     'sidebar_general_intro' => 'Salvaguardar los elementos de configuración del sistema en ejecución',
     'sidebar_policy_intro' => 'De acuerdo con las regulaciones legales de datos relevantes sobre el país del mercado objetivo',

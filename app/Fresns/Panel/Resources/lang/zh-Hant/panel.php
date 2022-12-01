@@ -101,7 +101,7 @@ return [
     'sidebar_admins_intro' => '有權登錄控制面板的用戶',
     'sidebar_events_intro' => '查看系統中定時任務和訂閱事件',
     'sidebar_upgrades_intro' => '最後檢查於',
-    'sidebar_settings_intro' => '配置完成後請清空緩存，或者等待 5 分鐘後新緩存生效。',
+    'sidebar_settings_intro' => '配置完成後請清空緩存，或者等待 10 分鐘後新緩存生效。',
     'sidebar_languages_intro' => '多語言需要先在這裡配置語言選項，然後才能在對應配置項時錄入多語言內容。',
     'sidebar_general_intro' => '保障系統正常運行的設定項。',
     'sidebar_policy_intro' => '根據目標市場所在國的相關數據法律條例配置功能。',

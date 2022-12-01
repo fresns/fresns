@@ -101,7 +101,7 @@ return [
     'sidebar_admins_intro' => 'Benutzer, die das Recht haben, sich bei der Systemsteuerung anzumelden',
     'sidebar_events_intro' => 'Zeitgesteuerte Aufgaben und Abonnement-Ereignisse auf dem System anzeigen',
     'sidebar_upgrades_intro' => 'Endlich',
-    'sidebar_settings_intro' => 'Bitte löschen Sie den Cache, wenn die Konfiguration abgeschlossen ist, oder warten Sie 5 Minuten, bis der neue Cache wirksam wird.',
+    'sidebar_settings_intro' => 'Bitte löschen Sie den Cache, wenn die Konfiguration abgeschlossen ist, oder warten Sie 10 Minuten, bis der neue Cache wirksam wird.',
     'sidebar_languages_intro' => 'Multi-Sprache muss hier Sprachoptionen konfigurieren, bevor Sie mehrsprachige Inhalte in das entsprechende Konfigurationselement eingeben können',
     'sidebar_general_intro' => 'Sichern Sie die Einstellungselemente des laufenden Systems',
     'sidebar_policy_intro' => 'Entsprechend den relevanten Daten gesetzlichen Bestimmungen im Land des Zielmarktes',

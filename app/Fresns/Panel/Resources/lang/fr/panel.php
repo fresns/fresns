@@ -101,7 +101,7 @@ return [
     'sidebar_admins_intro' => 'Les utilisateurs qui ont le droit de se connecter au panneau de commande',
     'sidebar_events_intro' => 'Visualiser les tâches programmées et les événements d\'abonnement sur le système',
     'sidebar_upgrades_intro' => 'finalement',
-    'sidebar_settings_intro' => 'Veuillez effacer le cache lorsque la configuration est terminée, ou attendre 5 minutes pour que le nouveau cache prenne effet.',
+    'sidebar_settings_intro' => 'Veuillez effacer le cache lorsque la configuration est terminée, ou attendre 10 minutes pour que le nouveau cache prenne effet.',
     'sidebar_languages_intro' => 'Multi-linguistique doit configurer des options de langue ici avant de pouvoir entrer un contenu multilingue dans l\'élément de configuration correspondant',
     'sidebar_general_intro' => 'Protégez les éléments de réglage du système en cours d\'exécution',
     'sidebar_policy_intro' => 'Selon les réglementations juridiques de données pertinentes sur le pays du marché cible',

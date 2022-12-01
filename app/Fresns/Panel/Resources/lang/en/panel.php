@@ -101,7 +101,7 @@ return [
     'sidebar_admins_intro' => 'Users who have access to the control panel',
     'sidebar_events_intro' => 'View timed tasks and subscription events in the system',
     'sidebar_upgrades_intro' => 'Last checked on',
-    'sidebar_settings_intro' => 'Please clear the cache after configuration, or wait 5 minutes for the new cache to take effect.',
+    'sidebar_settings_intro' => 'Please clear the cache after configuration, or wait 10 minutes for the new cache to take effect.',
     'sidebar_languages_intro' => 'You need to configure the language options here before you can enter multilingual content in the corresponding config items',
     'sidebar_general_intro' => 'The setting items that guarantee the proper operation of the system',
     'sidebar_policy_intro' => 'Configure functions according to the relevant data legal regulations of the country where the target market is located',

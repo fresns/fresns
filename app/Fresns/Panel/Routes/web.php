@@ -56,7 +56,7 @@ use Illuminate\Support\Facades\Route;
 
 try {
     // Cache::tags(['fresnsSystems'])
-    $panelPath = Cache::remember('fresns_panel_path', now()->addMinutes(5), function () {
+    $panelPath = Cache::remember('fresns_panel_path', now()->addMinutes(10), function () {
         $loginConfig = Config::where('item_key', 'panel_path')->first();
 
         return $loginConfig->item_value;

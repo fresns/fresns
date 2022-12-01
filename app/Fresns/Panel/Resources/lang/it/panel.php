@@ -101,7 +101,7 @@ return [
     'sidebar_admins_intro' => 'Utenti che hanno il diritto di accedere al pannello di controllo',
     'sidebar_events_intro' => 'Visualizzare i compiti a tempo e gli eventi di sottoscrizione sul sistema',
     'sidebar_upgrades_intro' => 'Finalmente',
-    'sidebar_settings_intro' => 'Cancellare la cache al termine della configurazione o attendere 5 minuti affinché la nuova cache abbia effetto.',
+    'sidebar_settings_intro' => 'Cancellare la cache al termine della configurazione o attendere 10 minuti affinché la nuova cache abbia effetto.',
     'sidebar_languages_intro' => 'Multi-Language ha bisogno di configurare le opzioni di lingua qui prima di poter immettere contenuti multilingue nella voce di configurazione corrispondente',
     'sidebar_general_intro' => 'Salvaguardare gli elementi di impostazione del sistema in esecuzione',
     'sidebar_policy_intro' => 'Secondo i relativi regolamenti legali dei dati relativi al paese del mercato di riferimento',

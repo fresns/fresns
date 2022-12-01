@@ -101,7 +101,7 @@ return [
     'sidebar_admins_intro' => 'Pengguna yang memiliki hak untuk masuk ke panel kontrol',
     'sidebar_events_intro' => 'Lihat tugas terjadwal dan berlangganan acara di sistem',
     'sidebar_upgrades_intro' => 'Akhirnya',
-    'sidebar_settings_intro' => 'Harap hapus cache setelah konfigurasi selesai, atau tunggu 5 menit hingga cache baru berlaku.',
+    'sidebar_settings_intro' => 'Harap hapus cache setelah konfigurasi selesai, atau tunggu 10 menit hingga cache baru berlaku.',
     'sidebar_languages_intro' => 'Multi-bahasa perlu mengkonfigurasi opsi bahasa di sini sebelum Anda dapat memasukkan konten multibahasa di item konfigurasi yang sesuai',
     'sidebar_general_intro' => 'Perlindungan item pengaturan sistem yang berjalan',
     'sidebar_policy_intro' => 'Menurut data yang relevan peraturan hukum tentang negara target pasar',

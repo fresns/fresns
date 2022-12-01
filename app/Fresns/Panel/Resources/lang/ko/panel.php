@@ -101,7 +101,7 @@ return [
     'sidebar_admins_intro' => '제어판에 로그인 할 권리가있는 사용자',
     'sidebar_events_intro' => '시스템에서 예약된 작업을 보고 이벤트를 구독합니다.',
     'sidebar_upgrades_intro' => '마침내',
-    'sidebar_settings_intro' => '구성이 완료된 후 캐시를 지우거나 새 캐시가 적용될 때까지 5분 동안 기다리십시오.',
+    'sidebar_settings_intro' => '구성이 완료된 후 캐시를 지우거나 새 캐시가 적용될 때까지 10분 동안 기다리십시오.',
     'sidebar_languages_intro' => '다중 언어는 해당 구성 항목에 다국어 컨텐츠를 입력하기 전에 언어 옵션을 구성해야합니다',
     'sidebar_general_intro' => '시스템 설정 항목을 안전하게 보호하십시오',
     'sidebar_policy_intro' => '대상 시장 국가의 관련 데이터 법률 규정에 따르면',
