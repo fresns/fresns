@@ -44,9 +44,16 @@ trait ApiHeaderTrait
     // timezone
     public function timezone(): string
     {
+        $uid = \request()->header('uid');
         $defaultTimezone = ConfigHelper::fresnsConfigDefaultTimezone();
 
-        return \request()->header('timezone', $defaultTimezone);
+        if (empty($uid)) {
+            return \request()->header('timezone', $defaultTimezone);
+        }
+
+        $authUser = $this->user();
+
+        return \request()->header('timezone', $authUser?->timezone) ?? $defaultTimezone;
     }
 
     // deviceInfo
