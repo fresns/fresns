@@ -111,14 +111,16 @@ class CacheHelper
         \Artisan::call('view:cache');
 
         // time of the latest cache
-        $cacheConfig = Config::where('item_key', 'cache_datetime')->firstOrNew();
-        $cacheConfig->item_value = now();
-        $cacheConfig->item_type = 'string';
-        $cacheConfig->item_tag = 'systems';
-        $cacheConfig->is_multilingual = 0;
-        $cacheConfig->is_custom = 0;
-        $cacheConfig->is_api = 1;
-        $cacheConfig->save();
+        Config::updateOrCreate([
+            'item_key' => 'cache_datetime',
+        ],[
+            'item_value' => now(),
+            'item_type' => 'string',
+            'item_tag' => 'systems',
+            'is_multilingual' => 0,
+            'is_custom' => 0,
+            'is_api' => 1,
+        ]);
     }
 
     /**
@@ -406,9 +408,10 @@ class CacheHelper
     // fresns_api_group_{$gid}_{$langTag}
     // fresns_api_hashtag_{$hid}_{$langTag}
     // fresns_api_post_{$pid}_{$langTag}
-    // fresns_api_post_{$pid}_{$userId}_{$langTag}
+    // fresns_api_post_{$pid}_{$type}_content_{$userId}
     // fresns_api_comment_{$cid}_{$langTag}
-    // fresns_api_comment_{$cid}_{$userId}_{$langTag}
+    // fresns_api_comment_{$cid}_{$type}_content
+    // fresns_api_comment_{$cid}_{$type}_content_{$userId}
 
     // fresns_seo_user_{$id}
     // fresns_seo_group_{$id}

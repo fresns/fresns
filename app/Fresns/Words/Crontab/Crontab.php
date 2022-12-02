@@ -190,9 +190,13 @@ class Crontab
         }
 
         // Time of the latest check version
-        $checkConfig = Config::where('item_key', 'check_version_datetime')->firstOrNew();
-        $checkConfig->item_value = now();
-        $checkConfig->save();
+        Config::updateOrCreate([
+            'item_key' => 'check_version_datetime',
+        ],[
+            'item_value' => now(),
+            'item_type' => 'string',
+            'item_tag' => 'systems',
+        ]);
 
         return $this->success();
     }
