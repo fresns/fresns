@@ -51,6 +51,8 @@ class CommentService
 
             $commentInfo = $comment->getCommentInfo($langTag);
 
+            $item['isCommentPublic'] = (bool) $postAppend->is_comment_public;
+
             // extend list
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_COMMENT, $comment->id, $langTag);
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_COMMENT, $comment->id, $langTag);
@@ -98,25 +100,20 @@ class CommentService
 
             $item['subComments'] = [];
 
-            $item['commentBtn'] = [
-                'status' => true,
-                'name' => null,
-                'style' => null,
-                'url' => null,
+            $item['extendBtn'] = [
+                'status' => (bool) $postAppend->is_comment_btn,
+                'type' => $commentAppend->is_change_btn ? 'active' : 'default',
+                'default' => [
+                    'name' => LanguageHelper::fresnsLanguageByTableId('post_appends', 'comment_btn_name', $post->id, $langTag),
+                    'style' => $postAppend->comment_btn_style,
+                    'url' => PluginHelper::fresnsPluginUrlByUnikey($postAppend->comment_btn_plugin_unikey),
+                ],
+                'active' => [
+                    'name' => ConfigHelper::fresnsConfigByItemKey($commentAppend->btn_name_key, $langTag),
+                    'style' => $commentAppend->btn_style,
+                    'url' => PluginHelper::fresnsPluginUrlByUnikey($postAppend->comment_btn_plugin_unikey),
+                ],
             ];
-            if ($commentAppend->is_close_btn) {
-                $commentBtn['status'] = true;
-                if ($commentAppend->is_change_btn) {
-                    $commentBtn['name'] = LanguageHelper::fresnsLanguageByTableId('posts', 'comment_btn_name', $postAppend->post_id, $langTag);
-                    $commentBtn['style'] = $postAppend->comment_btn_style;
-                } else {
-                    $commentBtn['name'] = ConfigHelper::fresnsConfigByItemKey($commentAppend->btn_name_key, $langTag);
-                    $commentBtn['style'] = $commentAppend->btn_style;
-                }
-                $commentBtn['url'] = ! empty($postAppend->comment_btn_plugin_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($postAppend->comment_btn_plugin_unikey) : null;
-
-                $item['commentBtn'] = $commentBtn;
-            }
 
             $item['manages'] = [];
             $item['editStatus'] = [
@@ -133,11 +130,7 @@ class CommentService
             return array_merge($commentInfo, $item);
         });
 
-        // Cache::tags(['fresnsApiData'])
-        $contentCacheKey = "fresns_api_post_{$comment->cid}_{$authUserId}_{$langTag}";
-        $contentHandle = Cache::remember($contentCacheKey, $cacheTime, function () use ($comment, $type, $authUserId) {
-            return self::handleCommentContent($comment, $type, $authUserId);
-        });
+        $contentHandle = self::handleCommentContent($comment, $type, $commentData['isCommentPublic'], $authUserId);
 
         // location
         if ($comment->map_id && $authUserLng && $authUserLat) {
@@ -164,11 +157,19 @@ class CommentService
         if ($isMe) {
             $commentData['editStatus']['canEdit'] = PermissionUtility::checkContentIsCanEdit('comment', $comment->created_at, $comment->is_sticky, $comment->digest_state, $langTag, $timezone);
         } else {
-            $commentData['commentBtn'] = [
+            $commentData['extendBtn'] = [
                 'status' => false,
-                'name' => null,
-                'style' => null,
-                'url' => null,
+                'type' => null,
+                'default' => [
+                    'name' => null,
+                    'style' => null,
+                    'url' => null,
+                ],
+                'active' => [
+                    'name' => null,
+                    'style' => null,
+                    'url' => null,
+                ],
             ];
             $commentData['editStatus'] = [
                 'isMe' => false,
@@ -196,27 +197,36 @@ class CommentService
     }
 
     // handle comment content
-    public static function handleCommentContent(Comment $comment, string $type, ?int $authUserId = null)
+    public static function handleCommentContent(Comment $comment, string $type, bool $isCommentPublic, ?int $authUserId = null)
     {
-        $postAppend = $comment->postAppend;
+        $cacheKey = $isCommentPublic ? "fresns_api_comment_{$comment->cid}_{$type}_content" : "fresns_api_comment_{$comment->cid}_{$type}_content_{$authUserId}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
 
-        $contentLength = Str::length($comment->content);
+        // Cache::tags(['fresnsApiData'])
+        $commentInfo = Cache::remember($cacheKey, $cacheTime, function () use ($comment, $type, $authUserId) {
+            $post = $comment->post;
+            $postAppend = $comment->postAppend;
 
-        $briefLength = ConfigHelper::fresnsConfigByItemKey('comment_editor_brief_length');
+            if (! $postAppend->is_comment_public && $post->user_id != $authUserId) {
+                return $commentInfo['content'] = null;
+            }
 
-        $item['contentPublic'] = (bool) $postAppend->is_comment_public;
+            $contentLength = Str::length($comment->content);
 
-        if (! $item['contentPublic']) {
-            $commentInfo['content'] = null;
-        } elseif ($type == 'list' && $contentLength > $briefLength) {
-            $commentInfo['content'] = Str::limit($comment->content, $briefLength);
-            $commentInfo['isBrief'] = true;
-        } else {
-            $commentInfo['content'] = $comment->content;
-        }
+            $briefLength = ConfigHelper::fresnsConfigByItemKey('comment_editor_brief_length');
 
-        $commentInfo['content'] = ContentUtility::replaceBlockWords('content', $commentInfo['content']);
-        $commentInfo['content'] = ContentUtility::handleAndReplaceAll($commentInfo['content'], $comment->is_markdown, $comment->user_id, Mention::TYPE_COMMENT, $authUserId);
+            if ($type == 'list' && $contentLength > $briefLength) {
+                $commentInfo['content'] = Str::limit($comment->content, $briefLength);
+                $commentInfo['isBrief'] = true;
+            } else {
+                $commentInfo['content'] = $comment->content;
+            }
+
+            $commentInfo['content'] = ContentUtility::replaceBlockWords('content', $commentInfo['content']);
+            $commentInfo['content'] = ContentUtility::handleAndReplaceAll($commentInfo['content'], $comment->is_markdown, $comment->user_id, Mention::TYPE_COMMENT, $comment->id);
+
+            return $commentInfo;
+        });
 
         return $commentInfo;
     }

@@ -254,15 +254,15 @@ class ContentUtility
 
         $usernameList = ContentUtility::extractMention($content);
 
-        $userData = User::whereIn('username', $usernameList)->get();
-        $mentionData = Mention::where('mention_type', $mentionType)->where('mention_id', $mentionId)->get();
+        $userArr = User::whereIn('username', $usernameList)->get();
+        $mentionArr = Mention::where('mention_type', $mentionType)->where('mention_id', $mentionId)->get();
 
         $linkList = [];
         $replaceList = [];
         foreach ($usernameList as $username) {
             // check mention record
-            $user = $userData->where('username', $username)->first();
-            $mentionUser = $mentionData->where('mention_user_id', $user?->id)->first();
+            $user = $userArr->where('username', $username)->first();
+            $mentionUser = $mentionArr->where('mention_user_id', $user?->id)->first();
 
             if (is_null($mentionUser)) {
                 $replaceList[] = "@{$username} ";

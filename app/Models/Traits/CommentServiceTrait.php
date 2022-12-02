@@ -9,8 +9,6 @@
 namespace App\Models\Traits;
 
 use App\Helpers\ConfigHelper;
-use App\Helpers\LanguageHelper;
-use App\Helpers\PluginHelper;
 use Illuminate\Support\Str;
 
 trait CommentServiceTrait
@@ -19,7 +17,6 @@ trait CommentServiceTrait
     {
         $commentData = $this;
         $appendData = $this->commentAppend;
-        $postAppendData = $this->post->postAppend;
 
         $configKeys = ConfigHelper::fresnsConfigByItemKeys([
             'website_comment_detail_path',
@@ -58,11 +55,6 @@ trait CommentServiceTrait
         $info['editCount'] = $appendData->edit_count;
         $info['rankState'] = $commentData->rank_state;
         $info['status'] = (bool) $commentData->is_enable;
-
-        $info['isCommentBtn'] = (bool) $postAppendData->is_comment_btn;
-        $info['commentBtnName'] = LanguageHelper::fresnsLanguageByTableId('post_appends', 'comment_btn_name', $commentData->post_id, $langTag);
-        $info['commentBtnStyle'] = $postAppendData->comment_btn_style;
-        $info['commentBtnUrl'] = ! empty($postAppendData->comment_btn_plugin_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($postAppendData->comment_btn_plugin_unikey) : null;
 
         $info['ipLocation'] = $appendData->ip_location;
 
