@@ -113,7 +113,7 @@ class CacheHelper
         // time of the latest cache
         Config::updateOrCreate([
             'item_key' => 'cache_datetime',
-        ],[
+        ], [
             'item_value' => now(),
             'item_type' => 'string',
             'item_tag' => 'systems',

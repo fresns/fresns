@@ -192,7 +192,7 @@ class Crontab
         // Time of the latest check version
         Config::updateOrCreate([
             'item_key' => 'check_version_datetime',
-        ],[
+        ], [
             'item_value' => now(),
             'item_type' => 'string',
             'item_tag' => 'systems',
