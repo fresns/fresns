@@ -74,7 +74,18 @@ class UpgradeFresns extends Command
 
                 return Command::FAILURE;
             }
-            $this->upgradeCommand();
+
+            if (! $this->upgradeCommand()) {
+                $extractFileTip = 'Failed to execute the version command';
+
+                $this->error($extractFileTip);
+
+                Cache::put('autoUpgradeStep', self::STEP_FAILURE);
+                Cache::put('autoUpgradeTip', $extractFileTip);
+
+                return Command::FAILURE;
+            }
+
             $this->upgradeFinish();
         } catch (\Exception $e) {
             logger($e->getMessage());

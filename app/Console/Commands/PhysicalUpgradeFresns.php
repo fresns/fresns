@@ -57,7 +57,12 @@ class PhysicalUpgradeFresns extends Command
 
         try {
             if (! $this->updateData()) {
-                $this->updateStep(self::STEP_FAILURE);
+                $extractFileTip = 'Failed to execute the version command';
+
+                $this->error($extractFileTip);
+
+                Cache::put('physicalUpgradeStep', self::STEP_FAILURE);
+                Cache::put('physicalUpgradeTip', $extractFileTip);
 
                 return Command::FAILURE;
             }
