@@ -184,11 +184,11 @@
                     </div>
                 </div>
                 <!--publish_rule end-->
-                <!--post_minute_interval-->
+                <!--post_second_interval-->
                 <div class="input-group mb-3">
-                    <label class="input-group-text">{{ __('FsLang::panel.role_perm_post_minute_interval') }}</label>
-                    <input type="number" class="form-control input-number" value="{{ $permissions['post_minute_interval']['permValue'] ?? '' }}" name="permissions[post_minute_interval]" placeholder="10">
-                    <span class="input-group-text">{{ __('FsLang::panel.unit_minute') }}</span>
+                    <label class="input-group-text">{{ __('FsLang::panel.role_perm_post_time_interval') }}</label>
+                    <input type="number" class="form-control input-number" value="{{ $permissions['post_second_interval']['permValue'] ?? '' }}" name="permissions[post_second_interval]" placeholder="60">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_second') }}</span>
                 </div>
                 <!--post_draft_count-->
                 <div class="input-group mb-3">
@@ -312,11 +312,11 @@
                     </div>
                 </div>
                 <!--publish_rule end-->
-                <!--role_perm_comment_minute_interval-->
+                <!--role_perm_comment_time_interval-->
                 <div class="input-group mb-3">
-                    <label class="input-group-text">{{ __('FsLang::panel.role_perm_comment_minute_interval') }}</label>
-                    <input type="number" class="form-control input-number" value="{{ $permissions['comment_minute_interval']['permValue'] ?? '' }}" name="permissions[comment_minute_interval]" placeholder="10">
-                    <span class="input-group-text">{{ __('FsLang::panel.unit_minute') }}</span>
+                    <label class="input-group-text">{{ __('FsLang::panel.role_perm_comment_time_interval') }}</label>
+                    <input type="number" class="form-control input-number" value="{{ $permissions['comment_second_interval']['permValue'] ?? '' }}" name="permissions[comment_second_interval]" placeholder="60">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_second') }}</span>
                 </div>
                 <!--role_perm_comment_draft_count-->
                 <div class="input-group mb-3">
