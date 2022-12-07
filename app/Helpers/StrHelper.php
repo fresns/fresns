@@ -121,8 +121,12 @@ class StrHelper
      * @param string host The hostname you want to get the domain from.
      * @return The domain name of the host.
      */
-    public static function extractDomainByHost(string $host)
+    public static function extractDomainByHost(?string $host = null)
     {
+        if (empty($host)) {
+            return null;
+        }
+
         if ($host == 'localhost') {
             // localhost
             return 'localhost';

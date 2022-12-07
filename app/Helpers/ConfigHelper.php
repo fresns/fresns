@@ -287,4 +287,66 @@ class ConfigHelper
 
         return $dateFormat;
     }
+
+    public static function fresnsConfigFileUrlExpire()
+    {
+        $cacheKey = 'fresns_config_file_url_expire';
+        $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
+
+        // null cache count
+        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
+            return null;
+        }
+
+        // Cache::tags(['fresnsConfigs'])
+        $urlExpire = Cache::remember($cacheKey, now()->addDays(7), function () {
+            $fileConfigArr = Config::where('item_type', 'file')->get();
+
+            // get file type
+            $fileTypeArr = [];
+            foreach ($fileConfigArr as $config) {
+                if (! StrHelper::isPureInt($config->item_value)) {
+                    continue;
+                }
+
+                $file = File::where('id', $config->item_value)->first();
+
+                $fileTypeArr[] = $file->type;
+            }
+
+            if (empty($fileTypeArr)) {
+                return null;
+            }
+
+            $fileType = array_unique($fileTypeArr);
+
+            // get anti link expire
+            $antiLinkExpire = [];
+            foreach ($fileType as $type) {
+                $storageConfig = FileHelper::fresnsFileStorageConfigByType($type);
+
+                if (! $storageConfig['antiLinkStatus']) {
+                    continue;
+                }
+
+                $antiLinkExpire[] = $storageConfig['antiLinkExpire'];
+            }
+
+            if (empty($antiLinkExpire)) {
+                return null;
+            }
+
+            $newAntiLinkExpire = array_filter($antiLinkExpire);
+            $minAntiLinkExpire = min($newAntiLinkExpire);
+
+            return $minAntiLinkExpire - 1;
+        });
+
+        // null cache count
+        if (empty($urlExpire) || $urlExpire == 0) {
+            CacheHelper::nullCacheCount($cacheKey, $nullCacheKey);
+        }
+
+        return $urlExpire;
+    }
 }

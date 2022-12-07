@@ -19,6 +19,7 @@ use App\Models\Group;
 use App\Models\Hashtag;
 use App\Models\Operation;
 use App\Models\Post;
+use App\Models\SessionKey;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 
@@ -37,6 +38,11 @@ class PrimaryHelper
         // Cache::tags(['fresnsModels'])
         $fresnsModel = Cache::remember($cacheKey, $cacheTime, function () use ($modelName, $fsid) {
             switch ($modelName) {
+                // key
+                case 'key':
+                    $model = SessionKey::where('app_id', $fsid)->first();
+                break;
+
                 // account
                 case 'account':
                     $model = Account::withTrashed()->with(['users', 'connects'])->where('aid', $fsid)->first();

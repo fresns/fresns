@@ -16,8 +16,9 @@ class SignHelper
         'appId',
         'timestamp',
         'aid',
+        'aidToken',
         'uid',
-        'token',
+        'uidToken',
     ];
 
     // Check Sign

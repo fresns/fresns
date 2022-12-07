@@ -19,7 +19,7 @@ class CacheHelper
     const NULL_CACHE_COUNT = 3;
 
     // cache time
-    public static function fresnsCacheTimeByFileType(?int $fileType = null)
+    public static function fresnsCacheTimeByFileType(?int $fileType = null, ?int $minutes = null)
     {
         if (empty($fileType)) {
             $digital = rand(6, 72);
@@ -31,6 +31,10 @@ class CacheHelper
             $fileConfig = FileHelper::fresnsFileStorageConfigByType($fileType);
 
             if (! $fileConfig['antiLinkStatus']) {
+                if ($minutes) {
+                    return now()->addMinutes($minutes);
+                }
+
                 $digital = rand(72, 168);
 
                 return now()->addHours($digital);
@@ -56,6 +60,10 @@ class CacheHelper
         $newAntiLinkExpire = array_filter($antiLinkExpire);
 
         if (empty($newAntiLinkExpire)) {
+            if ($minutes) {
+                return now()->addMinutes($minutes);
+            }
+
             $digital = rand(6, 72);
 
             return now()->addHours($digital);
@@ -113,7 +121,7 @@ class CacheHelper
         // time of the latest cache
         Config::updateOrCreate([
             'item_key' => 'cache_datetime',
-        ], [
+        ],[
             'item_value' => now(),
             'item_type' => 'string',
             'item_tag' => 'systems',
@@ -138,6 +146,7 @@ class CacheHelper
         Cache::forget('fresns_default_langTag');
         Cache::forget('fresns_default_timezone');
         Cache::forget('fresns_lang_tags');
+        Cache::forget('fresns_config_file_url_expire');
         // Cache::forget("fresns_config_*");
         // Cache::forget("fresns_config_keys_*");
         // Cache::forget("fresns_config_tag_*");
@@ -177,6 +186,7 @@ class CacheHelper
     /**
      * forget fresns model.
      *
+     * fresns_model_key_{$appId}
      * fresns_model_account_{$aid}
      * fresns_model_user_{$uidOrUsername}
      * fresns_model_group_{$gid}
@@ -420,8 +430,8 @@ class CacheHelper
     // fresns_seo_comment_{$id}
 
     // fresns_code_messages_{$unikey}_{$langTag}
-    // fresns_api_key_{$appId}
-    // fresns_api_token_{$platformId}_{$aid}_{$uid}
+    // fresns_token_account_{$accountId}_{$token}
+    // fresns_token_user_{$userId}_{$token}
     // fresns_api_stickers_{$langTag}
     // fresns_plugin_url_{$unikey}
 }
