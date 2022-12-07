@@ -22,9 +22,12 @@ class CreateSessionTokensTable extends Migration
         Schema::create('session_tokens', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedTinyInteger('platform_id');
+            $table->string('version', 16);
+            $table->char('app_id', 8);
             $table->unsignedBigInteger('account_id');
+            $table->char('account_token', 32);
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->char('token', 32);
+            $table->char('user_token', 32)->nullable();
             $table->string('scope', 128)->nullable();
             $table->text('payload')->nullable();
             $table->timestamp('expired_at')->nullable();
@@ -32,7 +35,7 @@ class CreateSessionTokensTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->unique(['account_id', 'token'], 'account_token');
+            $table->unique(['user_id', 'user_token'], 'user_id_token');
         });
     }
 
