@@ -10,4 +10,7 @@ namespace App\Models;
 
 class SessionToken extends Model
 {
+    protected $dates = [
+        'expired_at',
+    ];
 }

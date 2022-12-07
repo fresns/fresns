@@ -20,4 +20,8 @@ class VerifyCode extends Model
     const TEMPLATE_DELETE_ACCOUNT = 8;
 
     use Traits\IsEnableTrait;
+
+    protected $dates = [
+        'expired_at',
+    ];
 }

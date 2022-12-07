@@ -16,6 +16,10 @@ class UserFollow extends Model
     const TYPE_POST = 4;
     const TYPE_COMMENT = 5;
 
+    protected $dates = [
+        'expired_at',
+    ];
+
     public function scopeType($query, int $type)
     {
         return $query->where('follow_type', $type);

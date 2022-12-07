@@ -18,9 +18,14 @@ class User extends Model
     use Traits\FsidTrait;
 
     protected $dates = [
+        'birthday',
+        'verified_at',
         'expired_at',
+        'last_post_at',
+        'last_comment_at',
         'last_username_at',
         'last_nickname_at',
+        'wait_delete_at',
     ];
 
     public static function boot()

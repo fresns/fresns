@@ -24,6 +24,12 @@ class Account extends Authenticatable
     use Traits\IsEnableTrait;
     use Traits\FsidTrait;
 
+    protected $dates = [
+        'last_login_at',
+        'verify_at',
+        'wait_delete_at',
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
