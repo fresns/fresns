@@ -9,10 +9,10 @@
 namespace App\Fresns\Words\Account;
 
 use App\Fresns\Words\Account\DTO\AddAccountDTO;
-use App\Fresns\Words\Account\DTO\CreateSessionTokenDTO;
+use App\Fresns\Words\Account\DTO\CreateAccountTokenDTO;
 use App\Fresns\Words\Account\DTO\LogicalDeletionAccountDTO;
 use App\Fresns\Words\Account\DTO\VerifyAccountDTO;
-use App\Fresns\Words\Account\DTO\VerifySessionTokenDTO;
+use App\Fresns\Words\Account\DTO\VerifyAccountTokenDTO;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
@@ -188,19 +188,25 @@ class Account
      *
      * @throws \Throwable
      */
-    public function createSessionToken($wordBody)
+    public function createAccountToken($wordBody)
     {
-        $dtoWordBody = new CreateSessionTokenDTO($wordBody);
+        $dtoWordBody = new CreateAccountTokenDTO($wordBody);
         $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
-        $platformId = $dtoWordBody->platformId;
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $keyInfo = PrimaryHelper::fresnsModelByFsid('key', $dtoWordBody->appId);
 
         if (empty($accountId)) {
             return $this->failure(
                 31502,
                 ConfigUtility::getCodeMessage(31502, 'Fresns', $langTag)
+            );
+        }
+
+        if (empty($keyInfo) || ! $keyInfo->is_enable) {
+            return $this->failure(
+                31301,
+                ConfigUtility::getCodeMessage(31301, 'Fresns', $langTag),
             );
         }
 
@@ -221,10 +227,11 @@ class Account
         }
 
         $condition = [
-            'platform_id' => $platformId,
+            'platform_id' => $dtoWordBody->platformId,
+            'version' => $dtoWordBody->version,
+            'app_id' => $dtoWordBody->appId,
             'account_id' => $accountId,
-            'user_id' => $userId,
-            'token' => $token,
+            'account_token' => $token,
             'expired_at' => $expiredDateTime,
         ];
 
@@ -232,9 +239,8 @@ class Account
 
         return $this->success([
             'aid' => $dtoWordBody->aid,
-            'uid' => $dtoWordBody->uid,
-            'tokenId' => $tokenModel->id,
-            'token' => $token,
+            'aidToken' => $token,
+            'aidTokenId' => $tokenModel->id,
             'expiredHours' => $expiredHours,
             'expiredDays' => $expiredDays,
             'expiredDateTime' => $expiredDateTime,
@@ -247,66 +253,52 @@ class Account
      *
      * @throws \Throwable
      */
-    public function verifySessionToken($wordBody)
+    public function verifyAccountToken($wordBody)
     {
-        $dtoWordBody = new VerifySessionTokenDTO($wordBody);
+        $dtoWordBody = new VerifyAccountTokenDTO($wordBody);
         $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
-        $platformId = $dtoWordBody->platformId;
-        $account = PrimaryHelper::fresnsModelByFsid('account', $dtoWordBody->aid);
-        $user = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
-        $accountId = $account?->id;
-        $userId = $user?->id;
-        $token = $dtoWordBody->token;
+        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
 
-        $cacheKey = "fresns_api_token_{$platformId}_{$accountId}_{$userId}_{$token}";
+        if (empty($accountId)) {
+            return $this->failure(
+                31502,
+                ConfigUtility::getCodeMessage(31502, 'Fresns', $langTag)
+            );
+        }
+
+        $aidToken = $dtoWordBody->aidToken;
+        $appId = $dtoWordBody->appId;
+
+        $cacheKey = "fresns_token_account_{$accountId}_{$aidToken}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
         // Cache::tags(['fresnsSystems'])
-        $session = Cache::remember($cacheKey, $cacheTime, function () use ($accountId, $token) {
-            return SessionToken::where('account_id', $accountId)->where('token', $token)->first();
+        $accountToken = Cache::remember($cacheKey, $cacheTime, function () use ($appId, $accountId, $aidToken) {
+            return SessionToken::where('app_id', $appId)
+                ->where('account_id', $accountId)
+                ->where('account_token', $aidToken)
+                ->whereNull('user_id')
+                ->first();
         });
 
-        if (is_null($session)) {
+        if (is_null($accountToken)) {
             Cache::forget($cacheKey);
 
-            if (empty($userId)) {
-                return $this->failure(
-                    31505,
-                    ConfigUtility::getCodeMessage(31505, 'Fresns', $langTag)
-                );
-            }
-
             return $this->failure(
-                31603,
-                ConfigUtility::getCodeMessage(31603, 'Fresns', $langTag)
+                31505,
+                ConfigUtility::getCodeMessage(31505, 'Fresns', $langTag)
             );
         }
 
-        if ($session->platform_id != $platformId) {
+        if ($accountToken->platform_id != $dtoWordBody->platformId) {
             return $this->failure(
-                31102,
-                ConfigUtility::getCodeMessage(31102, 'Fresns', $langTag)
+                31103,
+                ConfigUtility::getCodeMessage(31103, 'Fresns', $langTag)
             );
         }
 
-        if ($userId) {
-            if ($session->user_id != $userId) {
-                return $this->failure(
-                    31603,
-                    ConfigUtility::getCodeMessage(31603, 'Fresns', $langTag)
-                );
-            }
-
-            if ($user->account_id != $accountId) {
-                return $this->failure(
-                    35201,
-                    ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
-                );
-            }
-        }
-
-        if ($session->expired_at && $session->expired_at < now()) {
+        if ($accountToken->expired_at && $accountToken->expired_at < now()) {
             return $this->failure(
                 31504,
                 ConfigUtility::getCodeMessage(31504, 'Fresns', $langTag)

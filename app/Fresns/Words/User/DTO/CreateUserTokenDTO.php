@@ -6,14 +6,14 @@
  * Released under the Apache-2.0 License.
  */
 
-namespace App\Fresns\Words\Account\DTO;
+namespace App\Fresns\Words\User\DTO;
 
 use Fresns\DTO\DTO;
 
 /**
- * Class VerifySessionTokenDTO.
+ * Class CreateUserTokenDTO.
  */
-class VerifySessionTokenDTO extends DTO
+class CreateUserTokenDTO extends DTO
 {
     /**
      * @return array
@@ -22,9 +22,12 @@ class VerifySessionTokenDTO extends DTO
     {
         return [
             'platformId' => ['integer', 'required', 'between:1,13'],
+            'version' => ['string', 'required'],
+            'appId' => ['string', 'required'],
             'aid' => ['string', 'required'],
-            'uid' => ['integer', 'nullable'],
-            'token' => ['string', 'required'],
+            'aidToken' => ['string', 'required'],
+            'uid' => ['integer', 'required'],
+            'expiredTime' => ['integer', 'nullable'],
         ];
     }
 }
