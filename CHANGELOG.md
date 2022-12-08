@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.0.0-beta.5 (2022-12-08)
+
+### Added
+- API: Verify if the format of headers deviceInfo matches
+- API: Comment list, not skipped when the post to which it belongs has been deleted
+
+### Fixes
+- API: Post and comment detail page content caching error
+- API: Hierarchy error when replying to comments
+- API: Count is not rolled back when deleting posts and comments
+
+### Changed
+- API: Role publishing interval limit unit, modified from `minutes` to `seconds`
+- API: split `token` into `aidToken` and `uidToken` in the headers parameter
+- Frame: laravel/framework to v9.43.0
+- Frame: fresns/plugin-manager to v2.3.0
+
+
 ## 2.0.0-beta.4 (2022-12-01)
 
 ### Added
