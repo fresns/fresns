@@ -90,6 +90,10 @@ class GlobalController extends Controller
             }
         }
 
+        if (in_array('cache_datetime', $itemKey) || in_array('cache_minutes', $itemKey)) {
+            $item['cache_minutes'] = ConfigHelper::fresnsConfigFileUrlExpire();
+        }
+
         return $this->fresnsPaginate($item, $total, $perPage);
     }
 
