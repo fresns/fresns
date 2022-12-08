@@ -47,8 +47,8 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         // Account
         ['word' => 'addAccount', 'provider' => [Account::class, 'addAccount']],
         ['word' => 'verifyAccount', 'provider' => [Account::class, 'verifyAccount']],
-        ['word' => 'createSessionToken', 'provider' => [Account::class, 'createSessionToken']],
-        ['word' => 'verifySessionToken', 'provider' => [Account::class, 'verifySessionToken']],
+        ['word' => 'createAccountToken', 'provider' => [Account::class, 'createAccountToken']],
+        ['word' => 'verifyAccountToken', 'provider' => [Account::class, 'verifyAccountToken']],
         ['word' => 'logicalDeletionAccount', 'provider' => [Account::class, 'logicalDeletionAccount']],
 
         // Wallet
@@ -58,6 +58,8 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         // User
         ['word' => 'addUser', 'provider' => [User::class, 'addUser']],
         ['word' => 'verifyUser', 'provider' => [User::class, 'verifyUser']],
+        ['word' => 'createUserToken', 'provider' => [User::class, 'createUserToken']],
+        ['word' => 'verifyUserToken', 'provider' => [User::class, 'verifyUserToken']],
         ['word' => 'logicalDeletionUser', 'provider' => [User::class, 'logicalDeletionUser']],
 
         // File
