@@ -138,6 +138,7 @@ class UpgradeFresns extends Command
     public function download(): bool
     {
         $this->updateStep(self::STEP_DOWNLOAD);
+        logger('upgrade:fresns download zip');
 
         $client = new \GuzzleHttp\Client();
 
@@ -158,6 +159,8 @@ class UpgradeFresns extends Command
 
         $this->file = $file;
 
+        logger('upgrade:fresns download done');
+
         return true;
     }
 
@@ -165,6 +168,7 @@ class UpgradeFresns extends Command
     public function extractFile(): bool
     {
         $this->updateStep(self::STEP_EXTRACT);
+        logger('upgrade:fresns unzip file');
 
         if (! $this->file) {
             return false;
@@ -183,6 +187,8 @@ class UpgradeFresns extends Command
 
         $this->copyMerge(Storage::path($extractPath.'/fresns'), base_path());
 
+        logger('upgrade:fresns unzip done');
+
         return true;
     }
 
@@ -191,12 +197,16 @@ class UpgradeFresns extends Command
     {
         $this->updateStep(self::STEP_INSTALL);
 
-        AppUtility::executeUpgradeCommand();
+        logger('upgrade:fresns upgrade command');
+
+        return AppUtility::executeUpgradeCommand();
     }
 
     // step 4-2: edit fresns version info
     public function upgradeFinish(): bool
     {
+        logger('upgrade:fresns edit version');
+
         $newVersion = AppHelper::VERSION;
         $newVersionInt = AppHelper::VERSION_INT;
 

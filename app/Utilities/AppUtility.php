@@ -12,6 +12,7 @@ use App\Helpers\AppHelper;
 use App\Helpers\ConfigHelper;
 use App\Models\Plugin;
 use Browser;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
@@ -228,15 +229,18 @@ class AppUtility
 
     public static function executeUpgradeCommand(): bool
     {
-        logger('upgrade:fresns upgrade command');
+        logger('upgrade:fresns upgrade command check');
 
         $currentVersionInt = AppUtility::currentVersion()['versionInt'] ?? 0;
         $newVersionInt = AppUtility::newVersion()['versionInt'] ?? 0;
 
+        logger('currentVersionInt: '.$currentVersionInt);
+        logger('newVersionInt: '.$newVersionInt);
         if (! $currentVersionInt || ! $newVersionInt) {
             return false;
         }
 
+        logger('upgrade:fresns upgrade-{n} command');
         $versionInt = $currentVersionInt;
 
         while ($versionInt <= $newVersionInt) {
@@ -244,7 +248,10 @@ class AppUtility
             $command = 'fresns:upgrade-'.$versionInt;
             if (\Artisan::has($command)) {
                 $exitCode = \Artisan::call($command);
-                if ($exitCode) {
+
+                logger($command.' exitCode = '.$exitCode);
+
+                if ($exitCode == Command::FAILURE) {
                     return false;
                 }
             }

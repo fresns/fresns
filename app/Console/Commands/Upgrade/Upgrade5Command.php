@@ -27,8 +27,13 @@ class Upgrade5Command extends Command
     // execute the console command
     public function handle()
     {
+        logger('upgrade:fresns-5 composerInstall');
         $this->composerInstall();
+
+        logger('upgrade:fresns-5 migrate');
         $this->call('migrate', ['--force' => true]);
+
+        logger('upgrade:fresns-5 updateData');
         $this->updateData();
 
         return Command::SUCCESS;
@@ -109,7 +114,7 @@ class Upgrade5Command extends Command
         return true;
     }
 
-    // composer install
+    // composer update
     public function composerInstall()
     {
         $composerPath = 'composer';
@@ -118,7 +123,7 @@ class Upgrade5Command extends Command
             $composerPath = '/usr/bin/composer';
         }
 
-        $process = new Process([$composerPath, 'install'], base_path());
+        $process = new Process([$composerPath, 'require', 'doctrine/dbal'], base_path());
         $process->setTimeout(0);
         $process->start();
 
