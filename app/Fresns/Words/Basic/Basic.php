@@ -9,6 +9,7 @@
 namespace App\Fresns\Words\Basic;
 
 use App\Fresns\Words\Basic\DTO\CheckCodeDTO;
+use App\Fresns\Words\Basic\DTO\DeviceInfoDTO;
 use App\Fresns\Words\Basic\DTO\IpInfoDTO;
 use App\Fresns\Words\Basic\DTO\SendCodeDTO;
 use App\Fresns\Words\Basic\DTO\UploadSessionLogDTO;
@@ -40,17 +41,9 @@ class Basic
         $dtoWordBody = new VerifySignDTO($wordBody);
         $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
-        $appId = $dtoWordBody->appId;
+        $keyInfo = PrimaryHelper::fresnsModelByFsid('key', $dtoWordBody->appId);
 
-        $cacheKey = "fresns_api_key_{$appId}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
-
-        // Cache::tags(['fresnsSystems'])
-        $keyInfo = Cache::remember($cacheKey, $cacheTime, function () use ($appId) {
-            return SessionKey::where('app_id', $appId)->isEnable()->first();
-        });
-
-        if (empty($keyInfo)) {
+        if (empty($keyInfo) || ! $keyInfo->is_enable) {
             return $this->failure(
                 31301,
                 ConfigUtility::getCodeMessage(31301, 'Fresns', $langTag),
@@ -96,8 +89,9 @@ class Basic
             'timestamp' => $dtoWordBody->timestamp,
             'sign' => $dtoWordBody->sign,
             'aid' => $dtoWordBody->aid ?? null,
+            'aidToken' => $dtoWordBody->aidToken ?? null,
             'uid' => $dtoWordBody->uid ?? null,
-            'token' => $dtoWordBody->token ?? null,
+            'uidToken' => $dtoWordBody->uidToken ?? null,
         ];
 
         $withoutEmptyCheckArr = array_filter($includeEmptyCheckArr);
@@ -112,16 +106,18 @@ class Basic
         }
 
         if ($dtoWordBody->aid) {
-            $verifySessionTokenArr = array_filter([
-                'platformId' => $dtoWordBody->platformId,
-                'aid' => $dtoWordBody->aid,
-                'uid' => $dtoWordBody->uid ?? null,
-                'token' => $dtoWordBody->token,
-            ]);
-            $verifySessionToken = \FresnsCmdWord::plugin()->verifySessionToken($verifySessionTokenArr);
+            $verifyAccountToken = \FresnsCmdWord::plugin()->verifyAccountToken($includeEmptyCheckArr);
 
-            if ($verifySessionToken->isErrorResponse()) {
-                return $verifySessionToken->errorResponse();
+            if ($verifyAccountToken->isErrorResponse()) {
+                return $verifyAccountToken->errorResponse();
+            }
+        }
+
+        if ($dtoWordBody->uid) {
+            $verifyUserToken = \FresnsCmdWord::plugin()->verifyUserToken($includeEmptyCheckArr);
+
+            if ($verifyUserToken->isErrorResponse()) {
+                return $verifyUserToken->errorResponse();
             }
         }
 
@@ -142,10 +138,10 @@ class Basic
         $urlSignData = urldecode(base64_decode($dtoWordBody->urlSign));
         $urlSignJson = json_decode($urlSignData, true) ?? [];
 
-        if (empty($urlSignJson['aid'])) {
+        if (empty($urlSignJson)) {
             return $this->failure(
-                31501,
-                ConfigUtility::getCodeMessage(31501, 'Fresns', $langTag)
+                30002,
+                ConfigUtility::getCodeMessage(30002, 'Fresns', $langTag)
             );
         }
 
@@ -167,6 +163,8 @@ class Basic
     public function uploadSessionLog($wordBody)
     {
         $dtoWordBody = new UploadSessionLogDTO($wordBody);
+
+        new DeviceInfoDTO($dtoWordBody->deviceInfo);
 
         $accountId = null;
         if (isset($dtoWordBody->aid)) {
