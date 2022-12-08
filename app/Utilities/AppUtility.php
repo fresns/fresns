@@ -164,7 +164,22 @@ class AppUtility
 
     public static function getDeviceInfo(): array
     {
+        $ip = request()->ip();
+        if (strpos($ip, ':') !== false) {
+            $ipv4 = null;
+            $ipv6 = $ip;
+        } else {
+            $ipv4 = $ip;
+            $ipv6 = null;
+        }
+
+        $networkType = null;
+        if (empty(request()->header('HTTP_VIA'))) {
+            $networkType = 'wifi';
+        }
+
         $deviceInfo = [
+            'agent' => Browser::userAgent(),
             'type' => Browser::deviceType(),
             'mac' => '',
             'brand' => Browser::deviceFamily(),
@@ -174,10 +189,10 @@ class AppUtility
             'browserName' => Browser::browserFamily(),
             'browserVersion' => Browser::browserVersion(),
             'browserEngine' => Browser::browserEngine(),
-            'networkType' => '',
-            'networkIpv4' => request()->ip(),
-            'networkIpv6' => '',
-            'networkPort' => $_SERVER['REMOTE_PORT'] ?? '',
+            'networkType' => $networkType,
+            'networkIpv4' => $ipv4,
+            'networkIpv6' => $ipv6,
+            'networkPort' => $_SERVER['REMOTE_PORT'],
             'networkTimezone' => '',
             'networkOffset' => '',
             'networkCurrency' => '',
