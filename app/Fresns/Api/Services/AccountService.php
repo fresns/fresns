@@ -90,6 +90,7 @@ class AccountService
         return $accountData;
     }
 
+    // register account
     public static function registerAccount(array $sessionLog, array $addAccountWordBody, array $addUserWordBody)
     {
         $response['account'] = null;
