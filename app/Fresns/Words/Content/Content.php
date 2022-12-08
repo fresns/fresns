@@ -506,8 +506,8 @@ class Content
                 $parentComment = PrimaryHelper::fresnsModelByFsid('comment', $dtoWordBody->commentCid);
 
                 $topParentId = 0;
-                if (! $parentComment) {
-                    $topParentId = $parentComment?->top_parent_id ?? 0;
+                if ($parentComment) {
+                    $topParentId = $parentComment->top_parent_id ?: $parentComment->id;
                 }
             break;
         }

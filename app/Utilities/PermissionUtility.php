@@ -459,13 +459,13 @@ class PermissionUtility
         }
 
         $rolePerm = PermissionUtility::getUserMainRolePerm($userId);
-        $interval = $rolePerm["{$type}_minute_interval"] ?? 0;
+        $interval = $rolePerm["{$type}_second_interval"] ?? 0;
 
         if ($interval == 0) {
             return true;
         }
 
-        if ($model->created_at->addMinutes($interval) < now()) {
+        if ($model->created_at->addSeconds($interval) < now()) {
             return true;
         }
 

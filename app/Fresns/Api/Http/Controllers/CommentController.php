@@ -296,7 +296,11 @@ class CommentController extends Controller
                 continue;
             }
 
-            $commentList[] = $service->commentData($fresnsCommentModel, 'list', $langTag, $timezone, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat, $outputSubComments);
+            if ($fresnsCommentModel->post->deleted_at) {
+                continue;
+            }
+
+            $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat, $outputSubComments);
         }
 
         return $this->fresnsPaginate($commentList, $comments->total(), $comments->perPage());
@@ -438,7 +442,10 @@ class CommentController extends Controller
             throw new ApiException(36401);
         }
 
+        InteractionUtility::publishStats('comment', $comment->id, 'decrement');
+
         CommentLog::where('comment_id', $comment->id)->delete();
+
         $comment->delete();
 
         return $this->success();

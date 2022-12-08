@@ -92,7 +92,7 @@ class ConversationController extends Controller
             }
 
             $latestMessage['id'] = $latestMessageModel?->id;
-            $latestMessage['type'] = $latestMessageModel?->type;
+            $latestMessage['type'] = $latestMessageModel?->message_type;
             $latestMessage['message'] = $message;
             $latestMessage['datetime'] = DateHelper::fresnsDateTimeByTimezone($latestMessageModel?->created_at, $timezone, $langTag);
             $latestMessage['datetimeFormat'] = DateHelper::fresnsFormatDateTime($latestMessageModel?->created_at, $timezone, $langTag);

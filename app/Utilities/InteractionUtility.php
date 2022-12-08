@@ -576,7 +576,7 @@ class InteractionUtility
                     $commentPost?->increment("comment_{$interactionType}_count");
 
                     // parent comment
-                    if (! empty($comment?->parent_id) && $comment?->parent_id != 0) {
+                    if ($comment?->parent_id) {
                         InteractionUtility::parentCommentStats($comment->parent_id, 'increment', "comment_{$interactionType}_count");
                     }
 
@@ -604,7 +604,7 @@ class InteractionUtility
                 }
 
                 // parent comment
-                if (! empty($comment?->parent_id) && $comment?->parent_id != 0) {
+                if ($comment?->parent_id) {
                     InteractionUtility::parentCommentStats($comment->parent_id, 'decrement', "comment_{$interactionType}_count");
                 }
             break;
@@ -700,7 +700,7 @@ class InteractionUtility
                     Hashtag::whereIn('id', $hashtagIds)->where('comment_count', '>', 0)->decrement('comment_count');
                 }
 
-                if (! empty($comment?->parent_id) && $comment?->parent_id != 0) {
+                if ($comment?->parent_id) {
                     InteractionUtility::parentCommentStats($comment->parent_id, $actionType, 'comment_count');
                 }
             break;
@@ -827,7 +827,7 @@ class InteractionUtility
                     Hashtag::whereIn('id', $hashtagIds)->where('comment_digest_count', '>', 0)->decrement('comment_digest_count');
                 }
 
-                if (! empty($comment?->parent_id) && $comment?->parent_id != 0) {
+                if ($comment?->parent_id) {
                     InteractionUtility::parentCommentStats($comment->parent_id, $actionType, 'comment_digest_count');
                 }
             break;
@@ -882,7 +882,7 @@ class InteractionUtility
         }
 
         // parent comment
-        if (! empty($comment?->parent_id) && $comment?->parent_id != 0) {
+        if ($comment?->parent_id) {
             InteractionUtility::parentCommentStats($comment->parent_id, $actionType, $tableColumn);
         }
     }
