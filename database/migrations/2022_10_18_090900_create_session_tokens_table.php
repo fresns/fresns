@@ -23,7 +23,7 @@ class CreateSessionTokensTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedTinyInteger('platform_id');
             $table->string('version', 16);
-            $table->char('app_id', 8);
+            $table->char('app_id', 8)->nullable();
             $table->unsignedBigInteger('account_id');
             $table->char('account_token', 32);
             $table->unsignedBigInteger('user_id')->nullable();
@@ -35,6 +35,7 @@ class CreateSessionTokensTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
+            $table->index(['account_id', 'account_token'], 'account_id_token');
             $table->unique(['user_id', 'user_token'], 'user_id_token');
         });
     }
