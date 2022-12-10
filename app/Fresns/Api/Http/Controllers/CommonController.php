@@ -237,8 +237,6 @@ class CommonController extends Controller
         }
 
         if ($dtoRequest->type == 'email') {
-            new AccountEmailDTO($request->all());
-
             $checkEmail = ValidationUtility::disposableEmail($dtoRequest->account);
             if (! $checkEmail) {
                 throw new ApiException(34110);
@@ -249,8 +247,6 @@ class CommonController extends Controller
 
             $checkSend = ValidationUtility::sendCode($dtoRequest->account);
         } else {
-            new AccountPhoneDTO($request->all());
-
             $phone = $dtoRequest->countryCode.$dtoRequest->account;
             $account = Account::where('phone', $phone)->first();
             $accountConfig = $account?->phone;
@@ -319,8 +315,10 @@ class CommonController extends Controller
         }
 
         if ($dtoRequest->type == 'email') {
+            new AccountEmailDTO($wordBody);
             $fresnsResp = \FresnsCmdWord::plugin($sendService['send_email_service'])->sendCode($wordBody);
         } else {
+            new AccountPhoneDTO($wordBody);
             $fresnsResp = \FresnsCmdWord::plugin($sendService['send_sms_service'])->sendCode($wordBody);
         }
 
