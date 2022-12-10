@@ -78,10 +78,10 @@ class FollowService
         }
 
         // content type filter
-        if ($contentType && $contentType != 'all') {
+        if ($contentType && $contentType != 'All') {
             $fileTypeNumber = FileHelper::fresnsFileTypeNumber($contentType);
 
-            if ($contentType == 'text') {
+            if ($contentType == 'Text') {
                 $userPostQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
                 $groupPostQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
                 $hashtagPostQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
@@ -159,10 +159,10 @@ class FollowService
         }
 
         // content type filter
-        if ($contentType && $contentType != 'all') {
+        if ($contentType && $contentType != 'All') {
             $fileTypeNumber = FileHelper::fresnsFileTypeNumber($contentType);
 
-            if ($contentType == 'text') {
+            if ($contentType == 'Text') {
                 $postQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
             } elseif ($fileTypeNumber) {
                 $postQuery->whereHas('fileUsages', function ($query) use ($fileTypeNumber) {
@@ -216,10 +216,10 @@ class FollowService
         }
 
         // content type filter
-        if ($contentType && $contentType != 'all') {
+        if ($contentType && $contentType != 'All') {
             $fileTypeNumber = FileHelper::fresnsFileTypeNumber($contentType);
 
-            if ($contentType == 'text') {
+            if ($contentType == 'Text') {
                 $postQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
             } elseif ($fileTypeNumber) {
                 $postQuery->whereHas('fileUsages', function ($query) use ($fileTypeNumber) {
@@ -274,10 +274,10 @@ class FollowService
         });
 
         // content type filter
-        if ($contentType && $contentType != 'all') {
+        if ($contentType && $contentType != 'All') {
             $fileTypeNumber = FileHelper::fresnsFileTypeNumber($contentType);
 
-            if ($contentType == 'text') {
+            if ($contentType == 'Text') {
                 $postQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
             } elseif ($fileTypeNumber) {
                 $postQuery->whereHas('fileUsages', function ($query) use ($fileTypeNumber) {
@@ -386,10 +386,10 @@ class FollowService
         }
 
         // content type filter
-        if ($contentType && $contentType != 'all') {
+        if ($contentType && $contentType != 'All') {
             $fileTypeNumber = FileHelper::fresnsFileTypeNumber($contentType);
 
-            if ($contentType == 'text') {
+            if ($contentType == 'Text') {
                 $userCommentQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
                 $groupCommentQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
                 $hashtagCommentQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
@@ -475,10 +475,10 @@ class FollowService
         }
 
         // content type filter
-        if ($contentType && $contentType != 'all') {
+        if ($contentType && $contentType != 'All') {
             $fileTypeNumber = FileHelper::fresnsFileTypeNumber($contentType);
 
-            if ($contentType == 'text') {
+            if ($contentType == 'Text') {
                 $commentQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
             } elseif ($fileTypeNumber) {
                 $commentQuery->whereHas('fileUsages', function ($query) use ($fileTypeNumber) {
@@ -544,10 +544,10 @@ class FollowService
         }
 
         // content type filter
-        if ($contentType && $contentType != 'all') {
+        if ($contentType && $contentType != 'All') {
             $fileTypeNumber = FileHelper::fresnsFileTypeNumber($contentType);
 
-            if ($contentType == 'text') {
+            if ($contentType == 'Text') {
                 $commentQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
             } elseif ($fileTypeNumber) {
                 $commentQuery->whereHas('fileUsages', function ($query) use ($fileTypeNumber) {
@@ -609,10 +609,10 @@ class FollowService
         });
 
         // content type filter
-        if ($contentType && $contentType != 'all') {
+        if ($contentType && $contentType != 'All') {
             $fileTypeNumber = FileHelper::fresnsFileTypeNumber($contentType);
 
-            if ($contentType == 'text') {
+            if ($contentType == 'Text') {
                 $commentQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
             } elseif ($fileTypeNumber) {
                 $commentQuery->whereHas('fileUsages', function ($query) use ($fileTypeNumber) {

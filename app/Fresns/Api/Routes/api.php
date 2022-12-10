@@ -36,7 +36,7 @@ Route::prefix('v2')->middleware([
         Route::get('upload-token', [GlobalController::class, 'uploadToken'])->name('upload.token');
         Route::get('roles', [GlobalController::class, 'roles'])->name('roles');
         Route::get('maps', [GlobalController::class, 'maps'])->name('maps');
-        Route::get('{type}/content-type', [GlobalController::class, 'contentType'])->name('content.type');
+        Route::get('{type}/content-types', [GlobalController::class, 'contentTypes'])->name('content.types');
         Route::get('stickers', [GlobalController::class, 'stickers'])->name('stickers');
         Route::get('block-words', [GlobalController::class, 'blockWords'])->name('block.words');
     });

@@ -279,8 +279,8 @@ class GlobalController extends Controller
         return $this->success($data);
     }
 
-    // contentType
-    public function contentType($type)
+    // contentTypes
+    public function contentTypes($type)
     {
         $scene = match ($type) {
             'post' => 1,
