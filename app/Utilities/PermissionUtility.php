@@ -184,7 +184,7 @@ class PermissionUtility
             return $info;
         }
 
-        $authUserRolePerm = PermissionUtility::getUserMainRolePerm($receiveUser->id);
+        $authUserRolePerm = PermissionUtility::getUserMainRolePerm($authUserId);
         $conversationConfig = $authUserRolePerm['conversation'] ?? false;
 
         if (! $conversationConfig) {
