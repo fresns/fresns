@@ -275,6 +275,8 @@ class FileHelper
     // get file type number
     public static function fresnsFileTypeNumber(?string $fileName = null)
     {
+        $fileName = Str::lower($fileName);
+
         $fileTypeNumber = match ($fileName) {
             'image' => 1,
             'video' => 2,
