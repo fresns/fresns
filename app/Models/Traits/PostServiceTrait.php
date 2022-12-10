@@ -61,6 +61,8 @@ trait PostServiceTrait
         $info['editTime'] = $postData->latest_edit_at;
         $info['editTimeFormat'] = $postData->latest_edit_at;
         $info['editCount'] = $appendData->edit_count;
+        $info['latestCommentTime'] = $postData->latest_comment_at;
+        $info['latestCommentTimeFormat'] = $postData->latest_comment_at;
         $info['rankState'] = $postData->rank_state;
         $info['status'] = (bool) $postData->is_enable;
 
