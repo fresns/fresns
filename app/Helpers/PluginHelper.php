@@ -103,7 +103,7 @@ class PluginHelper
             return null;
         }
 
-        $pluginRatingArr = $dataSources[$key]['pluginRating'];
+        $pluginRatingArr = $dataSources[$key]['pluginRating'] ?? [];
 
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
