@@ -188,12 +188,16 @@ class CommentController extends Controller
             });
         }
 
+        if ($dtoRequest->allDigest) {
+            $commentQuery->whereIn('digest_state', [2, 3]);
+        } else {
+            $commentQuery->when($dtoRequest->digestState, function ($query, $value) {
+                $query->where('digest_state', $value);
+            });
+        }
+
         $commentQuery->when($dtoRequest->sticky, function ($query, $value) {
             $query->where('is_sticky', $value);
-        });
-
-        $commentQuery->when($dtoRequest->digestState, function ($query, $value) {
-            $query->where('digest_state', $value);
         });
 
         $commentQuery->when($dtoRequest->createDateGt, function ($query, $value) {
@@ -244,12 +248,12 @@ class CommentController extends Controller
             $query->where('comment_count', '<=', $value);
         });
 
-        if ($dtoRequest->contentType && $dtoRequest->contentType != 'all') {
+        if ($dtoRequest->contentType && $dtoRequest->contentType != 'All') {
             $contentType = $dtoRequest->contentType;
 
             $fileTypeNumber = FileHelper::fresnsFileTypeNumber($contentType);
 
-            if ($contentType == 'text') {
+            if ($contentType == 'Text') {
                 $commentQuery->doesntHave('fileUsages')->doesntHave('extendUsages');
             } elseif ($fileTypeNumber) {
                 $commentQuery->whereHas('fileUsages', function ($query) use ($fileTypeNumber) {

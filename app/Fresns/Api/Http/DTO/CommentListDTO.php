@@ -28,6 +28,7 @@ class CommentListDTO extends DTO
             'hid' => ['string', 'nullable'],
             'sticky' => ['boolean', 'nullable'], // comments->is_sticky
             'digestState' => ['integer', 'nullable', 'in:1,2,3'], // comments->digest_state
+            'allDigest' => ['boolean', 'nullable'],
             'contentType' => ['string', 'nullable'],
             'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // comments->created_at
             'createDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createDateGt'],
