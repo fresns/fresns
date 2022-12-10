@@ -981,6 +981,11 @@ class ContentUtility
             'last_comment_at' => now(),
         ]);
 
+        $post = PrimaryHelper::fresnsModelById('post', $comment->post_id);
+        $post->update([
+            'last_comment_at' => now(),
+        ]);
+
         // send notification
         InteractionUtility::sendPublishNotification('comment', $comment->id);
 

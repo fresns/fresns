@@ -651,6 +651,10 @@ class Content
                 $creator->update([
                     'last_comment_at' => now(),
                 ]);
+
+                $post->update([
+                    'last_comment_at' => now(),
+                ]);
             break;
         }
 
