@@ -248,7 +248,7 @@ class Basic
             ->where('type', $dtoWordBody->type)
             ->where('account', $account)
             ->where('code', $dtoWordBody->verifyCode)
-            ->where('expired_at', '>', date('Y-m-d H:i:s'))
+            ->where('expired_at', '>', now())
             ->where('is_enable', 1)
             ->first();
 
