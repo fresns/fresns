@@ -171,6 +171,10 @@ class Crontab
             ];
         }
 
+        if (empty($response->json('data') ?? null)) {
+            return $this->success();
+        }
+
         foreach ($response->json('data') as $unikey => $version) {
             if (is_null($version)) {
                 continue;
