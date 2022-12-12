@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.0.0-beta.6 (2022-12-12)
+
+### Added
+- API: Update the last comment time of a post after posting a comment
+- API: Post and comment list interface, add `allDigest` and `following` parameters
+- Helper: Get the file type number according to the file name, not case-sensitive
+
+### Fixes
+- API: Logout login error
+- API: Captcha template ID mismatch issue
+- API: Content type filtering case match
+- Panel: Error when detecting version is empty
+
+### Changed
+- API: Content types are named in plural `/api/v2/global/{type}/content-types`
+
+
 ## 2.0.0-beta.5 (2022-12-08)
 
 ### Added
