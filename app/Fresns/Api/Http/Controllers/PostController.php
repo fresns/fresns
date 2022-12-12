@@ -169,6 +169,12 @@ class PostController extends Controller
             $query->where('sticky_state', $value);
         });
 
+        $postQuery->when($dtoRequest->following, function ($query) use ($authUserId) {
+            $followUserIds = InteractionUtility::getFollowIdArr(InteractionUtility::TYPE_USER, $authUserId);
+
+            $query->whereIn('user_id', $followUserIds)->where('is_anonymous', 0);
+        });
+
         $postQuery->when($dtoRequest->createDateGt, function ($query, $value) {
             $query->whereDate('created_at', '>=', $value);
         });

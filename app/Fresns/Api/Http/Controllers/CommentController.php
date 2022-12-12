@@ -200,6 +200,12 @@ class CommentController extends Controller
             $query->where('is_sticky', $value);
         });
 
+        $commentQuery->when($dtoRequest->following, function ($query) use ($authUserId) {
+            $followUserIds = InteractionUtility::getFollowIdArr(InteractionUtility::TYPE_USER, $authUserId);
+
+            $query->whereIn('user_id', $followUserIds)->where('is_anonymous', 0);
+        });
+
         $commentQuery->when($dtoRequest->createDateGt, function ($query, $value) {
             $query->whereDate('created_at', '>=', $value);
         });
