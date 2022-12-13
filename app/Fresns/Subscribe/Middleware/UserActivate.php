@@ -31,8 +31,6 @@ class UserActivate
         /** @var \Fresns\CmdWordManager\CmdWordResponse $fresnsResponse */
         $fresnsResponse = \FresnsCmdWord::plugin('Fresns')->verifyUserToken([
             'platformId' => $request->header('platformId'),
-            'version' => $request->header('version'),
-            'appId' => $request->header('appId'),
             'aid' => $request->header('aid'),
             'aidToken' => $request->header('aidToken'),
             'uid' => $request->header('uid'),

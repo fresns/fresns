@@ -22,8 +22,6 @@ class VerifyAccountTokenDTO extends DTO
     {
         return [
             'platformId' => ['integer', 'required', 'between:1,13'],
-            'version' => ['string', 'required'],
-            'appId' => ['string', 'required'],
             'aid' => ['string', 'required'],
             'aidToken' => ['string', 'required'],
         ];

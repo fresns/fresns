@@ -268,15 +268,13 @@ class Account
         }
 
         $aidToken = $dtoWordBody->aidToken;
-        $appId = $dtoWordBody->appId;
 
         $cacheKey = "fresns_token_account_{$accountId}_{$aidToken}";
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
         // Cache::tags(['fresnsSystems'])
-        $accountToken = Cache::remember($cacheKey, $cacheTime, function () use ($appId, $accountId, $aidToken) {
-            return SessionToken::where('app_id', $appId)
-                ->where('account_id', $accountId)
+        $accountToken = Cache::remember($cacheKey, $cacheTime, function () use ($accountId, $aidToken) {
+            return SessionToken::where('account_id', $accountId)
                 ->where('account_token', $aidToken)
                 ->whereNull('user_id')
                 ->first();
