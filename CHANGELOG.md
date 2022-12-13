@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.0.0-beta.7 (2022-12-13)
+
+### Added
+- API: Add `latestCommentTime` sub-level comment time parameter to comment messages
+
+### Fixes
+- API: Post `latest_comment_at` time field error after successful comment posting
+- Data: Cookies language tag not changed successfully
+- Panel: Site URL failed to be saved
+
+### Changed
+- API: App ID ignored during account and user credentials verification
+- Data: Reset initial language pack
+
+
 ## 2.0.0-beta.6 (2022-12-12)
 
 ### Added
