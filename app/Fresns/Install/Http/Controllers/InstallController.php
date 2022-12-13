@@ -426,6 +426,13 @@ class InstallController extends Controller
             'type' => 1,
         ]);
 
+        \Artisan::call('plugin:install', [
+            'path' => realpath(base_path('extensions/plugins/FresnsEngine')),
+        ]);
+        \Artisan::call('theme:install', [
+            'path' => realpath(base_path('extensions/themes/ThemeFrame')),
+        ]);
+
         AppHelper::setInitialConfiguration();
 
         info('update type', [$result, $aid]);
