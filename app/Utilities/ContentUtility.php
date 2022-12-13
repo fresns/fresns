@@ -983,13 +983,32 @@ class ContentUtility
 
         $post = PrimaryHelper::fresnsModelById('post', $comment->post_id);
         $post->update([
-            'last_comment_at' => now(),
+            'latest_comment_at' => now(),
         ]);
+
+        if ($comment->parent_id) {
+            ContentUtility::parentCommentLatestCommentTime($comment->parent_id);
+        }
 
         // send notification
         InteractionUtility::sendPublishNotification('comment', $comment->id);
 
         return $comment;
+    }
+
+    // parent comment latest release time
+    public static function parentCommentLatestCommentTime(int $parentId)
+    {
+        $comment = PrimaryHelper::fresnsModelById('comment' ,$parentId);
+
+        $comment->update([
+            'latest_comment_at' => now(),
+        ]);
+
+        // parent comment
+        if ($comment?->parent_id) {
+            ContentUtility::parentCommentLatestCommentTime($comment->parent_id);
+        }
     }
 
     // batch copy content extends

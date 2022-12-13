@@ -14,6 +14,11 @@ class Comment extends Model
     use Traits\IsEnableTrait;
     use Traits\FsidTrait;
 
+    protected $dates = [
+        'latest_edit_at',
+        'latest_comment_at',
+    ];
+
     public function getFsidKey()
     {
         return 'cid';

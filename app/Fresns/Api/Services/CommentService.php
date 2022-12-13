@@ -273,6 +273,8 @@ class CommentService
         $commentData['createTimeFormat'] = DateHelper::fresnsFormatTime($commentData['createTimeFormat'], $langTag);
         $commentData['editTime'] = DateHelper::fresnsFormatDateTime($commentData['editTime'], $timezone, $langTag);
         $commentData['editTimeFormat'] = DateHelper::fresnsFormatTime($commentData['editTimeFormat'], $langTag);
+        $commentData['latestCommentTime'] = DateHelper::fresnsFormatDateTime($commentData['latestCommentTime'], $timezone, $langTag);
+        $commentData['latestCommentTimeFormat'] = DateHelper::fresnsFormatTime($commentData['latestCommentTimeFormat'], $langTag);
 
         $commentData['interaction']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($commentData['interaction']['followExpiryDateTime'], $timezone, $langTag);
 

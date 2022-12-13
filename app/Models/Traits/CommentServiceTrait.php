@@ -53,6 +53,8 @@ trait CommentServiceTrait
         $info['editTime'] = $commentData->latest_edit_at;
         $info['editTimeFormat'] = $commentData->latest_edit_at;
         $info['editCount'] = $appendData->edit_count;
+        $info['latestCommentTime'] = $commentData->latest_comment_at;
+        $info['latestCommentTimeFormat'] = $commentData->latest_comment_at;
         $info['rankState'] = $commentData->rank_state;
         $info['status'] = (bool) $commentData->is_enable;
 

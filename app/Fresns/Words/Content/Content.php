@@ -653,8 +653,12 @@ class Content
                 ]);
 
                 $post->update([
-                    'last_comment_at' => now(),
+                    'latest_comment_at' => now(),
                 ]);
+
+                if ($comment->parent_id) {
+                    ContentUtility::parentCommentLatestCommentTime($comment->parent_id);
+                }
             break;
         }
 
