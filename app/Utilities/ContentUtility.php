@@ -999,7 +999,7 @@ class ContentUtility
     // parent comment latest release time
     public static function parentCommentLatestCommentTime(int $parentId)
     {
-        $comment = PrimaryHelper::fresnsModelById('comment' ,$parentId);
+        $comment = PrimaryHelper::fresnsModelById('comment', $parentId);
 
         $comment->update([
             'latest_comment_at' => now(),
