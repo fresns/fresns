@@ -25,7 +25,7 @@ class CreatePostAppendsTable extends Migration
             $table->unsignedTinyInteger('is_plugin_editor')->default(0);
             $table->string('editor_unikey', 64)->nullable();
             $table->unsignedTinyInteger('can_delete')->default(1);
-            $table->unsignedTinyInteger('is_allow')->default(0);
+            $table->unsignedTinyInteger('is_allow')->default(1);
             $table->unsignedTinyInteger('allow_proportion')->nullable();
             $table->string('allow_btn_name', 64)->nullable();
             $table->string('allow_plugin_unikey', 64)->nullable();
