@@ -11,6 +11,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Models\Config;
 use App\Models\SessionKey;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class WebsiteController extends Controller
 {
@@ -109,6 +110,13 @@ class WebsiteController extends Controller
                 $config->setDefaultValue();
                 $config->save();
                 continue;
+            }
+
+            if ($configKey == 'engine_api_host' && $request->get('engine_api_host')) {
+                $url = Str::of($request->get('engine_api_host'))->trim();
+                $url = Str::of($url)->rtrim('/');
+
+                $request->$configKey = $url;
             }
 
             $config->item_value = $request->$configKey;
