@@ -98,7 +98,7 @@ class PostService
             return array_merge($postInfo, $item);
         });
 
-        $contentHandle = self::handlePostContent($post, $type, $authUserId);
+        $contentHandle = self::handlePostContent($post, $postData, $type, $authUserId);
 
         // location
         if ($post->map_id && $authUserLng && $authUserLat) {
@@ -176,49 +176,46 @@ class PostService
     }
 
     // handle post content
-    public static function handlePostContent(Post $post, string $type, ?int $authUserId = null)
+    public static function handlePostContent(Post $post, array $postData, string $type, ?int $authUserId = null)
     {
-        $cacheKey = "fresns_api_post_{$post->pid}_{$type}_content_{$authUserId}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
+        $cacheKey = "fresns_api_post_{$postData['pid']}_{$type}_content";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
         // Cache::tags(['fresnsApiData'])
-        $postInfo = Cache::remember($cacheKey, $cacheTime, function () use ($post, $type, $authUserId) {
-            $appendData = $post->postAppend;
-            $contentLength = Str::length($post->content);
-
-            $info['isAllow'] = (bool) $appendData->is_allow;
-
-            $content = $post->content;
-            if ($appendData->is_allow) {
-                $allowProportion = intval($appendData->allow_proportion) / 100;
-                $allowLength = intval($contentLength * $allowProportion);
-
-                $checkPostAllow = PermissionUtility::checkPostAllow($post->id, $authUserId);
-
-                if ($checkPostAllow) {
-                    $content = $post->content;
-                    $info['isAllow'] = false;
-                } else {
-                    $content = Str::limit($post->content, $allowLength);
-                }
-            }
+        $postData = Cache::remember($cacheKey, $cacheTime, function () use ($post, $postData, $type) {
+            $postContent = ContentUtility::replaceBlockWords('content', $postData['content']);
 
             $briefLength = ConfigHelper::fresnsConfigByItemKey('post_editor_brief_length');
 
-            $info['content'] = $content;
-
-            if ($type == 'list' && $contentLength > $briefLength) {
-                $info['content'] = Str::limit($content, $briefLength);
-                $info['isBrief'] = true;
+            if ($type == 'list' && $postData['contentLength'] > $briefLength) {
+                $postContent = Str::limit($postContent, $briefLength);
+                $postData['isBrief'] = true;
             }
 
-            $info['content'] = ContentUtility::replaceBlockWords('content', $info['content']);
-            $info['content'] = ContentUtility::handleAndReplaceAll($info['content'], $post->is_markdown, $post->user_id, Mention::TYPE_POST, $post->id);
+            $postContent = ContentUtility::handleAndReplaceAll($postContent, $post->is_markdown, $post->user_id, Mention::TYPE_POST, $post->id);
 
-            return $info;
+            $postData['content'] = $postContent;
+
+            return $postData;
         });
 
-        return $postInfo;
+        if ($postData['isAllow']) {
+            return $postData;
+        }
+
+        $checkPostAllow = PermissionUtility::checkPostAllow($post->id, $authUserId);
+
+        if (empty($authUserId) || ! $checkPostAllow) {
+            $allowProportion = intval($postData['allowProportion'] / 100);
+            $allowLength = intval($postData['contentLength'] * $allowProportion);
+
+            $postData['isAllow'] = false;
+            $postData['content'] = Str::limit($postData['content'], $allowLength);
+        }
+
+        $postData['isAllow'] = true;
+
+        return $postData;
     }
 
     // handle post data count

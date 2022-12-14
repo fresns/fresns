@@ -308,16 +308,31 @@ class PermissionUtility
             return false;
         }
 
-        $allowUsers = PostAllow::where('post_id', $postId)->where('type', 1)->pluck('object_id')->toArray();
-        $checkUser = PermissionUtility::checkUserPerm($userId, $allowUsers);
+        $uid = PrimaryHelper::fresnsModelById('user', $userId)?->uid;
+        $pid = PrimaryHelper::fresnsModelById('post', $postId)?->pid;
 
-        if ($checkUser) {
-            return true;
-        } else {
+        if (empty($uid) || empty($pid)) {
+            return false;
+        }
+
+        $cacheKey = "fresns_api_post_{$pid}_allow_{$uid}";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+
+        // Cache::tags(['fresnsUserInteraction'])
+        $checkPostAllow = Cache::remember($cacheKey, $cacheTime, function () use ($postId, $userId) {
+            $allowUsers = PostAllow::where('post_id', $postId)->where('type', 1)->pluck('object_id')->toArray();
+            $checkUser = PermissionUtility::checkUserPerm($userId, $allowUsers);
+
+            if ($checkUser) {
+                return true;
+            }
+
             $allowRoles = PostAllow::where('post_id', $postId)->where('type', 2)->pluck('object_id')->toArray();
 
             return PermissionUtility::checkUserRolePerm($userId, $allowRoles);
-        }
+        });
+
+        return $checkPostAllow;
     }
 
     // Check post comment perm

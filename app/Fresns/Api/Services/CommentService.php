@@ -133,7 +133,7 @@ class CommentService
             return array_merge($commentInfo, $item);
         });
 
-        $contentHandle = self::handleCommentContent($comment, $type, $commentData['isCommentPublic'], $authUserId);
+        $contentHandle = self::handleCommentContent($comment, $commentData, $type, $authUserId);
 
         // location
         if ($comment->map_id && $authUserLng && $authUserLat) {
@@ -200,38 +200,36 @@ class CommentService
     }
 
     // handle comment content
-    public static function handleCommentContent(Comment $comment, string $type, bool $isCommentPublic, ?int $authUserId = null)
+    public static function handleCommentContent(Comment $comment, array $commentData, string $type, ?int $authUserId = null)
     {
-        $cacheKey = $isCommentPublic ? "fresns_api_comment_{$comment->cid}_{$type}_content" : "fresns_api_comment_{$comment->cid}_{$type}_content_{$authUserId}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
+        $cacheKey = "fresns_api_comment_{$commentData['cid']}_{$type}_content";
+        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
         // Cache::tags(['fresnsApiData'])
-        $commentInfo = Cache::remember($cacheKey, $cacheTime, function () use ($comment, $type, $authUserId) {
-            $post = $comment->post;
-            $postAppend = $comment->postAppend;
-
-            if (! $postAppend->is_comment_public && $post->user_id != $authUserId) {
-                return $commentInfo['content'] = null;
-            }
-
-            $contentLength = Str::length($comment->content);
+        $commentData = Cache::remember($cacheKey, $cacheTime, function () use ($comment, $commentData, $type) {
+            $commentContent = ContentUtility::replaceBlockWords('content', $commentData['content']);
 
             $briefLength = ConfigHelper::fresnsConfigByItemKey('comment_editor_brief_length');
 
-            if ($type == 'list' && $contentLength > $briefLength) {
-                $commentInfo['content'] = Str::limit($comment->content, $briefLength);
-                $commentInfo['isBrief'] = true;
-            } else {
-                $commentInfo['content'] = $comment->content;
+            if ($type == 'list' && $commentData['contentLength'] > $briefLength) {
+                $commentContent = Str::limit($commentContent, $briefLength);
+                $commentData['isBrief'] = true;
             }
 
-            $commentInfo['content'] = ContentUtility::replaceBlockWords('content', $commentInfo['content']);
-            $commentInfo['content'] = ContentUtility::handleAndReplaceAll($commentInfo['content'], $comment->is_markdown, $comment->user_id, Mention::TYPE_COMMENT, $comment->id);
+            $commentContent = ContentUtility::handleAndReplaceAll($commentContent, $comment->is_markdown, $comment->user_id, Mention::TYPE_COMMENT, $comment->id);
 
-            return $commentInfo;
+            $commentData['content'] = $commentContent;
+
+            return $commentData;
         });
 
-        return $commentInfo;
+        $authUid = PrimaryHelper::fresnsModelById('user', $authUserId)->uid;
+
+        if (! $commentData['isCommentPublic'] && $commentData['post']['creator']['uid'] != $authUid) {
+            return $commentData['content'] = null;
+        }
+
+        return $commentData;
     }
 
     // handle comment data count
