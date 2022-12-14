@@ -11,15 +11,15 @@ namespace App\Utilities;
 class ArrUtility
 {
     // get key value
-    public static function get(?array $arrays, string $key, string|array $values)
+    public static function get(?array $array, string $key, string|array $values)
     {
-        if (empty($arrays)) {
+        if (empty($array)) {
             return [];
         }
 
         $values = (array) $values;
 
-        [$findData, $otherData] = collect($arrays)->partition(function ($item) use ($key, $values) {
+        [$findData, $otherData] = collect($array)->partition(function ($item) use ($key, $values) {
             return in_array($item[$key], $values);
         });
 
@@ -33,15 +33,15 @@ class ArrUtility
     }
 
     // forget key value
-    public static function forget(?array $arrays, string $key, string|array $values)
+    public static function forget(?array $array, string $key, string|array $values)
     {
-        if (empty($arrays)) {
+        if (empty($array)) {
             return [];
         }
 
         $values = (array) $values;
 
-        [$findData, $otherData] = collect($arrays)->partition(function ($item) use ($key, $values) {
+        [$findData, $otherData] = collect($array)->partition(function ($item) use ($key, $values) {
             return in_array($item[$key], $values);
         });
 
@@ -55,19 +55,19 @@ class ArrUtility
     }
 
     // pull key value
-    public static function pull(?array &$arrays, string $key, string|array $values)
+    public static function pull(?array &$array, string $key, string|array $values)
     {
-        if (empty($arrays)) {
+        if (empty($array)) {
             return [];
         }
 
         $values = (array) $values;
 
-        [$findData, $otherData] = collect($arrays)->partition(function ($item) use ($key, $values) {
+        [$findData, $otherData] = collect($array)->partition(function ($item) use ($key, $values) {
             return in_array($item[$key], $values);
         });
 
-        $arrays = $otherData->values()->toArray();
+        $array = $otherData->values()->toArray();
 
         $data = $findData->values()->toArray();
 
