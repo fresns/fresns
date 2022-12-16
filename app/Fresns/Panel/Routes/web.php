@@ -49,26 +49,28 @@ use App\Fresns\Panel\Http\Controllers\UserSearchController;
 use App\Fresns\Panel\Http\Controllers\VerifyCodeController;
 use App\Fresns\Panel\Http\Controllers\WalletController;
 use App\Fresns\Panel\Http\Controllers\WebsiteController;
+use App\Helpers\CacheHelper;
 use App\Models\Config;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 try {
-    // Cache::tags(['fresnsSystems'])
-    $panelPath = Cache::remember('fresns_panel_path', now()->addMinutes(10), function () {
+    $loginPath = Cache::get('fresns_panel_login_path');
+
+    if (empty($loginPath)) {
         $loginConfig = Config::where('item_key', 'panel_path')->first();
 
-        return $loginConfig->item_value;
-    });
+        $loginPath = $loginConfig->item_value ?? 'admin';
 
-    $loginUrl = $panelPath ?? 'admin';
+        CacheHelper::put($loginPath, 'fresns_panel_login_path', 'fresnsSystems', 10, now()->addMinutes(10));
+    }
 } catch (\Exception $e) {
-    $loginUrl = 'admin';
+    $loginPath = 'admin';
 }
 
-Route::get($loginUrl, [LoginController::class, 'showLoginForm'])->name('login.form');
-Route::post($loginUrl, [LoginController::class, 'login'])->name('login');
+Route::get($loginPath, [LoginController::class, 'showLoginForm'])->name('login.form');
+Route::post($loginPath, [LoginController::class, 'login'])->name('login');
 Route::delete('clear-web-cookie', [LoginController::class, 'clearWebCookie'])->name('clear.web.cookie');
 
 Route::middleware(['panelAuth'])->group(function () {
@@ -95,9 +97,12 @@ Route::middleware(['panelAuth'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'show'])->name('dashboard');
     Route::get('composer/diagnose', [DashboardController::class, 'composerDiagnose'])->name('composer.diagnose');
     Route::get('composer/config', [DashboardController::class, 'composerConfigInfo'])->name('composer.config');
-    Route::any('cache/clear', [DashboardController::class, 'cacheClear'])->name('cache.clear');
     // dashboard-events
     Route::get('events', [DashboardController::class, 'eventList'])->name('events.index');
+    // dashboard-caches
+    Route::get('caches', [SettingController::class, 'caches'])->name('caches.index');
+    Route::any('cache/all/clear', [SettingController::class, 'cacheAllClear'])->name('cache.all.clear');
+    Route::post('cache/select/clear', [SettingController::class, 'cacheSelectClear'])->name('cache.select.clear');
     // dashboard-upgrades
     Route::get('upgrades', [UpgradeController::class, 'show'])->name('upgrades');
     Route::patch('upgrade/check', [UpgradeController::class, 'checkFresnsVersion'])->name('upgrade.check');
@@ -331,25 +336,28 @@ Route::middleware(['panelAuth'])->group(function () {
 
 // FsLang
 Route::get('js/{locale?}/translations', function ($locale) {
-    $langPath = app_path('Fresns/Panel/Resources/lang/'.$locale);
+    $langStrings = Cache::get("fresns_panel_translation_{$locale}");
 
-    if (! is_dir($langPath)) {
-        $langPath = app_path('Fresns/Panel/Resources/lang/'.config('app.locale'));
-    }
+    if (empty($langStrings)) {
+        $langPath = app_path('Fresns/Panel/Resources/lang/'.$locale);
 
-    // Cache::tags(['fresnsSystems'])
-    $strings = Cache::rememberForever('fresns_panel_translations_'.$locale, function () use ($langPath) {
-        return collect(File::allFiles($langPath))->flatMap(function ($file) {
+        if (! is_dir($langPath)) {
+            $langPath = app_path('Fresns/Panel/Resources/lang/'.config('app.locale'));
+        }
+
+        $langStrings = collect(File::allFiles($langPath))->flatMap(function ($file) {
             $name = basename($file, '.php');
             $strings[$name] = require $file;
 
             return $strings;
         })->toJson();
-    });
+
+        CacheHelper::put($langStrings, "fresns_panel_translation_{$locale}", 'fresnsSystems');
+    }
 
     // get request, return translation content
     return \response()->json([
-        'data' => json_decode($strings, true),
+        'data' => json_decode($langStrings, true),
     ]);
 })->name('translations');
 

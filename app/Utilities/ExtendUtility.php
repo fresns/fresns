@@ -8,6 +8,7 @@
 
 namespace App\Utilities;
 
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
@@ -16,10 +17,12 @@ use App\Helpers\StrHelper;
 use App\Models\ArchiveUsage;
 use App\Models\Extend;
 use App\Models\ExtendUsage;
+use App\Models\File;
 use App\Models\Operation;
 use App\Models\OperationUsage;
 use App\Models\Plugin;
 use App\Models\PluginUsage;
+use Illuminate\Support\Facades\Cache;
 
 class ExtendUtility
 {
@@ -39,7 +42,7 @@ class ExtendUtility
         $extendList = [];
         foreach ($extendArr as $extend) {
             if ($extend->is_group_admin == 1) {
-                if (! empty($userId) && ! empty($groupId)) {
+                if ($userId && $groupId) {
                     $adminCheck = PermissionUtility::checkUserGroupAdmin($groupId, $userId);
                 } else {
                     $adminCheck = false;
@@ -49,7 +52,7 @@ class ExtendUtility
                     $extendList[] = $extend->getUsageInfo($langTag, $userId);
                 }
             } else {
-                if (! empty($userId) && ! empty($extend->roles)) {
+                if ($userId && $extend->roles) {
                     $roleArr = explode(',', $extend->roles);
                     $permCheck = PermissionUtility::checkUserRolePerm($userId, $roleArr);
                 } else {
@@ -157,8 +160,51 @@ class ExtendUtility
         return $archiveList;
     }
 
+    // get content types
+    public static function getContentTypes(string $type, ?string $langTag = null)
+    {
+        $scene = match ($type) {
+            'post' => 1,
+            'comment' => 2,
+            'posts' => 1,
+            'comments' => 2,
+            default => null,
+        };
+
+        if (empty($scene)) {
+            return [];
+        }
+
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
+        $cacheKey = "fresns_{$type}_content_types_{$langTag}";
+
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return [];
+        }
+
+        $typeList = Cache::get($cacheKey);
+
+        if (empty($typeList)) {
+            $extendArr = PluginUsage::where('usage_type', PluginUsage::TYPE_CONTENT)->when($scene, function ($query, $scene) {
+                $query->where('scene', 'like', "%$scene%");
+            })->orderBy('rating')->get();
+
+            $typeList = [];
+            foreach ($extendArr as $extend) {
+                $typeList[] = $extend->getUsageInfo($langTag);
+            };
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+            CacheHelper::put($$typeList, $cacheKey, ['fresnsExtensions', 'fresnsConfigs'], null, $cacheTime);
+        }
+
+        return $typeList;
+    }
+
     // get content extends
-    public static function getExtends(int $type, int $id, ?string $langTag = null)
+    public static function getContentExtends(int $type, int $id, ?string $langTag = null)
     {
         $extendQuery = ExtendUsage::with('extend')->type($type)->where('usage_id', $id)->orderBy('rating');
 
@@ -194,5 +240,208 @@ class ExtendUtility
         $operationList['interactionBox'] = $extends->get(Extend::TYPE_INTERACTIVE_BOX)?->all() ?? [];
 
         return $operationList;
+    }
+
+    // get user extends
+    public static function getUserExtends(int $type, int $userId, ?string $langTag = null)
+    {
+        $usageType = match ($type) {
+            'feature' => PluginUsage::TYPE_FEATURE,
+            'profile' => PluginUsage::TYPE_PROFILE,
+            'features' => PluginUsage::TYPE_FEATURE,
+            'profiles' => PluginUsage::TYPE_PROFILE,
+            default => null,
+        };
+
+        if (empty($usageType)) {
+            return [];
+        }
+
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
+
+        $cacheKey = "fresns_{$type}_{$userId}_{$langTag}";
+
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return [];
+        }
+
+        $extendList = Cache::get($cacheKey);
+
+        if (empty($extendList)) {
+            $extendArr = PluginUsage::where('usage_type', $type)->orderBy('rating')->get();
+
+            $extendList = [];
+            foreach ($extendArr as $extend) {
+                $permCheck = true;
+
+                if ($extend->roles) {
+                    $roleArr = explode(',', $extend->roles);
+                    $permCheck = PermissionUtility::checkUserRolePerm($userId, $roleArr);
+                }
+
+                if (! $permCheck) {
+                    continue;
+                }
+
+                $extendList[] = $extend->getUsageInfo($langTag, $userId);
+            }
+
+            $cacheTag = match ($type) {
+                'feature' => ['fresnsExtensions', 'fresnsUserData', 'fresnsUserFeatures'],
+                'profile' => ['fresnsExtensions', 'fresnsUserData', 'fresnsUserProfiles'],
+                'features' => ['fresnsExtensions', 'fresnsUserData', 'fresnsUserFeatures'],
+                'profiles' => ['fresnsExtensions', 'fresnsUserData', 'fresnsUserProfiles'],
+            };
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+            CacheHelper::put($$extendList, $cacheKey, $cacheTag, null, $cacheTime);
+        }
+
+        return $extendList;
+    }
+
+    // get manage extends by everyone
+    public static function getManageExtendsByEveryone(string $type, string $langTag)
+    {
+        $scene = match ($type) {
+            'post' => PluginUsage::SCENE_POST,
+            'comment' => PluginUsage::SCENE_COMMENT,
+            'user' => PluginUsage::SCENE_USER,
+            default => null,
+        };
+
+        if (empty($scene)) {
+            return [];
+        }
+
+        $cacheKey = "fresns_{$type}_manages_by_everyone_{$langTag}";
+
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return [];
+        }
+
+        $extendList = Cache::get($cacheKey);
+
+        if (empty($extendList)) {
+            $extendArr = PluginUsage::where('usage_type', PluginUsage::TYPE_MANAGE)
+                ->where('is_group_admin', 0)
+                ->whereNull('roles')
+                ->when($scene, function ($query, $scene) {
+                    $query->where('scene', 'like', "%$scene%");
+                })
+                ->orderBy('rating')
+                ->get();
+
+            $extendList = [];
+            foreach ($extendArr as $extend) {
+                $extendList[] = $extend->getUsageInfo($langTag);
+            }
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+            CacheHelper::put($$extendList, $cacheKey, ['fresnsExtensions', 'fresnsManages'], null, $cacheTime);
+        }
+
+        return $extendList;
+    }
+
+    // get manage extends by role
+    public static function getManageExtendsByRole(string $type, string $langTag, ?int $roleId = null)
+    {
+        $scene = match ($type) {
+            'post' => PluginUsage::SCENE_POST,
+            'comment' => PluginUsage::SCENE_COMMENT,
+            'user' => PluginUsage::SCENE_USER,
+            default => null,
+        };
+
+        if (empty($scene) || empty($roleId)) {
+            return [];
+        }
+
+        $cacheKey = "fresns_{$type}_manages_by_role_{$roleId}_{$langTag}";
+
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return [];
+        }
+
+        $extendList = Cache::get($cacheKey);
+
+        if (empty($extendList)) {
+            $extendArr = PluginUsage::where('usage_type', PluginUsage::TYPE_MANAGE)
+                ->where('is_group_admin', 0)
+                ->whereNotNull('roles')
+                ->when($scene, function ($query, $scene) {
+                    $query->where('scene', 'like', "%$scene%");
+                })
+                ->orderBy('rating')
+                ->get();
+
+            $extendList = [];
+            foreach ($extendArr as $extend) {
+                $roleArr = explode(',', $extend->roles);
+
+                if (! in_array($roleId, $roleArr)) {
+                    continue;
+                }
+
+                $extendList[] = $extend->getUsageInfo($langTag);
+            }
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+            CacheHelper::put($$extendList, $cacheKey, ['fresnsExtensions', 'fresnsManages'], null, $cacheTime);
+        }
+
+        return $extendList;
+    }
+
+    // get manage extends by group admin
+    public static function getManageExtendsByGroupAdmin(string $type, string $langTag)
+    {
+        $scene = match ($type) {
+            'post' => PluginUsage::SCENE_POST,
+            'comment' => PluginUsage::SCENE_COMMENT,
+            'user' => PluginUsage::SCENE_USER,
+            default => null,
+        };
+
+        if (empty($scene) || empty($groupId)) {
+            return [];
+        }
+
+        $cacheKey = "fresns_{$type}_manages_by_group_{$langTag}";
+
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return [];
+        }
+
+        $extendList = Cache::get($cacheKey);
+
+        if (empty($extendList)) {
+            $extendArr = PluginUsage::where('usage_type', PluginUsage::TYPE_MANAGE)
+                ->where('is_group_admin', 1)
+                ->when($scene, function ($query, $scene) {
+                    $query->where('scene', 'like', "%$scene%");
+                })
+                ->orderBy('rating')
+                ->get();
+
+            $extendList = [];
+            foreach ($extendArr as $extend) {
+                $extendList[] = $extend->getUsageInfo($langTag);
+            }
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+            CacheHelper::put($$extendList, $cacheKey, ['fresnsExtensions', 'fresnsManages', 'fresnsGroupConfigs'], null, $cacheTime);
+        }
+
+        return $extendList;
     }
 }

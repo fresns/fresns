@@ -78,7 +78,7 @@ class NotificationController extends Controller
                     Notification::ACTION_OBJECT_GROUP => $groupService->groupData($notification?->group, $langTag, $timezone, $authUserId),
                     Notification::ACTION_OBJECT_HASHTAG => $hashtagService->hashtagData($notification?->hashtag, $langTag, $timezone, $authUserId),
                     Notification::ACTION_OBJECT_POST => $postService->postData($notification?->post, 'list', $langTag, $timezone, $authUserId),
-                    Notification::ACTION_OBJECT_COMMENT => $commentService->commentData($notification?->comment, 'list', $langTag, $timezone, $authUserId),
+                    Notification::ACTION_OBJECT_COMMENT => $commentService->commentData($notification?->comment, 'list', $langTag, $timezone, false, $authUserId),
                     Notification::ACTION_OBJECT_POST_LOG => $postService->postLogData($notification?->postLog, 'list', $langTag, $timezone),
                     Notification::ACTION_OBJECT_COMMENT_LOG => $commentService->commentLogData($notification?->commentLog, 'list', $langTag, $timezone),
                     Notification::ACTION_OBJECT_EXTEND => $notification?->extend->getExtendInfo($langTag),

@@ -19,7 +19,6 @@ use App\Models\ExtendUsage;
 use App\Models\File;
 use App\Models\Group;
 use App\Models\OperationUsage;
-use App\Models\UserFollow;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
@@ -34,15 +33,16 @@ class GroupService
         }
 
         $cacheKey = "fresns_api_group_{$group->gid}_{$langTag}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
-        // Cache::tags(['fresnsApiData'])
-        $groupInfo = Cache::remember($cacheKey, $cacheTime, function () use ($group, $langTag) {
+        // get cache
+        $groupInfo = Cache::get($cacheKey);
+
+        if (empty($groupInfo)) {
             $groupInfo = $group->getGroupInfo($langTag);
 
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_GROUP, $group->id, $langTag);
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_GROUP, $group->id, $langTag);
-            $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_GROUP, $group->id, $langTag);
+            $item['extends'] = ExtendUtility::getContentExtends(ExtendUsage::TYPE_GROUP, $group->id, $langTag);
 
             $userService = new UserService;
 
@@ -57,8 +57,11 @@ class GroupService
             }
             $item['admins'] = $adminList;
 
-            return array_merge($groupInfo, $item);
-        });
+            $groupInfo = array_merge($groupInfo, $item);
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+            CacheHelper::put($groupInfo, $cacheKey, ['fresnsGroups', 'fresnsGroupData'], null, $cacheTime);
+        }
 
         $item['publishRule'] = PermissionUtility::checkUserGroupPublishPerm($group->id, $group->permissions, $authUserId);
 
@@ -136,13 +139,7 @@ class GroupService
             throw new ApiException(37103);
         }
 
-        $cacheKey = "fresns_user_follow_group_model_{$authUserId}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
-
-        // Cache::tags(['fresnsModels'])
-        $follow = Cache::remember($cacheKey, $cacheTime, function () use ($authUserId, $group) {
-            return UserFollow::where('user_id', $authUserId)->where('follow_type', UserFollow::TYPE_GROUP)->where('follow_id', $group->id)->first();
-        });
+        $follow = PrimaryHelper::fresnsFollowModelByType('group', $groupId, $authUserId);
 
         if (empty($follow)) {
             throw new ApiException(37103);
@@ -176,13 +173,7 @@ class GroupService
             throw new ApiException(37103);
         }
 
-        $cacheKey = "fresns_user_follow_group_model_{$authUserId}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
-
-        // Cache::tags(['fresnsModels'])
-        $follow = Cache::remember($cacheKey, $cacheTime, function () use ($authUserId, $group) {
-            return UserFollow::where('user_id', $authUserId)->where('follow_type', UserFollow::TYPE_GROUP)->where('follow_id', $group->id)->first();
-        });
+        $follow = PrimaryHelper::fresnsFollowModelByType('group', $groupId, $authUserId);
 
         if (empty($follow)) {
             throw new ApiException(37103);

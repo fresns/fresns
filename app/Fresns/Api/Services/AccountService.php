@@ -27,45 +27,47 @@ class AccountService
         }
 
         $cacheKey = "fresns_api_account_{$account->aid}_{$langTag}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
 
-        // Cache::tags(['fresnsApiData'])
-        $accountInfo = Cache::remember($cacheKey, $cacheTime, function () use ($account, $langTag) {
-            $accountInfo = $account->getAccountInfo();
+        $accountInfo = Cache::get($cacheKey);
+
+        if (empty($accountInfo)) {
+            $accountData = $account->getAccountInfo();
 
             $item['connects'] = $account->getAccountConnects();
             $item['wallet'] = $account->getAccountWallet($langTag);
 
-            return array_merge($accountInfo, $item);
-        });
+            $userService = new UserService;
+            $userList = [];
+            foreach ($account->users as $user) {
+                $userList[] = $userService->userData($user, $langTag, $timezone);
+            }
 
-        $userService = new UserService;
+            $item['users'] = $userList;
+            $item['interaction'] = InteractionHelper::fresnsUserInteraction($langTag);
 
-        $userList = [];
-        foreach ($account->users as $user) {
-            $userList[] = $userService->userData($user, $langTag, $timezone);
+            $accountInfo = array_merge($accountData, $item);
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
+            CacheHelper::put($accountInfo, $cacheKey, ['fresnsAccounts', 'fresnsAccountData'], null, $cacheTime);
         }
 
-        $item['users'] = $userList;
-        $item['interaction'] = InteractionHelper::fresnsUserInteraction($langTag);
-
-        $data = array_merge($accountInfo, $item);
-
-        return self::handleAccountDate($data, $timezone, $langTag);
+        return self::handleAccountDate($accountInfo, $timezone, $langTag);
     }
 
     public function accountData(Account $account, string $langTag, string $timezone)
     {
-        $cacheKey = "fresns_api_account_wallet_extends_{$account->aid}_{$langTag}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+        $cacheKey = "fresns_wallet_extends_{$langTag}";
 
-        // Cache::tags(['fresnsApiData'])
-        $items = Cache::remember($cacheKey, $cacheTime, function () use ($account, $langTag) {
-            $item['walletRecharges'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_WALLET_RECHARGE, null, null, $account->id, $langTag);
-            $item['walletWithdraws'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_WALLET_WITHDRAW, null, null, $account->id, $langTag);
+        $items = Cache::get($cacheKey);
+        if (empty($items['walletRecharges']) && empty($items['walletWithdraws'])) {
+            $item['walletRecharges'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_WALLET_RECHARGE, null, null, null, $langTag);
+            $item['walletWithdraws'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_WALLET_WITHDRAW, null, null, null, $langTag);
 
-            return $item;
-        });
+            $items = $item;
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+            CacheHelper::put($items, $cacheKey, 'fresnsExtensions', null, $cacheTime);
+        }
 
         $data['items'] = $items;
 

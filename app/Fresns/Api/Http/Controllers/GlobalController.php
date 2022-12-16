@@ -142,10 +142,16 @@ class GlobalController extends Controller
         };
 
         $cacheKey = "fresns_api_archives_{$dtoRequest->type}_{$unikey}_{$langTag}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
-        // Cache::tags(['fresnsApiData'])
-        $archives = Cache::remember($cacheKey, $cacheTime, function () use ($usageType, $unikey) {
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return $this->success([]);
+        }
+
+        $archives = Cache::get($cacheKey);
+
+        if (empty($archives)) {
             $archiveData = Archive::type($usageType)
                 ->when($unikey, function ($query, $value) {
                     $query->where('plugin_unikey', $value);
@@ -193,8 +199,10 @@ class GlobalController extends Controller
                 $items[] = $item;
             }
 
-            return $items;
-        });
+            $archives = $items;
+
+            CacheHelper::put($archives, $cacheKey, ['fresnsApiData', 'fresnsArchives']);
+        }
 
         return $this->success($archives);
     }
@@ -295,10 +303,9 @@ class GlobalController extends Controller
         }
 
         $langTag = $this->langTag();
+        $typeList = ExtendUtility::getContentTypes($scene, $langTag);
 
-        $data = ExtendUtility::getPluginUsages(PluginUsage::TYPE_CONTENT, null, $scene, null, $langTag);
-
-        return $this->success($data);
+        return $this->success($typeList);
     }
 
     // stickers
@@ -306,18 +313,17 @@ class GlobalController extends Controller
     {
         $langTag = $this->langTag();
 
-        $cacheKey = "fresns_api_stickers_{$langTag}";
-        $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
+        $cacheKey = "fresns_api_sticker_tree_{$langTag}";
 
-        // null cache count
-        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
             return $this->success([]);
         }
 
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+        $stickerTree = Cache::get($cacheKey);
 
-        // Cache::tags(['fresnsConfigs'])
-        $stickerTree = Cache::remember($cacheKey, $cacheTime, function () use ($langTag) {
+        if (empty($stickerTree)) {
             $stickers = Sticker::isEnable()->orderBy('rating')->get();
 
             $stickerData = [];
@@ -329,12 +335,10 @@ class GlobalController extends Controller
                 $stickerData[$index]['image'] = FileHelper::fresnsFileUrlByTableColumn($sticker->image_file_id, $sticker->image_file_url);
             }
 
-            return CollectionUtility::toTree($stickerData, 'code', 'parentCode', 'stickers');
-        });
+            $stickerTree = CollectionUtility::toTree($stickerData, 'code', 'parentCode', 'stickers');
 
-        // null cache count
-        if (empty($stickerTree)) {
-            CacheHelper::nullCacheCount($cacheKey, $nullCacheKey);
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+            CacheHelper::put($stickerTree, $cacheKey, ['fresnsApiData', 'fresnsConfigs'], null, $cacheTime);
         }
 
         return $this->success($stickerTree);

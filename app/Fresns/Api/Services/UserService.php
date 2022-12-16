@@ -38,10 +38,10 @@ class UserService
         }
 
         $cacheKey = "fresns_api_user_{$user->uid}_{$langTag}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
-        // Cache::tags(['fresnsApiData'])
-        $userData = Cache::remember($cacheKey, $cacheTime, function () use ($user, $langTag) {
+        $userData = Cache::get($cacheKey);
+
+        if (empty($userData)) {
             $userProfile = $user->getUserProfile();
             $userMainRole = $user->getUserMainRole($langTag);
 
@@ -68,8 +68,8 @@ class UserService
             $item['stats'] = UserService::getUserStats($user, $langTag);
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST, $user->id, $langTag);
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_USER, $user->id, $langTag);
-            $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_USER, $user->id, $langTag);
-            $item['roles'] = $user->getUserRoles($langTag);
+            $item['extends'] = ExtendUtility::getContentExtends(ExtendUsage::TYPE_USER, $user->id, $langTag);
+            $item['roles'] = PermissionUtility::getUserRoles($user->id, $langTag);
 
             if ($item['operations']['diversifyImages']) {
                 $decorate = ArrUtility::pull($item['operations']['diversifyImages'], 'code', 'decorate');
@@ -79,8 +79,11 @@ class UserService
                 $userProfile['verifiedIcon'] = $verifiedIcon['imageUrl'] ?? null;
             }
 
-            return array_merge($userProfile, $userMainRole, $item);
-        });
+            $userData = array_merge($userProfile, $userMainRole, $item);
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+            CacheHelper::put($userData, $cacheKey, ['fresnsUsers', 'fresnsUserData'], null, $cacheTime);
+        }
 
         $userData['stats'] = UserService::getUserStats($user, $langTag);
 

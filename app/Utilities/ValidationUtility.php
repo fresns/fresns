@@ -194,19 +194,25 @@ class ValidationUtility
             $maxLength = false;
         }
 
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+        $cacheKey = 'fresns_user_ban_words';
 
-        // Cache::tags(['fresnsConfigs'])
-        $banNames = Cache::remember('fresns_user_ban_words', $cacheTime, function () {
-            $banNames = BlockWord::where('user_mode', 3)->pluck('word')->toArray();
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            $banNameArray = [];
+            $isBanName = false;
+        } else {
+            $banNameArray = Cache::get($cacheKey);
 
-            return array_map('strtolower', $banNames);
-        });
+            if (empty($banNameArray)) {
+                $banNameData = BlockWord::where('user_mode', 3)->pluck('word')->toArray();
 
-        $banName = true;
-        $isBanName = Str::contains(Str::lower($nickname), $banNames);
-        if ($isBanName) {
-            $banName = false;
+                $banNameArray = array_map('strtolower', $banNameData);
+
+                CacheHelper::put($banNameArray, $cacheKey, 'fresnsConfigs');
+            }
+
+            $isBanName = Str::contains(Str::lower($nickname), $banNameArray);
         }
 
         $validateNickname = [
@@ -214,7 +220,7 @@ class ValidationUtility
             'formatSpace' => $formatSpace,
             'minLength' => $minLength,
             'maxLength' => $maxLength,
-            'banName' => $banName,
+            'banName' => $isBanName ? false : true,
         ];
 
         return $validateNickname;
@@ -231,24 +237,30 @@ class ValidationUtility
             $length = false;
         }
 
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+        $cacheKey = 'fresns_user_ban_words';
 
-        // Cache::tags(['fresnsConfigs'])
-        $banNames = Cache::remember('fresns_user_ban_words', $cacheTime, function () {
-            $banNames = BlockWord::where('user_mode', 3)->pluck('word')->toArray();
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            $banNameArray = [];
+            $isBanWord = false;
+        } else {
+            $banNameArray = Cache::get($cacheKey);
 
-            return array_map('strtolower', $banNames);
-        });
+            if (empty($banNameArray)) {
+                $banNameData = BlockWord::where('user_mode', 3)->pluck('word')->toArray();
 
-        $banWord = true;
-        $isBanWord = Str::contains(Str::lower($bio), $banNames);
-        if ($isBanWord) {
-            $banWord = false;
+                $banNameArray = array_map('strtolower', $banNameData);
+
+                CacheHelper::put($banNameArray, $cacheKey, 'fresnsConfigs');
+            }
+
+            $isBanWord = Str::contains(Str::lower($bio), $banNameArray);
         }
 
         $validateBio = [
             'length' => $length,
-            'banWord' => $banWord,
+            'banWord' => $isBanWord ? false : true,
         ];
 
         return $validateBio;
@@ -294,14 +306,23 @@ class ValidationUtility
     // Validate content ban words
     public static function contentBanWords(string $content): bool
     {
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+        $cacheKey = 'fresns_content_ban_words';
 
-        // Cache::tags(['fresnsConfigs'])
-        $lowerBanWords = Cache::remember('fresns_content_ban_words', $cacheTime, function () {
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return true;
+        }
+
+        $lowerBanWords = Cache::get($cacheKey);
+
+        if (empty($lowerBanWords)) {
             $banWords = BlockWord::where('content_mode', 3)->pluck('word')->toArray();
 
-            return array_map('strtolower', $banWords);
-        });
+            $lowerBanWords = array_map('strtolower', $banWords);
+
+            CacheHelper::put($lowerBanWords, $cacheKey, 'fresnsConfigs');
+        }
 
         return ! Str::contains(Str::lower($content), $lowerBanWords);
     }
@@ -309,14 +330,23 @@ class ValidationUtility
     // Validate content is review
     public static function contentReviewWords(string $content): bool
     {
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+        $cacheKey = 'fresns_content_review_words';
 
-        // Cache::tags(['fresnsConfigs'])
-        $lowerReviewWords = Cache::remember('fresns_content_review_words', $cacheTime, function () {
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return true;
+        }
+
+        $lowerReviewWords = Cache::get($cacheKey);
+
+        if (empty($lowerReviewWords)) {
             $reviewWords = BlockWord::where('content_mode', 4)->pluck('word')->toArray();
 
-            return array_map('strtolower', $reviewWords);
-        });
+            $lowerReviewWords = array_map('strtolower', $reviewWords);
+
+            CacheHelper::put($lowerReviewWords, $cacheKey, 'fresnsConfigs');
+        }
 
         return ! Str::contains(Str::lower($content), $lowerReviewWords);
     }
@@ -324,14 +354,23 @@ class ValidationUtility
     // Validate message ban words
     public static function messageBanWords(string $message): bool
     {
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+        $cacheKey = 'fresns_conversation_ban_words';
 
-        // Cache::tags(['fresnsConfigs'])
-        $lowerBanWords = Cache::remember('fresns_conversation_ban_words', $cacheTime, function () {
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return true;
+        }
+
+        $lowerBanWords = Cache::get($cacheKey);
+
+        if (empty($lowerBanWords)) {
             $banWords = BlockWord::where('conversation_mode', 3)->pluck('word')->toArray();
 
-            return array_map('strtolower', $banWords);
-        });
+            $lowerBanWords = array_map('strtolower', $banWords);
+
+            CacheHelper::put($lowerBanWords, $cacheKey, 'fresnsConfigs');
+        }
 
         return ! Str::contains(Str::lower($message), $lowerBanWords);
     }

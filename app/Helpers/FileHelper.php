@@ -10,6 +10,7 @@ namespace App\Helpers;
 
 use App\Models\File;
 use App\Models\FileUsage;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class FileHelper
@@ -61,49 +62,84 @@ class FileHelper
     // get file accept by type
     public static function fresnsFileAcceptByType(?int $type = null)
     {
-        if (empty($type)) {
-            return null;
-        }
+        $fileAccept = Cache::get('fresns_config_file_accept');
 
-        $fileExt = match ($type) {
-            1 => ConfigHelper::fresnsConfigByItemKey('image_extension_names'),
-            2 => ConfigHelper::fresnsConfigByItemKey('video_extension_names'),
-            3 => ConfigHelper::fresnsConfigByItemKey('audio_extension_names'),
-            4 => ConfigHelper::fresnsConfigByItemKey('document_extension_names'),
-        };
+        if (empty($fileAccept['images']) && empty($fileAccept['videos']) && empty($fileAccept['audios']) && empty($fileAccept['documents'])) {
+            $imageFileExt = ConfigHelper::fresnsConfigByItemKey('image_extension_names');
+            $videoFileExt =ConfigHelper::fresnsConfigByItemKey('video_extension_names');
+            $audioFileExt =ConfigHelper::fresnsConfigByItemKey('audio_extension_names');
+            $documentFileExt =ConfigHelper::fresnsConfigByItemKey('document_extension_names');
 
-        $fileExt = Str::lower($fileExt);
+            $imageFileExt = Str::lower($imageFileExt);
+            $videoFileExt = Str::lower($videoFileExt);
+            $audioFileExt = Str::lower($audioFileExt);
+            $documentFileExt = Str::lower($documentFileExt);
 
-        // $accept = str_replace(',', ',.', $fileExt);
-        // $fileAccept = '';
-        // if ($accept) {
-        //     $fileAccept = Str::start($accept, '.');
-        // }
+            // $builder = \Mimey\MimeMappingBuilder::create();
+            // $mapping = $builder->getMapping();
+            // $mapping['mimes'];
+            // $mapping['extensions'];
+            // foreach ($mapping['mimes'] as $ext => $mimes) {
+            // }
+            // foreach ($mapping['extensions'] as $mime => $exts) {
+            // }
 
-        // $builder = \Mimey\MimeMappingBuilder::create();
-        // $mapping = $builder->getMapping();
-        // $mapping['mimes'];
-        // $mapping['extensions'];
-        // foreach ($mapping['mimes'] as $ext => $mimes) {
-        // }
-        // foreach ($mapping['extensions'] as $mime => $exts) {
-        // }
+            $mimes = new \Mimey\MimeTypes;
 
-        $mimes = new \Mimey\MimeTypes;
+            $imageFileExtArr = explode(',', $imageFileExt);
+            $videoFileExtArr = explode(',', $videoFileExt);
+            $audioFileExtArr = explode(',', $audioFileExt);
+            $documentFileExtArr = explode(',', $documentFileExt);
 
-        $fileExts = explode(',', $fileExt);
-
-        $result = [];
-        foreach ($fileExts as $ext) {
-            $fileExtMimes = $mimes->getAllMimeTypes($ext);
-            foreach ($fileExtMimes as $fileExtMime) {
-                $result[] = $fileExtMime;
+            $imageFileAccept = [];
+            foreach ($imageFileExtArr as $imageExt) {
+                $fileExtMimes = $mimes->getAllMimeTypes($imageExt);
+                foreach ($fileExtMimes as $fileExtMime) {
+                    $imageFileAccept[] = $fileExtMime;
+                }
             }
+            $videoFileAccept = [];
+            foreach ($videoFileExtArr as $videoExt) {
+                $fileExtMimes = $mimes->getAllMimeTypes($videoExt);
+                foreach ($fileExtMimes as $fileExtMime) {
+                    $videoFileAccept[] = $fileExtMime;
+                }
+            }
+            $audioFileAccept = [];
+            foreach ($audioFileExtArr as $audioExt) {
+                $fileExtMimes = $mimes->getAllMimeTypes($audioExt);
+                foreach ($fileExtMimes as $fileExtMime) {
+                    $audioFileAccept[] = $fileExtMime;
+                }
+            }
+            $documentFileAccept = [];
+            foreach ($documentFileExtArr as $documentExt) {
+                $fileExtMimes = $mimes->getAllMimeTypes($documentExt);
+                foreach ($fileExtMimes as $fileExtMime) {
+                    $documentFileAccept[] = $fileExtMime;
+                }
+            }
+
+            $fileAccept = [
+                'images' => implode(',', $imageFileAccept),
+                'videos' => implode(',', $videoFileAccept),
+                'audios' => implode(',', $audioFileAccept),
+                'documents' => implode(',', $documentFileAccept),
+            ];
+
+            CacheHelper::put($fileAccept, 'fresns_config_file_accept', 'fresnsConfigs');
         }
 
-        $fileAccept = implode(',', $result);
+        if (empty($type)) {
+            return $fileAccept;
+        }
 
-        return $fileAccept;
+        return match ($type) {
+            1 => $fileAccept['images'],
+            2 => $fileAccept['videos'],
+            3 => $fileAccept['audios'],
+            4 => $fileAccept['documents'],
+        };
     }
 
     // get file storage path

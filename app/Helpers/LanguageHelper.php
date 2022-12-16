@@ -26,17 +26,16 @@ class LanguageHelper
     public static function fresnsLanguageByTableId(string $tableName, string $tableColumn, int $tableId, ?string $langTag = null)
     {
         $cacheKey = "fresns_{$tableName}_{$tableColumn}_{$tableId}_{$langTag}";
-        $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
 
-        // null cache count
-        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
             return null;
         }
 
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+        $langContent = Cache::get($cacheKey);
 
-        // Cache::tags(['fresnsLanguages'])
-        $langContentCache = Cache::remember($cacheKey, $cacheTime, function () use ($tableName, $tableColumn, $tableId, $langTag) {
+        if (empty($langContent)) {
             if (empty($langTag)) {
                 $languageArr = Language::where([
                     'table_name' => $tableName,
@@ -45,15 +44,15 @@ class LanguageHelper
                 ])->get()->toArray();
 
                 if ($languageArr->isEmpty()) {
-                    return null;
+                    $langContent = [];
+                } else {
+                    foreach ($languageArr as $language) {
+                        $item['langTag'] = $language['lang_tag'];
+                        $item['langContent'] = $language['lang_content'];
+                        $itemArr[] = $item;
+                    }
+                    $langContent = $itemArr;
                 }
-
-                foreach ($languageArr as $language) {
-                    $item['langTag'] = $language['lang_tag'];
-                    $item['langContent'] = $language['lang_content'];
-                    $itemArr[] = $item;
-                }
-                $langContent = $itemArr;
             } else {
                 $langContent = Language::where([
                     'table_name' => $tableName,
@@ -63,15 +62,28 @@ class LanguageHelper
                 ])->first()->lang_content ?? null;
             }
 
-            return $langContent;
-        });
+            $cacheTag = match ($tableName) {
+                'users' => ['fresnsLanguages', 'fresnsUsers', 'fresnsUserData'],
+                'groups' => ['fresnsLanguages', 'fresnsGroups', 'fresnsGroupData'],
+                'hashtags' => ['fresnsLanguages', 'fresnsHashtags', 'fresnsHashtagData'],
+                'posts' => ['fresnsLanguages', 'fresnsPosts', 'fresnsPostData'],
+                'post_appends' => ['fresnsLanguages', 'fresnsPosts', 'fresnsPostData'],
+                'comments' => ['fresnsLanguages', 'fresnsComments', 'fresnsCommentData'],
+                'comment_appends' => ['fresnsLanguages', 'fresnsComments', 'fresnsCommentData'],
+                'plugin_usages' => ['fresnsLanguages', 'fresnsPluginUsageLanguages'],
+                'extends' => ['fresnsLanguages', 'fresnsExtends'],
+                'archives' => ['fresnsLanguages', 'fresnsArchives'],
+                'operations' => ['fresnsLanguages', 'fresnsOperations'],
+                'roles' => ['fresnsLanguages', 'fresnsRoleLanguages'],
+                'stickers' => ['fresnsLanguages', 'fresnsStickerLanguages'],
+                'notifications' => ['fresnsLanguages', 'fresnsNotificationLanguages'],
+                default => 'fresnsUnknownLanguages',
+            };
 
-        // null cache count
-        if (empty($langContentCache)) {
-            CacheHelper::nullCacheCount($cacheKey, $nullCacheKey);
+            CacheHelper::put($langContent, $cacheKey, $cacheTag);
         }
 
-        return $langContentCache;
+        return $langContent;
     }
 
     /**
@@ -118,36 +130,40 @@ class LanguageHelper
     // get fresns seo language data
     public static function fresnsLanguageSeoDataById(string $type, int $id, ?string $langTag = null)
     {
-        $usageType = match ($type) {
-            'user' => Seo::TYPE_USER,
-            'group' => Seo::TYPE_GROUP,
-            'hashtag' => Seo::TYPE_HASHTAG,
-            'post' => Seo::TYPE_POST,
-            'comment' => Seo::TYPE_COMMENT,
-        };
-
         $cacheKey = "fresns_seo_{$type}_{$id}";
-        $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
 
-        // null cache count
-        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
             return null;
         }
 
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+        $seoData = Cache::get($cacheKey);
 
-        // Cache::tags(['fresnsConfigs'])
-        $seoData = Cache::remember($cacheKey, $cacheTime, function () use ($usageType, $id) {
-            return Seo::where('usage_type', $usageType)->where('usage_id', $id)->get();
-        });
+        if (empty($seoData)) {
+            $usageType = match ($type) {
+                'user' => Seo::TYPE_USER,
+                'group' => Seo::TYPE_GROUP,
+                'hashtag' => Seo::TYPE_HASHTAG,
+                'post' => Seo::TYPE_POST,
+                'comment' => Seo::TYPE_COMMENT,
+            };
+
+            $cacheTag = match ($type) {
+                'user' => ['fresnsUsers', 'fresnsUserData'],
+                'group' => ['fresnsGroups', 'fresnsGroupData'],
+                'hashtag' => ['fresnsHashtags', 'fresnsHashtagData'],
+                'post' => ['fresnsPosts', 'fresnsPostData'],
+                'comment' => ['fresnsComments', 'fresnsCommentData'],
+            };
+
+            $seoData = Seo::where('usage_type', $usageType)->where('usage_id', $id)->get();
+
+            CacheHelper::put($seoData, $cacheKey, $cacheTag);
+        }
 
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
         $langContent = $seoData->where('lang_tag', $langTag)->first();
-
-        // null cache count
-        if (empty($seoData)) {
-            CacheHelper::nullCacheCount($cacheKey, $nullCacheKey);
-        }
 
         return $langContent ?? $seoData->first();
     }

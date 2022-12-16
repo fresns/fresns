@@ -17,51 +17,48 @@ class ConfigHelper
     // default langTag
     public static function fresnsConfigDefaultLangTag(): string
     {
-        // Cache::tags(['fresnsConfigs'])
-        $defaultLangTag = Cache::remember('fresns_default_langTag', now()->addDays(), function () {
-            return Config::where('item_key', 'default_language')->first()?->item_value;
-        });
+        $defaultLangTag = Cache::get('fresns_default_langTag');
 
-        if (is_null($defaultLangTag)) {
-            Cache::forget('fresns_default_langTag');
+        if (empty($defaultLangTag)) {
+            $defaultConfig = Config::where('item_key', 'default_language')->first();
 
-            $defaultLangTag = config('app.locale');
+            $defaultLangTag = $defaultConfig?->item_value;
+
+            CacheHelper::put($defaultLangTag, 'fresns_default_langTag', 'fresnsConfigs');
         }
 
-        return $defaultLangTag;
+        return $defaultLangTag ?? config('app.locale');
     }
 
     // default timezone
     public static function fresnsConfigDefaultTimezone(): string
     {
-        // Cache::tags(['fresnsConfigs'])
-        $defaultLangTag = Cache::remember('fresns_default_timezone', now()->addDays(), function () {
-            return Config::where('item_key', 'default_timezone')->first()?->item_value;
-        });
+        $defaultTimezone = Cache::get('fresns_default_timezone');
 
-        if (is_null($defaultLangTag)) {
-            Cache::forget('fresns_default_timezone');
+        if (empty($defaultTimezone)) {
+            $defaultConfig = Config::where('item_key', 'default_language')->first();
+
+            $defaultTimezone = $defaultConfig?->item_value;
+
+            CacheHelper::put($defaultTimezone, 'fresns_default_timezone', 'fresnsConfigs');
         }
 
-        return $defaultLangTag;
+        return $defaultTimezone;
     }
 
     // lang tags
     public static function fresnsConfigLangTags()
     {
-        // Cache::tags(['fresnsConfigs'])
-        $langTagArr = Cache::remember('fresns_lang_tags', now()->addDays(), function () {
+        $langTagArr = Cache::get('fresns_lang_tags');
+
+        if (empty($langTagArr)) {
             $langArr = Config::where('item_key', 'language_menus')->first()?->item_value;
 
-            if (! $langArr) {
-                return null;
+            if ($langArr) {
+                $langTagArr = collect($langArr)->pluck('langTag')->all();
             }
 
-            return collect($langArr)->pluck('langTag')->all();
-        });
-
-        if (is_null($langTagArr)) {
-            Cache::forget('fresns_lang_tags');
+            CacheHelper::put($langTagArr, 'fresns_lang_tags', 'fresnsConfigs');
         }
 
         return $langTagArr;
@@ -78,31 +75,28 @@ class ConfigHelper
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
-        $configCacheKey = "fresns_config_{$itemKey}_{$langTag}";
-        $nullCacheKey = CacheHelper::getNullCacheKey($configCacheKey);
+        $cacheKey = "fresns_config_{$itemKey}_{$langTag}";
 
-        // null cache count
-        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
             return null;
         }
 
-        // Cache::tags(['fresnsConfigs'])
-        $itemValue = Cache::remember($configCacheKey, now()->addDays(), function () use ($itemKey, $langTag) {
+        $itemValue = Cache::get($cacheKey);
+
+        if (empty($itemValue)) {
             $itemData = Config::where('item_key', $itemKey)->first();
-            if (is_null($itemData)) {
-                return null;
+
+            if ($itemData) {
+                $itemValue = $itemData->item_value;
             }
 
             if ($itemData->is_multilingual == 1) {
-                return LanguageHelper::fresnsLanguageByTableKey($itemData->item_key, $itemData->item_type, $langTag);
+                $itemValue =  LanguageHelper::fresnsLanguageByTableKey($itemData->item_key, $itemData->item_type, $langTag);
             }
 
-            return $itemData->item_value ?? null;
-        });
-
-        // null cache count
-        if (empty($itemValue)) {
-            CacheHelper::nullCacheCount($configCacheKey, $nullCacheKey);
+            CacheHelper::put($itemValue, $cacheKey, 'fresnsConfigs');
         }
 
         return $itemValue;
@@ -119,27 +113,17 @@ class ConfigHelper
     {
         $key = reset($itemKeys).'_'.end($itemKeys).'_'.count($itemKeys);
 
-        $configCacheKey = "fresns_config_keys_{$key}_{$langTag}";
-        $nullCacheKey = CacheHelper::getNullCacheKey($configCacheKey);
+        $cacheKey = "fresns_config_keys_{$key}_{$langTag}";
 
-        // null cache count
-        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
-            return [];
-        }
+        $keysData = Cache::get($cacheKey);
 
-        // Cache::tags(['fresnsConfigs'])
-        $keysData = Cache::remember($configCacheKey, now()->addDays(), function () use ($itemKeys, $langTag) {
-            $data = [];
+        if (empty($keysData)) {
+            $keysData = [];
             foreach ($itemKeys as $itemKey) {
-                $data[$itemKey] = ConfigHelper::fresnsConfigByItemKey($itemKey, $langTag);
+                $keysData[$itemKey] = ConfigHelper::fresnsConfigByItemKey($itemKey, $langTag);
             }
 
-            return $data ?? null;
-        });
-
-        // null cache count
-        if (empty($keysData)) {
-            CacheHelper::nullCacheCount($configCacheKey, $nullCacheKey);
+            CacheHelper::put($keysData, $cacheKey, 'fresnsConfigs');
         }
 
         return $keysData;
@@ -156,16 +140,11 @@ class ConfigHelper
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
-        $configCacheKey = "fresns_config_tag_{$itemTag}_{$langTag}";
-        $nullCacheKey = CacheHelper::getNullCacheKey($configCacheKey);
+        $cacheKey = "fresns_config_tag_{$itemTag}_{$langTag}";
 
-        // null cache count
-        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
-            return [];
-        }
+        $tagData = Cache::get($cacheKey);
 
-        // Cache::tags(['fresnsConfigs'])
-        $tagData = Cache::remember($configCacheKey, now()->addDays(), function () use ($itemTag, $langTag) {
+        if (empty($tagData)) {
             $itemData = Config::where('item_tag', $itemTag)->get();
 
             $itemDataArr = [];
@@ -177,12 +156,9 @@ class ConfigHelper
                 }
             }
 
-            return $itemDataArr;
-        });
+            $tagData =  $itemDataArr;
 
-        // null cache count
-        if (empty($tagData)) {
-            CacheHelper::nullCacheCount($configCacheKey, $nullCacheKey);
+            CacheHelper::put($tagData, $cacheKey, 'fresnsConfigs');
         }
 
         return $tagData;
@@ -291,15 +267,10 @@ class ConfigHelper
     public static function fresnsConfigFileUrlExpire()
     {
         $cacheKey = 'fresns_config_file_url_expire';
-        $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
 
-        // null cache count
-        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
-            return null;
-        }
+        $urlExpire = Cache::get($cacheKey);
 
-        // Cache::tags(['fresnsConfigs'])
-        $urlExpire = Cache::remember($cacheKey, now()->addDays(7), function () {
+        if (empty($urlExpire)) {
             $fileConfigArr = Config::where('item_type', 'file')->get();
 
             // get file type
@@ -314,37 +285,33 @@ class ConfigHelper
                 $fileTypeArr[] = $file->type;
             }
 
-            if (empty($fileTypeArr)) {
-                return null;
-            }
+            $urlExpire = null;
+            if ($fileTypeArr) {
+                $fileType = array_unique($fileTypeArr);
 
-            $fileType = array_unique($fileTypeArr);
+                // get anti link expire
+                $antiLinkExpire = [];
+                foreach ($fileType as $type) {
+                    $storageConfig = FileHelper::fresnsFileStorageConfigByType($type);
 
-            // get anti link expire
-            $antiLinkExpire = [];
-            foreach ($fileType as $type) {
-                $storageConfig = FileHelper::fresnsFileStorageConfigByType($type);
+                    if (! $storageConfig['antiLinkStatus']) {
+                        continue;
+                    }
 
-                if (! $storageConfig['antiLinkStatus']) {
-                    continue;
+                    $antiLinkExpire[] = $storageConfig['antiLinkExpire'];
                 }
 
-                $antiLinkExpire[] = $storageConfig['antiLinkExpire'];
+                if (empty($antiLinkExpire)) {
+                    return null;
+                }
+
+                $newAntiLinkExpire = array_filter($antiLinkExpire);
+                $minAntiLinkExpire = min($newAntiLinkExpire);
+
+                $urlExpire = $minAntiLinkExpire - 1;
             }
 
-            if (empty($antiLinkExpire)) {
-                return null;
-            }
-
-            $newAntiLinkExpire = array_filter($antiLinkExpire);
-            $minAntiLinkExpire = min($newAntiLinkExpire);
-
-            return $minAntiLinkExpire - 1;
-        });
-
-        // null cache count
-        if (empty($urlExpire) || $urlExpire == 0) {
-            CacheHelper::nullCacheCount($cacheKey, $nullCacheKey);
+            CacheHelper::put($urlExpire, $cacheKey, 'fresnsConfigs');
         }
 
         return $urlExpire;

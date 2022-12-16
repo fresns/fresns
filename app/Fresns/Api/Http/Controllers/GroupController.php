@@ -14,6 +14,7 @@ use App\Fresns\Api\Http\DTO\InteractionDTO;
 use App\Fresns\Api\Services\GroupService;
 use App\Fresns\Api\Services\InteractionService;
 use App\Helpers\CacheHelper;
+use App\Helpers\InteractionHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\File;
@@ -34,31 +35,64 @@ class GroupController extends Controller
         $timezone = $this->timezone();
         $authUser = $this->user();
 
-        if (empty($authUser)) {
-            $cacheKey = 'fresns_guest_all_group';
-        } else {
-            $cacheKey = "fresns_user_all_group_{$authUser->id}";
-        }
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+        $groupCount = InteractionHelper::fresnsGroupCount();
 
-        // Cache::tags(['fresnsApiData'])
-        $groups = Cache::remember($cacheKey, $cacheTime, function () use ($authUser) {
-            $groupFilterIds = PermissionUtility::getGroupFilterIds($authUser?->id);
+        $service = new GroupService();
+        $groupFilterIds = PermissionUtility::getGroupFilterIds($authUser?->id);
 
-            return Group::with(['category', 'admins'])
-                ->where(function ($query) {
+        if ($groupCount < 30) {
+            $groups = Group::where(function ($query) {
                     $query->whereIn('type', [1, 2])->orWhere(function ($query) {
                         $query->whereIn('type', [3])->where('sublevel_public', Group::SUBLEVEL_PUBLIC);
                     });
                 })
-                ->whereNotIn('id', $groupFilterIds)
+                ->when($groupFilterIds, function ($query, $value) {
+                    $query->whereNotIn('id', $value);
+                })
                 ->isEnable()
                 ->orderBy('recommend_rating')
                 ->orderBy('rating')
                 ->get();
-        });
 
-        $service = new GroupService();
+            $groupData = [];
+            foreach ($groups as $index => $group) {
+                $groupData[$index] = $service->groupData($group, $langTag, $timezone, $authUser?->id);
+            }
+
+            $groupTree = CollectionUtility::toTree($groupData, 'gid', 'parentGid', 'groups');
+
+            return $this->success($groupTree);
+        }
+
+        // cache groups
+
+        if (empty($authUser)) {
+            $cacheKey = 'fresns_guest_all_groups';
+            $cacheTag = ['fresnsGroups', 'fresnsGroupData'];
+        } else {
+            $cacheKey = "fresns_user_{$authUser->id}_all_groups";
+            $cacheTag = ['fresnsGroups', 'fresnsGroupData', 'fresnsUsers', 'fresnsUserData'];
+        }
+
+        $groups = Cache::get($cacheKey);
+
+        if (empty($groups)) {
+            $groups = Group::where(function ($query) {
+                    $query->whereIn('type', [1, 2])->orWhere(function ($query) {
+                        $query->whereIn('type', [3])->where('sublevel_public', Group::SUBLEVEL_PUBLIC);
+                    });
+                })
+                ->when($groupFilterIds, function ($query, $value) {
+                    $query->whereNotIn('id', $value);
+                })
+                ->isEnable()
+                ->orderBy('recommend_rating')
+                ->orderBy('rating')
+                ->get();
+
+            CacheHelper::put($groups, $cacheKey, $cacheTag);
+        }
+
         $groupData = [];
         foreach ($groups as $index => $group) {
             $groupData[$index] = $service->groupData($group, $langTag, $timezone, $authUser?->id);

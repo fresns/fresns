@@ -13,6 +13,7 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PluginHelper;
+use App\Helpers\PrimaryHelper;
 use App\Models\Account;
 use App\Models\CodeMessage;
 use App\Models\CommentLog;
@@ -102,12 +103,24 @@ class ConfigUtility
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
         $cacheKey = "fresns_code_messages_{$unikey}_{$langTag}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
-        // Cache::tags(['fresnsConfigs'])
-        $codeMessages = Cache::remember($cacheKey, $cacheTime, function () use ($unikey, $langTag) {
-            return CodeMessage::where('plugin_unikey', $unikey)->where('lang_tag', $langTag)->get();
-        });
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return 'Unknown Error';
+        }
+
+        $codeMessages = Cache::get($cacheKey);
+
+        if (empty($codeMessages)) {
+            $codeMessages = CodeMessage::where('plugin_unikey', $unikey)->where('lang_tag', $langTag)->get();
+
+            CacheHelper::put($codeMessages, $cacheKey, 'fresnsCodeMessages');
+
+            if (empty($codeMessages)) {
+                return 'Unknown Error';
+            }
+        }
 
         $message = $codeMessages->where('code', $code)?->value('message');
 
@@ -134,7 +147,7 @@ class ConfigUtility
     // get editor config by type(post or comment)
     public static function getEditorConfigByType(int $userId, string $type, ?string $langTag = null): array
     {
-        $rolePerm = PermissionUtility::getUserMainRolePerm($userId);
+        $rolePerm = PermissionUtility::getUserMainRole($userId)['permissions'];
         $editorConfig = ConfigHelper::fresnsConfigByItemKeys([
             "{$type}_editor_image",
             "{$type}_editor_video",
@@ -284,98 +297,114 @@ class ConfigUtility
     // get publish config by type(post or comment)
     public static function getPublishConfigByType(int $userId, string $type, ?string $langTag = null, ?string $timezone = null): array
     {
-        $rolePerm = PermissionUtility::getUserMainRolePerm($userId);
+        $cacheKey = "fresns_publish_{$type}_config_{$userId}_{$langTag}";
 
-        $accountId = User::where('id', $userId)->value('account_id');
-        $account = Account::where('id', $accountId)->first();
+        $publishConfig = Cache::get($cacheKey);
 
-        $limitConfig = ConfigHelper::fresnsConfigByItemKeys([
-            "{$type}_email_verify",
-            "{$type}_phone_verify",
-            "{$type}_real_name_verify",
-            "{$type}_limit_status",
-            "{$type}_limit_type",
-            "{$type}_limit_period_start",
-            "{$type}_limit_period_end",
-            "{$type}_limit_cycle_start",
-            "{$type}_limit_cycle_end",
-            "{$type}_limit_rule",
-            "{$type}_limit_whitelist",
-        ], $langTag);
+        if (empty($publishConfig)) {
+            $rolePerm = PermissionUtility::getUserMainRole($userId)['permissions'];
 
-        $perm['draft'] = true;
-        $perm['publish'] = $rolePerm["{$type}_publish"];
-        $perm['review'] = $rolePerm["{$type}_review"];
-        $perm['emailRequired'] = $limitConfig["{$type}_email_verify"] ? $limitConfig["{$type}_email_verify"] : $rolePerm["{$type}_email_verify"];
-        $perm['phoneRequired'] = $limitConfig["{$type}_phone_verify"] ? $limitConfig["{$type}_phone_verify"] : $rolePerm["{$type}_phone_verify"];
-        $perm['realNameRequired'] = $limitConfig["{$type}_real_name_verify"] ? $limitConfig["{$type}_real_name_verify"] : $rolePerm["{$type}_real_name_verify"];
+            $user = PrimaryHelper::fresnsModelById('user', $userId);
+            $account = PrimaryHelper::fresnsModelById('account', $user->account_id);
 
-        $checkLogCount = match ($type) {
-            'post' => PostLog::where('user_id', $userId)->whereIn('state', [1, 2, 4])->count(),
-            'comment' => CommentLog::where('user_id', $userId)->whereIn('state', [1, 2, 4])->count(),
-        };
-        if ($checkLogCount >= $rolePerm["{$type}_draft_count"]) {
-            $perm['draft'] = false;
-        }
+            $limitConfig = ConfigHelper::fresnsConfigByItemKeys([
+                "{$type}_email_verify",
+                "{$type}_phone_verify",
+                "{$type}_real_name_verify",
+                "{$type}_limit_status",
+                "{$type}_limit_type",
+                "{$type}_limit_period_start",
+                "{$type}_limit_period_end",
+                "{$type}_limit_cycle_start",
+                "{$type}_limit_cycle_end",
+                "{$type}_limit_rule",
+                "{$type}_limit_whitelist",
+            ], $langTag);
 
-        $publishTip = $perm['publish'] ? null : ConfigUtility::getCodeMessage(36104, 'Fresns', $langTag);
-        $emailTip = null;
-        $phoneTip = null;
-        $realNameTip = null;
+            $perm['draft'] = true;
+            $perm['publish'] = $rolePerm["{$type}_publish"];
+            $perm['review'] = $rolePerm["{$type}_review"];
+            $perm['emailRequired'] = $limitConfig["{$type}_email_verify"] ? $limitConfig["{$type}_email_verify"] : $rolePerm["{$type}_email_verify"];
+            $perm['phoneRequired'] = $limitConfig["{$type}_phone_verify"] ? $limitConfig["{$type}_phone_verify"] : $rolePerm["{$type}_phone_verify"];
+            $perm['realNameRequired'] = $limitConfig["{$type}_real_name_verify"] ? $limitConfig["{$type}_real_name_verify"] : $rolePerm["{$type}_real_name_verify"];
 
-        if ($perm['publish']) {
-            if ($perm['emailRequired'] && empty($account->email)) {
-                $perm['publish'] = false;
-                $emailTip = ConfigUtility::getCodeMessage(36301, 'Fresns', $langTag);
+            $checkLogCount = match ($type) {
+                'post' => PostLog::where('user_id', $userId)->whereIn('state', [1, 2, 4])->count(),
+                'comment' => CommentLog::where('user_id', $userId)->whereIn('state', [1, 2, 4])->count(),
+            };
+            if ($checkLogCount >= $rolePerm["{$type}_draft_count"]) {
+                $perm['draft'] = false;
             }
 
-            if ($perm['phoneRequired'] && empty($account->phone)) {
-                $perm['publish'] = false;
-                $phoneTip = ConfigUtility::getCodeMessage(36302, 'Fresns', $langTag);
+            $publishTip = $perm['publish'] ? null : ConfigUtility::getCodeMessage(36104, 'Fresns', $langTag);
+            $emailTip = null;
+            $phoneTip = null;
+            $realNameTip = null;
+
+            if ($perm['publish']) {
+                if ($perm['emailRequired'] && empty($account->email)) {
+                    $perm['publish'] = false;
+                    $emailTip = ConfigUtility::getCodeMessage(36301, 'Fresns', $langTag);
+                }
+
+                if ($perm['phoneRequired'] && empty($account->phone)) {
+                    $perm['publish'] = false;
+                    $phoneTip = ConfigUtility::getCodeMessage(36302, 'Fresns', $langTag);
+                }
+
+                if ($perm['realNameRequired'] && ! $account->is_verify) {
+                    $perm['publish'] = false;
+                    $realNameTip = ConfigUtility::getCodeMessage(36303, 'Fresns', $langTag);
+                }
             }
 
-            if ($perm['realNameRequired'] && ! $account->is_verify) {
-                $perm['publish'] = false;
-                $realNameTip = ConfigUtility::getCodeMessage(36303, 'Fresns', $langTag);
+            $perm['tips'] = \Arr::flatten(array_filter([$publishTip, $emailTip, $phoneTip, $realNameTip]));
+
+            if ($limitConfig["{$type}_limit_status"]) {
+                $checkWhiteList = PermissionUtility::checkUserRolePerm($userId, $limitConfig["{$type}_limit_whitelist"]);
+
+                $limit['status'] = ! $checkWhiteList ? $limitConfig["{$type}_limit_status"] : false;
+                $limit['type'] = $limitConfig["{$type}_limit_type"];
+                $limit['periodStart'] = $limitConfig["{$type}_limit_period_start"];
+                $limit['periodEnd'] = $limitConfig["{$type}_limit_period_end"];
+                $limit['periodStartFormat'] = $limitConfig["{$type}_limit_period_start"];
+                $limit['periodEndFormat'] = $limitConfig["{$type}_limit_period_end"];
+                $limit['cycleStart'] = $limitConfig["{$type}_limit_cycle_start"];
+                $limit['cycleEnd'] = $limitConfig["{$type}_limit_cycle_end"];
+                $limit['cycleStartFormat'] = $limitConfig["{$type}_limit_cycle_start"];
+                $limit['cycleEndFormat'] = $limitConfig["{$type}_limit_cycle_end"];
+                $limit['rule'] = $limitConfig["{$type}_limit_rule"];
+                $limit['tip'] = $limitConfig["{$type}_limit_tip"];
+            } else {
+                $limit['status'] = $rolePerm["{$type}_limit_status"];
+                $limit['type'] = $rolePerm["{$type}_limit_type"];
+                $limit['periodStart'] = $rolePerm["{$type}_limit_period_start"];
+                $limit['periodEnd'] = $rolePerm["{$type}_limit_period_end"];
+                $limit['periodStartFormat'] = $rolePerm["{$type}_limit_period_start"];
+                $limit['periodEndFormat'] = $rolePerm["{$type}_limit_period_end"];
+                $limit['cycleStart'] = $rolePerm["{$type}_limit_cycle_start"];
+                $limit['cycleEnd'] = $rolePerm["{$type}_limit_cycle_end"];
+                $limit['cycleStartFormat'] = $rolePerm["{$type}_limit_cycle_start"];
+                $limit['cycleEndFormat'] = $rolePerm["{$type}_limit_cycle_end"];
+                $limit['rule'] = $rolePerm["{$type}_limit_rule"];
+                $limit['tip'] = ConfigUtility::getCodeMessage(36105, 'Fresns', $langTag);
             }
+
+            $publish['perm'] = $perm;
+            $publish['limit'] = $limit;
+
+            $publishConfig = $publish;
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
+            CacheHelper::put($publishConfig, $cacheKey, ['fresnsUsers', 'fresnsUserConfigs'], null, $cacheTime);
         }
 
-        $perm['tips'] = \Arr::flatten(array_filter([$publishTip, $emailTip, $phoneTip, $realNameTip]));
+        $publishConfig['limit']['periodStartFormat'] = DateHelper::fresnsDateTimeByTimezone($publishConfig['limit']['periodStartFormat'], $timezone, $langTag);
+        $publishConfig['limit']['periodEndFormat'] = DateHelper::fresnsDateTimeByTimezone($publishConfig['limit']['periodEndFormat'], $timezone, $langTag);
+        $publishConfig['limit']['cycleStartFormat'] = DateHelper::fresnsTimeByTimezone($publishConfig['limit']['cycleStartFormat'], $timezone);
+        $publishConfig['limit']['cycleEndFormat'] = DateHelper::fresnsTimeByTimezone($publishConfig['limit']['cycleEndFormat'], $timezone);
 
-        if ($limitConfig["{$type}_limit_status"]) {
-            $checkWhiteList = PermissionUtility::checkUserRolePerm($userId, $limitConfig["{$type}_limit_whitelist"]);
-
-            $limit['status'] = ! $checkWhiteList ? $limitConfig["{$type}_limit_status"] : false;
-            $limit['type'] = $limitConfig["{$type}_limit_type"];
-            $limit['periodStart'] = $limitConfig["{$type}_limit_period_start"];
-            $limit['periodEnd'] = $limitConfig["{$type}_limit_period_end"];
-            $limit['periodStartFormat'] = DateHelper::fresnsDateTimeByTimezone($limitConfig["{$type}_limit_period_start"], $timezone, $langTag);
-            $limit['periodEndFormat'] = DateHelper::fresnsDateTimeByTimezone($limitConfig["{$type}_limit_period_end"], $timezone, $langTag);
-            $limit['cycleStart'] = $limitConfig["{$type}_limit_cycle_start"];
-            $limit['cycleEnd'] = $limitConfig["{$type}_limit_cycle_end"];
-            $limit['cycleStartFormat'] = DateHelper::fresnsTimeByTimezone($limitConfig["{$type}_limit_cycle_start"], $timezone);
-            $limit['cycleEndFormat'] = DateHelper::fresnsTimeByTimezone($limitConfig["{$type}_limit_cycle_end"], $timezone);
-            $limit['rule'] = $limitConfig["{$type}_limit_rule"];
-            $limit['tip'] = $limitConfig["{$type}_limit_tip"];
-        } else {
-            $limit['status'] = $rolePerm["{$type}_limit_status"];
-            $limit['type'] = $rolePerm["{$type}_limit_type"];
-            $limit['periodStart'] = $rolePerm["{$type}_limit_period_start"];
-            $limit['periodEnd'] = $rolePerm["{$type}_limit_period_end"];
-            $limit['periodStartFormat'] = DateHelper::fresnsDateTimeByTimezone($rolePerm["{$type}_limit_period_start"], $timezone, $langTag);
-            $limit['periodEndFormat'] = DateHelper::fresnsDateTimeByTimezone($rolePerm["{$type}_limit_period_end"], $timezone, $langTag);
-            $limit['cycleStart'] = $rolePerm["{$type}_limit_cycle_start"];
-            $limit['cycleEnd'] = $rolePerm["{$type}_limit_cycle_end"];
-            $limit['cycleStartFormat'] = DateHelper::fresnsTimeByTimezone($rolePerm["{$type}_limit_cycle_start"], $timezone);
-            $limit['cycleEndFormat'] = DateHelper::fresnsTimeByTimezone($rolePerm["{$type}_limit_cycle_end"], $timezone);
-            $limit['rule'] = $rolePerm["{$type}_limit_rule"];
-            $limit['tip'] = ConfigUtility::getCodeMessage(36105, 'Fresns', $langTag);
-        }
-
-        $publish['perm'] = $perm;
-        $publish['limit'] = $limit;
-
-        return $publish;
+        return $publishConfig;
     }
 
     // get edit config by type(post or comment)

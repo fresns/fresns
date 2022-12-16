@@ -9,15 +9,12 @@
 namespace App\Fresns\Api\Services;
 
 use App\Exceptions\ApiException;
-use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
-use App\Models\File;
-use App\Models\PluginUsage;
 use App\Models\UserBlock;
 use App\Models\UserFollow;
 use App\Models\UserLike;
 use App\Utilities\ExtendUtility;
-use Illuminate\Support\Facades\Cache;
+use App\Utilities\PermissionUtility;
 
 class InteractionService
 {
@@ -222,7 +219,7 @@ class InteractionService
                         continue;
                     }
 
-                    $paginateData[] = $service->commentData($mark->comment, 'list', $langTag, $timezone, $authUserId);
+                    $paginateData[] = $service->commentData($mark->comment, 'list', $langTag, $timezone, true, $authUserId);
                 }
             break;
         }
@@ -234,34 +231,36 @@ class InteractionService
     }
 
     // get manage extends
-    public static function getManageExtends(string $type, string $langTag, ?int $authUserId = null)
+    public static function getManageExtends(string $type, string $langTag, ?int $authUserId = null, ?string $groupId = null)
     {
-        $cacheKey = $authUserId ? "fresns_api_{$type}_manages_{$authUserId}_{$langTag}" : "fresns_api_guest_{$type}_manages_{$langTag}";
-        $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
-
-        // null cache count
-        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
+        if (empty($authUserId)) {
             return [];
         }
 
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+        $everyoneManages = ExtendUtility::getManageExtendsByEveryone($type, $langTag);
 
-        $scene = match ($type) {
-            'post' => PluginUsage::SCENE_POST,
-            'comment' => PluginUsage::SCENE_COMMENT,
-            'user' => PluginUsage::SCENE_USER,
-        };
-
-        // Cache::tags(['fresnsApiExtensions'])
-        $manages = Cache::remember($cacheKey, $cacheTime, function () use ($scene, $authUserId, $langTag) {
-            return ExtendUtility::getPluginUsages(PluginUsage::TYPE_MANAGE, null, $scene, $authUserId, $langTag);
-        });
-
-        // null cache count
-        if (empty($manages)) {
-            CacheHelper::nullCacheCount($cacheKey, $nullCacheKey);
+        $roleManages = [];
+        $roleArr = PermissionUtility::getUserRoles($authUserId, $langTag);
+        foreach ($roleArr as $role) {
+            $roleManages[] = ExtendUtility::getManageExtendsByRole($type, $langTag, $role['rid']);
         }
 
-        return $manages;
+        $groupManages = [];
+        if ($groupId) {
+            $checkGroupAdmin = PermissionUtility::checkUserGroupAdmin($groupId, $authUserId);
+            $groupManages = $checkGroupAdmin ? ExtendUtility::getManageExtendsByGroupAdmin($type, $langTag) : [];
+        }
+
+        $allManageExtends = array_merge($everyoneManages, $roleManages, $groupManages);
+
+        if (empty($allManageExtends)) {
+            return [];
+        }
+
+        $unikeys = array_column($allManageExtends, 'unikey');
+        $unikeys = array_unique($unikeys);
+        $newManageExtends = array_intersect_key($allManageExtends, $unikeys);
+
+        return array_values($newManageExtends);
     }
 }

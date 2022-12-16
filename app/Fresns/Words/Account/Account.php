@@ -270,23 +270,32 @@ class Account
         $aidToken = $dtoWordBody->aidToken;
 
         $cacheKey = "fresns_token_account_{$accountId}_{$aidToken}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
-        // Cache::tags(['fresnsSystems'])
-        $accountToken = Cache::remember($cacheKey, $cacheTime, function () use ($accountId, $aidToken) {
-            return SessionToken::where('account_id', $accountId)
-                ->where('account_token', $aidToken)
-                ->whereNull('user_id')
-                ->first();
-        });
-
-        if (is_null($accountToken)) {
-            Cache::forget($cacheKey);
-
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
             return $this->failure(
                 31505,
                 ConfigUtility::getCodeMessage(31505, 'Fresns', $langTag)
             );
+        }
+
+        $accountToken = Cache::get($cacheKey);
+
+        if (empty($accountToken)) {
+            $accountToken = SessionToken::where('account_id', $accountId)
+                ->where('account_token', $aidToken)
+                ->whereNull('user_id')
+                ->first();
+
+            if (empty($accountToken)) {
+                return $this->failure(
+                    31505,
+                    ConfigUtility::getCodeMessage(31505, 'Fresns', $langTag)
+                );
+            }
+
+            CacheHelper::put($accountToken, $cacheKey, ['fresnsAccounts', 'fresnsAccountTokens']);
         }
 
         if ($accountToken->platform_id != $dtoWordBody->platformId) {

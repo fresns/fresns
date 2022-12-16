@@ -9,6 +9,7 @@
 namespace App\Utilities;
 
 use App\Helpers\AppHelper;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Models\Plugin;
 use Browser;
@@ -20,20 +21,26 @@ class AppUtility
 {
     public static function currentVersion()
     {
-        // Cache::tags(['fresnsSystems'])
-        return Cache::remember('fresns_current_version', now()->addDays(), function () {
+        $currentVersion = Cache::get('fresns_current_version');
+
+        if (empty($currentVersion)) {
             $fresnsJson = file_get_contents(
                 base_path('fresns.json')
             );
 
-            return json_decode($fresnsJson, true);
-        });
+            $currentVersion = json_decode($fresnsJson, true);
+
+            CacheHelper::put($currentVersion, 'fresns_current_version', 'fresnsSystems', 1, now()->addDays());
+        }
+
+        return $currentVersion;
     }
 
     public static function newVersion()
     {
-        // Cache::tags(['fresnsSystems'])
-        return Cache::remember('fresns_new_version', now()->addHours(6), function () {
+        $newVersion = Cache::get('fresns_new_version');
+
+        if (empty($newVersion)) {
             try {
                 $versionInfoUrl = AppUtility::getAppHost().'/version.json';
                 $client = new \GuzzleHttp\Client();
@@ -42,14 +49,18 @@ class AppUtility
                 $buildType = ConfigHelper::fresnsConfigByItemKey('build_type');
 
                 if ($buildType == 1) {
-                    return $versionInfo['stableBuild'];
+                    $newVersion = $versionInfo['stableBuild'];
+                } else {
+                    $newVersion = $versionInfo['betaBuild'];
                 }
-
-                return $versionInfo['betaBuild'];
             } catch (\Exception $e) {
-                return AppHelper::getAppVersion();
+                $newVersion = AppHelper::getAppVersion();
             }
-        });
+
+            CacheHelper::put($newVersion, 'fresns_new_version', 'fresnsSystems', 10, now()->addHours(6));
+        }
+
+        return $newVersion;
     }
 
     public static function checkVersion(): bool

@@ -84,6 +84,8 @@ class CommentController extends Controller
             });
         });
 
+        $isPreviewPost = true;
+
         if ($dtoRequest->uidOrUsername) {
             $commentConfig = ConfigHelper::fresnsConfigByItemKey('it_comments');
             if (! $commentConfig) {
@@ -128,6 +130,8 @@ class CommentController extends Controller
             }
 
             $commentQuery->where('post_id', $viewPost->id)->where('top_parent_id', 0);
+
+            $isPreviewPost = false;
         }
 
         $outputSubComments = true;
@@ -145,6 +149,7 @@ class CommentController extends Controller
             $commentQuery->where('top_parent_id', $viewComment->id);
 
             $outputSubComments = false;
+            $isPreviewPost = false;
         }
 
         $groupDateLimit = null;
@@ -310,7 +315,7 @@ class CommentController extends Controller
                 continue;
             }
 
-            $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat, $outputSubComments);
+            $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, $isPreviewPost, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat, $outputSubComments);
         }
 
         return $this->fresnsPaginate($commentList, $comments->total(), $comments->perPage());
@@ -345,7 +350,7 @@ class CommentController extends Controller
         $data['items'] = $item;
 
         $service = new CommentService();
-        $data['detail'] = $service->commentData($comment, 'detail', $langTag, $timezone, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+        $data['detail'] = $service->commentData($comment, 'detail', $langTag, $timezone, true, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
 
         return $this->success($data);
     }
@@ -519,7 +524,7 @@ class CommentController extends Controller
         $commentList = [];
         $service = new CommentService();
         foreach ($comments as $comment) {
-            $listItem = $service->commentData($comment, 'list', $langTag, $timezone, $authUser->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+            $listItem = $service->commentData($comment, 'list', $langTag, $timezone, true, $authUser->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
             $listItem['followType'] = InteractionUtility::getFollowType($comment->user_id, $authUser?->id, $comment?->group_id, $comment?->hashtags?->toArray());
 
             $commentList[] = $listItem;
@@ -582,7 +587,7 @@ class CommentController extends Controller
         $commentList = [];
         $service = new CommentService();
         foreach ($comments as $comment) {
-            $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, $authUser?->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+            $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, true, $authUser?->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
         }
 
         return $this->fresnsPaginate($commentList, $comments->total(), $comments->perPage());

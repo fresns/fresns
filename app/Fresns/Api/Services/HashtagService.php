@@ -30,18 +30,21 @@ class HashtagService
         }
 
         $cacheKey = "fresns_api_hashtag_{$hashtag->slug}_{$langTag}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
-        // Cache::tags(['fresnsApiData'])
-        $data = Cache::remember($cacheKey, $cacheTime, function () use ($hashtag, $langTag) {
+        $data = Cache::get($cacheKey);
+
+        if (empty($data)) {
             $hashtagInfo = $hashtag->getHashtagInfo($langTag);
 
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_HASHTAG, $hashtag->id, $langTag);
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_HASHTAG, $hashtag->id, $langTag);
-            $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_HASHTAG, $hashtag->id, $langTag);
+            $item['extends'] = ExtendUtility::getContentExtends(ExtendUsage::TYPE_HASHTAG, $hashtag->id, $langTag);
 
-            return array_merge($hashtagInfo, $item);
-        });
+            $data = array_merge($hashtagInfo, $item);
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+            CacheHelper::put($data, $cacheKey, ['fresnsHashtags', 'fresnsHashtagData'], null, $cacheTime);
+        }
 
         $interactionConfig = InteractionHelper::fresnsHashtagInteraction($langTag);
         $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_HASHTAG, $hashtag->id, $authUserId);

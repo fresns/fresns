@@ -145,34 +145,6 @@ trait UserServiceTrait
         return $mainRole;
     }
 
-    public function getUserRoles(?string $langTag = null)
-    {
-        $userData = $this;
-
-        $userRoleArr = UserRole::where('user_id', $userData->id)->get()->toArray();
-        $roleArr = Role::whereIn('id', array_column($userRoleArr, 'role_id'))->get();
-
-        $roleList = [];
-        foreach ($roleArr as $role) {
-            foreach ($userRoleArr as $userRole) {
-                if ($userRole['role_id'] !== $role['id']) {
-                    continue;
-                }
-                $item['rid'] = $role['id'];
-                $item['isMain'] = (bool) $userRole['is_main'];
-                $item['nicknameColor'] = $role['nickname_color'];
-                $item['name'] = LanguageHelper::fresnsLanguageByTableId('roles', 'name', $role['id'], $langTag);
-                $item['nameDisplay'] = (bool) $role['is_display_name'];
-                $item['icon'] = FileHelper::fresnsFileUrlByTableColumn($role['icon_file_id'], $role['icon_file_url']);
-                $item['iconDisplay'] = (bool) $role['is_display_icon'];
-                $item['status'] = (bool) $role['is_enable'];
-            }
-            $roleList[] = $item;
-        }
-
-        return $roleList;
-    }
-
     public function getUserStats(?string $langTag = null)
     {
         $statsData = $this->stat;

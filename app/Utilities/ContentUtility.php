@@ -192,8 +192,8 @@ class ContentUtility
         $siteUrl = ConfigHelper::fresnsConfigByItemKey('site_url') ?? AppUtility::getAppHost();
 
         $siteDomain = StrHelper::extractDomainByUrl($siteUrl);
-        $userMainRole = $userId ? PermissionUtility::getUserMainRolePerm($userId) : null;
-        $contentLinkHandle = $userMainRole['content_link_handle'] ?? 1;
+        $mainRolePerms = $userId ? PermissionUtility::getUserMainRole($userId)['permissions'] : null;
+        $contentLinkHandle = $mainRolePerms['content_link_handle'] ?? 1;
 
         $replaceList = [];
         $linkList = [];
@@ -1232,18 +1232,28 @@ class ContentUtility
         }
 
         $cacheKey = "fresns_{$type}_block_words";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
-        // Cache::tags(['fresnsConfigs'])
-        $blockWords = Cache::remember($cacheKey, $cacheTime, function () use ($type) {
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return $content;
+        }
+
+        $blockWords = Cache::get($cacheKey);
+
+        if (empty($blockWords)) {
             $blockWords = match ($type) {
                 'content' => BlockWord::where('content_mode', '!=', 1)->get(['word', 'replace_word']),
                 'user' => BlockWord::where('user_mode', '!=', 1)->get(['word', 'replace_word']),
                 'conversation' => BlockWord::where('conversation_mode', '!=', 1)->get(['word', 'replace_word']),
             };
 
-            return $blockWords;
-        });
+            CacheHelper::put($blockWords, $cacheKey, 'fresnsConfigs');
+        }
+
+        if (empty($blockWords)) {
+            return $content;
+        }
 
         $newContent = str_ireplace($blockWords->pluck('word')->toArray(), $blockWords->pluck('replace_word')->toArray(), $content);
 

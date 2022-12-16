@@ -424,8 +424,10 @@ class CommonController extends Controller
         $authAccountId = $this->account()->id;
         $authUserId = $this->user()->id;
 
+        $mainRolePerms = PermissionUtility::getUserMainRole($authUserId, $this->langTag())['permissions'];
+
         // check down count
-        $roleDownloadCount = PermissionUtility::getUserMainRolePerm($authUserId)['download_file_count'] ?? 0;
+        $roleDownloadCount = $mainRolePerms['download_file_count'] ?? 0;
         $userDownloadCount = FileDownload::where('user_id', $authUserId)->whereDate('created_at', now())->count();
         if ($roleDownloadCount < $userDownloadCount) {
             throw new ApiException(36115);
@@ -468,7 +470,7 @@ class CommonController extends Controller
         }
 
         // check permission
-        if ($dtoRequest->type == 'post' && $model?->postAppend?->is_allow == 1) {
+        if ($dtoRequest->type == 'post' && $model?->postAppend?->is_allow === 0) {
             $checkPostAllow = PermissionUtility::checkPostAllow($model->id, $authUserId);
 
             if (! $checkPostAllow) {

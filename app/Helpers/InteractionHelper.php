@@ -14,6 +14,7 @@ use App\Models\Group;
 use App\Models\Hashtag;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 
 class InteractionHelper
 {
@@ -146,6 +147,28 @@ class InteractionHelper
         $interaction['publishCommentName'] = $itemData['publish_comment_name'];
 
         return $interaction;
+    }
+
+    // group count
+    public static function fresnsGroupCount()
+    {
+        $cacheKey = 'fresns_group_count';
+
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return 0;
+        }
+
+        $groupCount = Cache::get($cacheKey);
+
+        if (empty($groupCount)) {
+            $groupCount = Group::count();
+
+            CacheHelper::put($groupCount, $cacheKey, ['fresnsGroups', 'fresnsGroupConfigs']);
+        }
+
+        return $groupCount;
     }
 
     /**

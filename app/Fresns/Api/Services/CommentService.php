@@ -35,17 +35,17 @@ use Illuminate\Support\Str;
 class CommentService
 {
     // $type = list or detail
-    public function commentData(?Comment $comment, string $type, string $langTag, string $timezone, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLng = null, ?string $authUserLat = null, ?bool $outputSubComments = false)
+    public function commentData(?Comment $comment, string $type, string $langTag, string $timezone, bool $isPreviewPost, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLng = null, ?string $authUserLat = null, ?bool $outputSubComments = false)
     {
         if (! $comment) {
             return null;
         }
 
         $cacheKey = "fresns_api_comment_{$comment->cid}_{$langTag}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
 
-        // Cache::tags(['fresnsApiData'])
-        $commentData = Cache::remember($cacheKey, $cacheTime, function () use ($comment, $langTag) {
+        $commentData = Cache::get($cacheKey);
+
+        if (empty($commentData)) {
             $commentAppend = $comment->commentAppend;
             $post = $comment->post;
             $postAppend = $comment->postAppend;
@@ -57,7 +57,7 @@ class CommentService
             // extend list
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_COMMENT, $comment->id, $langTag);
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_COMMENT, $comment->id, $langTag);
-            $item['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_COMMENT, $comment->id, $langTag);
+            $item['extends'] = ExtendUtility::getContentExtends(ExtendUsage::TYPE_COMMENT, $comment->id, $langTag);
 
             // file
             $item['files'] = FileHelper::fresnsFileInfoListByTableColumn('comments', 'id', $comment->id);
@@ -130,8 +130,11 @@ class CommentService
             $item['followType'] = null;
             $item['post'] = self::getPost($post, $langTag);
 
-            return array_merge($commentInfo, $item);
-        });
+            $commentData = array_merge($commentInfo, $item);
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
+            CacheHelper::put($commentData, $cacheKey, ['fresnsComments', 'fresnsCommentData'], null, $cacheTime);
+        }
 
         $contentHandle = self::handleCommentContent($comment, $commentData, $type, $authUserId);
 
@@ -150,7 +153,7 @@ class CommentService
         }
 
         // whether to output sub-level comments
-        $previewConfig = ConfigHelper::fresnsConfigByItemKey('comment_preview');
+        $previewConfig = ConfigHelper::fresnsConfigByItemKey('sub_comment_preview');
         if ($outputSubComments && $previewConfig != 0) {
             $commentData['subComments'] = self::getSubComments($comment->id, $previewConfig, $langTag);
         }
@@ -184,14 +187,19 @@ class CommentService
         }
 
         // manages
-        $commentData['manages'] = InteractionService::getManageExtends('comment', $langTag, $authUserId);
+        $groupId = PrimaryHelper::fresnsGroupIdByGid($commentData['post']['group']['gid']);
+        $commentData['manages'] = InteractionService::getManageExtends('comment', $langTag, $authUserId, $groupId);
 
         // interaction
         $interactionConfig = InteractionHelper::fresnsCommentInteraction($langTag);
         $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_COMMENT, $comment->id, $authUserId);
-        $item['interaction'] = array_merge($interactionConfig, $interactionStatus, $commentData['interaction']);
+        $interArr['interaction'] = array_merge($interactionConfig, $interactionStatus, $commentData['interaction']);
 
-        $data = array_merge($commentData, $contentHandle, $item);
+        if (! $isPreviewPost) {
+            $commentData['post'] = null;
+        }
+
+        $data = array_merge($commentData, $contentHandle, $interArr);
 
         $commentData = self::handleCommentCount($comment, $data);
         $commentData = self::handleCommentDate($commentData, $timezone, $langTag);
@@ -203,10 +211,10 @@ class CommentService
     public static function handleCommentContent(Comment $comment, array $commentData, string $type, ?int $authUserId = null)
     {
         $cacheKey = "fresns_api_comment_{$commentData['cid']}_{$type}_content";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
-        // Cache::tags(['fresnsApiData'])
-        $commentData = Cache::remember($cacheKey, $cacheTime, function () use ($comment, $commentData, $type) {
+        $commentData = Cache::get($cacheKey);
+
+        if (empty($commentData)) {
             $commentContent = ContentUtility::replaceBlockWords('content', $commentData['content']);
 
             $briefLength = ConfigHelper::fresnsConfigByItemKey('comment_editor_brief_length');
@@ -220,10 +228,10 @@ class CommentService
 
             $commentData['content'] = $commentContent;
 
-            return $commentData;
-        });
+            CacheHelper::put($commentData, $cacheKey, ['fresnsComments', 'fresnsCommentData']);
+        }
 
-        $authUid = PrimaryHelper::fresnsModelById('user', $authUserId)->uid;
+        $authUid = PrimaryHelper::fresnsModelById('user', $authUserId)?->uid;
 
         if (! $commentData['isCommentPublic'] && $commentData['post']['creator']['uid'] != $authUid) {
             return $commentData['content'] = null;
@@ -283,14 +291,17 @@ class CommentService
     public static function getSubComments(int $commentId, int $limit, string $langTag)
     {
         $cacheKey = "fresns_api_comment_{$commentId}_sub_comments_{$langTag}";
-        $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
 
-        // null cache count
-        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
             return [];
         }
 
-        $commentList = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($commentId, $limit, $langTag) {
+        // get cache
+        $commentList = Cache::get($cacheKey);
+
+        if (empty($commentList)) {
             $comments = Comment::where('parent_id', $commentId)->orderByDesc('like_count')->limit($limit)->get();
 
             $service = new CommentService();
@@ -298,15 +309,10 @@ class CommentService
 
             $commentList = [];
             foreach ($comments as $comment) {
-                $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone);
+                $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, false);
             }
 
-            return $commentList;
-        });
-
-        // null cache count
-        if (empty($commentList)) {
-            CacheHelper::nullCacheCount($cacheKey, $nullCacheKey, 10);
+            CacheHelper::put($commentList, $cacheKey, ['fresnsComments', 'fresnsCommentData'], 10, now()->addMinutes(10));
         }
 
         return $commentList;
@@ -357,7 +363,7 @@ class CommentService
 
         $info['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST_LOG, $log->id, $langTag);
         $info['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_POST_LOG, $log->id, $langTag);
-        $info['extends'] = ExtendUtility::getExtends(ExtendUsage::TYPE_POST_LOG, $log->id, $langTag);
+        $info['extends'] = ExtendUtility::getContentExtends(ExtendUsage::TYPE_POST_LOG, $log->id, $langTag);
         $info['files'] = FileHelper::fresnsFileInfoListByTableColumn('post_logs', 'id', $log->id);
 
         $fileCount['images'] = collect($info['files']['images'])->count();

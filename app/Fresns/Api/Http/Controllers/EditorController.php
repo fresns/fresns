@@ -134,7 +134,7 @@ class EditorController extends Controller
         $timezone = $this->timezone();
         $authUser = $this->user();
 
-        $userRolePerm = PermissionUtility::getUserMainRolePerm($authUser->id);
+        $userRolePerm = PermissionUtility::getUserMainRole($authUser->id, $langTag)['permissions'];
 
         switch ($dtoRequest->type) {
             // post

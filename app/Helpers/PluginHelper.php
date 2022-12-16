@@ -26,35 +26,33 @@ class PluginHelper
         }
 
         $cacheKey = "fresns_plugin_url_{$unikey}";
-        $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
 
-        // null cache count
-        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
             return null;
         }
 
-        // Cache::tags(['fresnsConfigs'])
-        $pluginUrl = Cache::remember($cacheKey, now()->addDays(7), function () use ($unikey) {
-            $plugin = Plugin::where('unikey', $unikey)->first(['plugin_host', 'access_path']);
-            if (empty($plugin)) {
-                return null;
+        $pluginUrl = Cache::get($cacheKey);
+
+        if (empty($pluginUrl)) {
+            $plugin = Plugin::where('unikey', $unikey)->first();
+
+            $link = null;
+            if ($plugin) {
+                $system_url = ConfigHelper::fresnsConfigByItemKey('system_url');
+
+                $url = empty($plugin->plugin_host) ? $system_url : $plugin->plugin_host;
+
+                $link = StrHelper::qualifyUrl($plugin->access_path, $url);
             }
 
-            $system_url = ConfigHelper::fresnsConfigByItemKey('system_url');
+            $pluginUrl = $link;
 
-            $url = empty($plugin->plugin_host) ? $system_url : $plugin->plugin_host;
-
-            $link = StrHelper::qualifyUrl($plugin->access_path, $url);
-
-            return $link ?? null;
-        });
-
-        // null cache count
-        if (empty($pluginUrl)) {
-            CacheHelper::nullCacheCount($cacheKey, $nullCacheKey);
+            CacheHelper::put($pluginUrl, $cacheKey, 'fresnsConfigs');
         }
 
-        return $pluginUrl;
+        return $pluginUrl ?? null;
     }
 
     /**

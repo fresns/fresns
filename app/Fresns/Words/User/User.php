@@ -268,23 +268,32 @@ class User
         $uidToken = $dtoWordBody->uidToken;
 
         $cacheKey = "fresns_token_user_{$userId}_{$uidToken}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
-        // Cache::tags(['fresnsSystems'])
-        $userToken = Cache::remember($cacheKey, $cacheTime, function () use ($accountId, $userId, $uidToken) {
-            return SessionToken::where('account_id', $accountId)
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return $this->failure(
+                31505,
+                ConfigUtility::getCodeMessage(31505, 'Fresns', $langTag)
+            );
+        }
+
+        $userToken = Cache::get($cacheKey);
+
+        if (empty($userToken)) {
+            $userToken = SessionToken::where('account_id', $accountId)
                 ->where('user_id', $userId)
                 ->where('user_token', $uidToken)
                 ->first();
-        });
 
-        if (is_null($userToken)) {
-            Cache::forget($cacheKey);
+            if (empty($userToken)) {
+                return $this->failure(
+                    31603,
+                    ConfigUtility::getCodeMessage(31603, 'Fresns', $langTag)
+                );
+            }
 
-            return $this->failure(
-                31603,
-                ConfigUtility::getCodeMessage(31603, 'Fresns', $langTag)
-            );
+            CacheHelper::put($userToken, $cacheKey, ['fresnsUsers', 'fresnsUserTokens']);
         }
 
         if ($userToken->platform_id != $dtoWordBody->platformId) {

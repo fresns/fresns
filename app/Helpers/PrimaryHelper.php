@@ -21,6 +21,7 @@ use App\Models\Operation;
 use App\Models\Post;
 use App\Models\SessionKey;
 use App\Models\User;
+use App\Models\UserFollow;
 use Illuminate\Support\Facades\Cache;
 
 class PrimaryHelper
@@ -33,59 +34,75 @@ class PrimaryHelper
         }
 
         $cacheKey = "fresns_model_{$modelName}_{$fsid}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
-        // Cache::tags(['fresnsModels'])
-        $fresnsModel = Cache::remember($cacheKey, $cacheTime, function () use ($modelName, $fsid) {
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return null;
+        }
+
+        $fresnsModel = Cache::get($cacheKey);
+
+        if (empty($fresnsModel)) {
             switch ($modelName) {
                 // key
                 case 'key':
-                    $model = SessionKey::where('app_id', $fsid)->first();
+                    $fresnsModel = SessionKey::where('app_id', $fsid)->first();
+                    $cacheTag = "fresns_model_key_{$fsid}";
                 break;
 
                 // account
                 case 'account':
-                    $model = Account::withTrashed()->with(['users', 'connects'])->where('aid', $fsid)->first();
+                    $fresnsModel = Account::withTrashed()->with(['users', 'connects'])->where('aid', $fsid)->first();
+                    $cacheTag = ['fresnsAccounts', 'fresnsAccountModels'];
                 break;
 
                 // user
                 case 'user':
-                    $model = User::withTrashed()->where('uid', $fsid)->orWhere('username', $fsid)->first();
+                    $fresnsModel = User::withTrashed()->where('uid', $fsid)->orWhere('username', $fsid)->first();
+                    $cacheTag = ['fresnsUsers', 'fresnsUserModels'];
                 break;
 
                 // group
                 case 'group':
-                    $model = Group::withTrashed()->with(['creator', 'admins'])->where('gid', $fsid)->first();
+                    $fresnsModel = Group::withTrashed()->with(['creator', 'admins'])->where('gid', $fsid)->first();
+                    $cacheTag = ['fresnsGroups', 'fresnsGroupModels'];
                 break;
 
                 // hashtag
                 case 'hashtag':
-                    $model = Hashtag::withTrashed()->where('slug', $fsid)->first();
+                    $fresnsModel = Hashtag::withTrashed()->where('slug', $fsid)->first();
+                    $cacheTag = ['fresnsHashtags', 'fresnsHashtagModels'];
                 break;
 
                 // post
                 case 'post':
-                    $model = Post::withTrashed()->with(['postAppend', 'creator', 'group', 'hashtags'])->where('pid', $fsid)->first();
+                    $fresnsModel = Post::withTrashed()->with(['postAppend', 'creator', 'group', 'hashtags'])->where('pid', $fsid)->first();
+                    $cacheTag = ['fresnsPosts', 'fresnsPostModels'];
                 break;
 
                 // comment
                 case 'comment':
-                    $model = Comment::withTrashed()->with(['commentAppend', 'post', 'postAppend', 'creator', 'hashtags'])->where('cid', $fsid)->first();
+                    $fresnsModel = Comment::withTrashed()->with(['commentAppend', 'post', 'postAppend', 'creator', 'hashtags'])->where('cid', $fsid)->first();
+                    $cacheTag = ['fresnsComments', 'fresnsCommentModels'];
                 break;
 
                 // file
                 case 'file':
-                    $model = File::withTrashed()->where('fid', $fsid)->first();
+                    $fresnsModel = File::withTrashed()->where('fid', $fsid)->first();
+                    $cacheTag = ['fresnsModels', 'fresnsFiles'];
                 break;
 
                 // extend
                 case 'extend':
-                    $model = Extend::withTrashed()->where('eid', $fsid)->first();
+                    $fresnsModel = Extend::withTrashed()->where('eid', $fsid)->first();
+                    $cacheTag = ['fresnsModels', 'fresnsExtends'];
                 break;
 
                 // archive
                 case 'archive':
-                    $model = Archive::withTrashed()->where('code', $fsid)->first();
+                    $fresnsModel = Archive::withTrashed()->where('code', $fsid)->first();
+                    $cacheTag = ['fresnsModels', 'fresnsArchives'];
                 break;
 
                 // default
@@ -94,11 +111,7 @@ class PrimaryHelper
                 break;
             }
 
-            return $model;
-        });
-
-        if (empty($fresnsModel)) {
-            Cache::forget($cacheKey);
+            CacheHelper::put($fresnsModel, $cacheKey, $cacheTag);
         }
 
         return $fresnsModel;
@@ -112,64 +125,81 @@ class PrimaryHelper
         }
 
         $cacheKey = "fresns_model_{$modelName}_{$id}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
-        // Cache::tags(['fresnsModels'])
-        $fresnsModel = Cache::remember($cacheKey, $cacheTime, function () use ($modelName, $id) {
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return null;
+        }
+
+        $fresnsModel = Cache::get($cacheKey);
+
+        if (empty($fresnsModel)) {
             switch ($modelName) {
                 // account
                 case 'account':
-                    $model = Account::withTrashed()->with(['users', 'connects'])->where('id', $id)->first();
+                    $fresnsModel = Account::withTrashed()->with(['users', 'connects'])->where('id', $id)->first();
+                    $cacheTag = ['fresnsAccounts', 'fresnsAccountModels'];
                 break;
 
                 // user
                 case 'user':
-                    $model = User::withTrashed()->where('id', $id)->first();
+                    $fresnsModel = User::withTrashed()->where('id', $id)->first();
+                    $cacheTag = ['fresnsUsers', 'fresnsUserModels'];
                 break;
 
                 // group
                 case 'group':
-                    $model = Group::withTrashed()->with(['creator', 'admins'])->where('id', $id)->first();
+                    $fresnsModel = Group::withTrashed()->with(['creator', 'admins'])->where('id', $id)->first();
+                    $cacheTag = ['fresnsGroups', 'fresnsGroupModels'];
                 break;
 
                 // hashtag
                 case 'hashtag':
-                    $model = Hashtag::withTrashed()->where('id', $id)->first();
+                    $fresnsModel = Hashtag::withTrashed()->where('id', $id)->first();
+                    $cacheTag = ['fresnsHashtags', 'fresnsHashtagModels'];
                 break;
 
                 // post
                 case 'post':
-                    $model = Post::withTrashed()->with(['postAppend', 'creator', 'group', 'hashtags'])->where('id', $id)->first();
+                    $fresnsModel = Post::withTrashed()->with(['postAppend', 'creator', 'group', 'hashtags'])->where('id', $id)->first();
+                    $cacheTag = ['fresnsPosts', 'fresnsPostModels'];
                 break;
 
                 // comment
                 case 'comment':
-                    $model = Comment::withTrashed()->with(['commentAppend', 'post', 'postAppend', 'creator', 'hashtags'])->where('id', $id)->first();
+                    $fresnsModel = Comment::withTrashed()->with(['commentAppend', 'post', 'postAppend', 'creator', 'hashtags'])->where('id', $id)->first();
+                    $cacheTag = ['fresnsComments', 'fresnsCommentModels'];
                 break;
 
                 // file
                 case 'file':
-                    $model = File::withTrashed()->where('id', $id)->first();
+                    $fresnsModel = File::withTrashed()->where('id', $id)->first();
+                    $cacheTag = ['fresnsModels', 'fresnsFiles'];
                 break;
 
                 // extend
                 case 'extend':
-                    $model = Extend::withTrashed()->where('id', $id)->first();
+                    $fresnsModel = Extend::withTrashed()->where('id', $id)->first();
+                    $cacheTag = ['fresnsModels', 'fresnsExtends'];
                 break;
 
                 // operation
                 case 'operation':
-                    $model = Operation::withTrashed()->where('id', $id)->first();
+                    $fresnsModel = Operation::withTrashed()->where('id', $id)->first();
+                    $cacheTag = ['fresnsModels', 'fresnsOperations'];
                 break;
 
                 // archive
                 case 'archive':
-                    $model = Archive::withTrashed()->where('id', $id)->first();
+                    $fresnsModel = Archive::withTrashed()->where('id', $id)->first();
+                    $cacheTag = ['fresnsModels', 'fresnsArchives'];
                 break;
 
                 // conversation
                 case 'conversation':
-                    $model = Conversation::withTrashed()->with(['aUser', 'bUser', 'latestMessage'])->where('id', $id)->first();
+                    $fresnsModel = Conversation::withTrashed()->with(['aUser', 'bUser', 'latestMessage'])->where('id', $id)->first();
+                    $cacheTag = ['fresnsModels', 'fresnsConversations'];
                 break;
 
                 // default
@@ -178,11 +208,7 @@ class PrimaryHelper
                 break;
             }
 
-            return $model;
-        });
-
-        if (empty($fresnsModel)) {
-            Cache::forget($cacheKey);
+            CacheHelper::put($fresnsModel, $cacheKey, $cacheTag);
         }
 
         return $fresnsModel;
@@ -192,32 +218,28 @@ class PrimaryHelper
     public static function fresnsModelConversation(int $authUserId, int $conversationUserId)
     {
         $cacheKey = "fresns_model_conversation_{$authUserId}_{$conversationUserId}";
-        $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
 
-        // Cache::tags(['fresnsModels'])
-        $fresnsModel = Cache::remember($cacheKey, $cacheTime, function () use ($authUserId, $conversationUserId) {
-            $aConversation = Conversation::with(['aUser', 'latestMessage'])->where('a_user_id', $conversationUserId)->where('b_user_id', $authUserId)->first();
-            $bConversation = Conversation::with(['bUser', 'latestMessage'])->where('b_user_id', $conversationUserId)->where('a_user_id', $authUserId)->first();
+        $conversationModel = Cache::get($cacheKey);
+
+        if (empty($conversationModel)) {
+            $aConversation = Conversation::where('a_user_id', $conversationUserId)->where('b_user_id', $authUserId)->first();
+            $bConversation = Conversation::where('b_user_id', $conversationUserId)->where('a_user_id', $authUserId)->first();
 
             if (empty($aConversation) && empty($bConversation)) {
                 $conversationColumn['a_user_id'] = $authUserId;
                 $conversationColumn['b_user_id'] = $conversationUserId;
 
-                $conversation = Conversation::create($conversationColumn);
+                $conversationModel = Conversation::create($conversationColumn);
             } elseif (empty($aConversation)) {
-                $conversation = $bConversation;
+                $conversationModel = $bConversation;
             } else {
-                $conversation = $aConversation;
+                $conversationModel = $aConversation;
             }
 
-            return $conversation;
-        });
+            CacheHelper::put($conversationModel, $cacheKey, ['fresnsUsers', 'fresnsUserConversations']);
+        };
 
-        if (empty($fresnsModel)) {
-            Cache::forget($cacheKey);
-        }
-
-        return $fresnsModel;
+        return $conversationModel;
     }
 
     // get table id
@@ -252,6 +274,53 @@ class PrimaryHelper
         };
 
         return $tableId;
+    }
+
+    // get follow model by type
+    public static function fresnsFollowModelByType(string $type, int $id, ?int $authUserId = null)
+    {
+        if (empty($authUserId)) {
+            return null;
+        }
+
+        $cacheKey = "fresns_follow_{$type}_model_{$id}_by_{$authUserId}";
+
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return null;
+        }
+
+        $fresnsModel = Cache::get($cacheKey);
+
+        if (empty($fresnsModel)) {
+            $followType = match ($type) {
+                'user' => UserFollow::TYPE_USER,
+                'group' => UserFollow::TYPE_GROUP,
+                'hashtag' => UserFollow::TYPE_HASHTAG,
+                'post' => UserFollow::TYPE_POST,
+                'comment' => UserFollow::TYPE_COMMENT,
+                default => null,
+            };
+
+            if (empty($followType)) {
+                throw new \RuntimeException("unknown type {$type}");
+            }
+
+            $fresnsModel = UserFollow::where('user_id', $authUserId)->where('follow_type', $followType)->where('follow_id', $id)->first();
+
+            $cacheTag = match ($type) {
+                'user' => ['fresnsUsers', 'fresnsUserInteractions', 'fresnsFollowData'],
+                'group' => ['fresnsGroups', 'fresnsGroupData', 'fresnsUsers', 'fresnsUserInteractions', 'fresnsFollowData'],
+                'hashtag' => ['fresnsHashtags', 'fresnsHashtagData', 'fresnsUsers', 'fresnsUserInteractions', 'fresnsFollowData'],
+                'post' => ['fresnsPosts', 'fresnsPostData', 'fresnsUsers', 'fresnsUserInteractions', 'fresnsFollowData'],
+                'comment' => ['fresnsComments', 'fresnsCommentData', 'fresnsUsers', 'fresnsUserInteractions', 'fresnsFollowData'],
+            };
+
+            CacheHelper::put($fresnsModel, $cacheKey, $cacheTag);
+        }
+
+        return $fresnsModel;
     }
 
     /**

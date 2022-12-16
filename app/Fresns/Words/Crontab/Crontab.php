@@ -10,6 +10,7 @@ namespace App\Fresns\Words\Crontab;
 
 use App\Fresns\Words\Crontab\DTO\AddCrontabItemDTO;
 use App\Fresns\Words\Crontab\DTO\DeleteCrontabItemDTO;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Models\Account;
 use App\Models\Config;
@@ -46,7 +47,8 @@ class Crontab
             $cronArr[] = $wordBody;
         }
         Config::where('item_key', 'crontab_items')->update(['item_value' => $cronArr]);
-        Cache::forever('cronArr', $cronArr);
+
+        Cache::forever('fresns_crontab_items', $cronArr);
 
         return $this->success();
     }
@@ -67,7 +69,8 @@ class Crontab
             }
         }
         Config::where('item_key', 'crontab_items')->update(['item_value' => $cronArr]);
-        Cache::forever('cronArr', $cronArr);
+
+        Cache::forever('fresns_crontab_items', $cronArr);
 
         return $this->success();
     }
@@ -104,7 +107,7 @@ class Crontab
             }
 
             // clear role cache
-            Cache::forget("fresns_user_main_role_{$role->user_id}");
+            CacheHelper::forgetFresnsMultilingual("fresns_user_{$role->user_id}_main_role");
         }
 
         return $this->success();

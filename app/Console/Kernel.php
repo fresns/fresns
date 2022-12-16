@@ -9,6 +9,7 @@
 namespace App\Console;
 
 use App\Helpers\ConfigHelper;
+use App\Models\Config;
 use App\Models\Plugin;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -24,10 +25,17 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // Cache::tags(['fresnsSystems'])
-        $cronArr = Cache::remember('fresns_crontab_items', now()->addDays(), function () {
-            return ConfigHelper::fresnsConfigByItemKey('crontab_items');
-        });
+        $cacheKey = 'fresns_crontab_items';
+
+        $cronArr = Cache::get($cacheKey);
+
+        if (empty($cronArr)) {
+            $cronConfig = Config::where('item_key', 'crontab_items')->first();
+
+            $cronArr = $cronConfig?->item_value ?? [];
+
+            Cache::forever('fresns_crontab_items', $cronArr);
+        }
 
         foreach ($cronArr as $cron) {
             $pluginStatus = Plugin::where('unikey', $cron['unikey'])->isEnable()->first();
