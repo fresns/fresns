@@ -194,7 +194,7 @@ class ExtendUtility
             $typeList = [];
             foreach ($extendArr as $extend) {
                 $typeList[] = $extend->getUsageInfo($langTag);
-            };
+            }
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
             CacheHelper::put($$typeList, $cacheKey, ['fresnsExtensions', 'fresnsConfigs'], null, $cacheTime);

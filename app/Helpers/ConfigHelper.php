@@ -93,7 +93,7 @@ class ConfigHelper
             }
 
             if ($itemData->is_multilingual == 1) {
-                $itemValue =  LanguageHelper::fresnsLanguageByTableKey($itemData->item_key, $itemData->item_type, $langTag);
+                $itemValue = LanguageHelper::fresnsLanguageByTableKey($itemData->item_key, $itemData->item_type, $langTag);
             }
 
             CacheHelper::put($itemValue, $cacheKey, 'fresnsConfigs');
@@ -156,7 +156,7 @@ class ConfigHelper
                 }
             }
 
-            $tagData =  $itemDataArr;
+            $tagData = $itemDataArr;
 
             CacheHelper::put($tagData, $cacheKey, 'fresnsConfigs');
         }
