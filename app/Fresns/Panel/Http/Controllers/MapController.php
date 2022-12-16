@@ -42,6 +42,9 @@ class MapController extends Controller
             ->get();
 
         $plugins = Plugin::all();
+        $plugins = $plugins->filter(function ($plugin) {
+            return in_array('map', $plugin->scene ?: []);
+        });
 
         $languages = Language::tableName('plugin_usages')
             ->where('table_column', 'name')
@@ -56,21 +59,19 @@ class MapController extends Controller
 
     public function store(Request $request)
     {
-        $map = PluginUsage::where('parameter', $request->parameter)
-            ->where('type', 9)
-            ->first();
+        $map = PluginUsage::where('usage_type', 9)->where('parameter', $request->parameter)->first();
 
         if ($map) {
             return back()->with('failure', __('FsLang::tips.map_exists'));
         }
 
         $map = new PluginUsage;
+        $map->usage_type = 9;
         $map->plugin_unikey = $request->plugin_unikey;
         $map->is_enable = $request->is_enable;
-        $map->rating = $request->rating;
         $map->parameter = $request->parameter;
         $map->icon_file_url = $request->icon_file_url;
-        $map->type = 9;
+        $map->rating = $request->rating;
         $map->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $map->save();
 
@@ -147,7 +148,6 @@ class MapController extends Controller
         $map->is_enable = $request->is_enable;
         $map->rating = $request->rating;
         $map->parameter = $request->parameter;
-        $map->type = 9;
         $map->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
 
         if ($request->file('icon_file')) {
