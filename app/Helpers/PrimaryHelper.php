@@ -237,7 +237,7 @@ class PrimaryHelper
             }
 
             CacheHelper::put($conversationModel, $cacheKey, ['fresnsUsers', 'fresnsUserConversations']);
-        };
+        }
 
         return $conversationModel;
     }

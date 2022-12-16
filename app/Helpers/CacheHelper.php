@@ -331,7 +331,7 @@ class CacheHelper
     }
 
     /**
-     * tag: fresnsSystems
+     * tag: fresnsSystems.
      */
     // fresns_current_version
     // fresns_new_version
@@ -344,7 +344,7 @@ class CacheHelper
     // fresns_crontab_items
 
     /**
-     * tag: fresnsConfigs
+     * tag: fresnsConfigs.
      */
     // fresns_default_langTag
     // fresns_default_timezone
@@ -370,24 +370,24 @@ class CacheHelper
      * tag: fresnsPluginUsageLanguages
      * tag: fresnsRoleLanguages
      * tag: fresnsStickerLanguages
-     * tag: fresnsNotificationLanguages
+     * tag: fresnsNotificationLanguages.
      */
     // fresns_{$tableName}_{$tableColumn}_{$tableId}_{$langTag}
 
     /**
-     * tag: fresnsCodeMessages
+     * tag: fresnsCodeMessages.
      */
     // fresns_code_messages_{$unikey}_{$langTag}
 
     /**
-     * tag: fresnsAccounts
+     * tag: fresnsAccounts.
      */
     // fresns_token_account_{$accountId}_{$token}                   // +tag: fresnsAccountTokens
     // fresns_model_account_{$aid}                                  // +tag: fresnsAccountModels
     // fresns_api_account_{$aid}_{$langTag}                         // +tag: fresnsAccountData
 
     /**
-     * tag: fresnsUsers
+     * tag: fresnsUsers.
      */
     // fresns_token_user_{$userId}_{$token}                         // +tag: fresnsUserTokens
     // fresns_model_user_{$uidOrUsername}                           // +tag: fresnsUserModels
@@ -406,7 +406,7 @@ class CacheHelper
     // fresns_api_user_panel_drafts_{$uid}                          // +tag: fresnsUserData, fresnsUserDrafts
 
     /**
-     * tag: fresnsGroups
+     * tag: fresnsGroups.
      */
     // fresns_group_count                                           // +tag: fresnsGroupConfigs
     // fresns_private_groups                                        // +tag: fresnsGroupConfigs
@@ -423,7 +423,7 @@ class CacheHelper
     // fresns_api_group_{$gid}_extensions_{$userId}_{$langTag}      // +tag: fresnsGroupExtensions
 
     /**
-     * tag: fresnsHashtags
+     * tag: fresnsHashtags.
      */
     // fresns_model_hashtag_{$hid}                  // +tag: fresnsHashtagModels
     // fresns_model_hashtag_{$hashtagId}            // +tag: fresnsHashtagModels
@@ -431,7 +431,7 @@ class CacheHelper
     // fresns_api_hashtag_{$hid}_{$langTag}         // +tag: fresnsHashtagData
 
     /**
-     * tag: fresnsPosts
+     * tag: fresnsPosts.
      */
     // fresns_model_post_{$pid}                             // +tag: fresnsPostModels
     // fresns_model_post_{$postId}                          // +tag: fresnsPostModels
@@ -443,7 +443,7 @@ class CacheHelper
     // fresns_api_post_{$postId}_top_comments_{$langTag}    // +tag: fresnsPostData, fresnsComments, fresnsCommentData
 
     /**
-     * tag: fresnsComments
+     * tag: fresnsComments.
      */
     // fresns_model_comment_{$cid}                                  // +tag: fresnsCommentModels
     // fresns_model_comment_{$commentId}                            // +tag: fresnsCommentModels
@@ -454,7 +454,7 @@ class CacheHelper
     // fresns_api_comment_{$commentId}_sub_comments_{$langTag}      // +tag: fresnsCommentData
 
     /**
-     * tag: fresnsModels
+     * tag: fresnsModels.
      */
     // fresns_model_file_{$fid}                         // +tag: fresnsFiles
     // fresns_model_file_{$fileId}                      // +tag: fresnsFiles
@@ -466,7 +466,7 @@ class CacheHelper
     // fresns_model_conversation_{$conversationId}      // +tag: fresnsConversations
 
     /**
-     * tag: fresnsExtensions
+     * tag: fresnsExtensions.
      */
     // fresns_wallet_extends_{$langTag}
     // fresns_{$type}_content_types_{$langTag}                  // +tag: fresnsConfigs
@@ -478,7 +478,7 @@ class CacheHelper
     // fresns_user_manages_{$rid}_{$langTag}                    // +tag: fresnsConfigs
 
     /**
-     * tag: fresnsApiData
+     * tag: fresnsApiData.
      */
     // fresns_api_archives_{$type}_{$unikey}_{$langTag}     // +tag: fresnsArchives
     // fresns_api_sticker_tree_{$langTag}                   // +tag: fresnsConfigs

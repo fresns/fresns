@@ -42,10 +42,10 @@ class GroupController extends Controller
 
         if ($groupCount < 30) {
             $groups = Group::where(function ($query) {
-                    $query->whereIn('type', [1, 2])->orWhere(function ($query) {
-                        $query->whereIn('type', [3])->where('sublevel_public', Group::SUBLEVEL_PUBLIC);
-                    });
-                })
+                $query->whereIn('type', [1, 2])->orWhere(function ($query) {
+                    $query->whereIn('type', [3])->where('sublevel_public', Group::SUBLEVEL_PUBLIC);
+                });
+            })
                 ->when($groupFilterIds, function ($query, $value) {
                     $query->whereNotIn('id', $value);
                 })
@@ -78,10 +78,10 @@ class GroupController extends Controller
 
         if (empty($groups)) {
             $groups = Group::where(function ($query) {
-                    $query->whereIn('type', [1, 2])->orWhere(function ($query) {
-                        $query->whereIn('type', [3])->where('sublevel_public', Group::SUBLEVEL_PUBLIC);
-                    });
-                })
+                $query->whereIn('type', [1, 2])->orWhere(function ($query) {
+                    $query->whereIn('type', [3])->where('sublevel_public', Group::SUBLEVEL_PUBLIC);
+                });
+            })
                 ->when($groupFilterIds, function ($query, $value) {
                     $query->whereNotIn('id', $value);
                 })

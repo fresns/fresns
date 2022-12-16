@@ -66,9 +66,9 @@ class FileHelper
 
         if (empty($fileAccept['images']) && empty($fileAccept['videos']) && empty($fileAccept['audios']) && empty($fileAccept['documents'])) {
             $imageFileExt = ConfigHelper::fresnsConfigByItemKey('image_extension_names');
-            $videoFileExt =ConfigHelper::fresnsConfigByItemKey('video_extension_names');
-            $audioFileExt =ConfigHelper::fresnsConfigByItemKey('audio_extension_names');
-            $documentFileExt =ConfigHelper::fresnsConfigByItemKey('document_extension_names');
+            $videoFileExt = ConfigHelper::fresnsConfigByItemKey('video_extension_names');
+            $audioFileExt = ConfigHelper::fresnsConfigByItemKey('audio_extension_names');
+            $documentFileExt = ConfigHelper::fresnsConfigByItemKey('document_extension_names');
 
             $imageFileExt = Str::lower($imageFileExt);
             $videoFileExt = Str::lower($videoFileExt);
