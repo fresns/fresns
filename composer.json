@@ -34,6 +34,7 @@
         "laravel/framework": "^9.43",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+        "laravel/scout": "^9.5",
         "laravel/ui": "^4.1",
         "doctrine/dbal": "^3.5",
         "fresns/dto": "^1.1",
