@@ -103,7 +103,7 @@ class DateHelper
             return null;
         }
 
-        $timezone = $timezone ?? ConfigHelper::fresnsConfigDefaultTimezone();
+        $timezone = $timezone ?: ConfigHelper::fresnsConfigDefaultTimezone();
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
         $dateFormat = ConfigHelper::fresnsConfigDateFormat($langTag);
@@ -163,7 +163,7 @@ class DateHelper
             return null;
         }
 
-        $timezone = $timezone ?? ConfigHelper::fresnsConfigDefaultTimezone();
+        $timezone = $timezone ?: ConfigHelper::fresnsConfigDefaultTimezone();
 
         $currentTime = DateHelper::fresnsDatabaseCurrentDateTime();
         $dateString = Carbon::createFromFormat('Y-m-d H:i:s', $currentTime)->toDateString();
@@ -196,7 +196,7 @@ class DateHelper
             return null;
         }
 
-        $timezone = $timezone ?? ConfigHelper::fresnsConfigDefaultTimezone();
+        $timezone = $timezone ?: ConfigHelper::fresnsConfigDefaultTimezone();
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
         $dateFormat = ConfigHelper::fresnsConfigDateFormat($langTag).' H:i';

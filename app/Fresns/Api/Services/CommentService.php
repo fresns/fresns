@@ -68,7 +68,7 @@ class CommentService
             $fileCount['documents'] = collect($item['files']['documents'])->count();
             $item['fileCount'] = $fileCount;
 
-            $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
+            $timezone = $timezone ?: ConfigHelper::fresnsConfigDefaultTimezone();
 
             // hashtags
             $item['hashtags'] = [];
@@ -187,8 +187,8 @@ class CommentService
         }
 
         // manages
-        $groupId = PrimaryHelper::fresnsGroupIdByGid($commentData['post']['group']['gid']);
-        $commentData['manages'] = InteractionService::getManageExtends('comment', $langTag, $authUserId, $groupId);
+        $groupId = PrimaryHelper::fresnsGroupIdByGid($commentData['post']['group']['gid'] ?? null);
+        $commentData['manages'] = ExtendUtility::getManageExtensions('comment', $langTag, $authUserId, $groupId);
 
         // interaction
         $interactionConfig = InteractionHelper::fresnsCommentInteraction($langTag);
@@ -212,9 +212,9 @@ class CommentService
     {
         $cacheKey = "fresns_api_comment_{$commentData['cid']}_{$type}_content";
 
-        $commentData = Cache::get($cacheKey);
+        $newCommentData = Cache::get($cacheKey);
 
-        if (empty($commentData)) {
+        if (empty($newCommentData)) {
             $commentContent = ContentUtility::replaceBlockWords('content', $commentData['content']);
 
             $briefLength = ConfigHelper::fresnsConfigByItemKey('comment_editor_brief_length');
@@ -228,16 +228,17 @@ class CommentService
 
             $commentData['content'] = $commentContent;
 
-            CacheHelper::put($commentData, $cacheKey, ['fresnsComments', 'fresnsCommentData']);
+            $newCommentData = $commentData;
+            CacheHelper::put($newCommentData, $cacheKey, ['fresnsComments', 'fresnsCommentData']);
         }
 
         $authUid = PrimaryHelper::fresnsModelById('user', $authUserId)?->uid;
 
-        if (! $commentData['isCommentPublic'] && $commentData['post']['creator']['uid'] != $authUid) {
-            return $commentData['content'] = null;
+        if (! $newCommentData['isCommentPublic'] && $newCommentData['post']['creator']['uid'] != $authUid) {
+            return $newCommentData['content'] = null;
         }
 
-        return $commentData;
+        return $newCommentData;
     }
 
     // handle comment data count

@@ -18,7 +18,6 @@ use App\Models\Plugin;
 use App\Models\SessionKey;
 use App\Utilities\AppUtility;
 use App\Utilities\CommandUtility;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Cache;
 
 class DashboardController extends Controller
@@ -27,8 +26,9 @@ class DashboardController extends Controller
     {
         $overview = InteractionHelper::fresnsOverview();
 
-        // Cache::tags(['fresnsSystems'])
-        $news = Cache::remember('fresns_news', now()->addHours(3), function () {
+        $news = Cache::get('fresns_news');
+
+        if (empty($news)) {
             try {
                 $newUrl = AppUtility::getAppHost().'/news.json';
                 $client = new \GuzzleHttp\Client(['verify' => false]);
@@ -38,8 +38,8 @@ class DashboardController extends Controller
                 $news = [];
             }
 
-            return $news;
-        });
+            CacheHelper::put($news, 'fresns_news', 'fresnsSystems', 5, now()->addHours(3));
+        }
 
         $newsList = [];
         if ($news) {
@@ -78,16 +78,7 @@ class DashboardController extends Controller
         return $configInfo;
     }
 
-    /**
-     * @return RedirectResponse
-     */
-    public function cacheClear(): RedirectResponse
-    {
-        CacheHelper::clearAllCache();
-
-        return back()->with('success', 'ok');
-    }
-
+    // events
     public function eventList()
     {
         $pluginUpgradeCount = Plugin::where('is_upgrade', 1)->count();

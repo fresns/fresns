@@ -62,7 +62,7 @@ class PostService
             $fileCount['documents'] = collect($item['files']['documents'])->count();
             $item['fileCount'] = $fileCount;
 
-            $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
+            $timezone = $timezone ?: ConfigHelper::fresnsConfigDefaultTimezone();
 
             // group
             $groupService = new GroupService;
@@ -157,8 +157,8 @@ class PostService
         }
 
         // manages
-        $groupId = PrimaryHelper::fresnsGroupIdByGid($postData['group']['gid']);
-        $postData['manages'] = InteractionService::getManageExtends('post', $langTag, $authUserId, $groupId);
+        $groupId = PrimaryHelper::fresnsGroupIdByGid($postData['group']['gid'] ?? null);
+        $postData['manages'] = ExtendUtility::getManageExtensions('post', $langTag, $authUserId, $groupId);
 
         // interaction
         $interactionConfig = InteractionHelper::fresnsPostInteraction($langTag);
@@ -185,9 +185,9 @@ class PostService
     {
         $cacheKey = "fresns_api_post_{$postData['pid']}_{$type}_content";
 
-        $postData = Cache::get($cacheKey);
+        $newPostData = Cache::get($cacheKey);
 
-        if (empty($postData)) {
+        if (empty($newPostData)) {
             $postContent = ContentUtility::replaceBlockWords('content', $postData['content']);
 
             $briefLength = ConfigHelper::fresnsConfigByItemKey('post_editor_brief_length');
@@ -201,27 +201,27 @@ class PostService
 
             $postData['content'] = $postContent;
 
-            $postData = $postData;
-            CacheHelper::put($postData, $cacheKey, ['fresnsPosts', 'fresnsPostData']);
+            $newPostData = $postData;
+            CacheHelper::put($newPostData, $cacheKey, ['fresnsPosts', 'fresnsPostData']);
         }
 
-        if ($postData['isAllow']) {
-            return $postData;
+        if ($newPostData['isAllow']) {
+            return $newPostData;
         }
 
-        $postData['isAllow'] = true;
+        $newPostData['isAllow'] = true;
 
         $checkPostAllow = PermissionUtility::checkPostAllow($post->id, $authUserId);
 
         if (empty($authUserId) || ! $checkPostAllow) {
-            $allowProportion = $postData['allowProportion'] / 100;
-            $allowLength = intval($postData['contentLength'] * $allowProportion);
+            $allowProportion = $newPostData['allowProportion'] / 100;
+            $allowLength = intval($newPostData['contentLength'] * $allowProportion);
 
-            $postData['isAllow'] = false;
-            $postData['content'] = Str::limit($postData['content'], $allowLength);
+            $newPostData['isAllow'] = false;
+            $newPostData['content'] = Str::limit($newPostData['content'], $allowLength);
         }
 
-        return $postData;
+        return $newPostData;
     }
 
     // handle post data count
