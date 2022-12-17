@@ -11,11 +11,10 @@ namespace App\Models\Traits;
 use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
-use App\Models\PluginBadge;
 
 trait PluginUsageServiceTrait
 {
-    public function getUsageInfo(?string $langTag = null, ?int $userId = null)
+    public function getUsageInfo(?string $langTag = null)
     {
         $usageData = $this;
 
@@ -24,20 +23,11 @@ trait PluginUsageServiceTrait
         $info['icon'] = FileHelper::fresnsFileUrlByTableColumn($usageData->icon_file_id, $usageData->icon_file_url);
         $info['url'] = PluginHelper::fresnsPluginUsageUrl($usageData->plugin_unikey, $usageData->parameter);
 
-        $info['badgesType'] = null;
-        $info['badgesValue'] = null;
+        $info['badgeType'] = null;
+        $info['badgeValue'] = null;
+
         $info['editorToolbar'] = (bool) $usageData->editor_toolbar;
         $info['editorNumber'] = $usageData->editor_number;
-
-        if (! empty($userId)) {
-            $badge = PluginBadge::where('plugin_unikey', $usageData->plugin_unikey)->where('user_id', $userId)->first();
-            $info['badgesType'] = $badge?->display_type;
-            $info['badgesValue'] = match ($badge?->display_type) {
-                default => null,
-                1 => $badge?->value_number,
-                2 => $badge?->value_text,
-            };
-        }
 
         $pluginRating['postByAll'] = PluginHelper::pluginDataRatingHandle('postByAll', $usageData->data_sources, $langTag);
         $pluginRating['postByFollow'] = PluginHelper::pluginDataRatingHandle('postByFollow', $usageData->data_sources, $langTag);

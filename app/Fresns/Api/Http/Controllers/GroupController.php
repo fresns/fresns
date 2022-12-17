@@ -17,9 +17,7 @@ use App\Helpers\CacheHelper;
 use App\Helpers\InteractionHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PrimaryHelper;
-use App\Models\File;
 use App\Models\Group;
-use App\Models\PluginUsage;
 use App\Utilities\CollectionUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\PermissionUtility;
@@ -68,10 +66,10 @@ class GroupController extends Controller
 
         if (empty($authUser)) {
             $cacheKey = 'fresns_guest_all_groups';
-            $cacheTag = ['fresnsGroups', 'fresnsGroupData'];
+            $cacheTags = ['fresnsGroups', 'fresnsGroupData'];
         } else {
             $cacheKey = "fresns_user_{$authUser->id}_all_groups";
-            $cacheTag = ['fresnsGroups', 'fresnsGroupData', 'fresnsUsers', 'fresnsUserData'];
+            $cacheTags = ['fresnsGroups', 'fresnsGroupData', 'fresnsUsers', 'fresnsUserData'];
         }
 
         $groups = Cache::get($cacheKey);
@@ -90,7 +88,7 @@ class GroupController extends Controller
                 ->orderBy('rating')
                 ->get();
 
-            CacheHelper::put($groups, $cacheKey, $cacheTag);
+            CacheHelper::put($groups, $cacheKey, $cacheTags);
         }
 
         $groupData = [];
@@ -266,7 +264,7 @@ class GroupController extends Controller
         $item['title'] = $seoData?->title;
         $item['keywords'] = $seoData?->keywords;
         $item['description'] = $seoData?->description;
-        $item['extensions'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_GROUP, $group->id, null, $authUserId, $langTag);
+        $item['extensions'] = ExtendUtility::getGroupExtensions($group->id, $langTag, $authUserId);
         $data['items'] = $item;
 
         $service = new GroupService();

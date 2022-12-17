@@ -13,8 +13,6 @@ use App\Helpers\ConfigHelper;
 use App\Models\UserBlock;
 use App\Models\UserFollow;
 use App\Models\UserLike;
-use App\Utilities\ExtendUtility;
-use App\Utilities\PermissionUtility;
 
 class InteractionService
 {
@@ -228,39 +226,5 @@ class InteractionService
             'paginateData' => $paginateData,
             'markData' => $markData,
         ];
-    }
-
-    // get manage extends
-    public static function getManageExtends(string $type, string $langTag, ?int $authUserId = null, ?string $groupId = null)
-    {
-        if (empty($authUserId)) {
-            return [];
-        }
-
-        $everyoneManages = ExtendUtility::getManageExtendsByEveryone($type, $langTag);
-
-        $roleManages = [];
-        $roleArr = PermissionUtility::getUserRoles($authUserId, $langTag);
-        foreach ($roleArr as $role) {
-            $roleManages[] = ExtendUtility::getManageExtendsByRole($type, $langTag, $role['rid']);
-        }
-
-        $groupManages = [];
-        if ($groupId) {
-            $checkGroupAdmin = PermissionUtility::checkUserGroupAdmin($groupId, $authUserId);
-            $groupManages = $checkGroupAdmin ? ExtendUtility::getManageExtendsByGroupAdmin($type, $langTag) : [];
-        }
-
-        $allManageExtends = array_merge($everyoneManages, $roleManages, $groupManages);
-
-        if (empty($allManageExtends)) {
-            return [];
-        }
-
-        $unikeys = array_column($allManageExtends, 'unikey');
-        $unikeys = array_unique($unikeys);
-        $newManageExtends = array_intersect_key($allManageExtends, $unikeys);
-
-        return array_values($newManageExtends);
     }
 }

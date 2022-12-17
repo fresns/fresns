@@ -14,7 +14,6 @@ use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PluginHelper;
 use App\Helpers\PrimaryHelper;
-use App\Models\Account;
 use App\Models\CodeMessage;
 use App\Models\CommentLog;
 use App\Models\Config;
@@ -23,7 +22,6 @@ use App\Models\Language;
 use App\Models\PluginUsage;
 use App\Models\PostLog;
 use App\Models\SessionLog;
-use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
@@ -260,12 +258,8 @@ class ConfigUtility
         $hashtag['showMode'] = $editorConfig['hashtag_show'];
 
         // extend
-        $extendType = match ($type) {
-            'post' => 1,
-            'comment' => 2,
-        };
         $extend['status'] = $editorConfig["{$type}_editor_extend"];
-        $extend['list'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_EDITOR, null, $extendType, $userId, $langTag);
+        $extend['list'] = ExtendUtility::getEditorExtensions($type, $userId, $langTag);
 
         // toolbar
         $toolbar['sticker'] = ConfigHelper::fresnsConfigByItemKey("{$type}_editor_sticker");
@@ -280,7 +274,7 @@ class ConfigUtility
 
         // location
         $location['status'] = $editorConfig["{$type}_editor_location"];
-        $location['maps'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_MAP, null, null, null, $langTag);
+        $location['maps'] = ExtendUtility::getExtendsByEveryone(PluginUsage::TYPE_MAP, null, null, $langTag);
 
         // feature
         $feature['group'] = $group;

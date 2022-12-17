@@ -56,20 +56,10 @@ class AccountService
 
     public function accountData(Account $account, string $langTag, string $timezone)
     {
-        $cacheKey = "fresns_wallet_extends_{$langTag}";
-
-        $items = Cache::get($cacheKey);
-        if (empty($items['walletRecharges']) && empty($items['walletWithdraws'])) {
-            $item['walletRecharges'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_WALLET_RECHARGE, null, null, null, $langTag);
-            $item['walletWithdraws'] = ExtendUtility::getPluginUsages(PluginUsage::TYPE_WALLET_WITHDRAW, null, null, null, $langTag);
-
-            $items = $item;
-
-            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($items, $cacheKey, 'fresnsExtensions', null, $cacheTime);
-        }
-
-        $data['items'] = $items;
+        $data['items'] = [
+            'walletRecharges' => ExtendUtility::getExtendsByEveryone(PluginUsage::TYPE_WALLET_RECHARGE, null, null, $langTag),
+            'walletWithdraws' => ExtendUtility::getExtendsByEveryone(PluginUsage::TYPE_WALLET_WITHDRAW, null, null, $langTag),
+        ];
 
         $service = new AccountService();
         $data['detail'] = $service->accountDetail($account, $langTag, $timezone);

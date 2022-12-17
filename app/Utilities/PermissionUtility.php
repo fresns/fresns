@@ -117,11 +117,11 @@ class PermissionUtility
             }
 
             $mainRole = PermissionUtility::getUserMainRole($userId, $langTag);
-            $mainRole = \Arr::forget($mainRole, 'permissions');
-            $mainRole = '['.json_encode($mainRole).']';
-            $mainRole = json_decode($mainRole, true);
+            unset($mainRole['permissions']);
 
-            $roleAllList = array_merge($mainRole, $roleList);
+            $mainRoleArr = [$mainRole];
+
+            $roleAllList = array_merge($mainRoleArr, $roleList);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
             CacheHelper::put($roleAllList, $cacheKey, ['fresnsUsers', 'fresnsUserRoles'], null, $cacheTime);

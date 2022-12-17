@@ -282,7 +282,7 @@ class GlobalController extends Controller
     {
         $langTag = $this->langTag();
 
-        $data = ExtendUtility::getPluginUsages(PluginUsage::TYPE_MAP, null, null, null, $langTag);
+        $data = ExtendUtility::getExtendsByEveryone(PluginUsage::TYPE_MAP, null, null, $langTag);
 
         return $this->success($data);
     }
@@ -303,9 +303,10 @@ class GlobalController extends Controller
         }
 
         $langTag = $this->langTag();
-        $typeList = ExtendUtility::getContentTypes($scene, $langTag);
 
-        return $this->success($typeList);
+        $data = ExtendUtility::getExtendsByEveryone(PluginUsage::TYPE_CONTENT, null, null, $langTag);
+
+        return $this->success($data);
     }
 
     // stickers

@@ -34,7 +34,6 @@ use App\Models\File;
 use App\Models\HashtagUsage;
 use App\Models\Mention;
 use App\Models\Notification;
-use App\Models\PluginUsage;
 use App\Models\PostLog;
 use App\Models\SessionLog;
 use App\Models\User;
@@ -247,7 +246,7 @@ class UserController extends Controller
         $item['title'] = $seoData?->title;
         $item['keywords'] = $seoData?->keywords;
         $item['description'] = $seoData?->description;
-        $item['manages'] = InteractionService::getManageExtends('user', $langTag, $authUserId);
+        $item['manages'] = ExtendUtility::getManageExtensions('user', $langTag, $authUserId);
         $data['items'] = $item;
 
         $service = new UserService();
@@ -551,8 +550,8 @@ class UserController extends Controller
         $publishConfig['post'] = ConfigUtility::getPublishConfigByType($authUserId, 'post', $langTag, $timezone);
         $publishConfig['comment'] = ConfigUtility::getPublishConfigByType($authUserId, 'comment', $langTag, $timezone);
 
-        $data['features'] = ExtendUtility::getUserExtends('features', $authUserId, $langTag);
-        $data['profiles'] = ExtendUtility::getUserExtends('profiles', $authUserId, $langTag);
+        $data['features'] = ExtendUtility::getUserExtensions('features', $authUserId, $langTag);
+        $data['profiles'] = ExtendUtility::getUserExtensions('profiles', $authUserId, $langTag);
         $data['conversations'] = $conversations;
         $data['unreadNotifications'] = $unreadNotifications;
         $data['draftCount'] = $draftCount;
