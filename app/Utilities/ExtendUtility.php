@@ -379,7 +379,7 @@ class ExtendUtility
     }
 
     /**
-     * get extensions
+     * get extensions.
      */
 
     // get editor extensions
