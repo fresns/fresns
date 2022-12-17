@@ -89,9 +89,7 @@ class UserService
 
         $interactionConfig = InteractionHelper::fresnsUserInteraction($langTag);
         $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_USER, $user->id, $authUserId);
-        $followMeStatus['followMeStatus'] = InteractionUtility::checkUserFollow(InteractionUtility::TYPE_USER, $authUserId, $user->id);
-        $blockMeStatus['blockMeStatus'] = InteractionUtility::checkUserBlock(InteractionUtility::TYPE_USER, $authUserId, $user->id);
-        $userData['interaction'] = array_merge($interactionConfig, $interactionStatus, $followMeStatus, $blockMeStatus);
+        $userData['interaction'] = array_merge($interactionConfig, $interactionStatus);
 
         $userData['conversation'] = PermissionUtility::checkUserConversationPerm($user->id, $authUserId, $langTag);
 

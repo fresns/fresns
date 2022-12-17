@@ -100,10 +100,12 @@ class InteractionUtility
             $status['likeStatus'] = false;
             $status['dislikeStatus'] = false;
             $status['followStatus'] = false;
+            $status['followMeStatus'] = false;
             $status['followNote'] = null;
             $status['followIsExpiry'] = false;
             $status['followExpiryDateTime'] = null;
             $status['blockStatus'] = false;
+            $status['blockMeStatus'] = false;
             $status['blockNote'] = null;
 
             return $status;
@@ -123,11 +125,18 @@ class InteractionUtility
             $status['likeStatus'] = self::checkUserLike($markType, $markId, $userId);
             $status['dislikeStatus'] = self::checkUserDislike($markType, $markId, $userId);
             $status['followStatus'] = self::checkUserFollow($markType, $markId, $userId);
+            $status['followMeStatus'] = false;
             $status['followNote'] = $userFollow?->user_note;
             $status['followIsExpiry'] = ($expireTime < $now) ? true : false;
             $status['followExpiryDateTime'] = $userFollow?->expired_at;
             $status['blockStatus'] = self::checkUserBlock($markType, $markId, $userId);
+            $status['blockMeStatus'] = false;
             $status['blockNote'] = $userBlock?->user_note;
+
+            if ($markType == InteractionUtility::TYPE_USER) {
+                $status['followMeStatus'] = self::checkUserFollow($markType, $userId, $markId);
+                $status['blockMeStatus'] = self::checkUserBlock($markType, $userId, $markId);
+            }
 
             CacheHelper::put($status, $cacheKey, ['fresnsUsers', 'fresnsUserInteractions']);
         }
