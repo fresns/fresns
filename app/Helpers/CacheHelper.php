@@ -335,6 +335,10 @@ class CacheHelper
             "fresns_block_{$type}_array_by_{$userId}",
         ]);
 
+        if ($type == InteractionUtility::TYPE_USER) {
+            Cache::forget("fresns_interaction_status_{$type}_{$userId}_{$id}");
+        }
+
         if ($type == InteractionUtility::TYPE_GROUP) {
             CacheHelper::forgetFresnsKeys([
                 "fresns_filter_groups_by_user_{$userId}",

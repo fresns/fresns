@@ -899,7 +899,6 @@ class UserController extends Controller
         }
 
         CacheHelper::forgetFresnsInteraction($markType, $primaryId, $authUserId);
-        CacheHelper::forgetFresnsInteraction($markType, $authUserId, $primaryId);
 
         return $this->success();
     }
