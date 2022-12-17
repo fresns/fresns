@@ -48,61 +48,61 @@ class PrimaryHelper
                 // key
                 case 'key':
                     $fresnsModel = SessionKey::where('app_id', $fsid)->first();
-                    $cacheTag = "fresns_model_key_{$fsid}";
+                    $cacheTags = "fresns_model_key_{$fsid}";
                 break;
 
                 // account
                 case 'account':
                     $fresnsModel = Account::withTrashed()->with(['users', 'connects'])->where('aid', $fsid)->first();
-                    $cacheTag = ['fresnsAccounts', 'fresnsAccountModels'];
+                    $cacheTags = ['fresnsAccounts', 'fresnsAccountModels'];
                 break;
 
                 // user
                 case 'user':
                     $fresnsModel = User::withTrashed()->where('uid', $fsid)->orWhere('username', $fsid)->first();
-                    $cacheTag = ['fresnsUsers', 'fresnsUserModels'];
+                    $cacheTags = ['fresnsUsers', 'fresnsUserModels'];
                 break;
 
                 // group
                 case 'group':
                     $fresnsModel = Group::withTrashed()->with(['creator', 'admins'])->where('gid', $fsid)->first();
-                    $cacheTag = ['fresnsGroups', 'fresnsGroupModels'];
+                    $cacheTags = ['fresnsGroups', 'fresnsGroupModels'];
                 break;
 
                 // hashtag
                 case 'hashtag':
                     $fresnsModel = Hashtag::withTrashed()->where('slug', $fsid)->first();
-                    $cacheTag = ['fresnsHashtags', 'fresnsHashtagModels'];
+                    $cacheTags = ['fresnsHashtags', 'fresnsHashtagModels'];
                 break;
 
                 // post
                 case 'post':
                     $fresnsModel = Post::withTrashed()->with(['postAppend', 'creator', 'group', 'hashtags'])->where('pid', $fsid)->first();
-                    $cacheTag = ['fresnsPosts', 'fresnsPostModels'];
+                    $cacheTags = ['fresnsPosts', 'fresnsPostModels'];
                 break;
 
                 // comment
                 case 'comment':
                     $fresnsModel = Comment::withTrashed()->with(['commentAppend', 'post', 'postAppend', 'creator', 'hashtags'])->where('cid', $fsid)->first();
-                    $cacheTag = ['fresnsComments', 'fresnsCommentModels'];
+                    $cacheTags = ['fresnsComments', 'fresnsCommentModels'];
                 break;
 
                 // file
                 case 'file':
                     $fresnsModel = File::withTrashed()->where('fid', $fsid)->first();
-                    $cacheTag = ['fresnsModels', 'fresnsFiles'];
+                    $cacheTags = ['fresnsModels', 'fresnsFiles'];
                 break;
 
                 // extend
                 case 'extend':
                     $fresnsModel = Extend::withTrashed()->where('eid', $fsid)->first();
-                    $cacheTag = ['fresnsModels', 'fresnsExtends'];
+                    $cacheTags = ['fresnsModels', 'fresnsExtends'];
                 break;
 
                 // archive
                 case 'archive':
                     $fresnsModel = Archive::withTrashed()->where('code', $fsid)->first();
-                    $cacheTag = ['fresnsModels', 'fresnsArchives'];
+                    $cacheTags = ['fresnsModels', 'fresnsArchives'];
                 break;
 
                 // default
@@ -111,7 +111,7 @@ class PrimaryHelper
                 break;
             }
 
-            CacheHelper::put($fresnsModel, $cacheKey, $cacheTag);
+            CacheHelper::put($fresnsModel, $cacheKey, $cacheTags);
         }
 
         return $fresnsModel;
@@ -139,67 +139,67 @@ class PrimaryHelper
                 // account
                 case 'account':
                     $fresnsModel = Account::withTrashed()->with(['users', 'connects'])->where('id', $id)->first();
-                    $cacheTag = ['fresnsAccounts', 'fresnsAccountModels'];
+                    $cacheTags = ['fresnsAccounts', 'fresnsAccountModels'];
                 break;
 
                 // user
                 case 'user':
                     $fresnsModel = User::withTrashed()->where('id', $id)->first();
-                    $cacheTag = ['fresnsUsers', 'fresnsUserModels'];
+                    $cacheTags = ['fresnsUsers', 'fresnsUserModels'];
                 break;
 
                 // group
                 case 'group':
                     $fresnsModel = Group::withTrashed()->with(['creator', 'admins'])->where('id', $id)->first();
-                    $cacheTag = ['fresnsGroups', 'fresnsGroupModels'];
+                    $cacheTags = ['fresnsGroups', 'fresnsGroupModels'];
                 break;
 
                 // hashtag
                 case 'hashtag':
                     $fresnsModel = Hashtag::withTrashed()->where('id', $id)->first();
-                    $cacheTag = ['fresnsHashtags', 'fresnsHashtagModels'];
+                    $cacheTags = ['fresnsHashtags', 'fresnsHashtagModels'];
                 break;
 
                 // post
                 case 'post':
                     $fresnsModel = Post::withTrashed()->with(['postAppend', 'creator', 'group', 'hashtags'])->where('id', $id)->first();
-                    $cacheTag = ['fresnsPosts', 'fresnsPostModels'];
+                    $cacheTags = ['fresnsPosts', 'fresnsPostModels'];
                 break;
 
                 // comment
                 case 'comment':
                     $fresnsModel = Comment::withTrashed()->with(['commentAppend', 'post', 'postAppend', 'creator', 'hashtags'])->where('id', $id)->first();
-                    $cacheTag = ['fresnsComments', 'fresnsCommentModels'];
+                    $cacheTags = ['fresnsComments', 'fresnsCommentModels'];
                 break;
 
                 // file
                 case 'file':
                     $fresnsModel = File::withTrashed()->where('id', $id)->first();
-                    $cacheTag = ['fresnsModels', 'fresnsFiles'];
+                    $cacheTags = ['fresnsModels', 'fresnsFiles'];
                 break;
 
                 // extend
                 case 'extend':
                     $fresnsModel = Extend::withTrashed()->where('id', $id)->first();
-                    $cacheTag = ['fresnsModels', 'fresnsExtends'];
+                    $cacheTags = ['fresnsModels', 'fresnsExtends'];
                 break;
 
                 // operation
                 case 'operation':
                     $fresnsModel = Operation::withTrashed()->where('id', $id)->first();
-                    $cacheTag = ['fresnsModels', 'fresnsOperations'];
+                    $cacheTags = ['fresnsModels', 'fresnsOperations'];
                 break;
 
                 // archive
                 case 'archive':
                     $fresnsModel = Archive::withTrashed()->where('id', $id)->first();
-                    $cacheTag = ['fresnsModels', 'fresnsArchives'];
+                    $cacheTags = ['fresnsModels', 'fresnsArchives'];
                 break;
 
                 // conversation
                 case 'conversation':
                     $fresnsModel = Conversation::withTrashed()->with(['aUser', 'bUser', 'latestMessage'])->where('id', $id)->first();
-                    $cacheTag = ['fresnsModels', 'fresnsConversations'];
+                    $cacheTags = ['fresnsModels', 'fresnsConversations'];
                 break;
 
                 // default
@@ -208,7 +208,7 @@ class PrimaryHelper
                 break;
             }
 
-            CacheHelper::put($fresnsModel, $cacheKey, $cacheTag);
+            CacheHelper::put($fresnsModel, $cacheKey, $cacheTags);
         }
 
         return $fresnsModel;
@@ -309,7 +309,7 @@ class PrimaryHelper
 
             $fresnsModel = UserFollow::where('user_id', $authUserId)->where('follow_type', $followType)->where('follow_id', $id)->first();
 
-            $cacheTag = match ($type) {
+            $cacheTags = match ($type) {
                 'user' => ['fresnsUsers', 'fresnsUserInteractions', 'fresnsFollowData'],
                 'group' => ['fresnsGroups', 'fresnsGroupData', 'fresnsUsers', 'fresnsUserInteractions', 'fresnsFollowData'],
                 'hashtag' => ['fresnsHashtags', 'fresnsHashtagData', 'fresnsUsers', 'fresnsUserInteractions', 'fresnsFollowData'],
@@ -317,7 +317,7 @@ class PrimaryHelper
                 'comment' => ['fresnsComments', 'fresnsCommentData', 'fresnsUsers', 'fresnsUserInteractions', 'fresnsFollowData'],
             };
 
-            CacheHelper::put($fresnsModel, $cacheKey, $cacheTag);
+            CacheHelper::put($fresnsModel, $cacheKey, $cacheTags);
         }
 
         return $fresnsModel;

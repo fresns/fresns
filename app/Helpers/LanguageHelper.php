@@ -62,7 +62,7 @@ class LanguageHelper
                 ])->first()->lang_content ?? null;
             }
 
-            $cacheTag = match ($tableName) {
+            $cacheTags = match ($tableName) {
                 'users' => ['fresnsLanguages', 'fresnsUsers', 'fresnsUserData'],
                 'groups' => ['fresnsLanguages', 'fresnsGroups', 'fresnsGroupData'],
                 'hashtags' => ['fresnsLanguages', 'fresnsHashtags', 'fresnsHashtagData'],
@@ -80,7 +80,7 @@ class LanguageHelper
                 default => 'fresnsUnknownLanguages',
             };
 
-            CacheHelper::put($langContent, $cacheKey, $cacheTag);
+            CacheHelper::put($langContent, $cacheKey, $cacheTags);
         }
 
         return $langContent;
@@ -149,7 +149,7 @@ class LanguageHelper
                 'comment' => Seo::TYPE_COMMENT,
             };
 
-            $cacheTag = match ($type) {
+            $cacheTags = match ($type) {
                 'user' => ['fresnsUsers', 'fresnsUserData'],
                 'group' => ['fresnsGroups', 'fresnsGroupData'],
                 'hashtag' => ['fresnsHashtags', 'fresnsHashtagData'],
@@ -159,7 +159,7 @@ class LanguageHelper
 
             $seoData = Seo::where('usage_type', $usageType)->where('usage_id', $id)->get();
 
-            CacheHelper::put($seoData, $cacheKey, $cacheTag);
+            CacheHelper::put($seoData, $cacheKey, $cacheTags);
         }
 
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
