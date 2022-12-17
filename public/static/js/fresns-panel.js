@@ -1811,6 +1811,17 @@ $(document).ready(function () {
             .find('input:radio[name=is_enable][value="' + params.is_enable + '"]')
             .prop('checked', true)
             .click();
+
+        $(this)
+            .find('input:radio[name=is_group_admin][value="' + params.is_group_admin + '"]')
+            .prop('checked', true)
+            .click();
+
+        if (params.is_group_admin == 0) {
+            $('#usage_setting').addClass('show');
+        } else {
+            $('#usage_setting').removeClass('show');
+        }
     });
 
     // expend type edit

@@ -39,7 +39,7 @@
             <tbody>
                 @foreach ($pluginUsages as $item)
                     <tr>
-                        <td><input type="number" data-action="{{ route('panel.manage.rating', $item->id) }}" class="form-control input-number rating-number" value="{{ $item['rating'] }}"></td>
+                        <td><input type="number" data-action="{{ route('panel.manage.rating', $item->id) }}" class="form-control input-number rating-number" value="{{ $item->rating }}"></td>
                         <td>{{ optional($item->plugin)->name }}</td>
                         <td>
                             @if ($item->getIconUrl())
@@ -66,7 +66,7 @@
                             @endforeach
                         </td>
                         <td>
-                            @if ($item['is_group_admin'])
+                            @if ($item->is_group_admin)
                                 <i class="bi bi-check-lg text-success"></i>
                             @else
                                 <i class="bi bi-dash-lg text-secondary"></i>
@@ -74,7 +74,7 @@
                         </td>
                         <td>{{ $item->parameter }}</td>
                         <td>
-                            @if ($item['is_enable'])
+                            @if ($item->is_enable)
                                 <i class="bi bi-check-lg text-success"></i>
                             @else
                                 <i class="bi bi-dash-lg text-secondary"></i>

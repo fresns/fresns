@@ -57,6 +57,7 @@
                     <th scope="col">{{ __('FsLang::panel.table_plugin') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_name') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_authorized_roles') }} <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.table_authorized_roles_desc') }}"></i></th>
+                    <th scope="col">{{ __('FsLang::panel.table_scope_group_admins') }} <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.table_scope_group_admins_desc') }}"></i></th>
                     <th scope="col">{{ __('FsLang::panel.table_parameter') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_status') }}</th>
                     <th scope="col" style="width:8rem;">{{ __('FsLang::panel.table_options') }}</th>
@@ -65,7 +66,7 @@
             <tbody>
                 @foreach ($pluginUsages as $item)
                     <tr>
-                        <td><input type="number" data-action="{{ route('panel.group.rating', $item) }}" class="form-control input-number rating-number" value="{{ $item['rating'] }}"></td>
+                        <td><input type="number" data-action="{{ route('panel.group.rating', $item) }}" class="form-control input-number rating-number" value="{{ $item->rating }}"></td>
                         <td>{{ $item->group ? $item->group->name : '' }}</td>
                         <td>{{ optional($item->plugin)->name }}</td>
                         <td>
@@ -81,9 +82,16 @@
                                 @endif
                             @endforeach
                         </td>
+                        <td>
+                            @if ($item->is_group_admin)
+                                <i class="bi bi-check-lg text-success"></i>
+                            @else
+                                <i class="bi bi-dash-lg text-secondary"></i>
+                            @endif
+                        </td>
                         <td>{{ $item->parameter }}</td>
                         <td>
-                            @if ($item['is_enable'])
+                            @if ($item->is_enable)
                                 <i class="bi bi-check-lg text-success"></i>
                             @else
                                 <i class="bi bi-dash-lg text-secondary"></i>
@@ -138,11 +146,11 @@
                                 <select class="form-select mb-1" id="parentGroupId" name="parent_group_id" required>
                                     <option selected disabled value="">{{ __('FsLang::panel.select_box_tip_group_category') }}</option>
                                     @foreach ($groups as $group)
-                                      <option value="{{ $group->id }}" data-children="{{ $group->groups->toJson() }}">{{ $group->name }}</option>
+                                        <option value="{{ $group->id }}" data-children="{{ $group->groups->toJson() }}">{{ $group->name }}</option>
                                     @endforeach
                                 </select>
                                 <select class="form-select mt-2" name="group_id" id="childGroup" required style="display:none">
-                                  <option selected disabled value="">{{ __('FsLang::panel.select_box_tip_group') }}</option>
+                                    <option selected disabled value="">{{ __('FsLang::panel.select_box_tip_group') }}</option>
                                 </select>
                             </div>
                         </div>
@@ -182,17 +190,37 @@
                             <div class="col-sm-9">
                                 <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start name-button" data-bs-toggle="modal" data-parent="#configModal" data-bs-target="#langModal">{{ __('FsLang::panel.table_name') }}</button>
                                 <div class="invalid-feedback">{{ __('FsLang::tips.required_group_category_name') }}</div>
-
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_authorized_roles') }}</label>
-                            <div class="col-sm-9">
-                                <select class="form-select select2" multiple name="roles[]" id='roles'>
-                                    @foreach ($roles as $role)
-                                        <option value="{{ $role->id }}">{{ $role->getLangName($defaultLanguage) }}</option>
-                                    @endforeach
-                                </select>
+                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_scope') }}</label>
+                            <div class="col-sm-9 pt-2">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="is_group_admin" id="usage_role" value="0" data-bs-toggle="collapse" data-bs-target="#usage_setting:not(.show)" aria-expanded="false" aria-controls="usage_setting" checked>
+                                    <label class="form-check-label" for="usage_role">
+                                        {{ __('FsLang::panel.table_scope_global') }}
+                                        <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.table_scope_global_desc') }}"></i>
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="is_group_admin" id="usage_group" value="1" data-bs-toggle="collapse" data-bs-target="#usage_setting.show" aria-expanded="false" aria-controls="usage_setting">
+                                    <label class="form-check-label" for="usage_group">
+                                        {{ __('FsLang::panel.table_scope_group_admins') }}
+                                        <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.table_scope_group_admins_desc') }}"></i>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="collapse show" id="usage_setting">
+                            <div class="mb-3 row">
+                                <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_authorized_roles') }}</label>
+                                <div class="col-sm-9">
+                                    <select class="form-select select2" multiple name="roles[]" id='roles'>
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->id }}">{{ $role->getLangName($defaultLanguage) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="mb-3 row">

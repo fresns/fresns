@@ -48,6 +48,9 @@ class ExtendManageController extends Controller
         $pluginUsage->rating = $request->rating;
         $pluginUsage->is_group_admin = $request->is_group_admin;
         $pluginUsage->roles = ($request->is_group_admin == 0 && $request->roles) ? implode(',', $request->roles) : '';
+        if ($request->is_group_admin) {
+            $pluginUsage->roles = null;
+        }
         $pluginUsage->scene = $request->scene ? implode(',', $request->scene) : '';
         $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->can_delete = 1;
@@ -115,6 +118,9 @@ class ExtendManageController extends Controller
         $pluginUsage->is_group_admin = $request->is_group_admin;
         $pluginUsage->roles = ($request->is_group_admin == 0 && $request->roles) ? implode(',', $request->roles) : '';
         $pluginUsage->scene = $request->scene ? implode(',', $request->scene) : '';
+        if ($request->is_group_admin) {
+            $pluginUsage->roles = null;
+        }
 
         if ($request->file('icon_file')) {
             $wordBody = [

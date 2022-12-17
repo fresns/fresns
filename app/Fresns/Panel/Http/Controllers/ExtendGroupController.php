@@ -52,10 +52,14 @@ class ExtendGroupController extends Controller
         $pluginUsage->usage_type = PluginUsage::TYPE_GROUP;
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->plugin_unikey = $request->plugin_unikey;
+        $pluginUsage->is_group_admin = $request->is_group_admin;
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rating = $request->rating;
         $pluginUsage->roles = $request->roles ? implode(',', $request->roles) : $pluginUsage->roles;
+        if ($request->is_group_admin) {
+            $pluginUsage->roles = null;
+        }
         $pluginUsage->group_id = $request->group_id;
         $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->save();
@@ -118,10 +122,14 @@ class ExtendGroupController extends Controller
         }
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->plugin_unikey = $request->plugin_unikey;
+        $pluginUsage->is_group_admin = $request->is_group_admin;
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rating = $request->rating;
         $pluginUsage->roles = $request->roles ? implode(',', $request->roles) : $pluginUsage->roles;
+        if ($request->is_group_admin) {
+            $pluginUsage->roles = null;
+        }
         $pluginUsage->group_id = $request->group_id;
 
         if ($request->file('icon_file')) {
