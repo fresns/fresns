@@ -8,7 +8,6 @@
 
 namespace App\Console;
 
-use App\Helpers\ConfigHelper;
 use App\Models\Config;
 use App\Models\Plugin;
 use Illuminate\Console\Scheduling\Schedule;

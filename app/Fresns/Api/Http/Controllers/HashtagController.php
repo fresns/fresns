@@ -14,7 +14,6 @@ use App\Fresns\Api\Http\DTO\InteractionDTO;
 use App\Fresns\Api\Services\HashtagService;
 use App\Fresns\Api\Services\InteractionService;
 use App\Helpers\LanguageHelper;
-use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
 use App\Models\Hashtag;
 use App\Utilities\InteractionUtility;
