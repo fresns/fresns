@@ -87,8 +87,12 @@ class PermissionUtility
     }
 
     // Get user roles
-    public static function getUserRoles(int $userId, ?string $langTag = null): array
+    public static function getUserRoles(?int $userId = null, ?string $langTag = null): array
     {
+        if (empty($userId)) {
+            return [];
+        }
+
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
         $cacheKey = "fresns_user_{$userId}_roles_{$langTag}";
 
@@ -308,8 +312,12 @@ class PermissionUtility
     }
 
     // Check if the user is a group administrator
-    public static function checkUserGroupAdmin(int $groupId, int $userId)
+    public static function checkUserGroupAdmin(int $groupId, ?int $userId = null)
     {
+        if (empty($userId)) {
+            return false;
+        }
+
         $cacheKey = "fresns_group_admins_{$groupId}";
 
         // is known to be empty
