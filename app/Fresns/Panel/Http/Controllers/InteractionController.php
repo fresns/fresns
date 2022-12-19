@@ -18,9 +18,13 @@ class InteractionController extends Controller
         // config keys
         $configKeys = [
             'hashtag_show',
-            'top_comment_require',
             'comment_visibility_rule',
-            'comment_preview',
+            'preview_post_like_users',
+            'preview_post_comments',
+            'preview_post_comment_sort',
+            'preview_post_comment_require',
+            'preview_sub_comments',
+            'preview_sub_comment_sort',
             'nearby_length_km',
             'nearby_length_mi',
             'conversation_status',
@@ -134,9 +138,13 @@ class InteractionController extends Controller
     {
         $configKeys = [
             'hashtag_show',
-            'top_comment_require',
             'comment_visibility_rule',
-            'comment_preview',
+            'preview_post_like_users',
+            'preview_post_comments',
+            'preview_post_comment_sort',
+            'preview_post_comment_require',
+            'preview_sub_comments',
+            'preview_sub_comment_sort',
             'nearby_length_km',
             'nearby_length_mi',
             'conversation_status',

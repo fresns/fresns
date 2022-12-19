@@ -45,16 +45,6 @@
             <label class="col-lg-2 col-form-label text-lg-end"></label>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <label class="input-group-text">{{ __('FsLang::panel.interaction_top_comment_require') }}</label>
-                    <input type="number" class="form-control input-number" name="top_comment_require" value="{{ $params['top_comment_require'] }}">
-                </div>
-            </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interaction_top_comment_require_desc') }}</div>
-        </div>
-        <div class="row mb-3">
-            <label class="col-lg-2 col-form-label text-lg-end"></label>
-            <div class="col-lg-6">
-                <div class="input-group">
                     <label class="input-group-text">{{ __('FsLang::panel.interaction_comment_visibility_rule') }}</label>
                     <input type="number" class="form-control input-number" name="comment_visibility_rule" value="{{ $params['comment_visibility_rule'] }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_day') }}</span>
@@ -66,20 +56,83 @@
             <label class="col-lg-2 col-form-label text-lg-end"></label>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <label class="input-group-text">{{ __('FsLang::panel.interaction_comment_preview') }}</label>
-                    <select class="form-select" name="comment_preview">
-                        <option value="0" {{ $params['comment_preview'] == 0 ? 'selected' : '' }}>{{ __('FsLang::panel.option_close') }}</option>
-                        <option value="1" {{ $params['comment_preview'] == 1 ? 'selected' : '' }}>1</option>
-                        <option value="2" {{ $params['comment_preview'] == 2 ? 'selected' : '' }}>2</option>
-                        <option value="3" {{ $params['comment_preview'] == 3 ? 'selected' : '' }}>3</option>
-                        <option value="4" {{ $params['comment_preview'] == 4 ? 'selected' : '' }}>4</option>
-                        <option value="5" {{ $params['comment_preview'] == 5 ? 'selected' : '' }}>5</option>
+                    <label class="input-group-text">{{ __('FsLang::panel.interaction_preview_post_like_users') }}</label>
+                    <select class="form-select" name="preview_post_like_users">
+                        <option value="0" {{ $params['preview_post_like_users'] == 0 ? 'selected' : '' }}>{{ __('FsLang::panel.option_close') }}</option>
+                        <option value="1" {{ $params['preview_post_like_users'] == 1 ? 'selected' : '' }}>1</option>
+                        <option value="2" {{ $params['preview_post_like_users'] == 2 ? 'selected' : '' }}>2</option>
+                        <option value="3" {{ $params['preview_post_like_users'] == 3 ? 'selected' : '' }}>3</option>
+                        <option value="4" {{ $params['preview_post_like_users'] == 4 ? 'selected' : '' }}>4</option>
+                        <option value="5" {{ $params['preview_post_like_users'] == 5 ? 'selected' : '' }}>5</option>
+                        <option value="6" {{ $params['preview_post_like_users'] == 6 ? 'selected' : '' }}>6</option>
+                        <option value="7" {{ $params['preview_post_like_users'] == 7 ? 'selected' : '' }}>7</option>
+                        <option value="8" {{ $params['preview_post_like_users'] == 8 ? 'selected' : '' }}>8</option>
+                        <option value="9" {{ $params['preview_post_like_users'] == 9 ? 'selected' : '' }}>9</option>
+                        <option value="10" {{ $params['preview_post_like_users'] == 10 ? 'selected' : '' }}>10</option>
                     </select>
                 </div>
             </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interaction_comment_preview_desc') }}</div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interaction_preview_post_like_users_desc') }}</div>
+        </div>
+        <div class="row mb-1">
+            <label class="col-lg-2 col-form-label text-lg-end"></label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <label class="input-group-text">{{ __('FsLang::panel.interaction_preview_post_comments') }}</label>
+                    <select class="form-select" name="preview_post_comments">
+                        <option value="0" {{ $params['preview_post_comments'] == 0 ? 'selected' : '' }}>{{ __('FsLang::panel.option_close') }}</option>
+                        <option value="1" {{ $params['preview_post_comments'] == 1 ? 'selected' : '' }}>1</option>
+                        <option value="2" {{ $params['preview_post_comments'] == 2 ? 'selected' : '' }}>2</option>
+                        <option value="3" {{ $params['preview_post_comments'] == 3 ? 'selected' : '' }}>3</option>
+                        <option value="4" {{ $params['preview_post_comments'] == 4 ? 'selected' : '' }}>4</option>
+                        <option value="5" {{ $params['preview_post_comments'] == 5 ? 'selected' : '' }}>5</option>
+                    </select>
+                    <select class="form-select" name="preview_post_comment_sort">
+                        <option disabled>{{ __('FsLang::panel.table_order') }}</option>
+                        <option value="like" {{ $params['preview_post_comment_sort'] == 'like' ? 'selected' : '' }}>Like Count</option>
+                        <option value="comment" {{ $params['preview_post_comment_sort'] == 'comment' ? 'selected' : '' }}>Comment Count</option>
+                        <option value="oldest" {{ $params['preview_post_comment_sort'] == 'oldest' ? 'selected' : '' }}>Oldest</option>
+                        <option value="latest" {{ $params['preview_post_comment_sort'] == 'latest' ? 'selected' : '' }}>Latest</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interaction_preview_post_comments_desc') }}</div>
         </div>
         <div class="row mb-3">
+            <label class="col-lg-2 col-form-label text-lg-end"></label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <label class="input-group-text">{{ __('FsLang::panel.interaction_preview_post_comment_require') }}</label>
+                    <input type="number" class="form-control input-number" name="preview_post_comment_require" value="{{ $params['preview_post_comment_require'] }}">
+                    <span class="input-group-text">Like Count / Comment Count</span>
+                </div>
+            </div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interaction_preview_post_comment_require_desc') }}</div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-lg-2 col-form-label text-lg-end"></label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <label class="input-group-text">{{ __('FsLang::panel.interaction_preview_sub_comments') }}</label>
+                    <select class="form-select" name="preview_sub_comments">
+                        <option value="0" {{ $params['preview_sub_comments'] == 0 ? 'selected' : '' }}>{{ __('FsLang::panel.option_close') }}</option>
+                        <option value="1" {{ $params['preview_sub_comments'] == 1 ? 'selected' : '' }}>1</option>
+                        <option value="2" {{ $params['preview_sub_comments'] == 2 ? 'selected' : '' }}>2</option>
+                        <option value="3" {{ $params['preview_sub_comments'] == 3 ? 'selected' : '' }}>3</option>
+                        <option value="4" {{ $params['preview_sub_comments'] == 4 ? 'selected' : '' }}>4</option>
+                        <option value="5" {{ $params['preview_sub_comments'] == 5 ? 'selected' : '' }}>5</option>
+                    </select>
+                    <select class="form-select" name="preview_sub_comment_sort">
+                        <option disabled>{{ __('FsLang::panel.table_order') }}</option>
+                        <option value="like" {{ $params['preview_sub_comment_sort'] == 'like' ? 'selected' : '' }}>Like Count</option>
+                        <option value="oldest" {{ $params['preview_sub_comment_sort'] == 'oldest' ? 'selected' : '' }}>Oldest</option>
+                        <option value="latest" {{ $params['preview_sub_comment_sort'] == 'latest' ? 'selected' : '' }}>Latest</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interaction_preview_sub_comments_desc') }}</div>
+        </div>
+        <div class="row mb-1">
             <label class="col-lg-2 col-form-label text-lg-end"></label>
             <div class="col-lg-6">
                 <div class="input-group">
