@@ -139,17 +139,17 @@ class InteractionService
         }
 
         $markType = match ($markTypeName) {
-            'user' => 1,
-            'group' => 2,
-            'hashtag' => 3,
-            'post' => 4,
-            'comment' => 5,
+            'user' => InteractionService::TYPE_USER,
+            'group' => InteractionService::TYPE_GROUP,
+            'hashtag' => InteractionService::TYPE_HASHTAG,
+            'post' => InteractionService::TYPE_POST,
+            'comment' => InteractionService::TYPE_COMMENT,
 
-            'users' => 1,
-            'groups' => 2,
-            'hashtags' => 3,
-            'posts' => 4,
-            'comments' => 5,
+            'users' => InteractionService::TYPE_USER,
+            'groups' => InteractionService::TYPE_GROUP,
+            'hashtags' => InteractionService::TYPE_HASHTAG,
+            'posts' => InteractionService::TYPE_POST,
+            'comments' => InteractionService::TYPE_COMMENT,
         };
 
         $markData = $markQuery->with('user')
@@ -205,7 +205,7 @@ class InteractionService
                         continue;
                     }
 
-                    $paginateData[] = $service->postData($mark->post, 'list', $langTag, $timezone, $authUserId);
+                    $paginateData[] = $service->postData($mark->post, 'list', $langTag, $timezone, false, $authUserId);
                 }
             break;
 

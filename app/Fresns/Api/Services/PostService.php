@@ -23,6 +23,7 @@ use App\Models\Mention;
 use App\Models\OperationUsage;
 use App\Models\Post;
 use App\Models\PostLog;
+use App\Models\UserLike;
 use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
@@ -34,7 +35,7 @@ use Illuminate\Support\Str;
 class PostService
 {
     // $type = list or detail
-    public function postData(?Post $post, string $type, string $langTag, string $timezone, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLng = null, ?string $authUserLat = null)
+    public function postData(?Post $post, string $type, string $langTag, string $timezone, bool $isPreview, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLng = null, ?string $authUserLat = null)
     {
         if (! $post) {
             return null;
@@ -83,7 +84,8 @@ class PostService
             $userService = new UserService;
             $item['creator'] = $userService->userData($post->creator, $langTag, $timezone);
 
-            $item['topComment'] = null;
+            $item['previewComments'] = [];
+            $item['previewLikeUsers'] = [];
             $item['manages'] = [];
 
             $editStatus['isMe'] = true;
@@ -137,10 +139,21 @@ class PostService
             $postData['creator'] = InteractionHelper::fresnsUserAnonymousProfile();
         }
 
-        // get top comments
-        $topCommentRequire = ConfigHelper::fresnsConfigByItemKey('top_comment_require');
-        if ($type == 'list' && $topCommentRequire != 0 && $topCommentRequire < $post->comment_like_count) {
-            $postData['topComment'] = self::getTopComment($post->id, $langTag);
+        // get preview configs
+        $previewConfig = ConfigHelper::fresnsConfigByItemKeys([
+            'preview_post_like_users',
+            'preview_post_comments',
+            'preview_post_comment_require',
+        ]);
+
+        // get preview like users
+        if ($type == 'list' && $isPreview && $previewConfig['preview_post_like_users'] != 0) {
+            $postData['previewLikeUsers'] = self::getPreviewLikeUsers($post, $previewConfig['preview_post_like_users'], $langTag);
+        }
+
+        // get preview comments
+        if ($type == 'list' && $isPreview && $previewConfig['preview_post_comments'] != 0) {
+            $postData['previewComments'] = self::getPreviewComments($post, $previewConfig['preview_post_comments'], $langTag);
         }
 
         // auth user is creator
@@ -277,10 +290,60 @@ class PostService
         return $postData;
     }
 
-    // get top comment
-    public static function getTopComment(int $postId, string $langTag)
+    // get preview like users
+    public static function getPreviewLikeUsers(Post $post, int $limit, string $langTag)
     {
-        $cacheKey = "fresns_api_post_{$postId}_top_comments_{$langTag}";
+        $cacheKey = "fresns_api_post_{$post->id}_preview_like_users_{$langTag}";
+
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return [];
+        }
+
+        // get cache
+        $userList = Cache::get($cacheKey);
+
+        if (empty($userList)) {
+            $userLikes = UserLike::with('creator')
+                ->markType(UserLike::MARK_TYPE_LIKE)
+                ->type(UserLike::TYPE_POST)
+                ->where('like_id', $post->id)
+                ->limit($limit)
+                ->oldest()
+                ->get();
+
+            $service = new UserService();
+            $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
+
+            $userList = [];
+            foreach ($userLikes as $like) {
+                $userList[] = $service->userData($like->creator, $langTag, $timezone);
+            }
+
+            CacheHelper::put($userList, $cacheKey, ['fresnsPosts', 'fresnsPostData', 'fresnsUsers', 'fresnsUserData'], 10, now()->addMinutes(10));
+        }
+
+        return $userList;
+    }
+
+    // get preview comments
+    public static function getPreviewComments(Post $post, int $limit, string $langTag)
+    {
+        $cacheKey = "fresns_api_post_{$post->id}_preview_comments_{$langTag}";
+
+        $previewConfig = ConfigHelper::fresnsConfigByItemKeys([
+            'preview_post_comment_sort',
+            'preview_post_comment_require',
+        ]);
+
+        if ($previewConfig['preview_post_comment_sort'] == 'like' && $post->like_count < $previewConfig['preview_post_comment_require']) {
+            return [];
+        }
+
+        if ($previewConfig['preview_post_comment_sort'] == 'comment' && $post->comment_count < $previewConfig['preview_post_comment_require']) {
+            return [];
+        }
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -292,12 +355,33 @@ class PostService
         $commentList = Cache::get($cacheKey);
 
         if (empty($commentList)) {
-            $commentModel = Comment::where('post_id', $postId)->where('top_parent_id', 0)->orderByDesc('like_count')->first();
-            $service = new CommentService();
+            $commentQuery = Comment::where('post_id', $post->id)->where('top_parent_id', 0)->limit($limit);
 
+            if ($previewConfig['preview_post_comment_sort'] == 'like') {
+                $commentQuery->orderByDesc('like_count');
+            }
+
+            if ($previewConfig['preview_post_comment_sort'] == 'comment') {
+                $commentQuery->orderByDesc('comment_count');
+            }
+
+            if ($previewConfig['preview_post_comment_sort'] == 'oldest') {
+                $commentQuery->oldest();
+            }
+
+            if ($previewConfig['preview_post_comment_sort'] == 'latest') {
+                $commentQuery->latest();
+            }
+
+            $comments = $commentQuery->get();
+
+            $service = new CommentService();
             $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
 
-            $commentList = $service->commentData($commentModel, 'list', $langTag, $timezone, false);
+            $commentList = [];
+            foreach ($comments as $comment) {
+                $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, false);
+            }
 
             CacheHelper::put($commentList, $cacheKey, ['fresnsPosts', 'fresnsPostData', 'fresnsComments', 'fresnsCommentData'], 10, now()->addMinutes(10));
         }
