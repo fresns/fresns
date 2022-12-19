@@ -128,7 +128,9 @@ class CommentService
             ];
             $item['interaction']['postCreatorLikeStatus'] = InteractionUtility::checkUserLike(InteractionUtility::TYPE_COMMENT, $comment->id, $post->user_id);
             $item['followType'] = null;
-            $item['post'] = self::getPost($post, $langTag);
+            $postData = self::getPost($post, $langTag);
+            $item['pid'] = $postData['pid'];
+            $item['post'] = $postData;
 
             $commentData = array_merge($commentInfo, $item);
 
@@ -137,6 +139,8 @@ class CommentService
         }
 
         $contentHandle = self::handleCommentContent($comment, $commentData, $type, $authUserId);
+        $commentData['content'] = $contentHandle['content'];
+        $commentData['isBrief'] = $contentHandle['isBrief'];
 
         // location
         if ($comment->map_id && $authUserLng && $authUserLat) {
@@ -199,12 +203,12 @@ class CommentService
             $commentData['post'] = null;
         }
 
-        $data = array_merge($commentData, $contentHandle, $interArr);
+        $data = array_merge($commentData, $interArr);
 
-        $commentData = self::handleCommentCount($comment, $data);
-        $commentData = self::handleCommentDate($commentData, $timezone, $langTag);
+        $newCommentData = self::handleCommentCount($comment, $data);
+        $result = self::handleCommentDate($newCommentData, $timezone, $langTag);
 
-        return $commentData;
+        return $result;
     }
 
     // handle comment content
@@ -212,33 +216,36 @@ class CommentService
     {
         $cacheKey = "fresns_api_comment_{$commentData['cid']}_{$type}_content";
 
-        $newCommentData = Cache::get($cacheKey);
+        $contentData = Cache::get($cacheKey);
 
-        if (empty($newCommentData)) {
+        if (empty($contentData)) {
+            $isBrief = false;
             $commentContent = ContentUtility::replaceBlockWords('content', $commentData['content']);
 
             $briefLength = ConfigHelper::fresnsConfigByItemKey('comment_editor_brief_length');
 
             if ($type == 'list' && $commentData['contentLength'] > $briefLength) {
                 $commentContent = Str::limit($commentContent, $briefLength);
-                $commentData['isBrief'] = true;
+                $isBrief = true;
             }
 
             $commentContent = ContentUtility::handleAndReplaceAll($commentContent, $comment->is_markdown, $comment->user_id, Mention::TYPE_COMMENT, $comment->id);
 
-            $commentData['content'] = $commentContent;
+            $contentData = [
+                'content' => $commentContent,
+                'isBrief' => $isBrief,
+            ];
 
-            $newCommentData = $commentData;
-            CacheHelper::put($newCommentData, $cacheKey, ['fresnsComments', 'fresnsCommentData']);
+            CacheHelper::put($contentData, $cacheKey, ['fresnsComments', 'fresnsCommentData']);
         }
 
         $authUid = PrimaryHelper::fresnsModelById('user', $authUserId)?->uid;
 
-        if (! $newCommentData['isCommentPublic'] && $newCommentData['post']['creator']['uid'] != $authUid) {
-            return $newCommentData['content'] = null;
+        if (! $commentData['isCommentPublic'] && $commentData['post']['creator']['uid'] != $authUid) {
+            return $contentData['content'] = null;
         }
 
-        return $newCommentData;
+        return $contentData;
     }
 
     // handle comment data count

@@ -105,6 +105,9 @@ class PostService
         }
 
         $contentHandle = self::handlePostContent($post, $postData, $type, $authUserId);
+        $postData['content'] = $contentHandle['content'];
+        $postData['isBrief'] = $contentHandle['isBrief'];
+        $postData['isAllow'] = $contentHandle['isAllow'];
 
         // location
         if ($post->map_id && $authUserLng && $authUserLat) {
@@ -185,12 +188,10 @@ class PostService
             $postData['commentHidden'] = $visibilityTime->lt(now());
         }
 
-        $data = array_merge($postData, $contentHandle);
+        $newPostData = self::handlePostCount($post, $postData);
+        $result = self::handlePostDate($post, $newPostData, $timezone, $langTag);
 
-        $postData = self::handlePostCount($post, $data);
-        $postData = self::handlePostDate($post, $postData, $timezone, $langTag);
-
-        return $postData;
+        return $result;
     }
 
     // handle post content
@@ -198,43 +199,46 @@ class PostService
     {
         $cacheKey = "fresns_api_post_{$postData['pid']}_{$type}_content";
 
-        $newPostData = Cache::get($cacheKey);
+        $contentData = Cache::get($cacheKey);
 
-        if (empty($newPostData)) {
+        if (empty($contentData)) {
+            $isBrief = false;
             $postContent = ContentUtility::replaceBlockWords('content', $postData['content']);
 
             $briefLength = ConfigHelper::fresnsConfigByItemKey('post_editor_brief_length');
 
             if ($type == 'list' && $postData['contentLength'] > $briefLength) {
                 $postContent = Str::limit($postContent, $briefLength);
-                $postData['isBrief'] = true;
+                $isBrief = true;
             }
 
             $postContent = ContentUtility::handleAndReplaceAll($postContent, $post->is_markdown, $post->user_id, Mention::TYPE_POST, $post->id);
 
-            $postData['content'] = $postContent;
+            $contentData = [
+                'content' => $postContent,
+                'isBrief' => $isBrief,
+                'isAllow' => $postData['isAllow'],
+            ];
 
-            $newPostData = $postData;
-            CacheHelper::put($newPostData, $cacheKey, ['fresnsPosts', 'fresnsPostData']);
+            CacheHelper::put($contentData, $cacheKey, ['fresnsPosts', 'fresnsPostData']);
         }
 
-        if ($newPostData['isAllow']) {
-            return $newPostData;
+        if ($contentData['isAllow']) {
+            return $contentData;
         }
 
-        $newPostData['isAllow'] = true;
-
+        $contentData['isAllow'] = true;
         $checkPostAllow = PermissionUtility::checkPostAllow($post->id, $authUserId);
 
         if (empty($authUserId) || ! $checkPostAllow) {
-            $allowProportion = $newPostData['allowProportion'] / 100;
-            $allowLength = intval($newPostData['contentLength'] * $allowProportion);
+            $allowProportion = $postData['allowProportion'] / 100;
+            $allowLength = intval($postData['contentLength'] * $allowProportion);
 
-            $newPostData['isAllow'] = false;
-            $newPostData['content'] = Str::limit($newPostData['content'], $allowLength);
+            $contentData['isAllow'] = false;
+            $contentData['content'] = Str::limit($contentData['content'], $allowLength);
         }
 
-        return $newPostData;
+        return $contentData;
     }
 
     // handle post data count
@@ -283,10 +287,6 @@ class PostService
         $postData['latestCommentTime'] = DateHelper::fresnsFormatDateTime($post->latest_comment_at, $timezone, $langTag);
         $postData['latestCommentTimeFormat'] = DateHelper::fresnsFormatTime($post->latest_comment_at, $langTag);
 
-        foreach ($postData['previewComments'] as $comment) {
-            $postData['previewComments'] = CommentService::handleCommentDate($comment, $timezone, $langTag);
-        }
-
         $postData['interaction']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($postData['interaction']['followExpiryDateTime'], $timezone, $langTag);
 
         return $postData;
@@ -324,6 +324,11 @@ class PostService
             }
 
             CacheHelper::put($userList, $cacheKey, ['fresnsPosts', 'fresnsPostData', 'fresnsUsers', 'fresnsUserData'], 10, now()->addMinutes(10));
+        }
+
+        $userCount = count($userList);
+        if ($userCount > 0 && $userCount < $post->like_count) {
+            CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$post->id}_preview_like_users");
         }
 
         return $userList;
