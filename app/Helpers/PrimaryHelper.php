@@ -48,7 +48,7 @@ class PrimaryHelper
                 // key
                 case 'key':
                     $fresnsModel = SessionKey::where('app_id', $fsid)->first();
-                    $cacheTags = "fresns_model_key_{$fsid}";
+                    $cacheTags = 'fresnsSystems';
                 break;
 
                 // account
