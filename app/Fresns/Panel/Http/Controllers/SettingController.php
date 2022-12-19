@@ -12,9 +12,9 @@ use App\Fresns\Panel\Http\Requests\UpdateConfigRequest;
 use App\Helpers\CacheHelper;
 use App\Models\Config;
 use App\Models\Plugin;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
