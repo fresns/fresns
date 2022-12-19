@@ -174,6 +174,7 @@ class CacheHelper
             'fresnsPluginUsageLanguages',
             'fresnsRoleLanguages',
             'fresnsStickerLanguages',
+            'fresnsWebConfigs',
         ];
 
         foreach ($cacheTags as $tag) {
@@ -271,6 +272,12 @@ class CacheHelper
                 Cache::forget($key);
             }
             Cache::forget('fresnsStickerLanguages');
+
+            $webConfigKeyArr = Cache::get('fresnsWebConfigs') ?? [];
+            foreach ($webConfigKeyArr as $key => $datetime) {
+                Cache::forget($key);
+            }
+            Cache::forget('fresnsWebConfigs');
 
             // time of the latest cache
             Config::updateOrCreate([

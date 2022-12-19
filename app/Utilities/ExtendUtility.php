@@ -100,7 +100,7 @@ class ExtendUtility
                 default => null,
             };
 
-            CacheHelper::put($$badge, $cacheKey, ['fresnsUsers', 'fresnsUserConfigs']);
+            CacheHelper::put($badge, $cacheKey, ['fresnsUsers', 'fresnsUserConfigs']);
         }
 
         return $badge;
@@ -276,7 +276,7 @@ class ExtendUtility
             $cacheTags = ExtendUtility::getExtendCacheTags($type);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($$extendList, $cacheKey, $cacheTags, null, $cacheTime);
+            CacheHelper::put($extendList, $cacheKey, $cacheTags, null, $cacheTime);
         }
 
         return $extendList;
@@ -327,7 +327,7 @@ class ExtendUtility
             $cacheTags = ExtendUtility::getExtendCacheTags($type);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($$extendList, $cacheKey, $cacheTags, null, $cacheTime);
+            CacheHelper::put($extendList, $cacheKey, $cacheTags, null, $cacheTime);
         }
 
         return $extendList;
@@ -372,7 +372,7 @@ class ExtendUtility
             $cacheTags = ExtendUtility::getExtendCacheTags($type);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($$extendList, $cacheKey, $cacheTags, null, $cacheTime);
+            CacheHelper::put($extendList, $cacheKey, $cacheTags, null, $cacheTime);
         }
 
         return $extendList;
