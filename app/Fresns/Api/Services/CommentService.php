@@ -153,7 +153,7 @@ class CommentService
         }
 
         // whether to output sub-level comments
-        $previewConfig = ConfigHelper::fresnsConfigByItemKey('sub_comment_preview');
+        $previewConfig = ConfigHelper::fresnsConfigByItemKey('preview_sub_comments');
         if ($outputSubComments && $previewConfig != 0) {
             $commentData['subComments'] = self::getSubComments($comment->id, $previewConfig, $langTag);
         }
@@ -303,7 +303,23 @@ class CommentService
         $commentList = Cache::get($cacheKey);
 
         if (empty($commentList)) {
-            $comments = Comment::where('parent_id', $commentId)->orderByDesc('like_count')->limit($limit)->get();
+            $previewSortConfig = ConfigHelper::fresnsConfigByItemKey('preview_sub_comment_sort');
+
+            $commentQuery = Comment::where('parent_id', $commentId)->limit($limit);
+
+            if ($previewSortConfig == 'like') {
+                $commentQuery->orderByDesc('like_count');
+            }
+
+            if ($previewSortConfig == 'oldest') {
+                $commentQuery->oldest();
+            }
+
+            if ($previewSortConfig == 'latest') {
+                $commentQuery->latest();
+            }
+
+            $comments = $commentQuery->get();
 
             $service = new CommentService();
             $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
@@ -325,7 +341,7 @@ class CommentService
         $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
         $postService = new PostService;
 
-        return $postService->postData($post, 'list', $langTag, $timezone);
+        return $postService->postData($post, 'list', $langTag, $timezone, false);
     }
 
     // comment log data
