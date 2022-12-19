@@ -17,6 +17,9 @@
                         <a class="nav-link {{ \Route::is('panel.events*') ? 'active' : '' }}" href="{{ route('panel.events.index') }}">{{ __('FsLang::panel.sidebar_events') }}</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ \Route::is('panel.caches*') ? 'active' : '' }}" href="{{ route('panel.caches.index') }}">{{ __('FsLang::panel.sidebar_caches') }}</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{ \Route::is('panel.upgrades*') ? 'active' : '' }} " href="{{ route('panel.upgrades') }}">
                             {{ __('FsLang::panel.sidebar_upgrades') }}
                             @if($pluginUpgradeCount > 0)

@@ -80,7 +80,7 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="{{ $siteUrl }}" target="_blank"><i class="bi bi-house-door"></i> {{ __('FsLang::panel.site_home') }}</a></li>
-                            <li><a class="dropdown-item" href="{{ route('panel.cache.clear') }}"><i class="bi bi-trash3"></i> {{ __('FsLang::panel.button_clear_cache') }}</a></li>
+                            <li><a class="dropdown-item" href="{{ route('panel.caches.index') }}"><i class="bi bi-database"></i> {{ __('FsLang::panel.button_clear_cache') }}</a></li>
                             <li><a class="dropdown-item" href="#panelLangModal" data-bs-toggle="modal"><i class="bi bi-translate"></i> {{ __('FsLang::panel.switch_language') }}</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>

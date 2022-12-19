@@ -9,9 +9,12 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Fresns\Panel\Http\Requests\UpdateConfigRequest;
+use App\Helpers\CacheHelper;
 use App\Models\Config;
 use App\Models\Plugin;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
@@ -66,5 +69,89 @@ class SettingController extends Controller
         }
 
         return $this->updateSuccess();
+    }
+
+    // caches page
+    public function caches()
+    {
+        $pluginUpgradeCount = Plugin::where('is_upgrade', 1)->count();
+
+        return view('FsView::dashboard.caches', compact('pluginUpgradeCount'));
+    }
+
+    // cacheAllClear
+    public function cacheAllClear()
+    {
+        CacheHelper::clearAllCache();
+
+        return $this->requestSuccess();
+    }
+
+    // cacheSelectClear
+    public function cacheSelectClear(Request $request)
+    {
+        switch ($request->type) {
+            case 'config':
+                if ($request->fresnsSystem) {
+                    CacheHelper::clearConfigCache('fresnsSystem');
+                }
+
+                if ($request->fresnsConfig) {
+                    CacheHelper::clearConfigCache('fresnsConfig');
+                }
+
+                if ($request->fresnsExtend) {
+                    CacheHelper::clearConfigCache('fresnsExtend');
+                }
+
+                if ($request->fresnsView) {
+                    CacheHelper::clearConfigCache('fresnsView');
+                }
+
+                if ($request->fresnsRoute) {
+                    CacheHelper::clearConfigCache('fresnsRoute');
+                }
+
+                if ($request->fresnsEvent) {
+                    CacheHelper::clearConfigCache('fresnsEvent');
+                }
+
+                if ($request->fresnsSchedule) {
+                    CacheHelper::clearConfigCache('fresnsSchedule');
+                }
+
+                if ($request->frameworkConfig) {
+                    CacheHelper::clearConfigCache('frameworkConfig');
+                }
+            break;
+
+            case 'data':
+                if ($request->fresnsModel) {
+                    CacheHelper::clearDataCache($request->cacheType, $request->cacheFsid, 'fresnsModel');
+                }
+
+                if ($request->fresnsInteraction) {
+                    CacheHelper::clearDataCache($request->cacheType, $request->cacheFsid, 'fresnsInteraction');
+                }
+
+                if ($request->fresnsApiData) {
+                    CacheHelper::clearDataCache($request->cacheType, $request->cacheFsid, 'fresnsApiData');
+                }
+
+                if ($request->fresnsSeo) {
+                    CacheHelper::clearDataCache($request->cacheType, $request->cacheFsid, 'fresnsSeo');
+                }
+
+                if ($request->fresnsExtension) {
+                    CacheHelper::clearDataCache($request->cacheType, $request->cacheFsid, 'fresnsExtension');
+                }
+            break;
+
+            default:
+                return back()->with('failure', __('FsLang::tips.requestFailure'));
+            break;
+        }
+
+        return $this->requestSuccess();
     }
 }
