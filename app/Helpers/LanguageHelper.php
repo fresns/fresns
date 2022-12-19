@@ -63,6 +63,7 @@ class LanguageHelper
             }
 
             $cacheTags = match ($tableName) {
+                'configs' => ['fresnsLanguages', 'fresnsConfigLanguages'],
                 'users' => ['fresnsLanguages', 'fresnsUsers', 'fresnsUserData'],
                 'groups' => ['fresnsLanguages', 'fresnsGroups', 'fresnsGroupData'],
                 'hashtags' => ['fresnsLanguages', 'fresnsHashtags', 'fresnsHashtagData'],
