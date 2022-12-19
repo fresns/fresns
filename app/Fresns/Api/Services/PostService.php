@@ -283,7 +283,9 @@ class PostService
         $postData['latestCommentTime'] = DateHelper::fresnsFormatDateTime($post->latest_comment_at, $timezone, $langTag);
         $postData['latestCommentTimeFormat'] = DateHelper::fresnsFormatTime($post->latest_comment_at, $langTag);
 
-        $postData['topComment'] = CommentService::handleCommentDate($postData['topComment'], $timezone, $langTag);
+        foreach ($postData['previewComments'] as $comment) {
+            $postData['previewComments'] = CommentService::handleCommentDate($comment, $timezone, $langTag);
+        }
 
         $postData['interaction']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($postData['interaction']['followExpiryDateTime'], $timezone, $langTag);
 
@@ -337,11 +339,7 @@ class PostService
             'preview_post_comment_require',
         ]);
 
-        if ($previewConfig['preview_post_comment_sort'] == 'like' && $post->like_count < $previewConfig['preview_post_comment_require']) {
-            return [];
-        }
-
-        if ($previewConfig['preview_post_comment_sort'] == 'comment' && $post->comment_count < $previewConfig['preview_post_comment_require']) {
+        if ($previewConfig['preview_post_comment_sort'] == 'like' && $post->comment_like_count < $previewConfig['preview_post_comment_require']) {
             return [];
         }
 
@@ -362,7 +360,7 @@ class PostService
             }
 
             if ($previewConfig['preview_post_comment_sort'] == 'comment') {
-                $commentQuery->orderByDesc('comment_count');
+                $commentQuery->where('comment_count', '>', $previewConfig['preview_post_comment_require'])->orderByDesc('comment_count');
             }
 
             if ($previewConfig['preview_post_comment_sort'] == 'oldest') {
