@@ -757,9 +757,9 @@ class InteractionUtility
                 $group?->decrement("{$type}_count");
             }
 
-            DomainLink::whereIn('id', $linkIds)->where("{$type}_count", '>', 0)->increment("{$type}_count");
-            Domain::whereIn('id', $domainIds)->where("{$type}_count", '>', 0)->increment("{$type}_count");
-            Hashtag::whereIn('id', $hashtagIds)->where("{$type}_count", '>', 0)->increment("{$type}_count");
+            DomainLink::whereIn('id', $linkIds)->where("{$type}_count", '>', 0)->decrement("{$type}_count");
+            Domain::whereIn('id', $domainIds)->where("{$type}_count", '>', 0)->decrement("{$type}_count");
+            Hashtag::whereIn('id', $hashtagIds)->where("{$type}_count", '>', 0)->decrement("{$type}_count");
         }
     }
 
