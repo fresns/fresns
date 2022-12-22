@@ -275,8 +275,8 @@ class PermissionUtility
 
         if (! $conversationConfig) {
             $info['status'] = false;
-            $info['code'] = 36114;
-            $info['message'] = ConfigUtility::getCodeMessage(36114, 'Fresns', $langTag);
+            $info['code'] = 36116;
+            $info['message'] = ConfigUtility::getCodeMessage(36116, 'Fresns', $langTag);
 
             return $info;
         }

@@ -271,7 +271,7 @@ class UserService
         // Check time limit
         $contentInterval = PermissionUtility::checkContentIntervalTime($authUserId, $type);
         if (! $contentInterval && ! $mainId) {
-            throw new ApiException(36117);
+            throw new ApiException(36119);
         }
 
         $publishConfig = ConfigUtility::getPublishConfigByType($authUserId, $type, $langTag, $timezone);
