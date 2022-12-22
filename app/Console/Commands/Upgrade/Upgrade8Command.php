@@ -8,6 +8,7 @@
 
 namespace App\Console\Commands\Upgrade;
 
+use App\Models\CodeMessage;
 use App\Models\Config;
 use App\Models\PostAppend;
 use Illuminate\Console\Command;
@@ -148,6 +149,128 @@ class Upgrade8Command extends Command
         foreach ($postAppends as $append) {
             $append->update([
                 'is_allow' => 1,
+            ]);
+        }
+
+        // code messages
+        $code36113Messages = CodeMessage::where('plugin_unikey', 'Fresns')->where('code', 36113)->get();
+        foreach ($code36113Messages as $code) {
+            $langContent = match ($code->lang_tag) {
+                'en' => 'File size exceeds the set limit',
+                'zh-Hans' => '文件尺寸超出设置的限制',
+                'zh-Hant' => '文件尺寸超出設置的限制',
+            };
+
+            $code->update([
+                'message' => $langContent,
+            ]);
+        }
+
+        $code36114Messages = CodeMessage::where('plugin_unikey', 'Fresns')->where('code', 36114)->get();
+        foreach ($code36114Messages as $code) {
+            $langContent = match ($code->lang_tag) {
+                'en' => 'File time length exceeds the set limit',
+                'zh-Hans' => '文件时长超出设置的限制',
+                'zh-Hant' => '文件時長超出設置的限制',
+            };
+
+            $code->update([
+                'message' => $langContent,
+            ]);
+        }
+
+        $code36115Messages = CodeMessage::where('plugin_unikey', 'Fresns')->where('code', 36115)->get();
+        foreach ($code36115Messages as $code) {
+            $langContent = match ($code->lang_tag) {
+                'en' => 'The number of files exceeds the set limit',
+                'zh-Hans' => '文件数量超出设置的限制',
+                'zh-Hant' => '文件數量超出設置的限制',
+            };
+
+            $code->update([
+                'message' => $langContent,
+            ]);
+        }
+
+        $code36116Messages = CodeMessage::where('plugin_unikey', 'Fresns')->where('code', 36116)->get();
+        foreach ($code36116Messages as $code) {
+            $langContent = match ($code->lang_tag) {
+                'en' => 'Current role has no conversation message permission',
+                'zh-Hans' => '当前角色无私信权限',
+                'zh-Hant' => '當前角色無私信權限',
+            };
+
+            $code->update([
+                'message' => $langContent,
+            ]);
+        }
+
+        $code36117Messages = CodeMessage::where('plugin_unikey', 'Fresns')->where('code', 36117)->get();
+        foreach ($code36117Messages as $code) {
+            $langContent = match ($code->lang_tag) {
+                'en' => 'The current role has reached the upper limit of today download, please download again tomorrow.',
+                'zh-Hans' => '当前角色已经达到今天下载次数上限，请明天再下载',
+                'zh-Hant' => '當前角色已經達到今天下載次數上限，請明天再下載',
+            };
+
+            $code->update([
+                'message' => $langContent,
+            ]);
+        }
+
+        $code36118Messages = CodeMessage::where('plugin_unikey', 'Fresns')->where('code', 36118)->where('lang_tag', 'en')->first();
+        if (empty($code36118Messages)) {
+            CodeMessage::updateOrCreate([
+                'plugin_unikey' => 'Fresns',
+                'code' => '36118',
+                'lang_tag' => 'en',
+            ],
+            [
+                'message' => 'The current number of characters has reached the maximum number and cannot be added',
+            ]);
+            CodeMessage::updateOrCreate([
+                'plugin_unikey' => 'Fresns',
+                'code' => '36118',
+                'lang_tag' => 'zh-Hans',
+            ],
+            [
+                'message' => '当前角色已经达到上限数量，无法再添加',
+            ]);
+            CodeMessage::updateOrCreate([
+                'plugin_unikey' => 'Fresns',
+                'code' => '36118',
+                'lang_tag' => 'zh-Hant',
+            ],
+            [
+                'message' => '當前角色已經達到上限數量，無法再添加',
+            ]);
+        }
+
+        $code36119Messages = CodeMessage::where('plugin_unikey', 'Fresns')->where('code', 36119)->where('lang_tag', 'en')->first();
+        if (empty($code36119Messages)) {
+            CodeMessage::updateOrCreate([
+                'plugin_unikey' => 'Fresns',
+                'code' => '36119',
+                'lang_tag' => 'en',
+            ],
+            [
+                'message' => 'Publish too fast, please post again at intervals. Please check the current role settings for details',
+            ]);
+            CodeMessage::updateOrCreate([
+                'plugin_unikey' => 'Fresns',
+                'code' => '36119',
+                'lang_tag' => 'zh-Hans',
+            ],
+            [
+                'message' => '发表太快，请间隔一段时间再发。详情请查看当前角色的设置',
+            ]);
+            CodeMessage::updateOrCreate([
+                'plugin_unikey' => 'Fresns',
+                'code' => '36119',
+                'lang_tag' => 'zh-Hant',
+            ],
+            [
+                'message' => '發表太快，請間隔一段時間再發。詳情請查看當前角色的設置',
             ]);
         }
 
