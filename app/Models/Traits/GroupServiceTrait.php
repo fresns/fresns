@@ -42,7 +42,7 @@ trait GroupServiceTrait
         $info['modeEndAfter'] = $groupData->type_mode_end_after;
         $info['find'] = $groupData->type_find;
         $info['followType'] = $groupData->type_follow;
-        $info['followUrl'] = ! empty($groupData->plugin_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($groupData->plugin_unikey) : null;
+        $info['followUrl'] = PluginHelper::fresnsPluginUrlByUnikey($groupData->plugin_unikey);
         $info['parentGid'] = $parentGroup?->gid ?? null;
         $info['category'] = $parentGroup?->getCategoryInfo($langTag) ?? null;
         $info['likeCount'] = $configKeys['group_liker_count'] ? $groupData->like_count : null;

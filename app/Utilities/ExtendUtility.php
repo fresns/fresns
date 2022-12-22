@@ -405,7 +405,7 @@ class ExtendUtility
             $roleExtends[] = ExtendUtility::getExtendsByRole(PluginUsage::TYPE_EDITOR, $role['rid'], $scene, null, $langTag);
         }
 
-        $allExtends = array_merge($everyoneExtends, $roleExtends);
+        $allExtends = array_merge(array_filter($everyoneExtends), array_filter($roleExtends));
 
         if (empty($allExtends)) {
             return [];
@@ -446,7 +446,7 @@ class ExtendUtility
             $groupManages = $checkGroupAdmin ? ExtendUtility::getExtendsByGroupAdmin(PluginUsage::TYPE_MANAGE, $scene, null, $langTag) : [];
         }
 
-        $allManageExtends = array_merge($everyoneManages, $roleManages, $groupManages);
+        $allManageExtends = array_merge(array_filter($everyoneManages), array_filter($roleManages), array_filter($groupManages));
 
         if (empty($allManageExtends)) {
             return [];
@@ -482,7 +482,7 @@ class ExtendUtility
             $roleExtends[] = ExtendUtility::getExtendsByRole($usageType, $role['rid'], null, null, $langTag);
         }
 
-        $allExtends = array_merge($everyoneExtends, $roleExtends);
+        $allExtends = array_merge(array_filter($everyoneExtends), array_filter($roleExtends));
 
         if (empty($allExtends)) {
             return [];
@@ -523,7 +523,7 @@ class ExtendUtility
             $groupAdminExtends = $checkGroupAdmin ? ExtendUtility::getExtendsByGroupAdmin(PluginUsage::TYPE_GROUP, null, $groupId, $langTag) : [];
         }
 
-        $allExtends = array_merge($everyoneExtends, $roleExtends, $groupAdminExtends);
+        $allExtends = array_merge(array_filter($everyoneExtends), array_filter($roleExtends), array_filter($groupAdminExtends));
 
         if (empty($allExtends)) {
             return [];

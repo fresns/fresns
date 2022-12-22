@@ -27,7 +27,7 @@ trait AccountServiceTrait
         $info['email'] = ! empty($accountData->email) ? StrHelper::maskEmail($accountData->email) : null;
         $info['hasPassword'] = (bool) $accountData->password;
         $info['verifyStatus'] = (bool) $accountData->is_verify;
-        $info['verifySupport'] = ! empty($verifySupportUrl) ? PluginHelper::fresnsPluginUrlByUnikey($verifySupportUrl) : null;
+        $info['verifySupport'] = PluginHelper::fresnsPluginUrlByUnikey($verifySupportUrl);
         $info['verifyRealName'] = ! empty($accountData->verify_real_name) ? StrHelper::maskName($accountData->verify_real_name) : null;
         $info['verifyGender'] = $accountData->verify_gender;
         $info['verifyCertType'] = $accountData->verify_cert_type;

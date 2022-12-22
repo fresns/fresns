@@ -61,7 +61,7 @@ class NotificationController extends Controller
             $item['content'] = $notification->is_multilingual ? LanguageHelper::fresnsLanguageByTableId('notifications', 'content', $notification->id, $langTag) : $notification->content;
             $item['isMarkdown'] = (bool) $notification->is_markdown;
             $item['isAccessPlugin'] = (bool) $notification->is_access_plugin;
-            $item['pluginUrl'] = ! empty($notification->plugin_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($notification->plugin_unikey) : null;
+            $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByUnikey($notification->plugin_unikey);
             $item['actionUser'] = $notification->action_user_id ? $userService->userData($notification?->actionUser, $langTag, $timezone, $authUserId) : null;
             $item['actionType'] = $notification->action_type;
             $item['actionObject'] = $notification->action_object;
