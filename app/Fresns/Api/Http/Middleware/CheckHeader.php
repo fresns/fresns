@@ -26,6 +26,7 @@ class CheckHeader
             'sign' => \request()->header('sign'),
             'langTag' => \request()->header('langTag'),
             'timezone' => \request()->header('timezone'),
+            'contentFormat' => \request()->header('contentFormat'),
             'aid' => \request()->header('aid'),
             'aidToken' => \request()->header('aidToken'),
             'uid' => \request()->header('uid'),

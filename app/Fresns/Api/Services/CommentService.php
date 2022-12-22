@@ -124,7 +124,7 @@ class CommentService
                 'canDelete' => (bool) $commentAppend->can_delete,
                 'canEdit' => false,
                 'isPluginEditor' => (bool) $commentAppend->is_plugin_editor,
-                'editorUrl' => ! empty($commentAppend->editor_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($commentAppend->editor_unikey) : null,
+                'editorUrl' => PluginHelper::fresnsPluginUrlByUnikey($commentAppend->editor_unikey),
             ];
             $item['interaction']['postCreatorLikeStatus'] = InteractionUtility::checkUserLike(InteractionUtility::TYPE_COMMENT, $comment->id, $post->user_id);
             $item['followType'] = null;
@@ -245,6 +245,11 @@ class CommentService
             return $contentData['content'] = null;
         }
 
+        $contentFormat = \request()->header('contentFormat');
+        if ($contentFormat == 'html') {
+            $contentData['content'] = $comment->is_markdown ? Str::markdown($contentData['content']) : nl2br($contentData['content']);
+        }
+
         return $contentData;
     }
 
@@ -361,7 +366,7 @@ class CommentService
         $info['cid'] = $comment?->cid;
         $info['isPluginEditor'] = (bool) $log->is_plugin_editor;
         $info['editorUnikey'] = $log->editor_unikey;
-        $info['editorUrl'] = ! empty($log->editor_unikey) ? PluginHelper::fresnsPluginUrlByUnikey($log->editor_unikey) : null;
+        $info['editorUrl'] = PluginHelper::fresnsPluginUrlByUnikey($log->editor_unikey);
         $info['content'] = $log->content;
         $info['contentLength'] = Str::length($log->content);
         $info['isBrief'] = false;

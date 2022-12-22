@@ -25,6 +25,7 @@ class HeadersDTO extends DTO
             'sign' => ['string', 'required'],
             'langTag' => ['string', 'nullable'],
             'timezone' => ['string', 'nullable'],
+            'contentFormat' => ['string', 'nullable'],
             'aid' => ['string', 'nullable'],
             'aidToken' => ['string', 'nullable', 'required_with:aid'],
             'uid' => ['integer', 'nullable'],
