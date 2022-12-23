@@ -74,13 +74,17 @@ class User extends Model
         return $this->hasOne(UserStat::class);
     }
 
-    public function mainRole()
-    {
-        return $this->hasOne(UserRole::class)->where('is_main', UserRole::TYPE_MAIN);
-    }
-
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'user_roles', 'role_id');
+        return $this->belongsToMany(Role::class, 'user_roles');
+    }
+
+    public function getMainRoleAttribute()
+    {
+        return $this->roles()
+            ->wherePivot('is_main', true)
+            ->wherePivot('expired_at', null)
+            ->orWherePivot('expired_at', '>=', now())
+            ->first();
     }
 }
