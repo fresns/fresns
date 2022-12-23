@@ -10,8 +10,8 @@ namespace App\Console\Commands\Upgrade;
 
 use App\Models\CodeMessage;
 use App\Models\Config;
-use App\Models\PostAppend;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\Process\Process;
 
 class Upgrade8Command extends Command
@@ -145,12 +145,8 @@ class Upgrade8Command extends Command
             $newConfig->save();
         }
 
-        $postAppends = PostAppend::get();
-        foreach ($postAppends as $append) {
-            $append->update([
-                'is_allow' => 1,
-            ]);
-        }
+        // update post is_allow
+        DB::table('post_appends')->update(['is_allow' => 1]);
 
         // code messages
         $code36113Messages = CodeMessage::where('plugin_unikey', 'Fresns')->where('code', 36113)->get();

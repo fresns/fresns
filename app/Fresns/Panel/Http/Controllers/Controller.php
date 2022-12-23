@@ -37,12 +37,12 @@ class Controller extends BaseController
             View::share('defaultLanguage', $defaultLanguage);
 
             // Available languages
-            $stats = Config::where('item_key', 'language_status')->first();
+            $status = Config::where('item_key', 'language_status')->first();
 
             $languageConfig = Config::where('item_key', 'language_menus')->first();
             $optionalLanguages = $languageConfig ? $languageConfig->item_value : [];
 
-            if (! $stats || ! $stats->item_value) {
+            if (! $status || ! $status->item_value) {
                 $optionalLanguages = collect($optionalLanguages)->where('langTag', $defaultLanguage)->all();
             }
             $this->optionalLanguages = $optionalLanguages;

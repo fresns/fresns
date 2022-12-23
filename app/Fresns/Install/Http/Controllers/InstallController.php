@@ -14,6 +14,7 @@ use App\Models\Config;
 use Carbon\Carbon;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class InstallController extends Controller
 {
@@ -132,8 +133,8 @@ class InstallController extends Controller
                     $dbConfig['connections']['mysql'] = array_merge($dbConfig['connections']['mysql'], $mysqlDB);
 
                     config(['database' => $dbConfig]);
-                    \DB::purge();
-                    \DB::select('select 1 limit 1');
+                    DB::purge();
+                    DB::select('select 1 limit 1');
                 } catch (\Illuminate\Database\QueryException $exception) {
                     return \response()->json([
                         'step' => $step,
