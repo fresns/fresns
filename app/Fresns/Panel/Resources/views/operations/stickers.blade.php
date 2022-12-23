@@ -77,8 +77,7 @@
         @csrf
         @method('post')
         <!-- sticker group modal -->
-        <div class="modal fade name-lang-parent" id="stickerGroupCreateModal" tabindex="-1"
-            aria-labelledby="stickerGroupCreateModal" aria-hidden="true">
+        <div class="modal fade name-lang-parent" id="stickerGroupCreateModal" tabindex="-1" aria-labelledby="stickerGroupCreateModal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
