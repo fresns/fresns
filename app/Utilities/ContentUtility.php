@@ -821,7 +821,7 @@ class ContentUtility
         [
             'is_plugin_editor' => $postLog->is_plugin_editor,
             'editor_unikey' => $postLog->editor_unikey,
-            'is_allow' => $postLog->allow_json['isAllow'] ?? false,
+            'is_allow' => $postLog->allow_json['isAllow'] ?? true,
             'allow_proportion' => $postLog->allow_json['proportion'] ?? null,
             'allow_btn_name' => $allowBtnName,
             'allow_plugin_unikey' => $postLog->allow_json['pluginUnikey'] ?? null,
