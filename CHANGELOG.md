@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.0.0-beta.8 (2022-12-24)
+
+### Added
+- API: Request header `contentFormat` parameter, allowing to get the content in the specified format
+- API: Post information can be previewed with multiple comments
+- API: Post information can be previewed for multiple users who like the post
+- Panel: New comment preview setting for interactive configuration
+- Panel: Interactive configuration adds preview settings for liked users
+- Panel: Engine Remote API Host automatically handles `/` endings when saving
+- Panel: New cache management page
+
+### Fixes
+- API: Fix the problem of cache not being cleaned automatically after post editing
+- API: The editor did not judge the quantity limit when uploading files
+- Panel: Map setting field error
+
+### Changed
+- API: optimized cache mechanism
+- Data: The default value of the `post_appends->is_allow` field is changed to `1`
+- Frame: composer to v2.5.1
+- Frame: laravel/framework to v9.45.1
+- Frame: fresns/plugin-manager to v2.3.2
+
+
 ## 2.0.0-beta.7 (2022-12-13)
 
 ### Added
