@@ -158,6 +158,15 @@ class CacheHelper
 
             CacheHelper::addCacheItems($cacheKey, $cacheTags);
         }
+
+        $cacheTagList = Cache::get('fresns_cache_tags') ?? [];
+        foreach ($cacheTags as $tag) {
+            $datetime = date('Y-m-d H:i:s');
+
+            $newTagList = Arr::add($cacheTagList, $tag, $datetime);
+
+            Cache::forever('fresns_cache_tags', $newTagList);
+        }
     }
 
     // add cache items
@@ -590,6 +599,7 @@ class CacheHelper
      * no tag.
      */
     // fresns_cache_is_support_tags
+    // fresns_cache_tags
     // fresns_crontab_items
     // install_{$step}
     // autoUpgradeStep
