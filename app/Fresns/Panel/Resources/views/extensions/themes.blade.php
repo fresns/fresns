@@ -36,7 +36,7 @@
                         <p class="card-text text-height">{{ $theme->description }}</p>
                         <div>
                             @if ($theme->theme_functions)
-                                <a href="{{ route('panel.iframe.setting', ['url' => route('panel.theme.functions', ['theme' => $theme->unikey])]) }}" class="btn btn-primary btn-sm">{{ __('FsLang::panel.button_setting') }}</a>
+                                <a href="{{ route('panel.iframe.setting', ['url' => route('panel.theme.functions', ['theme' => $theme->unikey])]) }}" class="btn btn-primary btn-sm px-4">{{ __('FsLang::panel.button_setting') }}</a>
                             @endif
                             <button type="button" class="btn btn-link btn-sm ms-2 text-danger fresns-link plugin-uninstall-button" data-action="{{ route('panel.plugin.uninstallTheme', ['theme' => $theme->unikey]) }}" data-name="{{ $theme->name }}" data-clear_data_desc="{{ __('FsLang::panel.option_uninstall_theme_data') }}" data-bs-toggle="modal" data-bs-target="#uninstallConfirm">{{ __('FsLang::panel.button_uninstall') }}</button>
                         </div>
