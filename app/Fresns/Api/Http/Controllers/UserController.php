@@ -62,10 +62,10 @@ class UserController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $userQuery = UserStat::with('user')->whereRelation('user', 'is_enable', 1)->whereRelation('user', 'wait_delete', 0);
+        $userQuery = UserStat::with('profile')->whereRelation('profile', 'is_enable', 1)->whereRelation('profile', 'wait_delete', 0);
 
         $userQuery->when($dtoRequest->gender, function ($query, $value) {
-            $query->whereRelation('user', 'gender', $value);
+            $query->whereRelation('profile', 'gender', $value);
         });
 
         $userQuery->when($dtoRequest->createDateGt, function ($query, $value) {
@@ -211,7 +211,7 @@ class UserController extends Controller
         $userList = [];
         $service = new UserService();
         foreach ($userData as $user) {
-            $userList[] = $service->userData($user->user, $langTag, $timezone, $authUserId);
+            $userList[] = $service->userData($user->profile, $langTag, $timezone, $authUserId);
         }
 
         return $this->fresnsPaginate($userList, $userData->total(), $userData->perPage());

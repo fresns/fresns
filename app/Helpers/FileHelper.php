@@ -175,7 +175,7 @@ class FileHelper
     }
 
     // get file info by file id or fid
-    public static function fresnsFileInfoById(string $fileIdOrFid)
+    public static function fresnsFileInfoById(int|string $fileIdOrFid)
     {
         /** @var File $file */
         if (StrHelper::isPureInt($fileIdOrFid)) {
@@ -282,7 +282,7 @@ class FileHelper
     }
 
     // get file original url by file id or fid
-    public static function fresnsFileOriginalUrlById(string $fileIdOrFid)
+    public static function fresnsFileOriginalUrlById(int|string $fileIdOrFid)
     {
         if (StrHelper::isPureInt($fileIdOrFid)) {
             $file = File::whereId($fileIdOrFid)->first();

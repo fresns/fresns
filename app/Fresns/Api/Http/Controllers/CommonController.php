@@ -381,8 +381,8 @@ class CommonController extends Controller
 
         // check publish file count
         $publishType = match ((int) $dtoRequest->usageType) {
-            7 => 'post',
-            8 => 'comment',
+            FileUsage::TYPE_POST => 'post',
+            FileUsage::TYPE_COMMENT => 'comment',
             default => null,
         };
 

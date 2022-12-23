@@ -10,7 +10,7 @@ namespace App\Models;
 
 class UserStat extends Model
 {
-    public function user()
+    public function profile()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
