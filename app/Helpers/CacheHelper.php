@@ -10,6 +10,7 @@ namespace App\Helpers;
 
 use App\Models\Config;
 use App\Models\File;
+use App\Models\FileUsage;
 use App\Models\Group;
 use App\Models\Plugin;
 use App\Utilities\InteractionUtility;
@@ -535,6 +536,50 @@ class CacheHelper
 
         Cache::forget($fsidCacheKey);
         Cache::forget($idCacheKey);
+    }
+
+    /**
+     * forget fresns file usage.
+     */
+    public static function forgetFresnsFileUsage(int|string $fileIdOrFid)
+    {
+        if (StrHelper::isPureInt($fileIdOrFid)) {
+            $fileId = (int) $fileIdOrFid;
+        } else {
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fileIdOrFid);
+        }
+
+        if (empty($fileId)) {
+            return;
+        }
+
+        CacheHelper::forgetFresnsModel('file', $fileId);
+
+        $fileUsages = FileUsage::where('file_id', $fileId)->get();
+
+        foreach ($fileUsages as $usage) {
+            switch ($usage->usage_type) {
+                case FileUsage::TYPE_POST:
+                    $post = PrimaryHelper::fresnsModelById('post', $usage->table_id);
+                    $pid = $post?->pid;
+                    $keys = [
+                        "fresns_api_post_{$pid}_list_content",
+                        "fresns_api_post_{$pid}_detail_content",
+                    ];
+                break;
+
+                case FileUsage::TYPE_COMMENT:
+                    $comment = PrimaryHelper::fresnsModelById('comment', $usage->table_id);
+                    $cid = $comment?->cid;
+                    $keys = [
+                        "fresns_api_comment_{$cid}_list_content",
+                        "fresns_api_comment_{$cid}_detail_content",
+                    ];
+                break;
+            }
+
+            CacheHelper::forgetFresnsKeys($keys);
+        }
     }
 
     /**
