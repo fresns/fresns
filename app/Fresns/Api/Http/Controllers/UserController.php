@@ -22,6 +22,7 @@ use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
+use App\Helpers\PluginHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
 use App\Models\ArchiveUsage;
@@ -505,6 +506,27 @@ class UserController extends Controller
 
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
+        // multi user
+        $multiUserConfigs = ConfigHelper::fresnsConfigByItemKeys([
+            'multi_user_status',
+            'multi_user_service',
+            'multi_user_roles',
+        ]);
+
+        $multiUserStatus = $multiUserConfigs['multi_user_status'];
+        if ($multiUserConfigs['multi_user_status'] && $multiUserConfigs['multi_user_roles']) {
+            $authUserRoles = PermissionUtility::getUserRoles($authUserId, $langTag);
+            $authUserRoleIdArr = array_column($authUserRoles, 'rid');
+
+            $intersect = array_intersect($multiUserConfigs['multi_user_roles'], $authUserRoleIdArr);
+
+            $multiUserStatus = ! empty($intersect) ? true : false;
+        }
+        $multiUser = [
+            'status' => $multiUserStatus,
+            'service' => PluginHelper::fresnsPluginUrlByUnikey($multiUserConfigs['multi_user_service']),
+        ];
+
         // conversations
         $conversationsCacheKey = "fresns_api_user_panel_conversations_{$authUid}";
         $conversations = Cache::get($conversationsCacheKey);
@@ -515,8 +537,10 @@ class UserController extends Controller
             $conversationCount = $aConversations->union($bConversations)->count();
             $conversationMessageCount = ConversationMessage::where('receive_user_id', $authUserId)->whereNull('receive_read_at')->whereNull('receive_deleted_at')->isEnable()->count();
 
-            $conversations['conversationCount'] = $conversationCount;
-            $conversations['unreadMessages'] = $conversationMessageCount;
+            $conversations = [
+                'conversationCount' => $conversationCount,
+                'unreadMessages' => $conversationMessageCount,
+            ];
 
             CacheHelper::put($conversations, $conversationsCacheKey, ['fresnsUsers', 'fresnsUserData', 'fresnsUserConversations'], null, $cacheTime);
         }
@@ -525,14 +549,16 @@ class UserController extends Controller
         $notificationsCacheKey = "fresns_api_user_panel_notifications_{$authUid}";
         $unreadNotifications = Cache::get($notificationsCacheKey);
         if (empty($unreadNotifications)) {
-            $unreadNotifications['systems'] = Notification::where('type', 1)->where('user_id', $authUserId)->where('is_read', 0)->count();
-            $unreadNotifications['recommends'] = Notification::where('type', 2)->where('user_id', $authUserId)->where('is_read', 0)->count();
-            $unreadNotifications['likes'] = Notification::where('type', 3)->where('user_id', $authUserId)->where('is_read', 0)->count();
-            $unreadNotifications['dislikes'] = Notification::where('type', 4)->where('user_id', $authUserId)->where('is_read', 0)->count();
-            $unreadNotifications['follows'] = Notification::where('type', 5)->where('user_id', $authUserId)->where('is_read', 0)->count();
-            $unreadNotifications['blocks'] = Notification::where('type', 6)->where('user_id', $authUserId)->where('is_read', 0)->count();
-            $unreadNotifications['mentions'] = Notification::where('type', 7)->where('user_id', $authUserId)->where('is_read', 0)->count();
-            $unreadNotifications['comments'] = Notification::where('type', 8)->where('user_id', $authUserId)->where('is_read', 0)->count();
+            $unreadNotifications = [
+                'systems' => Notification::where('type', 1)->where('user_id', $authUserId)->where('is_read', 0)->count(),
+                'recommends' => Notification::where('type', 2)->where('user_id', $authUserId)->where('is_read', 0)->count(),
+                'likes' => Notification::where('type', 3)->where('user_id', $authUserId)->where('is_read', 0)->count(),
+                'dislikes' => Notification::where('type', 4)->where('user_id', $authUserId)->where('is_read', 0)->count(),
+                'follows' => Notification::where('type', 5)->where('user_id', $authUserId)->where('is_read', 0)->count(),
+                'blocks' => Notification::where('type', 6)->where('user_id', $authUserId)->where('is_read', 0)->count(),
+                'mentions' => Notification::where('type', 7)->where('user_id', $authUserId)->where('is_read', 0)->count(),
+                'comments' => Notification::where('type', 8)->where('user_id', $authUserId)->where('is_read', 0)->count(),
+            ];
 
             CacheHelper::put($unreadNotifications, $notificationsCacheKey, ['fresnsUsers', 'fresnsUserData', 'fresnsUserNotifications'], null, $cacheTime);
         }
@@ -541,15 +567,20 @@ class UserController extends Controller
         $draftsCacheKey = "fresns_api_user_panel_drafts_{$authUid}";
         $draftCount = Cache::get($draftsCacheKey);
         if (empty($draftCount)) {
-            $draftCount['posts'] = PostLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count();
-            $draftCount['comments'] = CommentLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count();
+            $draftCount = [
+                'posts' => PostLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count(),
+                'comments' => CommentLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count(),
+            ];
 
             CacheHelper::put($draftCount, $draftsCacheKey, ['fresnsUsers', 'fresnsUserData', 'fresnsUserDrafts'], null, $cacheTime);
         }
 
-        $publishConfig['post'] = ConfigUtility::getPublishConfigByType($authUserId, 'post', $langTag, $timezone);
-        $publishConfig['comment'] = ConfigUtility::getPublishConfigByType($authUserId, 'comment', $langTag, $timezone);
+        $publishConfig = [
+            'post' => ConfigUtility::getPublishConfigByType($authUserId, 'post', $langTag, $timezone),
+            'comment' => ConfigUtility::getPublishConfigByType($authUserId, 'comment', $langTag, $timezone),
+        ];
 
+        $data['multiUser'] = $multiUser;
         $data['features'] = ExtendUtility::getUserExtensions('features', $authUserId, $langTag);
         $data['profiles'] = ExtendUtility::getUserExtensions('profiles', $authUserId, $langTag);
         $data['conversations'] = $conversations;
@@ -870,7 +901,7 @@ class UserController extends Controller
                     $followCount = UserFollow::where('user_id', $authUserId)->where('follow_type', $markType)->count();
 
                     if ($rolePerm <= $followCount) {
-                        throw new ApiException(36116);
+                        throw new ApiException(36118);
                     }
                 }
 
@@ -890,7 +921,7 @@ class UserController extends Controller
                     $blockCount = UserBlock::where('user_id', $authUserId)->where('block_type', $markType)->count();
 
                     if ($rolePerm <= $blockCount) {
-                        throw new ApiException(36116);
+                        throw new ApiException(36118);
                     }
                 }
 
