@@ -36,8 +36,10 @@ use App\Models\Plugin;
 use App\Models\PluginCallback;
 use App\Models\Post;
 use App\Models\User;
+use App\Utilities\ConfigUtility;
 use App\Utilities\PermissionUtility;
 use App\Utilities\ValidationUtility;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class CommonController extends Controller
@@ -377,6 +379,37 @@ class CommonController extends Controller
             throw new ApiException(32102);
         }
 
+        // check publish file count
+        $publishType = match ((int) $dtoRequest->usageType) {
+            7 => 'post',
+            8 => 'comment',
+            default => null,
+        };
+
+        if ($publishType) {
+            $authUserId = $this->user()->id;
+
+            $editorConfig = ConfigUtility::getEditorConfigByType($authUserId, $publishType);
+
+            $uploadNumber = match ($dtoRequest->type) {
+                'image' => $editorConfig['toolbar']['image']['uploadNumber'],
+                'video' => $editorConfig['toolbar']['video']['uploadNumber'],
+                'audio' => $editorConfig['toolbar']['audio']['uploadNumber'],
+                'document' => $editorConfig['toolbar']['document']['uploadNumber'],
+            };
+
+            $fileCount = FileUsage::where('file_type', $fileType)
+                ->where('usage_type', $dtoRequest->usageType)
+                ->where('table_name', $dtoRequest->tableName)
+                ->where('table_column', $dtoRequest->tableColumn)
+                ->where('table_id', $dtoRequest->tableId)
+                ->count();
+
+            if ($fileCount >= $uploadNumber) {
+                throw new ApiException(36115);
+            }
+        }
+
         switch ($dtoRequest->uploadMode) {
             case 'file':
                 $wordBody = [
@@ -430,7 +463,7 @@ class CommonController extends Controller
         $roleDownloadCount = $mainRolePerms['download_file_count'] ?? 0;
         $userDownloadCount = FileDownload::where('user_id', $authUserId)->whereDate('created_at', now())->count();
         if ($roleDownloadCount < $userDownloadCount) {
-            throw new ApiException(36115);
+            throw new ApiException(36117);
         }
 
         // check file
@@ -470,7 +503,7 @@ class CommonController extends Controller
         }
 
         // check permission
-        if ($dtoRequest->type == 'post' && $model?->postAppend?->is_allow === 0) {
+        if ($dtoRequest->type == 'post' && $model?->postAppend?->is_allow == 0) {
             $checkPostAllow = PermissionUtility::checkPostAllow($model->id, $authUserId);
 
             if (! $checkPostAllow) {
@@ -528,15 +561,15 @@ class CommonController extends Controller
 
         $downUsers = FileDownload::with('user')
             ->select([
-                \DB::raw('any_value(id) as id'),
-                \DB::raw('any_value(file_id) as file_id'),
-                \DB::raw('any_value(file_type) as file_type'),
-                \DB::raw('any_value(account_id) as account_id'),
-                \DB::raw('any_value(user_id) as user_id'),
-                \DB::raw('any_value(plugin_unikey) as plugin_unikey'),
-                \DB::raw('any_value(object_type) as object_type'),
-                \DB::raw('any_value(object_id) as object_id'),
-                \DB::raw('any_value(created_at) as created_at'),
+                DB::raw('any_value(id) as id'),
+                DB::raw('any_value(file_id) as file_id'),
+                DB::raw('any_value(file_type) as file_type'),
+                DB::raw('any_value(account_id) as account_id'),
+                DB::raw('any_value(user_id) as user_id'),
+                DB::raw('any_value(plugin_unikey) as plugin_unikey'),
+                DB::raw('any_value(object_type) as object_type'),
+                DB::raw('any_value(object_id) as object_id'),
+                DB::raw('any_value(created_at) as created_at'),
             ])
             ->where('file_id', $file->id)
             ->latest()
