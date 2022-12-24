@@ -125,6 +125,12 @@ class SettingController extends Controller
             break;
 
             case 'data':
+                if ($request->cacheType == 'file') {
+                    CacheHelper::forgetFresnsFileUsage($request->cacheFsid);
+
+                    return $this->requestSuccess();
+                }
+
                 if ($request->fresnsModel) {
                     CacheHelper::clearDataCache($request->cacheType, $request->cacheFsid, 'fresnsModel');
                 }
