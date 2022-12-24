@@ -38,7 +38,7 @@ class Send
     {
         $dtoWordBody = new SendEmailDTO($wordBody);
 
-        $this->ensureUnikeyIsNotEmpry(
+        $this->ensureUnikeyIsNotEmpty(
             $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('send_email_service')
         );
 
@@ -57,7 +57,7 @@ class Send
     {
         $dtoWordBody = new SendSmsDTO($wordBody);
 
-        $this->ensureUnikeyIsNotEmpry(
+        $this->ensureUnikeyIsNotEmpty(
             $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('send_sms_service')
         );
 
@@ -130,7 +130,7 @@ class Send
 
         $itemKey = $channelMap[$dtoWordBody->channel];
 
-        $this->ensureUnikeyIsNotEmpry(
+        $this->ensureUnikeyIsNotEmpty(
             $pluginUniKey = ConfigHelper::fresnsConfigByItemKey($itemKey)
         );
 
@@ -149,7 +149,7 @@ class Send
     {
         $dtoWordBody = new SendWechatMessageDTO($wordBody);
 
-        $this->ensureUnikeyIsNotEmpry(
+        $this->ensureUnikeyIsNotEmpty(
             $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('send_wechat_service')
         );
 
@@ -158,7 +158,7 @@ class Send
         return $fresnsResp->getOrigin();
     }
 
-    protected function ensureUnikeyIsNotEmpry(string $string)
+    protected function ensureUnikeyIsNotEmpty(string $string)
     {
         if (empty($string)) {
             ExceptionConstant::getHandleClassByCode(ExceptionConstant::PLUGIN_CONFIG_ERROR)::throw();

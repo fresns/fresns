@@ -982,12 +982,11 @@ class InteractionUtility
         $mentions = Mention::where('user_id', $actionUser->id)
             ->where('mention_type', $typeNumber)
             ->where('mention_id', $actionModel->id)
-            ->get()
-            ->toArray();
+            ->get();
 
         if ($mentions) {
             foreach ($mentions as $mention) {
-                $mentionUser = PrimaryHelper::fresnsModelById('user', $mention['mention_user_id']);
+                $mentionUser = PrimaryHelper::fresnsModelById('user', $mention->mention_user_id);
 
                 $mentionWordBody = [
                     'uid' => $mentionUser->uid,
@@ -1009,10 +1008,29 @@ class InteractionUtility
         }
 
         if ($type == 'comment') {
-            $post = PrimaryHelper::fresnsModelById('post', $actionModel->post_id);
-            $comment = PrimaryHelper::fresnsModelById('comment', $actionModel->parent_id);
+            $userId = null;
+            $actionFsid = null;
 
-            $userId = $actionModel->top_parent_id ? $comment->user_id : $post->user_id;
+            $parentComment = PrimaryHelper::fresnsModelById('comment', $actionModel->parent_id);
+            if ($parentComment) {
+                if ($parentComment->user_id == $actionModel->user_id) {
+                    return;
+                }
+
+                $userId = $parentComment->user_id;
+                $actionFsid = $parentComment->cid;
+            }
+
+            if (empty($userId)) {
+                $post = PrimaryHelper::fresnsModelById('post', $actionModel->post_id);
+                if ($actionModel->user_id == $post->user_id) {
+                    return;
+                }
+
+                $userId = $post->user_id;
+                $actionFsid = $post->pid;
+            }
+
             $user = PrimaryHelper::fresnsModelById('user', $userId);
 
             $commentWordBody = [
@@ -1026,7 +1044,7 @@ class InteractionUtility
                 'actionUid' => $actionUser->uid,
                 'actionType' => Notification::ACTION_TYPE_PUBLISH,
                 'actionObject' => $actionModel->top_parent_id ? Notification::ACTION_OBJECT_COMMENT : Notification::ACTION_OBJECT_POST,
-                'actionFsid' => $actionModel->top_parent_id ? $comment->cid : $post->pid,
+                'actionFsid' => $actionFsid,
                 'actionCid' => $actionFsid,
             ];
 
