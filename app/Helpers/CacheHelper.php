@@ -606,12 +606,16 @@ class CacheHelper
     }
 
     // forget fresns user
-    public static function forgetFresnsUser(?int $uid = null)
+    public static function forgetFresnsUser(?int $userId = null, ?int $uid = null)
     {
-        if (empty($uid)) {
+        if (empty($userId) && empty($uid)) {
             return;
         }
 
+        CacheHelper::forgetFresnsMultilingual("fresns_user_{$userId}_main_role");
+        CacheHelper::forgetFresnsMultilingual("fresns_user_{$userId}_roles");
+        CacheHelper::forgetFresnsMultilingual("fresns_publish_post_config_{$userId}");
+        CacheHelper::forgetFresnsMultilingual("fresns_publish_comment_config_{$userId}");
         CacheHelper::forgetFresnsMultilingual("fresns_api_user_{$uid}");
         CacheHelper::forgetFresnsModel('user', $uid);
     }

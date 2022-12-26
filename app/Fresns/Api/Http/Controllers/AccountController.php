@@ -806,7 +806,9 @@ class AccountController extends Controller
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
         CacheHelper::forgetFresnsAccount($authAccount->aid);
-        CacheHelper::forgetFresnsUser($this->user()?->uid);
+
+        $authUser = $this->user();
+        CacheHelper::forgetFresnsUser($authUser?->id, $authUser?->uid);
 
         return $this->success();
     }
@@ -829,7 +831,7 @@ class AccountController extends Controller
         SessionToken::where('account_id', $authAccount->id)->where('account_token', $aidToken)->delete();
 
         CacheHelper::forgetFresnsAccount($authAccount->aid);
-        CacheHelper::forgetFresnsUser($authUser?->uid);
+        CacheHelper::forgetFresnsUser($authUser?->id, $authUser?->uid);
 
         return $this->success();
     }

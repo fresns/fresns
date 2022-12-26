@@ -839,7 +839,7 @@ class UserController extends Controller
         // upload session log
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
-        CacheHelper::forgetFresnsUser($authUser->uid);
+        CacheHelper::forgetFresnsUser($authUser->id, $authUser->uid);
 
         return $this->success();
     }
