@@ -154,6 +154,12 @@ class CommentService
         if ($comment->is_anonymous) {
             $commentData['creator'] = InteractionHelper::fresnsUserAnonymousProfile();
             $commentData['creator']['isPostCreator'] = false;
+        } else {
+            $commentCreator = PrimaryHelper::fresnsModelByFsid('user', $commentData['creator']['uid']);
+
+            $userService = new UserService;
+            $commentData['creator'] = $userService->userData($commentCreator, $langTag, $timezone);
+            $commentData['creator']['isPostCreator'] =  $commentData['creator']['uid'] == $commentData['post']['creator']['uid'] ? true : false;
         }
 
         // whether to output sub-level comments

@@ -140,6 +140,11 @@ class PostService
         // creator
         if ($post->is_anonymous) {
             $postData['creator'] = InteractionHelper::fresnsUserAnonymousProfile();
+        } else {
+            $postCreator = PrimaryHelper::fresnsModelByFsid('user', $postData['creator']['uid']);
+
+            $userService = new UserService;
+            $postData['creator'] = $userService->userData($postCreator, $langTag, $timezone);
         }
 
         // get preview configs
