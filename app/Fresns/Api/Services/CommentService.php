@@ -159,7 +159,7 @@ class CommentService
 
             $userService = new UserService;
             $commentData['creator'] = $userService->userData($commentCreator, $langTag, $timezone);
-            $commentData['creator']['isPostCreator'] =  $commentData['creator']['uid'] == $commentData['post']['creator']['uid'] ? true : false;
+            $commentData['creator']['isPostCreator'] = $commentData['creator']['uid'] == $commentData['post']['creator']['uid'] ? true : false;
         }
 
         // whether to output sub-level comments
