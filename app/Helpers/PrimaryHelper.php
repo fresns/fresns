@@ -59,7 +59,11 @@ class PrimaryHelper
 
                 // user
                 case 'user':
-                    $fresnsModel = User::withTrashed()->where('uid', $fsid)->orWhere('username', $fsid)->first();
+                    if (StrHelper::isPureInt($fsid)) {
+                        $fresnsModel = User::withTrashed()->where('uid', $fsid)->first();
+                    } else {
+                        $fresnsModel = User::withTrashed()->where('username', $fsid)->first();
+                    }
                     $cacheTags = ['fresnsUsers', 'fresnsUserModels'];
                 break;
 

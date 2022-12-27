@@ -10,6 +10,7 @@ namespace App\Utilities;
 
 use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
+use App\Helpers\StrHelper;
 use App\Models\File;
 use App\Models\FileUsage;
 use Illuminate\Http\UploadedFile;
@@ -242,7 +243,13 @@ class FileUtility
     // logicalDeletionFiles
     public static function logicalDeletionFiles(array $fileIdsOrFids)
     {
-        File::whereIn('id', $fileIdsOrFids)->orWhereIn('fid', $fileIdsOrFids)->delete();
+        if (StrHelper::isPureInt($fileIdsOrFids)) {
+            $file = File::where('id', $fileIdsOrFids)->first();
+        } else {
+            $file = File::where('fid', $fileIdsOrFids)->first();
+        }
+
+        $file?->delete();
 
         return true;
     }
