@@ -699,6 +699,11 @@ class InteractionUtility
                         $userState?->decrement('comment_publish_count');
                     }
 
+                    $postCommentCount = $post?->comment_count ?? 0;
+                    if ($postCommentCount > 0) {
+                        $post?->decrement('comment_count');
+                    }
+
                     $groupCommentCount = $group?->comment_count ?? 0;
                     if ($groupCommentCount > 0) {
                         $group?->decrement('comment_count');
