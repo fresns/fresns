@@ -227,14 +227,15 @@ class CommonController extends Controller
         $authAccount = $this->account();
         $langTag = $this->langTag();
 
-        $sendService = ConfigHelper::fresnsConfigByItemKeys([
+        $sendConfigs = ConfigHelper::fresnsConfigByItemKeys([
             'send_email_service',
             'send_sms_service',
+            'site_login_or_register',
         ]);
 
-        if ($dtoRequest->type == 'email' && empty($sendService['send_email_service'])) {
+        if ($dtoRequest->type == 'email' && empty($sendConfigs['send_email_service'])) {
             throw new ApiException(32100);
-        } elseif ($dtoRequest->type == 'sms' && empty($sendService['send_sms_service'])) {
+        } elseif ($dtoRequest->type == 'sms' && empty($sendConfigs['send_sms_service'])) {
             throw new ApiException(32100);
         }
 
@@ -279,7 +280,7 @@ class CommonController extends Controller
             }
         }
 
-        if ($dtoRequest->useType == 2 && empty($account)) {
+        if ($dtoRequest->useType == 2 && ! $sendConfigs['site_login_or_register'] && empty($account)) {
             throw new ApiException(34301);
         }
 
@@ -318,10 +319,10 @@ class CommonController extends Controller
 
         if ($dtoRequest->type == 'email') {
             new AccountEmailDTO($wordBody);
-            $fresnsResp = \FresnsCmdWord::plugin($sendService['send_email_service'])->sendCode($wordBody);
+            $fresnsResp = \FresnsCmdWord::plugin($sendConfigs['send_email_service'])->sendCode($wordBody);
         } else {
             new AccountPhoneDTO($wordBody);
-            $fresnsResp = \FresnsCmdWord::plugin($sendService['send_sms_service'])->sendCode($wordBody);
+            $fresnsResp = \FresnsCmdWord::plugin($sendConfigs['send_sms_service'])->sendCode($wordBody);
         }
 
         return $fresnsResp->getOrigin();
