@@ -323,7 +323,7 @@ class CommentService
         if (empty($commentList)) {
             $previewSortConfig = ConfigHelper::fresnsConfigByItemKey('preview_sub_comment_sort');
 
-            $commentQuery = Comment::where('parent_id', $commentId)->limit($limit);
+            $commentQuery = Comment::where('top_parent_id', $commentId);
 
             if ($previewSortConfig == 'like') {
                 $commentQuery->orderByDesc('like_count');
@@ -337,7 +337,7 @@ class CommentService
                 $commentQuery->latest();
             }
 
-            $comments = $commentQuery->get();
+            $comments = $commentQuery->limit($limit)->get();
 
             $service = new CommentService();
             $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
