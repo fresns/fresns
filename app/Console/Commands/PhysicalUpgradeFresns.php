@@ -197,7 +197,8 @@ class PhysicalUpgradeFresns extends Command
     {
         $this->updateStep(self::STEP_CLEAR);
 
-        CacheHelper::clearAllCache();
+        CacheHelper::clearConfigCache('fresnsSystem');
+        CacheHelper::clearConfigCache('fresnsConfig');
 
         return true;
     }

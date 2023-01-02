@@ -220,7 +220,8 @@ class UpgradeFresns extends Command
     {
         $this->updateStep(self::STEP_CLEAR);
 
-        CacheHelper::clearAllCache();
+        CacheHelper::clearConfigCache('fresnsSystem');
+        CacheHelper::clearConfigCache('fresnsConfig');
 
         if ($this->path) {
             $file = new Filesystem;
