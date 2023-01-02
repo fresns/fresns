@@ -314,6 +314,7 @@ class ConfigUtility
                 "{$type}_limit_cycle_start",
                 "{$type}_limit_cycle_end",
                 "{$type}_limit_rule",
+                "{$type}_limit_tip",
                 "{$type}_limit_whitelist",
             ], $langTag);
 
