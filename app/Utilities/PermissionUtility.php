@@ -18,7 +18,7 @@ use App\Helpers\StrHelper;
 use App\Models\Comment;
 use App\Models\File;
 use App\Models\Group;
-use App\Models\GroupAdmin;
+use App\Models\PluginUsage;
 use App\Models\Post;
 use App\Models\PostAllow;
 use App\Models\Role;
@@ -27,6 +27,7 @@ use App\Models\UserBlock;
 use App\Models\UserFollow;
 use App\Models\UserRole;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 
 class PermissionUtility
@@ -318,21 +319,8 @@ class PermissionUtility
             return false;
         }
 
-        $cacheKey = "fresns_group_admins_{$groupId}";
-
-        // is known to be empty
-        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
-        if ($isKnownEmpty) {
-            $groupAdminArr = [];
-        } else {
-            $groupAdminArr = Cache::get($cacheKey);
-
-            if (empty($groupAdminArr)) {
-                $groupAdminArr = GroupAdmin::where('group_id', $groupId)->pluck('user_id')->toArray();
-
-                CacheHelper::put($groupAdminArr, $cacheKey, ['fresnsGroups', 'fresnsGroupAdmins']);
-            }
-        }
+        $group = PrimaryHelper::fresnsModelById('group', $groupId);
+        $groupAdminArr = $group->admins->pluck('id')->toArray();
 
         return in_array($userId, $groupAdminArr) ? true : false;
     }
@@ -586,5 +574,117 @@ class PermissionUtility
         }
 
         return false;
+    }
+
+    // Check extend perm
+    public static function checkExtendPerm(string $unikey, string $scene, ?int $groupId, ?int $userId = null): bool
+    {
+        $usageType = match ($scene) {
+            'postEditor' => PluginUsage::TYPE_EDITOR,
+            'commentEditor' => PluginUsage::TYPE_EDITOR,
+            'manage' => PluginUsage::TYPE_MANAGE,
+            'groupExtension' => PluginUsage::TYPE_GROUP,
+            'profileExtension' => PluginUsage::TYPE_PROFILE,
+            'featureExtension' => PluginUsage::TYPE_FEATURE,
+            default => null,
+        };
+
+        if (empty($usageType) || empty($userId)) {
+            return false;
+        }
+
+        // get usage list
+        if ($usageType == PluginUsage::TYPE_GROUP && empty($groupId)) {
+            return false;
+        }
+
+        // check group admin
+        $checkGroupAdmin = self::checkExtendPermByGroupAdmin($unikey, $usageType, $groupId, $userId);
+
+        if ($checkGroupAdmin) {
+            return true;
+        }
+
+        // check role
+        $checkRole = self::checkExtendPermByRole($unikey, $usageType, $groupId, $userId);
+
+        return $checkRole;
+    }
+
+    private static function checkExtendPermByGroupAdmin(string $unikey, int $usageType, int $groupId, ?int $userId = null): bool
+    {
+        // get usage list
+        if ($usageType == PluginUsage::TYPE_GROUP) {
+            $usages = PluginUsage::where('usage_type', $usageType)
+                ->where('plugin_unikey', $unikey)
+                ->where('group_id', $groupId)
+                ->where('is_group_admin', 1)
+                ->where('is_enable', 1)
+                ->get();
+        } else {
+            $usages = PluginUsage::where('usage_type', $usageType)
+                ->where('plugin_unikey', $unikey)
+                ->where('is_group_admin', 1)
+                ->where('is_enable', 1)
+                ->get();
+        }
+
+        if (empty($usages)) {
+            return false;
+        }
+
+        $checkGroupAdmin = PermissionUtility::checkUserGroupAdmin($groupId, $userId);
+
+        if (! $checkGroupAdmin) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private static function checkExtendPermByRole(string $unikey, int $usageType, int $groupId, ?int $userId = null): bool
+    {
+        // get usage list
+        if ($usageType == PluginUsage::TYPE_GROUP) {
+            $usages = PluginUsage::where('usage_type', $usageType)
+                ->where('plugin_unikey', $unikey)
+                ->where('group_id', $groupId)
+                ->where('is_group_admin', 0)
+                ->where('is_enable', 1)
+                ->get();
+        } else {
+            $usages = PluginUsage::where('usage_type', $usageType)
+                ->where('plugin_unikey', $unikey)
+                ->where('is_group_admin', 0)
+                ->where('is_enable', 1)
+                ->get();
+        }
+
+        if (empty($usages)) {
+            return false;
+        }
+
+        // check role
+        $roles = [];
+        foreach ($usages as $usage) {
+            if (empty($usage->roles)) {
+                continue;
+            }
+
+            $roles[] = explode(',', $usage->roles);
+        }
+
+        $roleArr = array_unique(Arr::collapse($roles));
+
+        if ($roleArr) {
+            $userRoleArr = PermissionUtility::getUserRoles($userId);
+            $userRoleIdArr = array_column($userRoleArr, 'rid');
+
+            $intersect = array_intersect($roleArr, $userRoleIdArr);
+
+            return empty($intersect) ? false : true;
+        }
+
+        return true;
     }
 }
