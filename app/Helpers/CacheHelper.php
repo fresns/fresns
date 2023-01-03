@@ -407,7 +407,6 @@ class CacheHelper
                         'fresns_private_groups',
                         'fresns_guest_all_groups',
                         'fresns_filter_groups_by_guest',
-                        "fresns_group_admins_{$id}",
                     ]);
                 }
 
@@ -740,7 +739,6 @@ class CacheHelper
     // fresns_filter_groups_by_user_{$userId}                       // +tag: fresnsGroupConfigs, fresnsUsers, fresnsUserInteractions
     // fresns_model_group_{$gid}                                    // +tag: fresnsGroupModels
     // fresns_model_group_{$groupId}                                // +tag: fresnsGroupModels
-    // fresns_group_admins_{$groupId}                               // +tag: fresnsGroupAdmins
     // fresns_seo_group_{$groupId}                                  // +tag: fresnsGroupData
     // fresns_guest_all_groups                                      // +tag: fresnsGroupData
     // fresns_user_{$userId}_all_groups                             // +tag: fresnsGroupData, fresnsUsers, fresnsUserData
