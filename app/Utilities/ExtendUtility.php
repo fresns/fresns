@@ -23,6 +23,7 @@ use App\Models\OperationUsage;
 use App\Models\Plugin;
 use App\Models\PluginBadge;
 use App\Models\PluginUsage;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 
 class ExtendUtility
@@ -256,7 +257,7 @@ class ExtendUtility
         $extendList = Cache::get($cacheKey);
 
         if (empty($extendList)) {
-            $extendQuery = PluginUsage::where('usage_type', $type)->where('is_group_admin', 0)->whereNull('roles');
+            $extendQuery = PluginUsage::where('usage_type', $type)->where('is_group_admin', 0);
 
             $extendQuery->when($scene, function ($query, $value) {
                 $query->where('scene', 'like', "%$value%");
@@ -270,6 +271,10 @@ class ExtendUtility
 
             $extendList = [];
             foreach ($extendArr as $extend) {
+                if ($extend->roles) {
+                    continue;
+                }
+
                 $extendList[] = $extend->getUsageInfo($langTag);
             }
 
@@ -286,7 +291,7 @@ class ExtendUtility
     public static function getExtendsByRole(int $type, int $roleId, ?int $scene = null, ?int $groupId = null, ?string $langTag = null)
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
-        $cacheKey = ExtendUtility::getExtendCacheKey($type, 'role', $scene, $groupId, $langTag);
+        $cacheKey = ExtendUtility::getExtendCacheKey($type, "role_{$roleId}", $scene, $groupId, $langTag);
 
         if (empty($cacheKey)) {
             return [];
@@ -301,7 +306,7 @@ class ExtendUtility
         $extendList = Cache::get($cacheKey);
 
         if (empty($extendList)) {
-            $extendQuery = PluginUsage::where('usage_type', $type)->where('is_group_admin', 0)->whereNotNull('roles');
+            $extendQuery = PluginUsage::where('usage_type', $type)->where('is_group_admin', 0);
 
             $extendQuery->when($scene, function ($query, $value) {
                 $query->where('scene', 'like', "%$value%");
@@ -315,6 +320,10 @@ class ExtendUtility
 
             $extendList = [];
             foreach ($extendArr as $extend) {
+                if (empty($extend->roles)) {
+                    continue;
+                }
+
                 $roleArr = explode(',', $extend->roles);
 
                 if (! in_array($roleId, $roleArr)) {
@@ -405,13 +414,13 @@ class ExtendUtility
             $roleExtends[] = ExtendUtility::getExtendsByRole(PluginUsage::TYPE_EDITOR, $role['rid'], $scene, null, $langTag);
         }
 
-        $allExtends = array_merge(array_filter($everyoneExtends), array_filter($roleExtends));
+        $allExtends = array_merge($everyoneExtends, Arr::collapse($roleExtends));
 
         if (empty($allExtends)) {
             return [];
         }
 
-        $unikeys = array_column($allExtends, 'unikey');
+        $unikeys = array_column($allExtends, 'name');
         $unikeys = array_unique($unikeys);
         $newAllExtends = array_intersect_key($allExtends, $unikeys);
 
@@ -446,13 +455,13 @@ class ExtendUtility
             $groupManages = $checkGroupAdmin ? ExtendUtility::getExtendsByGroupAdmin(PluginUsage::TYPE_MANAGE, $scene, null, $langTag) : [];
         }
 
-        $allManageExtends = array_merge(array_filter($everyoneManages), array_filter($roleManages), array_filter($groupManages));
+        $allManageExtends = array_merge($everyoneManages, Arr::collapse($roleManages), $groupManages);
 
         if (empty($allManageExtends)) {
             return [];
         }
 
-        $unikeys = array_column($allManageExtends, 'unikey');
+        $unikeys = array_column($allManageExtends, 'name');
         $unikeys = array_unique($unikeys);
         $newManageExtends = array_intersect_key($allManageExtends, $unikeys);
 
@@ -482,13 +491,13 @@ class ExtendUtility
             $roleExtends[] = ExtendUtility::getExtendsByRole($usageType, $role['rid'], null, null, $langTag);
         }
 
-        $allExtends = array_merge(array_filter($everyoneExtends), array_filter($roleExtends));
+        $allExtends = array_merge($everyoneExtends, Arr::collapse($roleExtends));
 
         if (empty($allExtends)) {
             return [];
         }
 
-        $unikeys = array_column($allExtends, 'unikey');
+        $unikeys = array_column($allExtends, 'name');
         $unikeys = array_unique($unikeys);
         $newAllExtends = array_intersect_key($allExtends, $unikeys);
         $newAllExtends = array_values($newAllExtends);
@@ -523,13 +532,13 @@ class ExtendUtility
             $groupAdminExtends = $checkGroupAdmin ? ExtendUtility::getExtendsByGroupAdmin(PluginUsage::TYPE_GROUP, null, $groupId, $langTag) : [];
         }
 
-        $allExtends = array_merge(array_filter($everyoneExtends), array_filter($roleExtends), array_filter($groupAdminExtends));
+        $allExtends = array_merge($everyoneExtends, Arr::collapse($roleExtends), $groupAdminExtends);
 
         if (empty($allExtends)) {
             return [];
         }
 
-        $unikeys = array_column($allExtends, 'unikey');
+        $unikeys = array_column($allExtends, 'name');
         $unikeys = array_unique($unikeys);
         $newAllExtends = array_intersect_key($allExtends, $unikeys);
         $newAllExtends = array_values($newAllExtends);
