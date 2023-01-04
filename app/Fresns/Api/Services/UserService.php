@@ -26,7 +26,6 @@ use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
 class UserService
@@ -282,43 +281,8 @@ class UserService
         }
 
         // Check additional requirements
-        if ($publishConfig['limit']['status']) {
-            switch ($publishConfig['limit']['type']) {
-                // period Y-m-d H:i:s
-                case 1:
-                    $dbDateTime = DateHelper::fresnsDatabaseCurrentDateTime();
-                    $newDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $dbDateTime);
-                    $periodStart = Carbon::createFromFormat('Y-m-d H:i:s', $publishConfig['limit']['periodStart']);
-                    $periodEnd = Carbon::createFromFormat('Y-m-d H:i:s', $publishConfig['limit']['periodEnd']);
-
-                    $isInTime = $newDateTime->between($periodStart, $periodEnd);
-                    if ($isInTime) {
-                        throw new ApiException(36304);
-                    }
-                break;
-
-                // cycle H:i
-                case 2:
-                    $dbDateTime = DateHelper::fresnsDatabaseCurrentDateTime();
-                    $newDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $dbDateTime);
-                    $dbDate = date('Y-m-d', $dbDateTime);
-                    $cycleStart = "{$dbDate} {$publishConfig['limit']['cycleStart']}:00"; // Y-m-d H:i:s
-                    $cycleEnd = "{$dbDate} {$publishConfig['limit']['cycleEnd']}:00"; // Y-m-d H:i:s
-
-                    $periodStart = Carbon::createFromFormat('Y-m-d H:i:s', $cycleStart); // 2022-07-01 22:30:00
-                    $periodEnd = Carbon::createFromFormat('Y-m-d H:i:s', $cycleEnd); // 2022-07-01 08:30:00
-
-                    if ($periodEnd->lt($periodStart)) {
-                        // next day 2022-07-02 08:30:00
-                        $periodEnd = $periodEnd->addDay();
-                    }
-
-                    $isInTime = $newDateTime->between($periodStart, $periodEnd);
-                    if ($isInTime) {
-                        throw new ApiException(36304);
-                    }
-                break;
-            }
+        if ($publishConfig['limit']['status'] && $publishConfig['limit']['isInTime']) {
+            throw new ApiException(36304);
         }
     }
 }

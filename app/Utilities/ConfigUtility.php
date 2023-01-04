@@ -22,6 +22,7 @@ use App\Models\Language;
 use App\Models\PluginUsage;
 use App\Models\PostLog;
 use App\Models\SessionLog;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
@@ -361,6 +362,7 @@ class ConfigUtility
                 $checkWhiteList = PermissionUtility::checkUserRolePerm($userId, $limitConfig["{$type}_limit_whitelist"]);
 
                 $limit['status'] = ! $checkWhiteList ? $limitConfig["{$type}_limit_status"] : false;
+                $limit['isInTime'] = false;
                 $limit['type'] = $limitConfig["{$type}_limit_type"];
                 $limit['periodStart'] = $limitConfig["{$type}_limit_period_start"];
                 $limit['periodEnd'] = $limitConfig["{$type}_limit_period_end"];
@@ -374,6 +376,7 @@ class ConfigUtility
                 $limit['tip'] = $limitConfig["{$type}_limit_tip"];
             } else {
                 $limit['status'] = $rolePerm["{$type}_limit_status"];
+                $limit['isInTime'] = false;
                 $limit['type'] = $rolePerm["{$type}_limit_type"];
                 $limit['periodStart'] = $rolePerm["{$type}_limit_period_start"];
                 $limit['periodEnd'] = $rolePerm["{$type}_limit_period_end"];
@@ -400,6 +403,43 @@ class ConfigUtility
         $publishConfig['limit']['periodEndFormat'] = DateHelper::fresnsDateTimeByTimezone($publishConfig['limit']['periodEndFormat'], $timezone, $langTag);
         $publishConfig['limit']['cycleStartFormat'] = DateHelper::fresnsTimeByTimezone($publishConfig['limit']['cycleStartFormat'], $timezone);
         $publishConfig['limit']['cycleEndFormat'] = DateHelper::fresnsTimeByTimezone($publishConfig['limit']['cycleEndFormat'], $timezone);
+
+        // is in time
+        if ($publishConfig['limit']['status']) {
+            $dbDateTime = DateHelper::fresnsDatabaseCurrentDateTime();
+            $newDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $dbDateTime);
+
+            switch ($publishConfig['limit']['type']) {
+                // period Y-m-d H:i:s
+                case 1:
+                    $periodStart = Carbon::createFromFormat('Y-m-d H:i:s', $publishConfig['limit']['periodStart']);
+                    $periodEnd = Carbon::createFromFormat('Y-m-d H:i:s', $publishConfig['limit']['periodEnd']);
+
+                    $isInTime = $newDateTime->between($periodStart, $periodEnd);
+                break;
+
+                // cycle H:i
+                case 2:
+                    $dbDate = date('Y-m-d', strtotime($dbDateTime));
+                    $cycleStart = "{$dbDate} {$publishConfig['limit']['cycleStart']}:00"; // Y-m-d H:i:s
+                    $cycleEnd = "{$dbDate} {$publishConfig['limit']['cycleEnd']}:00"; // Y-m-d H:i:s
+
+                    $periodStart = Carbon::createFromFormat('Y-m-d H:i:s', $cycleStart); // 2022-07-01 22:30:00
+                    $periodEnd = Carbon::createFromFormat('Y-m-d H:i:s', $cycleEnd); // 2022-07-01 08:30:00
+
+                    if ($periodEnd->lt($periodStart)) {
+                        // next day 2022-07-02 08:30:00
+                        $periodEnd = $periodEnd->addDay();
+                    }
+
+                    $isInTime = $newDateTime->between($periodStart, $periodEnd);
+                break;
+            }
+
+            if ($isInTime) {
+                $publishConfig['limit']['isInTime'] = true;
+            }
+        }
 
         return $publishConfig;
     }
