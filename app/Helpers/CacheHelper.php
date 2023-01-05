@@ -792,33 +792,33 @@ class CacheHelper
     /**
      * tag: fresnsExtensions.
      */
-    // fresns_wallet_recharge_extends_by_everyone_{$langTag}    // +tag: fresnsWallets
-    // fresns_wallet_withdraw_extends_by_everyone_{$langTag}    // +tag: fresnsWallets
-    // fresns_post_content_types_by_{$typeName}_{$langTag}      // +tag: fresnsContentTypes
-    // fresns_comment_content_types_by_{$typeName}_{$langTag}   // +tag: fresnsContentTypes
-    // fresns_map_extends_by_everyone_{$langTag}                // +tag: fresnsMaps
+    // fresns_wallet_recharge_extends_by_everyone_{$langTag}            // +tag: fresnsWallets
+    // fresns_wallet_withdraw_extends_by_everyone_{$langTag}            // +tag: fresnsWallets
+    // fresns_post_content_types_by_{$typeName}_{$langTag}              // +tag: fresnsContentTypes
+    // fresns_comment_content_types_by_{$typeName}_{$langTag}           // +tag: fresnsContentTypes
+    // fresns_map_extends_by_everyone_{$langTag}                        // +tag: fresnsMaps
 
-    // fresns_editor_post_extends_by_everyone_{$langTag}        // +tag: fresnsEditor
-    // fresns_editor_comment_extends_by_everyone_{$langTag}     // +tag: fresnsEditor
-    // fresns_manage_post_extends_by_everyone_{$langTag}        // +tag: fresnsManages
-    // fresns_manage_comment_extends_by_everyone_{$langTag}     // +tag: fresnsManages
-    // fresns_manage_user_extends_by_everyone_{$langTag}        // +tag: fresnsManages
-    // fresns_group_{$groupId}_extends_by_everyone_{$langTag}   // +tag: fresnsGroupConfigs, fresnsGroupExtensions
-    // fresns_feature_extends_by_everyone_{$langTag}            // +tag: fresnsFeatures
-    // fresns_profile_extends_by_everyone_{$langTag}            // +tag: fresnsProfiles
+    // fresns_editor_post_extends_by_everyone_{$langTag}                // +tag: fresnsEditor
+    // fresns_editor_comment_extends_by_everyone_{$langTag}             // +tag: fresnsEditor
+    // fresns_manage_post_extends_by_everyone_{$langTag}                // +tag: fresnsManages
+    // fresns_manage_comment_extends_by_everyone_{$langTag}             // +tag: fresnsManages
+    // fresns_manage_user_extends_by_everyone_{$langTag}                // +tag: fresnsManages
+    // fresns_group_{$groupId}_extends_by_everyone_{$langTag}           // +tag: fresnsGroupConfigs, fresnsGroupExtensions
+    // fresns_feature_extends_by_everyone_{$langTag}                    // +tag: fresnsFeatures
+    // fresns_profile_extends_by_everyone_{$langTag}                    // +tag: fresnsProfiles
 
-    // fresns_editor_post_extends_by_role_{$roleId}_{$langTag}            // +tag: fresnsEditor
-    // fresns_editor_comment_extends_by_role_{$roleId}_{$langTag}         // +tag: fresnsEditor
-    // fresns_manage_post_extends_by_role_{$roleId}_{$langTag}            // +tag: fresnsManages
-    // fresns_manage_comment_extends_by_role_{$roleId}_{$langTag}         // +tag: fresnsManages
-    // fresns_manage_user_extends_by_role_{$roleId}_{$langTag}            // +tag: fresnsManages
-    // fresns_group_{$groupId}_extends_by_role_{$roleId}_{$langTag}       // +tag: fresnsGroupConfigs, fresnsGroupExtensions
-    // fresns_feature_extends_by_role_{$roleId}_{$langTag}                // +tag: fresnsFeatures
-    // fresns_profile_extends_by_role_{$roleId}_{$langTag}                // +tag: fresnsProfiles
+    // fresns_editor_post_extends_by_role_{$roleId}_{$langTag}          // +tag: fresnsEditor
+    // fresns_editor_comment_extends_by_role_{$roleId}_{$langTag}       // +tag: fresnsEditor
+    // fresns_manage_post_extends_by_role_{$roleId}_{$langTag}          // +tag: fresnsManages
+    // fresns_manage_comment_extends_by_role_{$roleId}_{$langTag}       // +tag: fresnsManages
+    // fresns_manage_user_extends_by_role_{$roleId}_{$langTag}          // +tag: fresnsManages
+    // fresns_group_{$groupId}_extends_by_role_{$roleId}_{$langTag}     // +tag: fresnsGroupConfigs, fresnsGroupExtensions
+    // fresns_feature_extends_by_role_{$roleId}_{$langTag}              // +tag: fresnsFeatures
+    // fresns_profile_extends_by_role_{$roleId}_{$langTag}              // +tag: fresnsProfiles
 
-    // fresns_manage_post_extends_by_group_admin_{$langTag}         // +tag: fresnsManages
-    // fresns_manage_comment_extends_by_group_admin_{$langTag}      // +tag: fresnsManages
-    // fresns_group_{$groupId}_extends_by_group_admin_{$langTag}    // +tag: fresnsGroupConfigs, fresnsGroupExtensions
+    // fresns_manage_post_extends_by_group_admin_{$langTag}             // +tag: fresnsManages
+    // fresns_manage_comment_extends_by_group_admin_{$langTag}          // +tag: fresnsManages
+    // fresns_group_{$groupId}_extends_by_group_admin_{$langTag}        // +tag: fresnsGroupConfigs, fresnsGroupExtensions
 
     /**
      * tag: fresnsApiData.
