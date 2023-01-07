@@ -84,6 +84,10 @@ class Upgrade9Command extends Command
                     'name' => 'default',
                     'canDelete' => false,
                 ],
+                [
+                    'name' => 'status',
+                    'canDelete' => false,
+                ],
             ];
 
             $newData = array_merge($packData, $addPackKeys);
@@ -100,12 +104,15 @@ class Upgrade9Command extends Command
             $langAddContent = match ($packContent->lang_tag) {
                 'en' => [
                     'default' => 'Default',
+                    'status' => 'Status',
                 ],
                 'zh-Hans' => [
                     'default' => '默认',
+                    'status' => '状态',
                 ],
                 'zh-Hant' => [
                     'default' => '默認',
+                    'status' => '狀態',
                 ],
             };
 
