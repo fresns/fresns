@@ -577,7 +577,7 @@ class PermissionUtility
     }
 
     // Check extend perm
-    public static function checkExtendPerm(string $unikey, string $scene, ?int $groupId, ?int $userId = null): bool
+    public static function checkExtendPerm(string $unikey, string $scene, ?int $groupId = null, ?int $userId = null): bool
     {
         $usageType = match ($scene) {
             'postEditor' => PluginUsage::TYPE_EDITOR,
@@ -611,8 +611,12 @@ class PermissionUtility
         return $checkRole;
     }
 
-    private static function checkExtendPermByGroupAdmin(string $unikey, int $usageType, int $groupId, ?int $userId = null): bool
+    private static function checkExtendPermByGroupAdmin(string $unikey, int $usageType, ?int $groupId = null, ?int $userId = null): bool
     {
+        if (empty($groupId)) {
+            return false;
+        }
+
         // get usage list
         if ($usageType == PluginUsage::TYPE_GROUP) {
             $usages = PluginUsage::where('usage_type', $usageType)
@@ -642,7 +646,7 @@ class PermissionUtility
         return true;
     }
 
-    private static function checkExtendPermByRole(string $unikey, int $usageType, int $groupId, ?int $userId = null): bool
+    private static function checkExtendPermByRole(string $unikey, int $usageType, ?int $groupId = null, ?int $userId = null): bool
     {
         // get usage list
         if ($usageType == PluginUsage::TYPE_GROUP) {
