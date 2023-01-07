@@ -441,7 +441,7 @@ class CommentController extends Controller
     // delete
     public function delete(string $cid)
     {
-        $comment = Comment::where('cid', $cid)->isEnable()->first();
+        $comment = Comment::where('cid', $cid)->first();
 
         if (empty($comment)) {
             throw new ApiException(37400);
