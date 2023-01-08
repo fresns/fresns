@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.0.0 (2023-01-09)
+
+### Added
+- Panel: Support for emptying the file cache only
+
+### Fixes
+- API: Notification messages are generated even when commenting on yourself
+- API: Posting permission cache is not cleared after changing user profile
+- API: The comment count of a post is not reduced when deleting a comment
+- API: Auto-registration when captcha login, sending captcha is not processed compatible
+
+### Changed
+- API: independent caching of creator information for posts and comments, synchronization of changed information after modifying user profiles
+- Helper: Optimized file finding model
+- Frame: laravel/framework to v9.46.0
+
+
 ## 2.0.0-beta.8 (2022-12-24)
 
 ### Added
