@@ -23,6 +23,8 @@ class Account extends Authenticatable
     use Traits\DataChangeNotifyTrait;
     use Traits\IsEnableTrait;
     use Traits\FsidTrait;
+    use Traits\LangNameTrait;
+    use Traits\LangDescriptionTrait;
 
     protected $dates = [
         'last_login_at',
