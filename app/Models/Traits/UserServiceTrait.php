@@ -145,6 +145,28 @@ trait UserServiceTrait
         return $mainRole;
     }
 
+    public function getUserRoles(?string $langTag = null)
+    {
+        $userData = $this;
+
+        $roleArr = UserRole::where('user_id', $userData->id)->get();
+
+        $roles = [];
+        foreach ($roleArr as $role) {
+            $item['id'] = $role->id;
+            $item['rid'] = $role->roleInfo->id;
+            $item['name'] = $role->roleInfo->getLangName($langTag);
+            $item['isMain'] = (bool) $role->is_main;
+            $item['expiryDateTime'] = $role->expired_at;
+            $item['restoreRoleId'] = $role->restore_role_id;
+            $item['restoreRoleName'] = $role?->restoreRole?->getLangName($langTag);
+
+            $roles[] = $item;
+        }
+
+        return $roles;
+    }
+
     public function getUserStats(?string $langTag = null)
     {
         $statData = $this->stat;

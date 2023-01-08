@@ -26,4 +26,9 @@ class UserRole extends Model
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');
     }
+
+    public function restoreRole()
+    {
+        return $this->belongsTo(Role::class, 'restore_role_id', 'id');
+    }
 }

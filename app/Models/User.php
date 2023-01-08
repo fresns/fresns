@@ -76,7 +76,7 @@ class User extends Model
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'user_roles');
+        return $this->belongsToMany(Role::class, 'user_roles')->wherePivot('deleted_at', null);
     }
 
     public function getMainRoleAttribute()
