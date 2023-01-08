@@ -18,7 +18,7 @@
     </div>
     <!--form-->
     <form action="{{ route('panel.settings.update') }}" method="post" id="adminConfig">
-    @csrf
+        @csrf
         @method('put')
         <div class="row mb-3">
             <label for="backend_url" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_build_type') }}:</label>

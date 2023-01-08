@@ -57,8 +57,7 @@
                             @endif
                         </td>
                         <td>
-                            <form action="{{ route('panel.plugin-usages.destroy', $item) }}"
-                                method="post">
+                            <form action="{{ route('panel.plugin-usages.destroy', $item) }}" method="post">
                                 @csrf
                                 @method('delete')
                                 <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
