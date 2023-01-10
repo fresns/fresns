@@ -14,14 +14,15 @@ use App\Helpers\ConfigHelper;
 use App\Models\Plugin;
 use Browser;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
 class AppUtility
 {
     public static function currentVersion()
     {
-        $currentVersion = Cache::get('fresns_current_version');
+        $cacheKey = 'fresns_current_version';
+        $cacheTag = 'fresnsSystems';
+        $currentVersion = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($currentVersion)) {
             $fresnsJson = file_get_contents(
@@ -30,7 +31,7 @@ class AppUtility
 
             $currentVersion = json_decode($fresnsJson, true);
 
-            CacheHelper::put($currentVersion, 'fresns_current_version', 'fresnsSystems', 1, now()->addDays());
+            CacheHelper::put($currentVersion, $cacheKey, $cacheTag, 1, now()->addDays());
         }
 
         return $currentVersion;
@@ -38,7 +39,9 @@ class AppUtility
 
     public static function newVersion()
     {
-        $newVersion = Cache::get('fresns_new_version');
+        $cacheKey = 'fresns_new_version';
+        $cacheTag = 'fresnsSystems';
+        $newVersion = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($newVersion)) {
             try {
@@ -57,7 +60,7 @@ class AppUtility
                 $newVersion = AppHelper::getAppVersion();
             }
 
-            CacheHelper::put($newVersion, 'fresns_new_version', 'fresnsSystems', 10, now()->addHours(6));
+            CacheHelper::put($newVersion, $cacheKey, $cacheTag, 10, now()->addHours(6));
         }
 
         return $newVersion;

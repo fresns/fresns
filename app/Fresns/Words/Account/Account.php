@@ -25,7 +25,6 @@ use App\Utilities\ConfigUtility;
 use Carbon\Carbon;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 
 class Account
@@ -270,6 +269,7 @@ class Account
         $aidToken = $dtoWordBody->aidToken;
 
         $cacheKey = "fresns_token_account_{$accountId}_{$aidToken}";
+        $cacheTags = ['fresnsAccounts', 'fresnsAccountTokens'];
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -280,7 +280,7 @@ class Account
             );
         }
 
-        $accountToken = Cache::get($cacheKey);
+        $accountToken = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($accountToken)) {
             $accountToken = SessionToken::where('account_id', $accountId)
@@ -295,7 +295,7 @@ class Account
                 );
             }
 
-            CacheHelper::put($accountToken, $cacheKey, ['fresnsAccounts', 'fresnsAccountTokens']);
+            CacheHelper::put($accountToken, $cacheKey, $cacheTags);
         }
 
         if ($accountToken->platform_id != $dtoWordBody->platformId) {

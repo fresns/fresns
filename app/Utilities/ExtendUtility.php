@@ -24,7 +24,6 @@ use App\Models\Plugin;
 use App\Models\PluginBadge;
 use App\Models\PluginUsage;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Cache;
 
 class ExtendUtility
 {
@@ -83,6 +82,7 @@ class ExtendUtility
         }
 
         $cacheKey = "fresns_plugin_{$unikey}_badge_{$userId}";
+        $cacheTags = ['fresnsUsers', 'fresnsUserConfigs'];
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -90,7 +90,7 @@ class ExtendUtility
             return $badge;
         }
 
-        $badge = Cache::get($cacheKey);
+        $badge = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($badge)) {
             $badgeModel = PluginBadge::where('plugin_unikey', $unikey)->where('user_id', $userId)->first();
@@ -101,7 +101,7 @@ class ExtendUtility
                 default => null,
             };
 
-            CacheHelper::put($badge, $cacheKey, ['fresnsUsers', 'fresnsUserConfigs']);
+            CacheHelper::put($badge, $cacheKey, $cacheTags);
         }
 
         return $badge;
@@ -243,6 +243,7 @@ class ExtendUtility
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
         $cacheKey = ExtendUtility::getExtendCacheKey($type, 'everyone', $scene, $groupId, $langTag);
+        $cacheTags = ExtendUtility::getExtendCacheTags($type);
 
         if (empty($cacheKey)) {
             return [];
@@ -254,7 +255,7 @@ class ExtendUtility
             return [];
         }
 
-        $extendList = Cache::get($cacheKey);
+        $extendList = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($extendList)) {
             $extendQuery = PluginUsage::where('usage_type', $type)->where('is_group_admin', 0);
@@ -278,8 +279,6 @@ class ExtendUtility
                 $extendList[] = $extend->getUsageInfo($langTag);
             }
 
-            $cacheTags = ExtendUtility::getExtendCacheTags($type);
-
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
             CacheHelper::put($extendList, $cacheKey, $cacheTags, null, $cacheTime);
         }
@@ -292,6 +291,7 @@ class ExtendUtility
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
         $cacheKey = ExtendUtility::getExtendCacheKey($type, "role_{$roleId}", $scene, $groupId, $langTag);
+        $cacheTags = ExtendUtility::getExtendCacheTags($type);
 
         if (empty($cacheKey)) {
             return [];
@@ -303,7 +303,7 @@ class ExtendUtility
             return [];
         }
 
-        $extendList = Cache::get($cacheKey);
+        $extendList = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($extendList)) {
             $extendQuery = PluginUsage::where('usage_type', $type)->where('is_group_admin', 0);
@@ -333,8 +333,6 @@ class ExtendUtility
                 $extendList[] = $extend->getUsageInfo($langTag);
             }
 
-            $cacheTags = ExtendUtility::getExtendCacheTags($type);
-
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
             CacheHelper::put($extendList, $cacheKey, $cacheTags, null, $cacheTime);
         }
@@ -347,6 +345,7 @@ class ExtendUtility
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
         $cacheKey = ExtendUtility::getExtendCacheKey($type, 'group_admin', $scene, $groupId, $langTag);
+        $cacheTags = ExtendUtility::getExtendCacheTags($type);
 
         if (empty($cacheKey)) {
             return [];
@@ -358,7 +357,7 @@ class ExtendUtility
             return [];
         }
 
-        $extendList = Cache::get($cacheKey);
+        $extendList = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($extendList)) {
             $extendQuery = PluginUsage::where('usage_type', $type)->where('is_group_admin', 1);
@@ -377,8 +376,6 @@ class ExtendUtility
             foreach ($extendArr as $extend) {
                 $extendList[] = $extend->getUsageInfo($langTag);
             }
-
-            $cacheTags = ExtendUtility::getExtendCacheTags($type);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
             CacheHelper::put($extendList, $cacheKey, $cacheTags, null, $cacheTime);

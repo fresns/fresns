@@ -10,7 +10,6 @@ namespace App\Helpers;
 
 use App\Models\Language;
 use App\Models\Seo;
-use Illuminate\Support\Facades\Cache;
 
 class LanguageHelper
 {
@@ -26,6 +25,24 @@ class LanguageHelper
     public static function fresnsLanguageByTableId(string $tableName, string $tableColumn, int $tableId, ?string $langTag = null)
     {
         $cacheKey = "fresns_{$tableName}_{$tableColumn}_{$tableId}_{$langTag}";
+        $cacheTags = match ($tableName) {
+            'configs' => ['fresnsLanguages', 'fresnsConfigLanguages'],
+            'users' => ['fresnsLanguages', 'fresnsUsers', 'fresnsUserData'],
+            'groups' => ['fresnsLanguages', 'fresnsGroups', 'fresnsGroupData'],
+            'hashtags' => ['fresnsLanguages', 'fresnsHashtags', 'fresnsHashtagData'],
+            'posts' => ['fresnsLanguages', 'fresnsPosts', 'fresnsPostData'],
+            'post_appends' => ['fresnsLanguages', 'fresnsPosts', 'fresnsPostData'],
+            'comments' => ['fresnsLanguages', 'fresnsComments', 'fresnsCommentData'],
+            'comment_appends' => ['fresnsLanguages', 'fresnsComments', 'fresnsCommentData'],
+            'plugin_usages' => ['fresnsLanguages', 'fresnsPluginUsageLanguages'],
+            'extends' => ['fresnsLanguages', 'fresnsExtends'],
+            'archives' => ['fresnsLanguages', 'fresnsArchives'],
+            'operations' => ['fresnsLanguages', 'fresnsOperations'],
+            'roles' => ['fresnsLanguages', 'fresnsRoleLanguages'],
+            'stickers' => ['fresnsLanguages', 'fresnsStickerLanguages'],
+            'notifications' => ['fresnsLanguages', 'fresnsNotificationLanguages'],
+            default => 'fresnsUnknownLanguages',
+        };
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -33,7 +50,7 @@ class LanguageHelper
             return null;
         }
 
-        $langContent = Cache::get($cacheKey);
+        $langContent = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($langContent)) {
             if (empty($langTag)) {
@@ -61,25 +78,6 @@ class LanguageHelper
                     'lang_tag' => $langTag,
                 ])->first()->lang_content ?? null;
             }
-
-            $cacheTags = match ($tableName) {
-                'configs' => ['fresnsLanguages', 'fresnsConfigLanguages'],
-                'users' => ['fresnsLanguages', 'fresnsUsers', 'fresnsUserData'],
-                'groups' => ['fresnsLanguages', 'fresnsGroups', 'fresnsGroupData'],
-                'hashtags' => ['fresnsLanguages', 'fresnsHashtags', 'fresnsHashtagData'],
-                'posts' => ['fresnsLanguages', 'fresnsPosts', 'fresnsPostData'],
-                'post_appends' => ['fresnsLanguages', 'fresnsPosts', 'fresnsPostData'],
-                'comments' => ['fresnsLanguages', 'fresnsComments', 'fresnsCommentData'],
-                'comment_appends' => ['fresnsLanguages', 'fresnsComments', 'fresnsCommentData'],
-                'plugin_usages' => ['fresnsLanguages', 'fresnsPluginUsageLanguages'],
-                'extends' => ['fresnsLanguages', 'fresnsExtends'],
-                'archives' => ['fresnsLanguages', 'fresnsArchives'],
-                'operations' => ['fresnsLanguages', 'fresnsOperations'],
-                'roles' => ['fresnsLanguages', 'fresnsRoleLanguages'],
-                'stickers' => ['fresnsLanguages', 'fresnsStickerLanguages'],
-                'notifications' => ['fresnsLanguages', 'fresnsNotificationLanguages'],
-                default => 'fresnsUnknownLanguages',
-            };
 
             CacheHelper::put($langContent, $cacheKey, $cacheTags);
         }
@@ -132,6 +130,13 @@ class LanguageHelper
     public static function fresnsLanguageSeoDataById(string $type, int $id, ?string $langTag = null)
     {
         $cacheKey = "fresns_seo_{$type}_{$id}";
+        $cacheTags = match ($type) {
+            'user' => ['fresnsUsers', 'fresnsUserData'],
+            'group' => ['fresnsGroups', 'fresnsGroupData'],
+            'hashtag' => ['fresnsHashtags', 'fresnsHashtagData'],
+            'post' => ['fresnsPosts', 'fresnsPostData'],
+            'comment' => ['fresnsComments', 'fresnsCommentData'],
+        };
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -139,7 +144,7 @@ class LanguageHelper
             return null;
         }
 
-        $seoData = Cache::get($cacheKey);
+        $seoData = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($seoData)) {
             $usageType = match ($type) {
@@ -148,14 +153,6 @@ class LanguageHelper
                 'hashtag' => Seo::TYPE_HASHTAG,
                 'post' => Seo::TYPE_POST,
                 'comment' => Seo::TYPE_COMMENT,
-            };
-
-            $cacheTags = match ($type) {
-                'user' => ['fresnsUsers', 'fresnsUserData'],
-                'group' => ['fresnsGroups', 'fresnsGroupData'],
-                'hashtag' => ['fresnsHashtags', 'fresnsHashtagData'],
-                'post' => ['fresnsPosts', 'fresnsPostData'],
-                'comment' => ['fresnsComments', 'fresnsCommentData'],
             };
 
             $seoData = Seo::where('usage_type', $usageType)->where('usage_id', $id)->get();

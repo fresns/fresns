@@ -10,21 +10,22 @@ namespace App\Helpers;
 
 use App\Models\Config;
 use App\Models\File;
-use Illuminate\Support\Facades\Cache;
 
 class ConfigHelper
 {
     // default langTag
     public static function fresnsConfigDefaultLangTag(): string
     {
-        $defaultLangTag = Cache::get('fresns_default_langTag');
+        $cacheKey = 'fresns_default_langTag';
+        $cacheTag = 'fresnsConfigs';
+        $defaultLangTag = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($defaultLangTag)) {
             $defaultConfig = Config::where('item_key', 'default_language')->first();
 
             $defaultLangTag = $defaultConfig?->item_value;
 
-            CacheHelper::put($defaultLangTag, 'fresns_default_langTag', 'fresnsConfigs');
+            CacheHelper::put($defaultLangTag, $cacheKey, $cacheTag);
         }
 
         return $defaultLangTag ?? config('app.locale');
@@ -33,14 +34,16 @@ class ConfigHelper
     // default timezone
     public static function fresnsConfigDefaultTimezone(): string
     {
-        $defaultTimezone = Cache::get('fresns_default_timezone');
+        $cacheKey = 'fresns_default_timezone';
+        $cacheTag = 'fresnsConfigs';
+        $defaultTimezone = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($defaultTimezone)) {
             $defaultConfig = Config::where('item_key', 'default_timezone')->first();
 
             $defaultTimezone = $defaultConfig?->item_value;
 
-            CacheHelper::put($defaultTimezone, 'fresns_default_timezone', 'fresnsConfigs');
+            CacheHelper::put($defaultTimezone, $cacheKey, $cacheTag);
         }
 
         return $defaultTimezone;
@@ -49,7 +52,9 @@ class ConfigHelper
     // lang tags
     public static function fresnsConfigLangTags()
     {
-        $langTagArr = Cache::get('fresns_lang_tags');
+        $cacheKey = 'fresns_lang_tags';
+        $cacheTag = 'fresnsConfigs';
+        $langTagArr = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($langTagArr)) {
             $langArr = Config::where('item_key', 'language_menus')->first()?->item_value;
@@ -58,7 +63,7 @@ class ConfigHelper
                 $langTagArr = collect($langArr)->pluck('langTag')->all();
             }
 
-            CacheHelper::put($langTagArr, 'fresns_lang_tags', 'fresnsConfigs');
+            CacheHelper::put($langTagArr, $cacheKey, $cacheTag);
         }
 
         return $langTagArr;
@@ -76,6 +81,7 @@ class ConfigHelper
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
         $cacheKey = "fresns_config_{$itemKey}_{$langTag}";
+        $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -83,7 +89,7 @@ class ConfigHelper
             return null;
         }
 
-        $itemValue = Cache::get($cacheKey);
+        $itemValue = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($itemValue)) {
             $itemValue = null;
@@ -93,7 +99,7 @@ class ConfigHelper
                 $itemValue = $itemData->is_multilingual ? LanguageHelper::fresnsLanguageByTableKey($itemData->item_key, $itemData->item_type, $langTag) : $itemData->item_value;
             }
 
-            CacheHelper::put($itemValue, $cacheKey, 'fresnsConfigs');
+            CacheHelper::put($itemValue, $cacheKey, $cacheTag);
         }
 
         return $itemValue;
@@ -112,7 +118,7 @@ class ConfigHelper
 
         $cacheKey = "fresns_config_keys_{$key}_{$langTag}";
 
-        $keysData = Cache::get($cacheKey);
+        $keysData = CacheHelper::get($cacheKey, 'fresnsConfigs');
 
         if (empty($keysData)) {
             $keysData = [];
@@ -138,8 +144,9 @@ class ConfigHelper
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
         $cacheKey = "fresns_config_tag_{$itemTag}_{$langTag}";
+        $cacheTag = 'fresnsConfigs';
 
-        $tagData = Cache::get($cacheKey);
+        $tagData = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($tagData)) {
             $itemData = Config::where('item_tag', $itemTag)->get();
@@ -155,7 +162,7 @@ class ConfigHelper
 
             $tagData = $itemDataArr;
 
-            CacheHelper::put($tagData, $cacheKey, 'fresnsConfigs');
+            CacheHelper::put($tagData, $cacheKey, $cacheTag);
         }
 
         return $tagData;
@@ -264,8 +271,9 @@ class ConfigHelper
     public static function fresnsConfigFileUrlExpire()
     {
         $cacheKey = 'fresns_config_file_url_expire';
+        $cacheTag = 'fresnsConfigs';
 
-        $urlExpire = Cache::get($cacheKey);
+        $urlExpire = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($urlExpire)) {
             $fileConfigArr = Config::where('item_type', 'file')->get();
@@ -308,7 +316,7 @@ class ConfigHelper
                 $urlExpire = $minAntiLinkExpire - 1;
             }
 
-            CacheHelper::put($urlExpire, $cacheKey, 'fresnsConfigs');
+            CacheHelper::put($urlExpire, $cacheKey, $cacheTag);
         }
 
         return $urlExpire;

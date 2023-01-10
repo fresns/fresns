@@ -38,7 +38,6 @@ use App\Models\PostLog;
 use App\Models\Role;
 use App\Models\Sticker;
 use App\Models\User;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class ContentUtility
@@ -1232,6 +1231,7 @@ class ContentUtility
         }
 
         $cacheKey = "fresns_{$type}_block_words";
+        $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -1239,7 +1239,7 @@ class ContentUtility
             return $content;
         }
 
-        $blockWords = Cache::get($cacheKey);
+        $blockWords = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($blockWords)) {
             $blockWords = match ($type) {
@@ -1248,7 +1248,7 @@ class ContentUtility
                 'conversation' => BlockWord::where('conversation_mode', '!=', 1)->get(['word', 'replace_word']),
             };
 
-            CacheHelper::put($blockWords, $cacheKey, 'fresnsConfigs');
+            CacheHelper::put($blockWords, $cacheKey, $cacheTag);
         }
 
         if (empty($blockWords)) {

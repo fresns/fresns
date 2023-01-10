@@ -10,7 +10,6 @@ namespace App\Helpers;
 
 use App\Models\File;
 use App\Models\FileUsage;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class FileHelper
@@ -62,7 +61,9 @@ class FileHelper
     // get file accept by type
     public static function fresnsFileAcceptByType(?int $type = null)
     {
-        $fileAccept = Cache::get('fresns_config_file_accept');
+        $cacheKey = 'fresns_config_file_accept';
+        $cacheTag = 'fresnsConfigs';
+        $fileAccept = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($fileAccept['images']) && empty($fileAccept['videos']) && empty($fileAccept['audios']) && empty($fileAccept['documents'])) {
             $imageFileExt = ConfigHelper::fresnsConfigByItemKey('image_extension_names');
@@ -127,7 +128,7 @@ class FileHelper
                 'documents' => implode(',', $documentFileAccept),
             ];
 
-            CacheHelper::put($fileAccept, 'fresns_config_file_accept', 'fresnsConfigs');
+            CacheHelper::put($fileAccept, $cacheKey, $cacheTag);
         }
 
         if (empty($type)) {

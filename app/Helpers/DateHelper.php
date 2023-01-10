@@ -9,7 +9,6 @@
 namespace App\Helpers;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class DateHelper
@@ -21,7 +20,9 @@ class DateHelper
      */
     public static function fresnsDatabaseTimezone()
     {
-        $databaseTimezone = Cache::get('fresns_database_timezone');
+        $cacheKey = 'fresns_database_timezone';
+        $cacheTag = 'fresnsSystems';
+        $databaseTimezone = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($databaseTimezone)) {
             $standardTime = gmdate('Y-m-d H:i:s');
@@ -37,7 +38,7 @@ class DateHelper
 
             $databaseTimezone = $hour;
 
-            CacheHelper::put($databaseTimezone, 'fresns_database_timezone', 'fresnsSystems');
+            CacheHelper::put($databaseTimezone, $cacheKey, $cacheTag);
         }
 
         return $databaseTimezone;
@@ -77,12 +78,14 @@ class DateHelper
      */
     public static function fresnsDatabaseCurrentDateTime()
     {
-        $databaseDateTime = Cache::get('fresns_database_datetime');
+        $cacheKey = 'fresns_database_datetime';
+        $cacheTag = 'fresnsSystems';
+        $databaseDateTime = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($databaseDateTime)) {
             $databaseDateTime = DB::selectOne('select now() as now')->now;
 
-            CacheHelper::put($databaseDateTime, 'fresns_database_datetime', 'fresnsSystems', 1, now()->addMinutes(3));
+            CacheHelper::put($databaseDateTime, $cacheKey, $cacheTag, 1, now()->addMinutes(3));
         }
 
         return $databaseDateTime;

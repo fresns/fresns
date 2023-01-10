@@ -14,7 +14,6 @@ use App\Models\Group;
 use App\Models\Hashtag;
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Support\Facades\Cache;
 
 class InteractionHelper
 {
@@ -153,6 +152,7 @@ class InteractionHelper
     public static function fresnsGroupCount()
     {
         $cacheKey = 'fresns_group_count';
+        $cacheTags = ['fresnsGroups', 'fresnsGroupConfigs'];
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -160,12 +160,12 @@ class InteractionHelper
             return 0;
         }
 
-        $groupCount = Cache::get($cacheKey);
+        $groupCount = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($groupCount)) {
             $groupCount = Group::count();
 
-            CacheHelper::put($groupCount, $cacheKey, ['fresnsGroups', 'fresnsGroupConfigs']);
+            CacheHelper::put($groupCount, $cacheKey, $cacheTags);
         }
 
         return $groupCount;

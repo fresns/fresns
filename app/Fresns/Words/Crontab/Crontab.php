@@ -19,7 +19,6 @@ use App\Models\User;
 use App\Models\UserRole;
 use App\Utilities\AppUtility;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
 class Crontab
@@ -48,7 +47,10 @@ class Crontab
         }
         Config::where('item_key', 'crontab_items')->update(['item_value' => $cronArr]);
 
-        Cache::forever('fresns_crontab_items', $cronArr);
+        $cacheKey = 'fresns_crontab_items';
+        $cacheTag = 'fresnsSystems';
+
+        CacheHelper::put($cronArr, $cacheKey, $cacheTag);
 
         return $this->success();
     }
@@ -70,7 +72,10 @@ class Crontab
         }
         Config::where('item_key', 'crontab_items')->update(['item_value' => $cronArr]);
 
-        Cache::forever('fresns_crontab_items', $cronArr);
+        $cacheKey = 'fresns_crontab_items';
+        $cacheTag = 'fresnsSystems';
+
+        CacheHelper::put($cronArr, $cacheKey, $cacheTag);
 
         return $this->success();
     }

@@ -29,7 +29,6 @@ use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\LbsUtility;
 use App\Utilities\PermissionUtility;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class PostService
@@ -42,8 +41,9 @@ class PostService
         }
 
         $cacheKey = "fresns_api_post_{$post->pid}_{$langTag}";
+        $cacheTags = ['fresnsPosts', 'fresnsPostData'];
 
-        $postData = Cache::get($cacheKey);
+        $postData = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($postData)) {
             $postInfo = $post->getPostInfo($langTag);
@@ -99,7 +99,7 @@ class PostService
             $postData = array_merge($postInfo, $item);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
-            CacheHelper::put($postData, $cacheKey, ['fresnsPosts', 'fresnsPostData'], null, $cacheTime);
+            CacheHelper::put($postData, $cacheKey, $cacheTags, null, $cacheTime);
         }
 
         $contentHandle = self::handlePostContent($post, $postData, $type, $authUserId);
@@ -201,8 +201,9 @@ class PostService
     public static function handlePostContent(Post $post, array $postData, string $type, ?int $authUserId = null)
     {
         $cacheKey = "fresns_api_post_{$postData['pid']}_{$type}_content";
+        $cacheTags = ['fresnsPosts', 'fresnsPostData'];
 
-        $contentData = Cache::get($cacheKey);
+        $contentData = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($contentData)) {
             $isBrief = false;
@@ -223,7 +224,7 @@ class PostService
                 'isAllow' => $postData['isAllow'],
             ];
 
-            CacheHelper::put($contentData, $cacheKey, ['fresnsPosts', 'fresnsPostData']);
+            CacheHelper::put($contentData, $cacheKey, $cacheTags);
         }
 
         $contentFormat = \request()->header('contentFormat');
@@ -309,6 +310,7 @@ class PostService
     public static function getPreviewLikeUsers(Post $post, int $limit, string $langTag)
     {
         $cacheKey = "fresns_api_post_{$post->id}_preview_like_users_{$langTag}";
+        $cacheTags = ['fresnsPosts', 'fresnsPostData', 'fresnsUsers', 'fresnsUserData'];
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -317,7 +319,7 @@ class PostService
         }
 
         // get cache
-        $userList = Cache::get($cacheKey);
+        $userList = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($userList)) {
             $userLikes = UserLike::with('creator')
@@ -336,7 +338,7 @@ class PostService
                 $userList[] = $service->userData($like->creator, $langTag, $timezone);
             }
 
-            CacheHelper::put($userList, $cacheKey, ['fresnsPosts', 'fresnsPostData', 'fresnsUsers', 'fresnsUserData'], 10, now()->addMinutes(10));
+            CacheHelper::put($userList, $cacheKey, $cacheTags, 10, now()->addMinutes(10));
         }
 
         $userCount = count($userList);
@@ -351,6 +353,7 @@ class PostService
     public static function getPreviewComments(Post $post, int $limit, string $langTag)
     {
         $cacheKey = "fresns_api_post_{$post->id}_preview_comments_{$langTag}";
+        $cacheTags = ['fresnsPosts', 'fresnsPostData', 'fresnsComments', 'fresnsCommentData'];
 
         $previewConfig = ConfigHelper::fresnsConfigByItemKeys([
             'preview_post_comment_sort',
@@ -368,7 +371,7 @@ class PostService
         }
 
         // get cache
-        $commentList = Cache::get($cacheKey);
+        $commentList = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($commentList)) {
             $commentQuery = Comment::where('post_id', $post->id)->where('top_parent_id', 0)->limit($limit);
@@ -399,7 +402,7 @@ class PostService
                 $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, false);
             }
 
-            CacheHelper::put($commentList, $cacheKey, ['fresnsPosts', 'fresnsPostData', 'fresnsComments', 'fresnsCommentData'], 10, now()->addMinutes(10));
+            CacheHelper::put($commentList, $cacheKey, $cacheTags, 10, now()->addMinutes(10));
         }
 
         return $commentList;

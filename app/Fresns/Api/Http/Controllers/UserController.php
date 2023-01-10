@@ -48,7 +48,6 @@ use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
 use App\Utilities\ValidationUtility;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
@@ -529,7 +528,8 @@ class UserController extends Controller
 
         // conversations
         $conversationsCacheKey = "fresns_api_user_panel_conversations_{$authUid}";
-        $conversations = Cache::get($conversationsCacheKey);
+        $conversationsCacheTags = ['fresnsUsers', 'fresnsUserData', 'fresnsUserConversations'];
+        $conversations = CacheHelper::get($conversationsCacheKey, $conversationsCacheTags);
         if (empty($conversations)) {
             $aConversations = Conversation::where('a_user_id', $authUserId)->where('a_is_display', 1);
             $bConversations = Conversation::where('b_user_id', $authUserId)->where('b_is_display', 1);
@@ -542,12 +542,13 @@ class UserController extends Controller
                 'unreadMessages' => $conversationMessageCount,
             ];
 
-            CacheHelper::put($conversations, $conversationsCacheKey, ['fresnsUsers', 'fresnsUserData', 'fresnsUserConversations'], null, $cacheTime);
+            CacheHelper::put($conversations, $conversationsCacheKey, $conversationsCacheTags, null, $cacheTime);
         }
 
         // unread notifications
         $notificationsCacheKey = "fresns_api_user_panel_notifications_{$authUid}";
-        $unreadNotifications = Cache::get($notificationsCacheKey);
+        $notificationsCacheTags = ['fresnsUsers', 'fresnsUserData', 'fresnsUserNotifications'];
+        $unreadNotifications = CacheHelper::get($notificationsCacheKey, $notificationsCacheTags);
         if (empty($unreadNotifications)) {
             $unreadNotifications = [
                 'systems' => Notification::where('type', 1)->where('user_id', $authUserId)->where('is_read', 0)->count(),
@@ -560,19 +561,20 @@ class UserController extends Controller
                 'comments' => Notification::where('type', 8)->where('user_id', $authUserId)->where('is_read', 0)->count(),
             ];
 
-            CacheHelper::put($unreadNotifications, $notificationsCacheKey, ['fresnsUsers', 'fresnsUserData', 'fresnsUserNotifications'], null, $cacheTime);
+            CacheHelper::put($unreadNotifications, $notificationsCacheKey, $notificationsCacheTags, null, $cacheTime);
         }
 
         // draft count
         $draftsCacheKey = "fresns_api_user_panel_drafts_{$authUid}";
-        $draftCount = Cache::get($draftsCacheKey);
+        $draftsCacheTags = ['fresnsUsers', 'fresnsUserData', 'fresnsUserDrafts'];
+        $draftCount = CacheHelper::get($draftsCacheKey, $draftsCacheTags);
         if (empty($draftCount)) {
             $draftCount = [
                 'posts' => PostLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count(),
                 'comments' => CommentLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count(),
             ];
 
-            CacheHelper::put($draftCount, $draftsCacheKey, ['fresnsUsers', 'fresnsUserData', 'fresnsUserDrafts'], null, $cacheTime);
+            CacheHelper::put($draftCount, $draftsCacheKey, $draftsCacheTags, null, $cacheTime);
         }
 
         $publishConfig = [

@@ -28,7 +28,6 @@ use App\Models\UserFollow;
 use App\Models\UserRole;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Cache;
 
 class PermissionUtility
 {
@@ -37,8 +36,9 @@ class PermissionUtility
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
         $cacheKey = "fresns_user_{$userId}_main_role_{$langTag}";
+        $cacheTags = ['fresnsUsers', 'fresnsUserRoles'];
 
-        $mainRole = Cache::get($cacheKey);
+        $mainRole = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($mainRole)) {
             $defaultRoleId = ConfigHelper::fresnsConfigByItemKey('default_role');
@@ -81,7 +81,7 @@ class PermissionUtility
             $mainRole['status'] = (bool) $roleModel->is_enable;
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($mainRole, $cacheKey, ['fresnsUsers', 'fresnsUserRoles'], null, $cacheTime);
+            CacheHelper::put($mainRole, $cacheKey, $cacheTags, null, $cacheTime);
         }
 
         return $mainRole;
@@ -96,8 +96,9 @@ class PermissionUtility
 
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
         $cacheKey = "fresns_user_{$userId}_roles_{$langTag}";
+        $cacheTags = ['fresnsUsers', 'fresnsUserRoles'];
 
-        $roleAllList = Cache::get($cacheKey);
+        $roleAllList = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($roleAllList)) {
             $roleArr1 = UserRole::where('user_id', $userId)->where('is_main', 0)->where('expired_at', '<', now());
@@ -129,7 +130,7 @@ class PermissionUtility
             $roleAllList = array_merge($mainRoleArr, $roleList);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($roleAllList, $cacheKey, ['fresnsUsers', 'fresnsUserRoles'], null, $cacheTime);
+            CacheHelper::put($roleAllList, $cacheKey, $cacheTags, null, $cacheTime);
         }
 
         return $roleAllList;
@@ -140,18 +141,20 @@ class PermissionUtility
     {
         $guestCacheKey = 'fresns_filter_groups_by_guest';
         $userCacheKey = "fresns_filter_groups_by_user_{$userId}";
+        $cacheTags = ['fresnsGroups', 'fresnsGroupConfigs', 'fresnsUsers', 'fresnsUserInteractions'];
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($guestCacheKey);
         if ($isKnownEmpty) {
             $hiddenGroupIds = [];
         } else {
-            $hiddenGroupIds = Cache::get($guestCacheKey);
+            // get cache
+            $hiddenGroupIds = CacheHelper::get($guestCacheKey, $cacheTags);
 
             if (empty($hiddenGroupIds)) {
                 $hiddenGroupIds = Group::where('type_find', Group::FIND_HIDDEN)->pluck('id')->toArray();
 
-                CacheHelper::put($hiddenGroupIds, $guestCacheKey, ['fresnsGroups', 'fresnsGroupConfigs', 'fresnsUsers', 'fresnsUserInteractions']);
+                CacheHelper::put($hiddenGroupIds, $guestCacheKey, $cacheTags);
             }
         }
 
@@ -166,14 +169,14 @@ class PermissionUtility
         }
 
         // get cache
-        $filterIds = Cache::get($userCacheKey);
+        $filterIds = CacheHelper::get($userCacheKey, $cacheTags);
 
         if (empty($filterIds)) {
             $followGroupIds = UserFollow::type(UserFollow::TYPE_GROUP)->where('user_id', $userId)->pluck('follow_id')->toArray();
 
             $filterIds = array_values(array_diff($hiddenGroupIds, $followGroupIds));
 
-            CacheHelper::put($filterIds, $userCacheKey, ['fresnsGroups', 'fresnsGroupConfigs', 'fresnsUsers', 'fresnsUserInteractions']);
+            CacheHelper::put($filterIds, $userCacheKey, $cacheTags);
         }
 
         return $filterIds;
@@ -402,9 +405,10 @@ class PermissionUtility
         }
 
         $cacheKey = "fresns_api_post_{$pid}_allow_{$uid}";
+        $cacheTags = ['fresnsPosts', 'fresnsPostData', 'fresnsUsers', 'fresnsUserData'];
 
         // get cache
-        $checkPostAllow = Cache::get($cacheKey);
+        $checkPostAllow = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($checkPostAllow)) {
             $allowUsers = PostAllow::where('post_id', $postId)->where('type', 1)->pluck('object_id')->toArray();
@@ -418,7 +422,7 @@ class PermissionUtility
                 $checkPostAllow = PermissionUtility::checkUserRolePerm($userId, $allowRoles);
             }
 
-            CacheHelper::put($checkPostAllow, $cacheKey, ['fresnsPosts', 'fresnsPostData', 'fresnsUsers', 'fresnsUserData']);
+            CacheHelper::put($checkPostAllow, $cacheKey, $cacheTags);
         }
 
         return $checkPostAllow;

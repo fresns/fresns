@@ -8,11 +8,11 @@
 
 namespace App\Console;
 
+use App\Helpers\CacheHelper;
 use App\Models\Config;
 use App\Models\Plugin;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Support\Facades\Cache;
 
 class Kernel extends ConsoleKernel
 {
@@ -25,15 +25,16 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $cacheKey = 'fresns_crontab_items';
+        $cacheTag = 'fresnsSystems';
 
-        $cronArr = Cache::get($cacheKey);
+        $cronArr = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($cronArr)) {
             $cronConfig = Config::where('item_key', 'crontab_items')->first();
 
             $cronArr = $cronConfig?->item_value ?? [];
 
-            Cache::forever('fresns_crontab_items', $cronArr);
+            CacheHelper::put($cronArr, $cacheKey, $cacheTag);
         }
 
         foreach ($cronArr as $cron) {

@@ -9,7 +9,6 @@
 namespace App\Helpers;
 
 use App\Models\Plugin;
-use Illuminate\Support\Facades\Cache;
 
 class PluginHelper
 {
@@ -26,6 +25,7 @@ class PluginHelper
         }
 
         $cacheKey = "fresns_plugin_url_{$unikey}";
+        $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -33,7 +33,7 @@ class PluginHelper
             return null;
         }
 
-        $pluginUrl = Cache::get($cacheKey);
+        $pluginUrl = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($pluginUrl)) {
             $plugin = Plugin::where('unikey', $unikey)->first();
@@ -49,7 +49,7 @@ class PluginHelper
 
             $pluginUrl = $link;
 
-            CacheHelper::put($pluginUrl, $cacheKey, 'fresnsConfigs');
+            CacheHelper::put($pluginUrl, $cacheKey, $cacheTag);
         }
 
         return $pluginUrl ?? null;

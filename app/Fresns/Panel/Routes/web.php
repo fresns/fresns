@@ -51,19 +51,20 @@ use App\Fresns\Panel\Http\Controllers\WalletController;
 use App\Fresns\Panel\Http\Controllers\WebsiteController;
 use App\Helpers\CacheHelper;
 use App\Models\Config;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 try {
-    $loginPath = Cache::get('fresns_panel_login_path');
+    $cacheKey = 'fresns_panel_login_path';
+    $cacheTag = 'fresnsSystems';
+    $loginPath = CacheHelper::get($cacheKey, $cacheTag);
 
     if (empty($loginPath)) {
         $loginConfig = Config::where('item_key', 'panel_path')->first();
 
         $loginPath = $loginConfig->item_value ?? 'admin';
 
-        CacheHelper::put($loginPath, 'fresns_panel_login_path', 'fresnsSystems', 10, now()->addMinutes(10));
+        CacheHelper::put($loginPath, $cacheKey, $cacheTag, 10, now()->addMinutes(10));
     }
 } catch (\Exception $e) {
     $loginPath = 'admin';
@@ -336,7 +337,9 @@ Route::middleware(['panelAuth'])->group(function () {
 
 // FsLang
 Route::get('js/{locale?}/translations', function ($locale) {
-    $langStrings = Cache::get("fresns_panel_translation_{$locale}");
+    $panelLangCacheKey = "fresns_panel_translation_{$locale}";
+    $panelLangCacheTag = 'fresnsSystems';
+    $langStrings = CacheHelper::get($panelLangCacheKey, $panelLangCacheTag);
 
     if (empty($langStrings)) {
         $langPath = app_path('Fresns/Panel/Resources/lang/'.$locale);
@@ -352,7 +355,7 @@ Route::get('js/{locale?}/translations', function ($locale) {
             return $strings;
         })->toJson();
 
-        CacheHelper::put($langStrings, "fresns_panel_translation_{$locale}", 'fresnsSystems');
+        CacheHelper::put($langStrings, $panelLangCacheKey, $panelLangCacheTag);
     }
 
     // get request, return translation content

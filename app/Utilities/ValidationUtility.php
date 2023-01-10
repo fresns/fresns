@@ -15,7 +15,6 @@ use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\VerifyCode;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class ValidationUtility
@@ -195,6 +194,7 @@ class ValidationUtility
         }
 
         $cacheKey = 'fresns_user_ban_words';
+        $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -202,14 +202,14 @@ class ValidationUtility
             $banNameArray = [];
             $isBanName = false;
         } else {
-            $banNameArray = Cache::get($cacheKey);
+            $banNameArray = CacheHelper::get($cacheKey, $cacheTag);
 
             if (empty($banNameArray)) {
                 $banNameData = BlockWord::where('user_mode', 3)->pluck('word')->toArray();
 
                 $banNameArray = array_map('strtolower', $banNameData);
 
-                CacheHelper::put($banNameArray, $cacheKey, 'fresnsConfigs');
+                CacheHelper::put($banNameArray, $cacheKey, $cacheTag);
             }
 
             $isBanName = Str::contains(Str::lower($nickname), $banNameArray);
@@ -238,6 +238,7 @@ class ValidationUtility
         }
 
         $cacheKey = 'fresns_user_ban_words';
+        $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -245,14 +246,14 @@ class ValidationUtility
             $banNameArray = [];
             $isBanWord = false;
         } else {
-            $banNameArray = Cache::get($cacheKey);
+            $banNameArray = CacheHelper::get($cacheKey, $cacheTag);
 
             if (empty($banNameArray)) {
                 $banNameData = BlockWord::where('user_mode', 3)->pluck('word')->toArray();
 
                 $banNameArray = array_map('strtolower', $banNameData);
 
-                CacheHelper::put($banNameArray, $cacheKey, 'fresnsConfigs');
+                CacheHelper::put($banNameArray, $cacheKey, $cacheTag);
             }
 
             $isBanWord = Str::contains(Str::lower($bio), $banNameArray);
@@ -307,6 +308,7 @@ class ValidationUtility
     public static function contentBanWords(string $content): bool
     {
         $cacheKey = 'fresns_content_ban_words';
+        $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -314,14 +316,14 @@ class ValidationUtility
             return true;
         }
 
-        $lowerBanWords = Cache::get($cacheKey);
+        $lowerBanWords = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($lowerBanWords)) {
             $banWords = BlockWord::where('content_mode', 3)->pluck('word')->toArray();
 
             $lowerBanWords = array_map('strtolower', $banWords);
 
-            CacheHelper::put($lowerBanWords, $cacheKey, 'fresnsConfigs');
+            CacheHelper::put($lowerBanWords, $cacheKey, $cacheTag);
         }
 
         return ! Str::contains(Str::lower($content), $lowerBanWords);
@@ -331,6 +333,7 @@ class ValidationUtility
     public static function contentReviewWords(string $content): bool
     {
         $cacheKey = 'fresns_content_review_words';
+        $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -338,14 +341,14 @@ class ValidationUtility
             return true;
         }
 
-        $lowerReviewWords = Cache::get($cacheKey);
+        $lowerReviewWords = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($lowerReviewWords)) {
             $reviewWords = BlockWord::where('content_mode', 4)->pluck('word')->toArray();
 
             $lowerReviewWords = array_map('strtolower', $reviewWords);
 
-            CacheHelper::put($lowerReviewWords, $cacheKey, 'fresnsConfigs');
+            CacheHelper::put($lowerReviewWords, $cacheKey, $cacheTag);
         }
 
         return ! Str::contains(Str::lower($content), $lowerReviewWords);
@@ -355,6 +358,7 @@ class ValidationUtility
     public static function messageBanWords(string $message): bool
     {
         $cacheKey = 'fresns_conversation_ban_words';
+        $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -362,14 +366,14 @@ class ValidationUtility
             return true;
         }
 
-        $lowerBanWords = Cache::get($cacheKey);
+        $lowerBanWords = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($lowerBanWords)) {
             $banWords = BlockWord::where('conversation_mode', 3)->pluck('word')->toArray();
 
             $lowerBanWords = array_map('strtolower', $banWords);
 
-            CacheHelper::put($lowerBanWords, $cacheKey, 'fresnsConfigs');
+            CacheHelper::put($lowerBanWords, $cacheKey, $cacheTag);
         }
 
         return ! Str::contains(Str::lower($message), $lowerBanWords);

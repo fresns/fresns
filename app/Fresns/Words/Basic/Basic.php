@@ -15,16 +15,13 @@ use App\Fresns\Words\Basic\DTO\SendCodeDTO;
 use App\Fresns\Words\Basic\DTO\UploadSessionLogDTO;
 use App\Fresns\Words\Basic\DTO\VerifySignDTO;
 use App\Fresns\Words\Basic\DTO\VerifyUrlSignDTO;
-use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\SignHelper;
-use App\Models\SessionKey;
 use App\Models\SessionLog;
 use App\Models\VerifyCode;
 use App\Utilities\ConfigUtility;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
-use Illuminate\Support\Facades\Cache;
 
 class Basic
 {

@@ -26,7 +26,6 @@ use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
-use Illuminate\Support\Facades\Cache;
 
 class UserService
 {
@@ -37,8 +36,9 @@ class UserService
         }
 
         $cacheKey = "fresns_api_user_{$user->uid}_{$langTag}";
+        $cacheTags = ['fresnsUsers', 'fresnsUserData'];
 
-        $userData = Cache::get($cacheKey);
+        $userData = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($userData)) {
             $userProfile = $user->getUserProfile();
@@ -81,7 +81,7 @@ class UserService
             $userData = array_merge($userProfile, $userMainRole, $item);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($userData, $cacheKey, ['fresnsUsers', 'fresnsUserData'], null, $cacheTime);
+            CacheHelper::put($userData, $cacheKey, $cacheTags, null, $cacheTime);
         }
 
         $userData['stats'] = UserService::getUserStats($user, $langTag);

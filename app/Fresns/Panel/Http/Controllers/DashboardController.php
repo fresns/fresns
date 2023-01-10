@@ -18,7 +18,6 @@ use App\Models\Plugin;
 use App\Models\SessionKey;
 use App\Utilities\AppUtility;
 use App\Utilities\CommandUtility;
-use Illuminate\Support\Facades\Cache;
 
 class DashboardController extends Controller
 {
@@ -26,7 +25,10 @@ class DashboardController extends Controller
     {
         $overview = InteractionHelper::fresnsOverview();
 
-        $news = Cache::get('fresns_news');
+        $cacheKey = 'fresns_news';
+        $cacheTag = 'fresnsSystems';
+
+        $news = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($news)) {
             try {
@@ -38,7 +40,7 @@ class DashboardController extends Controller
                 $news = [];
             }
 
-            CacheHelper::put($news, 'fresns_news', 'fresnsSystems', 5, now()->addHours(3));
+            CacheHelper::put($news, $cacheKey, $cacheTag, 5, now()->addHours(3));
         }
 
         $newsList = [];

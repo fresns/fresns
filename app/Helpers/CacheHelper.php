@@ -87,26 +87,27 @@ class CacheHelper
         return CacheHelper::NULL_CACHE_KEY_PREFIX.$cacheKey;
     }
 
-    // null cache count
-    public static function nullCacheCount(string $cacheKey, string|array $cacheTags, ?int $cacheMinutes = null)
+    // put null cache count
+    public static function putNullCacheCount(string $cacheKey, ?int $cacheMinutes = null)
     {
-        Cache::pull($cacheKey);
+        Cache::forget($cacheKey);
 
         $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
+        $cacheTag = 'fresnsNullCount';
 
-        $currentCacheKeyNullNum = (int) Cache::get($nullCacheKey);
+        $currentCacheKeyNullNum = (int) CacheHelper::get($nullCacheKey, $cacheTag) ?? 0;
 
         $now = $cacheMinutes ? now()->addMinutes($cacheMinutes) : CacheHelper::fresnsCacheTimeByFileType();
 
-        $cacheTags = (array) $cacheTags;
-
         if (CacheHelper::isSupportTags()) {
+            $cacheTags = (array) $cacheTag;
+
             Cache::tags($cacheTags)->put($nullCacheKey, ++$currentCacheKeyNullNum, $now);
         } else {
             Cache::put($nullCacheKey, ++$currentCacheKeyNullNum, $now);
-
-            CacheHelper::addCacheItems($cacheKey, $cacheTags);
         }
+
+        CacheHelper::addCacheItems($cacheKey, $cacheTag);
     }
 
     // is known to be empty
@@ -114,8 +115,10 @@ class CacheHelper
     {
         $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
 
+        $nullCacheCount = CacheHelper::get($nullCacheKey, 'fresnsNullCount');
+
         // null cache count
-        if (Cache::get($nullCacheKey) > CacheHelper::NULL_CACHE_COUNT) {
+        if ($nullCacheCount > CacheHelper::NULL_CACHE_COUNT) {
             return true;
         }
 
@@ -139,27 +142,39 @@ class CacheHelper
         return $isSupportTags;
     }
 
+    // cache get
+    public static function get(string $cacheKey, mixed $cacheTags = null)
+    {
+        $cacheTags = (array) $cacheTags;
+
+        if (CacheHelper::isSupportTags() && $cacheTags) {
+            return Cache::tags($cacheTags)->get($cacheKey);
+        }
+
+        return Cache::get($cacheKey);
+    }
+
     // cache put
-    public static function put(mixed $cacheData, string $cacheKey, string|array $cacheTags, ?int $nullCacheMinutes = null, ?Carbon $cacheTime = null)
+    public static function put(mixed $cacheData, string $cacheKey, mixed $cacheTags = null, ?int $nullCacheMinutes = null, ?Carbon $cacheTime = null)
     {
         $cacheTags = (array) $cacheTags;
 
         // null cache count
         if (empty($cacheData)) {
-            CacheHelper::nullCacheCount($cacheKey, $cacheTags, $nullCacheMinutes);
+            CacheHelper::putNullCacheCount($cacheKey, $nullCacheMinutes);
 
             return $cacheData;
         }
 
         $cacheTime = $cacheTime ?: CacheHelper::fresnsCacheTimeByFileType();
 
-        if (CacheHelper::isSupportTags()) {
+        if (CacheHelper::isSupportTags() && $cacheTags) {
             Cache::tags($cacheTags)->put($cacheKey, $cacheData, $cacheTime);
         } else {
             Cache::put($cacheKey, $cacheData, $cacheTime);
-
-            CacheHelper::addCacheItems($cacheKey, $cacheTags);
         }
+
+        CacheHelper::addCacheItems($cacheKey, $cacheTags);
 
         $cacheTagList = Cache::get('fresns_cache_tags') ?? [];
         foreach ($cacheTags as $tag) {
@@ -172,10 +187,15 @@ class CacheHelper
     }
 
     // add cache items
-    public static function addCacheItems(string $cacheKey, string|array $cacheTags)
+    public static function addCacheItems(string $cacheKey, mixed $cacheTags = null)
     {
+        if (empty($cacheTags)) {
+            return;
+        }
+
         $cacheTags = (array) $cacheTags;
         $tags = [
+            'fresnsNullCount',
             'fresnsSystems',
             'fresnsConfigs',
             'fresnsCodeMessages',
@@ -244,6 +264,7 @@ class CacheHelper
             }
 
             Cache::forget('fresnsSystems');
+            Cache::forget('fresns_cache_is_support_tags');
         }
 
         // config
@@ -649,7 +670,6 @@ class CacheHelper
      */
     // fresns_cache_is_support_tags
     // fresns_cache_tags
-    // fresns_crontab_items
     // install_{$step}
     // autoUpgradeStep
     // autoUpgradeTip
@@ -667,6 +687,7 @@ class CacheHelper
     // fresns_panel_login_path
     // fresns_panel_translation_{$locale}
     // fresns_model_key_{$appId}
+    // fresns_crontab_items
 
     /**
      * tag: fresnsConfigs.

@@ -26,7 +26,6 @@ use App\Models\UserStat;
 use App\Utilities\ConfigUtility;
 use Carbon\Carbon;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 
 class User
@@ -268,6 +267,7 @@ class User
         $uidToken = $dtoWordBody->uidToken;
 
         $cacheKey = "fresns_token_user_{$userId}_{$uidToken}";
+        $cacheTags = ['fresnsUsers', 'fresnsUserTokens'];
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -278,7 +278,7 @@ class User
             );
         }
 
-        $userToken = Cache::get($cacheKey);
+        $userToken = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($userToken)) {
             $userToken = SessionToken::where('account_id', $accountId)
@@ -293,7 +293,7 @@ class User
                 );
             }
 
-            CacheHelper::put($userToken, $cacheKey, ['fresnsUsers', 'fresnsUserTokens']);
+            CacheHelper::put($userToken, $cacheKey, $cacheTags);
         }
 
         if ($userToken->platform_id != $dtoWordBody->platformId) {

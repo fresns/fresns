@@ -16,7 +16,6 @@ use App\Models\File;
 use App\Models\PluginUsage;
 use App\Models\SessionLog;
 use App\Utilities\ExtendUtility;
-use Illuminate\Support\Facades\Cache;
 
 class AccountService
 {
@@ -27,8 +26,9 @@ class AccountService
         }
 
         $cacheKey = "fresns_api_account_{$account->aid}_{$langTag}";
+        $cacheTags = ['fresnsAccounts', 'fresnsAccountData'];
 
-        $accountInfo = Cache::get($cacheKey);
+        $accountInfo = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($accountInfo)) {
             $accountData = $account->getAccountInfo();
@@ -48,7 +48,7 @@ class AccountService
             $accountInfo = array_merge($accountData, $item);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
-            CacheHelper::put($accountInfo, $cacheKey, ['fresnsAccounts', 'fresnsAccountData'], null, $cacheTime);
+            CacheHelper::put($accountInfo, $cacheKey, $cacheTags, null, $cacheTime);
         }
 
         return self::handleAccountDate($accountInfo, $timezone, $langTag);

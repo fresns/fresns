@@ -32,7 +32,6 @@ use App\Models\Sticker;
 use App\Utilities\CollectionUtility;
 use App\Utilities\ExtendUtility;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class GlobalController extends Controller
@@ -142,6 +141,7 @@ class GlobalController extends Controller
         };
 
         $cacheKey = "fresns_api_archives_{$dtoRequest->type}_{$unikey}_{$langTag}";
+        $cacheTags = ['fresnsApiData', 'fresnsArchives'];
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -149,7 +149,7 @@ class GlobalController extends Controller
             return $this->success([]);
         }
 
-        $archives = Cache::get($cacheKey);
+        $archives = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($archives)) {
             $archiveData = Archive::type($usageType)
@@ -201,7 +201,7 @@ class GlobalController extends Controller
 
             $archives = $items;
 
-            CacheHelper::put($archives, $cacheKey, ['fresnsApiData', 'fresnsArchives']);
+            CacheHelper::put($archives, $cacheKey, $cacheTags);
         }
 
         return $this->success($archives);
@@ -315,6 +315,7 @@ class GlobalController extends Controller
         $langTag = $this->langTag();
 
         $cacheKey = "fresns_api_sticker_tree_{$langTag}";
+        $cacheTags = ['fresnsApiData', 'fresnsConfigs'];
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -322,7 +323,7 @@ class GlobalController extends Controller
             return $this->success([]);
         }
 
-        $stickerTree = Cache::get($cacheKey);
+        $stickerTree = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($stickerTree)) {
             $stickers = Sticker::isEnable()->orderBy('rating')->get();
@@ -339,7 +340,7 @@ class GlobalController extends Controller
             $stickerTree = CollectionUtility::toTree($stickerData, 'code', 'parentCode', 'stickers');
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($stickerTree, $cacheKey, ['fresnsApiData', 'fresnsConfigs'], null, $cacheTime);
+            CacheHelper::put($stickerTree, $cacheKey, $cacheTags, null, $cacheTime);
         }
 
         return $this->success($stickerTree);

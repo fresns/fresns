@@ -22,7 +22,6 @@ use App\Models\OperationUsage;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
-use Illuminate\Support\Facades\Cache;
 
 class GroupService
 {
@@ -33,9 +32,10 @@ class GroupService
         }
 
         $cacheKey = "fresns_api_group_{$group->gid}_{$langTag}";
+        $cacheTags = ['fresnsGroups', 'fresnsGroupData'];
 
         // get cache
-        $groupInfo = Cache::get($cacheKey);
+        $groupInfo = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($groupInfo)) {
             $groupInfo = $group->getGroupInfo($langTag);
@@ -60,7 +60,7 @@ class GroupService
             $groupInfo = array_merge($groupInfo, $item);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($groupInfo, $cacheKey, ['fresnsGroups', 'fresnsGroupData'], null, $cacheTime);
+            CacheHelper::put($groupInfo, $cacheKey, $cacheTags, null, $cacheTime);
         }
 
         $item['publishRule'] = PermissionUtility::checkUserGroupPublishPerm($group->id, $group->permissions, $authUserId);

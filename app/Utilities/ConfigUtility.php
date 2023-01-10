@@ -23,7 +23,6 @@ use App\Models\PluginUsage;
 use App\Models\PostLog;
 use App\Models\SessionLog;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class ConfigUtility
@@ -102,6 +101,7 @@ class ConfigUtility
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
         $cacheKey = "fresns_code_messages_{$unikey}_{$langTag}";
+        $cacheTag = 'fresnsCodeMessages';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -109,7 +109,7 @@ class ConfigUtility
             return 'Unknown Error';
         }
 
-        $codeMessages = Cache::get($cacheKey);
+        $codeMessages = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($codeMessages)) {
             $codeMessages = CodeMessage::where('plugin_unikey', $unikey)->where('lang_tag', $langTag)->get();
@@ -118,7 +118,7 @@ class ConfigUtility
                 $codeMessages = CodeMessage::where('plugin_unikey', $unikey)->where('lang_tag', 'en')->get();
             }
 
-            CacheHelper::put($codeMessages, $cacheKey, 'fresnsCodeMessages');
+            CacheHelper::put($codeMessages, $cacheKey, $cacheTag);
         }
 
         $message = $codeMessages->where('code', $code)?->value('message');
@@ -295,8 +295,9 @@ class ConfigUtility
     public static function getPublishConfigByType(int $userId, string $type, ?string $langTag = null, ?string $timezone = null): array
     {
         $cacheKey = "fresns_publish_{$type}_config_{$userId}_{$langTag}";
+        $cacheTags = ['fresnsUsers', 'fresnsUserConfigs'];
 
-        $publishConfig = Cache::get($cacheKey);
+        $publishConfig = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($publishConfig)) {
             $rolePerm = PermissionUtility::getUserMainRole($userId)['permissions'];
@@ -396,7 +397,7 @@ class ConfigUtility
             $publishConfig = $publish;
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
-            CacheHelper::put($publishConfig, $cacheKey, ['fresnsUsers', 'fresnsUserConfigs'], null, $cacheTime);
+            CacheHelper::put($publishConfig, $cacheKey, $cacheTags, null, $cacheTime);
         }
 
         $publishConfig['limit']['periodStartFormat'] = DateHelper::fresnsDateTimeByTimezone($publishConfig['limit']['periodStartFormat'], $timezone, $langTag);

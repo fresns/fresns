@@ -19,7 +19,6 @@ use App\Models\Hashtag;
 use App\Models\OperationUsage;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
-use Illuminate\Support\Facades\Cache;
 
 class HashtagService
 {
@@ -30,8 +29,9 @@ class HashtagService
         }
 
         $cacheKey = "fresns_api_hashtag_{$hashtag->slug}_{$langTag}";
+        $cacheTags = ['fresnsHashtags', 'fresnsHashtagData'];
 
-        $data = Cache::get($cacheKey);
+        $data = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($data)) {
             $hashtagInfo = $hashtag->getHashtagInfo($langTag);
@@ -43,7 +43,7 @@ class HashtagService
             $data = array_merge($hashtagInfo, $item);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($data, $cacheKey, ['fresnsHashtags', 'fresnsHashtagData'], null, $cacheTime);
+            CacheHelper::put($data, $cacheKey, $cacheTags, null, $cacheTime);
         }
 
         $interactionConfig = InteractionHelper::fresnsHashtagInteraction($langTag);

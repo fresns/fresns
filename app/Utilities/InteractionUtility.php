@@ -24,7 +24,6 @@ use App\Models\UserFollow;
 use App\Models\UserLike;
 use App\Models\UserStat;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class InteractionUtility
@@ -112,8 +111,9 @@ class InteractionUtility
         }
 
         $cacheKey = "fresns_interaction_status_{$markType}_{$markId}_{$userId}";
+        $cacheTags = ['fresnsUsers', 'fresnsUserInteractions'];
 
-        $status = Cache::get($cacheKey);
+        $status = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($status)) {
             $userFollow = UserFollow::where('user_id', $userId)->type($markType)->where('follow_id', $markId)->first();
@@ -138,7 +138,7 @@ class InteractionUtility
                 $status['blockMeStatus'] = self::checkUserBlock($markType, $userId, $markId);
             }
 
-            CacheHelper::put($status, $cacheKey, ['fresnsUsers', 'fresnsUserInteractions']);
+            CacheHelper::put($status, $cacheKey, $cacheTags);
         }
 
         return $status;
@@ -1065,6 +1065,7 @@ class InteractionUtility
         }
 
         $cacheKey = "fresns_follow_{$type}_array_by_{$userId}";
+        $cacheTags = ['fresnsUsers', 'fresnsUserInteractions', 'fresnsFollowData'];
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -1073,7 +1074,7 @@ class InteractionUtility
         }
 
         // get cache
-        $followIds = Cache::get($cacheKey);
+        $followIds = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($followIds)) {
             if ($type == UserFollow::TYPE_USER) {
@@ -1094,7 +1095,7 @@ class InteractionUtility
 
             $followIds = array_values($followArr);
 
-            CacheHelper::put($followIds, $cacheKey, ['fresnsUsers', 'fresnsUserInteractions', 'fresnsFollowData']);
+            CacheHelper::put($followIds, $cacheKey, $cacheTags);
         }
 
         return $followIds;
@@ -1108,6 +1109,7 @@ class InteractionUtility
         }
 
         $cacheKey = "fresns_block_{$type}_array_by_{$userId}";
+        $cacheTags = ['fresnsUsers', 'fresnsUserInteractions', 'fresnsBlockData'];
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -1116,7 +1118,7 @@ class InteractionUtility
         }
 
         // get cache
-        $blockIds = Cache::get($cacheKey);
+        $blockIds = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($blockIds)) {
             if ($type == UserBlock::TYPE_USER) {
@@ -1136,7 +1138,7 @@ class InteractionUtility
 
             $blockIds = array_values($blockArr);
 
-            CacheHelper::put($blockIds, $cacheKey, ['fresnsUsers', 'fresnsUserInteractions', 'fresnsBlockData']);
+            CacheHelper::put($blockIds, $cacheKey, $cacheTags);
         }
 
         return $blockIds;
@@ -1146,6 +1148,7 @@ class InteractionUtility
     public static function getPrivateGroupIdArr()
     {
         $cacheKey = 'fresns_private_groups';
+        $cacheTag = 'fresnsGroups';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -1153,12 +1156,12 @@ class InteractionUtility
             return [];
         }
 
-        $groupIdArr = Cache::get($cacheKey);
+        $groupIdArr = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($groupIdArr)) {
             $groupIdArr = Group::where('type_mode', Group::MODE_PRIVATE)->pluck('id')->toArray();
 
-            CacheHelper::put($groupIdArr, $cacheKey, 'fresnsGroups');
+            CacheHelper::put($groupIdArr, $cacheKey, $cacheTag);
         }
 
         return $groupIdArr;

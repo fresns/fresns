@@ -22,7 +22,6 @@ use App\Utilities\CollectionUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\PermissionUtility;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class GroupController extends Controller
 {
@@ -72,7 +71,7 @@ class GroupController extends Controller
             $cacheTags = ['fresnsGroups', 'fresnsGroupData', 'fresnsUsers', 'fresnsUserData'];
         }
 
-        $groups = Cache::get($cacheKey);
+        $groups = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($groups)) {
             $groups = Group::where(function ($query) {
