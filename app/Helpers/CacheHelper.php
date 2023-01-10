@@ -126,7 +126,8 @@ class CacheHelper
     public static function isSupportTags(): bool
     {
         $isSupportTags = Cache::rememberForever('fresns_cache_is_support_tags', function () {
-            $cacheDriver = env('CACHE_DRIVER', 'file');
+            // $cacheDriver = env('CACHE_DRIVER', 'file');
+            $cacheDriver = config('cache.default', 'file');
 
             if ($cacheDriver == 'file' || $cacheDriver == 'dynamodb' || $cacheDriver == 'database') {
                 return false;
