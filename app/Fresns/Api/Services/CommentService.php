@@ -68,8 +68,6 @@ class CommentService
             $fileCount['documents'] = collect($item['files']['documents'])->count();
             $item['fileCount'] = $fileCount;
 
-            $timezone = $timezone ?: ConfigHelper::fresnsConfigDefaultTimezone();
-
             // hashtags
             $item['hashtags'] = [];
             if ($comment->hashtags->isNotEmpty()) {

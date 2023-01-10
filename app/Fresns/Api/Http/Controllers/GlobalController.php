@@ -48,20 +48,20 @@ class GlobalController extends Controller
 
         $configQuery = Config::where('is_api', 1);
 
-        if (! empty($itemKey) && ! empty($itemTag)) {
-            $configQuery->whereIn('item_key', $itemKey)->orWhereIn('item_tag', $itemTag);
-        } elseif (! empty($itemKey) && empty($itemTag)) {
-            $configQuery->whereIn('item_key', $itemKey);
-        } elseif (empty($itemKey) && ! empty($itemTag)) {
-            $configQuery->whereIn('item_tag', $itemTag);
-        }
-
         if ($dtoRequest->isAll) {
             $configs = $configQuery->get();
 
             $total = $configs->count();
             $perPage = $total;
         } else {
+            if (! empty($itemKey) && ! empty($itemTag)) {
+                $configQuery->whereIn('item_key', $itemKey)->orWhereIn('item_tag', $itemTag);
+            } elseif (! empty($itemKey) && empty($itemTag)) {
+                $configQuery->whereIn('item_key', $itemKey);
+            } elseif (empty($itemKey) && ! empty($itemTag)) {
+                $configQuery->whereIn('item_tag', $itemTag);
+            }
+
             $configs = $configQuery->paginate($request->get('pageSize', 50));
 
             $total = $configs->total();

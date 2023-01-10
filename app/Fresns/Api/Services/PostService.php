@@ -63,8 +63,6 @@ class PostService
             $fileCount['documents'] = collect($item['files']['documents'])->count();
             $item['fileCount'] = $fileCount;
 
-            $timezone = $timezone ?: ConfigHelper::fresnsConfigDefaultTimezone();
-
             // group
             $groupService = new GroupService;
             $item['group'] = $groupService->groupData($post->group, $langTag, $timezone);
