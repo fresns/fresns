@@ -163,7 +163,7 @@ class Subscribe
             'item_value' => $subscribes,
         ]);
 
-        CacheHelper::forgetFresnsKeys(['subscribe_items']);
+        CacheHelper::forgetFresnsKey('subscribe_items');
 
         return $fresnsSave;
     }
@@ -178,7 +178,7 @@ class Subscribe
             'item_value' => $filterData,
         ]);
 
-        CacheHelper::forgetFresnsKeys(['subscribe_items']);
+        CacheHelper::forgetFresnsKey('subscribe_items');
 
         return $fresnsRemove;
     }

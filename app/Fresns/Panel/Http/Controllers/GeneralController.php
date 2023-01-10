@@ -171,7 +171,7 @@ class GeneralController extends Controller
 
         CacheHelper::forgetFresnsMultilingual('fresns_config_site_icon');
         CacheHelper::forgetFresnsMultilingual('fresns_config_site_logo');
-        CacheHelper::forgetFresnsKeys(['fresns_default_timezone']);
+        CacheHelper::forgetFresnsKey('fresns_default_timezone');
 
         return $this->updateSuccess();
     }

@@ -28,7 +28,6 @@ use App\Utilities\ContentUtility;
 use App\Utilities\PermissionUtility;
 use App\Utilities\ValidationUtility;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class ConversationController extends Controller
@@ -333,8 +332,8 @@ class ConversationController extends Controller
         $data['datetimeFormat'] = DateHelper::fresnsFormatDateTime($conversationMessage->created_at, $timezone, $langTag);
         $data['readStatus'] = (bool) $conversationMessage->receive_read_at;
 
-        Cache::forget("fresns_api_user_panel_conversations_{$authUser->uid}");
-        Cache::forget("fresns_api_user_panel_conversations_{$receiveUser->uid}");
+        CacheHelper::forgetFresnsKey("fresns_api_user_panel_conversations_{$authUser->uid}");
+        CacheHelper::forgetFresnsKey("fresns_api_user_panel_conversations_{$receiveUser->uid}");
 
         return $this->success($data);
     }
@@ -367,7 +366,7 @@ class ConversationController extends Controller
             ]);
         }
 
-        Cache::forget("fresns_api_user_panel_conversations_{$authUser->uid}");
+        CacheHelper::forgetFresnsKey("fresns_api_user_panel_conversations_{$authUser->uid}");
 
         return $this->success();
     }
@@ -429,7 +428,7 @@ class ConversationController extends Controller
         }
 
         $cacheKey = "fresns_model_conversation_{$conversationId}";
-        CacheHelper::forgetFresnsKeys([$cacheKey]);
+        CacheHelper::forgetFresnsKey($cacheKey);
 
         return $this->success();
     }

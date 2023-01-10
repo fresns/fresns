@@ -13,6 +13,7 @@ use App\Fresns\Words\Send\DTO\SendEmailDTO;
 use App\Fresns\Words\Send\DTO\SendNotificationDTO;
 use App\Fresns\Words\Send\DTO\SendSmsDTO;
 use App\Fresns\Words\Send\DTO\SendWechatMessageDTO;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\CommentLog;
@@ -21,7 +22,6 @@ use App\Models\Notification;
 use App\Models\PostLog;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class Send
@@ -104,7 +104,7 @@ class Send
 
         $send = self::generateNotification($user->id, $dtoWordBody->toArray());
 
-        Cache::forget("fresns_api_user_panel_notifications_{$dtoWordBody->uid}");
+        CacheHelper::forgetFresnsKey("fresns_api_user_panel_notifications_{$dtoWordBody->uid}");
 
         if ($send != 0) {
             return $this->failure($send);

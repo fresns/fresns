@@ -15,13 +15,13 @@ use App\Fresns\Api\Services\GroupService;
 use App\Fresns\Api\Services\HashtagService;
 use App\Fresns\Api\Services\PostService;
 use App\Fresns\Api\Services\UserService;
+use App\Helpers\CacheHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Notification;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class NotificationController extends Controller
 {
@@ -112,7 +112,7 @@ class NotificationController extends Controller
             ]);
         }
 
-        Cache::forget("fresns_api_user_panel_notifications_{$authUser->uid}");
+        CacheHelper::forgetFresnsKey("fresns_api_user_panel_notifications_{$authUser->uid}");
 
         return $this->success();
     }

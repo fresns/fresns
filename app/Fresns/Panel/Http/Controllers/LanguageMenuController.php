@@ -60,7 +60,7 @@ class LanguageMenuController extends Controller
         $defaultLanguageConfig->save();
 
         CacheHelper::forgetFresnsMultilingual('default_language');
-        CacheHelper::forgetFresnsKeys(['fresns_default_langTag']);
+        CacheHelper::forgetFresnsKey('fresns_default_langTag');
 
         return $this->updateSuccess();
     }

@@ -16,6 +16,7 @@ use App\Fresns\Api\Http\DTO\EditorUpdateDTO;
 use App\Fresns\Api\Services\CommentService;
 use App\Fresns\Api\Services\PostService;
 use App\Fresns\Api\Services\UserService;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
@@ -31,7 +32,6 @@ use App\Utilities\ConfigUtility;
 use App\Utilities\PermissionUtility;
 use App\Utilities\ValidationUtility;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class EditorController extends Controller
@@ -241,7 +241,7 @@ class EditorController extends Controller
             break;
         }
 
-        Cache::forget("fresns_api_user_panel_drafts_{$authUser->uid}");
+        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}");
 
         return $this->success($data);
     }
@@ -322,7 +322,7 @@ class EditorController extends Controller
         $edit['deadlineTime'] = $fresnsResp->getData('deadlineTime');
         $data['edit'] = $edit;
 
-        Cache::forget("fresns_api_user_panel_drafts_{$authUser->uid}");
+        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}");
 
         return $this->success($data);
     }
@@ -852,7 +852,7 @@ class EditorController extends Controller
         $sessionLog['objectOrderId'] = $fresnsResp->getData('id');
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
-        Cache::forget("fresns_api_user_panel_drafts_{$authUser->uid}");
+        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}");
 
         return $this->success();
     }
@@ -930,7 +930,7 @@ class EditorController extends Controller
 
         $draft->delete();
 
-        Cache::forget("fresns_api_user_panel_drafts_{$authUser->uid}");
+        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}");
 
         return $this->success();
     }
@@ -1077,7 +1077,7 @@ class EditorController extends Controller
         // upload session log
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
-        Cache::forget("fresns_api_user_panel_drafts_{$authUser->uid}");
+        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}");
 
         if (! $fsid) {
             throw new ApiException(38200);
