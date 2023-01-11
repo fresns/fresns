@@ -146,7 +146,11 @@ class CommentController extends Controller
                 throw new ApiException(37401);
             }
 
-            $commentQuery->where('top_parent_id', $viewComment->id);
+            if ($viewComment->top_parent_id) {
+                $commentQuery->where('parent_id', $viewComment->id);
+            } else {
+                $commentQuery->where('top_parent_id', $viewComment->id);
+            }
 
             $outputSubComments = false;
             $isPreviewPost = false;
