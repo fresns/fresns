@@ -262,13 +262,7 @@ class CacheHelper
     {
         // system
         if ($cacheType == 'fresnsSystem') {
-            $keyArr = Cache::get('fresnsSystems') ?? [];
-            foreach ($keyArr as $key => $datetime) {
-                CacheHelper::forgetFresnsKey($key);
-            }
-
-            CacheHelper::forgetFresnsKey('fresnsSystems');
-            CacheHelper::forgetFresnsKey('fresns_cache_is_support_tags');
+            CacheHelper::forgetFresnsTag('fresnsSystems');
         }
 
         // config
