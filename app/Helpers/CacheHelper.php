@@ -273,47 +273,13 @@ class CacheHelper
 
         // config
         if ($cacheType == 'fresnsConfig') {
-            $configKeyArr = Cache::get('fresnsConfigs') ?? [];
-            foreach ($configKeyArr as $key => $datetime) {
-                CacheHelper::forgetFresnsKey($key);
-            }
-            Cache::forget('fresnsConfigs');
-
-            $codeKeyArr = Cache::get('fresnsCodeMessages') ?? [];
-            foreach ($codeKeyArr as $key => $datetime) {
-                CacheHelper::forgetFresnsKey($key);
-            }
-            Cache::forget('fresnsCodeMessages');
-
-            $archiveKeyArr = Cache::get('fresnsArchives') ?? [];
-            foreach ($archiveKeyArr as $key => $datetime) {
-                CacheHelper::forgetFresnsKey($key);
-            }
-            Cache::forget('fresnsArchives');
-
-            $langKeyArr = Cache::get('fresnsConfigLanguages') ?? [];
-            foreach ($langKeyArr as $key => $datetime) {
-                CacheHelper::forgetFresnsKey($key);
-            }
-            Cache::forget('fresnsConfigLanguages');
-
-            $roleLangKeyArr = Cache::get('fresnsRoleLanguages') ?? [];
-            foreach ($roleLangKeyArr as $key => $datetime) {
-                CacheHelper::forgetFresnsKey($key);
-            }
-            Cache::forget('fresnsRoleLanguages');
-
-            $stickerLangKeyArr = Cache::get('fresnsStickerLanguages') ?? [];
-            foreach ($stickerLangKeyArr as $key => $datetime) {
-                CacheHelper::forgetFresnsKey($key);
-            }
-            Cache::forget('fresnsStickerLanguages');
-
-            $webConfigKeyArr = Cache::get('fresnsWebConfigs') ?? [];
-            foreach ($webConfigKeyArr as $key => $datetime) {
-                CacheHelper::forgetFresnsKey($key);
-            }
-            Cache::forget('fresnsWebConfigs');
+            CacheHelper::forgetFresnsTag('fresnsConfigs');
+            CacheHelper::forgetFresnsTag('fresnsCodeMessages');
+            CacheHelper::forgetFresnsTag('fresnsArchives');
+            CacheHelper::forgetFresnsTag('fresnsConfigLanguages');
+            CacheHelper::forgetFresnsTag('fresnsRoleLanguages');
+            CacheHelper::forgetFresnsTag('fresnsStickerLanguages');
+            CacheHelper::forgetFresnsTag('fresnsWebConfigs');
 
             // time of the latest cache
             Config::updateOrCreate([
@@ -330,11 +296,7 @@ class CacheHelper
 
         // extend
         if ($cacheType == 'fresnsExtend') {
-            $keyArr = Cache::get('fresnsExtensions') ?? [];
-            foreach ($keyArr as $key => $datetime) {
-                CacheHelper::forgetFresnsKey($key);
-            }
-            Cache::forget('fresnsExtensions');
+            CacheHelper::forgetFresnsTag('fresnsExtensions');
         }
 
         // view
@@ -516,6 +478,47 @@ class CacheHelper
             foreach ($keys as $key) {
                 Cache::forget($key);
             }
+        }
+    }
+
+    /**
+     * forget fresns tag.
+     */
+    public static function forgetFresnsTag(string $tag)
+    {
+        if (CacheHelper::isSupportTags()) {
+            Cache::tags($tag)->flush();
+            Cache::forget($tag);
+
+            return;
+        }
+
+        $tags = [
+            'fresnsNullCount',
+            'fresnsSystems',
+            'fresnsConfigs',
+            'fresnsCodeMessages',
+            'fresnsArchives',
+            'fresnsExtensions',
+            'fresnsConfigLanguages',
+            'fresnsPluginUsageLanguages',
+            'fresnsRoleLanguages',
+            'fresnsStickerLanguages',
+            'fresnsWebConfigs',
+        ];
+
+        if (in_array($tag, $tags)) {
+            $keyArr = Cache::get($tag) ?? [];
+
+            foreach ($keyArr as $key => $datetime) {
+                Cache::forget($key);
+            }
+
+            Cache::forget($tag);
+        }
+
+        if ($tag == 'fresnsSystems') {
+            CacheHelper::forgetFresnsKey('fresns_cache_is_support_tags');
         }
     }
 
