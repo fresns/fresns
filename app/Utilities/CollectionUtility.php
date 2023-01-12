@@ -18,16 +18,16 @@ class CollectionUtility
      * @return null|array
      *                    #
      */
-    public static function toTree(?array $data = null, $primary = 'id', $parent = 'parent_id', $children = 'children')
+    public static function toTree(?array $data = [], $primary = 'id', $parent = 'parent_id', $children = 'children')
     {
         // data is empty
-        if (count($data) === 0) {
-            return null;
+        if (empty($data) || count($data) === 0) {
+            return [];
         }
 
         // parameter missing
         if (! array_key_exists($primary, head($data)) || ! array_key_exists($parent, head($data))) {
-            return null;
+            return [];
         }
 
         $items = [];
