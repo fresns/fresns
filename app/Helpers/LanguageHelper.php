@@ -24,6 +24,8 @@ class LanguageHelper
      */
     public static function fresnsLanguageByTableId(string $tableName, string $tableColumn, int $tableId, ?string $langTag = null)
     {
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
+
         $cacheKey = "fresns_{$tableName}_{$tableColumn}_{$tableId}_{$langTag}";
         $cacheTags = match ($tableName) {
             'configs' => ['fresnsLanguages', 'fresnsConfigLanguages'],
