@@ -83,17 +83,17 @@ class CommentService
             // creator
             $userService = new UserService;
             $item['creator'] = $userService->userData($comment->creator, $langTag, $timezone);
-            $item['creator']['isPostCreator'] = $comment->user_id == $post->user_id ? true : false;
+            $item['creator']['isPostCreator'] = $comment->user_id == $post?->user_id ? true : false;
 
             // reply to user
             $item['replyToUser'] = null;
             if ($comment->top_parent_id != $comment->parent_id) {
                 $parentComment = $comment->parentComment;
 
-                if ($parentComment->is_anonymous) {
+                if ($parentComment?->is_anonymous) {
                     $item['replyToUser'] = InteractionHelper::fresnsUserAnonymousProfile();
                 } else {
-                    $parentCommentUser = PrimaryHelper::fresnsModelById('user', $parentComment->user_id);
+                    $parentCommentUser = PrimaryHelper::fresnsModelById('user', $parentComment?->user_id);
                     $userService = new UserService;
                     $item['replyToUser'] = $userService->userData($parentCommentUser, $langTag, $timezone);
                 }
@@ -105,7 +105,7 @@ class CommentService
                 'status' => (bool) $postAppend->is_comment_btn,
                 'type' => $commentAppend->is_change_btn ? 'active' : 'default',
                 'default' => [
-                    'name' => LanguageHelper::fresnsLanguageByTableId('post_appends', 'comment_btn_name', $post->id, $langTag),
+                    'name' => $post?->id ? LanguageHelper::fresnsLanguageByTableId('post_appends', 'comment_btn_name', $post?->id, $langTag) : null,
                     'style' => $postAppend->comment_btn_style,
                     'url' => PluginHelper::fresnsPluginUrlByUnikey($postAppend->comment_btn_plugin_unikey),
                 ],
@@ -124,10 +124,10 @@ class CommentService
                 'isPluginEditor' => (bool) $commentAppend->is_plugin_editor,
                 'editorUrl' => PluginHelper::fresnsPluginUrlByUnikey($commentAppend->editor_unikey),
             ];
-            $item['interaction']['postCreatorLikeStatus'] = InteractionUtility::checkUserLike(InteractionUtility::TYPE_COMMENT, $comment->id, $post->user_id);
+            $item['interaction']['postCreatorLikeStatus'] = InteractionUtility::checkUserLike(InteractionUtility::TYPE_COMMENT, $comment->id, $post?->user_id);
             $item['followType'] = null;
             $postData = self::getPost($post, $langTag);
-            $item['pid'] = $postData['pid'];
+            $item['pid'] = $postData['pid'] ?? null;
             $item['post'] = $postData;
 
             $commentData = array_merge($commentInfo, $item);
@@ -157,7 +157,8 @@ class CommentService
 
             $userService = new UserService;
             $commentData['creator'] = $userService->userData($commentCreator, $langTag, $timezone);
-            $commentData['creator']['isPostCreator'] = $commentData['creator']['uid'] == $commentData['post']['creator']['uid'] ? true : false;
+            $creatorUid = $commentData['post']['creator']['uid'] ?? null;
+            $commentData['creator']['isPostCreator'] = $commentData['creator']['uid'] == $creatorUid ? true : false;
         }
 
         // whether to output sub-level comments
@@ -354,8 +355,12 @@ class CommentService
     }
 
     // get post
-    public static function getPost(Post $post, string $langTag)
+    public static function getPost(?Post $post, string $langTag)
     {
+        if (! $post) {
+            return null;
+        }
+
         $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
         $postService = new PostService;
 
