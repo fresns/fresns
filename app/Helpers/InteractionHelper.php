@@ -39,8 +39,8 @@ class InteractionHelper
     }
 
     /**
-     * @param  int      $roleId
-     * @param  string   $langTag
+     * @param  int  $roleId
+     * @param  string  $langTag
      * @return array
      */
     public static function fresnsRoleInfo(int $roleId, ?string $langTag = null)
