@@ -63,7 +63,7 @@ class PermissionUtility
             CacheHelper::put($mainRoleConfig, $cacheKey, $cacheTags);
         }
 
-        $mainRole = InteractionHelper::fresnsRoleInteraction($mainRoleConfig['rid'], $langTag);
+        $mainRole = InteractionHelper::fresnsRoleInfo($mainRoleConfig['rid'], $langTag);
         $mainRole['isMain'] = true;
         $mainRole['expiryDateTime'] = $mainRoleConfig['expiryDateTime'];
 
@@ -105,7 +105,7 @@ class PermissionUtility
 
         $roleListArr = [];
         foreach ($roleAllConfig as $config) {
-            $role = InteractionHelper::fresnsRoleInteraction($config['rid'], $langTag);
+            $role = InteractionHelper::fresnsRoleInfo($config['rid'], $langTag);
             $role['expiryDateTime'] = $config['expiryDateTime'];
 
             unset($role['permissions']);

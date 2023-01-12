@@ -203,6 +203,7 @@ class CacheHelper
             'fresnsSystems',
             'fresnsConfigs',
             'fresnsCodeMessages',
+            'fresnsRoles',
             'fresnsArchives',
             'fresnsExtensions',
             'fresnsConfigLanguages',
@@ -269,6 +270,7 @@ class CacheHelper
         if ($cacheType == 'fresnsConfig') {
             CacheHelper::forgetFresnsTag('fresnsConfigs');
             CacheHelper::forgetFresnsTag('fresnsCodeMessages');
+            CacheHelper::forgetFresnsTag('fresnsRoles');
             CacheHelper::forgetFresnsTag('fresnsArchives');
             CacheHelper::forgetFresnsTag('fresnsConfigLanguages');
             CacheHelper::forgetFresnsTag('fresnsRoleLanguages');
@@ -341,6 +343,9 @@ class CacheHelper
                     CacheHelper::forgetFresnsMultilingual("fresns_user_{$id}_roles");
                     CacheHelper::forgetFresnsMultilingual("fresns_publish_post_config_{$id}");
                     CacheHelper::forgetFresnsMultilingual("fresns_publish_comment_config_{$id}");
+
+                    $account = PrimaryHelper::fresnsModelById('account', $model->account_id);
+                    CacheHelper::forgetFresnsAccount($account->aid);
                 }
 
                 if ($dataType == 'fresnsInteraction') {
@@ -492,6 +497,7 @@ class CacheHelper
             'fresnsSystems',
             'fresnsConfigs',
             'fresnsCodeMessages',
+            'fresnsRoles',
             'fresnsArchives',
             'fresnsExtensions',
             'fresnsConfigLanguages',
@@ -745,6 +751,11 @@ class CacheHelper
      * tag: fresnsCodeMessages.
      */
     // fresns_code_messages_{$unikey}_{$langTag}
+
+    /**
+     * tag: fresnsRoles.
+     */
+    // fresns_role_{$id}_{$langTag}
 
     /**
      * tag: fresnsAccounts.

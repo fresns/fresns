@@ -10,9 +10,11 @@ namespace App\Helpers;
 
 use App\Models\Account;
 use App\Models\Comment;
+use App\Models\File;
 use App\Models\Group;
 use App\Models\Hashtag;
 use App\Models\Post;
+use App\Models\Role;
 use App\Models\User;
 
 class InteractionHelper
@@ -34,6 +36,53 @@ class InteractionHelper
         $overview['commentDigest2Count'] = Comment::where('digest_state', 3)->count();
 
         return $overview;
+    }
+
+    /**
+     * @param  int      $roleId
+     * @param  string   $langTag
+     * @return array
+     */
+    public static function fresnsRoleInfo(int $roleId, ?string $langTag = null)
+    {
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
+
+        $cacheKey = "fresns_role_{$roleId}_{$langTag}";
+        $cacheTag = 'fresnsRoles';
+
+        $roleData = CacheHelper::get($cacheKey, $cacheTag);
+
+        if (empty($roleData)) {
+            $roleModel = Role::whereId($roleId)->first();
+
+            if (empty($roleModel)) {
+                return null;
+            }
+
+            foreach ($roleModel->permissions as $perm) {
+                $permission['rid'] = $roleModel->id;
+                $permission[$perm['permKey']] = $perm['permValue'];
+            }
+
+            $item['rid'] = $roleModel->id;
+            $item['isMain'] = false;
+            $item['nicknameColor'] = $roleModel->nickname_color;
+            $item['name'] = LanguageHelper::fresnsLanguageByTableId('roles', 'name', $roleModel->id, $langTag);
+            $item['nameDisplay'] = (bool) $roleModel->is_display_name;
+            $item['icon'] = FileHelper::fresnsFileUrlByTableColumn($roleModel->icon_file_id, $roleModel->icon_file_url);
+            $item['iconDisplay'] = (bool) $roleModel->is_display_icon;
+            $item['expiryDateTime'] = null;
+            $item['rankState'] = $roleModel->rank_state;
+            $item['permissions'] = $permission;
+            $item['status'] = (bool) $roleModel->is_enable;
+
+            $roleData = $item;
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
+            CacheHelper::put($roleData, $cacheKey, $cacheTag, null, $cacheTime);
+        }
+
+        return $roleData;
     }
 
     /**
