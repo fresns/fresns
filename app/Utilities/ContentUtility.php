@@ -158,18 +158,15 @@ class ContentUtility
         $replaceList = [];
         $linkList = [];
         foreach ($hashtagList as $hashtagName) {
-            if ($config['hashtag_show'] == 1) {
-                // <a href="https://abc.com/hashtag/PHP" class="fresns_hashtag" target="_blank">#PHP</a>
-                $hashtag = "#{$hashtagName}";
-                $replaceList[] = "$hashtag ";
-            } else {
-                // <a href="https://abc.com/hashtag/PHP" class="fresns_hashtag" target="_blank">#PHP#</a>
-                $hashtag = "#{$hashtagName}#";
-                $replaceList[] = "$hashtag";
-            }
+            // <a href="https://abc.com/hashtag/PHP" class="fresns_hashtag" target="_blank">#PHP</a>
+            // or
+            // <a href="https://abc.com/hashtag/PHP" class="fresns_hashtag" target="_blank">#PHP#</a>
+            $hashtag = ($config['hashtag_show'] == 1) ? "#{$hashtagName}" : "#{$hashtagName}#";
+
+            $replaceList[] = $hashtag;
 
             $link = sprintf(
-                '<a href="%s/%s/%s" class="fresns_hashtag" target="_blank">%s</a> ',
+                '<a href="%s/%s/%s" class="fresns_hashtag" target="_blank">%s</a>',
                 $config['site_url'],
                 $config['website_hashtag_detail_path'],
                 StrHelper::slug($hashtagName),
@@ -205,16 +202,16 @@ class ContentUtility
                 // <a href="https://fresns.org" class="fresns_link" target="_blank">https://fresns.org</a>
                 $title = $urlData?->link_title ?? $url;
 
-                $replaceList[] = "{$url}";
+                $replaceList[] = $url;
                 $linkList[] = sprintf(
-                    '<a href="%s" class="fresns_link" target="_blank">%s</a> ',
+                    '<a href="%s" class="fresns_link" target="_blank">%s</a>',
                     $url,
                     $title,
                 );
             } else {
                 switch ($contentLinkHandle) {
                     case 1:
-                        $replaceList[] = "{$url}";
+                        $replaceList[] = $url;
                         $linkList[] = Str::replace($urlData?->domain?->host, '******', $url);
                     break;
 
@@ -225,9 +222,9 @@ class ContentUtility
 
                         $title = $urlData?->link_title ?? $url;
 
-                        $replaceList[] = "{$url}";
+                        $replaceList[] = $url;
                         $linkList[] = sprintf(
-                            '<a href="%s" class="fresns_link" target="_blank">%s</a> ',
+                            '<a href="%s" class="fresns_link" target="_blank">%s</a>',
                             $url,
                             $title,
                         );
@@ -264,9 +261,9 @@ class ContentUtility
             $mentionUser = $mentionArr->where('mention_user_id', $user?->id)->first();
 
             if (is_null($mentionUser)) {
-                $replaceList[] = "@{$username} ";
+                $replaceList[] = "@{$username}";
                 $linkList[] = sprintf(
-                    '<a href="%s/%s/0" class="fresns_mention" target="_blank">@%s</a> ',
+                    '<a href="%s/%s/0" class="fresns_mention" target="_blank">@%s</a>',
                     $config['site_url'],
                     $config['website_user_detail_path'],
                     $username
@@ -282,10 +279,10 @@ class ContentUtility
                 $urlName = $user->username;
             }
 
-            $replaceList[] = "@{$username} ";
+            $replaceList[] = "@{$username}";
 
             $linkList[] = sprintf(
-                '<a href="%s/%s/%s" class="fresns_mention" target="_blank">@%s</a> ',
+                '<a href="%s/%s/%s" class="fresns_mention" target="_blank">@%s</a>',
                 $config['site_url'],
                 $config['website_user_detail_path'],
                 $urlName,
