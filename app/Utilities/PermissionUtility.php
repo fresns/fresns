@@ -11,17 +11,14 @@ namespace App\Utilities;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
-use App\Helpers\FileHelper;
-use App\Helpers\LanguageHelper;
+use App\Helpers\InteractionHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
 use App\Models\Comment;
-use App\Models\File;
 use App\Models\Group;
 use App\Models\PluginUsage;
 use App\Models\Post;
 use App\Models\PostAllow;
-use App\Models\Role;
 use App\Models\User;
 use App\Models\UserBlock;
 use App\Models\UserFollow;
@@ -35,54 +32,40 @@ class PermissionUtility
     public static function getUserMainRole(int $userId, ?string $langTag = null): array
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
+
         $cacheKey = "fresns_user_{$userId}_main_role_{$langTag}";
         $cacheTags = ['fresnsUsers', 'fresnsUserRoles'];
 
-        $mainRole = CacheHelper::get($cacheKey, $cacheTags);
+        $mainRoleConfig = CacheHelper::get($cacheKey, $cacheTags);
 
-        if (empty($mainRole)) {
+        if (empty($mainRoleConfig)) {
             $defaultRoleId = ConfigHelper::fresnsConfigByItemKey('default_role');
+
             $userRole = UserRole::where('user_id', $userId)->where('is_main', 1)->first();
 
-            $roleId = $userRole->role_id ?? $defaultRoleId;
-            $restoreRoleId = $userRole->restore_role_id ?? $defaultRoleId;
+            $roleId = $userRole?->role_id;
+            $restoreRoleId = $userRole?->restore_role_id ?? $defaultRoleId;
+            $expiryDateTime = $userRole?->expired_at;
 
-            $expireTime = strtotime($userRole?->expired_at ?? null);
+            $expireTime = strtotime($expiryDateTime);
             $now = time();
 
-            if (! empty($userRole) && $expireTime && $expireTime < $now) {
+            if ($expireTime && $expireTime < $now) {
                 $roleId = $restoreRoleId;
+                $expiryDateTime = null;
             }
 
-            $roleModel = Role::whereId($roleId)->isEnable()->first();
-            if (empty($roleModel)) {
-                if (empty($defaultRoleId)) {
-                    return null;
-                }
+            $mainRoleConfig = [
+                'rid' => $roleId ?? $defaultRoleId,
+                'expiryDateTime' => $expiryDateTime,
+            ];
 
-                $roleModel = Role::whereId($defaultRoleId)->isEnable()->first();
-            }
-
-            foreach ($roleModel->permissions as $perm) {
-                $permission['rid'] = $roleModel->id;
-                $permission[$perm['permKey']] = $perm['permValue'];
-            }
-
-            $mainRole['rid'] = $roleModel->id;
-            $mainRole['isMain'] = true;
-            $mainRole['nicknameColor'] = $roleModel->nickname_color;
-            $mainRole['name'] = LanguageHelper::fresnsLanguageByTableId('roles', 'name', $roleModel->id, $langTag);
-            $mainRole['nameDisplay'] = (bool) $roleModel->is_display_name;
-            $mainRole['icon'] = FileHelper::fresnsFileUrlByTableColumn($roleModel->icon_file_id, $roleModel->icon_file_url);
-            $mainRole['iconDisplay'] = (bool) $roleModel->is_display_icon;
-            $mainRole['expiryDateTime'] = $userRole->expired_at;
-            $mainRole['rankState'] = $roleModel->rank_state;
-            $mainRole['permissions'] = $permission;
-            $mainRole['status'] = (bool) $roleModel->is_enable;
-
-            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($mainRole, $cacheKey, $cacheTags, null, $cacheTime);
+            CacheHelper::put($mainRoleConfig, $cacheKey, $cacheTags);
         }
+
+        $mainRole = InteractionHelper::fresnsRoleInteraction($mainRoleConfig['rid'], $langTag);
+        $mainRole['isMain'] = true;
+        $mainRole['expiryDateTime'] = $mainRoleConfig['expiryDateTime'];
 
         return $mainRole;
     }
@@ -95,12 +78,13 @@ class PermissionUtility
         }
 
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
+
         $cacheKey = "fresns_user_{$userId}_roles_{$langTag}";
         $cacheTags = ['fresnsUsers', 'fresnsUserRoles'];
 
-        $roleAllList = CacheHelper::get($cacheKey, $cacheTags);
+        $roleAllConfig = CacheHelper::get($cacheKey, $cacheTags);
 
-        if (empty($roleAllList)) {
+        if (empty($roleAllConfig)) {
             $roleArr1 = UserRole::where('user_id', $userId)->where('is_main', 0)->where('expired_at', '<', now());
             $roleArr2 = UserRole::where('user_id', $userId)->where('is_main', 0)->whereNull('expired_at');
 
@@ -108,30 +92,33 @@ class PermissionUtility
 
             $roleList = [];
             foreach ($roleArr as $role) {
-                $item['rid'] = $role->id;
-                $item['isMain'] = false;
-                $item['nicknameColor'] = $role->nickname_color;
-                $item['name'] = LanguageHelper::fresnsLanguageByTableId('roles', 'name', $role->id, $langTag);
-                $item['nameDisplay'] = (bool) $role->is_display_name;
-                $item['icon'] = FileHelper::fresnsFileUrlByTableColumn($role->icon_file_id, $role->icon_file_url);
-                $item['iconDisplay'] = (bool) $role->is_display_icon;
+                $item['rid'] = $role->role_id;
                 $item['expiryDateTime'] = $role->expired_at;
-                $item['rankState'] = $role->rank_state;
-                $item['status'] = (bool) $role->is_enable;
 
                 $roleList[] = $item;
             }
 
-            $mainRole = PermissionUtility::getUserMainRole($userId, $langTag);
-            unset($mainRole['permissions']);
+            $roleAllConfig = $roleList;
 
-            $mainRoleArr = [$mainRole];
-
-            $roleAllList = array_merge($mainRoleArr, $roleList);
-
-            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($roleAllList, $cacheKey, $cacheTags, null, $cacheTime);
+            CacheHelper::put($roleAllConfig, $cacheKey, $cacheTags);
         }
+
+        $roleListArr = [];
+        foreach ($roleAllConfig as $config) {
+            $role = InteractionHelper::fresnsRoleInteraction($config['rid'], $langTag);
+            $role['expiryDateTime'] = $config['expiryDateTime'];
+
+            unset($role['permissions']);
+
+            $roleListArr[] = $role;
+        }
+
+        $mainRole = PermissionUtility::getUserMainRole($userId, $langTag);
+        unset($mainRole['permissions']);
+
+        $mainRoleArr = [$mainRole];
+
+        $roleAllList = array_merge($mainRoleArr, $roleListArr);
 
         return $roleAllList;
     }
