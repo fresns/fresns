@@ -38,11 +38,11 @@
 
                 <div class="ms-lg-5">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="1" id="fresnsSystem" name="fresnsSystem" checked>
+                        <input class="form-check-input" type="checkbox" value="1" id="fresnsSystem" name="fresnsSystem">
                         <label class="form-check-label" for="fresnsSystem">{{ __('FsLang::panel.cache_fresns_system') }}</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="1" id="fresnsConfig" name="fresnsConfig" checked>
+                        <input class="form-check-input" type="checkbox" value="1" id="fresnsConfig" name="fresnsConfig">
                         <label class="form-check-label" for="fresnsConfig">{{ __('FsLang::panel.cache_fresns_config') }}</label>
                     </div>
                     <div class="form-check">
