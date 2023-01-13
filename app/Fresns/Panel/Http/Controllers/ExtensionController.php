@@ -181,7 +181,6 @@ class ExtensionController extends Controller
                 }
 
                 // market-manager
-                AppUtility::macroMarketHeader();
                 $exitCode = \Artisan::call('market:require', [
                     'unikey' => $pluginUnikey,
                 ]);
@@ -257,7 +256,7 @@ class ExtensionController extends Controller
         };
         $installType = $request->get('install_type', 'market');
 
-        AppUtility::macroMarketHeader();
+        // market-manager
         $code = \Artisan::call('market:upgrade', [
             'unikey' => $unikey,
             'package_type' => $packageType,

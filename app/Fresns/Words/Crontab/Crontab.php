@@ -164,8 +164,7 @@ class Crontab
     {
         $plugins = Plugin::all();
 
-        AppUtility::macroMarketHeader();
-
+        // market-manager
         $response = Http::market()->get('/api/open-source/v2/check', [
             'unikeys' => json_encode($plugins->pluck('unikey')->all()),
         ]);
