@@ -271,4 +271,24 @@ class DateHelper
 
         return $diff.' '.$timeFormat;
     }
+
+    /**
+     * Date time format conversion。
+     *
+     * @param  string  $datetime
+     * @param  string  $langTag
+     * @return string
+     */
+    public static function fresnsFormatConversion(?string $datetime = null, ?string $langTag = null)
+    {
+        if (empty($datetime)) {
+            return null;
+        }
+
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
+
+        $dateFormat = ConfigHelper::fresnsConfigDateFormat($langTag).' H:i:s';
+
+        return date($dateFormat, strtotime($datetime));
+    }
 }
