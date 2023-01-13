@@ -12,6 +12,10 @@ use Illuminate\Support\Collection;
 
 class SessionKey extends Model
 {
+    const TYPE_CORE = 1;
+    const TYPE_MANAGE = 2;
+    const TYPE_PLUGIN = 3;
+
     use Traits\IsEnableTrait;
 
     protected $fillable = [
