@@ -46,6 +46,7 @@ class UserService
 
             $userProfile['nickname'] = ContentUtility::replaceBlockWords('user', $userProfile['nickname']);
             $userProfile['bio'] = ContentUtility::replaceBlockWords('user', $userProfile['bio']);
+            $userProfile['birthday'] = DateHelper::fresnsFormatConversion($userProfile['birthday'], $langTag);
 
             $bioConfig = ConfigHelper::fresnsConfigByItemKeys([
                 'bio_support_mention',
@@ -92,11 +93,7 @@ class UserService
 
         $userData['conversation'] = PermissionUtility::checkUserConversationPerm($user->id, $authUserId, $langTag);
 
-        if ($timezone) {
-            return UserService::handleUserDate($userData, $timezone, $langTag);
-        }
-
-        return $userData;
+        return UserService::handleUserDate($userData, $timezone, $langTag);
     }
 
     // get user stats
@@ -194,13 +191,33 @@ class UserService
     }
 
     // handle user data date
-    public static function handleUserDate(?array $userData, string $timezone, string $langTag)
+    public static function handleUserDate(?array $userData, ?string $timezone = null, string $langTag)
     {
         if (empty($userData)) {
             return $userData;
         }
 
-        $userData['birthday'] = DateHelper::fresnsFormatConversion($userData['birthday'], $langTag);
+        if (empty($timezone)) {
+            $userData['verifiedDateTime'] = DateHelper::fresnsFormatConversion($userData['verifiedDateTime'], $langTag);
+
+            $userData['expiryDateTime'] = DateHelper::fresnsFormatConversion($userData['expiryDateTime'], $langTag);
+
+            $userData['lastPublishPost'] = DateHelper::fresnsFormatConversion($userData['lastPublishPost'], $langTag);
+            $userData['lastPublishComment'] = DateHelper::fresnsFormatConversion($userData['lastPublishComment'], $langTag);
+            $userData['lastEditUsername'] = DateHelper::fresnsFormatConversion($userData['lastEditUsername'], $langTag);
+            $userData['lastEditNickname'] = DateHelper::fresnsFormatConversion($userData['lastEditNickname'], $langTag);
+
+            $userData['registerDate'] = DateHelper::fresnsFormatConversion($userData['registerDate'], $langTag);
+
+            $userData['waitDeleteDateTime'] = DateHelper::fresnsFormatConversion($userData['waitDeleteDateTime'], $langTag);
+            $userData['deactivateTime'] = DateHelper::fresnsFormatConversion($userData['deactivateTime'], $langTag);
+
+            $userData['roleExpiryDateTime'] = DateHelper::fresnsFormatConversion($userData['roleExpiryDateTime'], $langTag);
+
+            $userData['interaction']['followExpiryDateTime'] = DateHelper::fresnsFormatConversion($userData['interaction']['followExpiryDateTime'], $langTag);
+
+            return $userData;
+        }
 
         $userData['verifiedDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData['verifiedDateTime'], $timezone, $langTag);
 
