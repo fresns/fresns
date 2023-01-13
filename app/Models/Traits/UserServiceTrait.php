@@ -123,24 +123,31 @@ trait UserServiceTrait
     {
         $userData = $this;
 
-        $mainRoleData = UserRole::where('user_id', $userData->id)->where('is_main', 1)->first(['role_id', 'expired_at']);
-        $roleData = Role::where('id', $mainRoleData->role_id)->first();
+        $mainRoleData = UserRole::where('user_id', $userData->id)->where('is_main', 1)->first();
+        $roleData = Role::where('id', $mainRoleData?->role_id)->first();
 
-        foreach ($roleData->permissions as $perm) {
+        if (empty($mainRoleData)) {
+            $defaultRoleId = ConfigHelper::fresnsConfigByItemKey('default_role');
+
+            $roleData = Role::where('id', $defaultRoleId)->first();
+        }
+
+        $permissions = $roleData?->permissions ?? [];
+        foreach ($permissions as $perm) {
             $permission['rid'] = $roleData->id;
             $permission[$perm['permKey']] = $perm['permValue'];
         }
 
-        $mainRole['nicknameColor'] = $roleData->nickname_color;
-        $mainRole['rid'] = $roleData->id;
-        $mainRole['roleName'] = LanguageHelper::fresnsLanguageByTableId('roles', 'name', $roleData->id, $langTag);
-        $mainRole['roleNameDisplay'] = (bool) $roleData->is_display_name;
-        $mainRole['roleIcon'] = FileHelper::fresnsFileUrlByTableColumn($roleData->icon_file_id, $roleData->icon_file_url);
-        $mainRole['roleIconDisplay'] = (bool) $roleData->is_display_icon;
-        $mainRole['roleExpiryDateTime'] = $mainRoleData->expired_at;
-        $mainRole['roleRankState'] = $roleData->rank_state;
+        $mainRole['nicknameColor'] = $roleData?->nickname_color;
+        $mainRole['rid'] = $roleData?->id;
+        $mainRole['roleName'] = $roleData?->id ? LanguageHelper::fresnsLanguageByTableId('roles', 'name', $roleData?->id, $langTag) : null;
+        $mainRole['roleNameDisplay'] = (bool) $roleData?->is_display_name;
+        $mainRole['roleIcon'] = FileHelper::fresnsFileUrlByTableColumn($roleData?->icon_file_id, $roleData?->icon_file_url);
+        $mainRole['roleIconDisplay'] = (bool) $roleData?->is_display_icon;
+        $mainRole['roleExpiryDateTime'] = $mainRoleData?->expired_at;
+        $mainRole['roleRankState'] = $roleData?->rank_state;
         $mainRole['rolePermissions'] = $permission;
-        $mainRole['roleStatus'] = (bool) $roleData->is_enable;
+        $mainRole['roleStatus'] = (bool) $roleData?->is_enable;
 
         return $mainRole;
     }
