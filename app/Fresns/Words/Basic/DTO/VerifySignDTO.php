@@ -33,6 +33,8 @@ class VerifySignDTO extends DTO
             'aidToken' => ['string', 'nullable', 'required_with:aid'],
             'uid' => ['integer', 'nullable'],
             'uidToken' => ['string', 'nullable', 'required_with:uid'],
+            'verifyType' => ['integer', 'nullable'],
+            'verifyUnikey' => ['string', 'nullable'],
         ];
     }
 }

@@ -18,6 +18,7 @@ use App\Fresns\Words\Basic\DTO\VerifyUrlSignDTO;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\SignHelper;
+use App\Models\SessionKey;
 use App\Models\SessionLog;
 use App\Models\VerifyCode;
 use App\Utilities\ConfigUtility;
@@ -39,6 +40,8 @@ class Basic
         $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         $keyInfo = PrimaryHelper::fresnsModelByFsid('key', $dtoWordBody->appId);
+        $keyType = $dtoWordBody->verifyType ?? SessionKey::TYPE_CORE;
+        $keyUnikey = $dtoWordBody->verifyUnikey;
 
         if (empty($keyInfo) || ! $keyInfo->is_enable) {
             return $this->failure(
@@ -47,7 +50,14 @@ class Basic
             );
         }
 
-        if ($keyInfo->type != 1) {
+        if ($keyInfo->type != $keyType) {
+            return $this->failure(
+                31304,
+                ConfigUtility::getCodeMessage(31304, 'Fresns', $langTag),
+            );
+        }
+
+        if ($keyType == SessionKey::TYPE_PLUGIN && $keyInfo->plugin_unikey != $keyUnikey) {
             return $this->failure(
                 31304,
                 ConfigUtility::getCodeMessage(31304, 'Fresns', $langTag),
