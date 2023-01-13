@@ -200,7 +200,7 @@ class UserService
             return $userData;
         }
 
-        $userData['birthday'] = DateHelper::fresnsDateTimeByTimezone($userData['birthday'], $timezone, $langTag);
+        $userData['birthday'] = DateHelper::fresnsFormatConversion($userData['birthday'], $langTag);
 
         $userData['verifiedDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData['verifiedDateTime'], $timezone, $langTag);
 
