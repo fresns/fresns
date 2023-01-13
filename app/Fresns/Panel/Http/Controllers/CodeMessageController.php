@@ -37,14 +37,16 @@ class CodeMessageController extends Controller
 
         $codeMessages = CodeMessage::where('lang_tag', $langTag);
 
-        if ($pluginUnikey = $request->plugin_unikey) {
-            $codeMessages->where('plugin_unikey', $pluginUnikey);
-        }
+        $codeMessages->when($request->plugin_unikey, function ($query, $value) {
+            $query->where('plugin_unikey', $value);
+        });
 
-        if ($code = $request->code) {
-            $codeMessages->where('code', $code);
-        }
+        $codeMessages->when($request->code, function ($query, $value) {
+            $query->where('code', $value);
+        });
+
         $codeMessages = $codeMessages->paginate(20);
+
         $brotherCodeMessages = CodeMessage::whereIn('code', $codeMessages->pluck('code'))->where('lang_tag', '!=', $langTag)->get();
 
         $codeMessages->map(function ($codeMessage) use ($brotherCodeMessages, $langTag) {
@@ -53,7 +55,7 @@ class CodeMessageController extends Controller
             $codeMessage->messages = $messages;
         });
 
-        return view('FsView::clients.code-messages', compact('languageConfig', 'pluginList', 'codeMessages', 'langTag', 'code', 'pluginUnikey'));
+        return view('FsView::clients.code-messages', compact('languageConfig', 'pluginList', 'codeMessages', 'langTag'));
     }
 
     public function update(CodeMessage $codeMessage, Request $request)

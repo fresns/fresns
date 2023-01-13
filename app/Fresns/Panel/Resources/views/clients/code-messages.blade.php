@@ -30,14 +30,14 @@
                 <span class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</span>
                 <select class="form-select" id="unikey" name="plugin_unikey">
                     <option value="">{{ __('FsLang::panel.option_all') }}</option>
-                    <option value="Fresns">Fresns</option>
-                    <option value="CmdWord">CmdWord</option>
+                    <option value="Fresns" @if (request('plugin_unikey') == 'Fresns') selected @endif>Fresns</option>
+                    <option value="CmdWord" @if (request('plugin_unikey') == 'CmdWord') selected @endif>CmdWord</option>
                     @foreach ($pluginList as $plugin)
-                        <option @if ($plugin['unikey'] == $pluginUnikey) selected @endif value="{{ $plugin['unikey'] }}">{{ $plugin['unikey'] }} -> {{ $plugin['name'] }}</option>
+                        <option @if (request('plugin_unikey') == $plugin['unikey']) selected @endif value="{{ $plugin['unikey'] }}">{{ $plugin['unikey'] }} -> {{ $plugin['name'] }}</option>
                     @endforeach
                 </select>
                 <span class="input-group-text">{{ __('FsLang::panel.table_number') }}</span>
-                <input type="number" name="code" class="form-control" placeholder="Code" value="{{ $code }}">
+                <input type="number" name="code" class="form-control" placeholder="Code" value="{{ request('code') }}">
                 <button class="btn btn-outline-secondary" type="submit">{{ __('FsLang::panel.button_confirm') }}</button>
                 <a class="btn btn-outline-secondary" href="{{ route('panel.code.messages.index') }}">{{ __('FsLang::panel.button_reset') }}</a>
             </div>
@@ -83,7 +83,8 @@
             </tbody>
         </table>
     </div>
-    {{ $codeMessages->links() }}
+
+    {{ $codeMessages->appends(request()->all())->links() }}
 
     <!-- Edit Modal -->
     <div class="modal fade" id="editMessages" tabindex="-1" aria-labelledby="editMessagesModalLabel" aria-hidden="true">
