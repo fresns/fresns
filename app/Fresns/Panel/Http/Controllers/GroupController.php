@@ -456,6 +456,24 @@ class GroupController extends Controller
     public function mergeGroup(Group $group, Request $request)
     {
         if ($request->group_id) {
+            $postCount = $group->post_count;
+            $commentCount = $group->comment_count;
+            $postDigestCount = $group->post_digest_count;
+            $commentDigestCount = $group->comment_digest_count;
+
+            if ($postCount) {
+                Group::where('id', $request->group_id)->increment('post_count', $postCount);
+            }
+            if ($commentCount) {
+                Group::where('id', $request->group_id)->increment('comment_count', $commentCount);
+            }
+            if ($postDigestCount) {
+                Group::where('id', $request->group_id)->increment('post_digest_count', $postDigestCount);
+            }
+            if ($commentDigestCount) {
+                Group::where('id', $request->group_id)->increment('comment_digest_count', $commentDigestCount);
+            }
+
             Post::where('group_id', $group->id)->update(['group_id' => $request->group_id]);
             PostLog::where('group_id', $group->id)->update(['group_id' => $request->group_id]);
 
