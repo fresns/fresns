@@ -194,7 +194,7 @@ class ContentUtility
 
         $content = $content.' ';
 
-        $newContent = preg_replace_callback(ContentUtility::getRegexpByType('url'), function($matches) use ($urlDataList, $siteDomain, $contentLinkHandle) {
+        $newContent = preg_replace_callback(ContentUtility::getRegexpByType('url'), function ($matches) use ($urlDataList, $siteDomain, $contentLinkHandle) {
             $url = $matches[1];
 
             $urlData = $urlDataList->where('link_url', $url)->first();
