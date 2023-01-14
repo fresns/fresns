@@ -11,6 +11,7 @@ namespace App\Fresns\Subscribe;
 use App\Fresns\Subscribe\Subscribe;
 use App\Fresns\Subscribe\TableDataChangeEvent;
 use App\Fresns\Subscribe\UserActivateEvent;
+use App\Helpers\PluginHelper;
 use App\Models\Plugin;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
@@ -73,5 +74,33 @@ class SubscribeService
                 $event->notify($subscribe);
             }
         });
+    }
+
+    public static function notifyAccountAndUserLogin(int $accountId, array $accountToken, array $accountDetail, ?int $userId = null, ?array $userToken = null, ?array $userDetail = null)
+    {
+        $subscribeItems = PluginHelper::fresnsPluginSubscribeItems(Subscribe::TYPE_ACCOUNT_AND_USER_LOGIN);
+        if (empty($subscribeItems)) {
+            return;
+        }
+
+        $wordBody = [
+            'primaryId' => [
+                'accountId' => $accountId,
+                'userId' => $userId,
+            ],
+            'accountToken' => $accountToken,
+            'accountDetail' => $accountDetail,
+            'userToken' => $userToken,
+            'userDetail' => $userDetail,
+        ];
+
+        foreach ($subscribeItems as $item) {
+            $plugin = Plugin::where('unikey', $item['unikey'])->isEnable()->first();
+            if (empty($plugin)) {
+                continue;
+            }
+
+            \FresnsCmdWord::plugin($item['unikey'])->$item['cmdWord']($wordBody);
+        }
     }
 }
