@@ -48,7 +48,7 @@ class ContentUtility
         return match ($type) {
             'hash' => '/#(.*?)#/',
             'space' => "/#(.*?)\s/",
-            'url' => "/(https?:\/\/.*?)\s/",
+            'url' => "/(https?:\/\/[^\s\n]+)/i",
             'at' => "/@(.*?)\s/",
             'sticker' => "/\[(.*?)\]/",
         };
@@ -185,58 +185,48 @@ class ContentUtility
         $urlList = ContentUtility::extractLink($content);
 
         $urlDataList = DomainLink::with('domain')->whereIn('link_url', $urlList)->get();
+
         $siteUrl = ConfigHelper::fresnsConfigByItemKey('site_url') ?? AppUtility::getAppHost();
-
         $siteDomain = StrHelper::extractDomainByUrl($siteUrl);
-        $mainRolePerms = $userId ? PermissionUtility::getUserMainRole($userId)['permissions'] : null;
-        $contentLinkHandle = $mainRolePerms['content_link_handle'] ?? 1;
 
-        $replaceList = [];
-        $linkList = [];
-        foreach ($urlList as $url) {
+        $mainRolePerms = $userId ? PermissionUtility::getUserMainRole($userId)['permissions'] : null;
+        $contentLinkHandle = $mainRolePerms['content_link_handle'] ?? 2;
+
+        $content = $content.' ';
+
+        $newContent = preg_replace_callback(ContentUtility::getRegexpByType('url'), function($matches) use ($urlDataList, $siteDomain, $contentLinkHandle) {
+            $url = $matches[1];
+
             $urlData = $urlDataList->where('link_url', $url)->first();
+            $title = $urlData?->link_title ?? $url;
+            // <a href="https://fresns.org" class="fresns_link" target="_blank">Fresns Website</a>
+            // or
+            // <a href="https://fresns.org" class="fresns_link" target="_blank">https://fresns.org</a>
 
             if ($urlData?->domain?->domain == $siteDomain) {
-                // <a href="https://fresns.org" class="fresns_link" target="_blank">Fresns Website</a>
-                // or
-                // <a href="https://fresns.org" class="fresns_link" target="_blank">https://fresns.org</a>
-                $title = $urlData?->link_title ?? $url;
-
-                $replaceList[] = $url;
-                $linkList[] = sprintf(
-                    '<a href="%s" class="fresns_link" target="_blank">%s</a>',
-                    $url,
-                    $title,
-                );
-            } else {
-                switch ($contentLinkHandle) {
-                    case 1:
-                        $replaceList[] = $url;
-                        $linkList[] = Str::replace($urlData?->domain?->host, '******', $url);
-                    break;
-
-                    case 3:
-                        if (! $urlData?->domain?->is_enable || ! $urlData?->is_enable) {
-                            break;
-                        }
-
-                        $title = $urlData?->link_title ?? $url;
-
-                        $replaceList[] = $url;
-                        $linkList[] = sprintf(
-                            '<a href="%s" class="fresns_link" target="_blank">%s</a>',
-                            $url,
-                            $title,
-                        );
-                    break;
-
-                    default:
-                    break;
-                }
+                $contentLinkHandle = 3;
             }
-        }
 
-        return str_replace($replaceList, $linkList, $content);
+            switch ($contentLinkHandle) {
+                case 1:
+                    return Str::replace($urlData?->domain?->host, '******', $url);
+                break;
+
+                case 3:
+                    return sprintf(
+                        '<a href="%s" class="fresns_link" target="_blank">%s</a>',
+                        $url,
+                        $title,
+                    );
+                break;
+
+                default:
+                    return $url;
+                break;
+            }
+        }, $content);
+
+        return $newContent;
     }
 
     // Replace mention
