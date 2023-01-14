@@ -16,8 +16,10 @@ use App\Fresns\Api\Http\DTO\UserListDTO;
 use App\Fresns\Api\Http\DTO\UserMarkDTO;
 use App\Fresns\Api\Http\DTO\UserMarkListDTO;
 use App\Fresns\Api\Http\DTO\UserMarkNoteDTO;
+use App\Fresns\Api\Services\AccountService;
 use App\Fresns\Api\Services\InteractionService;
 use App\Fresns\Api\Services\UserService;
+use App\Fresns\Subscribe\SubscribeService;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
@@ -491,6 +493,20 @@ class UserController extends Controller
         // upload session log
         $sessionLog['objectOrderId'] = $fresnsResponse->getData('uidTokenId');
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
+
+        // notify subscribe
+        $authAccount = $this->account();
+        $accountToken = [
+            'token' => \request()->header('aidToken'),
+            'expiredHours' => null,
+            'expiredDays' => null,
+            'expiredDateTime' => null,
+        ];
+
+        $accountService = new AccountService();
+        $accountDetail = $accountService->accountDetail($authAccount, $langTag, $timezone);
+
+        SubscribeService::notifyAccountAndUserLogin($authAccount->id, $accountToken, $accountDetail, $authUser->id, $data['sessionToken'], $data['detail']);
 
         return $this->success($data);
     }
