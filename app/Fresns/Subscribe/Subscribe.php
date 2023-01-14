@@ -18,6 +18,7 @@ class Subscribe
 
     const TYPE_TABLE_DATA_CHANGE = 1;
     const TYPE_USER_ACTIVATE = 2;
+    const TYPE_ACCOUNT_AND_USER_LOGIN = 3;
 
     protected int $type;
     protected string $unikey;
