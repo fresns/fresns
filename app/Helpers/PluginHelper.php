@@ -115,4 +115,19 @@ class PluginHelper
 
         return $pluginRating;
     }
+
+    public static function fresnsPluginSubscribeItems(?int $type = null)
+    {
+        $subscribeItems = ConfigHelper::fresnsConfigByItemKey('subscribe_items');
+
+        if (empty($type)) {
+            return $subscribeItems;
+        }
+
+        $filtered = array_filter($subscribeItems, function ($item) use ($type) {
+            return $item['type'] == $type;
+        });
+
+        return array_values($filtered);
+    }
 }
