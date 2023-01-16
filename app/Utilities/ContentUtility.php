@@ -38,6 +38,7 @@ use App\Models\PostLog;
 use App\Models\Role;
 use App\Models\Sticker;
 use App\Models\User;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class ContentUtility
@@ -46,37 +47,34 @@ class ContentUtility
     public static function getRegexpByType($type)
     {
         return match ($type) {
-            'hash' => '/#(.*?)#/',
-            'space' => "/#(.*?)\s/",
-            'url' => "/(https?:\/\/[^\s\n]+)/i",
-            'at' => "/@(.*?)\s/",
-            'sticker' => "/\[(.*?)\]/",
+            'hash' => '/#[\p{L}\p{N}\p{M}]+[^\n\p{P}]#/u',
+            'space' => '/#[\p{L}\p{N}\p{M}]+[^\n\p{P}\s]/u',
+            'url' => '/(https?:\/\/[^\s\n]+)/i',
+            'at' => '/@(.*?)\s/',
+            'sticker' => '/\[(.*?)\]/',
         };
     }
 
-    // Not valid for hashtag containing special characters
-    public static function filterChars($data, $exceptChars = ',# ')
+    // match all extract
+    public static function matchAll(string $regexp, string $content, ?int $arrayKey = 1)
+    {
+        // Matching information is handled at the end
+        $content = $content.' ';
+
+        preg_match_all($regexp, $content, $matches);
+
+        return $matches[$arrayKey] ?? [];
+    }
+
+    // str hashtag
+    public static function strHashtag(array $data)
     {
         $data = array_filter($data);
 
-        // Array of characters to be excluded
-        $exceptChars = str_split($exceptChars);
-
         $result = [];
         foreach ($data as $item) {
-            $needExcludeFlag = false;
-
-            // Skip when it contains characters that need to be excluded
-            foreach ($exceptChars as $char) {
-                if (str_contains($item, $char)) {
-                    $needExcludeFlag = true;
-                    break;
-                }
-            }
-
-            if ($needExcludeFlag) {
-                continue;
-            }
+            $item = Str::replace(' ', '', $item);
+            $item = Str::replace('#', '', $item);
 
             $result[] = $item;
         }
@@ -84,39 +82,40 @@ class ContentUtility
         return $result;
     }
 
-    // match all extract
-    public static function matchAll($regexp, $content, ?callable $filterChars = null)
+    // Extract all hashtag
+    public static function extractAllHashtag(string $content): array
     {
-        // Matching information is handled at the end
-        $content = $content.' ';
+        $newContent = preg_replace_callback(ContentUtility::getRegexpByType('url'), function ($matches) {
+            return '';
+        }, $content);
 
-        preg_match_all($regexp, $content, $matches);
-
-        $data = $matches[1] ?? [];
-
-        if (is_callable($filterChars)) {
-            return $filterChars($data);
-        }
-
-        return $data;
-    }
-
-    // Extract hashtag
-    public static function extractHashtag(string $content): array
-    {
-        $content = strip_tags($content);
-
-        $hashData = ContentUtility::filterChars(
-            ContentUtility::matchAll(ContentUtility::getRegexpByType('hash'), $content)
+        $hashData = ContentUtility::strHashtag(
+            ContentUtility::matchAll(ContentUtility::getRegexpByType('hash'), $newContent, 0)
         );
-        $spaceData = ContentUtility::filterChars(
-            ContentUtility::matchAll(ContentUtility::getRegexpByType('space'), $content)
+
+        $spaceData = ContentUtility::strHashtag(
+            ContentUtility::matchAll(ContentUtility::getRegexpByType('space'), $newContent, 0)
         );
 
         // De-duplication of the extracted hashtag
         $data = array_unique([...$spaceData, ...$hashData]);
 
         return $data;
+    }
+
+    // Extract config hashtag
+    public static function extractConfigHashtag(string $content): array
+    {
+        $newContent = preg_replace_callback(ContentUtility::getRegexpByType('url'), function ($matches) {
+            return '';
+        }, $content);
+
+        $config = ConfigHelper::fresnsConfigByItemKey('hashtag_show');
+        $regexp = ($config == 1) ? ContentUtility::getRegexpByType('space') : ContentUtility::getRegexpByType('hash');
+
+        return ContentUtility::strHashtag(
+            ContentUtility::matchAll($regexp, $newContent, 0)
+        );
     }
 
     // Extract link
@@ -128,8 +127,6 @@ class ContentUtility
     // Extract mention user
     public static function extractMention(string $content): array
     {
-        $content = strip_tags($content);
-
         return ContentUtility::matchAll(ContentUtility::getRegexpByType('at'), $content);
     }
 
@@ -138,16 +135,29 @@ class ContentUtility
     {
         $content = strip_tags($content);
 
-        return ContentUtility::filterChars(
-            ContentUtility::matchAll(ContentUtility::getRegexpByType('sticker'), $content),
-            ' '
-        );
+        $stickers = ContentUtility::matchAll(ContentUtility::getRegexpByType('sticker'), $content);
+
+        if (empty($stickers)) {
+            return [];
+        }
+
+        $result = [];
+        foreach ($stickers as $sticker) {
+            if (str_contains($sticker, ' ')) {
+                continue;
+            }
+
+            $result[] = $sticker;
+        }
+
+        return $result;
     }
 
     // Replace hashtag
     public static function replaceHashtag(string $content): string
     {
-        $hashtagList = ContentUtility::extractHashtag($content);
+        $hashtagList = ContentUtility::extractAllHashtag($content);
+        $hashtagDataList = Hashtag::whereIn('name', $hashtagList)->get();
 
         $config = ConfigHelper::fresnsConfigByItemKeys([
             'hashtag_show',
@@ -158,14 +168,21 @@ class ContentUtility
         $replaceList = [];
         $linkList = [];
         foreach ($hashtagList as $hashtagName) {
+            $hashtagData = $hashtagDataList->where('name', $hashtagName)->first();
+            if (empty($hashtagData) || ! $hashtagData->is_enable) {
+                continue;
+            }
+
+            $hashHashtag = "#{$hashtagName}#";
+            $spaceHashtag = "#{$hashtagName} ";
+            $replaceList[] = [$hashHashtag, $spaceHashtag];
+
             // <a href="https://abc.com/hashtag/PHP" class="fresns_hashtag" target="_blank">#PHP</a>
             // or
             // <a href="https://abc.com/hashtag/PHP" class="fresns_hashtag" target="_blank">#PHP#</a>
             $hashtag = ($config['hashtag_show'] == 1) ? "#{$hashtagName}" : "#{$hashtagName}#";
 
-            $replaceList[] = $hashtag;
-
-            $link = sprintf(
+            $hashLink = sprintf(
                 '<a href="%s/%s/%s" class="fresns_hashtag" target="_blank">%s</a>',
                 $config['site_url'],
                 $config['website_hashtag_detail_path'],
@@ -173,8 +190,19 @@ class ContentUtility
                 $hashtag,
             );
 
-            $linkList[] = $link;
+            $spaceLink = sprintf(
+                '<a href="%s/%s/%s" class="fresns_hashtag" target="_blank">%s</a> ',
+                $config['site_url'],
+                $config['website_hashtag_detail_path'],
+                StrHelper::slug($hashtagName),
+                $hashtag,
+            );
+
+            $linkList[] = [$hashLink, $spaceLink];
         }
+
+        $replaceList = Arr::collapse($replaceList);
+        $linkList = Arr::collapse($linkList);
 
         return str_replace($replaceList, $linkList, $content);
     }
@@ -212,16 +240,16 @@ class ContentUtility
                     return Str::replace($urlData?->domain?->host, '******', $url);
                 break;
 
-                case 3:
+                case 2:
+                    return $url;
+                break;
+
+                default:
                     return sprintf(
                         '<a href="%s" class="fresns_link" target="_blank">%s</a>',
                         $url,
                         $title,
                     );
-                break;
-
-                default:
-                    return $url;
                 break;
             }
         }, $content);
@@ -250,7 +278,7 @@ class ContentUtility
             $user = $userArr->where('username', $username)->first();
             $mentionUser = $mentionArr->where('mention_user_id', $user?->id)->first();
 
-            if (is_null($mentionUser)) {
+            if (empty($mentionUser)) {
                 $replaceList[] = "@{$username}";
                 $linkList[] = sprintf(
                     '<a href="%s/%s/0" class="fresns_mention" target="_blank">@%s</a>',
@@ -342,7 +370,7 @@ class ContentUtility
     // Save hashtag
     public static function saveHashtag(string $content, int $usageType, int $useId)
     {
-        $hashtagArr = ContentUtility::extractHashtag($content);
+        $hashtagArr = ContentUtility::extractConfigHashtag($content);
 
         // add hashtag data
         foreach ($hashtagArr as $hashtag) {
