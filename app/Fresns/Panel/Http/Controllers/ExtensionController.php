@@ -281,9 +281,9 @@ class ExtensionController extends Controller
     public function update(Request $request)
     {
         if ($request->get('is_enable') != 0) {
-            \Artisan::call('market:activate', ['unikey' => $request->plugin]);
+            $exitCode = \Artisan::call('market:activate', ['unikey' => $request->plugin]);
         } else {
-            \Artisan::call('market:deactivate', ['unikey' => $request->plugin]);
+            $exitCode = \Artisan::call('market:deactivate', ['unikey' => $request->plugin]);
         }
 
         return $this->updateSuccess();
@@ -306,12 +306,20 @@ class ExtensionController extends Controller
     public function uninstall(Request $request)
     {
         if ($request->get('clearData') == 1) {
-            \Artisan::call('market:remove-plugin', ['unikey' => $request->plugin, '--cleardata' => true]);
+            $exitCode = \Artisan::call('market:remove-plugin', ['unikey' => $request->plugin, '--cleardata' => true]);
         } else {
-            \Artisan::call('market:remove-plugin', ['unikey' => $request->plugin, '--cleardata' => false]);
+            $exitCode = \Artisan::call('market:remove-plugin', ['unikey' => $request->plugin, '--cleardata' => false]);
         }
 
-        return response(\Artisan::output()."\n".__('FsLang::tips.uninstallSuccess'));
+        // $exitCode = 0 success
+        // $exitCode != 0 fail
+
+        $message = __('FsLang::tips.uninstallSuccess');
+        if ($exitCode != 0) {
+            $message = __('FsLang::tips.uninstallFailure');
+        }
+
+        return response(\Artisan::output()."\n".$message);
     }
 
     public function uninstallTheme(Request $request)
@@ -332,11 +340,19 @@ class ExtensionController extends Controller
 
             ConfigUtility::removeFresnsConfigItems($configItemKeys);
 
-            \Artisan::call('market:remove-theme', ['unikey' => $request->theme, '--cleardata' => true]);
+            $exitCode = \Artisan::call('market:remove-theme', ['unikey' => $request->theme, '--cleardata' => true]);
         } else {
-            \Artisan::call('market:remove-theme', ['unikey' => $request->theme, '--cleardata' => false]);
+            $exitCode = \Artisan::call('market:remove-theme', ['unikey' => $request->theme, '--cleardata' => false]);
         }
 
-        return response()->json(['message' => \Artisan::output().__('FsLang::tips.uninstallSuccess')], 200);
+        // $exitCode = 0 success
+        // $exitCode != 0 fail
+
+        $message = __('FsLang::tips.uninstallSuccess');
+        if ($exitCode != 0) {
+            $message = __('FsLang::tips.uninstallFailure');
+        }
+
+        return response()->json(['message' => \Artisan::output().$message], 200);
     }
 }
