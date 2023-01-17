@@ -15,9 +15,9 @@ use Fresns\DTO\Exceptions\DTOException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
+use RuntimeException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
-use RuntimeException;
 
 class Handler extends ExceptionHandler
 {
