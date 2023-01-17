@@ -8,8 +8,15 @@
 
 namespace App\Exceptions;
 
+use App\Helpers\ConfigHelper;
+use App\Models\Plugin;
+use Browser;
+use Fresns\DTO\Exceptions\DTOException;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -56,16 +63,41 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
-        if ($e instanceof \Fresns\DTO\Exceptions\DTOException) {
+        if ($e instanceof DTOException) {
             throw new DTOException($e->getMessage());
         }
 
-        if ($e instanceof \Illuminate\Validation\ValidationException) {
+        if ($e instanceof ValidationException) {
             if (! $request->wantsJson()) {
                 return back()->with('failure', $e->validator->errors()->first());
             }
 
             throw new \RuntimeException($e->validator->errors()->first());
+        }
+
+        if ($e instanceof NotFoundHttpException) {
+            $engine = Plugin::type(Plugin::TYPE_ENGINE)->isEnable()->first();
+
+            if (! $engine) {
+                return parent::render($request, $e);
+            }
+
+            $mobileTheme = ConfigHelper::fresnsConfigByItemKey("{$engine->unikey}_Mobile");
+            $desktopTheme = ConfigHelper::fresnsConfigByItemKey("{$engine->unikey}_Desktop");
+
+            $theme = Browser::isMobile() ? $mobileTheme : $desktopTheme;
+
+            if (! $theme) {
+                return parent::render($request, $e);
+            }
+
+            $finder = app('view')->getFinder();
+            $finder->prependLocation(base_path("extensions/themes/{$theme}"));
+
+            return Response::view(404, [
+                'engineUnikey' => $engine->unikey,
+                'themeUnikey' => $theme,
+            ], 404);
         }
 
         return parent::render($request, $e);
