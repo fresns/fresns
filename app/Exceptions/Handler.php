@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
+use RuntimeException;
 
 class Handler extends ExceptionHandler
 {
@@ -72,7 +73,7 @@ class Handler extends ExceptionHandler
                 return back()->with('failure', $e->validator->errors()->first());
             }
 
-            throw new \RuntimeException($e->validator->errors()->first());
+            throw new RuntimeException($e->validator->errors()->first());
         }
 
         if ($e instanceof NotFoundHttpException) {
