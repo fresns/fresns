@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.1.0 (2023-01-18)
+
+### Added
+- Helper: New clear cache by tag `CacheHelper::forgetFresnsTag();`
+- Subscribe: support for subscribing to account and user login notifications
+- Framework: Custom 404 page
+
+### Fixes
+- API: Fix role configuration cache
+- API: The comment can't query to the post error
+- API: Fix the problem of topic parsing failure in the last part of content
+- API: Repair the error when the user's main role is empty
+- API: Fix the problem of date and time format when there is no time zone
+- Panel: Report error when installing plug-ins on command line
+
+### Changed
+- API: Sub-level comment list supports nested display
+- API: Output to `[]` empty array format when tree structure data is empty
+- API: Optimize the extraction and replacement of content topics
+- Frame: laravel/framework to v9.48.0
+- Frame: laravel/ui to v4.2.0
+- Frame: fresns/plugin-manager to v2.3.3
+- Frame: fresns/theme-manager to v2.0.8
+- Frame: fresns/market-manager to v2.1.1
+
+
 ## 2.0.1 (2023-01-11)
 
 ### Changed
