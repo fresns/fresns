@@ -194,6 +194,7 @@ return [
          * Common Service Providers...
          */
         App\Providers\SqlLogServiceProvider::class,
+        App\Providers\MarketServiceProvider::class,
 
         /*
          * Fresns Service Providers...
