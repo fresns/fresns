@@ -222,6 +222,11 @@ class UpgradeFresns extends Command
 
         CacheHelper::clearConfigCache('fresnsSystem');
         CacheHelper::clearConfigCache('fresnsConfig');
+        CacheHelper::clearConfigCache('fresnsView');
+        CacheHelper::clearConfigCache('fresnsRoute');
+        CacheHelper::clearConfigCache('fresnsEvent');
+        CacheHelper::clearConfigCache('fresnsSchedule');
+        CacheHelper::clearConfigCache('frameworkConfig');
 
         if ($this->path) {
             $file = new Filesystem;
