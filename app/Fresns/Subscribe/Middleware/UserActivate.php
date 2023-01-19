@@ -22,19 +22,19 @@ class UserActivate
         return $next($request);
     }
 
-    public function tokenIsValid(Request $request)
+    public function tokenIsValid()
     {
-        if (! $request->header('token')) {
+        if (empty(\request()->header('X-Fresns-Uid-Token'))) {
             return false;
         }
 
         /** @var \Fresns\CmdWordManager\CmdWordResponse $fresnsResponse */
         $fresnsResponse = \FresnsCmdWord::plugin('Fresns')->verifyUserToken([
-            'platformId' => $request->header('platformId'),
-            'aid' => $request->header('aid'),
-            'aidToken' => $request->header('aidToken'),
-            'uid' => $request->header('uid'),
-            'uidToken' => $request->header('uidToken'),
+            'platformId' => \request()->header('X-Fresns-Client-Platform-Id'),
+            'aid' => \request()->header('X-Fresns-Aid'),
+            'aidToken' => \request()->header('X-Fresns-Aid-Token'),
+            'uid' => \request()->header('X-Fresns-Uid'),
+            'uidToken' => \request()->header('X-Fresns-Uid-Token'),
         ]);
 
         if ($fresnsResponse->isErrorResponse()) {

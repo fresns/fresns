@@ -825,7 +825,7 @@ class AccountController extends Controller
     {
         $authAccount = $this->account();
         $authUser = $this->user();
-        $aidToken = \request()->header('aidToken');
+        $aidToken = \request()->header('X-Fresns-Aid-Token');
 
         if (empty($authAccount)) {
             throw new ApiException(31502);

@@ -40,7 +40,7 @@ class Account
     public function addAccount($wordBody)
     {
         $dtoWordBody = new AddAccountDTO($wordBody);
-        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         if ($dtoWordBody->type == 1) {
             $checkAccount = AccountModel::where('email', $dtoWordBody->account)->first();
@@ -122,7 +122,7 @@ class Account
     public function verifyAccount($wordBody)
     {
         $dtoWordBody = new VerifyAccountDTO($wordBody);
-        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         if ($dtoWordBody->type == 1) {
             $accountName = $dtoWordBody->account;
@@ -190,7 +190,7 @@ class Account
     public function createAccountToken($wordBody)
     {
         $dtoWordBody = new CreateAccountTokenDTO($wordBody);
-        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         $keyInfo = PrimaryHelper::fresnsModelByFsid('key', $dtoWordBody->appId);
@@ -255,7 +255,7 @@ class Account
     public function verifyAccountToken($wordBody)
     {
         $dtoWordBody = new VerifyAccountTokenDTO($wordBody);
-        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
 

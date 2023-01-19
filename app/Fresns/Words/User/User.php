@@ -50,7 +50,7 @@ class User
             }
         }
 
-        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         $account = Account::where('aid', $dtoWordBody->aid)->first();
         if (empty($account)) {
@@ -110,7 +110,7 @@ class User
             return $verifyAccountToken->errorResponse();
         }
 
-        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         $user = UserModel::where('uid', $dtoWordBody->uid)->first();
@@ -260,7 +260,7 @@ class User
             return $verifyAccountToken->errorResponse();
         }
 
-        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);

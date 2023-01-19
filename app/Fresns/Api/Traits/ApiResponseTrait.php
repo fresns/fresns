@@ -31,7 +31,7 @@ trait ApiResponseTrait
             extract($data);
         }
 
-        $message = $message ?: ConfigUtility::getCodeMessage($code, 'Fresns', \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag()));
+        $message = $message ?: ConfigUtility::getCodeMessage($code, 'Fresns', \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag()));
 
         $data = $data ?: null;
         $fresnsResponse = compact('code', 'message', 'data') + array_filter(compact('paginate'));
@@ -60,7 +60,7 @@ trait ApiResponseTrait
             'list' => [],
         ];
 
-        $message = ConfigUtility::getCodeMessage($code, 'Fresns', \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag())) ?? 'Unknown Warning';
+        $message = ConfigUtility::getCodeMessage($code, 'Fresns', \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag())) ?? 'Unknown Warning';
         $newMessage = '('.$code.') '.$message;
 
         return $this->success($data, $newMessage);

@@ -28,7 +28,7 @@ class ApiException extends \Exception
 
     public function getCodeMessage(int $code, ?string $unikey = '')
     {
-        return ConfigUtility::getCodeMessage($code, $unikey, \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag()));
+        return ConfigUtility::getCodeMessage($code, $unikey, \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag()));
     }
 
     public function render()

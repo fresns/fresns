@@ -251,7 +251,7 @@ class CommentService
             return $contentData['content'] = null;
         }
 
-        $contentFormat = \request()->header('contentFormat');
+        $contentFormat = \request()->header('X-Fresns-Client-Content-Format');
         if ($contentFormat == 'html') {
             $contentData['content'] = $comment->is_markdown ? Str::markdown($contentData['content']) : nl2br($contentData['content']);
         }

@@ -82,7 +82,7 @@ class LoginController extends Controller
                 return false;
             }
 
-            $langTag = \request()->header('langTag', config('app.locale'));
+            $langTag = \request()->header('X-Fresns-Client-Lang-Tag', config('app.locale'));
 
             $wordBody = [
                 'type' => SessionLog::TYPE_LOGIN_PANEL,

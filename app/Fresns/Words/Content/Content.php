@@ -49,7 +49,7 @@ class Content
     public function createDraft($wordBody)
     {
         $dtoWordBody = new CreateDraftDTO($wordBody);
-        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         $creator = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
         if (! $creator) {
@@ -178,8 +178,8 @@ class Content
     {
         $dtoWordBody = new GenerateDraftDTO($wordBody);
 
-        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
-        $timezone = \request()->header('timezone', ConfigHelper::fresnsConfigDefaultTimezone());
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $timezone = \request()->header('X-Fresns-Client-Timezone', ConfigHelper::fresnsConfigDefaultTimezone());
 
         switch ($dtoWordBody->type) {
             // post
@@ -335,7 +335,7 @@ class Content
             2 => CommentLog::where('id', $dtoWordBody->logId)->first(),
         };
 
-        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         if (empty($logModel)) {
             return $this->failure(
@@ -404,7 +404,7 @@ class Content
         $wordBody['editorUnikey'] = null;
 
         $dtoWordBody = new CreateDraftDTO($wordBody);
-        $langTag = \request()->header('langTag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         $creator = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
         if (! $creator) {

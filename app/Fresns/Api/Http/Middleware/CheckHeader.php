@@ -19,19 +19,19 @@ class CheckHeader
     public function handle(Request $request, Closure $next)
     {
         $headers = [
-            'platformId' => \request()->header('platformId'),
-            'version' => \request()->header('version'),
-            'appId' => \request()->header('appId'),
-            'timestamp' => \request()->header('timestamp'),
-            'sign' => \request()->header('sign'),
-            'langTag' => \request()->header('langTag'),
-            'timezone' => \request()->header('timezone'),
-            'contentFormat' => \request()->header('contentFormat'),
-            'aid' => \request()->header('aid'),
-            'aidToken' => \request()->header('aidToken'),
-            'uid' => \request()->header('uid'),
-            'uidToken' => \request()->header('uidToken'),
-            'deviceInfo' => json_decode(\request()->header('deviceInfo'), true),
+            'appId' => \request()->header('X-Fresns-App-Id'),
+            'platformId' => \request()->header('X-Fresns-Client-Platform-Id'),
+            'version' => \request()->header('X-Fresns-Client-Version'),
+            'deviceInfo' => json_decode(\request()->header('X-Fresns-Client-Device-Info'), true),
+            'langTag' => \request()->header('X-Fresns-Client-Lang-Tag'),
+            'timezone' => \request()->header('X-Fresns-Client-Timezone'),
+            'contentFormat' => \request()->header('X-Fresns-Client-Content-Format'),
+            'aid' => \request()->header('X-Fresns-Aid'),
+            'aidToken' => \request()->header('X-Fresns-Aid-Token'),
+            'uid' => \request()->header('X-Fresns-Uid'),
+            'uidToken' => \request()->header('X-Fresns-Uid-Token'),
+            'signature' => \request()->header('X-Fresns-Signature'),
+            'timestamp' => \request()->header('X-Fresns-Signature-Timestamp'),
         ];
 
         // check header

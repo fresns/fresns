@@ -227,7 +227,7 @@ class PostService
             CacheHelper::put($contentData, $cacheKey, $cacheTags);
         }
 
-        $contentFormat = \request()->header('contentFormat');
+        $contentFormat = \request()->header('X-Fresns-Client-Content-Format');
 
         if ($contentData['isAllow']) {
             if ($contentFormat == 'html') {

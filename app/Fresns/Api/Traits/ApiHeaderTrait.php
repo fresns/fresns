@@ -18,19 +18,19 @@ trait ApiHeaderTrait
     // platformId
     public function platformId(): int
     {
-        return \request()->header('platformId');
+        return \request()->header('X-Fresns-Client-Platform-Id');
     }
 
     // version
     public function version(): string
     {
-        return \request()->header('version');
+        return \request()->header('X-Fresns-Client-Version');
     }
 
     // appId
     public function appId(): string
     {
-        return \request()->header('appId');
+        return \request()->header('X-Fresns-App-Id');
     }
 
     // langTag
@@ -38,34 +38,34 @@ trait ApiHeaderTrait
     {
         $defaultLanguage = ConfigHelper::fresnsConfigDefaultLangTag();
 
-        return \request()->header('langTag', $defaultLanguage);
+        return \request()->header('X-Fresns-Client-Lang-Tag', $defaultLanguage);
     }
 
     // timezone
     public function timezone(): string
     {
-        $uid = \request()->header('uid');
+        $uid = \request()->header('X-Fresns-Uid');
         $defaultTimezone = ConfigHelper::fresnsConfigDefaultTimezone();
 
         if (empty($uid)) {
-            return \request()->header('timezone', $defaultTimezone);
+            return \request()->header('X-Fresns-Client-Timezone', $defaultTimezone);
         }
 
         $authUser = $this->user();
 
-        return \request()->header('timezone', $authUser?->timezone) ?? $defaultTimezone;
+        return \request()->header('X-Fresns-Client-Timezone', $authUser?->timezone) ?? $defaultTimezone;
     }
 
     // deviceInfo
     public function deviceInfo(): array
     {
-        return json_decode(\request()->header('deviceInfo'), true) ?? [];
+        return json_decode(\request()->header('X-Fresns-Client-Device-Info'), true) ?? [];
     }
 
     // auth account
     public function account(): ?Account
     {
-        $aid = \request()->header('aid');
+        $aid = \request()->header('X-Fresns-Aid');
 
         if (empty($aid)) {
             return null;
@@ -77,7 +77,7 @@ trait ApiHeaderTrait
     // auth user
     public function user(): ?User
     {
-        $uid = \request()->header('uid');
+        $uid = \request()->header('X-Fresns-Uid');
 
         if (empty($uid)) {
             return null;

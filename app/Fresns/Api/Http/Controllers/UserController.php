@@ -442,8 +442,8 @@ class UserController extends Controller
             'platformId' => $this->platformId(),
             'version' => $this->version(),
             'appId' => $this->appId(),
-            'aid' => $request->header('aid'),
-            'aidToken' => $request->header('aidToken'),
+            'aid' => \request()->header('X-Fresns-Aid'),
+            'aidToken' => \request()->header('X-Fresns-Aid-Token'),
             'uid' => $authUser->uid,
             'password' => $password,
         ];
@@ -497,7 +497,7 @@ class UserController extends Controller
         // notify subscribe
         $authAccount = $this->account();
         $accountToken = [
-            'token' => \request()->header('aidToken'),
+            'token' => \request()->header('X-Fresns-Aid-Token'),
             'expiredHours' => null,
             'expiredDays' => null,
             'expiredDateTime' => null,
@@ -517,7 +517,7 @@ class UserController extends Controller
         $langTag = $this->langTag();
         $timezone = $this->timezone();
         $authUserId = $this->user()->id;
-        $authUid = \request()->header('uid');
+        $authUid = \request()->header('X-Fresns-Uid');
 
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
 
