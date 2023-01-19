@@ -118,7 +118,11 @@ class PluginHelper
 
     public static function fresnsPluginSubscribeItems(?int $type = null)
     {
-        $subscribeItems = ConfigHelper::fresnsConfigByItemKey('subscribe_items');
+        $subscribeItems = ConfigHelper::fresnsConfigByItemKey('subscribe_items') ?? [];
+
+        if (empty($subscribeItems)) {
+            return [];
+        }
 
         if (empty($type)) {
             return $subscribeItems;
