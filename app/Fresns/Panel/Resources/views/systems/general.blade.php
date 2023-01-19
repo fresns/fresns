@@ -104,7 +104,7 @@
                 <div class="input-group">
                     <span class="input-group-text">&copy;</span>
                     <input type="text" class="form-control" id="site_copyright" placeholder="Fresns" name="site_copyright" value="{{ $params['site_copyright'] }}">
-                    <input type="text" class="form-control" id="site_copyright_years" placeholder="2020-2022" name="site_copyright_years" value="{{ $params['site_copyright_years'] }}">
+                    <input type="text" class="form-control" id="site_copyright_years" placeholder="2020-2023" name="site_copyright_years" value="{{ $params['site_copyright_years'] }}">
                 </div>
             </div>
         </div>
