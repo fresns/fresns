@@ -20,19 +20,22 @@ trait FileServiceTrait
     {
         $fileData = $this;
 
-        $fileConfigInfo = FileHelper::fresnsFileStorageConfigByType($fileData->type);
-
-        if ($fileConfigInfo['filesystemDisk'] == 'local') {
+        if ($fileData->disk == 'local') {
             $fileOriginalPath = Storage::url($fileData->original_path);
             $filePath = Storage::url($fileData->path);
+
+            $bucketDomain = ConfigHelper::fresnsConfigByItemKey('system_url');
         } else {
             $fileOriginalPath = $fileData->original_path;
             $filePath = $fileData->path;
+
+            $fileConfigInfo = FileHelper::fresnsFileStorageConfigByType($fileData->type);
+            $bucketDomain = $fileConfigInfo['bucketDomain'];
         }
 
         $path = $fileOriginalPath ?: $filePath;
 
-        $originalUrl = StrHelper::qualifyUrl($path, $fileConfigInfo['bucketDomain']);
+        $originalUrl = StrHelper::qualifyUrl($path, $bucketDomain);
 
         return $originalUrl;
     }
@@ -96,7 +99,6 @@ trait FileServiceTrait
 
         $imageConfig = ConfigHelper::fresnsConfigByItemKeys([
             'image_bucket_domain',
-            'image_filesystem_disk',
             'image_handle_position',
             'image_thumb_config',
             'image_thumb_avatar',
@@ -105,13 +107,17 @@ trait FileServiceTrait
             'image_thumb_big',
         ]);
 
-        if ($imageConfig['image_filesystem_disk'] == 'local') {
+        if ($fileData->disk == 'local') {
             $filePath = Storage::url($fileData->path);
+
+            $bucketDomain = ConfigHelper::fresnsConfigByItemKey('system_url');
         } else {
             $filePath = $fileData->path;
+
+            $bucketDomain = $imageConfig['image_bucket_domain'];
         }
 
-        $imageDefaultUrl = StrHelper::qualifyUrl($filePath, $imageConfig['image_bucket_domain']);
+        $imageDefaultUrl = StrHelper::qualifyUrl($filePath, $bucketDomain);
 
         $info['imageWidth'] = $fileData->image_width;
         $info['imageHeight'] = $fileData->image_height;
@@ -125,11 +131,11 @@ trait FileServiceTrait
             $imageSquarePath = $imageConfig['image_thumb_square'].$filePath;
             $imageBigPath = $imageConfig['image_thumb_big'].$filePath;
 
-            $info['imageConfigUrl'] = StrHelper::qualifyUrl($imageConfigPath, $imageConfig['image_bucket_domain']);
-            $info['imageAvatarUrl'] = StrHelper::qualifyUrl($imageAvatarPath, $imageConfig['image_bucket_domain']);
-            $info['imageRatioUrl'] = StrHelper::qualifyUrl($imageRatioPath, $imageConfig['image_bucket_domain']);
-            $info['imageSquareUrl'] = StrHelper::qualifyUrl($imageSquarePath, $imageConfig['image_bucket_domain']);
-            $info['imageBigUrl'] = StrHelper::qualifyUrl($imageBigPath, $imageConfig['image_bucket_domain']);
+            $info['imageConfigUrl'] = StrHelper::qualifyUrl($imageConfigPath, $bucketDomain);
+            $info['imageAvatarUrl'] = StrHelper::qualifyUrl($imageAvatarPath, $bucketDomain);
+            $info['imageRatioUrl'] = StrHelper::qualifyUrl($imageRatioPath, $bucketDomain);
+            $info['imageSquareUrl'] = StrHelper::qualifyUrl($imageSquarePath, $bucketDomain);
+            $info['imageBigUrl'] = StrHelper::qualifyUrl($imageBigPath, $bucketDomain);
         } elseif ($imageConfig['image_handle_position'] == 'middle') {
             $pathElement = explode('/', $filePath);
             $fileName = array_pop($pathElement);
@@ -146,11 +152,11 @@ trait FileServiceTrait
             $imageSquarePath = array_push($pathElement, $squareFileName);
             $imageBigPath = array_push($pathElement, $bigFileName);
 
-            $info['imageConfigUrl'] = StrHelper::qualifyUrl($imageConfigPath, $imageConfig['image_bucket_domain']);
-            $info['imageAvatarUrl'] = StrHelper::qualifyUrl($imageAvatarPath, $imageConfig['image_bucket_domain']);
-            $info['imageRatioUrl'] = StrHelper::qualifyUrl($imageRatioPath, $imageConfig['image_bucket_domain']);
-            $info['imageSquareUrl'] = StrHelper::qualifyUrl($imageSquarePath, $imageConfig['image_bucket_domain']);
-            $info['imageBigUrl'] = StrHelper::qualifyUrl($imageBigPath, $imageConfig['image_bucket_domain']);
+            $info['imageConfigUrl'] = StrHelper::qualifyUrl($imageConfigPath, $bucketDomain);
+            $info['imageAvatarUrl'] = StrHelper::qualifyUrl($imageAvatarPath, $bucketDomain);
+            $info['imageRatioUrl'] = StrHelper::qualifyUrl($imageRatioPath, $bucketDomain);
+            $info['imageSquareUrl'] = StrHelper::qualifyUrl($imageSquarePath, $bucketDomain);
+            $info['imageBigUrl'] = StrHelper::qualifyUrl($imageBigPath, $bucketDomain);
         } else {
             $info['imageConfigUrl'] = $imageDefaultUrl.$imageConfig['image_thumb_config'];
             $info['imageAvatarUrl'] = $imageDefaultUrl.$imageConfig['image_thumb_avatar'];
@@ -166,25 +172,24 @@ trait FileServiceTrait
     {
         $fileData = $this;
 
-        $videoConfig = ConfigHelper::fresnsConfigByItemKeys([
-            'video_bucket_domain',
-            'video_filesystem_disk',
-        ]);
-
-        if ($videoConfig['video_filesystem_disk'] == 'local') {
+        if ($fileData->disk == 'local') {
             $videoCoverPath = Storage::url($fileData->video_cover_path);
             $videoGifPath = Storage::url($fileData->video_gif_path);
             $filePath = Storage::url($fileData->path);
+
+            $bucketDomain = ConfigHelper::fresnsConfigByItemKey('system_url');
         } else {
             $videoCoverPath = $fileData->video_cover_path;
             $videoGifPath = $fileData->video_gif_path;
             $filePath = $fileData->path;
+
+            $bucketDomain = ConfigHelper::fresnsConfigByItemKey('video_bucket_domain');
         }
 
         $info['videoTime'] = $fileData->video_time;
-        $info['videoCoverUrl'] = StrHelper::qualifyUrl($videoCoverPath, $videoConfig['video_bucket_domain']);
-        $info['videoGifUrl'] = StrHelper::qualifyUrl($videoGifPath, $videoConfig['video_bucket_domain']);
-        $info['videoUrl'] = StrHelper::qualifyUrl($filePath, $videoConfig['video_bucket_domain']);
+        $info['videoCoverUrl'] = StrHelper::qualifyUrl($videoCoverPath, $bucketDomain);
+        $info['videoGifUrl'] = StrHelper::qualifyUrl($videoGifPath, $bucketDomain);
+        $info['videoUrl'] = StrHelper::qualifyUrl($filePath, $bucketDomain);
         $info['transcodingState'] = $fileData->transcoding_state;
 
         return $info;
@@ -194,19 +199,18 @@ trait FileServiceTrait
     {
         $fileData = $this;
 
-        $audioConfig = ConfigHelper::fresnsConfigByItemKeys([
-            'audio_bucket_domain',
-            'audio_filesystem_disk',
-        ]);
-
-        if ($audioConfig['audio_filesystem_disk'] == 'local') {
+        if ($fileData->disk == 'local') {
             $filePath = Storage::url($fileData->path);
+
+            $bucketDomain = ConfigHelper::fresnsConfigByItemKey('system_url');
         } else {
             $filePath = $fileData->path;
+
+            $bucketDomain = ConfigHelper::fresnsConfigByItemKey('audio_bucket_domain');
         }
 
         $info['audioTime'] = $fileData->audio_time;
-        $info['audioUrl'] = StrHelper::qualifyUrl($filePath, $audioConfig['audio_bucket_domain']);
+        $info['audioUrl'] = StrHelper::qualifyUrl($filePath, $bucketDomain);
         $info['transcodingState'] = $fileData->transcoding_state;
 
         return $info;
@@ -218,18 +222,21 @@ trait FileServiceTrait
 
         $documentConfig = ConfigHelper::fresnsConfigByItemKeys([
             'document_bucket_domain',
-            'document_filesystem_disk',
             'document_online_preview',
             'document_preview_extension_names',
         ]);
 
-        if ($documentConfig['document_filesystem_disk'] == 'local') {
+        if ($fileData->disk == 'local') {
             $filePath = Storage::url($fileData->path);
+
+            $bucketDomain = ConfigHelper::fresnsConfigByItemKey('system_url');
         } else {
             $filePath = $fileData->path;
+
+            $bucketDomain = $documentConfig['document_bucket_domain'];
         }
 
-        $info['documentUrl'] = StrHelper::qualifyUrl($filePath, $documentConfig['document_bucket_domain']);
+        $info['documentUrl'] = StrHelper::qualifyUrl($filePath, $bucketDomain);
 
         $documentPreviewUrl = null;
         if (! empty($documentConfig['document_online_preview']) && ! empty($documentConfig['document_preview_extension_names'])) {
