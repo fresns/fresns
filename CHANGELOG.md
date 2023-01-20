@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.2.0 (2023-01-20)
+
+### Fixes
+- API: Login error log count error determination
+- Subscribe: Compatible subscribe are empty
+
+### Changed
+- Words: Refactor authentication path credentials command word
+- Framework: The engine takes over the 404 page
+- Frame: fresns/cmd-word-manager to v1.3.0
+- Frame: fresns/plugin-manager to v2.3.4
+
+### BREAKING CHANGES
+- API: Refactor headers parameter naming to use `X-` prefix and camel-case naming
+
+
 ## 2.1.0 (2023-01-18)
 
 ### Added

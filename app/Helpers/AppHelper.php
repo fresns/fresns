@@ -17,10 +17,10 @@ use Illuminate\Support\Str;
 
 class AppHelper
 {
-    const VERSION = '2.1.0';
-    const VERSION_INT = 11;
-    const VERSION_MD5 = '5337810b0c500ace9c4cd745f4b8bcf5';
-    const VERSION_MD5_16BIT = '0c500ace9c4cd745';
+    const VERSION = '2.2.0';
+    const VERSION_INT = 12;
+    const VERSION_MD5 = '34e90de1478e8a54af7fd56d4a3a7102';
+    const VERSION_MD5_16BIT = '478e8a54af7fd56d';
 
     // fresns test helper
     public static function fresnsTestHelper()
