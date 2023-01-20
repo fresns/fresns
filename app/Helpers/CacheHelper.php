@@ -16,6 +16,7 @@ use App\Models\Plugin;
 use App\Utilities\InteractionUtility;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 
 class CacheHelper
@@ -232,12 +233,12 @@ class CacheHelper
     public static function clearAllCache()
     {
         Cache::flush();
-        \Artisan::call('cache:clear');
-        \Artisan::call('config:clear');
-        \Artisan::call('view:clear');
-        \Artisan::call('route:clear');
-        \Artisan::call('event:clear');
-        \Artisan::call('schedule:clear-cache');
+        Artisan::call('cache:clear');
+        Artisan::call('config:clear');
+        Artisan::call('view:clear');
+        Artisan::call('route:clear');
+        Artisan::call('event:clear');
+        Artisan::call('schedule:clear-cache');
 
         // time of the latest cache
         Config::updateOrCreate([
@@ -251,9 +252,9 @@ class CacheHelper
             'is_api' => 1,
         ]);
 
-        \Artisan::call('config:cache');
-        \Artisan::call('view:cache');
-        \Artisan::call('event:cache');
+        Artisan::call('config:cache');
+        Artisan::call('view:cache');
+        Artisan::call('event:cache');
     }
 
     /**
@@ -297,30 +298,30 @@ class CacheHelper
 
         // view
         if ($cacheType == 'fresnsView') {
-            \Artisan::call('view:clear');
-            \Artisan::call('view:cache');
+            Artisan::call('view:clear');
+            Artisan::call('view:cache');
         }
 
         // route
         if ($cacheType == 'fresnsRoute') {
-            \Artisan::call('route:clear');
+            Artisan::call('route:clear');
         }
 
         // event
         if ($cacheType == 'fresnsEvent') {
-            \Artisan::call('event:clear');
-            \Artisan::call('event:cache');
+            Artisan::call('event:clear');
+            Artisan::call('event:cache');
         }
 
         // schedule
         if ($cacheType == 'fresnsSchedule') {
-            \Artisan::call('schedule:clear-cache');
+            Artisan::call('schedule:clear-cache');
         }
 
         // framework
         if ($cacheType == 'frameworkConfig') {
-            \Artisan::call('config:clear');
-            \Artisan::call('config:cache');
+            Artisan::call('config:clear');
+            Artisan::call('config:cache');
         }
     }
 
@@ -727,7 +728,6 @@ class CacheHelper
     // fresns_config_tag_{$itemTag}_{$langTag}
     // fresns_config_file_accept
     // fresns_config_file_url_expire
-    // fresns_plugin_url_{$unikey}
     // fresns_content_block_words       // fresns_{$type}_block_words
     // fresns_user_block_words          // fresns_{$type}_block_words
     // fresns_conversation_block_words  // fresns_{$type}_block_words
@@ -873,6 +873,9 @@ class CacheHelper
     // fresns_manage_post_extends_by_group_admin_{$langTag}             // +tag: fresnsManages
     // fresns_manage_comment_extends_by_group_admin_{$langTag}          // +tag: fresnsManages
     // fresns_group_{$groupId}_extends_by_group_admin_{$langTag}        // +tag: fresnsGroupConfigs, fresnsGroupExtensions
+
+    // fresns_plugin_url_{$unikey}                                      // +tag: fresnsExtensionConfigs
+    // fresns_plugin_host_{$unikey}                                     // +tag: fresnsExtensionConfigs
 
     /**
      * tag: fresnsApiData.

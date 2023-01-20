@@ -13,6 +13,7 @@ use App\Models\Account;
 use App\Models\Config;
 use Carbon\Carbon;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
@@ -388,16 +389,16 @@ class InstallController extends Controller
         $output = [];
         foreach ($cmds as $cmd) {
             try {
-                $code = \Illuminate\Support\Facades\Artisan::call(command: $cmd, parameters: [
+                $code = Artisan::call(command: $cmd, parameters: [
                     '--force' => true,
                 ]);
             } catch (\Throwable $e) {
-                $output[] = \Artisan::output();
+                $output[] = Artisan::output();
                 $output[] = $e->getMessage();
                 break;
             }
 
-            $output[] = \Artisan::output();
+            $output[] = Artisan::output();
         }
 
         return [
@@ -427,13 +428,13 @@ class InstallController extends Controller
             'type' => 1,
         ]);
 
-        \Artisan::call('plugin:install', [
+        Artisan::call('plugin:install', [
             'path' => realpath(base_path('extensions/plugins/FresnsEngine')),
         ]);
-        \Artisan::call('theme:install', [
+        Artisan::call('theme:install', [
             'path' => realpath(base_path('extensions/themes/ThemeFrame')),
         ]);
-        \Artisan::call('theme:install', [
+        Artisan::call('theme:install', [
             'path' => realpath(base_path('extensions/themes/Moments')),
         ]);
 

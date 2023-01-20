@@ -14,6 +14,7 @@ use App\Models\Plugin;
 use App\Utilities\AppUtility;
 use App\Utilities\ConfigUtility;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class ExtensionController extends Controller
 {
@@ -181,10 +182,10 @@ class ExtensionController extends Controller
                 }
 
                 // market-manager
-                $exitCode = \Artisan::call('market:require', [
+                $exitCode = Artisan::call('market:require', [
                     'unikey' => $pluginUnikey,
                 ]);
-                $output = \Artisan::output();
+                $output = Artisan::output();
             break;
 
             // directory
@@ -206,10 +207,10 @@ class ExtensionController extends Controller
                 }
 
                 // plugin-manager or theme-manager
-                $exitCode = \Artisan::call("{$installType}:install", [
+                $exitCode = Artisan::call("{$installType}:install", [
                     'path' => $pluginDirectory,
                 ]);
-                $output = \Artisan::output();
+                $output = Artisan::output();
             break;
 
             // zipball
@@ -229,10 +230,10 @@ class ExtensionController extends Controller
                 }
 
                 // plugin-manager or theme-manager
-                $exitCode = \Artisan::call("{$installType}:install", [
+                $exitCode = Artisan::call("{$installType}:install", [
                     'path' => $pluginZipball,
                 ]);
-                $output = \Artisan::output();
+                $output = Artisan::output();
             break;
         }
 
@@ -257,7 +258,7 @@ class ExtensionController extends Controller
         $installType = $request->get('install_type', 'market');
 
         // market-manager
-        $code = \Artisan::call('market:upgrade', [
+        $code = Artisan::call('market:upgrade', [
             'unikey' => $unikey,
             'package_type' => $packageType,
             '--install_type' => $installType,
@@ -271,7 +272,7 @@ class ExtensionController extends Controller
         return \response()->json([
             'message' => $message,
             'data' => [
-                'output' => \Artisan::output()."\n".__('FsLang::tips.upgradeSuccess'),
+                'output' => Artisan::output()."\n".__('FsLang::tips.upgradeSuccess'),
             ],
         ], 200);
 
@@ -281,9 +282,9 @@ class ExtensionController extends Controller
     public function update(Request $request)
     {
         if ($request->get('is_enable') != 0) {
-            $exitCode = \Artisan::call('market:activate', ['unikey' => $request->plugin]);
+            $exitCode = Artisan::call('market:activate', ['unikey' => $request->plugin]);
         } else {
-            $exitCode = \Artisan::call('market:deactivate', ['unikey' => $request->plugin]);
+            $exitCode = Artisan::call('market:deactivate', ['unikey' => $request->plugin]);
         }
 
         return $this->updateSuccess();
@@ -306,9 +307,9 @@ class ExtensionController extends Controller
     public function uninstall(Request $request)
     {
         if ($request->get('clearData') == 1) {
-            $exitCode = \Artisan::call('market:remove-plugin', ['unikey' => $request->plugin, '--cleardata' => true]);
+            $exitCode = Artisan::call('market:remove-plugin', ['unikey' => $request->plugin, '--cleardata' => true]);
         } else {
-            $exitCode = \Artisan::call('market:remove-plugin', ['unikey' => $request->plugin, '--cleardata' => false]);
+            $exitCode = Artisan::call('market:remove-plugin', ['unikey' => $request->plugin, '--cleardata' => false]);
         }
 
         // $exitCode = 0 success
@@ -319,7 +320,7 @@ class ExtensionController extends Controller
             $message = __('FsLang::tips.uninstallFailure');
         }
 
-        return response(\Artisan::output()."\n".$message);
+        return response(Artisan::output()."\n".$message);
     }
 
     public function uninstallTheme(Request $request)
@@ -340,9 +341,9 @@ class ExtensionController extends Controller
 
             ConfigUtility::removeFresnsConfigItems($configItemKeys);
 
-            $exitCode = \Artisan::call('market:remove-theme', ['unikey' => $request->theme, '--cleardata' => true]);
+            $exitCode = Artisan::call('market:remove-theme', ['unikey' => $request->theme, '--cleardata' => true]);
         } else {
-            $exitCode = \Artisan::call('market:remove-theme', ['unikey' => $request->theme, '--cleardata' => false]);
+            $exitCode = Artisan::call('market:remove-theme', ['unikey' => $request->theme, '--cleardata' => false]);
         }
 
         // $exitCode = 0 success
@@ -353,6 +354,6 @@ class ExtensionController extends Controller
             $message = __('FsLang::tips.uninstallFailure');
         }
 
-        return response()->json(['message' => \Artisan::output().$message], 200);
+        return response()->json(['message' => Artisan::output().$message], 200);
     }
 }
