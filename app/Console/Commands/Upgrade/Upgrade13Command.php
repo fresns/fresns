@@ -11,11 +11,11 @@ namespace App\Console\Commands\Upgrade;
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;
 
-class Upgrade12Command extends Command
+class Upgrade13Command extends Command
 {
-    protected $signature = 'fresns:upgrade-12';
+    protected $signature = 'fresns:upgrade-13';
 
-    protected $description = 'upgrade to fresns v2.2.0';
+    protected $description = 'upgrade to fresns v2.2.1';
 
     public function __construct()
     {
@@ -25,10 +25,10 @@ class Upgrade12Command extends Command
     // execute the console command
     public function handle()
     {
-        logger('upgrade:fresns-12 composerInstall');
+        logger('upgrade:fresns-13 composerInstall');
         $this->composerInstall();
 
-        logger('upgrade:fresns-12 migrate');
+        logger('upgrade:fresns-13 migrate');
         $this->call('migrate', ['--force' => true]);
 
         return Command::SUCCESS;
