@@ -133,6 +133,17 @@ class AppUtility
 
     public static function macroMarketHeaders()
     {
+        Http::macro('market', function () {
+            return Http::withHeaders(
+                AppUtility::getMarketHeaders()
+            )->baseUrl(
+                AppUtility::getApiHost()
+            );
+        });
+    }
+
+    public static function getMarketHeaders()
+    {
         $appConfig = ConfigHelper::fresnsConfigByItemKeys([
             'install_datetime',
             'build_type',
@@ -146,7 +157,7 @@ class AppUtility
 
         $isHttps = \request()->getScheme() === 'https';
 
-        $headers = [
+        return [
             'panelLangTag' => App::getLocale(),
             'installDatetime' => $appConfig['install_datetime'],
             'buildType' => $appConfig['build_type'],
@@ -162,10 +173,6 @@ class AppUtility
             'siteTimezone' => $appConfig['default_timezone'],
             'siteLanguage' => $appConfig['default_language'],
         ];
-
-        Http::macro('market', function () use ($headers) {
-            return Http::withHeaders($headers)->baseUrl(AppUtility::getApiHost());
-        });
     }
 
     public static function getDeviceInfo(): array
