@@ -18,7 +18,6 @@ class PluginHelper
      * @param  string  $unikey
      * @return string
      */
-
     public static function fresnsPluginHostByUnikey(string $unikey)
     {
         $cacheKey = "fresns_plugin_host_{$unikey}";
