@@ -205,6 +205,8 @@ class PhysicalUpgradeFresns extends Command
         CacheHelper::clearConfigCache('fresnsSchedule');
         CacheHelper::clearConfigCache('frameworkConfig');
 
+        $this->call('storage:link', ['--force' => true]);
+
         return true;
     }
 }
