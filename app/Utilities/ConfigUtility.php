@@ -129,8 +129,18 @@ class ConfigUtility
     // get login error count
     public static function getLoginErrorCount(int $accountId, ?int $userId = null): int
     {
-        $sessionLog = SessionLog::whereIn('type', [2, 5, 8])
-            ->whereIn('object_result', [1, 2])
+        $typeArr = [
+            SessionLog::TYPE_LOGIN_PANEL,
+            SessionLog::TYPE_ACCOUNT_LOGIN,
+            SessionLog::TYPE_USER_LOGIN,
+        ];
+        $resultState = [
+            SessionLog::STATE_UNKNOWN,
+            SessionLog::STATE_FAILURE,
+        ];
+
+        $sessionLog = SessionLog::whereIn('type', $typeArr)
+            ->whereIn('object_result', $resultState)
             ->where('account_id', $accountId)
             ->where('created_at', '>=', now()->subHour());
 
