@@ -22,16 +22,16 @@ class EncryptCookies extends Middleware
         'panel_lang',
 
         // website engine
+        'fresns_uuid',
         'fresns_lang_tag',
-        'fresns_timezone',
         'fresns_aid',
         'fresns_aid_token',
         'fresns_uid',
         'fresns_uid_token',
 
         // website single engine
+        'fresns_single_uuid',
         'fresns_single_lang_tag',
-        'fresns_single_timezone',
         'fresns_single_aid',
         'fresns_single_aid_token',
         'fresns_single_uid',
