@@ -14,7 +14,6 @@ use App\Fresns\Words\Basic\DTO\IpInfoDTO;
 use App\Fresns\Words\Basic\DTO\SendCodeDTO;
 use App\Fresns\Words\Basic\DTO\UploadSessionLogDTO;
 use App\Fresns\Words\Basic\DTO\VerifySignDTO;
-use App\Fresns\Words\Basic\DTO\VerifyUrlSignDTO;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\SignHelper;
@@ -137,31 +136,42 @@ class Basic
      *
      * @throws \Throwable
      */
-    public function verifyUrlSign($wordBody)
+    public function verifyUrlAuthorization($wordBody)
     {
-        $dtoWordBody = new VerifyUrlSignDTO($wordBody);
+        $urlAuthorization = $wordBody['urlAuthorization'] ?? '';
         $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
-        $urlSignData = urldecode(base64_decode($dtoWordBody->urlSign));
-        $urlSignJson = json_decode($urlSignData, true) ?? [];
-
-        if (empty($urlSignJson)) {
+        if (empty($urlAuthorization)) {
             return $this->failure(
-                30002,
-                ConfigUtility::getCodeMessage(30002, 'Fresns', $langTag)
+                30001,
+                ConfigUtility::getCodeMessage(30001, 'Fresns', $langTag)
+            );
+        }
+
+        $urlAuthorizationData = urldecode(base64_decode($urlAuthorization));
+        $authorizationJson = json_decode($urlAuthorizationData, true) ?? [];
+
+        if (empty($authorizationJson)) {
+            return $this->failure(
+                30004,
+                ConfigUtility::getCodeMessage(30004, 'Fresns', $langTag)
             );
         }
 
         $headers = [
-            'appId' => $urlSignJson['X-Fresns-App-Id'] ?? null,
-            'platformId' => $urlSignJson['X-Fresns-Client-Platform-Id'] ?? null,
-            'version' => $urlSignJson['X-Fresns-Client-Version'] ?? null,
-            'aid' => $urlSignJson['X-Fresns-Aid'] ?? null,
-            'aidToken' => $urlSignJson['X-Fresns-Aid-Token'] ?? null,
-            'uid' => $urlSignJson['X-Fresns-Uid'] ?? null,
-            'uidToken' => $urlSignJson['X-Fresns-Uid-Token'] ?? null,
-            'signature' => $urlSignJson['X-Fresns-Signature'] ?? null,
-            'timestamp' => $urlSignJson['X-Fresns-Signature-Timestamp'] ?? null,
+            'appId' => $authorizationJson['X-Fresns-App-Id'] ?? null,
+            'platformId' => $authorizationJson['X-Fresns-Client-Platform-Id'] ?? null,
+            'version' => $authorizationJson['X-Fresns-Client-Version'] ?? null,
+            'deviceInfo' => json_decode($authorizationJson['X-Fresns-Client-Device-Info'], true),
+            'langTag' => $authorizationJson['X-Fresns-Client-Lang-Tag'] ?? ConfigHelper::fresnsConfigDefaultLangTag(),
+            'timezone' => $authorizationJson['X-Fresns-Client-Timezone'] ?? null,
+            'contentFormat' => $authorizationJson['X-Fresns-Client-Content-Format'] ?? null,
+            'aid' => $authorizationJson['X-Fresns-Aid'] ?? null,
+            'aidToken' => $authorizationJson['X-Fresns-Aid-Token'] ?? null,
+            'uid' => $authorizationJson['X-Fresns-Uid'] ?? null,
+            'uidToken' => $authorizationJson['X-Fresns-Uid-Token'] ?? null,
+            'signature' => $authorizationJson['X-Fresns-Signature'] ?? null,
+            'timestamp' => $authorizationJson['X-Fresns-Signature-Timestamp'] ?? null,
         ];
 
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->verifySign($headers);
@@ -170,7 +180,7 @@ class Basic
             return $fresnsResp->getOrigin();
         }
 
-        return $this->success($urlSignJson);
+        return $this->success($headers);
     }
 
     /**
