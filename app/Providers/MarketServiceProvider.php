@@ -30,6 +30,6 @@ class MarketServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        AppUtility::macroMarketHeader();
+        AppUtility::macroMarketHeaders();
     }
 }

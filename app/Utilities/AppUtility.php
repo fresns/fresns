@@ -14,6 +14,7 @@ use App\Helpers\ConfigHelper;
 use App\Models\Plugin;
 use Browser;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 
 class AppUtility
@@ -130,22 +131,8 @@ class AppUtility
         return $apiHost;
     }
 
-    public static function macroMarketHeader()
+    public static function macroMarketHeaders()
     {
-        Http::macro('market', function () {
-            return Http::withHeaders(
-                AppUtility::getMarketHeader()
-            )
-            ->baseUrl(
-                AppUtility::getApiHost()
-            );
-        });
-    }
-
-    public static function getMarketHeader(): array
-    {
-        $isHttps = \request()->getScheme() === 'https';
-
         $appConfig = ConfigHelper::fresnsConfigByItemKeys([
             'install_datetime',
             'build_type',
@@ -157,8 +144,10 @@ class AppUtility
             'default_language',
         ]);
 
-        $header = [
-            'panelLangTag' => \App::getLocale(),
+        $isHttps = \request()->getScheme() === 'https';
+
+        $headers = [
+            'panelLangTag' => App::getLocale(),
             'installDatetime' => $appConfig['install_datetime'],
             'buildType' => $appConfig['build_type'],
             'version' => self::currentVersion()['version'],
@@ -174,7 +163,9 @@ class AppUtility
             'siteLanguage' => $appConfig['default_language'],
         ];
 
-        return $header;
+        Http::macro('market', function () use ($headers) {
+            return Http::withHeaders($headers)->baseUrl(AppUtility::getApiHost());
+        });
     }
 
     public static function getDeviceInfo(): array
