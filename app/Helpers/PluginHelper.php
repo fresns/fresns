@@ -13,6 +13,35 @@ use App\Models\Plugin;
 class PluginHelper
 {
     /**
+     * Get the plugin host.
+     *
+     * @param  string  $unikey
+     * @return string
+     */
+
+    public static function fresnsPluginHostByUnikey(string $unikey)
+    {
+        $cacheKey = "fresns_plugin_host_{$unikey}";
+        $cacheTags = ['fresnsExtensions', 'fresnsExtensionConfigs'];
+
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return null;
+        }
+
+        $pluginHost = CacheHelper::get($cacheKey, $cacheTags);
+
+        if (empty($pluginHost)) {
+            $pluginHost = Plugin::where('unikey', $unikey)->value('plugin_host');
+
+            CacheHelper::put($pluginHost, $cacheKey, $cacheTags);
+        }
+
+        return $pluginHost;
+    }
+
+    /**
      * Get the plugin access url.
      *
      * @param  string  $unikey
@@ -25,7 +54,7 @@ class PluginHelper
         }
 
         $cacheKey = "fresns_plugin_url_{$unikey}";
-        $cacheTag = 'fresnsConfigs';
+        $cacheTags = ['fresnsExtensions', 'fresnsExtensionConfigs'];
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -33,7 +62,7 @@ class PluginHelper
             return null;
         }
 
-        $pluginUrl = CacheHelper::get($cacheKey, $cacheTag);
+        $pluginUrl = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($pluginUrl)) {
             $plugin = Plugin::where('unikey', $unikey)->first();
@@ -49,7 +78,7 @@ class PluginHelper
 
             $pluginUrl = $link;
 
-            CacheHelper::put($pluginUrl, $cacheKey, $cacheTag);
+            CacheHelper::put($pluginUrl, $cacheKey, $cacheTags);
         }
 
         return $pluginUrl ?? null;
@@ -73,6 +102,7 @@ class PluginHelper
         return str_replace('{parameter}', $parameter, $url);
     }
 
+    // get plugin version
     public static function fresnsPluginVersionByUnikey(string $unikey)
     {
         $version = Plugin::where('unikey', $unikey)->value('version');
@@ -84,6 +114,7 @@ class PluginHelper
         return $version;
     }
 
+    // get plugin upgrade code
     public static function fresnsPluginUpgradeCodeByUnikey(string $unikey)
     {
         $upgradeCode = Plugin::where('unikey', $unikey)->value('upgrade_code');
@@ -95,6 +126,7 @@ class PluginHelper
         return $upgradeCode;
     }
 
+    // handle plugin data rating
     public static function pluginDataRatingHandle(string $key, ?array $dataSources = null, ?string $langTag = null)
     {
         if (empty($dataSources)) {
@@ -116,6 +148,7 @@ class PluginHelper
         return $pluginRating;
     }
 
+    // get subscribe items
     public static function fresnsPluginSubscribeItems(?int $type = null)
     {
         $subscribeItems = ConfigHelper::fresnsConfigByItemKey('subscribe_items') ?? [];
