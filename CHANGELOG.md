@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 
 ## 2.2.0 (2023-01-20)
 
+### Added
+- Data: Added `disk` field to the files table
+- Helper: Add file disk to file information
+- Command: Add `storage:link` command to upgrade command
+
 ### Fixes
 - API: Login error log count error determination
 - Subscribe: Compatible subscribe are empty
