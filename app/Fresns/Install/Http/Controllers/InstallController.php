@@ -433,6 +433,9 @@ class InstallController extends Controller
         \Artisan::call('theme:install', [
             'path' => realpath(base_path('extensions/themes/ThemeFrame')),
         ]);
+        \Artisan::call('theme:install', [
+            'path' => realpath(base_path('extensions/themes/Moments')),
+        ]);
 
         AppHelper::setInitialConfiguration();
 
