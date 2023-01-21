@@ -16,6 +16,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Process\Process;
 
 class UpgradeFresns extends Command
 {
@@ -201,7 +202,27 @@ class UpgradeFresns extends Command
 
         logger('upgrade: fresns upgrade command');
 
-        return AppUtility::executeUpgradeCommand();
+        // composer install
+        $composerPath = 'composer';
+
+        if (! $this->commandExists($composerPath)) {
+            $composerPath = '/usr/bin/composer';
+        }
+
+        $process = new Process([$composerPath, 'install'], base_path());
+        $process->setTimeout(0);
+        $process->start();
+
+        foreach ($process as $type => $data) {
+            if ($process::OUT === $type) {
+                $this->info("\nRead from stdout: ".$data);
+            } else { // $process::ERR === $type
+                $this->info("\nRead from stderr: ".$data);
+            }
+        }
+
+        // the version command
+        return AppUtility::executeUpgradeUtility();
     }
 
     // step 4-2: edit fresns version info
@@ -271,5 +292,15 @@ class UpgradeFresns extends Command
 
         // Returns how many files were processed
         return $count;
+    }
+
+    // check composer
+    public function commandExists($commandName)
+    {
+        ob_start();
+        passthru("command -v $commandName", $code);
+        ob_end_clean();
+
+        return (0 === $code) ? true : false;
     }
 }

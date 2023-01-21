@@ -14,6 +14,7 @@ use App\Models\Plugin;
 use App\Utilities\AppUtility;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
+use Symfony\Component\Process\Process;
 
 class PhysicalUpgradeFresns extends Command
 {
@@ -128,7 +129,27 @@ class PhysicalUpgradeFresns extends Command
     {
         $this->updateStep(self::STEP_UPDATE_DATA);
 
-        return AppUtility::executeUpgradeCommand();
+        // 2-1 composer install
+        $composerPath = 'composer';
+
+        if (! $this->commandExists($composerPath)) {
+            $composerPath = '/usr/bin/composer';
+        }
+
+        $process = new Process([$composerPath, 'install'], base_path());
+        $process->setTimeout(0);
+        $process->start();
+
+        foreach ($process as $type => $data) {
+            if ($process::OUT === $type) {
+                $this->info("\nRead from stdout: ".$data);
+            } else { // $process::ERR === $type
+                $this->info("\nRead from stderr: ".$data);
+            }
+        }
+
+        // 2-2 execute the version command
+        return AppUtility::executeUpgradeUtility();
     }
 
     // step 3: composer all plugins
@@ -208,5 +229,15 @@ class PhysicalUpgradeFresns extends Command
         $this->call('storage:link', ['--force' => true]);
 
         return true;
+    }
+
+    // check composer
+    public function commandExists($commandName)
+    {
+        ob_start();
+        passthru("command -v $commandName", $code);
+        ob_end_clean();
+
+        return (0 === $code) ? true : false;
     }
 }

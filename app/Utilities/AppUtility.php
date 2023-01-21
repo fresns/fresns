@@ -14,7 +14,6 @@ use App\Helpers\ConfigHelper;
 use App\Models\Plugin;
 use Browser;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
 
 class AppUtility
@@ -239,36 +238,40 @@ class AppUtility
         return $deviceInfo;
     }
 
-    public static function executeUpgradeCommand(): bool
+    public static function executeUpgradeUtility(): bool
     {
-        logger('upgrade: fresns upgrade command check');
+        logger('-- upgrade: fresns upgrade version check');
         $currentVersionInt = AppUtility::currentVersion()['versionInt'] ?? 0;
         $newVersionInt = AppUtility::newVersion()['versionInt'] ?? 0;
 
-        logger('-- currentVersionInt: '.$currentVersionInt);
-        logger('-- newVersionInt: '.$newVersionInt);
+        logger('-- -- currentVersionInt: '.$currentVersionInt);
+        logger('-- -- newVersionInt: '.$newVersionInt);
         if (! $currentVersionInt || ! $newVersionInt) {
             return false;
         }
 
-        logger('upgrade: fresns upgrade-{n} command');
+        require app_path('Utilities/UpgradeUtility.php');
+
+        logger('upgrade: fresns upgrade to {n}');
         $versionInt = $currentVersionInt;
 
         while ($versionInt <= $newVersionInt) {
             $versionInt++;
 
+            $function = 'upgradeTo'.$versionInt;
+
+            logger('-- '.$function);
+
             try {
-                $command = 'fresns:upgrade-'.$versionInt;
-                logger("-- upgrade command: {$command}");
+                if (! method_exists(UpgradeUtility::class, $function)) {
+                    logger('-- -- '.$function.' does not exist');
 
-                logger("-- execute command: {$command}");
+                    continue;
+                }
 
-                $exitCode = Artisan::call($command);
-                logger('-- -- '.$command.' exitCode = '.$exitCode);
-            } catch (\Symfony\Component\Console\Exception\CommandNotFoundException $e) {
-                logger('-- -- fresns:upgrade-'.$versionInt.' does not exist');
-
-                continue;
+                UpgradeUtility::$function();
+            } catch (\Error $e) {
+                logger('-- -- '.$function.' does not exist');
             }
         }
 
