@@ -38,14 +38,16 @@ class Kernel extends ConsoleKernel
         }
 
         foreach ($cronArr as $cron) {
-            $plugin = Plugin::where('unikey', $cron['unikey'])->isEnable()->first();
+            if ($cron['unikey'] !== 'Fresns') {
+                $plugin = Plugin::where('unikey', $cron['unikey'])->isEnable()->first();
 
-            if (empty($plugin)) {
-                continue;
+                if (empty($plugin)) {
+                    continue;
+                }
             }
 
             $schedule->call(function () use ($cron) {
-                logger("schedule: {$cron['unikey']} - {$cron['cmdWord']}");
+                logger("schedule: {$cron['unikey']} -> {$cron['cmdWord']}");
 
                 \FresnsCmdWord::plugin($cron['unikey'])->{$cron['cmdWord']}();
             })->cron($cron['cronTableFormat']);
