@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.3.0 (2023-01-21)
+
+### Added
+- Helper: Get plugin host `PluginHelper::fresnsPluginHostByUnikey($unikey);`
+
+### Fixes
+- Console: Int upgrade command cannot be executed
+- Console: Main program timed task not executed
+
+### Changed
+- Console: Optimize command word schedule
+- Helper: Modify artisan facades
+- Helper: Adjust extended cache tag
+
+
 ## 2.2.0 (2023-01-20)
 
 ### Added
