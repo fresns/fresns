@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.3.1 (2023-01-21)
+
+### Fixes
+- Console: Fix upgrade command loading issue
+
+### Changed
+- Console: Data updates for reconfiguration and upgrade functions
+
+
 ## 2.3.0 (2023-01-21)
 
 ### Added
