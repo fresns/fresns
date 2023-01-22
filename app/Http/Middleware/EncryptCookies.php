@@ -22,7 +22,7 @@ class EncryptCookies extends Middleware
         'panel_lang',
 
         // website engine
-        'fresns_uuid',
+        'fresns_ulid',
         'fresns_lang_tag',
         'fresns_aid',
         'fresns_aid_token',
@@ -30,7 +30,7 @@ class EncryptCookies extends Middleware
         'fresns_uid_token',
 
         // website single engine
-        'fresns_single_uuid',
+        'fresns_single_ulid',
         'fresns_single_lang_tag',
         'fresns_single_aid',
         'fresns_single_aid_token',

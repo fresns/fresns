@@ -19,7 +19,7 @@ class CommonCallbacksDTO extends DTO
     {
         return [
             'unikey' => ['string', 'required'],
-            'uuid' => ['uuid', 'required'],
+            'ulid' => ['ulid', 'required'],
         ];
     }
 }

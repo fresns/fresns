@@ -26,7 +26,7 @@ class AppHelper
     // fresns test helper
     public static function fresnsTestHelper()
     {
-        $fresnsTest = time();
+        $fresnsTest = Str::ulid();
 
         return $fresnsTest;
     }
