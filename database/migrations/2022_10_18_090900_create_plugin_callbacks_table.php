@@ -24,7 +24,7 @@ class CreatePluginCallbacksTable extends Migration
             $table->string('plugin_unikey', 64);
             $table->unsignedBigInteger('account_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('uuid', 64)->unique('uuid');
+            $table->string('ulid', 64)->unique('ulid');
             $table->unsignedSmallInteger('type')->default(1);
             $table->json('content');
             $table->unsignedTinyInteger('is_use')->default(0);
