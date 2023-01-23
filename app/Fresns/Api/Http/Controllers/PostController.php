@@ -64,11 +64,15 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $postQuery = Post::with(['hashtags'])->isEnable();
+        $postQuery = Post::with(['hashtags']);
 
         $blockGroupIds = InteractionUtility::getPrivateGroupIdArr();
 
         if ($authUserId) {
+            $postQuery->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enable', 0)->where('user_id', $authUserId);
+            });
+
             $blockPostIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_POST, $authUserId);
             $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
             $blockGroupIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_GROUP, $authUserId);
@@ -89,6 +93,8 @@ class PostController extends Controller
                     });
                 });
             }
+        } else {
+            $postQuery->where('is_enable', 1);
         }
 
         $postQuery->when($blockGroupIds, function ($query, $value) {
@@ -292,7 +298,7 @@ class PostController extends Controller
             throw new ApiException(37300);
         }
 
-        if ($post->is_enable == 0) {
+        if ($post->is_enable == 0 && $post->user_id != $authUserId) {
             throw new ApiException(37301);
         }
 
@@ -338,7 +344,13 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $post = Post::where('pid', $pid)->isEnable()->first();
+        if ($authUserId) {
+            $post = Post::where('pid', $pid)->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enable', 0)->where('user_id', $authUserId);
+            })->first();
+        } else {
+            $post = Post::where('pid', $pid)->isEnable()->first();
+        }
 
         if (empty($post)) {
             throw new ApiException(37300);
@@ -364,7 +376,13 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $post = Post::where('pid', $pid)->isEnable()->first();
+        if ($authUserId) {
+            $post = Post::where('pid', $pid)->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enable', 0)->where('user_id', $authUserId);
+            })->first();
+        } else {
+            $post = Post::where('pid', $pid)->isEnable()->first();
+        }
 
         if (empty($post)) {
             throw new ApiException(37300);
@@ -391,7 +409,13 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $post = Post::where('pid', $pid)->isEnable()->first();
+        if ($authUserId) {
+            $post = Post::where('pid', $pid)->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enable', 0)->where('user_id', $authUserId);
+            })->first();
+        } else {
+            $post = Post::where('pid', $pid)->isEnable()->first();
+        }
 
         if (empty($post)) {
             throw new ApiException(37300);
@@ -417,7 +441,13 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $post = Post::where('pid', $pid)->isEnable()->first();
+        if ($authUserId) {
+            $post = Post::where('pid', $pid)->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enable', 0)->where('user_id', $authUserId);
+            })->first();
+        } else {
+            $post = Post::where('pid', $pid)->isEnable()->first();
+        }
 
         if (empty($post)) {
             throw new ApiException(37300);

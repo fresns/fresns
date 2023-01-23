@@ -28,16 +28,27 @@ class FollowService
         $blockHashtagIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_HASHTAG, $authUserId);
 
         // follow user post
-        $userPostQuery = Post::with(['hashtags'])->whereIn('user_id', $followUserIds)->where('is_anonymous', 0)->isEnable()->latest();
+        $userPostQuery = Post::with(['hashtags'])->whereIn('user_id', $followUserIds)->where('is_anonymous', 0);
         // follow group post
-        $groupPostQuery = Post::with(['hashtags'])->whereIn('group_id', $followGroupIds)->where('digest_state', 2)->isEnable()->latest();
+        $groupPostQuery = Post::with(['hashtags'])->whereIn('group_id', $followGroupIds)->where('digest_state', 2);
         // follow hashtag post
-        $hashtagPostQuery = Post::with(['hashtags'])->where('digest_state', 2)->isEnable()->latest();
+        $hashtagPostQuery = Post::with(['hashtags'])->where('digest_state', 2);
         $hashtagPostQuery->whereHas('hashtags', function ($query) use ($followHashtagIds) {
             $query->whereIn('hashtags.id', $followHashtagIds);
         });
         // digest post query
-        $digestPostQuery = Post::with(['hashtags'])->where('digest_state', 3)->latest();
+        $digestPostQuery = Post::with(['hashtags'])->where('digest_state', 3);
+
+        // is enable
+        $userPostQuery->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enable', 0)->where('user_id', $authUserId);
+        });
+        $groupPostQuery->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enable', 0)->where('user_id', $authUserId);
+        });
+        $hashtagPostQuery->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enable', 0)->where('user_id', $authUserId);
+        });
 
         // block post
         if ($blockPostIds) {
@@ -137,7 +148,12 @@ class FollowService
         $blockGroupIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_GROUP, $authUserId);
         $blockHashtagIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_HASHTAG, $authUserId);
 
-        $postQuery = Post::with(['hashtags'])->whereIn('user_id', $followUserIds)->where('is_anonymous', 0)->isEnable()->latest();
+        $postQuery = Post::with(['hashtags'])->whereIn('user_id', $followUserIds)->where('is_anonymous', 0)->latest();
+
+        // is enable
+        $postQuery->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enable', 0)->where('user_id', $authUserId);
+        });
 
         // block post
         $postQuery->when($blockPostIds, function ($query, $value) {
@@ -194,7 +210,12 @@ class FollowService
         $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
         $blockHashtagIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_HASHTAG, $authUserId);
 
-        $postQuery = Post::with(['hashtags'])->whereIn('group_id', $followGroupIds)->isEnable()->latest();
+        $postQuery = Post::with(['hashtags'])->whereIn('group_id', $followGroupIds)->latest();
+
+        // is enable
+        $postQuery->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enable', 0)->where('user_id', $authUserId);
+        });
 
         // block post
         $postQuery->when($blockPostIds, function ($query, $value) {
@@ -251,7 +272,12 @@ class FollowService
         $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
         $blockGroupIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_GROUP, $authUserId);
 
-        $postQuery = Post::with(['hashtags'])->isEnable()->latest();
+        $postQuery = Post::with(['hashtags'])->latest();
+
+        // is enable
+        $postQuery->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enable', 0)->where('user_id', $authUserId);
+        });
 
         // follow hashtags
         $postQuery->whereHas('hashtags', function ($query) use ($followHashtagIds) {
@@ -314,19 +340,30 @@ class FollowService
         $blockHashtagIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_HASHTAG, $authUserId);
 
         // follow user post
-        $userCommentQuery = Comment::with(['post', 'hashtags'])->whereIn('user_id', $followUserIds)->where('is_anonymous', 0)->isEnable()->latest();
+        $userCommentQuery = Comment::with(['post', 'hashtags'])->whereIn('user_id', $followUserIds)->where('is_anonymous', 0);
         // follow group post
-        $groupCommentQuery = Comment::with(['post', 'hashtags'])->where('digest_state', 2)->isEnable()->latest();
+        $groupCommentQuery = Comment::with(['post', 'hashtags'])->where('digest_state', 2);
         $groupCommentQuery->whereHas('post', function ($query) use ($followGroupIds) {
             $query->whereIn('group_id', $followGroupIds);
         });
         // follow hashtag post
-        $hashtagCommentQuery = Comment::with(['post', 'hashtags'])->where('digest_state', 2)->isEnable()->latest();
+        $hashtagCommentQuery = Comment::with(['post', 'hashtags'])->where('digest_state', 2);
         $hashtagCommentQuery->whereHas('hashtags', function ($query) use ($followHashtagIds) {
             $query->whereIn('hashtags.id', $followHashtagIds);
         });
         // digest post query
-        $digestCommentQuery = Comment::with(['post', 'hashtags'])->where('digest_state', 3)->latest();
+        $digestCommentQuery = Comment::with(['post', 'hashtags'])->where('digest_state', 3);
+
+        // is enable
+        $userCommentQuery->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enable', 0)->where('user_id', $authUserId);
+        });
+        $groupCommentQuery->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enable', 0)->where('user_id', $authUserId);
+        });
+        $hashtagCommentQuery->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enable', 0)->where('user_id', $authUserId);
+        });
 
         // block comment
         if ($blockCommentIds) {
@@ -446,7 +483,12 @@ class FollowService
         $blockGroupIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_GROUP, $authUserId);
         $blockHashtagIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_HASHTAG, $authUserId);
 
-        $commentQuery = Comment::with(['post', 'hashtags'])->whereIn('user_id', $followUserIds)->where('is_anonymous', 0)->isEnable()->latest();
+        $commentQuery = Comment::with(['post', 'hashtags'])->whereIn('user_id', $followUserIds)->where('is_anonymous', 0)->latest();
+
+        // is enable
+        $commentQuery->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enable', 0)->where('user_id', $authUserId);
+        });
 
         // block comment
         $commentQuery->when($blockCommentIds, function ($query, $value) {
@@ -511,7 +553,12 @@ class FollowService
         $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
         $blockHashtagIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_HASHTAG, $authUserId);
 
-        $commentQuery = Comment::with(['post', 'hashtags'])->where('top_parent_id', 0)->isEnable()->latest();
+        $commentQuery = Comment::with(['post', 'hashtags'])->where('top_parent_id', 0)->latest();
+
+        // is enable
+        $commentQuery->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enable', 0)->where('user_id', $authUserId);
+        });
 
         $commentQuery->when($followGroupIds, function ($query, $value) {
             $query->whereHas('post', function ($query) use ($value) {
@@ -580,7 +627,12 @@ class FollowService
         $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
         $blockGroupIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_GROUP, $authUserId);
 
-        $commentQuery = Comment::with(['post', 'hashtags'])->where('top_parent_id', 0)->isEnable()->latest();
+        $commentQuery = Comment::with(['post', 'hashtags'])->where('top_parent_id', 0)->latest();
+
+        // is enable
+        $commentQuery->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enable', 0)->where('user_id', $authUserId);
+        });
 
         $commentQuery->whereHas('hashtags', function ($query) use ($followHashtagIds) {
             $query->whereIn('hashtag_id', $followHashtagIds);

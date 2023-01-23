@@ -44,11 +44,15 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $commentQuery = Comment::with(['post', 'hashtags'])->isEnable();
+        $commentQuery = Comment::with(['post', 'hashtags']);
 
         $blockGroupIds = InteractionUtility::getPrivateGroupIdArr();
 
         if ($authUserId) {
+            $commentQuery->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enable', 0)->where('user_id', $authUserId);
+            });
+
             $blockPostIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_POST, $authUserId);
             $blockCommentIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_COMMENT, $authUserId);
             $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
@@ -76,6 +80,8 @@ class CommentController extends Controller
                     });
                 });
             }
+        } else {
+            $commentQuery->where('is_enable', 1);
         }
 
         $commentQuery->when($blockGroupIds, function ($query, $value) {
@@ -339,7 +345,7 @@ class CommentController extends Controller
             throw new ApiException(37400);
         }
 
-        if ($comment->is_enable == 0) {
+        if ($comment->is_enable == 0 && $comment->user_id != $authUserId) {
             throw new ApiException(37401);
         }
 
@@ -366,7 +372,13 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $comment = Comment::where('cid', $cid)->isEnable()->first();
+        if ($authUserId) {
+            $comment = Comment::where('cid', $cid)->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enable', 0)->where('user_id', $authUserId);
+            })->first();
+        } else {
+            $comment = Comment::where('cid', $cid)->isEnable()->first();
+        }
 
         if (empty($comment)) {
             throw new ApiException(37400);
@@ -396,7 +408,13 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $comment = Comment::where('cid', $cid)->isEnable()->first();
+        if ($authUserId) {
+            $comment = Comment::where('cid', $cid)->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enable', 0)->where('user_id', $authUserId);
+            })->first();
+        } else {
+            $comment = Comment::where('cid', $cid)->isEnable()->first();
+        }
 
         if (empty($comment)) {
             throw new ApiException(37400);
@@ -422,7 +440,13 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $comment = Comment::where('cid', $cid)->isEnable()->first();
+        if ($authUserId) {
+            $comment = Comment::where('cid', $cid)->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
+                $query->where('is_enable', 0)->where('user_id', $authUserId);
+            })->first();
+        } else {
+            $comment = Comment::where('cid', $cid)->isEnable()->first();
+        }
 
         if (empty($comment)) {
             throw new ApiException(37400);
