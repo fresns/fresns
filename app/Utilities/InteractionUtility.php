@@ -1070,7 +1070,7 @@ class InteractionUtility
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
         if ($isKnownEmpty) {
-            return null;
+            return [];
         }
 
         // get cache
@@ -1114,7 +1114,7 @@ class InteractionUtility
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
         if ($isKnownEmpty) {
-            return null;
+            return [];
         }
 
         // get cache
