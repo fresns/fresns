@@ -266,10 +266,13 @@ class ContentUtility
             'website_user_detail_path',
         ]);
 
-        $usernameList = ContentUtility::extractMention($content);
-
-        $userArr = User::whereIn('username', $usernameList)->get();
         $mentionArr = Mention::where('mention_type', $mentionType)->where('mention_id', $mentionId)->get();
+        if ($mentionArr->isEmpty()) {
+            return $content;
+        }
+
+        $usernameList = ContentUtility::extractMention($content);
+        $userArr = User::whereIn('username', $usernameList)->get();
 
         $linkList = [];
         $replaceList = [];
