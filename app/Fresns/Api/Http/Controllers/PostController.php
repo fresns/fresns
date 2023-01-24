@@ -69,10 +69,6 @@ class PostController extends Controller
         $blockGroupIds = InteractionUtility::getPrivateGroupIdArr();
 
         if ($authUserId) {
-            $postQuery->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
-                $query->where('is_enable', 0)->where('user_id', $authUserId);
-            });
-
             $blockPostIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_POST, $authUserId);
             $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
             $blockGroupIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_GROUP, $authUserId);
@@ -93,12 +89,20 @@ class PostController extends Controller
                     });
                 });
             }
-        } else {
-            $postQuery->where('is_enable', 1);
         }
 
         $postQuery->when($blockGroupIds, function ($query, $value) {
             $query->whereNotIn('group_id', $value);
+        });
+
+        // is enable
+        $postQuery->where(function ($query) use ($authUserId) {
+            $query->where('is_enable', 1);
+            if ($authUserId) {
+                $query->orWhere(function ($query) use ($authUserId) {
+                    $query->where('is_enable', 0)->where('user_id', $authUserId);
+                });
+            }
         });
 
         if ($dtoRequest->uidOrUsername) {
@@ -344,16 +348,14 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        if ($authUserId) {
-            $post = Post::where('pid', $pid)->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
-                $query->where('is_enable', 0)->where('user_id', $authUserId);
-            })->first();
-        } else {
-            $post = Post::where('pid', $pid)->isEnable()->first();
-        }
+        $post = Post::where('pid', $pid)->first();
 
         if (empty($post)) {
             throw new ApiException(37300);
+        }
+
+        if ($post->is_enable == 0 && $post->user_id != $authUserId) {
+            throw new ApiException(37301);
         }
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
@@ -376,16 +378,14 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        if ($authUserId) {
-            $post = Post::where('pid', $pid)->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
-                $query->where('is_enable', 0)->where('user_id', $authUserId);
-            })->first();
-        } else {
-            $post = Post::where('pid', $pid)->isEnable()->first();
-        }
+        $post = Post::where('pid', $pid)->first();
 
         if (empty($post)) {
             throw new ApiException(37300);
+        }
+
+        if ($post->is_enable == 0 && $post->user_id != $authUserId) {
+            throw new ApiException(37301);
         }
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
@@ -409,16 +409,14 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        if ($authUserId) {
-            $post = Post::where('pid', $pid)->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
-                $query->where('is_enable', 0)->where('user_id', $authUserId);
-            })->first();
-        } else {
-            $post = Post::where('pid', $pid)->isEnable()->first();
-        }
+        $post = Post::where('pid', $pid)->first();
 
         if (empty($post)) {
             throw new ApiException(37300);
+        }
+
+        if ($post->is_enable == 0 && $post->user_id != $authUserId) {
+            throw new ApiException(37301);
         }
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
@@ -441,16 +439,14 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        if ($authUserId) {
-            $post = Post::where('pid', $pid)->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
-                $query->where('is_enable', 0)->where('user_id', $authUserId);
-            })->first();
-        } else {
-            $post = Post::where('pid', $pid)->isEnable()->first();
-        }
+        $post = Post::where('pid', $pid)->first();
 
         if (empty($post)) {
             throw new ApiException(37300);
+        }
+
+        if ($post->is_enable == 0 && $post->user_id != $authUserId) {
+            throw new ApiException(37301);
         }
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);

@@ -49,10 +49,6 @@ class CommentController extends Controller
         $blockGroupIds = InteractionUtility::getPrivateGroupIdArr();
 
         if ($authUserId) {
-            $commentQuery->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
-                $query->where('is_enable', 0)->where('user_id', $authUserId);
-            });
-
             $blockPostIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_POST, $authUserId);
             $blockCommentIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_COMMENT, $authUserId);
             $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
@@ -80,9 +76,17 @@ class CommentController extends Controller
                     });
                 });
             }
-        } else {
-            $commentQuery->where('is_enable', 1);
         }
+
+        // is enable
+        $commentQuery->where(function ($query) use ($authUserId) {
+            $query->where('is_enable', 1);
+            if ($authUserId) {
+                $query->orWhere(function ($query) use ($authUserId) {
+                    $query->where('is_enable', 0)->where('user_id', $authUserId);
+                });
+            }
+        });
 
         $commentQuery->when($blockGroupIds, function ($query, $value) {
             $query->whereHas('post', function ($query) use ($value) {
@@ -122,7 +126,7 @@ class CommentController extends Controller
                 throw new ApiException(37300);
             }
 
-            if ($viewPost->is_enable == 0) {
+            if ($viewPost->is_enable == 0 && $viewPost->user_id != $authUserId) {
                 throw new ApiException(37301);
             }
 
@@ -372,16 +376,14 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        if ($authUserId) {
-            $comment = Comment::where('cid', $cid)->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
-                $query->where('is_enable', 0)->where('user_id', $authUserId);
-            })->first();
-        } else {
-            $comment = Comment::where('cid', $cid)->isEnable()->first();
-        }
+        $comment = Comment::where('cid', $cid)->first();
 
         if (empty($comment)) {
             throw new ApiException(37400);
+        }
+
+        if ($comment->is_enable == 0 && $comment->user_id != $authUserId) {
+            throw new ApiException(37401);
         }
 
         UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
@@ -408,16 +410,14 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        if ($authUserId) {
-            $comment = Comment::where('cid', $cid)->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
-                $query->where('is_enable', 0)->where('user_id', $authUserId);
-            })->first();
-        } else {
-            $comment = Comment::where('cid', $cid)->isEnable()->first();
-        }
+        $comment = Comment::where('cid', $cid)->first();
 
         if (empty($comment)) {
             throw new ApiException(37400);
+        }
+
+        if ($comment->is_enable == 0 && $comment->user_id != $authUserId) {
+            throw new ApiException(37401);
         }
 
         UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
@@ -440,16 +440,14 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        if ($authUserId) {
-            $comment = Comment::where('cid', $cid)->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
-                $query->where('is_enable', 0)->where('user_id', $authUserId);
-            })->first();
-        } else {
-            $comment = Comment::where('cid', $cid)->isEnable()->first();
-        }
+        $comment = Comment::where('cid', $cid)->first();
 
         if (empty($comment)) {
             throw new ApiException(37400);
+        }
+
+        if ($comment->is_enable == 0 && $comment->user_id != $authUserId) {
+            throw new ApiException(37401);
         }
 
         UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
