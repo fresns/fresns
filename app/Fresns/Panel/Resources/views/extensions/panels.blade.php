@@ -44,10 +44,10 @@
                     <tr>
                         <td class="py-3">
                             <img src="/assets/plugins/{{ $panel->unikey }}/fresns.png" class="me-2" width="44" height="44">
-                            <span class="fs-6">{{ $panel->name }}</span>
+                            <span class="fs-6"><a href="{{ $marketUrl.'/detail/'.$panel->unikey }}" target="_blank" class="link-dark fresns-link">{{ $panel->name }}</a></span>
                             <span class="badge bg-secondary fs-9">{{ $panel->version }}</span>
                             @if ($panel->is_upgrade)
-                                <a href="{{ route('panel.upgrades') }}" class="badge rounded-pill bg-danger fs-9 fresns-link">{{ __('FsLang::panel.new_version') }}</a>
+                                <a href="{{ route('panel.upgrades') }}" class="badge rounded-pill bg-danger link-light fs-9 fresns-link">{{ __('FsLang::panel.new_version') }}</a>
                             @endif
                         </td>
                         <td>{{ $panel->description }}</td>

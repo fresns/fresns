@@ -90,9 +90,7 @@ class ExtensionController extends Controller
         $themeName['desktop'] = Plugin::where('unikey', $themeUnikey['desktop'])->value('name');
         $themeName['mobile'] = Plugin::where('unikey', $themeUnikey['mobile'])->value('name');
 
-        return view('FsView::extensions.engines', compact(
-            'engines', 'configs', 'themes', 'plugins', 'FresnsEngine', 'themeUnikey', 'themeName'
-        ));
+        return view('FsView::extensions.engines', compact('engines', 'configs', 'themes', 'plugins', 'FresnsEngine', 'themeUnikey', 'themeName'));
     }
 
     public function updateDefaultEngine(Request $request)
@@ -158,13 +156,6 @@ class ExtensionController extends Controller
         $themes = Plugin::type(4)->get();
 
         return view('FsView::extensions.themes', compact('themes'));
-    }
-
-    public function appIndex()
-    {
-        $apps = Plugin::type(2)->get();
-
-        return view('FsView::extensions.apps', compact('apps'));
     }
 
     public function install(Request $request)
@@ -290,20 +281,6 @@ class ExtensionController extends Controller
         return $this->updateSuccess();
     }
 
-    public function updateCode(Request $request)
-    {
-        $plugin = Plugin::where('unikey', $request->input('pluginUnikey'))->first();
-
-        if (! empty($plugin)) {
-            $plugin->upgrade_code = $request->upgradeCode;
-            $plugin->save();
-
-            return $this->updateSuccess();
-        }
-
-        return back()->with('failure', __('FsLang::tips.plugin_not_exists'));
-    }
-
     public function uninstall(Request $request)
     {
         if ($request->get('clearData') == 1) {
@@ -355,5 +332,19 @@ class ExtensionController extends Controller
         }
 
         return response()->json(['message' => Artisan::output().$message], 200);
+    }
+
+    public function updateCode(Request $request)
+    {
+        $plugin = Plugin::where('unikey', $request->input('pluginUnikey'))->first();
+
+        if (! empty($plugin)) {
+            $plugin->upgrade_code = $request->upgradeCode;
+            $plugin->save();
+
+            return $this->updateSuccess();
+        }
+
+        return back()->with('failure', __('FsLang::tips.plugin_not_exists'));
     }
 }

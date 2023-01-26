@@ -10,6 +10,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\AppHelper;
 use App\Models\Config;
+use App\Utilities\AppUtility;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -44,8 +45,9 @@ class Controller extends BaseController
         $languageStatus = $configs->where('item_key', 'language_status')->first()?->item_value ?? false;
         $languageMenus = $configs->where('item_key', 'language_menus')->first()?->item_value ?? [];
         $areaCodes = $configs->where('item_key', 'area_codes')->first()?->item_value ?? [];
-        $siteUrl = $configs->where('item_key', 'site_url')->first()?->item_value ?? '/';
         $checkVersionDatetime = $configs->where('item_key', 'check_version_datetime')->first()?->item_value ?? now();
+        $siteUrl = $configs->where('item_key', 'site_url')->first()?->item_value ?? '/';
+        $marketUrl = AppUtility::getApiHost().'/open-source';
 
         try {
             // default language
@@ -63,18 +65,19 @@ class Controller extends BaseController
             // area codes
             View::share('areaCodes', collect($areaCodes));
 
-            // site home url
-            View::share('siteUrl', $siteUrl);
-
             // Check Extensions Version
             if (Carbon::parse($checkVersionDatetime)->diffInMinutes(now()) > 10) {
                 \FresnsCmdWord::plugin('Fresns')->checkExtensionsVersion();
             }
-
-            // md5 16bit
-            View::share('versionMd5', AppHelper::VERSION_MD5_16BIT);
         } catch (\Exception $e) {
         }
+
+        // url
+        View::share('siteUrl', $siteUrl);
+        View::share('marketUrl', $marketUrl);
+
+        // md5 16bit
+        View::share('versionMd5', AppHelper::VERSION_MD5_16BIT);
     }
 
     public function requestSuccess()
