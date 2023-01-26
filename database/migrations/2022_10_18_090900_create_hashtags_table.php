@@ -21,7 +21,7 @@ class CreateHashtagsTable extends Migration
     {
         Schema::create('hashtags', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 64)->unique('name');
+            $table->string('name', 64);
             $table->string('slug')->unique('slug');
             $table->string('description')->nullable();
             $table->unsignedBigInteger('cover_file_id')->nullable();
