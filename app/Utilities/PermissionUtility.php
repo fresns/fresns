@@ -449,7 +449,7 @@ class PermissionUtility
 
         $user = PrimaryHelper::fresnsModelById('user', $post->user_id);
 
-        if ($user->comment_limit != 1) {
+        if ($userId != $post->user_id && $user->comment_limit != 1) {
             if ($user->comment_limit == 4) {
                 $commentPerm['code'] = 38211;
 
