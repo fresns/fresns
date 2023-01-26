@@ -10,6 +10,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\AppHelper;
 use App\Models\Config;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -28,37 +29,49 @@ class Controller extends BaseController
     {
         View::share('langs', config('FsConfig.langs'));
 
+        $configKeys = [
+            'default_language',
+            'language_status',
+            'language_menus',
+            'area_codes',
+            'site_url',
+            'check_version_datetime',
+        ];
+
+        $configs = Config::whereIn('item_key', $configKeys)->get();
+
+        $defaultLanguage = $configs->where('item_key', 'default_language')->first()?->item_value ?? config('app.locale');
+        $languageStatus = $configs->where('item_key', 'language_status')->first()?->item_value ?? false;
+        $languageMenus = $configs->where('item_key', 'language_menus')->first()?->item_value ?? [];
+        $areaCodes = $configs->where('item_key', 'area_codes')->first()?->item_value ?? [];
+        $siteUrl = $configs->where('item_key', 'site_url')->first()?->item_value ?? '/';
+        $checkVersionDatetime = $configs->where('item_key', 'check_version_datetime')->first()?->item_value ?? now();
+
         try {
             // default language
-            $defaultLanguageConfig = Config::where('item_key', 'default_language')->first();
-
-            $defaultLanguage = $defaultLanguageConfig ? $defaultLanguageConfig->item_value : config('app.locale');
             $this->defaultLanguage = $defaultLanguage;
             View::share('defaultLanguage', $defaultLanguage);
 
-            // Available languages
-            $status = Config::where('item_key', 'language_status')->first();
-
-            $languageConfig = Config::where('item_key', 'language_menus')->first();
-            $optionalLanguages = $languageConfig ? $languageConfig->item_value : [];
-
-            if (! $status || ! $status->item_value) {
-                $optionalLanguages = collect($optionalLanguages)->where('langTag', $defaultLanguage)->all();
+            // language menus
+            $optionalLanguages = $languageMenus;
+            if (! $languageStatus) {
+                $optionalLanguages = collect($languageMenus)->where('langTag', $defaultLanguage)->all();
             }
             $this->optionalLanguages = $optionalLanguages;
-
             View::share('optionalLanguages', collect($optionalLanguages));
 
-            $areaCodeConfig = Config::where('item_key', 'area_codes')->first();
-            $areaCodes = $areaCodeConfig ? $areaCodeConfig->item_value : [];
+            // area codes
             View::share('areaCodes', collect($areaCodes));
 
             // site home url
-            $siteUrlConfig = Config::where('item_key', 'site_url')->first();
-            $siteUrl = $siteUrlConfig->item_value ?? '/';
-
             View::share('siteUrl', $siteUrl);
 
+            // Check Extensions Version
+            if (Carbon::parse($checkVersionDatetime)->diffInMinutes(now()) > 10) {
+                \FresnsCmdWord::plugin('Fresns')->checkExtensionsVersion();
+            }
+
+            // md5 16bit
             View::share('versionMd5', AppHelper::VERSION_MD5_16BIT);
         } catch (\Exception $e) {
         }
