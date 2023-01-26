@@ -156,8 +156,13 @@ class ContentUtility
     // Replace hashtag
     public static function replaceHashtag(string $content): string
     {
-        $hashtagList = ContentUtility::extractAllHashtag($content);
-        $hashtagDataList = Hashtag::whereIn('name', $hashtagList)->get();
+        $hashtagArr = ContentUtility::extractAllHashtag($content);
+        $slugArr = [];
+        foreach ($hashtagArr as $hashtag) {
+            $slugArr[] = StrHelper::slug($hashtag);
+        }
+
+        $hashtagDataList = Hashtag::whereIn('slug', $slugArr)->get();
 
         $config = ConfigHelper::fresnsConfigByItemKeys([
             'hashtag_show',
@@ -167,8 +172,8 @@ class ContentUtility
 
         $replaceList = [];
         $linkList = [];
-        foreach ($hashtagList as $hashtagName) {
-            $hashtagData = $hashtagDataList->where('name', $hashtagName)->first();
+        foreach ($hashtagArr as $hashtagName) {
+            $hashtagData = $hashtagDataList->where('slug', StrHelper::slug($hashtagName))->first();
             if (empty($hashtagData) || ! $hashtagData->is_enable) {
                 continue;
             }
@@ -375,17 +380,25 @@ class ContentUtility
     {
         $hashtagArr = ContentUtility::extractConfigHashtag($content);
 
+        if (empty($hashtagArr)) {
+            return;
+        }
+
         // add hashtag data
         foreach ($hashtagArr as $hashtag) {
             Hashtag::firstOrCreate([
-                'name' => $hashtag,
-            ], [
                 'slug' => StrHelper::slug($hashtag),
+            ], [
+                'name' => $hashtag,
             ]);
         }
 
         // add hashtag use
-        $hashtagIdArr = Hashtag::whereIn('name', $hashtagArr)->pluck('id')->toArray();
+        $slugArr = [];
+        foreach ($hashtagArr as $hashtag) {
+            $slugArr[] = StrHelper::slug($hashtag);
+        }
+        $hashtagIdArr = Hashtag::whereIn('slug', $slugArr)->pluck('id')->toArray();
 
         foreach ($hashtagIdArr as $hashtagId) {
             $hashtagUseDataItem = [
