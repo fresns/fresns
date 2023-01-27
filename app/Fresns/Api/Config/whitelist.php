@@ -56,17 +56,6 @@ return [
         'api.comment.log.detail',
     ],
 
-    // No login for private mode account
-    'privateAccount' => [
-        'api.global.configs',
-        'api.global.code.messages',
-        'api.common.callback',
-        'api.common.send.verifyCode',
-        'api.common.upload.log',
-        'api.account.login',
-        'api.account.reset.password',
-    ],
-
     // No login for public mode user
     'publicUser' => [
         'api.global.configs',
@@ -123,6 +112,17 @@ return [
         'api.comment.log.detail',
     ],
 
+    // No login for private mode account
+    'privateAccount' => [
+        'api.global.configs',
+        'api.global.code.messages',
+        'api.common.callback',
+        'api.common.send.verifyCode',
+        'api.common.upload.log',
+        'api.account.login',
+        'api.account.reset.password',
+    ],
+
     // No login for private mode user
     'privateUser' => [
         'api.global.configs',
@@ -140,27 +140,5 @@ return [
         'api.account.apply.delete',
         'api.account.revoke.delete',
         'api.user.auth',
-    ],
-
-    // Private mode inaccessible routes
-    'privateRoutes' => [
-        'api.common.upload.file',
-        'api.common.file.link',
-        'api.user.edit',
-        'api.user.mark',
-        'api.user.mark.note',
-        'api.notification.delete',
-        'api.conversation.send.message',
-        'api.conversation.delete',
-        'api.post.delete',
-        'api.comment.delete',
-        'api.editor.quick.publish',
-        'api.editor.create',
-        'api.editor.generate',
-        'api.editor.detail',
-        'api.editor.update',
-        'api.editor.publish',
-        'api.editor.recall',
-        'api.editor.delete',
     ],
 ];

@@ -18,13 +18,13 @@ use App\Fresns\Api\Http\Controllers\NotificationController;
 use App\Fresns\Api\Http\Controllers\PostController;
 use App\Fresns\Api\Http\Controllers\SearchController;
 use App\Fresns\Api\Http\Controllers\UserController;
-use App\Fresns\Api\Http\Middleware\CheckHeader;
+use App\Fresns\Api\Http\Middleware\CheckHeaderByWhitelist;
 use App\Fresns\Api\Http\Middleware\CheckSiteModel;
 use App\Fresns\Subscribe\Middleware\UserActivate;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v2')->middleware([
-    CheckHeader::class,
+    CheckHeaderByWhitelist::class,
     CheckSiteModel::class,
     UserActivate::class,
 ])->group(function () {

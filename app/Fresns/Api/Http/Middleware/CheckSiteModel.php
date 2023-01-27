@@ -47,7 +47,7 @@ class CheckSiteModel
         }
 
         $currentRouteName = \request()->route()->getName();
-        $blacklist = config('FsApiWhitelist.privateRoute');
+        $blacklist = config('FsApiBlacklist.disableRoutes');
 
         // check blacklist
         if (in_array($currentRouteName, $blacklist)) {

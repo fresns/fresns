@@ -20,6 +20,8 @@ class ApiServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
+
+        $this->mergeConfigFrom(__DIR__.'/../Config/blacklist.php', 'FsApiBlacklist');
         $this->mergeConfigFrom(__DIR__.'/../Config/whitelist.php', 'FsApiWhitelist');
     }
 }

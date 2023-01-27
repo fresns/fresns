@@ -14,7 +14,7 @@ use App\Helpers\ConfigHelper;
 use Closure;
 use Illuminate\Http\Request;
 
-class CheckHeader
+class CheckHeaderByBlacklist
 {
     public function handle(Request $request, Closure $next)
     {
@@ -47,53 +47,45 @@ class CheckHeader
         $siteMode = ConfigHelper::fresnsConfigByItemKey('site_mode');
         $currentRouteName = \request()->route()->getName();
 
-        // account login
-        $accountLogin = false;
-        if ($headers['aid']) {
-            $accountLogin = true;
-        }
-
-        // user login
-        $userLogin = false;
-        if ($headers['uid']) {
-            $userLogin = true;
-        }
-
-        // account whitelist
-        $accountWhitelist = match ($siteMode) {
-            default => null,
-            'public' => config('FsApiWhitelist.publicAccount'),
-            'private' => config('FsApiWhitelist.privateAccount'),
-        };
-
-        // user whitelist
-        $userWhitelist = match ($siteMode) {
-            default => null,
-            'public' => config('FsApiWhitelist.publicUser'),
-            'private' => config('FsApiWhitelist.privateUser'),
-        };
-
-        // check whitelist
-        if (! $accountWhitelist || ! $userWhitelist) {
-            throw new ApiException(33102);
-        }
-
-        // check account whitelist
-        if (! $accountLogin && in_array($currentRouteName, $accountWhitelist)) {
-            return $next($request);
-        }
-
-        // check user whitelist
-        if (! $userLogin && in_array($currentRouteName, $userWhitelist)) {
-            return $next($request);
-        }
+        // account and user login
+        $accountLogin = $headers['aid'] ? true : false;
+        $userLogin = $headers['uid'] ? true : false;
 
         // account and user login
         if ($accountLogin && $userLogin) {
             return $next($request);
         }
 
+        // account blacklist
+        $accountBlacklist = match ($siteMode) {
+            'public' => config('FsApiBlacklist.publicAccount'),
+            'private' => config('FsApiBlacklist.privateAccount'),
+            default => [],
+        };
+
+        // user blacklist
+        $userBlacklist = match ($siteMode) {
+            'public' => config('FsApiBlacklist.publicUser'),
+            'private' => config('FsApiBlacklist.privateUser'),
+            default => [],
+        };
+
+        // check blacklist
+        if (empty($accountBlacklist) || empty($userBlacklist)) {
+            throw new ApiException(33102);
+        }
+
+        // check account blacklist
+        if (in_array($currentRouteName, $accountBlacklist) && ! $accountLogin) {
+            throw new ApiException(31501);
+        }
+
+        // check user blacklist
+        if (in_array($currentRouteName, $userBlacklist) && ! $userLogin) {
+            throw new ApiException(31601);
+        }
+
         // not login
-        throw new ApiException(31501);
+        return $next($request);
     }
 }
