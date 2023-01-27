@@ -33,7 +33,7 @@ class ExtensionController extends Controller
             $plugins->isEnable($isEnable);
         }
 
-        $plugins = $plugins->get();
+        $plugins = $plugins->latest()->get();
 
         $enableCount = Plugin::type(1)->isEnable()->count();
         $disableCount = Plugin::type(1)->isEnable(false)->count();
@@ -56,7 +56,7 @@ class ExtensionController extends Controller
             $panels->isEnable($isEnable);
         }
 
-        $panels = $panels->get();
+        $panels = $panels->latest()->get();
 
         $enableCount = Plugin::type(2)->isEnable()->count();
         $disableCount = Plugin::type(2)->where('is_enable', 0)->count();
@@ -67,7 +67,7 @@ class ExtensionController extends Controller
     public function engineIndex()
     {
         AppUtility::checkPluginsStatus(3);
-        $engines = Plugin::type(3)->get();
+        $engines = Plugin::type(3)->latest()->get();
 
         $configKeys = [];
         $engines->each(function ($engine) use (&$configKeys) {
@@ -81,7 +81,7 @@ class ExtensionController extends Controller
             return [$plugin->unikey => $plugin->name];
         })->toArray();
 
-        $themes = Plugin::type(4)->get();
+        $themes = Plugin::type(4)->latest()->get();
 
         $FresnsEngine = Config::where('item_key', 'FresnsEngine')->first()?->item_value;
         $themeUnikey['desktop'] = Config::where('item_key', 'FresnsEngine_Desktop')->value('item_value');
@@ -153,7 +153,7 @@ class ExtensionController extends Controller
 
     public function themeIndex()
     {
-        $themes = Plugin::type(4)->get();
+        $themes = Plugin::type(4)->latest()->get();
 
         return view('FsView::extensions.themes', compact('themes'));
     }
