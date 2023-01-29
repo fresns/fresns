@@ -24,7 +24,10 @@ use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PrimaryHelper;
+use App\Helpers\StrHelper;
 use App\Models\Account;
+use App\Models\Comment;
+use App\Models\CommentLog;
 use App\Models\ConversationMessage;
 use App\Models\Extend;
 use App\Models\File;
@@ -35,6 +38,7 @@ use App\Models\Language;
 use App\Models\Plugin;
 use App\Models\PluginCallback;
 use App\Models\Post;
+use App\Models\PostLog;
 use App\Models\User;
 use App\Utilities\ConfigUtility;
 use App\Utilities\PermissionUtility;
@@ -361,6 +365,9 @@ class CommonController extends Controller
     {
         $dtoRequest = new CommonUploadFileDTO($request->all());
 
+        $langTag = $this->langTag();
+        $authUser = $this->user();
+
         $fileType = match ($dtoRequest->type) {
             'image' => 1,
             'video' => 2,
@@ -368,6 +375,7 @@ class CommonController extends Controller
             'document' => 4,
         };
 
+        // check upload service
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($fileType);
 
         if (! $storageConfig['storageConfigStatus']) {
@@ -380,8 +388,94 @@ class CommonController extends Controller
             throw new ApiException(32102);
         }
 
+        // check request data
+        if (in_array($dtoRequest->tableName, [
+            'users',
+            'posts',
+            'comments',
+            'conversation_messages',
+        ]) && empty($dtoRequest->tableKey)) {
+            throw new ApiException(30001, 'Fresns', 'Missing tableKey');
+        }
+
+        if (in_array($dtoRequest->tableName, ['post_logs', 'comment_logs']) && empty($dtoRequest->tableId)) {
+            throw new ApiException(30001, 'Fresns', 'Missing tableId');
+        }
+
+        switch ($dtoRequest->tableName) {
+            case 'users':
+                if (StrHelper::isPureInt($dtoRequest->tableKey)) {
+                    $checkQuery = User::where('uid', $dtoRequest->tableKey)->first();
+                } else {
+                    $checkQuery = User::where('username', $dtoRequest->tableKey)->first();
+                }
+
+                $checkUser = ($checkQuery?->id == $authUser->id) ? true : false;
+            break;
+
+            case 'posts':
+                $checkQuery = Post::where('pid', $dtoRequest->tableKey)->first();
+
+                $checkUser = ($checkQuery?->user_id == $authUser->id) ? true : false;
+            break;
+
+            case 'comments':
+                $checkQuery = Comment::where('cid', $dtoRequest->tableKey)->first();
+
+                $checkUser = ($checkQuery?->user_id == $authUser->id) ? true : false;
+            break;
+
+            case 'conversation_messages':
+                if (StrHelper::isPureInt($dtoRequest->tableKey)) {
+                    $checkQuery = User::where('uid', $dtoRequest->tableKey)->first();
+                } else {
+                    $checkQuery = User::where('username', $dtoRequest->tableKey)->first();
+                }
+
+                $checkUser = true;
+            break;
+
+            case 'post_logs':
+                $checkQuery = PostLog::where('id', $dtoRequest->tableId)->first();
+
+                $checkUser = ($checkQuery?->user_id == $authUser->id) ? true : false;
+            break;
+
+            case 'comment_logs':
+                $checkQuery = CommentLog::where('id', $dtoRequest->tableId)->first();
+
+                $checkUser = ($checkQuery?->user_id == $authUser->id) ? true : false;
+            break;
+        }
+
+        if (empty($checkQuery)) {
+            throw new ApiException(32201);
+        }
+
+        if (! $checkUser) {
+            throw new ApiException(36500);
+        }
+
+        if ($dtoRequest->tableName == 'conversation_messages') {
+            $conversationPermInt = PermissionUtility::checkUserConversationPerm($checkQuery?->id, $authUser->id, $langTag);
+            if ($conversationPermInt != 0) {
+                throw new ApiException($conversationPermInt);
+            }
+        }
+
+        // usage type
+        $usageType = match ($dtoRequest->tableName) {
+            'users' => FileUsage::TYPE_USER,
+            'posts' => FileUsage::TYPE_POST,
+            'comments' => FileUsage::TYPE_COMMENT,
+            'conversation_messages' => FileUsage::TYPE_CONVERSATION,
+            'post_logs' => FileUsage::TYPE_POST,
+            'comment_logs' => FileUsage::TYPE_COMMENT,
+            default => null,
+        };
+
         // check publish file count
-        $publishType = match ((int) $dtoRequest->usageType) {
+        $publishType = match ($usageType) {
             FileUsage::TYPE_POST => 'post',
             FileUsage::TYPE_COMMENT => 'comment',
             default => null,
@@ -400,7 +494,7 @@ class CommonController extends Controller
             };
 
             $fileCount = FileUsage::where('file_type', $fileType)
-                ->where('usage_type', $dtoRequest->usageType)
+                ->where('usage_type', $usageType)
                 ->where('table_name', $dtoRequest->tableName)
                 ->where('table_column', $dtoRequest->tableColumn)
                 ->where('table_id', $dtoRequest->tableId)
@@ -414,7 +508,7 @@ class CommonController extends Controller
         switch ($dtoRequest->uploadMode) {
             case 'file':
                 $wordBody = [
-                    'usageType' => $dtoRequest->usageType,
+                    'usageType' => $usageType,
                     'platformId' => \request()->header('X-Fresns-Client-Platform-Id'),
                     'tableName' => $dtoRequest->tableName,
                     'tableColumn' => $dtoRequest->tableColumn,
@@ -432,7 +526,7 @@ class CommonController extends Controller
 
             case 'fileInfo':
                 $wordBody = [
-                    'usageType' => $dtoRequest->usageType,
+                    'usageType' => $usageType,
                     'platformId' => \request()->header('X-Fresns-Client-Platform-Id'),
                     'tableName' => $dtoRequest->tableName,
                     'tableColumn' => $dtoRequest->tableColumn,

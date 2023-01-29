@@ -18,8 +18,7 @@ class CommonUploadFileDTO extends DTO
     public function rules(): array
     {
         return [
-            'usageType' => ['integer', 'required', 'between:1,10'],
-            'tableName' => ['string', 'required'],
+            'tableName' => ['string', 'required', 'in:users,posts,comments,conversation_messages,post_logs,comment_logs'],
             'tableColumn' => ['string', 'required'],
             'tableId' => ['integer', 'nullable', 'required_without:tableKey'],
             'tableKey' => ['string', 'nullable', 'required_without:tableId'],
