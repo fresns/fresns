@@ -1092,6 +1092,6 @@ class EditorController extends Controller
             throw new ApiException(38200, 'Fresns', $data);
         }
 
-        return $this->success();
+        return $this->success($data);
     }
 }
