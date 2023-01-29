@@ -91,7 +91,12 @@ class UserService
         $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_USER, $user->id, $authUserId);
         $userData['interaction'] = array_merge($interactionConfig, $interactionStatus);
 
-        $userData['conversation'] = PermissionUtility::checkUserConversationPerm($user->id, $authUserId, $langTag);
+        $conversationPermInt = PermissionUtility::checkUserConversationPerm($user->id, $authUserId, $langTag);
+        $userData['conversation'] = [
+            'status' => ($conversationPermInt != 0) ? false : true,
+            'code' => $conversationPermInt,
+            'message' => ConfigUtility::getCodeMessage($conversationPermInt, 'Fresns', $langTag),
+        ];
 
         return UserService::handleUserDate($userData, $timezone, $langTag);
     }

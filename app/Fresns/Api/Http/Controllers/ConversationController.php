@@ -260,12 +260,9 @@ class ConversationController extends Controller
         }
 
         // check send
-        $checkSend = PermissionUtility::checkUserConversationPerm($receiveUser->id, $authUser->id, $langTag);
-        if (! $checkSend['status']) {
-            return $this->failure(
-                $checkSend['code'],
-                $checkSend['message'],
-            );
+        $conversationPermInt = PermissionUtility::checkUserConversationPerm($receiveUser->id, $authUser->id, $langTag);
+        if ($conversationPermInt != 0) {
+            throw new ApiException($conversationPermInt);
         }
 
         // message content

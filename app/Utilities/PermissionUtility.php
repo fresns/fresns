@@ -212,94 +212,66 @@ class PermissionUtility
     }
 
     // Check user conversation permission
-    public static function checkUserConversationPerm(int $receiveUserId, ?int $authUserId = null, ?string $langTag = null)
+    public static function checkUserConversationPerm(int $receiveUserId, ?int $authUserId = null, ?string $langTag = null): int
     {
+        // User not logged in, Unable to use
+        if (empty($authUserId)) {
+            return 31601;
+        }
+
         $conversationStatus = ConfigHelper::fresnsConfigByItemKey('conversation_status');
+
+        // Conversation function is not enabled and cannot be used
+        if (! $conversationStatus) {
+            return 36600;
+        }
+
         $receiveUser = PrimaryHelper::fresnsModelById('user', $receiveUserId);
 
-        $info['status'] = $conversationStatus;
-        $info['code'] = 0;
-        $info['message'] = 'ok';
-
-        if (empty($authUserId)) {
-            $info['status'] = false;
-            $info['code'] = 31601;
-            $info['message'] = ConfigUtility::getCodeMessage(31601, 'Fresns', $langTag);
-
-            return $info;
-        }
-
-        if (! $conversationStatus) {
-            $info['status'] = false;
-            $info['code'] = 36600;
-            $info['message'] = ConfigUtility::getCodeMessage(36600, 'Fresns', $langTag);
-
-            return $info;
-        }
-
+        // Wrong user or record not exist
         if ($receiveUser->id == $authUserId) {
-            $info['status'] = false;
-            $info['code'] = 31602;
-            $info['message'] = ConfigUtility::getCodeMessage(31602, 'Fresns', $langTag);
-
-            return $info;
+            return 31602;
         }
 
+        // The user has been logged out
         if (! is_null($receiveUser->deleted_at)) {
-            $info['status'] = false;
-            $info['code'] = 35203;
-            $info['message'] = ConfigUtility::getCodeMessage(35203, 'Fresns', $langTag);
-
-            return $info;
+            return 35203;
         }
 
+        // Current user has been banned
         if (! $receiveUser->is_enable) {
-            $info['status'] = false;
-            $info['code'] = 35202;
-            $info['message'] = ConfigUtility::getCodeMessage(35202, 'Fresns', $langTag);
-
-            return $info;
+            return 35202;
         }
 
         $authUserRolePerm = PermissionUtility::getUserMainRole($authUserId, $langTag)['permissions'];
         $conversationConfig = $authUserRolePerm['conversation'] ?? false;
 
+        // Current role has no conversation message permission
         if (! $conversationConfig) {
-            $info['status'] = false;
-            $info['code'] = 36116;
-            $info['message'] = ConfigUtility::getCodeMessage(36116, 'Fresns', $langTag);
-
-            return $info;
+            return 36116;
         }
 
         $checkBlock = InteractionUtility::checkUserBlock(InteractionUtility::TYPE_USER, $authUserId, $receiveUser->id);
-        if ($receiveUser->conversation_limit == 4 || $checkBlock) {
-            $info['status'] = false;
-            $info['code'] = 36608;
-            $info['message'] = ConfigUtility::getCodeMessage(36608, 'Fresns', $langTag);
 
-            return $info;
+        // The other party has set the conversation off function
+        if ($receiveUser->conversation_limit == 4 || $checkBlock) {
+            return 36608;
         }
 
         $checkFollow = InteractionUtility::checkUserFollow(InteractionUtility::TYPE_USER, $receiveUser->id, $authUserId);
         $authUserVerifiedStatus = User::where('id', $authUserId)->value('verified_status') ?? 0;
+
+        // The user has set that only the users he follows and the verified users can send messages
         if ($receiveUser->conversation_limit == 3 && ! $checkFollow && ! $authUserVerifiedStatus) {
-            $info['status'] = false;
-            $info['code'] = 36607;
-            $info['message'] = ConfigUtility::getCodeMessage(36607, 'Fresns', $langTag);
-
-            return $info;
+            return 36607;
         }
 
+        // The user has set that only the users he follows can send messages
         if ($receiveUser->conversation_limit == 2 && ! $checkFollow) {
-            $info['status'] = false;
-            $info['code'] = 36606;
-            $info['message'] = ConfigUtility::getCodeMessage(36606, 'Fresns', $langTag);
-
-            return $info;
+            return 36606;
         }
 
-        return $info;
+        return 0;
     }
 
     // Check if the user is a group administrator
