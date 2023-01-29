@@ -1010,19 +1010,7 @@ class EditorController extends Controller
 
         $fsid = $fresnsResp->getData('fsid') ?? null;
 
-        if (! $fsid) {
-            $tableName = match ($fresnsResp->getData('type')) {
-                1 => 'post_logs',
-                2 => 'comment_logs',
-            };
-
-            $tableId = $fresnsResp->getData('logId');
-
-            $logType = match ($fresnsResp->getData('type')) {
-                1 => SessionLog::TYPE_POST_REVIEW,
-                2 => SessionLog::TYPE_COMMENT_REVIEW,
-            };
-        } else {
+        if ($fsid) {
             $tableName = match ($fresnsResp->getData('type')) {
                 1 => 'posts',
                 2 => 'comments',
@@ -1033,6 +1021,18 @@ class EditorController extends Controller
             $logType = match ($fresnsResp->getData('type')) {
                 1 => SessionLog::TYPE_POST_PUBLISH,
                 2 => SessionLog::TYPE_COMMENT_PUBLISH,
+            };
+        } else {
+            $tableName = match ($fresnsResp->getData('type')) {
+                1 => 'post_logs',
+                2 => 'comment_logs',
+            };
+
+            $tableId = $fresnsResp->getData('logId');
+
+            $logType = match ($fresnsResp->getData('type')) {
+                1 => SessionLog::TYPE_POST_REVIEW,
+                2 => SessionLog::TYPE_COMMENT_REVIEW,
             };
         }
 
@@ -1079,8 +1079,17 @@ class EditorController extends Controller
 
         CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}");
 
+        $data =  [
+            'type' => $dtoRequest->type,
+            'isDraft' => false,
+            'draftId' => $fresnsResp->getData('logId') ?? null,
+            'fsid' => $fsid,
+        ];
+
         if (! $fsid) {
-            throw new ApiException(38200);
+            $data['isDraft'] = true;
+
+            throw new ApiException(38200, 'Fresns', $data);
         }
 
         return $this->success();
