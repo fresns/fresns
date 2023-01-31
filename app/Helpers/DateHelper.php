@@ -269,6 +269,10 @@ class DateHelper
         }
         $diff = $datetime < now() ? abs($diff) : $diff;
 
+        if ($diff <= 0) {
+            $diff = 1;
+        }
+
         return $diff.' '.$timeFormat;
     }
 
