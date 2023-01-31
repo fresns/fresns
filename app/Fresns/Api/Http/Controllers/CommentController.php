@@ -208,7 +208,7 @@ class CommentController extends Controller
         }
 
         if ($dtoRequest->allDigest) {
-            $commentQuery->whereIn('digest_state', [2, 3]);
+            $commentQuery->whereIn('digest_state', [Comment::DIGEST_GENERAL, Comment::DIGEST_BEST]);
         } else {
             $commentQuery->when($dtoRequest->digestState, function ($query, $value) {
                 $query->where('digest_state', $value);

@@ -14,6 +14,10 @@ class Comment extends Model
     use Traits\IsEnableTrait;
     use Traits\FsidTrait;
 
+    const DIGEST_NO = 1;
+    const DIGEST_GENERAL = 2;
+    const DIGEST_BEST = 3;
+
     protected $dates = [
         'latest_edit_at',
         'latest_comment_at',

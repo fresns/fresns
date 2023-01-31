@@ -223,14 +223,14 @@ class Content
                     );
                 }
 
-                if (! $editConfig['post_edit_sticky_limit'] && $post->sticky_state != 1) {
+                if (! $editConfig['post_edit_sticky_limit'] && $post->sticky_state != Post::STICKY_NO) {
                     return $this->failure(
                         36307,
                         ConfigUtility::getCodeMessage(36307, 'Fresns', $langTag)
                     );
                 }
 
-                if (! $editConfig['post_edit_digest_limit'] && $post->digest_state != 1) {
+                if (! $editConfig['post_edit_digest_limit'] && $post->digest_state != Post::DIGEST_NO) {
                     return $this->failure(
                         36308,
                         ConfigUtility::getCodeMessage(36308, 'Fresns', $langTag)
@@ -293,14 +293,14 @@ class Content
                     );
                 }
 
-                if (! $editConfig['comment_edit_sticky_limit'] && $comment->sticky_state != 1) {
+                if (! $editConfig['comment_edit_sticky_limit'] && $comment->is_sticky) {
                     return $this->failure(
                         36307,
                         ConfigUtility::getCodeMessage(36307, 'Fresns', $langTag)
                     );
                 }
 
-                if (! $editConfig['comment_edit_digest_limit'] && $comment->digest_state != 1) {
+                if (! $editConfig['comment_edit_digest_limit'] && $comment->digest_state != Comment::DIGEST_NO) {
                     return $this->failure(
                         36308,
                         ConfigUtility::getCodeMessage(36308, 'Fresns', $langTag)

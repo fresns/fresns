@@ -30,14 +30,14 @@ class FollowService
         // follow user post
         $userPostQuery = Post::with(['hashtags'])->whereIn('user_id', $followUserIds)->where('is_anonymous', 0);
         // follow group post
-        $groupPostQuery = Post::with(['hashtags'])->whereIn('group_id', $followGroupIds)->where('digest_state', 2);
+        $groupPostQuery = Post::with(['hashtags'])->whereIn('group_id', $followGroupIds)->where('digest_state', Post::DIGEST_GENERAL);
         // follow hashtag post
-        $hashtagPostQuery = Post::with(['hashtags'])->where('digest_state', 2);
+        $hashtagPostQuery = Post::with(['hashtags'])->where('digest_state', Post::DIGEST_GENERAL);
         $hashtagPostQuery->whereHas('hashtags', function ($query) use ($followHashtagIds) {
             $query->whereIn('hashtags.id', $followHashtagIds);
         });
-        // digest post query
-        $digestPostQuery = Post::with(['hashtags'])->where('digest_state', 3);
+        // best digest post query
+        $digestPostQuery = Post::with(['hashtags'])->where('digest_state', Post::DIGEST_BEST);
 
         // is enable
         $userPostQuery->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {
@@ -342,17 +342,17 @@ class FollowService
         // follow user post
         $userCommentQuery = Comment::with(['post', 'hashtags'])->whereIn('user_id', $followUserIds)->where('is_anonymous', 0);
         // follow group post
-        $groupCommentQuery = Comment::with(['post', 'hashtags'])->where('digest_state', 2);
+        $groupCommentQuery = Comment::with(['post', 'hashtags'])->where('digest_state', Comment::DIGEST_GENERAL);
         $groupCommentQuery->whereHas('post', function ($query) use ($followGroupIds) {
             $query->whereIn('group_id', $followGroupIds);
         });
         // follow hashtag post
-        $hashtagCommentQuery = Comment::with(['post', 'hashtags'])->where('digest_state', 2);
+        $hashtagCommentQuery = Comment::with(['post', 'hashtags'])->where('digest_state', Comment::DIGEST_GENERAL);
         $hashtagCommentQuery->whereHas('hashtags', function ($query) use ($followHashtagIds) {
             $query->whereIn('hashtags.id', $followHashtagIds);
         });
-        // digest post query
-        $digestCommentQuery = Comment::with(['post', 'hashtags'])->where('digest_state', 3);
+        // best digest post query
+        $digestCommentQuery = Comment::with(['post', 'hashtags'])->where('digest_state', Comment::DIGEST_BEST);
 
         // is enable
         $userCommentQuery->where('is_enable', 1)->orWhere(function ($query) use ($authUserId) {

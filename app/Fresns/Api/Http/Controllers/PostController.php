@@ -168,7 +168,7 @@ class PostController extends Controller
         }
 
         if ($dtoRequest->allDigest) {
-            $postQuery->whereIn('digest_state', [2, 3]);
+            $postQuery->whereIn('digest_state', [Post::DIGEST_GENERAL, Post::DIGEST_BEST]);
         } else {
             $postQuery->when($dtoRequest->digestState, function ($query, $value) {
                 $query->where('digest_state', $value);

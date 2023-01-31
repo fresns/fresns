@@ -30,10 +30,10 @@ class InteractionHelper
         $overview['hashtagCount'] = Hashtag::count();
         $overview['postCount'] = Post::count();
         $overview['commentCount'] = Comment::count();
-        $overview['postDigest1Count'] = Post::where('digest_state', 2)->count();
-        $overview['postDigest2Count'] = Post::where('digest_state', 3)->count();
-        $overview['commentDigest1Count'] = Comment::where('digest_state', 2)->count();
-        $overview['commentDigest2Count'] = Comment::where('digest_state', 3)->count();
+        $overview['postDigest1Count'] = Post::where('digest_state', Post::DIGEST_GENERAL)->count();
+        $overview['postDigest2Count'] = Post::where('digest_state', Post::DIGEST_BEST)->count();
+        $overview['commentDigest1Count'] = Comment::where('digest_state', Comment::DIGEST_GENERAL)->count();
+        $overview['commentDigest2Count'] = Comment::where('digest_state', Comment::DIGEST_BEST)->count();
 
         return $overview;
     }

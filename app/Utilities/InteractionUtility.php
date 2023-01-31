@@ -365,21 +365,32 @@ class InteractionUtility
                 $post->update([
                     'sticky_state' => $stickyState,
                 ]);
+
+                CacheHelper::forgetFresnsMultilingual('fresns_web_sticky_posts');
+
+                if ($stickyState == Post::STICKY_GROUP && $post->group_id) {
+                    $group = PrimaryHelper::fresnsModelById('group', $post->group_id);
+
+                    CacheHelper::forgetFresnsMultilingual("fresns_web_group_{$group?->gid}_sticky_posts");
+                }
             break;
 
             // comment
             case 'comment':
                 $comment = Comment::where('id', $id)->first();
 
-                if ($stickyState == 1) {
+                if ($stickyState) {
                     $comment->update([
-                        'is_sticky' => 1,
+                        'is_sticky' => true,
                     ]);
                 } else {
                     $comment->update([
-                        'is_sticky' => 0,
+                        'is_sticky' => false,
                     ]);
                 }
+
+                $post = PrimaryHelper::fresnsModelById('post', $comment->post_id);
+                CacheHelper::forgetFresnsMultilingual("fresns_web_post_{$post?->pid}_sticky_comments");
             break;
         }
     }
@@ -387,7 +398,7 @@ class InteractionUtility
     // mark content digest
     public static function markContentDigest(string $type, int $id, int $digestState)
     {
-        $digestStats = match ($digestState) {
+        $digestStatus = match ($digestState) {
             default => null,
             1 => 'no',
             2 => 'yes',
@@ -399,13 +410,13 @@ class InteractionUtility
             case 'post':
                 $post = Post::where('id', $id)->first();
 
-                if ($post->digest_state == 1 && $digestStats == 'yes') {
+                if ($post->digest_state == Post::DIGEST_NO && $digestStatus == 'yes') {
                     $post->update([
                         'digest_state' => $digestState,
                     ]);
 
                     InteractionUtility::digestStats('post', $post->id, 'increment');
-                } elseif ($post->digest_state != 1 && $digestStats == 'no') {
+                } elseif ($post->digest_state != Post::DIGEST_NO && $digestStatus == 'no') {
                     $post->update([
                         'digest_state' => $digestState,
                     ]);
@@ -422,13 +433,13 @@ class InteractionUtility
             case 'comment':
                 $comment = Comment::where('id', $id)->first();
 
-                if ($comment->digest_state == 1 && $digestStats == 'yes') {
+                if ($comment->digest_state == Comment::DIGEST_NO && $digestStatus == 'yes') {
                     $comment->update([
                         'digest_state' => $digestState,
                     ]);
 
                     InteractionUtility::digestStats('comment', $comment->id, 'increment');
-                } elseif ($comment->digest_state != 1 && $digestStats == 'no') {
+                } elseif ($comment->digest_state != Comment::DIGEST_NO && $digestStatus == 'no') {
                     $comment->update([
                         'digest_state' => $digestState,
                     ]);
