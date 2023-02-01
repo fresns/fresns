@@ -378,9 +378,11 @@ class CacheHelper
 
                 if ($dataType == 'fresnsApiData') {
                     CacheHelper::forgetFresnsMultilingual("fresns_api_user_{$model->uid}");
-                    CacheHelper::forgetFresnsMultilingual("fresns_api_user_panel_conversations_{$model->uid}");
-                    CacheHelper::forgetFresnsMultilingual("fresns_api_user_panel_notifications_{$model->uid}");
-                    CacheHelper::forgetFresnsMultilingual("fresns_api_user_panel_drafts_{$model->uid}");
+                    CacheHelper::forgetFresnsKeys([
+                        "fresns_api_user_panel_conversations_{$model->uid}",
+                        "fresns_api_user_panel_notifications_{$model->uid}",
+                        "fresns_api_user_panel_drafts_{$model->uid}",
+                    ]);
                 }
 
                 if ($dataType == 'fresnsExtension') {
