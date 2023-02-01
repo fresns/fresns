@@ -556,6 +556,10 @@ class CommonController extends Controller
 
         // check down count
         $roleDownloadCount = $mainRolePerms['download_file_count'] ?? 0;
+        if ($roleDownloadCount == 0) {
+            throw new ApiException(36102);
+        }
+
         $userDownloadCount = FileDownload::where('user_id', $authUserId)->whereDate('created_at', now())->count();
         if ($roleDownloadCount < $userDownloadCount) {
             throw new ApiException(36117);
