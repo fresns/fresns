@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.4.0 (2023-02-01)
+
+### Added
+- API: Only the author is visible when a post or comment is disabled
+- API: Add whitelist and blacklist CheckHeader middleware
+- API: Quick post request returns draft ID or fsid
+- Panel: Login to backend to passively trigger version detection
+
+### Fixes
+- API: Filter criteria for follow list must be in array format
+- API: No tweet record in content, but also resolves @ symbols
+- API: Cannot reply to your own posts after configuring reply permissions
+- API: Newly posted content has negative humanisation time
+
+### Changed
+- Data: Changed callback query key from UUID to ULID
+- API: topics have slug as unique value
+- API: header login detection using blacklist mechanism
+- API: Optimised file upload interface
+- Panel: Plugin management, name link to App Market
+- Frame: laravel/framework to v9.49.0
+- Frame: fresns/plugin-manager to v2.4.0
+
+
 ## 2.3.1 (2023-01-21)
 
 ### Fixes
