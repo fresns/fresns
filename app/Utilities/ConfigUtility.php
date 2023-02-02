@@ -354,16 +354,19 @@ class ConfigUtility
                 if ($perm['emailRequired'] && empty($account->email)) {
                     $perm['publish'] = false;
                     $emailTip = ConfigUtility::getCodeMessage(36301, 'Fresns', $langTag);
+                    $emailTip = "[{$emailTip}]";
                 }
 
                 if ($perm['phoneRequired'] && empty($account->phone)) {
                     $perm['publish'] = false;
                     $phoneTip = ConfigUtility::getCodeMessage(36302, 'Fresns', $langTag);
+                    $phoneTip = "[{$phoneTip}]";
                 }
 
                 if ($perm['realNameRequired'] && ! $account->is_verify) {
                     $perm['publish'] = false;
                     $realNameTip = ConfigUtility::getCodeMessage(36303, 'Fresns', $langTag);
+                    $realNameTip = "[{$realNameTip}]";
                 }
             }
 
