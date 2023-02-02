@@ -237,44 +237,4 @@ class AppUtility
 
         return $deviceInfo;
     }
-
-    public static function executeUpgradeUtility(): bool
-    {
-        logger('-- upgrade: fresns upgrade version check');
-        $currentVersionInt = AppUtility::currentVersion()['versionInt'] ?? 0;
-        $newVersionInt = AppUtility::newVersion()['versionInt'] ?? 0;
-
-        logger('-- -- currentVersionInt: '.$currentVersionInt);
-        logger('-- -- newVersionInt: '.$newVersionInt);
-        if (! $currentVersionInt || ! $newVersionInt) {
-            return false;
-        }
-
-        require app_path('Utilities/UpgradeUtility.php');
-
-        logger('upgrade: fresns upgrade to {n}');
-        $versionInt = $currentVersionInt;
-
-        while ($versionInt <= $newVersionInt) {
-            $versionInt++;
-
-            $function = 'upgradeTo'.$versionInt;
-
-            logger('-- '.$function);
-
-            try {
-                if (! method_exists(UpgradeUtility::class, $function)) {
-                    logger('-- -- '.$function.' does not exist');
-
-                    continue;
-                }
-
-                UpgradeUtility::$function();
-            } catch (\Error $e) {
-                logger('-- -- '.$function.' does not exist');
-            }
-        }
-
-        return true;
-    }
 }

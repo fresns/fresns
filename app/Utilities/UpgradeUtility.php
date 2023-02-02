@@ -11,18 +11,10 @@ namespace App\Utilities;
 use App\Models\CodeMessage;
 use App\Models\Config;
 use App\Models\Language;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 
 class UpgradeUtility
 {
-    // fresns v2.0.0-beta.1
-    public static function upgradeTo1(): bool
-    {
-        logger('-- -- upgrade to 1 (fresns v2.0.0-beta.1) done');
-
-        return true;
-    }
-
     // fresns v2.0.0-beta.2
     public static function upgradeTo2(): bool
     {
@@ -62,10 +54,6 @@ class UpgradeUtility
     // fresns v2.0.0-beta.3
     public static function upgradeTo3(): bool
     {
-        $exitCode = Artisan::call('migrate', ['--force' => true]);
-
-        logger('-- -- upgrade to 3 (fresns v2.0.0-beta.3) Artisan exitCode = '.$exitCode);
-
         // modify cookie prefix
         $cookiePrefix = Config::where('item_key', 'engine_cookie_prefix')->first();
 
@@ -188,10 +176,6 @@ class UpgradeUtility
     // fresns v2.0.0-beta.4
     public static function upgradeTo4(): bool
     {
-        $exitCode = Artisan::call('migrate', ['--force' => true]);
-
-        logger('-- -- upgrade to 3 (fresns v2.0.0-beta.3) Artisan exitCode = '.$exitCode);
-
         // add config key
         $cacheDatetime = Config::where('item_key', 'cache_datetime')->first();
         if (! $cacheDatetime) {
@@ -257,10 +241,6 @@ class UpgradeUtility
     // fresns v2.0.0-beta.5
     public static function upgradeTo5(): bool
     {
-        $exitCode = Artisan::call('migrate', ['--force' => true]);
-
-        logger('-- -- upgrade to 5 (fresns v2.0.0-beta.5) Artisan exitCode = '.$exitCode);
-
         // modify lang pack key
         $languagePack = Config::where('item_key', 'language_pack')->first();
         if ($languagePack) {
@@ -730,54 +710,6 @@ class UpgradeUtility
         }
 
         logger('-- -- upgrade to 9 (fresns v2.0.0) done');
-
-        return true;
-    }
-
-    // fresns v2.0.1
-    public static function upgradeTo10(): bool
-    {
-        logger('-- -- upgrade to 10 (fresns v2.0.1) done');
-
-        return true;
-    }
-
-    // fresns v2.1.0
-    public static function upgradeTo11(): bool
-    {
-        logger('-- -- upgrade to 11 (fresns v2.1.0) done');
-
-        return true;
-    }
-
-    // fresns v2.2.0
-    public static function upgradeTo12(): bool
-    {
-        logger('-- -- upgrade to 12 (fresns v2.2.0) done');
-
-        return true;
-    }
-
-    // fresns v2.3.0
-    public static function upgradeTo13(): bool
-    {
-        $exitCode = Artisan::call('migrate', ['--force' => true]);
-
-        logger('-- -- upgrade to 13 (fresns v2.3.0) Artisan exitCode = '.$exitCode);
-
-        logger('-- -- upgrade to 13 (fresns v2.3.0) done');
-
-        return true;
-    }
-
-    // fresns v2.3.1
-    public static function upgradeTo14(): bool
-    {
-        $exitCode = Artisan::call('migrate', ['--force' => true]);
-
-        logger('-- -- upgrade to 14 (fresns v2.3.1) Artisan exitCode = '.$exitCode);
-
-        logger('-- -- upgrade to 14 (fresns v2.3.1) done');
 
         return true;
     }

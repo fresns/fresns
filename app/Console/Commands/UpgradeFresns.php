@@ -202,14 +202,24 @@ class UpgradeFresns extends Command
 
         logger('upgrade: fresns upgrade command');
 
-        // composer install
+        // migrate command
+        logger('-- migrate command');
+        $exitCode = $this->call('migrate', ['--force' => true]);
+        if ($exitCode) {
+            logger('-- -- migrate info: exitCode = '.$exitCode);
+
+            return false;
+        }
+
+        // composer command
         $composerPath = 'composer';
 
         if (! $this->commandExists($composerPath)) {
             $composerPath = '/usr/bin/composer';
         }
 
-        $process = new Process([$composerPath, 'install'], base_path());
+        logger('-- composer command');
+        $process = new Process([$composerPath, 'update'], base_path());
         $process->setTimeout(0);
         $process->start();
 
@@ -219,10 +229,11 @@ class UpgradeFresns extends Command
             } else { // $process::ERR === $type
                 $this->info("\nRead from stderr: ".$data);
             }
+
+            logger('-- -- composer info: '.$data);
         }
 
-        // the version command
-        return AppUtility::executeUpgradeUtility();
+        return true;
     }
 
     // step 4-2: edit fresns version info

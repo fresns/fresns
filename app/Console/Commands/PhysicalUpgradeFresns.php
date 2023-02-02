@@ -14,7 +14,6 @@ use App\Models\Plugin;
 use App\Utilities\AppUtility;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
-use Symfony\Component\Process\Process;
 
 class PhysicalUpgradeFresns extends Command
 {
@@ -129,27 +128,16 @@ class PhysicalUpgradeFresns extends Command
     {
         $this->updateStep(self::STEP_UPDATE_DATA);
 
-        // 2-1 composer install
-        $composerPath = 'composer';
+        logger('-- command: migrate');
 
-        if (! $this->commandExists($composerPath)) {
-            $composerPath = '/usr/bin/composer';
+        $exitCode = $this->call('migrate', ['--force' => true]);
+        if ($exitCode) {
+            logger('-- -- migrate info: exitCode = '.$exitCode);
+
+            return false;
         }
 
-        $process = new Process([$composerPath, 'install'], base_path());
-        $process->setTimeout(0);
-        $process->start();
-
-        foreach ($process as $type => $data) {
-            if ($process::OUT === $type) {
-                $this->info("\nRead from stdout: ".$data);
-            } else { // $process::ERR === $type
-                $this->info("\nRead from stderr: ".$data);
-            }
-        }
-
-        // 2-2 execute the version command
-        return AppUtility::executeUpgradeUtility();
+        return true;
     }
 
     // step 3: composer all plugins
@@ -161,10 +149,13 @@ class PhysicalUpgradeFresns extends Command
             $exitCode = $this->call('plugin:composer-update');
 
             if ($exitCode) {
+                logger('-- -- composer info: plugin composer-update exitCode = '.$exitCode);
+
                 return false;
             }
         } catch (\Exception $e) {
-            logger($e->getMessage());
+            logger('-- -- composer info: plugin composer exception >> '.$e->getMessage());
+
             $this->error($e->getMessage());
 
             return false;
@@ -182,7 +173,7 @@ class PhysicalUpgradeFresns extends Command
 
         foreach ($plugins as $plugin) {
             try {
-                if ($plugin->type == 4) {
+                if ($plugin->type == Plugin::TYPE_THEME) {
                     $this->call('theme:publish', ['name' => $plugin->unikey]);
                 } else {
                     $this->call('plugin:publish', ['name' => $plugin->unikey]);
@@ -192,7 +183,8 @@ class PhysicalUpgradeFresns extends Command
                     }
                 }
             } catch (\Exception $e) {
-                logger($e->getMessage());
+                logger('-- publish and activate: exception >> '.$e->getMessage());
+
                 $this->error($e->getMessage());
             }
         }
@@ -229,15 +221,5 @@ class PhysicalUpgradeFresns extends Command
         $this->call('storage:link', ['--force' => true]);
 
         return true;
-    }
-
-    // check composer
-    public function commandExists($commandName)
-    {
-        ob_start();
-        passthru("command -v $commandName", $code);
-        ob_end_clean();
-
-        return (0 === $code) ? true : false;
     }
 }
