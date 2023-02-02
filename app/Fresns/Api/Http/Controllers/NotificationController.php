@@ -42,9 +42,9 @@ class NotificationController extends Controller
             $query->whereIn('type', $value);
         });
 
-        $notificationQuery->when($dtoRequest->status, function ($query, $value) {
-            $query->where('is_read', $value);
-        });
+        if (isset($dtoRequest->status)) {
+            $notificationQuery->where('is_read', $dtoRequest->status);
+        }
 
         $notifications = $notificationQuery->latest()->paginate($request->get('pageSize', 15));
 
@@ -122,15 +122,17 @@ class NotificationController extends Controller
     {
         $dtoRequest = new NotificationDTO($request->all());
 
-        $authUserId = $this->user()->id;
+        $authUser = $this->user();
 
         if ($dtoRequest->type == 'all') {
-            Notification::where('user_id', $authUserId)->where('type', $dtoRequest->notificationType)->delete();
+            Notification::where('user_id', $authUser->id)->where('type', $dtoRequest->notificationType)->delete();
         } else {
             $idArr = array_filter(explode(',', $dtoRequest->notificationIds));
 
-            Notification::where('user_id', $authUserId)->whereIn('id', $idArr)->delete();
+            Notification::where('user_id', $authUser->id)->whereIn('id', $idArr)->delete();
         }
+
+        CacheHelper::forgetFresnsKey("fresns_api_user_panel_notifications_{$authUser->uid}");
 
         return $this->success();
     }

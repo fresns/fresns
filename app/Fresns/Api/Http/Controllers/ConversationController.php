@@ -471,6 +471,8 @@ class ConversationController extends Controller
             ]);
         }
 
+        CacheHelper::forgetFresnsKey("fresns_api_user_panel_conversations_{$authUser->uid}");
+
         return $this->success();
     }
 }
