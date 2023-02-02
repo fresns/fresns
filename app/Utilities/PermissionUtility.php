@@ -576,7 +576,7 @@ class PermissionUtility
 
     private static function checkExtendPermByGroupAdmin(string $unikey, int $usageType, ?int $groupId = null, ?int $userId = null): bool
     {
-        if (empty($groupId)) {
+        if (empty($groupId) || $groupId == 0) {
             return false;
         }
 

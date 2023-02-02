@@ -159,7 +159,7 @@ class GroupService
     // check content view permission
     public static function checkGroupContentViewPerm(string $dateTime, ?int $groupId = null, ?int $authUserId = null)
     {
-        if (empty($groupId)) {
+        if (empty($groupId) || $groupId == 0) {
             return;
         }
 
