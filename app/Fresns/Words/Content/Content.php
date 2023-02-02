@@ -115,9 +115,8 @@ class Content
 
             // comment
             case 2:
-                $postId = PrimaryHelper::fresnsPostIdByPid($dtoWordBody->pid);
-
-                if (empty($postId)) {
+                $checkPost = Post::where('pid', $dtoWordBody->commentPid)->first();
+                if (empty($checkPost)) {
                     return $this->failure(
                         37300,
                         ConfigUtility::getCodeMessage(37300, 'Fresns', $langTag)
@@ -128,6 +127,8 @@ class Content
 
                 $logData = [
                     'user_id' => $creator->id,
+                    'post_id' => $checkPost->id,
+                    'parent_comment_id' => PrimaryHelper::fresnsCommentIdByCid($checkPost->commentCid),
                     'create_type' => $dtoWordBody->createType,
                     'is_plugin_editor' => $isPluginEditor,
                     'editor_unikey' => $editorUnikey,

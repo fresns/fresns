@@ -349,12 +349,16 @@ class CommentController extends Controller
             throw new ApiException(37400);
         }
 
+        if (empty($comment?->post)) {
+            throw new ApiException(37300);
+        }
+
         if ($comment->is_enable == 0 && $comment->user_id != $authUserId) {
             throw new ApiException(37401);
         }
 
         UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
-        GroupService::checkGroupContentViewPerm($comment->created_at, $comment?->post->group_id, $authUserId);
+        GroupService::checkGroupContentViewPerm($comment->created_at, $comment->post->group_id, $authUserId);
 
         $seoData = LanguageHelper::fresnsLanguageSeoDataById('comment', $comment->id, $langTag);
 

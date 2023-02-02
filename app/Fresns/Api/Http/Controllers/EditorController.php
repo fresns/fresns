@@ -26,6 +26,7 @@ use App\Models\ExtendUsage;
 use App\Models\File;
 use App\Models\FileUsage;
 use App\Models\Plugin;
+use App\Models\Post;
 use App\Models\PostLog;
 use App\Models\SessionLog;
 use App\Utilities\ConfigUtility;
@@ -973,6 +974,14 @@ class EditorController extends Controller
 
             if (! $servicePlugin) {
                 throw new ApiException(32102);
+            }
+        }
+
+        if ($dtoRequest->type == 'comment') {
+            $checkPost = Post::where('pid', $dtoRequest->commentPid)->first();
+
+            if (empty($checkPost)) {
+                throw new ApiException(37300);
             }
         }
 
