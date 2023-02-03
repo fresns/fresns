@@ -68,13 +68,13 @@ class FileUtility
     {
         // $bodyInfoExample = [
         //     'platformId' => 'file_usages->platform_id',
-        //     'aid' => 'file_usages->account_id',
-        //     'uid' => 'file_usages->user_id',
         //     'usageType' => 'file_usages->usage_type',
         //     'tableName' => 'file_usages->table_name',
         //     'tableColumn' => 'file_usages->table_column',
         //     'tableId' => 'file_usages->table_id',
         //     'tableKey' => 'file_usages->table_key',
+        //     'aid' => 'file_usages->account_id',
+        //     'uid' => 'file_usages->user_id',
         //     'type' => 'files->type and file_usages->file_type',
         //     'fileInfo' => [
         //         [
@@ -246,13 +246,15 @@ class FileUtility
     // logicalDeletionFiles
     public static function logicalDeletionFiles(array $fileIdsOrFids)
     {
-        if (StrHelper::isPureInt($fileIdsOrFids)) {
-            $file = File::where('id', $fileIdsOrFids)->first();
-        } else {
-            $file = File::where('fid', $fileIdsOrFids)->first();
-        }
+        foreach ($fileIdsOrFids as $id) {
+            if (StrHelper::isPureInt($id)) {
+                $file = File::where('id', $id)->first();
+            } else {
+                $file = File::where('fid', $id)->first();
+            }
 
-        $file?->delete();
+            $file?->delete();
+        }
 
         return true;
     }
