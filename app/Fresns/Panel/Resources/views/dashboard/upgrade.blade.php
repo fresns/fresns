@@ -59,7 +59,7 @@
                     <button type="button" class="btn btn-outline-primary" id="physicalUpgradeButton" data-action="{{ route('panel.upgrade.info') }}">
                         {{ __('FsLang::panel.button_physical_upgrade') }}
                     </button>
-                    <a class="link-success ms-2" href="https://fresns.org/guide/upgrade.html#physical-upgrade" target="_blank" id="physicalUpgradeGuide">{{ __('FsLang::tips.physical_upgrade_guide') }}</a>
+                    <a class="link-success ms-2" href="https://fresns.cn/guide/upgrade.html#手动物理升级" target="_blank" id="physicalUpgradeGuide">{{ __('FsLang::tips.physical_upgrade_guide') }}</a>
                 @endif
             @else
                 <div class="p-5 text-center">
@@ -68,6 +68,13 @@
             @endif
         </div>
     </div>
+
+    <!-- Upgrade Alert -->
+    @if ($pluginsData->isNotEmpty() || $appsData->isNotEmpty() || $enginesData->isNotEmpty())
+        <div class="alert alert-danger" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i> {{ __('FsLang::panel.note_plugin_install_or_upgrade') }}
+        </div>
+    @endif
 
     <!--Extensions-->
     <div class="row">
