@@ -14,6 +14,7 @@ use App\Models\File;
 use App\Models\FileUsage;
 use App\Models\Language;
 use App\Models\Sticker;
+use Illuminate\Http\Request;
 
 class StickerGroupController extends Controller
 {
@@ -152,5 +153,14 @@ class StickerGroupController extends Controller
         $sticker->delete();
 
         return $this->deleteSuccess();
+    }
+
+    public function updateRating(int $id, Request $request)
+    {
+        $stickerGroup = Sticker::findOrFail($id);
+        $stickerGroup->rating = $request->rating;
+        $stickerGroup->save();
+
+        return $this->updateSuccess();
     }
 }

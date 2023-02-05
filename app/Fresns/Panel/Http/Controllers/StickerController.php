@@ -67,14 +67,6 @@ class StickerController extends Controller
         return $this->deleteSuccess();
     }
 
-    public function updateRating(Sticker $stickerImage, Request $request)
-    {
-        $stickerImage->rating = $request->rating;
-        $stickerImage->save();
-
-        return $this->updateSuccess();
-    }
-
     public function batchUpdate(Request $request)
     {
         $group = Sticker::group()->where('id', $request->parent_id)->firstOrFail();

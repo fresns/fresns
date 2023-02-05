@@ -186,7 +186,7 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::resource('stickers', StickerGroupController::class)->only([
             'index', 'store', 'update', 'destroy',
         ]);
-        Route::put('stickers/{sticker}/rating', [StickerController::class, 'updateRating'])->name('stickers.rating');
+        Route::put('stickers/{sticker}/rating', [StickerGroupController::class, 'updateRating'])->name('stickers.rating');
         Route::put('sticker-images/batch', [StickerController::class, 'batchUpdate'])->name('sticker-images.batch.update');
         Route::resource('sticker-images', StickerController::class)->only([
             'index', 'store', 'update', 'destroy',
