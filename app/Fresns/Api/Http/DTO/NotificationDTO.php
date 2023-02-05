@@ -19,7 +19,7 @@ class NotificationDTO extends DTO
     {
         return [
             'type' => ['string', 'required', 'in:all,choose'],
-            'notificationType' => ['integer', 'nullable', 'between:1,8', 'required_without:notificationIds', 'required_if:type,all'],
+            'notificationType' => ['integer', 'nullable', 'between:0,8', 'required_without:notificationIds', 'required_if:type,all'],
             'notificationIds' => ['string', 'nullable', 'required_without:notificationType', 'required_if:type,choose'],
         ];
     }

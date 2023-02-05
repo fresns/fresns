@@ -203,6 +203,8 @@ class Send
             $query->where('action_object', $actionObject)->where('action_id', $value->id);
         });
 
+        $notificationQuery->where('is_read', 0);
+
         $checkNotification = $notificationQuery->first();
 
         if ($checkNotification) {
