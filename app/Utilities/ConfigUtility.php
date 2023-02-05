@@ -211,41 +211,41 @@ class ConfigUtility
         $image['status'] = $editorConfig["{$type}_editor_image"] ? $rolePerm["{$type}_editor_image"] : false;
         $image['extensions'] = Str::lower($editorConfig['image_extension_names']);
         $image['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_IMAGE);
-        $image['maxSize'] = $rolePerm['image_max_size'] ?? $editorConfig['image_max_size'];
+        $image['maxSize'] = (int) $rolePerm['image_max_size'] ?? $editorConfig['image_max_size'];
         $image['maxTime'] = null;
         $image['uploadForm'] = $imageUploadUrl ? $editorConfig["{$type}_editor_image_upload_form"] : 'fresns';
         $image['uploadUrl'] = $imageUploadUrl;
-        $image['uploadNumber'] = $rolePerm["{$type}_editor_image_upload_number"] ?? $editorConfig["{$type}_editor_image_upload_number"];
+        $image['uploadNumber'] = (int) $rolePerm["{$type}_editor_image_upload_number"] ?? $editorConfig["{$type}_editor_image_upload_number"];
 
         // videos
         $video['status'] = $editorConfig["{$type}_editor_video"] ? $rolePerm["{$type}_editor_video"] : false;
         $video['extensions'] = Str::lower($editorConfig['video_extension_names']);
         $video['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_VIDEO);
-        $video['maxSize'] = $rolePerm['video_max_size'] ?? $editorConfig['video_max_size'];
-        $video['maxTime'] = $rolePerm['video_max_time'] ?? $editorConfig['video_max_time'];
+        $video['maxSize'] = (int) $rolePerm['video_max_size'] ?? $editorConfig['video_max_size'];
+        $video['maxTime'] = (int) $rolePerm['video_max_time'] ?? $editorConfig['video_max_time'];
         $video['uploadForm'] = $videoUploadUrl ? $editorConfig["{$type}_editor_video_upload_form"] : 'fresns';
         $video['uploadUrl'] = $videoUploadUrl;
-        $video['uploadNumber'] = $rolePerm["{$type}_editor_video_upload_number"] ?? $editorConfig["{$type}_editor_video_upload_number"];
+        $video['uploadNumber'] = (int) $rolePerm["{$type}_editor_video_upload_number"] ?? $editorConfig["{$type}_editor_video_upload_number"];
 
         // audios
         $audio['status'] = $editorConfig["{$type}_editor_audio"] ? $rolePerm["{$type}_editor_audio"] : false;
         $audio['extensions'] = Str::lower($editorConfig['audio_extension_names']);
         $audio['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_AUDIO);
-        $audio['maxSize'] = $rolePerm['audio_max_size'] ?? $editorConfig['audio_max_size'];
-        $audio['maxTime'] = $rolePerm['audio_max_time'] ?? $editorConfig['audio_max_time'];
+        $audio['maxSize'] = (int) $rolePerm['audio_max_size'] ?? $editorConfig['audio_max_size'];
+        $audio['maxTime'] = (int) $rolePerm['audio_max_time'] ?? $editorConfig['audio_max_time'];
         $audio['uploadForm'] = $audioUploadUrl ? $editorConfig["{$type}_editor_audio_upload_form"] : 'fresns';
         $audio['uploadUrl'] = $audioUploadUrl;
-        $audio['uploadNumber'] = $rolePerm["{$type}_editor_audio_upload_number"] ?? $editorConfig["{$type}_editor_audio_upload_number"];
+        $audio['uploadNumber'] = (int) $rolePerm["{$type}_editor_audio_upload_number"] ?? $editorConfig["{$type}_editor_audio_upload_number"];
 
         // documents
         $document['status'] = $editorConfig["{$type}_editor_document"] ? $rolePerm["{$type}_editor_document"] : false;
         $document['extensions'] = Str::lower($editorConfig['document_extension_names']);
         $document['inputAccept'] = FileHelper::fresnsFileAcceptByType(File::TYPE_DOCUMENT);
-        $document['maxSize'] = $rolePerm['document_max_size'] ?? $editorConfig['document_max_size'];
+        $document['maxSize'] = (int) $rolePerm['document_max_size'] ?? $editorConfig['document_max_size'];
         $document['maxTime'] = null;
         $document['uploadForm'] = $documentUploadUrl ? $editorConfig["{$type}_editor_document_upload_form"] : 'fresns';
         $document['uploadUrl'] = $documentUploadUrl;
-        $document['uploadNumber'] = $rolePerm["{$type}_editor_document_upload_number"] ?? $editorConfig["{$type}_editor_document_upload_number"];
+        $document['uploadNumber'] = (int) $rolePerm["{$type}_editor_document_upload_number"] ?? $editorConfig["{$type}_editor_document_upload_number"];
 
         // title
         if ($type == 'post') {
