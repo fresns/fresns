@@ -101,7 +101,9 @@ class NotificationController extends Controller
         $authUser = $this->user();
 
         if ($dtoRequest->type == 'all') {
-            Notification::where('user_id', $authUser->id)->where('type', $dtoRequest->notificationType)->where('is_read', 0)->update([
+            Notification::where('user_id', $authUser->id)->when($dtoRequest->notificationType, function ($query, $value) {
+                $query->where('type', $value);
+            })->where('is_read', 0)->update([
                 'is_read' => 1,
             ]);
         } else {
