@@ -201,6 +201,10 @@ class ConfigHelper
 
         if (ConfigHelper::fresnsConfigFileValueTypeByItemKey($itemKey) == 'URL') {
             $fileUrl = $configValue;
+
+            if (substr($configValue, 0, 1) === "/") {
+                $fileUrl = StrHelper::qualifyUrl($configValue);
+            }
         } else {
             $fileInfo = FileHelper::fresnsFileInfoById($configValue);
 

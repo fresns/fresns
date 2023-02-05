@@ -71,8 +71,8 @@ class GlobalController extends Controller
         foreach ($configs as $config) {
             if ($config->is_multilingual == 1) {
                 $item[$config->item_key] = LanguageHelper::fresnsLanguageByTableKey($config->item_key, $config->item_type, $langTag);
-            } elseif ($config->item_type == 'file' && StrHelper::isPureInt($config->item_value)) {
-                $item[$config->item_key] = ConfigHelper::fresnsConfigFileUrlByItemKey($config->item_value);
+            } elseif ($config->item_type == 'file') {
+                $item[$config->item_key] = ConfigHelper::fresnsConfigFileUrlByItemKey($config->item_key);
             } elseif ($config->item_type == 'plugin') {
                 $item[$config->item_key] = PluginHelper::fresnsPluginUrlByUnikey($config->item_value);
             } elseif ($config->item_type == 'plugins') {
