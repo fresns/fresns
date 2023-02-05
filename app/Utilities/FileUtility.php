@@ -42,17 +42,15 @@ class FileUtility
     }
 
     // uploadFile
-    public static function uploadFile(array $bodyInfo, UploadedFile $file)
+    public static function uploadFile(array $bodyInfo, array $diskConfig, UploadedFile $file)
     {
         if (! Str::isJson($bodyInfo['moreJson'])) {
             return null;
         }
 
-        $fresnsStorage = Storage::build([
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => '/storage',
-        ]);
+        // $diskConfig >> /config/filesystems.php
+        // local, ftp, sftp
+        $fresnsStorage = Storage::build($diskConfig);
 
         $storePath = FileHelper::fresnsFileStoragePath($bodyInfo['type'], $bodyInfo['usageType']);
 
