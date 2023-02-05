@@ -40,7 +40,7 @@
         "fresns/dto": "^1.1",
         "fresns/cmd-word-manager": "^1.3",
         "fresns/plugin-manager": "^2.4",
-        "fresns/theme-manager": "^2.0",
+        "fresns/theme-manager": "^2.1",
         "fresns/market-manager": "^2.1",
         "mcamara/laravel-localization": "^1.7",
         "hisorange/browser-detect": "^4.5",
