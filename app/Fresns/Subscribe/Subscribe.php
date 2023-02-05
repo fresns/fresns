@@ -137,7 +137,7 @@ class Subscribe
 
     public function getCurrentSubscribes()
     {
-        return ConfigHelper::fresnsConfigByItemKey('subscribe_items');
+        return ConfigHelper::fresnsConfigByItemKey('subscribe_items') ?? [];
     }
 
     public function getTableDataChangeSubscribes()
@@ -164,7 +164,7 @@ class Subscribe
             'item_value' => $subscribes,
         ]);
 
-        CacheHelper::forgetFresnsKey('subscribe_items');
+        CacheHelper::forgetFresnsMultilingual('fresns_config_subscribe_items');
 
         return $fresnsSave;
     }
@@ -179,7 +179,7 @@ class Subscribe
             'item_value' => $filterData,
         ]);
 
-        CacheHelper::forgetFresnsKey('subscribe_items');
+        CacheHelper::forgetFresnsMultilingual('fresns_config_subscribe_items');
 
         return $fresnsRemove;
     }

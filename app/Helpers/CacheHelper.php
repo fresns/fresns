@@ -613,23 +613,17 @@ class CacheHelper
                 case FileUsage::TYPE_POST:
                     $post = PrimaryHelper::fresnsModelById('post', $usage->table_id);
                     $pid = $post?->pid;
-                    $keys = [
-                        "fresns_api_post_{$pid}_list_content",
-                        "fresns_api_post_{$pid}_detail_content",
-                    ];
+                    $cacheKey = "fresns_api_post_{$pid}";
                 break;
 
                 case FileUsage::TYPE_COMMENT:
                     $comment = PrimaryHelper::fresnsModelById('comment', $usage->table_id);
                     $cid = $comment?->cid;
-                    $keys = [
-                        "fresns_api_comment_{$cid}_list_content",
-                        "fresns_api_comment_{$cid}_detail_content",
-                    ];
+                    $cacheKey = "fresns_api_comment_{$cid}";
                 break;
             }
 
-            CacheHelper::forgetFresnsKeys($keys);
+            CacheHelper::forgetFresnsMultilingual($cacheKey);
         }
     }
 
