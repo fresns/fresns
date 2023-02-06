@@ -191,7 +191,7 @@ class ConfigHelper
      * @param  string  $itemKey
      * @return string
      */
-    public static function fresnsConfigFileUrlByItemKey(string $itemKey)
+    public static function fresnsConfigFileUrlByItemKey(string $itemKey, ?string $urlConfig = null)
     {
         $configValue = ConfigHelper::fresnsConfigByItemKey($itemKey);
 
@@ -216,7 +216,9 @@ class ConfigHelper
                 default => 'imageConfig',
             };
 
-            $fileUrl = $fileInfo["{$key}Url"];
+            $urlConfig = $urlConfig ?: "{$key}Url";
+
+            $fileUrl = $fileInfo[$urlConfig];
         }
 
         return $fileUrl;
