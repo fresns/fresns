@@ -689,7 +689,7 @@ class InteractionUtility
                 $comment = Comment::with('hashtags')->where('id', $id)->first();
                 $userState = UserStat::where('user_id', $comment?->user_id)->first();
                 $post = Post::where('id', $comment?->post_id)->first();
-                $group = Group::where('id', $comment?->group_id)->first();
+                $group = Group::where('id', $post?->group_id)->first();
 
                 $linkIds = DomainLinkUsage::type(DomainLinkUsage::TYPE_COMMENT)->where('usage_id', $comment?->id)->pluck('link_id')->toArray();
                 $domainIds = DomainLink::whereIn('id', $linkIds)->pluck('domain_id')->toArray();
