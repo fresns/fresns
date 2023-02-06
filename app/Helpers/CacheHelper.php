@@ -454,6 +454,16 @@ class CacheHelper
     }
 
     /**
+     * forget fresns config key.
+     */
+    public static function forgetFresnsConfigKey(string $itemKey)
+    {
+        $cacheKey = "fresns_config_{$itemKey}";
+
+        CacheHelper::forgetFresnsMultilingual($cacheKey);
+    }
+
+    /**
      * forget fresns key.
      */
     public static function forgetFresnsKey(string $key)
