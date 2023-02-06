@@ -68,11 +68,11 @@ trait PostServiceTrait
 
         $info['isAllow'] = (bool) $appendData->is_allow;
         $info['allowProportion'] = $appendData->allow_proportion;
-        $info['allowBtnName'] = LanguageHelper::fresnsLanguageByTableId('post_appends', 'allow_btn_name', $appendData->post_id, $langTag);
+        $info['allowBtnName'] = LanguageHelper::fresnsLanguageByTableId('post_appends', 'allow_btn_name', $appendData->post_id, $langTag) ?? $appendData->allow_btn_name;
         $info['allowBtnUrl'] = PluginHelper::fresnsPluginUrlByUnikey($appendData->allow_plugin_unikey);
 
         $info['isUserList'] = (bool) $appendData->is_user_list;
-        $info['userListName'] = LanguageHelper::fresnsLanguageByTableId('post_appends', 'user_list_name', $appendData->post_id, $langTag);
+        $info['userListName'] = LanguageHelper::fresnsLanguageByTableId('post_appends', 'user_list_name', $appendData->post_id, $langTag) ?? $appendData->user_list_name;
         $info['userListUrl'] = PluginHelper::fresnsPluginUrlByUnikey($appendData->user_list_plugin_unikey);
         $info['userListCount'] = 0;
         if ($info['isUserList']) {

@@ -33,8 +33,8 @@ trait GroupServiceTrait
         $info['gid'] = $groupData->gid;
         $info['url'] = $configKeys['site_url'].'/'.$configKeys['website_group_detail_path'].'/'.$groupData->gid;
         $info['type'] = $groupData->type;
-        $info['gname'] = LanguageHelper::fresnsLanguageByTableId('groups', 'name', $groupData->id, $langTag);
-        $info['description'] = LanguageHelper::fresnsLanguageByTableId('groups', 'description', $groupData->id, $langTag);
+        $info['gname'] = LanguageHelper::fresnsLanguageByTableId('groups', 'name', $groupData->id, $langTag) ?? $groupData->name;
+        $info['description'] = LanguageHelper::fresnsLanguageByTableId('groups', 'description', $groupData->id, $langTag) ?? $groupData->description;
         $info['cover'] = FileHelper::fresnsFileUrlByTableColumn($groupData->cover_file_id, $groupData->cover_file_url);
         $info['banner'] = FileHelper::fresnsFileUrlByTableColumn($groupData->banner_file_id, $groupData->banner_file_url);
         $info['recommend'] = (bool) $groupData->is_recommend;
@@ -81,8 +81,8 @@ trait GroupServiceTrait
         $parentGroup = $this;
 
         $info['gid'] = $parentGroup->gid;
-        $info['gname'] = LanguageHelper::fresnsLanguageByTableId('groups', 'name', $parentGroup->id, $langTag);
-        $info['description'] = LanguageHelper::fresnsLanguageByTableId('groups', 'description', $parentGroup->id, $langTag);
+        $info['gname'] = LanguageHelper::fresnsLanguageByTableId('groups', 'name', $parentGroup->id, $langTag) ?? $parentGroup->name;
+        $info['description'] = LanguageHelper::fresnsLanguageByTableId('groups', 'description', $parentGroup->id, $langTag) ?? $parentGroup->description;
         $info['cover'] = FileHelper::fresnsFileUrlByTableColumn($parentGroup->cover_file_id, $parentGroup->cover_file_url);
         $info['banner'] = FileHelper::fresnsFileUrlByTableColumn($parentGroup->banner_file_id, $parentGroup->banner_file_url);
 

@@ -140,7 +140,7 @@ trait UserServiceTrait
 
         $mainRole['nicknameColor'] = $roleData?->nickname_color;
         $mainRole['rid'] = $roleData?->id;
-        $mainRole['roleName'] = $roleData?->id ? LanguageHelper::fresnsLanguageByTableId('roles', 'name', $roleData?->id, $langTag) : null;
+        $mainRole['roleName'] = $roleData?->id ? (LanguageHelper::fresnsLanguageByTableId('roles', 'name', $roleData?->id, $langTag) ?? $roleData?->name) : null;
         $mainRole['roleNameDisplay'] = (bool) $roleData?->is_display_name;
         $mainRole['roleIcon'] = FileHelper::fresnsFileUrlByTableColumn($roleData?->icon_file_id, $roleData?->icon_file_url);
         $mainRole['roleIconDisplay'] = (bool) $roleData?->is_display_icon;
