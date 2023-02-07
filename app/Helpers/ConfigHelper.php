@@ -50,7 +50,7 @@ class ConfigHelper
     }
 
     // lang tags
-    public static function fresnsConfigLangTags()
+    public static function fresnsConfigLangTags(): array
     {
         $cacheKey = 'fresns_lang_tags';
         $cacheTag = 'fresnsConfigs';
@@ -114,8 +114,9 @@ class ConfigHelper
      */
     public static function fresnsConfigByItemKeys(array $itemKeys, ?string $langTag = null): array
     {
-        $key = reset($itemKeys).'_'.end($itemKeys).'_'.count($itemKeys);
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
+        $key = reset($itemKeys).'_'.end($itemKeys).'_'.count($itemKeys);
         $cacheKey = "fresns_config_keys_{$key}_{$langTag}";
 
         $keysData = CacheHelper::get($cacheKey, 'fresnsConfigs');
