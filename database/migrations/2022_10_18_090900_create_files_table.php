@@ -32,6 +32,7 @@ class CreateFilesTable extends Migration
             $table->string('sha_type', 16)->nullable();
             $table->string('disk', 32)->default('remote');
             $table->string('path')->unique('path');
+            $table->string('image_handle_position', 16)->nullable();
             $table->unsignedSmallInteger('image_width')->nullable();
             $table->unsignedSmallInteger('image_height')->nullable();
             $table->unsignedTinyInteger('image_is_long')->default(0);
