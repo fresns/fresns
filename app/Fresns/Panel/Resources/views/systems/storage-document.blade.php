@@ -43,13 +43,6 @@
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_bucket_domain') }}</label>
                     <input type="url" class="form-control" id="document_bucket_domain" name="document_bucket_domain" value="{{ $params['document_bucket_domain'] }}">
                 </div>
-                <div class="input-group">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_filesystem_disk') }}</label>
-                    <select class="form-select" name="document_filesystem_disk">
-                        <option value="local" {{ $params['document_filesystem_disk'] == 'local' ? 'selected' : '' }}>local</option>
-                        <option value="remote" {{ $params['document_filesystem_disk'] == 'remote' ? 'selected' : '' }}>remote</option>
-                    </select>
-                </div>
             </div>
             <div class="col-lg-4 form-text pt-1">
                 <i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_service_config_desc') }}<br>
