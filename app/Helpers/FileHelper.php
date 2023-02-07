@@ -329,6 +329,62 @@ class FileHelper
         return $fileTypeNumber;
     }
 
+    // get file path for image
+    // position start && end
+    public static function fresnsFilePathForImage(string $position, ?string $filePath = null)
+    {
+        $position = match ($position) {
+            default => null,
+            'start' => 'start',
+            'end' => 'end',
+            'name-start' => 'start',
+            'name-end' => 'end',
+        };
+
+        if (empty($position) || empty($filePath)) {
+            return [
+                'configPath' => null,
+                'avatarPath' => null,
+                'ratioPath' => null,
+                'squarePath' => null,
+                'bigPath' => null,
+            ];
+        }
+
+        $fileName = pathinfo($filePath, PATHINFO_FILENAME);
+        $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
+        $fileDirectory = dirname($filePath);
+
+        $fileNameLength = strlen($fileName);
+        $newFileName = substr($fileName, 0, $fileNameLength - 16);
+
+        switch ($position) {
+            case 'start':
+                $configPath = $fileDirectory.'/config-'.$newFileName.'.'.$fileExtension;
+                $avatarPath = $fileDirectory.'/avatar-'.$newFileName.'.'.$fileExtension;
+                $ratioPath = $fileDirectory.'/ratio-'.$newFileName.'.'.$fileExtension;
+                $squarePath = $fileDirectory.'/square-'.$newFileName.'.'.$fileExtension;
+                $bigPath = $fileDirectory.'/big-'.$newFileName.'.'.$fileExtension;
+            break;
+
+            case 'end':
+                $configPath = $fileDirectory.'/'.$newFileName.'-config.'.$fileExtension;
+                $avatarPath = $fileDirectory.'/'.$newFileName.'-avatar.'.$fileExtension;
+                $ratioPath = $fileDirectory.'/'.$newFileName.'-ratio.'.$fileExtension;
+                $squarePath = $fileDirectory.'/'.$newFileName.'-square.'.$fileExtension;
+                $bigPath = $fileDirectory.'/'.$newFileName.'-big.'.$fileExtension;
+            break;
+        }
+
+        return [
+            'configPath' => $configPath,
+            'avatarPath' => $avatarPath,
+            'ratioPath' => $ratioPath,
+            'squarePath' => $squarePath,
+            'bigPath' => $bigPath,
+        ];
+    }
+
     public static function handleAntiLinkFileInfoList(array $files)
     {
         $imageStorageConfig = FileHelper::fresnsFileStorageConfigByType(File::TYPE_IMAGE);

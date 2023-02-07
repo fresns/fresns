@@ -107,8 +107,9 @@
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_image_handle_position') }}</label>
                     <select class="form-select" name="image_handle_position">
                         <option value="start" {{ $params['image_handle_position'] == 'start' ? 'selected' : '' }}>start</option>
-                        <option value="middle" {{ $params['image_handle_position'] == 'middle' ? 'selected' : '' }}>middle</option>
                         <option value="end" {{ $params['image_handle_position'] == 'end' ? 'selected' : '' }}>end</option>
+                        <option value="name-start" {{ $params['image_handle_position'] == 'name-start' ? 'selected' : '' }}>name-start</option>
+                        <option value="name-end" {{ $params['image_handle_position'] == 'name-end' ? 'selected' : '' }}>name-end</option>
                     </select>
                 </div>
                 <div class="input-group mb-3">

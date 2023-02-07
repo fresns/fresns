@@ -107,6 +107,8 @@ trait FileServiceTrait
             'image_thumb_big',
         ]);
 
+        $imageHandlePosition = $fileData->image_handle_position ?? $imageConfig['image_handle_position'];
+
         if ($fileData->disk == 'local') {
             $filePath = Storage::url($fileData->path);
 
@@ -117,53 +119,46 @@ trait FileServiceTrait
             $bucketDomain = $imageConfig['image_bucket_domain'];
         }
 
-        $imageDefaultUrl = StrHelper::qualifyUrl($filePath, $bucketDomain);
-
         $info['imageWidth'] = $fileData->image_width;
         $info['imageHeight'] = $fileData->image_height;
         $info['imageLong'] = (bool) $fileData->image_is_long;
-        $info['imageDefaultUrl'] = $imageDefaultUrl;
 
-        if ($imageConfig['image_handle_position'] == 'start') {
-            $imageConfigPath = $imageConfig['image_thumb_config'].$filePath;
-            $imageAvatarPath = $imageConfig['image_thumb_avatar'].$filePath;
-            $imageRatioPath = $imageConfig['image_thumb_ratio'].$filePath;
-            $imageSquarePath = $imageConfig['image_thumb_square'].$filePath;
-            $imageBigPath = $imageConfig['image_thumb_big'].$filePath;
+        // imageHandlePosition = end
+        if ($imageHandlePosition == 'end') {
+            $imageUrl = StrHelper::qualifyUrl($filePath, $bucketDomain);
 
-            $info['imageConfigUrl'] = StrHelper::qualifyUrl($imageConfigPath, $bucketDomain);
-            $info['imageAvatarUrl'] = StrHelper::qualifyUrl($imageAvatarPath, $bucketDomain);
-            $info['imageRatioUrl'] = StrHelper::qualifyUrl($imageRatioPath, $bucketDomain);
-            $info['imageSquareUrl'] = StrHelper::qualifyUrl($imageSquarePath, $bucketDomain);
-            $info['imageBigUrl'] = StrHelper::qualifyUrl($imageBigPath, $bucketDomain);
-        } elseif ($imageConfig['image_handle_position'] == 'middle') {
-            $pathElement = explode('/', $filePath);
-            $fileName = array_pop($pathElement);
+            $info['imageConfigUrl'] = $imageUrl.$imageConfig['image_thumb_config'];
+            $info['imageAvatarUrl'] = $imageUrl.$imageConfig['image_thumb_avatar'];
+            $info['imageRatioUrl'] = $imageUrl.$imageConfig['image_thumb_ratio'];
+            $info['imageSquareUrl'] = $imageUrl.$imageConfig['image_thumb_square'];
+            $info['imageBigUrl'] = $imageUrl.$imageConfig['image_thumb_big'];
 
-            $configFileName = $imageConfig['image_thumb_config'].$fileName;
-            $avatarFileName = $imageConfig['image_thumb_avatar'].$fileName;
-            $ratioFileName = $imageConfig['image_thumb_ratio'].$fileName;
-            $squareFileName = $imageConfig['image_thumb_square'].$fileName;
-            $bigFileName = $imageConfig['image_thumb_big'].$fileName;
-
-            $imageConfigPath = array_push($pathElement, $configFileName);
-            $imageAvatarPath = array_push($pathElement, $avatarFileName);
-            $imageRatioPath = array_push($pathElement, $ratioFileName);
-            $imageSquarePath = array_push($pathElement, $squareFileName);
-            $imageBigPath = array_push($pathElement, $bigFileName);
-
-            $info['imageConfigUrl'] = StrHelper::qualifyUrl($imageConfigPath, $bucketDomain);
-            $info['imageAvatarUrl'] = StrHelper::qualifyUrl($imageAvatarPath, $bucketDomain);
-            $info['imageRatioUrl'] = StrHelper::qualifyUrl($imageRatioPath, $bucketDomain);
-            $info['imageSquareUrl'] = StrHelper::qualifyUrl($imageSquarePath, $bucketDomain);
-            $info['imageBigUrl'] = StrHelper::qualifyUrl($imageBigPath, $bucketDomain);
-        } else {
-            $info['imageConfigUrl'] = $imageDefaultUrl.$imageConfig['image_thumb_config'];
-            $info['imageAvatarUrl'] = $imageDefaultUrl.$imageConfig['image_thumb_avatar'];
-            $info['imageRatioUrl'] = $imageDefaultUrl.$imageConfig['image_thumb_ratio'];
-            $info['imageSquareUrl'] = $imageDefaultUrl.$imageConfig['image_thumb_square'];
-            $info['imageBigUrl'] = $imageDefaultUrl.$imageConfig['image_thumb_big'];
+            return $info;
         }
+
+        // imageHandlePosition = start
+        $imageConfigPath = $imageConfig['image_thumb_config'].$filePath;
+        $imageAvatarPath = $imageConfig['image_thumb_avatar'].$filePath;
+        $imageRatioPath = $imageConfig['image_thumb_ratio'].$filePath;
+        $imageSquarePath = $imageConfig['image_thumb_square'].$filePath;
+        $imageBigPath = $imageConfig['image_thumb_big'].$filePath;
+
+        // imageHandlePosition = name-start && name-end
+        if ($imageHandlePosition == 'name-start' || $imageHandlePosition == 'name-end') {
+            $handlePath = FileHelper::fresnsFilePathForImage($imageHandlePosition, $filePath);
+
+            $imageConfigPath = $handlePath['configPath'];
+            $imageAvatarPath = $handlePath['avatarPath'];
+            $imageRatioPath = $handlePath['ratioPath'];
+            $imageSquarePath = $handlePath['squarePath'];
+            $imageBigPath = $handlePath['bigPath'];
+        }
+
+        $info['imageConfigUrl'] = StrHelper::qualifyUrl($imageConfigPath, $bucketDomain);
+        $info['imageAvatarUrl'] = StrHelper::qualifyUrl($imageAvatarPath, $bucketDomain);
+        $info['imageRatioUrl'] = StrHelper::qualifyUrl($imageRatioPath, $bucketDomain);
+        $info['imageSquareUrl'] = StrHelper::qualifyUrl($imageSquarePath, $bucketDomain);
+        $info['imageBigUrl'] = StrHelper::qualifyUrl($imageBigPath, $bucketDomain);
 
         return $info;
     }

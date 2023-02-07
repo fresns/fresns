@@ -15,7 +15,6 @@ use App\Models\File;
 use App\Models\FileUsage;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class FileUtility
 {
@@ -58,6 +57,7 @@ class FileUtility
         //     'sha' => 'files->sha',
         //     'shaType' => 'files->shaType',
         //     'disk' => 'files->disk',
+        //     'imageHandlePosition' => 'files->image_handle_position',
         //     'moreJson' => 'files->more_json',
         // ];
 
@@ -151,8 +151,8 @@ class FileUtility
             ];
             $fileId = File::create($fileInput)->id;
 
-            $accountId = PrimaryHelper::fresnsAccountIdByAid($bodyInfo['aid']);
-            $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($bodyInfo['uid']);
+            $accountId = PrimaryHelper::fresnsAccountIdByAid($bodyInfo['aid'] ?? null);
+            $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($bodyInfo['uid'] ?? null);
 
             $tableId = $bodyInfo['tableId'];
             if (empty($bodyInfo['tableId'])) {
@@ -221,6 +221,7 @@ class FileUtility
             'sha_type' =>  $bodyInfo['shaType'] ?? null,
             'disk' =>  $bodyInfo['disk'] ?? 'remote',
             'path' => $diskPath,
+            'image_handle_position' => $bodyInfo['imageHandlePosition'] ?? null,
             'image_width' => $imageWidth,
             'image_height' => $imageHeight,
             'image_is_long' => $imageIsLong,
@@ -229,19 +230,8 @@ class FileUtility
 
         $fileId = File::create($fileInput)->id;
 
-        $checkUsageType = [
-            FileUsage::TYPE_OTHER,
-            FileUsage::TYPE_SYSTEM,
-            FileUsage::TYPE_OPERATION,
-            FileUsage::TYPE_STICKER,
-        ];
-
-        if (in_array($bodyInfo['usageType'], $checkUsageType)) {
-            return FileHelper::fresnsFileInfoById($fileId);
-        }
-
-        $accountId = PrimaryHelper::fresnsAccountIdByAid($bodyInfo['aid']);
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($bodyInfo['uid']);
+        $accountId = PrimaryHelper::fresnsAccountIdByAid($bodyInfo['aid'] ?? null);
+        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($bodyInfo['uid'] ?? null);
 
         $tableId = $bodyInfo['tableId'];
         if (empty($bodyInfo['tableId'])) {
