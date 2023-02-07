@@ -25,6 +25,64 @@ class DateHelper
         $databaseTimezone = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($databaseTimezone)) {
+            $utc = [
+                '-12',
+                '-11.5',
+                '-11',
+                '-10.5',
+                '-10',
+                '-9.5',
+                '-9',
+                '-8.5',
+                '-8',
+                '-7.5',
+                '-7',
+                '-6.5',
+                '-6',
+                '-5.5',
+                '-5',
+                '-4.5',
+                '-4',
+                '-3.5',
+                '-3',
+                '-2.5',
+                '-2',
+                '-1.5',
+                '-1',
+                '-0.5',
+                '+0',
+                '+0.5',
+                '+1',
+                '+1.5',
+                '+2',
+                '+2.5',
+                '+3',
+                '+3.5',
+                '+4',
+                '+4.5',
+                '+5',
+                '+5.5',
+                '+5.75',
+                '+6',
+                '+6.5',
+                '+7',
+                '+7.5',
+                '+8',
+                '+8.5',
+                '+8.75',
+                '+9',
+                '+9.5',
+                '+10',
+                '+10.5',
+                '+11',
+                '+11.5',
+                '+12',
+                '+12.75',
+                '+13',
+                '+13.75',
+                '+14',
+            ];
+
             $standardTime = gmdate('Y-m-d H:i:s');
 
             $dbNow = DateHelper::fresnsDatabaseCurrentDateTime();
@@ -32,11 +90,21 @@ class DateHelper
 
             $hour = round($hour);
 
-            if ($hour > 0) {
+            if ($hour > -1e-1) {
                 $hour = '+'.$hour;
             }
 
-            $databaseTimezone = $hour;
+            $closestTimezone = ConfigHelper::fresnsConfigDefaultTimezone();
+            $closestDiff = INF;
+            foreach ($utc as $tz) {
+                $diff = abs($tz - $hour);
+                if ($diff < $closestDiff) {
+                    $closestDiff = $diff;
+                    $closestTimezone = $tz;
+                }
+            }
+
+            $databaseTimezone = $closestTimezone;
 
             CacheHelper::put($databaseTimezone, $cacheKey, $cacheTag);
         }

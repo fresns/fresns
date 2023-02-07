@@ -624,16 +624,18 @@ class CacheHelper
                     $post = PrimaryHelper::fresnsModelById('post', $usage->table_id);
                     $pid = $post?->pid;
                     $cacheKey = "fresns_api_post_{$pid}";
+
+                    CacheHelper::forgetFresnsMultilingual($cacheKey);
                 break;
 
                 case FileUsage::TYPE_COMMENT:
                     $comment = PrimaryHelper::fresnsModelById('comment', $usage->table_id);
                     $cid = $comment?->cid;
                     $cacheKey = "fresns_api_comment_{$cid}";
+
+                    CacheHelper::forgetFresnsMultilingual($cacheKey);
                 break;
             }
-
-            CacheHelper::forgetFresnsMultilingual($cacheKey);
         }
     }
 
