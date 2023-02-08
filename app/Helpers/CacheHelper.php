@@ -554,7 +554,7 @@ class CacheHelper
      *
      * fresns_model_key_{$appId}
      * fresns_model_account_{$aid}
-     * fresns_model_user_{$uidOrUsername}
+     * fresns_model_user_{$uidOrUsername}_by_fsid
      * fresns_model_group_{$gid}
      * fresns_model_hashtag_{$hid}
      * fresns_model_post_{$pid}
@@ -591,8 +591,8 @@ class CacheHelper
         }
 
         if ($modelName == 'user') {
-            CacheHelper::forgetFresnsKey("fresns_model_user_{$model?->uid}");
-            CacheHelper::forgetFresnsKey("fresns_model_user_{$model?->username}");
+            CacheHelper::forgetFresnsKey("fresns_model_user_{$model?->uid}_by_fsid");
+            CacheHelper::forgetFresnsKey("fresns_model_user_{$model?->username}_by_fsid");
         }
 
         CacheHelper::forgetFresnsKey($fsidCacheKey);
@@ -776,7 +776,7 @@ class CacheHelper
      * tag: fresnsUsers.
      */
     // fresns_token_user_{$userId}_{$token}                         // +tag: fresnsUserTokens
-    // fresns_model_user_{$uidOrUsername}                           // +tag: fresnsUserModels
+    // fresns_model_user_{$uidOrUsername}_by_fsid                   // +tag: fresnsUserModels
     // fresns_model_user_{$userId}                                  // +tag: fresnsUserModels
     // fresns_model_conversation_{$userId}_{$conversationUserId}    // +tag: fresnsUserConversations
     // fresns_user_{$userId}_main_role_{$langTag}                   // +tag: fresnsUserRoles

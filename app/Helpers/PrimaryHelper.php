@@ -33,6 +33,10 @@ class PrimaryHelper
         }
 
         $cacheKey = "fresns_model_{$modelName}_{$fsid}";
+        if ($modelName == 'user') {
+            $cacheKey = $cacheKey.'_by_fsid';
+        }
+
         $cacheTags = match ($modelName) {
             'key' => 'fresnsSystems',
             'account' => ['fresnsAccounts', 'fresnsAccountModels'],
