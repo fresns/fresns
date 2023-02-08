@@ -848,7 +848,7 @@ return [
     'role_perm_content_view' => 'Просмотр разрешения',
     'role_perm_conversation' => 'Разрешение на сессии',
     'role_perm_content_link_handle' => 'Обработка ссылок для опубликованного контента',
-    'role_perm_content_link_handle_1' => 'Не разрешать и не шифровать доменные имена',
+    'role_perm_content_link_handle_1' => 'Не разрешать и маскировать доменное имя',
     'role_perm_content_link_handle_2' => 'Не решается, а отображается как текст',
     'role_perm_content_link_handle_3' => 'Обычный синтаксический разбор',
     'role_perm_post_publish' => 'Опубликовать разрешение',

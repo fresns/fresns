@@ -848,7 +848,7 @@ return [
     'role_perm_content_view' => 'Parcourir la permission',
     'role_perm_conversation' => 'Autorisation de session',
     'role_perm_content_link_handle' => 'Gestion des liens pour le contenu publié',
-    'role_perm_content_link_handle_1' => 'Ne pas résoudre et crypter les noms de domaine',
+    'role_perm_content_link_handle_1' => 'Ne pas résoudre et masquer le nom de domaine',
     'role_perm_content_link_handle_2' => 'Ne se résout pas mais s\'affiche en tant que texte',
     'role_perm_content_link_handle_3' => 'Analyse syntaxique normale',
     'role_perm_post_publish' => 'Poster une autorisation postale',

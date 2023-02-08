@@ -848,7 +848,7 @@ return [
     'role_perm_content_view' => 'Permiso de navegación',
     'role_perm_conversation' => 'Permiso de sesión',
     'role_perm_content_link_handle' => 'Gestión de enlaces para los contenidos publicados',
-    'role_perm_content_link_handle_1' => 'No resolver y cifrar los nombres de dominio',
+    'role_perm_content_link_handle_1' => 'No resolver y enmascarar el nombre de dominio',
     'role_perm_content_link_handle_2' => 'No se resuelve pero se muestra como texto',
     'role_perm_content_link_handle_3' => 'Análisis sintáctico normal',
     'role_perm_post_publish' => 'Publicar un permiso de publicación',

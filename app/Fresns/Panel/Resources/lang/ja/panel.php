@@ -848,7 +848,7 @@ return [
     'role_perm_content_view' => '許可を閲覧する',
     'role_perm_conversation' => 'セッション権限',
     'role_perm_content_link_handle' => '公開コンテンツのリンク処理',
-    'role_perm_content_link_handle_1' => 'ドメイン名を解決しない、暗号化しない',
+    'role_perm_content_link_handle_1' => 'ドメイン名の解決とマスクを行わない',
     'role_perm_content_link_handle_2' => '解決せず、テキストとして表示される',
     'role_perm_content_link_handle_3' => '通常の構文解析',
     'role_perm_post_publish' => '投稿許可を投稿してください',

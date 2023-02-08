@@ -848,7 +848,7 @@ return [
     'role_perm_content_view' => '찾아보기 허가',
     'role_perm_conversation' => '세션 허가',
     'role_perm_content_link_handle' => '게시된 콘텐츠에 대한 링크 처리',
-    'role_perm_content_link_handle_1' => '도메인 이름을 구문 분석하고 암호화하지 마십시오.',
+    'role_perm_content_link_handle_1' => '도메인 이름을 구문 분석 및 마스킹하지 않음',
     'role_perm_content_link_handle_2' => '구문 분석되지 않았지만 텍스트로 표시됨',
     'role_perm_content_link_handle_3' => '일반 구문 분석',
     'role_perm_post_publish' => '게시물 허가를 게시하십시오',

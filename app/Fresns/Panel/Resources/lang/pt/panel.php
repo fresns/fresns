@@ -848,7 +848,7 @@ return [
     'role_perm_content_view' => 'Procurar permissão',
     'role_perm_conversation' => 'Permissão de sessão',
     'role_perm_content_link_handle' => 'Manuseamento de links para conteúdos publicados',
-    'role_perm_content_link_handle_1' => 'Não-resolução e encriptação de nomes de domínio',
+    'role_perm_content_link_handle_1' => 'Não resolver e mascarar nome de domínio',
     'role_perm_content_link_handle_2' => 'Não-resolvido mas apresentado como texto',
     'role_perm_content_link_handle_3' => 'Análise normal',
     'role_perm_post_publish' => 'Postar uma permissão de postagem',

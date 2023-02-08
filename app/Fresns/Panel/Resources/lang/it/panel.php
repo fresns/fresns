@@ -848,7 +848,7 @@ return [
     'role_perm_content_view' => 'Sfoglia il permesso',
     'role_perm_conversation' => 'Permesso di sessione',
     'role_perm_content_link_handle' => 'Gestione dei link per i contenuti pubblicati',
-    'role_perm_content_link_handle_1' => 'Non risolvere e criptare i nomi di dominio',
+    'role_perm_content_link_handle_1' => 'Non risolvere e mascherare il nome di dominio',
     'role_perm_content_link_handle_2' => 'Non si risolve ma viene visualizzato come testo',
     'role_perm_content_link_handle_3' => 'Parsing normale',
     'role_perm_post_publish' => 'Pubblica un permesso post',

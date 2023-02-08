@@ -848,7 +848,7 @@ return [
     'role_perm_content_view' => 'Erlaubnis durchsuchen',
     'role_perm_conversation' => 'Sitzungsberechtigung',
     'role_perm_content_link_handle' => 'Linkbehandlung für veröffentlichte Inhalte',
-    'role_perm_content_link_handle_1' => 'Domänennamen nicht auflösen und verschlüsseln',
+    'role_perm_content_link_handle_1' => 'Domänenname nicht auflösen und maskieren',
     'role_perm_content_link_handle_2' => 'Wird nicht aufgelöst, sondern als Text angezeigt',
     'role_perm_content_link_handle_3' => 'Normales Parsing',
     'role_perm_post_publish' => 'Posten Sie eine Post-Erlaubnis',

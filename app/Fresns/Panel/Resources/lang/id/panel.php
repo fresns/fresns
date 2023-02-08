@@ -848,7 +848,7 @@ return [
     'role_perm_content_view' => 'Jelajahi izin',
     'role_perm_conversation' => 'Izin sesi',
     'role_perm_content_link_handle' => 'Penanganan tautan untuk konten yang dipublikasikan',
-    'role_perm_content_link_handle_1' => 'Jangan menyelesaikan dan mengenkripsi nama domain',
+    'role_perm_content_link_handle_1' => 'Jangan menyelesaikan dan menyembunyikan nama domain',
     'role_perm_content_link_handle_2' => 'Tidak menyelesaikan tetapi ditampilkan sebagai teks',
     'role_perm_content_link_handle_3' => 'Penguraian normal',
     'role_perm_post_publish' => 'Posting izin posting',

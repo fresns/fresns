@@ -849,7 +849,7 @@ return [
     'role_perm_content_view' => '浏览权限',
     'role_perm_conversation' => '对话权限',
     'role_perm_content_link_handle' => '发表内容的链接处理',
-    'role_perm_content_link_handle_1' => '不解析并加密域名',
+    'role_perm_content_link_handle_1' => '不解析并掩码域名',
     'role_perm_content_link_handle_2' => '不解析但以文本方式显示',
     'role_perm_content_link_handle_3' => '正常解析',
     'role_perm_post_publish' => '发表帖子权限',

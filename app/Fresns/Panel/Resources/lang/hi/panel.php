@@ -848,7 +848,7 @@ return [
     'role_perm_content_view' => 'अनुमति ब्राउज़ करें',
     'role_perm_conversation' => 'सत्र अनुमति',
     'role_perm_content_link_handle' => 'प्रकाशित सामग्री के लिंक को संभालना',
-    'role_perm_content_link_handle_1' => 'डोमेन नाम को पार्स और एन्क्रिप्ट न करें',
+    'role_perm_content_link_handle_1' => 'डोमेन नामों को पार्स और मास्क न करें',
     'role_perm_content_link_handle_2' => 'पार्स नहीं किया गया लेकिन पाठ के रूप में प्रदर्शित किया गया',
     'role_perm_content_link_handle_3' => 'सामान्य विश्लेषण',
     'role_perm_post_publish' => 'एक पद की अनुमति पोस्ट करें',

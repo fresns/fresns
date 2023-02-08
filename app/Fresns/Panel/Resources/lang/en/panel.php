@@ -848,7 +848,7 @@ return [
     'role_perm_content_view' => 'Browse',
     'role_perm_conversation' => 'Conversation',
     'role_perm_content_link_handle' => 'Link handling for published content',
-    'role_perm_content_link_handle_1' => 'Do not resolve and encrypt domain names',
+    'role_perm_content_link_handle_1' => 'Do not resolve and mask domain name',
     'role_perm_content_link_handle_2' => 'Does not resolve but displays as text',
     'role_perm_content_link_handle_3' => 'Normal parsing',
     'role_perm_post_publish' => 'Post Publish',
