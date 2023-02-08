@@ -10,6 +10,8 @@ namespace App\Fresns\Panel\Providers;
 
 use App\Fresns\Panel\Http\Middleware\Authenticate;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class PanelServiceProvider extends ServiceProvider
@@ -24,17 +26,17 @@ class PanelServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerViews();
 
-        \Config::set('auth.guards.panel', [
+        Config::set('auth.guards.panel', [
             'driver' => 'session',
             'provider' => 'panel',
         ]);
 
-        \Config::set('auth.providers.panel', [
+        Config::set('auth.providers.panel', [
             'driver' => 'eloquent',
             'model' => \App\Models\Account::class,
         ]);
 
-        \Route::aliasMiddleware('panelAuth', Authenticate::class);
+        Route::aliasMiddleware('panelAuth', Authenticate::class);
     }
 
     /**
@@ -44,6 +46,7 @@ class PanelServiceProvider extends ServiceProvider
     {
         $this->registerConfig();
         $this->app->register(RouteServiceProvider::class);
+        $this->app->register(EventServiceProvider::class);
     }
 
     /**
