@@ -105,12 +105,14 @@ class ValidationUtility
         $length = Str::length($username);
         $user = User::withTrashed()->where('username', $username)->first();
 
+        // formatString
         $formatString = true;
         $isError = preg_match('/^[A-Za-z0-9-]+$/', $username);
         if (! $isError) {
             $formatString = false;
         }
 
+        // formatHyphen
         $formatHyphen = true;
         $hyphenCount = substr_count($username, '-');
         $hyphenStrStart = str_starts_with($username, '-');
@@ -119,27 +121,32 @@ class ValidationUtility
             $formatHyphen = false;
         }
 
+        // formatNumeric
         $formatNumeric = true;
         $isNumeric = is_numeric($username);
         if ($isNumeric) {
             $formatNumeric = false;
         }
 
+        // minLength
         $minLength = true;
         if ($length < $config['username_min']) {
             $minLength = false;
         }
 
+        // maxLength
         $maxLength = true;
         if ($length > $config['username_max']) {
             $maxLength = false;
         }
 
+        // use
         $use = true;
         if (! empty($user)) {
             $use = false;
         }
 
+        // banName
         $banName = true;
         $newBanNames = array_map('strtolower', $config['ban_names']);
         $isBanName = Str::contains(Str::lower($username), $newBanNames);
@@ -166,15 +173,36 @@ class ValidationUtility
         $config = ConfigHelper::fresnsConfigByItemKeys([
             'nickname_min',
             'nickname_max',
+            'ban_names',
         ]);
         $length = Str::length($nickname);
 
+        $cacheKey = 'fresns_user_ban_words';
+        $cacheTag = 'fresnsConfigs';
+
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            $banNames = [];
+        } else {
+            $banNames = CacheHelper::get($cacheKey, $cacheTag);
+
+            if (empty($banNames)) {
+                $banNameData = BlockWord::where('user_mode', 3)->pluck('word')->toArray();
+
+                $banNames = array_map('strtolower', $banNameData);
+
+                CacheHelper::put($banNames, $cacheKey, $cacheTag);
+            }
+        }
+
+        // formatString
         $formatString = true;
         $isError = preg_match('/^[\x{4e00}-\x{9fa5} A-Za-z0-9]+$/u', $nickname);
         if (! $isError) {
             $formatString = false;
         }
 
+        // formatSpace
         $formatSpace = true;
         $spaceCount = substr_count($nickname, ' ');
         $spaceStrStart = str_starts_with($nickname, ' ');
@@ -183,37 +211,22 @@ class ValidationUtility
             $formatSpace = false;
         }
 
+        // minLength
         $minLength = true;
         if ($length < $config['nickname_min']) {
             $minLength = false;
         }
 
+        // maxLength
         $maxLength = true;
         if ($length > $config['nickname_max']) {
             $maxLength = false;
         }
 
-        $cacheKey = 'fresns_user_ban_words';
-        $cacheTag = 'fresnsConfigs';
-
-        // is known to be empty
-        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
-        if ($isKnownEmpty) {
-            $banNameArray = [];
-            $isBanName = false;
-        } else {
-            $banNameArray = CacheHelper::get($cacheKey, $cacheTag);
-
-            if (empty($banNameArray)) {
-                $banNameData = BlockWord::where('user_mode', 3)->pluck('word')->toArray();
-
-                $banNameArray = array_map('strtolower', $banNameData);
-
-                CacheHelper::put($banNameArray, $cacheKey, $cacheTag);
-            }
-
-            $isBanName = Str::contains(Str::lower($nickname), $banNameArray);
-        }
+        // banName
+        $configBanNames = array_map('strtolower', $config['ban_names']);
+        $newBanNames = array_merge($banNames, $configBanNames);
+        $isBanName = Str::contains(Str::lower($nickname), $newBanNames);
 
         $validateNickname = [
             'formatString' => $formatString,
