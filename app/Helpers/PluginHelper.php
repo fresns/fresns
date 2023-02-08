@@ -104,10 +104,19 @@ class PluginHelper
     // get plugin version
     public static function fresnsPluginVersionByUnikey(string $unikey)
     {
-        $version = Plugin::where('unikey', $unikey)->value('version');
+        $cacheKey = "fresns_plugin_version_{$unikey}";
+        $cacheTags = ['fresnsExtensions', 'fresnsExtensionConfigs'];
+
+        $version = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($version)) {
-            return null;
+            $version = Plugin::where('unikey', $unikey)->value('version');
+
+            if (empty($version)) {
+                return null;
+            }
+
+            CacheHelper::put($version, $cacheKey, $cacheTags);
         }
 
         return $version;
