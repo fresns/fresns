@@ -71,6 +71,9 @@ body {
         margin: 0 10px;
     }
 }
+#navbarSupportedContent .nav-link.active {
+    color: var(--bs-indigo);
+}
 
 .form-setting {
     width: 100%;
