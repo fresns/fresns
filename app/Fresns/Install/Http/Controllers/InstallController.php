@@ -11,6 +11,7 @@ namespace App\Fresns\Install\Http\Controllers;
 use App\Helpers\AppHelper;
 use App\Models\Account;
 use App\Models\Config;
+use App\Models\UserRole;
 use Carbon\Carbon;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
@@ -426,6 +427,10 @@ class InstallController extends Controller
         // set account to admin
         $result = Account::whereAid($aid)->update([
             'type' => 1,
+        ]);
+
+        UserRole::where('user_id', 1)->where('is_main', 1)->update([
+            'role_id' => 1,
         ]);
 
         Artisan::call('plugin:install', [
