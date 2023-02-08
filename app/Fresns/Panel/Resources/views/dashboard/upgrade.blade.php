@@ -89,7 +89,7 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
                                         <img src="/assets/plugins/{{ $plugin->unikey }}/fresns.png" class="me-2" width="22" height="22">
-                                        {{ $plugin->name }}
+                                        <a href="{{ $marketUrl.'/detail/'.$plugin->unikey }}" target="_blank" class="link-dark fresns-link">{{ $plugin->name }}</a>
                                         <span class="badge bg-secondary">{{ $plugin->version }}</span> to <span class="badge bg-primary">{{ $plugin->upgrade_version }}</span>
                                     </div>
                                     <div>
@@ -127,7 +127,7 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
                                         <img src="/assets/plugins/{{ $app->unikey }}/fresns.png" class="me-2" width="22" height="22">
-                                        {{ $app->name }}
+                                        <a href="{{ $marketUrl.'/detail/'.$app->unikey }}" target="_blank" class="link-dark fresns-link">{{ $app->name }}</a>
                                         <span class="badge bg-secondary">{{ $app->version }}</span> to <span class="badge bg-primary">{{ $app->upgrade_version }}</span>
                                     </div>
                                     <div>
@@ -165,7 +165,7 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
                                         <img src="/assets/plugins/{{ $engine->unikey }}/fresns.png" class="me-2" width="22" height="22">
-                                        {{ $engine->name }}
+                                        <a href="{{ $marketUrl.'/detail/'.$engine->unikey }}" target="_blank" class="link-dark fresns-link">{{ $engine->name }}</a>
                                         <span class="badge bg-secondary">{{ $engine->version }}</span> to <span class="badge bg-primary">{{ $engine->upgrade_version }}</span>
                                     </div>
                                     <div>
@@ -203,7 +203,7 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
                                         <img src="/assets/themes/{{ $theme->unikey }}/fresns.png" class="me-2" width="22" height="22">
-                                        {{ $theme->name }}
+                                        <a href="{{ $marketUrl.'/detail/'.$theme->unikey }}" target="_blank" class="link-dark fresns-link">{{ $theme->name }}</a>
                                         <span class="badge bg-secondary">{{ $theme->version }}</span> to <span class="badge bg-primary">{{ $theme->upgrade_version }}</span>
                                     </div>
                                     <div>
