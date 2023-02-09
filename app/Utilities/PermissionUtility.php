@@ -291,10 +291,10 @@ class PermissionUtility
     public static function checkUserGroupPublishPerm(int $groupId, array $permissions, ?int $userId = null)
     {
         $permConfig = [
-            'publish_post' => $permissions['publish_post'] ?? 1,
+            'publish_post' => (int) ($permissions['publish_post'] ?? 1),
             'publish_post_roles' => $permissions['publish_post_roles'] ?? [],
             'publish_post_review' => $permissions['publish_post_review'] ?? false,
-            'publish_comment' => $permissions['publish_comment'] ?? 1,
+            'publish_comment' => (int) ($permissions['publish_comment'] ?? 1),
             'publish_comment_roles' => $permissions['publish_comment_roles'] ?? [],
             'publish_comment_review' => $permissions['publish_comment_review'] ?? false,
         ];
