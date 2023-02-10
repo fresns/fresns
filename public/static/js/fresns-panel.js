@@ -45,7 +45,7 @@ setTimeoutToastHide();
 
 // tips
 window.tips = function (message, code = 200) {
-    let html = `<div aria-live="polite" aria-atomic="true" class="position-fixed top-50 start-50 translate-middle" style="z-index:99">
+    let html = `<div aria-live="polite" aria-atomic="true" class="position-fixed top-50 start-50 translate-middle" style="z-index:99999">
         <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
                     <img src="/static/images/icon.png" width="20px" height="20px" class="rounded me-2" alt="Fresns">
@@ -90,6 +90,7 @@ window.progress = {
         return this;
     },
     work: function () {
+        $(this.progressElement).show();
         this.add(progress);
     },
     add: function (obj) {
@@ -107,6 +108,7 @@ window.progress = {
     },
     exit: function () {
         this.stop = true;
+        $(this.progressElement).hide();
         sleep(1000)
         return this;
     },
@@ -543,6 +545,7 @@ $(document).ready(function () {
         $(this).find('input[name=time_format_hour]').val(language.timeFormatHour);
         $(this).find('input[name=time_format_day]').val(language.timeFormatDay);
         $(this).find('input[name=time_format_month]').val(language.timeFormatMonth);
+        $(this).find('input[name=time_format_year]').val(language.timeFormatYear);
         $(this)
             .find('input:radio[name=is_enable][value="' + isEnable + '"]')
             .prop('checked', true)
@@ -2229,6 +2232,7 @@ $(document).ready(function () {
             },
             error: function (response) {
                 progressExit && progressExit()
+                $('#install_artisan_output').html(response.responseJSON.message + "<br><br>" + trans('tips.installFailure'))
                 window.tips(response.responseJSON.message);
             },
         });
@@ -2272,6 +2276,7 @@ $(document).ready(function () {
             },
             error: function (response) {
                 progressExit && progressExit()
+                $('#upgrade_artisan_output').html(response.responseJSON.message + "<br><br>" + trans('tips.upgradeFailure'))
                 window.tips(response.responseJSON.message);
             },
         });
