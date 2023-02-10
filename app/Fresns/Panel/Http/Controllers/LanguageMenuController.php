@@ -128,6 +128,7 @@ class LanguageMenuController extends Controller
             'timeFormatHour' => $request->time_format_hour,
             'timeFormatDay' => $request->time_format_day,
             'timeFormatMonth' => $request->time_format_month,
+            'timeFormatYear' => $request->time_format_year,
             'packVersion' => 1,
             'isEnable' => (bool) $request->is_enable,
         ];
@@ -194,6 +195,7 @@ class LanguageMenuController extends Controller
             'timeFormatHour' => $request->time_format_hour,
             'timeFormatDay' => $request->time_format_day,
             'timeFormatMonth' => $request->time_format_month,
+            'timeFormatYear' => $request->time_format_year,
             'packVersion' => 1,
             'isEnable' => (bool) $request->is_enable,
         ];

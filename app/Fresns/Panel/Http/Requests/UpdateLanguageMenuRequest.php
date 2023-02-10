@@ -29,6 +29,7 @@ class UpdateLanguageMenuRequest extends FormRequest
             'time_format_hour' => 'required|string',
             'time_format_day' => 'required|string',
             'time_format_month' => 'required|string',
+            'time_format_year' => 'required|string',
             'is_enable' => 'required|boolean',
         ];
 

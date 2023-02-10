@@ -191,6 +191,10 @@
                                     <span class="input-group-text">{n} month ago</span>
                                     <input type="text" class="form-control" name="time_format_month" required>
                                 </div>
+                                <div class="input-group mb-1">
+                                    <span class="input-group-text">{n} year ago</span>
+                                    <input type="text" class="form-control" name="time_format_year" required>
+                                </div>
                                 <div class="form-text">{{ __('FsLang::panel.language_table_timeFormat_desc') }}</div>
                             </div>
                         </div>
@@ -331,6 +335,10 @@
                                 <div class="input-group mb-1">
                                     <span class="input-group-text">{n} month ago</span>
                                     <input type="text" class="form-control" name="time_format_month" required>
+                                </div>
+                                <div class="input-group mb-1">
+                                    <span class="input-group-text">{n} year ago</span>
+                                    <input type="text" class="form-control" name="time_format_year" required>
                                 </div>
                                 <div class="form-text">{{ __('FsLang::panel.language_table_timeFormat_desc') }}</div>
                             </div>
