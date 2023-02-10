@@ -584,6 +584,7 @@ class AccountController extends Controller
     {
         $dtoRequest = new AccountEditDTO($request->all());
         $authAccount = $this->account();
+        $authAccount = Account::where('id', $authAccount->id)->first();
 
         // check code
         $codeWordBody = match ($dtoRequest->codeType) {

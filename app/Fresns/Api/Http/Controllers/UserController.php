@@ -616,6 +616,7 @@ class UserController extends Controller
         $dtoRequest = new UserEditDTO($request->all());
 
         $authUser = $this->user();
+        $authUser = User::where('id', $authUser->id)->first();
 
         if ($dtoRequest->avatarFid && $dtoRequest->avatarUrl) {
             throw new ApiException(30005);
