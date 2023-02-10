@@ -237,7 +237,9 @@
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_image_form') }}</label>
                     <select class="form-select" name="comment_editor_image_upload_form" id="comment_editor_image_upload_form">
                         <option value="fresns" @if ($params['comment_editor_image_upload_form'] == 'fresns') selected @endif>Fresns Form</option>
-                        <option value="plugin" @if ($params['comment_editor_image_upload_form'] == 'plugin') selected @endif @if (! $uploadPlugin['image']['uploadPage']) disabled @endif>Plugin Page @if ($uploadPlugin['image']['name']) {{ '('.$uploadPlugin['image']['name'].')' }} @endif</option>
+                        @if ($uploadPlugin['image']['uploadPage'])
+                            <option value="plugin" @if ($params['comment_editor_image_upload_form'] == 'plugin') selected @endif>Plugin Page {{ '('.$uploadPlugin['image']['name'].')' }}</option>
+                        @endif
                     </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_image_number') }}</label>
                     <input type="number" class="form-control input-number" id="comment_editor_image_upload_number" name="comment_editor_image_upload_number" value="{{ $params['comment_editor_image_upload_number'] }}">
@@ -252,7 +254,9 @@
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_video_form') }}</label>
                     <select class="form-select" name="comment_editor_video_upload_form" id="comment_editor_video_upload_form">
                         <option value="fresns" @if ($params['comment_editor_video_upload_form'] == 'fresns') selected @endif>Fresns Form</option>
-                        <option value="plugin" @if ($params['comment_editor_video_upload_form'] == 'plugin') selected @endif @if (! $uploadPlugin['video']['uploadPage']) disabled @endif>Plugin Page @if ($uploadPlugin['video']['name']) {{ '('.$uploadPlugin['video']['name'].')' }} @endif</option>
+                        @if ($uploadPlugin['video']['uploadPage'])
+                            <option value="plugin" @if ($params['comment_editor_video_upload_form'] == 'plugin') selected @endif>Plugin Page {{ '('.$uploadPlugin['video']['name'].')' }}</option>
+                        @endif
                     </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_video_number') }}</label>
                     <input type="number" class="form-control input-number" id="comment_editor_video_upload_number" name="comment_editor_video_upload_number" value="{{ $params['comment_editor_video_upload_number'] }}">
@@ -267,7 +271,9 @@
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_audio_form') }}</label>
                     <select class="form-select" name="comment_editor_audio_upload_form" id="comment_editor_audio_upload_form">
                         <option value="fresns" @if ($params['comment_editor_audio_upload_form'] == 'fresns') selected @endif>Fresns Form</option>
-                        <option value="plugin" @if ($params['comment_editor_audio_upload_form'] == 'plugin') selected @endif @if (! $uploadPlugin['audio']['uploadPage']) disabled @endif>Plugin Page @if ($uploadPlugin['audio']['name']) {{ '('.$uploadPlugin['audio']['name'].')' }} @endif</option>
+                        @if ($uploadPlugin['audio']['uploadPage'])
+                            <option value="plugin" @if ($params['comment_editor_audio_upload_form'] == 'plugin') selected @endif>Plugin Page {{ '('.$uploadPlugin['audio']['name'].')' }}</option>
+                        @endif
                     </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_audio_number') }}</label>
                     <input type="number" class="form-control input-number" id="comment_editor_audio_upload_number" name="comment_editor_audio_upload_number" value="{{ $params['comment_editor_audio_upload_number'] }}">
@@ -282,7 +288,9 @@
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_document_form') }}</label>
                     <select class="form-select" name="comment_editor_document_upload_form" id="comment_editor_document_upload_form">
                         <option value="fresns" @if ($params['comment_editor_document_upload_form'] == 'fresns') selected @endif>Fresns Form</option>
-                        <option value="plugin" @if ($params['comment_editor_document_upload_form'] == 'plugin') selected @endif @if (! $uploadPlugin['document']['uploadPage']) disabled @endif>Plugin Page @if ($uploadPlugin['document']['name']) {{ '('.$uploadPlugin['document']['name'].')' }} @endif</option>
+                        @if ($uploadPlugin['document']['uploadPage'])
+                            <option value="plugin" @if ($params['comment_editor_document_upload_form'] == 'plugin') selected @endif>Plugin Page {{ '('.$uploadPlugin['document']['name'].')' }}</option>
+                        @endif
                     </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_document_number') }}</label>
                     <input type="number" class="form-control input-number" id="comment_editor_document_upload_number" name="comment_editor_document_upload_number" value="{{ $params['comment_editor_document_upload_number'] }}">
