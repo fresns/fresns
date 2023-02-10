@@ -14,14 +14,20 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'createSuccess' => '성공을 창출하십시오',
-    'deleteSuccess' => '성공적으로 삭제되었습니다',
-    'updateSuccess' => '성공적으로 수정되었습니다',
-    'upgradeSuccess' => '업데이트 완료',
+    'createSuccess' => '성공 만들기',
+    'deleteSuccess' => '삭제 성공',
+    'updateSuccess' => '업데이트 성공',
+    'upgradeSuccess' => '업그레이드 성공',
     'installSuccess' => '설치 성공',
-    'installFailure' => '설치 실패',
     'uninstallSuccess' => '제거 성공',
+
+    'createFailure' => '실패 만들기',
+    'deleteFailure' => '삭제 실패',
+    'updateFailure' => '업데이트 실패',
+    'upgradeFailure' => '업그레이드 실패',
+    'installFailure' => '설치 실패',
     'uninstallFailure' => '제거 실패',
+
     'copySuccess' => '성공을 복사하십시오',
     'viewLog' => '실행에 문제가 발생했습니다. 자세한 내용은 Fresns 시스템 로그를 확인하십시오.',
     // auth empty

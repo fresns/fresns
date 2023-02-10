@@ -14,14 +14,20 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'createSuccess' => 'Erfolg schaffen',
-    'deleteSuccess' => 'erfolgreich gelöscht',
-    'updateSuccess' => 'Erfolgreich modifiziert',
-    'upgradeSuccess' => 'Update abgeschlossen',
-    'installSuccess' => 'Erfolgreiche Installation',
-    'installFailure' => 'Installation fehlgeschlagen',
+    'createSuccess' => 'Erfolg erstellen',
+    'deleteSuccess' => 'Löschen Erfolg',
+    'updateSuccess' => 'Erfolgreich aktualisieren',
+    'upgradeSuccess' => 'Upgrade erfolgreich',
+    'installSuccess' => 'Erfolgreich installieren',
     'uninstallSuccess' => 'Erfolgreiche Deinstallation',
+
+    'createFailure' => 'Fehlschlag erstellen',
+    'deleteFailure' => 'Fehler löschen',
+    'updateFailure' => 'Update-Fehler',
+    'upgradeFailure' => 'Upgrade fehlgeschlagen',
+    'installFailure' => 'Installation fehlgeschlagen',
     'uninstallFailure' => 'Deinstallation fehlgeschlagen',
+
     'copySuccess' => 'Erfolg kopieren',
     'viewLog' => 'Bei der Implementierung ist ein Problem aufgetreten; Einzelheiten finden Sie im Fresns-Systemprotokoll',
     // auth empty

@@ -15,13 +15,19 @@ return [
     */
 
     'createSuccess' => 'Créer un succès',
-    'deleteSuccess' => 'supprimé avec succès',
-    'updateSuccess' => 'Modifié avec succès',
-    'upgradeSuccess' => 'Mise à jour terminée',
-    'installSuccess' => 'Installation réussie',
+    'deleteSuccess' => 'Supprimer un succès',
+    'updateSuccess' => 'Mettre à jour le succès',
+    'upgradeSuccess' => 'Upgrade Success',
+    'installSuccess' => 'Installer avec succès',
+    'uninstallSuccess' => 'Désinstallation réussie',
+
+    'createFailure' => 'Créer Échec',
+    'deleteFailure' => 'Échec de la suppression',
+    'updateFailure' => 'Échec de la mise à jour',
+    'upgradeFailure' => 'Échec de la mise à niveau',
     'installFailure' => 'Échec de l\'installation',
-    'uninstallSuccess' => 'Succès de la désinstallation',
     'uninstallFailure' => 'Échec de la désinstallation',
+
     'copySuccess' => 'Copier le succès',
     'viewLog' => 'Il y a eu un problème avec l\'implémentation, veuillez consulter le journal système de Fresns pour plus de détails.',
     // auth empty

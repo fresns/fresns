@@ -14,14 +14,20 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'createSuccess' => 'सफलतापूर्वक बनाया गया',
-    'deleteSuccess' => 'सफलतापूर्वक हटा दिया गया',
-    'updateSuccess' => 'सफलतापूर्वक संशोधित',
-    'upgradeSuccess' => 'अपडेट पूर्ण हो गया',
+    'createSuccess' => 'सफलता बनाएँ',
+    'deleteSuccess' => 'सफलता हटाएं',
+    'updateSuccess' => 'अब तक की सफलता',
+    'upgradeSuccess' => 'अपग्रेड सफलता',
     'installSuccess' => 'सफलता स्थापित करें',
-    'installFailure' => 'विफलता स्थापित करें',
-    'uninstallSuccess' => 'सफलता को अनइंस्टॉल करें',
-    'uninstallFailure' => 'विफलता को अनइंस्टॉल करें',
+    'uninstallSuccess' => 'सफलता की स्थापना रद्द करें',
+
+    'createFailure' => 'विफलता बनाएँ',
+    'deleteFailure' => 'विफलता हटाएं',
+    'updateFailure' => 'अद्यतन विफलता',
+    'upgradeFailure' => 'अपग्रेड विफलता',
+    'installFailure' => 'स्थापना विफलता',
+    'uninstallFailure' => 'स्थापना रद्द करने में विफलता',
+
     'copySuccess' => 'सफलतापूर्वक कॉपी करें',
     'viewLog' => 'निष्पादन में कोई समस्या आई, कृपया विवरण के लिए फ़्रेस्न्स सिस्टम लॉग की जाँच करें',
     // auth empty

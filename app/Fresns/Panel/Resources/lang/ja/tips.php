@@ -14,14 +14,20 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'createSuccess' => '成功を生み出す',
-    'deleteSuccess' => '削除されました',
-    'updateSuccess' => '正常に変更されました',
+    'createSuccess' => 'サクセスの作成',
+    'deleteSuccess' => 'サクセスの削除',
+    'updateSuccess' => '更新成功',
     'upgradeSuccess' => 'アップグレード成功',
     'installSuccess' => 'インストール成功',
+    'uninstallSuccess' => 'アンインストール成功',
+
+    'createFailure' => '作成失敗',
+    'deleteFailure' => '削除の失敗',
+    'updateFailure' => '更新の失敗',
+    'upgradeFailure' => 'アップグレードに失敗しました。',
     'installFailure' => 'インストールに失敗しました',
-    'uninstallSuccess' => 'アンインストールの成功',
     'uninstallFailure' => 'アンインストールに失敗しました',
+
     'copySuccess' => '成功をコピーする',
     'viewLog' => '実装に問題がありました。詳細はFresnsのシステムログをご覧ください。',
     // auth empty

@@ -14,14 +14,20 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'createSuccess' => 'Menciptakan kesuksesan',
-    'deleteSuccess' => 'berhasil dihapus',
-    'updateSuccess' => 'Berhasil dimodifikasi',
-    'upgradeSuccess' => 'Pembaruan selesai',
-    'installSuccess' => 'Instal Sukses',
-    'installFailure' => 'Instal Kegagalan',
-    'uninstallSuccess' => 'Uninstall Sukses',
-    'uninstallFailure' => 'Copot Pemasangan Gagal',
+    'createSuccess' => 'Membuat Keberhasilan',
+    'deleteSuccess' => 'Hapus Berhasil',
+    'updateSuccess' => 'Perbarui Berhasil',
+    'upgradeSuccess' => 'Tingkatkan Berhasil',
+    'installSuccess' => 'Pasang Berhasil',
+    'uninstallSuccess' => 'Copot Pemasangan Berhasil',
+
+    'createFailure' => 'Buat Kegagalan',
+    'deleteFailure' => 'Hapus Kegagalan',
+    'updateFailure' => 'Kegagalan Pembaruan',
+    'upgradeFailure' => 'Kegagalan Peningkatan',
+    'installFailure' => 'Kegagalan Pemasangan',
+    'uninstallFailure' => 'Kegagalan Penghapusan Instalasi',
+
     'copySuccess' => 'Salin kesuksesan',
     'viewLog' => 'Ada masalah dengan implementasi, silakan lihat log sistem Fresns untuk detailnya',
     // auth empty

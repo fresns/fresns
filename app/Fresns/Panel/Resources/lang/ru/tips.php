@@ -15,13 +15,19 @@ return [
     */
 
     'createSuccess' => 'Создать успех',
-    'deleteSuccess' => 'успешно удален',
-    'updateSuccess' => 'Успешно изменен',
-    'upgradeSuccess' => 'Обновление завершено',
-    'installSuccess' => 'Успех установки',
+    'deleteSuccess' => 'Удалить успех',
+    'updateSuccess' => 'Обновить Успех',
+    'upgradeSuccess' => 'Обновление Успех',
+    'installSuccess' => 'Установить Успех',
+    'uninstallSuccess' => 'Деинсталляция Успех',
+
+    'createFailure' => 'Создать отказ',
+    'deleteFailure' => 'Удаление Сбой',
+    'updateFailure' => 'Сбой обновления',
+    'upgradeFailure' => 'Сбой обновления',
     'installFailure' => 'Сбой установки',
-    'uninstallSuccess' => 'Успех деинсталляции',
-    'uninstallFailure' => 'Неудачная деинсталляция',
+    'uninstallFailure' => 'Сбой при деинсталляции',
+
     'copySuccess' => 'Копировать успех',
     'viewLog' => 'Возникла проблема с реализацией, подробности смотрите в системном журнале Fresns',
     // auth empty

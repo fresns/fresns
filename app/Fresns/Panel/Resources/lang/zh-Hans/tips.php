@@ -19,9 +19,15 @@ return [
     'updateSuccess' => '修改成功',
     'upgradeSuccess' => '更新成功',
     'installSuccess' => '安装成功',
-    'installFailure' => '安装失败',
     'uninstallSuccess' => '卸载成功',
+
+    'createFailure' => '创建失败',
+    'deleteFailure' => '删除失败',
+    'updateFailure' => '修改失败',
+    'upgradeFailure' => '更新失败',
+    'installFailure' => '安装失败',
     'uninstallFailure' => '卸载失败',
+
     'copySuccess' => '复制成功',
     'viewLog' => '执行遇到了问题，详细信息请查看 Fresns 系统日志',
     // auth empty

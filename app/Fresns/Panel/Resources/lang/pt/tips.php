@@ -14,14 +14,20 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'createSuccess' => 'Criar sucesso',
-    'deleteSuccess' => 'deletado com sucesso',
-    'updateSuccess' => 'Modificado com sucesso',
-    'upgradeSuccess' => 'atualização completa',
+    'createSuccess' => 'Criar o Sucesso',
+    'deleteSuccess' => 'Eliminar o sucesso',
+    'updateSuccess' => 'Actualizar o sucesso',
+    'upgradeSuccess' => 'Actualizar Sucesso',
     'installSuccess' => 'Instalar o Sucesso',
-    'installFailure' => 'Falha de Instalação',
     'uninstallSuccess' => 'Desinstalar o sucesso',
+
+    'createFailure' => 'Criar fracasso',
+    'deleteFailure' => 'Eliminar falhas',
+    'updateFailure' => 'Actualização Falha',
+    'upgradeFailure' => 'Actualização Falha',
+    'installFailure' => 'Falha de Instalação',
     'uninstallFailure' => 'Falha na desinstalação',
+
     'copySuccess' => 'Copie o sucesso',
     'viewLog' => 'Houve um problema com a implementação, por favor consulte o registo do sistema Fresns para mais detalhes',
     // auth empty

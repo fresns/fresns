@@ -19,9 +19,15 @@ return [
     'updateSuccess' => 'Update Success',
     'upgradeSuccess' => 'Upgrade Success',
     'installSuccess' => 'Install Success',
-    'installFailure' => 'Install Failure',
     'uninstallSuccess' => 'Uninstall Success',
+
+    'createFailure' => 'Create Failure',
+    'deleteFailure' => 'Delete Failure',
+    'updateFailure' => 'Update Failure',
+    'upgradeFailure' => 'Upgrade Failure',
+    'installFailure' => 'Install Failure',
     'uninstallFailure' => 'Uninstall Failure',
+
     'copySuccess' => 'Copy Success',
     'viewLog' => 'There was a problem with the implementation, please see the Fresns system log for details',
     // auth empty
