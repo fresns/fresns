@@ -267,7 +267,7 @@
                         @if ($uploadPlugin['video']['uploadPage'])
                             <option value="plugin" @if ($params['post_editor_video_upload_form'] == 'plugin') selected @endif>Plugin Page {{ '('.$uploadPlugin['video']['name'].')' }}</option>
                         @endif
-                        </select>
+                    </select>
                     <label class="input-group-text">{{ __('FsLang::panel.editor_upload_video_number') }}</label>
                     <input type="number" class="form-control input-number" id="post_editor_video_upload_number" name="post_editor_video_upload_number" value="{{ $params['post_editor_video_upload_number'] }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
