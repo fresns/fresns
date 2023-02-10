@@ -309,39 +309,75 @@ class DateHelper
         }
 
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
-
         $currentTime = DateHelper::fresnsDatabaseCurrentDateTime();
+        $languageMenus = ConfigHelper::fresnsConfigByItemKey('language_menus');
+        $timeFormatItem = collect($languageMenus)->where('langTag', $langTag)->first();
 
-        $jet = Carbon::parse($datetime);
-        $diff = Carbon::parse($currentTime)->diffInMinutes($jet);
-        $symbol = 'timeFormatMinute';
-        if ($diff > 60) {
-            $diff = Carbon::parse($currentTime)->diffInHours($jet);
-            $symbol = 'timeFormatHour';
-            if ($diff > 24) {
-                $diff = Carbon::parse($currentTime)->diffInDays($jet);
-                $symbol = 'timeFormatDay';
-                if ($diff > 30) {
-                    $diff = Carbon::parse($currentTime)->diffInMonths($jet);
-                    $symbol = 'timeFormatMonth';
-                }
+        // $timeLine = strtotime($currentTime) - strtotime($datetime);
+        $timeLine = time() - strtotime($datetime);
+        $minuteLine = 60 * 60;
+
+        if ($timeLine < $minuteLine) {
+            // {n} minute ago
+            $timeInt = floor($timeLine / 60);
+            if ($timeInt <= 0) {
+                $timeInt = 1;
             }
-        }
-        $diff = $diff > 0 ? -1 * $diff : '+'.abs($diff);
-        $timeFormat = ConfigHelper::fresnsConfigByItemKey('language_menus');
-        foreach ($timeFormat as $item) {
-            if ($item['langTag'] == $langTag) {
-                $timeFormat = $item[$symbol];
-                $timeFormat = mb_substr($timeFormat, '4');
-            }
-        }
-        $diff = $datetime < now() ? abs($diff) : $diff;
+            $timeFormatMinute = $timeFormatItem['timeFormatMinute'] ?? '{n} minute ago';
 
-        if ($diff <= 0) {
-            $diff = 1;
+            return str_replace('{n}', $timeInt, $timeFormatMinute);
+        } elseif ($timeLine < $minuteLine * 24) {
+            // {n} hour ago
+            $timeInt = floor($timeLine / ($minuteLine));
+            $timeFormatHour = $timeFormatItem['timeFormatHour'] ?? '{n} hour ago';
+
+            return str_replace('{n}', $timeInt, $timeFormatHour);
+        } elseif ($timeLine < $minuteLine * 24 * 7) {
+            // {n} day ago
+            $timeInt = floor($timeLine / ($minuteLine * 24));
+            $timeFormatDay = $timeFormatItem['timeFormatDay'] ?? '{n} day ago';
+
+            return str_replace('{n}', $timeInt, $timeFormatDay);
+        } elseif ($timeLine < $minuteLine * 24 * 7 * 4 * 12) {
+            // {n} month ago
+            $timeInt = floor($timeLine / ($minuteLine * 24 * 7 * 4));
+            $timeFormatMonth = $timeFormatItem['timeFormatMonth'] ?? '{n} month ago';
+
+            return str_replace('{n}', $timeInt, $timeFormatMonth);
+        } else {
+            // {n} year ago
+            $timeInt = floor($timeLine / ($minuteLine * 24 * 7 * 4 * 12));
+            $timeFormatYear = $timeFormatItem['timeFormatYear'] ?? '{n} year ago';
+
+            return str_replace('{n}', $timeInt, $timeFormatYear);
         }
 
-        return $diff.' '.$timeFormat;
+        // $timeLine = time() - strtotime($datetime);
+        // if ($timeLine <= 0) {
+        //     // Just now
+        //     return 'Just now';
+        // } elseif ($timeLine < 60) {
+        //     // {n} second ago
+        //     return $timeLine . ' second ago';
+        // } elseif ($timeLine < 60 * 60) {
+        //     // {n} minute ago
+        //     return floor($timeLine / 60) . ' minute ago';
+        // } elseif ($timeLine < 60 * 60 * 24) {
+        //     // {n} hour ago
+        //     return floor($timeLine / (60 * 60)) . ' hour ago';
+        // } elseif ($timeLine < 60 * 60 * 24 * 7) {
+        //     // {n} day ago
+        //     return floor($timeLine / (60 * 60 * 24)) . ' day ago';
+        // } elseif ($timeLine < 60 * 60 * 24 * 7 * 4) {
+        //     // {n} week ago
+        //     return floor($timeLine / (60 * 60 * 24 * 7)) . ' week ago';
+        // } elseif ($timeLine < 60 * 60 * 24 * 7 * 4 * 12) {
+        //     // {n} month ago
+        //     return floor($timeLine / (60 * 60 * 24 * 7 * 4)) . ' month ago';
+        // } else {
+        //     // {n} year ago
+        //     return floor($timeLine / (60 * 60 * 24 * 7 * 4 * 12)) . ' year ago';
+        // }
     }
 
     /**
