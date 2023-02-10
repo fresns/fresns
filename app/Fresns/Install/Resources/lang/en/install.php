@@ -65,6 +65,8 @@ return [
     'database_table_prefix_desc' => 'If you want to run multiple Fresns installations in a single database, change this.',
     'database_config_invalid' => 'Database Config Invalid',
     'database_import_log' => 'Data Import Log',
+    // install
+    'install_failure' => 'Installation failed, please check the log for the reason',
     // register
     'register_welcome' => 'Welcome to Fresns installation process! Just fill in the information below and you’ll be on your way to using the most extendable and cross-platform social network service software in the world.',
     'register_title' => 'Information needed',

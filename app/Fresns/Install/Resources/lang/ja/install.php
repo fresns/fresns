@@ -65,6 +65,8 @@ return [
     'database_table_prefix_desc' => 'ひとつのデータベースに複数の Fresns をインストールしたい場合、これを変えてください。',
     'database_config_invalid' => 'データベース構成が無効',
     'database_import_log' => 'データインポートログ',
+    // install
+    'install_failure' => 'インストールに失敗しました。原因をログで確認してください。',
     // register
     'register_welcome' => 'Fresnsのインストール手順へようこそ! 以下の情報を入力するだけで、世界で最も拡張性が高く、クロスプラットフォームなソーシャルネットワークサービスソフトウェアを使用することができます。',
     'register_title' => '必要情報',

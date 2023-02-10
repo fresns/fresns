@@ -32,6 +32,10 @@
                 $('#dataImport').show()
 
                 if (res.data.code !== 0) {
+                    $('#dataImport #envBtn').attr('disabled', true);
+                    $('#dataImport #envBtn').removeClass('btn-outline-primary');
+                    $('#dataImport #envBtn').addClass('btn-outline-danger');
+                    $('#dataImport #envBtn').text('@lang('Install::install.install_failure')');
                     return;
                 }
 
@@ -262,7 +266,7 @@
                                 <option value="America/Bahia">UTC -3</option>
                                 <option value="America/Noronha">UTC -2</option>
                                 <option value="Atlantic/Azores">UTC -1</option>
-                                <option value="Europe/London" selected>UTC +0</option>
+                                <option value="Europe/London">UTC +0</option>
                                 <option value="Europe/Paris">UTC +1</option>
                                 <option value="Asia/Jerusalem">UTC +2</option>
                                 <option value="Europe/Moscow">UTC +3</option>
@@ -275,7 +279,7 @@
                                 <option value="Asia/Urumqi">UTC +6</option>
                                 <option value="Asia/Yangon">UTC +6:30</option>
                                 <option value="Asia/Ho_Chi_Minh">UTC +7</option>
-                                <option value="Asia/Singapore">UTC +8</option>
+                                <option value="Asia/Singapore" selected>UTC +8</option>
                                 <option value="Australia/Eucla">UTC +8:45</option>
                                 <option value="Asia/Tokyo">UTC +9</option>
                                 <option value="Australia/Broken_Hill">UTC +9:30</option>

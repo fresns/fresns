@@ -65,6 +65,8 @@ return [
     'database_table_prefix_desc' => '如果您希望在同一个数据库安装多个 Fresns，请修改前缀。',
     'database_config_invalid' => '数据库配置无效',
     'database_import_log' => '数据导入情况',
+    // install
+    'install_failure' => '安装失败，请查看日志了解原因',
     // register
     'register_welcome' => '欢迎来到 Fresns 安装过程！只要填写下面的信息，你就可以开始使用灵活可扩展和跨平台的社交网络服务软件了。',
     'register_title' => '填写管理信息',

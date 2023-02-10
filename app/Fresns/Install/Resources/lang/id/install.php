@@ -65,6 +65,8 @@ return [
     'database_table_prefix_desc' => 'Jika Anda ingin menjalankan beberapa instalasi Fresns di dalam satu basis data tunggal, ubahlah di sini.',
     'database_config_invalid' => 'Konfigurasi Basis Data Tidak Valid',
     'database_import_log' => 'Log Impor Data',
+    // install
+    'install_failure' => 'Instalasi gagal, periksa log untuk mengetahui alasannya',
     // register
     'register_welcome' => 'Selamat datang di proses instalasi Fresns! Cukup isi informasi di bawah ini dan Anda akan segera menggunakan perangkat lunak layanan jejaring sosial lintas platform dan paling dapat diperluas di dunia.',
     'register_title' => 'Informasi yang dibutuhkan',

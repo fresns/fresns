@@ -65,6 +65,8 @@ return [
     'database_table_prefix_desc' => 'Si quieres ejecutar varias instalaciones de Fresns en una sola base de datos cambia esto.',
     'database_config_invalid' => 'Configuración de la base de datos inválida',
     'database_import_log' => 'Registro de importación de datos',
+    // install
+    'install_failure' => 'La instalación ha fallado, por favor compruebe el log para ver el motivo',
     // register
     'register_welcome' => '¡Bienvenido al proceso de instalación de Fresns! Sólo tienes que rellenar la información que aparece a continuación y estarás en camino de utilizar el software de servicio de red social más extensible y multiplataforma del mundo.',
     'register_title' => 'Información necesaria',

@@ -83,113 +83,117 @@ class InstallController extends Controller
             ]);
         }
 
-        $step = (int) \request()->input('step');
+        try {
+            $step = (int) \request()->input('step');
 
-        $data = \request()->all();
+            $data = \request()->all();
 
-        switch ($step) {
-            case 1:
-            case 2:
-                break;
-            case 3:
-                $basicCheckResult = $this->basicCheck();
+            switch ($step) {
+                case 1:
+                case 2:
+                    break;
+                case 3:
+                    $basicCheckResult = $this->basicCheck();
 
-                $checkResult = false;
-                foreach ($basicCheckResult as $item) {
-                    if ($item['type'] === 'https') {
-                        continue;
+                    $checkResult = false;
+                    foreach ($basicCheckResult as $item) {
+                        if ($item['type'] === 'https') {
+                            continue;
+                        }
+
+                        if ($item['type'] === 'composer_version') {
+                            continue;
+                        }
+
+                        if ($item['check_result'] === false) {
+                            $checkResult = false;
+                            break;
+                        }
+
+                        $checkResult = true;
                     }
 
-                    if ($item['type'] === 'composer_version') {
-                        continue;
+                    if (! $checkResult) {
+                        return \response()->json([
+                            'step' => $step,
+                            'code' => 500,
+                            'message' => 'basic environment check fail.',
+                            'data' => $this->basicCheck(),
+                        ]);
                     }
+                    break;
+                case 4:
+                    try {
+                        $dbConfig = config('database');
+                        $mysqlDB = [
+                            'host' => \request()->input('database.DB_HOST'),
+                            'port' => \request()->input('database.DB_PORT'),
+                            'database' => \request()->input('database.DB_DATABASE'),
+                            'username' => \request()->input('database.DB_USERNAME'),
+                            'password' => \request()->input('database.DB_PASSWORD'),
+                            'prefix' => \request()->input('database.DB_PREFIX'),
+                        ];
+                        $dbConfig['connections']['mysql'] = array_merge($dbConfig['connections']['mysql'], $mysqlDB);
 
-                    if ($item['check_result'] === false) {
-                        $checkResult = false;
-                        break;
+                        config(['database' => $dbConfig]);
+                        DB::purge();
+                        DB::select('select 1 limit 1');
+                    } catch (\Illuminate\Database\QueryException $exception) {
+                        return \response()->json([
+                            'step' => $step,
+                            'code' => 500,
+                            'message' => __('Install::install.database_config_invalid').$exception->getMessage(),
+                            'data' => [],
+                        ]);
                     }
+                    break;
+                case 5:
+                    break;
+            }
 
-                    $checkResult = true;
-                }
+            $cacheKey = "install_{$step}";
+            $prevStep = $step - 1;
+            $prevCacheKey = "install_{$prevStep}";
 
-                if (! $checkResult) {
-                    return \response()->json([
-                        'step' => $step,
-                        'code' => 500,
-                        'message' => 'basic environment check fail.',
-                        'data' => $this->basicCheck(),
-                    ]);
-                }
-                break;
-            case 4:
+            $cacheData = match ($step) {
+                default => [],
+                0, 1 => [],
+                2 => json_decode(Cache::pull($prevCacheKey), true) ?? [],
+                3 => json_decode(Cache::pull($prevCacheKey), true) ?? [],
+                4 => json_decode(Cache::pull($prevCacheKey), true) ?? [],
+                5 => json_decode(Cache::pull($prevCacheKey), true) ?? [],
+            };
+
+            $data = array_merge($cacheData, $data);
+            Cache::put($cacheKey, json_encode($data), now()->addHour());
+
+            $result = [];
+            if ($step === 4) {
+                $this->writeEnvironment($data);
+
+                $result = $this->installMysqlDatabase();
+            }
+
+            if ($step === 5) {
                 try {
-                    $dbConfig = config('database');
-                    $mysqlDB = [
-                        'host' => \request()->input('database.DB_HOST'),
-                        'port' => \request()->input('database.DB_PORT'),
-                        'database' => \request()->input('database.DB_DATABASE'),
-                        'username' => \request()->input('database.DB_USERNAME'),
-                        'password' => \request()->input('database.DB_PASSWORD'),
-                        'prefix' => \request()->input('database.DB_PREFIX'),
-                    ];
-                    $dbConfig['connections']['mysql'] = array_merge($dbConfig['connections']['mysql'], $mysqlDB);
-
-                    config(['database' => $dbConfig]);
-                    DB::purge();
-                    DB::select('select 1 limit 1');
-                } catch (\Illuminate\Database\QueryException $exception) {
+                    $this->generateAdminInfo($data);
+                } catch (\Throwable $exception) {
                     return \response()->json([
                         'step' => $step,
                         'code' => 500,
-                        'message' => __('Install::install.database_config_invalid').$exception->getMessage(),
+                        'message' => $exception->getMessage(),
                         'data' => [],
                     ]);
                 }
-                break;
-            case 5:
-                break;
-        }
 
-        $cacheKey = "install_{$step}";
-        $prevStep = $step - 1;
-        $prevCacheKey = "install_{$prevStep}";
+                $result['email'] = Account::first()?->value('email');
 
-        $cacheData = match ($step) {
-            default => [],
-            0, 1 => [],
-            2 => json_decode(Cache::pull($prevCacheKey), true) ?? [],
-            3 => json_decode(Cache::pull($prevCacheKey), true) ?? [],
-            4 => json_decode(Cache::pull($prevCacheKey), true) ?? [],
-            5 => json_decode(Cache::pull($prevCacheKey), true) ?? [],
-        };
-
-        $data = array_merge($cacheData, $data);
-        Cache::put($cacheKey, json_encode($data), now()->addHour());
-
-        $result = [];
-        if ($step === 4) {
-            $this->writeEnvironment($data);
-
-            $result = $this->installMysqlDatabase();
-        }
-
-        if ($step === 5) {
-            try {
-                $this->generateAdminInfo($data);
-            } catch (\Throwable $exception) {
-                return \response()->json([
-                    'step' => $step,
-                    'code' => 500,
-                    'message' => $exception->getMessage(),
-                    'data' => [],
-                ]);
+                if (! empty($result['email'])) {
+                    $this->writeInstallTime();
+                }
             }
-
-            $result['email'] = Account::first()?->value('email');
-
-            if (! empty($result['email'])) {
-                $this->writeInstallTime();
-            }
+        } catch (\Throwable $e) {
+            dd($e);
         }
 
         return \response()->json([
@@ -330,6 +334,10 @@ class InstallController extends Controller
             'passthru',
         ];
 
+        if (windows_os()) {
+            $functions[] = 'exec';
+        }
+
         $disableFunction = explode(',', ini_get('disable_functions'));
 
         $functionsCheckResult = [];
@@ -378,7 +386,7 @@ class InstallController extends Controller
         (new \Illuminate\Database\DatabaseServiceProvider(app()))->register();
 
         $cmds = [
-            'key:generate',
+            // 'key:generate', // $this->writeNewEnvironmentFileWith($data)
             'migrate',
             'db:seed',
             'storage:link',
@@ -393,9 +401,12 @@ class InstallController extends Controller
                 $code = Artisan::call(command: $cmd, parameters: [
                     '--force' => true,
                 ]);
+                if ($code != 0) {
+                    $output[] = "Artisan::call('$cmd') fail";
+                }
             } catch (\Throwable $e) {
-                $output[] = Artisan::output();
                 $output[] = $e->getMessage();
+                $output[] = Artisan::output();
                 break;
             }
 

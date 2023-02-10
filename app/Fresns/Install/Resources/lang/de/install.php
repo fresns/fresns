@@ -65,6 +65,8 @@ return [
     'database_table_prefix_desc' => 'Falls du mehrere Fresns-Installationen innerhalb einer Datenbank aufbauen möchtest, ändere diesen Eintrag.',
     'database_config_invalid' => 'Datenbankkonfiguration ungültig',
     'database_import_log' => 'Datenimport-Protokoll',
+    // install
+    'install_failure' => 'Installation fehlgeschlagen, bitte überprüfen Sie das Protokoll auf den Grund',
     // register
     'register_welcome' => 'Willkommen beim Installationsprozess von Fresns! Füllen Sie einfach die nachstehenden Informationen aus, und schon sind Sie auf dem Weg zur Nutzung der am besten erweiterbaren und plattformübergreifenden Software für soziale Netzwerke.',
     'register_title' => 'Benötigte Informationen',
