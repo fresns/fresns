@@ -232,6 +232,9 @@ class CommentService
 
             if ($type == 'list' && $commentData['contentLength'] > $briefLength) {
                 $commentContent = Str::limit($commentContent, $briefLength);
+
+                $commentContent = strip_tags($commentContent);
+
                 $isBrief = true;
             }
 

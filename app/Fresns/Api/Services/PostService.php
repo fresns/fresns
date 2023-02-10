@@ -213,6 +213,9 @@ class PostService
 
             if ($type == 'list' && $postData['contentLength'] > $briefLength) {
                 $postContent = Str::limit($postContent, $briefLength);
+
+                $postContent = strip_tags($postContent);
+
                 $isBrief = true;
             }
 
