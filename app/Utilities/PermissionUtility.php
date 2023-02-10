@@ -204,8 +204,12 @@ class PermissionUtility
     }
 
     // Check user role permissions
-    public static function checkUserRolePerm(int $userId, array $permRoleIds): bool
+    public static function checkUserRolePerm(int $userId, ?array $permRoleIds = []): bool
     {
+        if (empty($permRoleIds)) {
+            return false;
+        }
+
         $userRoles = UserRole::where('user_id', $userId)->where('expired_at', '<=', now())->pluck('role_id')->toArray();
 
         return array_intersect($userRoles, $permRoleIds) ? true : false;
