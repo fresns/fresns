@@ -444,11 +444,11 @@ class ConversationController extends Controller
                 throw new ApiException(36602);
             }
 
-            $aConversation->update([
+            $aConversation?->update([
                 'a_is_display' => 0,
             ]);
 
-            $bConversation->update([
+            $bConversation?->update([
                 'b_is_display' => 0,
             ]);
 
