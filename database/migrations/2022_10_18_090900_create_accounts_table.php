@@ -32,7 +32,7 @@ class CreateAccountsTable extends Migration
             $table->unsignedTinyInteger('is_verify')->default(0);
             $table->string('verify_plugin_unikey', 32)->nullable();
             $table->string('verify_real_name', 128)->nullable();
-            $table->unsignedTinyInteger('verify_gender')->default(0);
+            $table->unsignedTinyInteger('verify_gender')->default(1);
             $table->string('verify_cert_type', 32)->nullable();
             $table->string('verify_cert_number', 128)->nullable();
             $table->unsignedTinyInteger('verify_identity_type')->nullable();
