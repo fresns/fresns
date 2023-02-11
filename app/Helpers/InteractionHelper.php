@@ -313,21 +313,12 @@ class InteractionHelper
     // user anonymous profile
     public static function fresnsUserAnonymousProfile()
     {
-        $anonymousAvatar = ConfigHelper::fresnsConfigByItemKey('anonymous_avatar');
-        $userAvatar = null;
-        if (ConfigHelper::fresnsConfigFileValueTypeByItemKey('anonymous_avatar') == 'URL') {
-            $userAvatar = $anonymousAvatar;
-        } else {
-            $fileInfo = FileHelper::fresnsFileInfoById($anonymousAvatar);
-            $userAvatar = $fileInfo['imageAvatarUrl'];
-        }
-
         $profile['fsid'] = null;
         $profile['uid'] = null;
         $profile['url'] = null;
         $profile['username'] = null;
         $profile['nickname'] = null;
-        $profile['avatar'] = $userAvatar;
+        $profile['avatar'] = ConfigHelper::fresnsConfigFileUrlByItemKey('anonymous_avatar', 'imageAvatarUrl');
         $profile['decorate'] = null;
         $profile['banner'] = null;
         $profile['gender'] = null;

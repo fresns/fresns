@@ -88,32 +88,17 @@ trait UserServiceTrait
     {
         $user = User::where('id', $userId)->first(['avatar_file_id', 'avatar_file_url', 'wait_delete']);
 
-        $avatar = ConfigHelper::fresnsConfigByItemKeys([
-            'default_avatar',
-            'deactivate_avatar',
-        ]);
-
         if ($user->wait_delete == 0) {
             if (empty($user->avatar_file_url) && empty($user->avatar_file_id)) {
                 // default avatar
-                if (ConfigHelper::fresnsConfigFileValueTypeByItemKey('default_avatar') == 'URL') {
-                    $userAvatar = $avatar['default_avatar'];
-                } else {
-                    $fileInfo = FileHelper::fresnsFileInfoById($avatar['default_avatar']);
-                    $userAvatar = $fileInfo['imageAvatarUrl'];
-                }
+                $userAvatar = ConfigHelper::fresnsConfigFileUrlByItemKey('default_avatar', 'imageAvatarUrl');
             } else {
                 // user avatar
                 $userAvatar = FileHelper::fresnsFileUrlByTableColumn($user->avatar_file_id, $user->avatar_file_url, 'imageAvatarUrl');
             }
         } else {
             // user deactivate avatar
-            if (ConfigHelper::fresnsConfigFileValueTypeByItemKey('deactivate_avatar') == 'URL') {
-                $userAvatar = $avatar['deactivate_avatar'];
-            } else {
-                $fileInfo = FileHelper::fresnsFileInfoById($avatar['deactivate_avatar']);
-                $userAvatar = $fileInfo['imageAvatarUrl'];
-            }
+            $userAvatar = ConfigHelper::fresnsConfigFileUrlByItemKey('deactivate_avatar', 'imageAvatarUrl');
         }
 
         return $userAvatar;
