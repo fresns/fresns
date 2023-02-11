@@ -386,6 +386,7 @@ class CacheHelper
                 }
 
                 if ($dataType == 'fresnsExtension') {
+                    //
                 }
             break;
 
@@ -564,6 +565,31 @@ class CacheHelper
      */
     public static function forgetFresnsModel(string $modelName, int|string $fsid)
     {
+        // user model
+        if ($modelName == 'user') {
+            if (StrHelper::isPureInt($fsid)) {
+                $model = PrimaryHelper::fresnsModelById('user', $fsid);
+
+                $fsidModel = PrimaryHelper::fresnsModelByFsid('user', $fsid);
+            } else {
+                $model = PrimaryHelper::fresnsModelByFsid('user', $fsid);
+
+                $fsidModel = null;
+            }
+
+            CacheHelper::forgetFresnsKeys([
+                "fresns_model_user_{$model?->id}",
+                "fresns_model_user_{$model?->uid}_by_fsid",
+                "fresns_model_user_{$model?->username}_by_fsid",
+                "fresns_model_user_{$fsidModel?->id}",
+                "fresns_model_user_{$fsidModel?->uid}_by_fsid",
+                "fresns_model_user_{$fsidModel?->username}_by_fsid",
+            ]);
+
+            return;
+        }
+
+        // others
         if (StrHelper::isPureInt($fsid)) {
             $model = PrimaryHelper::fresnsModelById($modelName, $fsid);
 
@@ -590,13 +616,10 @@ class CacheHelper
             $idCacheKey = "fresns_model_{$modelName}_{$model?->id}";
         }
 
-        if ($modelName == 'user') {
-            CacheHelper::forgetFresnsKey("fresns_model_user_{$model?->uid}_by_fsid");
-            CacheHelper::forgetFresnsKey("fresns_model_user_{$model?->username}_by_fsid");
-        }
-
-        CacheHelper::forgetFresnsKey($fsidCacheKey);
-        CacheHelper::forgetFresnsKey($idCacheKey);
+        CacheHelper::forgetFresnsKeys([
+            $fsidCacheKey,
+            $idCacheKey,
+        ]);
     }
 
     /**
