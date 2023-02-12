@@ -21,6 +21,7 @@ class InstallServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerInstallAppKey();
+        $this->registerReverseProxySchema();
     }
 
     /**
@@ -30,16 +31,18 @@ class InstallServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Set the application access protocol based on the current access request
-        if (\request()->secure()) {
-            \Illuminate\Support\Facades\URL::forceScheme('https');
-        }
-
         $this->registerConfig();
         $this->registerViews();
         $this->registerTranslations();
 
         $this->app->register(RouteServiceProvider::class);
+    }
+
+    public function registerReverseProxySchema()
+    {
+        $handler = resolve(\Illuminate\Contracts\Http\Kernel::class);
+
+        $handler->pushMiddleware(\App\Fresns\Install\Http\Middleware\DetectionRequestProtocol::class);
     }
 
     public function registerInstallAppKey()
