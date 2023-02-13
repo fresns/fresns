@@ -71,6 +71,27 @@ class ConfigHelper
     }
 
     /**
+     * Get config developer mode.
+     *
+     * @return array
+     */
+    public static function fresnsConfigDeveloperMode(): array
+    {
+        $developerMode = Cache::rememberForever('developer_mode', function () {
+            $itemData = Config::where('item_key', 'developer_mode')->first();
+
+            return $itemData?->item_value;
+        });
+
+        $developerModeArr = [
+            'cache' => $developerMode['cache'] ?? true,
+            'apiSignature' => $developerMode['apiSignature'] ?? true,
+        ];
+
+        return $developerModeArr;
+    }
+
+    /**
      * Get config value based on Key.
      *
      * @param  string  $itemKey
@@ -79,16 +100,6 @@ class ConfigHelper
      */
     public static function fresnsConfigByItemKey(string $itemKey, ?string $langTag = null)
     {
-        if ($itemKey == 'developer_mode') {
-            $developerMode = Cache::rememberForever('developer_mode', function () {
-                $itemData = Config::where('item_key', 'developer_mode')->first();
-
-                return $itemData?->item_value ?? false;
-            });
-
-            return $developerMode ?? false;
-        }
-
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
         $cacheKey = "fresns_config_{$itemKey}_{$langTag}";
