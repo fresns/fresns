@@ -314,24 +314,24 @@ Route::middleware(['panelAuth'])->group(function () {
     Route::get('marketplace', [IframeController::class, 'marketplace'])->name('iframe.marketplace');
 
     // plugin manage
-    Route::prefix('plugin')->group(function () {
+    Route::prefix('plugin')->name('plugin.')->group(function () {
         // dashboard upgrade page
-        Route::patch('update-code', [ExtensionController::class, 'updateCode'])->name('plugin.update.code');
+        Route::patch('update-code', [ExtensionController::class, 'updateCode'])->name('update.code');
         // plugin install and upgrade
-        Route::put('install', [ExtensionController::class, 'install'])->name('plugin.install');
-        Route::put('upgrade', [ExtensionController::class, 'upgrade'])->name('plugin.upgrade');
+        Route::put('install', [ExtensionController::class, 'install'])->name('install');
+        Route::put('upgrade', [ExtensionController::class, 'upgrade'])->name('upgrade');
         // activate or deactivate
-        Route::patch('update', [ExtensionController::class, 'update'])->name('plugin.update');
+        Route::patch('update', [ExtensionController::class, 'update'])->name('update');
         // uninstall
-        Route::delete('uninstall', [ExtensionController::class, 'uninstall'])->name('plugin.uninstall');
-        Route::delete('uninstallTheme', [ExtensionController::class, 'uninstallTheme'])->name('plugin.uninstallTheme');
+        Route::delete('uninstall', [ExtensionController::class, 'uninstall'])->name('uninstall');
+        Route::delete('uninstallTheme', [ExtensionController::class, 'uninstallTheme'])->name('uninstallTheme');
     });
 
     // theme manage
-    Route::prefix('theme')->group(function () {
-        Route::get('{theme}', [ThemeFunctionController::class, 'show'])->name('theme.functions');
-        Route::put('functions', [ThemeFunctionController::class, 'update'])->name('theme.functions.update');
-        Route::put('functions/languages', [ThemeFunctionController::class, 'updateLanguage'])->name('theme.functions.update_language');
+    Route::prefix('theme')->name('theme.')->group(function () {
+        Route::get('{theme}', [ThemeFunctionController::class, 'show'])->name('functions');
+        Route::put('functions', [ThemeFunctionController::class, 'update'])->name('functions.update');
+        Route::put('functions/languages', [ThemeFunctionController::class, 'updateLanguages'])->name('functions.update.languages');
     });
 });
 

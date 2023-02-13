@@ -39,26 +39,36 @@ class ThemeFunctionController extends Controller
 
     public function show($theme)
     {
-        $themeConfig = $this->getThemeConfig($theme);
-
-        $functionKeys = collect($themeConfig['functionKeys'] ?? []);
-
         $view = $theme.'.functions';
         if (! view()->exists($view)) {
             abort(404, __('FsLang::tips.theme_functions_file_error'));
         }
 
+        // theme lang
+        $lang = [];
+        if ($themeConfig['functionLang'] ?? null) {
+            $panelLang = \request()->cookie('panel_lang');
+
+            $lang = $themeConfig['functionLang']["{$panelLang}"] ?? head($themeConfig['functionLang']);
+        }
+
+        // theme configs
+        $themeConfig = $this->getThemeConfig($theme);
+        $functionKeys = collect($themeConfig['functionKeys'] ?? []);
+
         $configs = Config::whereIn('item_key', $functionKeys->pluck('itemKey'))->get();
         $configValue = $configs->pluck('item_value', 'item_key');
-        $themeParams = [];
 
-        // language keys
+        // theme config language keys
         $langKeys = $functionKeys->where('isMultilingual', true)->pluck('itemKey');
         $languages = Language::ofConfig()->whereIn('table_key', $langKeys)->get();
 
+        // theme params
+        $params = [];
         foreach ($functionKeys as $functionKey) {
             $key = $functionKey['itemKey'];
             $functionKey['value'] = $configValue[$key] ?? null;
+
             // File
             if ($functionKey['itemType'] == 'file') {
                 $functionKey['fileType'] = ConfigHelper::fresnsConfigFileValueTypeByItemKey($key);
@@ -76,19 +86,13 @@ class ThemeFunctionController extends Controller
                 $functionKey['defaultLanguage'] = $languages->where('table_key', $key)->where('lang_tag', $this->defaultLanguage)->first()['lang_content'] ?? '';
             }
 
-            $themeParams[$key] = $functionKey;
+            $params[$key] = $functionKey;
         }
 
+        // plugins
         $plugins = Plugin::all();
 
-        $lang = [];
-        if ($themeConfig['functionLang'] ?? null) {
-            $panelLang = \request()->cookie('panel_lang');
-
-            $lang = $themeConfig['functionLang']["{$panelLang}"] ?? head($themeConfig['functionLang']);
-        }
-
-        return view($view, compact('themeParams', 'plugins', 'lang'));
+        return view($view, compact('lang', 'params', 'plugins'));
     }
 
     public function update(Request $request)
@@ -142,7 +146,7 @@ class ThemeFunctionController extends Controller
         return $this->updateSuccess();
     }
 
-    public function updateLanguage(Request $request)
+    public function updateLanguages(Request $request)
     {
         $key = $request->key;
         $theme = $request->theme;
