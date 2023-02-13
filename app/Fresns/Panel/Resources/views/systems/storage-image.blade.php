@@ -99,8 +99,9 @@
                 <div class="input-group mb-3">
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_image_handle_position') }}</label>
                     <select class="form-select" name="image_handle_position">
-                        <option value="start" {{ $params['image_handle_position'] == 'start' ? 'selected' : '' }}>start</option>
-                        <option value="end" {{ $params['image_handle_position'] == 'end' ? 'selected' : '' }}>end</option>
+                        <option value="">🚫 {{ __('FsLang::panel.option_no_use') }}</option>
+                        <option value="path-start" {{ $params['image_handle_position'] == 'path-start' ? 'selected' : '' }}>path-start</option>
+                        <option value="path-end" {{ $params['image_handle_position'] == 'path-end' ? 'selected' : '' }}>path-end</option>
                         <option value="name-start" {{ $params['image_handle_position'] == 'name-start' ? 'selected' : '' }}>name-start</option>
                         <option value="name-end" {{ $params['image_handle_position'] == 'name-end' ? 'selected' : '' }}>name-end</option>
                     </select>
@@ -108,10 +109,6 @@
                 <div class="input-group mb-3">
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_image_thumb_config') }}</label>
                     <input type="text" class="form-control" name="image_thumb_config" value="{{ $params['image_thumb_config'] }}">
-                </div>
-                <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_image_thumb_avatar') }}</label>
-                    <input type="text" class="form-control" name="image_thumb_avatar" value="{{ $params['image_thumb_avatar'] }}">
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_image_thumb_ratio') }}</label>

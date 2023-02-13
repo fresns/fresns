@@ -97,25 +97,37 @@
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_url_status_desc') }}</div>
         </div>
-        <!--storage_video_transcode-->
+        <!--storage_video_transcode_parameter-->
         <div class="row mb-4">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.storage_function_video_config') }}:</label>
             <div class="col-lg-6">
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_video_transcode') }}</label>
-                    <input type="text" class="form-control" id="video_transcode" name="video_transcode" value="{{ $params['video_transcode'] }}">
+                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_video_transcode_parameter') }}</label>
+                    <input type="text" class="form-control" id="video_transcode_parameter" name="video_transcode_parameter" value="{{ $params['video_transcode_parameter'] }}">
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_video_watermark') }}</label>
-                    <input type="text" class="form-control" id="video_watermark" name="video_watermark" value="{{ $params['video_watermark'] }}">
+                    <label class="input-group-text">{{ __('FsLang::panel.storage_video_transcode_handle_position') }}</label>
+                    <select class="form-select" name="video_transcode_handle_position">
+                        <option value="">🚫 {{ __('FsLang::panel.option_no_use') }}</option>
+                        <option value="path-start" {{ $params['video_transcode_handle_position'] == 'path-start' ? 'selected' : '' }}>path-start</option>
+                        <option value="path-end" {{ $params['video_transcode_handle_position'] == 'path-end' ? 'selected' : '' }}>path-end</option>
+                        <option value="name-start" {{ $params['video_transcode_handle_position'] == 'name-start' ? 'selected' : '' }}>name-start</option>
+                        <option value="name-end" {{ $params['video_transcode_handle_position'] == 'name-end' ? 'selected' : '' }}>name-end</option>
+                    </select>
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_video_screenshot') }}</label>
-                    <input type="text" class="form-control" id="video_screenshot" name="video_screenshot" value="{{ $params['video_screenshot'] }}">
+                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_video_poster_parameter') }}</label>
+                    <input type="text" class="form-control" id="video_poster_parameter" name="video_poster_parameter" value="{{ $params['video_poster_parameter'] }}">
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_video_gift') }}</label>
-                    <input type="text" class="form-control" id="video_gift" name="video_gift" value="{{ $params['video_gift'] }}">
+                    <label class="input-group-text">{{ __('FsLang::panel.storage_video_poster_handle_position') }}</label>
+                    <select class="form-select" name="video_poster_handle_position">
+                        <option value="">🚫 {{ __('FsLang::panel.option_no_use') }}</option>
+                        <option value="path-start" {{ $params['video_poster_handle_position'] == 'path-start' ? 'selected' : '' }}>path-start</option>
+                        <option value="path-end" {{ $params['video_poster_handle_position'] == 'path-end' ? 'selected' : '' }}>path-end</option>
+                        <option value="name-start" {{ $params['video_poster_handle_position'] == 'name-start' ? 'selected' : '' }}>name-start</option>
+                        <option value="name-end" {{ $params['video_poster_handle_position'] == 'name-end' ? 'selected' : '' }}>name-end</option>
+                    </select>
                 </div>
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_function_video_config_desc') }}</div>

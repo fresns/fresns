@@ -37,7 +37,6 @@ class StorageController extends Controller
             'image_url_expire',
             'image_handle_position',
             'image_thumb_config',
-            'image_thumb_avatar',
             'image_thumb_ratio',
             'image_thumb_square',
             'image_thumb_big',
@@ -82,7 +81,6 @@ class StorageController extends Controller
             'image_url_expire',
             'image_handle_position',
             'image_thumb_config',
-            'image_thumb_avatar',
             'image_thumb_ratio',
             'image_thumb_square',
             'image_thumb_big',
@@ -121,10 +119,10 @@ class StorageController extends Controller
             'video_url_status',
             'video_url_key',
             'video_url_expire',
-            'video_transcode',
-            'video_watermark',
-            'video_screenshot',
-            'video_gift',
+            'video_transcode_parameter',
+            'video_transcode_handle_position',
+            'video_poster_parameter',
+            'video_poster_handle_position',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -165,10 +163,10 @@ class StorageController extends Controller
             'video_url_status',
             'video_url_key',
             'video_url_expire',
-            'video_transcode',
-            'video_watermark',
-            'video_screenshot',
-            'video_gift',
+            'video_transcode_parameter',
+            'video_transcode_handle_position',
+            'video_poster_parameter',
+            'video_poster_handle_position',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -204,7 +202,8 @@ class StorageController extends Controller
             'audio_url_status',
             'audio_url_key',
             'audio_url_expire',
-            'audio_transcode',
+            'audio_transcode_parameter',
+            'audio_transcode_handle_position',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -245,7 +244,8 @@ class StorageController extends Controller
             'audio_url_status',
             'audio_url_key',
             'audio_url_expire',
-            'audio_transcode',
+            'audio_transcode_parameter',
+            'audio_transcode_handle_position',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
