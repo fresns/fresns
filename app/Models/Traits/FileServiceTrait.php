@@ -21,8 +21,8 @@ trait FileServiceTrait
         $fileData = $this;
 
         if ($fileData->disk == 'local') {
-            $fileOriginalPath = Storage::url($fileData->original_path);
-            $filePath = Storage::url($fileData->path);
+            $fileOriginalPath = Storage::build(config('filesystems.disks.public'))->url($fileData->original_path);
+            $filePath = Storage::build(config('filesystems.disks.public'))->url($fileData->path);
         } else {
             $fileOriginalPath = $fileData->original_path;
             $filePath = $fileData->path;
@@ -106,7 +106,7 @@ trait FileServiceTrait
         $imageHandlePosition = $fileData->image_handle_position ?? $imageConfig['image_handle_position'];
 
         if ($fileData->disk == 'local') {
-            $filePath = Storage::url($fileData->path);
+            $filePath = Storage::build(config('filesystems.disks.public'))->url($fileData->path);
         } else {
             $filePath = $fileData->path;
         }
@@ -168,8 +168,8 @@ trait FileServiceTrait
         $fileData = $this;
 
         if ($fileData->disk == 'local') {
-            $posterPath = Storage::url($fileData->video_poster_path);
-            $filePath = Storage::url($fileData->path);
+            $posterPath = Storage::build(config('filesystems.disks.public'))->url($fileData->video_poster_path);
+            $filePath = Storage::build(config('filesystems.disks.public'))->url($fileData->path);
         } else {
             $posterPath = $fileData->video_poster_path;
             $filePath = $fileData->path;
@@ -204,7 +204,7 @@ trait FileServiceTrait
         $fileData = $this;
 
         if ($fileData->disk == 'local') {
-            $filePath = Storage::url($fileData->path);
+            $filePath = Storage::build(config('filesystems.disks.public'))->url($fileData->path);
         } else {
             $filePath = $fileData->path;
         }
@@ -231,7 +231,7 @@ trait FileServiceTrait
         $fileData = $this;
 
         if ($fileData->disk == 'local') {
-            $filePath = Storage::url($fileData->path);
+            $filePath = Storage::build(config('filesystems.disks.public'))->url($fileData->path);
         } else {
             $filePath = $fileData->path;
         }
