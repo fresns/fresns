@@ -257,7 +257,7 @@
                                 <option value="Pacific/Rarotonga">UTC -10</option>
                                 <option value="Pacific/Marquesas">UTC -9:30</option>
                                 <option value="America/Anchorage">UTC -9</option>
-                                <option value="America/Los_Angeles">UTC -8</option>
+                                <option value="America/Los_Angeles" selected>UTC -8</option>
                                 <option value="America/Denver">UTC -7</option>
                                 <option value="America/Chicago">UTC -6</option>
                                 <option value="America/New_York">UTC -5</option>
@@ -279,7 +279,7 @@
                                 <option value="Asia/Urumqi">UTC +6</option>
                                 <option value="Asia/Yangon">UTC +6:30</option>
                                 <option value="Asia/Ho_Chi_Minh">UTC +7</option>
-                                <option value="Asia/Singapore" selected>UTC +8</option>
+                                <option value="Asia/Singapore">UTC +8</option>
                                 <option value="Australia/Eucla">UTC +8:45</option>
                                 <option value="Asia/Tokyo">UTC +9</option>
                                 <option value="Australia/Broken_Hill">UTC +9:30</option>
