@@ -320,37 +320,30 @@ class DateHelper
         if ($timeLine < $minuteLine) {
             // {n} minute ago
             $timeInt = floor($timeLine / 60);
-            if ($timeInt <= 0) {
-                $timeInt = 1;
-            }
-            $timeFormatMinute = $timeFormatItem['timeFormatMinute'] ?? '{n} minute ago';
-
-            return str_replace('{n}', $timeInt, $timeFormatMinute);
+            $timeFormatString = $timeFormatItem['timeFormatMinute'] ?? '{n} minute ago';
         } elseif ($timeLine < $minuteLine * 24) {
             // {n} hour ago
             $timeInt = floor($timeLine / ($minuteLine));
-            $timeFormatHour = $timeFormatItem['timeFormatHour'] ?? '{n} hour ago';
-
-            return str_replace('{n}', $timeInt, $timeFormatHour);
+            $timeFormatString = $timeFormatItem['timeFormatHour'] ?? '{n} hour ago';
         } elseif ($timeLine < $minuteLine * 24 * 7) {
             // {n} day ago
             $timeInt = floor($timeLine / ($minuteLine * 24));
-            $timeFormatDay = $timeFormatItem['timeFormatDay'] ?? '{n} day ago';
-
-            return str_replace('{n}', $timeInt, $timeFormatDay);
+            $timeFormatString = $timeFormatItem['timeFormatDay'] ?? '{n} day ago';
         } elseif ($timeLine < $minuteLine * 24 * 7 * 4 * 12) {
             // {n} month ago
             $timeInt = floor($timeLine / ($minuteLine * 24 * 7 * 4));
-            $timeFormatMonth = $timeFormatItem['timeFormatMonth'] ?? '{n} month ago';
-
-            return str_replace('{n}', $timeInt, $timeFormatMonth);
+            $timeFormatString = $timeFormatItem['timeFormatMonth'] ?? '{n} month ago';
         } else {
             // {n} year ago
             $timeInt = floor($timeLine / ($minuteLine * 24 * 7 * 4 * 12));
-            $timeFormatYear = $timeFormatItem['timeFormatYear'] ?? '{n} year ago';
-
-            return str_replace('{n}', $timeInt, $timeFormatYear);
+            $timeFormatString = $timeFormatItem['timeFormatYear'] ?? '{n} year ago';
         }
+
+        if ($timeInt <= 0) {
+            $timeInt = 1;
+        }
+
+        return str_replace('{n}', $timeInt, $timeFormatString);
 
         // $timeLine = time() - strtotime($datetime);
         // if ($timeLine <= 0) {
