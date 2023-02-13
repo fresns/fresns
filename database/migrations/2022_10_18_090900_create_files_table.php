@@ -38,8 +38,7 @@ class CreateFilesTable extends Migration
             $table->unsignedTinyInteger('image_is_long')->default(0);
             $table->unsignedSmallInteger('audio_time')->nullable();
             $table->unsignedSmallInteger('video_time')->nullable();
-            $table->string('video_cover_path')->nullable();
-            $table->string('video_gif_path')->nullable();
+            $table->string('video_poster_path')->nullable();
             $table->json('more_json')->nullable();
             $table->unsignedTinyInteger('transcoding_state')->default(1);
             $table->string('transcoding_reason')->nullable();
