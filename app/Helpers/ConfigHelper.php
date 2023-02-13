@@ -10,6 +10,7 @@ namespace App\Helpers;
 
 use App\Models\Config;
 use App\Models\File;
+use Illuminate\Support\Facades\Cache;
 
 class ConfigHelper
 {
@@ -78,6 +79,16 @@ class ConfigHelper
      */
     public static function fresnsConfigByItemKey(string $itemKey, ?string $langTag = null)
     {
+        if ($itemKey == 'developer_mode') {
+            $developerMode = Cache::rememberForever('developer_mode', function () {
+                $itemData = Config::where('item_key', 'developer_mode')->first();
+
+                return $itemData?->item_value ?? false;
+            });
+
+            return $developerMode ?? false;
+        }
+
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
         $cacheKey = "fresns_config_{$itemKey}_{$langTag}";

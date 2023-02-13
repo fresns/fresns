@@ -21,6 +21,7 @@ class SettingController extends Controller
     {
         // config keys
         $configKeys = [
+            'developer_mode',
             'build_type',
             'system_url',
             'panel_path',
@@ -41,6 +42,14 @@ class SettingController extends Controller
     {
         if ($request->path && Str::startsWith($request->path, config('FsConfig.route_blacklist'))) {
             return back()->with('failure', __('FsLang::tips.secure_entry_route_conflicts'));
+        }
+
+        if ($request->developer_mode) {
+            $buildConfig = Config::where('item_key', 'developer_mode')->firstOrNew();
+            $buildConfig->item_value = $request->developer_mode;
+            $buildConfig->save();
+
+            CacheHelper::forgetFresnsMultilingual('fresns_config_developer_mode');
         }
 
         if ($request->build_type) {

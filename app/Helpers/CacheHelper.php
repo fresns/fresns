@@ -16,6 +16,7 @@ use App\Models\Plugin;
 use App\Utilities\InteractionUtility;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 
@@ -114,6 +115,12 @@ class CacheHelper
     // is known to be empty
     public static function isKnownEmpty(string $cacheKey): bool
     {
+        $developerMode = ConfigHelper::fresnsConfigByItemKey('developer_mode');
+        $contains = Str::contains($cacheKey, 'fresns_web');
+        if ($developerMode && ! $contains) {
+            return false;
+        }
+
         $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
 
         $nullCacheCount = CacheHelper::get($nullCacheKey, 'fresnsNullCount');
@@ -146,6 +153,12 @@ class CacheHelper
     // cache get
     public static function get(string $cacheKey, mixed $cacheTags = null)
     {
+        $developerMode = ConfigHelper::fresnsConfigByItemKey('developer_mode');
+        $contains = Str::contains($cacheKey, 'fresns_web');
+        if ($developerMode && ! $contains) {
+            return null;
+        }
+
         $addTag = (array) $cacheKey;
         $cacheTags = (array) $cacheTags;
         $allTags = Arr::collapse([$cacheTags, $addTag]);
@@ -160,6 +173,12 @@ class CacheHelper
     // cache put
     public static function put(mixed $cacheData, string $cacheKey, mixed $cacheTags = null, ?int $nullCacheMinutes = null, ?Carbon $cacheTime = null)
     {
+        $developerMode = ConfigHelper::fresnsConfigByItemKey('developer_mode');
+        $contains = Str::contains($cacheKey, 'fresns_web');
+        if ($developerMode && ! $contains) {
+            return;
+        }
+
         $addTag = (array) $cacheKey;
         $cacheTags = (array) $cacheTags;
         $allTags = Arr::collapse([$cacheTags, $addTag]);
@@ -168,7 +187,7 @@ class CacheHelper
         if (empty($cacheData)) {
             CacheHelper::putNullCacheCount($cacheKey, $nullCacheMinutes);
 
-            return $cacheData;
+            return;
         }
 
         $cacheTime = $cacheTime ?: CacheHelper::fresnsCacheTimeByFileType();
@@ -532,7 +551,10 @@ class CacheHelper
         }
 
         if ($tag == 'fresnsSystems') {
-            CacheHelper::forgetFresnsKey('fresns_cache_is_support_tags');
+            CacheHelper::forgetFresnsKeys([
+                'fresns_cache_is_support_tags',
+                'developer_mode',
+            ]);
         }
     }
 
@@ -729,6 +751,7 @@ class CacheHelper
      */
     // fresns_cache_is_support_tags
     // fresns_cache_tags
+    // developer_mode
     // install_{$step}
     // autoUpgradeStep
     // autoUpgradeTip

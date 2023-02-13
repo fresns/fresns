@@ -20,17 +20,7 @@
     <form action="{{ route('panel.settings.update') }}" method="post" id="adminConfig">
         @csrf
         @method('put')
-        <div class="row mb-3">
-            <label for="backend_url" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_build_type') }}:</label>
-            <div class="col-lg-6">
-                <select class="form-select" name="build_type" required>
-                    <option disabled value="">{{ __('FsLang::panel.setting_build_select_tip') }}</option>
-                    <option value="1" @if($params['build_type'] == 1) selected @endif>{{ __('FsLang::panel.setting_build_option_stable') }}</option>
-                    <option value="2" @if($params['build_type'] == 2) selected @endif>{{ __('FsLang::panel.setting_build_option_beta') }}</option>
-                </select>
-            </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_build_type_desc') }}</div>
-        </div>
+
         <div class="row mb-3">
             <label for="system_url" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_system_url') }}:</label>
             <div class="col-lg-6"><input type="url" class="form-control update-panel-url" id="system_url" name="systemUrl" value="{{ $params['system_url'] }}" placeholder="https://" required></div>
@@ -51,6 +41,32 @@
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_panel_url_desc') }}</div>
         </div>
+
+        <div class="row mb-3">
+            <label for="backend_url" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_build_type') }}:</label>
+            <div class="col-lg-6">
+                <select class="form-select" name="build_type" required>
+                    <option disabled value="">{{ __('FsLang::panel.setting_build_select_tip') }}</option>
+                    <option value="1" @if($params['build_type'] == 1) selected @endif>{{ __('FsLang::panel.setting_build_option_stable') }}</option>
+                    <option value="2" @if($params['build_type'] == 2) selected @endif>{{ __('FsLang::panel.setting_build_option_beta') }}</option>
+                </select>
+            </div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_build_type_desc') }}</div>
+        </div>
+        <div class="row mb-3">
+            <label for="backend_url" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_developer_mode') }}:</label>
+            <div class="col-lg-10 pt-2">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="developer_mode" id="developer_mode_false" value="false" {{ !$params['developer_mode'] ? 'checked' : '' }}>
+                    <label class="form-check-label" for="developer_mode_false">{{ __('FsLang::panel.option_close') }}</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="developer_mode" id="developer_mode_true" value="true" {{ $params['developer_mode'] ? 'checked' : '' }}>
+                    <label class="form-check-label" for="developer_mode_true">{{ __('FsLang::panel.option_open') }}</label>
+                </div>
+            </div>
+        </div>
+
         <!--Save-->
         <div class="row my-3">
             <div class="col-lg-2"></div>
