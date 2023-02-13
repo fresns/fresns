@@ -87,8 +87,8 @@ class StrHelper
      */
     public static function qualifyUrl(?string $uri = null, ?string $domain = null)
     {
-        if (! $uri) {
-            return '';
+        if (empty($uri)) {
+            return null;
         }
 
         if (str_contains($uri, '://')) {

@@ -31,7 +31,6 @@ class FileHelper
             "{$key}_bucket_name",
             "{$key}_bucket_area",
             "{$key}_bucket_domain",
-            "{$key}_filesystem_disk",
             "{$key}_url_status",
             "{$key}_url_key",
             "{$key}_url_expire",
@@ -44,7 +43,6 @@ class FileHelper
             'bucketName' => $data["{$key}_bucket_name"],
             'bucketArea' => $data["{$key}_bucket_area"],
             'bucketDomain' => $data["{$key}_bucket_domain"],
-            'filesystemDisk' => $data["{$key}_filesystem_disk"],
             'antiLinkStatus' => $data["{$key}_url_status"],
             'antiLinkKey' => $data["{$key}_url_key"],
             'antiLinkExpire' => $data["{$key}_url_expire"],
@@ -329,25 +327,57 @@ class FileHelper
         return $fileTypeNumber;
     }
 
+    // get file path by handle position
+    public static function fresnsFilePathByHandlePosition(string $position, ?string $parameter = null, ?string $filePath = null)
+    {
+        $position = match ($position) {
+            'path-start' => 'path-start',
+            'path-end' => 'path-end',
+            'name-start' => 'name-start',
+            'name-end' => 'name-end',
+            default => null,
+        };
+
+        if (empty($position) || empty($filePath)) {
+            return $filePath;
+        }
+
+        if ($position == 'path-start') {
+            return $parameter.$filePath;
+        }
+
+        if ($position == 'path-end') {
+            return $filePath.$parameter;
+        }
+
+        $fileName = pathinfo($filePath, PATHINFO_FILENAME);
+        $fileExtension = '.'.pathinfo($filePath, PATHINFO_EXTENSION);
+        $fileDirectory = dirname($filePath);
+
+        $newFilePath = match ($position) {
+            'name-start' => $fileDirectory.$parameter.$fileName.$fileExtension,
+            'name-end' => $fileDirectory.'/'.$fileName.$parameter.$fileExtension,
+        };
+
+        return $newFilePath;
+    }
+
     // get file path for image
-    // position start && end
+    // position name-start && name-end
     public static function fresnsFilePathForImage(string $position, ?string $filePath = null)
     {
         $position = match ($position) {
+            'name-start' => 'name-start',
+            'name-end' => 'name-end',
             default => null,
-            'start' => 'start',
-            'end' => 'end',
-            'name-start' => 'start',
-            'name-end' => 'end',
         };
 
         if (empty($position) || empty($filePath)) {
             return [
-                'configPath' => null,
-                'avatarPath' => null,
-                'ratioPath' => null,
-                'squarePath' => null,
-                'bigPath' => null,
+                'configPath' => $filePath,
+                'ratioPath' => $filePath,
+                'squarePath' => $filePath,
+                'bigPath' => $filePath,
             ];
         }
 
@@ -359,17 +389,15 @@ class FileHelper
         $newFileName = substr($fileName, 0, $fileNameLength - 16);
 
         switch ($position) {
-            case 'start':
+            case 'name-start':
                 $configPath = $fileDirectory.'/config-'.$newFileName.'.'.$fileExtension;
-                $avatarPath = $fileDirectory.'/avatar-'.$newFileName.'.'.$fileExtension;
                 $ratioPath = $fileDirectory.'/ratio-'.$newFileName.'.'.$fileExtension;
                 $squarePath = $fileDirectory.'/square-'.$newFileName.'.'.$fileExtension;
                 $bigPath = $fileDirectory.'/big-'.$newFileName.'.'.$fileExtension;
             break;
 
-            case 'end':
+            case 'name-end':
                 $configPath = $fileDirectory.'/'.$newFileName.'-config.'.$fileExtension;
-                $avatarPath = $fileDirectory.'/'.$newFileName.'-avatar.'.$fileExtension;
                 $ratioPath = $fileDirectory.'/'.$newFileName.'-ratio.'.$fileExtension;
                 $squarePath = $fileDirectory.'/'.$newFileName.'-square.'.$fileExtension;
                 $bigPath = $fileDirectory.'/'.$newFileName.'-big.'.$fileExtension;
@@ -378,7 +406,6 @@ class FileHelper
 
         return [
             'configPath' => $configPath,
-            'avatarPath' => $avatarPath,
             'ratioPath' => $ratioPath,
             'squarePath' => $squarePath,
             'bigPath' => $bigPath,

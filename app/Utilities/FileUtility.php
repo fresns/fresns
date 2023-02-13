@@ -8,6 +8,7 @@
 
 namespace App\Utilities;
 
+use App\Helpers\CacheHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
@@ -265,7 +266,13 @@ class FileUtility
                 $file = File::where('fid', $id)->first();
             }
 
-            $file?->delete();
+            if (empty($file)) {
+                continue;
+            }
+
+            $file->delete();
+
+            CacheHelper::forgetFresnsFileUsage($file->id);
         }
 
         return true;
