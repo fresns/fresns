@@ -355,6 +355,7 @@ return [
     'admin_add_form_account_btn' => 'खोज और वृद्धि',
     // Dashboard-Settings
     'setting_developer_mode' => 'डेवलपर मोड',
+    'setting_developer_mode_desc' => 'यदि यह विकास का वातावरण नहीं है, तो कृपया विकल्प को अक्षम न करें।',
     'setting_build_type' => 'संस्करण प्रकार',
     'setting_build_type_desc' => 'बीटा संस्करण में खराब स्थिरता है, कृपया ध्यान से चुनें।',
     'setting_build_select_tip' => 'अपग्रेड संस्करण प्रकार चुनें',

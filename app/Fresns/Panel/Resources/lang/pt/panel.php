@@ -355,6 +355,7 @@ return [
     'admin_add_form_account_btn' => 'Pesquisa e aumento',
     // Dashboard-Settings
     'setting_developer_mode' => 'Modo desenvolvedor',
+    'setting_developer_mode_desc' => 'Não desactivar opções se não se tratar de um ambiente de desenvolvimento.',
     'setting_build_type' => 'Tipo de versão',
     'setting_build_type_desc' => 'A versão beta é menos estável, por isso, por favor escolha cuidadosamente.',
     'setting_build_select_tip' => 'Seleccione o tipo de versão de actualização',

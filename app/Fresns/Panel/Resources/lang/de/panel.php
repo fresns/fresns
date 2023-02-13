@@ -355,6 +355,7 @@ return [
     'admin_add_form_account_btn' => 'Suche und Erhöhung',
     // Dashboard-Settings
     'setting_developer_mode' => 'Entwickler-Modus',
+    'setting_developer_mode_desc' => 'Deaktivieren Sie die Optionen nicht, wenn es sich nicht um eine Entwicklungsumgebung handelt.',
     'setting_build_type' => 'Version Typ',
     'setting_build_type_desc' => 'Die Beta-Version ist weniger stabil, bitte wählen Sie sie daher mit Bedacht aus.',
     'setting_build_select_tip' => 'Wählen Sie den Typ der Upgrade-Version',

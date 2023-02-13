@@ -355,6 +355,7 @@ return [
     'admin_add_form_account_btn' => '検索と増加',
     // Dashboard-Settings
     'setting_developer_mode' => 'デベロッパーモード',
+    'setting_developer_mode_desc' => '開発環境でない場合は、オプションを解除しないでください。',
     'setting_build_type' => 'バージョンの種類',
     'setting_build_type_desc' => 'ベータ版は安定性が低いので、慎重に選んでください。',
     'setting_build_select_tip' => 'アップグレードバージョンの種類を選択',

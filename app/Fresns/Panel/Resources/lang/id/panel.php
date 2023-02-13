@@ -355,6 +355,7 @@ return [
     'admin_add_form_account_btn' => 'Cari dan Tambah',
     // Dashboard-Settings
     'setting_developer_mode' => 'Mode Pengembang',
+    'setting_developer_mode_desc' => 'Jangan menonaktifkan opsi jika ini bukan lingkungan pengembangan.',
     'setting_build_type' => 'Jenis versi',
     'setting_build_type_desc' => 'Versi beta memiliki stabilitas yang buruk, harap pilih dengan cermat.',
     'setting_build_select_tip' => 'Pilih jenis versi peningkatan',

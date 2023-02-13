@@ -355,6 +355,7 @@ return [
     'admin_add_form_account_btn' => 'Search and add',
     // Dashboard-Settings
     'setting_developer_mode' => 'Developer Mode',
+    'setting_developer_mode_desc' => 'Do not deactivate options if it is not a development environment.',
     'setting_build_type' => 'Build Type',
     'setting_build_type_desc' => 'The beta version is less stable, so please choose carefully.',
     'setting_build_select_tip' => 'Select upgrade version type',

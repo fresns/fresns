@@ -356,6 +356,7 @@ return [
     'admin_add_form_account_btn' => '搜索並增加',
     // Dashboard-Settings
     'setting_developer_mode' => '開發者模式',
+    'setting_developer_mode_desc' => '不是開發環境下，請勿停用選項。',
     'setting_build_type' => '版本類型',
     'setting_build_type_desc' => '測試版穩定性欠佳，請謹慎選擇。',
     'setting_build_select_tip' => '選擇升級版本類型',

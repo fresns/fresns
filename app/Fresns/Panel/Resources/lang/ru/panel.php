@@ -355,6 +355,7 @@ return [
     'admin_add_form_account_btn' => 'Поиск и увеличение',
     // Dashboard-Settings
     'setting_developer_mode' => 'Режим разработчика',
+    'setting_developer_mode_desc' => 'Не отключайте опции, если это не среда разработки.',
     'setting_build_type' => 'Тип версии',
     'setting_build_type_desc' => 'Бета-версия менее стабильна, поэтому, пожалуйста, выбирайте осторожно.',
     'setting_build_select_tip' => 'Выберите тип версии обновления',

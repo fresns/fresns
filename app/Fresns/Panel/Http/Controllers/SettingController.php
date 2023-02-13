@@ -45,11 +45,16 @@ class SettingController extends Controller
         }
 
         if ($request->developer_mode) {
+            $developerMode = [
+                'apiSignature' => (bool) $request->developer_mode['apiSignature'],
+                'cache' => (bool) $request->developer_mode['cache'],
+            ];
+
             $buildConfig = Config::where('item_key', 'developer_mode')->firstOrNew();
-            $buildConfig->item_value = $request->developer_mode;
+            $buildConfig->item_value = $developerMode;
             $buildConfig->save();
 
-            CacheHelper::forgetFresnsMultilingual('fresns_config_developer_mode');
+            CacheHelper::forgetFresnsKey('developer_mode');
         }
 
         if ($request->build_type) {

@@ -55,16 +55,35 @@
         </div>
         <div class="row mb-3">
             <label for="backend_url" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_developer_mode') }}:</label>
-            <div class="col-lg-10 pt-2">
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="developer_mode" id="developer_mode_false" value="false" {{ !$params['developer_mode'] ? 'checked' : '' }}>
-                    <label class="form-check-label" for="developer_mode_false">{{ __('FsLang::panel.option_close') }}</label>
+            <div class="col-lg-6">
+                <div class="input-group mb-3">
+                    <span class="input-group-text w-25">API Signature</span>
+                    <div class="form-control">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="developer_mode[apiSignature]" id="signature_true" value=1 {{ ($params['developer_mode']['apiSignature'] ?? true) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="signature_true">{{ __('FsLang::panel.option_activate') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="developer_mode[apiSignature]" id="signature_false" value=0 {{ ! ($params['developer_mode']['apiSignature'] ?? true) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="signature_false">{{ __('FsLang::panel.option_deactivate') }}</label>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="developer_mode" id="developer_mode_true" value="true" {{ $params['developer_mode'] ? 'checked' : '' }}>
-                    <label class="form-check-label" for="developer_mode_true">{{ __('FsLang::panel.option_open') }}</label>
+                <div class="input-group mb-2">
+                    <span class="input-group-text w-25">{{ __('FsLang::panel.sidebar_caches') }}</span>
+                    <div class="form-control">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="developer_mode[cache]" id="cache_true" value=1 {{ ($params['developer_mode']['cache'] ?? true) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="cache_true">{{ __('FsLang::panel.option_activate') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="developer_mode[cache]" id="cache_false" value=0 {{ ! ($params['developer_mode']['cache'] ?? true) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="cache_false">{{ __('FsLang::panel.option_deactivate') }}</label>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_developer_mode_desc') }}</div>
         </div>
 
         <!--Save-->
