@@ -38,9 +38,13 @@ class CheckHeaderByBlacklist
         new HeadersDTO($headers);
 
         // check sign
-        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->verifySign($headers);
-        if ($fresnsResp->isErrorResponse()) {
-            return $fresnsResp->errorResponse();
+        $isCheckSign = ConfigHelper::fresnsConfigDeveloperMode()['apiSignature'];
+        if ($isCheckSign) {
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->verifySign($headers);
+
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
         }
 
         // config
