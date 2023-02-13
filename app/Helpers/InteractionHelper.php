@@ -318,7 +318,7 @@ class InteractionHelper
         $profile['url'] = null;
         $profile['username'] = null;
         $profile['nickname'] = null;
-        $profile['avatar'] = ConfigHelper::fresnsConfigFileUrlByItemKey('anonymous_avatar', 'imageAvatarUrl');
+        $profile['avatar'] = ConfigHelper::fresnsConfigFileUrlByItemKey('anonymous_avatar', 'imageSquareUrl');
         $profile['decorate'] = null;
         $profile['banner'] = null;
         $profile['gender'] = null;

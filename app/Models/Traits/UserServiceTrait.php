@@ -91,14 +91,14 @@ trait UserServiceTrait
         if ($user->wait_delete == 0) {
             if (empty($user->avatar_file_url) && empty($user->avatar_file_id)) {
                 // default avatar
-                $userAvatar = ConfigHelper::fresnsConfigFileUrlByItemKey('default_avatar', 'imageAvatarUrl');
+                $userAvatar = ConfigHelper::fresnsConfigFileUrlByItemKey('default_avatar', 'imageSquareUrl');
             } else {
                 // user avatar
-                $userAvatar = FileHelper::fresnsFileUrlByTableColumn($user->avatar_file_id, $user->avatar_file_url, 'imageAvatarUrl');
+                $userAvatar = FileHelper::fresnsFileUrlByTableColumn($user->avatar_file_id, $user->avatar_file_url, 'imageSquareUrl');
             }
         } else {
             // user deactivate avatar
-            $userAvatar = ConfigHelper::fresnsConfigFileUrlByItemKey('deactivate_avatar', 'imageAvatarUrl');
+            $userAvatar = ConfigHelper::fresnsConfigFileUrlByItemKey('deactivate_avatar', 'imageSquareUrl');
         }
 
         return $userAvatar;

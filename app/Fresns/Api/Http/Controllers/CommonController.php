@@ -71,11 +71,11 @@ class CommonController extends Controller
                         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileInfo([
                             'fileId' => ConfigHelper::fresnsConfigByItemKey('default_avatar'),
                         ]);
-                        $defaultAvatar = $fresnsResp->getData('imageAvatarUrl');
+                        $defaultAvatar = $fresnsResp->getData('imageSquareUrl');
                     }
 
                     foreach ($userQuery as $user) {
-                        $avatar = FileHelper::fresnsFileUrlByTableColumn($user->avatar_file_id, $user->avatar_file_url, 'image_thumb_avatar');
+                        $avatar = FileHelper::fresnsFileUrlByTableColumn($user->avatar_file_id, $user->avatar_file_url, 'imageSquareUrl');
 
                         $item['fsid'] = $user->uid;
                         $item['name'] = $user->username;
