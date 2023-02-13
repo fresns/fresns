@@ -16,9 +16,9 @@ use App\Models\Plugin;
 use App\Utilities\InteractionUtility;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class CacheHelper
 {
