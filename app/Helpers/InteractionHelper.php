@@ -341,8 +341,6 @@ class InteractionHelper
         $profile['hasPassword'] = false;
         $profile['rankState'] = 1;
         $profile['status'] = true;
-        $profile['deactivate'] = false;
-        $profile['deactivateTime'] = null;
 
         $profile['nicknameColor'] = null;
         $profile['rid'] = null;

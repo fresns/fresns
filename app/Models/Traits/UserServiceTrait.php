@@ -12,7 +12,6 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
 use App\Models\Role;
-use App\Models\User;
 use App\Models\UserRole;
 
 trait UserServiceTrait
@@ -78,8 +77,6 @@ trait UserServiceTrait
         $profile['status'] = (bool) $userData->is_enable;
         $profile['waitDelete'] = (bool) $userData->wait_delete;
         $profile['waitDeleteDateTime'] = $userData->wait_delete_at;
-        $profile['deactivate'] = (bool) $userData->deleted_at;
-        $profile['deactivateTime'] = $userData->deleted_at;
 
         return $profile;
     }

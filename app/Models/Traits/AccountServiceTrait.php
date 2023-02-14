@@ -38,8 +38,6 @@ trait AccountServiceTrait
         $info['status'] = (bool) $accountData->is_enable;
         $info['waitDelete'] = (bool) $accountData->wait_delete;
         $info['waitDeleteDateTime'] = $accountData->wait_delete_at;
-        $info['deactivate'] = (bool) $accountData->deleted_at;
-        $info['deactivateTime'] = $accountData->deleted_at;
 
         return $info;
     }
