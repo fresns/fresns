@@ -327,8 +327,8 @@ class User
 
         $user->delete();
 
-        Conversation::where('a_user_id', $user->id)->update(['a_is_deactivate' => 0]);
-        Conversation::where('b_user_id', $user->id)->update(['b_is_deactivate' => 0]);
+        Conversation::where('a_user_id', $user->id)->update(['a_is_deactivate' => false]);
+        Conversation::where('b_user_id', $user->id)->update(['b_is_deactivate' => false]);
 
         return $this->success();
     }
