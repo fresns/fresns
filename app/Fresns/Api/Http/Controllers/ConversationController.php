@@ -77,11 +77,6 @@ class ConversationController extends Controller
                 $isPin = $conversation->b_is_pin;
             }
 
-            $userIsDeactivate = $conversationUser ? false : true;
-            if ($conversationUser) {
-                $userIsDeactivate = $conversationUser['deactivate'];
-            }
-
             $latestMessageModel = $conversation?->latestMessage;
 
             if ($latestMessageModel?->message_type == 2) {
@@ -107,7 +102,6 @@ class ConversationController extends Controller
             $messageCount = $aMessages->union($bMessages)->count();
 
             $item['id'] = $conversation->id;
-            $item['userIsDeactivate'] = $userIsDeactivate;
             $item['user'] = $conversationUser;
             $item['latestMessage'] = $latestMessage;
             $item['isPin'] = (bool) $isPin;
@@ -155,11 +149,6 @@ class ConversationController extends Controller
             $conversationUser = $userService->userData($conversation?->aUser, $langTag, $timezone, $authUser->id);
         }
 
-        $userIsDeactivate = $conversationUser ? false : true;
-        if ($conversationUser) {
-            $userIsDeactivate = $conversationUser['deactivate'];
-        }
-
         $aMessages = conversationMessage::where('conversation_id', $conversation->id)
             ->where('send_user_id', $authUser->id)
             ->whereNull('send_deleted_at')
@@ -172,7 +161,6 @@ class ConversationController extends Controller
 
         // return
         $detail['id'] = $conversation->id;
-        $detail['userIsDeactivate'] = $userIsDeactivate;
         $detail['user'] = $conversationUser;
         $detail['messageCount'] = $messageCount;
         $detail['unreadCount'] = $unreadCount;
@@ -228,7 +216,7 @@ class ConversationController extends Controller
         $messageList = [];
         foreach ($messages as $message) {
             $item['id'] = $message->id;
-            $item['user'] = $userService->userData($message->sendUser, $langTag, $timezone, $authUser->id);
+            $item['user'] = $userService->userData($message?->sendUser, $langTag, $timezone, $authUser->id);
             $item['isMe'] = ($message->send_user_id == $authUser->id) ? true : false;
             $item['type'] = $message->message_type;
             $item['content'] = ContentUtility::replaceBlockWords('conversation', $message->message_text);

@@ -215,7 +215,6 @@ class UserService
             $userData['registerDate'] = DateHelper::fresnsFormatConversion($userData['registerDate'], $langTag);
 
             $userData['waitDeleteDateTime'] = DateHelper::fresnsFormatConversion($userData['waitDeleteDateTime'], $langTag);
-            $userData['deactivateTime'] = DateHelper::fresnsFormatConversion($userData['deactivateTime'], $langTag);
 
             $userData['roleExpiryDateTime'] = DateHelper::fresnsFormatConversion($userData['roleExpiryDateTime'], $langTag);
 
@@ -236,7 +235,6 @@ class UserService
         $userData['registerDate'] = DateHelper::fresnsDateTimeByTimezone($userData['registerDate'], $timezone, $langTag);
 
         $userData['waitDeleteDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData['waitDeleteDateTime'], $timezone, $langTag);
-        $userData['deactivateTime'] = DateHelper::fresnsDateTimeByTimezone($userData['deactivateTime'], $timezone, $langTag);
 
         $userData['roleExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($userData['roleExpiryDateTime'], $timezone, $langTag);
 

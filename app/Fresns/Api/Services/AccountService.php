@@ -77,7 +77,6 @@ class AccountService
         $accountData['verifyDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountData['verifyDateTime'], $timezone, $langTag);
         $accountData['registerDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountData['registerDateTime'], $timezone, $langTag);
         $accountData['waitDeleteDateTime'] = DateHelper::fresnsDateTimeByTimezone($accountData['waitDeleteDateTime'], $timezone, $langTag);
-        $accountData['deactivateTime'] = DateHelper::fresnsDateTimeByTimezone($accountData['deactivateTime'], $timezone, $langTag);
 
         return $accountData;
     }

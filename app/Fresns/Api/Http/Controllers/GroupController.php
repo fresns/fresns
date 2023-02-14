@@ -260,10 +260,18 @@ class GroupController extends Controller
 
         $seoData = LanguageHelper::fresnsLanguageSeoDataById('group', $group->id, $langTag);
 
+        $extensions = [];
+
+        // check limit
+        $checkLimit = GroupService::getGroupContentDateLimit($group->id, $authUserId);
+        if ($checkLimit['code'] == 0 && empty($checkLimit['datetime'])) {
+            $extensions = ExtendUtility::getGroupExtensions($group->id, $langTag, $authUserId);
+        }
+
         $item['title'] = $seoData?->title;
         $item['keywords'] = $seoData?->keywords;
         $item['description'] = $seoData?->description;
-        $item['extensions'] = ExtendUtility::getGroupExtensions($group->id, $langTag, $authUserId);
+        $item['extensions'] = $extensions;
         $data['items'] = $item;
 
         $service = new GroupService();

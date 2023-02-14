@@ -117,7 +117,7 @@ class PostService
 
         // group
         if ($post->group_id) {
-            $groupDateLimit = GroupService::getGroupContentDateLimit($post->group_id, $authUserId);
+            $groupDateLimit = GroupService::getGroupContentDateLimit($post->group_id, $authUserId)['datetime'] ?? null;
             if ($groupDateLimit) {
                 $postTime = strtotime($post->created_at);
                 $dateLimit = strtotime($groupDateLimit);
@@ -326,6 +326,7 @@ class PostService
 
         if (empty($userList)) {
             $userLikes = UserLike::with('creator')
+                ->has('creator')
                 ->markType(UserLike::MARK_TYPE_LIKE)
                 ->type(UserLike::TYPE_POST)
                 ->where('like_id', $post->id)
@@ -377,7 +378,7 @@ class PostService
         $commentList = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($commentList)) {
-            $commentQuery = Comment::where('post_id', $post->id)->where('top_parent_id', 0)->limit($limit);
+            $commentQuery = Comment::with(['creator'])->has('creator')->where('post_id', $post->id)->where('top_parent_id', 0)->limit($limit);
 
             if ($previewConfig['preview_post_comment_sort'] == 'like') {
                 $commentQuery->orderByDesc('like_count');

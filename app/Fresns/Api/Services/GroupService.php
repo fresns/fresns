@@ -131,29 +131,42 @@ class GroupService
     {
         $group = PrimaryHelper::fresnsModelById('group', $groupId);
 
+        $checkResp = [
+            'code' => 0,
+            'datetime' => null,
+        ];
+
         if ($group->type_mode == 1) {
-            return null;
+            return $checkResp;
         }
 
         if (empty($authUserId)) {
-            throw new ApiException(37103);
+            $checkResp['code'] = 37103;
+
+            return $checkResp;
         }
 
         $follow = PrimaryHelper::fresnsFollowModelByType('group', $groupId, $authUserId);
 
         if (empty($follow)) {
-            throw new ApiException(37103);
+            $checkResp['code'] = 37103;
+
+            return $checkResp;
         }
 
         if ($group->type_mode_end_after == 1) {
-            return null;
+            return $checkResp;
         }
 
         if (empty($follow?->expired_at) || $group->type_mode_end_after == 2) {
-            throw new ApiException(37105);
+            $checkResp['code'] = 37105;
+
+            return $checkResp;
         }
 
-        return $follow->expired_at;
+        $checkResp['datetime'] = $follow->expired_at;
+
+        return $checkResp;
     }
 
     // check content view permission

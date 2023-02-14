@@ -64,7 +64,7 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $postQuery = Post::with(['creator', 'hashtags']);
+        $postQuery = Post::with(['creator', 'hashtags'])->has('creator');
 
         $blockGroupIds = InteractionUtility::getPrivateGroupIdArr();
 
@@ -139,7 +139,13 @@ class PostController extends Controller
             }
 
             // group mode
-            $groupDateLimit = GroupService::getGroupContentDateLimit($viewGroup->id, $authUserId);
+            $checkLimit = GroupService::getGroupContentDateLimit($viewGroup->id, $authUserId);
+
+            if ($checkLimit['code']) {
+                return $this->warning($checkLimit['code']);
+            }
+
+            $groupDateLimit = $checkLimit['datetime'];
 
             $postQuery->where('group_id', $viewGroup->id);
         }
@@ -293,12 +299,18 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $post = Post::where('pid', $pid)->first();
+        $post = Post::with(['creator'])->where('pid', $pid)->first();
 
         if (empty($post)) {
             throw new ApiException(37300);
         }
 
+        // check creator
+        if (empty($post?->creator)) {
+            throw new ApiException(35203);
+        }
+
+        // check is enable
         if (! $post->is_enable && $post->user_id != $authUserId) {
             throw new ApiException(37301);
         }
@@ -345,12 +357,18 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $post = Post::where('pid', $pid)->first();
+        $post = Post::with(['creator'])->where('pid', $pid)->first();
 
         if (empty($post)) {
             throw new ApiException(37300);
         }
 
+        // check creator
+        if (empty($post?->creator)) {
+            throw new ApiException(35203);
+        }
+
+        // check is enable
         if (! $post->is_enable && $post->user_id != $authUserId) {
             throw new ApiException(37301);
         }
@@ -375,12 +393,18 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $post = Post::where('pid', $pid)->first();
+        $post = Post::with(['creator'])->where('pid', $pid)->first();
 
         if (empty($post)) {
             throw new ApiException(37300);
         }
 
+        // check creator
+        if (empty($post?->creator)) {
+            throw new ApiException(35203);
+        }
+
+        // check is enable
         if (! $post->is_enable && $post->user_id != $authUserId) {
             throw new ApiException(37301);
         }
@@ -406,12 +430,18 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $post = Post::where('pid', $pid)->first();
+        $post = Post::with(['creator'])->where('pid', $pid)->first();
 
         if (empty($post)) {
             throw new ApiException(37300);
         }
 
+        // check creator
+        if (empty($post?->creator)) {
+            throw new ApiException(35203);
+        }
+
+        // check is enable
         if (! $post->is_enable && $post->user_id != $authUserId) {
             throw new ApiException(37301);
         }

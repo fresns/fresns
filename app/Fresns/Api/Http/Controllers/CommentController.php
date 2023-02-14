@@ -44,7 +44,7 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $commentQuery = Comment::with(['creator', 'post', 'hashtags']);
+        $commentQuery = Comment::with(['creator', 'post', 'hashtags'])->has('creator');
 
         $blockGroupIds = InteractionUtility::getPrivateGroupIdArr();
 
@@ -86,11 +86,6 @@ class CommentController extends Controller
                     $query->where('is_enable', false)->where('user_id', $authUserId);
                 });
             }
-        });
-
-        // user is enable
-        $commentQuery->whereHas('creator', function ($query) {
-            $query->where('is_enable', true);
         });
 
         $commentQuery->when($blockGroupIds, function ($query, $value) {
@@ -139,6 +134,11 @@ class CommentController extends Controller
             $commentQuery->where('post_id', $viewPost->id)->where('top_parent_id', 0);
 
             $isPreviewPost = false;
+        } else {
+            // user is enable
+            $commentQuery->whereHas('creator', function ($query) {
+                $query->where('is_enable', true);
+            });
         }
 
         $outputSubComments = true;
@@ -176,7 +176,13 @@ class CommentController extends Controller
             }
 
             // group mode
-            $groupDateLimit = GroupService::getGroupContentDateLimit($viewGroup->id, $authUserId);
+            $checkLimit = GroupService::getGroupContentDateLimit($viewGroup->id, $authUserId);
+
+            if ($checkLimit['code']) {
+                return $this->warning($checkLimit['code']);
+            }
+
+            $groupDateLimit = $checkLimit['datetime'];
 
             $commentQuery->when($viewGroup->id, function ($query, $value) {
                 $query->whereHas('post', function ($query) use ($value) {
@@ -340,16 +346,18 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $comment = Comment::where('cid', $cid)->first();
+        $comment = Comment::with(['creator'])->where('cid', $cid)->first();
 
         if (empty($comment)) {
             throw new ApiException(37400);
         }
 
-        if (empty($comment?->post)) {
-            throw new ApiException(37300);
+        // check creator
+        if (empty($comment?->creator)) {
+            throw new ApiException(35203);
         }
 
+        // check is enable
         if (! $comment->is_enable && $comment->user_id != $authUserId) {
             throw new ApiException(37401);
         }
@@ -377,12 +385,18 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $comment = Comment::where('cid', $cid)->first();
+        $comment = Comment::with(['creator'])->where('cid', $cid)->first();
 
         if (empty($comment)) {
             throw new ApiException(37400);
         }
 
+        // check creator
+        if (empty($comment?->creator)) {
+            throw new ApiException(35203);
+        }
+
+        // check is enable
         if (! $comment->is_enable && $comment->user_id != $authUserId) {
             throw new ApiException(37401);
         }
@@ -411,12 +425,18 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $comment = Comment::where('cid', $cid)->first();
+        $comment = Comment::with(['creator'])->where('cid', $cid)->first();
 
         if (empty($comment)) {
             throw new ApiException(37400);
         }
 
+        // check creator
+        if (empty($comment?->creator)) {
+            throw new ApiException(35203);
+        }
+
+        // check is enable
         if (! $comment->is_enable && $comment->user_id != $authUserId) {
             throw new ApiException(37401);
         }
@@ -441,12 +461,18 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $comment = Comment::where('cid', $cid)->first();
+        $comment = Comment::with(['creator'])->where('cid', $cid)->first();
 
         if (empty($comment)) {
             throw new ApiException(37400);
         }
 
+        // check creator
+        if (empty($comment?->creator)) {
+            throw new ApiException(35203);
+        }
+
+        // check is enable
         if (! $comment->is_enable && $comment->user_id != $authUserId) {
             throw new ApiException(37401);
         }
