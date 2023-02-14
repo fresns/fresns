@@ -210,7 +210,10 @@ class PermissionUtility
             return false;
         }
 
-        $userRoles = UserRole::where('user_id', $userId)->where('expired_at', '<=', now())->pluck('role_id')->toArray();
+        $userRolesByExpired = UserRole::where('user_id', $userId)->where('expired_at', '<=', now())->pluck('role_id')->toArray();
+        $userRolesByExpiredNull = UserRole::where('user_id', $userId)->whereNull('expired_at')->pluck('role_id')->toArray();
+
+        $userRoles = array_merge($userRolesByExpired, $userRolesByExpiredNull);
 
         return array_intersect($userRoles, $permRoleIds) ? true : false;
     }
@@ -589,14 +592,14 @@ class PermissionUtility
             $usages = PluginUsage::where('usage_type', $usageType)
                 ->where('plugin_unikey', $unikey)
                 ->where('group_id', $groupId)
-                ->where('is_group_admin', 1)
-                ->where('is_enable', 1)
+                ->where('is_group_admin', true)
+                ->where('is_enable', true)
                 ->get();
         } else {
             $usages = PluginUsage::where('usage_type', $usageType)
                 ->where('plugin_unikey', $unikey)
-                ->where('is_group_admin', 1)
-                ->where('is_enable', 1)
+                ->where('is_group_admin', true)
+                ->where('is_enable', true)
                 ->get();
         }
 
@@ -620,14 +623,14 @@ class PermissionUtility
             $usages = PluginUsage::where('usage_type', $usageType)
                 ->where('plugin_unikey', $unikey)
                 ->where('group_id', $groupId)
-                ->where('is_group_admin', 0)
-                ->where('is_enable', 1)
+                ->where('is_group_admin', false)
+                ->where('is_enable', true)
                 ->get();
         } else {
             $usages = PluginUsage::where('usage_type', $usageType)
                 ->where('plugin_unikey', $unikey)
-                ->where('is_group_admin', 0)
-                ->where('is_enable', 1)
+                ->where('is_group_admin', false)
+                ->where('is_enable', true)
                 ->get();
         }
 

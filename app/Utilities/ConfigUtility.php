@@ -424,31 +424,39 @@ class ConfigUtility
             $newDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $dbDateTime);
 
             switch ($publishConfig['limit']['type']) {
-                // period Y-m-d H:i:s
+                // period
+                // Y-m-d H:i:s
                 case 1:
-                    $periodStart = Carbon::createFromFormat('Y-m-d H:i:s', $publishConfig['limit']['periodStart']);
-                    $periodEnd = Carbon::createFromFormat('Y-m-d H:i:s', $publishConfig['limit']['periodEnd']);
-
-                    $isInTime = $newDateTime->between($periodStart, $periodEnd);
+                    $periodStart = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s', strtotime($publishConfig['limit']['periodStart'])));
+                    $periodEnd = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s', strtotime($publishConfig['limit']['periodEnd'])));
                 break;
 
-                // cycle H:i
+                // cycle
+                // H:i
                 case 2:
                     $dbDate = date('Y-m-d', strtotime($dbDateTime));
                     $cycleStart = "{$dbDate} {$publishConfig['limit']['cycleStart']}:00"; // Y-m-d H:i:s
                     $cycleEnd = "{$dbDate} {$publishConfig['limit']['cycleEnd']}:00"; // Y-m-d H:i:s
 
-                    $periodStart = Carbon::createFromFormat('Y-m-d H:i:s', $cycleStart); // 2022-07-01 22:30:00
-                    $periodEnd = Carbon::createFromFormat('Y-m-d H:i:s', $cycleEnd); // 2022-07-01 08:30:00
+                    $periodStart = Carbon::createFromFormat('Y-m-d H:i:s', $cycleStart); // 2022-07-02 22:30:00
+                    $periodEnd = Carbon::createFromFormat('Y-m-d H:i:s', $cycleEnd); // 2022-07-02 08:30:00
 
-                    if ($periodEnd->lt($periodStart)) {
-                        // next day 2022-07-02 08:30:00
-                        $periodEnd = $periodEnd->addDay();
+                    // 2022-07-02 22:30:00 > 2022-07-02 08:30:00
+                    if ($periodStart->gt($periodEnd)) {
+                        // previous day 2022-07-01 08:30:00
+                        $periodStart = $periodStart->subDay();
                     }
 
-                    $isInTime = $newDateTime->between($periodStart, $periodEnd);
+                    // 2022-07-02 08:30:00 < 2022-07-02 22:30:00
+                    if ($periodEnd->lt($periodStart)) {
+                        // next day 2022-07-03 08:30:00
+                        $periodEnd = $periodEnd->addDay();
+                    }
                 break;
             }
+
+            // check time
+            $isInTime = $newDateTime->between($periodStart, $periodEnd);
 
             if ($isInTime) {
                 $publishConfig['limit']['isInTime'] = true;
