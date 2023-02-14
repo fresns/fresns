@@ -52,7 +52,7 @@ trait UserServiceTrait
         $profile['username'] = $userData->username;
         $profile['url'] = $url;
         $profile['nickname'] = $userData->nickname;
-        $profile['avatar'] = static::getUserAvatar($userData->id);
+        $profile['avatar'] = $userData->getUserAvatar();
         $profile['decorate'] = null;
         $profile['banner'] = FileHelper::fresnsFileUrlByTableColumn($userData->banner_file_id, $userData->banner_file_url);
         $profile['gender'] = $userData->gender;
@@ -84,21 +84,21 @@ trait UserServiceTrait
         return $profile;
     }
 
-    public static function getUserAvatar(int $userId)
+    public function getUserAvatar()
     {
-        $user = User::where('id', $userId)->first(['avatar_file_id', 'avatar_file_url', 'wait_delete']);
+        $userData = $this;
 
-        if ($user->wait_delete == 0) {
-            if (empty($user->avatar_file_url) && empty($user->avatar_file_id)) {
+        if ($userData->wait_delete || ! $userData->is_enable) {
+            // user deactivate avatar
+            $userAvatar = ConfigHelper::fresnsConfigFileUrlByItemKey('deactivate_avatar', 'imageSquareUrl');
+        } else {
+            if (empty($userData->avatar_file_url) && empty($userData->avatar_file_id)) {
                 // default avatar
                 $userAvatar = ConfigHelper::fresnsConfigFileUrlByItemKey('default_avatar', 'imageSquareUrl');
             } else {
                 // user avatar
-                $userAvatar = FileHelper::fresnsFileUrlByTableColumn($user->avatar_file_id, $user->avatar_file_url, 'imageSquareUrl');
+                $userAvatar = FileHelper::fresnsFileUrlByTableColumn($userData->avatar_file_id, $userData->avatar_file_url, 'imageSquareUrl');
             }
-        } else {
-            // user deactivate avatar
-            $userAvatar = ConfigHelper::fresnsConfigFileUrlByItemKey('deactivate_avatar', 'imageSquareUrl');
         }
 
         return $userAvatar;
