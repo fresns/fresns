@@ -195,7 +195,7 @@ class CommonController extends Controller
             throw new ApiException(32101);
         }
 
-        if ($plugin->is_enable == 0) {
+        if (! $plugin->is_enable) {
             throw new ApiException(32102);
         }
 
@@ -205,7 +205,7 @@ class CommonController extends Controller
             throw new ApiException(32303);
         }
 
-        if ($callback->is_use == 1) {
+        if ($callback->is_use) {
             throw new ApiException(32204);
         }
 
@@ -571,7 +571,7 @@ class CommonController extends Controller
             throw new ApiException(37500);
         }
 
-        if ($file->is_enable == 0) {
+        if (! $file->is_enable) {
             throw new ApiException(37501);
         }
 
@@ -602,7 +602,7 @@ class CommonController extends Controller
         }
 
         // check permission
-        if ($dtoRequest->type == 'post' && $model?->postAppend?->is_allow == 0) {
+        if ($dtoRequest->type == 'post' && ! $model?->postAppend?->is_allow) {
             $checkPostAllow = PermissionUtility::checkPostAllow($model->id, $authUserId);
 
             if (! $checkPostAllow) {
@@ -654,7 +654,7 @@ class CommonController extends Controller
             throw new ApiException(37500);
         }
 
-        if ($file->is_enable == 0) {
+        if (! $file->is_enable) {
             throw new ApiException(37501);
         }
 

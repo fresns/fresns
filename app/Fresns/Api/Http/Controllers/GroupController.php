@@ -143,7 +143,7 @@ class GroupController extends Controller
                 throw new ApiException(37100);
             }
 
-            if ($parentGroup->is_enable == 0) {
+            if (! $parentGroup->is_enable) {
                 throw new ApiException(37101);
             }
 
@@ -250,7 +250,7 @@ class GroupController extends Controller
             throw new ApiException(37100);
         }
 
-        if ($group->is_enable == 0) {
+        if (! $group->is_enable) {
             throw new ApiException(37101);
         }
 

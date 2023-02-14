@@ -287,11 +287,11 @@ class UserService
 
     // check publish perm
     // $type = post / comment
-    public function checkPublishPerm(string $type, int $authUserId, ?int $mainId = null, ?string $langTag = null, ?string $timezone = null)
+    public function checkPublishPerm(string $type, int $authUserId, ?int $contentMainId = null, ?string $langTag = null, ?string $timezone = null)
     {
         // Check time limit
         $contentInterval = PermissionUtility::checkContentIntervalTime($authUserId, $type);
-        if (! $contentInterval && ! $mainId) {
+        if (! $contentInterval && ! $contentMainId) {
             throw new ApiException(36119);
         }
 
@@ -303,7 +303,7 @@ class UserService
         }
 
         // Check additional requirements
-        if ($publishConfig['limit']['status'] && $publishConfig['limit']['isInTime']) {
+        if ($publishConfig['limit']['status'] && $publishConfig['limit']['isInTime'] && $publishConfig['limit']['rule'] == 2) {
             throw new ApiException(36304);
         }
     }

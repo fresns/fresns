@@ -446,7 +446,7 @@ class EditorController extends Controller
                     throw new ApiException(32101);
                 }
 
-                if ($editorPlugin->is_enable == 0) {
+                if (! $editorPlugin->is_enable) {
                     throw new ApiException(32102);
                 }
 
@@ -467,7 +467,7 @@ class EditorController extends Controller
                     throw new ApiException(37100);
                 }
 
-                if ($group->is_enable == 0) {
+                if (! $group->is_enable) {
                     throw new ApiException(37101);
                 }
 
@@ -595,7 +595,7 @@ class EditorController extends Controller
                 throw new ApiException(36400);
             }
 
-            if ($extendUsage->can_delete == 0) {
+            if (! $extendUsage->can_delete) {
                 throw new ApiException(36401);
             }
 
@@ -736,7 +736,7 @@ class EditorController extends Controller
                         throw new ApiException(37100);
                     }
 
-                    if ($group->is_enable == 0) {
+                    if (! $group->is_enable) {
                         throw new ApiException(37101);
                     }
 
@@ -785,7 +785,7 @@ class EditorController extends Controller
                         throw new ApiException(37100);
                     }
 
-                    if ($group->is_enable == 0) {
+                    if (! $group->is_enable) {
                         throw new ApiException(37101);
                     }
 
@@ -815,8 +815,15 @@ class EditorController extends Controller
             break;
         }
 
+        // limit config
+        $limitConfig = ConfigUtility::getPublishConfigByType($authUser->id, $type, $langTag, $timezone)['limit'];
+        $checkRule = true;
+        if ($limitConfig['status'] && $limitConfig['isInTime'] && $limitConfig['rule'] == 1) {
+            $checkRule = false;
+        }
+
         $checkReview = ValidationUtility::contentReviewWords($draft->content);
-        if (! $checkReview) {
+        if (! $checkReview || ! $checkRule) {
             // upload session log
             \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
@@ -1017,7 +1024,7 @@ class EditorController extends Controller
             2 => FileUsage::TYPE_COMMENT,
         };
 
-        $fsid = $fresnsResp->getData('fsid') ?? null;
+        $fsid = $fresnsResp->getData('fsid');
 
         if ($fsid) {
             $tableName = match ($fresnsResp->getData('type')) {
@@ -1090,14 +1097,11 @@ class EditorController extends Controller
 
         $data = [
             'type' => $dtoRequest->type,
-            'isDraft' => false,
-            'draftId' => $fresnsResp->getData('logId') ?? null,
+            'draftId' => $fresnsResp->getData('logId'),
             'fsid' => $fsid,
         ];
 
         if (! $fsid) {
-            $data['isDraft'] = true;
-
             throw new ApiException(38200, 'Fresns', $data);
         }
 

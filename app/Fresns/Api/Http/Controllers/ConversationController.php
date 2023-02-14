@@ -11,8 +11,8 @@ namespace App\Fresns\Api\Http\Controllers;
 use App\Exceptions\ApiException;
 use App\Fresns\Api\Http\DTO\ConversationDTO;
 use App\Fresns\Api\Http\DTO\ConversationListDTO;
+use App\Fresns\Api\Http\DTO\ConversationMessagesDTO;
 use App\Fresns\Api\Http\DTO\ConversationSendMessageDTO;
-use App\Fresns\Api\Http\DTO\PaginationDTO;
 use App\Fresns\Api\Services\UserService;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
@@ -183,7 +183,7 @@ class ConversationController extends Controller
     // messages
     public function messages(Request $request, int $conversationId)
     {
-        $dtoRequest = new PaginationDTO($request->all());
+        $dtoRequest = new ConversationMessagesDTO($request->all());
         $langTag = $this->langTag();
         $timezone = $this->timezone();
         $authUser = $this->user();
@@ -207,16 +207,20 @@ class ConversationController extends Controller
             ->where('conversation_id', $conversation->id)
             ->where('send_user_id', $authUser->id)
             ->whereNull('send_deleted_at')
-            ->isEnable()
-            ->latest();
+            ->isEnable();
         $receiveMessages = ConversationMessage::with(['sendUser', 'file'])
             ->where('conversation_id', $conversation->id)
             ->where('receive_user_id', $authUser->id)
             ->whereNull('receive_deleted_at')
-            ->isEnable()
-            ->latest();
+            ->isEnable();
 
-        $messages = $sendMessages->union($receiveMessages)->latest()->paginate($request->get('pageSize', 15));
+        $orderDirection = match ($dtoRequest->orderDirection) {
+            default => 'latest',
+            'asc' => 'oldest',
+            'desc' => 'latest',
+        };
+
+        $messages = $sendMessages->union($receiveMessages)->$orderDirection()->paginate($request->get('pageSize', 15));
 
         // list
         $userService = new UserService;
@@ -232,7 +236,12 @@ class ConversationController extends Controller
             $item['datetime'] = DateHelper::fresnsDateTimeByTimezone($message->created_at, $timezone, $langTag);
             $item['datetimeFormat'] = DateHelper::fresnsFormatDateTime($message->created_at, $timezone, $langTag);
             $item['readStatus'] = (bool) $message->receive_read_at;
+
             $messageList[] = $item;
+        }
+
+        if ($dtoRequest->pageListDirection == 'oldest') {
+            $messageList = array_reverse($messageList, true);
         }
 
         return $this->fresnsPaginate($messageList, $messages->total(), $messages->perPage());
@@ -255,8 +264,12 @@ class ConversationController extends Controller
         $timezone = $this->timezone();
         $authUser = $this->user();
 
-        if (empty($receiveUser) || empty($authUser?->id)) {
+        if (empty($authUser) || empty($receiveUser)) {
             throw new ApiException(31602);
+        }
+
+        if (! $authUser->is_enable || ! $receiveUser->is_enable) {
+            throw new ApiException(35202);
         }
 
         // check send
@@ -396,25 +409,25 @@ class ConversationController extends Controller
 
         switch ($authUserType) {
             case 'a':
-                if ($conversation->a_is_pin == 0) {
+                if ($conversation->a_is_pin) {
                     $conversation->update([
-                        'a_is_pin' => 1,
+                        'a_is_pin' => false,
                     ]);
                 } else {
                     $conversation->update([
-                        'a_is_pin' => 0,
+                        'a_is_pin' => true,
                     ]);
                 }
             break;
 
             case 'b':
-                if ($conversation->b_is_pin == 0) {
+                if ($conversation->b_is_pin) {
                     $conversation->update([
-                        'b_is_pin' => 1,
+                        'b_is_pin' => false,
                     ]);
                 } else {
                     $conversation->update([
-                        'b_is_pin' => 0,
+                        'b_is_pin' => true,
                     ]);
                 }
             break;

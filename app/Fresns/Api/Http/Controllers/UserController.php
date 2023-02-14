@@ -63,7 +63,7 @@ class UserController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $userQuery = UserStat::with('profile')->whereRelation('profile', 'is_enable', 1)->whereRelation('profile', 'wait_delete', 0);
+        $userQuery = UserStat::with('profile')->whereRelation('profile', 'is_enable', true)->whereRelation('profile', 'wait_delete', false);
 
         $userQuery->when($dtoRequest->gender, function ($query, $value) {
             $query->whereRelation('profile', 'gender', $value);
@@ -231,14 +231,6 @@ class UserController extends Controller
             throw new ApiException(31602);
         }
 
-        if ($viewUser->is_enable == 0) {
-            throw new ApiException(35202);
-        }
-
-        if ($viewUser->wait_delete == 1) {
-            throw new ApiException(35203);
-        }
-
         $langTag = $this->langTag();
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
@@ -275,14 +267,6 @@ class UserController extends Controller
             throw new ApiException(31602);
         }
 
-        if ($viewUser->is_enable == 0) {
-            throw new ApiException(35202);
-        }
-
-        if ($viewUser->wait_delete == 1) {
-            throw new ApiException(35203);
-        }
-
         $langTag = $this->langTag();
         $timezone = $this->timezone();
 
@@ -312,8 +296,8 @@ class UserController extends Controller
         }
 
         $userQuery = User::whereIn('id', $youKnowArr)
-            ->where('is_enable', 1)
-            ->where('wait_delete', 0)
+            ->where('is_enable', true)
+            ->where('wait_delete', false)
             ->paginate($request->get('pageSize', 15));
 
         $service = new UserService();
@@ -616,7 +600,10 @@ class UserController extends Controller
         $dtoRequest = new UserEditDTO($request->all());
 
         $authUser = $this->user();
-        $authUser = User::where('id', $authUser->id)->first();
+
+        if (! $authUser->is_enable) {
+            throw new ApiException(35202);
+        }
 
         if ($dtoRequest->avatarFid && $dtoRequest->avatarUrl) {
             throw new ApiException(30005);
@@ -867,6 +854,12 @@ class UserController extends Controller
     public function mark(Request $request)
     {
         $dtoRequest = new UserMarkDTO($request->all());
+        $authUser = $this->user();
+        if (! $authUser->is_enable) {
+            throw new ApiException(35202);
+        }
+
+        $authUserId = $authUser->id;
 
         $markSet = ConfigHelper::fresnsConfigByItemKey("{$dtoRequest->interactionType}_{$dtoRequest->markType}_setting");
         if (! $markSet) {
@@ -877,8 +870,6 @@ class UserController extends Controller
         if (empty($primaryId)) {
             throw new ApiException(32201);
         }
-
-        $authUserId = $this->user()->id;
 
         $markType = match ($dtoRequest->markType) {
             'user' => 1,
@@ -958,12 +949,15 @@ class UserController extends Controller
     {
         $dtoRequest = new UserMarkNoteDTO($request->all());
 
+        $authUser = $this->user();
+        if (! $authUser->is_enable) {
+            throw new ApiException(35202);
+        }
+
         $primaryId = PrimaryHelper::fresnsPrimaryId($dtoRequest->markType, $dtoRequest->fsid);
         if (empty($primaryId)) {
             throw new ApiException(32201);
         }
-
-        $authUserId = $this->user()->id;
 
         $markType = match ($dtoRequest->markType) {
             'user' => 1,
@@ -976,12 +970,12 @@ class UserController extends Controller
         switch ($dtoRequest->interactionType) {
             // follow
             case 'follow':
-                $userNote = UserFollow::withTrashed()->where('user_id', $authUserId)->type($markType)->where('follow_id', $primaryId)->first();
+                $userNote = UserFollow::withTrashed()->where('user_id', $authUser->id)->type($markType)->where('follow_id', $primaryId)->first();
             break;
 
             // block
             case 'block':
-                $userNote = UserBlock::withTrashed()->where('user_id', $authUserId)->type($markType)->where('block_id', $primaryId)->first();
+                $userNote = UserBlock::withTrashed()->where('user_id', $authUser->id)->type($markType)->where('block_id', $primaryId)->first();
             break;
         }
 

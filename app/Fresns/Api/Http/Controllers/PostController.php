@@ -64,7 +64,7 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $postQuery = Post::with(['hashtags']);
+        $postQuery = Post::with(['creator', 'hashtags']);
 
         $blockGroupIds = InteractionUtility::getPrivateGroupIdArr();
 
@@ -97,12 +97,17 @@ class PostController extends Controller
 
         // is enable
         $postQuery->where(function ($query) use ($authUserId) {
-            $query->where('is_enable', 1);
+            $query->where('is_enable', true);
             if ($authUserId) {
                 $query->orWhere(function ($query) use ($authUserId) {
-                    $query->where('is_enable', 0)->where('user_id', $authUserId);
+                    $query->where('is_enable', false)->where('user_id', $authUserId);
                 });
             }
+        });
+
+        // user is enable
+        $postQuery->whereHas('creator', function ($query) {
+            $query->where('is_enable', true);
         });
 
         if ($dtoRequest->uidOrUsername) {
@@ -117,14 +122,6 @@ class PostController extends Controller
                 throw new ApiException(31602);
             }
 
-            if ($viewUser->is_enable == 0) {
-                throw new ApiException(35202);
-            }
-
-            if ($viewUser->wait_delete == 1) {
-                throw new ApiException(35203);
-            }
-
             $postQuery->where('user_id', $viewUser->id)->where('is_anonymous', 0);
         }
 
@@ -137,7 +134,7 @@ class PostController extends Controller
             }
 
             // group disable
-            if ($viewGroup->is_enable == 0) {
+            if (! $viewGroup->is_enable) {
                 throw new ApiException(37101);
             }
 
@@ -156,7 +153,7 @@ class PostController extends Controller
             }
 
             // hashtag disable
-            if ($viewHashtag->is_enable == 0) {
+            if (! $viewHashtag->is_enable) {
                 throw new ApiException(37201);
             }
 
@@ -302,7 +299,7 @@ class PostController extends Controller
             throw new ApiException(37300);
         }
 
-        if ($post->is_enable == 0 && $post->user_id != $authUserId) {
+        if (! $post->is_enable && $post->user_id != $authUserId) {
             throw new ApiException(37301);
         }
 
@@ -354,7 +351,7 @@ class PostController extends Controller
             throw new ApiException(37300);
         }
 
-        if ($post->is_enable == 0 && $post->user_id != $authUserId) {
+        if (! $post->is_enable && $post->user_id != $authUserId) {
             throw new ApiException(37301);
         }
 
@@ -384,7 +381,7 @@ class PostController extends Controller
             throw new ApiException(37300);
         }
 
-        if ($post->is_enable == 0 && $post->user_id != $authUserId) {
+        if (! $post->is_enable && $post->user_id != $authUserId) {
             throw new ApiException(37301);
         }
 
@@ -415,7 +412,7 @@ class PostController extends Controller
             throw new ApiException(37300);
         }
 
-        if ($post->is_enable == 0 && $post->user_id != $authUserId) {
+        if (! $post->is_enable && $post->user_id != $authUserId) {
             throw new ApiException(37301);
         }
 
@@ -445,7 +442,7 @@ class PostController extends Controller
             throw new ApiException(37300);
         }
 
-        if ($post->is_enable == 0 && $post->user_id != $authUserId) {
+        if (! $post->is_enable && $post->user_id != $authUserId) {
             throw new ApiException(37301);
         }
 

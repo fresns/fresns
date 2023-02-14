@@ -498,10 +498,6 @@ class AccountController extends Controller
             throw new ApiException(31502);
         }
 
-        if ($authAccount->is_enable == 0) {
-            throw new ApiException(34307);
-        }
-
         $service = new AccountService();
         $data = $service->accountData($authAccount, $this->langTag(), $this->timezone());
 
@@ -568,7 +564,7 @@ class AccountController extends Controller
             'type' => $codeType,
             'account' => $accountName,
             'code' => $dtoRequest->verifyCode,
-            'is_enable' => 1,
+            'is_enable' => true,
         ];
         $verifyInfo = VerifyCode::where($term)->where('expired_at', '>', now())->first();
 
@@ -584,7 +580,15 @@ class AccountController extends Controller
     {
         $dtoRequest = new AccountEditDTO($request->all());
         $authAccount = $this->account();
-        $authAccount = Account::where('id', $authAccount->id)->first();
+
+        if (! $authAccount->is_enable) {
+            throw new ApiException(34307);
+        }
+
+        $authUser = $this->user();
+        if ($authUser && ! $authUser?->is_enable) {
+            throw new ApiException(35202);
+        }
 
         // check code
         $codeWordBody = match ($dtoRequest->codeType) {
@@ -890,7 +894,7 @@ class AccountController extends Controller
         }
 
         $authAccount->update([
-            'wait_delete' => 1,
+            'wait_delete' => true,
             'wait_delete_at' => now()->addDays($todoDay),
         ]);
 
@@ -928,7 +932,7 @@ class AccountController extends Controller
         $authAccount = $this->account();
 
         $authAccount->update([
-            'wait_delete' => 0,
+            'wait_delete' => false,
             'wait_delete_at' => null,
         ]);
 

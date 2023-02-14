@@ -44,7 +44,7 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $commentQuery = Comment::with(['post', 'hashtags']);
+        $commentQuery = Comment::with(['creator', 'post', 'hashtags']);
 
         $blockGroupIds = InteractionUtility::getPrivateGroupIdArr();
 
@@ -80,12 +80,17 @@ class CommentController extends Controller
 
         // is enable
         $commentQuery->where(function ($query) use ($authUserId) {
-            $query->where('is_enable', 1);
+            $query->where('is_enable', true);
             if ($authUserId) {
                 $query->orWhere(function ($query) use ($authUserId) {
-                    $query->where('is_enable', 0)->where('user_id', $authUserId);
+                    $query->where('is_enable', false)->where('user_id', $authUserId);
                 });
             }
+        });
+
+        // user is enable
+        $commentQuery->whereHas('creator', function ($query) {
+            $query->where('is_enable', true);
         });
 
         $commentQuery->when($blockGroupIds, function ($query, $value) {
@@ -108,14 +113,6 @@ class CommentController extends Controller
                 throw new ApiException(31602);
             }
 
-            if ($viewUser->is_enable == 0) {
-                throw new ApiException(35202);
-            }
-
-            if ($viewUser->wait_delete == 1) {
-                throw new ApiException(35203);
-            }
-
             $commentQuery->where('user_id', $viewUser->id)->where('is_anonymous', 0);
         }
 
@@ -126,7 +123,7 @@ class CommentController extends Controller
                 throw new ApiException(37300);
             }
 
-            if ($viewPost->is_enable == 0 && $viewPost->user_id != $authUserId) {
+            if (! $viewPost->is_enable && $viewPost->user_id != $authUserId) {
                 throw new ApiException(37301);
             }
 
@@ -152,7 +149,7 @@ class CommentController extends Controller
                 throw new ApiException(37400);
             }
 
-            if ($viewComment->is_enable == 0) {
+            if (! $viewComment->is_enable) {
                 throw new ApiException(37401);
             }
 
@@ -174,7 +171,7 @@ class CommentController extends Controller
                 throw new ApiException(37100);
             }
 
-            if ($viewGroup->is_enable == 0) {
+            if (! $viewGroup->is_enable) {
                 throw new ApiException(37101);
             }
 
@@ -196,7 +193,7 @@ class CommentController extends Controller
                 throw new ApiException(37200);
             }
 
-            if ($viewHashtag->is_enable == 0) {
+            if (! $viewHashtag->is_enable) {
                 throw new ApiException(37201);
             }
 
@@ -353,7 +350,7 @@ class CommentController extends Controller
             throw new ApiException(37300);
         }
 
-        if ($comment->is_enable == 0 && $comment->user_id != $authUserId) {
+        if (! $comment->is_enable && $comment->user_id != $authUserId) {
             throw new ApiException(37401);
         }
 
@@ -386,7 +383,7 @@ class CommentController extends Controller
             throw new ApiException(37400);
         }
 
-        if ($comment->is_enable == 0 && $comment->user_id != $authUserId) {
+        if (! $comment->is_enable && $comment->user_id != $authUserId) {
             throw new ApiException(37401);
         }
 
@@ -420,7 +417,7 @@ class CommentController extends Controller
             throw new ApiException(37400);
         }
 
-        if ($comment->is_enable == 0 && $comment->user_id != $authUserId) {
+        if (! $comment->is_enable && $comment->user_id != $authUserId) {
             throw new ApiException(37401);
         }
 
@@ -450,7 +447,7 @@ class CommentController extends Controller
             throw new ApiException(37400);
         }
 
-        if ($comment->is_enable == 0 && $comment->user_id != $authUserId) {
+        if (! $comment->is_enable && $comment->user_id != $authUserId) {
             throw new ApiException(37401);
         }
 

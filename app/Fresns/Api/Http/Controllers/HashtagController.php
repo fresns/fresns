@@ -134,7 +134,7 @@ class HashtagController extends Controller
             throw new ApiException(37200);
         }
 
-        if ($hashtag->is_enable == 0) {
+        if (! $hashtag->is_enable) {
             throw new ApiException(37201);
         }
 
