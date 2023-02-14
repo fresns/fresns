@@ -255,6 +255,10 @@ class FileHelper
         }
 
         if (! $idColumn) {
+            if (substr($urlColumn, 0, 1) === '/') {
+                return StrHelper::qualifyUrl($urlColumn);
+            }
+
             return $urlColumn;
         }
 
