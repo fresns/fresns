@@ -278,7 +278,7 @@ class Basic
             ->where('account', $account)
             ->where('code', $dtoWordBody->verifyCode)
             ->where('expired_at', '>', now())
-            ->where('is_enable', 1)
+            ->where('is_enable', true)
             ->first();
 
         if (! $verifyInfo) {
@@ -289,7 +289,7 @@ class Basic
         }
 
         $verifyInfo->update([
-            'is_enable' => 0,
+            'is_enable' => false,
         ]);
 
         return $this->success();

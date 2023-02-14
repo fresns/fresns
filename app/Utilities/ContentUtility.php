@@ -351,11 +351,7 @@ class ContentUtility
         // Replace hashtag
         // Replace mention
         // Replace sticker
-        if ($isMarkdown == 0) {
-            $content = htmlentities($content);
-
-            $content = static::replaceLink($content, $userId);
-        } else {
+        if ($isMarkdown) {
             $content = Str::swap([
                 '<script>' => '&lt;script&gt;',
                 '</script>' => '&lt;/script&gt;',
@@ -364,6 +360,10 @@ class ContentUtility
                 '"javascript' => '&#34;javascript',
                 "'javascript" => '&#39;javascript',
             ], $content);
+        } else {
+            $content = htmlentities($content);
+
+            $content = static::replaceLink($content, $userId);
         }
 
         $content = static::replaceHashtag($content);

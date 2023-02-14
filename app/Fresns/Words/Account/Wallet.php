@@ -652,7 +652,7 @@ class Wallet
             }
 
             $objectWalletLog->update([
-                'is_enable' => 0,
+                'is_enable' => false,
             ]);
         } else {
             $objectWalletLog = null;
@@ -670,7 +670,7 @@ class Wallet
         }
 
         $walletLog->update([
-            'is_enable' => 0,
+            'is_enable' => false,
         ]);
 
         switch ($walletLog->type) {

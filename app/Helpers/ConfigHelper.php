@@ -176,7 +176,7 @@ class ConfigHelper
 
             $itemDataArr = [];
             foreach ($itemData as $item) {
-                if ($item->is_multilingual == 1) {
+                if ($item->is_multilingual) {
                     $itemDataArr[$item->item_key] = LanguageHelper::fresnsLanguageByTableKey($item->item_key, $item->item_type, $langTag);
                 } else {
                     $itemDataArr[$item->item_key] = $item->item_value;

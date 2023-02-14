@@ -139,7 +139,7 @@ class Crontab
     // logical deletion account
     protected function logicalDeletionAccount()
     {
-        $deleteList = Account::where('wait_delete', 1)->where('wait_delete_at', '<', now())->get();
+        $deleteList = Account::where('wait_delete', true)->where('wait_delete_at', '<', now())->get();
 
         foreach ($deleteList as $account) {
             \FresnsCmdWord::plugin('Fresns')->logicalDeletionAccount([
@@ -151,7 +151,7 @@ class Crontab
     // logical deletion user
     protected function logicalDeletionUser()
     {
-        $deleteList = User::where('wait_delete', 1)->where('wait_delete_at', '<', now())->get();
+        $deleteList = User::where('wait_delete', true)->where('wait_delete_at', '<', now())->get();
 
         foreach ($deleteList as $user) {
             \FresnsCmdWord::plugin('Fresns')->logicalDeletionUser([

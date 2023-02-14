@@ -133,7 +133,7 @@ class ExtendUtility
         $operationQuery = OperationUsage::with('operation')->type($type)->where('usage_id', $id);
 
         $operationQuery->whereHas('operation', function ($query) {
-            $query->where('is_enable', 1);
+            $query->where('is_enable', true);
         });
 
         $operations = $operationQuery->get()->map(function ($operationUse) use ($langTag) {
@@ -164,7 +164,7 @@ class ExtendUtility
         $archiveQuery = ArchiveUsage::with('archive')->type($type)->where('usage_id', $id)->where('is_private', 0);
 
         $archiveQuery->whereHas('archive', function ($query) {
-            $query->where('is_enable', 1)->orderBy('rating');
+            $query->where('is_enable', true)->orderBy('rating');
         });
 
         $archiveUsages = $archiveQuery->get();
@@ -205,7 +205,7 @@ class ExtendUtility
         $extendQuery = ExtendUsage::with('extend')->type($type)->where('usage_id', $id)->orderBy('rating');
 
         $extendQuery->whereHas('extend', function ($query) {
-            $query->where('is_enable', 1);
+            $query->where('is_enable', true);
         });
 
         $extends = $extendQuery->get()->map(function ($extendUsage) use ($langTag) {
