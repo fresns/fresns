@@ -26,6 +26,7 @@ use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
+use Illuminate\Support\Arr;
 
 class UserService
 {
@@ -98,7 +99,28 @@ class UserService
             'message' => ConfigUtility::getCodeMessage($conversationPermInt, 'Fresns', $langTag),
         ];
 
-        return UserService::handleUserDate($userData, $timezone, $langTag);
+        $result = UserService::handleUserDate($userData, $timezone, $langTag);
+
+        // filter
+        $filterKeys = \request()->get('whitelistParams') ?? \request()->get('blacklistParams');
+        $filter = [
+            'type' => \request()->get('whitelistParams') ? 'whitelist' : 'blacklist',
+            'keys' => array_filter(explode(',', $filterKeys)),
+        ];
+
+        if (empty($filter['keys'])) {
+            return $result;
+        }
+
+        $dotData = Arr::dot($result);
+
+        if ($filter['type'] == 'whitelist') {
+            $dotData = Arr::only($dotData, $filter['keys']);
+        } else {
+            $dotData = Arr::except($dotData, $filter['keys']);
+        }
+
+        return Arr::undot($dotData);
     }
 
     // get user stats

@@ -29,6 +29,7 @@ use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\LbsUtility;
 use App\Utilities\PermissionUtility;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class CommentService
@@ -213,7 +214,26 @@ class CommentService
         $newCommentData = self::handleCommentCount($comment, $data);
         $result = self::handleCommentDate($newCommentData, $timezone, $langTag);
 
-        return $result;
+        // filter
+        $filterKeys = \request()->get('whitelistParams') ?? \request()->get('blacklistParams');
+        $filter = [
+            'type' => \request()->get('whitelistParams') ? 'whitelist' : 'blacklist',
+            'keys' => array_filter(explode(',', $filterKeys)),
+        ];
+
+        if (empty($filter['keys'])) {
+            return $result;
+        }
+
+        $dotData = Arr::dot($result);
+
+        if ($filter['type'] == 'whitelist') {
+            $dotData = Arr::only($dotData, $filter['keys']);
+        } else {
+            $dotData = Arr::except($dotData, $filter['keys']);
+        }
+
+        return Arr::undot($dotData);
     }
 
     // handle comment content

@@ -19,6 +19,7 @@ use App\Models\Hashtag;
 use App\Models\OperationUsage;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
+use Illuminate\Support\Arr;
 
 class HashtagService
 {
@@ -51,9 +52,28 @@ class HashtagService
         $data['interaction'] = array_merge($interactionConfig, $interactionStatus);
 
         $hashtagData = self::handleHashtagCount($hashtag, $data);
-        $hashtagData = self::handleHashtagDate($hashtagData, $timezone, $langTag);
+        $result = self::handleHashtagDate($hashtagData, $timezone, $langTag);
 
-        return $hashtagData;
+        // filter
+        $filterKeys = \request()->get('whitelistParams') ?? \request()->get('blacklistParams');
+        $filter = [
+            'type' => \request()->get('whitelistParams') ? 'whitelist' : 'blacklist',
+            'keys' => array_filter(explode(',', $filterKeys)),
+        ];
+
+        if (empty($filter['keys'])) {
+            return $result;
+        }
+
+        $dotData = Arr::dot($result);
+
+        if ($filter['type'] == 'whitelist') {
+            $dotData = Arr::only($dotData, $filter['keys']);
+        } else {
+            $dotData = Arr::except($dotData, $filter['keys']);
+        }
+
+        return Arr::undot($dotData);
     }
 
     // handle hashtag data count

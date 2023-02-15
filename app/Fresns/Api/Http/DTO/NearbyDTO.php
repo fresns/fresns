@@ -24,6 +24,8 @@ class NearbyDTO extends DTO
             'unit' => ['string', 'nullable', 'in:km,mi'],
             'length' => ['integer', 'nullable'],
             'contentType' => ['string', 'nullable'],
+            'whitelistParams' => ['string', 'nullable'],
+            'blacklistParams' => ['string', 'nullable'],
             'pluginRatingId' => ['integer', 'nullable'],
             'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],

@@ -21,6 +21,8 @@ class UserMarkListDTO extends DTO
             'markType' => ['string', 'required', 'in:like,dislike,follow,block'],
             'listType' => ['string', 'required', 'in:users,groups,hashtags,posts,comments'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
+            'whitelistParams' => ['string', 'nullable'],
+            'blacklistParams' => ['string', 'nullable'],
             'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],
         ];

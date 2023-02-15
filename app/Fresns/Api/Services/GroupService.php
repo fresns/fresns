@@ -22,6 +22,7 @@ use App\Models\OperationUsage;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
+use Illuminate\Support\Arr;
 
 class GroupService
 {
@@ -73,9 +74,28 @@ class GroupService
         $data = array_merge($groupInfo, $item);
 
         $groupData = self::handleGroupCount($group, $data);
-        $groupData = self::handleGroupDate($groupData, $timezone, $langTag);
+        $result = self::handleGroupDate($groupData, $timezone, $langTag);
 
-        return $groupData;
+        // filter
+        $filterKeys = \request()->get('whitelistParams') ?? \request()->get('blacklistParams');
+        $filter = [
+            'type' => \request()->get('whitelistParams') ? 'whitelist' : 'blacklist',
+            'keys' => array_filter(explode(',', $filterKeys)),
+        ];
+
+        if (empty($filter['keys'])) {
+            return $result;
+        }
+
+        $dotData = Arr::dot($result);
+
+        if ($filter['type'] == 'whitelist') {
+            $dotData = Arr::only($dotData, $filter['keys']);
+        } else {
+            $dotData = Arr::except($dotData, $filter['keys']);
+        }
+
+        return Arr::undot($dotData);
     }
 
     // handle group data count
