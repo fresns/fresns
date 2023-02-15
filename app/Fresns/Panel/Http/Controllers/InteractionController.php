@@ -17,7 +17,9 @@ class InteractionController extends Controller
     {
         // config keys
         $configKeys = [
-            'hashtag_show',
+            'mention_status',
+            'hashtag_status',
+            'hashtag_format',
             'comment_visibility_rule',
             'preview_post_like_users',
             'preview_post_comments',
@@ -137,7 +139,9 @@ class InteractionController extends Controller
     public function update(Request $request)
     {
         $configKeys = [
-            'hashtag_show',
+            'mention_status',
+            'hashtag_status',
+            'hashtag_format',
             'comment_visibility_rule',
             'preview_post_like_users',
             'preview_post_comments',

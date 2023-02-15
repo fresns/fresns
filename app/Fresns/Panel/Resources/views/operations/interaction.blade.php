@@ -22,36 +22,68 @@
         @csrf
         @method('put')
         <!--interaction_content_config-->
-        <div class="row mb-3">
+        <!-- mention -->
+        <div class="row">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.interaction_content_config') }}:</label>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <label class="input-group-text">{{ __('FsLang::panel.interaction_hashtag_show') }}</label>
+                    <label class="input-group-text">{{ __('FsLang::panel.interaction_mention_status') }}</label>
                     <div class="form-control bg-white">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="hashtag_show" id="hashtag_show_1" value="1" {{ $params['hashtag_show'] == 1 ? 'checked' : '' }}>
-                            <label class="form-check-label" for="hashtag_show_1">{{ __('FsLang::panel.interaction_hashtag_show_1') }}</label>
+                            <input class="form-check-input" type="radio" name="mention_status" id="mention_status_true" value="true" {{ $params['mention_status'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="mention_status_true">{{ __('FsLang::panel.option_open') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="hashtag_show" id="hashtag_show_2" value="2" {{ $params['hashtag_show'] == 2 ? 'checked' : '' }}>
-                            <label class="form-check-label" for="hashtag_show_2">{{ __('FsLang::panel.interaction_hashtag_show_2') }}</label>
+                            <input class="form-check-input" type="radio" name="mention_status" id="mention_status_false" value="false" {{ ! $params['mention_status'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="mention_status_false">{{ __('FsLang::panel.option_close') }}</label>
                         </div>
                     </div>
                 </div>
+                <hr>
             </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {!! __('FsLang::panel.interaction_hashtag_show_desc') !!}</div>
         </div>
+
+        <!-- hashtag -->
         <div class="row mb-3">
             <label class="col-lg-2 col-form-label text-lg-end"></label>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <label class="input-group-text">{{ __('FsLang::panel.interaction_comment_visibility_rule') }}</label>
-                    <input type="number" class="form-control input-number" name="comment_visibility_rule" value="{{ $params['comment_visibility_rule'] }}">
-                    <span class="input-group-text">{{ __('FsLang::panel.unit_day') }}</span>
+                    <label class="input-group-text">{{ __('FsLang::panel.interaction_hashtag_status') }}</label>
+                    <div class="form-control bg-white">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="hashtag_status" id="hashtag_status_true" value="true" {{ $params['hashtag_status'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="hashtag_status_true">{{ __('FsLang::panel.option_open') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="hashtag_status" id="hashtag_status_false" value="false" {{ ! $params['hashtag_status'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="hashtag_status_false">{{ __('FsLang::panel.option_close') }}</label>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interaction_comment_visibility_rule_desc') }}</div>
         </div>
+        <div class="row">
+            <label class="col-lg-2 col-form-label text-lg-end"></label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <label class="input-group-text">{{ __('FsLang::panel.interaction_hashtag_format') }}</label>
+                    <div class="form-control bg-white">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="hashtag_format" id="hashtag_format_1" value="1" {{ $params['hashtag_format'] == 1 ? 'checked' : '' }}>
+                            <label class="form-check-label" for="hashtag_format_1">{{ __('FsLang::panel.interaction_hashtag_format_1') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="hashtag_format" id="hashtag_format_2" value="2" {{ $params['hashtag_format'] == 2 ? 'checked' : '' }}>
+                            <label class="form-check-label" for="hashtag_format_2">{{ __('FsLang::panel.interaction_hashtag_format_2') }}</label>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {!! __('FsLang::panel.interaction_hashtag_format_desc') !!}</div>
+        </div>
+
+        <!-- post -->
         <div class="row mb-3">
             <label class="col-lg-2 col-form-label text-lg-end"></label>
             <div class="col-lg-6">
@@ -98,7 +130,7 @@
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interaction_preview_post_comments_desc') }}</div>
         </div>
-        <div class="row mb-3">
+        <div class="row">
             <label class="col-lg-2 col-form-label text-lg-end"></label>
             <div class="col-lg-6">
                 <div class="input-group">
@@ -106,10 +138,24 @@
                     <input type="number" class="form-control input-number" name="preview_post_comment_require" value="{{ $params['preview_post_comment_require'] }}">
                     <span class="input-group-text">Like Count / Comment Count</span>
                 </div>
+                <hr>
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interaction_preview_post_comment_require_desc') }}</div>
         </div>
+
+        <!-- comment -->
         <div class="row mb-3">
+            <label class="col-lg-2 col-form-label text-lg-end"></label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <label class="input-group-text">{{ __('FsLang::panel.interaction_comment_visibility_rule') }}</label>
+                    <input type="number" class="form-control input-number" name="comment_visibility_rule" value="{{ $params['comment_visibility_rule'] }}">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_day') }}</span>
+                </div>
+            </div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interaction_comment_visibility_rule_desc') }}</div>
+        </div>
+        <div class="row">
             <label class="col-lg-2 col-form-label text-lg-end"></label>
             <div class="col-lg-6">
                 <div class="input-group">
@@ -129,9 +175,11 @@
                         <option value="latest" {{ $params['preview_sub_comment_sort'] == 'latest' ? 'selected' : '' }}>Latest</option>
                     </select>
                 </div>
+                <hr>
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interaction_preview_sub_comments_desc') }}</div>
         </div>
+
         <div class="row mb-1">
             <label class="col-lg-2 col-form-label text-lg-end"></label>
             <div class="col-lg-6">
@@ -143,6 +191,7 @@
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interaction_nearby_length_desc') }}</div>
         </div>
+
         <div class="row mb-5">
             <label class="col-lg-2 col-form-label text-lg-end"></label>
             <div class="col-lg-6">
@@ -175,6 +224,7 @@
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interaction_conversation_status_desc') }}</div>
         </div>
+
         <div class="collapse {{ $params['conversation_status'] ? 'show' : '' }}" id="conversation_setting">
             <div class="row">
                 <label class="col-lg-2 col-form-label text-lg-end"></label>
