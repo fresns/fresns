@@ -13,7 +13,7 @@ use Illuminate\Database\Seeder;
 class CodeMessagesTableSeeder extends Seeder
 {
     /**
-     * Auto generated seed file.
+     * Fresns seed file.
      *
      * @return void
      */

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateConfigsTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Fresns migration file.
      *
      * @return void
      */

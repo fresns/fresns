@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Schema;
 class UpgradeBetaToStable extends Migration
 {
     /**
-     * Run the migrations.
+     * Fresns migration file.
      *
      * @return void
      */

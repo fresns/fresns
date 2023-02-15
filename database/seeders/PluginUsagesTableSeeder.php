@@ -13,7 +13,7 @@ use Illuminate\Database\Seeder;
 class PluginUsagesTableSeeder extends Seeder
 {
     /**
-     * Auto generated seed file.
+     * Fresns seed file.
      *
      * @return void
      */

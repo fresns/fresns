@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Schema;
 class UpgradeTo16 extends Migration
 {
     /**
-     * Run the migrations.
+     * Fresns migration file.
      *
      * Upgrade to 16 (fresns v2.5.0)
      *

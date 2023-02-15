@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateVerifyCodesTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Fresns migration file.
      *
      * @return void
      */
