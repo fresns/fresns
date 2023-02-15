@@ -502,22 +502,80 @@ class PermissionUtility
     public static function checkContentEditPerm(Carbon $createDateTime, int $editTimeConfig, ?string $timezone = null, ?string $langTag = null): array
     {
         $editableDateTime = $createDateTime->addMinutes($editTimeConfig);
-        $editableSecond = $editableDateTime->timestamp - time();
-        $editableTimeMinute = intval($editableSecond / 60);
-        $editableTimeSecond = $editableSecond % 60;
+        $editableSeconds = $editableDateTime->timestamp - time();
+        $editableTimeMinutes = intval($editableSeconds / 60);
+        $editableTimeSeconds = $editableSeconds % 60;
 
         $editableStatus = true;
-        if ($editableTimeMinute < 0) {
+        if ($editableTimeMinutes <= 0) {
             $editableStatus = false;
-            $editableTimeMinute = '00';
-            $editableTimeSecond = '00';
+            $editableTimeMinutes = '00';
+            $editableTimeSeconds = '00';
+        }
+
+        $editableTime = "{$editableTimeMinutes}:{$editableTimeSeconds}";
+        if ($editableTimeMinutes > 60) {
+            $editableHours = floor($editableSeconds / 3600);
+            $editableMinutes = floor(($editableSeconds % 3600) / 60);
+            $editableSeconds = $editableSeconds % 60;
+
+            $editableTime = "{$editableHours}:{$editableMinutes}:{$editableSeconds}";
         }
 
         $perm['editableStatus'] = $editableStatus;
-        $perm['editableTime'] = "{$editableTimeMinute}:{$editableTimeSecond}";
-        $perm['deadlineTime'] = DateHelper::fresnsFormatDateTime($editableDateTime->format('Y-m-d H:i:s'), $timezone, $langTag);
+        $perm['editableTime'] = $editableTime;
+        $perm['deadlineTime'] = DateHelper::fresnsDateTimeByTimezone($editableDateTime->format('Y-m-d H:i:s'), $timezone, $langTag);
 
         return $perm;
+    }
+
+    // Check content edit
+    public static function checkContentEdit(string $type, string $createTime, int $stickyState, int $digestState): int
+    {
+        $editConfig = ConfigHelper::fresnsConfigByItemKeys([
+            "{$type}_edit",
+            "{$type}_edit_time_limit",
+            "{$type}_edit_sticky_limit",
+            "{$type}_edit_digest_limit",
+        ]);
+
+        $config = [
+            'edit' => $editConfig["{$type}_edit"],
+            'timeLimit' => $editConfig["{$type}_edit_time_limit"],
+            'stickyLimit' => $editConfig["{$type}_edit_sticky_limit"],
+            'digestLimit' => $editConfig["{$type}_edit_digest_limit"],
+        ];
+
+        // check edit
+        if (! $config['edit']) {
+            return ($type == 'post') ? 36305 : 36306;
+        }
+
+        // check time
+        $timeDiff = Carbon::parse($createTime)->diffInMinutes(now());
+        if ($timeDiff > $config['timeLimit']) {
+            return 36309;
+        }
+
+        // check sticky
+        $noSticky = match ($type) {
+            'post' => Post::STICKY_NO,
+            'comment' => false,
+        };
+        if (! $config['stickyLimit'] && $stickyState != $noSticky) {
+            return 36307;
+        }
+
+        // check digest
+        $noDigest = match ($type) {
+            'post' => Post::DIGEST_NO,
+            'comment' => Comment::DIGEST_NO,
+        };
+        if (! $config['digestLimit'] && $digestState != $noDigest) {
+            return 36308;
+        }
+
+        return 0;
     }
 
     // Check content interval time

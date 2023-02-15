@@ -182,6 +182,11 @@ class Content
         $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
         $timezone = \request()->header('X-Fresns-Client-Timezone', ConfigHelper::fresnsConfigDefaultTimezone());
 
+        $editTimeLimit = match ($dtoWordBody->type) {
+            1 => ConfigHelper::fresnsConfigByItemKey('post_edit_time_limit'),
+            2 => ConfigHelper::fresnsConfigByItemKey('comment_edit_time_limit'),
+        };
+
         switch ($dtoWordBody->type) {
             // post
             case 1:
@@ -201,44 +206,16 @@ class Content
                     );
                 }
 
-                $editConfig = ConfigHelper::fresnsConfigByItemKeys([
-                    'post_edit',
-                    'post_edit_time_limit',
-                    'post_edit_sticky_limit',
-                    'post_edit_digest_limit',
-                ]);
-
-                if (! $editConfig['post_edit']) {
+                // check edit
+                $checkEditCode = PermissionUtility::checkContentEdit('post', $post->created_at, $post->sticky_state, $post->digest_state);
+                if ($checkEditCode) {
                     return $this->failure(
-                        36305,
-                        ConfigUtility::getCodeMessage(36305, 'Fresns', $langTag)
+                        $checkEditCode,
+                        ConfigUtility::getCodeMessage($checkEditCode, 'Fresns', $langTag)
                     );
                 }
 
-                $timeDiff = Carbon::parse($post->created_at)->diffInMinutes(now());
-
-                if ($timeDiff > $editConfig['post_edit_time_limit']) {
-                    return $this->failure(
-                        36309,
-                        ConfigUtility::getCodeMessage(36309, 'Fresns', $langTag)
-                    );
-                }
-
-                if (! $editConfig['post_edit_sticky_limit'] && $post->sticky_state != Post::STICKY_NO) {
-                    return $this->failure(
-                        36307,
-                        ConfigUtility::getCodeMessage(36307, 'Fresns', $langTag)
-                    );
-                }
-
-                if (! $editConfig['post_edit_digest_limit'] && $post->digest_state != Post::DIGEST_NO) {
-                    return $this->failure(
-                        36308,
-                        ConfigUtility::getCodeMessage(36308, 'Fresns', $langTag)
-                    );
-                }
-
-                $checkContentEditPerm = PermissionUtility::checkContentEditPerm($post->created_at, $editConfig['post_edit_time_limit'], $timezone, $langTag);
+                $checkContentEditPerm = PermissionUtility::checkContentEditPerm($post->created_at, $editTimeLimit, $timezone, $langTag);
                 $editableStatus = $checkContentEditPerm['editableStatus'];
                 $editableTime = $checkContentEditPerm['editableTime'];
                 $deadlineTime = $checkContentEditPerm['deadlineTime'];
@@ -271,44 +248,16 @@ class Content
                     );
                 }
 
-                $editConfig = ConfigHelper::fresnsConfigByItemKeys([
-                    'comment_edit',
-                    'comment_edit_time_limit',
-                    'comment_edit_sticky_limit',
-                    'comment_edit_digest_limit',
-                ]);
-
-                if (! $editConfig['comment_edit']) {
+                // check edit
+                $checkEditCode = PermissionUtility::checkContentEdit('comment', $comment->created_at, $comment->is_sticky, $comment->digest_state);
+                if ($checkEditCode) {
                     return $this->failure(
-                        36306,
-                        ConfigUtility::getCodeMessage(36306, 'Fresns', $langTag)
+                        $checkEditCode,
+                        ConfigUtility::getCodeMessage($checkEditCode, 'Fresns', $langTag)
                     );
                 }
 
-                $timeDiff = Carbon::parse($comment->created_at)->diffInMinutes(now());
-
-                if ($timeDiff > $editConfig['comment_edit_time_limit']) {
-                    return $this->failure(
-                        36309,
-                        ConfigUtility::getCodeMessage(36309, 'Fresns', $langTag)
-                    );
-                }
-
-                if (! $editConfig['comment_edit_sticky_limit'] && $comment->is_sticky) {
-                    return $this->failure(
-                        36307,
-                        ConfigUtility::getCodeMessage(36307, 'Fresns', $langTag)
-                    );
-                }
-
-                if (! $editConfig['comment_edit_digest_limit'] && $comment->digest_state != Comment::DIGEST_NO) {
-                    return $this->failure(
-                        36308,
-                        ConfigUtility::getCodeMessage(36308, 'Fresns', $langTag)
-                    );
-                }
-
-                $checkContentEditPerm = PermissionUtility::checkContentEditPerm($comment->created_at, $editConfig['comment_edit_time_limit'], $timezone, $langTag);
+                $checkContentEditPerm = PermissionUtility::checkContentEditPerm($comment->created_at, $editTimeLimit, $timezone, $langTag);
                 $editableStatus = $checkContentEditPerm['editableStatus'];
                 $editableTime = $checkContentEditPerm['editableTime'];
                 $deadlineTime = $checkContentEditPerm['deadlineTime'];
@@ -376,6 +325,17 @@ class Content
         switch ($dtoWordBody->type) {
             // post
             case 1:
+                $postModel = PrimaryHelper::fresnsModelById('post', $logModel->post_id);
+                if ($postModel) {
+                    $checkEditCode = PermissionUtility::checkContentEdit('post', $postModel->created_at, $postModel->sticky_state, $postModel->digest_state);
+                    if ($checkEditCode) {
+                        return $this->failure(
+                            $checkEditCode,
+                            ConfigUtility::getCodeMessage($checkEditCode, 'Fresns', $langTag)
+                        );
+                    }
+                }
+
                 $post = ContentUtility::releasePost($logModel);
 
                 $primaryId = $post->id;
@@ -384,6 +344,17 @@ class Content
 
             // comment
             case 2:
+                $commentModel = PrimaryHelper::fresnsModelById('comment', $logModel->comment_id);
+                if ($commentModel) {
+                    $checkEditCode = PermissionUtility::checkContentEdit('comment', $commentModel->created_at, $commentModel->is_sticky, $commentModel->digest_state);
+                    if ($checkEditCode) {
+                        return $this->failure(
+                            $checkEditCode,
+                            ConfigUtility::getCodeMessage($checkEditCode, 'Fresns', $langTag)
+                        );
+                    }
+                }
+
                 $comment = ContentUtility::releaseComment($logModel);
 
                 $primaryId = $comment->id;
