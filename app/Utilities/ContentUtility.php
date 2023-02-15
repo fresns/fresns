@@ -110,7 +110,7 @@ class ContentUtility
             return '';
         }, $content);
 
-        $config = ConfigHelper::fresnsConfigByItemKey('hashtag_show');
+        $config = ConfigHelper::fresnsConfigByItemKey('hashtag_format');
         $regexp = ($config == 1) ? ContentUtility::getRegexpByType('space') : ContentUtility::getRegexpByType('hash');
 
         return ContentUtility::strHashtag(
@@ -165,7 +165,7 @@ class ContentUtility
         $hashtagDataList = Hashtag::whereIn('slug', $slugArr)->get();
 
         $config = ConfigHelper::fresnsConfigByItemKeys([
-            'hashtag_show',
+            'hashtag_format',
             'site_url',
             'website_hashtag_detail_path',
         ]);
@@ -185,7 +185,7 @@ class ContentUtility
             // <a href="https://abc.com/hashtag/PHP" class="fresns_hashtag" target="_blank">#PHP</a>
             // or
             // <a href="https://abc.com/hashtag/PHP" class="fresns_hashtag" target="_blank">#PHP#</a>
-            $hashtag = ($config['hashtag_show'] == 1) ? "#{$hashtagName}" : "#{$hashtagName}#";
+            $hashtag = ($config['hashtag_format'] == 1) ? "#{$hashtagName}" : "#{$hashtagName}#";
 
             $hashLink = sprintf(
                 '<a href="%s/%s/%s" class="fresns_hashtag" target="_blank">%s</a>',
@@ -367,9 +367,11 @@ class ContentUtility
         }
 
         $content = static::replaceHashtag($content);
+
         if ($mentionType && $mentionId) {
             $content = static::replaceMention($content, $mentionType, $mentionId);
         }
+
         $content = static::replaceSticker($content);
 
         return $content;
@@ -469,10 +471,18 @@ class ContentUtility
     // Handle and save all(interaction content)
     public static function handleAndSaveAllInteraction(string $content, int $type, int $id, ?int $authUserId = null)
     {
-        static::saveHashtag($content, $type, $id);
+        $configs = ConfigHelper::fresnsConfigByItemKeys([
+            'hashtag_status',
+            'mention_status',
+        ]);
+
+        if ($configs['hashtag_status']) {
+            static::saveHashtag($content, $type, $id);
+        }
+
         static::saveLink($content, $type, $id);
 
-        if (! empty($authUserId)) {
+        if ($configs['mention_status'] && $authUserId) {
             static::saveMention($content, $type, $id, $authUserId);
         }
     }

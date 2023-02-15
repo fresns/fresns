@@ -186,9 +186,11 @@ class ConfigUtility
             'post_editor_title_view',
             'post_editor_title_required',
             'post_editor_title_length',
+            'mention_status',
             "{$type}_editor_mention",
             "{$type}_editor_hashtag",
-            'hashtag_show',
+            'hashtag_status',
+            'hashtag_format',
             "{$type}_editor_expand",
             "{$type}_editor_location",
             "{$type}_editor_anonymous",
@@ -266,9 +268,14 @@ class ConfigUtility
             $group['required'] = false;
         }
 
+        // mention
+        $mention['status'] = $editorConfig['mention_status'];
+        $mention['display'] = $editorConfig["{$type}_editor_mention"];
+
         // hashtag
-        $hashtag['status'] = $editorConfig["{$type}_editor_hashtag"];
-        $hashtag['showMode'] = $editorConfig['hashtag_show'];
+        $hashtag['status'] = $editorConfig['hashtag_status'];
+        $hashtag['display'] = $editorConfig["{$type}_editor_hashtag"];
+        $hashtag['format'] = $editorConfig['hashtag_format'];
 
         // extend
         $extend['status'] = $editorConfig["{$type}_editor_extend"];
@@ -281,7 +288,7 @@ class ConfigUtility
         $toolbar['audio'] = $audio;
         $toolbar['document'] = $document;
         $toolbar['title'] = $title;
-        $toolbar['mention'] = $editorConfig["{$type}_editor_mention"];
+        $toolbar['mention'] = $mention;
         $toolbar['hashtag'] = $hashtag;
         $toolbar['extend'] = $extend;
 
