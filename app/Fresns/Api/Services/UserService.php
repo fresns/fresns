@@ -102,9 +102,9 @@ class UserService
         $result = UserService::handleUserDate($userData, $timezone, $langTag);
 
         // filter
-        $filterKeys = \request()->get('whitelistParams') ?? \request()->get('blacklistParams');
+        $filterKeys = \request()->get('whitelistKeys') ?? \request()->get('blacklistKeys');
         $filter = [
-            'type' => \request()->get('whitelistParams') ? 'whitelist' : 'blacklist',
+            'type' => \request()->get('whitelistKeys') ? 'whitelist' : 'blacklist',
             'keys' => array_filter(explode(',', $filterKeys)),
         ];
 
