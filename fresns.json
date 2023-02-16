@@ -1,7 +1,7 @@
 {
     "name": "Fresns",
-    "version": "2.5.0",
-    "versionInt": 16,
+    "version": "2.6.0",
+    "versionInt": 17,
     "license": "Apache-2.0",
     "homepage": "https://fresns.org",
     "plugins": {}

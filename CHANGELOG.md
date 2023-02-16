@@ -2,6 +2,43 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.6.0 (2023-02-16)
+
+### Added
+- Model: 音视频支持处理路径配置
+- API: 对话消息支持排序参数
+- API: 用户封禁和注销的内容处理方案
+- API: 各类列表接口支持自定义过滤参数
+- Panel: 可以启用或停用艾特
+- Panel: 可以启用或停用话题
+- 框架: 新增开发者模式（仪表盘->设置）
+- 框架: 兼容反向代理部署
+
+### Fixes
+- Install: 修复 Windows 系统安装失败问题
+- API: 小组发表权限字符串数字导致权限验证不识别
+- API: 帖子和评论列表页过滤 HTML 标签，避免摘要截断导致页面结构冲突
+- API: 本地存储的文件域名未使用存储配置
+- API: 发表特殊规则日期循环报错
+- API: 编辑时间限制问题和时间格式人性化
+- API: 编辑超时还能提交编辑
+- Helper: 用户模型缓存清理问题
+- Helper: 文件开启防盗链后缓存时间不准
+
+### Changed
+- API: 账号和用户的资料修改不使用缓存模型，避免修改失败
+- API: 改良人性化时间计算，增加“年”单位配置
+- API: 私有小组可以获取详情介绍
+- Panel: 存储插件不支持 Plugin Page 上传时，编辑器配置隐藏选项
+- Panel: 插件安装和更新失败后，输出错误信息
+- 框架: laravel/framework 升级到 v9.52.0
+- 框架: fresns/plugin-manager 升级到 v2.4.5
+- 框架: fresns/theme-manager 升级到 v2.1.2
+
+### BREAKING CHANGES
+- Data: 文件表 `files` 移除 `video_gif_path` 字段
+- Data: 文件表 `files` 字段 `video_cover_path` 修改为 `video_poster_path`
+
 
 ## 2.5.0 (2023-02-09)
 
