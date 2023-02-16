@@ -44,14 +44,6 @@ class ThemeFunctionController extends Controller
             abort(404, __('FsLang::tips.theme_functions_file_error'));
         }
 
-        // theme lang
-        $lang = [];
-        if ($themeConfig['functionLang'] ?? null) {
-            $panelLang = \request()->cookie('panel_lang');
-
-            $lang = $themeConfig['functionLang']["{$panelLang}"] ?? head($themeConfig['functionLang']);
-        }
-
         // theme configs
         $themeConfig = $this->getThemeConfig($theme);
         $functionKeys = collect($themeConfig['functionKeys'] ?? []);
@@ -62,6 +54,14 @@ class ThemeFunctionController extends Controller
         // theme config language keys
         $langKeys = $functionKeys->where('isMultilingual', true)->pluck('itemKey');
         $languages = Language::ofConfig()->whereIn('table_key', $langKeys)->get();
+
+        // theme lang
+        $lang = [];
+        if ($themeConfig['functionLang'] ?? null) {
+            $panelLang = \request()->cookie('panel_lang');
+
+            $lang = $themeConfig['functionLang']["{$panelLang}"] ?? head($themeConfig['functionLang']);
+        }
 
         // theme params
         $params = [];
