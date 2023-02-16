@@ -33,7 +33,7 @@ class UsersTableSeeder extends Seeder
                 'avatar_file_url' => null,
                 'banner_file_id' => null,
                 'banner_file_url' => null,
-                'gender' => 0,
+                'gender' => 1,
                 'birthday' => null,
                 'bio' => 'Fresns is a free and open source social network service software, a general-purpose community product designed for cross-platform, and supports flexible and diverse content forms. It conforms to the trend of the times, satisfies a variety of operating scenarios, is more open and easier to re-development.',
                 'location' => null,
