@@ -74,7 +74,7 @@ class GlobalController extends Controller
             } elseif ($config->item_type == 'file') {
                 $item[$config->item_key] = ConfigHelper::fresnsConfigFileUrlByItemKey($config->item_key);
             } elseif ($config->item_type == 'plugin') {
-                $item[$config->item_key] = PluginHelper::fresnsPluginUrlByUnikey($config->item_value);
+                $item[$config->item_key] = PluginHelper::fresnsPluginUrlByUnikey($config->item_value) ?? $config->item_value;
             } elseif ($config->item_type == 'plugins') {
                 if ($config->item_value) {
                     foreach ($config->item_value as $plugin) {
@@ -353,11 +353,11 @@ class GlobalController extends Controller
 
         $wordQuery = BlockWord::all();
 
-        if ($dtoRequest->type = 'content') {
+        if ($dtoRequest->type == 'content') {
             $wordQuery = BlockWord::where('content_mode', '!=', 1);
-        } elseif ($dtoRequest->type = 'user') {
+        } elseif ($dtoRequest->type == 'user') {
             $wordQuery = BlockWord::where('user_mode', '!=', 1);
-        } elseif ($dtoRequest->type = 'conversation') {
+        } elseif ($dtoRequest->type == 'conversation') {
             $wordQuery = BlockWord::where('conversation_mode', '!=', 1);
         }
 

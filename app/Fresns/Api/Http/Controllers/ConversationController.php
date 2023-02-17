@@ -229,7 +229,7 @@ class ConversationController extends Controller
         }
 
         if ($dtoRequest->pageListDirection == 'oldest') {
-            $messageList = array_reverse($messageList, true);
+            $messageList = array_values(array_reverse($messageList, true));
         }
 
         return $this->fresnsPaginate($messageList, $messages->total(), $messages->perPage());
