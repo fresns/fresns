@@ -19,10 +19,10 @@ use App\Models\ExtendUsage;
 use App\Models\File;
 use App\Models\Group;
 use App\Models\OperationUsage;
+use App\Utilities\ArrUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
-use Illuminate\Support\Arr;
 
 class GroupService
 {
@@ -87,15 +87,18 @@ class GroupService
             return $result;
         }
 
-        $dotData = Arr::dot($result);
+        $currentRouteName = \request()->route()->getName();
+        $filterRouteList = [
+            'api.group.tree',
+            'api.group.list',
+            'api.group.interaction',
+        ];
 
-        if ($filter['type'] == 'whitelist') {
-            $dotData = Arr::only($dotData, $filter['keys']);
-        } else {
-            $dotData = Arr::except($dotData, $filter['keys']);
+        if (! in_array($currentRouteName, $filterRouteList)) {
+            return $result;
         }
 
-        return Arr::undot($dotData);
+        return ArrUtility::filter($result, $filter['type'], $filter['keys']);
     }
 
     // handle group data count

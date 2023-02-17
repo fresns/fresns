@@ -26,7 +26,6 @@ use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
-use Illuminate\Support\Arr;
 
 class UserService
 {
@@ -112,15 +111,19 @@ class UserService
             return $result;
         }
 
-        $dotData = Arr::dot($result);
+        $currentRouteName = \request()->route()->getName();
+        $filterRouteList = [
+            'api.user.list',
+            'api.user.followers.you.follow',
+            'api.user.interaction',
+            'api.user.mark.list',
+        ];
 
-        if ($filter['type'] == 'whitelist') {
-            $dotData = Arr::only($dotData, $filter['keys']);
-        } else {
-            $dotData = Arr::except($dotData, $filter['keys']);
+        if (! in_array($currentRouteName, $filterRouteList)) {
+            return $result;
         }
 
-        return Arr::undot($dotData);
+        return ArrUtility::filter($result, $filter['type'], $filter['keys']);
     }
 
     // get user stats

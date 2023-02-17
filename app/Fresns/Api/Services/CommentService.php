@@ -24,12 +24,12 @@ use App\Models\File;
 use App\Models\Mention;
 use App\Models\OperationUsage;
 use App\Models\Post;
+use App\Utilities\ArrUtility;
 use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\LbsUtility;
 use App\Utilities\PermissionUtility;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class CommentService
@@ -153,6 +153,10 @@ class CommentService
         if ($comment->is_anonymous) {
             $commentData['creator'] = InteractionHelper::fresnsUserAnonymousProfile();
             $commentData['creator']['isPostCreator'] = false;
+        } elseif (! ($commentData['creator']['uid'] ?? null)) {
+            $commentData['creator'] = InteractionHelper::fresnsUserAnonymousProfile();
+            $commentData['creator']['status'] = false;
+            $commentData['creator']['isPostCreator'] = false;
         } else {
             $commentCreator = PrimaryHelper::fresnsModelByFsid('user', $commentData['creator']['uid']);
 
@@ -225,15 +229,19 @@ class CommentService
             return $result;
         }
 
-        $dotData = Arr::dot($result);
+        $currentRouteName = \request()->route()->getName();
+        $filterRouteList = [
+            'api.comment.list',
+            'api.comment.interaction',
+            'api.comment.follow',
+            'api.comment.nearby',
+        ];
 
-        if ($filter['type'] == 'whitelist') {
-            $dotData = Arr::only($dotData, $filter['keys']);
-        } else {
-            $dotData = Arr::except($dotData, $filter['keys']);
+        if (! in_array($currentRouteName, $filterRouteList)) {
+            return $result;
         }
 
-        return Arr::undot($dotData);
+        return ArrUtility::filter($result, $filter['type'], $filter['keys']);
     }
 
     // handle comment content

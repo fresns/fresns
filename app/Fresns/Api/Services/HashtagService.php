@@ -17,9 +17,9 @@ use App\Models\ExtendUsage;
 use App\Models\File;
 use App\Models\Hashtag;
 use App\Models\OperationUsage;
+use App\Utilities\ArrUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
-use Illuminate\Support\Arr;
 
 class HashtagService
 {
@@ -65,15 +65,17 @@ class HashtagService
             return $result;
         }
 
-        $dotData = Arr::dot($result);
+        $currentRouteName = \request()->route()->getName();
+        $filterRouteList = [
+            'api.hashtag.list',
+            'api.hashtag.interaction',
+        ];
 
-        if ($filter['type'] == 'whitelist') {
-            $dotData = Arr::only($dotData, $filter['keys']);
-        } else {
-            $dotData = Arr::except($dotData, $filter['keys']);
+        if (! in_array($currentRouteName, $filterRouteList)) {
+            return $result;
         }
 
-        return Arr::undot($dotData);
+        return ArrUtility::filter($result, $filter['type'], $filter['keys']);
     }
 
     // handle hashtag data count

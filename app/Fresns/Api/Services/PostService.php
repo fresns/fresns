@@ -24,12 +24,12 @@ use App\Models\OperationUsage;
 use App\Models\Post;
 use App\Models\PostLog;
 use App\Models\UserLike;
+use App\Utilities\ArrUtility;
 use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\LbsUtility;
 use App\Utilities\PermissionUtility;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class PostService
@@ -139,6 +139,9 @@ class PostService
         // creator
         if ($post->is_anonymous) {
             $postData['creator'] = InteractionHelper::fresnsUserAnonymousProfile();
+        } elseif (! ($postData['creator']['uid'] ?? null)) {
+            $postData['creator'] = InteractionHelper::fresnsUserAnonymousProfile();
+            $postData['creator']['status'] = false;
         } else {
             $postCreator = PrimaryHelper::fresnsModelByFsid('user', $postData['creator']['uid']);
 
@@ -206,15 +209,20 @@ class PostService
             return $result;
         }
 
-        $dotData = Arr::dot($result);
+        $currentRouteName = \request()->route()->getName();
+        $filterRouteList = [
+            'api.post.list',
+            'api.post.interaction',
+            'api.post.user.list',
+            'api.post.follow',
+            'api.post.nearby',
+        ];
 
-        if ($filter['type'] == 'whitelist') {
-            $dotData = Arr::only($dotData, $filter['keys']);
-        } else {
-            $dotData = Arr::except($dotData, $filter['keys']);
+        if (! in_array($currentRouteName, $filterRouteList)) {
+            return $result;
         }
 
-        return Arr::undot($dotData);
+        return ArrUtility::filter($result, $filter['type'], $filter['keys']);
     }
 
     // handle post content
