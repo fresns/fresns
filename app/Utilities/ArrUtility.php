@@ -150,9 +150,9 @@ class ArrUtility
         $dotKeys = [];
         foreach ($filterKeys as $filterKey) {
             foreach ($dotDataKeys as $dataKey) {
-                $contains = Str::contains($dataKey, $filterKey.'.');
+                $startsWith = Str::startsWith($dataKey, $filterKey.'.');
 
-                if ($contains) {
+                if ($startsWith) {
                     $dotKeys[] = $dataKey;
                 }
             }
