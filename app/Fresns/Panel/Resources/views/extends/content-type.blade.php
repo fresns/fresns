@@ -157,7 +157,7 @@
                                             <option value="{{ $plugin->unikey }}">{{ $plugin->name }}</option>
                                         @endforeach
                                     </select>
-                                    <label for="floatingSelect">/api/v2/post/list</label>
+                                    <label for="floatingSelect"><i class="bi bi-card-list me-1"></i>/api/v2/post/list <i class="bi bi-card-list me-1 ms-3"></i>/api/v2/comment/list</label>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="floatingSelect" name="post_follow">
@@ -167,7 +167,7 @@
                                             <option value="{{ $plugin->unikey }}">{{ $plugin->name }}</option>
                                         @endforeach
                                     </select>
-                                    <label for="floatingSelect">/api/v2/post/follow</label>
+                                    <label for="floatingSelect"><i class="bi bi-card-list me-1"></i>/api/v2/post/follow <i class="bi bi-card-list me-1 ms-3"></i>/api/v2/comment/follow</label>
                                 </div>
                                 <div class="form-floating">
                                     <select class="form-select" id="floatingSelect" name="post_nearby">
@@ -177,7 +177,7 @@
                                             <option value="{{ $plugin->unikey }}">{{ $plugin->name }}</option>
                                         @endforeach
                                     </select>
-                                    <label for="floatingSelect">/api/v2/post/nearby</label>
+                                    <label for="floatingSelect"><i class="bi bi-card-list me-1"></i>/api/v2/post/nearby <i class="bi bi-card-list me-1 ms-3"></i>/api/v2/comment/nearby</label>
                                 </div>
                             </div>
                         </div>
