@@ -8,6 +8,9 @@
 
 namespace App\Utilities;
 
+use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
+
 class ArrUtility
 {
     // get key value
@@ -135,5 +138,34 @@ class ArrUtility
         }
 
         return $object;
+    }
+
+    // array filter
+    // $type = whitelist or blacklist
+    public static function filter(array $array, string $type, array $filterKeys)
+    {
+        $dotData = Arr::dot($array);
+        $dotDataKeys = array_keys($dotData);
+
+        $dotKeys = [];
+        foreach ($filterKeys as $filterKey) {
+            foreach ($dotDataKeys as $dataKey) {
+                $contains = Str::contains($dataKey, $filterKey.'.');
+
+                if ($contains) {
+                    $dotKeys[] = $dataKey;
+                }
+            }
+        }
+
+        $filterKeys = array_merge($filterKeys, $dotKeys);
+
+        if ($type == 'whitelist') {
+            $dotData = Arr::only($dotData, $filterKeys);
+        } else {
+            $dotData = Arr::except($dotData, $filterKeys);
+        }
+
+        return Arr::undot($dotData);
     }
 }
