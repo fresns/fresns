@@ -8,8 +8,8 @@
 
 namespace App\Utilities;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class ArrUtility
 {
