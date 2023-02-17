@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+
+## 2.6.1 (2023-02-17)
+
+### Fixes
+- API: Blocking word interface parameter judgment syntax error
+- API: Incorrect formatting of message list array in reverse order
+- API: List interface key-value pair filter function error
+- API: Complementary disabling parameter when content author is empty
+- API: Supplement plugin unikey when configuration item plugin URL is empty
+- Panel: Change data source description text of content type
+
+
 ## 2.6.0 (2023-02-16)
 
 ### Added
