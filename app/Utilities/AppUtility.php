@@ -46,7 +46,7 @@ class AppUtility
         if (empty($newVersion)) {
             try {
                 $versionInfoUrl = AppUtility::getAppHost().'/version.json';
-                $client = new \GuzzleHttp\Client();
+                $client = new \GuzzleHttp\Client(['verify' => false]);
                 $response = $client->request('GET', $versionInfoUrl);
                 $versionInfo = json_decode($response->getBody(), true);
                 $buildType = ConfigHelper::fresnsConfigByItemKey('build_type');
