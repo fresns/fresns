@@ -1,7 +1,7 @@
 <p align="center"><a href="https://fresns.org" target="_blank"><img src="https://raw.githubusercontent.com/fresns/docs/main/images/Fresns-Logo(orange).png" width="300"></a></p>
 
 <p align="center">
-<img src="https://img.shields.io/badge/PHP-%5E8.0-green" alt="PHP">
+<img src="https://img.shields.io/badge/PHP-%5E8.1-green" alt="PHP">
 <img src="https://img.shields.io/badge/MySQL-%5E5.7%7C%5E8.0-orange" alt="MySQL">
 <img src="https://img.shields.io/badge/License-Apache--2.0-blue" alt="License">
 </p>
@@ -18,8 +18,8 @@ Fresns is a free and open source social network service software, a general-purp
 
 | Environment | Requirements |
 | --- | --- |
-| Package Manager | Composer 2.x |
-| PHP Version | PHP 8.x |
+| Package Manager | Composer 2.5 or higher |
+| PHP Version | PHP 8.1 or higher |
 | PHP Extensions | `fileinfo` `exif` |
 | PHP Functions | `putenv` `symlink` `readlink` `proc_open` `passthru` |
 | Database Version | MySQL 5.7 or 8.x |
