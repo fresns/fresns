@@ -124,7 +124,7 @@ class BlockWordController extends Controller
         (new FastExcel)->import($request->file('file'), function ($blockWord) {
             return BlockWord::updateOrCreate([
                 'word' => $blockWord['word'],
-            ],[
+            ], [
                 'content_mode' => $blockWord['content_mode'],
                 'user_mode' => $blockWord['user_mode'],
                 'conversation_mode' => $blockWord['conversation_mode'],
