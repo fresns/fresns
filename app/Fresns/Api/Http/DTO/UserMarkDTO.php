@@ -20,7 +20,7 @@ class UserMarkDTO extends DTO
         return [
             'interactionType' => ['string', 'required', 'in:like,dislike,follow,block'],
             'markType' => ['string', 'required', 'in:user,group,hashtag,post,comment'],
-            'fsid' => ['string', 'required'],
+            'fsid' => ['alpha_dash', 'required'],
         ];
     }
 }
