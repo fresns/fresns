@@ -68,7 +68,6 @@ class HashtagService
         $currentRouteName = \request()->route()->getName();
         $filterRouteList = [
             'api.hashtag.list',
-            'api.hashtag.interaction',
         ];
 
         if (! in_array($currentRouteName, $filterRouteList)) {

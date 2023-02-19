@@ -116,7 +116,11 @@ class UserService
             'api.user.list',
             'api.user.followers.you.follow',
             'api.user.interaction',
-            'api.user.mark.list',
+            'api.group.interaction',
+            'api.hashtag.interaction',
+            'api.post.interaction',
+            'api.comment.interaction',
+            'api.post.user.list',
         ];
 
         if (! in_array($currentRouteName, $filterRouteList)) {

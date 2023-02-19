@@ -13,6 +13,7 @@ use App\Helpers\ConfigHelper;
 use App\Models\UserBlock;
 use App\Models\UserFollow;
 use App\Models\UserLike;
+use App\Utilities\ArrUtility;
 
 class InteractionService
 {
@@ -158,6 +159,14 @@ class InteractionService
             ->orderBy('created_at', $orderDirection)
             ->paginate(\request()->get('pageSize', 15));
 
+        // filter
+        $filterKeys = \request()->get('whitelistKeys') ?? \request()->get('blacklistKeys');
+        $filter = [
+            'type' => \request()->get('whitelistKeys') ? 'whitelist' : 'blacklist',
+            'keys' => array_filter(explode(',', $filterKeys)),
+        ];
+
+        // data
         $paginateData = [];
 
         switch ($markTypeName) {
@@ -169,7 +178,13 @@ class InteractionService
                         continue;
                     }
 
-                    $paginateData[] = $service->userData($mark->user, $langTag, $timezone, $authUserId);
+                    $itemData = $service->userData($mark->user, $langTag, $timezone, $authUserId);
+
+                    if ($filter['keys']) {
+                        $itemData = ArrUtility::filter($itemData, $filter['type'], $filter['keys']);
+                    }
+
+                    $paginateData[] = $itemData;
                 }
             break;
 
@@ -181,7 +196,13 @@ class InteractionService
                         continue;
                     }
 
-                    $paginateData[] = $service->groupData($mark->group, $langTag, $timezone, $authUserId);
+                    $itemData = $service->groupData($mark->group, $langTag, $timezone, $authUserId);
+
+                    if ($filter['keys']) {
+                        $itemData = ArrUtility::filter($itemData, $filter['type'], $filter['keys']);
+                    }
+
+                    $paginateData[] = $itemData;
                 }
             break;
 
@@ -193,7 +214,13 @@ class InteractionService
                         continue;
                     }
 
-                    $paginateData[] = $service->hashtagData($mark->hashtag, $langTag, $timezone, $authUserId);
+                    $itemData = $service->hashtagData($mark->hashtag, $langTag, $timezone, $authUserId);
+
+                    if ($filter['keys']) {
+                        $itemData = ArrUtility::filter($itemData, $filter['type'], $filter['keys']);
+                    }
+
+                    $paginateData[] = $itemData;
                 }
             break;
 
@@ -205,7 +232,13 @@ class InteractionService
                         continue;
                     }
 
-                    $paginateData[] = $service->postData($mark->post, 'list', $langTag, $timezone, false, $authUserId);
+                    $itemData = $service->postData($mark->post, 'list', $langTag, $timezone, false, $authUserId);
+
+                    if ($filter['keys']) {
+                        $itemData = ArrUtility::filter($itemData, $filter['type'], $filter['keys']);
+                    }
+
+                    $paginateData[] = $itemData;
                 }
             break;
 
@@ -217,7 +250,13 @@ class InteractionService
                         continue;
                     }
 
-                    $paginateData[] = $service->commentData($mark->comment, 'list', $langTag, $timezone, true, $authUserId);
+                    $itemData = $service->commentData($mark->comment, 'list', $langTag, $timezone, true, $authUserId);
+
+                    if ($filter['keys']) {
+                        $itemData = ArrUtility::filter($itemData, $filter['type'], $filter['keys']);
+                    }
+
+                    $paginateData[] = $itemData;
                 }
             break;
         }

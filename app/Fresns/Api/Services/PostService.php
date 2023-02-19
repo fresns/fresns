@@ -212,8 +212,6 @@ class PostService
         $currentRouteName = \request()->route()->getName();
         $filterRouteList = [
             'api.post.list',
-            'api.post.interaction',
-            'api.post.user.list',
             'api.post.follow',
             'api.post.nearby',
         ];

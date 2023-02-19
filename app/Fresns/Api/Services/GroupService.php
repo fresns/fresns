@@ -91,7 +91,6 @@ class GroupService
         $filterRouteList = [
             'api.group.tree',
             'api.group.list',
-            'api.group.interaction',
         ];
 
         if (! in_array($currentRouteName, $filterRouteList)) {

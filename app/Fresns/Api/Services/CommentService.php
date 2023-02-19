@@ -232,7 +232,6 @@ class CommentService
         $currentRouteName = \request()->route()->getName();
         $filterRouteList = [
             'api.comment.list',
-            'api.comment.interaction',
             'api.comment.follow',
             'api.comment.nearby',
         ];
