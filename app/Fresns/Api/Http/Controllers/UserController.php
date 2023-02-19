@@ -66,20 +66,63 @@ class UserController extends Controller
         $userQuery = UserStat::with('profile')->whereRelation('profile', 'is_enable', true)->whereRelation('profile', 'wait_delete', false);
 
         if (isset($dtoRequest->verified)) {
-            $userQuery->where('verified_status', $dtoRequest->verified);
+            $userQuery->whereRelation('profile', 'verified_status', $dtoRequest->verified);
         }
 
         $userQuery->when($dtoRequest->gender, function ($query, $value) {
             $query->whereRelation('profile', 'gender', $value);
         });
 
-        $userQuery->when($dtoRequest->createDateGt, function ($query, $value) {
-            $query->whereDate('created_at', '>=', $value);
-        });
+        if ($dtoRequest->createDate) {
+            switch ($dtoRequest->createDate) {
+                case 'today':
+                    $userQuery->whereDate('created_at', now()->format('Y-m-d'));
+                break;
 
-        $userQuery->when($dtoRequest->createDateLt, function ($query, $value) {
-            $query->whereDate('created_at', '<=', $value);
-        });
+                case 'yesterday':
+                    $userQuery->whereDate('created_at', now()->subDay()->format('Y-m-d'));
+                break;
+
+                case 'week':
+                    $userQuery->whereDate('created_at', '>=', now()->startOfWeek()->format('Y-m-d'))
+                        ->whereDate('created_at', '<=', now()->endOfWeek()->format('Y-m-d'));
+                break;
+
+                case 'lastWeek':
+                    $userQuery->whereDate('created_at', '>=', now()->subWeek()->startOfWeek()->format('Y-m-d'))
+                        ->whereDate('created_at', '<=', now()->subWeek()->endOfWeek()->format('Y-m-d'));
+                break;
+
+                case 'month':
+                    $userQuery->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year);
+                break;
+
+                case 'lastMonth':
+                    $lastMonth = now()->subMonth()->month;
+                    $year = now()->year;
+                    if ($lastMonth == 12) {
+                        $year = now()->subYear()->year;
+                    }
+                    $userQuery->whereMonth('created_at', $lastMonth)->whereYear('created_at', $year);
+                break;
+
+                case 'year':
+                    $userQuery->whereYear('created_at', now()->year);
+                break;
+
+                case 'lastYear':
+                    $userQuery->whereYear('created_at', now()->subYear()->year);
+                break;
+            }
+        } else {
+            $userQuery->when($dtoRequest->createDateGt, function ($query, $value) {
+                $query->whereDate('created_at', '>=', $value);
+            });
+
+            $userQuery->when($dtoRequest->createDateLt, function ($query, $value) {
+                $query->whereDate('created_at', '<=', $value);
+            });
+        }
 
         $userQuery->when($dtoRequest->likeCountGt, function ($query, $value) {
             $query->where('like_me_count', '>=', $value);

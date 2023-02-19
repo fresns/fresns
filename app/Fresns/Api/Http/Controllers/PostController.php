@@ -182,13 +182,56 @@ class PostController extends Controller
             $query->where('sticky_state', $value);
         });
 
-        $postQuery->when($dtoRequest->createDateGt, function ($query, $value) {
-            $query->whereDate('created_at', '>=', $value);
-        });
+        if ($dtoRequest->createDate) {
+            switch ($dtoRequest->createDate) {
+                case 'today':
+                    $postQuery->whereDate('created_at', now()->format('Y-m-d'));
+                break;
 
-        $postQuery->when($dtoRequest->createDateLt, function ($query, $value) {
-            $query->whereDate('created_at', '<=', $value);
-        });
+                case 'yesterday':
+                    $postQuery->whereDate('created_at', now()->subDay()->format('Y-m-d'));
+                break;
+
+                case 'week':
+                    $postQuery->whereDate('created_at', '>=', now()->startOfWeek()->format('Y-m-d'))
+                        ->whereDate('created_at', '<=', now()->endOfWeek()->format('Y-m-d'));
+                break;
+
+                case 'lastWeek':
+                    $postQuery->whereDate('created_at', '>=', now()->subWeek()->startOfWeek()->format('Y-m-d'))
+                        ->whereDate('created_at', '<=', now()->subWeek()->endOfWeek()->format('Y-m-d'));
+                break;
+
+                case 'month':
+                    $postQuery->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year);
+                break;
+
+                case 'lastMonth':
+                    $lastMonth = now()->subMonth()->month;
+                    $year = now()->year;
+                    if ($lastMonth == 12) {
+                        $year = now()->subYear()->year;
+                    }
+                    $postQuery->whereMonth('created_at', $lastMonth)->whereYear('created_at', $year);
+                break;
+
+                case 'year':
+                    $postQuery->whereYear('created_at', now()->year);
+                break;
+
+                case 'lastYear':
+                    $postQuery->whereYear('created_at', now()->subYear()->year);
+                break;
+            }
+        } else {
+            $postQuery->when($dtoRequest->createDateGt, function ($query, $value) {
+                $query->whereDate('created_at', '>=', $value);
+            });
+
+            $postQuery->when($dtoRequest->createDateLt, function ($query, $value) {
+                $query->whereDate('created_at', '<=', $value);
+            });
+        }
 
         $postQuery->when($dtoRequest->likeCountGt, function ($query, $value) {
             $query->where('like_count', '>=', $value);
