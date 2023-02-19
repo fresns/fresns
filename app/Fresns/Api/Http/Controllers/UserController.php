@@ -65,6 +65,10 @@ class UserController extends Controller
 
         $userQuery = UserStat::with('profile')->whereRelation('profile', 'is_enable', true)->whereRelation('profile', 'wait_delete', false);
 
+        if (isset($dtoRequest->verified)) {
+            $userQuery->where('verified_status', $dtoRequest->verified);
+        }
+
         $userQuery->when($dtoRequest->gender, function ($query, $value) {
             $query->whereRelation('profile', 'gender', $value);
         });

@@ -40,30 +40,18 @@ class ConversationController extends Controller
         $timezone = $this->timezone();
         $authUser = $this->user();
 
-        $aConversations = Conversation::with(['aUser', 'latestMessage'])
-            ->where('a_user_id', $authUser->id)
-            ->when($dtoRequest->isPin, function ($query, $value) {
-                $query->where('a_is_pin', $value);
-            })
-            ->where('a_is_display', 1);
-        $bConversations = Conversation::with(['bUser', 'latestMessage'])
-            ->where('b_user_id', $authUser->id)
-            ->when($dtoRequest->isPin, function ($query, $value) {
-                $query->where('b_is_pin', $value);
-            })
-            ->where('b_is_display', 1);
+        $aConversationsQuery = Conversation::with(['aUser', 'latestMessage'])->where('a_user_id', $authUser->id)->where('a_is_display', 1);
+        $bConversationsQuery = Conversation::with(['bUser', 'latestMessage'])->where('b_user_id', $authUser->id)->where('b_is_display', 1);
 
-        if ($dtoRequest->isPin) {
-            $allConversations = $aConversations->union($bConversations)->latest('latest_message_at')->get();
-
-            $total = $allConversations->count();
-            $perPage = $total;
-        } else {
-            $allConversations = $aConversations->union($bConversations)->latest('latest_message_at')->paginate($request->get('pageSize', 15));
-
-            $total = $allConversations->total();
-            $perPage = $allConversations->perPage();
+        if (isset($dtoRequest->isPin)) {
+            $aConversationsQuery->where('a_is_pin', $dtoRequest->isPin);
+            $bConversationsQuery->where('b_is_pin', $dtoRequest->isPin);
         }
+
+        $allConversations = $aConversationsQuery->union($bConversationsQuery)->latest('latest_message_at')->get();
+
+        $total = $allConversations->count();
+        $perPage = $total;
 
         $userService = new UserService;
 

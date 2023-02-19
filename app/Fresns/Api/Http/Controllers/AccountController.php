@@ -513,9 +513,11 @@ class AccountController extends Controller
         $langTag = $this->langTag();
         $timezone = $this->timezone();
 
-        $status = $dtoRequest->status ?? 1;
+        $walletLogQuery = AccountWalletLog::where('account_id', $authAccount->id)->orderBy('created_at', 'desc');
 
-        $walletLogQuery = AccountWalletLog::where('account_id', $authAccount->id)->where('is_enable', $status)->orderBy('created_at', 'desc');
+        if (isset($dtoRequest->status)) {
+            $walletLogQuery->where('is_enable', $dtoRequest->status);
+        }
 
         if (! empty($dtoRequest->type)) {
             $typeArr = array_filter(explode(',', $dtoRequest->keys));

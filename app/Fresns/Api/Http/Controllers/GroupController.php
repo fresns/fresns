@@ -150,9 +150,9 @@ class GroupController extends Controller
             $groupQuery->where('parent_id', $parentGroup->id);
         }
 
-        $groupQuery->when($dtoRequest->recommend, function ($query, $value) {
-            $query->where('is_recommend', $value);
-        });
+        if (isset($dtoRequest->recommend)) {
+            $groupQuery->where('is_recommend', $dtoRequest->recommend);
+        }
 
         $groupQuery->when($dtoRequest->createDateGt, function ($query, $value) {
             $query->whereDate('created_at', '>=', $value);

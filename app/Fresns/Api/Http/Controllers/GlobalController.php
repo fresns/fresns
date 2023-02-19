@@ -20,7 +20,6 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
-use App\Helpers\StrHelper;
 use App\Models\Archive;
 use App\Models\BlockWord;
 use App\Models\CodeMessage;
@@ -242,9 +241,11 @@ class GlobalController extends Controller
         $dtoRequest = new GlobalRolesDTO($request->all());
         $langTag = $this->langTag();
 
-        $status = $dtoRequest->status ?? 1;
+        $roleQuery = Role::orderBy('rating');
 
-        $roleQuery = Role::isEnable($status)->orderBy('rating');
+        if (isset($dtoRequest->status)) {
+            $roleQuery->where('is_enable', $dtoRequest->status);
+        }
 
         if (! empty($dtoRequest->ids)) {
             $ids = array_filter(explode(',', $dtoRequest->ids));
