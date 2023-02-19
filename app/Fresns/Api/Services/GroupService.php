@@ -97,6 +97,14 @@ class GroupService
             return $result;
         }
 
+        if ($currentRouteName == 'api.group.tree') {
+            if ($filter['type'] == 'whitelist') {
+                $filter['keys'] = array_merge($filter['keys'], ['gid', 'parentGid']);
+            } else {
+                $filter['keys'] = array_diff($filter['keys'], ['gid', 'parentGid']);
+            }
+        }
+
         return ArrUtility::filter($result, $filter['type'], $filter['keys']);
     }
 
