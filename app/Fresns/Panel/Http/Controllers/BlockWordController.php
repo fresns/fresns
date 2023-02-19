@@ -8,13 +8,11 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
-use App\Fresns\Panel\Exports\BlockWordsExport;
 use App\Fresns\Panel\Http\Requests\UpdateBlockWordRequest;
-use App\Fresns\Panel\Imports\BlockWordsImport;
 use App\Helpers\CacheHelper;
 use App\Models\BlockWord;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class BlockWordController extends Controller
 {
@@ -106,12 +104,33 @@ class BlockWordController extends Controller
 
     public function export()
     {
-        return Excel::download(new BlockWordsExport, 'fresns-block-words.xlsx');
+        // Load block words
+        $blockWords = BlockWord::all();
+
+        // Export all block words
+        return (new FastExcel($blockWords))->download('Fresns-BlockWords.xlsx', function ($blockWords) {
+            return [
+                'word' => $blockWords->word,
+                'content_mode' => $blockWords->content_mode,
+                'user_mode' => $blockWords->user_mode,
+                'conversation_mode' => $blockWords->conversation_mode,
+                'replace_word' => $blockWords->replace_word,
+            ];
+        });
     }
 
     public function import(Request $request)
     {
-        Excel::import(new BlockWordsImport, $request->file('file'));
+        (new FastExcel)->import($request->file('file'), function ($blockWord) {
+            return BlockWord::updateOrCreate([
+                'word' => $blockWord['word'],
+            ],[
+                'content_mode' => $blockWord['content_mode'],
+                'user_mode' => $blockWord['user_mode'],
+                'conversation_mode' => $blockWord['conversation_mode'],
+                'replace_word' => $blockWord['replace_word'],
+            ]);
+        });
 
         return back();
     }
