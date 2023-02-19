@@ -41,15 +41,16 @@ trait FileServiceTrait
     {
         $fileData = $this;
 
-        if ($fileData->size > 1048576) {
-            $fileSize = round($fileData->size / 1048576);
-            $fileSizeInfo = $fileSize.' MB';
-        } elseif ($fileData->size > 1024) {
-            $fileSize = round($fileData->size / 1024, 2);
-            $fileSizeInfo = $fileSize.' KB';
-        } else {
-            $fileSizeInfo = $fileData->size.' B';
-        }
+        // format file size
+        $units = array('B', 'KB', 'MB', 'GB', 'TB');
+
+        $bytes = max($fileData->size, 0);
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+        $pow = min($pow, count($units) - 1);
+
+        $bytes /= pow(1024, $pow);
+
+        $fileSizeInfo = round($bytes, 2).' ' .$units[$pow];
 
         $substitutionConfig = match ($fileData->type) {
             File::TYPE_IMAGE => 'image_substitution',
