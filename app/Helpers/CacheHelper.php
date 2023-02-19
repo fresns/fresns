@@ -115,9 +115,9 @@ class CacheHelper
     // is known to be empty
     public static function isKnownEmpty(string $cacheKey): bool
     {
-        $isCache = ConfigHelper::fresnsConfigDeveloperMode()['cache'];
-        $contains = Str::contains($cacheKey, 'fresns_web');
-        if (! $isCache && ! $contains) {
+        $whetherToCache = ConfigHelper::fresnsConfigDeveloperMode()['cache'];
+        $isWebCache = Str::startsWith($cacheKey, 'fresns_web');
+        if (! $whetherToCache && ! $isWebCache) {
             return false;
         }
 
@@ -153,9 +153,9 @@ class CacheHelper
     // cache get
     public static function get(string $cacheKey, mixed $cacheTags = null)
     {
-        $isCache = ConfigHelper::fresnsConfigDeveloperMode()['cache'];
-        $contains = Str::contains($cacheKey, 'fresns_web');
-        if (! $isCache && ! $contains) {
+        $whetherToCache = ConfigHelper::fresnsConfigDeveloperMode()['cache'];
+        $isWebCache = Str::startsWith($cacheKey, 'fresns_web');
+        if (! $whetherToCache && ! $isWebCache) {
             return null;
         }
 
@@ -173,9 +173,9 @@ class CacheHelper
     // cache put
     public static function put(mixed $cacheData, string $cacheKey, mixed $cacheTags = null, ?int $nullCacheMinutes = null, ?Carbon $cacheTime = null)
     {
-        $isCache = ConfigHelper::fresnsConfigDeveloperMode()['cache'];
-        $contains = Str::contains($cacheKey, 'fresns_web');
-        if (! $isCache && ! $contains) {
+        $whetherToCache = ConfigHelper::fresnsConfigDeveloperMode()['cache'];
+        $isWebCache = Str::startsWith($cacheKey, 'fresns_web');
+        if (! $whetherToCache && ! $isWebCache) {
             return;
         }
 
