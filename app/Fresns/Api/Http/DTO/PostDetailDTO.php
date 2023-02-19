@@ -19,7 +19,7 @@ class PostDetailDTO extends DTO
     {
         return [
             'pid' => ['string', 'required'],
-            'mapId' => ['integer', 'nullable', 'in:1,2,3,4,5,6,7,8,9,10'],
+            'mapId' => ['integer', 'nullable', 'between:1,11'],
             'mapLng' => ['numeric', 'nullable'],
             'mapLat' => ['numeric', 'nullable'],
         ];

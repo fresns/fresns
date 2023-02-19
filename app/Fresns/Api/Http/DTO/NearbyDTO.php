@@ -18,7 +18,7 @@ class NearbyDTO extends DTO
     public function rules(): array
     {
         return [
-            'mapId' => ['integer', 'required', 'in:1,2,3,4,5,6,7,8,9,10'],
+            'mapId' => ['integer', 'required', 'between:1,11'],
             'mapLng' => ['numeric', 'required'],
             'mapLat' => ['numeric', 'required'],
             'unit' => ['string', 'nullable', 'in:km,mi'],

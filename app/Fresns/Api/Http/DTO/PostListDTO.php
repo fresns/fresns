@@ -18,16 +18,17 @@ class PostListDTO extends DTO
     public function rules(): array
     {
         return [
-            'mapId' => ['integer', 'nullable', 'in:1,2,3,4,5,6,7,8,9,10'],
+            'mapId' => ['integer', 'nullable', 'between:1,11'],
             'mapLng' => ['numeric', 'nullable'],
             'mapLat' => ['numeric', 'nullable'],
             'uidOrUsername' => ['string', 'nullable'], // posts->user_id
             'gid' => ['string', 'nullable'], // posts->group_id
             'hid' => ['string', 'nullable'], // hashtag_usages->hashtag_id
+            'allDigest' => ['boolean', 'nullable'],
             'digestState' => ['integer', 'nullable', 'in:1,2,3'], // posts->digest_state
             'stickyState' => ['integer', 'nullable', 'in:1,2,3'], // posts->sticky_state
             'contentType' => ['string', 'nullable'],
-            'allDigest' => ['boolean', 'nullable'],
+            'createDate' => ['string', 'nullable', 'in:today,yesterday,week,lastWeek,month,lastMonth,year,lastYear'],
             'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // posts->created_at
             'createDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createDateGt'],
             'likeCountGt' => ['integer', 'nullable', 'lt:likeCountLt'], // posts->like_count

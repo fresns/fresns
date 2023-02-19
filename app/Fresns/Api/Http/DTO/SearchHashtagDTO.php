@@ -19,6 +19,7 @@ class SearchHashtagDTO extends DTO
     {
         return [
             'searchKey' => ['string', 'required'],
+            'createDate' => ['string', 'nullable', 'in:today,yesterday,week,lastWeek,month,lastMonth,year,lastYear'],
             'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // hashtags->created_at
             'createDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createDateGt'],
             'likeCountGt' => ['integer', 'nullable', 'lt:likeCountLt'], // hashtags->like_count

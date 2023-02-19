@@ -20,6 +20,7 @@ class SearchGroupDTO extends DTO
         return [
             'searchKey' => ['string', 'required'],
             'recommend' => ['boolean', 'nullable'],
+            'createDate' => ['string', 'nullable', 'in:today,yesterday,week,lastWeek,month,lastMonth,year,lastYear'],
             'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // groups->created_at
             'createDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createDateGt'],
             'likeCountGt' => ['integer', 'nullable', 'lt:likeCountLt'], // groups->like_count

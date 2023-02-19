@@ -18,7 +18,7 @@ class CommentListDTO extends DTO
     public function rules(): array
     {
         return [
-            'mapId' => ['integer', 'nullable', 'in:1,2,3,4,5,6,7,8,9,10'],
+            'mapId' => ['integer', 'nullable', 'between:1,11'],
             'mapLng' => ['numeric', 'nullable'],
             'mapLat' => ['numeric', 'nullable'],
             'uidOrUsername' => ['string', 'nullable'], // comments->user_id
@@ -27,9 +27,10 @@ class CommentListDTO extends DTO
             'gid' => ['string', 'nullable'], // comments->post_id->group_id
             'hid' => ['string', 'nullable'],
             'sticky' => ['boolean', 'nullable'], // comments->is_sticky
+            'allDigest' => ['boolean', 'nullable'],
             'digestState' => ['integer', 'nullable', 'in:1,2,3'], // comments->digest_state
             'contentType' => ['string', 'nullable'],
-            'allDigest' => ['boolean', 'nullable'],
+            'createDate' => ['string', 'nullable', 'in:today,yesterday,week,lastWeek,month,lastMonth,year,lastYear'],
             'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // comments->created_at
             'createDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createDateGt'],
             'likeCountGt' => ['integer', 'nullable', 'lt:likeCountLt'], // comments->like_count

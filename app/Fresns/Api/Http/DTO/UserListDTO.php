@@ -20,6 +20,7 @@ class UserListDTO extends DTO
         return [
             'verified' => ['boolean', 'nullable'],
             'gender' => ['integer', 'nullable', 'in:1,2,3'],
+            'createDate' => ['string', 'nullable', 'in:today,yesterday,week,lastWeek,month,lastMonth,year,lastYear'],
             'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // user_stats->created_at
             'createDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createDateGt'],
             'likeCountGt' => ['integer', 'nullable', 'lt:likeCountLt'], // user_stats->like_me_count
