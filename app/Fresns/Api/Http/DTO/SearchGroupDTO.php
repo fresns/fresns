@@ -19,7 +19,6 @@ class SearchGroupDTO extends DTO
     {
         return [
             'searchKey' => ['string', 'required'],
-            'gid' => ['string', 'nullable'],
             'recommend' => ['boolean', 'nullable'],
             'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // groups->created_at
             'createDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createDateGt'],

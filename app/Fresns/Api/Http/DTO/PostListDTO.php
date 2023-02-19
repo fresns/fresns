@@ -28,7 +28,6 @@ class PostListDTO extends DTO
             'stickyState' => ['integer', 'nullable', 'in:1,2,3'], // posts->sticky_state
             'contentType' => ['string', 'nullable'],
             'allDigest' => ['boolean', 'nullable'],
-            'following' => ['boolean', 'nullable'],
             'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // posts->created_at
             'createDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createDateGt'],
             'likeCountGt' => ['integer', 'nullable', 'lt:likeCountLt'], // posts->like_count

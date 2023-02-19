@@ -19,6 +19,10 @@ class SearchPostDTO extends DTO
     {
         return [
             'searchKey' => ['string', 'required'],
+            'followUsers' => ['boolean', 'nullable'],
+            'followGroups' => ['boolean', 'nullable'],
+            'followHashtags' => ['boolean', 'nullable'],
+            'followPosts' => ['boolean', 'nullable'],
             'mapId' => ['integer', 'nullable', 'in:1,2,3,4,5,6,7,8,9,10'],
             'mapLng' => ['numeric', 'nullable'],
             'mapLat' => ['numeric', 'nullable'],
@@ -28,6 +32,7 @@ class SearchPostDTO extends DTO
             'digestState' => ['integer', 'nullable', 'in:1,2,3'], // posts->digest_state
             'stickyState' => ['integer', 'nullable', 'in:1,2,3'], // posts->sticky_state
             'contentType' => ['string', 'nullable'],
+            'allDigest' => ['boolean', 'nullable'],
             'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // posts->created_at
             'createDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createDateGt'],
             'likeCountGt' => ['integer', 'nullable', 'lt:likeCountLt'], // posts->like_count

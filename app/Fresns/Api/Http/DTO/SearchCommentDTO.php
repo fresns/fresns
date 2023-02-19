@@ -19,6 +19,10 @@ class SearchCommentDTO extends DTO
     {
         return [
             'searchKey' => ['string', 'required'],
+            'followUsers' => ['boolean', 'nullable'],
+            'followGroups' => ['boolean', 'nullable'],
+            'followHashtags' => ['boolean', 'nullable'],
+            'followComments' => ['boolean', 'nullable'],
             'mapId' => ['integer', 'nullable', 'in:1,2,3,4,5,6,7,8,9,10'],
             'mapLng' => ['numeric', 'nullable'],
             'mapLat' => ['numeric', 'nullable'],
@@ -30,6 +34,7 @@ class SearchCommentDTO extends DTO
             'sticky' => ['boolean', 'nullable'], // comments->is_sticky
             'digestState' => ['integer', 'nullable', 'in:1,2,3'], // comments->digest_state
             'contentType' => ['string', 'nullable'],
+            'allDigest' => ['boolean', 'nullable'],
             'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // comments->created_at
             'createDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createDateGt'],
             'likeCountGt' => ['integer', 'nullable', 'lt:likeCountLt'], // comments->like_count
