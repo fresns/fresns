@@ -42,7 +42,7 @@ trait FileServiceTrait
         $fileData = $this;
 
         // format file size
-        $units = array('B', 'KB', 'MB', 'GB', 'TB');
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
 
         $bytes = max($fileData->size, 0);
         $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
@@ -50,7 +50,7 @@ trait FileServiceTrait
 
         $bytes /= pow(1024, $pow);
 
-        $fileSizeInfo = round($bytes, 2).' ' .$units[$pow];
+        $fileSizeInfo = round($bytes, 2).' '.$units[$pow];
 
         $substitutionConfig = match ($fileData->type) {
             File::TYPE_IMAGE => 'image_substitution',
