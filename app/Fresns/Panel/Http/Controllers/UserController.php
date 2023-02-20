@@ -59,7 +59,7 @@ class UserController extends Controller
 
         $pluginScenes = [
             'connect',
-            'prove',
+            'realName',
             'multiUser',
         ];
 
