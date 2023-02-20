@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateExtendUsagesTable extends Migration
 {
     /**
-     * Fresns migration file.
+     * Run fresns migrations.
      */
     public function up(): void
     {
@@ -34,11 +34,9 @@ class CreateExtendUsagesTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
+     * Reverse fresns migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('extend_usages');
     }

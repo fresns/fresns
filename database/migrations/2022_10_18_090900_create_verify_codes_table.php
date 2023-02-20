@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateVerifyCodesTable extends Migration
 {
     /**
-     * Fresns migration file.
+     * Run fresns migrations.
      */
     public function up(): void
     {
@@ -32,11 +32,9 @@ class CreateVerifyCodesTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
+     * Reverse fresns migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('verify_codes');
     }

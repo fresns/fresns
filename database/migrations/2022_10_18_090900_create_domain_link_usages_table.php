@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateDomainLinkUsagesTable extends Migration
 {
     /**
-     * Fresns migration file.
+     * Run fresns migrations.
      */
     public function up(): void
     {
@@ -31,11 +31,9 @@ class CreateDomainLinkUsagesTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
+     * Reverse fresns migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('domain_link_usages');
     }

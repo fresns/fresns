@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateUserFollowsTable extends Migration
 {
     /**
-     * Fresns migration file.
+     * Run fresns migrations.
      */
     public function up(): void
     {
@@ -35,11 +35,9 @@ class CreateUserFollowsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
+     * Reverse fresns migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('user_follows');
     }

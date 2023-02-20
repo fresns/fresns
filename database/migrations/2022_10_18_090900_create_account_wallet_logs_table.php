@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateAccountWalletLogsTable extends Migration
 {
     /**
-     * Fresns migration file.
+     * Run fresns migrations.
      */
     public function up(): void
     {
@@ -43,11 +43,9 @@ class CreateAccountWalletLogsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
+     * Reverse fresns migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('account_wallet_logs');
     }

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateCommentAppendsTable extends Migration
 {
     /**
-     * Fresns migration file.
+     * Run fresns migrations.
      */
     public function up(): void
     {
@@ -48,11 +48,9 @@ class CreateCommentAppendsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
+     * Reverse fresns migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('comment_appends');
     }

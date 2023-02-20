@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateAccountsTable extends Migration
 {
     /**
-     * Fresns migration file.
+     * Run fresns migrations.
      */
     public function up(): void
     {
@@ -46,11 +46,9 @@ class CreateAccountsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
+     * Reverse fresns migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('accounts');
     }

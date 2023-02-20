@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateGroupAdminsTable extends Migration
 {
     /**
-     * Fresns migration file.
+     * Run fresns migrations.
      */
     public function up(): void
     {
@@ -28,11 +28,9 @@ class CreateGroupAdminsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
+     * Reverse fresns migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('group_admins');
     }

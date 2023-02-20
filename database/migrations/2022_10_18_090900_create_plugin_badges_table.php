@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Schema;
 class CreatePluginBadgesTable extends Migration
 {
     /**
-     * Fresns migration file.
+     * Run fresns migrations.
      */
     public function up(): void
     {
@@ -33,11 +33,9 @@ class CreatePluginBadgesTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
+     * Reverse fresns migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('plugin_badges');
     }

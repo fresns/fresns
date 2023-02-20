@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateUserStatsTable extends Migration
 {
     /**
-     * Fresns migration file.
+     * Run fresns migrations.
      */
     public function up(): void
     {
@@ -68,11 +68,9 @@ class CreateUserStatsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
+     * Reverse fresns migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('user_stats');
     }

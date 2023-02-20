@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateMentionsTable extends Migration
 {
     /**
-     * Fresns migration file.
+     * Run fresns migrations.
      */
     public function up(): void
     {
@@ -30,11 +30,9 @@ class CreateMentionsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
+     * Reverse fresns migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('mentions');
     }

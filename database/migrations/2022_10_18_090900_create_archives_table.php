@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateArchivesTable extends Migration
 {
     /**
-     * Fresns migration file.
+     * Run fresns migrations.
      */
     public function up(): void
     {
@@ -47,11 +47,9 @@ class CreateArchivesTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
+     * Reverse fresns migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('archives');
     }
