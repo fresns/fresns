@@ -206,7 +206,7 @@ class InstallController extends Controller
 
     protected function basicCheck()
     {
-        $isSupportInstall = version_compare(PHP_VERSION, '8.0.2', '>=');
+        $isSupportInstall = version_compare(PHP_VERSION, '8.1', '>=');
 
         $isComposerVersion2 = $this->checkComposerVersion();
 
