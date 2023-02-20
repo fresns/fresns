@@ -29,7 +29,7 @@ use App\Utilities\PermissionUtility;
 
 class UserService
 {
-    public function userData(?User $user, string $langTag, ?string $timezone = null, ?int $authUserId = null)
+    public function userData(?User $user, string $type, string $langTag, ?string $timezone = null, ?int $authUserId = null)
     {
         if (! $user) {
             return null;
@@ -65,7 +65,7 @@ class UserService
             }
             $userProfile['bioHtml'] = ContentUtility::replaceSticker($bioHtml);
 
-            $item['stats'] = UserService::getUserStats($user, $langTag);
+            $item['stats'] = UserService::getUserStats($user, 'list', $langTag);
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST, $user->id, $langTag);
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_USER, $user->id, $langTag);
             $item['extends'] = ExtendUtility::getContentExtends(ExtendUsage::TYPE_USER, $user->id, $langTag);
@@ -85,7 +85,7 @@ class UserService
             CacheHelper::put($userData, $cacheKey, $cacheTags, null, $cacheTime);
         }
 
-        $userData['stats'] = UserService::getUserStats($user, $langTag);
+        $userData['stats'] = UserService::getUserStats($user, $type, $langTag, $authUserId);
 
         $interactionConfig = InteractionHelper::fresnsUserInteraction($langTag);
         $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_USER, $user->id, $authUserId);
@@ -116,11 +116,12 @@ class UserService
             'api.user.list',
             'api.user.followers.you.follow',
             'api.user.interaction',
+            'api.common.file.users',
             'api.group.interaction',
             'api.hashtag.interaction',
             'api.post.interaction',
             'api.comment.interaction',
-            'api.post.user.list',
+            'api.post.users',
         ];
 
         if (! in_array($currentRouteName, $filterRouteList)) {
@@ -131,9 +132,21 @@ class UserService
     }
 
     // get user stats
-    public static function getUserStats(User $user, string $langTag, ?int $authUserId = null)
+    public static function getUserStats(User $user, string $type, string $langTag, ?int $authUserId = null)
     {
-        $stats = $user->getUserStats($langTag);
+        if ($type == 'list') {
+            $cacheKey = "fresns_api_user_stats_{$user->uid}";
+            $cacheTags = ['fresnsUsers', 'fresnsUserData'];
+
+            $stats = CacheHelper::get($cacheKey, $cacheTags);
+            if (empty($stats)) {
+                $stats = $user->getUserStats($langTag);
+
+                CacheHelper::put($stats, $cacheKey, $cacheTags, 10, now()->addMinutes(10));
+            }
+        } else {
+            $stats = $user->getUserStats($langTag);
+        }
 
         if ($user->id === $authUserId) {
             $statConfig = ConfigHelper::fresnsConfigByItemKeys([

@@ -58,10 +58,10 @@ class ConversationController extends Controller
         $list = null;
         foreach ($allConversations as $conversation) {
             if ($conversation->a_user_id == $authUser->id) {
-                $conversationUser = $userService->userData($conversation?->bUser, $langTag, $timezone, $authUser->id);
+                $conversationUser = $userService->userData($conversation?->bUser, 'list', $langTag, $timezone, $authUser->id);
                 $isPin = $conversation->a_is_pin;
             } else {
-                $conversationUser = $userService->userData($conversation?->aUser, $langTag, $timezone, $authUser->id);
+                $conversationUser = $userService->userData($conversation?->aUser, 'list', $langTag, $timezone, $authUser->id);
                 $isPin = $conversation->b_is_pin;
             }
 
@@ -132,9 +132,9 @@ class ConversationController extends Controller
         $userService = new UserService();
 
         if ($conversation->a_user_id == $authUser->id) {
-            $conversationUser = $userService->userData($conversation?->bUser, $langTag, $timezone, $authUser->id);
+            $conversationUser = $userService->userData($conversation?->bUser, 'list', $langTag, $timezone, $authUser->id);
         } else {
-            $conversationUser = $userService->userData($conversation?->aUser, $langTag, $timezone, $authUser->id);
+            $conversationUser = $userService->userData($conversation?->aUser, 'list', $langTag, $timezone, $authUser->id);
         }
 
         $aMessages = conversationMessage::where('conversation_id', $conversation->id)
@@ -204,7 +204,7 @@ class ConversationController extends Controller
         $messageList = [];
         foreach ($messages as $message) {
             $item['id'] = $message->id;
-            $item['user'] = $userService->userData($message?->sendUser, $langTag, $timezone, $authUser->id);
+            $item['user'] = $userService->userData($message?->sendUser, 'list', $langTag, $timezone, $authUser->id);
             $item['isMe'] = ($message->send_user_id == $authUser->id) ? true : false;
             $item['type'] = $message->message_type;
             $item['content'] = ContentUtility::replaceBlockWords('conversation', $message->message_text);
@@ -309,7 +309,7 @@ class ConversationController extends Controller
 
         // return
         $data['id'] = $conversationMessage->id;
-        $data['user'] = $userService->userData($conversationMessage->sendUser, $langTag, $timezone, $authUser->id);
+        $data['user'] = $userService->userData($conversationMessage->sendUser, 'list', $langTag, $timezone, $authUser->id);
         $data['isMe'] = true;
         $data['type'] = $conversationMessage->message_type;
         $data['content'] = $conversationMessage->message_text;

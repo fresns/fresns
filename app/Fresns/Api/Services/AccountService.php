@@ -39,7 +39,7 @@ class AccountService
             $userService = new UserService;
             $userList = [];
             foreach ($account->users as $user) {
-                $userList[] = $userService->userData($user, $langTag, $timezone);
+                $userList[] = $userService->userData($user, 'list', $langTag, $timezone);
             }
 
             $item['users'] = $userList;

@@ -685,7 +685,7 @@ class CommonController extends Controller
 
             $item['downloadTime'] = DateHelper::fresnsFormatDateTime($down->created_at, $timezone, $langTag);
             $item['downloadTimeFormat'] = DateHelper::fresnsFormatTime($down->created_at, $langTag);
-            $item['downloadUser'] = $userService->userData($down->user, $langTag, $timezone, $authUser?->id);
+            $item['downloadUser'] = $userService->userData($down->user, 'list', $langTag, $timezone, $authUser?->id);
             $items[] = $item;
         }
 

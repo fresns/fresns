@@ -105,7 +105,7 @@ class InteractionService
                 continue;
             }
 
-            $paginateData[] = $service->userData($interaction->creator, $langTag, $timezone, $authUserId);
+            $paginateData[] = $service->userData($interaction->creator, 'list', $langTag, $timezone, $authUserId);
         }
 
         return [
@@ -178,7 +178,7 @@ class InteractionService
                         continue;
                     }
 
-                    $itemData = $service->userData($mark->user, $langTag, $timezone, $authUserId);
+                    $itemData = $service->userData($mark->user, 'list', $langTag, $timezone, $authUserId);
 
                     if ($filter['keys']) {
                         $itemData = ArrUtility::filter($itemData, $filter['type'], $filter['keys']);

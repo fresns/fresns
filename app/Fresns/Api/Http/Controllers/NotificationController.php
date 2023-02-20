@@ -62,7 +62,7 @@ class NotificationController extends Controller
             $item['isMarkdown'] = (bool) $notification->is_markdown;
             $item['isAccessPlugin'] = (bool) $notification->is_access_plugin;
             $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByUnikey($notification->plugin_unikey);
-            $item['actionUser'] = $notification->action_user_id ? $userService->userData($notification?->actionUser, $langTag, $timezone, $authUserId) : null;
+            $item['actionUser'] = $notification->action_user_id ? $userService->userData($notification?->actionUser, 'list', $langTag, $timezone, $authUserId) : null;
             $item['actionType'] = $notification->action_type;
             $item['actionObject'] = $notification->action_object;
             $item['actionInfo'] = null;
@@ -74,7 +74,7 @@ class NotificationController extends Controller
             if ($notification->action_object && $notification->action_id) {
                 $actionInfo = match ($notification->action_object) {
                     default => null,
-                    Notification::ACTION_OBJECT_USER => $userService->userData($notification?->user, $langTag, $timezone, $authUserId),
+                    Notification::ACTION_OBJECT_USER => $userService->userData($notification?->user, 'list', $langTag, $timezone, $authUserId),
                     Notification::ACTION_OBJECT_GROUP => $groupService->groupData($notification?->group, $langTag, $timezone, $authUserId),
                     Notification::ACTION_OBJECT_HASHTAG => $hashtagService->hashtagData($notification?->hashtag, $langTag, $timezone, $authUserId),
                     Notification::ACTION_OBJECT_POST => $postService->postData($notification?->post, 'list', $langTag, $timezone, false, $authUserId),

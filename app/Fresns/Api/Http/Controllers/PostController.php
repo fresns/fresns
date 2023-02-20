@@ -422,8 +422,8 @@ class PostController extends Controller
         return $this->fresnsPaginate($data['paginateData'], $data['interactionData']->total(), $data['interactionData']->perPage());
     }
 
-    // userList
-    public function userList(string $pid, Request $request)
+    // users
+    public function users(string $pid, Request $request)
     {
         $dtoRequest = new PaginationDTO($request->all());
         $langTag = $this->langTag();
@@ -453,7 +453,7 @@ class PostController extends Controller
         $userList = [];
         $service = new UserService();
         foreach ($userListData as $user) {
-            $userList[] = $service->userData($user, $langTag, $timezone, $authUserId);
+            $userList[] = $service->userData($user, 'list', $langTag, $timezone, $authUserId);
         }
 
         return $this->fresnsPaginate($userList, $userListData->total(), $userListData->perPage());

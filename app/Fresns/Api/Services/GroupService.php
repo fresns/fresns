@@ -49,12 +49,12 @@ class GroupService
 
             $item['creator'] = null;
             if ($group?->creator) {
-                $item['creator'] = $userService->userData($group->creator, $langTag);
+                $item['creator'] = $userService->userData($group->creator, 'list', $langTag);
             }
 
             $adminList = [];
             foreach ($group->admins as $admin) {
-                $adminList[] = $userService->userData($admin, $langTag);
+                $adminList[] = $userService->userData($admin, 'list', $langTag);
             }
             $item['admins'] = $adminList;
 

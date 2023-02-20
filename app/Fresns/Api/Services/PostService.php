@@ -81,7 +81,7 @@ class PostService
 
             // creator
             $userService = new UserService;
-            $item['creator'] = $userService->userData($post->creator, $langTag, $timezone);
+            $item['creator'] = $userService->userData($post->creator, 'list', $langTag, $timezone);
 
             $item['previewComments'] = [];
             $item['previewLikeUsers'] = [];
@@ -146,7 +146,7 @@ class PostService
             $postCreator = PrimaryHelper::fresnsModelByFsid('user', $postData['creator']['uid']);
 
             $userService = new UserService;
-            $postData['creator'] = $userService->userData($postCreator, $langTag, $timezone);
+            $postData['creator'] = $userService->userData($postCreator, 'list', $langTag, $timezone);
         }
 
         // get preview configs
@@ -365,7 +365,7 @@ class PostService
 
             $userList = [];
             foreach ($userLikes as $like) {
-                $userList[] = $service->userData($like->creator, $langTag, $timezone);
+                $userList[] = $service->userData($like->creator, 'list', $langTag, $timezone);
             }
 
             CacheHelper::put($userList, $cacheKey, $cacheTags, 10, now()->addMinutes(10));
@@ -477,7 +477,7 @@ class PostService
         if (! $log->is_anonymous) {
             $userService = new UserService;
 
-            $item['creator'] = $userService->userData($log->creator, $langTag, $timezone);
+            $item['creator'] = $userService->userData($log->creator, 'list', $langTag, $timezone);
         }
 
         if ($group) {

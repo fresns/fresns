@@ -49,6 +49,7 @@ use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
 use App\Utilities\ValidationUtility;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -259,7 +260,7 @@ class UserController extends Controller
         $userList = [];
         $service = new UserService();
         foreach ($userData as $user) {
-            $userList[] = $service->userData($user->profile, $langTag, $timezone, $authUserId);
+            $userList[] = $service->userData($user->profile, 'list', $langTag, $timezone, $authUserId);
         }
 
         return $this->fresnsPaginate($userList, $userData->total(), $userData->perPage());
@@ -291,7 +292,7 @@ class UserController extends Controller
         $data['items'] = $item;
 
         $service = new UserService();
-        $data['detail'] = $service->userData($viewUser, $langTag, $timezone, $authUserId);
+        $data['detail'] = $service->userData($viewUser, 'detail', $langTag, $timezone, $authUserId);
 
         return $this->success($data);
     }
@@ -351,7 +352,7 @@ class UserController extends Controller
 
         $userList = [];
         foreach ($userQuery as $user) {
-            $userList[] = $service->userData($user, $langTag, $timezone, $authUser->id);
+            $userList[] = $service->userData($user, 'list', $langTag, $timezone, $authUser->id);
         }
 
         return $this->fresnsPaginate($userList, $userQuery->total(), $userQuery->perPage());
@@ -519,7 +520,7 @@ class UserController extends Controller
 
         // get user data
         $service = new UserService();
-        $data['detail'] = $service->userData($authUser, $langTag, $timezone);
+        $data['detail'] = $service->userData($authUser, 'list', $langTag, $timezone);
 
         // upload session log
         $sessionLog['objectOrderId'] = $fresnsResponse->getData('uidTokenId');
@@ -672,10 +673,12 @@ class UserController extends Controller
                 throw new ApiException(35102);
             }
 
-            $nextEditUsernameTime = $authUser->last_username_at?->addDays($editNameConfig['username_edit']);
+            if ($authUser->last_username_at) {
+                $nextEditUsernameTime = Carbon::parse($authUser->last_username_at)->addDays($editNameConfig['username_edit']);
 
-            if (now() < $nextEditUsernameTime) {
-                throw new ApiException(35101);
+                if (now() < $nextEditUsernameTime) {
+                    throw new ApiException(35101);
+                }
             }
 
             $username = Str::of($dtoRequest->username)->trim();
@@ -714,10 +717,12 @@ class UserController extends Controller
                 throw new ApiException(35107);
             }
 
-            $nextEditNicknameTime = $authUser->last_nickname_at?->addDays($editNameConfig['nickname_edit']);
+            if ($authUser->last_nickname_at) {
+                $nextEditNicknameTime = Carbon::parse($authUser->last_nickname_at)->addDays($editNameConfig['nickname_edit']);
 
-            if (now() < $nextEditNicknameTime) {
-                throw new ApiException(35101);
+                if (now() < $nextEditNicknameTime) {
+                    throw new ApiException(35101);
+                }
             }
 
             $nickname = Str::of($dtoRequest->nickname)->trim();

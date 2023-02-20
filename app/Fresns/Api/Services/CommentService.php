@@ -83,7 +83,7 @@ class CommentService
 
             // creator
             $userService = new UserService;
-            $item['creator'] = $userService->userData($comment->creator, $langTag, $timezone);
+            $item['creator'] = $userService->userData($comment->creator, 'list', $langTag, $timezone);
             $item['creator']['isPostCreator'] = $comment->user_id == $post?->user_id ? true : false;
 
             // reply to user
@@ -96,7 +96,7 @@ class CommentService
                 } else {
                     $parentCommentUser = PrimaryHelper::fresnsModelById('user', $parentComment?->user_id);
                     $userService = new UserService;
-                    $item['replyToUser'] = $userService->userData($parentCommentUser, $langTag, $timezone);
+                    $item['replyToUser'] = $userService->userData($parentCommentUser, 'list', $langTag, $timezone);
                 }
             }
 
@@ -161,7 +161,7 @@ class CommentService
             $commentCreator = PrimaryHelper::fresnsModelByFsid('user', $commentData['creator']['uid']);
 
             $userService = new UserService;
-            $commentData['creator'] = $userService->userData($commentCreator, $langTag, $timezone);
+            $commentData['creator'] = $userService->userData($commentCreator, 'list', $langTag, $timezone);
             $creatorUid = $commentData['post']['creator']['uid'] ?? null;
             $commentData['creator']['isPostCreator'] = $commentData['creator']['uid'] == $creatorUid ? true : false;
         }
@@ -428,7 +428,7 @@ class CommentService
         if (! $log->is_anonymous) {
             $userService = new UserService;
 
-            $item['creator'] = $userService->userData($log->creator, $langTag, $timezone);
+            $item['creator'] = $userService->userData($log->creator, 'list', $langTag, $timezone);
         }
 
         $info['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST_LOG, $log->id, $langTag);
