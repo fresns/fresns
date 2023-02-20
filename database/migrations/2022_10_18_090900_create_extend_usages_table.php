@@ -14,10 +14,8 @@ class CreateExtendUsagesTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('extend_usages', function (Blueprint $table) {
             $table->bigIncrements('id');

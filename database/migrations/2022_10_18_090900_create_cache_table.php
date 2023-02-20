@@ -14,10 +14,8 @@ class CreateCacheTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('cache', function (Blueprint $table) {
             $table->string('key')->primary();

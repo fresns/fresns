@@ -14,10 +14,8 @@ class UserStatsTableSeeder extends Seeder
 {
     /**
      * Fresns seed file.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         \DB::table('user_stats')->delete();
 

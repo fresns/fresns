@@ -14,10 +14,8 @@ class CreateHashtagUsagesTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('hashtag_usages', function (Blueprint $table) {
             $table->bigIncrements('id');

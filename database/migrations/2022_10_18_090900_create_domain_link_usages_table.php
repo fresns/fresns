@@ -14,10 +14,8 @@ class CreateDomainLinkUsagesTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('domain_link_usages', function (Blueprint $table) {
             $table->increments('id');

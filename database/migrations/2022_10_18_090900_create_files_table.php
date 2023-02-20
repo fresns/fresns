@@ -14,10 +14,8 @@ class CreateFilesTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('files', function (Blueprint $table) {
             $table->bigIncrements('id');

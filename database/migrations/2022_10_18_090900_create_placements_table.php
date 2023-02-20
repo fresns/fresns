@@ -14,10 +14,8 @@ class CreatePlacementsTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('placements', function (Blueprint $table) {
             $table->increments('id');

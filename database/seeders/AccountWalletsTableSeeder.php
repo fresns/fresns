@@ -14,10 +14,8 @@ class AccountWalletsTableSeeder extends Seeder
 {
     /**
      * Fresns seed file.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         \DB::table('account_wallets')->delete();
 

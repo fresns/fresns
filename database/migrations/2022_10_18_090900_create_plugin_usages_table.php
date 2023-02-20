@@ -14,10 +14,8 @@ class CreatePluginUsagesTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('plugin_usages', function (Blueprint $table) {
             $table->increments('id');

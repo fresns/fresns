@@ -14,10 +14,8 @@ class CreateVerifyCodesTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('verify_codes', function (Blueprint $table) {
             $table->bigIncrements('id');

@@ -14,10 +14,8 @@ class CreateStickersTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('stickers', function (Blueprint $table) {
             $table->increments('id');

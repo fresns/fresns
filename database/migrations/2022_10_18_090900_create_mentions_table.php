@@ -14,10 +14,8 @@ class CreateMentionsTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('mentions', function (Blueprint $table) {
             $table->bigIncrements('id');

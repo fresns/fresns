@@ -14,10 +14,8 @@ class CreateArchiveUsagesTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('archive_usages', function (Blueprint $table) {
             $table->bigIncrements('id');

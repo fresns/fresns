@@ -14,10 +14,8 @@ class CreatePostUsersTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('post_users', function (Blueprint $table) {
             $table->bigIncrements('id');

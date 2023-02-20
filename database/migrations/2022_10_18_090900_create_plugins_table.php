@@ -14,10 +14,8 @@ class CreatePluginsTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('plugins', function (Blueprint $table) {
             $table->integer('id', true);

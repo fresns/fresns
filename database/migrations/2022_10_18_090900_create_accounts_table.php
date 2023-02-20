@@ -14,10 +14,8 @@ class CreateAccountsTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->bigIncrements('id');

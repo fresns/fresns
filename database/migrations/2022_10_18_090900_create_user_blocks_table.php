@@ -14,10 +14,8 @@ class CreateUserBlocksTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('user_blocks', function (Blueprint $table) {
             $table->bigIncrements('id');

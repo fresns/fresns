@@ -14,10 +14,8 @@ class CreateUserLikesTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('user_likes', function (Blueprint $table) {
             $table->bigIncrements('id');

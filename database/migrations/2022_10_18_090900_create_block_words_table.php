@@ -14,10 +14,8 @@ class CreateBlockWordsTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('block_words', function (Blueprint $table) {
             $table->increments('id');

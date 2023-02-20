@@ -8,10 +8,8 @@ class CreateConfigsTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('configs', function (Blueprint $table) {
             $table->increments('id');

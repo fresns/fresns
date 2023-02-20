@@ -14,10 +14,8 @@ class CreateSessionKeysTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('session_keys', function (Blueprint $table) {
             $table->increments('id');

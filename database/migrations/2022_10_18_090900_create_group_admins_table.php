@@ -14,10 +14,8 @@ class CreateGroupAdminsTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('group_admins', function (Blueprint $table) {
             $table->increments('id');

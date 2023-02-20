@@ -14,10 +14,8 @@ class CreateArchivesTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('archives', function (Blueprint $table) {
             $table->increments('id');

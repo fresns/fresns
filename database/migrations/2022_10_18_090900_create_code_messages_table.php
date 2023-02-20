@@ -14,10 +14,8 @@ class CreateCodeMessagesTable extends Migration
 {
     /**
      * Fresns migration file.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('code_messages', function (Blueprint $table) {
             $table->increments('id');
