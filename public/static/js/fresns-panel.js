@@ -378,8 +378,8 @@ $(document).ready(function () {
 
     // admin config
     $('#adminConfig .update-panel-url').change(function () {
-        let systemUrl = $('#adminConfig').find('input[name=systemUrl]').val();
-        let panelPath = $('#adminConfig').find('input[name=panelPath]').val();
+        let systemUrl = $('#adminConfig').find('input[name=system_url]').val();
+        let panelPath = $('#adminConfig').find('input[name=panel_path]').val();
         $('#adminConfig')
             .find('#panelUrl')
             .text(systemUrl + '/fresns/' + panelPath);

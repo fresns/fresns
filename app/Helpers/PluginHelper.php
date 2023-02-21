@@ -68,9 +68,7 @@ class PluginHelper
 
             $link = null;
             if ($plugin) {
-                $system_url = ConfigHelper::fresnsConfigByItemKey('system_url');
-
-                $url = empty($plugin->plugin_host) ? $system_url : $plugin->plugin_host;
+                $url = empty($plugin->plugin_host) ? config('app.url') : $plugin->plugin_host;
 
                 $link = StrHelper::qualifyUrl($plugin->access_path, $url);
             }

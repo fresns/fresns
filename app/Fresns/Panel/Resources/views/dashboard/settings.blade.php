@@ -23,19 +23,24 @@
 
         <div class="row mb-3">
             <label for="system_url" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_system_url') }}:</label>
-            <div class="col-lg-6"><input type="url" class="form-control update-panel-url" id="system_url" name="systemUrl" value="{{ $params['system_url'] }}" placeholder="https://" required></div>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input type="url" class="form-control update-panel-url" name="system_url" value="{{ config('app.url') }}" disabled readonly>
+                    <span class="input-group-text bg-light">.env</span>
+                </div>
+            </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_system_url_desc') }}</div>
         </div>
         <div class="row mb-3">
             <label for="panel_path" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_panel_path') }}: </label>
-            <div class="col-lg-6"><input type="text" class="form-control update-panel-url" id="panel_path" name="panelPath" value="{{ $params['panel_path'] }}" placeholder="admin" required></div>
+            <div class="col-lg-6"><input type="text" class="form-control update-panel-url" id="panel_path" name="panel_path" value="{{ $params['panel_path'] }}" placeholder="admin" required></div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_panel_path_desc') }}</div>
         </div>
         <div class="row mb-3">
             <label for="panel_url" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_panel_url') }}:</label>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <span class="form-control bg-light" id="panelUrl">{{ $params['system_url'].'/fresns/'.$params['panel_path'] }}</span>
+                    <span class="form-control bg-light" id="panelUrl">{{ config('app.url').'/fresns/'.$params['panel_path'] }}</span>
                     <button class="btn btn-outline-secondary" onclick="copyToClipboard('#panelUrl')" type="button">{{ __('FsLang::panel.setting_panel_url_copy') }}</button>
                 </div>
             </div>

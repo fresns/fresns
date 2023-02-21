@@ -96,9 +96,7 @@ class StrHelper
         }
 
         if (! $domain) {
-            $defaultDomain = ConfigHelper::fresnsConfigByItemKey('system_url');
-
-            return sprintf('%s/%s', $defaultDomain, ltrim($uri, '/'));
+            return sprintf('%s/%s', config('app.url'), ltrim($uri, '/'));
         }
 
         return sprintf('%s/%s', rtrim($domain, '/'), ltrim($uri, '/'));

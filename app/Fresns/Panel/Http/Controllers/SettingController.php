@@ -23,7 +23,6 @@ class SettingController extends Controller
         $configKeys = [
             'developer_mode',
             'build_type',
-            'system_url',
             'panel_path',
         ];
 
@@ -63,17 +62,8 @@ class SettingController extends Controller
             $buildConfig->save();
         }
 
-        if ($request->systemUrl) {
-            $url = Str::of($request->systemUrl)->trim();
-            $url = Str::of($url)->rtrim('/');
-
-            $systemUrl = Config::where('item_key', 'system_url')->firstOrNew();
-            $systemUrl->item_value = $url;
-            $systemUrl->save();
-        }
-
-        if ($request->panelPath) {
-            $path = Str::of($request->panelPath)->trim();
+        if ($request->panel_path) {
+            $path = Str::of($request->panel_path)->trim();
             $path = Str::of($path)->rtrim('/');
 
             $pathConfig = Config::where('item_key', 'panel_path')->firstOrNew();

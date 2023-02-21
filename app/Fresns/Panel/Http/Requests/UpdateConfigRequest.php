@@ -18,16 +18,14 @@ class UpdateConfigRequest extends FormRequest
     public function rules()
     {
         return [
-            'systemUrl' => 'url',
-            'panelPath' => 'string',
+            'panel_path' => 'string',
         ];
     }
 
     public function attributes()
     {
         return [
-            'systemUrl' => __('FsLang::panel.setting_system_url'),
-            'panelPath' => __('FsLang::panel.setting_panel_path'),
+            'panel_path' => __('FsLang::panel.setting_panel_path'),
         ];
     }
 }
