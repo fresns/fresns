@@ -107,6 +107,7 @@ class PostService
         $postData['content'] = $contentHandle['content'];
         $postData['isBrief'] = $contentHandle['isBrief'];
         $postData['isAllow'] = $contentHandle['isAllow'];
+        $postData['files'] = $contentHandle['files'];
 
         // location
         if ($post->map_id && $authUserLng && $authUserLat) {
@@ -247,13 +248,29 @@ class PostService
 
             $postContent = ContentUtility::handleAndReplaceAll($postContent, $post->is_markdown, $post->user_id, Mention::TYPE_POST, $post->id);
 
+            // files
+            $files = $postData['files'];
+            $fidArr = ContentUtility::extractFile($postContent);
+            if ($type == 'detail' && $fidArr) {
+                $postContent = ContentUtility::replaceFile($postContent);
+
+                $files = [
+                    'images' => ArrUtility::forget($postData['files']['images'], 'fid', $fidArr),
+                    'videos' => ArrUtility::forget($postData['files']['videos'], 'fid', $fidArr),
+                    'audios' => ArrUtility::forget($postData['files']['audios'], 'fid', $fidArr),
+                    'documents' => ArrUtility::forget($postData['files']['documents'], 'fid', $fidArr),
+                ];
+            }
+
             $contentData = [
                 'content' => $postContent,
                 'isBrief' => $isBrief,
                 'isAllow' => $postData['isAllow'],
+                'files' => $files,
             ];
 
-            CacheHelper::put($contentData, $cacheKey, $cacheTags);
+            $cacheTime = $fidArr ? CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL) : null;
+            CacheHelper::put($contentData, $cacheKey, $cacheTags, null, $cacheTime);
         }
 
         $contentFormat = \request()->header('X-Fresns-Client-Content-Format');

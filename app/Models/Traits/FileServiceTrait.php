@@ -16,6 +16,23 @@ use Illuminate\Support\Facades\Storage;
 
 trait FileServiceTrait
 {
+    public function getFileUrl()
+    {
+        $fileData = $this;
+
+        if ($fileData->disk == 'local') {
+            $filePath = Storage::build(config('filesystems.disks.public'))->url($fileData->path);
+        } else {
+            $filePath = $fileData->path;
+        }
+
+        $fileConfigInfo = FileHelper::fresnsFileStorageConfigByType($fileData->type);
+
+        $fileUrl = StrHelper::qualifyUrl($filePath, $fileConfigInfo['bucketDomain']);
+
+        return $fileUrl;
+    }
+
     public function getFileOriginalUrl()
     {
         $fileData = $this;
@@ -231,30 +248,7 @@ trait FileServiceTrait
     {
         $fileData = $this;
 
-        if ($fileData->disk == 'local') {
-            $filePath = Storage::build(config('filesystems.disks.public'))->url($fileData->path);
-        } else {
-            $filePath = $fileData->path;
-        }
-
-        $documentConfig = ConfigHelper::fresnsConfigByItemKeys([
-            'document_bucket_domain',
-            'document_online_preview',
-            'document_preview_extension_names',
-        ]);
-
-        $info['documentUrl'] = StrHelper::qualifyUrl($filePath, $documentConfig['document_bucket_domain']);
-
-        $documentPreviewUrl = null;
-        if (! empty($documentConfig['document_online_preview']) && ! empty($documentConfig['document_preview_extension_names'])) {
-            $previewExtArr = explode(',', $documentConfig['document_preview_extension_names']);
-            if (in_array($fileData->extension, $previewExtArr)) {
-                $replaceUrl = str_replace('{docurl}', $info['documentUrl'], $documentConfig['document_online_preview']);
-                $documentPreviewUrl = str_replace('{fid}', $fileData->fid, $replaceUrl);
-            }
-        }
-
-        $info['documentPreviewUrl'] = $documentPreviewUrl;
+        $info['documentPreviewUrl'] = FileHelper::fresnsFileDocumentPreviewUrl($fileData->getFileUrl(), $fileData->fid, $fileData->extension);
 
         return $info;
     }

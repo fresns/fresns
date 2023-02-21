@@ -24,6 +24,7 @@ use App\Models\Domain;
 use App\Models\DomainLink;
 use App\Models\DomainLinkUsage;
 use App\Models\ExtendUsage;
+use App\Models\File;
 use App\Models\FileUsage;
 use App\Models\Group;
 use App\Models\Hashtag;
@@ -52,6 +53,7 @@ class ContentUtility
             'url' => '/(https?:\/\/[^\s\n]+)/i',
             'at' => '/@(.*?)\s/',
             'sticker' => '/\[(.*?)\]/',
+            'file' => '/\[file:(\w+)\]/',
         };
     }
 
@@ -148,6 +150,27 @@ class ContentUtility
             }
 
             $result[] = $sticker;
+        }
+
+        return $result;
+    }
+
+    // Extract file
+    public static function extractFile(string $content): array
+    {
+        $files = ContentUtility::matchAll(ContentUtility::getRegexpByType('file'), $content);
+
+        if (empty($files)) {
+            return [];
+        }
+
+        $result = [];
+        foreach ($files as $file) {
+            if (str_contains($file, ' ')) {
+                continue;
+            }
+
+            $result[] = $file;
         }
 
         return $result;
@@ -338,6 +361,37 @@ class ContentUtility
 
                 // <img src="$stickerUrl" class="fresns_sticker" alt="$sticker->code">
                 $linkList[] = sprintf('<img src="%s" class="fresns_sticker" alt="%s" />', $stickerUrl, $currentSticker->code);
+            }
+        }
+
+        return str_replace($replaceList, $linkList, $content);
+    }
+
+    // Replace file
+    public static function replaceFile(string $content): string
+    {
+        $fidArr = ContentUtility::extractFile($content);
+
+        $files = File::whereIn('fid', $fidArr)->get();
+
+        $replaceList = [];
+        $linkList = [];
+        foreach ($fidArr as $fid) {
+            $replaceList[] = "[file:{$fid}]";
+
+            $file = $files->where('fid', $fid)->first();
+
+            if (is_null($file)) {
+                $linkList[] = "[file:{$fid}]";
+            } else {
+                $fileInfo = FileHelper::fresnsFileInfoById($file->id);
+
+                $linkList[] = match ($file->type) {
+                    File::TYPE_IMAGE => sprintf('<img class="fresns_file_image" loading="lazy" src="%s" alt="%s">', $fileInfo['imageRatioUrl'], $fileInfo['name']),
+                    File::TYPE_VIDEO => sprintf('<video class="fresns_file_video" controls preload="metadata" controlslist="nodownload" poster="%s"><source src="%s" type="%s"></video>', $fileInfo['videoPosterUrl'], $fileInfo['videoUrl'], $fileInfo['mime']),
+                    File::TYPE_AUDIO => sprintf('<audio class="fresns_file_audio" controls preload="metadata" controlsList="nodownload" src="%s"></audio>', $fileInfo['audioUrl']),
+                    File::TYPE_DOCUMENT => sprintf('<button class="fresns_file_document" type="button" data-fid="%s" data-file="%s">%s</button>', $fileInfo['fid'], json_encode($fileInfo, true), $fileInfo['name']),
+                };
             }
         }
 

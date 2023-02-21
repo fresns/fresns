@@ -311,6 +311,31 @@ class FileHelper
         return $file->getFileOriginalUrl();
     }
 
+    // get file document preview url
+    public static function fresnsFileDocumentPreviewUrl(string $documentUrl, string $fid, ?string $fileExtension = null)
+    {
+        $config = ConfigHelper::fresnsConfigByItemKeys([
+            'document_online_preview',
+            'document_preview_extension_names',
+        ]);
+
+        if (empty($config['document_online_preview']) || empty($config['document_preview_extension_names']) || empty($fileExtension)) {
+            return null;
+        }
+
+        $documentPreviewUrl = null;
+
+        $previewExtArr = explode(',', $config['document_preview_extension_names']);
+
+        if (in_array($fileExtension, $previewExtArr)) {
+            $replaceUrl = str_replace('{docurl}', $documentUrl, $config['document_online_preview']);
+
+            $documentPreviewUrl = str_replace('{fid}', $fid, $replaceUrl);
+        }
+
+        return $documentPreviewUrl;
+    }
+
     // get file type number
     public static function fresnsFileTypeNumber(?string $fileName = null)
     {

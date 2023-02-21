@@ -235,7 +235,7 @@ class ConfigHelper
                 File::TYPE_IMAGE => 'imageConfig',
                 File::TYPE_VIDEO => 'video',
                 File::TYPE_AUDIO => 'audio',
-                File::TYPE_DOCUMENT => 'document',
+                File::TYPE_DOCUMENT => 'documentPreview',
                 default => 'imageConfig',
             };
 

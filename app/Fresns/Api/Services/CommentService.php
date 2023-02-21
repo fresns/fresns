@@ -140,6 +140,7 @@ class CommentService
         $contentHandle = self::handleCommentContent($comment, $commentData, $type, $authUserId);
         $commentData['content'] = $contentHandle['content'];
         $commentData['isBrief'] = $contentHandle['isBrief'];
+        $commentData['files'] = $contentHandle['files'];
 
         // location
         if ($comment->map_id && $authUserLng && $authUserLat) {
@@ -267,12 +268,28 @@ class CommentService
 
             $commentContent = ContentUtility::handleAndReplaceAll($commentContent, $comment->is_markdown, $comment->user_id, Mention::TYPE_COMMENT, $comment->id);
 
+            // files
+            $files = $commentData['files'];
+            $fidArr = ContentUtility::extractFile($commentContent);
+            if ($type == 'detail' && $fidArr) {
+                $commentContent = ContentUtility::replaceFile($commentContent);
+
+                $files = [
+                    'images' => ArrUtility::forget($commentData['files']['images'], 'fid', $fidArr),
+                    'videos' => ArrUtility::forget($commentData['files']['videos'], 'fid', $fidArr),
+                    'audios' => ArrUtility::forget($commentData['files']['audios'], 'fid', $fidArr),
+                    'documents' => ArrUtility::forget($commentData['files']['documents'], 'fid', $fidArr),
+                ];
+            }
+
             $contentData = [
                 'content' => $commentContent,
                 'isBrief' => $isBrief,
+                'files' => $files,
             ];
 
-            CacheHelper::put($contentData, $cacheKey, $cacheTags);
+            $cacheTime = $fidArr ? CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL) : null;
+            CacheHelper::put($contentData, $cacheKey, $cacheTags, null, $cacheTime);
         }
 
         $authUid = PrimaryHelper::fresnsModelById('user', $authUserId)?->uid;
