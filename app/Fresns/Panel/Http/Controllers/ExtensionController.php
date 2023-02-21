@@ -312,7 +312,7 @@ class ExtensionController extends Controller
             $functionKeys = $themeConfig['functionKeys'] ?? [];
 
             if ($functionKeys) {
-                $itemKeys = array_map(function($item) {
+                $itemKeys = array_map(function ($item) {
                     return $item['itemKey'];
                 }, $functionKeys);
 
