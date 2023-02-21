@@ -164,7 +164,7 @@ class Subscribe
             'item_value' => $subscribes,
         ]);
 
-        CacheHelper::forgetFresnsMultilingual('fresns_config_subscribe_items');
+        CacheHelper::forgetFresnsConfigs('subscribe_items');
 
         return $fresnsSave;
     }
@@ -179,7 +179,7 @@ class Subscribe
             'item_value' => $filterData,
         ]);
 
-        CacheHelper::forgetFresnsMultilingual('fresns_config_subscribe_items');
+        CacheHelper::forgetFresnsConfigs('subscribe_items');
 
         return $fresnsRemove;
     }

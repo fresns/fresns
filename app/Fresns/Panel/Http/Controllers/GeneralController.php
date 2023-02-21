@@ -169,8 +169,10 @@ class GeneralController extends Controller
             $config->save();
         }
 
-        CacheHelper::forgetFresnsMultilingual('fresns_config_site_icon');
-        CacheHelper::forgetFresnsMultilingual('fresns_config_site_logo');
+        CacheHelper::forgetFresnsConfigs([
+            'site_icon',
+            'site_logo',
+        ]);
         CacheHelper::forgetFresnsKey('fresns_default_timezone');
 
         return $this->updateSuccess();

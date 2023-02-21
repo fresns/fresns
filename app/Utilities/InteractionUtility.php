@@ -366,12 +366,12 @@ class InteractionUtility
                     'sticky_state' => $stickyState,
                 ]);
 
-                CacheHelper::forgetFresnsMultilingual('fresns_web_sticky_posts');
+                CacheHelper::forgetFresnsMultilingual('fresns_web_sticky_posts', 'fresnsWeb');
 
                 if ($stickyState == Post::STICKY_GROUP && $post->group_id) {
                     $group = PrimaryHelper::fresnsModelById('group', $post->group_id);
 
-                    CacheHelper::forgetFresnsMultilingual("fresns_web_group_{$group?->gid}_sticky_posts");
+                    CacheHelper::forgetFresnsMultilingual("fresns_web_group_{$group?->gid}_sticky_posts", 'fresnsWeb');
                 }
             break;
 
@@ -390,7 +390,7 @@ class InteractionUtility
                 }
 
                 $post = PrimaryHelper::fresnsModelById('post', $comment->post_id);
-                CacheHelper::forgetFresnsMultilingual("fresns_web_post_{$post?->pid}_sticky_comments");
+                CacheHelper::forgetFresnsMultilingual("fresns_web_post_{$post?->pid}_sticky_comments", 'fresnsWeb');
             break;
         }
     }

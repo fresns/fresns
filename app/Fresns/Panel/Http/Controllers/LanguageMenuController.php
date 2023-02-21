@@ -48,7 +48,7 @@ class LanguageMenuController extends Controller
         $statusConfig->item_value = ! $statusConfig->item_value;
         $statusConfig->save();
 
-        CacheHelper::forgetFresnsMultilingual('language_status');
+        CacheHelper::forgetFresnsConfigs('language_status');
 
         return $this->updateSuccess();
     }
@@ -59,7 +59,7 @@ class LanguageMenuController extends Controller
         $defaultLanguageConfig->item_value = $request->default_language;
         $defaultLanguageConfig->save();
 
-        CacheHelper::forgetFresnsMultilingual('default_language');
+        CacheHelper::forgetFresnsConfigs('default_language');
         CacheHelper::forgetFresnsKey('fresns_default_langTag');
 
         return $this->updateSuccess();

@@ -124,7 +124,7 @@ class ThemeFunctionController extends Controller
                     $request->request->set($functionKey['itemKey'], $request->get($functionKey['itemKey'].'_url'));
                 }
 
-                CacheHelper::forgetFresnsMultilingual($functionKey['itemKey']);
+                CacheHelper::forgetFresnsConfigs($functionKey['itemKey']);
             }
 
             $value = $request->{$functionKey['itemKey']};

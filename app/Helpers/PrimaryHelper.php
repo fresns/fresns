@@ -38,13 +38,13 @@ class PrimaryHelper
         }
 
         $cacheTags = match ($modelName) {
-            'key' => 'fresnsSystems',
-            'account' => ['fresnsAccounts', 'fresnsAccountModels'],
-            'user' => ['fresnsUsers', 'fresnsUserModels'],
-            'group' => ['fresnsGroups', 'fresnsGroupModels'],
-            'hashtag' => ['fresnsHashtags', 'fresnsHashtagModels'],
-            'post' => ['fresnsPosts', 'fresnsPostModels'],
-            'comment' => ['fresnsComments', 'fresnsCommentModels'],
+            'key' => ['fresnsModels', 'fresnsSystems'],
+            'account' => ['fresnsModels', 'fresnsAccounts', 'fresnsAccountModels'],
+            'user' => ['fresnsModels', 'fresnsUsers', 'fresnsUserModels'],
+            'group' => ['fresnsModels', 'fresnsGroups', 'fresnsGroupModels'],
+            'hashtag' => ['fresnsModels', 'fresnsHashtags', 'fresnsHashtagModels'],
+            'post' => ['fresnsModels', 'fresnsPosts', 'fresnsPostModels'],
+            'comment' => ['fresnsModels', 'fresnsComments', 'fresnsCommentModels'],
             'file' => ['fresnsModels', 'fresnsFiles'],
             'extend' => ['fresnsModels', 'fresnsExtends'],
             'archive' => ['fresnsModels', 'fresnsArchives'],
@@ -136,12 +136,12 @@ class PrimaryHelper
 
         $cacheKey = "fresns_model_{$modelName}_{$id}";
         $cacheTags = match ($modelName) {
-            'account' => ['fresnsAccounts', 'fresnsAccountModels'],
-            'user' => ['fresnsUsers', 'fresnsUserModels'],
-            'group' => ['fresnsGroups', 'fresnsGroupModels'],
-            'hashtag' => ['fresnsHashtags', 'fresnsHashtagModels'],
-            'post' => ['fresnsPosts', 'fresnsPostModels'],
-            'comment' => ['fresnsComments', 'fresnsCommentModels'],
+            'account' => ['fresnsModels', 'fresnsAccounts', 'fresnsAccountModels'],
+            'user' => ['fresnsModels', 'fresnsUsers', 'fresnsUserModels'],
+            'group' => ['fresnsModels', 'fresnsGroups', 'fresnsGroupModels'],
+            'hashtag' => ['fresnsModels', 'fresnsHashtags', 'fresnsHashtagModels'],
+            'post' => ['fresnsModels', 'fresnsPosts', 'fresnsPostModels'],
+            'comment' => ['fresnsModels', 'fresnsComments', 'fresnsCommentModels'],
             'file' => ['fresnsModels', 'fresnsFiles'],
             'extend' => ['fresnsModels', 'fresnsExtends'],
             'operation' => ['fresnsModels', 'fresnsOperations'],

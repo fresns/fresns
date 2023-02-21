@@ -112,7 +112,7 @@ class Crontab
             }
 
             // clear role cache
-            CacheHelper::forgetFresnsMultilingual("fresns_user_{$role->user_id}_main_role");
+            CacheHelper::forgetFresnsMultilingual("fresns_user_{$role->user_id}_main_role", 'fresnsUsers');
         }
 
         return $this->success();

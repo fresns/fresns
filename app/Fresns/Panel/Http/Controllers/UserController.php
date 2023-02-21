@@ -217,9 +217,11 @@ class UserController extends Controller
         $config->item_value = $services;
         $config->save();
 
-        CacheHelper::forgetFresnsMultilingual('default_avatar');
-        CacheHelper::forgetFresnsMultilingual('anonymous_avatar');
-        CacheHelper::forgetFresnsMultilingual('deactivate_avatar');
+        CacheHelper::forgetFresnsConfigs([
+            'default_avatar',
+            'anonymous_avatar',
+            'deactivate_avatar',
+        ]);
 
         return $this->updateSuccess();
     }

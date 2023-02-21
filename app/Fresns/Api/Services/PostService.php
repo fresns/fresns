@@ -373,7 +373,7 @@ class PostService
 
         $userCount = count($userList);
         if ($userCount > 0 && $userCount < $post->like_count) {
-            CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$post->id}_preview_like_users");
+            CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$post->id}_preview_like_users", $cacheTags);
         }
 
         return $userList;

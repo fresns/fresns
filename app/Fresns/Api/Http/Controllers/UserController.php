@@ -940,7 +940,7 @@ class UserController extends Controller
                     $commentModel = PrimaryHelper::fresnsModelById('comment', $primaryId);
 
                     if ($commentModel->post->user_id == $authUserId) {
-                        CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$commentModel->cid}");
+                        CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$commentModel->cid}", 'fresnsComments');
                     }
                 }
             break;

@@ -921,11 +921,11 @@ class ContentUtility
             $postAppend->increment('edit_count');
 
             CacheHelper::forgetFresnsModel('post', $post->id);
-            CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$post->pid}");
+            CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$post->pid}", 'fresnsPosts');
             CacheHelper::forgetFresnsKeys([
                 "fresns_api_post_{$post->pid}_list_content",
                 "fresns_api_post_{$post->pid}_detail_content",
-            ]);
+            ], 'fresnsPosts');
         }
 
         $postLog->update([
@@ -1012,11 +1012,11 @@ class ContentUtility
             $commentAppend->increment('edit_count');
 
             CacheHelper::forgetFresnsModel('comment', $comment->id);
-            CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$comment->cid}");
+            CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$comment->cid}", 'fresnsComments');
             CacheHelper::forgetFresnsKeys([
                 "fresns_api_comment_{$comment->cid}_list_content",
                 "fresns_api_comment_{$comment->cid}_detail_content",
-            ]);
+            ], 'fresnsComments');
         }
 
         $commentLog->update([

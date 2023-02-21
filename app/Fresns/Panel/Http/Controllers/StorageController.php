@@ -472,7 +472,7 @@ class StorageController extends Controller
             $config->item_value = $value;
             $config->save();
 
-            CacheHelper::forgetFresnsMultilingual($configKey);
+            CacheHelper::forgetFresnsConfigs($configKey);
         }
 
         return $this->updateSuccess();
