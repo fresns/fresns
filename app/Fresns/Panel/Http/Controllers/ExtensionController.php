@@ -311,16 +311,17 @@ class ExtensionController extends Controller
             $themeConfig = AppHelper::getThemeConfig($theme);
             $functionKeys = $themeConfig['functionKeys'] ?? [];
 
-            $configItemKeys = Config::whereIn('item_key', collect($functionKeys)
-                ->pluck('itemKey'))
-                ->where('is_custom', 1)
-                ->pluck('item_key');
+            if ($functionKeys) {
+                $itemKeys = array_map(function($item) {
+                    return $item['itemKey'];
+                }, $functionKeys);
 
-            ConfigUtility::removeFresnsConfigItems($configItemKeys);
+                ConfigUtility::removeFresnsConfigItems($itemKeys);
+            }
 
-            $exitCode = Artisan::call('market:remove-theme', ['unikey' => $request->theme, '--cleardata' => true]);
+            $exitCode = Artisan::call('market:remove-theme', ['unikey' => $request->theme]);
         } else {
-            $exitCode = Artisan::call('market:remove-theme', ['unikey' => $request->theme, '--cleardata' => false]);
+            $exitCode = Artisan::call('market:remove-theme', ['unikey' => $request->theme]);
         }
 
         // $exitCode = 0 success
