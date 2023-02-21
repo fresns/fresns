@@ -27,7 +27,7 @@
     </main>
 @endsection
 
-@section('js')
+@push('script')
     <script>
         $('.change-lang').change(function() {
             var lang = $(this).val();
@@ -36,4 +36,4 @@
             window.location.href = url.href;
         });
     </script>
-@endsection
+@endpush

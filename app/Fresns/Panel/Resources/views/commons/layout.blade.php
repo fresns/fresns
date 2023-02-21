@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{ @asset('/static/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ @asset('/static/css/select2-bootstrap-5-theme.min.css') }}">
     <link rel="stylesheet" href="{{ @asset("/static/css/fresns-panel.css?{$versionMd5}") }}">
-    @yield('css')
+    @stack('css')
 </head>
 
 <body>
@@ -46,7 +46,7 @@
             }
         })
     </script>
-    @yield('js')
+    @stack('script')
 </body>
 
 </html>

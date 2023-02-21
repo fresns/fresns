@@ -278,3 +278,22 @@
         </div>
     </div>
 @endsection
+
+@push('script')
+    <script>
+        $(document).ready(function () {
+            var activeTab = window.location.hash.substring(1);
+            if (!activeTab) {
+                activeTab = 'services-tab';
+            }
+            $('#' + activeTab).tab('show');
+            document.documentElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            $('#myTab button').click(function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+                document.documentElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+@endpush
