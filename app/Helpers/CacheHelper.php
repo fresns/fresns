@@ -201,14 +201,7 @@ class CacheHelper
             'fresnsNullCount',
             'fresnsSystems',
             'fresnsConfigs',
-            'fresnsCodeMessages',
-            'fresnsRoles',
-            'fresnsArchives',
             'fresnsExtensions',
-            'fresnsConfigLanguages',
-            'fresnsPluginUsageLanguages',
-            'fresnsRoleLanguages',
-            'fresnsStickerLanguages',
             'fresnsWebConfigs',
         ];
 
@@ -263,17 +256,13 @@ class CacheHelper
         // system
         if ($cacheType == 'fresnsSystem') {
             CacheHelper::forgetFresnsTag('fresnsSystems');
+            Artisan::call('config:clear');
+            Artisan::call('config:cache');
         }
 
         // config
         if ($cacheType == 'fresnsConfig') {
             CacheHelper::forgetFresnsTag('fresnsConfigs');
-            CacheHelper::forgetFresnsTag('fresnsCodeMessages');
-            CacheHelper::forgetFresnsTag('fresnsRoles');
-            CacheHelper::forgetFresnsTag('fresnsArchives');
-            CacheHelper::forgetFresnsTag('fresnsConfigLanguages');
-            CacheHelper::forgetFresnsTag('fresnsRoleLanguages');
-            CacheHelper::forgetFresnsTag('fresnsStickerLanguages');
             CacheHelper::forgetFresnsTag('fresnsWebConfigs');
 
             // time of the latest cache
@@ -315,18 +304,12 @@ class CacheHelper
         if ($cacheType == 'fresnsSchedule') {
             Artisan::call('schedule:clear-cache');
         }
-
-        // framework
-        if ($cacheType == 'frameworkConfig') {
-            Artisan::call('config:clear');
-            Artisan::call('config:cache');
-        }
     }
 
     /**
      * clear data cache.
      */
-    public static function clearDataCache(string $cacheType, int|string $fsid, string $dataType): void
+    public static function clearDataCache(string $cacheType, int|string $fsid): void
     {
         $model = PrimaryHelper::fresnsModelByFsid($cacheType, $fsid);
         if (empty($model)) {
@@ -334,121 +317,95 @@ class CacheHelper
         }
         $id = $model->id;
 
+        CacheHelper::forgetFresnsModel($cacheType, $fsid);
+
         switch ($cacheType) {
             // user
             case 'user':
-                if ($dataType == 'fresnsModel') {
-                    CacheHelper::forgetFresnsMultilingual("fresns_user_{$id}_main_role", 'fresnsUsers');
-                    CacheHelper::forgetFresnsMultilingual("fresns_user_{$id}_roles", 'fresnsUsers');
-                    CacheHelper::forgetFresnsMultilingual("fresns_publish_post_config_{$id}", 'fresnsUsers');
-                    CacheHelper::forgetFresnsMultilingual("fresns_publish_comment_config_{$id}", 'fresnsUsers');
+                CacheHelper::forgetFresnsUser($id, $model->uid);
 
-                    $account = PrimaryHelper::fresnsModelById('account', $model->account_id);
-                    CacheHelper::forgetFresnsAccount($account->aid);
-                }
+                $account = PrimaryHelper::fresnsModelById('account', $model->account_id);
+                CacheHelper::forgetFresnsAccount($account->aid);
 
-                if ($dataType == 'fresnsInteraction') {
-                    CacheHelper::forgetFresnsKeys([
-                        "fresns_follow_1_array_by_{$id}",
-                        "fresns_follow_2_array_by_{$id}",
-                        "fresns_follow_3_array_by_{$id}",
-                        "fresns_follow_4_array_by_{$id}",
-                        "fresns_follow_5_array_by_{$id}",
-                        "fresns_block_1_array_by_{$id}",
-                        "fresns_block_2_array_by_{$id}",
-                        "fresns_block_3_array_by_{$id}",
-                        "fresns_block_4_array_by_{$id}",
-                        "fresns_block_5_array_by_{$id}",
-                        "fresns_filter_groups_by_user_{$id}",
-                        "fresns_user_{$id}_all_groups",
-                    ]);
+                // fresns_follow_{$type}_array_by_{$userId}
+                CacheHelper::forgetFresnsKeys([
+                    "fresns_follow_1_array_by_{$id}",
+                    "fresns_follow_2_array_by_{$id}",
+                    "fresns_follow_3_array_by_{$id}",
+                    "fresns_follow_4_array_by_{$id}",
+                    "fresns_follow_5_array_by_{$id}",
+                    "fresns_block_1_array_by_{$id}",
+                    "fresns_block_2_array_by_{$id}",
+                    "fresns_block_3_array_by_{$id}",
+                    "fresns_block_4_array_by_{$id}",
+                    "fresns_block_5_array_by_{$id}",
+                ], 'fresnsUsers');
 
-                    $plugins = Plugin::get();
-                    foreach ($plugins as $plugin) {
-                        CacheHelper::forgetFresnsKey("fresns_plugin_{$plugin->unikey}_badge_{$id}");
-                    }
+                CacheHelper::forgetFresnsKeys([
+                    "fresns_filter_groups_by_user_{$id}",
+                    "fresns_user_all_groups_{$id}",
+                ], [
+                    'fresnsGroups',
+                    'fresnsUsers',
+                ]);
 
-                    $groups = Group::get();
-                    foreach ($groups as $group) {
-                        CacheHelper::forgetFresnsKey("fresns_follow_group_model_{$group->id}_by_{$id}");
-                    }
-                }
+                CacheHelper::forgetFresnsKey("fresns_seo_user_{$id}", ['fresnsSeo', 'fresnsUsers']);
 
-                if ($dataType == 'fresnsApiData') {
-                    CacheHelper::forgetFresnsMultilingual("fresns_api_user_{$model->uid}", 'fresnsUsers');
-                    CacheHelper::forgetFresnsKeys([
-                        "fresns_api_user_panel_conversations_{$model->uid}",
-                        "fresns_api_user_panel_notifications_{$model->uid}",
-                        "fresns_api_user_panel_drafts_{$model->uid}",
-                    ], 'fresnsUsers');
-                }
-
-                if ($dataType == 'fresnsExtension') {
-                    //
+                $plugins = Plugin::get();
+                foreach ($plugins as $plugin) {
+                    CacheHelper::forgetFresnsKey("fresns_plugin_{$plugin->unikey}_badge_{$id}", 'fresnsUsers');
                 }
             break;
 
             // group
             case 'group':
-                if ($dataType == 'fresnsModel') {
-                    CacheHelper::forgetFresnsKeys([
-                        'fresns_group_count',
-                        'fresns_private_groups',
-                        'fresns_guest_all_groups',
-                        'fresns_filter_groups_by_guest',
-                    ]);
-                }
+                CacheHelper::forgetFresnsKeys([
+                    'fresns_group_count',
+                    'fresns_private_groups',
+                    'fresns_filter_groups_by_guest',
+                    'fresns_guest_all_groups',
+                ], 'fresnsGroups');
 
-                if ($dataType == 'fresnsApiData') {
-                    CacheHelper::forgetFresnsMultilingual("fresns_api_group_{$model->gid}", 'fresnsGroups');
-                }
-
-                if ($dataType == 'fresnsExtension') {
-                    CacheHelper::forgetFresnsMultilingual("fresns_group_{$id}_extends_by_everyone", 'fresnsExtensions');
-                    CacheHelper::forgetFresnsMultilingual("fresns_group_{$id}_extends_by_role", 'fresnsExtensions');
-                    CacheHelper::forgetFresnsMultilingual("fresns_group_{$id}_extends_by_group_admin", 'fresnsExtensions');
-                }
+                CacheHelper::forgetFresnsKey("fresns_seo_group_{$id}", ['fresnsSeo', 'fresnsGroups']);
+                CacheHelper::forgetFresnsMultilingual("fresns_api_group_{$model->gid}", 'fresnsGroups');
+                CacheHelper::forgetFresnsMultilingual("fresns_group_{$id}_extends_by_everyone", ['fresnsExtensions', 'fresnsGroups']);
+                CacheHelper::forgetFresnsMultilingual("fresns_group_{$id}_extends_by_role", ['fresnsExtensions', 'fresnsGroups']);
+                CacheHelper::forgetFresnsMultilingual("fresns_group_{$id}_extends_by_group_admin", ['fresnsExtensions', 'fresnsGroups']);
             break;
 
             // hashtag
             case 'hashtag':
-                if ($dataType == 'fresnsApiData') {
-                    CacheHelper::forgetFresnsMultilingual("fresns_api_hashtag_{$model->slug}", 'fresnsHashtags');
-                }
+                CacheHelper::forgetFresnsKey("fresns_seo_hashtag_{$id}", ['fresnsSeo', 'fresnsHashtags']);
+                CacheHelper::forgetFresnsMultilingual("fresns_api_hashtag_{$model->slug}", 'fresnsHashtags');
             break;
 
             // post
             case 'post':
-                if ($dataType == 'fresnsApiData') {
-                    CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$model->pid}", 'fresnsPosts');
-                    CacheHelper::forgetFresnsKeys([
-                        "fresns_api_post_{$model->pid}_list_content",
-                        "fresns_api_post_{$model->pid}_detail_content",
-                    ], 'fresnsPosts');
-                    CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$id}_preview_comments", 'fresnsPosts');
-                    CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$id}_preview_like_users", 'fresnsPosts');
-                }
+                // fresns_api_post_{$postId}_preview_comments_{$langTag}    // +tag: fresnsComments
+                // fresns_api_post_{$postId}_preview_like_users_{$langTag}  // +tag: fresnsUsers
+                CacheHelper::forgetFresnsKey("fresns_seo_post_{$id}", ['fresnsSeo', 'fresnsPosts']);
+                CacheHelper::forgetFresnsKeys([
+                    "fresns_api_post_{$model->pid}_list_content",
+                    "fresns_api_post_{$model->pid}_detail_content",
+                ], 'fresnsPosts');
+                CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$id}_preview_comments", ['fresnsPosts', 'fresnsComments']);
+                CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$id}_preview_like_users", ['fresnsPosts', 'fresnsUsers']);
             break;
 
             // comment
             case 'comment':
-                if ($dataType == 'fresnsApiData') {
-                    CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$model->cid}", 'fresnsComments');
-                    CacheHelper::forgetFresnsKeys([
-                        "fresns_api_comment_{$model->cid}_list_content",
-                        "fresns_api_comment_{$model->cid}_detail_content",
-                    ], 'fresnsComments');
-                    CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$id}_sub_comments", 'fresnsComments');
-                }
+                CacheHelper::forgetFresnsKey("fresns_seo_comment_{$id}", ['fresnsSeo', 'fresnsComments']);
+                CacheHelper::forgetFresnsKeys([
+                    "fresns_api_comment_{$model->cid}_list_content",
+                    "fresns_api_comment_{$model->cid}_detail_content",
+                ], 'fresnsComments');
+                CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$id}_sub_comments", 'fresnsComments');
             break;
-        }
 
-        if ($dataType == 'fresnsSeo') {
-            CacheHelper::forgetFresnsKey("fresns_seo_{$cacheType}_{$id}");
-        }
-
-        if ($dataType == 'fresnsModel') {
-            CacheHelper::forgetFresnsModel($cacheType, $fsid);
+            // file
+            case 'file':
+                CacheHelper::forgetFresnsFileUsage($fsid);
+            break;
         }
     }
 
@@ -467,14 +424,7 @@ class CacheHelper
             'fresnsNullCount',
             'fresnsSystems',
             'fresnsConfigs',
-            'fresnsCodeMessages',
-            'fresnsRoles',
-            'fresnsArchives',
             'fresnsExtensions',
-            'fresnsConfigLanguages',
-            'fresnsPluginUsageLanguages',
-            'fresnsRoleLanguages',
-            'fresnsStickerLanguages',
             'fresnsWebConfigs',
         ];
 
@@ -489,10 +439,7 @@ class CacheHelper
         }
 
         if ($tag == 'fresnsSystems') {
-            CacheHelper::forgetFresnsKeys([
-                'fresns_cache_is_support_tags',
-                'developer_mode',
-            ]);
+            CacheHelper::forgetFresnsKey('developer_mode');
         }
     }
 
@@ -557,19 +504,24 @@ class CacheHelper
 
     /**
      * forget fresns model.
-     *
-     * fresns_model_key_{$appId}
-     * fresns_model_account_{$aid}
-     * fresns_model_user_{$uidOrUsername}_by_fsid
-     * fresns_model_group_{$gid}
-     * fresns_model_hashtag_{$hid}
-     * fresns_model_post_{$pid}
-     * fresns_model_comment_{$cid}
-     * fresns_model_file_{$fid}
-     * fresns_model_extend_{$eid}
      */
     public static function forgetFresnsModel(string $modelName, int|string $fsid): void
     {
+        $cacheTags = match ($modelName) {
+            'account' => ['fresnsModels', 'fresnsAccounts'],
+            'user' => ['fresnsModels', 'fresnsUsers'],
+            'group' => ['fresnsModels', 'fresnsGroups'],
+            'hashtag' => ['fresnsModels', 'fresnsHashtags'],
+            'post' => ['fresnsModels', 'fresnsPosts'],
+            'comment' => ['fresnsModels', 'fresnsComments'],
+            'file' => ['fresnsModels', 'fresnsFiles'],
+            'extend' => ['fresnsModels', 'fresnsExtends'],
+            'archive' => ['fresnsModels', 'fresnsArchives'],
+            'operation' => ['fresnsModels', 'fresnsOperations'],
+            'conversation' => ['fresnsModels', 'fresnsConversations'],
+            default => 'fresnsModels',
+        };
+
         // user model
         if ($modelName == 'user') {
             if (StrHelper::isPureInt($fsid)) {
@@ -589,7 +541,7 @@ class CacheHelper
                 "fresns_model_user_{$fsidModel?->id}",
                 "fresns_model_user_{$fsidModel?->uid}_by_fsid",
                 "fresns_model_user_{$fsidModel?->username}_by_fsid",
-            ], 'fresnsModels');
+            ], $cacheTags);
 
             return;
         }
@@ -621,10 +573,7 @@ class CacheHelper
             $idCacheKey = "fresns_model_{$modelName}_{$model?->id}";
         }
 
-        CacheHelper::forgetFresnsKeys([
-            $fsidCacheKey,
-            $idCacheKey,
-        ], 'fresnsModels');
+        CacheHelper::forgetFresnsKeys([$fsidCacheKey, $idCacheKey], $cacheTags);
     }
 
     /**
@@ -651,17 +600,19 @@ class CacheHelper
                 case FileUsage::TYPE_POST:
                     $post = PrimaryHelper::fresnsModelById('post', $usage->table_id);
                     $pid = $post?->pid;
-                    $cacheKey = "fresns_api_post_{$pid}";
 
-                    CacheHelper::forgetFresnsMultilingual($cacheKey, 'fresnsPosts');
+                    CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$pid}", 'fresnsPosts');
+                    CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$pid}_list_content", 'fresnsPosts');
+                    CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$pid}_detail_content", 'fresnsPosts');
                 break;
 
                 case FileUsage::TYPE_COMMENT:
                     $comment = PrimaryHelper::fresnsModelById('comment', $usage->table_id);
                     $cid = $comment?->cid;
-                    $cacheKey = "fresns_api_comment_{$cid}";
 
-                    CacheHelper::forgetFresnsMultilingual($cacheKey, 'fresnsComments');
+                    CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$cid}", 'fresnsComments');
+                    CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$cid}_list_content", 'fresnsComments');
+                    CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$cid}_detail_content", 'fresnsComments');
                 break;
             }
         }
@@ -675,8 +626,26 @@ class CacheHelper
     public static function forgetFresnsTableColumnLangContent(string $tableName, string $tableColumn, int $tableId): void
     {
         $cacheKey = "fresns_{$tableName}_{$tableColumn}_{$tableId}";
+        $cacheTags = match ($tableName) {
+            'configs' => ['fresnsLanguages', 'fresnsConfigs'],
+            'users' => ['fresnsLanguages', 'fresnsUsers'],
+            'groups' => ['fresnsLanguages', 'fresnsGroups'],
+            'hashtags' => ['fresnsLanguages', 'fresnsHashtags'],
+            'posts' => ['fresnsLanguages', 'fresnsPosts'],
+            'post_appends' => ['fresnsLanguages', 'fresnsPosts'],
+            'comments' => ['fresnsLanguages', 'fresnsComments'],
+            'comment_appends' => ['fresnsLanguages', 'fresnsComments'],
+            'plugin_usages' => ['fresnsLanguages', 'fresnsExtensions'],
+            'extends' => ['fresnsLanguages', 'fresnsExtensions'],
+            'archives' => ['fresnsLanguages', 'fresnsExtensions'],
+            'operations' => ['fresnsLanguages', 'fresnsExtensions'],
+            'roles' => ['fresnsLanguages', 'fresnsConfigs'],
+            'stickers' => ['fresnsLanguages', 'fresnsConfigs'],
+            'notifications' => ['fresnsLanguages', 'fresnsUsers'],
+            default => 'fresnsLanguages',
+        };
 
-        CacheHelper::forgetFresnsMultilingual($cacheKey, 'fresnsLanguages');
+        CacheHelper::forgetFresnsMultilingual($cacheKey, $cacheTags);
     }
 
     // forget fresns account
@@ -686,8 +655,8 @@ class CacheHelper
             return;
         }
 
-        CacheHelper::forgetFresnsMultilingual("fresns_api_account_{$aid}", 'fresnsAccounts');
         CacheHelper::forgetFresnsModel('account', $aid);
+        CacheHelper::forgetFresnsMultilingual("fresns_api_account_{$aid}", 'fresnsAccounts');
     }
 
     // forget fresns user
@@ -697,12 +666,17 @@ class CacheHelper
             return;
         }
 
+        CacheHelper::forgetFresnsModel('user', $uid);
         CacheHelper::forgetFresnsMultilingual("fresns_user_{$userId}_main_role", 'fresnsUsers');
         CacheHelper::forgetFresnsMultilingual("fresns_user_{$userId}_roles", 'fresnsUsers');
         CacheHelper::forgetFresnsMultilingual("fresns_publish_post_config_{$userId}", 'fresnsUsers');
         CacheHelper::forgetFresnsMultilingual("fresns_publish_comment_config_{$userId}", 'fresnsUsers');
+
         CacheHelper::forgetFresnsMultilingual("fresns_api_user_{$uid}", 'fresnsUsers');
-        CacheHelper::forgetFresnsModel('user', $uid);
+        CacheHelper::forgetFresnsMultilingual("fresns_api_user_stats_{$uid}", 'fresnsUsers');
+        CacheHelper::forgetFresnsMultilingual("fresns_api_user_panel_conversations_{$uid}", 'fresnsUsers');
+        CacheHelper::forgetFresnsMultilingual("fresns_api_user_panel_notifications_{$uid}", 'fresnsUsers');
+        CacheHelper::forgetFresnsMultilingual("fresns_api_user_panel_drafts_{$uid}", 'fresnsUsers');
     }
 
     /**
@@ -710,21 +684,40 @@ class CacheHelper
      */
     public static function forgetFresnsInteraction(int $type, int $id, int $userId): void
     {
+        $typeName = match ($type) {
+            1 => 'user',
+            2 => 'group',
+            3 => 'hashtag',
+            4 => 'post',
+            5 => 'comment',
+        };
+
+        $cacheTag = match ($type) {
+            1 => 'fresnsUsers',
+            2 => 'fresnsGroups',
+            3 => 'fresnsHashtags',
+            4 => 'fresnsPosts',
+            5 => 'fresnsComments',
+        };
+
         CacheHelper::forgetFresnsKeys([
             "fresns_interaction_status_{$type}_{$id}_{$userId}",
-            "fresns_follow_{$type}_model_{$id}_by_{$userId}",
+            "fresns_model_follow_{$typeName}_{$id}_by_{$userId}",
             "fresns_follow_{$type}_array_by_{$userId}",
             "fresns_block_{$type}_array_by_{$userId}",
-        ]);
+        ], $cacheTag);
 
         if ($type == InteractionUtility::TYPE_USER) {
-            CacheHelper::forgetFresnsKey("fresns_interaction_status_{$type}_{$userId}_{$id}");
+            CacheHelper::forgetFresnsKey("fresns_interaction_status_{$type}_{$userId}_{$id}", $cacheTag);
         }
 
         if ($type == InteractionUtility::TYPE_GROUP) {
             CacheHelper::forgetFresnsKeys([
                 "fresns_filter_groups_by_user_{$userId}",
-                "fresns_user_{$userId}_all_groups",
+                "fresns_user_all_groups_{$userId}",
+            ], [
+                'fresnsGroups',
+                'fresnsUsers',
             ]);
         }
     }
@@ -732,7 +725,6 @@ class CacheHelper
     /**
      * no tag.
      */
-    // fresns_cache_is_support_tags
     // fresns_cache_tags
     // developer_mode
     // install_{$step}
@@ -772,152 +764,145 @@ class CacheHelper
     // fresns_content_review_words
     // fresns_user_ban_words
     // fresns_conversation_ban_words
+    // fresns_role_{$id}_{$langTag}
+    // fresns_code_messages_{$unikey}_{$langTag}
+    // fresns_api_sticker_tree_{$langTag}
+    // fresns_api_archives_{$type}_{$unikey}_{$langTag}
 
     /**
      * tag: fresnsLanguages
-     * tag: fresnsUnknownLanguages
-     * tag: fresnsConfigLanguages
-     * tag: fresnsPluginUsageLanguages
-     * tag: fresnsRoleLanguages
-     * tag: fresnsStickerLanguages
-     * tag: fresnsNotificationLanguages.
      */
     // fresns_{$tableName}_{$tableColumn}_{$tableId}_{$langTag}
 
     /**
-     * tag: fresnsCodeMessages.
+     * tag: fresnsModels.
      */
-    // fresns_code_messages_{$unikey}_{$langTag}
+    // fresns_model_account_{$aid}                                  // +tag: fresnsAccounts
+    // fresns_model_user_{$uidOrUsername}_by_fsid                   // +tag: fresnsUsers
+    // fresns_model_user_{$userId}                                  // +tag: fresnsUsers
+    // fresns_model_conversation_{$userId}_{$conversationUserId}    // +tag: fresnsUsers
+    // fresns_model_group_{$gid}                                    // +tag: fresnsGroups
+    // fresns_model_group_{$groupId}                                // +tag: fresnsGroups
+    // fresns_model_hashtag_{$hid}                                  // +tag: fresnsHashtags
+    // fresns_model_hashtag_{$hashtagId}                            // +tag: fresnsHashtags
+    // fresns_model_post_{$pid}                                     // +tag: fresnsPosts
+    // fresns_model_post_{$postId}                                  // +tag: fresnsPosts
+    // fresns_model_comment_{$cid}                                  // +tag: fresnsComments
+    // fresns_model_comment_{$commentId}                            // +tag: fresnsComments
+    // fresns_model_file_{$fid}                                     // +tag: fresnsFiles
+    // fresns_model_file_{$fileId}                                  // +tag: fresnsFiles
+    // fresns_model_extend_{$eid}                                   // +tag: fresnsExtends
+    // fresns_model_extend_{$extendId}                              // +tag: fresnsExtends
+    // fresns_model_archive_{$code}                                 // +tag: fresnsArchives
+    // fresns_model_archive_{$archiveId}                            // +tag: fresnsArchives
+    // fresns_model_operation_{$operationId}                        // +tag: fresnsOperations
+    // fresns_model_conversation_{$conversationId}                  // +tag: fresnsConversations
+    // fresns_model_follow_user_{$id}_by_{$userId}                  // +tag: fresnsUsers
+    // fresns_model_follow_group_{$id}_by_{$userId}                 // +tag: fresnsGroups
+    // fresns_model_follow_hashtag_{$id}_by_{$userId}               // +tag: fresnsHashtags
+    // fresns_model_follow_post_{$id}_by_{$userId}                  // +tag: fresnsPosts
+    // fresns_model_follow_comment_{$id}_by_{$userId}               // +tag: fresnsComments
 
     /**
-     * tag: fresnsRoles.
+     * tag: fresnsSeo.
+     *
+     * fresns_seo_{$type}_{$id}
      */
-    // fresns_role_{$id}_{$langTag}
+    // fresns_seo_user_{$userId}            // +tag: fresnsUsers
+    // fresns_seo_group_{$groupId}          // +tag: fresnsGroups
+    // fresns_seo_hashtag_{$hashtagId}      // +tag: fresnsHashtags
+    // fresns_seo_post_{$postId}            // +tag: fresnsPosts
+    // fresns_seo_comment_{$commentId}      // +tag: fresnsComments
 
     /**
      * tag: fresnsAccounts.
      */
-    // fresns_token_account_{$accountId}_{$token}   // +tag: fresnsAccountTokens
-    // fresns_model_account_{$aid}                  // +tag: fresnsAccountModels
-    // fresns_api_account_{$aid}_{$langTag}         // +tag: fresnsAccountData
+    // fresns_token_account_{$accountId}_{$token}
+    // fresns_api_account_{$aid}_{$langTag}
 
     /**
      * tag: fresnsUsers.
      */
-    // fresns_token_user_{$userId}_{$token}                         // +tag: fresnsUserTokens
-    // fresns_model_user_{$uidOrUsername}_by_fsid                   // +tag: fresnsUserModels
-    // fresns_model_user_{$userId}                                  // +tag: fresnsUserModels
-    // fresns_model_conversation_{$userId}_{$conversationUserId}    // +tag: fresnsUserConversations
-    // fresns_user_{$userId}_main_role_{$langTag}                   // +tag: fresnsUserRoles
-    // fresns_user_{$userId}_roles_{$langTag}                       // +tag: fresnsUserRoles
-    // fresns_publish_{$type}_config_{$userId}_{$langTag}           // +tag: fresnsUserConfigs
-    // fresns_plugin_{$unikey}_badge_{$userId}                      // +tag: fresnsUserConfigs
-    // fresns_interaction_status_{$markType}_{$markId}_{$userId}    // +tag: fresnsUserInteractions
-    // fresns_follow_{$type}_array_by_{$userId}                     // +tag: fresnsUserInteractions, fresnsFollowData
-    // fresns_block_{$type}_array_by_{$userId}                      // +tag: fresnsUserInteractions, fresnsBlockData
-    // fresns_seo_user_{$userId}                                    // +tag: fresnsUserData
-    // fresns_api_user_{$uid}_{$langTag}                            // +tag: fresnsUserData
-    // fresns_api_user_stats_{$uid}                                 // +tag: fresnsUserData
-    // fresns_api_user_panel_conversations_{$uid}                   // +tag: fresnsUserData, fresnsUserConversations
-    // fresns_api_user_panel_notifications_{$uid}                   // +tag: fresnsUserData, fresnsUserNotifications
-    // fresns_api_user_panel_drafts_{$uid}                          // +tag: fresnsUserData, fresnsUserDrafts
+    // fresns_token_user_{$userId}_{$token}
+    // fresns_user_{$userId}_main_role_{$langTag}
+    // fresns_user_{$userId}_roles_{$langTag}
+    // fresns_publish_{$type}_config_{$userId}_{$langTag}
+    // fresns_plugin_{$unikey}_badge_{$userId}
+    // fresns_interaction_status_{$markType}_{$markId}_{$userId}
+    // fresns_follow_{$type}_array_by_{$userId}
+    // fresns_block_{$type}_array_by_{$userId}
+    // fresns_user_post_allow_{$pid}_{$uid}
+    // fresns_api_user_{$uid}_{$langTag}
+    // fresns_api_user_stats_{$uid}
+    // fresns_api_user_panel_conversations_{$uid}
+    // fresns_api_user_panel_notifications_{$uid}
+    // fresns_api_user_panel_drafts_{$uid}
 
     /**
      * tag: fresnsGroups.
      */
-    // fresns_group_count                                           // +tag: fresnsGroupConfigs
-    // fresns_private_groups                                        // +tag: fresnsGroupConfigs
-    // fresns_filter_groups_by_guest                                // +tag: fresnsGroupConfigs, fresnsUsers, fresnsUserInteractions
-    // fresns_filter_groups_by_user_{$userId}                       // +tag: fresnsGroupConfigs, fresnsUsers, fresnsUserInteractions
-    // fresns_model_group_{$gid}                                    // +tag: fresnsGroupModels
-    // fresns_model_group_{$groupId}                                // +tag: fresnsGroupModels
-    // fresns_seo_group_{$groupId}                                  // +tag: fresnsGroupData
-    // fresns_guest_all_groups                                      // +tag: fresnsGroupData
-    // fresns_user_{$userId}_all_groups                             // +tag: fresnsGroupData, fresnsUsers, fresnsUserData
-    // fresns_follow_group_model_{$id}_by_{$userId}                 // +tag: fresnsGroupData, fresnsUsers, fresnsUserInteractions, fresnsFollowData
-    // fresns_api_group_{$gid}_{$langTag}                           // +tag: fresnsGroupData
+    // fresns_group_count
+    // fresns_private_groups
+    // fresns_filter_groups_by_guest
+    // fresns_filter_groups_by_user_{$userId}   // +tag: fresnsUsers
+    // fresns_guest_all_groups
+    // fresns_user_all_groups_{$userId}         // +tag: fresnsUsers
+    // fresns_api_group_{$gid}_{$langTag}
 
     /**
      * tag: fresnsHashtags.
      */
-    // fresns_model_hashtag_{$hid}              // +tag: fresnsHashtagModels
-    // fresns_model_hashtag_{$hashtagId}        // +tag: fresnsHashtagModels
-    // fresns_seo_hashtag_{$id}                 // +tag: fresnsHashtagData
-    // fresns_api_hashtag_{$hid}_{$langTag}     // +tag: fresnsHashtagData
+    // fresns_api_hashtag_{$hid}_{$langTag}
 
     /**
      * tag: fresnsPosts.
      */
-    // fresns_model_post_{$pid}                                 // +tag: fresnsPostModels
-    // fresns_model_post_{$postId}                              // +tag: fresnsPostModels
-    // fresns_seo_post_{$id}                                    // +tag: fresnsPostData
-    // fresns_api_post_{$pid}_{$langTag}                        // +tag: fresnsPostData
-    // fresns_api_post_{$pid}_list_content                      // +tag: fresnsPostData
-    // fresns_api_post_{$pid}_detail_content                    // +tag: fresnsPostData
-    // fresns_api_post_{$pid}_allow_{$uid}                      // +tag: fresnsPostData, fresnsUsers, fresnsUserData
-    // fresns_api_post_{$postId}_preview_comments_{$langTag}    // +tag: fresnsPostData, fresnsComments, fresnsCommentData
-    // fresns_api_post_{$postId}_preview_like_users_{$langTag}  // +tag: fresnsPostData, fresnsUsers, fresnsUserData
+    // fresns_api_post_{$pid}_{$langTag}
+    // fresns_api_post_{$pid}_list_content
+    // fresns_api_post_{$pid}_detail_content
+    // fresns_api_post_{$postId}_preview_comments_{$langTag}    // +tag: fresnsComments
+    // fresns_api_post_{$postId}_preview_like_users_{$langTag}  // +tag: fresnsUsers
 
     /**
      * tag: fresnsComments.
      */
-    // fresns_model_comment_{$cid}                              // +tag: fresnsCommentModels
-    // fresns_model_comment_{$commentId}                        // +tag: fresnsCommentModels
-    // fresns_seo_comment_{$id}                                 // +tag: fresnsCommentData
-    // fresns_api_comment_{$cid}_{$langTag}                     // +tag: fresnsCommentData
-    // fresns_api_comment_{$cid}_list_content                   // +tag: fresnsCommentData
-    // fresns_api_comment_{$cid}_detail_content                 // +tag: fresnsCommentData
-    // fresns_api_comment_{$commentId}_sub_comments_{$langTag}  // +tag: fresnsCommentData
-
-    /**
-     * tag: fresnsModels.
-     */
-    // fresns_model_file_{$fid}                         // +tag: fresnsFiles
-    // fresns_model_file_{$fileId}                      // +tag: fresnsFiles
-    // fresns_model_extend_{$eid}                       // +tag: fresnsExtends
-    // fresns_model_extend_{$extendId}                  // +tag: fresnsExtends
-    // fresns_model_archive_{$code}                     // +tag: fresnsArchives
-    // fresns_model_archive_{$archiveId}                // +tag: fresnsArchives
-    // fresns_model_operation_{$operationId}            // +tag: fresnsOperations
-    // fresns_model_conversation_{$conversationId}      // +tag: fresnsConversations
+    // fresns_api_comment_{$cid}_{$langTag}
+    // fresns_api_comment_{$cid}_list_content
+    // fresns_api_comment_{$cid}_detail_content
+    // fresns_api_comment_{$commentId}_sub_comments_{$langTag}
 
     /**
      * tag: fresnsExtensions.
      */
-    // fresns_wallet_recharge_extends_by_everyone_{$langTag}            // +tag: fresnsWallets
-    // fresns_wallet_withdraw_extends_by_everyone_{$langTag}            // +tag: fresnsWallets
-    // fresns_post_content_types_by_{$typeName}_{$langTag}              // +tag: fresnsContentTypes
-    // fresns_comment_content_types_by_{$typeName}_{$langTag}           // +tag: fresnsContentTypes
-    // fresns_map_extends_by_everyone_{$langTag}                        // +tag: fresnsMaps
+    // fresns_wallet_recharge_extends_by_everyone_{$langTag}
+    // fresns_wallet_withdraw_extends_by_everyone_{$langTag}
+    // fresns_post_content_types_by_{$typeName}_{$langTag}              // +tag: fresnsConfigs
+    // fresns_comment_content_types_by_{$typeName}_{$langTag}           // +tag: fresnsConfigs
+    // fresns_map_extends_by_everyone_{$langTag}
 
-    // fresns_editor_post_extends_by_everyone_{$langTag}                // +tag: fresnsEditor
-    // fresns_editor_comment_extends_by_everyone_{$langTag}             // +tag: fresnsEditor
-    // fresns_manage_post_extends_by_everyone_{$langTag}                // +tag: fresnsManages
-    // fresns_manage_comment_extends_by_everyone_{$langTag}             // +tag: fresnsManages
-    // fresns_manage_user_extends_by_everyone_{$langTag}                // +tag: fresnsManages
-    // fresns_group_{$groupId}_extends_by_everyone_{$langTag}           // +tag: fresnsGroupConfigs, fresnsGroupExtensions
-    // fresns_feature_extends_by_everyone_{$langTag}                    // +tag: fresnsFeatures
-    // fresns_profile_extends_by_everyone_{$langTag}                    // +tag: fresnsProfiles
+    // fresns_editor_post_extends_by_everyone_{$langTag}
+    // fresns_editor_comment_extends_by_everyone_{$langTag}
+    // fresns_manage_post_extends_by_everyone_{$langTag}
+    // fresns_manage_comment_extends_by_everyone_{$langTag}
+    // fresns_manage_user_extends_by_everyone_{$langTag}
+    // fresns_group_{$groupId}_extends_by_everyone_{$langTag}           // +tag: fresnsGroups
+    // fresns_feature_extends_by_everyone_{$langTag}
+    // fresns_profile_extends_by_everyone_{$langTag}
 
-    // fresns_editor_post_extends_by_role_{$roleId}_{$langTag}          // +tag: fresnsEditor
-    // fresns_editor_comment_extends_by_role_{$roleId}_{$langTag}       // +tag: fresnsEditor
-    // fresns_manage_post_extends_by_role_{$roleId}_{$langTag}          // +tag: fresnsManages
-    // fresns_manage_comment_extends_by_role_{$roleId}_{$langTag}       // +tag: fresnsManages
-    // fresns_manage_user_extends_by_role_{$roleId}_{$langTag}          // +tag: fresnsManages
-    // fresns_group_{$groupId}_extends_by_role_{$roleId}_{$langTag}     // +tag: fresnsGroupConfigs, fresnsGroupExtensions
-    // fresns_feature_extends_by_role_{$roleId}_{$langTag}              // +tag: fresnsFeatures
-    // fresns_profile_extends_by_role_{$roleId}_{$langTag}              // +tag: fresnsProfiles
+    // fresns_editor_post_extends_by_role_{$roleId}_{$langTag}
+    // fresns_editor_comment_extends_by_role_{$roleId}_{$langTag}
+    // fresns_manage_post_extends_by_role_{$roleId}_{$langTag}
+    // fresns_manage_comment_extends_by_role_{$roleId}_{$langTag}
+    // fresns_manage_user_extends_by_role_{$roleId}_{$langTag}
+    // fresns_group_{$groupId}_extends_by_role_{$roleId}_{$langTag}     // +tag: fresnsGroups
+    // fresns_feature_extends_by_role_{$roleId}_{$langTag}
+    // fresns_profile_extends_by_role_{$roleId}_{$langTag}
 
-    // fresns_manage_post_extends_by_group_admin_{$langTag}             // +tag: fresnsManages
-    // fresns_manage_comment_extends_by_group_admin_{$langTag}          // +tag: fresnsManages
-    // fresns_group_{$groupId}_extends_by_group_admin_{$langTag}        // +tag: fresnsGroupConfigs, fresnsGroupExtensions
+    // fresns_manage_post_extends_by_group_admin_{$langTag}
+    // fresns_manage_comment_extends_by_group_admin_{$langTag}
+    // fresns_group_{$groupId}_extends_by_group_admin_{$langTag}        // +tag: fresnsGroups
 
-    // fresns_plugin_url_{$unikey}                                      // +tag: fresnsExtensionConfigs
-    // fresns_plugin_host_{$unikey}                                     // +tag: fresnsExtensionConfigs
-
-    /**
-     * tag: fresnsApiData.
-     */
-    // fresns_api_archives_{$type}_{$unikey}_{$langTag}     // +tag: fresnsArchives
-    // fresns_api_sticker_tree_{$langTag}                   // +tag: fresnsConfigs
+    // fresns_plugin_url_{$unikey}                                      // +tag: fresnsConfigs
+    // fresns_plugin_host_{$unikey}                                     // +tag: fresnsConfigs
+    // fresns_plugin_version_{$unikey}                                  // +tag: fresnsConfigs
 }
