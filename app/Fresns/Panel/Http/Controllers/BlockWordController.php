@@ -105,7 +105,8 @@ class BlockWordController extends Controller
     public function export()
     {
         // Load block words
-        function blockWords() {
+        function blockWords()
+        {
             foreach (BlockWord::cursor() as $blockWords) {
                 yield $blockWords;
             }
