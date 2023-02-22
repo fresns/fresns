@@ -10,7 +10,7 @@ namespace App\Models\Traits;
 
 trait DataChangeNotifyTrait
 {
-    public static function bootDataChangeNotifyTrait()
+    public static function bootDataChangeNotifyTrait(): void
     {
         static::created(function ($model) {
             notifyDataChange([

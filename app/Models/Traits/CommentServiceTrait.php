@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 
 trait CommentServiceTrait
 {
-    public function getCommentInfo(?string $langTag = null, ?string $timezone = null)
+    public function getCommentInfo(?string $langTag = null): array
     {
         $commentData = $this;
         $appendData = $this->commentAppend;

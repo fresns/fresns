@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 
 trait PostServiceTrait
 {
-    public function getPostInfo(?string $langTag = null)
+    public function getPostInfo(?string $langTag = null): array
     {
         $postData = $this;
         $appendData = $this->postAppend;

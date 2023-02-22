@@ -12,14 +12,14 @@ use App\Models\Language;
 
 trait LangDescriptionTrait
 {
-    public function descriptions()
+    public function descriptions(): mixed
     {
         return $this->hasMany(Language::class, 'table_id', 'id')
             ->where('table_column', 'description')
             ->where('table_name', $this->getTable());
     }
 
-    public function getLangDescription($langTag)
+    public function getLangDescription($langTag): ?string
     {
         return $this->descriptions->where('lang_tag', $langTag)->first()?->lang_content ?: $this->description;
     }

@@ -15,7 +15,7 @@ use App\Helpers\StrHelper;
 
 trait ExtendServiceTrait
 {
-    public function getExtendInfo(?string $langTag = null)
+    public function getExtendInfo(?string $langTag = null): array
     {
         $extendData = $this;
 

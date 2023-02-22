@@ -14,7 +14,7 @@ use App\Helpers\StrHelper;
 
 trait AccountServiceTrait
 {
-    public function getAccountInfo()
+    public function getAccountInfo(): array
     {
         $accountData = $this;
 
@@ -42,7 +42,7 @@ trait AccountServiceTrait
         return $info;
     }
 
-    public function getAccountConnects()
+    public function getAccountConnects(): array
     {
         $connectsArr = $this->connects;
 
@@ -59,7 +59,7 @@ trait AccountServiceTrait
         return $connectsItemArr;
     }
 
-    public function getAccountWallet(?string $langTag = null)
+    public function getAccountWallet(?string $langTag = null): array
     {
         $walletData = $this->wallet;
 

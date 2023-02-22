@@ -14,7 +14,7 @@ use App\Helpers\PluginHelper;
 
 trait PluginUsageServiceTrait
 {
-    public function getUsageInfo(?string $langTag = null)
+    public function getUsageInfo(?string $langTag = null): array
     {
         $usageData = $this;
 
@@ -40,7 +40,7 @@ trait PluginUsageServiceTrait
         return $info;
     }
 
-    public function getIconUrl()
+    public function getIconUrl(): ?string
     {
         return FileHelper::fresnsFileUrlByTableColumn($this->icon_file_id, $this->icon_file_url);
     }

@@ -16,7 +16,7 @@ use App\Models\GroupAdmin;
 
 trait GroupServiceTrait
 {
-    public function getGroupInfo(?string $langTag = null)
+    public function getGroupInfo(?string $langTag = null): array
     {
         $groupData = $this;
         $parentGroup = $this->category;
@@ -59,7 +59,7 @@ trait GroupServiceTrait
         return $info;
     }
 
-    public function getGroupAdmins(?string $langTag = null)
+    public function getGroupAdmins(?string $langTag = null): array
     {
         $groupData = $this;
 
@@ -76,7 +76,7 @@ trait GroupServiceTrait
         return $adminList;
     }
 
-    public function getCategoryInfo(?string $langTag = null)
+    public function getCategoryInfo(?string $langTag = null): array
     {
         $parentGroup = $this;
 
@@ -89,12 +89,12 @@ trait GroupServiceTrait
         return $info;
     }
 
-    public function getCoverUrl()
+    public function getCoverUrl(): ?string
     {
         return FileHelper::fresnsFileUrlByTableColumn($this->cover_file_id, $this->cover_file_url);
     }
 
-    public function getBannerUrl()
+    public function getBannerUrl(): ?string
     {
         return FileHelper::fresnsFileUrlByTableColumn($this->banner_file_id, $this->banner_file_url);
     }

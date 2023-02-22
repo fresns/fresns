@@ -16,7 +16,7 @@ use App\Models\UserRole;
 
 trait UserServiceTrait
 {
-    public function getUserProfile()
+    public function getUserProfile(): array
     {
         $userData = $this;
 
@@ -81,7 +81,7 @@ trait UserServiceTrait
         return $profile;
     }
 
-    public function getUserAvatar()
+    public function getUserAvatar(): ?string
     {
         $userData = $this;
 
@@ -101,7 +101,7 @@ trait UserServiceTrait
         return $userAvatar;
     }
 
-    public function getUserMainRole(?string $langTag = null)
+    public function getUserMainRole(?string $langTag = null): array
     {
         $userData = $this;
 
@@ -134,7 +134,7 @@ trait UserServiceTrait
         return $mainRole;
     }
 
-    public function getUserRoles(?string $langTag = null)
+    public function getUserRoles(?string $langTag = null): array
     {
         $userData = $this;
 
@@ -156,7 +156,7 @@ trait UserServiceTrait
         return $roles;
     }
 
-    public function getUserStats(?string $langTag = null)
+    public function getUserStats(?string $langTag = null): array
     {
         $statData = $this->stat;
 

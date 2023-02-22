@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 
 trait FsidTrait
 {
-    public static function bootFsidTrait()
+    public static function bootFsidTrait(): void
     {
         static::creating(function ($model) {
             $model->{$model->getFsidKey()} = $model->{$model->getFsidKey()} ?? static::generateFsid(8);
@@ -39,7 +39,7 @@ trait FsidTrait
         return static::generateFsid($digit + 1);
     }
 
-    public function scopeFsid($query, string $fsid)
+    public function scopeFsid($query, string $fsid): mixed
     {
         return $query->where($this->getFsidKey(), $fsid);
     }

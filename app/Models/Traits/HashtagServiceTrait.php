@@ -14,7 +14,7 @@ use App\Helpers\LanguageHelper;
 
 trait HashtagServiceTrait
 {
-    public function getHashtagInfo(?string $langTag = null)
+    public function getHashtagInfo(?string $langTag = null): array
     {
         $hashtagData = $this;
 

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Storage;
 
 trait FileServiceTrait
 {
-    public function getFileUrl()
+    public function getFileUrl(): ?string
     {
         $fileData = $this;
 
@@ -33,7 +33,7 @@ trait FileServiceTrait
         return $fileUrl;
     }
 
-    public function getFileOriginalUrl()
+    public function getFileOriginalUrl(): ?string
     {
         $fileData = $this;
 
@@ -54,7 +54,7 @@ trait FileServiceTrait
         return $originalUrl;
     }
 
-    public function getFileInfo()
+    public function getFileInfo(): array
     {
         $fileData = $this;
 
@@ -95,7 +95,7 @@ trait FileServiceTrait
         return array_merge($info, $fileMetaInfo);
     }
 
-    public function getFileMetaInfoByType()
+    public function getFileMetaInfoByType(): array
     {
         $info = match ($this->type) {
             File::TYPE_IMAGE => $this->getImageMetaInfo(),
@@ -108,7 +108,7 @@ trait FileServiceTrait
         return $info;
     }
 
-    public function getImageMetaInfo()
+    public function getImageMetaInfo(): array
     {
         $fileData = $this;
 
@@ -181,7 +181,7 @@ trait FileServiceTrait
         return $info;
     }
 
-    public function getVideoMetaInfo()
+    public function getVideoMetaInfo(): array
     {
         $fileData = $this;
 
@@ -217,7 +217,7 @@ trait FileServiceTrait
         return $info;
     }
 
-    public function getAudioMetaInfo()
+    public function getAudioMetaInfo(): array
     {
         $fileData = $this;
 
@@ -244,7 +244,7 @@ trait FileServiceTrait
         return $info;
     }
 
-    public function getDocumentMetaInfo()
+    public function getDocumentMetaInfo(): array
     {
         $fileData = $this;
 
