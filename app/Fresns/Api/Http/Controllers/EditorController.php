@@ -26,7 +26,6 @@ use App\Models\ExtendUsage;
 use App\Models\File;
 use App\Models\FileUsage;
 use App\Models\Plugin;
-use App\Models\Post;
 use App\Models\PostLog;
 use App\Models\SessionLog;
 use App\Utilities\ConfigUtility;
@@ -103,7 +102,7 @@ class EditorController extends Controller
 
             // comment
             case 'comment':
-                $drafts = CommentLog::with('user')
+                $drafts = CommentLog::with('creator')
                     ->where('user_id', $authUser->id)
                     ->whereIn('state', $status)
                     ->latest()
@@ -640,47 +639,6 @@ class EditorController extends Controller
         $publishService = new UserService;
         $publishService->checkPublishPerm($type, $authUser->id, $mainId, $langTag, $timezone);
 
-        if ($type == 'comment') {
-            $checkCommentPerm = PermissionUtility::checkPostCommentPerm($draft->post_id, $authUser->id);
-
-            if (! $checkCommentPerm['status']) {
-                throw new ApiException($checkCommentPerm['code']);
-            }
-        }
-
-        $editorConfig = ConfigHelper::fresnsConfigByItemKeys([
-            "{$type}_editor_title_length",
-            "{$type}_editor_content_length",
-            "{$type}_edit_time_limit",
-            'content_review_service',
-        ]);
-
-        if ($draft->title) {
-            $titleLength = Str::length($draft->title);
-            if ($titleLength > $editorConfig['post_editor_title_length']) {
-                throw new ApiException(38203);
-            }
-
-            $checkTitleBanWords = ValidationUtility::contentBanWords($draft->title);
-            if (! $checkTitleBanWords) {
-                throw new ApiException(38206);
-            }
-        }
-
-        if (! $draft->content) {
-            throw new ApiException(38204);
-        } else {
-            $contentLength = Str::length($draft->content);
-            if ($contentLength > $editorConfig["{$type}_editor_content_length"]) {
-                throw new ApiException(38205);
-            }
-
-            $checkContentBanWords = ValidationUtility::contentBanWords($draft->content);
-            if (! $checkContentBanWords) {
-                throw new ApiException(38207);
-            }
-        }
-
         // session log
         $sessionLogType = match ($type) {
             'post' => SessionLog::TYPE_POST_REVIEW,
@@ -714,116 +672,19 @@ class EditorController extends Controller
             'logId' => $draft->id,
         ];
 
-        switch ($type) {
-            // post
-            case 'post':
-                if (! $draft->post_id) {
-                    $post = PrimaryHelper::fresnsModelById('post', $draft->post_id);
+        // check draft content
+        $validDraft = [
+            'userId' => $authUser->id,
+            'postId' => $draft->post_id,
+            'postGroupId' => $draft?->group_id,
+            'postTitle' => $draft?->title,
+            'commentId' => $draft?->comment_id,
+            'commentPostId' => $draft->post_id,
+            'content' => $draft->content,
+        ];
+        $checkDraft = ValidationUtility::draft($type, $validDraft);
 
-                    if ($post?->created_at) {
-                        $checkContentEditPerm = PermissionUtility::checkContentEditPerm($post->created_at, $editorConfig['post_edit_time_limit'], $timezone, $langTag);
-
-                        if (! $checkContentEditPerm['editableStatus']) {
-                            throw new ApiException(36309);
-                        }
-                    }
-                }
-
-                if ($draft->group_id) {
-                    $group = PrimaryHelper::fresnsModelById('group', $draft->group_id);
-
-                    if (! $group) {
-                        throw new ApiException(37100);
-                    }
-
-                    if (! $group->is_enable) {
-                        throw new ApiException(37101);
-                    }
-
-                    $checkGroup = PermissionUtility::checkUserGroupPublishPerm($draft->group_id, $group->permissions, $draft->user_id);
-
-                    if (! $checkGroup['allowPost']) {
-                        throw new ApiException(36311);
-                    }
-
-                    if ($checkGroup['reviewPost']) {
-                        // upload session log
-                        \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
-
-                        // change state
-                        $draft->update([
-                            'state' => 2,
-                            'submit_at' => now(),
-                        ]);
-
-                        // review notice
-                        \FresnsCmdWord::plugin($editorConfig['content_review_service'])->reviewNotice($wordBody);
-
-                        // Review
-                        throw new ApiException(38200);
-                    }
-                }
-            break;
-
-            // comment
-            case 'comment':
-                if (! $draft->comment_id) {
-                    $comment = PrimaryHelper::fresnsModelById('comment', $draft->comment_id);
-
-                    $checkContentEditPerm = PermissionUtility::checkContentEditPerm($comment->created_at, $editorConfig['comment_edit_time_limit'], $timezone, $langTag);
-
-                    if (! $checkContentEditPerm['editableStatus']) {
-                        throw new ApiException(36309);
-                    }
-                }
-
-                $post = PrimaryHelper::fresnsModelById('post', $draft->post_id);
-                if (! $post->group_id) {
-                    $group = PrimaryHelper::fresnsModelById('group', $draft->group_id);
-
-                    if (! $group) {
-                        throw new ApiException(37100);
-                    }
-
-                    if (! $group->is_enable) {
-                        throw new ApiException(37101);
-                    }
-
-                    $checkGroup = PermissionUtility::checkUserGroupPublishPerm($draft->group_id, $group->permissions, $draft->user_id);
-
-                    if (! $checkGroup['allowComment']) {
-                        throw new ApiException(36312);
-                    }
-
-                    if ($checkGroup['reviewComment']) {
-                        // upload session log
-                        \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
-
-                        // change state
-                        $draft->update([
-                            'state' => 2,
-                            'submit_at' => now(),
-                        ]);
-
-                        // review notice
-                        \FresnsCmdWord::plugin($editorConfig['content_review_service'])->reviewNotice($wordBody);
-
-                        // Review
-                        throw new ApiException(38200);
-                    }
-                }
-            break;
-        }
-
-        // limit config
-        $limitConfig = ConfigUtility::getPublishConfigByType($authUser->id, $type, $langTag, $timezone)['limit'];
-        $checkRule = true;
-        if ($limitConfig['status'] && $limitConfig['isInTime'] && $limitConfig['rule'] == 1) {
-            $checkRule = false;
-        }
-
-        $checkReview = ValidationUtility::contentReviewWords($draft->content);
-        if (! $checkReview || ! $checkRule) {
+        if ($checkDraft == 38200) {
             // upload session log
             \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
@@ -834,10 +695,15 @@ class EditorController extends Controller
             ]);
 
             // review notice
-            \FresnsCmdWord::plugin($editorConfig['content_review_service'])->reviewNotice($wordBody);
+            $contentReviewService = ConfigHelper::fresnsConfigByItemKey('content_review_service');
+            \FresnsCmdWord::plugin($contentReviewService)->reviewNotice($wordBody);
 
             // Review
             throw new ApiException(38200);
+        }
+
+        if ($checkDraft) {
+            throw new ApiException($checkDraft);
         }
 
         $draft->update([
@@ -954,12 +820,20 @@ class EditorController extends Controller
         $timezone = $this->timezone();
         $authUser = $this->user();
 
-        if ($dtoRequest->type == 'comment') {
-            $checkCommentPerm = PermissionUtility::checkPostCommentPerm($dtoRequest->commentPid, $authUser->id);
+        // check draft content
+        $validDraft = [
+            'userId' => $authUser->id,
+            'postId' => null,
+            'postGroupId' => PrimaryHelper::fresnsGroupIdByGid($dtoRequest->postGid),
+            'postTitle' => $dtoRequest->postTitle,
+            'commentId' => null,
+            'commentPostId' => PrimaryHelper::fresnsPostIdByPid($dtoRequest->commentPid),
+            'content' => $dtoRequest->content,
+        ];
+        $checkDraft = ValidationUtility::draft($dtoRequest->type, $validDraft);
 
-            if (! $checkCommentPerm['status']) {
-                throw new ApiException($checkCommentPerm['code']);
-            }
+        if ($checkDraft && $checkDraft != 38200) {
+            throw new ApiException($checkDraft);
         }
 
         // check publish prem
@@ -984,14 +858,6 @@ class EditorController extends Controller
             }
         }
 
-        if ($dtoRequest->type == 'comment') {
-            $checkPost = Post::where('pid', $dtoRequest->commentPid)->first();
-
-            if (empty($checkPost)) {
-                throw new ApiException(37300);
-            }
-        }
-
         $wordType = match ($dtoRequest->type) {
             'post' => 1,
             'comment' => 2,
@@ -1012,6 +878,7 @@ class EditorController extends Controller
             'isAnonymous' => $dtoRequest->isAnonymous,
             'mapJson' => $dtoRequest->mapJson,
             'eid' => $dtoRequest->eid,
+            'requireReview' => ($checkDraft == 38200),
         ];
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->contentQuickPublish($wordBody);
 

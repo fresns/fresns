@@ -438,6 +438,9 @@ class CommentService
         $info['isMarkdown'] = (bool) $log->is_markdown;
         $info['isAnonymous'] = (bool) $log->is_anonymous;
         $info['mapJson'] = $log->map_json;
+        $info['allowJson'] = null;
+        $info['userListJson'] = null;
+        $info['commentBtnJson'] = null;
         $info['state'] = $log->state;
         $info['reason'] = $log->reason;
 

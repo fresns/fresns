@@ -10,6 +10,7 @@ namespace App\Utilities;
 
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
+use App\Helpers\PrimaryHelper;
 use App\Models\BlockWord;
 use App\Models\Comment;
 use App\Models\Post;
@@ -390,5 +391,161 @@ class ValidationUtility
         }
 
         return ! Str::contains(Str::lower($message), $lowerBanWords);
+    }
+
+    // Validate draft
+    public static function draft(string $type, array $draft): int
+    {
+        // $draft = [
+        //     'userId' => null,
+        //     'postId' => null,
+        //     'postGroupId' => null,
+        //     'postTitle' => null,
+        //     'commentId' => null,
+        //     'commentPostId' => null,
+        //     'content' => null,
+        // ];
+
+        $editorConfig = ConfigHelper::fresnsConfigByItemKeys([
+            'post_editor_group',
+            'post_editor_group_required',
+            'post_editor_title',
+            'post_editor_title_required',
+            'post_editor_title_length',
+            "{$type}_editor_content_length",
+            "{$type}_edit_time_limit",
+        ]);
+
+        if (empty($draft['content'])) {
+            return 38204;
+        }
+
+        $contentLength = Str::length($draft['content']);
+        if ($contentLength > $editorConfig["{$type}_editor_content_length"]) {
+            return 38205;
+        }
+
+        $checkContentBanWords = ValidationUtility::contentBanWords($draft['content']);
+        if (! $checkContentBanWords) {
+            return 38207;
+        }
+
+        switch ($type) {
+            // post
+            case 'post':
+                if ($draft['postId']) {
+                    $post = PrimaryHelper::fresnsModelById('post', $draft['postId']);
+
+                    if ($post?->created_at) {
+                        $checkContentEditPerm = PermissionUtility::checkContentEditPerm($post->created_at, $editorConfig['post_edit_time_limit']);
+
+                        if (! $checkContentEditPerm['editableStatus']) {
+                            return 36309;
+                        }
+                    }
+                }
+
+                if ($editorConfig['post_editor_group'] && $editorConfig['post_editor_group_required'] && empty($draft['postGroupId'])) {
+                    return 38208;
+                }
+
+                if ($editorConfig['post_editor_title'] && $editorConfig['post_editor_title_required'] && empty($draft['postTitle'])) {
+                    return 38202;
+                }
+
+                if ($draft['postTitle']) {
+                    $titleLength = Str::length($draft['postTitle']);
+                    if ($titleLength > $editorConfig['post_editor_title_length']) {
+                        return 38203;
+                    }
+
+                    $checkTitleBanWords = ValidationUtility::contentBanWords($draft['postTitle']);
+                    if (! $checkTitleBanWords) {
+                        return 38206;
+                    }
+                }
+
+                if ($draft['postGroupId']) {
+                    $group = PrimaryHelper::fresnsModelById('group', $draft['postGroupId']);
+
+                    if (! $group) {
+                        return 37100;
+                    }
+
+                    if (! $group->is_enable) {
+                        return 37101;
+                    }
+
+                    $checkGroup = PermissionUtility::checkUserGroupPublishPerm($draft['postGroupId'], $group->permissions, $draft['userId']);
+
+                    if (! $checkGroup['allowPost']) {
+                        return 36311;
+                    }
+
+                    // Review
+                    if ($checkGroup['reviewPost']) {
+                        return 38200;
+                    }
+                }
+            break;
+
+            // comment
+            case 'comment':
+                if ($draft['commentId']) {
+                    $comment = PrimaryHelper::fresnsModelById('comment', $draft['commentId']);
+
+                    if ($comment?->created_at) {
+                        $checkContentEditPerm = PermissionUtility::checkContentEditPerm($comment->created_at, $editorConfig['comment_edit_time_limit']);
+
+                        if (! $checkContentEditPerm['editableStatus']) {
+                            return 36309;
+                        }
+                    }
+                }
+
+                $checkCommentPerm = PermissionUtility::checkPostCommentPerm($draft['commentPostId'], $draft['userId']);
+                if (! $checkCommentPerm['status']) {
+                    return $checkCommentPerm['code'];
+                }
+
+                $post = PrimaryHelper::fresnsModelById('post', $draft['commentPostId']);
+                if ($post?->group_id) {
+                    $group = PrimaryHelper::fresnsModelById('group', $post->group_id);
+
+                    if (! $group) {
+                        return 37100;
+                    }
+
+                    if (! $group->is_enable) {
+                        return 37101;
+                    }
+
+                    $checkGroup = PermissionUtility::checkUserGroupPublishPerm($group->id, $group->permissions, $draft['userId']);
+
+                    if (! $checkGroup['allowComment']) {
+                        return 36312;
+                    }
+
+                    // Review
+                    if ($checkGroup['reviewComment']) {
+                        return 38200;
+                    }
+                }
+            break;
+        }
+
+        // limit config
+        $limitConfig = ConfigUtility::getPublishConfigByType($draft['userId'], $type)['limit'];
+        $checkRule = true;
+        if ($limitConfig['status'] && $limitConfig['isInTime'] && $limitConfig['rule'] == 1) {
+            $checkRule = false;
+        }
+
+        $checkReview = ValidationUtility::contentReviewWords($draft['content']);
+        if (! $checkRule || ! $checkReview) {
+            return 38200;
+        }
+
+        return 0;
     }
 }

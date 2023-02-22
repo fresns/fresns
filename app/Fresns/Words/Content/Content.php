@@ -9,6 +9,7 @@
 namespace App\Fresns\Words\Content;
 
 use App\Fresns\Words\Content\DTO\ContentPublishByDraftDTO;
+use App\Fresns\Words\Content\DTO\ContentQuickPublishDTO;
 use App\Fresns\Words\Content\DTO\CreateDraftDTO;
 use App\Fresns\Words\Content\DTO\GenerateDraftDTO;
 use App\Fresns\Words\Content\DTO\LogicalDeletionContentDTO;
@@ -36,8 +37,6 @@ use App\Utilities\ConfigUtility;
 use App\Utilities\ContentUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
-use App\Utilities\ValidationUtility;
-use Carbon\Carbon;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 use Illuminate\Support\Str;
 
@@ -372,10 +371,7 @@ class Content
     // contentQuickPublish
     public function contentQuickPublish($wordBody)
     {
-        $wordBody['createType'] = 1;
-        $wordBody['editorUnikey'] = null;
-
-        $dtoWordBody = new CreateDraftDTO($wordBody);
+        $dtoWordBody = new ContentQuickPublishDTO($wordBody);
         $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         $creator = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
@@ -392,270 +388,180 @@ class Content
             );
         }
 
-        $timezone = \request()->header('X-Fresns-Client-Timezone', $creator->timezone) ?? ConfigHelper::fresnsConfigDefaultTimezone();
-
         $type = match ($dtoWordBody->type) {
             1 => 'post',
             2 => 'comment',
         };
 
-        $editorConfig = ConfigHelper::fresnsConfigByItemKeys([
-            "{$type}_editor_title_required",
-            "{$type}_editor_title_length",
-            "{$type}_editor_group_required",
-            "{$type}_editor_content_length",
-            'content_review_service',
-        ]);
+        // review
+        if ($dtoWordBody->requireReview) {
+            $wordBody['createType'] = 1;
+            $wordBody['editorUnikey'] = null;
 
-        // check content
-        if ($dtoWordBody->content) {
-            $content = Str::of($dtoWordBody->content)->trim();
+            $reviewResp = \FresnsCmdWord::plugin('Fresns')->createDraft($wordBody);
 
-            $contentLength = Str::length($content);
-            if ($contentLength > $editorConfig["{$type}_editor_content_length"]) {
-                return $this->failure(
-                    38205,
-                    ConfigUtility::getCodeMessage(38205, 'Fresns', $langTag)
-                );
+            if ($reviewResp->isErrorResponse()) {
+                return $reviewResp->errorResponse();
             }
 
-            $checkBanWords = ValidationUtility::contentBanWords($content);
-            if (! $checkBanWords) {
-                return $this->failure(
-                    38207,
-                    ConfigUtility::getCodeMessage(38207, 'Fresns', $langTag)
-                );
-            }
-        } else {
-            return $this->failure(
-                38204,
-                ConfigUtility::getCodeMessage(38204, 'Fresns', $langTag)
-            );
-        }
-
-        // check form
-        switch ($type) {
-            // post
-            case 'post':
-                if ($editorConfig['post_editor_group_required'] && ! $dtoWordBody->postGid) {
-                    return $this->failure(
-                        38208,
-                        ConfigUtility::getCodeMessage(38208, 'Fresns', $langTag)
-                    );
-                }
-
-                if ($editorConfig['post_editor_title_required'] && ! $dtoWordBody->postTitle) {
-                    return $this->failure(
-                        38202,
-                        ConfigUtility::getCodeMessage(38202, 'Fresns', $langTag)
-                    );
-                }
-
-                $group = PrimaryHelper::fresnsModelByFsid('group', $dtoWordBody->postGid);
-
-                $title = null;
-                if ($dtoWordBody->postTitle) {
-                    $title = Str::of($dtoWordBody->postTitle)->trim();
-
-                    $titleLength = Str::length($title);
-                    if ($titleLength > $editorConfig['post_editor_title_length']) {
-                        return $this->failure(
-                            38203,
-                            ConfigUtility::getCodeMessage(38203, 'Fresns', $langTag)
-                        );
-                    }
-
-                    $checkTitleBanWords = ValidationUtility::contentBanWords($title);
-                    if (! $checkTitleBanWords) {
-                        return $this->failure(
-                            38206,
-                            ConfigUtility::getCodeMessage(38206, 'Fresns', $langTag)
-                        );
-                    }
-                }
-            break;
-
-            // comment
-            case 'comment':
-                $post = PrimaryHelper::fresnsModelByFsid('post', $dtoWordBody->commentPid);
-                $group = PrimaryHelper::fresnsModelById('group', $post->group_id);
-                $parentComment = PrimaryHelper::fresnsModelByFsid('comment', $dtoWordBody->commentCid);
-
-                $topParentId = 0;
-                if ($parentComment) {
-                    $topParentId = $parentComment->top_parent_id ?: $parentComment->id;
-                }
-            break;
-        }
-
-        // check group perm
-        if ($group) {
-            $checkGroupPublishPerm = PermissionUtility::checkUserGroupPublishPerm($group->id, $group->permissions, $creator->id);
-        } else {
-            $checkGroupPublishPerm = [
-                'allowPost' => true,
-                'reviewPost' => false,
-                'allowComment' => true,
-                'reviewComment' => false,
-            ];
-        }
-
-        // check limit config
-        $limitConfig = ConfigUtility::getPublishConfigByType($creator->id, $type, $langTag, $timezone)['limit'];
-        $checkRule = true;
-        if ($limitConfig['status'] && $limitConfig['isInTime'] && $limitConfig['rule'] == 1) {
-            $checkRule = false;
-        }
-
-        // check content
-        $checkReview = ValidationUtility::contentReviewWords($content);
-
-        switch ($type) {
-            // post
-            case 'post':
-                if (! $checkGroupPublishPerm['allowPost']) {
-                    return $this->failure(
-                        36311,
-                        ConfigUtility::getCodeMessage(36311, 'Fresns', $langTag)
-                    );
-                }
-
-                if ($checkGroupPublishPerm['reviewComment'] || ! $checkReview || ! $checkRule) {
-                    // review
-                    $reviewResp = \FresnsCmdWord::plugin('Fresns')->createDraft($wordBody);
-
-                    if ($reviewResp->isErrorResponse()) {
-                        return $reviewResp->errorResponse();
-                    }
-
+            switch ($type) {
+                // post
+                case 'post':
                     PostLog::where('id', $reviewResp->getData('logId'))->update([
                         'state' => 2,
                         'submit_at' => now(),
                     ]);
 
                     $usageType = ExtendUsage::TYPE_POST_LOG;
+                break;
 
-                    $primaryId = $reviewResp->getData('logId');
-                    $fsid = null;
-                } else {
-                    // publish
-                    $post = Post::create([
-                        'user_id' => $creator->id,
-                        'group_id' => $group?->id ?? 0,
-                        'title' => $title,
-                        'content' => $content,
-                        'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
-                        'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
-                        'map_id' => $dtoWordBody->mapJson['mapId'] ?? null,
-                        'map_longitude' => $dtoWordBody->mapJson['latitude'] ?? null,
-                        'map_latitude' => $dtoWordBody->mapJson['longitude'] ?? null,
-                    ]);
-
-                    PostAppend::create([
-                        'post_id' => $post->id,
-                        'is_comment' => $dtoWordBody->postIsComment ?? 1,
-                        'is_comment_public' => $dtoWordBody->postIsCommentPublic ?? 1,
-                        'map_json' => $dtoWordBody->mapJson ?? null,
-                        'map_scale' => $dtoWordBody->mapJson['scale'] ?? null,
-                        'map_continent_code' => $dtoWordBody->mapJson['continentCode'] ?? null,
-                        'map_country_code' => $dtoWordBody->mapJson['countryCode'] ?? null,
-                        'map_region_code' => $dtoWordBody->mapJson['regionCode'] ?? null,
-                        'map_city_code' => $dtoWordBody->mapJson['cityCode'] ?? null,
-                        'map_city' => $dtoWordBody->mapJson['city'] ?? null,
-                        'map_zip' => $dtoWordBody->mapJson['zip'] ?? null,
-                        'map_poi' => $dtoWordBody->mapJson['poi'] ?? null,
-                        'map_poi_id' => $dtoWordBody->mapJson['poiId'] ?? null,
-                    ]);
-
-                    ContentUtility::handleAndSaveAllInteraction($post->content, Mention::TYPE_POST, $post->id, $post->user_id);
-                    InteractionUtility::publishStats('post', $post->id, 'increment');
-
-                    $creator->update([
-                        'last_post_at' => now(),
-                    ]);
-
-                    $usageType = ExtendUsage::TYPE_POST;
-
-                    $primaryId = $post->id;
-                    $fsid = $post->pid;
-                }
-            break;
-
-            // comment
-            case 'comment':
-                if (! $checkGroupPublishPerm['allowComment']) {
-                    return $this->failure(
-                        36312,
-                        ConfigUtility::getCodeMessage(36312, 'Fresns', $langTag)
-                    );
-                }
-
-                if ($checkGroupPublishPerm['reviewComment'] || ! $checkReview || ! $checkRule) {
-                    // review
-                    $reviewResp = \FresnsCmdWord::plugin('Fresns')->createDraft($wordBody);
-
-                    if ($reviewResp->isErrorResponse()) {
-                        return $reviewResp->errorResponse();
-                    }
-
+                // comment
+                case 'comment':
                     CommentLog::where('id', $reviewResp->getData('logId'))->update([
                         'state' => 2,
                         'submit_at' => now(),
                     ]);
 
                     $usageType = ExtendUsage::TYPE_COMMENT_LOG;
+                break;
+            }
 
-                    $primaryId = $reviewResp->getData('logId');
-                    $fsid = null;
-                } else {
-                    // publish
-                    $comment = Comment::create([
-                        'user_id' => $creator->id,
-                        'post_id' => $post->id,
-                        'top_parent_id' => $topParentId,
-                        'parent_id' => $parentComment?->id ?? 0,
-                        'content' => $content,
-                        'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
-                        'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
-                        'map_id' => $dtoWordBody->mapJson['mapId'] ?? null,
-                        'map_longitude' => $dtoWordBody->mapJson['latitude'] ?? null,
-                        'map_latitude' => $dtoWordBody->mapJson['longitude'] ?? null,
+            $logId = $reviewResp->getData('logId');
+
+            if ($dtoWordBody->eid) {
+                $extendId = PrimaryHelper::fresnsExtendIdByEid($dtoWordBody->eid);
+
+                if ($extendId) {
+                    ExtendUsage::create([
+                        'usage_type' => $usageType,
+                        'usage_id' => $logId,
+                        'extend_id' => $extendId,
+                        'plugin_unikey' => 'Fresns',
                     ]);
-
-                    CommentAppend::create([
-                        'comment_id' => $comment->id,
-                        'map_json' => $dtoWordBody->mapJson ?? null,
-                        'map_scale' => $dtoWordBody->mapJson['scale'] ?? null,
-                        'map_continent_code' => $dtoWordBody->mapJson['continentCode'] ?? null,
-                        'map_country_code' => $dtoWordBody->mapJson['countryCode'] ?? null,
-                        'map_region_code' => $dtoWordBody->mapJson['regionCode'] ?? null,
-                        'map_city_code' => $dtoWordBody->mapJson['cityCode'] ?? null,
-                        'map_city' => $dtoWordBody->mapJson['city'] ?? null,
-                        'map_zip' => $dtoWordBody->mapJson['zip'] ?? null,
-                        'map_poi' => $dtoWordBody->mapJson['poi'] ?? null,
-                        'map_poi_id' => $dtoWordBody->mapJson['poiId'] ?? null,
-                    ]);
-
-                    ContentUtility::handleAndSaveAllInteraction($comment->content, Mention::TYPE_COMMENT, $comment->id, $comment->user_id);
-                    InteractionUtility::publishStats('comment', $comment->id, 'increment');
-
-                    $creator->update([
-                        'last_comment_at' => now(),
-                    ]);
-
-                    $post->update([
-                        'latest_comment_at' => now(),
-                    ]);
-
-                    if ($comment->parent_id) {
-                        ContentUtility::parentCommentLatestCommentTime($comment->parent_id);
-                    }
-
-                    $usageType = ExtendUsage::TYPE_COMMENT;
-
-                    $primaryId = $comment->id;
-                    $fsid = $comment->cid;
                 }
+            }
+
+            $reviewWordBody = [
+                'type' => $dtoWordBody->type,
+                'logId' => $logId,
+            ];
+
+            // review notice
+            $contentReviewService = ConfigHelper::fresnsConfigByItemKey('content_review_service');
+            \FresnsCmdWord::plugin($contentReviewService)->reviewNotice($reviewWordBody);
+
+            return $this->success([
+                'type' => $dtoWordBody->type,
+                'logId' => $logId,
+                'id' => null,
+                'fsid' => null,
+            ]);
+        }
+
+        $group = PrimaryHelper::fresnsModelByFsid('group', $dtoWordBody->postGid);
+        $topParentId = 0;
+        if ($type == 'comment') {
+            $post = PrimaryHelper::fresnsModelByFsid('post', $dtoWordBody->commentPid);
+            $group = PrimaryHelper::fresnsModelById('group', $post->group_id);
+
+            $parentComment = PrimaryHelper::fresnsModelByFsid('comment', $dtoWordBody->commentCid);
+            if ($parentComment) {
+                $topParentId = $parentComment->top_parent_id ?: $parentComment->id;
+            }
+        }
+
+        switch ($type) {
+            // post
+            case 'post':
+                $post = Post::create([
+                    'user_id' => $creator->id,
+                    'group_id' => $group?->id ?? 0,
+                    'title' => $dtoWordBody->postTitle ? Str::of($dtoWordBody->postTitle)->trim() : null,
+                    'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
+                    'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
+                    'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
+                    'map_id' => $dtoWordBody->mapJson['mapId'] ?? null,
+                    'map_longitude' => $dtoWordBody->mapJson['latitude'] ?? null,
+                    'map_latitude' => $dtoWordBody->mapJson['longitude'] ?? null,
+                ]);
+
+                PostAppend::create([
+                    'post_id' => $post->id,
+                    'is_comment' => $dtoWordBody->postIsComment ?? 1,
+                    'is_comment_public' => $dtoWordBody->postIsCommentPublic ?? 1,
+                    'map_json' => $dtoWordBody->mapJson ?? null,
+                    'map_scale' => $dtoWordBody->mapJson['scale'] ?? null,
+                    'map_continent_code' => $dtoWordBody->mapJson['continentCode'] ?? null,
+                    'map_country_code' => $dtoWordBody->mapJson['countryCode'] ?? null,
+                    'map_region_code' => $dtoWordBody->mapJson['regionCode'] ?? null,
+                    'map_city_code' => $dtoWordBody->mapJson['cityCode'] ?? null,
+                    'map_city' => $dtoWordBody->mapJson['city'] ?? null,
+                    'map_zip' => $dtoWordBody->mapJson['zip'] ?? null,
+                    'map_poi' => $dtoWordBody->mapJson['poi'] ?? null,
+                    'map_poi_id' => $dtoWordBody->mapJson['poiId'] ?? null,
+                ]);
+
+                ContentUtility::handleAndSaveAllInteraction($post->content, Mention::TYPE_POST, $post->id, $post->user_id);
+                InteractionUtility::publishStats('post', $post->id, 'increment');
+
+                $creator->update([
+                    'last_post_at' => now(),
+                ]);
+
+                $usageType = ExtendUsage::TYPE_POST;
+
+                $primaryId = $post->id;
+                $fsid = $post->pid;
+            break;
+
+            // comment
+            case 'comment':
+                $comment = Comment::create([
+                    'user_id' => $creator->id,
+                    'post_id' => $post->id,
+                    'top_parent_id' => $topParentId,
+                    'parent_id' => $parentComment?->id ?? 0,
+                    'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
+                    'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
+                    'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
+                    'map_id' => $dtoWordBody->mapJson['mapId'] ?? null,
+                    'map_longitude' => $dtoWordBody->mapJson['latitude'] ?? null,
+                    'map_latitude' => $dtoWordBody->mapJson['longitude'] ?? null,
+                ]);
+
+                CommentAppend::create([
+                    'comment_id' => $comment->id,
+                    'map_json' => $dtoWordBody->mapJson ?? null,
+                    'map_scale' => $dtoWordBody->mapJson['scale'] ?? null,
+                    'map_continent_code' => $dtoWordBody->mapJson['continentCode'] ?? null,
+                    'map_country_code' => $dtoWordBody->mapJson['countryCode'] ?? null,
+                    'map_region_code' => $dtoWordBody->mapJson['regionCode'] ?? null,
+                    'map_city_code' => $dtoWordBody->mapJson['cityCode'] ?? null,
+                    'map_city' => $dtoWordBody->mapJson['city'] ?? null,
+                    'map_zip' => $dtoWordBody->mapJson['zip'] ?? null,
+                    'map_poi' => $dtoWordBody->mapJson['poi'] ?? null,
+                    'map_poi_id' => $dtoWordBody->mapJson['poiId'] ?? null,
+                ]);
+
+                ContentUtility::handleAndSaveAllInteraction($comment->content, Mention::TYPE_COMMENT, $comment->id, $comment->user_id);
+                InteractionUtility::publishStats('comment', $comment->id, 'increment');
+
+                $creator->update([
+                    'last_comment_at' => now(),
+                ]);
+
+                $post->update([
+                    'latest_comment_at' => now(),
+                ]);
+
+                if ($comment->parent_id) {
+                    ContentUtility::parentCommentLatestCommentTime($comment->parent_id);
+                }
+
+                $usageType = ExtendUsage::TYPE_COMMENT;
+
+                $primaryId = $comment->id;
+                $fsid = $comment->cid;
             break;
         }
 
@@ -677,8 +583,8 @@ class Content
 
         return $this->success([
             'type' => $dtoWordBody->type,
-            'logId' => $fsid ? null : $primaryId,
-            'id' => $fsid ? $primaryId : null,
+            'logId' => null,
+            'id' => $primaryId,
             'fsid' => $fsid,
         ]);
     }
