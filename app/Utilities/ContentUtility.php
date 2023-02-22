@@ -542,7 +542,7 @@ class ContentUtility
     }
 
     // handle read allow json
-    public static function handleAllowJson(?array $readAllowConfig, string $langTag, string $timezone): array
+    public static function handleAllowJson(?array $readAllowConfig, string $langTag, string $timezone): ?array
     {
         if (! $readAllowConfig) {
             return null;
@@ -585,7 +585,7 @@ class ContentUtility
     }
 
     // handle user list json
-    public static function handleUserListJson(?array $userListConfig, string $langTag): array
+    public static function handleUserListJson(?array $userListConfig, string $langTag): ?array
     {
         if (! $userListConfig) {
             return null;
@@ -601,7 +601,7 @@ class ContentUtility
     }
 
     // handle comment btn json
-    public static function handleCommentBtnJson(?array $commentBtnConfig, string $langTag): array
+    public static function handleCommentBtnJson(?array $commentBtnConfig, string $langTag): ?array
     {
         if (! $commentBtnConfig) {
             return null;
