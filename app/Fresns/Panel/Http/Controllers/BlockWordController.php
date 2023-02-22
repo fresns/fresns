@@ -105,10 +105,14 @@ class BlockWordController extends Controller
     public function export()
     {
         // Load block words
-        $blockWords = BlockWord::all();
+        function blockWords() {
+            foreach (BlockWord::cursor() as $blockWords) {
+                yield $blockWords;
+            }
+        }
 
         // Export all block words
-        return (new FastExcel($blockWords))->download('Fresns-BlockWords.xlsx', function ($blockWords) {
+        return (new FastExcel(blockWords()))->download('Fresns-BlockWords.xlsx', function ($blockWords) {
             return [
                 'word' => $blockWords->word,
                 'content_mode' => $blockWords->content_mode,
@@ -121,7 +125,7 @@ class BlockWordController extends Controller
 
     public function import(Request $request)
     {
-        (new FastExcel)->import($request->file('file'), function ($blockWord) {
+        (new FastExcel)->import($request->file, function ($blockWord) {
             return BlockWord::updateOrCreate([
                 'word' => $blockWord['word'],
             ], [

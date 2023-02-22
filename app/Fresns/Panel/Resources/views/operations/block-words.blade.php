@@ -34,7 +34,7 @@
             <div class="input-group justify-content-lg-end">
                 <form method="post" action="{{ route('panel.block-words.import') }}" enctype="multipart/form-data">
                     @csrf
-                    <input type="file" name="file" id="importBlockInput" style="display:none">
+                    <input type="file" name="file" accept=".xlsx,.odt,.csv" id="importBlockInput" style="display:none">
                     <button class="btn btn-outline-info rounded-0 rounded-start" id="importBlockWords" type="button">{{ __('FsLang::panel.button_batch_import') }}</button>
                 </form>
                 <form method="post" action="{{ route('panel.block-words.export') }}">
