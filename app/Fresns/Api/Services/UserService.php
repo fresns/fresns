@@ -36,9 +36,9 @@ class UserService
         }
 
         $cacheKey = "fresns_api_user_{$user->uid}_{$langTag}";
-        $cacheTags = ['fresnsUsers', 'fresnsUserData'];
+        $cacheTag = 'fresnsUsers';
 
-        $userData = CacheHelper::get($cacheKey, $cacheTags);
+        $userData = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($userData)) {
             $userProfile = $user->getUserProfile();
@@ -82,7 +82,7 @@ class UserService
             $userData = array_merge($userProfile, $userMainRole, $item);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($userData, $cacheKey, $cacheTags, null, $cacheTime);
+            CacheHelper::put($userData, $cacheKey, $cacheTag, null, $cacheTime);
         }
 
         $userData['stats'] = UserService::getUserStats($user, $type, $langTag, $authUserId);
@@ -136,13 +136,13 @@ class UserService
     {
         if ($type == 'list') {
             $cacheKey = "fresns_api_user_stats_{$user->uid}";
-            $cacheTags = ['fresnsUsers', 'fresnsUserData'];
+            $cacheTag = 'fresnsUsers';
 
-            $stats = CacheHelper::get($cacheKey, $cacheTags);
+            $stats = CacheHelper::get($cacheKey, $cacheTag);
             if (empty($stats)) {
                 $stats = $user->getUserStats($langTag);
 
-                CacheHelper::put($stats, $cacheKey, $cacheTags, 10, now()->addMinutes(10));
+                CacheHelper::put($stats, $cacheKey, $cacheTag, 10, now()->addMinutes(10));
             }
         } else {
             $stats = $user->getUserStats($langTag);

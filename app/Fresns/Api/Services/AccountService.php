@@ -26,9 +26,9 @@ class AccountService
         }
 
         $cacheKey = "fresns_api_account_{$account->aid}_{$langTag}";
-        $cacheTags = ['fresnsAccounts', 'fresnsAccountData'];
+        $cacheTag = 'fresnsAccounts';
 
-        $accountInfo = CacheHelper::get($cacheKey, $cacheTags);
+        $accountInfo = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($accountInfo)) {
             $accountData = $account->getAccountInfo();
@@ -48,7 +48,7 @@ class AccountService
             $accountInfo = array_merge($accountData, $item);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
-            CacheHelper::put($accountInfo, $cacheKey, $cacheTags, null, $cacheTime);
+            CacheHelper::put($accountInfo, $cacheKey, $cacheTag, null, $cacheTime);
         }
 
         return self::handleAccountDate($accountInfo, $timezone, $langTag);

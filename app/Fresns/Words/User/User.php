@@ -267,7 +267,7 @@ class User
         $uidToken = $dtoWordBody->uidToken;
 
         $cacheKey = "fresns_token_user_{$userId}_{$uidToken}";
-        $cacheTags = ['fresnsUsers', 'fresnsUserTokens'];
+        $cacheTag = 'fresnsUsers';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -278,7 +278,7 @@ class User
             );
         }
 
-        $userToken = CacheHelper::get($cacheKey, $cacheTags);
+        $userToken = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($userToken)) {
             $userToken = SessionToken::where('account_id', $accountId)
@@ -293,7 +293,7 @@ class User
                 );
             }
 
-            CacheHelper::put($userToken, $cacheKey, $cacheTags);
+            CacheHelper::put($userToken, $cacheKey, $cacheTag);
         }
 
         if ($userToken->platform_id != $dtoWordBody->platformId) {

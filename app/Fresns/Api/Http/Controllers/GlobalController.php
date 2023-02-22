@@ -140,7 +140,7 @@ class GlobalController extends Controller
         };
 
         $cacheKey = "fresns_api_archives_{$dtoRequest->type}_{$unikey}_{$langTag}";
-        $cacheTags = ['fresnsApiData', 'fresnsArchives'];
+        $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -148,7 +148,7 @@ class GlobalController extends Controller
             return $this->success([]);
         }
 
-        $archives = CacheHelper::get($cacheKey, $cacheTags);
+        $archives = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($archives)) {
             $archiveData = Archive::type($usageType)
@@ -200,7 +200,7 @@ class GlobalController extends Controller
 
             $archives = $items;
 
-            CacheHelper::put($archives, $cacheKey, $cacheTags);
+            CacheHelper::put($archives, $cacheKey, $cacheTag);
         }
 
         return $this->success($archives);
@@ -316,7 +316,7 @@ class GlobalController extends Controller
         $langTag = $this->langTag();
 
         $cacheKey = "fresns_api_sticker_tree_{$langTag}";
-        $cacheTags = ['fresnsApiData', 'fresnsConfigs'];
+        $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -324,7 +324,7 @@ class GlobalController extends Controller
             return $this->success([]);
         }
 
-        $stickerTree = CacheHelper::get($cacheKey, $cacheTags);
+        $stickerTree = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($stickerTree)) {
             $stickers = Sticker::isEnable()->orderBy('rating')->get();
@@ -341,7 +341,7 @@ class GlobalController extends Controller
             $stickerTree = CollectionUtility::toTree($stickerData, 'code', 'parentCode', 'stickers');
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($stickerTree, $cacheKey, $cacheTags, null, $cacheTime);
+            CacheHelper::put($stickerTree, $cacheKey, $cacheTag, null, $cacheTime);
         }
 
         return $this->success($stickerTree);

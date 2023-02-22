@@ -20,22 +20,22 @@ class LanguageHelper
 
         $cacheKey = "fresns_{$tableName}_{$tableColumn}_{$tableId}_{$langTag}";
         $cacheTags = match ($tableName) {
-            'configs' => ['fresnsLanguages', 'fresnsConfigLanguages'],
-            'users' => ['fresnsLanguages', 'fresnsUsers', 'fresnsUserData'],
-            'groups' => ['fresnsLanguages', 'fresnsGroups', 'fresnsGroupData'],
-            'hashtags' => ['fresnsLanguages', 'fresnsHashtags', 'fresnsHashtagData'],
-            'posts' => ['fresnsLanguages', 'fresnsPosts', 'fresnsPostData'],
-            'post_appends' => ['fresnsLanguages', 'fresnsPosts', 'fresnsPostData'],
-            'comments' => ['fresnsLanguages', 'fresnsComments', 'fresnsCommentData'],
-            'comment_appends' => ['fresnsLanguages', 'fresnsComments', 'fresnsCommentData'],
-            'plugin_usages' => ['fresnsLanguages', 'fresnsPluginUsageLanguages'],
-            'extends' => ['fresnsLanguages', 'fresnsExtends'],
-            'archives' => ['fresnsLanguages', 'fresnsArchives'],
-            'operations' => ['fresnsLanguages', 'fresnsOperations'],
-            'roles' => ['fresnsLanguages', 'fresnsRoleLanguages'],
-            'stickers' => ['fresnsLanguages', 'fresnsStickerLanguages'],
-            'notifications' => ['fresnsLanguages', 'fresnsNotificationLanguages'],
-            default => 'fresnsUnknownLanguages',
+            'configs' => ['fresnsLanguages', 'fresnsConfigs'],
+            'users' => ['fresnsLanguages', 'fresnsUsers'],
+            'groups' => ['fresnsLanguages', 'fresnsGroups'],
+            'hashtags' => ['fresnsLanguages', 'fresnsHashtags'],
+            'posts' => ['fresnsLanguages', 'fresnsPosts'],
+            'post_appends' => ['fresnsLanguages', 'fresnsPosts'],
+            'comments' => ['fresnsLanguages', 'fresnsComments'],
+            'comment_appends' => ['fresnsLanguages', 'fresnsComments'],
+            'plugin_usages' => ['fresnsLanguages', 'fresnsExtensions'],
+            'extends' => ['fresnsLanguages', 'fresnsExtensions'],
+            'archives' => ['fresnsLanguages', 'fresnsExtensions'],
+            'operations' => ['fresnsLanguages', 'fresnsExtensions'],
+            'roles' => ['fresnsLanguages', 'fresnsConfigs'],
+            'stickers' => ['fresnsLanguages', 'fresnsConfigs'],
+            'notifications' => ['fresnsLanguages', 'fresnsUsers'],
+            default => 'fresnsLanguages',
         };
 
         // is known to be empty
@@ -119,11 +119,11 @@ class LanguageHelper
     {
         $cacheKey = "fresns_seo_{$type}_{$id}";
         $cacheTags = match ($type) {
-            'user' => ['fresnsUsers', 'fresnsUserData'],
-            'group' => ['fresnsGroups', 'fresnsGroupData'],
-            'hashtag' => ['fresnsHashtags', 'fresnsHashtagData'],
-            'post' => ['fresnsPosts', 'fresnsPostData'],
-            'comment' => ['fresnsComments', 'fresnsCommentData'],
+            'user' => ['fresnsSeo', 'fresnsUsers'],
+            'group' => ['fresnsSeo', 'fresnsGroups'],
+            'hashtag' => ['fresnsSeo', 'fresnsHashtags'],
+            'post' => ['fresnsSeo', 'fresnsPosts'],
+            'comment' => ['fresnsSeo', 'fresnsComments'],
         };
 
         // is known to be empty

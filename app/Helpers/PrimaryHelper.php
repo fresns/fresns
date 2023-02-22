@@ -39,12 +39,12 @@ class PrimaryHelper
 
         $cacheTags = match ($modelName) {
             'key' => ['fresnsModels', 'fresnsSystems'],
-            'account' => ['fresnsModels', 'fresnsAccounts', 'fresnsAccountModels'],
-            'user' => ['fresnsModels', 'fresnsUsers', 'fresnsUserModels'],
-            'group' => ['fresnsModels', 'fresnsGroups', 'fresnsGroupModels'],
-            'hashtag' => ['fresnsModels', 'fresnsHashtags', 'fresnsHashtagModels'],
-            'post' => ['fresnsModels', 'fresnsPosts', 'fresnsPostModels'],
-            'comment' => ['fresnsModels', 'fresnsComments', 'fresnsCommentModels'],
+            'account' => ['fresnsModels', 'fresnsAccounts'],
+            'user' => ['fresnsModels', 'fresnsUsers'],
+            'group' => ['fresnsModels', 'fresnsGroups'],
+            'hashtag' => ['fresnsModels', 'fresnsHashtags'],
+            'post' => ['fresnsModels', 'fresnsPosts'],
+            'comment' => ['fresnsModels', 'fresnsComments'],
             'file' => ['fresnsModels', 'fresnsFiles'],
             'extend' => ['fresnsModels', 'fresnsExtends'],
             'archive' => ['fresnsModels', 'fresnsArchives'],
@@ -136,16 +136,16 @@ class PrimaryHelper
 
         $cacheKey = "fresns_model_{$modelName}_{$id}";
         $cacheTags = match ($modelName) {
-            'account' => ['fresnsModels', 'fresnsAccounts', 'fresnsAccountModels'],
-            'user' => ['fresnsModels', 'fresnsUsers', 'fresnsUserModels'],
-            'group' => ['fresnsModels', 'fresnsGroups', 'fresnsGroupModels'],
-            'hashtag' => ['fresnsModels', 'fresnsHashtags', 'fresnsHashtagModels'],
-            'post' => ['fresnsModels', 'fresnsPosts', 'fresnsPostModels'],
-            'comment' => ['fresnsModels', 'fresnsComments', 'fresnsCommentModels'],
+            'account' => ['fresnsModels', 'fresnsAccounts'],
+            'user' => ['fresnsModels', 'fresnsUsers'],
+            'group' => ['fresnsModels', 'fresnsGroups'],
+            'hashtag' => ['fresnsModels', 'fresnsHashtags'],
+            'post' => ['fresnsModels', 'fresnsPosts'],
+            'comment' => ['fresnsModels', 'fresnsComments'],
             'file' => ['fresnsModels', 'fresnsFiles'],
             'extend' => ['fresnsModels', 'fresnsExtends'],
-            'operation' => ['fresnsModels', 'fresnsOperations'],
             'archive' => ['fresnsModels', 'fresnsArchives'],
+            'operation' => ['fresnsModels', 'fresnsOperations'],
             'conversation' => ['fresnsModels', 'fresnsConversations'],
             default => 'fresnsModels',
         };
@@ -231,7 +231,7 @@ class PrimaryHelper
     public static function fresnsModelConversation(int $authUserId, int $conversationUserId): Conversation
     {
         $cacheKey = "fresns_model_conversation_{$authUserId}_{$conversationUserId}";
-        $cacheTags = ['fresnsUsers', 'fresnsUserConversations'];
+        $cacheTags = ['fresnsModels', 'fresnsUsers'];
 
         $conversationModel = CacheHelper::get($cacheKey, $cacheTags);
 
@@ -297,13 +297,13 @@ class PrimaryHelper
             return null;
         }
 
-        $cacheKey = "fresns_follow_{$type}_model_{$id}_by_{$authUserId}";
+        $cacheKey = "fresns_model_follow_{$type}_{$id}_by_{$authUserId}";
         $cacheTags = match ($type) {
-            'user' => ['fresnsUsers', 'fresnsUserInteractions', 'fresnsFollowData'],
-            'group' => ['fresnsGroups', 'fresnsGroupData', 'fresnsUsers', 'fresnsUserInteractions', 'fresnsFollowData'],
-            'hashtag' => ['fresnsHashtags', 'fresnsHashtagData', 'fresnsUsers', 'fresnsUserInteractions', 'fresnsFollowData'],
-            'post' => ['fresnsPosts', 'fresnsPostData', 'fresnsUsers', 'fresnsUserInteractions', 'fresnsFollowData'],
-            'comment' => ['fresnsComments', 'fresnsCommentData', 'fresnsUsers', 'fresnsUserInteractions', 'fresnsFollowData'],
+            'user' => ['fresnsModels', 'fresnsUsers'],
+            'group' => ['fresnsModels', 'fresnsGroups'],
+            'hashtag' => ['fresnsModels', 'fresnsHashtags'],
+            'post' => ['fresnsModels', 'fresnsPosts'],
+            'comment' => ['fresnsModels', 'fresnsComments'],
         };
 
         // is known to be empty

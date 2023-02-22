@@ -269,7 +269,7 @@ class Account
         $aidToken = $dtoWordBody->aidToken;
 
         $cacheKey = "fresns_token_account_{$accountId}_{$aidToken}";
-        $cacheTags = ['fresnsAccounts', 'fresnsAccountTokens'];
+        $cacheTag = 'fresnsAccounts';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -280,7 +280,7 @@ class Account
             );
         }
 
-        $accountToken = CacheHelper::get($cacheKey, $cacheTags);
+        $accountToken = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($accountToken)) {
             $accountToken = SessionToken::where('account_id', $accountId)
@@ -295,7 +295,7 @@ class Account
                 );
             }
 
-            CacheHelper::put($accountToken, $cacheKey, $cacheTags);
+            CacheHelper::put($accountToken, $cacheKey, $cacheTag);
         }
 
         if ($accountToken->platform_id != $dtoWordBody->platformId) {

@@ -30,9 +30,9 @@ class HashtagService
         }
 
         $cacheKey = "fresns_api_hashtag_{$hashtag->slug}_{$langTag}";
-        $cacheTags = ['fresnsHashtags', 'fresnsHashtagData'];
+        $cacheTag = 'fresnsHashtags';
 
-        $data = CacheHelper::get($cacheKey, $cacheTags);
+        $data = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($data)) {
             $hashtagInfo = $hashtag->getHashtagInfo($langTag);
@@ -44,7 +44,7 @@ class HashtagService
             $data = array_merge($hashtagInfo, $item);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($data, $cacheKey, $cacheTags, null, $cacheTime);
+            CacheHelper::put($data, $cacheKey, $cacheTag, null, $cacheTime);
         }
 
         $interactionConfig = InteractionHelper::fresnsHashtagInteraction($langTag);

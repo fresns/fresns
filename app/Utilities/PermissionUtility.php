@@ -34,9 +34,9 @@ class PermissionUtility
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
         $cacheKey = "fresns_user_{$userId}_main_role_{$langTag}";
-        $cacheTags = ['fresnsUsers', 'fresnsUserRoles'];
+        $cacheTag = 'fresnsUsers';
 
-        $mainRoleConfig = CacheHelper::get($cacheKey, $cacheTags);
+        $mainRoleConfig = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($mainRoleConfig)) {
             $defaultRoleId = ConfigHelper::fresnsConfigByItemKey('default_role');
@@ -60,7 +60,7 @@ class PermissionUtility
                 'expiryDateTime' => $expiryDateTime,
             ];
 
-            CacheHelper::put($mainRoleConfig, $cacheKey, $cacheTags);
+            CacheHelper::put($mainRoleConfig, $cacheKey, $cacheTag);
         }
 
         $mainRole = InteractionHelper::fresnsRoleInfo($mainRoleConfig['rid'], $langTag);
@@ -80,9 +80,9 @@ class PermissionUtility
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
         $cacheKey = "fresns_user_{$userId}_roles_{$langTag}";
-        $cacheTags = ['fresnsUsers', 'fresnsUserRoles'];
+        $cacheTag = 'fresnsUsers';
 
-        $roleAllConfig = CacheHelper::get($cacheKey, $cacheTags);
+        $roleAllConfig = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($roleAllConfig)) {
             $roleArr1 = UserRole::where('user_id', $userId)->where('is_main', 0)->where('expired_at', '<', now());
@@ -100,7 +100,7 @@ class PermissionUtility
 
             $roleAllConfig = $roleList;
 
-            CacheHelper::put($roleAllConfig, $cacheKey, $cacheTags);
+            CacheHelper::put($roleAllConfig, $cacheKey, $cacheTag);
         }
 
         $roleListArr = [];
@@ -127,8 +127,10 @@ class PermissionUtility
     public static function getGroupFilterIds(?int $userId = null): array
     {
         $guestCacheKey = 'fresns_filter_groups_by_guest';
+        $cacheTag = 'fresnsGroups';
+
         $userCacheKey = "fresns_filter_groups_by_user_{$userId}";
-        $cacheTags = ['fresnsGroups', 'fresnsGroupConfigs', 'fresnsUsers', 'fresnsUserInteractions'];
+        $cacheTags = ['fresnsGroups', 'fresnsUsers'];
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($guestCacheKey);
@@ -136,12 +138,12 @@ class PermissionUtility
             $hiddenGroupIds = [];
         } else {
             // get cache
-            $hiddenGroupIds = CacheHelper::get($guestCacheKey, $cacheTags);
+            $hiddenGroupIds = CacheHelper::get($guestCacheKey, $cacheTag);
 
             if (empty($hiddenGroupIds)) {
                 $hiddenGroupIds = Group::where('type_find', Group::FIND_HIDDEN)->pluck('id')->toArray();
 
-                CacheHelper::put($hiddenGroupIds, $guestCacheKey, $cacheTags);
+                CacheHelper::put($hiddenGroupIds, $guestCacheKey, $cacheTag);
             }
         }
 
@@ -370,11 +372,11 @@ class PermissionUtility
             return false;
         }
 
-        $cacheKey = "fresns_api_post_{$pid}_allow_{$uid}";
-        $cacheTags = ['fresnsPosts', 'fresnsPostData', 'fresnsUsers', 'fresnsUserData'];
+        $cacheKey = "fresns_user_post_allow_{$pid}_{$uid}";
+        $cacheTag = 'fresnsUsers';
 
         // get cache
-        $checkPostAllow = CacheHelper::get($cacheKey, $cacheTags);
+        $checkPostAllow = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($checkPostAllow)) {
             $allowUsers = PostAllow::where('post_id', $postId)->where('type', 1)->pluck('object_id')->toArray();
@@ -388,7 +390,7 @@ class PermissionUtility
                 $checkPostAllow = PermissionUtility::checkUserRolePerm($userId, $allowRoles);
             }
 
-            CacheHelper::put($checkPostAllow, $cacheKey, $cacheTags);
+            CacheHelper::put($checkPostAllow, $cacheKey, $cacheTag);
         }
 
         return $checkPostAllow;

@@ -101,7 +101,7 @@ class ConfigUtility
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
         $cacheKey = "fresns_code_messages_{$unikey}_{$langTag}";
-        $cacheTag = 'fresnsCodeMessages';
+        $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -312,9 +312,9 @@ class ConfigUtility
     public static function getPublishConfigByType(int $userId, string $type, ?string $langTag = null, ?string $timezone = null): array
     {
         $cacheKey = "fresns_publish_{$type}_config_{$userId}_{$langTag}";
-        $cacheTags = ['fresnsUsers', 'fresnsUserConfigs'];
+        $cacheTag = 'fresnsUsers';
 
-        $publishConfig = CacheHelper::get($cacheKey, $cacheTags);
+        $publishConfig = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($publishConfig)) {
             $rolePerm = PermissionUtility::getUserMainRole($userId)['permissions'];
@@ -417,7 +417,7 @@ class ConfigUtility
             $publishConfig = $publish;
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
-            CacheHelper::put($publishConfig, $cacheKey, $cacheTags, null, $cacheTime);
+            CacheHelper::put($publishConfig, $cacheKey, $cacheTag, null, $cacheTime);
         }
 
         $publishConfig['limit']['periodStartFormat'] = DateHelper::fresnsDateTimeByTimezone($publishConfig['limit']['periodStartFormat'], $timezone, $langTag);

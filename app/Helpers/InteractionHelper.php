@@ -40,7 +40,7 @@ class InteractionHelper
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
         $cacheKey = "fresns_role_{$roleId}_{$langTag}";
-        $cacheTag = 'fresnsRoles';
+        $cacheTag = 'fresnsConfigs';
 
         $roleData = CacheHelper::get($cacheKey, $cacheTag);
 
@@ -312,7 +312,7 @@ class InteractionHelper
     public static function fresnsGroupCount(): int
     {
         $cacheKey = 'fresns_group_count';
-        $cacheTags = ['fresnsGroups', 'fresnsGroupConfigs'];
+        $cacheTag = 'fresnsGroups';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -320,12 +320,12 @@ class InteractionHelper
             return 0;
         }
 
-        $groupCount = CacheHelper::get($cacheKey, $cacheTags);
+        $groupCount = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($groupCount)) {
             $groupCount = Group::count();
 
-            CacheHelper::put($groupCount, $cacheKey, $cacheTags);
+            CacheHelper::put($groupCount, $cacheKey, $cacheTag);
         }
 
         return $groupCount;

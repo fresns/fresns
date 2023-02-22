@@ -42,9 +42,9 @@ class PostService
         }
 
         $cacheKey = "fresns_api_post_{$post->pid}_{$langTag}";
-        $cacheTags = ['fresnsPosts', 'fresnsPostData'];
+        $cacheTag = 'fresnsPosts';
 
-        $postData = CacheHelper::get($cacheKey, $cacheTags);
+        $postData = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($postData)) {
             $postInfo = $post->getPostInfo($langTag);
@@ -100,7 +100,7 @@ class PostService
             $postData = array_merge($postInfo, $item);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
-            CacheHelper::put($postData, $cacheKey, $cacheTags, null, $cacheTime);
+            CacheHelper::put($postData, $cacheKey, $cacheTag, null, $cacheTime);
         }
 
         $contentHandle = self::handlePostContent($post, $postData, $type, $authUserId);
@@ -228,9 +228,9 @@ class PostService
     public static function handlePostContent(Post $post, array $postData, string $type, ?int $authUserId = null)
     {
         $cacheKey = "fresns_api_post_{$postData['pid']}_{$type}_content";
-        $cacheTags = ['fresnsPosts', 'fresnsPostData'];
+        $cacheTag = 'fresnsPosts';
 
-        $contentData = CacheHelper::get($cacheKey, $cacheTags);
+        $contentData = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($contentData)) {
             $isBrief = false;
@@ -270,7 +270,7 @@ class PostService
             ];
 
             $cacheTime = $fidArr ? CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL) : null;
-            CacheHelper::put($contentData, $cacheKey, $cacheTags, null, $cacheTime);
+            CacheHelper::put($contentData, $cacheKey, $cacheTag, null, $cacheTime);
         }
 
         $contentFormat = \request()->header('X-Fresns-Client-Content-Format');
@@ -356,7 +356,7 @@ class PostService
     public static function getPreviewLikeUsers(Post $post, int $limit, string $langTag)
     {
         $cacheKey = "fresns_api_post_{$post->id}_preview_like_users_{$langTag}";
-        $cacheTags = ['fresnsPosts', 'fresnsPostData', 'fresnsUsers', 'fresnsUserData'];
+        $cacheTags = ['fresnsPosts', 'fresnsUsers'];
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -400,7 +400,7 @@ class PostService
     public static function getPreviewComments(Post $post, int $limit, string $langTag)
     {
         $cacheKey = "fresns_api_post_{$post->id}_preview_comments_{$langTag}";
-        $cacheTags = ['fresnsPosts', 'fresnsPostData', 'fresnsComments', 'fresnsCommentData'];
+        $cacheTags = ['fresnsPosts', 'fresnsComments'];
 
         $previewConfig = ConfigHelper::fresnsConfigByItemKeys([
             'preview_post_comment_sort',

@@ -33,10 +33,10 @@ class GroupService
         }
 
         $cacheKey = "fresns_api_group_{$group->gid}_{$langTag}";
-        $cacheTags = ['fresnsGroups', 'fresnsGroupData'];
+        $cacheTag = 'fresnsGroups';
 
         // get cache
-        $groupInfo = CacheHelper::get($cacheKey, $cacheTags);
+        $groupInfo = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($groupInfo)) {
             $groupInfo = $group->getGroupInfo($langTag);
@@ -61,7 +61,7 @@ class GroupService
             $groupInfo = array_merge($groupInfo, $item);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
-            CacheHelper::put($groupInfo, $cacheKey, $cacheTags, null, $cacheTime);
+            CacheHelper::put($groupInfo, $cacheKey, $cacheTag, null, $cacheTime);
         }
 
         $item['publishRule'] = PermissionUtility::checkUserGroupPublishPerm($group->id, $group->permissions, $authUserId);

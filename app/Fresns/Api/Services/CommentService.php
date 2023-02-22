@@ -42,9 +42,9 @@ class CommentService
         }
 
         $cacheKey = "fresns_api_comment_{$comment->cid}_{$langTag}";
-        $cacheTags = ['fresnsComments', 'fresnsCommentData'];
+        $cacheTag = 'fresnsComments';
 
-        $commentData = CacheHelper::get($cacheKey, $cacheTags);
+        $commentData = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($commentData)) {
             $commentAppend = $comment->commentAppend;
@@ -134,7 +134,7 @@ class CommentService
             $commentData = array_merge($commentInfo, $item);
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
-            CacheHelper::put($commentData, $cacheKey, $cacheTags, null, $cacheTime);
+            CacheHelper::put($commentData, $cacheKey, $cacheTag, null, $cacheTime);
         }
 
         $contentHandle = self::handleCommentContent($comment, $commentData, $type, $authUserId);
@@ -248,9 +248,9 @@ class CommentService
     public static function handleCommentContent(Comment $comment, array $commentData, string $type, ?int $authUserId = null)
     {
         $cacheKey = "fresns_api_comment_{$commentData['cid']}_{$type}_content";
-        $cacheTags = ['fresnsComments', 'fresnsCommentData'];
+        $cacheTag = 'fresnsComments';
 
-        $contentData = CacheHelper::get($cacheKey, $cacheTags);
+        $contentData = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($contentData)) {
             $isBrief = false;
@@ -289,7 +289,7 @@ class CommentService
             ];
 
             $cacheTime = $fidArr ? CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL) : null;
-            CacheHelper::put($contentData, $cacheKey, $cacheTags, null, $cacheTime);
+            CacheHelper::put($contentData, $cacheKey, $cacheTag, null, $cacheTime);
         }
 
         $authUid = PrimaryHelper::fresnsModelById('user', $authUserId)?->uid;
@@ -357,7 +357,7 @@ class CommentService
     public static function getSubComments(int $commentId, int $limit, string $langTag)
     {
         $cacheKey = "fresns_api_comment_{$commentId}_sub_comments_{$langTag}";
-        $cacheTags = ['fresnsComments', 'fresnsCommentData'];
+        $cacheTag = 'fresnsComments';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -366,7 +366,7 @@ class CommentService
         }
 
         // get cache
-        $commentList = CacheHelper::get($cacheKey, $cacheTags);
+        $commentList = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($commentList)) {
             $previewSortConfig = ConfigHelper::fresnsConfigByItemKey('preview_sub_comment_sort');
@@ -395,7 +395,7 @@ class CommentService
                 $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, false);
             }
 
-            CacheHelper::put($commentList, $cacheKey, $cacheTags, 10, now()->addMinutes(10));
+            CacheHelper::put($commentList, $cacheKey, $cacheTag, 10, now()->addMinutes(10));
         }
 
         return $commentList;

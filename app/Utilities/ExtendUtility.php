@@ -57,15 +57,15 @@ class ExtendUtility
     public static function getExtendCacheTags(int $type): array
     {
         $cacheTags = match ($type) {
-            PluginUsage::TYPE_WALLET_RECHARGE => ['fresnsExtensions', 'fresnsWallets'],
-            PluginUsage::TYPE_WALLET_WITHDRAW => ['fresnsExtensions', 'fresnsWallets'],
-            PluginUsage::TYPE_EDITOR => ['fresnsExtensions', 'fresnsEditor'],
-            PluginUsage::TYPE_CONTENT => ['fresnsExtensions', 'fresnsContentTypes'],
-            PluginUsage::TYPE_MANAGE => ['fresnsExtensions', 'fresnsManages'],
-            PluginUsage::TYPE_GROUP => ['fresnsExtensions', 'fresnsGroupConfigs', 'fresnsGroupExtensions'],
-            PluginUsage::TYPE_FEATURE => ['fresnsExtensions', 'fresnsFeatures'],
-            PluginUsage::TYPE_PROFILE => ['fresnsExtensions', 'fresnsProfiles'],
-            PluginUsage::TYPE_MAP => ['fresnsExtensions', 'fresnsMaps'],
+            PluginUsage::TYPE_WALLET_RECHARGE => ['fresnsExtensions'],
+            PluginUsage::TYPE_WALLET_WITHDRAW => ['fresnsExtensions'],
+            PluginUsage::TYPE_EDITOR => ['fresnsExtensions'],
+            PluginUsage::TYPE_CONTENT => ['fresnsExtensions', 'fresnsConfigs'],
+            PluginUsage::TYPE_MANAGE => ['fresnsExtensions'],
+            PluginUsage::TYPE_GROUP => ['fresnsExtensions', 'fresnsGroups'],
+            PluginUsage::TYPE_FEATURE => ['fresnsExtensions'],
+            PluginUsage::TYPE_PROFILE => ['fresnsExtensions'],
+            PluginUsage::TYPE_MAP => ['fresnsExtensions'],
         };
 
         return $cacheTags;
@@ -82,7 +82,7 @@ class ExtendUtility
         }
 
         $cacheKey = "fresns_plugin_{$unikey}_badge_{$userId}";
-        $cacheTags = ['fresnsUsers', 'fresnsUserConfigs'];
+        $cacheTag = 'fresnsUsers';
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -90,7 +90,7 @@ class ExtendUtility
             return $badge;
         }
 
-        $badge = CacheHelper::get($cacheKey, $cacheTags);
+        $badge = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($badge)) {
             $badgeModel = PluginBadge::where('plugin_unikey', $unikey)->where('user_id', $userId)->first();
@@ -101,7 +101,7 @@ class ExtendUtility
                 default => null,
             };
 
-            CacheHelper::put($badge, $cacheKey, $cacheTags);
+            CacheHelper::put($badge, $cacheKey, $cacheTag);
         }
 
         return $badge;

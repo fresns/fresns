@@ -16,7 +16,7 @@ class PluginHelper
     public static function fresnsPluginHostByUnikey(string $unikey): ?string
     {
         $cacheKey = "fresns_plugin_host_{$unikey}";
-        $cacheTags = ['fresnsExtensions', 'fresnsExtensionConfigs'];
+        $cacheTags = ['fresnsExtensions', 'fresnsConfigs'];
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -43,7 +43,7 @@ class PluginHelper
         }
 
         $cacheKey = "fresns_plugin_url_{$unikey}";
-        $cacheTags = ['fresnsExtensions', 'fresnsExtensionConfigs'];
+        $cacheTags = ['fresnsExtensions', 'fresnsConfigs'];
 
         // is known to be empty
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
@@ -87,7 +87,7 @@ class PluginHelper
     public static function fresnsPluginVersionByUnikey(string $unikey): ?string
     {
         $cacheKey = "fresns_plugin_version_{$unikey}";
-        $cacheTags = ['fresnsExtensions', 'fresnsExtensionConfigs'];
+        $cacheTags = ['fresnsExtensions', 'fresnsConfigs'];
 
         $version = CacheHelper::get($cacheKey, $cacheTags);
 
