@@ -65,10 +65,6 @@
                         <input class="form-check-input" type="checkbox" value="1" id="fresnsSchedule" name="fresnsSchedule">
                         <label class="form-check-label" for="fresnsSchedule">{{ __('FsLang::panel.cache_fresns_schedule') }}</label>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="1" id="frameworkConfig" name="frameworkConfig">
-                        <label class="form-check-label" for="frameworkConfig">{{ __('FsLang::panel.cache_framework_config') }}</label>
-                    </div>
 
                     <button type="submit" class="btn btn-success mt-4">{{ __('FsLang::panel.button_clear_cache') }}</button>
                 </div>
@@ -97,31 +93,6 @@
                     <div class="input-group mb-3">
                         <span class="input-group-text">FsID</span>
                         <input type="text" class="form-control" id="cacheFsid" name="cacheFsid" required placeholder="FsID">
-                    </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">{{ __('FsLang::panel.cache') }}</span>
-                        <div class="form-control">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="fresnsModel" name="fresnsModel" checked>
-                                <label class="form-check-label" for="fresnsModel">{{ __('FsLang::panel.cache_fresns_model') }}</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="fresnsInteraction" name="fresnsInteraction" checked>
-                                <label class="form-check-label" for="fresnsInteraction">{{ __('FsLang::panel.cache_fresns_interaction') }}</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="fresnsApiData" name="fresnsApiData" checked>
-                                <label class="form-check-label" for="fresnsApiData">{{ __('FsLang::panel.cache_fresns_api_data') }}</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="fresnsSeo" name="fresnsSeo">
-                                <label class="form-check-label" for="fresnsSeo">{{ __('FsLang::panel.cache_fresns_seo') }}</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="fresnsExtension" name="fresnsExtension">
-                                <label class="form-check-label" for="fresnsExtension">{{ __('FsLang::panel.cache_fresns_extension') }}</label>
-                            </div>
-                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-success mt-4">{{ __('FsLang::panel.button_clear_cache') }}</button>

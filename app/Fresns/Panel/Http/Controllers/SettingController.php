@@ -10,6 +10,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Fresns\Panel\Http\Requests\UpdateConfigRequest;
 use App\Helpers\CacheHelper;
+use App\Helpers\PrimaryHelper;
 use App\Models\Config;
 use App\Models\Plugin;
 use Illuminate\Http\Request;
@@ -122,37 +123,18 @@ class SettingController extends Controller
                 if ($request->fresnsSchedule) {
                     CacheHelper::clearConfigCache('fresnsSchedule');
                 }
-
-                if ($request->frameworkConfig) {
-                    CacheHelper::clearConfigCache('frameworkConfig');
-                }
             break;
 
             case 'data':
-                if ($request->cacheType == 'file') {
-                    CacheHelper::forgetFresnsFileUsage($request->cacheFsid);
+                CacheHelper::clearDataCache($request->cacheType, $request->cacheFsid);
 
-                    return $this->requestSuccess();
-                }
+                if ($request->cacheType == 'user') {
+                    $account = PrimaryHelper::fresnsModelByFsid('account', $request->cacheFsid);
+                    $user = PrimaryHelper::fresnsModelByFsid('user', $request->cacheFsid);
 
-                if ($request->fresnsModel) {
-                    CacheHelper::clearDataCache($request->cacheType, $request->cacheFsid, 'fresnsModel');
-                }
-
-                if ($request->fresnsInteraction) {
-                    CacheHelper::clearDataCache($request->cacheType, $request->cacheFsid, 'fresnsInteraction');
-                }
-
-                if ($request->fresnsApiData) {
-                    CacheHelper::clearDataCache($request->cacheType, $request->cacheFsid, 'fresnsApiData');
-                }
-
-                if ($request->fresnsSeo) {
-                    CacheHelper::clearDataCache($request->cacheType, $request->cacheFsid, 'fresnsSeo');
-                }
-
-                if ($request->fresnsExtension) {
-                    CacheHelper::clearDataCache($request->cacheType, $request->cacheFsid, 'fresnsExtension');
+                    CacheHelper::forgetFresnsMultilingual("fresns_web_account_{$account?->aid}", 'fresnsWeb');
+                    CacheHelper::forgetFresnsMultilingual("fresns_web_user_{$user?->uid}", 'fresnsWeb');
+                    CacheHelper::forgetFresnsMultilingual("fresns_web_user_panel_{$user?->uid}", 'fresnsWeb');
                 }
             break;
 
