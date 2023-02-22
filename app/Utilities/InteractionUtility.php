@@ -145,7 +145,7 @@ class InteractionUtility
     }
 
     // mark interaction
-    public static function markUserLike(int $userId, int $likeType, int $likeId)
+    public static function markUserLike(int $userId, int $likeType, int $likeId): void
     {
         $userLike = UserLike::withTrashed()
             ->where('user_id', $userId)
@@ -202,7 +202,7 @@ class InteractionUtility
         }
     }
 
-    public static function markUserDislike(int $userId, int $dislikeType, int $dislikeId)
+    public static function markUserDislike(int $userId, int $dislikeType, int $dislikeId): void
     {
         $userDislike = UserLike::withTrashed()
             ->where('user_id', $userId)
@@ -259,7 +259,7 @@ class InteractionUtility
         }
     }
 
-    public static function markUserFollow(int $userId, int $followType, int $followId)
+    public static function markUserFollow(int $userId, int $followType, int $followId): void
     {
         $userFollow = UserFollow::withTrashed()
             ->where('user_id', $userId)
@@ -314,7 +314,7 @@ class InteractionUtility
         }
     }
 
-    public static function markUserBlock(int $userId, int $blockType, int $blockId)
+    public static function markUserBlock(int $userId, int $blockType, int $blockId): void
     {
         $userBlock = UserBlock::withTrashed()
             ->where('user_id', $userId)
@@ -356,7 +356,7 @@ class InteractionUtility
     }
 
     // mark content sticky
-    public static function markContentSticky(string $type, int $id, int $stickyState)
+    public static function markContentSticky(string $type, int $id, int $stickyState): void
     {
         switch ($type) {
             // post
@@ -396,7 +396,7 @@ class InteractionUtility
     }
 
     // mark content digest
-    public static function markContentDigest(string $type, int $id, int $digestState)
+    public static function markContentDigest(string $type, int $id, int $digestState): void
     {
         $digestStatus = match ($digestState) {
             default => null,
@@ -464,7 +464,7 @@ class InteractionUtility
      * @param int markId The id of the user, group, hashtag, post, or comment that is being marked.
      * @param string actionType increment or decrement
      */
-    public static function markStats(int $userId, string $interactionType, int $markType, int $markId, string $actionType)
+    public static function markStats(int $userId, string $interactionType, int $markType, int $markId, string $actionType): void
     {
         if (! in_array($actionType, ['increment', 'decrement'])) {
             return;
@@ -638,7 +638,7 @@ class InteractionUtility
      * @param int id The id of the post or comment
      * @param string actionType increment or decrement
      */
-    public static function publishStats(string $type, int $id, string $actionType)
+    public static function publishStats(string $type, int $id, string $actionType): void
     {
         if (! in_array($actionType, ['increment', 'decrement'])) {
             return;
@@ -732,7 +732,7 @@ class InteractionUtility
         }
     }
 
-    public static function editStats(string $type, int $id, string $actionType)
+    public static function editStats(string $type, int $id, string $actionType): void
     {
         if (! in_array($actionType, ['increment', 'decrement'])) {
             return;
@@ -786,7 +786,7 @@ class InteractionUtility
      * @param int id the id of the post or comment
      * @param string actionType increment or decrement
      */
-    public static function digestStats(string $type, int $id, string $actionType)
+    public static function digestStats(string $type, int $id, string $actionType): void
     {
         if (! in_array($actionType, ['increment', 'decrement'])) {
             return;
@@ -889,7 +889,7 @@ class InteractionUtility
         \FresnsCmdWord::plugin('Fresns')->sendNotification($wordBody);
     }
 
-    protected static function parentCommentStats(int $parentId, string $actionType, string $tableColumn)
+    protected static function parentCommentStats(int $parentId, string $actionType, string $tableColumn): void
     {
         if (! in_array($actionType, ['increment', 'decrement'])) {
             return;
@@ -913,7 +913,7 @@ class InteractionUtility
     }
 
     // send mark notification
-    public static function sendMarkNotification(int $notificationType, int $userId, int $markType, int $markId)
+    public static function sendMarkNotification(int $notificationType, int $userId, int $markType, int $markId): void
     {
         $user = PrimaryHelper::fresnsModelById('user', $userId);
 
@@ -968,7 +968,7 @@ class InteractionUtility
     }
 
     // send publish notification
-    public static function sendPublishNotification(string $type, int $contentId)
+    public static function sendPublishNotification(string $type, int $contentId): void
     {
         $actionModel = match ($type) {
             'post' => PrimaryHelper::fresnsModelById('post', $contentId),
@@ -1069,7 +1069,7 @@ class InteractionUtility
     }
 
     // get follow id array
-    public static function getFollowIdArr(int $type, ?int $userId = null)
+    public static function getFollowIdArr(int $type, ?int $userId = null): array
     {
         if (empty($userId)) {
             return [];
@@ -1113,7 +1113,7 @@ class InteractionUtility
     }
 
     // get block id array
-    public static function getBlockIdArr(int $type, ?int $userId = null)
+    public static function getBlockIdArr(int $type, ?int $userId = null): array
     {
         if (empty($userId)) {
             return [];
@@ -1156,7 +1156,7 @@ class InteractionUtility
     }
 
     // get private group id array
-    public static function getPrivateGroupIdArr()
+    public static function getPrivateGroupIdArr(): array
     {
         $cacheKey = 'fresns_private_groups';
         $cacheTag = 'fresnsGroups';
@@ -1179,7 +1179,7 @@ class InteractionUtility
     }
 
     // get follow type
-    public static function getFollowType(int $creatorId, ?int $authUserId = null, ?int $groupId = null, ?array $hashtags = null)
+    public static function getFollowType(int $creatorId, ?int $authUserId = null, ?int $groupId = null, ?array $hashtags = null): ?string
     {
         if (empty($authUserId)) {
             return null;

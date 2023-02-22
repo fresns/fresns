@@ -21,7 +21,7 @@ class LbsUtility
      * @param $lat2
      * @return int
      */
-    public static function getDistance($lng1, $lat1, $lng2, $lat2)
+    public static function getDistance($lng1, $lat1, $lng2, $lat2): int
     {
         // Turning the angle to fox degrees
         $radLng1 = deg2rad($lng1);
@@ -39,7 +39,7 @@ class LbsUtility
         return $distance;
     }
 
-    public static function getDistanceWithUnit($langTag, ...$rest)
+    public static function getDistanceWithUnit($langTag, ...$rest): int|float
     {
         $unit = ConfigHelper::fresnsConfigLengthUnit($langTag);
 
@@ -54,7 +54,7 @@ class LbsUtility
         return $distanceWithUnit;
     }
 
-    public static function getDistanceSql($sqlLongitude, $sqlLatitude, $longitude, $latitude, $alias = 'distance')
+    public static function getDistanceSql($sqlLongitude, $sqlLatitude, $longitude, $latitude, $alias = 'distance'): string
     {
         $sql = <<<SQL
 2 * ASIN(

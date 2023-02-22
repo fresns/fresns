@@ -28,7 +28,7 @@ use Illuminate\Support\Str;
 class ConfigUtility
 {
     // add config items
-    public static function addFresnsConfigItems(array $fresnsConfigItems)
+    public static function addFresnsConfigItems(array $fresnsConfigItems): void
     {
         foreach ($fresnsConfigItems as $item) {
             $config = Config::where('item_key', $item['item_key'])->first();
@@ -50,7 +50,7 @@ class ConfigUtility
     }
 
     // remove config items
-    public static function removeFresnsConfigItems(array $fresnsConfigKeys)
+    public static function removeFresnsConfigItems(array $fresnsConfigKeys): void
     {
         foreach ($fresnsConfigKeys as $item) {
             Config::where('item_key', $item)->where('is_custom', 1)->forceDelete();
@@ -58,7 +58,7 @@ class ConfigUtility
     }
 
     // change config items
-    public static function changeFresnsConfigItems(array $fresnsConfigItems)
+    public static function changeFresnsConfigItems(array $fresnsConfigItems): void
     {
         foreach ($fresnsConfigItems as $item) {
             Config::updateOrCreate([
@@ -81,7 +81,7 @@ class ConfigUtility
     }
 
     // change language items
-    public static function changeFresnsLanguageItems($fresnsLangItems)
+    public static function changeFresnsLanguageItems($fresnsLangItems): void
     {
         foreach ($fresnsLangItems['language_values'] ?? [] as $key => $value) {
             $item = $fresnsLangItems;
@@ -95,7 +95,7 @@ class ConfigUtility
     }
 
     // get code message
-    public static function getCodeMessage(int $code, ?string $unikey = null, ?string $langTag = null)
+    public static function getCodeMessage(int $code, ?string $unikey = null, ?string $langTag = null): string
     {
         $unikey = $unikey ?: 'Fresns';
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();

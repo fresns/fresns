@@ -282,7 +282,7 @@ class PermissionUtility
     }
 
     // Check if the user is a group administrator
-    public static function checkUserGroupAdmin(int $groupId, ?int $userId = null)
+    public static function checkUserGroupAdmin(int $groupId, ?int $userId = null): bool
     {
         if (empty($userId)) {
             return false;
@@ -295,7 +295,7 @@ class PermissionUtility
     }
 
     // Check if the user has group publishing permissions
-    public static function checkUserGroupPublishPerm(int $groupId, array $permissions, ?int $userId = null)
+    public static function checkUserGroupPublishPerm(int $groupId, array $permissions, ?int $userId = null): array
     {
         $permConfig = [
             'publish_post' => (int) ($permissions['publish_post'] ?? 1),

@@ -18,7 +18,7 @@ class CollectionUtility
      * @return null|array
      *                    #
      */
-    public static function toTree(?array $data = [], $primary = 'id', $parent = 'parent_id', $children = 'children')
+    public static function toTree(?array $data = [], $primary = 'id', $parent = 'parent_id', $children = 'children'): array
     {
         // data is empty
         if (empty($data) || count($data) === 0) {

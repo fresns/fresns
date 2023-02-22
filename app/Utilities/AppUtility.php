@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Http;
 
 class AppUtility
 {
-    public static function currentVersion()
+    public static function currentVersion(): array
     {
         $cacheKey = 'fresns_current_version';
         $cacheTag = 'fresnsSystems';
@@ -37,7 +37,7 @@ class AppUtility
         return $currentVersion;
     }
 
-    public static function newVersion()
+    public static function newVersion(): array
     {
         $cacheKey = 'fresns_new_version';
         $cacheTag = 'fresnsSystems';
@@ -78,7 +78,7 @@ class AppUtility
         return false; // No new version
     }
 
-    public static function editVersion(string $version, int $versionInt)
+    public static function editVersion(string $version, int $versionInt): bool
     {
         $fresnsJson = file_get_contents(
             $path = base_path('fresns.json')
@@ -98,7 +98,7 @@ class AppUtility
         return true;
     }
 
-    public static function checkPluginsStatus(int $type)
+    public static function checkPluginsStatus(int $type): void
     {
         $fresnsJsonFile = file_get_contents(config('plugins.manager.default.file'));
 
@@ -116,21 +116,21 @@ class AppUtility
         }
     }
 
-    public static function getAppHost()
+    public static function getAppHost(): string
     {
         $appHost = base64_decode('aHR0cHM6Ly9hcHAuZnJlc25zLm9yZw==', true);
 
         return $appHost;
     }
 
-    public static function getApiHost()
+    public static function getApiHost(): string
     {
         $apiHost = base64_decode('aHR0cHM6Ly9tYXJrZXQuZnJlc25zLmNvbQ==', true);
 
         return $apiHost;
     }
 
-    public static function macroMarketHeaders()
+    public static function macroMarketHeaders(): void
     {
         Http::macro('market', function () {
             return Http::withHeaders(
@@ -141,7 +141,7 @@ class AppUtility
         });
     }
 
-    public static function getMarketHeaders()
+    public static function getMarketHeaders(): array
     {
         $appConfig = ConfigHelper::fresnsConfigByItemKeys([
             'install_datetime',

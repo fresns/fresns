@@ -28,7 +28,7 @@ use Illuminate\Support\Arr;
 class ExtendUtility
 {
     // get extend cache key
-    public static function getExtendCacheKey(int $type, string $typeName, ?int $scene = null, ?int $groupId = null, ?string $langTag = null)
+    public static function getExtendCacheKey(int $type, string $typeName, ?int $scene = null, ?int $groupId = null, ?string $langTag = null): ?string
     {
         $sceneName = match ($scene) {
             PluginUsage::SCENE_POST => 'post',
@@ -54,7 +54,7 @@ class ExtendUtility
     }
 
     // get extend cache tags
-    public static function getExtendCacheTags(int $type)
+    public static function getExtendCacheTags(int $type): array
     {
         $cacheTags = match ($type) {
             PluginUsage::TYPE_WALLET_RECHARGE => ['fresnsExtensions', 'fresnsWallets'],
@@ -72,7 +72,7 @@ class ExtendUtility
     }
 
     // get plugin badge
-    public static function getPluginBadge(string $unikey, ?int $userId = null)
+    public static function getPluginBadge(string $unikey, ?int $userId = null): array
     {
         $badge['badgeType'] = null;
         $badge['badgeValue'] = null;
@@ -108,7 +108,7 @@ class ExtendUtility
     }
 
     // get data extend
-    public static function getDataExtend(string $contentType, string $dataType)
+    public static function getDataExtend(string $contentType, string $dataType): ?string
     {
         $dataConfig = PluginUsage::type(PluginUsage::TYPE_CONTENT)->where('plugin_unikey', $contentType)->isEnable()->value('data_sources');
 
@@ -128,7 +128,7 @@ class ExtendUtility
     }
 
     // get operations
-    public static function getOperations(int $type, int $id, ?string $langTag = null)
+    public static function getOperations(int $type, int $id, ?string $langTag = null): array
     {
         $operationQuery = OperationUsage::with('operation')->type($type)->where('usage_id', $id);
 
@@ -159,7 +159,7 @@ class ExtendUtility
     }
 
     // get archives
-    public static function getArchives(int $type, int $id, ?string $langTag = null)
+    public static function getArchives(int $type, int $id, ?string $langTag = null): array
     {
         $archiveQuery = ArchiveUsage::with('archive')->type($type)->where('usage_id', $id)->where('is_private', 0);
 
@@ -200,7 +200,7 @@ class ExtendUtility
     }
 
     // get content extends
-    public static function getContentExtends(int $type, int $id, ?string $langTag = null)
+    public static function getContentExtends(int $type, int $id, ?string $langTag = null): array
     {
         $extendQuery = ExtendUsage::with('extend')->type($type)->where('usage_id', $id)->orderBy('rating');
 
@@ -239,7 +239,7 @@ class ExtendUtility
     }
 
     // get extends by everyone
-    public static function getExtendsByEveryone(int $type, ?int $scene = null, ?int $groupId = null, ?string $langTag = null)
+    public static function getExtendsByEveryone(int $type, ?int $scene = null, ?int $groupId = null, ?string $langTag = null): array
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
         $cacheKey = ExtendUtility::getExtendCacheKey($type, 'everyone', $scene, $groupId, $langTag);
@@ -287,7 +287,7 @@ class ExtendUtility
     }
 
     // get extends by role
-    public static function getExtendsByRole(int $type, int $roleId, ?int $scene = null, ?int $groupId = null, ?string $langTag = null)
+    public static function getExtendsByRole(int $type, int $roleId, ?int $scene = null, ?int $groupId = null, ?string $langTag = null): array
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
         $cacheKey = ExtendUtility::getExtendCacheKey($type, "role_{$roleId}", $scene, $groupId, $langTag);
@@ -341,7 +341,7 @@ class ExtendUtility
     }
 
     // get extends by group admin
-    public static function getExtendsByGroupAdmin(string $type, ?int $scene = null, ?int $groupId = null, ?string $langTag = null)
+    public static function getExtendsByGroupAdmin(string $type, ?int $scene = null, ?int $groupId = null, ?string $langTag = null): array
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
         $cacheKey = ExtendUtility::getExtendCacheKey($type, 'group_admin', $scene, $groupId, $langTag);
@@ -389,7 +389,7 @@ class ExtendUtility
      */
 
     // get editor extensions
-    public static function getEditorExtensions(string $type, int $authUserId, string $langTag)
+    public static function getEditorExtensions(string $type, int $authUserId, string $langTag): array
     {
         $scene = match ($type) {
             'post' => 1,
@@ -425,7 +425,7 @@ class ExtendUtility
     }
 
     // get manage extensions
-    public static function getManageExtensions(string $type, string $langTag, ?int $authUserId = null, ?int $groupId = null)
+    public static function getManageExtensions(string $type, string $langTag, ?int $authUserId = null, ?int $groupId = null): array
     {
         if (empty($authUserId)) {
             return [];
@@ -466,7 +466,7 @@ class ExtendUtility
     }
 
     // get user extensions
-    public static function getUserExtensions(string $type, int $authUserId, string $langTag)
+    public static function getUserExtensions(string $type, int $authUserId, string $langTag): array
     {
         $usageType = match ($type) {
             'feature' => PluginUsage::TYPE_FEATURE,
@@ -513,7 +513,7 @@ class ExtendUtility
     }
 
     // get group extensions
-    public static function getGroupExtensions(int $groupId, string $langTag, ?int $authUserId = null)
+    public static function getGroupExtensions(int $groupId, string $langTag, ?int $authUserId = null): array
     {
         $everyoneExtends = ExtendUtility::getExtendsByEveryone(PluginUsage::TYPE_GROUP, null, $groupId, $langTag);
 

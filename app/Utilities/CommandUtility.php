@@ -30,17 +30,17 @@ class CommandUtility
         }
     }
 
-    public static function make()
+    public static function make(): static
     {
         return new static();
     }
 
-    public static function getRealpath($path)
+    public static function getRealpath($path): static|bool
     {
         return realpath($path);
     }
 
-    public static function formatCommand($command)
+    public static function formatCommand($command): mixed
     {
         if (is_string($command)) {
             $command = explode(' ', $command);
@@ -49,12 +49,12 @@ class CommandUtility
         return $command;
     }
 
-    public function createProcess(array $command, string $cwd = null, array $env = null, $input = null, ?float $timeout = 60)
+    public function createProcess(array $command, string $cwd = null, array $env = null, $input = null, ?float $timeout = 60): mixed
     {
         return tap(new Process(...func_get_args()));
     }
 
-    public static function findBinary(string $name, array $extraDirs = [])
+    public static function findBinary(string $name, array $extraDirs = []): ?string
     {
         $instance = static::make();
 
@@ -65,7 +65,7 @@ class CommandUtility
         return $instance->executableFinder->find($name, null, $extraDirs);
     }
 
-    public static function getPhpProcess(array $argument)
+    public static function getPhpProcess(array $argument): mixed
     {
         $instance = new static();
 
@@ -74,7 +74,7 @@ class CommandUtility
         return $instance->createProcess([$php, ...$argument]);
     }
 
-    public static function getComposerProcess(array $argument)
+    public static function getComposerProcess(array $argument): mixed
     {
         $instance = new static();
 
@@ -84,8 +84,8 @@ class CommandUtility
             $php = $instance->findBinary('php');
 
             return $instance->createProcess([$php, $composer, ...$argument]);
-        } else {
-            return $instance->createProcess([$composer, ...$argument]);
         }
+
+        return $instance->createProcess([$composer, ...$argument]);
     }
 }

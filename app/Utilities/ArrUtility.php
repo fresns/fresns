@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 class ArrUtility
 {
     // get key value
-    public static function get(?array $array, string $key, string|array $values)
+    public static function get(?array $array, string $key, string|array $values): object|array
     {
         if (empty($array)) {
             return [];
@@ -36,7 +36,7 @@ class ArrUtility
     }
 
     // forget key value
-    public static function forget(?array $array, string $key, string|array $values)
+    public static function forget(?array $array, string $key, string|array $values): object|array
     {
         if (empty($array)) {
             return [];
@@ -58,7 +58,7 @@ class ArrUtility
     }
 
     // pull key value
-    public static function pull(?array &$array, string $key, string|array $values)
+    public static function pull(?array &$array, string $key, string|array $values): object|array
     {
         if (empty($array)) {
             return [];
@@ -82,7 +82,7 @@ class ArrUtility
     }
 
     // edit value
-    public static function editValue(?array $array, string $key, string $value, string $newValue)
+    public static function editValue(?array $array, string $key, string $value, string $newValue): array
     {
         if (empty($array)) {
             return [];
@@ -118,7 +118,7 @@ class ArrUtility
     }
 
     // edit key name
-    public static function editKey(?object $object, string $key, string $newKey)
+    public static function editKey(?object $object, string $key, string $newKey): object
     {
         if (empty($object)) {
             return null;
@@ -142,7 +142,7 @@ class ArrUtility
 
     // array filter
     // $type = whitelist or blacklist
-    public static function filter(array $array, string $type, array $filterKeys)
+    public static function filter(array $array, string $type, array $filterKeys): array
     {
         $dotData = Arr::dot($array);
         $dotDataKeys = array_keys($dotData);

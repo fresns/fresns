@@ -25,7 +25,7 @@ class FileUtility
      * @param  string  $path
      * @return string|false
      */
-    public static function mimeTypeFromPath($path)
+    public static function mimeTypeFromPath($path): string|bool
     {
         return finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
     }
@@ -36,13 +36,13 @@ class FileUtility
      * @param  string  $path
      * @return string|false
      */
-    public static function mimeTypeFromContent($content)
+    public static function mimeTypeFromContent($content): string|bool
     {
         return finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $content);
     }
 
     // uploadFile
-    public static function uploadFile(array $bodyInfo, array $diskConfig, UploadedFile $file)
+    public static function uploadFile(array $bodyInfo, array $diskConfig, UploadedFile $file): array
     {
         // $bodyInfoExample = [
         //     'platformId' => 'file_usages->platform_id',
@@ -76,7 +76,7 @@ class FileUtility
     }
 
     // uploadFileInfo
-    public static function uploadFileInfo(array $bodyInfo)
+    public static function uploadFileInfo(array $bodyInfo): array
     {
         // $bodyInfoExample = [
         //     'platformId' => 'file_usages->platform_id',
@@ -192,7 +192,7 @@ class FileUtility
     }
 
     // saveFileInfoToDatabase
-    public static function saveFileInfoToDatabase(array $bodyInfo, string $diskPath, UploadedFile $file)
+    public static function saveFileInfoToDatabase(array $bodyInfo, string $diskPath, UploadedFile $file): array
     {
         $imageWidth = null;
         $imageHeight = null;
@@ -255,7 +255,7 @@ class FileUtility
     }
 
     // logicalDeletionFiles
-    public static function logicalDeletionFiles(array $fileIdsOrFids)
+    public static function logicalDeletionFiles(array $fileIdsOrFids): void
     {
         foreach ($fileIdsOrFids as $id) {
             if (StrHelper::isPureInt($id)) {
@@ -272,7 +272,5 @@ class FileUtility
 
             CacheHelper::forgetFresnsFileUsage($file->id);
         }
-
-        return true;
     }
 }

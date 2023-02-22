@@ -45,7 +45,7 @@ use Illuminate\Support\Str;
 class ContentUtility
 {
     // preg regexp
-    public static function getRegexpByType($type)
+    public static function getRegexpByType($type): string
     {
         return match ($type) {
             'hash' => '/#[\p{L}\p{N}\p{M}]+[^\n\p{P}]#/u',
@@ -58,7 +58,7 @@ class ContentUtility
     }
 
     // match all extract
-    public static function matchAll(string $regexp, string $content, ?int $arrayKey = 1)
+    public static function matchAll(string $regexp, string $content, ?int $arrayKey = 1): array
     {
         // Matching information is handled at the end
         $content = $content.' ';
@@ -69,7 +69,7 @@ class ContentUtility
     }
 
     // str hashtag
-    public static function strHashtag(array $data)
+    public static function strHashtag(array $data): array
     {
         $data = array_filter($data);
 
@@ -432,7 +432,7 @@ class ContentUtility
     }
 
     // Save hashtag
-    public static function saveHashtag(string $content, int $usageType, int $useId)
+    public static function saveHashtag(string $content, int $usageType, int $useId): void
     {
         $hashtagArr = ContentUtility::extractConfigHashtag($content);
 
@@ -468,7 +468,7 @@ class ContentUtility
     }
 
     // Save link
-    public static function saveLink(string $content, int $usageType, int $useId)
+    public static function saveLink(string $content, int $usageType, int $useId): void
     {
         $urlArr = ContentUtility::extractLink($content);
 
@@ -505,7 +505,7 @@ class ContentUtility
     }
 
     // Save mention user
-    public static function saveMention(string $content, int $mentionType, int $mentionId, int $authUserId)
+    public static function saveMention(string $content, int $mentionType, int $mentionId, int $authUserId): void
     {
         $usernameArr = ContentUtility::extractMention($content);
         $userIdArr = User::whereIn('username', $usernameArr)->pluck('id')->toArray();
@@ -523,7 +523,7 @@ class ContentUtility
     }
 
     // Handle and save all(interaction content)
-    public static function handleAndSaveAllInteraction(string $content, int $type, int $id, ?int $authUserId = null)
+    public static function handleAndSaveAllInteraction(string $content, int $type, int $id, ?int $authUserId = null): void
     {
         $configs = ConfigHelper::fresnsConfigByItemKeys([
             'hashtag_status',
@@ -542,7 +542,7 @@ class ContentUtility
     }
 
     // handle read allow json
-    public static function handleAllowJson(?array $readAllowConfig, string $langTag, string $timezone)
+    public static function handleAllowJson(?array $readAllowConfig, string $langTag, string $timezone): array
     {
         if (! $readAllowConfig) {
             return null;
@@ -585,7 +585,7 @@ class ContentUtility
     }
 
     // handle user list json
-    public static function handleUserListJson(?array $userListConfig, string $langTag)
+    public static function handleUserListJson(?array $userListConfig, string $langTag): array
     {
         if (! $userListConfig) {
             return null;
@@ -601,7 +601,7 @@ class ContentUtility
     }
 
     // handle comment btn json
-    public static function handleCommentBtnJson(?array $commentBtnConfig, string $langTag)
+    public static function handleCommentBtnJson(?array $commentBtnConfig, string $langTag): array
     {
         if (! $commentBtnConfig) {
             return null;
@@ -619,7 +619,7 @@ class ContentUtility
 
     // save operation usages
     // $operations = [{"id": "id", "pluginUnikey": null}]
-    public static function saveOperationUsages(string $usageType, int $usageId, array $operations)
+    public static function saveOperationUsages(string $usageType, int $usageId, array $operations): void
     {
         foreach ($operations as $operation) {
             $operationModel = PrimaryHelper::fresnsModelById('operation', $operation['id']);
@@ -637,7 +637,7 @@ class ContentUtility
 
     // save archive usages
     // $archives = [{"code": "code", "value": "value", "isPrivate": true, "pluginUnikey": null}]
-    public static function saveArchiveUsages(string $usageType, int $usageId, array $archives)
+    public static function saveArchiveUsages(string $usageType, int $usageId, array $archives): void
     {
         foreach ($archives as $archive) {
             $archiveModel = PrimaryHelper::fresnsModelByFsid('archive', $archive['code']);
@@ -657,7 +657,7 @@ class ContentUtility
 
     // save extend usages
     // $extends = [{"eid": "eid", "canDelete": true, "rating": 9, "pluginUnikey": null}]
-    public static function saveExtendUsages(string $usageType, int $usageId, array $extends)
+    public static function saveExtendUsages(string $usageType, int $usageId, array $extends): void
     {
         foreach ($extends as $extend) {
             $extendModel = PrimaryHelper::fresnsModelByFsid('extend', $extend['eid']);
@@ -700,7 +700,7 @@ class ContentUtility
     }
 
     // release file usages
-    public static function releaseFileUsages(string $type, int $logId, int $primaryId)
+    public static function releaseFileUsages(string $type, int $logId, int $primaryId): void
     {
         $logTableName = match ($type) {
             'post' => 'post_logs',
@@ -736,7 +736,7 @@ class ContentUtility
     }
 
     // release extend usages
-    public static function releaseExtendUsages(string $type, int $logId, int $primaryId)
+    public static function releaseExtendUsages(string $type, int $logId, int $primaryId): void
     {
         $logUsageType = match ($type) {
             'post' => ExtendUsage::TYPE_POST_LOG,
@@ -767,7 +767,7 @@ class ContentUtility
     }
 
     // release allow users and roles
-    public static function releaseAllowUsersAndRoles(int $postId, array $permArr)
+    public static function releaseAllowUsersAndRoles(int $postId, array $permArr): void
     {
         if (empty($permArr)) {
             return;
@@ -807,7 +807,7 @@ class ContentUtility
     }
 
     // release operation usages
-    public static function releaseOperationUsages(string $type, int $logId, int $primaryId)
+    public static function releaseOperationUsages(string $type, int $logId, int $primaryId): void
     {
         $logUsageType = match ($type) {
             'post' => OperationUsage::TYPE_POST_LOG,
@@ -836,7 +836,7 @@ class ContentUtility
     }
 
     // release archive usages
-    public static function releaseArchiveUsages(string $type, int $logId, int $primaryId)
+    public static function releaseArchiveUsages(string $type, int $logId, int $primaryId): void
     {
         $logUsageType = match ($type) {
             'post' => ArchiveUsage::TYPE_POST_LOG,
@@ -1099,7 +1099,7 @@ class ContentUtility
     }
 
     // parent comment latest release time
-    public static function parentCommentLatestCommentTime(int $parentId)
+    public static function parentCommentLatestCommentTime(int $parentId): void
     {
         $comment = PrimaryHelper::fresnsModelById('comment', $parentId);
 
@@ -1114,7 +1114,7 @@ class ContentUtility
     }
 
     // batch copy content extends
-    public static function batchCopyContentExtends(string $type, int $primaryId, int $logId)
+    public static function batchCopyContentExtends(string $type, int $primaryId, int $logId): void
     {
         $tableName = match ($type) {
             'post' => 'posts',
