@@ -54,7 +54,7 @@
             <div class="col-lg-6">
                 <select class="form-select" name="account_real_name_service">
                     <option value="" selected>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
-                    @foreach ($pluginParams['prove'] as $plugin)
+                    @foreach ($pluginParams['realName'] as $plugin)
                         <option value="{{ $plugin->unikey }}" {{ $params['account_real_name_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                     @endforeach
                 </select>
