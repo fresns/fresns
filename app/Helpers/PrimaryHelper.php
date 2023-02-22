@@ -26,7 +26,7 @@ use App\Models\UserFollow;
 class PrimaryHelper
 {
     // get model by fsid
-    public static function fresnsModelByFsid(string $modelName, ?string $fsid = null)
+    public static function fresnsModelByFsid(string $modelName, ?string $fsid = null): mixed
     {
         if (empty($fsid)) {
             return null;
@@ -128,7 +128,7 @@ class PrimaryHelper
     }
 
     // get model by id
-    public static function fresnsModelById(string $modelName, ?string $id = null)
+    public static function fresnsModelById(string $modelName, ?string $id = null): mixed
     {
         if (empty($id) || $id == 0) {
             return null;
@@ -228,7 +228,7 @@ class PrimaryHelper
     }
 
     // get conversation model
-    public static function fresnsModelConversation(int $authUserId, int $conversationUserId)
+    public static function fresnsModelConversation(int $authUserId, int $conversationUserId): Conversation
     {
         $cacheKey = "fresns_model_conversation_{$authUserId}_{$conversationUserId}";
         $cacheTags = ['fresnsUsers', 'fresnsUserConversations'];
@@ -257,7 +257,7 @@ class PrimaryHelper
     }
 
     // get table id
-    public static function fresnsPrimaryId(string $tableName, ?string $tableKey = null)
+    public static function fresnsPrimaryId(string $tableName, ?string $tableKey = null): ?int
     {
         if (empty($tableKey)) {
             return null;
@@ -291,7 +291,7 @@ class PrimaryHelper
     }
 
     // get follow model by type
-    public static function fresnsFollowModelByType(string $type, int $id, ?int $authUserId = null)
+    public static function fresnsFollowModelByType(string $type, int $id, ?int $authUserId = null): ?UserFollow
     {
         if (empty($authUserId)) {
             return null;
@@ -336,11 +336,7 @@ class PrimaryHelper
         return $fresnsModel;
     }
 
-    /**
-     * @param  string  $itemKey
-     * @return int |null
-     */
-    public static function fresnsConfigIdByItemKey(?string $itemKey = null)
+    public static function fresnsConfigIdByItemKey(?string $itemKey = null): ?int
     {
         if (empty($itemKey)) {
             return null;
@@ -351,11 +347,7 @@ class PrimaryHelper
         return $id ?? null;
     }
 
-    /**
-     * @param  string  $aid
-     * @return int |null
-     */
-    public static function fresnsAccountIdByAid(?string $aid = null)
+    public static function fresnsAccountIdByAid(?string $aid = null): ?int
     {
         if (empty($aid)) {
             return null;
@@ -364,11 +356,7 @@ class PrimaryHelper
         return PrimaryHelper::fresnsModelByFsid('account', $aid)?->id;
     }
 
-    /**
-     * @param  string  $userId
-     * @return int |null
-     */
-    public static function fresnsAccountIdByUserId(?string $userId = null)
+    public static function fresnsAccountIdByUserId(?string $userId = null): ?int
     {
         if (empty($userId)) {
             return null;
@@ -377,11 +365,7 @@ class PrimaryHelper
         return PrimaryHelper::fresnsModelByFsid('user', $userId)?->account_id;
     }
 
-    /**
-     * @param  string  $uidOrUsername
-     * @return int |null
-     */
-    public static function fresnsAccountIdByUidOrUsername(?string $uidOrUsername = null)
+    public static function fresnsAccountIdByUidOrUsername(?string $uidOrUsername = null): ?int
     {
         if (empty($uidOrUsername)) {
             return null;
@@ -390,11 +374,7 @@ class PrimaryHelper
         return PrimaryHelper::fresnsModelByFsid('user', $uidOrUsername)?->account_id;
     }
 
-    /**
-     * @param  string  $uidOrUsername
-     * @return int |null
-     */
-    public static function fresnsUserIdByUidOrUsername(?string $uidOrUsername = null)
+    public static function fresnsUserIdByUidOrUsername(?string $uidOrUsername = null): ?int
     {
         if (empty($uidOrUsername)) {
             return null;
@@ -403,11 +383,7 @@ class PrimaryHelper
         return PrimaryHelper::fresnsModelByFsid('user', $uidOrUsername)?->id;
     }
 
-    /**
-     * @param  string  $gid
-     * @return int |null
-     */
-    public static function fresnsGroupIdByGid(?string $gid = null)
+    public static function fresnsGroupIdByGid(?string $gid = null): ?int
     {
         if (empty($gid)) {
             return null;
@@ -416,11 +392,7 @@ class PrimaryHelper
         return PrimaryHelper::fresnsModelByFsid('group', $gid)?->id;
     }
 
-    /**
-     * @param  string  $hid
-     * @return int |null
-     */
-    public static function fresnsHashtagIdByHid(?string $hid = null)
+    public static function fresnsHashtagIdByHid(?string $hid = null): ?int
     {
         if (empty($hid)) {
             return null;
@@ -429,11 +401,7 @@ class PrimaryHelper
         return PrimaryHelper::fresnsModelByFsid('hashtag', $hid)?->id;
     }
 
-    /**
-     * @param  string  $pid
-     * @return int |null
-     */
-    public static function fresnsPostIdByPid(?string $pid = null)
+    public static function fresnsPostIdByPid(?string $pid = null): ?int
     {
         if (empty($pid)) {
             return null;
@@ -442,11 +410,7 @@ class PrimaryHelper
         return PrimaryHelper::fresnsModelByFsid('post', $pid)?->id;
     }
 
-    /**
-     * @param  string  $cid
-     * @return int |null
-     */
-    public static function fresnsCommentIdByCid(?string $cid = null)
+    public static function fresnsCommentIdByCid(?string $cid = null): ?int
     {
         if (empty($cid)) {
             return null;
@@ -455,11 +419,7 @@ class PrimaryHelper
         return PrimaryHelper::fresnsModelByFsid('comment', $cid)?->id;
     }
 
-    /**
-     * @param  string  $fid
-     * @return int |null
-     */
-    public static function fresnsFileIdByFid(?string $fid = null)
+    public static function fresnsFileIdByFid(?string $fid = null): ?int
     {
         if (empty($fid)) {
             return null;
@@ -468,11 +428,7 @@ class PrimaryHelper
         return PrimaryHelper::fresnsModelByFsid('file', $fid)?->id;
     }
 
-    /**
-     * @param  string  $eid
-     * @return int |null
-     */
-    public static function fresnsExtendIdByEid(?string $eid = null)
+    public static function fresnsExtendIdByEid(?string $eid = null): ?int
     {
         if (empty($eid)) {
             return null;
@@ -481,11 +437,7 @@ class PrimaryHelper
         return PrimaryHelper::fresnsModelByFsid('extend', $eid)?->id;
     }
 
-    /**
-     * @param  string  $code
-     * @return int |null
-     */
-    public static function fresnsArchiveIdByCode(?string $code = null)
+    public static function fresnsArchiveIdByCode(?string $code = null): ?int
     {
         if (empty($code)) {
             return null;

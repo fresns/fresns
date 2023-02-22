@@ -13,16 +13,8 @@ use App\Models\Seo;
 
 class LanguageHelper
 {
-    /**
-     * Get language values based on multilingual columns.
-     *
-     * @param  string  $tableName
-     * @param  string  $tableColumn
-     * @param  int  $tableId
-     * @param  string  $langTag
-     * @return array
-     */
-    public static function fresnsLanguageByTableId(string $tableName, string $tableColumn, int $tableId, ?string $langTag = null)
+    // Get language values based on multilingual columns
+    public static function fresnsLanguageByTableId(string $tableName, string $tableColumn, int $tableId, ?string $langTag = null): mixed
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
@@ -87,14 +79,8 @@ class LanguageHelper
         return $langContent;
     }
 
-    /**
-     * Get language values based on multilingual table key.
-     *
-     * @param  string  $tableKey
-     * @param  string  $langTag
-     * @return array
-     */
-    public static function fresnsLanguageByTableKey(string $tableKey, ?string $itemType = null, ?string $langTag = null)
+    // Get language values based on multilingual table key
+    public static function fresnsLanguageByTableKey(string $tableKey, ?string $itemType = null, ?string $langTag = null): mixed
     {
         $itemType = $itemType ?: 'string';
 
@@ -129,7 +115,7 @@ class LanguageHelper
     }
 
     // get fresns seo language data
-    public static function fresnsLanguageSeoDataById(string $type, int $id, ?string $langTag = null)
+    public static function fresnsLanguageSeoDataById(string $type, int $id, ?string $langTag = null): ?Seo
     {
         $cacheKey = "fresns_seo_{$type}_{$id}";
         $cacheTags = match ($type) {

@@ -26,7 +26,7 @@ class CacheHelper
     const NULL_CACHE_COUNT = 2;
 
     // cache time
-    public static function fresnsCacheTimeByFileType(?int $fileType = null, ?int $minutes = null)
+    public static function fresnsCacheTimeByFileType(?int $fileType = null, ?int $minutes = null): Carbon
     {
         if (empty($fileType)) {
             $digital = rand(12, 72);
@@ -84,13 +84,13 @@ class CacheHelper
     }
 
     // get null cache key
-    public static function getNullCacheKey(string $cacheKey)
+    public static function getNullCacheKey(string $cacheKey): string
     {
         return CacheHelper::NULL_CACHE_KEY_PREFIX.$cacheKey;
     }
 
     // put null cache count
-    public static function putNullCacheCount(string $cacheKey, ?int $cacheMinutes = null)
+    public static function putNullCacheCount(string $cacheKey, ?int $cacheMinutes = null): void
     {
         CacheHelper::forgetFresnsKey($cacheKey);
 
@@ -134,7 +134,7 @@ class CacheHelper
     }
 
     // cache get
-    public static function get(string $cacheKey, mixed $cacheTags = null)
+    public static function get(string $cacheKey, mixed $cacheTags = null): mixed
     {
         $whetherToCache = ConfigHelper::fresnsConfigDeveloperMode()['cache'];
         $isWebCache = Str::startsWith($cacheKey, 'fresns_web');
@@ -152,7 +152,7 @@ class CacheHelper
     }
 
     // cache put
-    public static function put(mixed $cacheData, string $cacheKey, mixed $cacheTags = null, ?int $nullCacheMinutes = null, ?Carbon $cacheTime = null)
+    public static function put(mixed $cacheData, string $cacheKey, mixed $cacheTags = null, ?int $nullCacheMinutes = null, ?Carbon $cacheTime = null): void
     {
         $whetherToCache = ConfigHelper::fresnsConfigDeveloperMode()['cache'];
         $isWebCache = Str::startsWith($cacheKey, 'fresns_web');
@@ -190,7 +190,7 @@ class CacheHelper
     }
 
     // add cache items
-    public static function addCacheItems(string $cacheKey, mixed $cacheTags = null)
+    public static function addCacheItems(string $cacheKey, mixed $cacheTags = null): void
     {
         if (empty($cacheTags)) {
             return;
@@ -228,7 +228,7 @@ class CacheHelper
     /**
      * clear all cache.
      */
-    public static function clearAllCache()
+    public static function clearAllCache(): void
     {
         Cache::flush();
         Artisan::call('cache:clear');
@@ -258,7 +258,7 @@ class CacheHelper
     /**
      * clear config cache.
      */
-    public static function clearConfigCache(string $cacheType)
+    public static function clearConfigCache(string $cacheType): void
     {
         // system
         if ($cacheType == 'fresnsSystem') {
@@ -326,7 +326,7 @@ class CacheHelper
     /**
      * clear data cache.
      */
-    public static function clearDataCache(string $cacheType, int|string $fsid, string $dataType)
+    public static function clearDataCache(string $cacheType, int|string $fsid, string $dataType): void
     {
         $model = PrimaryHelper::fresnsModelByFsid($cacheType, $fsid);
         if (empty($model)) {
@@ -455,7 +455,7 @@ class CacheHelper
     /**
      * forget fresns tag.
      */
-    public static function forgetFresnsTag(string $tag)
+    public static function forgetFresnsTag(string $tag): void
     {
         if (Cache::supportsTags()) {
             Cache::tags($tag)->flush();
@@ -499,7 +499,7 @@ class CacheHelper
     /**
      * forget fresns key.
      */
-    public static function forgetFresnsKey(string $cacheKey, mixed $cacheTags = null)
+    public static function forgetFresnsKey(string $cacheKey, mixed $cacheTags = null): void
     {
         if (Cache::supportsTags() && $cacheTags) {
             $cacheTags = (array) $cacheTags;
@@ -513,7 +513,7 @@ class CacheHelper
     /**
      * forget fresns keys.
      */
-    public static function forgetFresnsKeys(array $cacheKeys, mixed $cacheTags = null)
+    public static function forgetFresnsKeys(array $cacheKeys, mixed $cacheTags = null): void
     {
         if (Cache::supportsTags()) {
             $cacheTags = (array) $cacheTags;
@@ -531,7 +531,7 @@ class CacheHelper
     /**
      * forget fresns multilingual info.
      */
-    public static function forgetFresnsMultilingual(string $cacheName, mixed $cacheTags = null)
+    public static function forgetFresnsMultilingual(string $cacheName, mixed $cacheTags = null): void
     {
         $langTagArr = ConfigHelper::fresnsConfigLangTags();
 
@@ -545,7 +545,7 @@ class CacheHelper
     /**
      * forget fresns config keys.
      */
-    public static function forgetFresnsConfigs(mixed $itemKeys)
+    public static function forgetFresnsConfigs(mixed $itemKeys): void
     {
         $itemKeys = (array) $itemKeys;
 
@@ -568,7 +568,7 @@ class CacheHelper
      * fresns_model_file_{$fid}
      * fresns_model_extend_{$eid}
      */
-    public static function forgetFresnsModel(string $modelName, int|string $fsid)
+    public static function forgetFresnsModel(string $modelName, int|string $fsid): void
     {
         // user model
         if ($modelName == 'user') {
@@ -630,7 +630,7 @@ class CacheHelper
     /**
      * forget fresns file usage.
      */
-    public static function forgetFresnsFileUsage(int|string $fileIdOrFid)
+    public static function forgetFresnsFileUsage(int|string $fileIdOrFid): void
     {
         if (StrHelper::isPureInt($fileIdOrFid)) {
             $fileId = (int) $fileIdOrFid;
@@ -672,7 +672,7 @@ class CacheHelper
      *
      * fresns_{$tableName}_{$tableColumn}_{$tableId}_{$langTag}
      */
-    public static function forgetFresnsTableColumnLangContent(string $tableName, string $tableColumn, int $tableId)
+    public static function forgetFresnsTableColumnLangContent(string $tableName, string $tableColumn, int $tableId): void
     {
         $cacheKey = "fresns_{$tableName}_{$tableColumn}_{$tableId}";
 
@@ -680,7 +680,7 @@ class CacheHelper
     }
 
     // forget fresns account
-    public static function forgetFresnsAccount(?string $aid = null)
+    public static function forgetFresnsAccount(?string $aid = null): void
     {
         if (empty($aid)) {
             return;
@@ -691,7 +691,7 @@ class CacheHelper
     }
 
     // forget fresns user
-    public static function forgetFresnsUser(?int $userId = null, ?int $uid = null)
+    public static function forgetFresnsUser(?int $userId = null, ?int $uid = null): void
     {
         if (empty($userId) && empty($uid)) {
             return;
@@ -708,7 +708,7 @@ class CacheHelper
     /**
      * forget fresns interaction.
      */
-    public static function forgetFresnsInteraction(int $type, int $id, int $userId)
+    public static function forgetFresnsInteraction(int $type, int $id, int $userId): void
     {
         CacheHelper::forgetFresnsKeys([
             "fresns_interaction_status_{$type}_{$id}_{$userId}",

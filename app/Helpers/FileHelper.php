@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 class FileHelper
 {
     // get file storage config by type
-    public static function fresnsFileStorageConfigByType(int $type)
+    public static function fresnsFileStorageConfigByType(int $type): array
     {
         $key = match ($type) {
             1 => 'image',
@@ -57,7 +57,7 @@ class FileHelper
     }
 
     // get file accept by type
-    public static function fresnsFileAcceptByType(?int $type = null)
+    public static function fresnsFileAcceptByType(?int $type = null): string|array
     {
         $cacheKey = 'fresns_config_file_accept';
         $cacheTag = 'fresnsConfigs';
@@ -134,34 +134,34 @@ class FileHelper
         }
 
         return match ($type) {
-            1 => $fileAccept['images'],
-            2 => $fileAccept['videos'],
-            3 => $fileAccept['audios'],
-            4 => $fileAccept['documents'],
+            File::TYPE_IMAGE => $fileAccept['images'],
+            File::TYPE_VIDEO => $fileAccept['videos'],
+            File::TYPE_AUDIO => $fileAccept['audios'],
+            File::TYPE_DOCUMENT => $fileAccept['documents'],
         };
     }
 
     // get file storage path
-    public static function fresnsFileStoragePath(int $fileType, int $usageType)
+    public static function fresnsFileStoragePath(int $fileType, int $usageType): string
     {
         $fileTypeDir = match ($fileType) {
-            1 => 'images',
-            2 => 'videos',
-            3 => 'audios',
-            4 => 'documents',
+            File::TYPE_IMAGE => 'images',
+            File::TYPE_VIDEO => 'videos',
+            File::TYPE_AUDIO => 'audios',
+            File::TYPE_DOCUMENT => 'documents',
         };
 
         $usageTypeDir = match ($usageType) {
-            1 => '/others/{YYYYMM}/',
-            2 => '/systems/{YYYYMM}/',
-            3 => '/operations/{YYYYMM}/',
-            4 => '/stickers/{YYYYMM}/',
-            5 => '/users/{YYYYMM}/{DD}/',
-            6 => '/conversations/{YYYYMM}/{DD}/',
-            7 => '/posts/{YYYYMM}/{DD}/',
-            8 => '/comments/{YYYYMM}/{DD}/',
-            9 => '/extends/{YYYYMM}/{DD}/',
-            10 => '/plugins/{YYYYMM}/{DD}/',
+            FileUsage::TYPE_OTHER => '/others/{YYYYMM}/',
+            FileUsage::TYPE_SYSTEM => '/systems/{YYYYMM}/',
+            FileUsage::TYPE_OPERATION => '/operations/{YYYYMM}/',
+            FileUsage::TYPE_STICKER => '/stickers/{YYYYMM}/',
+            FileUsage::TYPE_USER => '/users/{YYYYMM}/{DD}/',
+            FileUsage::TYPE_CONVERSATION => '/conversations/{YYYYMM}/{DD}/',
+            FileUsage::TYPE_POST => '/posts/{YYYYMM}/{DD}/',
+            FileUsage::TYPE_COMMENT => '/comments/{YYYYMM}/{DD}/',
+            FileUsage::TYPE_EXTEND => '/extends/{YYYYMM}/{DD}/',
+            FileUsage::TYPE_PLUGIN => '/plugins/{YYYYMM}/{DD}/',
         };
 
         $replaceUseTypeDir = str_replace(
@@ -174,9 +174,8 @@ class FileHelper
     }
 
     // get file info by file id or fid
-    public static function fresnsFileInfoById(int|string $fileIdOrFid)
+    public static function fresnsFileInfoById(int|string $fileIdOrFid): ?array
     {
-        /** @var File $file */
         if (StrHelper::isPureInt($fileIdOrFid)) {
             $file = File::whereId($fileIdOrFid)->first();
         } else {
@@ -202,7 +201,7 @@ class FileHelper
     }
 
     // get file info list by file id or fid
-    public static function fresnsFileInfoListByIds(array $fileIdsOrFids)
+    public static function fresnsFileInfoListByIds(array $fileIdsOrFids): array
     {
         $files = File::whereIn('id', $fileIdsOrFids)
             ->orWhereIn('fid', $fileIdsOrFids)
@@ -220,7 +219,7 @@ class FileHelper
     }
 
     // get file info list by table column
-    public static function fresnsFileInfoListByTableColumn(string $tableName, string $tableColumn, ?int $tableId = null, ?string $tableKey = null)
+    public static function fresnsFileInfoListByTableColumn(string $tableName, string $tableColumn, ?int $tableId = null, ?string $tableKey = null): array
     {
         $fileUsageQuery = FileUsage::with('file')
             ->where('table_name', $tableName)
@@ -248,7 +247,7 @@ class FileHelper
     }
 
     // get file url by table column
-    public static function fresnsFileUrlByTableColumn(?int $idColumn = null, ?string $urlColumn = null, ?string $urlType = null)
+    public static function fresnsFileUrlByTableColumn(?int $idColumn = null, ?string $urlColumn = null, ?string $urlType = null): ?string
     {
         if (! $idColumn && ! $urlColumn) {
             return null;
@@ -285,7 +284,7 @@ class FileHelper
     }
 
     // get file original url by file id or fid
-    public static function fresnsFileOriginalUrlById(int|string $fileIdOrFid)
+    public static function fresnsFileOriginalUrlById(int|string $fileIdOrFid): ?string
     {
         if (StrHelper::isPureInt($fileIdOrFid)) {
             $file = File::whereId($fileIdOrFid)->first();
@@ -312,7 +311,7 @@ class FileHelper
     }
 
     // get file document preview url
-    public static function fresnsFileDocumentPreviewUrl(string $documentUrl, string $fid, ?string $fileExtension = null)
+    public static function fresnsFileDocumentPreviewUrl(string $documentUrl, string $fid, ?string $fileExtension = null): ?string
     {
         $config = ConfigHelper::fresnsConfigByItemKeys([
             'document_online_preview',
@@ -337,27 +336,27 @@ class FileHelper
     }
 
     // get file type number
-    public static function fresnsFileTypeNumber(?string $fileName = null)
+    public static function fresnsFileTypeNumber(?string $fileName = null): int
     {
         $fileName = Str::lower($fileName);
 
         $fileTypeNumber = match ($fileName) {
-            'image' => 1,
-            'video' => 2,
-            'audio' => 3,
-            'document' => 4,
-            'images' => 1,
-            'videos' => 2,
-            'audios' => 3,
-            'documents' => 4,
-            default => null,
+            'image' => File::TYPE_IMAGE,
+            'video' => File::TYPE_VIDEO,
+            'audio' => File::TYPE_AUDIO,
+            'document' => File::TYPE_DOCUMENT,
+            'images' => File::TYPE_IMAGE,
+            'videos' => File::TYPE_VIDEO,
+            'audios' => File::TYPE_AUDIO,
+            'documents' => File::TYPE_DOCUMENT,
+            default => File::TYPE_IMAGE,
         };
 
         return $fileTypeNumber;
     }
 
     // get file path by handle position
-    public static function fresnsFilePathByHandlePosition(string $position, ?string $parameter = null, ?string $filePath = null)
+    public static function fresnsFilePathByHandlePosition(string $position, ?string $parameter = null, ?string $filePath = null): ?string
     {
         $position = match ($position) {
             'path-start' => 'path-start',
@@ -393,7 +392,7 @@ class FileHelper
 
     // get file path for image
     // position name-start && name-end
-    public static function fresnsFilePathForImage(string $position, ?string $filePath = null)
+    public static function fresnsFilePathForImage(string $position, ?string $filePath = null): array
     {
         $position = match ($position) {
             'name-start' => 'name-start',
@@ -441,7 +440,8 @@ class FileHelper
         ];
     }
 
-    public static function handleAntiLinkFileInfoList(array $files)
+    // handle anti link file info to list
+    public static function handleAntiLinkFileInfoList(array $files): array
     {
         $imageStorageConfig = FileHelper::fresnsFileStorageConfigByType(File::TYPE_IMAGE);
         $videoStorageConfig = FileHelper::fresnsFileStorageConfigByType(File::TYPE_VIDEO);

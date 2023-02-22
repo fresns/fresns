@@ -13,12 +13,8 @@ use Illuminate\Support\Facades\DB;
 
 class DateHelper
 {
-    /**
-     * Get database utc time zone.
-     *
-     * @return string
-     */
-    public static function fresnsDatabaseTimezone()
+    // Get database utc time zone
+    public static function fresnsDatabaseTimezone(): string
     {
         $cacheKey = 'fresns_database_timezone';
         $cacheTag = 'fresnsSystems';
@@ -112,12 +108,8 @@ class DateHelper
         return $databaseTimezone;
     }
 
-    /**
-     * Get database time zone names.
-     *
-     * @return array
-     */
-    public static function fresnsDatabaseTimezoneNames()
+    // Get database time zone names
+    public static function fresnsDatabaseTimezoneNames(): array
     {
         $dbUtc = DateHelper::fresnsDatabaseTimezone();
         $timezones = ConfigHelper::fresnsConfigByItemKey('timezones');
@@ -127,24 +119,16 @@ class DateHelper
         return $timezoneNames;
     }
 
-    /**
-     * Get database env config utc time zone.
-     *
-     * @return null|string
-     */
-    public static function fresnsDatabaseTimezoneByName(string $timezoneName)
+    // Get database env config utc time zone
+    public static function fresnsDatabaseTimezoneByName(string $timezoneName): ?string
     {
         $timezones = ConfigHelper::fresnsConfigByItemKey('timezones');
 
         return $timezones[$timezoneName] ?? null;
     }
 
-    /**
-     * Get the current database time.
-     *
-     * @return string
-     */
-    public static function fresnsDatabaseCurrentDateTime()
+    // Get the current database time
+    public static function fresnsDatabaseCurrentDateTime(): string
     {
         $cacheKey = 'fresns_database_datetime';
         $cacheTag = 'fresnsSystems';
@@ -159,16 +143,8 @@ class DateHelper
         return $databaseDateTime;
     }
 
-    /**
-     * The conversion time is the current database time.
-     *
-     * @param  null|string  $datetime
-     * @param  null|string  $timezone
-     * @return string
-     *
-     * @throws \Exception
-     */
-    public static function fresnsDateTimeToDatabaseTimezone(?string $datetime, ?string $timezone = null, ?string $langTag = null)
+    // The conversion time is the current database time
+    public static function fresnsDateTimeToDatabaseTimezone(?string $datetime, ?string $timezone = null, ?string $langTag = null): ?string
     {
         if (! $datetime) {
             return null;
@@ -191,16 +167,8 @@ class DateHelper
         return $standard;
     }
 
-    /**
-     * Output time values by time zone.
-     *
-     * @param $datetime
-     * @param  string  $timezone
-     * @return \DateTime|string|null
-     *
-     * @throws \Exception
-     */
-    public static function fresnsDateTimeByTimezone(?string $datetime = null, ?string $timezone = null, ?string $langTag = null)
+    // Output time values by time zone
+    public static function fresnsDateTimeByTimezone(?string $datetime = null, ?string $timezone = null, ?string $langTag = null): ?string
     {
         if (! $datetime) {
             return null;
@@ -228,7 +196,8 @@ class DateHelper
         return $standard;
     }
 
-    public static function fresnsTimeByTimezone(?string $time = null, ?string $timezone = null)
+    // Output time by specified time zone
+    public static function fresnsTimeByTimezone(?string $time = null, ?string $timezone = null): ?string
     {
         if (! $time) {
             return null;
@@ -253,15 +222,8 @@ class DateHelper
         return $newTime;
     }
 
-    /**
-     * Formatted time output by time zone and language tag.
-     *
-     * @param  string  $datetime
-     * @param  string  $timezone
-     * @param  string  $langTag
-     * @return string
-     */
-    public static function fresnsFormatDateTime(?string $datetime = null, ?string $timezone = null, ?string $langTag = null)
+    // Formatted time output by time zone and language tag
+    public static function fresnsFormatDateTime(?string $datetime = null, ?string $timezone = null, ?string $langTag = null): ?string
     {
         if (empty($datetime)) {
             return null;
@@ -295,14 +257,8 @@ class DateHelper
         return date('H:i', strtotime($tzDatetime));
     }
 
-    /**
-     * Processing output by language humanization time.
-     *
-     * @param $datetime
-     * @param  string  $langTag
-     * @return string
-     */
-    public static function fresnsFormatTime(?string $datetime = null, ?string $langTag = null)
+    // Processing output by language humanization time
+    public static function fresnsFormatTime(?string $datetime = null, ?string $langTag = null): ?string
     {
         if (! $datetime) {
             return null;
@@ -373,14 +329,8 @@ class DateHelper
         // }
     }
 
-    /**
-     * Date time format conversion。
-     *
-     * @param  string  $datetime
-     * @param  string  $langTag
-     * @return string
-     */
-    public static function fresnsFormatConversion(?string $datetime = null, ?string $langTag = null)
+    // Date time format conversion
+    public static function fresnsFormatConversion(?string $datetime = null, ?string $langTag = null): ?string
     {
         if (empty($datetime)) {
             return null;

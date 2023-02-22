@@ -24,7 +24,7 @@ class AppHelper
     const VERSION_MD5_16BIT = '69f8284af680afa9';
 
     // fresns test helper
-    public static function fresnsTestHelper()
+    public static function fresnsTestHelper(): mixed
     {
         $fresnsTest = Str::ulid();
 
@@ -32,17 +32,16 @@ class AppHelper
     }
 
     // app version
-    public static function getAppVersion()
+    public static function getAppVersion(): array
     {
-        $item['version'] = self::VERSION;
-        $item['versionInt'] = self::VERSION_INT;
-        $appVersion = $item;
-
-        return $appVersion;
+        return [
+            'version' => self::VERSION,
+            'versionInt' => self::VERSION_INT,
+        ];
     }
 
     // get system info
-    public static function getSystemInfo()
+    public static function getSystemInfo(): array
     {
         $systemInfo['server'] = php_uname('s').' '.php_uname('r');
         $systemInfo['web'] = $_SERVER['SERVER_SOFTWARE'];
@@ -58,7 +57,7 @@ class AppHelper
     }
 
     // get mysql database info
-    public static function getMySqlInfo()
+    public static function getMySqlInfo(): array
     {
         $mySqlVersion = 'version()';
         $dbInfo['version'] = DB::select('select version()')[0]->$mySqlVersion;
@@ -78,7 +77,7 @@ class AppHelper
     }
 
     // get composer version info
-    public static function getComposerVersionInfo()
+    public static function getComposerVersionInfo(): array
     {
         $composerInfo = CommandUtility::getComposerProcess(['-V'])->run()->getOutput();
         $toArray = explode(' ', $composerInfo);
@@ -98,7 +97,7 @@ class AppHelper
     }
 
     // get composer version info
-    public static function getComposerConfigInfo()
+    public static function getComposerConfigInfo(): array
     {
         $configInfoDiagnose = CommandUtility::getComposerProcess(['diagnose'])->run()->getOutput();
         $configInfoRepositories = json_decode(CommandUtility::getComposerProcess(['config', '-g', 'repositories-packagist'])->run()->getOutput(), true);
@@ -112,7 +111,7 @@ class AppHelper
     }
 
     // get themes
-    public static function getThemes()
+    public static function getThemes(): array
     {
         $themeFiles = glob(config('themes.paths.themes').'/*/theme.json');
 
@@ -131,12 +130,12 @@ class AppHelper
     }
 
     // get plugin config
-    public static function getPluginConfig(string $plugin)
+    public static function getPluginConfig(string $plugin): array
     {
         $pluginJsonFile = config('plugins.paths.plugins').'/'.$plugin.'/plugin.json';
 
         if (! file_exists($pluginJsonFile)) {
-            return null;
+            return [];
         }
 
         $pluginConfig = json_decode(File::get($pluginJsonFile), true);
@@ -145,12 +144,12 @@ class AppHelper
     }
 
     // get theme config
-    public static function getThemeConfig(string $theme)
+    public static function getThemeConfig(string $theme): array
     {
         $themeJsonFile = config('themes.paths.themes').'/'.$theme.'/theme.json';
 
         if (! file_exists($themeJsonFile)) {
-            return null;
+            return [];
         }
 
         $themeConfig = json_decode(File::get($themeJsonFile), true);
@@ -159,7 +158,7 @@ class AppHelper
     }
 
     // set initial configuration
-    public static function setInitialConfiguration()
+    public static function setInitialConfiguration(): void
     {
         $engine = AppHelper::getPluginConfig('FresnsEngine');
         $theme = AppHelper::getThemeConfig('ThemeFrame');

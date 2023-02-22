@@ -12,14 +12,11 @@ use Illuminate\Support\Str;
 
 class StrHelper
 {
-    /**
-     * @param  string  $email
-     * @return string
-     */
-    public static function maskEmail(string $email)
+    // email
+    public static function maskEmail(?string $email = null): ?string
     {
-        if (! $email) {
-            return;
+        if (empty($email)) {
+            return null;
         }
 
         $user = strstr($email, '@', true);
@@ -42,12 +39,13 @@ class StrHelper
         return "{$maskUser}{$domain}";
     }
 
-    /**
-     * @param  int  $number
-     * @return mixed
-     */
-    public static function maskNumber(int $number)
+    // number
+    public static function maskNumber(?int $number = null): ?string
     {
+        if (empty($number)) {
+            return null;
+        }
+
         $head = substr($number, 0, 2);
         $tail = substr($number, -2);
         $starCount = strlen($number) - 4;
@@ -56,12 +54,13 @@ class StrHelper
         return $head.$star.$tail;
     }
 
-    /**
-     * @param  string  $name
-     * @return string
-     */
-    public static function maskName(string $name)
+    // name
+    public static function maskName(?string $name = null): ?string
     {
+        if (empty($number)) {
+            return null;
+        }
+
         $len = mb_strlen($name);
         if ($len < 1) {
             return $name;
@@ -72,20 +71,14 @@ class StrHelper
         return $lastName.$last;
     }
 
-    /**
-     * @param  int  $length
-     * @return int
-     */
-    public static function generateDigital(int $length = 6)
+    // generate digital
+    public static function generateDigital(int $length = 6): int
     {
         return rand(pow(10, ($length - 1)), pow(10, $length) - 1);
     }
 
-    /**
-     * @param  string  $uri
-     * @param  string  $domain
-     */
-    public static function qualifyUrl(?string $uri = null, ?string $domain = null)
+    // qualify url
+    public static function qualifyUrl(?string $uri = null, ?string $domain = null): ?string
     {
         if (empty($uri)) {
             return null;
@@ -102,24 +95,14 @@ class StrHelper
         return sprintf('%s/%s', rtrim($domain, '/'), ltrim($uri, '/'));
     }
 
-    /**
-     * It returns true if the variable is a pure integer, false otherwise.
-     *
-     * @param mixed variable The variable to check.
-     * @return A boolean value.
-     */
-    public static function isPureInt(mixed $variable)
+    // Whether it is a pure number
+    public static function isPureInt(mixed $variable): bool
     {
         return preg_match('/^\d*?$/', $variable);
     }
 
-    /**
-     * It takes a hostname as a string and returns the domain name as a string.
-     *
-     * @param string host The hostname you want to get the domain from.
-     * @return The domain name of the host.
-     */
-    public static function extractDomainByHost(?string $host = null)
+    // It takes a hostname as a string and returns the domain name as a string
+    public static function extractDomainByHost(?string $host = null): ?string
     {
         if (empty($host)) {
             return null;
@@ -182,7 +165,7 @@ class StrHelper
         return $domain ?? 'Unknown Error';
     }
 
-    public static function extractDomainByUrl(string $url)
+    public static function extractDomainByUrl(string $url): string
     {
         $host = parse_url($url, PHP_URL_HOST);
         $domain = self::extractDomainByHost($host);
@@ -190,7 +173,7 @@ class StrHelper
         return $domain ?? 'Unknown Error';
     }
 
-    public static function slug(string $text)
+    public static function slug(string $text): string
     {
         if (preg_match("/^[A-Za-z\s]+$/", $text)) {
             $slug = Str::slug($text, '-');
@@ -203,7 +186,7 @@ class StrHelper
         return $slug;
     }
 
-    public static function infoTypeString(int $infoType)
+    public static function infoTypeString(int $infoType): string
     {
         $infoTypeString = match ($infoType) {
             1 => 'basic',

@@ -19,10 +19,7 @@ use App\Models\User;
 
 class InteractionHelper
 {
-    /**
-     * @return array
-     */
-    public static function fresnsOverview()
+    public static function fresnsOverview(): array
     {
         $overview['accountCount'] = Account::count();
         $overview['userCount'] = User::count();
@@ -38,12 +35,7 @@ class InteractionHelper
         return $overview;
     }
 
-    /**
-     * @param  int  $roleId
-     * @param  string  $langTag
-     * @return array
-     */
-    public static function fresnsRoleInfo(int $roleId, ?string $langTag = null)
+    public static function fresnsRoleInfo(int $roleId, ?string $langTag = null): array
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
@@ -85,11 +77,7 @@ class InteractionHelper
         return $roleData;
     }
 
-    /**
-     * @param  string  $langTag
-     * @return array
-     */
-    public static function fresnsUserInteraction(?string $langTag = null)
+    public static function fresnsUserInteraction(?string $langTag = null): array
     {
         $itemData = ConfigHelper::fresnsConfigByItemKeys([
             'user_name', 'user_uid_name', 'user_username_name', 'user_nickname_name', 'user_role_name', 'user_bio_name',
@@ -120,11 +108,7 @@ class InteractionHelper
         return $interaction;
     }
 
-    /**
-     * @param  string  $langTag
-     * @return array
-     */
-    public static function fresnsUserProfileInteraction(?string $langTag = null)
+    public static function fresnsUserProfileInteraction(?string $langTag = null): array
     {
         $itemData = ConfigHelper::fresnsConfigByItemKeys([
             'it_home_list', 'it_posts', 'it_comments', 'it_likers', 'it_followers', 'it_blockers',
@@ -167,11 +151,7 @@ class InteractionHelper
         return $interaction;
     }
 
-    /**
-     * @param  string  $langTag
-     * @return array
-     */
-    public static function fresnsGroupInteraction(?string $langTag = null)
+    public static function fresnsGroupInteraction(?string $langTag = null): array
     {
         $itemData = ConfigHelper::fresnsConfigByItemKeys([
             'group_name',
@@ -197,34 +177,7 @@ class InteractionHelper
         return $interaction;
     }
 
-    // group count
-    public static function fresnsGroupCount()
-    {
-        $cacheKey = 'fresns_group_count';
-        $cacheTags = ['fresnsGroups', 'fresnsGroupConfigs'];
-
-        // is known to be empty
-        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
-        if ($isKnownEmpty) {
-            return 0;
-        }
-
-        $groupCount = CacheHelper::get($cacheKey, $cacheTags);
-
-        if (empty($groupCount)) {
-            $groupCount = Group::count();
-
-            CacheHelper::put($groupCount, $cacheKey, $cacheTags);
-        }
-
-        return $groupCount;
-    }
-
-    /**
-     * @param  string  $langTag
-     * @return array
-     */
-    public static function fresnsHashtagInteraction(?string $langTag = null)
+    public static function fresnsHashtagInteraction(?string $langTag = null): array
     {
         $itemData = ConfigHelper::fresnsConfigByItemKeys([
             'hashtag_name',
@@ -250,11 +203,7 @@ class InteractionHelper
         return $interaction;
     }
 
-    /**
-     * @param  string  $langTag
-     * @return array
-     */
-    public static function fresnsPostInteraction(?string $langTag = null)
+    public static function fresnsPostInteraction(?string $langTag = null): array
     {
         $itemData = ConfigHelper::fresnsConfigByItemKeys([
             'post_name',
@@ -280,11 +229,7 @@ class InteractionHelper
         return $interaction;
     }
 
-    /**
-     * @param  string  $langTag
-     * @return array
-     */
-    public static function fresnsCommentInteraction(?string $langTag = null)
+    public static function fresnsCommentInteraction(?string $langTag = null): array
     {
         $itemData = ConfigHelper::fresnsConfigByItemKeys([
             'comment_name',
@@ -311,7 +256,7 @@ class InteractionHelper
     }
 
     // user anonymous profile
-    public static function fresnsUserAnonymousProfile()
+    public static function fresnsUserAnonymousProfile(): array
     {
         $profile['fsid'] = null;
         $profile['uid'] = null;
@@ -361,5 +306,28 @@ class InteractionHelper
         ];
 
         return $profile;
+    }
+
+    // group count
+    public static function fresnsGroupCount(): int
+    {
+        $cacheKey = 'fresns_group_count';
+        $cacheTags = ['fresnsGroups', 'fresnsGroupConfigs'];
+
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return 0;
+        }
+
+        $groupCount = CacheHelper::get($cacheKey, $cacheTags);
+
+        if (empty($groupCount)) {
+            $groupCount = Group::count();
+
+            CacheHelper::put($groupCount, $cacheKey, $cacheTags);
+        }
+
+        return $groupCount;
     }
 }

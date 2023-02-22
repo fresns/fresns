@@ -70,11 +70,7 @@ class ConfigHelper
         return $langTagArr;
     }
 
-    /**
-     * Get config developer mode.
-     *
-     * @return array
-     */
+    // Get config developer mode
     public static function fresnsConfigDeveloperMode(): array
     {
         $developerMode = Cache::rememberForever('developer_mode', function () {
@@ -91,14 +87,8 @@ class ConfigHelper
         return $developerModeArr;
     }
 
-    /**
-     * Get config value based on Key.
-     *
-     * @param  string  $itemKey
-     * @param  string  $langTag
-     * @return string|null|array
-     */
-    public static function fresnsConfigByItemKey(string $itemKey, ?string $langTag = null)
+    // Get config value based on Key
+    public static function fresnsConfigByItemKey(string $itemKey, ?string $langTag = null): mixed
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
@@ -127,13 +117,7 @@ class ConfigHelper
         return $itemValue;
     }
 
-    /**
-     * Get multiple values based on multiple keys.
-     *
-     * @param  array  $itemKeys
-     * @param  string  $langTag
-     * @return mixed
-     */
+    // Get multiple values based on multiple keys
     public static function fresnsConfigByItemKeys(array $itemKeys, ?string $langTag = null): array
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
@@ -155,14 +139,8 @@ class ConfigHelper
         return $keysData;
     }
 
-    /**
-     * Get config value based on Tag.
-     *
-     * @param  string  $itemTag
-     * @param  string  $langTag
-     * @return mixed
-     */
-    public static function fresnsConfigByItemTag(string $itemTag, ?string $langTag = null)
+    // Get config value based on Tag.
+    public static function fresnsConfigByItemTag(string $itemTag, ?string $langTag = null): array
     {
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
@@ -191,13 +169,8 @@ class ConfigHelper
         return $tagData;
     }
 
-    /**
-     * Determine the storage type based on the file key value.
-     *
-     * @param  string  $itemKey
-     * @return string
-     */
-    public static function fresnsConfigFileValueTypeByItemKey(string $itemKey)
+    // Determine the storage type based on the file key value
+    public static function fresnsConfigFileValueTypeByItemKey(string $itemKey): string
     {
         $file = ConfigHelper::fresnsConfigByItemKey($itemKey);
 
@@ -208,13 +181,8 @@ class ConfigHelper
         return 'URL';
     }
 
-    /**
-     * Get config file url.
-     *
-     * @param  string  $itemKey
-     * @return string
-     */
-    public static function fresnsConfigFileUrlByItemKey(string $itemKey, ?string $urlConfig = null)
+    // Get config file url
+    public static function fresnsConfigFileUrlByItemKey(string $itemKey, ?string $urlConfig = null): string
     {
         $configValue = ConfigHelper::fresnsConfigByItemKey($itemKey);
 
@@ -247,13 +215,8 @@ class ConfigHelper
         return $fileUrl;
     }
 
-    /**
-     * Get length units based on langTag.
-     *
-     * @param  string  $langTag
-     * @return string
-     */
-    public static function fresnsConfigLengthUnit(string $langTag)
+    // Get length units based on langTag
+    public static function fresnsConfigLengthUnit(string $langTag): string
     {
         $languageMenus = ConfigHelper::fresnsConfigByItemKey('language_menus');
 
@@ -272,13 +235,8 @@ class ConfigHelper
         return $lengthUnit;
     }
 
-    /**
-     * Get date format according to langTag.
-     *
-     * @param  string  $langTag
-     * @return string
-     */
-    public static function fresnsConfigDateFormat(string $langTag)
+    // Get date format according to langTag
+    public static function fresnsConfigDateFormat(string $langTag): string
     {
         $languageMenus = ConfigHelper::fresnsConfigByItemKey('language_menus');
 
@@ -297,7 +255,8 @@ class ConfigHelper
         return $dateFormat;
     }
 
-    public static function fresnsConfigFileUrlExpire()
+    // Get file url expire datetime
+    public static function fresnsConfigFileUrlExpire(): ?int
     {
         $cacheKey = 'fresns_config_file_url_expire';
         $cacheTag = 'fresnsConfigs';
