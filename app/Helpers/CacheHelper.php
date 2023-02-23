@@ -771,7 +771,7 @@ class CacheHelper
     // fresns_api_archives_{$type}_{$unikey}_{$langTag}
 
     /**
-     * tag: fresnsLanguages
+     * tag: fresnsLanguages.
      */
     // fresns_{$tableName}_{$tableColumn}_{$tableId}_{$langTag}
 
