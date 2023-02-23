@@ -241,7 +241,7 @@ class EditorController extends Controller
             break;
         }
 
-        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}");
+        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}", 'fresnsUsers');
 
         return $this->success($data);
     }
@@ -322,7 +322,7 @@ class EditorController extends Controller
         $edit['deadlineTime'] = $fresnsResp->getData('deadlineTime');
         $data['edit'] = $edit;
 
-        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}");
+        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}", 'fresnsUsers');
 
         return $this->success($data);
     }
@@ -726,7 +726,7 @@ class EditorController extends Controller
         $sessionLog['objectOrderId'] = $fresnsResp->getData('id');
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
-        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}");
+        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}", 'fresnsUsers');
 
         return $this->success();
     }
@@ -804,7 +804,7 @@ class EditorController extends Controller
 
         $draft->delete();
 
-        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}");
+        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}", 'fresnsUsers');
 
         return $this->success();
     }
@@ -960,7 +960,7 @@ class EditorController extends Controller
         // upload session log
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
-        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}");
+        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}", 'fresnsUsers');
 
         $data = [
             'type' => $dtoRequest->type,

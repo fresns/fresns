@@ -65,13 +65,13 @@ class GroupController extends Controller
 
         if (empty($authUser)) {
             $cacheKey = 'fresns_guest_all_groups';
-            $cacheTag = 'fresnsGroups';
+            $cacheTags = 'fresnsGroups';
         } else {
             $cacheKey = "fresns_user_all_groups_{$authUser->id}";
-            $cacheTag = 'fresnsUsers';
+            $cacheTags = ['fresnsGroups', 'fresnsUsers'];
         }
 
-        $groups = CacheHelper::get($cacheKey, $cacheTag);
+        $groups = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($groups)) {
             $groups = Group::where(function ($query) {
@@ -87,7 +87,7 @@ class GroupController extends Controller
                 ->orderBy('rating')
                 ->get();
 
-            CacheHelper::put($groups, $cacheKey, $cacheTag);
+            CacheHelper::put($groups, $cacheKey, $cacheTags);
         }
 
         $groupData = [];

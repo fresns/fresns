@@ -388,6 +388,7 @@ class CacheHelper
                     "fresns_api_post_{$model->pid}_list_content",
                     "fresns_api_post_{$model->pid}_detail_content",
                 ], 'fresnsPosts');
+                CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$model->pid}", 'fresnsPosts');
                 CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$id}_preview_comments", ['fresnsPosts', 'fresnsComments']);
                 CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$id}_preview_like_users", ['fresnsPosts', 'fresnsUsers']);
             break;
@@ -399,6 +400,7 @@ class CacheHelper
                     "fresns_api_comment_{$model->cid}_list_content",
                     "fresns_api_comment_{$model->cid}_detail_content",
                 ], 'fresnsComments');
+                CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$model->cid}", 'fresnsPosts');
                 CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$id}_sub_comments", 'fresnsComments');
             break;
 
@@ -414,6 +416,10 @@ class CacheHelper
      */
     public static function forgetFresnsTag(string $tag): void
     {
+        if ($tag == 'fresnsSystems') {
+            CacheHelper::forgetFresnsKey('developer_mode');
+        }
+
         if (Cache::supportsTags()) {
             Cache::tags($tag)->flush();
 
@@ -436,10 +442,6 @@ class CacheHelper
             }
 
             Cache::forget($tag);
-        }
-
-        if ($tag == 'fresnsSystems') {
-            CacheHelper::forgetFresnsKey('developer_mode');
         }
     }
 
@@ -602,8 +604,10 @@ class CacheHelper
                     $pid = $post?->pid;
 
                     CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$pid}", 'fresnsPosts');
-                    CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$pid}_list_content", 'fresnsPosts');
-                    CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$pid}_detail_content", 'fresnsPosts');
+                    CacheHelper::forgetFresnsKeys([
+                        "fresns_api_post_{$pid}_list_content",
+                        "fresns_api_post_{$pid}_detail_content",
+                    ], 'fresnsPosts');
                 break;
 
                 case FileUsage::TYPE_COMMENT:
@@ -611,8 +615,10 @@ class CacheHelper
                     $cid = $comment?->cid;
 
                     CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$cid}", 'fresnsComments');
-                    CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$cid}_list_content", 'fresnsComments');
-                    CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$cid}_detail_content", 'fresnsComments');
+                    CacheHelper::forgetFresnsKeys([
+                        "fresns_api_comment_{$cid}_list_content",
+                        "fresns_api_comment_{$cid}_detail_content",
+                    ], 'fresnsComments');
                 break;
             }
         }
@@ -700,25 +706,20 @@ class CacheHelper
             5 => 'fresnsComments',
         };
 
+        CacheHelper::forgetFresnsKey("fresns_model_follow_{$typeName}_{$id}_by_{$userId}", ['fresnsModels', $cacheTag]);
+        CacheHelper::forgetFresnsKey("fresns_interaction_status_{$type}_{$id}_{$userId}", 'fresnsUsers');
+        CacheHelper::forgetFresnsKey("fresns_interaction_status_{$type}_{$userId}_{$id}", 'fresnsUsers');
+
         CacheHelper::forgetFresnsKeys([
-            "fresns_interaction_status_{$type}_{$id}_{$userId}",
-            "fresns_model_follow_{$typeName}_{$id}_by_{$userId}",
             "fresns_follow_{$type}_array_by_{$userId}",
             "fresns_block_{$type}_array_by_{$userId}",
         ], $cacheTag);
 
-        if ($type == InteractionUtility::TYPE_USER) {
-            CacheHelper::forgetFresnsKey("fresns_interaction_status_{$type}_{$userId}_{$id}", $cacheTag);
-        }
-
         if ($type == InteractionUtility::TYPE_GROUP) {
             CacheHelper::forgetFresnsKeys([
-                "fresns_filter_groups_by_user_{$userId}",
                 "fresns_user_all_groups_{$userId}",
-            ], [
-                'fresnsGroups',
-                'fresnsUsers',
-            ]);
+                "fresns_filter_groups_by_user_{$userId}",
+            ], ['fresnsGroups', 'fresnsUsers']);
         }
     }
 
@@ -770,7 +771,7 @@ class CacheHelper
     // fresns_api_archives_{$type}_{$unikey}_{$langTag}
 
     /**
-     * tag: fresnsLanguages.
+     * tag: fresnsLanguages
      */
     // fresns_{$tableName}_{$tableColumn}_{$tableId}_{$langTag}
 
