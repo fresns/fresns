@@ -40,6 +40,21 @@ class InstallServiceProvider extends ServiceProvider
 
     public function registerReverseProxySchema()
     {
+        // No more registered installation routes after they have been installed
+        if (! file_exists(base_path('install.lock'))) {
+            config([
+                'trustedproxy.proxies' => '*',
+            ]);
+        }
+
+        if (config('app.trusted_proxies')) {
+            $customProxies = config('app.trusted_proxies', '');
+
+            config([
+                'trustedproxy.proxies' => explode(',', $customProxies),
+            ]);
+        }
+
         $handler = resolve(\Illuminate\Contracts\Http\Kernel::class);
 
         $handler->pushMiddleware(\App\Fresns\Install\Http\Middleware\DetectionRequestProtocol::class);
