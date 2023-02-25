@@ -156,7 +156,7 @@ class EditorController extends Controller
                     throw new ApiException(36104);
                 }
 
-                $checkCommentPerm = PermissionUtility::checkPostCommentPerm($dtoRequest->pid, $authUser->id);
+                $checkCommentPerm = PermissionUtility::checkPostCommentPerm($dtoRequest->commentPid, $authUser->id);
                 if (! $checkCommentPerm['status']) {
                     throw new ApiException($checkCommentPerm['code']);
                 }
