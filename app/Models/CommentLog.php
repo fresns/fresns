@@ -15,6 +15,16 @@ class CommentLog extends Model
         return $this->belongsTo(Comment::class, 'comment_id', 'id');
     }
 
+    public function post()
+    {
+        return $this->belongsTo(Post::class, 'post_id', 'id');
+    }
+
+    public function parentComment()
+    {
+        return $this->belongsTo(Comment::class, 'parent_comment_id', 'id');
+    }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
