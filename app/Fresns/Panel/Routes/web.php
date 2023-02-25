@@ -72,7 +72,6 @@ try {
 
 Route::get($loginPath, [LoginController::class, 'showLoginForm'])->name('login.form');
 Route::post($loginPath, [LoginController::class, 'login'])->name('login');
-Route::delete('clear-web-cookie', [LoginController::class, 'clearWebCookie'])->name('clear.web.cookie');
 
 Route::middleware(['panelAuth'])->group(function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');

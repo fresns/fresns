@@ -150,15 +150,4 @@ class LoginController extends Controller
 
         return view('FsView::auth.empty', compact('siteUrl'));
     }
-
-    // web cookie
-    public function clearWebCookie()
-    {
-        $cookiePrefix = ConfigHelper::fresnsConfigByItemKey('engine_cookie_prefix') ?? 'fresns_';
-
-        Cookie::queue(Cookie::forget("{$cookiePrefix}aid"));
-        Cookie::queue(Cookie::forget("{$cookiePrefix}aid_token"));
-        Cookie::queue(Cookie::forget("{$cookiePrefix}uid"));
-        Cookie::queue(Cookie::forget("{$cookiePrefix}uid_token"));
-    }
 }
