@@ -44,6 +44,8 @@ class CommentService
         $cacheKey = "fresns_api_comment_{$comment->cid}_{$langTag}";
         $cacheTag = 'fresnsComments';
 
+        $whetherToFilter = true;
+
         $commentData = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($commentData)) {
@@ -86,18 +88,13 @@ class CommentService
             $item['creator'] = $userService->userData($comment->creator, 'list', $langTag, $timezone);
             $item['creator']['isPostCreator'] = $comment->user_id == $post?->user_id ? true : false;
 
-            // reply to user
-            $item['replyToUser'] = null;
+            // reply to comment
+            $item['replyToComment'] = null;
             if ($comment->top_parent_id != $comment->parent_id) {
-                $parentComment = $comment->parentComment;
+                $commentService = new CommentService;
 
-                if ($parentComment?->is_anonymous) {
-                    $item['replyToUser'] = InteractionHelper::fresnsUserAnonymousProfile();
-                } else {
-                    $parentCommentUser = PrimaryHelper::fresnsModelById('user', $parentComment?->user_id);
-                    $userService = new UserService;
-                    $item['replyToUser'] = $userService->userData($parentCommentUser, 'list', $langTag, $timezone);
-                }
+                $whetherToFilter = false;
+                $item['replyToComment'] = $commentService->commentData($comment?->parentComment, 'list', $langTag, $timezone, false);
             }
 
             $item['subComments'] = [];
@@ -226,13 +223,14 @@ class CommentService
             'keys' => array_filter(explode(',', $filterKeys)),
         ];
 
-        if (empty($filter['keys'])) {
+        if (empty($filter['keys']) || ! $whetherToFilter) {
             return $result;
         }
 
         $currentRouteName = \request()->route()->getName();
         $filterRouteList = [
             'api.comment.list',
+            'api.comment.detail',
             'api.comment.follow',
             'api.comment.nearby',
         ];
@@ -371,7 +369,7 @@ class CommentService
         if (empty($commentList)) {
             $previewSortConfig = ConfigHelper::fresnsConfigByItemKey('preview_sub_comment_sort');
 
-            $commentQuery = Comment::with(['creator'])->has('creator')->where('top_parent_id', $commentId);
+            $commentQuery = Comment::with(['creator'])->has('creator')->where('top_parent_id', $commentId)->isEnable();
 
             if ($previewSortConfig == 'like') {
                 $commentQuery->orderByDesc('like_count');
@@ -387,12 +385,13 @@ class CommentService
 
             $comments = $commentQuery->limit($limit)->get();
 
-            $service = new CommentService();
             $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
+
+            $commentService = new CommentService;
 
             $commentList = [];
             foreach ($comments as $comment) {
-                $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, false);
+                $commentList[] = $commentService->commentData($comment, 'list', $langTag, $timezone, false);
             }
 
             CacheHelper::put($commentList, $cacheKey, $cacheTag, 10, now()->addMinutes(10));
@@ -419,9 +418,13 @@ class CommentService
     public function commentLogData(CommentLog $log, string $type, string $langTag, string $timezone)
     {
         $comment = $log?->comment;
+        $post = $log?->post;
+        $parentComment = $log?->parentComment;
 
         $info['id'] = $log->id;
         $info['cid'] = $comment?->cid;
+        $info['pid'] = $post?->pid;
+        $info['parentCid'] = $parentComment?->cid;
         $info['isPluginEditor'] = (bool) $log->is_plugin_editor;
         $info['editorUnikey'] = $log->editor_unikey;
         $info['editorUrl'] = PluginHelper::fresnsPluginUrlByUnikey($log->editor_unikey);

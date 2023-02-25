@@ -21,6 +21,7 @@ use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Notification;
+use App\Utilities\ArrUtility;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
@@ -54,15 +55,36 @@ class NotificationController extends Controller
         $postService = new PostService();
         $commentService = new CommentService();
 
+        // actionUser filter
+        $actionUserFilterKeys = $dtoRequest->userWhitelistKeys ?? $dtoRequest->userBlacklistKeys;
+        $actionUserFilter = [
+            'type' => $dtoRequest->userWhitelistKeys ? 'whitelist' : 'blacklist',
+            'keys' => array_filter(explode(',', $actionUserFilterKeys)),
+        ];
+
+        // actionInfo user filter
+        $filterKeys = $dtoRequest->whitelistKeys ?? $dtoRequest->blacklistKeys;
+        $filter = [
+            'type' => $dtoRequest->whitelistKeys ? 'whitelist' : 'blacklist',
+            'keys' => array_filter(explode(',', $filterKeys)),
+        ];
+
         $notificationList = [];
         foreach ($notifications as $notification) {
+            $actionUser = $notification->action_user_id ? $userService->userData($notification?->actionUser, 'list', $langTag, $timezone, $authUserId) : null;
+
+            // actionUser filter
+            if ($actionUserFilter['keys'] && $actionUser) {
+                $actionUser = ArrUtility::filter($actionUser, $actionUserFilter['type'], $actionUserFilter['keys']);
+            }
+
             $item['id'] = $notification->id;
             $item['type'] = $notification->type;
             $item['content'] = $notification->is_multilingual ? LanguageHelper::fresnsLanguageByTableId('notifications', 'content', $notification->id, $langTag) : $notification->content;
             $item['isMarkdown'] = (bool) $notification->is_markdown;
             $item['isAccessPlugin'] = (bool) $notification->is_access_plugin;
             $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByUnikey($notification->plugin_unikey);
-            $item['actionUser'] = $notification->action_user_id ? $userService->userData($notification?->actionUser, 'list', $langTag, $timezone, $authUserId) : null;
+            $item['actionUser'] = $actionUser;
             $item['actionType'] = $notification->action_type;
             $item['actionObject'] = $notification->action_object;
             $item['actionInfo'] = null;
@@ -83,6 +105,11 @@ class NotificationController extends Controller
                     Notification::ACTION_OBJECT_COMMENT_LOG => $commentService->commentLogData($notification?->commentLog, 'list', $langTag, $timezone),
                     Notification::ACTION_OBJECT_EXTEND => $notification?->extend->getExtendInfo($langTag),
                 };
+
+                // actionInfo user filter
+                if ($filter['keys'] && $actionInfo) {
+                    $actionInfo = ArrUtility::filter($actionInfo, $filter['type'], $filter['keys']);
+                }
 
                 $item['actionInfo'] = $actionInfo;
             }

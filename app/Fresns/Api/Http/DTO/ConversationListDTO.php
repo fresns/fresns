@@ -19,6 +19,8 @@ class ConversationListDTO extends DTO
     {
         return [
             'isPin' => ['boolean', 'nullable'],
+            'whitelistKeys' => ['string', 'nullable'],
+            'blacklistKeys' => ['string', 'nullable'],
             'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],
         ];

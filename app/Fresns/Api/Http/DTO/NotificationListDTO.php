@@ -20,6 +20,10 @@ class NotificationListDTO extends DTO
         return [
             'types' => ['string', 'nullable'],
             'status' => ['boolean', 'nullable'],
+            'userWhitelistKeys' => ['string', 'nullable'],
+            'userBlacklistKeys' => ['string', 'nullable'],
+            'whitelistKeys' => ['string', 'nullable'],
+            'blacklistKeys' => ['string', 'nullable'],
             'pageSize' => ['integer', 'nullable', 'between:1,30'],
             'page' => ['integer', 'nullable'],
         ];

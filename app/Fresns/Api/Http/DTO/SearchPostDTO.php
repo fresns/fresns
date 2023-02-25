@@ -48,6 +48,8 @@ class SearchPostDTO extends DTO
             'commentCountLt' => ['integer', 'nullable', 'gt:commentCountGt'],
             'orderType' => ['string', 'nullable', 'in:createDate,like,dislike,follow,block,comment'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
+            'blockGroups' => ['string', 'nullable'],
+            'blockHashtags' => ['string', 'nullable'],
             'whitelistKeys' => ['string', 'nullable'],
             'blacklistKeys' => ['string', 'nullable'],
             'pluginRatingId' => ['integer', 'nullable'],

@@ -213,6 +213,7 @@ class PostService
         $currentRouteName = \request()->route()->getName();
         $filterRouteList = [
             'api.post.list',
+            'api.post.detail',
             'api.post.follow',
             'api.post.nearby',
         ];
@@ -421,7 +422,12 @@ class PostService
         $commentList = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($commentList)) {
-            $commentQuery = Comment::with(['creator'])->has('creator')->where('post_id', $post->id)->where('top_parent_id', 0)->limit($limit);
+            $commentQuery = Comment::with(['creator'])
+                ->has('creator')
+                ->where('post_id', $post->id)
+                ->where('top_parent_id', 0)
+                ->isEnable()
+                ->limit($limit);
 
             if ($previewConfig['preview_post_comment_sort'] == 'like') {
                 $commentQuery->orderByDesc('like_count');

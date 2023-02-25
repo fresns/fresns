@@ -67,6 +67,7 @@ class PostController extends Controller
         $postQuery = Post::with(['creator', 'hashtags'])->has('creator');
 
         $blockGroupIds = InteractionUtility::getPrivateGroupIdArr();
+        $blockHashtagIds = [];
 
         if ($authUserId) {
             $blockPostIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_POST, $authUserId);
@@ -81,18 +82,37 @@ class PostController extends Controller
             $postQuery->when($blockUserIds, function ($query, $value) {
                 $query->whereNotIn('user_id', $value);
             });
+        }
 
-            if ($blockHashtagIds) {
-                $postQuery->where(function ($postQuery) use ($blockHashtagIds) {
-                    $postQuery->whereDoesntHave('hashtags')->orWhereHas('hashtags', function ($query) use ($blockHashtagIds) {
-                        $query->whereNotIn('hashtag_id', $blockHashtagIds);
-                    });
-                });
+        $filterGroups = array_filter(explode(',', $dtoRequest->blockGroups));
+        if ($filterGroups) {
+            $groupIds = [];
+            foreach ($filterGroups as $gid) {
+                $groupIds[] = PrimaryHelper::fresnsGroupIdByGid($gid);
             }
+
+            $blockGroupIds = array_merge($blockGroupIds, $groupIds);
+        }
+        $filterHashtags = array_filter(explode(',', $dtoRequest->blockHashtags));
+        if ($filterHashtags) {
+            $hashtagIds = [];
+            foreach ($filterHashtags as $hid) {
+                $hashtagIds[] = PrimaryHelper::fresnsHashtagIdByHid($hid);
+            }
+
+            $blockHashtagIds = array_merge($blockHashtagIds, $hashtagIds);
         }
 
         $postQuery->when($blockGroupIds, function ($query, $value) {
             $query->whereNotIn('group_id', $value);
+        });
+
+        $postQuery->when($blockHashtagIds, function ($query, $value) {
+            $query->where(function ($postQuery) use ($value) {
+                $postQuery->whereDoesntHave('hashtags')->orWhereHas('hashtags', function ($query) use ($value) {
+                    $query->whereNotIn('hashtag_id', $value);
+                });
+            });
         });
 
         // is enable

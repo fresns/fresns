@@ -141,6 +141,7 @@ class CommentController extends Controller
             });
         }
 
+        $dataType = 'list';
         $outputSubComments = true;
         if ($dtoRequest->cid) {
             $viewComment = PrimaryHelper::fresnsModelByFsid('comment', $dtoRequest->cid);
@@ -159,6 +160,7 @@ class CommentController extends Controller
                 $commentQuery->where('top_parent_id', $viewComment->id);
             }
 
+            $dataType = 'detail';
             $outputSubComments = false;
             $isPreviewPost = false;
         }
@@ -369,7 +371,7 @@ class CommentController extends Controller
                 continue;
             }
 
-            $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, $isPreviewPost, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat, $outputSubComments);
+            $commentList[] = $service->commentData($comment, $dataType, $langTag, $timezone, $isPreviewPost, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat, $outputSubComments);
         }
 
         return $this->fresnsPaginate($commentList, $comments->total(), $comments->perPage());

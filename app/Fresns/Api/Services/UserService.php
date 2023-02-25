@@ -114,13 +114,17 @@ class UserService
         $currentRouteName = \request()->route()->getName();
         $filterRouteList = [
             'api.user.list',
+            'api.user.detail',
             'api.user.followers.you.follow',
             'api.user.interaction',
-            'api.common.file.users',
             'api.group.interaction',
             'api.hashtag.interaction',
             'api.post.interaction',
             'api.comment.interaction',
+            'api.conversation.list',
+            'api.conversation.detail',
+            'api.conversation.messages',
+            'api.common.file.users',
             'api.post.users',
         ];
 
