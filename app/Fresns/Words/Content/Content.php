@@ -103,9 +103,9 @@ class Content
                     'map_json' => $dtoWordBody->mapJson ?? null,
                 ];
 
-                if (! $checkLog) {
+                if (empty($checkLog)) {
                     $logModel = PostLog::create($logData);
-                } elseif (! $checkLog->content && ! $checkLog?->files && ! $checkLog?->extends) {
+                } elseif (empty($checkLog?->content) && empty($checkLog?->files) && empty($checkLog?->extends)) {
                     $logModel = $checkLog->update($logData);
                 } else {
                     $logModel = PostLog::create($logData);
@@ -137,11 +137,11 @@ class Content
                     'map_json' => $dtoWordBody->mapJson ?? null,
                 ];
 
-                if (! $checkLog) {
+                if (empty($checkLog)) {
                     $logModel = CommentLog::create($logData);
                 }
 
-                if (! $checkLog->content && ! $checkLog?->files && ! $checkLog?->extends) {
+                if (empty($checkLog?->content) && empty($checkLog?->files) && empty($checkLog?->extends)) {
                     $logModel = $checkLog->update($logData);
                 } else {
                     $logModel = CommentLog::create($logData);
