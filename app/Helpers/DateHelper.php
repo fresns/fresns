@@ -271,27 +271,26 @@ class DateHelper
 
         // $timeLine = strtotime($currentTime) - strtotime($datetime);
         $timeLine = time() - strtotime($datetime);
-        $minuteLine = 60 * 60;
 
-        if ($timeLine < $minuteLine) {
+        if ($timeLine < 60 * 60) {
             // {n} minute ago
             $timeInt = floor($timeLine / 60);
             $timeFormatString = $timeFormatItem['timeFormatMinute'] ?? '{n} minute ago';
-        } elseif ($timeLine < $minuteLine * 24) {
+        } elseif ($timeLine < 60 * 60 * 24) {
             // {n} hour ago
-            $timeInt = floor($timeLine / ($minuteLine));
+            $timeInt = floor($timeLine / (60 * 60));
             $timeFormatString = $timeFormatItem['timeFormatHour'] ?? '{n} hour ago';
-        } elseif ($timeLine < $minuteLine * 24 * 7) {
+        } elseif ($timeLine < 60 * 60 * 24 * 30) {
             // {n} day ago
-            $timeInt = floor($timeLine / ($minuteLine * 24));
+            $timeInt = floor($timeLine / (60 * 60 * 24));
             $timeFormatString = $timeFormatItem['timeFormatDay'] ?? '{n} day ago';
-        } elseif ($timeLine < $minuteLine * 24 * 7 * 4 * 12) {
+        } elseif ($timeLine < 60 * 60 * 24 * 7 * 4 * 12) {
             // {n} month ago
-            $timeInt = floor($timeLine / ($minuteLine * 24 * 7 * 4));
+            $timeInt = floor($timeLine / (60 * 60 * 24 * 7 * 4));
             $timeFormatString = $timeFormatItem['timeFormatMonth'] ?? '{n} month ago';
         } else {
             // {n} year ago
-            $timeInt = floor($timeLine / ($minuteLine * 24 * 7 * 4 * 12));
+            $timeInt = floor($timeLine / (60 * 60 * 24 * 7 * 4 * 12));
             $timeFormatString = $timeFormatItem['timeFormatYear'] ?? '{n} year ago';
         }
 
