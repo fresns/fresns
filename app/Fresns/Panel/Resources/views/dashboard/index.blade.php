@@ -283,7 +283,7 @@
     </div>
 @endsection
 
-@section('js')
+@push('script')
     <script>
         $('.composer_info').click(function (event) {
             event.preventDefault();
@@ -313,4 +313,4 @@
             });
         });
     </script>
-@endsection
+@endpush
