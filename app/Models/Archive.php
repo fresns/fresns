@@ -10,6 +10,8 @@ namespace App\Models;
 
 class Archive extends Model
 {
+    use Traits\ArchiveServiceTrait;
+
     const TYPE_USER = 1;
     const TYPE_GROUP = 2;
     const TYPE_HASHTAG = 3;

@@ -61,6 +61,22 @@ class Group extends Model
         return $this->hasMany(self::class, 'parent_id', 'id');
     }
 
+    public function allGroups()
+    {
+        return $this->hasMany(self::class, 'parent_id', 'id')->with('groups');
+    }
+
+    public function flattenGroups()
+    {
+        $groups = collect([$this]);
+
+        $this->allGroups->each(function ($group) use ($groups) {
+            $groups->push($group->flattenGroups());
+        });
+
+        return $groups->flatten();
+    }
+
     public function admins()
     {
         return $this->belongsToMany(User::class, 'group_admins', 'group_id', 'user_id');
