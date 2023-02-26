@@ -496,14 +496,14 @@ class EditorController extends Controller
             }
 
             // postIsComment
-            if ($dtoRequest->postIsComment) {
+            if (isset($dtoRequest->postIsComment)) {
                 $draft->update([
                     'is_comment' => $dtoRequest->postIsComment,
                 ]);
             }
 
             // postIsCommentPublic
-            if ($dtoRequest->postIsCommentPublic) {
+            if (isset($dtoRequest->postIsCommentPublic)) {
                 $draft->update([
                     'is_comment_public' => $dtoRequest->postIsCommentPublic,
                 ]);
@@ -525,14 +525,14 @@ class EditorController extends Controller
         }
 
         // isMarkdown
-        if ($dtoRequest->isMarkdown) {
+        if (isset($dtoRequest->isMarkdown)) {
             $draft->update([
                 'is_markdown' => $dtoRequest->isMarkdown,
             ]);
         }
 
         // isAnonymous
-        if ($dtoRequest->isAnonymous) {
+        if (isset($dtoRequest->isAnonymous)) {
             $draft->update([
                 'is_anonymous' => $dtoRequest->isAnonymous,
             ]);
