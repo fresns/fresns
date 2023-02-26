@@ -1062,7 +1062,7 @@ $(document).ready(function () {
             success: function (response) {
                 progressDown && progressDown()
                 var ansi_up = new AnsiUp;
-                var html = ansi_up.ansi_to_html(response);
+                var html = ansi_up.ansi_to_html(response.message || '');
                 window.uninstallMessage = html;
                 $('#uninstallStepModal').find('#uninstall_artisan_output').html(html);
             },
