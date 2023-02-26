@@ -24,6 +24,8 @@ class CreateArchivesTable extends Migration
             $table->text('description')->nullable();
             $table->string('code', 32)->unique('code');
             $table->unsignedTinyInteger('usage_type');
+            $table->unsignedInteger('usage_group_id')->default(0);
+            $table->unsignedTinyInteger('usage_group_content_type')->nullable();
             $table->string('form_element', 16);
             $table->string('element_type', 16)->nullable();
             $table->json('element_options')->nullable();
@@ -38,7 +40,7 @@ class CreateArchivesTable extends Migration
             $table->unsignedSmallInteger('input_size')->nullable();
             $table->unsignedSmallInteger('input_step')->nullable();
             $table->unsignedSmallInteger('rating')->default(9);
-            $table->string('api_type', 16)->default('string');
+            $table->string('value_type', 16)->default('string');
             $table->unsignedTinyInteger('is_enable')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
