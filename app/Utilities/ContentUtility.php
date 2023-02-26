@@ -299,23 +299,28 @@ class ContentUtility
             return $content;
         }
 
-        $usernameList = ContentUtility::extractMention($content);
-        $userArr = User::whereIn('username', $usernameList)->get();
+        $userFsidList = ContentUtility::extractMention($content);
+        $userArr = User::whereIn('uid', $userFsidList)->orWhereIn('username', $userFsidList)->get();
 
         $linkList = [];
         $replaceList = [];
-        foreach ($usernameList as $username) {
+        foreach ($userFsidList as $fsid) {
             // check mention record
-            $user = $userArr->where('username', $username)->first();
+            if (StrHelper::isPureInt($fsid)) {
+                $user = $userArr->where('uid', $fsid)->first();
+            } else {
+                $user = $userArr->where('username', $fsid)->first();
+            }
+
             $mentionUser = $mentionArr->where('mention_user_id', $user?->id)->first();
 
             if (empty($mentionUser)) {
-                $replaceList[] = "@{$username}";
+                $replaceList[] = "@{$fsid}";
                 $linkList[] = sprintf(
                     '<a href="%s/%s/0" class="fresns_mention" target="_blank">@%s</a>',
                     $config['site_url'],
                     $config['website_user_detail_path'],
-                    $username
+                    $fsid
                 );
                 continue;
             }
@@ -328,7 +333,7 @@ class ContentUtility
                 $urlName = $user->username;
             }
 
-            $replaceList[] = "@{$username}";
+            $replaceList[] = "@{$fsid}";
 
             $linkList[] = sprintf(
                 '<a href="%s/%s/%s" class="fresns_mention" target="_blank">@%s</a>',
@@ -507,8 +512,15 @@ class ContentUtility
     // Save mention user
     public static function saveMention(string $content, int $mentionType, int $mentionId, int $authUserId): void
     {
-        $usernameArr = ContentUtility::extractMention($content);
-        $userIdArr = User::whereIn('username', $usernameArr)->pluck('id')->toArray();
+        $fsidArr = ContentUtility::extractMention($content);
+
+        $config = ConfigHelper::fresnsConfigByItemKey('user_identifier');
+
+        if ($config == 'uid') {
+            $userIdArr = User::whereIn('uid', $fsidArr)->pluck('id')->toArray();
+        } else {
+            $userIdArr = User::whereIn('username', $fsidArr)->pluck('id')->toArray();
+        }
 
         foreach ($userIdArr as $userId) {
             $mentionDataItem = [
