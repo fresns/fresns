@@ -24,8 +24,9 @@ class CommentListDTO extends DTO
             'uidOrUsername' => ['string', 'nullable'], // comments->user_id
             'pid' => ['string', 'nullable'], // comments->post_id
             'cid' => ['string', 'nullable'], // comments->top_parent_id
-            'gid' => ['string', 'nullable'], // comments->post_id->group_id
             'hid' => ['string', 'nullable'],
+            'gid' => ['string', 'nullable'], // comments->post_id->group_id
+            'includeSubgroups' => ['boolean', 'nullable'],
             'sticky' => ['boolean', 'nullable'], // comments->is_sticky
             'allDigest' => ['boolean', 'nullable'],
             'digestState' => ['integer', 'nullable', 'in:1,2,3'], // comments->digest_state

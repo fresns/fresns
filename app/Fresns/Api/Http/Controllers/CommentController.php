@@ -59,23 +59,21 @@ class CommentController extends Controller
                 $query->whereNotIn('id', $value);
             });
 
-            if ($blockPostIds) {
-                $commentQuery->when($blockPostIds, function ($query, $value) {
-                    $query->whereNotIn('post_id', $value);
-                });
-            }
+            $commentQuery->when($blockPostIds, function ($query, $value) {
+                $query->whereNotIn('post_id', $value);
+            });
 
             $commentQuery->when($blockUserIds, function ($query, $value) {
                 $query->whereNotIn('user_id', $value);
             });
 
-            if ($blockHashtagIds) {
-                $commentQuery->where(function ($commentQuery) use ($blockHashtagIds) {
-                    $commentQuery->whereDoesntHave('hashtags')->orWhereHas('hashtags', function ($query) use ($blockHashtagIds) {
-                        $query->whereNotIn('hashtag_id', $blockHashtagIds);
+            $commentQuery->when($blockHashtagIds, function ($query, $value) {
+                $query->where(function ($commentQuery) use ($value) {
+                    $commentQuery->whereDoesntHave('hashtags')->orWhereHas('hashtags', function ($query) use ($value) {
+                        $query->whereNotIn('hashtag_id', $value);
                     });
                 });
-            }
+            });
         }
 
         // is enable
@@ -168,6 +166,7 @@ class CommentController extends Controller
         $groupDateLimit = null;
         if ($dtoRequest->gid) {
             $viewGroup = PrimaryHelper::fresnsModelByFsid('group', $dtoRequest->gid);
+            $groupId = $viewGroup->id;
 
             if (empty($viewGroup) || $viewGroup->trashed()) {
                 throw new ApiException(37100);
@@ -178,7 +177,7 @@ class CommentController extends Controller
             }
 
             // group mode
-            $checkLimit = GroupService::getGroupContentDateLimit($viewGroup->id, $authUserId);
+            $checkLimit = GroupService::getGroupContentDateLimit($groupId, $authUserId);
 
             if ($checkLimit['code']) {
                 return $this->warning($checkLimit['code']);
@@ -186,11 +185,19 @@ class CommentController extends Controller
 
             $groupDateLimit = $checkLimit['datetime'];
 
-            $commentQuery->when($viewGroup->id, function ($query, $value) {
-                $query->whereHas('post', function ($query) use ($value) {
-                    $query->where('group_id', $value);
+            if ($dtoRequest->includeSubgroups) {
+                $allGroups = PrimaryHelper::fresnsModelGroups($groupId);
+
+                $groupsArr = $allGroups->pluck('id');
+
+                $commentQuery->whereHas('post', function ($query) use ($groupsArr) {
+                    $query->whereIn('group_id', $groupsArr);
                 });
-            });
+            } else {
+                $commentQuery->whereHas('post', function ($query) use ($groupId) {
+                    $query->where('group_id', $groupId);
+                });
+            }
         }
 
         if ($dtoRequest->hid) {

@@ -167,7 +167,15 @@ class PostController extends Controller
 
             $groupDateLimit = $checkLimit['datetime'];
 
-            $postQuery->where('group_id', $viewGroup->id);
+            if ($dtoRequest->includeSubgroups) {
+                $allGroups = PrimaryHelper::fresnsModelGroups($viewGroup->id);
+
+                $groupsArr = $allGroups->pluck('id');
+
+                $postQuery->whereIn('group_id', $groupsArr);
+            } else {
+                $postQuery->where('group_id', $viewGroup->id);
+            }
         }
 
         if ($dtoRequest->hid) {
@@ -183,10 +191,10 @@ class PostController extends Controller
                 throw new ApiException(37201);
             }
 
-            $postQuery->when($viewHashtag->id, function ($query, $value) {
-                $query->whereHas('hashtags', function ($query) use ($value) {
-                    $query->where('hashtag_id', $value);
-                });
+            $hashtagId = $viewHashtag->id;
+
+            $postQuery->whereHas('hashtags', function ($query) use ($hashtagId) {
+                $query->where('hashtag_id', $hashtagId);
             });
         }
 

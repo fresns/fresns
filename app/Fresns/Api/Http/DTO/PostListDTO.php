@@ -22,8 +22,9 @@ class PostListDTO extends DTO
             'mapLng' => ['numeric', 'nullable'],
             'mapLat' => ['numeric', 'nullable'],
             'uidOrUsername' => ['string', 'nullable'], // posts->user_id
-            'gid' => ['string', 'nullable'], // posts->group_id
             'hid' => ['string', 'nullable'], // hashtag_usages->hashtag_id
+            'gid' => ['string', 'nullable'], // posts->group_id
+            'includeSubgroups' => ['boolean', 'nullable'],
             'allDigest' => ['boolean', 'nullable'],
             'digestState' => ['integer', 'nullable', 'in:1,2,3'], // posts->digest_state
             'stickyState' => ['integer', 'nullable', 'in:1,2,3'], // posts->sticky_state
