@@ -57,31 +57,24 @@ class CommonController extends Controller
         switch ($dtoRequest->type) {
             // user
             case 'user':
-                $userQuery = User::where('username', 'like', "%$dtoRequest->key%")
-                    ->orWhere('nickname', 'like', "%$dtoRequest->key%")
-                    ->isEnable()
-                    ->limit(10)
-                    ->get();
+                $userIdentifier = ConfigHelper::fresnsConfigByItemKey('user_identifier');
 
-                $data = null;
-                if (! empty($userQuery)) {
-                    if (ConfigHelper::fresnsConfigFileValueTypeByItemKey('default_avatar') == 'URL') {
-                        $defaultAvatar = ConfigHelper::fresnsConfigByItemKey('default_avatar');
-                    } else {
-                        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->getFileInfo([
-                            'fileId' => ConfigHelper::fresnsConfigByItemKey('default_avatar'),
-                        ]);
-                        $defaultAvatar = $fresnsResp->getData('imageSquareUrl');
-                    }
+                if ($userIdentifier == 'uid') {
+                    $userQuery = User::where('uid', 'like', "%$dtoRequest->key%");
+                } else {
+                    $userQuery = User::where('username', 'like', "%$dtoRequest->key%");
+                }
 
-                    foreach ($userQuery as $user) {
-                        $avatar = FileHelper::fresnsFileUrlByTableColumn($user->avatar_file_id, $user->avatar_file_url, 'imageSquareUrl');
+                $users = $userQuery->orWhere('nickname', 'like', "%$dtoRequest->key%")->isEnable()->limit(10)->get();
 
-                        $item['fsid'] = $user->uid;
-                        $item['name'] = $user->username;
-                        $item['image'] = $avatar = $avatar ?: $defaultAvatar;
-                        $item['nickname'] = $user->nickname;
+                $data = [];
+                if ($users) {
+                    foreach ($users as $user) {
+                        $item['fsid'] = ($userIdentifier == 'uid') ? $user->uid : $user->username;
+                        $item['name'] = $user->nickname;
+                        $item['image'] = $user->getUserAvatar();
                         $item['followStatus'] = false;
+
                         $data[] = $item;
                     }
                 }
@@ -93,12 +86,12 @@ class CommonController extends Controller
                     ->where('table_column', 'name')
                     ->where('lang_content', 'like', "%$dtoRequest->key%")
                     ->value('table_id')
-                    ?->limit(15)
+                    ?->limit(10)
                     ->get()
                     ->toArray();
 
-                $data = null;
-                if (! empty($tipQuery)) {
+                $data = [];
+                if ($tipQuery) {
                     $groupIds = array_unique($tipQuery);
 
                     $groupQuery = Language::whereIn('id', $groupIds)->isEnable()->get();
@@ -107,8 +100,8 @@ class CommonController extends Controller
                         $item['fsid'] = $group->gid;
                         $item['name'] = LanguageHelper::fresnsLanguageByTableId('groups', 'name', $group->id, $langTag);
                         $item['image'] = FileHelper::fresnsFileUrlByTableColumn($group->cover_file_id, $group->cover_file_url);
-                        $item['nickname'] = null;
                         $item['followStatus'] = false;
+
                         $data[] = $item;
                     }
                 }
@@ -118,14 +111,14 @@ class CommonController extends Controller
             case 'hashtag':
                 $hashtagQuery = Hashtag::where('name', 'like', "%$dtoRequest->key%")->isEnable()->limit(10)->get();
 
-                $data = null;
-                if (! empty($hashtagQuery)) {
+                $data = [];
+                if ($hashtagQuery) {
                     foreach ($hashtagQuery as $hashtag) {
                         $item['fsid'] = $hashtag->slug;
                         $item['name'] = $hashtag->name;
                         $item['image'] = FileHelper::fresnsFileUrlByTableColumn($hashtag->cover_file_id, $hashtag->cover_file_url);
-                        $item['nickname'] = null;
                         $item['followStatus'] = false;
+
                         $data[] = $item;
                     }
                 }
@@ -135,14 +128,14 @@ class CommonController extends Controller
             case 'post':
                 $postQuery = Post::where('title', 'like', "%$dtoRequest->key%")->isEnable()->limit(10)->get();
 
-                $data = null;
-                if (! empty($postQuery)) {
+                $data = [];
+                if ($postQuery) {
                     foreach ($postQuery as $post) {
                         $item['fsid'] = $post->pid;
                         $item['name'] = $post->title;
                         $item['image'] = null;
-                        $item['nickname'] = null;
                         $item['followStatus'] = false;
+
                         $data[] = $item;
                     }
                 }
@@ -150,7 +143,19 @@ class CommonController extends Controller
 
             // comment
             case 'comment':
-                $data = null;
+                $commentQuery = Comment::where('content', 'like', "%$dtoRequest->key%")->isEnable()->limit(10)->get();
+
+                $data = [];
+                if ($commentQuery) {
+                    foreach ($commentQuery as $comment) {
+                        $item['fsid'] = $comment->cid;
+                        $item['name'] = \Str::limit(strip_tags($comment->content), 60);
+                        $item['image'] = null;
+                        $item['followStatus'] = false;
+
+                        $data[] = $item;
+                    }
+                }
             break;
 
             // extend
@@ -163,8 +168,8 @@ class CommonController extends Controller
                     ->get()
                     ->toArray();
 
-                $data = null;
-                if (! empty($tipQuery)) {
+                $data = [];
+                if ($tipQuery) {
                     $extendIds = array_unique($tipQuery);
 
                     $extendQuery = Extend::whereIn('id', $extendIds)->isEnable()->get();
@@ -173,8 +178,8 @@ class CommonController extends Controller
                         $item['fsid'] = $extend->eid;
                         $item['name'] = LanguageHelper::fresnsLanguageByTableId('extends', 'title', $extend->id, $langTag);
                         $item['image'] = FileHelper::fresnsFileUrlByTableColumn($extend->cover_file_id, $extend->cover_file_url);
-                        $item['nickname'] = null;
                         $item['followStatus'] = false;
+
                         $data[] = $item;
                     }
                 }
