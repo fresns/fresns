@@ -176,7 +176,7 @@ class ExtendUtility
                 continue;
             }
 
-            $pluginArr =[];
+            $pluginArr = [];
             if ($archive->value_type == 'plugins') {
                 foreach ($use->archive_value ?? [] as $plugin) {
                     $plugin['code'] = $plugin['code'];
