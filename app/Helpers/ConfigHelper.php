@@ -196,23 +196,11 @@ class ConfigHelper
             if (substr($configValue, 0, 1) === '/') {
                 $fileUrl = StrHelper::qualifyUrl($configValue);
             }
-        } else {
-            $fileInfo = FileHelper::fresnsFileInfoById($configValue);
 
-            $key = match ($fileInfo['type']) {
-                File::TYPE_IMAGE => 'imageConfig',
-                File::TYPE_VIDEO => 'video',
-                File::TYPE_AUDIO => 'audio',
-                File::TYPE_DOCUMENT => 'documentPreview',
-                default => 'imageConfig',
-            };
-
-            $urlConfig = $urlConfig ?: "{$key}Url";
-
-            $fileUrl = $fileInfo[$urlConfig];
+            return $fileUrl;
         }
 
-        return $fileUrl;
+        return FileHelper::fresnsFileUrlById($configValue, $urlConfig);
     }
 
     // Get length units based on langTag

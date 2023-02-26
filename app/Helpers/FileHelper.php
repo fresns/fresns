@@ -283,6 +283,24 @@ class FileHelper
         return $file->getFileInfo()[$urlType] ?? null;
     }
 
+    // get file url by file id or fid
+    public static function fresnsFileUrlById(int|string $fileIdOrFid, ?string $urlConfig = null): ?string
+    {
+        $fileInfo = FileHelper::fresnsFileInfoById($fileIdOrFid);
+
+        $key = match ($fileInfo['type']) {
+            File::TYPE_IMAGE => 'imageConfig',
+            File::TYPE_VIDEO => 'video',
+            File::TYPE_AUDIO => 'audio',
+            File::TYPE_DOCUMENT => 'documentPreview',
+            default => 'imageConfig',
+        };
+
+        $urlConfig = $urlConfig ?: "{$key}Url";
+
+        return $fileInfo[$urlConfig] ?? null;
+    }
+
     // get file original url by file id or fid
     public static function fresnsFileOriginalUrlById(int|string $fileIdOrFid): ?string
     {

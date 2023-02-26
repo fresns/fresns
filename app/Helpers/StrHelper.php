@@ -98,7 +98,7 @@ class StrHelper
     // Whether it is a pure number
     public static function isPureInt(mixed $variable): bool
     {
-        return preg_match('/^\d*?$/', $variable);
+        return preg_match('/^\d+?$/', $variable);
     }
 
     // It takes a hostname as a string and returns the domain name as a string
