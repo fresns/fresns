@@ -7,14 +7,14 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - API: List interface adds a period parameter for the creation date, supporting today, yesterday, this week, last week, this month, last month, this year, last year
-- API: Notification message list can filter `actionUser' and `actionInfo' key-value pairs
-- API: Session message list can be filtered by 'user' key/value pairs
+- API: Notification message list can filter `actionUser` and `actionInfo` key-value pairs
+- API: Session message list can be filtered by `user` key/value pairs
 - API: User, group, topic, post, comment, and detail page interfaces support key-value pair filtering
 - API: Posts list supports filtering by group and topic
 - API: Content support for file mashups `[file:fid]`.
 - API: group support for classified information
 - API: post and comment list, support output sub-level multi-level content
-- System: Proxy environment customization, new `.env' configuration `TRUSTED_PROXIES` multiple comma separated ones
+- System: Proxy environment customization, new `.env` configuration `TRUSTED_PROXIES` multiple comma separated ones
 
 ### Fixes
 - API: Key-value filtering feature does not work on some interfaces
@@ -31,8 +31,8 @@ All notable changes to this project will be documented in this file.
 ### BREAKING CHANGES
 - API: Posts and comments will remove the following parameter and migrate to the search interface
 - API: Comment Data Structure remove `replyToUser` parameter, add `replyToComment` parameter
-- API: document information remove `documentUrl' parameter, wrap `documentPreviewUrl' parameter URL assembly method `FileHelper::fresnsFileDocumentPreviewUrl()`.
-- API: input-tips `common/input-tips' interface, remove nickname parameter
+- API: document information remove `documentUrl` parameter, wrap `documentPreviewUrl` parameter URL assembly method `FileHelper::fresnsFileDocumentPreviewUrl()`.
+- API: input-tips `common/input-tips` interface, remove nickname parameter
 - Framework: PHP version at least 8.1 required
 
 
