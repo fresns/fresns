@@ -482,6 +482,10 @@ class ValidationUtility
                         return 36311;
                     }
 
+                    if ($checkGroup['subGroupPost']) {
+                        return 38208;
+                    }
+
                     // Review
                     if ($checkGroup['reviewPost']) {
                         return 38200;

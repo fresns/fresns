@@ -301,6 +301,7 @@ class PermissionUtility
     {
         $permConfig = [
             'publish_post' => (int) ($permissions['publish_post'] ?? 1),
+            'publish_post_subgroup' => $permissions['publish_post_subgroup'] ?? false,
             'publish_post_roles' => $permissions['publish_post_roles'] ?? [],
             'publish_post_review' => $permissions['publish_post_review'] ?? false,
             'publish_comment' => (int) ($permissions['publish_comment'] ?? 1),
@@ -309,6 +310,7 @@ class PermissionUtility
         ];
 
         $perm['allowPost'] = false;
+        $perm['subGroupPost'] = $permConfig['publish_post_subgroup'];
         $perm['reviewPost'] = $permConfig['publish_post_review'];
         $perm['allowComment'] = false;
         $perm['reviewComment'] = $permConfig['publish_comment_review'];
@@ -329,6 +331,7 @@ class PermissionUtility
 
         if ($checkGroupAdmin) {
             $adminPerm['allowPost'] = true;
+            $adminPerm['subGroupPost'] = $permConfig['publish_post_subgroup'];
             $adminPerm['reviewPost'] = false;
             $adminPerm['allowComment'] = true;
             $adminPerm['reviewComment'] = false;

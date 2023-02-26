@@ -784,6 +784,7 @@ class CacheHelper
     // fresns_model_conversation_{$userId}_{$conversationUserId}    // +tag: fresnsUsers
     // fresns_model_group_{$gid}                                    // +tag: fresnsGroups
     // fresns_model_group_{$groupId}                                // +tag: fresnsGroups
+    // fresns_model_groups_{$idOrGid}                               // +tag: fresnsGroups
     // fresns_model_hashtag_{$hid}                                  // +tag: fresnsHashtags
     // fresns_model_hashtag_{$hashtagId}                            // +tag: fresnsHashtags
     // fresns_model_post_{$pid}                                     // +tag: fresnsPosts

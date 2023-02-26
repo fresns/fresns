@@ -227,6 +227,35 @@ class PrimaryHelper
         return $fresnsModel;
     }
 
+    // get groups model
+    public static function fresnsModelGroups(int|string $idOrGid): mixed
+    {
+        $cacheKey = "fresns_model_groups_{$idOrGid}";
+        $cacheTags = ['fresnsModels', 'fresnsGroups'];
+
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return null;
+        }
+
+        $flattenGroups = CacheHelper::get($cacheKey, $cacheTags);
+
+        if (empty($flattenGroups)) {
+            if (StrHelper::isPureInt($idOrGid)) {
+                $groupModel = Group::where('id', $idOrGid)->first();
+            } else {
+                $groupModel = Group::where('gid', $idOrGid)->first();
+            }
+
+            $flattenGroups = $groupModel->flattenGroups();
+
+            CacheHelper::put($flattenGroups, $cacheKey, $cacheTags);
+        }
+
+        return $flattenGroups;
+    }
+
     // get conversation model
     public static function fresnsModelConversation(int $authUserId, int $conversationUserId): Conversation
     {
@@ -254,40 +283,6 @@ class PrimaryHelper
         }
 
         return $conversationModel;
-    }
-
-    // get table id
-    public static function fresnsPrimaryId(string $tableName, ?string $tableKey = null): ?int
-    {
-        if (empty($tableKey)) {
-            return null;
-        }
-
-        $tableId = match ($tableName) {
-            'config' => PrimaryHelper::fresnsConfigIdByItemKey($tableKey),
-            'account' => PrimaryHelper::fresnsAccountIdByAid($tableKey),
-            'user' => PrimaryHelper::fresnsUserIdByUidOrUsername($tableKey),
-            'group' => PrimaryHelper::fresnsGroupIdByGid($tableKey),
-            'hashtag' => PrimaryHelper::fresnsHashtagIdByHid($tableKey),
-            'post' => PrimaryHelper::fresnsPostIdByPid($tableKey),
-            'comment' => PrimaryHelper::fresnsCommentIdByCid($tableKey),
-            'file' => PrimaryHelper::fresnsFileIdByFid($tableKey),
-            'extend' => PrimaryHelper::fresnsExtendIdByEid($tableKey),
-
-            'configs' => PrimaryHelper::fresnsConfigIdByItemKey($tableKey),
-            'accounts' => PrimaryHelper::fresnsAccountIdByAid($tableKey),
-            'users' => PrimaryHelper::fresnsUserIdByUidOrUsername($tableKey),
-            'groups' => PrimaryHelper::fresnsGroupIdByGid($tableKey),
-            'hashtags' => PrimaryHelper::fresnsHashtagIdByHid($tableKey),
-            'posts' => PrimaryHelper::fresnsPostIdByPid($tableKey),
-            'comments' => PrimaryHelper::fresnsCommentIdByCid($tableKey),
-            'files' => PrimaryHelper::fresnsFileIdByFid($tableKey),
-            'extends' => PrimaryHelper::fresnsExtendIdByEid($tableKey),
-
-            default => null,
-        };
-
-        return $tableId;
     }
 
     // get follow model by type
@@ -334,6 +329,40 @@ class PrimaryHelper
         }
 
         return $fresnsModel;
+    }
+
+    // get table id
+    public static function fresnsPrimaryId(string $tableName, ?string $tableKey = null): ?int
+    {
+        if (empty($tableKey)) {
+            return null;
+        }
+
+        $tableId = match ($tableName) {
+            'config' => PrimaryHelper::fresnsConfigIdByItemKey($tableKey),
+            'account' => PrimaryHelper::fresnsAccountIdByAid($tableKey),
+            'user' => PrimaryHelper::fresnsUserIdByUidOrUsername($tableKey),
+            'group' => PrimaryHelper::fresnsGroupIdByGid($tableKey),
+            'hashtag' => PrimaryHelper::fresnsHashtagIdByHid($tableKey),
+            'post' => PrimaryHelper::fresnsPostIdByPid($tableKey),
+            'comment' => PrimaryHelper::fresnsCommentIdByCid($tableKey),
+            'file' => PrimaryHelper::fresnsFileIdByFid($tableKey),
+            'extend' => PrimaryHelper::fresnsExtendIdByEid($tableKey),
+
+            'configs' => PrimaryHelper::fresnsConfigIdByItemKey($tableKey),
+            'accounts' => PrimaryHelper::fresnsAccountIdByAid($tableKey),
+            'users' => PrimaryHelper::fresnsUserIdByUidOrUsername($tableKey),
+            'groups' => PrimaryHelper::fresnsGroupIdByGid($tableKey),
+            'hashtags' => PrimaryHelper::fresnsHashtagIdByHid($tableKey),
+            'posts' => PrimaryHelper::fresnsPostIdByPid($tableKey),
+            'comments' => PrimaryHelper::fresnsCommentIdByCid($tableKey),
+            'files' => PrimaryHelper::fresnsFileIdByFid($tableKey),
+            'extends' => PrimaryHelper::fresnsExtendIdByEid($tableKey),
+
+            default => null,
+        };
+
+        return $tableId;
     }
 
     public static function fresnsConfigIdByItemKey(?string $itemKey = null): ?int

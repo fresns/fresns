@@ -184,6 +184,7 @@ class GroupController extends Controller
             $group->plugin_unikey = $request->plugin_unikey;
 
             $permissions = $request->permissions;
+            $permissions['publish_post_subgroup'] = (bool) ($permissions['publish_post_subgroup'] ?? 0);
             $permissions['publish_post_review'] = (bool) ($permissions['publish_post_review'] ?? 0);
             $permissions['publish_comment_review'] = (bool) ($permissions['publish_comment_review'] ?? 0);
 
@@ -318,6 +319,7 @@ class GroupController extends Controller
 
             $permissions = $group->permissions;
             $permissions['publish_post'] = $requestPerms['publish_post'];
+            $permissions['publish_post_subgroup'] = (bool) ($requestPerms['publish_post_subgroup'] ?? 0);
             $permissions['publish_post_roles'] = $requestPerms['publish_post_roles'] ?? [];
             $permissions['publish_post_review'] = (bool) ($requestPerms['publish_post_review'] ?? 0);
             $permissions['publish_comment'] = $requestPerms['publish_comment'];
