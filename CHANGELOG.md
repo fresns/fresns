@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.7.0 (2023-02-26)
+
+### Added
+- API: List interface adds a period parameter for the creation date, supporting today, yesterday, this week, last week, this month, last month, this year, last year
+- API: Notification message list can filter `actionUser' and `actionInfo' key-value pairs
+- API: Session message list can be filtered by 'user' key/value pairs
+- API: User, group, topic, post, comment, and detail page interfaces support key-value pair filtering
+- API: Posts list supports filtering by group and topic
+- API: Content support for file mashups `[file:fid]`.
+- API: group support for classified information
+- API: post and comment list, support output sub-level multi-level content
+- System: Proxy environment customization, new `.env' configuration `TRUSTED_PROXIES` multiple comma separated ones
+
+### Fixes
+- API: Key-value filtering feature does not work on some interfaces
+- API: Boolean parameter false does not take effect
+- API: Compatibility issue with client's messy language tag transfer
+- Panel: Optimize import and export of blocking words to resolve compatibility issue
+
+### Changed
+- API: User count data of the list interface is cached
+- System: System URLs remove backend configuration and use .env configuration values
+- System: Refactored cache tag mechanism
+- Framework: Updated laravel/framework to v10
+
+### BREAKING CHANGES
+- API: Posts and comments will remove the following parameter and migrate to the search interface
+- API: Comment Data Structure remove `replyToUser` parameter, add `replyToComment` parameter
+- API: document information remove `documentUrl' parameter, wrap `documentPreviewUrl' parameter URL assembly method `FileHelper::fresnsFileDocumentPreviewUrl()`.
+- API: input-tips `common/input-tips' interface, remove nickname parameter
+- Framework: PHP version at least 8.1 required
+
+
 ## 2.6.1 (2023-02-17)
 
 ### Fixes
