@@ -155,47 +155,14 @@ class GlobalController extends Controller
                 ->when($unikey, function ($query, $value) {
                     $query->where('plugin_unikey', $value);
                 })
+                ->where('usage_group_id', 0)
                 ->isEnable()
                 ->orderBy('rating')
                 ->get();
 
-            $fileExtName = ConfigHelper::fresnsConfigByItemKeys([
-                'image_extension_names',
-                'video_extension_names',
-                'audio_extension_names',
-                'document_extension_names',
-            ]);
-
             $items = [];
             foreach ($archiveData as $archive) {
-                $fileExt = match ($archive->file_type) {
-                    1 => $fileExtName['image_extension_names'],
-                    2 => $fileExtName['video_extension_names'],
-                    3 => $fileExtName['audio_extension_names'],
-                    4 => $fileExtName['document_extension_names'],
-                    default => null,
-                };
-
-                $item['plugin'] = $archive->plugin_unikey;
-                $item['name'] = $archive->name;
-                $item['code'] = $archive->code;
-                $item['formElement'] = $archive->form_element;
-                $item['elementType'] = $archive->element_type;
-                $item['elementOptions'] = $archive->element_options;
-                $item['fileType'] = $archive->file_type;
-                $item['fileExt'] = Str::lower($fileExt);
-                $item['fileAccept'] = FileHelper::fresnsFileAcceptByType($archive->file_type);
-                $item['isMultiple'] = (bool) $archive->is_multiple;
-                $item['isRequired'] = (bool) $archive->is_required;
-                $item['inputPattern'] = $archive->input_pattern;
-                $item['inputMax'] = $archive->input_max;
-                $item['inputMin'] = $archive->input_min;
-                $item['inputMaxlength'] = $archive->input_maxlength;
-                $item['inputMinlength'] = $archive->input_minlength;
-                $item['inputSize'] = $archive->input_size;
-                $item['inputStep'] = $archive->input_step;
-
-                $items[] = $item;
+                $items[] = $archive->getArchiveInfo($langTag);
             }
 
             $archives = $items;

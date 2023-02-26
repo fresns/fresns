@@ -172,26 +172,35 @@ class ExtendUtility
         $archiveList = [];
         foreach ($archiveUsages as $use) {
             $archive = $use->archive;
+            if (empty($archive)) {
+                continue;
+            }
+
+            $pluginArr =[];
+            if ($archive->value_type == 'plugins') {
+                foreach ($use->archive_value ?? [] as $plugin) {
+                    $plugin['code'] = $plugin['code'];
+                    $plugin['url'] = PluginHelper::fresnsPluginUrlByUnikey($plugin['unikey']) ?? $plugin['unikey'];
+
+                    $pluginArr[] = $plugin;
+                }
+            }
+
+            $archiveValue = match ($archive->value_type) {
+                'file' => StrHelper::isPureInt($use->archive_value) ? FileHelper::fresnsFileUrlById($use->archive_value) : $use->archive_value,
+                'plugin' => PluginHelper::fresnsPluginUrlByUnikey($use->archive_value) ?? $use->archive_value,
+                'plugins' => $pluginArr,
+                'number' => (int) $use->archive_value,
+                'boolean' => (bool) $use->archive_value,
+                'array' => (array) $use->archive_value,
+                'object' => (object) $use->archive_value,
+                default => $use->archive_value,
+            };
 
             $item['code'] = $archive->code;
-            $item['name'] = LanguageHelper::fresnsLanguageByTableId('archives', 'name', $archive->id, $langTag);
-
-            if ($archive->api_type == 'file' && StrHelper::isPureInt($use->archive_value)) {
-                $item['value'] = ConfigHelper::fresnsConfigFileUrlByItemKey($use->archive_value);
-            } elseif ($archive->api_type == 'plugin') {
-                $item['value'] = PluginHelper::fresnsPluginUrlByUnikey($use->archive_value);
-            } elseif ($archive->api_type == 'plugins') {
-                if ($use->archive_value) {
-                    foreach ($use->archive_value as $plugin) {
-                        $plugin['code'] = $plugin['code'];
-                        $plugin['url'] = PluginHelper::fresnsPluginUrlByUnikey($plugin['unikey']);
-                        $pluginArr[] = $plugin;
-                    }
-                    $item['value'] = $pluginArr;
-                }
-            } else {
-                $item['value'] = $use->archive_value;
-            }
+            $item['name'] = LanguageHelper::fresnsLanguageByTableId('archives', 'name', $archive->id, $langTag) ?? $archive->name;
+            $item['description'] = LanguageHelper::fresnsLanguageByTableId('archives', 'description', $archive->id, $langTag) ?? $archive->description;
+            $item['value'] = $archiveValue;
 
             $archiveList[] = $item;
         }

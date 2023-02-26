@@ -14,6 +14,7 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\InteractionHelper;
 use App\Helpers\PrimaryHelper;
+use App\Models\Archive;
 use App\Models\ArchiveUsage;
 use App\Models\ExtendUsage;
 use App\Models\File;
@@ -44,6 +45,33 @@ class GroupService
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_GROUP, $group->id, $langTag);
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_GROUP, $group->id, $langTag);
             $item['extends'] = ExtendUtility::getContentExtends(ExtendUsage::TYPE_GROUP, $group->id, $langTag);
+
+            $postArchiveData = Archive::type(Archive::TYPE_GROUP)
+                ->where('usage_group_id', $group->id)
+                ->where('usage_group_content_type', 1)
+                ->isEnable()
+                ->orderBy('rating')
+                ->get();
+            $contentMetaPost = [];
+            foreach ($postArchiveData as $archive) {
+                $contentMetaPost[] = $archive->getArchiveInfo($langTag);
+            }
+
+            $commentArchiveData = Archive::type(Archive::TYPE_GROUP)
+                ->where('usage_group_id', $group->id)
+                ->where('usage_group_content_type', 2)
+                ->isEnable()
+                ->orderBy('rating')
+                ->get();
+            $contentMetaComment = [];
+            foreach ($commentArchiveData as $archive) {
+                $contentMetaComment[] = $archive->getArchiveInfo($langTag);
+            }
+
+            $item['contentMeta'] = [
+                'post' => $contentMetaPost,
+                'comment' => $contentMetaComment,
+            ];
 
             $userService = new UserService;
 
