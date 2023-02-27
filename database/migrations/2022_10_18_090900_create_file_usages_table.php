@@ -35,7 +35,7 @@ class CreateFileUsagesTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->index(['table_name', 'table_column'], 'name_column');
+            $table->index(['table_name', 'table_column'], 'file_usages');
         });
     }
 

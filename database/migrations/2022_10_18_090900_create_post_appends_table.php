@@ -52,7 +52,7 @@ class CreatePostAppendsTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->index(['map_continent_code', 'map_country_code', 'map_region_code', 'map_city_code'], 'continent_country_region_city');
+            $table->index(['map_continent_code', 'map_country_code', 'map_region_code', 'map_city_code'], 'post_continent_country_region_city');
         });
     }
 

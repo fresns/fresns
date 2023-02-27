@@ -29,7 +29,7 @@ class CreateSeoTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->index(['usage_type', 'usage_id', 'lang_tag'], 'usage_lang');
+            $table->index(['usage_type', 'usage_id', 'lang_tag'], 'seo_lang');
         });
     }
 

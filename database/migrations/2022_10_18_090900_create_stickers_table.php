@@ -19,7 +19,7 @@ class CreateStickersTable extends Migration
     {
         Schema::create('stickers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('code', 32)->unique('code');
+            $table->string('code', 32)->unique('sticker_code');
             $table->string('name', 64);
             $table->unsignedBigInteger('image_file_id')->nullable();
             $table->string('image_file_url')->nullable();

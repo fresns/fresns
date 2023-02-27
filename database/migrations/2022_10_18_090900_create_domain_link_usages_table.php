@@ -26,7 +26,7 @@ class CreateDomainLinkUsagesTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->index(['usage_type', 'usage_id'], 'usage_type');
+            $table->index(['usage_type', 'usage_id'], 'domain_link_usages');
         });
     }
 
