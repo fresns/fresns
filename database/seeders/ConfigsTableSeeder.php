@@ -5483,7 +5483,7 @@ class ConfigsTableSeeder extends Seeder
             420 => [
                 'id' => 421,
                 'item_key' => 'default_homepage',
-                'item_value' => 'group',
+                'item_value' => 'post',
                 'item_type' => 'string',
                 'item_tag' => 'menus',
                 'is_multilingual' => 0,
