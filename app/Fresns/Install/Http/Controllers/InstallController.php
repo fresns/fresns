@@ -312,7 +312,6 @@ class InstallController extends Controller
     {
         $extensions = [
             'fileinfo',
-            'exif',
         ];
 
         $extensionsCheckResult = [];

@@ -32,8 +32,8 @@ return [
     'intro_next_btn' => 'Los geht\'s!',
     // server
     'server_title' => 'Server-Anforderungen',
-    'server_check_php_version' => 'PHP 8.0.2+',
-    'server_check_composer_version' => 'Composer 2.4+',
+    'server_check_php_version' => 'PHP 8.1+',
+    'server_check_composer_version' => 'Composer 2.5+',
     'server_check_https' => 'HTTPS wird für Websites empfohlen',
     'server_check_folder_ownership' => 'Eigentum an Ordnern',
     'server_check_php_extensions' => 'PHP-Erweiterungen',
