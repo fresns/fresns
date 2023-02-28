@@ -731,8 +731,8 @@ class CacheHelper
     // install_{$step}
     // autoUpgradeStep
     // autoUpgradeTip
-    // physicalUpgradeStep
-    // physicalUpgradeTip
+    // manualUpgradeStep
+    // manualUpgradeTip
 
     /**
      * tag: fresnsSystems.
