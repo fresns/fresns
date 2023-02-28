@@ -20,7 +20,7 @@ class CreateCodeMessagesTable extends Migration
         Schema::create('code_messages', function (Blueprint $table) {
             $table->increments('id');
             $table->string('plugin_unikey', 64);
-            $table->unsignedSmallInteger('code');
+            $table->unsignedInteger('code');
             $table->char('lang_tag', 16);
             $table->string('message');
             $table->timestamp('created_at')->useCurrent();

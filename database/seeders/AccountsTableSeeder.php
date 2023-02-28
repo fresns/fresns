@@ -33,7 +33,7 @@ class AccountsTableSeeder extends Seeder
                 'is_verify' => 1,
                 'verify_plugin_unikey' => null,
                 'verify_real_name' => null,
-                'verify_gender' => 0,
+                'verify_gender' => 1,
                 'verify_cert_type' => null,
                 'verify_cert_number' => null,
                 'verify_identity_type' => null,
