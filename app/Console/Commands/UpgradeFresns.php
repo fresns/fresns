@@ -219,7 +219,7 @@ class UpgradeFresns extends Command
         }
 
         logger('-- composer command');
-        $process = new Process([$composerPath, 'update'], base_path());
+        $process = new Process([$composerPath, 'update', '-vvv'], base_path());
         $process->setTimeout(0);
         $process->start();
 
