@@ -41,9 +41,9 @@ class CodeMessageController extends Controller
             $query->where('plugin_unikey', $value);
         });
 
-        $codeMessages->when($request->code, function ($query, $value) {
-            $query->where('code', $value);
-        });
+        if (isset($request->code)) {
+            $codeMessages->where('code', $request->code);
+        }
 
         $codeMessages = $codeMessages->paginate(20);
 
