@@ -163,7 +163,7 @@ return [
     'button_save' => 'Salvar',
     'button_upgrade' => 'Actualizar',
     'button_automatic_upgrade' => 'Actualización automática',
-    'button_physical_upgrade' => 'Actualización física',
+    'button_manual_upgrade' => 'Actualización manual',
     'button_confirm_delete' => 'Confirmar eliminación',
     'button_confirm_install' => 'Confirmar la instalación',
     'button_confirm_upgrade' => 'Confirmar la actualización',

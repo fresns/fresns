@@ -163,7 +163,7 @@ return [
     'button_save' => '구하다',
     'button_upgrade' => '업그레이드',
     'button_automatic_upgrade' => '자동 업그레이드',
-    'button_physical_upgrade' => '물리적 업그레이드',
+    'button_manual_upgrade' => '수동 업그레이드',
     'button_confirm_delete' => '삭제 확인',
     'button_confirm_install' => '설치 확인',
     'button_confirm_upgrade' => '업그레이드 확인',

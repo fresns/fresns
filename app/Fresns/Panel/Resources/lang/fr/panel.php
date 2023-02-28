@@ -163,7 +163,7 @@ return [
     'button_save' => 'sauvegarder',
     'button_upgrade' => 'Mise à jour',
     'button_automatic_upgrade' => 'Mise à jour automatique',
-    'button_physical_upgrade' => 'Mise à niveau physique',
+    'button_manual_upgrade' => 'Mise à niveau manuelle',
     'button_confirm_delete' => 'Confirmation de la suppression',
     'button_confirm_install' => 'Confirmer l\'installation',
     'button_confirm_upgrade' => 'Confirmer la mise à niveau',

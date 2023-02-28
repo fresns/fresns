@@ -163,7 +163,7 @@ return [
     'button_save' => 'Save',
     'button_upgrade' => 'Upgrade',
     'button_automatic_upgrade' => 'Auto Upgrade',
-    'button_physical_upgrade' => 'Physical Upgrade',
+    'button_manual_upgrade' => 'Manual Upgrade',
     'button_confirm_delete' => 'Confirm Delete',
     'button_confirm_install' => 'Confirm Install',
     'button_confirm_upgrade' => 'Confirm Upgrade',

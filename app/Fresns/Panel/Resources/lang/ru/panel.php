@@ -163,7 +163,7 @@ return [
     'button_save' => 'Сохранять',
     'button_upgrade' => 'Обновление',
     'button_automatic_upgrade' => 'Автоматическое обновление',
-    'button_physical_upgrade' => 'Физическая модернизация',
+    'button_manual_upgrade' => 'Ручное обновление',
     'button_confirm_delete' => 'Подтвердите удаление',
     'button_confirm_install' => 'Подтверждение установки',
     'button_confirm_upgrade' => 'Подтвердить обновление',

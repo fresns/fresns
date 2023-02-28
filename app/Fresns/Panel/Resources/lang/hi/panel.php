@@ -163,7 +163,7 @@ return [
     'button_save' => 'सहेजें',
     'button_upgrade' => 'उन्नत करना',
     'button_automatic_upgrade' => 'ऑटो अपग्रेड',
-    'button_physical_upgrade' => 'शारीरिक उन्नयन',
+    'button_manual_upgrade' => 'मैनुअल अपग्रेड',
     'button_confirm_delete' => 'हटाने की पुष्टि करें',
     'button_confirm_install' => 'इंस्टॉल की पुष्टि करें',
     'button_confirm_upgrade' => 'अपग्रेड की पुष्टि करें',

@@ -108,7 +108,7 @@ Route::middleware(['panelAuth'])->group(function () {
     Route::patch('upgrade/check', [UpgradeController::class, 'checkFresnsVersion'])->name('upgrade.check');
     // fresns upgrade
     Route::post('auto-upgrade', [UpgradeController::class, 'autoUpgrade'])->name('upgrade.auto');
-    Route::post('physical-upgrade', [UpgradeController::class, 'physicalUpgrade'])->name('upgrade.physical');
+    Route::post('manual-upgrade', [UpgradeController::class, 'manualUpgrade'])->name('upgrade.manual');
     Route::get('upgrade/info', [UpgradeController::class, 'upgradeInfo'])->name('upgrade.info');
 
     // dashboard-admins

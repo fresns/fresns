@@ -164,7 +164,7 @@ return [
     'button_save' => '提交保存',
     'button_upgrade' => '升級',
     'button_automatic_upgrade' => '自動升級',
-    'button_physical_upgrade' => '物理升級',
+    'button_manual_upgrade' => '手動升級',
     'button_confirm_delete' => '確認刪除',
     'button_confirm_install' => '確認安裝',
     'button_confirm_upgrade' => '確認升級',

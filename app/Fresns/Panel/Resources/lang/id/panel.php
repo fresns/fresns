@@ -163,7 +163,7 @@ return [
     'button_save' => 'Menyimpan',
     'button_upgrade' => 'Meningkatkan',
     'button_automatic_upgrade' => 'Peningkatan otomatis',
-    'button_physical_upgrade' => 'Peningkatan Fisik',
+    'button_manual_upgrade' => 'Peningkatan Manual',
     'button_confirm_delete' => 'Konfirmasikan Hapus',
     'button_confirm_install' => 'Konfirmasi Instal',
     'button_confirm_upgrade' => 'Konfirmasikan Peningkatan',

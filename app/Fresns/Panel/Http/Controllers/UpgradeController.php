@@ -41,22 +41,22 @@ class UpgradeController extends Controller
             6 => __('FsLang::tips.auto_upgrade_step_6'),
         ];
 
-        $physicalUpgradeSteps = [
-            1 => __('FsLang::tips.physical_upgrade_step_1'),
-            2 => __('FsLang::tips.physical_upgrade_step_2'),
-            3 => __('FsLang::tips.physical_upgrade_step_3'),
-            4 => __('FsLang::tips.physical_upgrade_step_4'),
-            5 => __('FsLang::tips.physical_upgrade_step_5'),
-            6 => __('FsLang::tips.physical_upgrade_step_6'),
-            7 => __('FsLang::tips.physical_upgrade_step_7'),
+        $manualUpgradeSteps = [
+            1 => __('FsLang::tips.manual_upgrade_step_1'),
+            2 => __('FsLang::tips.manual_upgrade_step_2'),
+            3 => __('FsLang::tips.manual_upgrade_step_3'),
+            4 => __('FsLang::tips.manual_upgrade_step_4'),
+            5 => __('FsLang::tips.manual_upgrade_step_5'),
+            6 => __('FsLang::tips.manual_upgrade_step_6'),
+            7 => __('FsLang::tips.manual_upgrade_step_7'),
         ];
 
         $autoUpgradeStepInt = cache('autoUpgradeStep');
-        $physicalUpgradeStepInt = cache('physicalUpgradeStep');
+        $manualUpgradeStepInt = cache('manualUpgradeStep');
 
-        if ($autoUpgradeStepInt == 6 || $physicalUpgradeStepInt == 7) {
+        if ($autoUpgradeStepInt == 6 || $manualUpgradeStepInt == 7) {
             $autoUpgradeStepInt = null;
-            $physicalUpgradeStepInt = null;
+            $manualUpgradeStepInt = null;
         }
 
         return view('FsView::dashboard.upgrade', compact(
@@ -72,8 +72,8 @@ class UpgradeController extends Controller
             'pluginUpgradeCount',
             'autoUpgradeSteps',
             'autoUpgradeStepInt',
-            'physicalUpgradeSteps',
-            'physicalUpgradeStepInt',
+            'manualUpgradeSteps',
+            'manualUpgradeStepInt',
         ));
     }
 
@@ -84,7 +84,7 @@ class UpgradeController extends Controller
             'fresns_current_version',
             'fresns_new_version',
             'autoUpgradeStep',
-            'physicalUpgradeStep',
+            'manualUpgradeStep',
         ]);
 
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkExtensionsVersion();
@@ -116,8 +116,8 @@ class UpgradeController extends Controller
         return $this->successResponse('upgrade');
     }
 
-    // physical upgrade fresns
-    public function physicalUpgrade()
+    // manual upgrade fresns
+    public function manualUpgrade()
     {
         $phpPath = (new PhpExecutableFinder)->find();
         if (! $phpPath) {
@@ -125,12 +125,12 @@ class UpgradeController extends Controller
         }
 
         // If the upgrade is already in progress, the upgrade button is not displayed
-        if (cache('physicalUpgradeStep')) {
+        if (cache('manualUpgradeStep')) {
             return $this->successResponse('upgrade');
         }
-        \Cache::put('physicalUpgradeStep', 1);
+        \Cache::put('manualUpgradeStep', 1);
 
-        passthru($phpPath.' '.base_path('artisan').' fresns:physical-upgrade > /dev/null &');
+        passthru($phpPath.' '.base_path('artisan').' fresns:manual-upgrade > /dev/null &');
 
         return $this->successResponse('upgrade');
     }
@@ -141,8 +141,8 @@ class UpgradeController extends Controller
         $upgradeInfo = [
             'autoUpgradeStep' => cache('autoUpgradeStep'),
             'autoUpgradeTip' => cache('autoUpgradeTip') ?? '',
-            'physicalUpgradeStep' => cache('physicalUpgradeStep'),
-            'physicalUpgradeTip' => cache('physicalUpgradeTip') ?? '',
+            'manualUpgradeStep' => cache('manualUpgradeStep'),
+            'manualUpgradeTip' => cache('manualUpgradeTip') ?? '',
         ];
 
         return response()->json($upgradeInfo);

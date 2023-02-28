@@ -163,7 +163,7 @@ return [
     'button_save' => '提交保存',
     'button_upgrade' => '升级',
     'button_automatic_upgrade' => '自动升级',
-    'button_physical_upgrade' => '物理升级',
+    'button_manual_upgrade' => '手动升级',
     'button_confirm_delete' => '确认删除',
     'button_confirm_install' => '确认安装',
     'button_confirm_upgrade' => '确认升级',

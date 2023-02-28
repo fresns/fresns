@@ -163,7 +163,7 @@ return [
     'button_save' => 'セーブ',
     'button_upgrade' => 'アップグレード',
     'button_automatic_upgrade' => '自動アップグレード',
-    'button_physical_upgrade' => '物理的なアップグレード',
+    'button_manual_upgrade' => 'マニュアルアップグレード',
     'button_confirm_delete' => '削除を確認してください',
     'button_confirm_install' => 'インストールを確認する',
     'button_confirm_upgrade' => 'アップグレードを確認します',
