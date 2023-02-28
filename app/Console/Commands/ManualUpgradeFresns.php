@@ -15,11 +15,11 @@ use App\Utilities\AppUtility;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 
-class PhysicalUpgradeFresns extends Command
+class ManualUpgradeFresns extends Command
 {
-    protected $signature = 'fresns:physical-upgrade';
+    protected $signature = 'fresns:manual-upgrade';
 
-    protected $description = 'physical upgrade fresns';
+    protected $description = 'manual upgrade fresns';
 
     const STEP_FAILURE = 0;
     const STEP_START = 1;
@@ -38,7 +38,7 @@ class PhysicalUpgradeFresns extends Command
     // execute the console command
     public function handle()
     {
-        Cache::forget('physicalUpgradeTip');
+        Cache::forget('manualUpgradeTip');
         $this->updateStep(self::STEP_START);
 
         // Check if an upgrade is needed
@@ -49,8 +49,8 @@ class PhysicalUpgradeFresns extends Command
             $this->info($checkVersionTip);
             $this->info('Step --: Upgrade end');
 
-            Cache::put('physicalUpgradeStep', self::STEP_DONE);
-            Cache::put('physicalUpgradeTip', $checkVersionTip);
+            Cache::put('manualUpgradeStep', self::STEP_DONE);
+            Cache::put('manualUpgradeTip', $checkVersionTip);
 
             return Command::SUCCESS;
         }
@@ -61,8 +61,8 @@ class PhysicalUpgradeFresns extends Command
 
                 $this->error($extractFileTip);
 
-                Cache::put('physicalUpgradeStep', self::STEP_FAILURE);
-                Cache::put('physicalUpgradeTip', $extractFileTip);
+                Cache::put('manualUpgradeStep', self::STEP_FAILURE);
+                Cache::put('manualUpgradeTip', $extractFileTip);
 
                 return Command::FAILURE;
             }
@@ -116,11 +116,11 @@ class PhysicalUpgradeFresns extends Command
             $this->info($content);
         }
 
-        $output = cache('physicalUpgradeTip')."\n";
+        $output = cache('manualUpgradeTip')."\n";
         $output .= $content;
 
-        Cache::put('physicalUpgradeStep', $step);
-        Cache::put('physicalUpgradeTip', $output);
+        Cache::put('manualUpgradeStep', $step);
+        Cache::put('manualUpgradeTip', $output);
     }
 
     // step 2: Update fresns data
