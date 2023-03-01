@@ -10,15 +10,7 @@ namespace App\Utilities;
 
 class CollectionUtility
 {
-    /**
-     * @param  array  $data
-     * @param  string  $primary
-     * @param  string  $parent
-     * @param  string  $children
-     * @return null|array
-     *                    #
-     */
-    public static function toTree(?array $data = [], $primary = 'id', $parent = 'parent_id', $children = 'children'): array
+    public static function toTree(?array $data = [], string $primary = 'id', string $parent = 'parent_id', string $children = 'children'): array
     {
         // data is empty
         if (empty($data) || count($data) === 0) {

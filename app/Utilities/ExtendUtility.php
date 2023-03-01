@@ -161,7 +161,7 @@ class ExtendUtility
     // get archives
     public static function getArchives(int $type, int $id, ?string $langTag = null): array
     {
-        $archiveQuery = ArchiveUsage::with('archive')->type($type)->where('usage_id', $id)->where('is_private', 0);
+        $archiveQuery = ArchiveUsage::with('archive')->type($type)->where('usage_id', $id);
 
         $archiveQuery->whereHas('archive', function ($query) {
             $query->where('is_enable', true)->orderBy('rating');
@@ -201,6 +201,7 @@ class ExtendUtility
             $item['name'] = LanguageHelper::fresnsLanguageByTableId('archives', 'name', $archive->id, $langTag) ?? $archive->name;
             $item['description'] = LanguageHelper::fresnsLanguageByTableId('archives', 'description', $archive->id, $langTag) ?? $archive->description;
             $item['value'] = $archiveValue;
+            $item['isPrivate'] = (bool) $use->is_private;
 
             $archiveList[] = $item;
         }

@@ -392,7 +392,7 @@ class ContentUtility
                 $fileInfo = FileHelper::fresnsFileInfoById($file->id);
 
                 $linkList[] = match ($file->type) {
-                    File::TYPE_IMAGE => sprintf('<img class="fresns_file_image" loading="lazy" src="%s" alt="%s">', $fileInfo['imageRatioUrl'], $fileInfo['name']),
+                    File::TYPE_IMAGE => sprintf('<img class="fresns_file_image" loading="lazy" src="%s" alt="%s">', $fileInfo['imageBigUrl'], $fileInfo['name']),
                     File::TYPE_VIDEO => sprintf('<video class="fresns_file_video" controls preload="metadata" controlslist="nodownload" poster="%s"><source src="%s" type="%s"></video>', $fileInfo['videoPosterUrl'], $fileInfo['videoUrl'], $fileInfo['mime']),
                     File::TYPE_AUDIO => sprintf('<audio class="fresns_file_audio" controls preload="metadata" controlsList="nodownload" src="%s"></audio>', $fileInfo['audioUrl']),
                     File::TYPE_DOCUMENT => sprintf('<button class="fresns_file_document" type="button" data-fid="%s" data-file="%s">%s</button>', $fileInfo['fid'], json_encode($fileInfo, true), $fileInfo['name']),
@@ -654,14 +654,14 @@ class ContentUtility
         foreach ($archives as $archive) {
             $archiveModel = PrimaryHelper::fresnsModelByFsid('archive', $archive['code']);
 
-            OperationUsage::updateOrCreate([
+            ArchiveUsage::updateOrCreate([
                 'usage_type' => $usageType,
                 'usage_id' => $usageId,
                 'archive_id' => $archiveModel->id,
             ],
             [
                 'archive_value' => $archive['value'],
-                'is_private' => $archive['isPrivate'],
+                'is_private' => $archive['isPrivate'] ?? false,
                 'plugin_unikey' => $archive['pluginUnikey'] ?? $archiveModel->plugin_unikey,
             ]);
         }
@@ -680,7 +680,7 @@ class ContentUtility
                 'extend_id' => $extendModel->id,
             ],
             [
-                'can_delete' => $extend['canDelete'],
+                'can_delete' => $extend['canDelete'] ?? true,
                 'rating' => $extend['rating'],
                 'plugin_unikey' => $extend['pluginUnikey'] ?? $extendModel->plugin_unikey,
             ]);
