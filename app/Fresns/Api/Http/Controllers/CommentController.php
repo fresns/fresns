@@ -409,7 +409,7 @@ class CommentController extends Controller
         }
 
         UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
-        GroupService::checkGroupContentViewPerm($comment->created_at, $comment->post->group_id, $authUserId);
+        GroupService::checkGroupContentViewPerm($comment->created_at, $comment?->post?->group_id, $authUserId);
 
         $seoData = LanguageHelper::fresnsLanguageSeoDataById('comment', $comment->id, $langTag);
 
@@ -494,7 +494,7 @@ class CommentController extends Controller
         $commentLogList = [];
         $service = new CommentService();
         foreach ($commentLogs as $log) {
-            $commentLogList[] = $service->commentLogData($log, 'list', $langTag, $timezone);
+            $commentLogList[] = $service->commentLogData($log, 'list', $langTag, $timezone, $authUserId);
         }
 
         return $this->fresnsPaginate($commentLogList, $commentLogs->total(), $commentLogs->perPage());
@@ -532,7 +532,7 @@ class CommentController extends Controller
         }
 
         $service = new CommentService();
-        $data['detail'] = $service->commentLogData($log, 'detail', $langTag, $timezone);
+        $data['detail'] = $service->commentLogData($log, 'detail', $langTag, $timezone, $authUserId);
 
         return $this->success($data);
     }

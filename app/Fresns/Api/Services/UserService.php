@@ -66,7 +66,7 @@ class UserService
             $userProfile['bioHtml'] = ContentUtility::replaceSticker($bioHtml);
 
             $item['stats'] = UserService::getUserStats($user, 'list', $langTag);
-            $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST, $user->id, $langTag);
+            $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_USER, $user->id, $langTag);
             $item['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_USER, $user->id, $langTag);
             $item['extends'] = ExtendUtility::getContentExtends(ExtendUsage::TYPE_USER, $user->id, $langTag);
             $item['roles'] = PermissionUtility::getUserRoles($user->id, $langTag);
@@ -83,6 +83,19 @@ class UserService
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
             CacheHelper::put($userData, $cacheKey, $cacheTag, null, $cacheTime);
+        }
+
+        // archives
+        if ($user->id != $authUserId && $userData['archives']) {
+            $archives = [];
+            foreach ($userData['archives'] as $archive) {
+                $item = $archive;
+                $item['value'] = $archive['isPrivate'] ? null : $archive['value'];
+
+                $archives[] = $item;
+            }
+
+            $userData['archives'] = $archives;
         }
 
         $userData['stats'] = UserService::getUserStats($user, $type, $langTag, $authUserId);

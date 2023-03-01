@@ -35,7 +35,7 @@ use Illuminate\Support\Str;
 class CommentService
 {
     // $type = list or detail
-    public function commentData(?Comment $comment, string $type, string $langTag, string $timezone, bool $isPreviewPost, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLng = null, ?string $authUserLat = null, ?bool $outputSubComments = false)
+    public function commentData(?Comment $comment, string $type, string $langTag, string $timezone, bool $isPreviewPost, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLng = null, ?string $authUserLat = null, ?bool $outputSubComments = false, ?bool $whetherToFilter = true)
     {
         if (! $comment) {
             return null;
@@ -43,8 +43,6 @@ class CommentService
 
         $cacheKey = "fresns_api_comment_{$comment->cid}_{$langTag}";
         $cacheTag = 'fresnsComments';
-
-        $whetherToFilter = true;
 
         $commentData = CacheHelper::get($cacheKey, $cacheTag);
 
@@ -93,8 +91,7 @@ class CommentService
             if ($comment->top_parent_id != $comment->parent_id) {
                 $commentService = new CommentService;
 
-                $whetherToFilter = false;
-                $item['replyToComment'] = $commentService->commentData($comment?->parentComment, 'list', $langTag, $timezone, false);
+                $item['replyToComment'] = $commentService->commentData($comment?->parentComment, 'list', $langTag, $timezone, false, null, null, null, null, false, false);
             }
 
             $item['subComments'] = [];
@@ -138,6 +135,19 @@ class CommentService
         $commentData['content'] = $contentHandle['content'];
         $commentData['isBrief'] = $contentHandle['isBrief'];
         $commentData['files'] = $contentHandle['files'];
+
+        // archives
+        if ($comment->user_id != $authUserId && $commentData['archives']) {
+            $archives = [];
+            foreach ($commentData['archives'] as $archive) {
+                $item = $archive;
+                $item['value'] = $archive['isPrivate'] ? null : $archive['value'];
+
+                $archives[] = $item;
+            }
+
+            $commentData['archives'] = $archives;
+        }
 
         // location
         if ($comment->map_id && $authUserLng && $authUserLat) {
@@ -391,7 +401,7 @@ class CommentService
 
             $commentList = [];
             foreach ($comments as $comment) {
-                $commentList[] = $commentService->commentData($comment, 'list', $langTag, $timezone, false);
+                $commentList[] = $commentService->commentData($comment, 'list', $langTag, $timezone, false, null, null, null, null, false, false);
             }
 
             CacheHelper::put($commentList, $cacheKey, $cacheTag, 10, now()->addMinutes(10));
@@ -415,7 +425,7 @@ class CommentService
 
     // comment log data
     // $type = list or detail
-    public function commentLogData(CommentLog $log, string $type, string $langTag, string $timezone)
+    public function commentLogData(CommentLog $log, string $type, string $langTag, string $timezone, ?int $authUserId = null)
     {
         $comment = $log?->comment;
         $post = $log?->post;
@@ -454,10 +464,23 @@ class CommentService
             $item['creator'] = $userService->userData($log->creator, 'list', $langTag, $timezone);
         }
 
-        $info['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST_LOG, $log->id, $langTag);
-        $info['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_POST_LOG, $log->id, $langTag);
-        $info['extends'] = ExtendUtility::getContentExtends(ExtendUsage::TYPE_POST_LOG, $log->id, $langTag);
-        $info['files'] = FileHelper::fresnsFileInfoListByTableColumn('post_logs', 'id', $log->id);
+        $info['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_COMMENT_LOG, $log->id, $langTag);
+        $info['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_COMMENT_LOG, $log->id, $langTag);
+        $info['extends'] = ExtendUtility::getContentExtends(ExtendUsage::TYPE_COMMENT_LOG, $log->id, $langTag);
+        $info['files'] = FileHelper::fresnsFileInfoListByTableColumn('comment_logs', 'id', $log->id);
+
+        // archives
+        if ($log->user_id != $authUserId && $info['archives']) {
+            $archives = [];
+            foreach ($info['archives'] as $archive) {
+                $item = $archive;
+                $item['value'] = $archive['isPrivate'] ? null : $archive['value'];
+
+                $archives[] = $item;
+            }
+
+            $info['archives'] = $archives;
+        }
 
         $fileCount['images'] = collect($info['files']['images'])->count();
         $fileCount['videos'] = collect($info['files']['videos'])->count();

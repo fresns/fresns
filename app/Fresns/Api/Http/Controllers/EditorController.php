@@ -96,7 +96,7 @@ class EditorController extends Controller
 
                 $service = new PostService();
                 foreach ($drafts as $draft) {
-                    $draftList[] = $service->postLogData($draft, 'list', $langTag, $timezone);
+                    $draftList[] = $service->postLogData($draft, 'list', $langTag, $timezone, $authUser->id);
                 }
             break;
 
@@ -110,7 +110,7 @@ class EditorController extends Controller
 
                 $service = new CommentService();
                 foreach ($drafts as $draft) {
-                    $draftList[] = $service->commentLogData($draft, 'list', $langTag, $timezone);
+                    $draftList[] = $service->commentLogData($draft, 'list', $langTag, $timezone, $authUser->id);
                 }
             break;
 
@@ -229,7 +229,7 @@ class EditorController extends Controller
                 $service = new PostService();
 
                 $postLog = PostLog::where('id', $fresnsResp->getData('logId'))->first();
-                $data['detail'] = $service->postLogData($postLog, 'detail', $langTag, $timezone);
+                $data['detail'] = $service->postLogData($postLog, 'detail', $langTag, $timezone, $authUser->id);
             break;
 
             // comment
@@ -237,7 +237,7 @@ class EditorController extends Controller
                 $service = new CommentService();
 
                 $commentLog = CommentLog::where('id', $fresnsResp->getData('logId'))->first();
-                $data['detail'] = $service->commentLogData($commentLog, 'detail', $langTag, $timezone);
+                $data['detail'] = $service->commentLogData($commentLog, 'detail', $langTag, $timezone, $authUser->id);
             break;
         }
 
@@ -304,7 +304,7 @@ class EditorController extends Controller
                 $service = new PostService();
 
                 $postLog = PostLog::where('id', $fresnsResp->getData('logId'))->first();
-                $data['detail'] = $service->postLogData($postLog, 'detail', $langTag, $timezone);
+                $data['detail'] = $service->postLogData($postLog, 'detail', $langTag, $timezone, $authUser->id);
             break;
 
             // comment
@@ -312,7 +312,7 @@ class EditorController extends Controller
                 $service = new CommentService();
 
                 $commentLog = CommentLog::where('id', $fresnsResp->getData('logId'))->first();
-                $data['detail'] = $service->commentLogData($commentLog, 'detail', $langTag, $timezone);
+                $data['detail'] = $service->commentLogData($commentLog, 'detail', $langTag, $timezone, $authUser->id);
             break;
         }
 
@@ -363,7 +363,7 @@ class EditorController extends Controller
             // post
             case 'post':
                 $service = new PostService();
-                $data['detail'] = $service->postLogData($draft, 'detail', $langTag, $timezone);
+                $data['detail'] = $service->postLogData($draft, 'detail', $langTag, $timezone, $authUser->id);
 
                 if ($draft->post_id) {
                     $isEdit = true;
@@ -380,7 +380,7 @@ class EditorController extends Controller
             // comment
             case 'comment':
                 $service = new CommentService();
-                $data['detail'] = $service->commentLogData($draft, 'detail', $langTag, $timezone);
+                $data['detail'] = $service->commentLogData($draft, 'detail', $langTag, $timezone, $authUser->id);
 
                 if ($draft->comment_id) {
                     $isEdit = true;

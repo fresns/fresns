@@ -109,6 +109,19 @@ class PostService
         $postData['isAllow'] = $contentHandle['isAllow'];
         $postData['files'] = $contentHandle['files'];
 
+        // archives
+        if ($post->user_id != $authUserId && $postData['archives']) {
+            $archives = [];
+            foreach ($postData['archives'] as $archive) {
+                $item = $archive;
+                $item['value'] = $archive['isPrivate'] ? null : $archive['value'];
+
+                $archives[] = $item;
+            }
+
+            $postData['archives'] = $archives;
+        }
+
         // location
         if ($post->map_id && $authUserLng && $authUserLat) {
             $postLng = $post->map_longitude;
@@ -452,7 +465,7 @@ class PostService
 
             $commentList = [];
             foreach ($comments as $comment) {
-                $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, false);
+                $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, false, null, null, null, null, false, false);
             }
 
             CacheHelper::put($commentList, $cacheKey, $cacheTags, 10, now()->addMinutes(10));
@@ -463,7 +476,7 @@ class PostService
 
     // post log data
     // $type = list or detail
-    public function postLogData(PostLog $log, string $type, string $langTag, string $timezone)
+    public function postLogData(PostLog $log, string $type, string $langTag, string $timezone, ?int $authUserId = null)
     {
         $post = $log?->post;
         $group = $log?->group;
@@ -513,6 +526,19 @@ class PostService
         $info['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_POST_LOG, $log->id, $langTag);
         $info['extends'] = ExtendUtility::getContentExtends(ExtendUsage::TYPE_POST_LOG, $log->id, $langTag);
         $info['files'] = FileHelper::fresnsFileInfoListByTableColumn('post_logs', 'id', $log->id);
+
+        // archives
+        if ($log->user_id != $authUserId && $info['archives']) {
+            $archives = [];
+            foreach ($info['archives'] as $archive) {
+                $item = $archive;
+                $item['value'] = $archive['isPrivate'] ? null : $archive['value'];
+
+                $archives[] = $item;
+            }
+
+            $info['archives'] = $archives;
+        }
 
         $fileCount['images'] = collect($info['files']['images'])->count();
         $fileCount['videos'] = collect($info['files']['videos'])->count();

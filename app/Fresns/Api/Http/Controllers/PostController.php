@@ -518,7 +518,7 @@ class PostController extends Controller
         $postLogList = [];
         $service = new PostService();
         foreach ($postLogs as $log) {
-            $postLogList[] = $service->postLogData($log, 'list', $langTag, $timezone);
+            $postLogList[] = $service->postLogData($log, 'list', $langTag, $timezone, $authUserId);
         }
 
         return $this->fresnsPaginate($postLogList, $postLogs->total(), $postLogs->perPage());
@@ -550,7 +550,7 @@ class PostController extends Controller
         }
 
         $service = new PostService();
-        $data['detail'] = $service->postLogData($log, 'detail', $langTag, $timezone);
+        $data['detail'] = $service->postLogData($log, 'detail', $langTag, $timezone, $authUserId);
 
         return $this->success($data);
     }
