@@ -103,7 +103,7 @@
                                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                                     </ul>
                                     <input type="file" class="form-control inputFile" name="image_file">
-                                    <input type="url" class="form-control inputUrl" name="image_file_url" value="" style="display:none;">
+                                    <input type="text" class="form-control inputUrl" name="image_file_url" value="" style="display:none;">
                                 </div>
                             </div>
                         </div>
@@ -278,7 +278,7 @@
                                         <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
                                     </ul>
                                     <input type="file" class="form-control inputFile" name="image_file">
-                                    <input type="url" class="form-control inputUrl" name="image_file_url" value="" style="display:none;">
+                                    <input type="text" class="form-control inputUrl" name="image_file_url" value="" style="display:none;">
                                 </div>
                             </div>
                         </div>

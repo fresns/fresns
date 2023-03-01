@@ -41,7 +41,7 @@
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_bucket_domain') }}</label>
-                    <input type="url" class="form-control" name="image_bucket_domain" value="{{ $params['image_bucket_domain'] }}">
+                    <input type="text" class="form-control" name="image_bucket_domain" value="{{ $params['image_bucket_domain'] }}">
                 </div>
             </div>
             <div class="col-lg-4 form-text pt-1">

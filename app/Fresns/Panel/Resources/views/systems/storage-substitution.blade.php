@@ -33,7 +33,7 @@
                         </ul>
                         <!--Input-->
                         <input type="file" class="form-control inputFile" name="image_substitution_file" @if ($configImageInfo['imageConfigType'] == 'URL') style="display:none;" @endif>
-                        <input type="url" class="form-control inputUrl" name="image_substitution_url" @if ($configImageInfo['imageConfigType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['imageConfigType'] == 'URL') value="{{ $params['image_substitution'] }}" @endif>
+                        <input type="text" class="form-control inputUrl" name="image_substitution_url" @if ($configImageInfo['imageConfigType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['imageConfigType'] == 'URL') value="{{ $params['image_substitution'] }}" @endif>
                         <!--Hidden item-->
                         <input type="hidden" name="image_substitution" value="{{ $params['image_substitution'] }}">
                         <!--Preview-->
@@ -61,7 +61,7 @@
                         </ul>
                         <!--Input-->
                         <input type="file" class="form-control inputFile" name="video_substitution_file" @if ($configImageInfo['videoConfigType'] == 'URL') style="display:none;" @endif>
-                        <input type="url" class="form-control inputUrl" name="video_substitution_url" @if ($configImageInfo['videoConfigType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['videoConfigType'] == 'URL') value="{{ $params['video_substitution'] }}" @endif>
+                        <input type="text" class="form-control inputUrl" name="video_substitution_url" @if ($configImageInfo['videoConfigType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['videoConfigType'] == 'URL') value="{{ $params['video_substitution'] }}" @endif>
                         <!--Hidden item-->
                         <input type="hidden" name="video_substitution" value="{{ $params['video_substitution'] }}">
                         <!--Preview-->
@@ -89,7 +89,7 @@
                         </ul>
                         <!--Input-->
                         <input type="file" class="form-control inputFile" name="audio_substitution_file" @if ($configImageInfo['audioConfigType'] == 'URL') style="display:none;" @endif>
-                        <input type="url" class="form-control inputUrl" name="audio_substitution_url" @if ($configImageInfo['audioConfigType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['audioConfigType'] == 'URL') value="{{ $params['audio_substitution'] }}" @endif>
+                        <input type="text" class="form-control inputUrl" name="audio_substitution_url" @if ($configImageInfo['audioConfigType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['audioConfigType'] == 'URL') value="{{ $params['audio_substitution'] }}" @endif>
                         <!--Hidden item-->
                         <input type="hidden" name="audio_substitution" value="{{ $params['audio_substitution'] }}">
                         <!--Preview-->
@@ -117,7 +117,7 @@
                         </ul>
                         <!--Input-->
                         <input type="file" class="form-control inputFile" name="document_substitution_file" @if ($configImageInfo['documentConfigType'] == 'URL') style="display:none;" @endif>
-                        <input type="url" class="form-control inputUrl" name="document_substitution_url" @if ($configImageInfo['documentConfigType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['documentConfigType'] == 'URL') value="{{ $params['document_substitution'] }}" @endif>
+                        <input type="text" class="form-control inputUrl" name="document_substitution_url" @if ($configImageInfo['documentConfigType'] == 'ID') style="display:none;" @endif  @if ($configImageInfo['documentConfigType'] == 'URL') value="{{ $params['document_substitution'] }}" @endif>
                         <!--Hidden item-->
                         <input type="hidden" name="document_substitution" value="{{ $params['document_substitution'] }}">
                         <!--Preview-->
