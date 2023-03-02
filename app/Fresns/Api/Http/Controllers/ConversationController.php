@@ -48,10 +48,7 @@ class ConversationController extends Controller
             $bConversationsQuery->where('b_is_pin', $dtoRequest->isPin);
         }
 
-        $allConversations = $aConversationsQuery->union($bConversationsQuery)->latest('latest_message_at')->get();
-
-        $total = $allConversations->count();
-        $perPage = $total;
+        $allConversations = $aConversationsQuery->union($bConversationsQuery)->latest('latest_message_at')->paginate($request->get('pageSize', 15));
 
         $userService = new UserService;
 
@@ -95,10 +92,11 @@ class ConversationController extends Controller
             $item['isPin'] = (bool) $isPin;
             $item['messageCount'] = $messageCount;
             $item['unreadCount'] = conversationMessage::where('conversation_id', $conversation->id)->where('receive_user_id', $authUser->id)->whereNull('receive_read_at')->whereNull('receive_deleted_at')->isEnable()->count();
+
             $list[] = $item;
         }
 
-        return $this->fresnsPaginate($list, $total, $perPage);
+        return $this->fresnsPaginate($list, $allConversations->total(), $allConversations->perPage());
     }
 
     // detail
