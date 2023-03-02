@@ -631,10 +631,18 @@ class ContentUtility
 
     // save operation usages
     // $operations = [{"id": "id", "pluginUnikey": null}]
-    public static function saveOperationUsages(string $usageType, int $usageId, array $operations): void
+    public static function saveOperationUsages(int $usageType, int $usageId, array $operations): void
     {
         foreach ($operations as $operation) {
-            $operationModel = PrimaryHelper::fresnsModelById('operation', $operation['id']);
+            $id = $operation['id'] ?? null;
+            if (empty($id)) {
+                continue;
+            }
+
+            $operationModel = PrimaryHelper::fresnsModelById('operation', $id);
+            if (empty($operationModel)) {
+                continue;
+            }
 
             OperationUsage::updateOrCreate([
                 'usage_type' => $usageType,
@@ -649,10 +657,18 @@ class ContentUtility
 
     // save archive usages
     // $archives = [{"code": "code", "value": "value", "isPrivate": true, "pluginUnikey": null}]
-    public static function saveArchiveUsages(string $usageType, int $usageId, array $archives): void
+    public static function saveArchiveUsages(int $usageType, int $usageId, array $archives): void
     {
         foreach ($archives as $archive) {
-            $archiveModel = PrimaryHelper::fresnsModelByFsid('archive', $archive['code']);
+            $code = $archive['code'] ?? null;
+            if (empty($code)) {
+                continue;
+            }
+
+            $archiveModel = PrimaryHelper::fresnsModelByFsid('archive', $code);
+            if (empty($archiveModel)) {
+                continue;
+            }
 
             ArchiveUsage::updateOrCreate([
                 'usage_type' => $usageType,
@@ -660,7 +676,7 @@ class ContentUtility
                 'archive_id' => $archiveModel->id,
             ],
             [
-                'archive_value' => $archive['value'],
+                'archive_value' => $archive['value'] ?? null,
                 'is_private' => $archive['isPrivate'] ?? false,
                 'plugin_unikey' => $archive['pluginUnikey'] ?? $archiveModel->plugin_unikey,
             ]);
@@ -669,10 +685,18 @@ class ContentUtility
 
     // save extend usages
     // $extends = [{"eid": "eid", "canDelete": true, "rating": 9, "pluginUnikey": null}]
-    public static function saveExtendUsages(string $usageType, int $usageId, array $extends): void
+    public static function saveExtendUsages(int $usageType, int $usageId, array $extends): void
     {
         foreach ($extends as $extend) {
-            $extendModel = PrimaryHelper::fresnsModelByFsid('extend', $extend['eid']);
+            $eid = $extend['eid'] ?? null;
+            if (empty($eid)) {
+                continue;
+            }
+
+            $extendModel = PrimaryHelper::fresnsModelByFsid('extend', $eid);
+            if (empty($extendModel)) {
+                continue;
+            }
 
             ExtendUsage::updateOrCreate([
                 'usage_type' => $usageType,
@@ -681,7 +705,7 @@ class ContentUtility
             ],
             [
                 'can_delete' => $extend['canDelete'] ?? true,
-                'rating' => $extend['rating'],
+                'rating' => $extend['rating'] ?? 9,
                 'plugin_unikey' => $extend['pluginUnikey'] ?? $extendModel->plugin_unikey,
             ]);
         }

@@ -100,7 +100,7 @@ class Content
                     'content' => $content,
                     'is_markdown' => $isMarkdown,
                     'is_anonymous' => $isAnonymous,
-                    'map_json' => $dtoWordBody->mapJson ?? null,
+                    'map_json' => $dtoWordBody->map ?? null,
                 ];
 
                 if (empty($checkLog)) {
@@ -134,7 +134,7 @@ class Content
                     'content' => $content,
                     'is_markdown' => $isMarkdown,
                     'is_anonymous' => $isAnonymous,
-                    'map_json' => $dtoWordBody->mapJson ?? null,
+                    'map_json' => $dtoWordBody->map ?? null,
                 ];
 
                 if (empty($checkLog)) {
@@ -149,22 +149,24 @@ class Content
             break;
         }
 
-        if ($dtoWordBody->eid) {
-            $extendId = PrimaryHelper::fresnsExtendIdByEid($dtoWordBody->eid);
+        // extends
+        if ($dtoWordBody->extends) {
+            $usageType = match ($dtoWordBody->type) {
+                1 => ExtendUsage::TYPE_POST_LOG,
+                2 => ExtendUsage::TYPE_COMMENT_LOG,
+            };
 
-            if ($extendId) {
-                $usageType = match ($dtoWordBody->type) {
-                    1 => ExtendUsage::TYPE_POST_LOG,
-                    2 => ExtendUsage::TYPE_COMMENT_LOG,
-                };
+            ContentUtility::saveExtendUsages($usageType, $logModel->id, $dtoWordBody->extends);
+        }
 
-                ExtendUsage::create([
-                    'usage_type' => $usageType,
-                    'usage_id' => $logModel->id,
-                    'extend_id' => $extendId,
-                    'plugin_unikey' => 'Fresns',
-                ]);
-            }
+        // archives
+        if ($dtoWordBody->archives) {
+            $usageType = match ($dtoWordBody->type) {
+                1 => ArchiveUsage::TYPE_POST_LOG,
+                2 => ArchiveUsage::TYPE_COMMENT_LOG,
+            };
+
+            ContentUtility::saveArchiveUsages($usageType, $logModel->id, $dtoWordBody->archives);
         }
 
         return $this->success([
@@ -428,17 +430,14 @@ class Content
 
             $logId = $reviewResp->getData('logId');
 
-            if ($dtoWordBody->eid) {
-                $extendId = PrimaryHelper::fresnsExtendIdByEid($dtoWordBody->eid);
+            // extends
+            if ($dtoWordBody->extends) {
+                ContentUtility::saveExtendUsages($usageType, $logId, $dtoWordBody->extends);
+            }
 
-                if ($extendId) {
-                    ExtendUsage::create([
-                        'usage_type' => $usageType,
-                        'usage_id' => $logId,
-                        'extend_id' => $extendId,
-                        'plugin_unikey' => 'Fresns',
-                    ]);
-                }
+            // archives
+            if ($dtoWordBody->archives) {
+                ContentUtility::saveArchiveUsages($usageType, $logId, $dtoWordBody->archives);
             }
 
             $reviewWordBody = [
@@ -480,25 +479,25 @@ class Content
                     'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
                     'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
                     'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
-                    'map_id' => $dtoWordBody->mapJson['mapId'] ?? null,
-                    'map_longitude' => $dtoWordBody->mapJson['latitude'] ?? null,
-                    'map_latitude' => $dtoWordBody->mapJson['longitude'] ?? null,
+                    'map_id' => $dtoWordBody->map['mapId'] ?? null,
+                    'map_longitude' => $dtoWordBody->map['latitude'] ?? null,
+                    'map_latitude' => $dtoWordBody->map['longitude'] ?? null,
                 ]);
 
                 PostAppend::create([
                     'post_id' => $post->id,
                     'is_comment' => $dtoWordBody->postIsComment ?? 1,
                     'is_comment_public' => $dtoWordBody->postIsCommentPublic ?? 1,
-                    'map_json' => $dtoWordBody->mapJson ?? null,
-                    'map_scale' => $dtoWordBody->mapJson['scale'] ?? null,
-                    'map_continent_code' => $dtoWordBody->mapJson['continentCode'] ?? null,
-                    'map_country_code' => $dtoWordBody->mapJson['countryCode'] ?? null,
-                    'map_region_code' => $dtoWordBody->mapJson['regionCode'] ?? null,
-                    'map_city_code' => $dtoWordBody->mapJson['cityCode'] ?? null,
-                    'map_city' => $dtoWordBody->mapJson['city'] ?? null,
-                    'map_zip' => $dtoWordBody->mapJson['zip'] ?? null,
-                    'map_poi' => $dtoWordBody->mapJson['poi'] ?? null,
-                    'map_poi_id' => $dtoWordBody->mapJson['poiId'] ?? null,
+                    'map_json' => $dtoWordBody->map ?? null,
+                    'map_scale' => $dtoWordBody->map['scale'] ?? null,
+                    'map_continent_code' => $dtoWordBody->map['continentCode'] ?? null,
+                    'map_country_code' => $dtoWordBody->map['countryCode'] ?? null,
+                    'map_region_code' => $dtoWordBody->map['regionCode'] ?? null,
+                    'map_city_code' => $dtoWordBody->map['cityCode'] ?? null,
+                    'map_city' => $dtoWordBody->map['city'] ?? null,
+                    'map_zip' => $dtoWordBody->map['zip'] ?? null,
+                    'map_poi' => $dtoWordBody->map['poi'] ?? null,
+                    'map_poi_id' => $dtoWordBody->map['poiId'] ?? null,
                 ]);
 
                 ContentUtility::handleAndSaveAllInteraction($post->content, Mention::TYPE_POST, $post->id, $post->user_id);
@@ -524,23 +523,23 @@ class Content
                     'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
                     'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
                     'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
-                    'map_id' => $dtoWordBody->mapJson['mapId'] ?? null,
-                    'map_longitude' => $dtoWordBody->mapJson['latitude'] ?? null,
-                    'map_latitude' => $dtoWordBody->mapJson['longitude'] ?? null,
+                    'map_id' => $dtoWordBody->map['mapId'] ?? null,
+                    'map_longitude' => $dtoWordBody->map['latitude'] ?? null,
+                    'map_latitude' => $dtoWordBody->map['longitude'] ?? null,
                 ]);
 
                 CommentAppend::create([
                     'comment_id' => $comment->id,
-                    'map_json' => $dtoWordBody->mapJson ?? null,
-                    'map_scale' => $dtoWordBody->mapJson['scale'] ?? null,
-                    'map_continent_code' => $dtoWordBody->mapJson['continentCode'] ?? null,
-                    'map_country_code' => $dtoWordBody->mapJson['countryCode'] ?? null,
-                    'map_region_code' => $dtoWordBody->mapJson['regionCode'] ?? null,
-                    'map_city_code' => $dtoWordBody->mapJson['cityCode'] ?? null,
-                    'map_city' => $dtoWordBody->mapJson['city'] ?? null,
-                    'map_zip' => $dtoWordBody->mapJson['zip'] ?? null,
-                    'map_poi' => $dtoWordBody->mapJson['poi'] ?? null,
-                    'map_poi_id' => $dtoWordBody->mapJson['poiId'] ?? null,
+                    'map_json' => $dtoWordBody->map ?? null,
+                    'map_scale' => $dtoWordBody->map['scale'] ?? null,
+                    'map_continent_code' => $dtoWordBody->map['continentCode'] ?? null,
+                    'map_country_code' => $dtoWordBody->map['countryCode'] ?? null,
+                    'map_region_code' => $dtoWordBody->map['regionCode'] ?? null,
+                    'map_city_code' => $dtoWordBody->map['cityCode'] ?? null,
+                    'map_city' => $dtoWordBody->map['city'] ?? null,
+                    'map_zip' => $dtoWordBody->map['zip'] ?? null,
+                    'map_poi' => $dtoWordBody->map['poi'] ?? null,
+                    'map_poi_id' => $dtoWordBody->map['poiId'] ?? null,
                 ]);
 
                 ContentUtility::handleAndSaveAllInteraction($comment->content, Mention::TYPE_COMMENT, $comment->id, $comment->user_id);
@@ -565,17 +564,14 @@ class Content
             break;
         }
 
-        if ($dtoWordBody->eid) {
-            $extendId = PrimaryHelper::fresnsExtendIdByEid($dtoWordBody->eid);
+        // extends
+        if ($dtoWordBody->extends) {
+            ContentUtility::saveExtendUsages($usageType, $primaryId, $dtoWordBody->extends);
+        }
 
-            if ($extendId) {
-                ExtendUsage::create([
-                    'usage_type' => $usageType,
-                    'usage_id' => $primaryId,
-                    'extend_id' => $extendId,
-                    'plugin_unikey' => 'Fresns',
-                ]);
-            }
+        // archives
+        if ($dtoWordBody->archives) {
+            ContentUtility::saveArchiveUsages($usageType, $primaryId, $dtoWordBody->archives);
         }
 
         // send notification
