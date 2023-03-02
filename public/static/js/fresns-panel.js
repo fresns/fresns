@@ -169,11 +169,11 @@ $(document).ready(function () {
             $('#autoUpgradeModal').modal('show');
         }
     });
-    $('#physicalUpgradeButton').click(function () {
+    $('#manualUpgradeButton').click(function () {
         if ($(this).data('upgrading')) {
-            $('#physicalUpgradeStepModal').modal('show');
+            $('#manualUpgradeStepModal').modal('show');
         } else {
-            $('#physicalUpgradeModal').modal('show');
+            $('#manualUpgradeModal').modal('show');
         }
     });
 
@@ -185,8 +185,8 @@ $(document).ready(function () {
             dataType: 'json',
             url: $(this).attr('action'),
             success: function (response) {
-                $('#physicalUpgradeButton').addClass('d-none');
-                $('#physicalUpgradeGuide').addClass('d-none');
+                $('#manualUpgradeButton').addClass('d-none');
+                $('#manualUpgradeGuide').addClass('d-none');
 
                 $('#autoUpgradeButton').removeClass('btn-primary').addClass('btn-info').text(trans('tips.upgrade_in_progress')); //FsLang
 
@@ -202,9 +202,9 @@ $(document).ready(function () {
         return false;
     });
 
-    // fresns physical upgrade form
-    $('#physicalUpgradeForm').submit(function () {
-        $('#physicalUpgradeModal').modal('hide');
+    // fresns manual upgrade form
+    $('#manualUpgradeForm').submit(function () {
+        $('#manualUpgradeModal').modal('hide');
         $.ajax({
             method: 'POST',
             dataType: 'json',
@@ -212,11 +212,11 @@ $(document).ready(function () {
             success: function (response) {
                 $('#autoUpgradeButton').addClass('d-none');
 
-                $('#physicalUpgradeButton').removeClass('btn-primary').addClass('btn-info').text(trans('tips.upgrade_in_progress')); //FsLang
+                $('#manualUpgradeButton').removeClass('btn-primary').addClass('btn-info').text(trans('tips.upgrade_in_progress')); //FsLang
 
-                $('#physicalUpgradeButton').data('upgrading', true);
+                $('#manualUpgradeButton').data('upgrading', true);
 
-                $('#physicalUpgradeStepModal').modal('show');
+                $('#manualUpgradeStepModal').modal('show');
             },
             error: function (response) {
                 window.tips(response.responseJSON.message);
@@ -276,7 +276,7 @@ $(document).ready(function () {
             },
         });
     }
-    function checkPhysicalUpgradeStep(action) {
+    function checkManualUpgradeStep(action) {
         if (!action) {
             return;
         }
@@ -284,10 +284,10 @@ $(document).ready(function () {
             method: 'get',
             url: action,
             success: function (response) {
-                let physicalUpgradeStep = response.physicalUpgradeStep || 7,
-                    physicalUpgradeTip = response.physicalUpgradeTip;
+                let manualUpgradeStep = response.manualUpgradeStep || 7,
+                    manualUpgradeTip = response.manualUpgradeTip;
 
-                let step = $('#physicalUpgradeStepModal').find('#physical-upgrade-' + physicalUpgradeStep);
+                let step = $('#manualUpgradeStepModal').find('#manual-upgrade-' + manualUpgradeStep);
                 step.find('i').remove();
                 step.prepend('<i class="upgrade-step spinner-border spinner-border-sm me-2" role="status"></i>');
 
@@ -296,25 +296,25 @@ $(document).ready(function () {
                     $(completeStep).prepend('<i class="bi bi-check-lg text-success me-2"></i>');
                 });
 
-                if (physicalUpgradeStep == 0) {
+                if (manualUpgradeStep == 0) {
                     step.find('i').remove();
                     step.prepend('<i class="bi bi-x-lg text-danger me-2"></i>');
 
-                    $('#physicalUpgradeButton').addClass('btn-danger').removeClass('btn-info').text(trans('tips.installFailure')); //FsLang
-                    $('#physicalUpgradeButton').data('upgrading', true);
-                    $('#physicalUpgradeTip').removeClass('d-none').text(physicalUpgradeTip);
+                    $('#manualUpgradeButton').addClass('btn-danger').removeClass('btn-info').text(trans('tips.installFailure')); //FsLang
+                    $('#manualUpgradeButton').data('upgrading', true);
+                    $('#manualUpgradeTip').removeClass('d-none').text(manualUpgradeTip);
 
                     $('#upgradeStepModal').data('installFailure', 1);
                     clearInterval(upgradeTimer);
                     return;
                 }
 
-                if (!physicalUpgradeStep || physicalUpgradeStep == 7) {
+                if (!manualUpgradeStep || manualUpgradeStep == 7) {
                     step.find('i').remove();
                     step.prepend('<i class="bi bi-check-lg text-success me-2"></i>');
 
-                    $('#physicalUpgradeButton').addClass('btn-light').removeClass('btn-info').text(trans('tips.upgradeSuccess')); //FsLang
-                    $('#physicalUpgradeButton').data('upgrading', true);
+                    $('#manualUpgradeButton').addClass('btn-light').removeClass('btn-info').text(trans('tips.upgradeSuccess')); //FsLang
+                    $('#manualUpgradeButton').data('upgrading', true);
 
                     $('#upgradeStepModal').data('upgradeSuccess', 1);
                     clearInterval(upgradeTimer);
@@ -334,13 +334,13 @@ $(document).ready(function () {
             upgradeTimer = setInterval(checkAutoUpgradeStep, 1000, action);
         }
     });
-    $('#physicalUpgradeStepModal').on('show.bs.modal', function (e) {
-        let button = $('#physicalUpgradeButton');
+    $('#manualUpgradeStepModal').on('show.bs.modal', function (e) {
+        let button = $('#manualUpgradeButton');
         let action = button.data('action');
 
         if (!upgradeTimer) {
-            checkPhysicalUpgradeStep(action);
-            upgradeTimer = setInterval(checkPhysicalUpgradeStep, 1000, action);
+            checkManualUpgradeStep(action);
+            upgradeTimer = setInterval(checkManualUpgradeStep, 1000, action);
         }
     });
 
