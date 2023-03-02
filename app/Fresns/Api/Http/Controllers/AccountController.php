@@ -44,8 +44,8 @@ class AccountController extends Controller
             'site_mode',
             'site_public_status',
             'site_public_service',
-            'site_register_email',
-            'site_register_phone',
+            'site_email_register',
+            'site_phone_register',
         ]);
 
         if ($configs['site_mode'] == 'private' || ! $configs['site_public_status'] || ! empty($configs['site_public_service'])) {
@@ -53,7 +53,7 @@ class AccountController extends Controller
         }
 
         if ($dtoRequest->type == 'email') {
-            if (! $configs['site_register_email']) {
+            if (! $configs['site_email_register']) {
                 throw new ApiException(34202);
             }
 
@@ -68,7 +68,7 @@ class AccountController extends Controller
         if ($dtoRequest->type == 'phone') {
             new AccountPhoneDTO($request->all());
 
-            if (! $configs['site_register_phone']) {
+            if (! $configs['site_phone_register']) {
                 throw new ApiException(34203);
             }
         }
@@ -286,14 +286,14 @@ class AccountController extends Controller
             $sessionLog['objectResult'] = SessionLog::STATE_FAILURE;
             \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
-            $siteConfigs = ConfigHelper::fresnsConfigByItemKeys(['site_login_or_register', 'site_register_email']);
+            $siteConfigs = ConfigHelper::fresnsConfigByItemKeys(['site_login_or_register', 'site_email_register']);
 
             if (! $siteConfigs['site_login_or_register'] || empty($dtoRequest->verifyCode)) {
                 return $fresnsResponse->errorResponse();
             }
 
             if ($dtoRequest->type == 'email') {
-                if (! $siteConfigs['site_register_email']) {
+                if (! $siteConfigs['site_email_register']) {
                     return $fresnsResponse->errorResponse();
                 }
 

@@ -407,7 +407,7 @@ return [
     'site_mode_public_register_service' => '注册功能配置',
     'site_mode_public_register_type' => '注册账号支持',
     'site_mode_public_register_type_email' => '邮箱注册',
-    'site_mode_public_register_type_phone' => '手机注册',
+    'site_mode_public_register_type_phone' => '手机号注册',
     'site_mode_public_login_or_register' => '验证码登录时，无账号则自动注册',
     'site_mode_public_register_type' => '注册账号支持',
     'site_mode_private_join_status' => '是否对外开放加入',
@@ -415,6 +415,9 @@ return [
     'site_mode_private_content_policy' => '私有到期后的状态',
     'site_mode_private_content_policy_1' => '站点内容全部不可见',
     'site_mode_private_content_policy_2' => '到期前内容可见，新内容不可见',
+    'site_login' => '登录支持',
+    'site_login_type_email' => '邮箱登录',
+    'site_login_type_phone' => '手机号登录',
     'site_email' => '管理员邮箱',
     'site_email_desc' => '当运行出错时，展示给用户，便于用户反馈问题。',
     // System-Policy

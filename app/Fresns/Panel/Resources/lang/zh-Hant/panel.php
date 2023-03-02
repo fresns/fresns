@@ -415,6 +415,9 @@ return [
     'site_mode_private_content_policy' => '私有到期後的狀態',
     'site_mode_private_content_policy_1' => '站點內容全部不可見',
     'site_mode_private_content_policy_2' => '到期前內容可見，新內容不可見',
+    'site_login' => '登錄支持',
+    'site_login_type_email' => '郵箱登錄',
+    'site_login_type_phone' => '手機號登錄',
     'site_email' => '管理員郵箱',
     'site_email_desc' => '當運行出錯時，展示給用戶，便於用戶反饋問題。',
     // System-Policy

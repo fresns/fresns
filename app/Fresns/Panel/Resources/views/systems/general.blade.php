@@ -159,11 +159,11 @@
                                 <label class="input-group-text">{{ __('FsLang::panel.site_mode_public_register_type') }}</label>
                                 <div class="form-control bg-white">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="account_email" name="site_register_email" value="true" {{ $params['site_register_email'] == 'true' ? 'checked' : '' }}>
+                                        <input class="form-check-input" type="checkbox" id="account_email" name="site_email_register" value="true" {{ $params['site_email_register'] == 'true' ? 'checked' : '' }}>
                                         <label class="form-check-label" for="account_email">{{ __('FsLang::panel.site_mode_public_register_type_email') }}</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="account_phone" name="site_register_phone" value="true" {{ $params['site_register_phone'] == 'true' ? 'checked' : '' }}>
+                                        <input class="form-check-input" type="checkbox" id="account_phone" name="site_phone_register" value="true" {{ $params['site_phone_register'] == 'true' ? 'checked' : '' }}>
                                         <label class="form-check-label" for="account_phone">{{ __('FsLang::panel.site_mode_public_register_type_phone') }}</label>
                                     </div>
                                 </div>
@@ -213,6 +213,20 @@
                     </div>
                 </div>
                 <!--mode end-->
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <label for="default_timezone" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.site_login') }}:</label>
+            <div class="col-lg-6 pt-2">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="account_email_login" name="site_email_login" value="true" {{ $params['site_email_login'] == 'true' ? 'checked' : '' }}>
+                    <label class="form-check-label" for="account_email_login">{{ __('FsLang::panel.site_login_type_email') }}</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="account_phone_login" name="site_phone_login" value="true" {{ $params['site_phone_login'] == 'true' ? 'checked' : '' }}>
+                    <label class="form-check-label" for="account_phone_login">{{ __('FsLang::panel.site_login_type_phone') }}</label>
+                </div>
             </div>
         </div>
 

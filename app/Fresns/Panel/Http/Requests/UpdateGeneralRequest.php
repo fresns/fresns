@@ -27,11 +27,13 @@ class UpdateGeneralRequest extends FormRequest
             'site_mode' => 'string|nullable',
             'site_public_status' => 'string|nullable',
             'site_public_service' => 'string|nullable',
-            'site_register_email' => 'string|nullable',
-            'site_register_phone' => 'string|nullable',
+            'site_email_register' => 'string|nullable',
+            'site_phone_register' => 'string|nullable',
             'site_private_status' => 'string|nullable',
             'site_private_service' => 'string|nullable',
             'site_private_end_after' => 'string|nullable',
+            'site_email_login' => 'string|nullable',
+            'site_phone_login' => 'string|nullable',
             'site_email' => 'email|nullable',
         ];
     }
