@@ -223,15 +223,15 @@ class UpgradeFresns extends Command
         $process->setTimeout(0);
         $process->start();
 
-        foreach ($process as $type => $data) {
-            if ($process::OUT === $type) {
-                $this->info("\nRead from stdout: ".$data);
-            } else { // $process::ERR === $type
-                $this->info("\nRead from stderr: ".$data);
+        $process->wait(function ($type, $buffer) {
+            if (Process::OUT === $type) {
+                $this->info("\nRead from stdout: ".$buffer);
+            } else {
+                $this->info("\nRead from stderr: ".$buffer);
             }
 
-            logger('-- -- composer info: '.$data);
-        }
+            logger('-- -- composer info: '.$buffer);
+        });
 
         return true;
     }
@@ -260,7 +260,6 @@ class UpgradeFresns extends Command
         CacheHelper::clearConfigCache('fresnsRoute');
         CacheHelper::clearConfigCache('fresnsEvent');
         CacheHelper::clearConfigCache('fresnsSchedule');
-        CacheHelper::clearConfigCache('frameworkConfig');
 
         $this->call('storage:link', ['--force' => true]);
 
