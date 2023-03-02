@@ -90,34 +90,55 @@ class FileHelper
             $audioFileExtArr = explode(',', $audioFileExt);
             $documentFileExtArr = explode(',', $documentFileExt);
 
-            $imageFileAccept = [];
+            $imageFileMimeAccept = [];
+            $imageFileExtAccept = [];
             foreach ($imageFileExtArr as $imageExt) {
                 $fileExtMimes = $mimes->getAllMimeTypes($imageExt);
                 foreach ($fileExtMimes as $fileExtMime) {
-                    $imageFileAccept[] = $fileExtMime;
+                    $imageFileMimeAccept[] = $fileExtMime;
                 }
+
+                $lowerFileExt = Str::lower($imageExt);
+                $imageFileExtAccept[] = '.'.$lowerFileExt;
             }
-            $videoFileAccept = [];
+            $videoFileMimeAccept = [];
+            $videoFileExtAccept = [];
             foreach ($videoFileExtArr as $videoExt) {
                 $fileExtMimes = $mimes->getAllMimeTypes($videoExt);
                 foreach ($fileExtMimes as $fileExtMime) {
-                    $videoFileAccept[] = $fileExtMime;
+                    $videoFileMimeAccept[] = $fileExtMime;
                 }
+
+                $lowerFileExt = Str::lower($imageExt);
+                $videoFileExtAccept[] = '.'.$lowerFileExt;
             }
-            $audioFileAccept = [];
+            $audioFileMimeAccept = [];
+            $audioFileExtAccept = [];
             foreach ($audioFileExtArr as $audioExt) {
                 $fileExtMimes = $mimes->getAllMimeTypes($audioExt);
                 foreach ($fileExtMimes as $fileExtMime) {
-                    $audioFileAccept[] = $fileExtMime;
+                    $audioFileMimeAccept[] = $fileExtMime;
                 }
+
+                $lowerFileExt = Str::lower($imageExt);
+                $audioFileExtAccept[] = '.'.$lowerFileExt;
             }
-            $documentFileAccept = [];
+            $documentFileMimeAccept = [];
+            $documentFileExtAccept = [];
             foreach ($documentFileExtArr as $documentExt) {
                 $fileExtMimes = $mimes->getAllMimeTypes($documentExt);
                 foreach ($fileExtMimes as $fileExtMime) {
-                    $documentFileAccept[] = $fileExtMime;
+                    $documentFileMimeAccept[] = $fileExtMime;
                 }
+
+                $lowerFileExt = Str::lower($imageExt);
+                $documentFileExtAccept[] = '.'.$lowerFileExt;
             }
+
+            $imageFileAccept = array_merge($imageFileMimeAccept, $imageFileExtAccept);
+            $videoFileAccept = array_merge($videoFileMimeAccept, $videoFileExtAccept);
+            $audioFileAccept = array_merge($audioFileMimeAccept, $audioFileExtAccept);
+            $documentFileAccept = array_merge($documentFileMimeAccept, $documentFileExtAccept);
 
             $fileAccept = [
                 'images' => implode(',', $imageFileAccept),
