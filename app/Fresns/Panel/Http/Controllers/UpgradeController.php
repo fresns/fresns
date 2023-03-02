@@ -13,6 +13,7 @@ use App\Helpers\CacheHelper;
 use App\Models\Config;
 use App\Models\Plugin;
 use App\Utilities\AppUtility;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\Process\PhpExecutableFinder;
 
 class UpgradeController extends Controller
@@ -83,9 +84,10 @@ class UpgradeController extends Controller
         CacheHelper::forgetFresnsKeys([
             'fresns_current_version',
             'fresns_new_version',
-            'autoUpgradeStep',
-            'manualUpgradeStep',
-        ]);
+        ], 'fresnsSystems');
+
+        Cache::forget('autoUpgradeStep');
+        Cache::forget('manualUpgradeStep');
 
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkExtensionsVersion();
 
