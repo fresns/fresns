@@ -283,7 +283,13 @@ class PostService
                 'files' => $files,
             ];
 
-            $cacheTime = $fidArr ? CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL) : null;
+            $totalCount = $postData['fileCount']['images'] + $postData['fileCount']['videos'] + $postData['fileCount']['audios'] + $postData['fileCount']['documents'];
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+            if ($totalCount > 0) {
+                $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
+            }
+
             CacheHelper::put($contentData, $cacheKey, $cacheTag, null, $cacheTime);
         }
 

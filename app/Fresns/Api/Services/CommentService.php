@@ -296,7 +296,13 @@ class CommentService
                 'files' => $files,
             ];
 
-            $cacheTime = $fidArr ? CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL) : null;
+            $totalCount = $commentData['fileCount']['images'] + $commentData['fileCount']['videos'] + $commentData['fileCount']['audios'] + $commentData['fileCount']['documents'];
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+            if ($totalCount > 0) {
+                $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
+            }
+
             CacheHelper::put($contentData, $cacheKey, $cacheTag, null, $cacheTime);
         }
 
