@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.7.1 (2023-03-02)
+
+### Fixes
+- Panel: Status code cannot specify `0` parameter
+- Panel: Form component input url type can't save when filling path
+- Panel: Upgrade status is not synchronized with frontend and backend
+- API: After deleting the post of the comment, the error is reported when accessing the comment
+- API: Parameter filtering of sub-level preview of comments is cached
+- API: The content cache time processing problem after the anti-theft chain is opened
+
+### Changed
+- Panel: "Physical Upgrade" renamed to "Manual Upgrade"
+- Panel: Email and mobile number login support managed by main application
+- API: Editor custom parameter support
+- Data: Default home page changed to `post
+- Install: PHP extension `exif` requirement removed
+
+
 ## 2.7.0 (2023-02-26)
 
 ### Added
