@@ -165,6 +165,7 @@ class AppUtility
             'httpSsl' => $isHttps ? 1 : 0,
             'httpHost' => \request()->getHost(),
             'httpPort' => \request()->getPort(),
+            'systemUrl' => config('app.url'),
             'siteUrl' => $appConfig['site_url'],
             'siteName' => base64_encode($appConfig['site_name']),
             'siteDesc' => base64_encode($appConfig['site_desc']),
