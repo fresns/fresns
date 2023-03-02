@@ -28,9 +28,12 @@ class EditorUpdateDTO extends DTO
             'content' => ['string', 'nullable'],
             'isMarkdown' => ['boolean', 'nullable'],
             'isAnonymous' => ['boolean', 'nullable'],
-            'mapJson' => ['array', 'nullable'],
+            'map' => ['array', 'nullable'],
+            'extends' => ['array', 'nullable'],
+            'archives' => ['array', 'nullable'],
             'deleteMap' => ['boolean', 'nullable'],
             'deleteFile' => ['string', 'nullable'],
+            'deleteArchive' => ['string', 'nullable'],
             'deleteExtend' => ['string', 'nullable'],
         ];
     }

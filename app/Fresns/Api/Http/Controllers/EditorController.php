@@ -20,6 +20,8 @@ use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
+use App\Models\Archive;
+use App\Models\ArchiveUsage;
 use App\Models\CommentLog;
 use App\Models\Extend;
 use App\Models\ExtendUsage;
@@ -29,6 +31,7 @@ use App\Models\Plugin;
 use App\Models\PostLog;
 use App\Models\SessionLog;
 use App\Utilities\ConfigUtility;
+use App\Utilities\ContentUtility;
 use App\Utilities\PermissionUtility;
 use App\Utilities\ValidationUtility;
 use Illuminate\Http\Request;
@@ -188,8 +191,9 @@ class EditorController extends Controller
             'content' => $dtoRequest->content,
             'isMarkdown' => $dtoRequest->isMarkdown,
             'isAnonymous' => $dtoRequest->isAnonymous,
-            'mapJson' => $dtoRequest->mapJson,
-            'eid' => $dtoRequest->eid,
+            'map' => $dtoRequest->map,
+            'extends' => $dtoRequest->extends,
+            'archives' => $dtoRequest->archives,
         ];
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->createDraft($wordBody);
 
@@ -538,11 +542,31 @@ class EditorController extends Controller
             ]);
         }
 
-        // mapJson
-        if ($dtoRequest->mapJson) {
+        // map
+        if ($dtoRequest->map) {
             $draft->update([
-                'map_json' => $dtoRequest->mapJson,
+                'map_json' => $dtoRequest->map,
             ]);
+        }
+
+        // extends
+        if ($dtoRequest->extends) {
+            $usageType = match ($type) {
+                'post' => ExtendUsage::TYPE_POST_LOG,
+                'comment' => ExtendUsage::TYPE_COMMENT_LOG,
+            };
+
+            ContentUtility::saveExtendUsages($usageType, $draft->id, $dtoRequest->extends);
+        }
+
+        // archives
+        if ($dtoRequest->archives) {
+            $usageType = match ($type) {
+                'post' => ArchiveUsage::TYPE_POST_LOG,
+                'comment' => ArchiveUsage::TYPE_COMMENT_LOG,
+            };
+
+            ContentUtility::saveArchiveUsages($usageType, $draft->id, $dtoRequest->archives);
         }
 
         // deleteMap
@@ -599,6 +623,31 @@ class EditorController extends Controller
             }
 
             $extendUsage->delete();
+        }
+
+        // deleteArchive
+        if ($dtoRequest->deleteArchive) {
+            $archive = Archive::where('code', $dtoRequest->deleteArchive)->first();
+
+            if (empty($archive)) {
+                throw new ApiException(32304);
+            }
+
+            $usageType = match ($type) {
+                'post' => ArchiveUsage::TYPE_POST_LOG,
+                'comment' => ArchiveUsage::TYPE_COMMENT_LOG,
+            };
+
+            $archiveUsage = ArchiveUsage::where('usage_type', $usageType)
+                ->where('usage_id', $draft->id)
+                ->where('archive_id', $archive->id)
+                ->first();
+
+            if (empty($archiveUsage)) {
+                throw new ApiException(36400);
+            }
+
+            $archiveUsage->delete();
         }
 
         return $this->success();
@@ -876,8 +925,9 @@ class EditorController extends Controller
             'content' => $dtoRequest->content,
             'isMarkdown' => $dtoRequest->isMarkdown,
             'isAnonymous' => $dtoRequest->isAnonymous,
-            'mapJson' => $dtoRequest->mapJson,
-            'eid' => $dtoRequest->eid,
+            'map' => $dtoRequest->map,
+            'extends' => $dtoRequest->extends,
+            'archives' => $dtoRequest->archives,
             'requireReview' => ($checkDraft == 38200),
         ];
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->contentQuickPublish($wordBody);
