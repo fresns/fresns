@@ -36,8 +36,8 @@
                     <input type="text" class="form-control" id="video_bucket_name" name="video_bucket_name" value="{{ $params['video_bucket_name'] }}">
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_bucket_area') }}</label>
-                    <input type="text" class="form-control" id="video_bucket_area" name="video_bucket_area" value="{{ $params['video_bucket_area'] }}">
+                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_bucket_region') }}</label>
+                    <input type="text" class="form-control" id="video_bucket_region" name="video_bucket_region" value="{{ $params['video_bucket_region'] }}">
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_bucket_domain') }}</label>
@@ -46,7 +46,7 @@
             </div>
             <div class="col-lg-4 form-text pt-1">
                 <i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_service_config_desc') }}<br>
-                <i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_bucket_area_desc') }}<br>
+                <i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_bucket_region_desc') }}<br>
                 <i class="bi bi-info-circle"></i> {{ __('FsLang::panel.storage_bucket_domain_desc') }}
             </div>
         </div>
