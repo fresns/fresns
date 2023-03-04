@@ -15,7 +15,7 @@ use App\Helpers\ConfigHelper;
 use Closure;
 use Illuminate\Http\Request;
 
-class CheckSiteModel
+class CheckSiteMode
 {
     use ApiHeaderTrait;
     use ApiResponseTrait;

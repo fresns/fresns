@@ -19,17 +19,17 @@ use App\Fresns\Api\Http\Controllers\PostController;
 use App\Fresns\Api\Http\Controllers\SearchController;
 use App\Fresns\Api\Http\Controllers\UserController;
 use App\Fresns\Api\Http\Middleware\CheckHeaderByWhitelist;
-use App\Fresns\Api\Http\Middleware\CheckSiteModel;
+use App\Fresns\Api\Http\Middleware\CheckSiteMode;
 use App\Fresns\Subscribe\Middleware\UserActivate;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v2')->middleware([
     CheckHeaderByWhitelist::class,
-    CheckSiteModel::class,
+    CheckSiteMode::class,
     UserActivate::class,
 ])->group(function () {
     // global
-    Route::prefix('global')->name('global.')->withoutMiddleware([CheckSiteModel::class])->group(function () {
+    Route::prefix('global')->name('global.')->withoutMiddleware([CheckSiteMode::class])->group(function () {
         Route::get('configs', [GlobalController::class, 'configs'])->name('configs');
         Route::get('code-messages', [GlobalController::class, 'codeMessages'])->name('code.messages');
         Route::get('{type}/archives', [GlobalController::class, 'archives'])->name('archives');
@@ -44,9 +44,9 @@ Route::prefix('v2')->middleware([
     // common
     Route::prefix('common')->name('common.')->group(function () {
         Route::get('input-tips', [CommonController::class, 'inputTips'])->name('input.tips');
-        Route::get('callback', [CommonController::class, 'callback'])->name('callback')->withoutMiddleware([CheckSiteModel::class]);
+        Route::get('callback', [CommonController::class, 'callback'])->name('callback')->withoutMiddleware([CheckSiteMode::class]);
         Route::post('send-verify-code', [CommonController::class, 'sendVerifyCode'])->name('send.verifyCode');
-        Route::post('upload-log', [CommonController::class, 'uploadLog'])->name('upload.log')->withoutMiddleware([CheckSiteModel::class]);
+        Route::post('upload-log', [CommonController::class, 'uploadLog'])->name('upload.log')->withoutMiddleware([CheckSiteMode::class]);
         Route::post('upload-file', [CommonController::class, 'uploadFile'])->name('upload.file');
         Route::get('file/{fid}/link', [CommonController::class, 'fileLink'])->name('file.link');
         Route::get('file/{fid}/users', [CommonController::class, 'fileUsers'])->name('file.users');
@@ -62,7 +62,7 @@ Route::prefix('v2')->middleware([
     });
 
     // account
-    Route::prefix('account')->name('account.')->withoutMiddleware([CheckSiteModel::class])->group(function () {
+    Route::prefix('account')->name('account.')->withoutMiddleware([CheckSiteMode::class])->group(function () {
         Route::post('register', [AccountController::class, 'register'])->name('register');
         Route::post('login', [AccountController::class, 'login'])->name('login');
         Route::put('reset-password', [AccountController::class, 'resetPassword'])->name('reset.password');
@@ -78,19 +78,19 @@ Route::prefix('v2')->middleware([
     // user
     Route::prefix('user')->name('user.')->group(function () {
         Route::get('list', [UserController::class, 'list'])->name('list');
-        Route::get('{uidOrUsername}/detail', [UserController::class, 'detail'])->name('detail')->withoutMiddleware([CheckSiteModel::class]);
+        Route::get('{uidOrUsername}/detail', [UserController::class, 'detail'])->name('detail')->withoutMiddleware([CheckSiteMode::class]);
         Route::get('{uidOrUsername}/followers-you-follow', [UserController::class, 'followersYouFollow'])->name('followers.you.follow');
         Route::get('{uidOrUsername}/interaction/{type}', [UserController::class, 'interaction'])->name('interaction');
         Route::get('{uidOrUsername}/mark/{markType}/{listType}', [UserController::class, 'markList'])->name('mark.list');
-        Route::post('auth', [UserController::class, 'auth'])->name('auth')->withoutMiddleware([CheckSiteModel::class]);
-        Route::get('panel', [UserController::class, 'panel'])->name('panel')->withoutMiddleware([CheckSiteModel::class]);
+        Route::post('auth', [UserController::class, 'auth'])->name('auth')->withoutMiddleware([CheckSiteMode::class]);
+        Route::get('panel', [UserController::class, 'panel'])->name('panel')->withoutMiddleware([CheckSiteMode::class]);
         Route::put('edit', [UserController::class, 'edit'])->name('edit');
         Route::post('mark', [UserController::class, 'mark'])->name('mark');
         Route::put('mark-note', [UserController::class, 'markNote'])->name('mark.note');
     });
 
     // notification
-    Route::prefix('notification')->name('notification.')->withoutMiddleware([CheckSiteModel::class])->group(function () {
+    Route::prefix('notification')->name('notification.')->withoutMiddleware([CheckSiteMode::class])->group(function () {
         Route::get('list', [NotificationController::class, 'list'])->name('list');
         Route::put('mark-as-read', [NotificationController::class, 'markAsRead'])->name('read');
         Route::delete('delete', [NotificationController::class, 'delete'])->name('delete');
@@ -98,22 +98,22 @@ Route::prefix('v2')->middleware([
 
     // conversation
     Route::prefix('conversation')->name('conversation.')->group(function () {
-        Route::get('list', [ConversationController::class, 'list'])->name('list')->withoutMiddleware([CheckSiteModel::class]);
+        Route::get('list', [ConversationController::class, 'list'])->name('list')->withoutMiddleware([CheckSiteMode::class]);
         Route::get('{uidOrUsername}/detail', [ConversationController::class, 'detail'])->name('detail');
         Route::get('{uidOrUsername}/messages', [ConversationController::class, 'messages'])->name('messages');
         Route::post('send-message', [ConversationController::class, 'sendMessage'])->name('send.message');
-        Route::put('mark-as-read', [ConversationController::class, 'markAsRead'])->name('read')->withoutMiddleware([CheckSiteModel::class]);
+        Route::put('mark-as-read', [ConversationController::class, 'markAsRead'])->name('read')->withoutMiddleware([CheckSiteMode::class]);
         Route::put('pin', [ConversationController::class, 'pin'])->name('pin');
         Route::delete('delete', [ConversationController::class, 'delete'])->name('delete');
     });
 
     // group
-    Route::prefix('group')->name('group.')->withoutMiddleware([CheckSiteModel::class])->group(function () {
+    Route::prefix('group')->name('group.')->withoutMiddleware([CheckSiteMode::class])->group(function () {
         Route::get('tree', [GroupController::class, 'tree'])->name('tree');
         Route::get('categories', [GroupController::class, 'categories'])->name('categories');
         Route::get('list', [GroupController::class, 'list'])->name('list');
         Route::get('{gid}/detail', [GroupController::class, 'detail'])->name('detail');
-        Route::get('{gid}/interaction/{type}', [GroupController::class, 'interaction'])->name('interaction')->middleware([CheckSiteModel::class]);
+        Route::get('{gid}/interaction/{type}', [GroupController::class, 'interaction'])->name('interaction')->middleware([CheckSiteMode::class]);
     });
 
     // hashtag
