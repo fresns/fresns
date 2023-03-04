@@ -98,22 +98,42 @@ class GlobalController extends Controller
     public function codeMessages(Request $request)
     {
         $dtoRequest = new GlobalCodeMessagesDTO($request->all());
+
         $langTag = $this->langTag();
-
-        $isAll = $dtoRequest->isAll ?? false;
-        $codeArr = array_filter(explode(',', $dtoRequest->codes));
         $unikey = $dtoRequest->unikey ?? 'Fresns';
+        $isAll = $dtoRequest->isAll ?? false;
 
-        $messagesQuery = CodeMessage::where('lang_tag', $langTag)->where('plugin_unikey', $unikey);
+        $cacheKey = "fresns_code_messages_{$unikey}_{$langTag}";
+        $cacheTag = 'fresnsConfigs';
+
+        // is known to be empty
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return $this->success([]);
+        }
+
+        $codeMessages = CacheHelper::get($cacheKey, $cacheTag);
+
+        if (empty($codeMessages)) {
+            $codeMessages = CodeMessage::where('plugin_unikey', $unikey)->where('lang_tag', $langTag)->get();
+
+            if (empty($codeMessages)) {
+                $codeMessages = CodeMessage::where('plugin_unikey', $unikey)->where('lang_tag', 'en')->get();
+            }
+
+            CacheHelper::put($codeMessages, $cacheKey, $cacheTag);
+        }
 
         if ($isAll) {
-            $codeMessages = $messagesQuery->get();
+            $messages = $codeMessages;
         } else {
-            $codeMessages = $messagesQuery->whereIn('code', $codeArr)->get();
+            $codeArr = array_filter(explode(',', $dtoRequest->codes));
+
+            $messages = $codeMessages->whereIn('code', $codeArr);
         }
 
         $item = null;
-        foreach ($codeMessages as $message) {
+        foreach ($messages as $message) {
             $item[$message->code] = $message->message;
         }
 
