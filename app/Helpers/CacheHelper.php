@@ -327,7 +327,7 @@ class CacheHelper
                 CacheHelper::forgetFresnsAccount($account->aid);
 
                 // fresns_follow_{$type}_array_by_{$userId}
-                CacheHelper::forgetFresnsKeys([
+                $interactionKeys = [
                     "fresns_follow_1_array_by_{$id}",
                     "fresns_follow_2_array_by_{$id}",
                     "fresns_follow_3_array_by_{$id}",
@@ -338,15 +338,28 @@ class CacheHelper
                     "fresns_block_3_array_by_{$id}",
                     "fresns_block_4_array_by_{$id}",
                     "fresns_block_5_array_by_{$id}",
-                ], 'fresnsUsers');
+                ];
+                foreach ($interactionKeys as $key) {
+                    CacheHelper::forgetFresnsKey($key, 'fresnsUsers');
+                    CacheHelper::forgetFresnsKey($key, 'fresnsGroups');
+                    CacheHelper::forgetFresnsKey($key, 'fresnsHashtags');
+                    CacheHelper::forgetFresnsKey($key, 'fresnsPosts');
+                    CacheHelper::forgetFresnsKey($key, 'fresnsComments');
 
-                CacheHelper::forgetFresnsKeys([
+                    $cacheKey = CacheHelper::getNullCacheKey($key);
+                    CacheHelper::forgetFresnsKey($cacheKey, 'fresnsNullCount');
+                }
+
+                $groupKeys = [
                     "fresns_filter_groups_by_user_{$id}",
                     "fresns_user_all_groups_{$id}",
-                ], [
-                    'fresnsGroups',
-                    'fresnsUsers',
-                ]);
+                ];
+                CacheHelper::forgetFresnsKeys($groupKeys, ['fresnsGroups', 'fresnsUsers']);
+                foreach ($groupKeys as $key) {
+                    $cacheKey = CacheHelper::getNullCacheKey($key);
+
+                    CacheHelper::forgetFresnsKey($cacheKey, 'fresnsNullCount');
+                }
 
                 CacheHelper::forgetFresnsKey("fresns_seo_user_{$id}", ['fresnsSeo', 'fresnsUsers']);
 
@@ -713,6 +726,11 @@ class CacheHelper
             "fresns_follow_{$type}_array_by_{$userId}",
             "fresns_block_{$type}_array_by_{$userId}",
         ], $cacheTag);
+
+        CacheHelper::forgetFresnsKeys([
+            CacheHelper::getNullCacheKey("fresns_follow_{$type}_array_by_{$userId}"),
+            CacheHelper::getNullCacheKey("fresns_block_{$type}_array_by_{$userId}"),
+        ], 'fresnsNullCount');
 
         if ($type == InteractionUtility::TYPE_GROUP) {
             CacheHelper::forgetFresnsKeys([
