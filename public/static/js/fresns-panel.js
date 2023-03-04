@@ -588,7 +588,13 @@ $(document).ready(function () {
                 $('#policyTabContent')
                     .find("[data-lang_tag='" + langTag + "'][data-key='" + langKey + "']")
                     .data('content', content);
+
                 window.tips(response.message);
+
+                if ($('.btn-primary[data-url]').data('url')) {
+                    window.location.href = $('.btn-primary[data-url]').data('url');
+                    window.location.reload();
+                }
             },
         });
         return false;

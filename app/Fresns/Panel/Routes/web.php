@@ -137,10 +137,9 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::put('policy', [PolicyController::class, 'update'])->name('policy.update');
         // send
         Route::get('send', [SendController::class, 'show'])->name('send.index');
-        Route::put('send', [SendController::class, 'update'])->name('send.update');
-        // verify code
-        Route::put('verifyCodes/{itemKey}/sms', [VerifyCodeController::class, 'updateSms'])->name('verifyCodes.sms.update');
-        Route::put('verifyCodes/{itemKey}/email', [VerifyCodeController::class, 'updateEmail'])->name('verifyCodes.email.update');
+        Route::put('send/update', [SendController::class, 'update'])->name('send.update');
+        Route::put('send/verifyCodeTemplate/{itemKey}/sms', [SendController::class, 'updateSms'])->name('send.sms.update');
+        Route::put('send/verifyCodeTemplate/{itemKey}/email', [SendController::class, 'updateEmail'])->name('send.email.update');
         // user
         Route::get('user', [UserController::class, 'show'])->name('user.index');
         Route::put('user', [UserController::class, 'update'])->name('user.update');

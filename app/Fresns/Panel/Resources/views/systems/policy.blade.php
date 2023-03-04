@@ -26,6 +26,7 @@
             </li>
         </ul>
     </div>
+
     <!--policy config-->
     <div class="tab-content" id="policiesTabContent">
         <!--options-->
@@ -140,6 +141,7 @@
                 </div>
             </form>
         </div>
+
         <!--contents-->
         <div class="tab-pane fade" id="contents" role="tabpanel" aria-labelledby="contents-tab">
             <table class="table table-hover align-middle text-nowrap">
@@ -229,7 +231,7 @@
                             <label for="floatingTextarea2" class="lang-label"></label>
                         </div>
                         <div class="form-text">{{ __('FsLang::panel.policy_editor_desc') }}</div>
-                        <button type="submit" class="btn btn-primary mt-3">{{ __('FsLang::panel.button_save') }}</button>
+                        <button type="submit" class="btn btn-primary mt-3" data-url="{{ route('panel.policy.index').'#contents-tab' }}">{{ __('FsLang::panel.button_save') }}</button>
                     </form>
                 </div>
             </div>

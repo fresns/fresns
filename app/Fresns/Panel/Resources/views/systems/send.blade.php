@@ -26,6 +26,7 @@
             </li>
         </ul>
     </div>
+
     <!--send config-->
     <div class="tab-content" id="sendTabContent">
         <!--services-->
@@ -117,7 +118,7 @@
                                     <button type="button" class="btn btn-outline-primary btn-sm me-3"
                                         data-languages="{{ json_encode($codeParams[$key]['email']['template'] ?? []) }}"
                                         data-enable="{{ $codeParams[$key]['email']['isEnable'] ?? false }}"
-                                        data-action="{{ route('panel.verifyCodes.email.update', ['itemKey' => $key])}}"
+                                        data-action="{{ route('panel.send.email.update', ['itemKey' => $key])}}"
                                         data-title="{{ $name }}"
                                         data-bs-toggle="modal" data-bs-target="#emailModal">
                                         {{ __('FsLang::panel.button_config_email_template') }}
@@ -125,7 +126,7 @@
                                     <button type="button" class="btn btn-outline-primary btn-sm"
                                         data-languages="{{ json_encode($codeParams[$key]['sms']['template'] ?? []) }}"
                                         data-enable="{{ $codeParams[$key]['sms']['isEnable'] ?? false }}"
-                                        data-action="{{ route('panel.verifyCodes.sms.update', ['itemKey' => $key])}}"
+                                        data-action="{{ route('panel.send.sms.update', ['itemKey' => $key])}}"
                                         data-title="{{ $name }}"
                                         data-languages="{{ json_encode($codeParams[$key]['sms']['template'] ?? []) }}"
                                         data-bs-toggle="modal" data-bs-target="#smsModal">
