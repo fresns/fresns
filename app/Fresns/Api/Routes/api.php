@@ -90,7 +90,7 @@ Route::prefix('v2')->middleware([
     });
 
     // notification
-    Route::prefix('notification')->name('notification.')->group(function () {
+    Route::prefix('notification')->name('notification.')->withoutMiddleware([CheckSiteModel::class])->group(function () {
         Route::get('list', [NotificationController::class, 'list'])->name('list');
         Route::put('mark-as-read', [NotificationController::class, 'markAsRead'])->name('read');
         Route::delete('delete', [NotificationController::class, 'delete'])->name('delete');
@@ -98,22 +98,22 @@ Route::prefix('v2')->middleware([
 
     // conversation
     Route::prefix('conversation')->name('conversation.')->group(function () {
-        Route::get('list', [ConversationController::class, 'list'])->name('list');
+        Route::get('list', [ConversationController::class, 'list'])->name('list')->withoutMiddleware([CheckSiteModel::class]);
         Route::get('{uidOrUsername}/detail', [ConversationController::class, 'detail'])->name('detail');
         Route::get('{uidOrUsername}/messages', [ConversationController::class, 'messages'])->name('messages');
         Route::post('send-message', [ConversationController::class, 'sendMessage'])->name('send.message');
-        Route::put('mark-as-read', [ConversationController::class, 'markAsRead'])->name('read');
+        Route::put('mark-as-read', [ConversationController::class, 'markAsRead'])->name('read')->withoutMiddleware([CheckSiteModel::class]);
         Route::put('pin', [ConversationController::class, 'pin'])->name('pin');
         Route::delete('delete', [ConversationController::class, 'delete'])->name('delete');
     });
 
     // group
-    Route::prefix('group')->name('group.')->group(function () {
+    Route::prefix('group')->name('group.')->withoutMiddleware([CheckSiteModel::class])->group(function () {
         Route::get('tree', [GroupController::class, 'tree'])->name('tree');
-        Route::get('categories', [GroupController::class, 'categories'])->name('categories')->withoutMiddleware([CheckSiteModel::class]);
+        Route::get('categories', [GroupController::class, 'categories'])->name('categories');
         Route::get('list', [GroupController::class, 'list'])->name('list');
         Route::get('{gid}/detail', [GroupController::class, 'detail'])->name('detail');
-        Route::get('{gid}/interaction/{type}', [GroupController::class, 'interaction'])->name('interaction');
+        Route::get('{gid}/interaction/{type}', [GroupController::class, 'interaction'])->name('interaction')->middleware([CheckSiteModel::class]);
     });
 
     // hashtag

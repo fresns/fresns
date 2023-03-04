@@ -10,6 +10,7 @@ namespace App\Fresns\Api\Http\Middleware;
 
 use App\Exceptions\ApiException;
 use App\Fresns\Api\Traits\ApiHeaderTrait;
+use App\Fresns\Api\Traits\ApiResponseTrait;
 use App\Helpers\ConfigHelper;
 use Closure;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ use Illuminate\Http\Request;
 class CheckSiteModel
 {
     use ApiHeaderTrait;
+    use ApiResponseTrait;
 
     public function handle(Request $request, Closure $next)
     {
@@ -42,11 +44,37 @@ class CheckSiteModel
         $now = time();
         $expireTime = strtotime($authUser->expired_at);
 
+        $currentRouteName = \request()->route()->getName();
+
         if ($modeConfig['site_private_end_after'] == 1 && $expireTime < $now) {
-            throw new ApiException(35303);
+            $list = [
+                'api.user.list',
+                'api.user.followers.you.follow',
+                'api.user.interaction',
+                'api.user.mark.list',
+                'api.group.interaction',
+                'api.hashtag.list',
+                'api.hashtag.interaction',
+                'api.post.list',
+                'api.post.interaction',
+                'api.post.users',
+                'api.post.logs',
+                'api.post.follow',
+                'api.post.nearby',
+                'api.comment.list',
+                'api.comment.interaction',
+                'api.comment.logs',
+                'api.comment.follow',
+                'api.comment.nearby',
+            ];
+
+            if (in_array($currentRouteName, $list)) {
+                return $this->warning(35303);
+            }
+
+            throw new ApiException(35302);
         }
 
-        $currentRouteName = \request()->route()->getName();
         $blacklist = config('FsApiBlacklist.disableRoutes');
 
         // check blacklist
