@@ -64,7 +64,15 @@ class UserController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $userQuery = UserStat::with('profile')->whereRelation('profile', 'is_enable', true)->whereRelation('profile', 'wait_delete', false);
+        $userQuery = UserStat::with('profile', 'mainRole')->whereRelation('profile', 'is_enable', true)->whereRelation('profile', 'wait_delete', false);
+
+        if ($dtoRequest->roles) {
+            $roleArr = array_filter(explode(',', $dtoRequest->roles));
+
+            $userQuery->whereHas('mainRole', function ($query) use ($roleArr) {
+                $query->whereIn('role_id', $roleArr);
+            });
+        }
 
         if (isset($dtoRequest->verified)) {
             $userQuery->whereRelation('profile', 'verified_status', $dtoRequest->verified);

@@ -18,6 +18,7 @@ class UserListDTO extends DTO
     public function rules(): array
     {
         return [
+            'roles' => ['string', 'nullable'],
             'verified' => ['boolean', 'nullable'],
             'gender' => ['integer', 'nullable', 'in:1,2,3'],
             'createDate' => ['string', 'nullable', 'in:today,yesterday,week,lastWeek,month,lastMonth,year,lastYear'],
