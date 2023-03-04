@@ -342,7 +342,7 @@ class PostController extends Controller
 
         $postQuery->orderBy($orderType, $orderDirection);
 
-        $posts = $postQuery->paginate($request->get('pageSize', 15));
+        $posts = $postQuery->paginate($dtoRequest->pageSize ?? 15);
 
         $postList = [];
         $service = new PostService();
@@ -476,7 +476,7 @@ class PostController extends Controller
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
 
-        $userListData = PostUser::with('user')->where('post_id', $post->id)->latest()->paginate($request->get('pageSize', 15));
+        $userListData = PostUser::with('user')->where('post_id', $post->id)->latest()->paginate($dtoRequest->pageSize ?? 15);
 
         $userList = [];
         $service = new UserService();
@@ -513,7 +513,7 @@ class PostController extends Controller
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
 
-        $postLogs = PostLog::with('creator')->where('post_id', $post->id)->where('state', 3)->latest()->paginate($request->get('pageSize', 15));
+        $postLogs = PostLog::with('creator')->where('post_id', $post->id)->where('state', 3)->latest()->paginate($dtoRequest->pageSize ?? 15);
 
         $postLogList = [];
         $service = new PostService();

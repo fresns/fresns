@@ -59,7 +59,7 @@ class GlobalController extends Controller
                 $configQuery->whereIn('item_tag', $itemTag);
             }
 
-            $configs = $configQuery->paginate($request->get('pageSize', 50));
+            $configs = $configQuery->paginate($dtoRequest->pageSize ?? 50);
 
             $total = $configs->total();
             $perPage = $configs->perPage();
@@ -242,7 +242,7 @@ class GlobalController extends Controller
             $roleQuery->where('type', $dtoRequest->type);
         }
 
-        $roles = $roleQuery->paginate($request->get('pageSize', 15));
+        $roles = $roleQuery->paginate($dtoRequest->pageSize ?? 15);
 
         $roleList = [];
         foreach ($roles as $role) {
@@ -348,7 +348,7 @@ class GlobalController extends Controller
             $wordQuery = BlockWord::where('conversation_mode', '!=', 1);
         }
 
-        $words = $wordQuery->paginate($request->get('pageSize', 50));
+        $words = $wordQuery->paginate($dtoRequest->pageSize ?? 50);
 
         $wordList = [];
         foreach ($words as $word) {
@@ -357,6 +357,7 @@ class GlobalController extends Controller
             $item['userMode'] = $word->user_mode;
             $item['conversationMode'] = $word->conversation_mode;
             $item['replaceWord'] = $word->replace_word;
+
             $wordList[] = $item;
         }
 

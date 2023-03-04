@@ -155,7 +155,7 @@ class HashtagController extends Controller
 
         $hashtagQuery->orderBy($orderType, $orderDirection);
 
-        $hashtagData = $hashtagQuery->paginate($request->get('pageSize', 30));
+        $hashtagData = $hashtagQuery->paginate($dtoRequest->pageSize ?? 30);
 
         $hashtagList = [];
         $service = new HashtagService();

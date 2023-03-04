@@ -47,7 +47,7 @@ class NotificationController extends Controller
             $notificationQuery->where('is_read', $dtoRequest->status);
         }
 
-        $notifications = $notificationQuery->latest()->paginate($request->get('pageSize', 15));
+        $notifications = $notificationQuery->latest()->paginate($dtoRequest->pageSize ?? 15);
 
         $userService = new UserService();
         $groupService = new GroupService();

@@ -524,7 +524,7 @@ class AccountController extends Controller
             $walletLogQuery->whereIn('object_type', $typeArr);
         }
 
-        $walletLogs = $walletLogQuery->paginate($request->get('pageSize', 15));
+        $walletLogs = $walletLogQuery->paginate($dtoRequest->pageSize ?? 15);
 
         $logList = [];
         foreach ($walletLogs as $log) {

@@ -678,7 +678,7 @@ class CommonController extends Controller
             ->where('file_id', $file->id)
             ->latest()
             ->groupBy('user_id')
-            ->paginate($request->get('pageSize', 15));
+            ->paginate($dtoRequest->pageSize ?? 15);
 
         $userService = new UserService;
 

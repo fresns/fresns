@@ -273,7 +273,7 @@ class GroupController extends Controller
 
         $groupQuery->orderBy('recommend_rating')->orderBy($orderType, $orderDirection);
 
-        $groupData = $groupQuery->paginate($request->get('pageSize', 15));
+        $groupData = $groupQuery->paginate($dtoRequest->pageSize ?? 15);
 
         $groupList = [];
         $service = new GroupService();

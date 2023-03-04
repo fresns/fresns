@@ -363,7 +363,7 @@ class CommentController extends Controller
 
         $commentQuery->orderBy($orderType, $orderDirection);
 
-        $comments = $commentQuery->paginate($request->get('pageSize', 15));
+        $comments = $commentQuery->paginate($dtoRequest->pageSize ?? 15);
 
         $commentList = [];
         $service = new CommentService();
@@ -489,7 +489,7 @@ class CommentController extends Controller
 
         UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
 
-        $commentLogs = CommentLog::with('creator')->where('comment_id', $comment->id)->where('state', 3)->latest()->paginate($request->get('pageSize', 15));
+        $commentLogs = CommentLog::with('creator')->where('comment_id', $comment->id)->where('state', 3)->latest()->paginate($dtoRequest->pageSize ?? 15);
 
         $commentLogList = [];
         $service = new CommentService();

@@ -95,7 +95,7 @@ class EditorController extends Controller
                     ->where('user_id', $authUser->id)
                     ->whereIn('state', $status)
                     ->latest()
-                    ->paginate($request->get('pageSize', 15));
+                    ->paginate($dtoRequest->pageSize ?? 15);
 
                 $service = new PostService();
                 foreach ($drafts as $draft) {
@@ -109,7 +109,7 @@ class EditorController extends Controller
                     ->where('user_id', $authUser->id)
                     ->whereIn('state', $status)
                     ->latest()
-                    ->paginate($request->get('pageSize', 15));
+                    ->paginate($dtoRequest->pageSize ?? 15);
 
                 $service = new CommentService();
                 foreach ($drafts as $draft) {

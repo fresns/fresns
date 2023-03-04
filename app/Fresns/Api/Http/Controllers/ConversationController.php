@@ -48,7 +48,7 @@ class ConversationController extends Controller
             $bConversationsQuery->where('b_is_pin', $dtoRequest->isPin);
         }
 
-        $allConversations = $aConversationsQuery->union($bConversationsQuery)->latest('latest_message_at')->paginate($request->get('pageSize', 15));
+        $allConversations = $aConversationsQuery->union($bConversationsQuery)->latest('latest_message_at')->paginate($dtoRequest->pageSize ?? 15);
 
         $userService = new UserService;
 
@@ -194,7 +194,7 @@ class ConversationController extends Controller
             'desc' => 'latest',
         };
 
-        $messages = $sendMessages->union($receiveMessages)->$orderDirection()->paginate($request->get('pageSize', 15));
+        $messages = $sendMessages->union($receiveMessages)->$orderDirection()->paginate($dtoRequest->pageSize ?? 15);
 
         // list
         $userService = new UserService;

@@ -10,6 +10,7 @@ namespace App\Fresns\Api\Http\Controllers;
 
 use App\Exceptions\ApiException;
 use App\Fresns\Api\Http\DTO\InteractionDTO;
+use App\Fresns\Api\Http\DTO\PaginationDTO;
 use App\Fresns\Api\Http\DTO\UserAuthDTO;
 use App\Fresns\Api\Http\DTO\UserEditDTO;
 use App\Fresns\Api\Http\DTO\UserListDTO;
@@ -263,7 +264,7 @@ class UserController extends Controller
 
         $userQuery->orderBy($orderType, $orderDirection);
 
-        $userData = $userQuery->paginate($request->get('pageSize', 15));
+        $userData = $userQuery->paginate($dtoRequest->pageSize ?? 15);
 
         $userList = [];
         $service = new UserService();
@@ -308,6 +309,10 @@ class UserController extends Controller
     // followers you follow
     public function followersYouFollow(Request $request, string $uidOrUsername)
     {
+        $dtoRequest = new PaginationDTO($request->all());
+
+        $pageSize = $dtoRequest->pageSize ?? 15;
+
         $authUser = $this->user();
         if (empty($authUser)) {
             return $this->warning(31601);
@@ -331,7 +336,7 @@ class UserController extends Controller
             $authUserFollowing = UserFollow::type(UserFollow::TYPE_USER)->where('user_id', $authUser->id)->latest()->pluck('follow_id')->toArray();
 
             if (empty($viewUserFollowers) && empty($authUserFollowing)) {
-                return $this->fresnsPaginate([], 0, $request->get('pageSize', 15));
+                return $this->fresnsPaginate([], 0, $pageSize);
             }
 
             $userIdArr = array_merge($viewUserFollowers, $authUserFollowing);
@@ -348,13 +353,13 @@ class UserController extends Controller
         }
 
         if (empty($youKnowArr)) {
-            return $this->fresnsPaginate([], 0, $request->get('pageSize', 15));
+            return $this->fresnsPaginate([], 0, $pageSize);
         }
 
         $userQuery = User::whereIn('id', $youKnowArr)
             ->where('is_enable', true)
             ->where('wait_delete', false)
-            ->paginate($request->get('pageSize', 15));
+            ->paginate($pageSize);
 
         $service = new UserService();
 
