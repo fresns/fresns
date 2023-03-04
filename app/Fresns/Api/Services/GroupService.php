@@ -217,10 +217,20 @@ class GroupService
             return $checkResp;
         }
 
-        if (empty($follow?->expired_at) || $group->type_mode_end_after == 2) {
-            $checkResp['code'] = 37105;
+        if ($group->type_mode_end_after == 2) {
+            if (empty($follow?->expired_at)) {
+                $checkResp['code'] = 37105;
 
-            return $checkResp;
+                return $checkResp;
+            }
+
+            $now = time();
+            $expiryTime = strtotime($follow->expired_at);
+            if ($expiryTime < $now) {
+                $checkResp['code'] = 37105;
+
+                return $checkResp;
+            }
         }
 
         $checkResp['datetime'] = $follow->expired_at;

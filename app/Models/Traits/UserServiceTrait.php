@@ -35,15 +35,15 @@ trait UserServiceTrait
             $url = $configKeys['site_url'].'/'.$configKeys['website_user_detail_path'].'/'.$userData->username;
         }
 
-        $isExpiry = false;
+        $expired = false;
         if ($configKeys['site_mode'] == 'private') {
             if (empty($userData->expired_at)) {
-                $isExpiry = true;
+                $expired = true;
             } else {
                 $now = time();
                 $expireTime = strtotime($userData->expired_at);
 
-                $isExpiry = ($expireTime < $now) ? true : false;
+                $expired = ($expireTime < $now) ? true : false;
             }
         }
 
@@ -65,7 +65,7 @@ trait UserServiceTrait
         $profile['verifiedIcon'] = null;
         $profile['verifiedDesc'] = $userData->verified_desc;
         $profile['verifiedDateTime'] = $userData->verified_at;
-        $profile['isExpiry'] = $isExpiry;
+        $profile['expired'] = $expired;
         $profile['expiryDateTime'] = $userData->expired_at;
         $profile['lastPublishPost'] = $userData->last_post_at;
         $profile['lastPublishComment'] = $userData->last_comment_at;

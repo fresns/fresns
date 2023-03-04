@@ -339,7 +339,7 @@ class UserService
 
         $authUser = PrimaryHelper::fresnsModelById('user', $authUserId);
 
-        return $authUser?->expired_at;
+        return $authUser?->expired_at ?? now();
     }
 
     // check publish perm

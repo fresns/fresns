@@ -101,7 +101,7 @@ class InteractionUtility
             $status['followStatus'] = false;
             $status['followMeStatus'] = false;
             $status['followNote'] = null;
-            $status['followIsExpiry'] = false;
+            $status['followExpired'] = false;
             $status['followExpiryDateTime'] = null;
             $status['blockStatus'] = false;
             $status['blockMeStatus'] = false;
@@ -120,14 +120,14 @@ class InteractionUtility
             $userBlock = UserBlock::where('user_id', $userId)->type($markType)->where('block_id', $markId)->first();
 
             $now = time();
-            $expireTime = strtotime($userFollow?->expired_at);
+            $expiryTime = $userFollow?->expired_at ? strtotime($userFollow?->expired_at) : time();
 
             $status['likeStatus'] = self::checkUserLike($markType, $markId, $userId);
             $status['dislikeStatus'] = self::checkUserDislike($markType, $markId, $userId);
             $status['followStatus'] = self::checkUserFollow($markType, $markId, $userId);
             $status['followMeStatus'] = false;
             $status['followNote'] = $userFollow?->user_note;
-            $status['followIsExpiry'] = ($expireTime < $now) ? true : false;
+            $status['followExpired'] = ($expiryTime <= $now) ? true : false;
             $status['followExpiryDateTime'] = $userFollow?->expired_at;
             $status['blockStatus'] = self::checkUserBlock($markType, $markId, $userId);
             $status['blockMeStatus'] = false;
