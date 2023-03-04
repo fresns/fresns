@@ -105,8 +105,8 @@ trait UserServiceTrait
     {
         $userData = $this;
 
-        $mainRoleData = UserRole::where('user_id', $userData->id)->where('is_main', 1)->first();
-        $roleData = Role::where('id', $mainRoleData?->role_id)->first();
+        $mainRoleData = UserRole::with('roleInfo')->where('user_id', $userData->id)->where('is_main', 1)->first();
+        $roleData = $mainRoleData->roleInfo;
 
         if (empty($mainRoleData)) {
             $defaultRoleId = ConfigHelper::fresnsConfigByItemKey('default_role');

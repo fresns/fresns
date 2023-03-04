@@ -14,4 +14,18 @@ class UserStat extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'user_roles', 'user_id')->wherePivot('deleted_at', null);
+    }
+
+    public function mainRole()
+    {
+        return $this->belongsToMany(Role::class, 'user_roles', 'user_id')
+            ->wherePivot('deleted_at', null)
+            ->wherePivot('is_main', true)
+            ->wherePivot('expired_at', null)
+            ->orWherePivot('expired_at', '>=', now());
+    }
 }

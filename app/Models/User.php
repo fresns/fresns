@@ -81,10 +81,6 @@ class User extends Model
 
     public function getMainRoleAttribute()
     {
-        return $this->roles()
-            ->wherePivot('is_main', true)
-            ->wherePivot('expired_at', null)
-            ->orWherePivot('expired_at', '>=', now())
-            ->first();
+        return $this->roles()->wherePivot('is_main', true)->wherePivot('expired_at', null)->orWherePivot('expired_at', '>=', now())->first();
     }
 }
