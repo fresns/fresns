@@ -40,58 +40,75 @@ class GlobalController extends Controller
         $dtoRequest = new GlobalConfigsDTO($request->all());
         $langTag = $this->langTag();
 
-        $itemKey = array_filter(explode(',', $dtoRequest->keys));
-        $itemTag = array_filter(explode(',', $dtoRequest->tags));
+        $modelCacheKey = "fresns_api_config_models";
+        $itemCacheKey = "fresns_api_configs_{$langTag}";
+        $cacheTag = 'fresnsConfigs';
 
-        $configQuery = Config::where('is_api', 1);
+        $configModels = CacheHelper::get($modelCacheKey, $cacheTag);
+        if (empty($configModels)) {
+            $configModels = Config::where('is_api', 1)->get();
 
-        if ($dtoRequest->isAll) {
-            $configs = $configQuery->get();
+            CacheHelper::put($configModels, $modelCacheKey, $cacheTag);
+        }
 
-            $total = $configs->count();
-            $perPage = $total;
-        } else {
-            if (! empty($itemKey) && ! empty($itemTag)) {
-                $configQuery->whereIn('item_key', $itemKey)->orWhereIn('item_tag', $itemTag);
-            } elseif (! empty($itemKey) && empty($itemTag)) {
-                $configQuery->whereIn('item_key', $itemKey);
-            } elseif (empty($itemKey) && ! empty($itemTag)) {
-                $configQuery->whereIn('item_tag', $itemTag);
+        $configAll = CacheHelper::get($itemCacheKey, $cacheTag);
+
+        if (empty($configAll)) {
+            $item = null;
+            foreach ($configModels as $config) {
+                if ($config->is_multilingual) {
+                    $item[$config->item_key] = LanguageHelper::fresnsLanguageByTableKey($config->item_key, $config->item_type, $langTag);
+                } elseif ($config->item_type == 'file') {
+                    $item[$config->item_key] = ConfigHelper::fresnsConfigFileUrlByItemKey($config->item_key);
+                } elseif ($config->item_type == 'plugin') {
+                    $item[$config->item_key] = PluginHelper::fresnsPluginUrlByUnikey($config->item_value) ?? $config->item_value;
+                } elseif ($config->item_type == 'plugins') {
+                    if ($config->item_value) {
+                        foreach ($config->item_value as $plugin) {
+                            $pluginItem['code'] = $plugin['code'];
+                            $pluginItem['url'] = PluginHelper::fresnsPluginUrlByUnikey($plugin['unikey']);
+                            $itemArr[] = $pluginItem;
+                        }
+                        $item[$config->item_key] = $itemArr;
+                    }
+                } else {
+                    $item[$config->item_key] = $config->item_value;
+                }
             }
 
-            $configs = $configQuery->paginate($dtoRequest->pageSize ?? 50);
+            $item['cache_minutes'] = ConfigHelper::fresnsConfigFileUrlExpire();
 
-            $total = $configs->total();
-            $perPage = $configs->perPage();
+            $configAll = $item;
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
+            CacheHelper::put($configAll, $itemCacheKey, $cacheTag, 10, $cacheTime);
+        }
+
+        if (empty($dtoRequest->keys) && empty($dtoRequest->tags)) {
+            return $this->success($configAll);
+        }
+
+        $itemKeys = array_filter(explode(',', $dtoRequest->keys));
+        $itemTags = array_filter(explode(',', $dtoRequest->tags));
+
+        if ($itemKeys && $itemTags) {
+            $configs = $configModels->whereIn('item_key', $itemKeys)->orWhereIn('item_tag', $itemTags);
+        } elseif ($itemKeys && empty($itemTags)) {
+            $configs = $configModels->whereIn('item_key', $itemKeys);
+        } elseif ($itemTags && empty($itemKeys)) {
+            $configs = $configModels->whereIn('item_tag', $itemTags);
         }
 
         $item = null;
         foreach ($configs as $config) {
-            if ($config->is_multilingual) {
-                $item[$config->item_key] = LanguageHelper::fresnsLanguageByTableKey($config->item_key, $config->item_type, $langTag);
-            } elseif ($config->item_type == 'file') {
-                $item[$config->item_key] = ConfigHelper::fresnsConfigFileUrlByItemKey($config->item_key);
-            } elseif ($config->item_type == 'plugin') {
-                $item[$config->item_key] = PluginHelper::fresnsPluginUrlByUnikey($config->item_value) ?? $config->item_value;
-            } elseif ($config->item_type == 'plugins') {
-                if ($config->item_value) {
-                    foreach ($config->item_value as $plugin) {
-                        $pluginItem['code'] = $plugin['code'];
-                        $pluginItem['url'] = PluginHelper::fresnsPluginUrlByUnikey($plugin['unikey']);
-                        $itemArr[] = $pluginItem;
-                    }
-                    $item[$config->item_key] = $itemArr;
-                }
-            } else {
-                $item[$config->item_key] = $config->item_value;
-            }
+            $item[$config->item_key] = $configAll[$config->item_key];
         }
 
-        if (in_array('cache_datetime', $itemKey) || in_array('cache_minutes', $itemKey)) {
+        if (in_array('cache_datetime', $itemKeys) || in_array('cache_minutes', $itemKeys)) {
             $item['cache_minutes'] = ConfigHelper::fresnsConfigFileUrlExpire();
         }
 
-        return $this->fresnsPaginate($item, $total, $perPage);
+        return $this->success($item);
     }
 
     // code messages

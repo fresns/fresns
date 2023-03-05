@@ -20,9 +20,6 @@ class GlobalConfigsDTO extends DTO
         return [
             'keys' => ['string', 'nullable'],
             'tags' => ['string', 'nullable'],
-            'isAll' => ['boolean', 'nullable'],
-            'pageSize' => ['integer', 'nullable', 'between:1,100'],
-            'page' => ['integer', 'nullable'],
         ];
     }
 }
