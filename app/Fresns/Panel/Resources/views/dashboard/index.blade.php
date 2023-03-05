@@ -53,13 +53,13 @@
                 <li class="list-group-item">
                     <i class="bi bi-person"></i> {{ __('FsLang::panel.sidebar_admins') }}
                     <a href="{{ route('panel.admins.index') }}">
-                        <span class="badge bg-info">{{ $adminCount }}</span>
+                        <span class="badge bg-info">{{ $overview['adminCount'] }}</span>
                     </a>
                 </li>
                 <li class="list-group-item">
                     <i class="bi bi-key"></i> {{ __('FsLang::panel.sidebar_keys') }}
                     <a href="{{ route('panel.keys.index') }}">
-                        <span class="badge bg-info">{{ $keyCount }}</span>
+                        <span class="badge bg-info">{{ $overview['keyCount'] }}</span>
                     </a>
                 </li>
                 <li class="list-group-item">

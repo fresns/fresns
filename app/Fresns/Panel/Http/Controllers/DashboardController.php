@@ -11,11 +11,15 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
 use App\Helpers\DateHelper;
-use App\Helpers\InteractionHelper;
 use App\Models\Account;
+use App\Models\Comment;
 use App\Models\Config;
+use App\Models\Group;
+use App\Models\Hashtag;
 use App\Models\Plugin;
+use App\Models\Post;
 use App\Models\SessionKey;
+use App\Models\User;
 use App\Utilities\AppUtility;
 use App\Utilities\CommandUtility;
 
@@ -23,7 +27,16 @@ class DashboardController extends Controller
 {
     public function show()
     {
-        $overview = InteractionHelper::fresnsOverview();
+        $overview = [
+            'accountCount' => Account::count(),
+            'userCount' => User::count(),
+            'groupCount' => Group::count(),
+            'hashtagCount' => Hashtag::count(),
+            'postCount' => Post::count(),
+            'commentCount' => Comment::count(),
+            'keyCount' => SessionKey::count(),
+            'adminCount' => Account::ofAdmin()->count(),
+        ];
 
         $cacheKey = 'fresns_news';
         $cacheTag = 'fresnsSystems';
@@ -54,8 +67,6 @@ class DashboardController extends Controller
         $newVersion = AppUtility::newVersion();
         $checkVersion = AppUtility::checkVersion();
 
-        $keyCount = SessionKey::count();
-        $adminCount = Account::ofAdmin()->count();
         $plugins = Plugin::all();
         $pluginUpgradeCount = Plugin::where('is_upgrade', 1)->count();
 
@@ -63,7 +74,7 @@ class DashboardController extends Controller
         $databaseInfo = AppHelper::getMySqlInfo();
         $timezones = DateHelper::fresnsDatabaseTimezoneNames();
 
-        return view('FsView::dashboard.index', compact('overview', 'pluginUpgradeCount', 'newsList', 'keyCount', 'adminCount', 'plugins', 'currentVersion', 'newVersion', 'checkVersion', 'systemInfo', 'databaseInfo', 'timezones'));
+        return view('FsView::dashboard.index', compact('overview', 'pluginUpgradeCount', 'newsList', 'plugins', 'currentVersion', 'newVersion', 'checkVersion', 'systemInfo', 'databaseInfo', 'timezones'));
     }
 
     public function composerDiagnose()
