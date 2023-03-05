@@ -325,20 +325,28 @@ class Account
     {
         $dtoWordBody = new LogicalDeletionAccountDTO($wordBody);
 
-        $account = AccountModel::whereAid($dtoWordBody->aid)->first();
+        $account = AccountModel::with(['connects', 'users'])->whereAid($dtoWordBody->aid)->first();
 
         $oldEmail = $account->email;
         $oldPhone = $account->phone;
         $dateTime = 'deleted#'.date('YmdHis').'#';
 
         $account->update([
-            'phone' => $dateTime.$oldEmail,
-            'email' => $dateTime.$oldPhone,
+            'email' => $dateTime.$oldEmail,
+            'phone' => $dateTime.$oldPhone,
         ]);
 
         $account->delete();
 
-        AccountConnect::where('account_id', $account->id)->forceDelete();
+        foreach ($account->connects as $connect) {
+            $connect->forceDelete();
+        }
+
+        foreach ($account->users as $user) {
+            \FresnsCmdWord::plugin('Fresns')->logicalDeletionUser([
+                'uid' => $user->uid,
+            ]);
+        }
 
         return $this->success();
     }
