@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.7.2 (2023-03-05)
+
+### Fixes
+- API: Fixed issue where the cache count for interactive operations was not cleared.
+- API: Fixed miss-configuration in private mode middleware.
+- Helper: Fixed issue causing exceptions when domain suffixes were not de-duplicated.
+- Words: Updated command word field for account cancellation.
+
+### Changed
+- API: Added three new private mode messages to language pack.
+- API: Removed pagination feature from `/api/v2/global/configs` configuration interface.
+- Framework: fresns/plugin-manager to v2.4.6
+
+
 ## 2.7.1 (2023-03-02)
 
 ### Fixes
