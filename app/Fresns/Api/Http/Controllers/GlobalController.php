@@ -40,7 +40,7 @@ class GlobalController extends Controller
         $dtoRequest = new GlobalConfigsDTO($request->all());
         $langTag = $this->langTag();
 
-        $modelCacheKey = "fresns_api_config_models";
+        $modelCacheKey = 'fresns_api_config_models';
         $itemCacheKey = "fresns_api_configs_{$langTag}";
         $cacheTag = 'fresnsConfigs';
 
