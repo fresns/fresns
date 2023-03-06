@@ -221,9 +221,8 @@ class UpgradeFresns extends Command
         logger('-- composer command');
         $process = new Process([$composerPath, 'update', '-vvv'], base_path());
         $process->setTimeout(0);
-        $process->start();
 
-        $process->wait(function ($type, $buffer) {
+        $process->run(function ($type, $buffer) {
             if (Process::OUT === $type) {
                 $this->info("\nRead from stdout: ".$buffer);
             } else {
@@ -232,6 +231,13 @@ class UpgradeFresns extends Command
 
             logger('-- -- composer info: '.$buffer);
         });
+        // executes after the command finishes
+        // $process->run();
+        // if (!$process->isSuccessful()) {
+        //     throw new \Symfony\Component\Process\Exception\ProcessFailedException($process);
+        // }
+
+        logger('-- -- composer finish: '.$process->getOutput());
 
         return true;
     }
