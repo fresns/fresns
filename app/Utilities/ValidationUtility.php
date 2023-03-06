@@ -66,7 +66,7 @@ class ValidationUtility
 
         $number = true;
         if (in_array('number', $config['password_strength'])) {
-            $number = preg_match('/\d/is', $password);
+            $number = preg_match('/\d/', $password);
         }
 
         $lowercase = true;
@@ -81,7 +81,7 @@ class ValidationUtility
 
         $symbols = true;
         if (in_array('symbols', $config['password_strength'])) {
-            $symbols = preg_match('/^[A-Za-z0-9]+$/', $password);
+            $symbols = preg_match('/[^\w\s\d]/', $password);
         }
 
         $validatePassword = [
