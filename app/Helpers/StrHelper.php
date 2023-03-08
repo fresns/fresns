@@ -57,7 +57,7 @@ class StrHelper
     // name
     public static function maskName(?string $name = null): ?string
     {
-        if (empty($number)) {
+        if (empty($name)) {
             return null;
         }
 
