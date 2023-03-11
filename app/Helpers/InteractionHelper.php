@@ -255,54 +255,79 @@ class InteractionHelper
         return $interaction;
     }
 
-    // user anonymous profile
-    public static function fresnsUserAnonymousProfile(): array
+    // user substitution profile
+    public static function fresnsUserSubstitutionProfile(?string $type = null): array
     {
-        $profile['fsid'] = null;
-        $profile['uid'] = null;
-        $profile['url'] = null;
-        $profile['username'] = null;
-        $profile['nickname'] = null;
-        $profile['avatar'] = ConfigHelper::fresnsConfigFileUrlByItemKey('anonymous_avatar', 'imageSquareUrl');
-        $profile['decorate'] = null;
-        $profile['banner'] = null;
-        $profile['gender'] = null;
-        $profile['birthday'] = null;
-        $profile['bio'] = null;
-        $profile['location'] = null;
-        $profile['conversationLimit'] = null;
-        $profile['commentLimit'] = null;
-        $profile['timezone'] = null;
-        $profile['verifiedStatus'] = false;
-        $profile['verifiedIcon'] = null;
-        $profile['verifiedDesc'] = null;
-        $profile['verifiedDateTime'] = null;
-        $profile['expiryDateTime'] = null;
-        $profile['lastPublishPost'] = null;
-        $profile['lastPublishComment'] = null;
-        $profile['lastEditUsername'] = null;
-        $profile['lastEditNickname'] = null;
-        $profile['registerDateTime'] = null;
-        $profile['hasPassword'] = false;
-        $profile['rankState'] = 1;
-        $profile['status'] = true;
+        $avatar = match ($type) {
+            'anonymous' => ConfigHelper::fresnsConfigFileUrlByItemKey('anonymous_avatar', 'imageSquareUrl'),
+            'deactivate' => ConfigHelper::fresnsConfigFileUrlByItemKey('deactivate_avatar', 'imageSquareUrl'),
+            default => ConfigHelper::fresnsConfigFileUrlByItemKey('anonymous_avatar', 'imageSquareUrl'),
+        };
 
-        $profile['nicknameColor'] = null;
-        $profile['rid'] = null;
-        $profile['roleName'] = null;
-        $profile['roleNameDisplay'] = false;
-        $profile['roleIcon'] = null;
-        $profile['roleIconDisplay'] = false;
-        $profile['roleExpiryDateTime'] = null;
-        $profile['roleRankState'] = 1;
-        $profile['rolePermissions'] = null;
-        $profile['roleStatus'] = true;
+        $status = match ($type) {
+            'anonymous' => true,
+            'deactivate' => false,
+            default => true,
+        };
 
-        $profile['operations'] = [
-            'customizes' => [],
-            'buttonIcons' => [],
-            'diversifyImages' => [],
-            'tips' => [],
+        $profile = [
+            'fsid' => null,
+            'uid' => null,
+            'username' => null,
+            'url' => null,
+            'nickname' => null,
+            'avatar' => $avatar,
+            'decorate' => null,
+            'banner' => null,
+            'gender' => 1,
+            'birthday' => null,
+            'bio' => null,
+            'bioHtml' => null,
+            'location' => null,
+            'conversationLimit' => 1,
+            'commentLimit' => 1,
+            'timezone' => null,
+            'verifiedStatus' => false,
+            'verifiedIcon' => null,
+            'verifiedDesc' => null,
+            'verifiedDateTime' => null,
+            'expired' => false,
+            'expiryDateTime' => null,
+            'lastPublishPost' => null,
+            'lastPublishComment' => null,
+            'lastEditUsername' => null,
+            'lastEditNickname' => null,
+            'registerDate' => null,
+            'hasPassword' => false,
+            'rankState' => 1,
+            'status' => $status,
+            'waitDelete' => false,
+            'waitDeleteDateTime' => null,
+
+            'nicknameColor' => null,
+            'rid' => null,
+            'roleName' => null,
+            'roleNameDisplay' => false,
+            'roleIcon' => null,
+            'roleIconDisplay' => false,
+            'roleExpiryDateTime' => null,
+            'roleRankState' => 1,
+            'rolePermissions' => [],
+            'roleStatus' => true,
+
+            'stats' => null,
+            'archives' => [],
+            'operations' => [
+                'customizes' => [],
+                'buttonIcons' => [],
+                'diversifyImages' => [],
+                'tips' => [],
+            ],
+            'extends' => [
+                'textBox' => [],
+                'infoBox' => [],
+                'interactionBox' => [],
+            ],
         ];
 
         return $profile;

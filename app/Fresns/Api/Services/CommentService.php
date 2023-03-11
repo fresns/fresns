@@ -159,11 +159,10 @@ class CommentService
 
         // creator
         if ($comment->is_anonymous) {
-            $commentData['creator'] = InteractionHelper::fresnsUserAnonymousProfile();
+            $commentData['creator'] = InteractionHelper::fresnsUserSubstitutionProfile();
             $commentData['creator']['isPostCreator'] = false;
         } elseif (! ($commentData['creator']['uid'] ?? null)) {
-            $commentData['creator'] = InteractionHelper::fresnsUserAnonymousProfile();
-            $commentData['creator']['status'] = false;
+            $commentData['creator'] = InteractionHelper::fresnsUserSubstitutionProfile('deactivate');
             $commentData['creator']['isPostCreator'] = false;
         } else {
             $commentCreator = PrimaryHelper::fresnsModelByFsid('user', $commentData['creator']['uid']);
@@ -463,7 +462,7 @@ class CommentService
         $info['state'] = $log->state;
         $info['reason'] = $log->reason;
 
-        $info['creator'] = InteractionHelper::fresnsUserAnonymousProfile();
+        $info['creator'] = InteractionHelper::fresnsUserSubstitutionProfile();
         if (! $log->is_anonymous) {
             $userService = new UserService;
 

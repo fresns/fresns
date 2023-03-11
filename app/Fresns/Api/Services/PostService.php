@@ -152,10 +152,9 @@ class PostService
 
         // creator
         if ($post->is_anonymous) {
-            $postData['creator'] = InteractionHelper::fresnsUserAnonymousProfile();
+            $postData['creator'] = InteractionHelper::fresnsUserSubstitutionProfile();
         } elseif (! ($postData['creator']['uid'] ?? null)) {
-            $postData['creator'] = InteractionHelper::fresnsUserAnonymousProfile();
-            $postData['creator']['status'] = false;
+            $postData['creator'] = InteractionHelper::fresnsUserSubstitutionProfile('deactivate');
         } else {
             $postCreator = PrimaryHelper::fresnsModelByFsid('user', $postData['creator']['uid']);
 
@@ -515,7 +514,7 @@ class PostService
         $info['state'] = $log->state;
         $info['reason'] = $log->reason;
 
-        $info['creator'] = InteractionHelper::fresnsUserAnonymousProfile();
+        $info['creator'] = InteractionHelper::fresnsUserSubstitutionProfile();
         if (! $log->is_anonymous) {
             $userService = new UserService;
 

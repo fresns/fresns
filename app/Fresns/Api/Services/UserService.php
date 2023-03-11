@@ -32,7 +32,7 @@ class UserService
     public function userData(?User $user, string $type, string $langTag, ?string $timezone = null, ?int $authUserId = null)
     {
         if (! $user) {
-            return null;
+            return InteractionHelper::fresnsUserSubstitutionProfile('deactivate');
         }
 
         $cacheKey = "fresns_api_user_{$user->uid}_{$langTag}";
