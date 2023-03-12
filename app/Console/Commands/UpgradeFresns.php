@@ -16,7 +16,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\Process\Process;
+use Fresns\PluginManager\Support\Process;
 
 class UpgradeFresns extends Command
 {
@@ -212,31 +212,8 @@ class UpgradeFresns extends Command
         }
 
         // composer command
-        $composerPath = 'composer';
-
-        if (! $this->commandExists($composerPath)) {
-            $composerPath = '/usr/bin/composer';
-        }
-
         logger('-- composer command');
-        $process = new Process([$composerPath, 'update', '-vvv'], base_path());
-        $process->setTimeout(0);
-
-        $process->run(function ($type, $buffer) {
-            if (Process::OUT === $type) {
-                $this->info("\nRead from stdout: ".$buffer);
-            } else {
-                $this->info("\nRead from stderr: ".$buffer);
-            }
-
-            logger('-- -- composer info: '.$buffer);
-        });
-        // executes after the command finishes
-        // $process->run();
-        // if (!$process->isSuccessful()) {
-        //     throw new \Symfony\Component\Process\Exception\ProcessFailedException($process);
-        // }
-
+        $process = Process::run('composer update', $this->output);
         logger('-- -- composer finish: '.$process->getOutput());
 
         return true;
@@ -308,15 +285,5 @@ class UpgradeFresns extends Command
 
         // Returns how many files were processed
         return $count;
-    }
-
-    // check composer
-    public function commandExists($commandName)
-    {
-        ob_start();
-        passthru("command -v $commandName", $code);
-        ob_end_clean();
-
-        return (0 === $code) ? true : false;
     }
 }
