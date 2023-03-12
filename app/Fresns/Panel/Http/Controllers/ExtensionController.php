@@ -191,15 +191,10 @@ class ExtensionController extends Controller
                     $pluginDirectory = "extensions/{$installType}s/{$pluginDirectory}";
                 }
 
-                if (str_starts_with($pluginDirectory, '/')) {
-                    $pluginDirectory = realpath($pluginDirectory);
-                } else {
-                    $pluginDirectory = realpath(base_path($pluginDirectory));
-                }
-
                 // plugin-manager or theme-manager
                 $exitCode = Artisan::call("{$installType}:install", [
                     'path' => $pluginDirectory,
+                    '--is_dir' => true,
                 ]);
                 $output = Artisan::output();
             break;
