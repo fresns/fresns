@@ -11,12 +11,12 @@ namespace App\Console\Commands;
 use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
 use App\Utilities\AppUtility;
+use Fresns\PluginManager\Support\Process;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Fresns\PluginManager\Support\Process;
 
 class UpgradeFresns extends Command
 {
