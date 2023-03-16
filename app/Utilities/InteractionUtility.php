@@ -373,9 +373,9 @@ class InteractionUtility
 
                     CacheHelper::forgetFresnsMultilingual("fresns_web_group_{$group?->gid}_sticky_posts", 'fresnsWeb');
                 }
-            break;
+                break;
 
-            // comment
+                // comment
             case 'comment':
                 $comment = Comment::where('id', $id)->first();
 
@@ -391,7 +391,7 @@ class InteractionUtility
 
                 $post = PrimaryHelper::fresnsModelById('post', $comment->post_id);
                 CacheHelper::forgetFresnsMultilingual("fresns_web_post_{$post?->pid}_sticky_comments", 'fresnsWeb');
-            break;
+                break;
         }
     }
 
@@ -427,9 +427,9 @@ class InteractionUtility
                         'digest_state' => $digestState,
                     ]);
                 }
-            break;
+                break;
 
-            // comment
+                // comment
             case 'comment':
                 $comment = Comment::where('id', $id)->first();
 
@@ -450,7 +450,7 @@ class InteractionUtility
                         'digest_state' => $digestState,
                     ]);
                 }
-            break;
+                break;
         }
     }
 
@@ -504,9 +504,9 @@ class InteractionUtility
                 if ($userMeStateCount > 0) {
                     $userMeState->decrement("{$interactionType}_me_count");
                 }
-            break;
+                break;
 
-            // group
+                // group
             case 'group':
                 $userState = UserStat::where('user_id', $userId)->first();
                 $groupState = Group::where('id', $markId)->first();
@@ -527,9 +527,9 @@ class InteractionUtility
                 if ($groupStateCount > 0) {
                     $groupState->decrement("{$interactionType}_count");
                 }
-            break;
+                break;
 
-            // hashtag
+                // hashtag
             case 'hashtag':
                 $userState = UserStat::where('user_id', $userId)->first();
                 $hashtagState = Hashtag::where('id', $markId)->first();
@@ -550,9 +550,9 @@ class InteractionUtility
                 if ($hashtagStateCount > 0) {
                     $hashtagState->decrement("{$interactionType}_count");
                 }
-            break;
+                break;
 
-            // post
+                // post
             case 'post':
                 $userState = UserStat::where('user_id', $userId)->first();
                 $post = Post::where('id', $markId)->first();
@@ -580,9 +580,9 @@ class InteractionUtility
                 if ($postCreatorStateCount > 0) {
                     $postCreatorState?->decrement("post_{$interactionType}_count");
                 }
-            break;
+                break;
 
-            // comment
+                // comment
             case 'comment':
                 $userState = UserStat::where('user_id', $userId)->first();
                 $comment = Comment::where('id', $markId)->first();
@@ -627,7 +627,7 @@ class InteractionUtility
                 if ($comment?->parent_id) {
                     InteractionUtility::parentCommentStats($comment->parent_id, 'decrement', "comment_{$interactionType}_count");
                 }
-            break;
+                break;
         }
     }
 
@@ -682,9 +682,9 @@ class InteractionUtility
                     Domain::whereIn('id', $domainIds)->where('post_count', '>', 0)->decrement('post_count');
                     Hashtag::whereIn('id', $hashtagIds)->where('post_count', '>', 0)->decrement('post_count');
                 }
-            break;
+                break;
 
-            // comment
+                // comment
             case 'comment':
                 $comment = Comment::with('hashtags')->where('id', $id)->first();
                 $userState = UserStat::where('user_id', $comment?->user_id)->first();
@@ -728,7 +728,7 @@ class InteractionUtility
                 if ($comment?->parent_id) {
                     InteractionUtility::parentCommentStats($comment->parent_id, $actionType, 'comment_count');
                 }
-            break;
+                break;
         }
     }
 
@@ -747,13 +747,13 @@ class InteractionUtility
             case 'post':
                 $content = Post::with('hashtags')->where('id', $id)->first();
                 $typeNumber = DomainLinkUsage::TYPE_POST;
-            break;
+                break;
 
-            // comment
+                // comment
             case 'comment':
                 $content = Comment::with('hashtags')->where('id', $id)->first();
                 $typeNumber = DomainLinkUsage::TYPE_COMMENT;
-            break;
+                break;
         }
 
         $group = Group::where('id', $content?->group_id)->first();
@@ -822,9 +822,9 @@ class InteractionUtility
 
                     Hashtag::whereIn('id', $hashtagIds)->where('post_digest_count', '>', 0)->decrement('post_digest_count');
                 }
-            break;
+                break;
 
-            // comment
+                // comment
             case 'comment':
                 $comment = Comment::with('hashtags')->where('id', $id)->first();
                 $userState = UserStat::where('user_id', $comment?->user_id)->first();
@@ -855,7 +855,7 @@ class InteractionUtility
                 if ($comment?->parent_id) {
                     InteractionUtility::parentCommentStats($comment->parent_id, $actionType, 'comment_digest_count');
                 }
-            break;
+                break;
         }
 
         $uid = match ($type) {

@@ -52,19 +52,19 @@ class EditorController extends Controller
                 $config['editor'] = ConfigUtility::getEditorConfigByType($authUser->id, 'post', $langTag);
                 $config['publish'] = ConfigUtility::getPublishConfigByType($authUser->id, 'post', $langTag, $timezone);
                 $config['edit'] = ConfigUtility::getEditConfigByType('post');
-            break;
+                break;
 
-            // comment
+                // comment
             case 'comment':
                 $config['editor'] = ConfigUtility::getEditorConfigByType($authUser->id, 'comment', $langTag);
                 $config['publish'] = ConfigUtility::getPublishConfigByType($authUser->id, 'comment', $langTag, $timezone);
                 $config['edit'] = ConfigUtility::getEditConfigByType('comment');
-            break;
+                break;
 
-            // default
+                // default
             default:
                 throw new ApiException(30002);
-            break;
+                break;
         }
 
         return $this->success($config);
@@ -101,9 +101,9 @@ class EditorController extends Controller
                 foreach ($drafts as $draft) {
                     $draftList[] = $service->postLogData($draft, 'list', $langTag, $timezone, $authUser->id);
                 }
-            break;
+                break;
 
-            // comment
+                // comment
             case 'comment':
                 $drafts = CommentLog::with('creator')
                     ->where('user_id', $authUser->id)
@@ -115,12 +115,12 @@ class EditorController extends Controller
                 foreach ($drafts as $draft) {
                     $draftList[] = $service->commentLogData($draft, 'list', $langTag, $timezone, $authUser->id);
                 }
-            break;
+                break;
 
-            // default
+                // default
             default:
                 throw new ApiException(30002);
-            break;
+                break;
         }
 
         return $this->fresnsPaginate($draftList, $drafts->total(), $drafts->perPage());
@@ -151,9 +151,9 @@ class EditorController extends Controller
                 if ($checkLogCount >= $userRolePerm['post_draft_count']) {
                     throw new ApiException(38106);
                 }
-            break;
+                break;
 
-            // comment
+                // comment
             case 'comment':
                 if (! $userRolePerm['comment_publish']) {
                     throw new ApiException(36104);
@@ -169,7 +169,7 @@ class EditorController extends Controller
                 if ($checkLogCount >= $userRolePerm['comment_draft_count']) {
                     throw new ApiException(38106);
                 }
-            break;
+                break;
         }
 
         $wordType = match ($dtoRequest->type) {
@@ -234,15 +234,15 @@ class EditorController extends Controller
 
                 $postLog = PostLog::where('id', $fresnsResp->getData('logId'))->first();
                 $data['detail'] = $service->postLogData($postLog, 'detail', $langTag, $timezone, $authUser->id);
-            break;
+                break;
 
-            // comment
+                // comment
             case 'comment':
                 $service = new CommentService();
 
                 $commentLog = CommentLog::where('id', $fresnsResp->getData('logId'))->first();
                 $data['detail'] = $service->commentLogData($commentLog, 'detail', $langTag, $timezone, $authUser->id);
-            break;
+                break;
         }
 
         CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}", 'fresnsUsers');
@@ -309,15 +309,15 @@ class EditorController extends Controller
 
                 $postLog = PostLog::where('id', $fresnsResp->getData('logId'))->first();
                 $data['detail'] = $service->postLogData($postLog, 'detail', $langTag, $timezone, $authUser->id);
-            break;
+                break;
 
-            // comment
+                // comment
             case 'comment':
                 $service = new CommentService();
 
                 $commentLog = CommentLog::where('id', $fresnsResp->getData('logId'))->first();
                 $data['detail'] = $service->commentLogData($commentLog, 'detail', $langTag, $timezone, $authUser->id);
-            break;
+                break;
         }
 
         $edit['isEdit'] = true;
@@ -379,9 +379,9 @@ class EditorController extends Controller
                     $editableTime = $checkContentEditPerm['editableTime'];
                     $deadlineTime = $checkContentEditPerm['deadlineTime'];
                 }
-            break;
+                break;
 
-            // comment
+                // comment
             case 'comment':
                 $service = new CommentService();
                 $data['detail'] = $service->commentLogData($draft, 'detail', $langTag, $timezone, $authUser->id);
@@ -396,7 +396,7 @@ class EditorController extends Controller
                     $editableTime = $checkContentEditPerm['editableTime'];
                     $deadlineTime = $checkContentEditPerm['deadlineTime'];
                 }
-            break;
+                break;
         }
 
         $edit['isEdit'] = $isEdit;
@@ -789,17 +789,17 @@ class EditorController extends Controller
             // post
             case 'post':
                 $draft = PostLog::where('user_id', $authUser->id)->where('id', $draftId)->first();
-            break;
+                break;
 
-            // comment
+                // comment
             case 'comment':
                 $draft = CommentLog::where('user_id', $authUser->id)->where('id', $draftId)->first();
-            break;
+                break;
 
-            // default
+                // default
             default:
                 throw new ApiException(30002);
-            break;
+                break;
         }
 
         if (empty($draft)) {
@@ -826,17 +826,17 @@ class EditorController extends Controller
             // post
             case 'post':
                 $draft = PostLog::where('user_id', $authUser->id)->where('id', $draftId)->first();
-            break;
+                break;
 
-            // comment
+                // comment
             case 'comment':
                 $draft = CommentLog::where('user_id', $authUser->id)->where('id', $draftId)->first();
-            break;
+                break;
 
-            // default
+                // default
             default:
                 throw new ApiException(30002);
-            break;
+                break;
         }
 
         if (empty($draft)) {

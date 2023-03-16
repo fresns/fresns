@@ -158,25 +158,25 @@ class GroupController extends Controller
             switch ($dtoRequest->createDate) {
                 case 'today':
                     $groupQuery->whereDate('created_at', now()->format('Y-m-d'));
-                break;
+                    break;
 
                 case 'yesterday':
                     $groupQuery->whereDate('created_at', now()->subDay()->format('Y-m-d'));
-                break;
+                    break;
 
                 case 'week':
                     $groupQuery->whereDate('created_at', '>=', now()->startOfWeek()->format('Y-m-d'))
                         ->whereDate('created_at', '<=', now()->endOfWeek()->format('Y-m-d'));
-                break;
+                    break;
 
                 case 'lastWeek':
                     $groupQuery->whereDate('created_at', '>=', now()->subWeek()->startOfWeek()->format('Y-m-d'))
                         ->whereDate('created_at', '<=', now()->subWeek()->endOfWeek()->format('Y-m-d'));
-                break;
+                    break;
 
                 case 'month':
                     $groupQuery->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year);
-                break;
+                    break;
 
                 case 'lastMonth':
                     $lastMonth = now()->subMonth()->month;
@@ -185,15 +185,15 @@ class GroupController extends Controller
                         $year = now()->subYear()->year;
                     }
                     $groupQuery->whereMonth('created_at', $lastMonth)->whereYear('created_at', $year);
-                break;
+                    break;
 
                 case 'year':
                     $groupQuery->whereYear('created_at', now()->year);
-                break;
+                    break;
 
                 case 'lastYear':
                     $groupQuery->whereYear('created_at', now()->subYear()->year);
-                break;
+                    break;
             }
         } else {
             $groupQuery->when($dtoRequest->createDateGt, function ($query, $value) {

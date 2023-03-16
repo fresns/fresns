@@ -436,10 +436,10 @@ class ConfigUtility
                 case 1:
                     $periodStart = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s', strtotime($publishConfig['limit']['periodStart'])));
                     $periodEnd = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s', strtotime($publishConfig['limit']['periodEnd'])));
-                break;
+                    break;
 
-                // cycle
-                // H:i
+                    // cycle
+                    // H:i
                 case 2:
                     $dbDate = date('Y-m-d', strtotime($dbDateTime));
                     $cycleStart = "{$dbDate} {$publishConfig['limit']['cycleStart']}:00"; // Y-m-d H:i:s
@@ -459,7 +459,7 @@ class ConfigUtility
                         // next day 2022-07-03 08:30:00
                         $periodEnd = $periodEnd->addDay();
                     }
-                break;
+                    break;
             }
 
             // check time

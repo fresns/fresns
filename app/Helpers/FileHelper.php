@@ -461,14 +461,14 @@ class FileHelper
                 $ratioPath = $fileDirectory.'/ratio-'.$newFileName.'.'.$fileExtension;
                 $squarePath = $fileDirectory.'/square-'.$newFileName.'.'.$fileExtension;
                 $bigPath = $fileDirectory.'/big-'.$newFileName.'.'.$fileExtension;
-            break;
+                break;
 
             case 'name-end':
                 $configPath = $fileDirectory.'/'.$newFileName.'-config.'.$fileExtension;
                 $ratioPath = $fileDirectory.'/'.$newFileName.'-ratio.'.$fileExtension;
                 $squarePath = $fileDirectory.'/'.$newFileName.'-square.'.$fileExtension;
                 $bigPath = $fileDirectory.'/'.$newFileName.'-big.'.$fileExtension;
-            break;
+                break;
         }
 
         return [

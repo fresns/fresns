@@ -74,7 +74,7 @@ class StrHelper
     // generate digital
     public static function generateDigital(int $length = 6): int
     {
-        return rand(pow(10, ($length - 1)), pow(10, $length) - 1);
+        return rand(pow(10, $length - 1), pow(10, $length) - 1);
     }
 
     // qualify url

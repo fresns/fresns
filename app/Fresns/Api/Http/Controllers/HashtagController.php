@@ -41,25 +41,25 @@ class HashtagController extends Controller
             switch ($dtoRequest->createDate) {
                 case 'today':
                     $hashtagQuery->whereDate('created_at', now()->format('Y-m-d'));
-                break;
+                    break;
 
                 case 'yesterday':
                     $hashtagQuery->whereDate('created_at', now()->subDay()->format('Y-m-d'));
-                break;
+                    break;
 
                 case 'week':
                     $hashtagQuery->whereDate('created_at', '>=', now()->startOfWeek()->format('Y-m-d'))
                         ->whereDate('created_at', '<=', now()->endOfWeek()->format('Y-m-d'));
-                break;
+                    break;
 
                 case 'lastWeek':
                     $hashtagQuery->whereDate('created_at', '>=', now()->subWeek()->startOfWeek()->format('Y-m-d'))
                         ->whereDate('created_at', '<=', now()->subWeek()->endOfWeek()->format('Y-m-d'));
-                break;
+                    break;
 
                 case 'month':
                     $hashtagQuery->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year);
-                break;
+                    break;
 
                 case 'lastMonth':
                     $lastMonth = now()->subMonth()->month;
@@ -68,15 +68,15 @@ class HashtagController extends Controller
                         $year = now()->subYear()->year;
                     }
                     $hashtagQuery->whereMonth('created_at', $lastMonth)->whereYear('created_at', $year);
-                break;
+                    break;
 
                 case 'year':
                     $hashtagQuery->whereYear('created_at', now()->year);
-                break;
+                    break;
 
                 case 'lastYear':
                     $hashtagQuery->whereYear('created_at', now()->subYear()->year);
-                break;
+                    break;
             }
         } else {
             $hashtagQuery->when($dtoRequest->createDateGt, function ($query, $value) {

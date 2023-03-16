@@ -303,11 +303,11 @@ class ValidationUtility
             switch ($markType) {
                 case InteractionUtility::TYPE_POST:
                     $creator = Post::where('id', $markId)->value('user_id');
-                break;
+                    break;
 
                 case InteractionUtility::TYPE_COMMENT:
                     $creator = Comment::where('id', $markId)->value('user_id');
-                break;
+                    break;
             }
 
             if ($creator == $userId) {
@@ -491,9 +491,9 @@ class ValidationUtility
                         return 38200;
                     }
                 }
-            break;
+                break;
 
-            // comment
+                // comment
             case 'comment':
                 if ($draft['commentId']) {
                     $comment = PrimaryHelper::fresnsModelById('comment', $draft['commentId']);
@@ -535,7 +535,7 @@ class ValidationUtility
                         return 38200;
                     }
                 }
-            break;
+                break;
         }
 
         // limit config

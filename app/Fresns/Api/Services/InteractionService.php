@@ -71,25 +71,25 @@ class InteractionService
     public function getUsersWhoMarkIt(string $getType, string $markType, int $markId, string $orderDirection, string $langTag, string $timezone, ?int $authUserId = null)
     {
         switch ($getType) {
-                // like
+            // like
             case 'like':
                 $interactionQuery = UserLike::markType(UserLike::MARK_TYPE_LIKE)->where('like_id', $markId);
-            break;
+                break;
 
                 // dislike
             case 'dislike':
                 $interactionQuery = UserLike::markType(UserLike::MARK_TYPE_DISLIKE)->where('like_id', $markId);
-            break;
+                break;
 
                 // follow
             case 'follow':
                 $interactionQuery = UserFollow::where('follow_id', $markId);
-            break;
+                break;
 
                 // block
             case 'block':
                 $interactionQuery = UserBlock::where('block_id', $markId);
-            break;
+                break;
         }
 
         $interactionData = $interactionQuery->with('creator')
@@ -121,22 +121,22 @@ class InteractionService
             // like
             case 'like':
                 $markQuery = UserLike::markType(UserLike::MARK_TYPE_LIKE);
-            break;
+                break;
 
-            // dislike
+                // dislike
             case 'dislike':
                 $markQuery = UserLike::markType(UserLike::MARK_TYPE_DISLIKE);
-            break;
+                break;
 
-            // follow
+                // follow
             case 'follow':
                 $markQuery = UserFollow::query();
-            break;
+                break;
 
-            // block
+                // block
             case 'block':
                 $markQuery = UserBlock::query();
-            break;
+                break;
         }
 
         $markType = match ($markTypeName) {
@@ -186,9 +186,9 @@ class InteractionService
 
                     $paginateData[] = $itemData;
                 }
-            break;
+                break;
 
-            // groups
+                // groups
             case 'groups':
                 $service = new GroupService();
                 foreach ($markData as $mark) {
@@ -204,9 +204,9 @@ class InteractionService
 
                     $paginateData[] = $itemData;
                 }
-            break;
+                break;
 
-            // hashtags
+                // hashtags
             case 'hashtags':
                 $service = new HashtagService();
                 foreach ($markData as $mark) {
@@ -222,9 +222,9 @@ class InteractionService
 
                     $paginateData[] = $itemData;
                 }
-            break;
+                break;
 
-            // posts
+                // posts
             case 'posts':
                 $service = new PostService();
                 foreach ($markData as $mark) {
@@ -240,9 +240,9 @@ class InteractionService
 
                     $paginateData[] = $itemData;
                 }
-            break;
+                break;
 
-            // comments
+                // comments
             case 'comments':
                 $service = new CommentService();
                 foreach ($markData as $mark) {
@@ -258,7 +258,7 @@ class InteractionService
 
                     $paginateData[] = $itemData;
                 }
-            break;
+                break;
         }
 
         return [

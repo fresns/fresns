@@ -214,25 +214,25 @@ class PostController extends Controller
             switch ($dtoRequest->createDate) {
                 case 'today':
                     $postQuery->whereDate('created_at', now()->format('Y-m-d'));
-                break;
+                    break;
 
                 case 'yesterday':
                     $postQuery->whereDate('created_at', now()->subDay()->format('Y-m-d'));
-                break;
+                    break;
 
                 case 'week':
                     $postQuery->whereDate('created_at', '>=', now()->startOfWeek()->format('Y-m-d'))
                         ->whereDate('created_at', '<=', now()->endOfWeek()->format('Y-m-d'));
-                break;
+                    break;
 
                 case 'lastWeek':
                     $postQuery->whereDate('created_at', '>=', now()->subWeek()->startOfWeek()->format('Y-m-d'))
                         ->whereDate('created_at', '<=', now()->subWeek()->endOfWeek()->format('Y-m-d'));
-                break;
+                    break;
 
                 case 'month':
                     $postQuery->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year);
-                break;
+                    break;
 
                 case 'lastMonth':
                     $lastMonth = now()->subMonth()->month;
@@ -241,15 +241,15 @@ class PostController extends Controller
                         $year = now()->subYear()->year;
                     }
                     $postQuery->whereMonth('created_at', $lastMonth)->whereYear('created_at', $year);
-                break;
+                    break;
 
                 case 'year':
                     $postQuery->whereYear('created_at', now()->year);
-                break;
+                    break;
 
                 case 'lastYear':
                     $postQuery->whereYear('created_at', now()->subYear()->year);
-                break;
+                    break;
             }
         } else {
             $postQuery->when($dtoRequest->createDateGt, function ($query, $value) {
@@ -620,22 +620,22 @@ class PostController extends Controller
             // all
             case 'all':
                 $posts = $followService->getPostListByFollowAll($authUser->id, $dtoRequest->contentType, $dateLimit);
-            break;
+                break;
 
-            // user
+                // user
             case 'user':
                 $posts = $followService->getPostListByFollowUsers($authUser->id, $dtoRequest->contentType, $dateLimit);
-            break;
+                break;
 
-            // group
+                // group
             case 'group':
                 $posts = $followService->getPostListByFollowGroups($authUser->id, $dtoRequest->contentType, $dateLimit);
-            break;
+                break;
 
-            // hashtag
+                // hashtag
             case 'hashtag':
                 $posts = $followService->getPostListByFollowHashtags($authUser->id, $dtoRequest->contentType, $dateLimit);
-            break;
+                break;
         }
 
         $postList = [];

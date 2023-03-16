@@ -235,25 +235,25 @@ class CommentController extends Controller
             switch ($dtoRequest->createDate) {
                 case 'today':
                     $commentQuery->whereDate('created_at', now()->format('Y-m-d'));
-                break;
+                    break;
 
                 case 'yesterday':
                     $commentQuery->whereDate('created_at', now()->subDay()->format('Y-m-d'));
-                break;
+                    break;
 
                 case 'week':
                     $commentQuery->whereDate('created_at', '>=', now()->startOfWeek()->format('Y-m-d'))
                         ->whereDate('created_at', '<=', now()->endOfWeek()->format('Y-m-d'));
-                break;
+                    break;
 
                 case 'lastWeek':
                     $commentQuery->whereDate('created_at', '>=', now()->subWeek()->startOfWeek()->format('Y-m-d'))
                         ->whereDate('created_at', '<=', now()->subWeek()->endOfWeek()->format('Y-m-d'));
-                break;
+                    break;
 
                 case 'month':
                     $commentQuery->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year);
-                break;
+                    break;
 
                 case 'lastMonth':
                     $lastMonth = now()->subMonth()->month;
@@ -262,15 +262,15 @@ class CommentController extends Controller
                         $year = now()->subYear()->year;
                     }
                     $commentQuery->whereMonth('created_at', $lastMonth)->whereYear('created_at', $year);
-                break;
+                    break;
 
                 case 'year':
                     $commentQuery->whereYear('created_at', now()->year);
-                break;
+                    break;
 
                 case 'lastYear':
                     $commentQuery->whereYear('created_at', now()->subYear()->year);
-                break;
+                    break;
             }
         } else {
             $commentQuery->when($dtoRequest->createDateGt, function ($query, $value) {
@@ -602,22 +602,22 @@ class CommentController extends Controller
             // all
             case 'all':
                 $comments = $followService->getCommentListByFollowAll($authUser->id, $dtoRequest->contentType, $dateLimit);
-            break;
+                break;
 
-            // user
+                // user
             case 'user':
                 $comments = $followService->getCommentListByFollowUsers($authUser->id, $dtoRequest->contentType, $dateLimit);
-            break;
+                break;
 
-            // group
+                // group
             case 'group':
                 $comments = $followService->getCommentListByFollowGroups($authUser->id, $dtoRequest->contentType, $dateLimit);
-            break;
+                break;
 
-            // hashtag
+                // hashtag
             case 'hashtag':
                 $comments = $followService->getCommentListByFollowHashtags($authUser->id, $dtoRequest->contentType, $dateLimit);
-            break;
+                break;
         }
 
         $commentList = [];

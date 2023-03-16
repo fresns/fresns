@@ -87,25 +87,25 @@ class UserController extends Controller
             switch ($dtoRequest->createDate) {
                 case 'today':
                     $userQuery->whereDate('created_at', now()->format('Y-m-d'));
-                break;
+                    break;
 
                 case 'yesterday':
                     $userQuery->whereDate('created_at', now()->subDay()->format('Y-m-d'));
-                break;
+                    break;
 
                 case 'week':
                     $userQuery->whereDate('created_at', '>=', now()->startOfWeek()->format('Y-m-d'))
                         ->whereDate('created_at', '<=', now()->endOfWeek()->format('Y-m-d'));
-                break;
+                    break;
 
                 case 'lastWeek':
                     $userQuery->whereDate('created_at', '>=', now()->subWeek()->startOfWeek()->format('Y-m-d'))
                         ->whereDate('created_at', '<=', now()->subWeek()->endOfWeek()->format('Y-m-d'));
-                break;
+                    break;
 
                 case 'month':
                     $userQuery->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year);
-                break;
+                    break;
 
                 case 'lastMonth':
                     $lastMonth = now()->subMonth()->month;
@@ -114,15 +114,15 @@ class UserController extends Controller
                         $year = now()->subYear()->year;
                     }
                     $userQuery->whereMonth('created_at', $lastMonth)->whereYear('created_at', $year);
-                break;
+                    break;
 
                 case 'year':
                     $userQuery->whereYear('created_at', now()->year);
-                break;
+                    break;
 
                 case 'lastYear':
                     $userQuery->whereYear('created_at', now()->subYear()->year);
-                break;
+                    break;
             }
         } else {
             $userQuery->when($dtoRequest->createDateGt, function ($query, $value) {
@@ -954,14 +954,14 @@ class UserController extends Controller
                         CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$commentModel->cid}", 'fresnsComments');
                     }
                 }
-            break;
+                break;
 
-            // dislike
+                // dislike
             case 'dislike':
                 InteractionUtility::markUserDislike($authUserId, $markType, $primaryId);
-            break;
+                break;
 
-            // follow
+                // follow
             case 'follow':
                 $validMark = ValidationUtility::userMarkOwn($authUserId, $markType, $primaryId);
                 if (! $validMark) {
@@ -979,9 +979,9 @@ class UserController extends Controller
                 }
 
                 InteractionUtility::markUserFollow($authUserId, $markType, $primaryId);
-            break;
+                break;
 
-            // block
+                // block
             case 'block':
                 $validMark = ValidationUtility::userMarkOwn($authUserId, $markType, $primaryId);
                 if (! $validMark) {
@@ -999,7 +999,7 @@ class UserController extends Controller
                 }
 
                 InteractionUtility::markUserBlock($authUserId, $markType, $primaryId);
-            break;
+                break;
         }
 
         CacheHelper::forgetFresnsInteraction($markType, $primaryId, $authUserId);
@@ -1034,12 +1034,12 @@ class UserController extends Controller
             // follow
             case 'follow':
                 $userNote = UserFollow::withTrashed()->where('user_id', $authUser->id)->type($markType)->where('follow_id', $primaryId)->first();
-            break;
+                break;
 
-            // block
+                // block
             case 'block':
                 $userNote = UserBlock::withTrashed()->where('user_id', $authUser->id)->type($markType)->where('block_id', $primaryId)->first();
-            break;
+                break;
         }
 
         if (empty($dtoRequest->note)) {

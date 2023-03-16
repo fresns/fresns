@@ -680,7 +680,7 @@ class Wallet
                 if (! empty($objectWalletLog)) {
                     $objectWallet->increment('balance', $objectWalletLog->amount_total);
                 }
-            break;
+                break;
 
             case AccountWalletLog::TYPE_DE_TRANSACTION:
                 $wallet->increment('balance', $walletLog->amount_total);
@@ -688,7 +688,7 @@ class Wallet
                 if (! empty($objectWalletLog)) {
                     $objectWallet->decrement('balance', $objectWalletLog->amount_total);
                 }
-            break;
+                break;
         }
 
         CacheHelper::forgetFresnsAccount($dtoWordBody->aid);

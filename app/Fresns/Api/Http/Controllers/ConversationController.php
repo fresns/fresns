@@ -392,7 +392,7 @@ class ConversationController extends Controller
                         'a_is_pin' => true,
                     ]);
                 }
-            break;
+                break;
 
             case 'b':
                 if ($conversation->b_is_pin) {
@@ -404,11 +404,11 @@ class ConversationController extends Controller
                         'b_is_pin' => true,
                     ]);
                 }
-            break;
+                break;
 
             default:
                 throw new ApiException(36602);
-            break;
+                break;
         }
 
         $cacheKey = "fresns_model_conversation_{$conversationId}";

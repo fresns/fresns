@@ -110,9 +110,9 @@ class Content
                 } else {
                     $logModel = PostLog::create($logData);
                 }
-            break;
+                break;
 
-            // comment
+                // comment
             case 2:
                 $checkPost = Post::where('pid', $dtoWordBody->commentPid)->first();
                 if (empty($checkPost)) {
@@ -146,7 +146,7 @@ class Content
                 } else {
                     $logModel = CommentLog::create($logData);
                 }
-            break;
+                break;
         }
 
         // extends
@@ -222,9 +222,9 @@ class Content
                 $deadlineTime = $checkContentEditPerm['deadlineTime'];
 
                 $logModel = ContentUtility::generatePostDraft($post);
-            break;
+                break;
 
-            // comment
+                // comment
             case 2:
                 $comment = PrimaryHelper::fresnsModelByFsid('comment', $dtoWordBody->fsid);
 
@@ -264,7 +264,7 @@ class Content
                 $deadlineTime = $checkContentEditPerm['deadlineTime'];
 
                 $logModel = ContentUtility::generateCommentDraft($comment);
-            break;
+                break;
         }
 
         return $this->success([
@@ -341,9 +341,9 @@ class Content
 
                 $primaryId = $post->id;
                 $fsid = $post->pid;
-            break;
+                break;
 
-            // comment
+                // comment
             case 2:
                 $commentModel = PrimaryHelper::fresnsModelById('comment', $logModel->comment_id);
                 if ($commentModel) {
@@ -360,7 +360,7 @@ class Content
 
                 $primaryId = $comment->id;
                 $fsid = $comment->pid;
-            break;
+                break;
         }
 
         return $this->success([
@@ -415,9 +415,9 @@ class Content
                     ]);
 
                     $usageType = ExtendUsage::TYPE_POST_LOG;
-                break;
+                    break;
 
-                // comment
+                    // comment
                 case 'comment':
                     CommentLog::where('id', $reviewResp->getData('logId'))->update([
                         'state' => 2,
@@ -425,7 +425,7 @@ class Content
                     ]);
 
                     $usageType = ExtendUsage::TYPE_COMMENT_LOG;
-                break;
+                    break;
             }
 
             $logId = $reviewResp->getData('logId');
@@ -511,9 +511,9 @@ class Content
 
                 $primaryId = $post->id;
                 $fsid = $post->pid;
-            break;
+                break;
 
-            // comment
+                // comment
             case 'comment':
                 $comment = Comment::create([
                     'user_id' => $creator->id,
@@ -561,7 +561,7 @@ class Content
 
                 $primaryId = $comment->id;
                 $fsid = $comment->cid;
-            break;
+                break;
         }
 
         // extends
@@ -591,7 +591,7 @@ class Content
         $dtoWordBody = new LogicalDeletionContentDTO($wordBody);
 
         switch ($dtoWordBody->contentType) {
-                // main
+            // main
             case 1:
                 $model = match ($dtoWordBody->type) {
                     1 => Post::where('pid', $dtoWordBody->contentFsid)->first(),
@@ -669,7 +669,7 @@ class Content
         $dtoWordBody = new PhysicalDeletionContentDTO($wordBody);
 
         switch ($dtoWordBody->contentType) {
-                // main
+            // main
             case 1:
                 $model = match ($dtoWordBody->type) {
                     1 => Post::where('pid', $dtoWordBody->contentFsid)->first(),

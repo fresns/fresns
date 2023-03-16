@@ -177,9 +177,9 @@ class ExtensionController extends Controller
                     'unikey' => $pluginUnikey,
                 ]);
                 $output = Artisan::output();
-            break;
+                break;
 
-            // directory
+                // directory
             case 'inputDirectory':
                 $pluginDirectory = $request->plugin_directory;
 
@@ -197,9 +197,9 @@ class ExtensionController extends Controller
                     '--is_dir' => true,
                 ]);
                 $output = Artisan::output();
-            break;
+                break;
 
-            // zipball
+                // zipball
             case 'inputZipball':
                 $pluginZipball = null;
                 $file = $request->file('plugin_zipball');
@@ -220,7 +220,7 @@ class ExtensionController extends Controller
                     'path' => $pluginZipball,
                 ]);
                 $output = Artisan::output();
-            break;
+                break;
         }
 
         if ($exitCode == 0) {

@@ -367,9 +367,9 @@ class CacheHelper
                 foreach ($plugins as $plugin) {
                     CacheHelper::forgetFresnsKey("fresns_plugin_{$plugin->unikey}_badge_{$id}", 'fresnsUsers');
                 }
-            break;
+                break;
 
-            // group
+                // group
             case 'group':
                 CacheHelper::forgetFresnsKeys([
                     'fresns_group_count',
@@ -383,15 +383,15 @@ class CacheHelper
                 CacheHelper::forgetFresnsMultilingual("fresns_group_{$id}_extends_by_everyone", ['fresnsExtensions', 'fresnsGroups']);
                 CacheHelper::forgetFresnsMultilingual("fresns_group_{$id}_extends_by_role", ['fresnsExtensions', 'fresnsGroups']);
                 CacheHelper::forgetFresnsMultilingual("fresns_group_{$id}_extends_by_group_admin", ['fresnsExtensions', 'fresnsGroups']);
-            break;
+                break;
 
-            // hashtag
+                // hashtag
             case 'hashtag':
                 CacheHelper::forgetFresnsKey("fresns_seo_hashtag_{$id}", ['fresnsSeo', 'fresnsHashtags']);
                 CacheHelper::forgetFresnsMultilingual("fresns_api_hashtag_{$model->slug}", 'fresnsHashtags');
-            break;
+                break;
 
-            // post
+                // post
             case 'post':
                 // fresns_api_post_{$postId}_preview_comments_{$langTag}    // +tag: fresnsComments
                 // fresns_api_post_{$postId}_preview_like_users_{$langTag}  // +tag: fresnsUsers
@@ -403,9 +403,9 @@ class CacheHelper
                 CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$model->pid}", 'fresnsPosts');
                 CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$id}_preview_comments", ['fresnsPosts', 'fresnsComments']);
                 CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$id}_preview_like_users", ['fresnsPosts', 'fresnsUsers']);
-            break;
+                break;
 
-            // comment
+                // comment
             case 'comment':
                 CacheHelper::forgetFresnsKey("fresns_seo_comment_{$id}", ['fresnsSeo', 'fresnsComments']);
                 CacheHelper::forgetFresnsKeys([
@@ -414,12 +414,12 @@ class CacheHelper
                 ], 'fresnsComments');
                 CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$model->cid}", 'fresnsPosts');
                 CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$id}_sub_comments", 'fresnsComments');
-            break;
+                break;
 
-            // file
+                // file
             case 'file':
                 CacheHelper::forgetFresnsFileUsage($fsid);
-            break;
+                break;
         }
     }
 
@@ -620,7 +620,7 @@ class CacheHelper
                         "fresns_api_post_{$pid}_list_content",
                         "fresns_api_post_{$pid}_detail_content",
                     ], 'fresnsPosts');
-                break;
+                    break;
 
                 case FileUsage::TYPE_COMMENT:
                     $comment = PrimaryHelper::fresnsModelById('comment', $usage->table_id);
@@ -631,7 +631,7 @@ class CacheHelper
                         "fresns_api_comment_{$cid}_list_content",
                         "fresns_api_comment_{$cid}_detail_content",
                     ], 'fresnsComments');
-                break;
+                    break;
             }
         }
     }

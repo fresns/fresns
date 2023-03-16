@@ -123,7 +123,7 @@ class SettingController extends Controller
                 if ($request->fresnsSchedule) {
                     CacheHelper::clearConfigCache('fresnsSchedule');
                 }
-            break;
+                break;
 
             case 'data':
                 CacheHelper::clearDataCache($request->cacheType, $request->cacheFsid);
@@ -136,11 +136,11 @@ class SettingController extends Controller
                     CacheHelper::forgetFresnsMultilingual("fresns_web_user_{$user?->uid}", 'fresnsWeb');
                     CacheHelper::forgetFresnsMultilingual("fresns_web_user_panel_{$user?->uid}", 'fresnsWeb');
                 }
-            break;
+                break;
 
             default:
                 return back()->with('failure', __('FsLang::tips.requestFailure'));
-            break;
+                break;
         }
 
         return $this->requestSuccess();

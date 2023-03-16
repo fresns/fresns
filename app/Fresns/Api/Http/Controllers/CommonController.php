@@ -78,9 +78,9 @@ class CommonController extends Controller
                         $data[] = $item;
                     }
                 }
-            break;
+                break;
 
-            // group
+                // group
             case 'group':
                 $tipQuery = Language::where('table_name', 'groups')
                     ->where('table_column', 'name')
@@ -105,9 +105,9 @@ class CommonController extends Controller
                         $data[] = $item;
                     }
                 }
-            break;
+                break;
 
-            // hashtag
+                // hashtag
             case 'hashtag':
                 $hashtagQuery = Hashtag::where('name', 'like', "%$dtoRequest->key%")->isEnable()->limit(10)->get();
 
@@ -122,9 +122,9 @@ class CommonController extends Controller
                         $data[] = $item;
                     }
                 }
-            break;
+                break;
 
-            // post
+                // post
             case 'post':
                 $postQuery = Post::where('title', 'like', "%$dtoRequest->key%")->isEnable()->limit(10)->get();
 
@@ -139,9 +139,9 @@ class CommonController extends Controller
                         $data[] = $item;
                     }
                 }
-            break;
+                break;
 
-            // comment
+                // comment
             case 'comment':
                 $commentQuery = Comment::where('content', 'like', "%$dtoRequest->key%")->isEnable()->limit(10)->get();
 
@@ -156,9 +156,9 @@ class CommonController extends Controller
                         $data[] = $item;
                     }
                 }
-            break;
+                break;
 
-            // extend
+                // extend
             case 'extend':
                 $tipQuery = Language::where('table_name', 'extends')
                     ->where('table_column', 'title')
@@ -183,7 +183,7 @@ class CommonController extends Controller
                         $data[] = $item;
                     }
                 }
-            break;
+                break;
         }
 
         return $this->success($data);
@@ -282,10 +282,10 @@ class CommonController extends Controller
             switch ($dtoRequest->type) {
                 case 'email':
                     throw new ApiException(34205);
-                break;
+                    break;
                 case 'sms':
                     throw new ApiException(34206);
-                break;
+                    break;
             }
         }
 
@@ -297,10 +297,10 @@ class CommonController extends Controller
             switch ($dtoRequest->type) {
                 case 'email':
                     throw new ApiException(34401);
-                break;
+                    break;
                 case 'sms':
                     throw new ApiException(34402);
-                break;
+                    break;
             }
         }
 
@@ -312,13 +312,13 @@ class CommonController extends Controller
                     $wordBody['account'] = $authAccount->email;
 
                     $checkSend = ValidationUtility::sendCode($authAccount->email);
-                break;
+                    break;
                 case 'sms':
                     $wordBody['account'] = $authAccount->pure_phone;
                     $wordBody['countryCode'] = $authAccount->country_code;
 
                     $checkSend = ValidationUtility::sendCode($authAccount->phone);
-                break;
+                    break;
             }
         }
 
@@ -416,19 +416,19 @@ class CommonController extends Controller
                 }
 
                 $checkUser = ($checkQuery?->id == $authUser->id) ? true : false;
-            break;
+                break;
 
             case 'posts':
                 $checkQuery = Post::where('pid', $dtoRequest->tableKey)->first();
 
                 $checkUser = ($checkQuery?->user_id == $authUser->id) ? true : false;
-            break;
+                break;
 
             case 'comments':
                 $checkQuery = Comment::where('cid', $dtoRequest->tableKey)->first();
 
                 $checkUser = ($checkQuery?->user_id == $authUser->id) ? true : false;
-            break;
+                break;
 
             case 'conversation_messages':
                 if (StrHelper::isPureInt($dtoRequest->tableKey)) {
@@ -438,19 +438,19 @@ class CommonController extends Controller
                 }
 
                 $checkUser = true;
-            break;
+                break;
 
             case 'post_logs':
                 $checkQuery = PostLog::where('id', $dtoRequest->tableId)->first();
 
                 $checkUser = ($checkQuery?->user_id == $authUser->id) ? true : false;
-            break;
+                break;
 
             case 'comment_logs':
                 $checkQuery = CommentLog::where('id', $dtoRequest->tableId)->first();
 
                 $checkUser = ($checkQuery?->user_id == $authUser->id) ? true : false;
-            break;
+                break;
         }
 
         if (empty($checkQuery)) {
@@ -527,7 +527,7 @@ class CommonController extends Controller
                 ];
 
                 $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->uploadFile($wordBody);
-            break;
+                break;
 
             case 'fileInfo':
                 $wordBody = [
@@ -544,7 +544,7 @@ class CommonController extends Controller
                 ];
 
                 $fresnsResp = \FresnsCmdWord::plugin($storageConfig['service'])->uploadFileInfo($wordBody);
-            break;
+                break;
         }
 
         return $fresnsResp->getOrigin();
