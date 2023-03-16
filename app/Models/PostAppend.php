@@ -10,6 +10,10 @@ namespace App\Models;
 
 class PostAppend extends Model
 {
+    protected $casts = [
+        'map_json' => 'json',
+    ];
+
     public function post()
     {
         return $this->belongsTo(Post::class, 'post_id', 'id');
