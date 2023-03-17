@@ -55,7 +55,6 @@ class CommonController extends Controller
         $langTag = $this->langTag();
 
         switch ($dtoRequest->type) {
-            // user
             case 'user':
                 $userIdentifier = ConfigHelper::fresnsConfigByItemKey('user_identifier');
 
@@ -80,7 +79,6 @@ class CommonController extends Controller
                 }
                 break;
 
-                // group
             case 'group':
                 $tipQuery = Language::where('table_name', 'groups')
                     ->where('table_column', 'name')
@@ -107,7 +105,6 @@ class CommonController extends Controller
                 }
                 break;
 
-                // hashtag
             case 'hashtag':
                 $hashtagQuery = Hashtag::where('name', 'like', "%$dtoRequest->key%")->isEnable()->limit(10)->get();
 
@@ -124,7 +121,6 @@ class CommonController extends Controller
                 }
                 break;
 
-                // post
             case 'post':
                 $postQuery = Post::where('title', 'like', "%$dtoRequest->key%")->isEnable()->limit(10)->get();
 
@@ -141,7 +137,6 @@ class CommonController extends Controller
                 }
                 break;
 
-                // comment
             case 'comment':
                 $commentQuery = Comment::where('content', 'like', "%$dtoRequest->key%")->isEnable()->limit(10)->get();
 
@@ -158,7 +153,6 @@ class CommonController extends Controller
                 }
                 break;
 
-                // extend
             case 'extend':
                 $tipQuery = Language::where('table_name', 'extends')
                     ->where('table_column', 'title')

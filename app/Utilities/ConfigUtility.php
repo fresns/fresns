@@ -431,16 +431,16 @@ class ConfigUtility
             $newDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $dbDateTime);
 
             switch ($publishConfig['limit']['type']) {
-                // period
-                // Y-m-d H:i:s
                 case 1:
+                    // period
+                    // Y-m-d H:i:s
                     $periodStart = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s', strtotime($publishConfig['limit']['periodStart'])));
                     $periodEnd = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s', strtotime($publishConfig['limit']['periodEnd'])));
                     break;
 
+                case 2:
                     // cycle
                     // H:i
-                case 2:
                     $dbDate = date('Y-m-d', strtotime($dbDateTime));
                     $cycleStart = "{$dbDate} {$publishConfig['limit']['cycleStart']}:00"; // Y-m-d H:i:s
                     $cycleEnd = "{$dbDate} {$publishConfig['limit']['cycleEnd']}:00"; // Y-m-d H:i:s

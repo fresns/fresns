@@ -617,22 +617,18 @@ class PostController extends Controller
         $followService = new FollowService();
 
         switch ($dtoRequest->type) {
-            // all
             case 'all':
                 $posts = $followService->getPostListByFollowAll($authUser->id, $dtoRequest->contentType, $dateLimit);
                 break;
 
-                // user
             case 'user':
                 $posts = $followService->getPostListByFollowUsers($authUser->id, $dtoRequest->contentType, $dateLimit);
                 break;
 
-                // group
             case 'group':
                 $posts = $followService->getPostListByFollowGroups($authUser->id, $dtoRequest->contentType, $dateLimit);
                 break;
 
-                // hashtag
             case 'hashtag':
                 $posts = $followService->getPostListByFollowHashtags($authUser->id, $dtoRequest->contentType, $dateLimit);
                 break;

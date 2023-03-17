@@ -599,22 +599,18 @@ class CommentController extends Controller
         $followService = new FollowService();
 
         switch ($dtoRequest->type) {
-            // all
             case 'all':
                 $comments = $followService->getCommentListByFollowAll($authUser->id, $dtoRequest->contentType, $dateLimit);
                 break;
 
-                // user
             case 'user':
                 $comments = $followService->getCommentListByFollowUsers($authUser->id, $dtoRequest->contentType, $dateLimit);
                 break;
 
-                // group
             case 'group':
                 $comments = $followService->getCommentListByFollowGroups($authUser->id, $dtoRequest->contentType, $dateLimit);
                 break;
 
-                // hashtag
             case 'hashtag':
                 $comments = $followService->getCommentListByFollowHashtags($authUser->id, $dtoRequest->contentType, $dateLimit);
                 break;

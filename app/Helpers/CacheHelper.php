@@ -319,7 +319,6 @@ class CacheHelper
         CacheHelper::forgetFresnsModel($cacheType, $fsid);
 
         switch ($cacheType) {
-            // user
             case 'user':
                 CacheHelper::forgetFresnsUser($id, $model->uid);
 
@@ -369,7 +368,6 @@ class CacheHelper
                 }
                 break;
 
-                // group
             case 'group':
                 CacheHelper::forgetFresnsKeys([
                     'fresns_group_count',
@@ -385,13 +383,11 @@ class CacheHelper
                 CacheHelper::forgetFresnsMultilingual("fresns_group_{$id}_extends_by_group_admin", ['fresnsExtensions', 'fresnsGroups']);
                 break;
 
-                // hashtag
             case 'hashtag':
                 CacheHelper::forgetFresnsKey("fresns_seo_hashtag_{$id}", ['fresnsSeo', 'fresnsHashtags']);
                 CacheHelper::forgetFresnsMultilingual("fresns_api_hashtag_{$model->slug}", 'fresnsHashtags');
                 break;
 
-                // post
             case 'post':
                 // fresns_api_post_{$postId}_preview_comments_{$langTag}    // +tag: fresnsComments
                 // fresns_api_post_{$postId}_preview_like_users_{$langTag}  // +tag: fresnsUsers
@@ -405,7 +401,6 @@ class CacheHelper
                 CacheHelper::forgetFresnsMultilingual("fresns_api_post_{$id}_preview_like_users", ['fresnsPosts', 'fresnsUsers']);
                 break;
 
-                // comment
             case 'comment':
                 CacheHelper::forgetFresnsKey("fresns_seo_comment_{$id}", ['fresnsSeo', 'fresnsComments']);
                 CacheHelper::forgetFresnsKeys([
@@ -416,7 +411,6 @@ class CacheHelper
                 CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$id}_sub_comments", 'fresnsComments');
                 break;
 
-                // file
             case 'file':
                 CacheHelper::forgetFresnsFileUsage($fsid);
                 break;

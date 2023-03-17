@@ -943,7 +943,6 @@ class UserController extends Controller
         };
 
         switch ($dtoRequest->interactionType) {
-            // like
             case 'like':
                 InteractionUtility::markUserLike($authUserId, $markType, $primaryId);
 
@@ -956,12 +955,10 @@ class UserController extends Controller
                 }
                 break;
 
-                // dislike
             case 'dislike':
                 InteractionUtility::markUserDislike($authUserId, $markType, $primaryId);
                 break;
 
-                // follow
             case 'follow':
                 $validMark = ValidationUtility::userMarkOwn($authUserId, $markType, $primaryId);
                 if (! $validMark) {
@@ -981,7 +978,6 @@ class UserController extends Controller
                 InteractionUtility::markUserFollow($authUserId, $markType, $primaryId);
                 break;
 
-                // block
             case 'block':
                 $validMark = ValidationUtility::userMarkOwn($authUserId, $markType, $primaryId);
                 if (! $validMark) {
@@ -1031,12 +1027,10 @@ class UserController extends Controller
         };
 
         switch ($dtoRequest->interactionType) {
-            // follow
             case 'follow':
                 $userNote = UserFollow::withTrashed()->where('user_id', $authUser->id)->type($markType)->where('follow_id', $primaryId)->first();
                 break;
 
-                // block
             case 'block':
                 $userNote = UserBlock::withTrashed()->where('user_id', $authUser->id)->type($markType)->where('block_id', $primaryId)->first();
                 break;

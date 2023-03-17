@@ -79,8 +79,8 @@ class Content
         $isAnonymous = $dtoWordBody->isAnonymous ?? 0;
 
         switch ($dtoWordBody->type) {
-            // post
             case 1:
+                // post
                 $groupId = PrimaryHelper::fresnsGroupIdByGid($dtoWordBody->postGid);
 
                 $title = null;
@@ -112,8 +112,8 @@ class Content
                 }
                 break;
 
-                // comment
             case 2:
+                // comment
                 $checkPost = Post::where('pid', $dtoWordBody->commentPid)->first();
                 if (empty($checkPost)) {
                     return $this->failure(
@@ -189,8 +189,8 @@ class Content
         };
 
         switch ($dtoWordBody->type) {
-            // post
             case 1:
+                // post
                 $post = PrimaryHelper::fresnsModelByFsid('post', $dtoWordBody->fsid);
 
                 $creator = PrimaryHelper::fresnsModelById('user', $post->user_id);
@@ -224,8 +224,8 @@ class Content
                 $logModel = ContentUtility::generatePostDraft($post);
                 break;
 
-                // comment
             case 2:
+                // comment
                 $comment = PrimaryHelper::fresnsModelByFsid('comment', $dtoWordBody->fsid);
 
                 $creator = PrimaryHelper::fresnsModelById('user', $comment->user_id);
@@ -324,8 +324,8 @@ class Content
         }
 
         switch ($dtoWordBody->type) {
-            // post
             case 1:
+                // post
                 $postModel = PrimaryHelper::fresnsModelById('post', $logModel->post_id);
                 if ($postModel) {
                     $checkEditCode = PermissionUtility::checkContentEdit('post', $postModel->created_at, $postModel->sticky_state, $postModel->digest_state);
@@ -343,8 +343,8 @@ class Content
                 $fsid = $post->pid;
                 break;
 
-                // comment
             case 2:
+                // comment
                 $commentModel = PrimaryHelper::fresnsModelById('comment', $logModel->comment_id);
                 if ($commentModel) {
                     $checkEditCode = PermissionUtility::checkContentEdit('comment', $commentModel->created_at, $commentModel->is_sticky, $commentModel->digest_state);
@@ -407,7 +407,6 @@ class Content
             }
 
             switch ($type) {
-                // post
                 case 'post':
                     PostLog::where('id', $reviewResp->getData('logId'))->update([
                         'state' => 2,
@@ -417,7 +416,6 @@ class Content
                     $usageType = ExtendUsage::TYPE_POST_LOG;
                     break;
 
-                    // comment
                 case 'comment':
                     CommentLog::where('id', $reviewResp->getData('logId'))->update([
                         'state' => 2,
@@ -591,8 +589,8 @@ class Content
         $dtoWordBody = new LogicalDeletionContentDTO($wordBody);
 
         switch ($dtoWordBody->contentType) {
-            // main
             case 1:
+                // main
                 $model = match ($dtoWordBody->type) {
                     1 => Post::where('pid', $dtoWordBody->contentFsid)->first(),
                     2 => Comment::where('cid', $dtoWordBody->contentFsid)->first(),
@@ -629,8 +627,8 @@ class Content
                 };
                 break;
 
-                // log
             case 2:
+                // log
                 $model = match ($dtoWordBody->type) {
                     1 => PostLog::where('id', $dtoWordBody->contentLogId)->first(),
                     2 => CommentLog::where('id', $dtoWordBody->contentLogId)->first(),
@@ -669,8 +667,8 @@ class Content
         $dtoWordBody = new PhysicalDeletionContentDTO($wordBody);
 
         switch ($dtoWordBody->contentType) {
-            // main
             case 1:
+                // main
                 $model = match ($dtoWordBody->type) {
                     1 => Post::where('pid', $dtoWordBody->contentFsid)->first(),
                     2 => Comment::where('cid', $dtoWordBody->contentFsid)->first(),
@@ -707,8 +705,8 @@ class Content
                 };
                 break;
 
-                // log
             case 2:
+                // log
                 $model = match ($dtoWordBody->type) {
                     1 => PostLog::where('id', $dtoWordBody->contentLogId)->first(),
                     2 => CommentLog::where('id', $dtoWordBody->contentLogId)->first(),

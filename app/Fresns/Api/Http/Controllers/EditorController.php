@@ -47,21 +47,18 @@ class EditorController extends Controller
         $authUser = $this->user();
 
         switch ($type) {
-            // post
             case 'post':
                 $config['editor'] = ConfigUtility::getEditorConfigByType($authUser->id, 'post', $langTag);
                 $config['publish'] = ConfigUtility::getPublishConfigByType($authUser->id, 'post', $langTag, $timezone);
                 $config['edit'] = ConfigUtility::getEditConfigByType('post');
                 break;
 
-                // comment
             case 'comment':
                 $config['editor'] = ConfigUtility::getEditorConfigByType($authUser->id, 'comment', $langTag);
                 $config['publish'] = ConfigUtility::getPublishConfigByType($authUser->id, 'comment', $langTag, $timezone);
                 $config['edit'] = ConfigUtility::getEditConfigByType('comment');
                 break;
 
-                // default
             default:
                 throw new ApiException(30002);
                 break;
@@ -89,7 +86,6 @@ class EditorController extends Controller
 
         $draftList = [];
         switch ($type) {
-            // post
             case 'post':
                 $drafts = PostLog::with('creator')
                     ->where('user_id', $authUser->id)
@@ -103,7 +99,6 @@ class EditorController extends Controller
                 }
                 break;
 
-                // comment
             case 'comment':
                 $drafts = CommentLog::with('creator')
                     ->where('user_id', $authUser->id)
@@ -117,7 +112,6 @@ class EditorController extends Controller
                 }
                 break;
 
-                // default
             default:
                 throw new ApiException(30002);
                 break;
@@ -140,7 +134,6 @@ class EditorController extends Controller
         $userRolePerm = PermissionUtility::getUserMainRole($authUser->id, $langTag)['permissions'];
 
         switch ($dtoRequest->type) {
-            // post
             case 'post':
                 if (! $userRolePerm['post_publish']) {
                     throw new ApiException(36104);
@@ -153,7 +146,6 @@ class EditorController extends Controller
                 }
                 break;
 
-                // comment
             case 'comment':
                 if (! $userRolePerm['comment_publish']) {
                     throw new ApiException(36104);
@@ -228,7 +220,6 @@ class EditorController extends Controller
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
         switch ($dtoRequest->type) {
-            // post
             case 'post':
                 $service = new PostService();
 
@@ -236,7 +227,6 @@ class EditorController extends Controller
                 $data['detail'] = $service->postLogData($postLog, 'detail', $langTag, $timezone, $authUser->id);
                 break;
 
-                // comment
             case 'comment':
                 $service = new CommentService();
 
@@ -303,7 +293,6 @@ class EditorController extends Controller
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
         switch ($type) {
-            // post
             case 'post':
                 $service = new PostService();
 
@@ -311,7 +300,6 @@ class EditorController extends Controller
                 $data['detail'] = $service->postLogData($postLog, 'detail', $langTag, $timezone, $authUser->id);
                 break;
 
-                // comment
             case 'comment':
                 $service = new CommentService();
 
@@ -364,7 +352,6 @@ class EditorController extends Controller
         $editTimeConfig = ConfigHelper::fresnsConfigByItemKey("{$type}_edit_time_limit");
 
         switch ($type) {
-            // post
             case 'post':
                 $service = new PostService();
                 $data['detail'] = $service->postLogData($draft, 'detail', $langTag, $timezone, $authUser->id);
@@ -381,7 +368,6 @@ class EditorController extends Controller
                 }
                 break;
 
-                // comment
             case 'comment':
                 $service = new CommentService();
                 $data['detail'] = $service->commentLogData($draft, 'detail', $langTag, $timezone, $authUser->id);
@@ -786,17 +772,14 @@ class EditorController extends Controller
         $authUser = $this->user();
 
         switch ($type) {
-            // post
             case 'post':
                 $draft = PostLog::where('user_id', $authUser->id)->where('id', $draftId)->first();
                 break;
 
-                // comment
             case 'comment':
                 $draft = CommentLog::where('user_id', $authUser->id)->where('id', $draftId)->first();
                 break;
 
-                // default
             default:
                 throw new ApiException(30002);
                 break;
@@ -823,17 +806,14 @@ class EditorController extends Controller
         $authUser = $this->user();
 
         switch ($type) {
-            // post
             case 'post':
                 $draft = PostLog::where('user_id', $authUser->id)->where('id', $draftId)->first();
                 break;
 
-                // comment
             case 'comment':
                 $draft = CommentLog::where('user_id', $authUser->id)->where('id', $draftId)->first();
                 break;
 
-                // default
             default:
                 throw new ApiException(30002);
                 break;

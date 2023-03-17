@@ -431,7 +431,6 @@ class ValidationUtility
         }
 
         switch ($type) {
-            // post
             case 'post':
                 if ($draft['postId']) {
                     $post = PrimaryHelper::fresnsModelById('post', $draft['postId']);
@@ -493,7 +492,6 @@ class ValidationUtility
                 }
                 break;
 
-                // comment
             case 'comment':
                 if ($draft['commentId']) {
                     $comment = PrimaryHelper::fresnsModelById('comment', $draft['commentId']);

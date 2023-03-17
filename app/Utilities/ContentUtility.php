@@ -648,10 +648,9 @@ class ContentUtility
                 'usage_type' => $usageType,
                 'usage_id' => $usageId,
                 'operation_id' => $operation->id,
-            ],
-                [
-                    'plugin_unikey' => $operation['pluginUnikey'] ?? $operationModel->plugin_unikey,
-                ]);
+            ], [
+                'plugin_unikey' => $operation['pluginUnikey'] ?? $operationModel->plugin_unikey,
+            ]);
         }
     }
 
@@ -674,12 +673,11 @@ class ContentUtility
                 'usage_type' => $usageType,
                 'usage_id' => $usageId,
                 'archive_id' => $archiveModel->id,
-            ],
-                [
-                    'archive_value' => $archive['value'] ?? null,
-                    'is_private' => $archive['isPrivate'] ?? false,
-                    'plugin_unikey' => $archive['pluginUnikey'] ?? $archiveModel->plugin_unikey,
-                ]);
+            ], [
+                'archive_value' => $archive['value'] ?? null,
+                'is_private' => $archive['isPrivate'] ?? false,
+                'plugin_unikey' => $archive['pluginUnikey'] ?? $archiveModel->plugin_unikey,
+            ]);
         }
     }
 
@@ -702,12 +700,11 @@ class ContentUtility
                 'usage_type' => $usageType,
                 'usage_id' => $usageId,
                 'extend_id' => $extendModel->id,
-            ],
-                [
-                    'can_delete' => $extend['canDelete'] ?? true,
-                    'rating' => $extend['rating'] ?? 9,
-                    'plugin_unikey' => $extend['pluginUnikey'] ?? $extendModel->plugin_unikey,
-                ]);
+            ], [
+                'can_delete' => $extend['canDelete'] ?? true,
+                'rating' => $extend['rating'] ?? 9,
+                'plugin_unikey' => $extend['pluginUnikey'] ?? $extendModel->plugin_unikey,
+            ]);
         }
     }
 
@@ -722,10 +719,9 @@ class ContentUtility
                 'table_column' => $tableColumn,
                 'table_id' => $tableId,
                 'lang_tag' => $lang['langTag'],
-            ],
-                [
-                    'lang_content' => $lang['name'],
-                ]);
+            ], [
+                'lang_content' => $lang['name'],
+            ]);
 
             if ($lang['langTag'] == $defaultLangTag) {
                 $defaultLangName = $lang['name'];
@@ -817,11 +813,10 @@ class ContentUtility
                     'post_id' => $postId,
                     'type' => PostAllow::TYPE_USER,
                     'object_id' => $userId,
-                ],
-                    [
-                        'is_initial' => 1,
-                        'deleted_at' => null,
-                    ]);
+                ], [
+                    'is_initial' => 1,
+                    'deleted_at' => null,
+                ]);
             }
         }
 
@@ -833,11 +828,10 @@ class ContentUtility
                     'post_id' => $postId,
                     'type' => PostAllow::TYPE_ROLE,
                     'object_id' => $roleId,
-                ],
-                    [
-                        'is_initial' => 1,
-                        'deleted_at' => null,
-                    ]);
+                ], [
+                    'is_initial' => 1,
+                    'deleted_at' => null,
+                ]);
             }
         }
     }
@@ -911,18 +905,17 @@ class ContentUtility
 
         $post = Post::updateOrCreate([
             'id' => $postLog->post_id,
-        ],
-            [
-                'user_id' => $postLog->user_id,
-                'group_id' => $postLog->group_id ?? 0,
-                'title' => $postLog->title,
-                'content' => $postLog->content,
-                'is_markdown' => $postLog->is_markdown,
-                'is_anonymous' => $postLog->is_anonymous,
-                'map_id' => $postLog->map_json['mapId'] ?? null,
-                'map_longitude' => $postLog->map_json['latitude'] ?? null,
-                'map_latitude' => $postLog->map_json['longitude'] ?? null,
-            ]);
+        ], [
+            'user_id' => $postLog->user_id,
+            'group_id' => $postLog->group_id ?? 0,
+            'title' => $postLog->title,
+            'content' => $postLog->content,
+            'is_markdown' => $postLog->is_markdown,
+            'is_anonymous' => $postLog->is_anonymous,
+            'map_id' => $postLog->map_json['mapId'] ?? null,
+            'map_longitude' => $postLog->map_json['latitude'] ?? null,
+            'map_latitude' => $postLog->map_json['longitude'] ?? null,
+        ]);
 
         $allowBtnName = null;
         if (empty($postLog->allow_json)) {
@@ -947,34 +940,33 @@ class ContentUtility
 
         $postAppend = PostAppend::updateOrCreate([
             'post_id' => $post->id,
-        ],
-            [
-                'is_plugin_editor' => $postLog->is_plugin_editor,
-                'editor_unikey' => $postLog->editor_unikey,
-                'is_allow' => $postLog->allow_json['isAllow'] ?? true,
-                'allow_proportion' => $postLog->allow_json['proportion'] ?? null,
-                'allow_btn_name' => $allowBtnName,
-                'allow_plugin_unikey' => $postLog->allow_json['pluginUnikey'] ?? null,
-                'is_user_list' => $postLog->user_list_json['isUserList'] ?? false,
-                'user_list_name' => $userListName,
-                'user_list_plugin_unikey' => $postLog->user_list_json['pluginUnikey'] ?? null,
-                'is_comment' => $postLog->is_comment ?? true,
-                'is_comment_public' => $postLog->is_comment_public ?? true,
-                'is_comment_btn' => $postLog->comment_btn_json['isCommentBtn'] ?? false,
-                'comment_btn_name' => $commentBtnName,
-                'comment_btn_style' => $postLog->comment_btn_json['btnStyle'] ?? null,
-                'comment_btn_plugin_unikey' => $postLog->comment_btn_json['pluginUnikey'] ?? null,
-                'map_json' => $postLog->map_json ?? null,
-                'map_scale' => $postLog->map_json['scale'] ?? null,
-                'map_continent_code' => $postLog->map_json['continentCode'] ?? null,
-                'map_country_code' => $postLog->map_json['countryCode'] ?? null,
-                'map_region_code' => $postLog->map_json['regionCode'] ?? null,
-                'map_city_code' => $postLog->map_json['cityCode'] ?? null,
-                'map_city' => $postLog->map_json['city'] ?? null,
-                'map_zip' => $postLog->map_json['zip'] ?? null,
-                'map_poi' => $postLog->map_json['poi'] ?? null,
-                'map_poi_id' => $postLog->map_json['poiId'] ?? null,
-            ]);
+        ], [
+            'is_plugin_editor' => $postLog->is_plugin_editor,
+            'editor_unikey' => $postLog->editor_unikey,
+            'is_allow' => $postLog->allow_json['isAllow'] ?? true,
+            'allow_proportion' => $postLog->allow_json['proportion'] ?? null,
+            'allow_btn_name' => $allowBtnName,
+            'allow_plugin_unikey' => $postLog->allow_json['pluginUnikey'] ?? null,
+            'is_user_list' => $postLog->user_list_json['isUserList'] ?? false,
+            'user_list_name' => $userListName,
+            'user_list_plugin_unikey' => $postLog->user_list_json['pluginUnikey'] ?? null,
+            'is_comment' => $postLog->is_comment ?? true,
+            'is_comment_public' => $postLog->is_comment_public ?? true,
+            'is_comment_btn' => $postLog->comment_btn_json['isCommentBtn'] ?? false,
+            'comment_btn_name' => $commentBtnName,
+            'comment_btn_style' => $postLog->comment_btn_json['btnStyle'] ?? null,
+            'comment_btn_plugin_unikey' => $postLog->comment_btn_json['pluginUnikey'] ?? null,
+            'map_json' => $postLog->map_json ?? null,
+            'map_scale' => $postLog->map_json['scale'] ?? null,
+            'map_continent_code' => $postLog->map_json['continentCode'] ?? null,
+            'map_country_code' => $postLog->map_json['countryCode'] ?? null,
+            'map_region_code' => $postLog->map_json['regionCode'] ?? null,
+            'map_city_code' => $postLog->map_json['cityCode'] ?? null,
+            'map_city' => $postLog->map_json['city'] ?? null,
+            'map_zip' => $postLog->map_json['zip'] ?? null,
+            'map_poi' => $postLog->map_json['poi'] ?? null,
+            'map_poi_id' => $postLog->map_json['poiId'] ?? null,
+        ]);
 
         ContentUtility::releaseFileUsages('post', $postLog->id, $post->id);
         ContentUtility::releaseExtendUsages('post', $postLog->id, $post->id);
@@ -1046,37 +1038,35 @@ class ContentUtility
 
         $comment = Comment::updateOrCreate([
             'id' => $commentLog->comment_id,
-        ],
-            [
-                'user_id' => $commentLog->user_id,
-                'post_id' => $commentLog->post_id,
-                'top_parent_id' => $topParentId,
-                'parent_id' => $commentLog->parent_comment_id ?? 0,
-                'content' => $commentLog->content,
-                'is_markdown' => $commentLog->is_markdown,
-                'is_anonymous' => $commentLog->is_anonymous,
-                'map_id' => $commentLog->map_json['mapId'] ?? null,
-                'map_longitude' => $commentLog->map_json['latitude'] ?? null,
-                'map_latitude' => $commentLog->map_json['longitude'] ?? null,
-            ]);
+        ], [
+            'user_id' => $commentLog->user_id,
+            'post_id' => $commentLog->post_id,
+            'top_parent_id' => $topParentId,
+            'parent_id' => $commentLog->parent_comment_id ?? 0,
+            'content' => $commentLog->content,
+            'is_markdown' => $commentLog->is_markdown,
+            'is_anonymous' => $commentLog->is_anonymous,
+            'map_id' => $commentLog->map_json['mapId'] ?? null,
+            'map_longitude' => $commentLog->map_json['latitude'] ?? null,
+            'map_latitude' => $commentLog->map_json['longitude'] ?? null,
+        ]);
 
         $commentAppend = CommentAppend::updateOrCreate([
             'comment_id' => $comment->id,
-        ],
-            [
-                'is_plugin_editor' => $commentLog->is_plugin_editor,
-                'editor_unikey' => $commentLog->editor_unikey,
-                'map_json' => $commentLog->map_json ?? null,
-                'map_scale' => $commentLog->map_json['scale'] ?? null,
-                'map_continent_code' => $commentLog->map_json['continentCode'] ?? null,
-                'map_country_code' => $commentLog->map_json['countryCode'] ?? null,
-                'map_region_code' => $commentLog->map_json['regionCode'] ?? null,
-                'map_city_code' => $commentLog->map_json['cityCode'] ?? null,
-                'map_city' => $commentLog->map_json['city'] ?? null,
-                'map_zip' => $commentLog->map_json['zip'] ?? null,
-                'map_poi' => $commentLog->map_json['poi'] ?? null,
-                'map_poi_id' => $commentLog->map_json['poiId'] ?? null,
-            ]);
+        ], [
+            'is_plugin_editor' => $commentLog->is_plugin_editor,
+            'editor_unikey' => $commentLog->editor_unikey,
+            'map_json' => $commentLog->map_json ?? null,
+            'map_scale' => $commentLog->map_json['scale'] ?? null,
+            'map_continent_code' => $commentLog->map_json['continentCode'] ?? null,
+            'map_country_code' => $commentLog->map_json['countryCode'] ?? null,
+            'map_region_code' => $commentLog->map_json['regionCode'] ?? null,
+            'map_city_code' => $commentLog->map_json['cityCode'] ?? null,
+            'map_city' => $commentLog->map_json['city'] ?? null,
+            'map_zip' => $commentLog->map_json['zip'] ?? null,
+            'map_poi' => $commentLog->map_json['poi'] ?? null,
+            'map_poi_id' => $commentLog->map_json['poiId'] ?? null,
+        ]);
 
         ContentUtility::releaseFileUsages('comment', $commentLog->id, $comment->id);
         ContentUtility::releaseExtendUsages('comment', $commentLog->id, $comment->id);

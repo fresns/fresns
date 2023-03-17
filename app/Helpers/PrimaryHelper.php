@@ -61,17 +61,14 @@ class PrimaryHelper
 
         if (empty($fresnsModel)) {
             switch ($modelName) {
-                // key
                 case 'key':
                     $fresnsModel = SessionKey::where('app_id', $fsid)->first();
                     break;
 
-                    // account
                 case 'account':
                     $fresnsModel = Account::withTrashed()->with(['users', 'connects'])->where('aid', $fsid)->first();
                     break;
 
-                    // user
                 case 'user':
                     if (StrHelper::isPureInt($fsid)) {
                         $fresnsModel = User::withTrashed()->where('uid', $fsid)->first();
@@ -80,42 +77,34 @@ class PrimaryHelper
                     }
                     break;
 
-                    // group
                 case 'group':
                     $fresnsModel = Group::withTrashed()->with(['creator', 'admins'])->where('gid', $fsid)->first();
                     break;
 
-                    // hashtag
                 case 'hashtag':
                     $fresnsModel = Hashtag::withTrashed()->where('slug', $fsid)->first();
                     break;
 
-                    // post
                 case 'post':
                     $fresnsModel = Post::withTrashed()->with(['postAppend', 'creator', 'group', 'hashtags'])->where('pid', $fsid)->first();
                     break;
 
-                    // comment
                 case 'comment':
                     $fresnsModel = Comment::withTrashed()->with(['commentAppend', 'post', 'postAppend', 'creator', 'hashtags'])->where('cid', $fsid)->first();
                     break;
 
-                    // file
                 case 'file':
                     $fresnsModel = File::withTrashed()->where('fid', $fsid)->first();
                     break;
 
-                    // extend
                 case 'extend':
                     $fresnsModel = Extend::withTrashed()->where('eid', $fsid)->first();
                     break;
 
-                    // archive
                 case 'archive':
                     $fresnsModel = Archive::withTrashed()->where('code', $fsid)->first();
                     break;
 
-                    // default
                 default:
                     throw new \RuntimeException("unknown modelName {$modelName}");
                     break;
@@ -160,62 +149,50 @@ class PrimaryHelper
 
         if (empty($fresnsModel)) {
             switch ($modelName) {
-                // account
                 case 'account':
                     $fresnsModel = Account::withTrashed()->with(['users', 'connects'])->where('id', $id)->first();
                     break;
 
-                    // user
                 case 'user':
                     $fresnsModel = User::withTrashed()->where('id', $id)->first();
                     break;
 
-                    // group
                 case 'group':
                     $fresnsModel = Group::withTrashed()->with(['creator', 'admins'])->where('id', $id)->first();
                     break;
 
-                    // hashtag
                 case 'hashtag':
                     $fresnsModel = Hashtag::withTrashed()->where('id', $id)->first();
                     break;
 
-                    // post
                 case 'post':
                     $fresnsModel = Post::withTrashed()->with(['postAppend', 'creator', 'group', 'hashtags'])->where('id', $id)->first();
                     break;
 
-                    // comment
                 case 'comment':
                     $fresnsModel = Comment::withTrashed()->with(['commentAppend', 'post', 'postAppend', 'creator', 'hashtags'])->where('id', $id)->first();
                     break;
 
-                    // file
                 case 'file':
                     $fresnsModel = File::withTrashed()->where('id', $id)->first();
                     break;
 
-                    // extend
                 case 'extend':
                     $fresnsModel = Extend::withTrashed()->where('id', $id)->first();
                     break;
 
-                    // operation
                 case 'operation':
                     $fresnsModel = Operation::withTrashed()->where('id', $id)->first();
                     break;
 
-                    // archive
                 case 'archive':
                     $fresnsModel = Archive::withTrashed()->where('id', $id)->first();
                     break;
 
-                    // conversation
                 case 'conversation':
                     $fresnsModel = Conversation::withTrashed()->with(['aUser', 'bUser', 'latestMessage'])->where('id', $id)->first();
                     break;
 
-                    // default
                 default:
                     throw new \RuntimeException("unknown modelName {$modelName}");
                     break;

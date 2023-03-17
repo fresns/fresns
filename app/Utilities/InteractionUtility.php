@@ -359,7 +359,6 @@ class InteractionUtility
     public static function markContentSticky(string $type, int $id, int $stickyState): void
     {
         switch ($type) {
-            // post
             case 'post':
                 $post = Post::where('id', $id)->first();
                 $post->update([
@@ -375,7 +374,6 @@ class InteractionUtility
                 }
                 break;
 
-                // comment
             case 'comment':
                 $comment = Comment::where('id', $id)->first();
 
@@ -406,7 +404,6 @@ class InteractionUtility
         };
 
         switch ($type) {
-            // post
             case 'post':
                 $post = Post::where('id', $id)->first();
 
@@ -429,7 +426,6 @@ class InteractionUtility
                 }
                 break;
 
-                // comment
             case 'comment':
                 $comment = Comment::where('id', $id)->first();
 
@@ -483,7 +479,6 @@ class InteractionUtility
         };
 
         switch ($tableClass) {
-            // user
             case 'user':
                 $userState = UserStat::where('user_id', $userId)->first();
                 $userMeState = UserStat::where('user_id', $markId)->first();
@@ -506,7 +501,6 @@ class InteractionUtility
                 }
                 break;
 
-                // group
             case 'group':
                 $userState = UserStat::where('user_id', $userId)->first();
                 $groupState = Group::where('id', $markId)->first();
@@ -529,7 +523,6 @@ class InteractionUtility
                 }
                 break;
 
-                // hashtag
             case 'hashtag':
                 $userState = UserStat::where('user_id', $userId)->first();
                 $hashtagState = Hashtag::where('id', $markId)->first();
@@ -552,7 +545,6 @@ class InteractionUtility
                 }
                 break;
 
-                // post
             case 'post':
                 $userState = UserStat::where('user_id', $userId)->first();
                 $post = Post::where('id', $markId)->first();
@@ -582,7 +574,6 @@ class InteractionUtility
                 }
                 break;
 
-                // comment
             case 'comment':
                 $userState = UserStat::where('user_id', $userId)->first();
                 $comment = Comment::where('id', $markId)->first();
@@ -649,7 +640,6 @@ class InteractionUtility
         }
 
         switch ($type) {
-            // post
             case 'post':
                 $post = Post::with('hashtags')->where('id', $id)->first();
                 $userState = UserStat::where('user_id', $post?->user_id)->first();
@@ -684,7 +674,6 @@ class InteractionUtility
                 }
                 break;
 
-                // comment
             case 'comment':
                 $comment = Comment::with('hashtags')->where('id', $id)->first();
                 $userState = UserStat::where('user_id', $comment?->user_id)->first();
@@ -743,13 +732,11 @@ class InteractionUtility
         }
 
         switch ($type) {
-            // post
             case 'post':
                 $content = Post::with('hashtags')->where('id', $id)->first();
                 $typeNumber = DomainLinkUsage::TYPE_POST;
                 break;
 
-                // comment
             case 'comment':
                 $content = Comment::with('hashtags')->where('id', $id)->first();
                 $typeNumber = DomainLinkUsage::TYPE_COMMENT;
@@ -797,7 +784,6 @@ class InteractionUtility
         }
 
         switch ($type) {
-            // post
             case 'post':
                 $post = Post::with('hashtags')->where('id', $id)->first();
                 $userState = UserStat::where('user_id', $post?->user_id)->first();
@@ -824,7 +810,6 @@ class InteractionUtility
                 }
                 break;
 
-                // comment
             case 'comment':
                 $comment = Comment::with('hashtags')->where('id', $id)->first();
                 $userState = UserStat::where('user_id', $comment?->user_id)->first();
