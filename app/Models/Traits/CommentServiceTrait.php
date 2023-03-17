@@ -71,6 +71,7 @@ trait CommentServiceTrait
         $location['unit'] = ConfigHelper::fresnsConfigLengthUnit($langTag);
 
         $info['location'] = $location;
+        $info['location']['uri'] = urlencode(base64_encode(json_encode($location)));
 
         return $info;
     }
