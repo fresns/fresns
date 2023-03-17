@@ -182,7 +182,7 @@ class ConfigHelper
     }
 
     // Get config file url
-    public static function fresnsConfigFileUrlByItemKey(string $itemKey, ?string $urlConfig = null): string
+    public static function fresnsConfigFileUrlByItemKey(string $itemKey, ?string $urlConfig = null): ?string
     {
         $configValue = ConfigHelper::fresnsConfigByItemKey($itemKey);
 
