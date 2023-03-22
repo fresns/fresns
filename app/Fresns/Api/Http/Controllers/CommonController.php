@@ -445,6 +445,10 @@ class CommonController extends Controller
 
                 $checkUser = ($checkQuery?->user_id == $authUser->id) ? true : false;
                 break;
+
+            default:
+                $checkQuery = null;
+                $checkUser = false;
         }
 
         if (empty($checkQuery)) {
