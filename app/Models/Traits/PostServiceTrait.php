@@ -92,7 +92,7 @@ trait PostServiceTrait
         $location['unit'] = ConfigHelper::fresnsConfigLengthUnit($langTag);
 
         $info['location'] = $location;
-        $info['location']['uri'] = urlencode(base64_encode(json_encode($location)));
+        $info['location']['encode'] = urlencode(base64_encode(json_encode($location)));
 
         $info['isComment'] = (bool) $appendData->is_comment;
         $info['isCommentPublic'] = (bool) $appendData->is_comment_public;
