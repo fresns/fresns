@@ -326,15 +326,14 @@ class InstallController extends Controller
     protected function functionCheck()
     {
         $functions = [
-            'putenv',
-            'symlink',
-            'readlink',
-            'proc_open',
-            'passthru',
+            'putenv', // laravel framework .env
+            'symlink', // storage:link
+            'proc_open', // symfony/process
+            'passthru', // fresns upgrade
         ];
 
         if (windows_os()) {
-            $functions[] = 'exec';
+            $functions[] = 'exec'; // windows install fresns
         }
 
         $disableFunction = explode(',', ini_get('disable_functions'));
