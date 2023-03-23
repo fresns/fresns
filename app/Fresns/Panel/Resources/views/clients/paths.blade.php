@@ -156,7 +156,7 @@
                     <input type="text" class="form-control" name="website_user_detail_path" value="{{ $params['website_user_detail_path'] }}" required placeholder="user">
                     <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('FsLang::panel.button_view') }}</button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_user_detail_path'].'/jarvis' }}</span></li>
+                        <li><span class="dropdown-item-text">{{ $siteUrl.'/'.$params['website_user_detail_path'].'/jevan' }}</span></li>
                     </ul>
                 </div>
             </div>

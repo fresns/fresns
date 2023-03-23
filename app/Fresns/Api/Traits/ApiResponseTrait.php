@@ -2,7 +2,7 @@
 
 /*
  * Fresns (https://fresns.org)
- * Copyright (C) 2021-Present Jarvis Tang
+ * Copyright (C) 2021-Present Jevan Tang
  * Released under the Apache-2.0 License.
  */
 
@@ -42,7 +42,7 @@ trait ApiResponseTrait
             array_merge([
                 'Fresns-Version' => AppHelper::VERSION,
                 'Fresns-Api' => 'v2',
-                'Fresns-Author' => 'Jarvis Tang',
+                'Fresns-Author' => 'Jevan Tang',
                 'Content-Type' => 'application/json',
             ], $headers)
         );
@@ -80,7 +80,7 @@ trait ApiResponseTrait
                 array_merge([
                     'Fresns-Version' => AppHelper::VERSION,
                     'Fresns-Api' => 'v2',
-                    'Fresns-Author' => 'Jarvis Tang',
+                    'Fresns-Author' => 'Jevan Tang',
                     'Content-Type' => 'application/json',
                 ], $headers)
             );
