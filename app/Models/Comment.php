@@ -33,34 +33,14 @@ class Comment extends Model
         return $this->hasOne(CommentAppend::class);
     }
 
-    public function commentLogs()
-    {
-        return $this->hasMany(CommentLog::class);
-    }
-
     public function creator()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function post()
-    {
-        return $this->belongsTo(Post::class, 'post_id', 'id');
-    }
-
-    public function postAppend()
-    {
-        return $this->belongsTo(PostAppend::class, 'post_id', 'post_id');
-    }
-
     public function comments()
     {
         return $this->hasMany(self::class, 'parent_id', 'id');
-    }
-
-    public function parentComment()
-    {
-        return $this->belongsTo(self::class, 'parent_id', 'id');
     }
 
     public function hashtags()
@@ -76,5 +56,25 @@ class Comment extends Model
     public function extendUsages()
     {
         return $this->hasMany(ExtendUsage::class, 'usage_id', 'id')->where('usage_type', ExtendUsage::TYPE_COMMENT);
+    }
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class, 'post_id', 'id');
+    }
+
+    public function postAppend()
+    {
+        return $this->belongsTo(PostAppend::class, 'post_id', 'post_id');
+    }
+
+    public function parentComment()
+    {
+        return $this->belongsTo(self::class, 'parent_id', 'id');
+    }
+
+    public function commentLogs()
+    {
+        return $this->hasMany(CommentLog::class);
     }
 }

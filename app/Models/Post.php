@@ -36,11 +36,6 @@ class Post extends Model
         return $this->hasOne(PostAppend::class);
     }
 
-    public function postLogs()
-    {
-        return $this->hasMany(PostLog::class);
-    }
-
     public function creator()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
@@ -74,5 +69,15 @@ class Post extends Model
     public function allows()
     {
         return $this->hasMany(PostAllow::class);
+    }
+
+    public function parentPost()
+    {
+        return $this->belongsTo(self::class, 'parent_id', 'id');
+    }
+
+    public function postLogs()
+    {
+        return $this->hasMany(PostLog::class);
     }
 }

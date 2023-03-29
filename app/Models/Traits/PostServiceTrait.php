@@ -56,6 +56,7 @@ trait PostServiceTrait
         $info['commentDislikeCount'] = $configKeys['comment_disliker_count'] ? $postData->comment_dislike_count : null;
         $info['commentFollowCount'] = $configKeys['comment_follower_count'] ? $postData->comment_follow_count : null;
         $info['commentBlockCount'] = $configKeys['comment_blocker_count'] ? $postData->comment_block_count : null;
+        $info['postCount'] = $postData->post_count;
         $info['createTime'] = $postData->created_at;
         $info['createTimeFormat'] = $postData->created_at;
         $info['editTime'] = $postData->latest_edit_at;
