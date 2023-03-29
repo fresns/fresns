@@ -25,6 +25,7 @@ class EditorUpdateDTO extends DTO
             'postTitle' => ['string', 'nullable'],
             'postIsComment' => ['boolean', 'nullable'],
             'postIsCommentPublic' => ['boolean', 'nullable'],
+            'postQuotePid' => ['string', 'nullable'],
             'content' => ['string', 'nullable'],
             'isMarkdown' => ['boolean', 'nullable'],
             'isAnonymous' => ['boolean', 'nullable'],

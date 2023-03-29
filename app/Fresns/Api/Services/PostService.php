@@ -83,6 +83,11 @@ class PostService
             $userService = new UserService;
             $item['creator'] = $userService->userData($post->creator, 'list', $langTag, $timezone);
 
+            // quoted post
+            $parentPost = $post->parentPost;
+            $item['isMultiLevelQuote'] = (bool) $parentPost?->parent_id;
+            $item['quotedPost'] = self::getQuotedPost($parentPost, $langTag);
+
             $item['previewComments'] = [];
             $item['previewLikeUsers'] = [];
             $item['manages'] = [];
@@ -348,6 +353,7 @@ class PostService
         $postData['commentDislikeCount'] = $configKeys['comment_disliker_count'] ? $post->comment_dislike_count : null;
         $postData['commentFollowCount'] = $configKeys['comment_follower_count'] ? $post->comment_follow_count : null;
         $postData['commentBlockCount'] = $configKeys['comment_blocker_count'] ? $post->comment_block_count : null;
+        $postData['postCount'] = $post->post_count;
 
         return $postData;
     }
@@ -477,6 +483,22 @@ class PostService
         }
 
         return $commentList;
+    }
+
+    // get quoted post
+    public static function getQuotedPost(?Post $post, string $langTag)
+    {
+        if (! $post) {
+            return null;
+        }
+
+        $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
+        $postService = new PostService;
+
+        $postData = $postService->postData($post, 'list', $langTag, $timezone, false);
+        $postData['quotedPost'] = null;
+
+        return $postData;
     }
 
     // post log data

@@ -86,14 +86,6 @@ class CommentService
             $item['creator'] = $userService->userData($comment->creator, 'list', $langTag, $timezone);
             $item['creator']['isPostCreator'] = $comment->user_id == $post?->user_id ? true : false;
 
-            // reply to comment
-            $item['replyToComment'] = null;
-            if ($comment->top_parent_id != $comment->parent_id) {
-                $commentService = new CommentService;
-
-                $item['replyToComment'] = $commentService->commentData($comment?->parentComment, 'list', $langTag, $timezone, false, null, null, null, null, false, false);
-            }
-
             $item['subComments'] = [];
 
             $item['extendBtn'] = [
@@ -120,10 +112,18 @@ class CommentService
                 'editorUrl' => PluginHelper::fresnsPluginUrlByUnikey($commentAppend->editor_unikey),
             ];
             $item['interaction']['postCreatorLikeStatus'] = InteractionUtility::checkUserLike(InteractionUtility::TYPE_COMMENT, $comment->id, $post?->user_id);
+
+            // reply to post
+            $postData = self::getReplyToPost($post, $langTag);
+            $item['replyToPost'] = $postData;
+
+            // reply to comment
+            $item['replyToComment'] = null;
+            if ($comment->top_parent_id != $comment->parent_id) {
+                $item['replyToComment'] = self::getReplyToComment($comment?->parentComment, $langTag);
+            }
+
             $item['followType'] = null;
-            $postData = self::getPost($post, $langTag);
-            $item['pid'] = $postData['pid'] ?? null;
-            $item['post'] = $postData;
 
             $commentData = array_merge($commentInfo, $item);
 
@@ -169,7 +169,7 @@ class CommentService
 
             $userService = new UserService;
             $commentData['creator'] = $userService->userData($commentCreator, 'list', $langTag, $timezone);
-            $creatorUid = $commentData['post']['creator']['uid'] ?? null;
+            $creatorUid = $commentData['replyToPost']['creator']['uid'] ?? null;
             $commentData['creator']['isPostCreator'] = $commentData['creator']['uid'] == $creatorUid ? true : false;
         }
 
@@ -208,7 +208,7 @@ class CommentService
         }
 
         // manages
-        $groupId = PrimaryHelper::fresnsGroupIdByGid($commentData['post']['group']['gid'] ?? null);
+        $groupId = PrimaryHelper::fresnsGroupIdByGid($commentData['replyToPost']['group']['gid'] ?? null);
         $commentData['manages'] = ExtendUtility::getManageExtensions('comment', $langTag, $authUserId, $groupId);
 
         // interaction
@@ -216,8 +216,10 @@ class CommentService
         $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_COMMENT, $comment->id, $authUserId);
         $interArr['interaction'] = array_merge($interactionConfig, $interactionStatus, $commentData['interaction']);
 
+        $replyToPid = $commentData['replyToPost']['pid'];
         if (! $isPreviewPost) {
-            $commentData['post'] = null;
+            $commentData['replyToPost'] = null;
+            $commentData['replyToPost']['pid'] = $replyToPid;
         }
 
         $data = array_merge($commentData, $interArr);
@@ -307,7 +309,7 @@ class CommentService
 
         $authUid = PrimaryHelper::fresnsModelById('user', $authUserId)?->uid;
 
-        if (! $commentData['isCommentPublic'] && $commentData['post']['creator']['uid'] != $authUid) {
+        if (! $commentData['isCommentPublic'] && $commentData['replyToPost']['creator']['uid'] != $authUid) {
             return $contentData['content'] = null;
         }
 
@@ -415,8 +417,8 @@ class CommentService
         return $commentList;
     }
 
-    // get post
-    public static function getPost(?Post $post, string $langTag)
+    // get reply to post
+    public static function getReplyToPost(?Post $post, string $langTag)
     {
         if (! $post) {
             return null;
@@ -425,7 +427,28 @@ class CommentService
         $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
         $postService = new PostService;
 
-        return $postService->postData($post, 'list', $langTag, $timezone, false);
+
+        $postData = $postService->postData($post, 'list', $langTag, $timezone, false);
+        $postData['quotedPost'] = null;
+
+        return $postData;
+    }
+
+    // get reply to comment
+    public static function getReplyToComment(?Comment $comment, string $langTag)
+    {
+        if (! $comment) {
+            return null;
+        }
+
+        $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
+
+        $commentService = new CommentService;
+
+        $commentData = $commentService->commentData($comment?->parentComment, 'list', $langTag, $timezone, false, null, null, null, null, false, false);
+        $commentData['replyToComment'] = null;
+
+        return $commentData;
     }
 
     // comment log data

@@ -25,6 +25,7 @@ class EditorCreateDTO extends DTO
             'postTitle' => ['string', 'nullable'],
             'postIsComment' => ['boolean', 'nullable'],
             'postIsCommentPublic' => ['boolean', 'nullable'],
+            'postQuotePid' => ['string', 'nullable'],
             'commentPid' => ['string', 'nullable', 'required_if:type,comment'],
             'commentCid' => ['string', 'nullable'],
             'content' => ['string', 'nullable'],

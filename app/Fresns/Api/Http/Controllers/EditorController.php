@@ -178,6 +178,7 @@ class EditorController extends Controller
             'postTitle' => $dtoRequest->postTitle,
             'postIsComment' => $dtoRequest->postIsComment,
             'postIsCommentPublic' => $dtoRequest->postIsCommentPublic,
+            'postQuotePid' => $dtoRequest->postQuotePid,
             'commentPid' => $dtoRequest->commentPid,
             'commentCid' => $dtoRequest->commentCid,
             'content' => $dtoRequest->content,
@@ -234,6 +235,12 @@ class EditorController extends Controller
                 $data['detail'] = $service->commentLogData($commentLog, 'detail', $langTag, $timezone, $authUser->id);
                 break;
         }
+
+        $edit['isEdit'] = false;
+        $edit['editableStatus'] = true;
+        $edit['editableTime'] = null;
+        $edit['deadlineTime'] = null;
+        $data['edit'] = $edit;
 
         CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}", 'fresnsUsers');
 
@@ -449,40 +456,48 @@ class EditorController extends Controller
         // is post
         if ($dtoRequest->type == 'post') {
             // postGid
-            if ($dtoRequest->postGid) {
+            if (isset($dtoRequest->postGid)) {
                 $group = PrimaryHelper::fresnsModelByFsid('group', $dtoRequest->postGid);
 
-                if (empty($group)) {
-                    throw new ApiException(37100);
+                if ($group) {
+                    if (! $group->is_enable) {
+                        throw new ApiException(37101);
+                    }
+
+                    $checkPerm = PermissionUtility::checkUserGroupPublishPerm($group->id, $group->permissions, $authUser->id);
+
+                    if (! $checkPerm['allowPost']) {
+                        throw new ApiException(36311);
+                    }
+
+                    $draft->update([
+                        'group_id' => $group->id,
+                    ]);
+                } else {
+                    $draft->update([
+                        'group_id' => null,
+                    ]);
                 }
-
-                if (! $group->is_enable) {
-                    throw new ApiException(37101);
-                }
-
-                $checkPerm = PermissionUtility::checkUserGroupPublishPerm($group->id, $group->permissions, $authUser->id);
-
-                if (! $checkPerm['allowPost']) {
-                    throw new ApiException(36311);
-                }
-
-                $draft->update([
-                    'group_id' => $group->id,
-                ]);
             }
 
             // postTitle
-            if ($dtoRequest->postTitle) {
-                $postTitle = Str::of($dtoRequest->postTitle)->trim();
-                $checkBanWords = ValidationUtility::contentBanWords($postTitle);
+            if (isset($dtoRequest->postTitle)) {
+                if ($dtoRequest->postTitle) {
+                    $postTitle = Str::of($dtoRequest->postTitle)->trim();
+                    $checkBanWords = ValidationUtility::contentBanWords($postTitle);
 
-                if (! $checkBanWords) {
-                    throw new ApiException(38206);
+                    if (! $checkBanWords) {
+                        throw new ApiException(38206);
+                    }
+
+                    $draft->update([
+                        'title' => $postTitle,
+                    ]);
+                } else {
+                    $draft->update([
+                        'title' => null,
+                    ]);
                 }
-
-                $draft->update([
-                    'title' => $postTitle,
-                ]);
             }
 
             // postIsComment
@@ -496,6 +511,13 @@ class EditorController extends Controller
             if (isset($dtoRequest->postIsCommentPublic)) {
                 $draft->update([
                     'is_comment_public' => $dtoRequest->postIsCommentPublic,
+                ]);
+            }
+
+            // postQuotePid
+            if (isset($dtoRequest->postQuotePid)) {
+                $draft->update([
+                    'parent_post_id' => PrimaryHelper::fresnsPostIdByPid($dtoRequest->postQuotePid),
                 ]);
             }
         }
@@ -900,6 +922,7 @@ class EditorController extends Controller
             'postTitle' => $dtoRequest->postTitle,
             'postIsComment' => $dtoRequest->postIsComment,
             'postIsCommentPublic' => $dtoRequest->postIsCommentPublic,
+            'postQuotePid' => $dtoRequest->postQuotePid,
             'commentPid' => $dtoRequest->commentPid,
             'commentCid' => $dtoRequest->commentCid,
             'content' => $dtoRequest->content,
