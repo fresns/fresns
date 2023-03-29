@@ -36,5 +36,8 @@ class EncryptCookies extends Middleware
         'fresns_single_aid_token',
         'fresns_single_uid',
         'fresns_single_uid_token',
+
+        // website editor
+        'fresns_draft',
     ];
 }
