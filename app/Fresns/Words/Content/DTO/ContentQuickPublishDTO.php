@@ -24,6 +24,7 @@ class ContentQuickPublishDTO extends DTO
             'postTitle' => ['string', 'nullable'],
             'postIsComment' => ['boolean', 'nullable'],
             'postIsCommentPublic' => ['boolean', 'nullable'],
+            'postQuotePid' => ['string', 'nullable'],
             'commentPid' => ['string', 'nullable', 'required_if:type,2'],
             'commentCid' => ['string', 'nullable'],
             'content' => ['string', 'nullable'],
