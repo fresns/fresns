@@ -907,6 +907,7 @@ class ContentUtility
             'id' => $postLog->post_id,
         ], [
             'user_id' => $postLog->user_id,
+            'parent_id' => $postLog->parent_post_id,
             'group_id' => $postLog->group_id ?? 0,
             'title' => $postLog->title,
             'content' => $postLog->content,
@@ -1287,6 +1288,7 @@ class ContentUtility
         $logData = [
             'user_id' => $post->user_id,
             'post_id' => $post->id,
+            'parent_post_id' => $post->parent_id,
             'create_type' => 3,
             'is_plugin_editor' => $post->postAppend->is_plugin_editor,
             'editor_unikey' => $post->postAppend->editor_unikey,
@@ -1313,10 +1315,6 @@ class ContentUtility
     // generate comment draft
     public static function generateCommentDraft(Comment $comment): CommentLog
     {
-        if ($comment->top_parent_id != 0) {
-            return null;
-        }
-
         $commentLog = CommentLog::where('comment_id', $comment->id)->whereIn('state', [1, 2, 4])->first();
         if (! empty($commentLog)) {
             return $commentLog;
@@ -1327,7 +1325,7 @@ class ContentUtility
             'user_id' => $comment->user_id,
             'comment_id' => $comment->id,
             'post_id' => $comment->post_id,
-            'parent_comment_id' => $comment->parent_comment_id,
+            'parent_comment_id' => $comment->parent_id,
             'create_type' => 3,
             'is_plugin_editor' => $comment->commentAppend->is_plugin_editor,
             'editor_unikey' => $comment->commentAppend->editor_unikey,

@@ -650,6 +650,10 @@ class InteractionUtility
                 $hashtagIds = $post->hashtags->pluck('id');
 
                 if ($actionType == 'increment') {
+                    if ($post?->parent_id) {
+                        Post::where('id', $post->parent_id)->increment('post_count');
+                    }
+
                     $userState?->increment('post_publish_count');
 
                     $group?->increment('post_count');
@@ -658,6 +662,10 @@ class InteractionUtility
                     Domain::whereIn('id', $domainIds)->increment('post_count');
                     Hashtag::whereIn('id', $hashtagIds)->increment('post_count');
                 } else {
+                    if ($post?->parent_id) {
+                        Post::where('id', $post->parent_id)->decrement('post_count');
+                    }
+
                     $userStateCount = $userState?->{'post_publish_count'} ?? 0;
                     if ($userStateCount > 0) {
                         $userState?->decrement('post_publish_count');
