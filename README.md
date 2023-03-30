@@ -5,7 +5,7 @@
 <img src="https://img.shields.io/badge/MySQL-%5E5.7%7C%5E8.0-orange" alt="MySQL">
 <img src="https://img.shields.io/badge/PostgreSQL-%5E11.0-blue" alt="PostgreSQL">
 <img src="https://img.shields.io/badge/SQL%20Server-%5E13.0-red" alt="SQL Server">
-<img src="https://img.shields.io/badge/License-Apache--2.0-brightgreen" alt="License">
+<img src="https://img.shields.io/badge/License-Apache--2.0-green" alt="License">
 </p>
 
 ## About Fresns
