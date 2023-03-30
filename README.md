@@ -1,9 +1,11 @@
 <p align="center"><a href="https://fresns.org" target="_blank"><img src="https://raw.githubusercontent.com/fresns/docs/main/images/Fresns-Logo(orange).png" width="300"></a></p>
 
 <p align="center">
-<img src="https://img.shields.io/badge/PHP-%5E8.1-green" alt="PHP">
+<img src="https://img.shields.io/badge/PHP-%5E8.1-blueviolet" alt="PHP">
 <img src="https://img.shields.io/badge/MySQL-%5E5.7%7C%5E8.0-orange" alt="MySQL">
-<img src="https://img.shields.io/badge/License-Apache--2.0-blue" alt="License">
+<img src="https://img.shields.io/badge/PostgreSQL-%5E11.0-blue" alt="PostgreSQL">
+<img src="https://img.shields.io/badge/SQL%20Server-%5E13.0-red" alt="SQL Server">
+<img src="https://img.shields.io/badge/License-Apache--2.0-brightgreen" alt="License">
 </p>
 
 ## About Fresns
@@ -22,7 +24,7 @@ Fresns is a free and open source social network service software, a general-purp
 | PHP Version | PHP 8.1 or higher |
 | PHP Extensions | `fileinfo` |
 | PHP Functions | `putenv` `symlink` `proc_open` `passthru` |
-| Database Version | MySQL 5.7 or 8.x |
+| Database and Version | MySQL 5.7 or 8.x<br>PostgreSQL 11.x ~ 15.x<br>SQL Server 2016(13.x) ~ 2022(16.x) |
 
 ## Installation and Using
 
