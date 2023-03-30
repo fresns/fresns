@@ -37,7 +37,21 @@ class CreatePostAppendsTable extends Migration
             $table->string('comment_btn_style', 64)->nullable();
             $table->string('comment_btn_plugin_unikey', 64)->nullable();
             $table->string('ip_location', 64)->nullable();
-            $table->json('map_json')->nullable();
+
+            switch (config('database.default')) {
+                case 'mysql':
+                    $table->json('map_json')->nullable();
+                    break;
+
+                case 'pgsql':
+                    $table->jsonb('map_json')->nullable();
+                    break;
+
+                case 'sqlsrv':
+                    $table->nvarchar('map_json', 'max')->nullable();
+                    break;
+            }
+
             $table->string('map_scale', 8)->nullable();
             $table->string('map_continent_code', 8)->nullable();
             $table->string('map_country_code', 8)->nullable();

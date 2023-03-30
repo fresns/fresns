@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('uid')->unique('uid');
             $table->string('username', 64)->unique('username');
             $table->string('nickname', 64);
-            $table->char('password', 64)->nullable();
+            $table->string('password', 64)->nullable();
             $table->unsignedBigInteger('avatar_file_id')->nullable();
             $table->string('avatar_file_url')->nullable();
             $table->unsignedBigInteger('banner_file_id')->nullable();

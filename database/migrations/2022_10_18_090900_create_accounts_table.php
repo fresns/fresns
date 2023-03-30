@@ -25,7 +25,7 @@ class CreateAccountsTable extends Migration
             $table->string('pure_phone', 128)->nullable();
             $table->string('phone', 128)->nullable()->unique('phone');
             $table->string('email', 128)->nullable()->unique('email');
-            $table->char('password', 64)->nullable();
+            $table->string('password', 64)->nullable();
             $table->timestamp('last_login_at');
             $table->unsignedTinyInteger('is_verify')->default(0);
             $table->string('verify_plugin_unikey', 32)->nullable();

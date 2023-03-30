@@ -23,7 +23,7 @@ class CreateLanguagesTable extends Migration
             $table->string('table_column', 64);
             $table->unsignedBigInteger('table_id')->nullable();
             $table->string('table_key', 64)->nullable();
-            $table->char('lang_tag', 16);
+            $table->string('lang_tag', 16);
             $table->longText('lang_content')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();

@@ -20,12 +20,13 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('pid', 32)->unique('pid');
+            $table->unsignedBigInteger('parent_id')->default(0);
             $table->unsignedBigInteger('user_id');
             $table->unsignedInteger('group_id')->default(0);
             $table->string('title')->nullable();
             $table->longText('content')->nullable();
-            $table->char('lang_tag', 16)->nullable();
-            $table->char('writing_direction', 3)->nullable();
+            $table->string('lang_tag', 16)->nullable();
+            $table->string('writing_direction', 3)->nullable();
             $table->unsignedTinyInteger('is_markdown')->default(0);
             $table->unsignedTinyInteger('is_anonymous')->default(0);
             $table->unsignedTinyInteger('map_id')->nullable();
@@ -43,6 +44,7 @@ class CreatePostsTable extends Migration
             $table->unsignedInteger('comment_dislike_count')->default(0);
             $table->unsignedInteger('comment_follow_count')->default(0);
             $table->unsignedInteger('comment_block_count')->default(0);
+            $table->unsignedInteger('post_count')->default(0);
             $table->timestamp('latest_edit_at')->nullable();
             $table->timestamp('latest_comment_at')->nullable();
             $table->unsignedTinyInteger('rank_state')->default(1);

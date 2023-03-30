@@ -23,8 +23,8 @@ class CreateSessionKeysTable extends Migration
             $table->string('name', 64);
             $table->unsignedTinyInteger('type')->default(1);
             $table->string('plugin_unikey', 32)->nullable();
-            $table->char('app_id', 8)->unique('app_id');
-            $table->char('app_secret', 32);
+            $table->string('app_id', 8)->unique('app_id');
+            $table->string('app_secret', 32);
             $table->unsignedTinyInteger('is_enable')->default(1);
             $table->text('remark')->nullable();
             $table->timestamp('created_at')->useCurrent();

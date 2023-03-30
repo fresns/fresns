@@ -29,13 +29,13 @@ class CreateExtendsTable extends Migration
             $table->unsignedBigInteger('cover_file_id')->nullable();
             $table->string('cover_file_url')->nullable();
             $table->string('title')->nullable();
-            $table->char('title_color', 6)->nullable();
+            $table->string('title_color', 6)->nullable();
             $table->string('desc_primary')->nullable();
-            $table->char('desc_primary_color', 6)->nullable();
+            $table->string('desc_primary_color', 6)->nullable();
             $table->string('desc_secondary')->nullable();
-            $table->char('desc_secondary_color', 6)->nullable();
+            $table->string('desc_secondary_color', 6)->nullable();
             $table->string('button_name', 64)->nullable();
-            $table->char('button_color', 6)->nullable();
+            $table->string('button_color', 6)->nullable();
             $table->string('parameter', 128)->nullable();
             $table->unsignedTinyInteger('position')->default(2);
             $table->json('more_json')->nullable();

@@ -21,6 +21,7 @@ class CreatePostLogsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('post_id')->nullable();
+            $table->unsignedBigInteger('parent_post_id')->nullable();
             $table->unsignedTinyInteger('create_type')->default(1);
             $table->unsignedTinyInteger('is_plugin_editor')->default(0);
             $table->string('editor_unikey', 64)->nullable();

@@ -21,7 +21,7 @@ class CreateSeoTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedTinyInteger('usage_type');
             $table->unsignedBigInteger('usage_id');
-            $table->char('lang_tag', 16);
+            $table->string('lang_tag', 16);
             $table->string('title')->nullable();
             $table->string('keywords')->nullable();
             $table->string('description')->nullable();

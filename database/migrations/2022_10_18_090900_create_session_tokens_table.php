@@ -21,11 +21,11 @@ class CreateSessionTokensTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedTinyInteger('platform_id');
             $table->string('version', 16);
-            $table->char('app_id', 8)->nullable();
+            $table->string('app_id', 8)->nullable();
             $table->unsignedBigInteger('account_id');
-            $table->char('account_token', 32);
+            $table->string('account_token', 32);
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->char('user_token', 32)->nullable();
+            $table->string('user_token', 32)->nullable();
             $table->string('scope', 128)->nullable();
             $table->text('payload')->nullable();
             $table->timestamp('expired_at')->nullable();

@@ -25,8 +25,8 @@ class CreateCommentsTable extends Migration
             $table->unsignedBigInteger('parent_id')->default(0);
             $table->unsignedBigInteger('user_id');
             $table->longText('content')->nullable();
-            $table->char('lang_tag', 16)->nullable();
-            $table->char('writing_direction', 3)->nullable();
+            $table->string('lang_tag', 16)->nullable();
+            $table->string('writing_direction', 3)->nullable();
             $table->unsignedTinyInteger('is_markdown')->default(0);
             $table->unsignedTinyInteger('is_anonymous')->default(0);
             $table->unsignedTinyInteger('map_id')->nullable();

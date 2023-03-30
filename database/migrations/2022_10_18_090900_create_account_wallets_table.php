@@ -22,7 +22,7 @@ class CreateAccountWalletsTable extends Migration
             $table->unsignedBigInteger('account_id')->unique('account_id');
             $table->decimal('balance', 10)->default(0);
             $table->decimal('freeze_amount', 10)->default(0);
-            $table->char('password', 64)->nullable();
+            $table->string('password', 64)->nullable();
             $table->string('bank_name', 64)->nullable();
             $table->string('swift_code', 32)->nullable();
             $table->string('bank_address')->nullable();
