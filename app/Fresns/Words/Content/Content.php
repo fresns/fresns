@@ -92,6 +92,7 @@ class Content
 
                 $logData = [
                     'user_id' => $creator->id,
+                    'parent_post_id' => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->postQuotePid),
                     'create_type' => $dtoWordBody->createType,
                     'is_plugin_editor' => $isPluginEditor,
                     'editor_unikey' => $editorUnikey,
@@ -141,10 +142,14 @@ class Content
                     $logModel = CommentLog::create($logData);
                 }
 
-                if (empty($checkLog?->content) && empty($checkLog?->files) && empty($checkLog?->extends)) {
+                if ($checkLog?->post_id == $checkPost->id) {
                     $logModel = $checkLog->update($logData);
                 } else {
-                    $logModel = CommentLog::create($logData);
+                    if (empty($checkLog?->content) && empty($checkLog?->files) && empty($checkLog?->extends)) {
+                        $logModel = $checkLog->update($logData);
+                    } else {
+                        $logModel = CommentLog::create($logData);
+                    }
                 }
                 break;
         }
@@ -455,24 +460,13 @@ class Content
             ]);
         }
 
-        $group = PrimaryHelper::fresnsModelByFsid('group', $dtoWordBody->postGid);
-        $topParentId = 0;
-        if ($type == 'comment') {
-            $post = PrimaryHelper::fresnsModelByFsid('post', $dtoWordBody->commentPid);
-            $group = PrimaryHelper::fresnsModelById('group', $post->group_id);
-
-            $parentComment = PrimaryHelper::fresnsModelByFsid('comment', $dtoWordBody->commentCid);
-            if ($parentComment) {
-                $topParentId = $parentComment->top_parent_id ?: $parentComment->id;
-            }
-        }
-
         switch ($type) {
             // post
             case 'post':
                 $post = Post::create([
                     'user_id' => $creator->id,
-                    'group_id' => $group?->id ?? 0,
+                    'parent_id' => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->postQuotePid),
+                    'group_id' => PrimaryHelper::fresnsGroupIdByGid($dtoWordBody->postGid),
                     'title' => $dtoWordBody->postTitle ? Str::of($dtoWordBody->postTitle)->trim() : null,
                     'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
                     'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
@@ -513,10 +507,18 @@ class Content
 
                 // comment
             case 'comment':
+                $commentTopParentId = 0;
+                $parentComment = PrimaryHelper::fresnsModelByFsid('comment', $dtoWordBody->commentCid);
+                if ($parentComment) {
+                    $commentTopParentId = $parentComment->top_parent_id ?: $parentComment->id;
+                }
+
+                $post = PrimaryHelper::fresnsModelByFsid('post', $dtoWordBody->commentPid);
+
                 $comment = Comment::create([
                     'user_id' => $creator->id,
                     'post_id' => $post->id,
-                    'top_parent_id' => $topParentId,
+                    'top_parent_id' => $commentTopParentId,
                     'parent_id' => $parentComment?->id ?? 0,
                     'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
                     'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
