@@ -421,7 +421,6 @@ class CommentService
         $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
         $postService = new PostService;
 
-
         $postData = $postService->postData($post, 'list', $langTag, $timezone, false);
         $postData['quotedPost'] = null;
 
