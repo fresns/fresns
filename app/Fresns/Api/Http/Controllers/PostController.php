@@ -64,7 +64,7 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $postQuery = Post::with(['creator', 'hashtags'])->has('creator');
+        $postQuery = Post::with(['creator', 'hashtagUsages'])->has('creator');
 
         $blockGroupIds = InteractionUtility::getPrivateGroupIdArr();
         $blockHashtagIds = [];
@@ -109,7 +109,7 @@ class PostController extends Controller
 
         $postQuery->when($blockHashtagIds, function ($query, $value) {
             $query->where(function ($postQuery) use ($value) {
-                $postQuery->whereDoesntHave('hashtags')->orWhereHas('hashtags', function ($query) use ($value) {
+                $postQuery->whereDoesntHave('hashtagUsages')->orWhereHas('hashtagUsages', function ($query) use ($value) {
                     $query->whereNotIn('hashtag_id', $value);
                 });
             });
@@ -193,7 +193,7 @@ class PostController extends Controller
 
             $hashtagId = $viewHashtag->id;
 
-            $postQuery->whereHas('hashtags', function ($query) use ($hashtagId) {
+            $postQuery->whereHas('hashtagUsages', function ($query) use ($hashtagId) {
                 $query->where('hashtag_id', $hashtagId);
             });
         }
@@ -513,7 +513,7 @@ class PostController extends Controller
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
 
-        $postLogs = PostLog::with('creator')->where('post_id', $post->id)->where('state', 3)->latest()->paginate($dtoRequest->pageSize ?? 15);
+        $postLogs = PostLog::with(['parentPost', 'group', 'creator'])->where('post_id', $post->id)->where('state', 3)->latest()->paginate($dtoRequest->pageSize ?? 15);
 
         $postLogList = [];
         $service = new PostService();
@@ -543,7 +543,7 @@ class PostController extends Controller
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
 
-        $log = PostLog::where('post_id', $post->id)->where('id', $logId)->where('state', 3)->first();
+        $log = PostLog::with(['parentPost', 'group', 'creator'])->where('post_id', $post->id)->where('id', $logId)->where('state', 3)->first();
 
         if (empty($log)) {
             throw new ApiException(37302);

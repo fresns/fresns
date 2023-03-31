@@ -44,7 +44,7 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $commentQuery = Comment::with(['creator', 'post', 'hashtags'])->has('creator');
+        $commentQuery = Comment::with(['creator', 'post', 'hashtagUsages'])->has('creator');
 
         $blockGroupIds = InteractionUtility::getPrivateGroupIdArr();
 
@@ -69,7 +69,7 @@ class CommentController extends Controller
 
             $commentQuery->when($blockHashtagIds, function ($query, $value) {
                 $query->where(function ($commentQuery) use ($value) {
-                    $commentQuery->whereDoesntHave('hashtags')->orWhereHas('hashtags', function ($query) use ($value) {
+                    $commentQuery->whereDoesntHave('hashtagUsages')->orWhereHas('hashtagUsages', function ($query) use ($value) {
                         $query->whereNotIn('hashtag_id', $value);
                     });
                 });
@@ -213,7 +213,7 @@ class CommentController extends Controller
             }
 
             $commentQuery->when($viewHashtag->id, function ($query, $value) {
-                $query->whereHas('hashtags', function ($query) use ($value) {
+                $query->whereHas('hashtagUsages', function ($query) use ($value) {
                     $query->where('hashtag_id', $value);
                 });
             });
@@ -489,7 +489,7 @@ class CommentController extends Controller
 
         UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
 
-        $commentLogs = CommentLog::with('creator')->where('comment_id', $comment->id)->where('state', 3)->latest()->paginate($dtoRequest->pageSize ?? 15);
+        $commentLogs = CommentLog::with(['parentComment', 'post', 'creator'])->where('comment_id', $comment->id)->where('state', 3)->latest()->paginate($dtoRequest->pageSize ?? 15);
 
         $commentLogList = [];
         $service = new CommentService();
@@ -525,7 +525,7 @@ class CommentController extends Controller
 
         UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
 
-        $log = CommentLog::where('comment_id', $comment->id)->where('id', $logId)->where('state', 3)->first();
+        $log = CommentLog::with(['parentComment', 'post', 'creator'])->where('comment_id', $comment->id)->where('id', $logId)->where('state', 3)->first();
 
         if (empty($log)) {
             throw new ApiException(37402);
