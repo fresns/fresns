@@ -63,12 +63,6 @@ class CommentService
             // file
             $item['files'] = FileHelper::fresnsFileInfoListByTableColumn('comments', 'id', $comment->id);
 
-            $fileCount['images'] = collect($item['files']['images'])->count();
-            $fileCount['videos'] = collect($item['files']['videos'])->count();
-            $fileCount['audios'] = collect($item['files']['audios'])->count();
-            $fileCount['documents'] = collect($item['files']['documents'])->count();
-            $item['fileCount'] = $fileCount;
-
             // hashtags
             $item['hashtags'] = [];
             if ($comment->hashtags->isNotEmpty()) {
@@ -297,7 +291,7 @@ class CommentService
                 'files' => $files,
             ];
 
-            $totalCount = $commentData['fileCount']['images'] + $commentData['fileCount']['videos'] + $commentData['fileCount']['audios'] + $commentData['fileCount']['documents'];
+            $totalCount = array_sum(array_map('count', $files));
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
             if ($totalCount > 0) {
@@ -427,6 +421,7 @@ class CommentService
         $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
         $postService = new PostService;
 
+
         $postData = $postService->postData($post, 'list', $langTag, $timezone, false);
         $postData['quotedPost'] = null;
 
@@ -455,8 +450,8 @@ class CommentService
     public function commentLogData(CommentLog $log, string $type, string $langTag, string $timezone, ?int $authUserId = null)
     {
         $comment = $log?->comment;
-        $post = $log?->post;
         $parentComment = $log?->parentComment;
+        $post = $log?->post;
 
         $info['id'] = $log->id;
         $info['cid'] = $comment?->cid;
@@ -491,10 +486,10 @@ class CommentService
             $item['creator'] = $userService->userData($log->creator, 'list', $langTag, $timezone);
         }
 
+        $info['files'] = FileHelper::fresnsFileInfoListByTableColumn('comment_logs', 'id', $log->id);
         $info['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_COMMENT_LOG, $log->id, $langTag);
         $info['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_COMMENT_LOG, $log->id, $langTag);
         $info['extends'] = ExtendUtility::getContentExtends(ExtendUsage::TYPE_COMMENT_LOG, $log->id, $langTag);
-        $info['files'] = FileHelper::fresnsFileInfoListByTableColumn('comment_logs', 'id', $log->id);
 
         // archives
         if ($log->user_id != $authUserId && $info['archives']) {
@@ -508,12 +503,6 @@ class CommentService
 
             $info['archives'] = $archives;
         }
-
-        $fileCount['images'] = collect($info['files']['images'])->count();
-        $fileCount['videos'] = collect($info['files']['videos'])->count();
-        $fileCount['audios'] = collect($info['files']['audios'])->count();
-        $fileCount['documents'] = collect($info['files']['documents'])->count();
-        $info['fileCount'] = $fileCount;
 
         return $info;
     }

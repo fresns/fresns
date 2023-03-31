@@ -58,12 +58,6 @@ class PostService
             // file
             $item['files'] = FileHelper::fresnsFileInfoListByTableColumn('posts', 'id', $post->id);
 
-            $fileCount['images'] = collect($item['files']['images'])->count();
-            $fileCount['videos'] = collect($item['files']['videos'])->count();
-            $fileCount['audios'] = collect($item['files']['audios'])->count();
-            $fileCount['documents'] = collect($item['files']['documents'])->count();
-            $item['fileCount'] = $fileCount;
-
             // group
             $groupService = new GroupService;
             $item['group'] = $groupService->groupData($post->group, $langTag, $timezone);
@@ -287,7 +281,7 @@ class PostService
                 'files' => $files,
             ];
 
-            $totalCount = $postData['fileCount']['images'] + $postData['fileCount']['videos'] + $postData['fileCount']['audios'] + $postData['fileCount']['documents'];
+            $totalCount = array_sum(array_map('count', $files));
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
             if ($totalCount > 0) {
@@ -506,10 +500,12 @@ class PostService
     public function postLogData(PostLog $log, string $type, string $langTag, string $timezone, ?int $authUserId = null)
     {
         $post = $log?->post;
+        $parentPost = $log?->parentPost;
         $group = $log?->group;
 
         $info['id'] = $log->id;
         $info['pid'] = $post?->pid;
+        $info['quotedPid'] = $parentPost?->pid;
         $info['isPluginEditor'] = (bool) $log->is_plugin_editor;
         $info['editorUnikey'] = $log->editor_unikey;
         $info['editorUrl'] = PluginHelper::fresnsPluginUrlByUnikey($log->editor_unikey);
@@ -544,15 +540,13 @@ class PostService
         }
 
         if ($group) {
-            $groupItem[] = $group?->getGroupInfo($langTag);
-
-            $info['group'] = $groupItem;
+            $info['group'] = $group->getGroupInfo($langTag);
         }
 
+        $info['files'] = FileHelper::fresnsFileInfoListByTableColumn('post_logs', 'id', $log->id);
         $info['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_POST_LOG, $log->id, $langTag);
         $info['operations'] = ExtendUtility::getOperations(OperationUsage::TYPE_POST_LOG, $log->id, $langTag);
         $info['extends'] = ExtendUtility::getContentExtends(ExtendUsage::TYPE_POST_LOG, $log->id, $langTag);
-        $info['files'] = FileHelper::fresnsFileInfoListByTableColumn('post_logs', 'id', $log->id);
 
         // archives
         if ($log->user_id != $authUserId && $info['archives']) {
@@ -566,12 +560,6 @@ class PostService
 
             $info['archives'] = $archives;
         }
-
-        $fileCount['images'] = collect($info['files']['images'])->count();
-        $fileCount['videos'] = collect($info['files']['videos'])->count();
-        $fileCount['audios'] = collect($info['files']['audios'])->count();
-        $fileCount['documents'] = collect($info['files']['documents'])->count();
-        $info['fileCount'] = $fileCount;
 
         return $info;
     }
