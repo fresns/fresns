@@ -661,22 +661,68 @@ class CommonController extends Controller
             throw new ApiException(37501);
         }
 
-        $downUsers = FileDownload::with('user')
-            ->select([
-                DB::raw('any_value(id) as id'),
-                DB::raw('any_value(file_id) as file_id'),
-                DB::raw('any_value(file_type) as file_type'),
-                DB::raw('any_value(account_id) as account_id'),
-                DB::raw('any_value(user_id) as user_id'),
-                DB::raw('any_value(plugin_unikey) as plugin_unikey'),
-                DB::raw('any_value(object_type) as object_type'),
-                DB::raw('any_value(object_id) as object_id'),
-                DB::raw('any_value(created_at) as created_at'),
-            ])
-            ->where('file_id', $file->id)
-            ->latest()
-            ->groupBy('user_id')
-            ->paginate($dtoRequest->pageSize ?? 15);
+        $dbType = config('database.default');
+
+        switch ($dbType) {
+            case 'mysql':
+                $downUsers = FileDownload::with('user')
+                    ->select([
+                        DB::raw('any_value(id) as id'),
+                        DB::raw('any_value(file_id) as file_id'),
+                        DB::raw('any_value(file_type) as file_type'),
+                        DB::raw('any_value(account_id) as account_id'),
+                        DB::raw('any_value(user_id) as user_id'),
+                        DB::raw('any_value(plugin_unikey) as plugin_unikey'),
+                        DB::raw('any_value(object_type) as object_type'),
+                        DB::raw('any_value(object_id) as object_id'),
+                        DB::raw('any_value(created_at) as created_at'),
+                    ])
+                    ->where('file_id', $file->id)
+                    ->groupBy('user_id')
+                    ->latest()
+                    ->paginate($dtoRequest->pageSize ?? 15);
+                break;
+
+            case 'pgsql':
+                $downUsers = FileDownload::with('user')
+                    ->select([
+                        DB::raw('DISTINCT ON (user_id) id'),
+                        'file_id',
+                        'file_type',
+                        'account_id',
+                        'user_id',
+                        'plugin_unikey',
+                        'object_type',
+                        'object_id',
+                        'created_at'
+                    ])
+                    ->where('file_id', $file->id)
+                    ->orderBy('user_id')
+                    ->orderByDesc('created_at')
+                    ->paginate($dtoRequest->pageSize ?? 15);
+                break;
+
+            case 'sqlsrv':
+                $downUsers = FileDownload::with('user')
+                    ->select([
+                        DB::raw('DISTINCT user_id'),
+                        'id',
+                        'file_id',
+                        'file_type',
+                        'account_id',
+                        'plugin_unikey',
+                        'object_type',
+                        'object_id',
+                        'created_at'
+                    ])
+                    ->where('file_id', $file->id)
+                    ->orderBy('user_id')
+                    ->orderByDesc('created_at')
+                    ->paginate($dtoRequest->pageSize ?? 15);
+                break;
+            default:
+                $downUsers = new \Illuminate\Pagination\LengthAwarePaginator([], 0, 15);
+        }
 
         $userService = new UserService;
 
