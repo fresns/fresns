@@ -208,6 +208,17 @@
 
                 <!--db config-->
                 <div id="dbConfig">
+                    <!--type-->
+                    <div class="row mb-3">
+                        <label class="col-sm-3 col-form-label" for="DB_CONNECTION">@lang('Install::install.database_driver')</label>
+                        <div class="col-sm-5">
+                            <select class="form-select" id="DB_CONNECTION" name="database[DB_CONNECTION]">
+                                <option value="mysql" selected>MySQL</option>
+                                <option value="pgsql">PostgreSQL</option>
+                                <option value="sqlsrv">SQL Server</option>
+                            </select>
+                        </div>
+                    </div>
                     <!--name-->
                     <div class="row mb-3">
                         <label class="col-sm-3 col-form-label" for="DB_DATABASE">@lang('Install::install.database_name')</label>
@@ -308,9 +319,18 @@
                         <div class="col-sm-9">
                             <button id="envBtn" type="button" class="flex-end btn btn-outline-primary mt-3" @click="() => {
                                 const data = {step}
+                                console.log(data)
                                 $('form').serializeArray().forEach(item => {
                                     data[item.name] = item.value
                                 })
+                                data.database = {
+                                    DB_CONNECTION: document.getElementById('DB_CONNECTION').value,
+                                    DB_DATABASE: document.getElementById('DB_DATABASE').value,
+                                    DB_USERNAME: document.getElementById('DB_USERNAME').value,
+                                    DB_PASSWORD: document.getElementById('DB_PASSWORD').value,
+                                    DB_HOST: document.getElementById('DB_HOST').value,
+                                    DB_PORT: document.getElementById('DB_PORT').value,
+                                }
                                 next_step(data)
                             }">@lang('Install::install.btn_submit')</button>
                         </div>

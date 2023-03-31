@@ -125,7 +125,8 @@ class InstallController extends Controller
                 case 4:
                     try {
                         $dbConfig = config('database');
-                        $mysqlDB = [
+                        $connection = \request()->input('database.DB_CONNECTION');
+                        $fresnsDB = [
                             'host' => \request()->input('database.DB_HOST'),
                             'port' => \request()->input('database.DB_PORT'),
                             'database' => \request()->input('database.DB_DATABASE'),
@@ -133,11 +134,19 @@ class InstallController extends Controller
                             'password' => \request()->input('database.DB_PASSWORD'),
                             'prefix' => \request()->input('database.DB_PREFIX'),
                         ];
-                        $dbConfig['connections']['mysql'] = array_merge($dbConfig['connections']['mysql'], $mysqlDB);
+                        $dbConfig['default'] = $connection;
+                        $dbConfig['connections'][$connection] = array_merge($dbConfig['connections'][$connection], $fresnsDB);
 
                         config(['database' => $dbConfig]);
+
+                        $query = match ($connection) {
+                            'mysql' => 'SELECT 1 LIMIT 1',
+                            'pgsql' => 'SELECT 1 LIMIT 1',
+                            'sqlsrv' => 'SELECT TOP 1 1',
+                        };
+
                         DB::purge();
-                        DB::select('select 1 limit 1');
+                        DB::select($query);
                     } catch (\Illuminate\Database\QueryException $exception) {
                         return \response()->json([
                             'step' => $step,
@@ -171,7 +180,7 @@ class InstallController extends Controller
             if ($step === 4) {
                 $this->writeEnvironment($data);
 
-                $result = $this->installMysqlDatabase();
+                $result = $this->installDatabase();
             }
 
             if ($step === 5) {
@@ -363,6 +372,7 @@ class InstallController extends Controller
         // Temp write key
         $template['APP_KEY'] = $appKey;
         $template['APP_URL'] = $appUrl;
+        $template['DB_CONNECTION'] = $data['database']['DB_CONNECTION'];
         $template['DB_HOST'] = $data['database']['DB_HOST'];
         $template['DB_PORT'] = $data['database']['DB_PORT'];
         $template['DB_DATABASE'] = $data['database']['DB_DATABASE'];
@@ -379,12 +389,11 @@ class InstallController extends Controller
         file_put_contents($envPath, $envTemp);
     }
 
-    protected function installMysqlDatabase()
+    protected function installDatabase()
     {
         (new \Illuminate\Database\DatabaseServiceProvider(app()))->register();
 
-        $cmds = [
-            // 'key:generate', // $this->writeNewEnvironmentFileWith($data)
+        $commands = [
             'migrate',
             'db:seed',
             'storage:link',
@@ -394,7 +403,7 @@ class InstallController extends Controller
 
         $code = 0;
         $output = [];
-        foreach ($cmds as $cmd) {
+        foreach ($commands as $cmd) {
             try {
                 $code = Artisan::call(command: $cmd, parameters: [
                     '--force' => true,
