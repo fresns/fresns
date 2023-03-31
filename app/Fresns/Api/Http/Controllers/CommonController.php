@@ -694,7 +694,7 @@ class CommonController extends Controller
                         'plugin_unikey',
                         'object_type',
                         'object_id',
-                        'created_at'
+                        'created_at',
                     ])
                     ->where('file_id', $file->id)
                     ->orderBy('user_id')
@@ -713,7 +713,7 @@ class CommonController extends Controller
                         'plugin_unikey',
                         'object_type',
                         'object_id',
-                        'created_at'
+                        'created_at',
                     ])
                     ->where('file_id', $file->id)
                     ->orderBy('user_id')
