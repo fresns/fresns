@@ -32,7 +32,7 @@ return [
     'intro_next_btn' => '開始安裝吧！',
     // server
     'server_title' => '基礎環境檢查',
-    'server_check_php_version' => 'PHP 版本要求 8.0.2 或以上',
+    'server_check_php_version' => 'PHP 版本要求 8.1 或以上',
     'server_check_composer_version' => 'Composer 版本要求 2.5 或以上',
     'server_check_https' => '網站推薦使用 HTTPS',
     'server_check_folder_ownership' => '目錄權限',
@@ -49,6 +49,7 @@ return [
     // database
     'database_title' => '填寫資料庫信息',
     'database_desc' => '安裝人員應於下方輸入資料庫連線詳細資料。如果不清楚以下欄位代表的意義，請洽詢網站主機服務商。',
+    'database_driver' => '資料庫',
     'database_name' => '資料庫名稱',
     'database_name_desc' => '使用於 Fresns 的網站資料庫名稱。',
     'database_username' => '使用者名稱',
@@ -58,7 +59,7 @@ return [
     'database_host' => '資料庫主機位址',
     'database_host_desc' => '如果因故無法使用 localhost 進行連線，請要求網站主機服務商提供正確對應資訊。',
     'database_port' => '資料庫主機端口',
-    'database_port_desc' => '默認為 3306',
+    'database_port_desc' => '默認端口(MySQL: 3306, PostgreSQL: 5432, SQL Server: 1433)',
     'database_timezone' => '資料庫時區',
     'database_timezone_desc' => '配置正確可以保證資料時間的準確性，以便 Fresns 能正確的處理時間。',
     'database_table_prefix' => '資料表前置詞',

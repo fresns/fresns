@@ -49,6 +49,7 @@ return [
     // database
     'database_title' => 'Informasi Basis Data',
     'database_desc' => 'Isikan keterangan koneksi basis data Anda di bawah ini. Jika Anda tidak yakin, hubungi hosting Anda.',
+    'database_driver' => 'Basis data',
     'database_name' => 'Nama Basis data',
     'database_name_desc' => 'Nama database yang hendak Anda gunakan dengan Fresns.',
     'database_username' => 'Nama Pengguna',
@@ -58,7 +59,7 @@ return [
     'database_host' => 'Host Basis data',
     'database_host_desc' => 'Anda mestinya bisa memperoleh info ini dari host web Anda, jika localhost gagal diterapkan.',
     'database_port' => 'Pelabuhan Basis Data',
-    'database_port_desc' => 'Standarnya adalah 3306',
+    'database_port_desc' => 'Port Default(MySQL: 3306, PostgreSQL: 5432, SQL Server: 1433)',
     'database_timezone' => 'Zona Waktu Basis Data',
     'database_timezone_desc' => 'Konfigurasi yang benar dapat memastikan keakuratan waktu data, sehingga Fresns dapat memproses waktu dengan benar.',
     'database_table_prefix' => 'Prefiks Tabel',

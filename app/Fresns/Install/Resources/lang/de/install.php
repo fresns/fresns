@@ -49,6 +49,7 @@ return [
     // database
     'database_title' => 'Datenbank-Informationen',
     'database_desc' => 'Hier sollten die Zugangsdaten zu deiner Datenbank eingetragen werden. Im Zweifel frage bitte beim Support deines Webhostings nach.',
+    'database_driver' => 'Datenbank',
     'database_name' => 'Datenbank-Name',
     'database_name_desc' => 'Der Name der Datenbank, die du für Fresns verwenden möchtest.',
     'database_username' => 'Benutzername',
@@ -58,7 +59,7 @@ return [
     'database_host' => 'Datenbank-Host',
     'database_host_desc' => 'Sollte localhost nicht funktionieren, erfrage bitte den korrekten Wert beim Support deines Webhostings.',
     'database_port' => 'Datenbank-Anschluss',
-    'database_port_desc' => 'Standard ist 3306',
+    'database_port_desc' => 'Standard-Anschluss(MySQL: 3306, PostgreSQL: 5432, SQL Server: 1433)',
     'database_timezone' => 'Datenbank Zeitzone',
     'database_timezone_desc' => 'Die korrekte Konfiguration stellt sicher, dass die Datenzeiten genau sind, damit Fresns die Zeiten korrekt verarbeiten kann.',
     'database_table_prefix' => 'Tabellen-Präfix',

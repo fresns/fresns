@@ -318,6 +318,7 @@ return [
     'system_info_env_timezone_name' => '.env 시간대 식별자',
     'system_info_env_timezone_utc' => '.env 시간대 식별자의 UTC 시간대',
     'system_info_env_timezone_list' => '일치하는 시간대 식별자',
+    'system_info_database_driver' => '데이터베이스 드라이버',
     'system_info_database_version' => '데이터베이스 버전',
     'system_info_database_timezone' => '데이터베이스 시간대',
     'system_info_database_engine' => '데이터 주식 엔진',

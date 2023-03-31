@@ -49,6 +49,7 @@ return [
     // database
     'database_title' => 'Информация о базе данных',
     'database_desc' => 'Введите здесь информацию о подключении к базе данных. Если вы в ней не уверены, свяжитесь с хостинг-провайдером.',
+    'database_driver' => 'База данных',
     'database_name' => 'Имя базы данных',
     'database_name_desc' => 'Имя базы данных, в которую вы хотите установить Fresns.',
     'database_username' => 'Имя пользователя',
@@ -58,7 +59,7 @@ return [
     'database_host' => 'Сервер базы данных',
     'database_host_desc' => 'Если localhost не работает, нужно узнать правильный адрес в службе поддержки хостинг-провайдера.',
     'database_port' => 'Порт базы данных',
-    'database_port_desc' => 'По умолчанию 3306',
+    'database_port_desc' => 'Порт по умолчанию(MySQL: 3306, PostgreSQL: 5432, SQL Server: 1433)',
     'database_timezone' => 'Часовой пояс базы данных',
     'database_timezone_desc' => 'Правильная конфигурация обеспечивает точность времени данных, чтобы Fresns могла правильно обрабатывать время.',
     'database_table_prefix' => 'Префикс таблиц',

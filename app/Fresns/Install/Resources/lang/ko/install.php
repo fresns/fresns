@@ -49,6 +49,7 @@ return [
     // database
     'database_title' => '데이터베이스 정보',
     'database_desc' => '아래에 데이터베이스 연결 세부정보를 입력해야 합니다. 정학하게 알고 있지 않다면, 호스트에 연락하세요.',
+    'database_driver' => '데이터베이스',
     'database_name' => '데이터베이스 이름',
     'database_name_desc' => 'Fresns 사용할 데이터베이스 이름.',
     'database_username' => '사용자명',
@@ -58,7 +59,7 @@ return [
     'database_host' => '데이터베이스 호스트',
     'database_host_desc' => 'localhost이(가) 작동하지 않는다면 이 정보는 자신의 웹호스팅에서 받을 수 있습니다.',
     'database_port' => '데이터베이스 포트',
-    'database_port_desc' => '기본값은 3306입니다.',
+    'database_port_desc' => '기본 포트(MySQL: 3306, PostgreSQL: 5432, SQL Server: 1433)',
     'database_timezone' => '데이터베이스 시간대',
     'database_timezone_desc' => 'Fresns가 시간을 올바르게 처리할 수 있도록 올바른 구성은 데이터 시간의 정확성을 보장할 수 있습니다.',
     'database_table_prefix' => '테이블 접두',

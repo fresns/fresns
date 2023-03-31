@@ -49,6 +49,7 @@ return [
     // database
     'database_title' => 'Información de la base de datos',
     'database_desc' => 'A continuación debes introducir los detalles de conexión de tu base de datos. Si no estás seguro de esta información contacta con tu proveedor de alojamiento web.',
+    'database_driver' => 'Base de datos',
     'database_name' => 'Nombre de la base de datos',
     'database_name_desc' => 'El nombre de la base de datos que quieres usar con Fresns.',
     'database_username' => 'Nombre de usuario',
@@ -58,7 +59,7 @@ return [
     'database_host' => 'Servidor de la base de datos',
     'database_host_desc' => 'Deberías recibir esta información de tu proveedor de alojamiento web, si localhost no funciona.',
     'database_port' => 'Puerto de la base de datos',
-    'database_port_desc' => 'Por defecto es 3306',
+    'database_port_desc' => 'Puerto por defecto(MySQL: 3306, PostgreSQL: 5432, SQL Server: 1433)',
     'database_timezone' => 'Zona horaria de la base de datos',
     'database_timezone_desc' => 'Una configuración correcta garantiza que los tiempos de los datos sean precisos para que Fresns pueda procesar los tiempos correctamente.',
     'database_table_prefix' => 'Prefijo de tabla',

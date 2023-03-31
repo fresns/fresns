@@ -319,6 +319,7 @@ return [
     'system_info_env_timezone_name' => '.env 時區地名',
     'system_info_env_timezone_utc' => '.env 時區地名所屬 UTC 時區',
     'system_info_env_timezone_list' => '匹配的時區地名',
+    'system_info_database_driver' => '資料庫驅動',
     'system_info_database_version' => '資料庫版本',
     'system_info_database_timezone' => '資料庫時區',
     'system_info_database_engine' => '資料庫存儲引擎',

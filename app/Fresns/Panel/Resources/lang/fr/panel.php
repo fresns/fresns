@@ -318,6 +318,7 @@ return [
     'system_info_env_timezone_name' => '.env Identifiant du fuseau horaire',
     'system_info_env_timezone_utc' => '.env Fuseau horaire UTC de l\'identifiant de fuseau horaire',
     'system_info_env_timezone_list' => 'Identificateur de fuseau horaire correspondant',
+    'system_info_database_driver' => 'Pilote de base de données',
     'system_info_database_version' => 'Version de la base de données',
     'system_info_database_timezone' => 'Fuseau horaire de la base de données',
     'system_info_database_engine' => 'Moteur de stockage de données',

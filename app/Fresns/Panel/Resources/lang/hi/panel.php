@@ -318,6 +318,7 @@ return [
     'system_info_env_timezone_name' => '.env समयक्षेत्र पहचानकर्ता',
     'system_info_env_timezone_utc' => 'समयक्षेत्र पहचानकर्ता का .env UTC समयक्षेत्र',
     'system_info_env_timezone_list' => 'मिलान समयक्षेत्र पहचानकर्ता',
+    'system_info_database_driver' => 'डेटाबेस ड्राइवर',
     'system_info_database_version' => 'डेटाबेस संस्करण',
     'system_info_database_timezone' => 'डेटाबेस समयक्षेत्र',
     'system_info_database_engine' => 'आँकड़ा स्टॉक इंजन',

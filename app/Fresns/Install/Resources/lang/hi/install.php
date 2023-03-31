@@ -49,6 +49,7 @@ return [
     // database
     'database_title' => 'डेटाबेस सूचना',
     'database_desc' => 'आपको नीचे अपने डेटाबेस कनेक्शन का विवरण दर्ज करना होगा। यदि आप इसके बारे में आश्वस्त नहीं हैं, तो अपने होस्ट से संपर्क करें।',
+    'database_driver' => 'डेटाबेस',
     'database_name' => 'डेटाबेस नाम',
     'database_name_desc' => 'डेटाबेस का नाम जो आप Fresns के साथ उपयोग करना चाहते हैं।',
     'database_username' => 'उपयोगकर्ता नाम',
@@ -58,7 +59,7 @@ return [
     'database_host' => 'डेटाबेस होस्ट',
     'database_host_desc' => 'यदि localhost काम नहीं करता है, तो आप अपने वेब होस्ट से यह जानकारी प्राप्त करने में सक्षम होने चाहिए।',
     'database_port' => 'डेटाबेस पोर्ट',
-    'database_port_desc' => 'डिफ़ॉल्ट 3306 . है',
+    'database_port_desc' => 'डिफ़ॉल्ट पोर्ट(MySQL: 3306, PostgreSQL: 5432, SQL Server: 1433)',
     'database_timezone' => 'डेटाबेस समयक्षेत्र',
     'database_timezone_desc' => 'सही कॉन्फ़िगरेशन डेटा समय की सटीकता सुनिश्चित कर सकता है, ताकि फ़्रेस्न्स समय को सही ढंग से संसाधित कर सकें।',
     'database_table_prefix' => 'तालिका उपसर्ग',

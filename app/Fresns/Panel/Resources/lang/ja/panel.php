@@ -318,6 +318,7 @@ return [
     'system_info_env_timezone_name' => '.env タイムゾーン識別子',
     'system_info_env_timezone_utc' => '.env タイムゾーン識別子のUTCタイムゾーン',
     'system_info_env_timezone_list' => 'タイムゾーン識別子と一致するもの',
+    'system_info_database_driver' => 'データベースドライバ',
     'system_info_database_version' => 'データベースバージョン',
     'system_info_database_timezone' => 'データベースタイムゾーン',
     'system_info_database_engine' => 'データ在庫エンジン',

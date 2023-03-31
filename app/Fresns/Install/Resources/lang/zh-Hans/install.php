@@ -32,7 +32,7 @@ return [
     'intro_next_btn' => '现在开始安装',
     // server
     'server_title' => '基础环境检查',
-    'server_check_php_version' => 'PHP 版本要求 8.0.2 或以上',
+    'server_check_php_version' => 'PHP 版本要求 8.1 或以上',
     'server_check_composer_version' => 'Composer 版本要求 2.5 或以上',
     'server_check_https' => '站点推荐使用 HTTPS',
     'server_check_folder_ownership' => '目录权限',
@@ -49,6 +49,7 @@ return [
     // database
     'database_title' => '填写数据库信息',
     'database_desc' => '请在下方填写您的数据库连接信息。如果您不确定，请联系您的主机提供商。',
+    'database_driver' => '数据库',
     'database_name' => '数据库名',
     'database_name_desc' => '希望将 Fresns 安装到的数据库名称。',
     'database_username' => '用户名',
@@ -58,7 +59,7 @@ return [
     'database_host' => '数据库主机',
     'database_host_desc' => '如果 localhost 不能用，您通常可以从主机提供商处得到正确的信息。',
     'database_port' => '数据库端口',
-    'database_port_desc' => '默认为 3306',
+    'database_port_desc' => '默认端口(MySQL: 3306, PostgreSQL: 5432, SQL Server: 1433)',
     'database_timezone' => '数据库时区',
     'database_timezone_desc' => '配置正确可以保证数据时间的准确性，以便 Fresns 能正确的处理时间。',
     'database_table_prefix' => '表前缀',

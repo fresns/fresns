@@ -318,6 +318,7 @@ return [
     'system_info_env_timezone_name' => '.env 时区地名',
     'system_info_env_timezone_utc' => '.env 时区地名所属 UTC 时区',
     'system_info_env_timezone_list' => '匹配的时区地名',
+    'system_info_database_driver' => '数据库驱动',
     'system_info_database_version' => '数据库版本',
     'system_info_database_timezone' => '数据库时区',
     'system_info_database_engine' => '数据库存储引擎',

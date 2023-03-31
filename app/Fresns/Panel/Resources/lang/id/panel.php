@@ -318,6 +318,7 @@ return [
     'system_info_env_timezone_name' => '.env Pengidentifikasi zona waktu',
     'system_info_env_timezone_utc' => '.env zona waktu UTC dari pengidentifikasi zona waktu',
     'system_info_env_timezone_list' => 'Pencocokan pengidentifikasi zona waktu',
+    'system_info_database_driver' => 'Driver Basis Data',
     'system_info_database_version' => 'Versi basis data',
     'system_info_database_timezone' => 'Zona Waktu Basis Data',
     'system_info_database_engine' => 'Mesin basis data',

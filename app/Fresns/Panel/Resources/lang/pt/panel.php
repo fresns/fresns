@@ -318,6 +318,7 @@ return [
     'system_info_env_timezone_name' => '.env Identificador do fuso horário',
     'system_info_env_timezone_utc' => '.env Fuso horário UTC do identificador do fuso horário',
     'system_info_env_timezone_list' => 'Identificador de fuso horário correspondente',
+    'system_info_database_driver' => 'Motorista da base de dados',
     'system_info_database_version' => 'Versão do banco de dados',
     'system_info_database_timezone' => 'Fuso horário da base de dados',
     'system_info_database_engine' => 'Data Stock Engine',

@@ -318,6 +318,7 @@ return [
     'system_info_env_timezone_name' => '.env Zeitzonenbezeichner',
     'system_info_env_timezone_utc' => '.env UTC-Zeitzone des Zeitzonenbezeichners',
     'system_info_env_timezone_list' => 'Identifikator der übereinstimmenden Zeitzone',
+    'system_info_database_driver' => 'Datenbank-Treiber',
     'system_info_database_version' => 'Datenbankversion',
     'system_info_database_timezone' => 'Datenbank Zeitzone',
     'system_info_database_engine' => 'Datenbestandmotor',

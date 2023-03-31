@@ -318,6 +318,7 @@ return [
     'system_info_env_timezone_name' => '.env Идентификатор часового пояса',
     'system_info_env_timezone_utc' => '.env UTC часовой пояс идентификатора часового пояса',
     'system_info_env_timezone_list' => 'Соответствующий идентификатор часового пояса',
+    'system_info_database_driver' => 'Драйвер базы данных',
     'system_info_database_version' => 'Версия базы данных',
     'system_info_database_timezone' => 'Часовой пояс базы данных',
     'system_info_database_engine' => 'ДАННЫЕ ДВИЖЕНИЯ',

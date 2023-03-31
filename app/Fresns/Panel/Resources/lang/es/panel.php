@@ -318,6 +318,7 @@ return [
     'system_info_env_timezone_name' => '.env Identificador de zona horaria',
     'system_info_env_timezone_utc' => '.env Zona horaria UTC del identificador de zona horaria',
     'system_info_env_timezone_list' => 'Identificador de zona horaria correspondiente',
+    'system_info_database_driver' => 'Controlador de base de datos',
     'system_info_database_version' => 'Versión de base de datos',
     'system_info_database_timezone' => 'Zona horaria de la base de datos',
     'system_info_database_engine' => 'Motor de valores de datos',

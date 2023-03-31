@@ -318,6 +318,7 @@ return [
     'system_info_env_timezone_name' => '.env Timezone identifier',
     'system_info_env_timezone_utc' => '.env UTC timezone of the timezone identifier',
     'system_info_env_timezone_list' => 'Matching timezone identifier',
+    'system_info_database_driver' => 'Database driver',
     'system_info_database_version' => 'Database version',
     'system_info_database_timezone' => 'Database timezone',
     'system_info_database_engine' => 'Database engine',
