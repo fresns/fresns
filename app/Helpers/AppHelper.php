@@ -45,7 +45,6 @@ class AppHelper
     {
         $systemInfo['server'] = php_uname('s').' '.php_uname('r');
         $systemInfo['web'] = $_SERVER['SERVER_SOFTWARE'];
-        // $systemInfo['composer'] = array_merge(self::getComposerVersionInfo(), self::getComposerConfigInfo());
         $systemInfo['composer'] = self::getComposerVersionInfo();
 
         $phpInfo['version'] = PHP_VERSION;
@@ -56,22 +55,55 @@ class AppHelper
         return $systemInfo;
     }
 
-    // get mysql database info
-    public static function getMySqlInfo(): array
+    // get database info
+    public static function getDatabaseInfo(): array
     {
-        $mySqlVersion = 'version()';
-        $dbInfo['version'] = DB::select('select version()')[0]->$mySqlVersion;
+        $type = config('database.default');
 
-        $dbInfo['timezone'] = 'UTC'.DateHelper::fresnsDatabaseTimezone();
-        $dbInfo['envTimezone'] = config('app.timezone');
-        $dbInfo['envTimezoneToUtc'] = 'UTC'.DateHelper::fresnsDatabaseTimezoneByName(config('app.timezone'));
+        switch ($type) {
+            case 'mysql':
+                $name = 'MySQL';
+                $version = DB::select('select version()')[0]->{'version()'};
 
-        $mySqlCollation = 'Value';
-        $dbInfo['collation'] = DB::select('show variables like "collation%"')[1]->$mySqlCollation;
+                $sizeResult = DB::select('SELECT SUM(data_length + index_length) / 1024 / 1024 AS "Size" FROM information_schema.TABLES')[0]->Size;
+                break;
 
-        $mySqlSize = 'Size';
-        $dbInfo['sizeMb'] = round(DB::select('SELECT table_schema AS "Database", SUM(data_length + index_length) / 1024 / 1024 AS "Size" FROM information_schema.TABLES GROUP BY table_schema')[1]->$mySqlSize, 2);
-        $dbInfo['sizeGb'] = round(DB::select('SELECT table_schema AS "Database", SUM(data_length + index_length) / 1024 / 1024 / 1024 AS "Size" FROM information_schema.TABLES GROUP BY table_schema')[1]->$mySqlSize, 2);
+            case 'pgsql':
+                $name = 'PostgreSQL';
+                $fullVersion = DB::select('select version()')[0]->version;
+                preg_match('/\d+\.\d+/', $fullVersion, $matches);
+                $version = $matches[0] ?? '';
+
+                $sizeResult = DB::select('SELECT SUM(pg_total_relation_size(quote_ident(schemaname) || \'.\' || quote_ident(tablename))) / 1024 / 1024 AS "Size" FROM pg_tables')[0]->Size;
+                break;
+
+            case 'sqlsrv':
+                $name = 'SQL Server';
+                $version = DB::select('SELECT @@VERSION as version')[0]->version;
+
+                $sizeResult = DB::select('SELECT SUM(size) * 8 / 1024 AS "Size" FROM sys.master_files WHERE type_desc = \'ROWS\'')[0]->Size;
+                break;
+            default:
+                $name = $type;
+                $version = '';
+                $sizeResult = 0;
+        }
+
+        $sizeMb = 0;
+        $sizeGb = 0;
+        if ($sizeResult > 0) {
+            $sizeMb = round($sizeResult, 2);
+            $sizeGb = round($sizeResult / 1024, 2);
+        }
+
+        $dbInfo = [
+            'name' => $name,
+            'version' => $version,
+            'size' => $sizeGb > 1 ? $sizeGb.' GB' : $sizeMb.' MB',
+            'timezone' => 'UTC'.DateHelper::fresnsDatabaseTimezone(),
+            'envTimezone' => config('app.timezone'),
+            'envTimezoneToUtc' => 'UTC'.DateHelper::fresnsDatabaseTimezoneByName(config('app.timezone')),
+        ];
 
         return $dbInfo;
     }

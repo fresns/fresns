@@ -71,7 +71,7 @@ class DashboardController extends Controller
         $pluginUpgradeCount = Plugin::where('is_upgrade', 1)->count();
 
         $systemInfo = AppHelper::getSystemInfo();
-        $databaseInfo = AppHelper::getMySqlInfo();
+        $databaseInfo = AppHelper::getDatabaseInfo();
         $timezones = DateHelper::fresnsDatabaseTimezoneNames();
 
         return view('FsView::dashboard.index', compact('overview', 'pluginUpgradeCount', 'newsList', 'plugins', 'currentVersion', 'newVersion', 'checkVersion', 'systemInfo', 'databaseInfo', 'timezones'));
