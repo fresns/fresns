@@ -49,5 +49,6 @@ class SessionLog extends Model
 
     protected $casts = [
         'device_info' => 'json',
+        'more_json' => 'json',
     ];
 }

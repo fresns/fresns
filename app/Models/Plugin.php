@@ -18,17 +18,8 @@ class Plugin extends Model
     use Traits\IsEnableTrait;
 
     protected $casts = [
-        'scene' => 'array',
+        'scene' => 'json',
     ];
-
-    public function getSceneAttribute($value)
-    {
-        if (is_string($value)) {
-            $value = json_decode($value, true);
-        }
-
-        return $value ?? [];
-    }
 
     public function scopeType($query, $value)
     {

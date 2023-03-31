@@ -10,6 +10,10 @@ namespace App\Models;
 
 class PostUser extends Model
 {
+    protected $casts = [
+        'more_json' => 'json',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

@@ -32,12 +32,6 @@ class PluginCallback extends Model
     const IS_USE_FALSE = 0;
     const IS_USE_TRUE = 1;
 
-    protected $guarded = [];
-
-    protected $dates = [
-        'deleted_at',
-    ];
-
     protected $casts = [
         'content' => 'json',
     ];

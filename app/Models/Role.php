@@ -18,7 +18,7 @@ class Role extends Model
     use Traits\IsEnableTrait;
 
     protected $casts = [
-        'permissions' => 'array',
+        'permissions' => 'json',
     ];
 
     public function users()

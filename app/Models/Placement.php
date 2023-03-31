@@ -16,6 +16,10 @@ class Placement extends Model
     const TYPE_POST = 4;
     const TYPE_COMMENT = 5;
 
+    protected $casts = [
+        'implant_template' => 'json',
+    ];
+
     public function scopeType($query, int $type)
     {
         return $query->where('placement_type', $type);

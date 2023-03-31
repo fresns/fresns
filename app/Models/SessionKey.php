@@ -18,20 +18,6 @@ class SessionKey extends Model
 
     use Traits\IsEnableTrait;
 
-    protected $fillable = [
-        'platform_id',
-        'name',
-        'type',
-        'plugin_unikey',
-        'is_enable',
-    ];
-
-    /**
-     * get config platform name.
-     *
-     * @param  array  $platforms
-     * @return string
-     */
     public function platformName($platforms = []): string
     {
         if (! $platforms instanceof Collection) {

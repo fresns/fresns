@@ -23,6 +23,10 @@ class Extend extends Model
     use Traits\FsidTrait;
     use Traits\ExtendServiceTrait;
 
+    protected $casts = [
+        'more_json' => 'json',
+    ];
+
     public function getFsidKey()
     {
         return 'eid';

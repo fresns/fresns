@@ -22,6 +22,11 @@ class PostLog extends Model
         return $this->belongsTo(Post::class, 'post_id', 'id');
     }
 
+    public function parentPost()
+    {
+        return $this->belongsTo(Post::class, 'parent_post_id', 'id');
+    }
+
     public function group()
     {
         return $this->belongsTo(Group::class, 'group_id', 'id');

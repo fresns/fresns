@@ -12,6 +12,10 @@ class AccountConnect extends Model
 {
     use Traits\IsEnableTrait;
 
+    protected $casts = [
+        'more_json' => 'json',
+    ];
+
     public function account()
     {
         return $this->belongsTo(Account::class, 'account_id', 'id');

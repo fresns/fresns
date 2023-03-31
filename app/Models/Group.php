@@ -33,7 +33,7 @@ class Group extends Model
     use Traits\FsidTrait;
 
     protected $casts = [
-        'permissions' => 'array',
+        'permissions' => 'json',
     ];
 
     public function getFsidKey()

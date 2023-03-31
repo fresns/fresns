@@ -19,6 +19,10 @@ class AccountWalletLog extends Model
 
     use Traits\IsEnableTrait;
 
+    protected $casts = [
+        'more_json' => 'json',
+    ];
+
     public function scopeType($query, int $type)
     {
         return $query->where('type', $type);
