@@ -73,20 +73,22 @@ class CreatePostsTable extends Migration
             $table->string('comment_btn_name', 64)->nullable();
             $table->string('comment_btn_style', 64)->nullable();
             $table->string('comment_btn_plugin_unikey', 64)->nullable();
-            $table->string('ip_location', 64)->nullable();
-            $table->unsignedTinyInteger('map_id')->nullable();
             switch (config('database.default')) {
                 case 'pgsql':
+                    $table->jsonb('more_json')->nullable();
                     $table->jsonb('map_json')->nullable();
                     break;
 
                 case 'sqlsrv':
+                    $table->nvarchar('more_json', 'max')->nullable();
                     $table->nvarchar('map_json', 'max')->nullable();
                     break;
 
                 default:
+                    $table->json('more_json')->nullable();
                     $table->json('map_json')->nullable();
             }
+            $table->unsignedTinyInteger('map_id')->nullable();
             $table->string('map_continent_code', 8)->nullable();
             $table->string('map_country_code', 8)->nullable();
             $table->string('map_region_code', 8)->nullable()->index('post_map_region_code');
