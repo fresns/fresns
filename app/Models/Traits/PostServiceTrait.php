@@ -80,7 +80,7 @@ trait PostServiceTrait
             $info['userListCount'] = PostAllow::where('post_id', $postData->id)->count();
         }
 
-        $info['ipLocation'] = $appendData->ip_location;
+        $info['moreJson'] = $appendData->more_json;
 
         $location['isLbs'] = (bool) ($postData->map_latitude && $postData->map_longitude);
         $location['mapId'] = $appendData->map_id;

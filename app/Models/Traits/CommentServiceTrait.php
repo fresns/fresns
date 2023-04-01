@@ -58,7 +58,7 @@ trait CommentServiceTrait
         $info['rankState'] = $commentData->rank_state;
         $info['status'] = (bool) $commentData->is_enable;
 
-        $info['ipLocation'] = $appendData->ip_location;
+        $info['moreJson'] = $appendData->more_json;
 
         $location['isLbs'] = (bool) ($appendData->map_latitude && $appendData->map_longitude);
         $location['mapId'] = $appendData->map_id;

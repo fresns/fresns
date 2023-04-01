@@ -11,6 +11,7 @@ namespace App\Models;
 class CommentAppend extends Model
 {
     protected $casts = [
+        'more_json' => 'json',
         'map_json' => 'json',
     ];
 
