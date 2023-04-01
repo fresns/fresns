@@ -913,7 +913,6 @@ class ContentUtility
             'content' => $postLog->content,
             'is_markdown' => $postLog->is_markdown,
             'is_anonymous' => $postLog->is_anonymous,
-            'map_id' => $postLog->map_json['mapId'] ?? null,
             'map_longitude' => $postLog->map_json['latitude'] ?? null,
             'map_latitude' => $postLog->map_json['longitude'] ?? null,
         ]);
@@ -957,15 +956,13 @@ class ContentUtility
             'comment_btn_name' => $commentBtnName,
             'comment_btn_style' => $postLog->comment_btn_json['btnStyle'] ?? null,
             'comment_btn_plugin_unikey' => $postLog->comment_btn_json['pluginUnikey'] ?? null,
+            'map_id' => $postLog->map_json['mapId'] ?? null,
             'map_json' => $postLog->map_json ?? null,
-            'map_scale' => $postLog->map_json['scale'] ?? null,
             'map_continent_code' => $postLog->map_json['continentCode'] ?? null,
             'map_country_code' => $postLog->map_json['countryCode'] ?? null,
             'map_region_code' => $postLog->map_json['regionCode'] ?? null,
             'map_city_code' => $postLog->map_json['cityCode'] ?? null,
-            'map_city' => $postLog->map_json['city'] ?? null,
             'map_zip' => $postLog->map_json['zip'] ?? null,
-            'map_poi' => $postLog->map_json['poi'] ?? null,
             'map_poi_id' => $postLog->map_json['poiId'] ?? null,
         ]);
 
@@ -1047,7 +1044,6 @@ class ContentUtility
             'content' => $commentLog->content,
             'is_markdown' => $commentLog->is_markdown,
             'is_anonymous' => $commentLog->is_anonymous,
-            'map_id' => $commentLog->map_json['mapId'] ?? null,
             'map_longitude' => $commentLog->map_json['latitude'] ?? null,
             'map_latitude' => $commentLog->map_json['longitude'] ?? null,
         ]);
@@ -1057,15 +1053,13 @@ class ContentUtility
         ], [
             'is_plugin_editor' => $commentLog->is_plugin_editor,
             'editor_unikey' => $commentLog->editor_unikey,
+            'map_id' => $commentLog->map_json['mapId'] ?? null,
             'map_json' => $commentLog->map_json ?? null,
-            'map_scale' => $commentLog->map_json['scale'] ?? null,
             'map_continent_code' => $commentLog->map_json['continentCode'] ?? null,
             'map_country_code' => $commentLog->map_json['countryCode'] ?? null,
             'map_region_code' => $commentLog->map_json['regionCode'] ?? null,
             'map_city_code' => $commentLog->map_json['cityCode'] ?? null,
-            'map_city' => $commentLog->map_json['city'] ?? null,
             'map_zip' => $commentLog->map_json['zip'] ?? null,
-            'map_poi' => $commentLog->map_json['poi'] ?? null,
             'map_poi_id' => $commentLog->map_json['poiId'] ?? null,
         ]);
 
