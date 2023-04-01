@@ -27,15 +27,15 @@ use App\Models\UserLike;
 use App\Utilities\ArrUtility;
 use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
+use App\Utilities\GeneralUtility;
 use App\Utilities\InteractionUtility;
-use App\Utilities\LbsUtility;
 use App\Utilities\PermissionUtility;
 use Illuminate\Support\Str;
 
 class PostService
 {
     // $type = list or detail
-    public function postData(?Post $post, string $type, string $langTag, string $timezone, bool $isPreview, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLng = null, ?string $authUserLat = null)
+    public function postData(?Post $post, string $type, string $langTag, string $timezone, bool $isPreview, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLong = null, ?string $authUserLat = null)
     {
         if (! $post) {
             return null;
@@ -122,11 +122,17 @@ class PostService
         }
 
         // location
-        if ($post->map_id && $authUserLng && $authUserLat) {
-            $postLng = $post->map_longitude;
-            $postLat = $post->map_latitude;
-
-            $postData['location']['distance'] = LbsUtility::getDistanceWithUnit($langTag, $postLng, $postLat, $authUserLng, $authUserLat);
+        $isLbs = $postData['location']['isLbs'];
+        if ($isLbs && $authUserLong && $authUserLat) {
+            $postData['location']['distance'] = GeneralUtility::distanceOfLocation(
+                $langTag,
+                $postData['location']['longitude'],
+                $postData['location']['latitude'],
+                $authUserLong,
+                $authUserLat,
+                $postData['location']['mapId'],
+                $authUserMapId,
+            );
         }
 
         // group

@@ -689,10 +689,7 @@ class PostController extends Controller
         };
 
         $posts = Post::query()
-            ->select([
-                DB::raw('*'),
-                DB::raw(LbsUtility::getDistanceSql('map_longitude', 'map_latitude', $dtoRequest->mapLng, $dtoRequest->mapLat)),
-            ])
+            ->select(DB::raw("*, ( 6371 * acos( cos( radians($dtoRequest->mapLat) ) * cos( radians( map_latitude ) ) * cos( radians( map_longitude ) - radians($dtoRequest->mapLng) ) + sin( radians($dtoRequest->mapLat) ) * sin( radians( map_latitude ) ) ) ) AS distance"))
             ->having('distance', '<=', $nearbyLength)
             ->orderBy('distance')
             ->paginate();

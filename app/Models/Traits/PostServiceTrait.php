@@ -82,12 +82,12 @@ trait PostServiceTrait
 
         $info['ipLocation'] = $appendData->ip_location;
 
-        $location['isLbs'] = ! empty($postData->map_id) ? true : false;
-        $location['mapId'] = $postData->map_id;
+        $location['isLbs'] = (bool) ($postData->map_latitude && $postData->map_longitude);
+        $location['mapId'] = $appendData->map_id;
         $location['latitude'] = $postData->map_latitude;
         $location['longitude'] = $postData->map_longitude;
-        $location['scale'] = $appendData->map_scale;
-        $location['poi'] = $appendData->map_poi;
+        $location['scale'] = $appendData->map_json['scale'] ?? null;
+        $location['poi'] = $appendData->map_json['poi'] ?? null;
         $location['poiId'] = $appendData->map_poi_id;
         $location['distance'] = null;
         $location['unit'] = ConfigHelper::fresnsConfigLengthUnit($langTag);

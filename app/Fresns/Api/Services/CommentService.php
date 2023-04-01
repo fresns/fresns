@@ -27,15 +27,15 @@ use App\Models\Post;
 use App\Utilities\ArrUtility;
 use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
+use App\Utilities\GeneralUtility;
 use App\Utilities\InteractionUtility;
-use App\Utilities\LbsUtility;
 use App\Utilities\PermissionUtility;
 use Illuminate\Support\Str;
 
 class CommentService
 {
     // $type = list or detail
-    public function commentData(?Comment $comment, string $type, string $langTag, string $timezone, bool $isPreviewPost, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLng = null, ?string $authUserLat = null, ?bool $outputSubComments = false, ?bool $whetherToFilter = true)
+    public function commentData(?Comment $comment, string $type, string $langTag, string $timezone, bool $isPreviewPost, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLong = null, ?string $authUserLat = null, ?bool $outputSubComments = false, ?bool $whetherToFilter = true)
     {
         if (! $comment) {
             return null;
@@ -144,11 +144,17 @@ class CommentService
         }
 
         // location
-        if ($comment->map_id && $authUserLng && $authUserLat) {
-            $postLng = $comment->map_longitude;
-            $postLat = $comment->map_latitude;
-
-            $commentData['location']['distance'] = LbsUtility::getDistanceWithUnit($langTag, $postLng, $postLat, $authUserLng, $authUserLat);
+        $isLbs = $commentData['location']['isLbs'];
+        if ($isLbs && $authUserLong && $authUserLat) {
+            $commentData['location']['distance'] = GeneralUtility::distanceOfLocation(
+                $langTag,
+                $commentData['location']['longitude'],
+                $commentData['location']['latitude'],
+                $authUserLong,
+                $authUserLat,
+                $commentData['location']['mapId'],
+                $authUserMapId,
+            );
         }
 
         // creator

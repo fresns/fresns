@@ -60,12 +60,12 @@ trait CommentServiceTrait
 
         $info['ipLocation'] = $appendData->ip_location;
 
-        $location['isLbs'] = ! empty($commentData->map_id) ? true : false;
-        $location['mapId'] = $commentData->map_id;
+        $location['isLbs'] = (bool) ($appendData->map_latitude && $appendData->map_longitude);
+        $location['mapId'] = $appendData->map_id;
         $location['latitude'] = $commentData->map_latitude;
         $location['longitude'] = $commentData->map_longitude;
-        $location['scale'] = $appendData->map_scale;
-        $location['poi'] = $appendData->map_poi;
+        $location['scale'] = $appendData->map_json['scale'] ?? null;
+        $location['poi'] = $appendData->map_json['poi'] ?? null;
         $location['poiId'] = $appendData->map_poi_id;
         $location['distance'] = null;
         $location['unit'] = ConfigHelper::fresnsConfigLengthUnit($langTag);

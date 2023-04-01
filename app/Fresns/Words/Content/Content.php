@@ -471,7 +471,6 @@ class Content
                     'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
                     'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
                     'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
-                    'map_id' => $dtoWordBody->map['mapId'] ?? null,
                     'map_longitude' => $dtoWordBody->map['latitude'] ?? null,
                     'map_latitude' => $dtoWordBody->map['longitude'] ?? null,
                 ]);
@@ -480,15 +479,13 @@ class Content
                     'post_id' => $post->id,
                     'is_comment' => $dtoWordBody->postIsComment ?? 1,
                     'is_comment_public' => $dtoWordBody->postIsCommentPublic ?? 1,
+                    'map_id' => $dtoWordBody->map['mapId'] ?? null,
                     'map_json' => $dtoWordBody->map ?? null,
-                    'map_scale' => $dtoWordBody->map['scale'] ?? null,
                     'map_continent_code' => $dtoWordBody->map['continentCode'] ?? null,
                     'map_country_code' => $dtoWordBody->map['countryCode'] ?? null,
                     'map_region_code' => $dtoWordBody->map['regionCode'] ?? null,
                     'map_city_code' => $dtoWordBody->map['cityCode'] ?? null,
-                    'map_city' => $dtoWordBody->map['city'] ?? null,
                     'map_zip' => $dtoWordBody->map['zip'] ?? null,
-                    'map_poi' => $dtoWordBody->map['poi'] ?? null,
                     'map_poi_id' => $dtoWordBody->map['poiId'] ?? null,
                 ]);
 
@@ -523,22 +520,19 @@ class Content
                     'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
                     'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
                     'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
-                    'map_id' => $dtoWordBody->map['mapId'] ?? null,
                     'map_longitude' => $dtoWordBody->map['latitude'] ?? null,
                     'map_latitude' => $dtoWordBody->map['longitude'] ?? null,
                 ]);
 
                 CommentAppend::create([
                     'comment_id' => $comment->id,
+                    'map_id' => $dtoWordBody->map['mapId'] ?? null,
                     'map_json' => $dtoWordBody->map ?? null,
-                    'map_scale' => $dtoWordBody->map['scale'] ?? null,
                     'map_continent_code' => $dtoWordBody->map['continentCode'] ?? null,
                     'map_country_code' => $dtoWordBody->map['countryCode'] ?? null,
                     'map_region_code' => $dtoWordBody->map['regionCode'] ?? null,
                     'map_city_code' => $dtoWordBody->map['cityCode'] ?? null,
-                    'map_city' => $dtoWordBody->map['city'] ?? null,
                     'map_zip' => $dtoWordBody->map['zip'] ?? null,
-                    'map_poi' => $dtoWordBody->map['poi'] ?? null,
                     'map_poi_id' => $dtoWordBody->map['poiId'] ?? null,
                 ]);
 
