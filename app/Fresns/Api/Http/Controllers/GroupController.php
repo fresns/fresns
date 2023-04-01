@@ -18,8 +18,8 @@ use App\Helpers\InteractionHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Group;
-use App\Utilities\CollectionUtility;
 use App\Utilities\ExtendUtility;
+use App\Utilities\GeneralUtility;
 use App\Utilities\PermissionUtility;
 use Illuminate\Http\Request;
 
@@ -56,7 +56,7 @@ class GroupController extends Controller
                 $groupData[$index] = $service->groupData($group, $langTag, $timezone, $authUser?->id);
             }
 
-            $groupTree = CollectionUtility::toTree($groupData, 'gid', 'parentGid', 'groups');
+            $groupTree = GeneralUtility::collectionToTree($groupData, 'gid', 'parentGid', 'groups');
 
             return $this->success($groupTree);
         }
@@ -95,7 +95,7 @@ class GroupController extends Controller
             $groupData[$index] = $service->groupData($group, $langTag, $timezone, $authUser?->id);
         }
 
-        $groupTree = CollectionUtility::toTree($groupData, 'gid', 'parentGid', 'groups');
+        $groupTree = GeneralUtility::collectionToTree($groupData, 'gid', 'parentGid', 'groups');
 
         return $this->success($groupTree);
     }

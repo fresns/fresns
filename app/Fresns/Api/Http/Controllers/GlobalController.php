@@ -28,8 +28,8 @@ use App\Models\File;
 use App\Models\PluginUsage;
 use App\Models\Role;
 use App\Models\Sticker;
-use App\Utilities\CollectionUtility;
 use App\Utilities\ExtendUtility;
+use App\Utilities\GeneralUtility;
 use Illuminate\Http\Request;
 
 class GlobalController extends Controller
@@ -341,7 +341,7 @@ class GlobalController extends Controller
                 $stickerData[$index]['image'] = FileHelper::fresnsFileUrlByTableColumn($sticker->image_file_id, $sticker->image_file_url);
             }
 
-            $stickerTree = CollectionUtility::toTree($stickerData, 'code', 'parentCode', 'stickers');
+            $stickerTree = GeneralUtility::collectionToTree($stickerData, 'code', 'parentCode', 'stickers');
 
             $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
             CacheHelper::put($stickerTree, $cacheKey, $cacheTag, null, $cacheTime);
