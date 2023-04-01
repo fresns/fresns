@@ -2,9 +2,10 @@
 
 <p align="center">
 <img src="https://img.shields.io/badge/PHP-%5E8.1-blueviolet" alt="PHP">
-<img src="https://img.shields.io/badge/MySQL-%5E5.7%7C%5E8.0-orange" alt="MySQL">
+<img src="https://img.shields.io/badge/MySQL-%5E5.7-orange" alt="MySQL">
 <img src="https://img.shields.io/badge/PostgreSQL-%5E11.0-blue" alt="PostgreSQL">
 <img src="https://img.shields.io/badge/SQL%20Server-%5E13.0-red" alt="SQL Server">
+<img src="https://img.shields.io/badge/SQLite-%5E3.9-9cf" alt="SQLite">
 <img src="https://img.shields.io/badge/License-Apache--2.0-green" alt="License">
 </p>
 
@@ -18,13 +19,14 @@ Fresns is a free and open source social network service software, a general-purp
 
 ## Server Requirements
 
-| Environment | Requirements |
+| Environment | Services |
 | --- | --- |
-| Package Manager | Composer 2.5 or higher |
+| Web Server<br>`Choose any one` | Nginx<br>Apache<br>Caddy<br>IIS |
 | PHP Version | PHP 8.1 or higher |
 | PHP Extensions | `fileinfo` |
-| PHP Functions | `putenv` `symlink` `proc_open` `passthru` |
-| Database and Version | MySQL 5.7 or 8.x<br>PostgreSQL 11.x ~ 15.x<br>SQL Server 2016(13.x) ~ 2022(16.x) |
+| PHP Functions | `putenv`, `symlink`, `proc_open`, `passthru` |
+| Package Manager | Composer 2.5 or higher |
+| Database and Version<br>`Choose any one` | MySQL `5.7 ~ 8.x`<br>MariaDB `10.3 ~ 11.x`<br>PostgreSQL `11.x ~ 15.x`<br>SQL Server `2016(13.x) ~ 2022(16.x)`<br>SQLite `3.9 及以上` |
 
 ## Installation and Using
 
