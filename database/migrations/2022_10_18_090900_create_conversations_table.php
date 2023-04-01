@@ -30,6 +30,23 @@ class CreateConversationsTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
         });
+
+        Schema::create('conversation_messages', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('conversation_id');
+            $table->unsignedBigInteger('send_user_id');
+            $table->timestamp('send_deleted_at')->nullable();
+            $table->unsignedTinyInteger('message_type')->default(1);
+            $table->text('message_text')->nullable();
+            $table->unsignedBigInteger('message_file_id')->nullable();
+            $table->unsignedBigInteger('receive_user_id');
+            $table->timestamp('receive_read_at')->nullable();
+            $table->timestamp('receive_deleted_at')->nullable();
+            $table->unsignedTinyInteger('is_enable')->default(1);
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
+            $table->softDeletes();
+        });
     }
 
     /**
@@ -38,5 +55,6 @@ class CreateConversationsTable extends Migration
     public function down(): void
     {
         Schema::dropIfExists('conversations');
+        Schema::dropIfExists('conversation_messages');
     }
 }

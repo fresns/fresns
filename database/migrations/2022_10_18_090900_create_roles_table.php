@@ -26,7 +26,18 @@ class CreateRolesTable extends Migration
             $table->unsignedTinyInteger('is_display_name')->default(0);
             $table->unsignedTinyInteger('is_display_icon')->default(0);
             $table->string('nickname_color', 7)->nullable();
-            $table->json('permissions');
+            switch (config('database.default')) {
+                case 'pgsql':
+                    $table->jsonb('permissions')->nullable();
+                    break;
+
+                case 'sqlsrv':
+                    $table->nvarchar('permissions', 'max')->nullable();
+                    break;
+
+                default:
+                    $table->json('permissions')->nullable();
+            }
             $table->unsignedTinyInteger('rank_state')->default(1);
             $table->unsignedSmallInteger('rating')->default(9);
             $table->unsignedTinyInteger('is_enable')->default(1);

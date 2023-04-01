@@ -29,11 +29,24 @@ class CreateSessionLogsTable extends Migration
             $table->string('object_action', 128)->nullable();
             $table->unsignedTinyInteger('object_result');
             $table->unsignedBigInteger('object_order_id')->nullable();
-            $table->json('device_info')->nullable();
-            $table->string('device_token', 128)->nullable();
             $table->unsignedBigInteger('account_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->json('more_json')->nullable();
+            $table->string('device_token', 128)->nullable();
+            switch (config('database.default')) {
+                case 'pgsql':
+                    $table->jsonb('device_info')->nullable();
+                    $table->jsonb('more_json')->nullable();
+                    break;
+
+                case 'sqlsrv':
+                    $table->nvarchar('device_info', 'max')->nullable();
+                    $table->nvarchar('more_json', 'max')->nullable();
+                    break;
+
+                default:
+                    $table->json('device_info')->nullable();
+                    $table->json('more_json')->nullable();
+            }
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

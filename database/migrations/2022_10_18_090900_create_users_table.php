@@ -51,6 +51,109 @@ class CreateUsersTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
         });
+
+        Schema::create('user_stats', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id')->unique('user_id');
+            $table->unsignedInteger('like_user_count')->default(0);
+            $table->unsignedInteger('like_group_count')->default(0);
+            $table->unsignedInteger('like_hashtag_count')->default(0);
+            $table->unsignedInteger('like_post_count')->default(0);
+            $table->unsignedInteger('like_comment_count')->default(0);
+            $table->unsignedInteger('dislike_user_count')->default(0);
+            $table->unsignedInteger('dislike_group_count')->default(0);
+            $table->unsignedInteger('dislike_hashtag_count')->default(0);
+            $table->unsignedInteger('dislike_post_count')->default(0);
+            $table->unsignedInteger('dislike_comment_count')->default(0);
+            $table->unsignedInteger('follow_user_count')->default(0);
+            $table->unsignedInteger('follow_group_count')->default(0);
+            $table->unsignedInteger('follow_hashtag_count')->default(0);
+            $table->unsignedInteger('follow_post_count')->default(0);
+            $table->unsignedInteger('follow_comment_count')->default(0);
+            $table->unsignedInteger('block_user_count')->default(0);
+            $table->unsignedInteger('block_group_count')->default(0);
+            $table->unsignedInteger('block_hashtag_count')->default(0);
+            $table->unsignedInteger('block_post_count')->default(0);
+            $table->unsignedInteger('block_comment_count')->default(0);
+            $table->unsignedInteger('like_me_count')->default(0);
+            $table->unsignedInteger('dislike_me_count')->default(0);
+            $table->unsignedInteger('follow_me_count')->default(0);
+            $table->unsignedInteger('block_me_count')->default(0);
+            $table->unsignedInteger('post_publish_count')->default(0);
+            $table->unsignedInteger('post_digest_count')->default(0);
+            $table->unsignedInteger('post_like_count')->default(0);
+            $table->unsignedInteger('post_dislike_count')->default(0);
+            $table->unsignedInteger('post_follow_count')->default(0);
+            $table->unsignedInteger('post_block_count')->default(0);
+            $table->unsignedInteger('comment_publish_count')->default(0);
+            $table->unsignedInteger('comment_digest_count')->default(0);
+            $table->unsignedInteger('comment_like_count')->default(0);
+            $table->unsignedInteger('comment_dislike_count')->default(0);
+            $table->unsignedInteger('comment_follow_count')->default(0);
+            $table->unsignedInteger('comment_block_count')->default(0);
+            $table->unsignedInteger('extcredits1')->default(0);
+            $table->unsignedInteger('extcredits2')->default(0);
+            $table->unsignedInteger('extcredits3')->default(0);
+            $table->unsignedInteger('extcredits4')->default(0);
+            $table->unsignedInteger('extcredits5')->default(0);
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
+            $table->softDeletes();
+        });
+
+        Schema::create('user_roles', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedInteger('role_id');
+            $table->unsignedTinyInteger('is_main')->default(0);
+            $table->timestamp('expired_at')->nullable();
+            $table->unsignedInteger('restore_role_id')->nullable();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
+            $table->softDeletes();
+        });
+
+        Schema::create('user_likes', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedTinyInteger('mark_type')->default(1);
+            $table->unsignedTinyInteger('like_type');
+            $table->unsignedBigInteger('like_id');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
+            $table->softDeletes();
+
+            $table->unique(['user_id', 'like_type', 'like_id'], 'user_like');
+        });
+
+        Schema::create('user_follows', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedTinyInteger('follow_type');
+            $table->unsignedBigInteger('follow_id');
+            $table->string('user_note', 128)->nullable();
+            $table->unsignedTinyInteger('is_mutual')->default(0);
+            $table->unsignedTinyInteger('is_enable')->default(1);
+            $table->timestamp('expired_at')->nullable();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
+            $table->softDeletes();
+
+            $table->unique(['user_id', 'follow_type', 'follow_id'], 'user_follow');
+        });
+
+        Schema::create('user_blocks', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedTinyInteger('block_type');
+            $table->unsignedBigInteger('block_id');
+            $table->string('user_note', 128)->nullable();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
+            $table->softDeletes();
+
+            $table->unique(['user_id', 'block_type', 'block_id'], 'user_block');
+        });
     }
 
     /**
@@ -59,5 +162,10 @@ class CreateUsersTable extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('user_stats');
+        Schema::dropIfExists('user_roles');
+        Schema::dropIfExists('user_likes');
+        Schema::dropIfExists('user_follows');
+        Schema::dropIfExists('user_blocks');
     }
 }

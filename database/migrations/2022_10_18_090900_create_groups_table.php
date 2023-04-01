@@ -20,7 +20,7 @@ class CreateGroupsTable extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->increments('id');
             $table->string('gid', 32)->unique('gid');
-            $table->unsignedInteger('parent_id')->default(0);
+            $table->unsignedInteger('parent_id')->default(0)->index('group_parent_id');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('name', 64);
             $table->string('description')->nullable();
@@ -38,7 +38,18 @@ class CreateGroupsTable extends Migration
             $table->unsignedSmallInteger('rating')->default(9);
             $table->unsignedTinyInteger('is_recommend')->default(0);
             $table->unsignedSmallInteger('recommend_rating')->default(9);
-            $table->json('permissions');
+            switch (config('database.default')) {
+                case 'pgsql':
+                    $table->jsonb('permissions')->nullable();
+                    break;
+
+                case 'sqlsrv':
+                    $table->nvarchar('permissions', 'max')->nullable();
+                    break;
+
+                default:
+                    $table->json('permissions')->nullable();
+            }
             $table->unsignedInteger('like_count')->default(0);
             $table->unsignedInteger('dislike_count')->default(0);
             $table->unsignedInteger('follow_count')->default(0);
@@ -52,6 +63,15 @@ class CreateGroupsTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
         });
+
+        Schema::create('group_admins', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('group_id')->index('admin_group_id');
+            $table->unsignedBigInteger('user_id');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
+            $table->softDeletes();
+        });
     }
 
     /**
@@ -60,5 +80,6 @@ class CreateGroupsTable extends Migration
     public function down(): void
     {
         Schema::dropIfExists('groups');
+        Schema::dropIfExists('group_admins');
     }
 }

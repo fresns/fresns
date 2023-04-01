@@ -35,6 +35,19 @@ class CreateOperationsTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
         });
+
+        Schema::create('operation_usages', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedTinyInteger('usage_type');
+            $table->unsignedBigInteger('usage_id');
+            $table->unsignedInteger('operation_id');
+            $table->string('plugin_unikey', 64)->nullable();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
+            $table->softDeletes();
+
+            $table->index(['usage_type', 'usage_id'], 'operation_usages');
+        });
     }
 
     /**
@@ -43,5 +56,6 @@ class CreateOperationsTable extends Migration
     public function down(): void
     {
         Schema::dropIfExists('operations');
+        Schema::dropIfExists('operation_usages');
     }
 }

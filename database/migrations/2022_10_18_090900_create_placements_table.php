@@ -22,7 +22,18 @@ class CreatePlacementsTable extends Migration
             $table->string('plugin_unikey', 64);
             $table->unsignedTinyInteger('implant_type');
             $table->unsignedBigInteger('implant_id');
-            $table->json('implant_template');
+            switch (config('database.default')) {
+                case 'pgsql':
+                    $table->jsonb('implant_template')->nullable();
+                    break;
+
+                case 'sqlsrv':
+                    $table->nvarchar('implant_template', 'max')->nullable();
+                    break;
+
+                default:
+                    $table->json('implant_template')->nullable();
+            }
             $table->string('implant_name', 64);
             $table->unsignedTinyInteger('open_type');
             $table->string('open_value', 128);

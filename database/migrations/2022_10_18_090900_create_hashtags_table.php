@@ -37,6 +37,18 @@ class CreateHashtagsTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
         });
+
+        Schema::create('hashtag_usages', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedTinyInteger('usage_type');
+            $table->unsignedBigInteger('usage_id');
+            $table->unsignedBigInteger('hashtag_id');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
+            $table->softDeletes();
+
+            $table->index(['usage_type', 'usage_id'], 'hashtag_usages');
+        });
     }
 
     /**
@@ -45,5 +57,6 @@ class CreateHashtagsTable extends Migration
     public function down(): void
     {
         Schema::dropIfExists('hashtags');
+        Schema::dropIfExists('hashtag_usages');
     }
 }
