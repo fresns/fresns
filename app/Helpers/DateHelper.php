@@ -135,7 +135,7 @@ class DateHelper
         $databaseDateTime = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($databaseDateTime)) {
-            $databaseDateTime = DB::selectOne('select now() as now')->now;
+            $databaseDateTime = (config('database.default') == 'sqlite') ? date('Y-m-d H:i:s', time()) : DB::selectOne('select now() as now')->now;
 
             CacheHelper::put($databaseDateTime, $cacheKey, $cacheTag, 1, now()->addMinutes(3));
         }

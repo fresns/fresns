@@ -61,6 +61,18 @@ class AppHelper
         $type = config('database.default');
 
         switch ($type) {
+            case 'sqlite':
+                $name = 'SQLite';
+
+                $SQLite = config('database.connections.sqlite.database');
+
+                $db = new \SQLite3($SQLite);
+
+                $version = $db->querySingle('SELECT sqlite_version()');
+
+                $sizeResult = filesize($SQLite);
+                break;
+
             case 'mysql':
                 $name = 'MySQL';
                 $version = DB::select('select version()')[0]->{'version()'};
@@ -94,6 +106,10 @@ class AppHelper
         if ($sizeResult > 0) {
             $sizeMb = round($sizeResult, 2);
             $sizeGb = round($sizeResult / 1024, 2);
+        }
+        if ($sizeResult > 0 && $type == 'sqlite') {
+            $sizeMb = round($sizeResult / 1024 / 1024, 2);
+            $sizeGb = round($sizeResult / 1024 / 1024 / 1024, 2);
         }
 
         $dbInfo = [

@@ -720,6 +720,30 @@ class CommonController extends Controller
                     ->orderByDesc('created_at')
                     ->paginate($dtoRequest->pageSize ?? 15);
                 break;
+
+            case 'sqlite':
+                $downUsers = FileDownload::with('user')
+                    ->select([
+                        'id',
+                        'file_id',
+                        'file_type',
+                        'account_id',
+                        'user_id',
+                        'plugin_unikey',
+                        'object_type',
+                        'object_id',
+                        'created_at',
+                    ])
+                    ->whereIn('id', function ($query) use ($file) {
+                        $query->select(DB::raw('max(id)'))
+                            ->from('file_downloads')
+                            ->where('file_id', $file->id)
+                            ->groupBy('user_id');
+                    })
+                    ->orderByDesc('created_at')
+                    ->paginate($dtoRequest->pageSize ?? 15);
+                break;
+
             default:
                 $downUsers = new \Illuminate\Pagination\LengthAwarePaginator([], 0, 15);
         }
