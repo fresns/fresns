@@ -16,6 +16,7 @@ return [
         'api.global.content.types',
         'api.global.stickers',
         'api.global.block.words',
+        'api.common.ip.info',
         'api.common.input.tips',
         'api.common.callback',
         'api.common.send.verifyCode',
@@ -65,6 +66,7 @@ return [
         'api.global.content.types',
         'api.global.stickers',
         'api.global.block.words',
+        'api.common.ip.info',
         'api.common.input.tips',
         'api.common.callback',
         'api.common.send.verifyCode',
@@ -116,6 +118,7 @@ return [
     'privateAccount' => [
         'api.global.configs',
         'api.global.code.messages',
+        'api.common.ip.info',
         'api.common.callback',
         'api.common.send.verifyCode',
         'api.common.upload.log',
@@ -127,6 +130,7 @@ return [
     'privateUser' => [
         'api.global.configs',
         'api.global.code.messages',
+        'api.common.ip.info',
         'api.common.callback',
         'api.common.send.verifyCode',
         'api.common.upload.log',

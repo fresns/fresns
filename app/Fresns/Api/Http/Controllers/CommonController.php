@@ -14,6 +14,7 @@ use App\Fresns\Api\Http\DTO\AccountPhoneDTO;
 use App\Fresns\Api\Http\DTO\CommonCallbacksDTO;
 use App\Fresns\Api\Http\DTO\CommonFileLinkDTO;
 use App\Fresns\Api\Http\DTO\CommonInputTipsDTO;
+use App\Fresns\Api\Http\DTO\CommonIpInfoDTO;
 use App\Fresns\Api\Http\DTO\CommonSendVerifyCodeDTO;
 use App\Fresns\Api\Http\DTO\CommonUploadFileDTO;
 use App\Fresns\Api\Http\DTO\CommonUploadLogDTO;
@@ -48,6 +49,61 @@ use Illuminate\Support\Facades\DB;
 
 class CommonController extends Controller
 {
+    // ip info
+    public function ipInfo(Request $request)
+    {
+        $dtoRequest = new CommonIpInfoDTO($request->all());
+
+        $ip = $dtoRequest->ip ?? $request->ip();
+        if (strpos($ip, ':') !== false) {
+            $ipv4 = null;
+            $ipv6 = $ip;
+        } else {
+            $ipv4 = $ip;
+            $ipv6 = null;
+        }
+        $ipInfo = [
+            'networkIpv4' => $ipv4,
+            'networkIpv6' => $ipv6,
+            'networkPort' => $_SERVER['REMOTE_PORT'],
+            'networkTimezone' => null,
+            'networkOffset' => null,
+            'networkCurrency' => null,
+            'networkIsp' => null,
+            'networkOrg' => null,
+            'networkAs' => null,
+            'networkAsName' => null,
+            'networkMobile' => false,
+            'networkProxy' => false,
+            'networkHosting' => false,
+            'mapId' => 1,
+            'latitude' => null,
+            'longitude' => null,
+            'scale' => null,
+            'continent' => null,
+            'continentCode' => null,
+            'country' => null,
+            'countryCode' => null,
+            'region' => null,
+            'regionCode' => null,
+            'city' => null,
+            'district' => null,
+            'zip' => null,
+        ];
+
+        $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('ip_service');
+
+        if ($pluginUniKey) {
+            $fresnsResp = \FresnsCmdWord::plugin($pluginUniKey)->ipInfo([
+                'ip' => $ip,
+            ]);
+
+            return $fresnsResp->getOrigin();
+        }
+
+        return $this->success($ipInfo);
+    }
+
     // inputTips
     public function inputTips(Request $request)
     {

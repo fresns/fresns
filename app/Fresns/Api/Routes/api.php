@@ -43,6 +43,7 @@ Route::prefix('v2')->middleware([
 
     // common
     Route::prefix('common')->name('common.')->group(function () {
+        Route::get('ip-info', [CommonController::class, 'ipInfo'])->name('ip.info');
         Route::get('input-tips', [CommonController::class, 'inputTips'])->name('input.tips');
         Route::get('callback', [CommonController::class, 'callback'])->name('callback')->withoutMiddleware([CheckSiteMode::class]);
         Route::post('send-verify-code', [CommonController::class, 'sendVerifyCode'])->name('send.verifyCode');
