@@ -212,7 +212,7 @@ class ConfigHelper
             return 'km';
         }
 
-        $lengthUnit = 'mi';
+        $lengthUnit = 'km'; // km or mi
 
         foreach ($languageMenus as $menu) {
             if ($menu['langTag'] == $langTag) {

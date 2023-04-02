@@ -12,6 +12,7 @@ use App\Helpers\ConfigHelper;
 
 class GeneralUtility
 {
+    // Convert list data into a tree structure
     public static function collectionToTree(?array $data = [], string $primary = 'id', string $parent = 'parent_id', string $children = 'children'): array
     {
         // data is empty
@@ -41,6 +42,7 @@ class GeneralUtility
         return $tree;
     }
 
+    // Calculate distance based on latitude and longitude
     public static function distanceOfLocation(string $langTag, float $long, float $lat, float $userLong, float $userLat, ?int $mapId = null, ?int $userMapId = null): int|float
     {
         $unit = ConfigHelper::fresnsConfigLengthUnit($langTag); // Position unit
