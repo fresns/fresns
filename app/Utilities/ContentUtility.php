@@ -78,6 +78,12 @@ class ContentUtility
             $item = Str::replace(' ', '', $item);
             $item = Str::replace('#', '', $item);
 
+            // hashtag only support 20 lengths
+            $length = Str::length($item);
+            if ($length > 20) {
+                continue;
+            }
+
             $result[] = $item;
         }
 
