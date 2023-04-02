@@ -137,12 +137,22 @@ class InstallController extends Controller
                         $dbConfig['default'] = $connection;
                         $dbConfig['connections'][$connection] = array_merge($dbConfig['connections'][$connection], $fresnsDB);
 
+                        if ($connection == 'sqlite' && ! file_exists($fresnsDB['database'])) {
+                            return \response()->json([
+                                'step' => $step,
+                                'code' => 500,
+                                'message' => __('Install::install.database_config_invalid'),
+                                'data' => [],
+                            ]);
+                        }
+
                         config(['database' => $dbConfig]);
 
                         $query = match ($connection) {
                             'mysql' => 'SELECT 1 LIMIT 1',
                             'pgsql' => 'SELECT 1 LIMIT 1',
                             'sqlsrv' => 'SELECT TOP 1 1',
+                            'sqlite' => 'SELECT 1 LIMIT 1',
                         };
 
                         DB::purge();
@@ -369,15 +379,17 @@ class InstallController extends Controller
 
         $appUrl = str_replace(\request()->getRequestUri(), '', \request()->getUri());
 
+        $driver = $data['database']['DB_CONNECTION'];
+
         // Temp write key
         $template['APP_KEY'] = $appKey;
         $template['APP_URL'] = $appUrl;
-        $template['DB_CONNECTION'] = $data['database']['DB_CONNECTION'];
-        $template['DB_HOST'] = $data['database']['DB_HOST'];
-        $template['DB_PORT'] = $data['database']['DB_PORT'];
+        $template['DB_CONNECTION'] = $driver;
+        $template['DB_HOST'] = ($driver == 'sqlite') ? '' : $data['database']['DB_HOST'];
+        $template['DB_PORT'] = ($driver == 'sqlite') ? '' : $data['database']['DB_PORT'];
         $template['DB_DATABASE'] = $data['database']['DB_DATABASE'];
-        $template['DB_USERNAME'] = $data['database']['DB_USERNAME'];
-        $template['DB_PASSWORD'] = $data['database']['DB_PASSWORD'];
+        $template['DB_USERNAME'] = ($driver == 'sqlite') ? '' : $data['database']['DB_USERNAME'];
+        $template['DB_PASSWORD'] = ($driver == 'sqlite') ? '' : $data['database']['DB_PASSWORD'];
         $template['DB_TIMEZONE'] = $data['database']['DB_TIMEZONE'];
         $template['DB_PREFIX'] = $data['database']['DB_PREFIX'];
 
