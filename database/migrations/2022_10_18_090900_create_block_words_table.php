@@ -19,7 +19,7 @@ class CreateBlockWordsTable extends Migration
     {
         Schema::create('block_words', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('word', 32)->unique('word');
+            $table->string('word', 32)->unique('block_word');
             $table->unsignedTinyInteger('content_mode')->default(1);
             $table->unsignedTinyInteger('user_mode')->default(1);
             $table->unsignedTinyInteger('conversation_mode')->default(1);

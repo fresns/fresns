@@ -19,7 +19,7 @@ class CreatePluginsTable extends Migration
     {
         Schema::create('plugins', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->string('unikey', 64)->unique('unikey');
+            $table->string('unikey', 64)->unique('plugin_unikey');
             $table->unsignedTinyInteger('type');
             $table->string('name', 64);
             $table->string('description');
@@ -104,7 +104,7 @@ class CreatePluginsTable extends Migration
             $table->string('plugin_unikey', 64);
             $table->unsignedBigInteger('account_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('ulid', 64)->unique('ulid');
+            $table->string('ulid', 64)->unique('callback_ulid');
             $table->unsignedSmallInteger('type')->default(1);
             switch (config('database.default')) {
                 case 'pgsql':

@@ -22,7 +22,7 @@ class CreateArchivesTable extends Migration
             $table->string('plugin_unikey', 64);
             $table->string('name', 64)->nullable();
             $table->text('description')->nullable();
-            $table->string('code', 32)->unique('code');
+            $table->string('code', 32)->unique('archive_code');
             $table->unsignedTinyInteger('usage_type');
             $table->unsignedInteger('usage_group_id')->default(0);
             $table->unsignedTinyInteger('usage_group_content_type')->nullable();
