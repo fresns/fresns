@@ -141,7 +141,7 @@ class PermissionUtility
             $hiddenGroupIds = CacheHelper::get($guestCacheKey, $cacheTag);
 
             if (empty($hiddenGroupIds)) {
-                $hiddenGroupIds = Group::where('type_find', Group::FIND_HIDDEN)->pluck('id')->toArray();
+                $hiddenGroupIds = Group::where('type_mode', Group::MODE_PRIVATE)->where('type_find', Group::FIND_HIDDEN)->pluck('id')->toArray();
 
                 CacheHelper::put($hiddenGroupIds, $guestCacheKey, $cacheTag);
             }
