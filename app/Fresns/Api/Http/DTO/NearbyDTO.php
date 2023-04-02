@@ -19,8 +19,8 @@ class NearbyDTO extends DTO
     {
         return [
             'mapId' => ['integer', 'required', 'between:1,11'],
-            'mapLng' => ['numeric', 'required'],
-            'mapLat' => ['numeric', 'required'],
+            'mapLng' => ['numeric', 'required', 'min:-180', 'max:180'],
+            'mapLat' => ['numeric', 'required', 'min:-90', 'max:90'],
             'unit' => ['string', 'nullable', 'in:km,mi'],
             'length' => ['integer', 'nullable'],
             'contentType' => ['string', 'nullable'],

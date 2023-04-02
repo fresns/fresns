@@ -24,8 +24,8 @@ class SearchPostDTO extends DTO
             'followHashtags' => ['boolean', 'nullable'],
             'followPosts' => ['boolean', 'nullable'],
             'mapId' => ['integer', 'nullable', 'between:1,11'],
-            'mapLng' => ['numeric', 'nullable'],
-            'mapLat' => ['numeric', 'nullable'],
+            'mapLng' => ['numeric', 'nullable', 'min:-180', 'max:180'],
+            'mapLat' => ['numeric', 'nullable', 'min:-90', 'max:90'],
             'uidOrUsername' => ['string', 'nullable'], // posts->user_id
             'gid' => ['string', 'nullable'], // posts->group_id
             'hid' => ['string', 'nullable'], // hashtag_usages->hashtag_id
