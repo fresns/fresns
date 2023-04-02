@@ -26,6 +26,8 @@ class Account extends Authenticatable
     use Traits\LangNameTrait;
     use Traits\LangDescriptionTrait;
 
+    protected $guarded = [];
+
     protected $dates = [
         'last_login_at',
         'verify_at',
