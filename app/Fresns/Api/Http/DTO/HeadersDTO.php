@@ -21,7 +21,7 @@ class HeadersDTO extends DTO
             'appId' => ['string', 'required'],
             'platformId' => ['integer', 'required', 'between:1,13'],
             'version' => ['string', 'required'],
-            'deviceInfo' => ['array', 'required'],
+            'deviceInfo' => ['string', 'required'],
             'langTag' => ['string', 'nullable'],
             'timezone' => ['string', 'nullable'],
             'contentFormat' => ['string', 'nullable'],

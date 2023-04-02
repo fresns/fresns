@@ -10,6 +10,7 @@ namespace App\Fresns\Api\Http\Middleware;
 
 use App\Exceptions\ApiException;
 use App\Fresns\Api\Http\DTO\HeadersDTO;
+use App\Fresns\Words\Basic\DTO\DeviceInfoDTO;
 use App\Helpers\ConfigHelper;
 use Closure;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class CheckHeaderByWhitelist
             'appId' => \request()->header('X-Fresns-App-Id'),
             'platformId' => \request()->header('X-Fresns-Client-Platform-Id'),
             'version' => \request()->header('X-Fresns-Client-Version'),
-            'deviceInfo' => json_decode(\request()->header('X-Fresns-Client-Device-Info'), true),
+            'deviceInfo' => \request()->header('X-Fresns-Client-Device-Info'),
             'langTag' => \request()->header('X-Fresns-Client-Lang-Tag'),
             'timezone' => \request()->header('X-Fresns-Client-Timezone'),
             'contentFormat' => \request()->header('X-Fresns-Client-Content-Format'),
@@ -36,6 +37,13 @@ class CheckHeaderByWhitelist
 
         // check header
         new HeadersDTO($headers);
+
+        try {
+            $deviceInfo = json_decode($headers['deviceInfo'], true);
+        } catch (\Exception $e) {
+            $deviceInfo = [];
+        }
+        new DeviceInfoDTO($deviceInfo);
 
         // check sign
         $isCheckSign = ConfigHelper::fresnsConfigDeveloperMode()['apiSignature'];
