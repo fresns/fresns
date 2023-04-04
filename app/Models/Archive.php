@@ -21,8 +21,17 @@ class Archive extends Model
     use Traits\IsEnableTrait;
 
     protected $casts = [
-        'element_options' => 'json',
+        'element_options' => 'array',
     ];
+
+    public function getElementOptionsAttribute($value)
+    {
+        if (is_string($value)) {
+            $value = json_decode($value, true);
+        }
+
+        return $value ?? [];
+    }
 
     public function scopeType($query, int $type)
     {
