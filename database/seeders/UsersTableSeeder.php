@@ -9,6 +9,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class UsersTableSeeder extends Seeder
 {
@@ -17,9 +18,9 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        \DB::table('users')->delete();
+        DB::table('users')->delete();
 
-        \DB::table('users')->insert([
+        DB::table('users')->insert([
             0 => [
                 'id' => 1,
                 'account_id' => 1,

@@ -9,6 +9,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DomainsTableSeeder extends Seeder
 {
@@ -17,9 +18,9 @@ class DomainsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        \DB::table('domains')->delete();
+        DB::table('domains')->delete();
 
-        \DB::table('domains')->insert([
+        DB::table('domains')->insert([
             0 => [
                 'id' => 1,
                 'domain' => 'fresns.com',

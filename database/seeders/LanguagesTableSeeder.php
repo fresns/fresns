@@ -9,6 +9,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class LanguagesTableSeeder extends Seeder
 {
@@ -17,9 +18,9 @@ class LanguagesTableSeeder extends Seeder
      */
     public function run(): void
     {
-        \DB::table('languages')->delete();
+        DB::table('languages')->delete();
 
-        \DB::table('languages')->insert([
+        DB::table('languages')->insert([
             0 => [
                 'id' => 1,
                 'table_name' => 'configs',

@@ -9,6 +9,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class PluginUsagesTableSeeder extends Seeder
 {
@@ -17,9 +18,9 @@ class PluginUsagesTableSeeder extends Seeder
      */
     public function run(): void
     {
-        \DB::table('plugin_usages')->delete();
+        DB::table('plugin_usages')->delete();
 
-        \DB::table('plugin_usages')->insert([
+        DB::table('plugin_usages')->insert([
             0 => [
                 'id' => 1,
                 'usage_type' => 4,

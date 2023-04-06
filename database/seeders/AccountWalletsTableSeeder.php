@@ -9,6 +9,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class AccountWalletsTableSeeder extends Seeder
 {
@@ -17,9 +18,9 @@ class AccountWalletsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        \DB::table('account_wallets')->delete();
+        DB::table('account_wallets')->delete();
 
-        \DB::table('account_wallets')->insert([
+        DB::table('account_wallets')->insert([
             0 => [
                 'id' => 1,
                 'account_id' => 1,

@@ -9,6 +9,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class CodeMessagesTableSeeder extends Seeder
 {
@@ -17,9 +18,9 @@ class CodeMessagesTableSeeder extends Seeder
      */
     public function run(): void
     {
-        \DB::table('code_messages')->delete();
+        DB::table('code_messages')->delete();
 
-        \DB::table('code_messages')->insert([
+        DB::table('code_messages')->insert([
             0 => [
                 'id' => 1,
                 'plugin_unikey' => 'CmdWord',
@@ -5021,7 +5022,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
         ]);
-        \DB::table('code_messages')->insert([
+        DB::table('code_messages')->insert([
             0 => [
                 'id' => 501,
                 'plugin_unikey' => 'Fresns',

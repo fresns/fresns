@@ -9,6 +9,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class AccountsTableSeeder extends Seeder
 {
@@ -17,16 +18,16 @@ class AccountsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        \DB::table('accounts')->delete();
+        DB::table('accounts')->delete();
 
-        \DB::table('accounts')->insert([
+        DB::table('accounts')->insert([
             0 => [
                 'id' => 1,
                 'aid' => 'fresns',
                 'type' => 1,
-                'country_code' => '1',
-                'pure_phone' => '123456789',
-                'phone' => '1123456789',
+                'country_code' => '86',
+                'pure_phone' => '13912345678',
+                'phone' => '8613912345678',
                 'email' => 'admin@admin.com',
                 'password' => '$2y$10$NAnHTCpECr8mR./fDq21q./Og2x/JKzhDUw0hX8VYFTuSb2UOrk3i', //password=123456
                 'last_login_at' => '2022-10-18 17:00:00',

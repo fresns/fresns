@@ -9,6 +9,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class UserRolesTableSeeder extends Seeder
 {
@@ -17,9 +18,9 @@ class UserRolesTableSeeder extends Seeder
      */
     public function run(): void
     {
-        \DB::table('user_roles')->delete();
+        DB::table('user_roles')->delete();
 
-        \DB::table('user_roles')->insert([
+        DB::table('user_roles')->insert([
             0 => [
                 'id' => 1,
                 'user_id' => 1,
