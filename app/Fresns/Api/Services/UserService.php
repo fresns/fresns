@@ -139,6 +139,7 @@ class UserService
             'api.conversation.messages',
             'api.common.file.users',
             'api.post.users',
+            'api.post.quotes',
         ];
 
         if (! in_array($currentRouteName, $filterRouteList)) {

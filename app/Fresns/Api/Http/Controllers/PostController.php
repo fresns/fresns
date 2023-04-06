@@ -30,7 +30,6 @@ use App\Models\PostLog;
 use App\Models\PostUser;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
-use App\Utilities\LbsUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -487,6 +486,115 @@ class PostController extends Controller
         return $this->fresnsPaginate($userList, $userListData->total(), $userListData->perPage());
     }
 
+    // quotes
+    public function quotes(string $pid, Request $request)
+    {
+        $dtoRequest = new PaginationDTO($request->all());
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUserId = $this->user()?->id;
+
+        $post = Post::with(['creator'])->where('pid', $pid)->first();
+
+        if (empty($post)) {
+            throw new ApiException(37300);
+        }
+
+        // check creator
+        if (empty($post?->creator)) {
+            throw new ApiException(35203);
+        }
+
+        // check is enable
+        if (! $post->is_enable && $post->user_id != $authUserId) {
+            throw new ApiException(37301);
+        }
+
+        UserService::checkUserContentViewPerm($post->created_at, $authUserId);
+
+        $postQuery = Post::with(['creator', 'hashtagUsages'])->has('creator');
+
+        $blockGroupIds = InteractionUtility::getPrivateGroupIdArr();
+        $blockHashtagIds = [];
+
+        if ($authUserId) {
+            $blockPostIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_POST, $authUserId);
+            $blockUserIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_USER, $authUserId);
+            $blockGroupIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_GROUP, $authUserId);
+            $blockHashtagIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_HASHTAG, $authUserId);
+
+            $postQuery->when($blockPostIds, function ($query, $value) {
+                $query->whereNotIn('id', $value);
+            });
+
+            $postQuery->when($blockUserIds, function ($query, $value) {
+                $query->whereNotIn('user_id', $value);
+            });
+        }
+
+        $filterGroups = array_filter(explode(',', $dtoRequest->blockGroups));
+        if ($filterGroups) {
+            $groupIds = [];
+            foreach ($filterGroups as $gid) {
+                $groupIds[] = PrimaryHelper::fresnsGroupIdByGid($gid);
+            }
+
+            $blockGroupIds = array_merge($blockGroupIds, $groupIds);
+        }
+        $filterHashtags = array_filter(explode(',', $dtoRequest->blockHashtags));
+        if ($filterHashtags) {
+            $hashtagIds = [];
+            foreach ($filterHashtags as $hid) {
+                $hashtagIds[] = PrimaryHelper::fresnsHashtagIdByHid($hid);
+            }
+
+            $blockHashtagIds = array_merge($blockHashtagIds, $hashtagIds);
+        }
+
+        $postQuery->when($blockGroupIds, function ($query, $value) {
+            $query->whereNotIn('group_id', $value);
+        });
+
+        $postQuery->when($blockHashtagIds, function ($query, $value) {
+            $query->where(function ($postQuery) use ($value) {
+                $postQuery->whereDoesntHave('hashtagUsages')->orWhereHas('hashtagUsages', function ($query) use ($value) {
+                    $query->whereNotIn('hashtag_id', $value);
+                });
+            });
+        });
+
+        // is enable
+        $postQuery->where(function ($query) use ($authUserId) {
+            $query->where('is_enable', true);
+            if ($authUserId) {
+                $query->orWhere(function ($query) use ($authUserId) {
+                    $query->where('is_enable', false)->where('user_id', $authUserId);
+                });
+            }
+        });
+
+        // user is enable
+        $postQuery->whereHas('creator', function ($query) {
+            $query->where('is_enable', true);
+        });
+
+        // date limit
+        $dateLimit = $groupDateLimit ?? UserService::getContentDateLimit($authUserId);
+        $postQuery->when($dateLimit, function ($query, $value) {
+            $query->where('created_at', '<=', $value);
+        });
+
+        $postListData = $postQuery->latest()->paginate($dtoRequest->pageSize ?? 15);
+
+        $postList = [];
+        $service = new PostService();
+        foreach ($postListData as $post) {
+            $postList[] = $service->postData($post, 'list', $langTag, $timezone, $authUserId);
+        }
+
+        return $this->fresnsPaginate($postList, $postListData->total(), $postListData->perPage());
+    }
+
     // postLogs
     public function postLogs(string $pid, Request $request)
     {
@@ -692,7 +800,7 @@ class PostController extends Controller
             ->select(DB::raw("*, ( 6371 * acos( cos( radians($dtoRequest->mapLat) ) * cos( radians( map_latitude ) ) * cos( radians( map_longitude ) - radians($dtoRequest->mapLng) ) + sin( radians($dtoRequest->mapLat) ) * sin( radians( map_latitude ) ) ) ) AS distance"))
             ->having('distance', '<=', $nearbyLength)
             ->orderBy('distance')
-            ->paginate();
+            ->paginate($dtoRequest->pageSize ?? 15);
 
         $postList = [];
         $service = new PostService();

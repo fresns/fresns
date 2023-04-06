@@ -58,6 +58,7 @@ class CheckSiteMode
                 'api.post.list',
                 'api.post.interaction',
                 'api.post.users',
+                'api.post.quotes',
                 'api.post.logs',
                 'api.post.follow',
                 'api.post.nearby',

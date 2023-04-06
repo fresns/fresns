@@ -130,6 +130,7 @@ Route::prefix('v2')->middleware([
         Route::get('{pid}/detail', [PostController::class, 'detail'])->name('detail');
         Route::get('{pid}/interaction/{type}', [PostController::class, 'interaction'])->name('interaction');
         Route::get('{pid}/users', [PostController::class, 'users'])->name('users');
+        Route::get('{pid}/quotes', [PostController::class, 'quotes'])->name('quotes');
         Route::get('{pid}/logs', [PostController::class, 'postLogs'])->name('logs');
         Route::get('{pid}/log/{logId}', [PostController::class, 'logDetail'])->name('log.detail');
         Route::delete('{pid}', [PostController::class, 'delete'])->name('delete');
