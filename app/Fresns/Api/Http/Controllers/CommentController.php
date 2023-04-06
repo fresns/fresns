@@ -29,7 +29,6 @@ use App\Models\Comment;
 use App\Models\CommentLog;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
-use App\Utilities\LbsUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -671,13 +670,10 @@ class CommentController extends Controller
         };
 
         $comments = Comment::query()
-            ->select([
-                DB::raw('*'),
-                DB::raw(LbsUtility::getDistanceSql('map_longitude', 'map_latitude', $dtoRequest->mapLng, $dtoRequest->mapLat)),
-            ])
+            ->select(DB::raw("*, ( 6371 * acos( cos( radians($dtoRequest->mapLat) ) * cos( radians( map_latitude ) ) * cos( radians( map_longitude ) - radians($dtoRequest->mapLng) ) + sin( radians($dtoRequest->mapLat) ) * sin( radians( map_latitude ) ) ) ) AS distance"))
             ->having('distance', '<=', $nearbyLength)
             ->orderBy('distance')
-            ->paginate();
+            ->paginate($dtoRequest->pageSize ?? 15);
 
         $commentList = [];
         $service = new CommentService();
