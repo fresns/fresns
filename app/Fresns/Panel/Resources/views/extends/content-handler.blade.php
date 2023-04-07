@@ -28,20 +28,29 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.extend_content_service') }}:</label>
             <div class="col-lg-6">
                 <div class="input-group mb-3">
-                    <label class="input-group-text">{{ __('FsLang::panel.extend_content_notifications_service') }}</label>
-                    <select class="form-select" name="notifications_service">
-                        <option value="" {{ !$params['notifications_service'] ? 'selected' : '' }}>{{ __('FsLang::panel.option_default') }}</option>
-                        @foreach ($pluginParams['extendNotification'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['notifications_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="input-group mb-3">
                     <label class="input-group-text">{{ __('FsLang::panel.extend_content_ip') }}</label>
                     <select class="form-select" name="ip_service">
                         <option value="" {{ !$params['ip_service'] ? 'selected' : '' }}>⛔️ {{ __('FsLang::panel.option_close') }}</option>
                         @foreach ($pluginParams['extendIp'] as $plugin)
                             <option value="{{ $plugin->unikey }}" {{ $params['ip_service'] == $plugin->unikey ? 'selected' : '' }}> {{ $plugin->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text">{{ __('FsLang::panel.extend_content_map') }}</label>
+                    <select class="form-select" name="map_service">
+                        <option value="" {{ !$params['map_service'] ? 'selected' : '' }}>⛔️ {{ __('FsLang::panel.option_close') }}</option>
+                        @foreach ($pluginParams['extendMap'] as $plugin)
+                            <option value="{{ $plugin->unikey }}" {{ $params['map_service'] == $plugin->unikey ? 'selected' : '' }}> {{ $plugin->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text">{{ __('FsLang::panel.extend_content_notifications_service') }}</label>
+                    <select class="form-select" name="notifications_service">
+                        <option value="" {{ !$params['notifications_service'] ? 'selected' : '' }}>{{ __('FsLang::panel.option_default') }}</option>
+                        @foreach ($pluginParams['extendNotification'] as $plugin)
+                            <option value="{{ $plugin->unikey }}" {{ $params['notifications_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>

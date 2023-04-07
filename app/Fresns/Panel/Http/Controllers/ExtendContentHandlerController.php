@@ -19,6 +19,7 @@ class ExtendContentHandlerController extends Controller
         // config keys
         $configKeys = [
             'ip_service',
+            'map_service',
             'notifications_service',
             'content_review_service',
             'content_list_service',
@@ -39,6 +40,7 @@ class ExtendContentHandlerController extends Controller
 
         $pluginScenes = [
             'extendIp',
+            'extendMap',
             'extendReview',
             'extendData',
             'extendNotification',
@@ -60,6 +62,7 @@ class ExtendContentHandlerController extends Controller
         // config keys
         $configKeys = [
             'ip_service',
+            'map_service',
             'notifications_service',
             'content_review_service',
             'content_list_service',
