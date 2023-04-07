@@ -42,17 +42,6 @@ class WebsiteController extends Controller
             $params[$config->item_key] = $config->item_value;
         }
 
-        // $pluginScenes = [
-        //     'engine',
-        // ];
-        // $plugins = Plugin::all();
-        // $pluginParams = [];
-        // foreach ($pluginScenes as $scene) {
-        //     $pluginParams[$scene] = $plugins->filter(function ($plugin) use ($scene) {
-        //         return in_array($scene, $plugin->scene);
-        //     });
-        // }
-
         $keyData = SessionKey::where('type', 1)->whereIn('platform_id', [2, 3, 4])->isEnable()->get();
         $keys = [];
         foreach ($keyData as $key) {
@@ -62,16 +51,6 @@ class WebsiteController extends Controller
 
             $keys[] = $item;
         }
-
-        // $engineSettingsPath = Plugin::where('unikey', $params['engine_service'])->value('settings_path');
-
-        // $FresnsEngine = Config::where('item_key', 'FresnsEngine')->first()?->item_value;
-
-        // $themeUnikey['desktop'] = Config::where('item_key', $params['engine_service'].'_Desktop')->value('item_value');
-        // $themeUnikey['mobile'] = Config::where('item_key', $params['engine_service'].'_Mobile')->value('item_value');
-
-        // $themeName['desktop'] = Plugin::where('unikey', $themeUnikey['desktop'])->value('name');
-        // $themeName['mobile'] = Plugin::where('unikey', $themeUnikey['mobile'])->value('name');
 
         return view('FsView::clients.website', compact('keys', 'params'));
     }

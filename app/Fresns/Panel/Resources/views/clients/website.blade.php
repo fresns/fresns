@@ -28,33 +28,6 @@
         <div class="row mb-4">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.website_engine_config') }}:</label>
             <div class="col-lg-5">
-                {{-- <div class="input-group mb-3">
-                    <label class="input-group-text">{{ __('FsLang::panel.website_engine_service') }}</label>
-                    <select class="form-select" name="engine_service">
-                        <option value="FresnsEngine" {{ !$params['engine_service'] ? 'selected' : '' }}>
-                            @if ($FresnsEngine)
-                                🟢
-                            @else
-                                ⚪
-                            @endif
-                            {{ __('FsLang::panel.website_engine_default') }}
-                        </option>
-                        @foreach ($pluginParams['engine'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['engine_service'] == $plugin->unikey ? 'selected' : '' }}>
-                                @if ($plugin->is_enable)
-                                    🟢
-                                @else
-                                    ⚪
-                                @endif
-                                {{ $plugin->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <a class="btn btn-outline-secondary" href="{{ route('panel.engines.index') }}" role="button">{{ __('FsLang::panel.button_view') }}</a>
-                    @if ($engineSettingsPath)
-                        <a class="btn btn-outline-secondary" href="{{ route('panel.iframe.setting', ['url' => $engineSettingsPath]) }}" role="button">{{ __('FsLang::panel.button_setting') }}</a>
-                    @endif
-                </div> --}}
                 <div class="input-group mb-3">
                     <label class="input-group-text">{{ __('FsLang::panel.website_engine_cookie_prefix') }}</label>
                     <select class="form-select" name="engine_cookie_prefix">
