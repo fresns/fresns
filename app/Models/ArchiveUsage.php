@@ -35,7 +35,9 @@ class ArchiveUsage extends Model
     public function setArchiveValueAttribute($value)
     {
         if (in_array($this->archive->api_type, ['array', 'plugins', 'object']) || is_array($value)) {
-            $value = json_encode($value);
+            if (! is_string($value)) {
+                $value = json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
+            }
         }
 
         if ($this->item_type == 'boolean') {
