@@ -654,6 +654,8 @@ return [
     'interaction_hashtag_format_1' => 'Tunggal #',
     'interaction_hashtag_format_2' => 'DOUBLE #',
     'interaction_hashtag_format_desc' => '<a href="#">#topik</a> dan <a href="#">#topik#</a>',
+    'interaction_hashtag_length' => 'Panjang Hashtag',
+    'interaction_hashtag_regexp' => 'Ekspresi Reguler Hashtag',
     'interaction_comment_visibility_rule' => 'Aturan visibilitas komentar',
     'interaction_comment_visibility_rule_desc' => 'Komentar akan disembunyikan jika postingan telah dipublikasikan lebih dari beberapa hari, 0 berarti tidak diaktifkan',
     'interaction_preview_post_like_users' => 'Pratinjau pengguna yang menyukai postingan',

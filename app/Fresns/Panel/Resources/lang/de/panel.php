@@ -654,6 +654,8 @@ return [
     'interaction_hashtag_format_1' => 'Single #',
     'interaction_hashtag_format_2' => 'Doppelt #',
     'interaction_hashtag_format_desc' => '<a href="#">#thema</a> und <a href="#">#thema#</a>',
+    'interaction_hashtag_length' => 'Hashtag-Länge',
+    'interaction_hashtag_regexp' => 'Regulärer Hashtag-Ausdruck',
     'interaction_comment_visibility_rule' => 'Regeln für die Sichtbarkeit von Kommentaren',
     'interaction_comment_visibility_rule_desc' => 'Kommentare werden ausgeblendet, wenn der Beitrag schon länger als ein paar Tage veröffentlicht ist, 0 bedeutet nicht aktiviert',
     'interaction_preview_post_like_users' => 'Vorschau der Benutzer, die einen Beitrag geliked haben',

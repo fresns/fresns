@@ -654,6 +654,8 @@ return [
     'interaction_hashtag_format_1' => 'Único #',
     'interaction_hashtag_format_2' => 'Duplo #',
     'interaction_hashtag_format_desc' => '<a href="#">#tópico</a> e <a href="#">#tópico#</a>',
+    'interaction_hashtag_length' => 'Comprimento do Hashtag',
+    'interaction_hashtag_regexp' => 'Hashtag Expressão regular',
     'interaction_comment_visibility_rule' => 'Comentar as regras de visibilidade',
     'interaction_comment_visibility_rule_desc' => 'Os comentários serão ocultados se o post tiver sido publicado por mais de alguns dias, 0 significa não activado',
     'interaction_preview_post_like_users' => 'Pré-visualização dos utilizadores que gostaram de um post',

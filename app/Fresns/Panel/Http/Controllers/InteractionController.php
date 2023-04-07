@@ -20,6 +20,8 @@ class InteractionController extends Controller
             'mention_status',
             'hashtag_status',
             'hashtag_format',
+            'hashtag_length',
+            'hashtag_regexp',
             'comment_visibility_rule',
             'preview_post_like_users',
             'preview_post_comments',
@@ -142,6 +144,7 @@ class InteractionController extends Controller
             'mention_status',
             'hashtag_status',
             'hashtag_format',
+            'hashtag_length',
             'comment_visibility_rule',
             'preview_post_like_users',
             'preview_post_comments',
@@ -266,6 +269,17 @@ class InteractionController extends Controller
             $config->item_value = $request->$configKey;
             $config->save();
         }
+
+        return $this->updateSuccess();
+    }
+
+    public function updateHashtagRegexp(Request $request)
+    {
+        $hashtagRegexp = Config::where('item_key', 'hashtag_regexp')->first();
+
+        $hashtagRegexp->item_value = $request->hashtagRegexp;
+        $hashtagRegexp->item_type = 'object';
+        $hashtagRegexp->save();
 
         return $this->updateSuccess();
     }

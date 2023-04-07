@@ -654,6 +654,8 @@ return [
     'interaction_hashtag_format_1' => 'Один #',
     'interaction_hashtag_format_2' => 'Двойной #',
     'interaction_hashtag_format_desc' => '<a href="#">#Темы</a> и <a href="#">#Темы#</a>',
+    'interaction_hashtag_length' => 'Длина хэштега',
+    'interaction_hashtag_regexp' => 'Регулярное выражение хэштега',
     'interaction_comment_visibility_rule' => 'Правила видимости комментариев',
     'interaction_comment_visibility_rule_desc' => 'Комментарии будут скрыты, если пост был опубликован более нескольких дней назад, 0 означает не включен',
     'interaction_preview_post_like_users' => 'Предварительный просмотр пользователей, которым понравилось сообщение',

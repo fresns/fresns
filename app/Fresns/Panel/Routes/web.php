@@ -175,6 +175,7 @@ Route::middleware(['panelAuth'])->group(function () {
         // interaction
         Route::get('interaction', [InteractionController::class, 'show'])->name('interaction.index');
         Route::put('interaction', [InteractionController::class, 'update'])->name('interaction.update');
+        Route::put('interaction-update-hashtag-regexp', [InteractionController::class, 'updateHashtagRegexp'])->name('interaction.update.hashtag.regexp');
         // stickers
         Route::resource('stickers', StickerGroupController::class)->only([
             'index', 'store', 'update', 'destroy',

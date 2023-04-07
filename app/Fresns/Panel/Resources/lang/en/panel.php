@@ -654,6 +654,8 @@ return [
     'interaction_hashtag_format_1' => 'Single #',
     'interaction_hashtag_format_2' => 'Double #',
     'interaction_hashtag_format_desc' => 'The difference between <a href="#">#Hashtag</a> and <a href="#">#Hashtag#</a>',
+    'interaction_hashtag_length' => 'Hashtag Length',
+    'interaction_hashtag_regexp' => 'Hashtag Regular Expression',
     'interaction_comment_visibility_rule' => 'Comment visibility rule',
     'interaction_comment_visibility_rule_desc' => 'Post publication time greater than the number of days, comments will be hidden, 0 means not enabled',
     'interaction_preview_post_like_users' => 'Post like user preview',

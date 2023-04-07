@@ -655,6 +655,8 @@ return [
     'interaction_hashtag_format_1' => '單 # 號',
     'interaction_hashtag_format_2' => '雙 # 號',
     'interaction_hashtag_format_desc' => '<a href="#">#話題</a> 和 <a href="#">#話題#</a> 的區別',
+    'interaction_hashtag_length' => '話題長度',
+    'interaction_hashtag_regexp' => '話題正則表達式',
     'interaction_comment_visibility_rule' => '留言可見度規則',
     'interaction_comment_visibility_rule_desc' => '貼文發表時間大於天數，留言將隱藏，0 代表不啟用',
     'interaction_preview_post_like_users' => '貼文點贊用戶預覽',

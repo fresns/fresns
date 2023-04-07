@@ -62,7 +62,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row mb-3">
             <label class="col-lg-2 col-form-label text-lg-end"></label>
             <div class="col-lg-6">
                 <div class="input-group">
@@ -78,9 +78,28 @@
                         </div>
                     </div>
                 </div>
-                <hr>
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {!! __('FsLang::panel.interaction_hashtag_format_desc') !!}</div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-lg-2 col-form-label text-lg-end"></label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <label class="input-group-text">{{ __('FsLang::panel.interaction_hashtag_length') }}</label>
+                    <input type="number" class="form-control input-number" name="hashtag_length" value="{{ $params['hashtag_length'] }}">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_character') }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-lg-2 col-form-label text-lg-end"></label>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <label class="input-group-text">{{ __('FsLang::panel.interaction_hashtag_regexp') }}</label>
+                    <button class="btn btn-outline-secondary" style="flex: 1 1 auto;" type="button" data-bs-toggle="modal" data-bs-target="#hashtagRegexpModal">{{ __('FsLang::panel.button_config') }}</button>
+                </div>
+                <hr>
+            </div>
         </div>
 
         <!-- post -->
@@ -855,4 +874,38 @@
             </div>
         </div>
     </form>
+
+    <!-- Hashtag Regexp Modal -->
+    <div class="modal fade" id="hashtagRegexpModal" tabindex="-1" aria-labelledby="hashtagRegexpModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">{{ __('FsLang::panel.interaction_hashtag_regexp') }}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('panel.interaction.update.hashtag.regexp') }}" method="post">
+                        @csrf
+                        @method('put')
+
+                        <div class="input-group">
+                            <span class="input-group-text">{{ __('FsLang::panel.interaction_hashtag_format_1') }}</span>
+                            <input type="text" class="form-control" name="hashtagRegexp[space]" value="{{ $params['hashtag_regexp']['space'] ?? '' }}">
+                        </div>
+                        <div class="form-text mb-3 ps-1">{{ __('FsLang::panel.option_default') }}: <code>/#[\p{L}\p{N}\p{M}]+[^\n\p{P}\s]/u</code></div>
+
+                        <div class="input-group">
+                            <span class="input-group-text">{{ __('FsLang::panel.interaction_hashtag_format_2') }}</span>
+                            <input type="text" class="form-control" name="hashtagRegexp[hash]" value="{{ $params['hashtag_regexp']['hash'] ?? '' }}">
+                        </div>
+                        <div class="form-text mb-3 ps-1">{{ __('FsLang::panel.option_default') }}: <code>/#[\p{L}\p{N}\p{M}]+[^\n\p{P}]#/u</code></div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">{{ __('FsLang::panel.button_save') }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

@@ -654,6 +654,8 @@ return [
     'interaction_hashtag_format_1' => '単一＃号機',
     'interaction_hashtag_format_2' => 'ダブル＃号機',
     'interaction_hashtag_format_desc' => '<a href="#">＃トピック</a>と<a href="#">＃トピック＃</a>',
+    'interaction_hashtag_length' => 'ハッシュタグの長さ',
+    'interaction_hashtag_regexp' => 'ハッシュタグの正規表現',
     'interaction_comment_visibility_rule' => 'コメントの可視化ルール',
     'interaction_comment_visibility_rule_desc' => '投稿が数日以上経過するとコメントが非表示になります、0は有効でないことを意味します',
     'interaction_preview_post_like_users' => 'ある投稿に「いいね！」をつけたユーザーのプレビュー',

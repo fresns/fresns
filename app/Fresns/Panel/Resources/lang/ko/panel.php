@@ -654,6 +654,8 @@ return [
     'interaction_hashtag_format_1' => '단일 #',
     'interaction_hashtag_format_2' => '더블 #',
     'interaction_hashtag_format_desc' => '<a href="#">#주제</a> 및 <a href="#">#주제#</a>',
+    'interaction_hashtag_length' => '해시태그 길이',
+    'interaction_hashtag_regexp' => '해시태그 정규 표현식',
     'interaction_comment_visibility_rule' => '댓글 가시성 규칙',
     'interaction_comment_visibility_rule_desc' => '게시 시간이 일 수보다 길면 댓글이 숨겨지고 0은 활성화되지 않음을 의미합니다.',
     'interaction_preview_post_like_users' => '사용자 미리보기처럼 게시',

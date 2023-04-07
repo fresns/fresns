@@ -654,6 +654,8 @@ return [
     'interaction_hashtag_format_1' => 'Single #',
     'interaction_hashtag_format_2' => 'Double #',
     'interaction_hashtag_format_desc' => '<a href="#">#sujet</a> et <a href="#">#sujet#</a>',
+    'interaction_hashtag_length' => 'Longueur du hashtag',
+    'interaction_hashtag_regexp' => 'Expression régulière du hashtag',
     'interaction_comment_visibility_rule' => 'Règles de visibilité des commentaires',
     'interaction_comment_visibility_rule_desc' => 'Les commentaires seront masqués si l\'article a été publié depuis plus de quelques jours, 0 signifie non activé.',
     'interaction_preview_post_like_users' => 'Aperçu des utilisateurs qui ont aimé un article',

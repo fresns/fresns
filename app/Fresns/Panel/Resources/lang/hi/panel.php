@@ -654,6 +654,8 @@ return [
     'interaction_hashtag_format_1' => 'एकल #',
     'interaction_hashtag_format_2' => 'डबल #',
     'interaction_hashtag_format_desc' => '<a href="#">#विषय</a> और <a href="#">#विषय#</a>',
+    'interaction_hashtag_length' => 'हैशटैग की लंबाई',
+    'interaction_hashtag_regexp' => 'हैशटैग रेगुलर एक्सप्रेशन',
     'interaction_comment_visibility_rule' => 'टिप्पणी दृश्यता नियम',
     'interaction_comment_visibility_rule_desc' => 'यदि पोस्टिंग का समय दिनों की संख्या से अधिक है, तो टिप्पणी छिपा दी जाएगी, 0 का अर्थ सक्षम नहीं है',
     'interaction_preview_post_like_users' => 'उपयोगकर्ता पूर्वावलोकन की तरह पोस्ट करें',

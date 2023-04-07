@@ -655,6 +655,8 @@ return [
     'interaction_hashtag_format_1' => '单 # 号',
     'interaction_hashtag_format_2' => '双 # 号',
     'interaction_hashtag_format_desc' => '<a href="#">#话题</a> 和 <a href="#">#话题#</a> 的区别',
+    'interaction_hashtag_length' => '话题长度',
+    'interaction_hashtag_regexp' => '话题正则表达式',
     'interaction_comment_visibility_rule' => '评论可见度规则',
     'interaction_comment_visibility_rule_desc' => '帖子发表时间大于天数，评论将隐藏，0 代表不启用',
     'interaction_preview_post_like_users' => '帖子点赞用户预览',
