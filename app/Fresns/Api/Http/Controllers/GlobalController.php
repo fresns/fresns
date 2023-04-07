@@ -281,16 +281,6 @@ class GlobalController extends Controller
         return $this->fresnsPaginate($roleList, $roles->total(), $roles->perPage());
     }
 
-    // maps
-    public function maps()
-    {
-        $langTag = $this->langTag();
-
-        $data = ExtendUtility::getExtendsByEveryone(PluginUsage::TYPE_MAP, null, null, $langTag);
-
-        return $this->success($data);
-    }
-
     // contentTypes
     public function contentTypes($type)
     {

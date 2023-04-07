@@ -202,6 +202,7 @@ class ConfigUtility
             'video_service',
             'audio_service',
             'document_service',
+            'map_service',
         ]);
 
         $imageUploadUrl = PluginHelper::fresnsPluginUrlByUnikey($editorConfig['image_service']);
@@ -294,7 +295,7 @@ class ConfigUtility
 
         // location
         $location['status'] = $editorConfig["{$type}_editor_location"];
-        $location['maps'] = ExtendUtility::getExtendsByEveryone(PluginUsage::TYPE_MAP, null, null, $langTag);
+        $location['map'] = PluginHelper::fresnsPluginUrlByUnikey($editorConfig['map_service']);
 
         // feature
         $feature['group'] = $group;
