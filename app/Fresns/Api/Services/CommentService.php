@@ -310,7 +310,9 @@ class CommentService
         $authUid = PrimaryHelper::fresnsModelById('user', $authUserId)?->uid;
 
         if (! $commentData['isCommentPublic'] && $commentData['replyToPost']['creator']['uid'] != $authUid) {
-            return $contentData['content'] = null;
+            $contentData['content'] = null;
+
+            return $contentData;
         }
 
         $contentFormat = \request()->header('X-Fresns-Client-Content-Format');
