@@ -47,9 +47,15 @@ class ContentUtility
     // preg regexp
     public static function getRegexpByType($type): string
     {
+        $hashtagRegexp = ConfigHelper::fresnsConfigByItemKey('hashtag_regexp');
+
+        // Validate regex patterns
+        $spacePattern = ValidationUtility::regexp($hashtagRegexp['space']) ? $hashtagRegexp['space'] : '/#[\p{L}\p{N}\p{M}]+[^\n\p{P}\s]/u';
+        $hashPattern = ValidationUtility::regexp($hashtagRegexp['hash']) ? $hashtagRegexp['hash'] : '/#[\p{L}\p{N}\p{M}]+[^\n\p{P}]#/u';
+
         return match ($type) {
-            'hash' => '/#[\p{L}\p{N}\p{M}]+[^\n\p{P}]#/u',
-            'space' => '/#[\p{L}\p{N}\p{M}]+[^\n\p{P}\s]/u',
+            'space' => $spacePattern,
+            'hash' => $hashPattern,
             'url' => '/(https?:\/\/[^\s\n]+)/i',
             'at' => '/@(.*?)\s/',
             'sticker' => '/\[(.*?)\]/',
@@ -80,7 +86,8 @@ class ContentUtility
 
             // hashtag only support 20 lengths
             $length = Str::length($item);
-            if ($length > 20) {
+            $hashtagLength = ConfigHelper::fresnsConfigByItemKey('hashtag_length') ?? 20;
+            if ($length > $hashtagLength) {
                 continue;
             }
 

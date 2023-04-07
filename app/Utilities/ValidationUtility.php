@@ -49,6 +49,12 @@ class ValidationUtility
         }
     }
 
+    // Validate regex patterns
+    public static function regexp(string $pattern): bool
+    {
+        return @preg_match($pattern, 'fresns') !== false;
+    }
+
     // Validate password
     public static function password(string $password): array
     {

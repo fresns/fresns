@@ -2949,7 +2949,7 @@ class ConfigsTableSeeder extends Seeder
             225 => [
                 'id' => 226,
                 'item_key' => 'hashtag_regexp',
-                'item_value' => '{"hash":"/#[\\\\p{L}\\\\p{N}\\\\p{M}]+[^\\n\\\\p{P}]#/u","space":"/#[\\\\p{L}\\\\p{N}\\\\p{M}]+[^\\n\\\\p{P}\\\\s]/u"}',
+                'item_value' => '{"space":"/#[\\\\p{L}\\\\p{N}\\\\p{M}]+[^\\\\n\\\\p{P}\\\\s]/u","hash":"/#[\\\\p{L}\\\\p{N}\\\\p{M}]+[^\\\\n\\\\p{P}]#/u"}',
                 'item_type' => 'object',
                 'item_tag' => 'interactions',
                 'is_multilingual' => 0,
