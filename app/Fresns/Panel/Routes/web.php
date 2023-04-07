@@ -29,7 +29,6 @@ use App\Fresns\Panel\Http\Controllers\LanguageController;
 use App\Fresns\Panel\Http\Controllers\LanguageMenuController;
 use App\Fresns\Panel\Http\Controllers\LanguagePackController;
 use App\Fresns\Panel\Http\Controllers\LoginController;
-use App\Fresns\Panel\Http\Controllers\MapController;
 use App\Fresns\Panel\Http\Controllers\MenuController;
 use App\Fresns\Panel\Http\Controllers\PluginUsageController;
 use App\Fresns\Panel\Http\Controllers\PolicyController;
@@ -167,10 +166,6 @@ Route::middleware(['panelAuth'])->group(function () {
         // storage-substitution
         Route::get('storage/substitution', [StorageController::class, 'substitutionShow'])->name('storage.substitution.index');
         Route::put('storage/substitution', [StorageController::class, 'substitutionUpdate'])->name('storage.substitution.update');
-        // maps
-        Route::resource('maps', MapController::class)->only([
-            'index', 'store', 'update',
-        ]);
     });
 
     // operatings

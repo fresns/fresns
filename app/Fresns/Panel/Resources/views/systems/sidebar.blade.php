@@ -14,7 +14,6 @@
                     <li class="nav-item"><a class="nav-link {{ \Route::is('panel.user.*') ? 'active' : ''}}" href="{{ route('panel.user.index') }}">{{ __('FsLang::panel.sidebar_user') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ \Route::is('panel.wallet.*') ? 'active' : ''}}" href="{{ route('panel.wallet.index')}}">{{ __('FsLang::panel.sidebar_wallet') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ \Route::is('panel.storage.*') ? 'active' : ''}}" href="{{ route('panel.storage.image.index') }}">{{ __('FsLang::panel.sidebar_storage') }}</a></li>
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.maps.*') ? 'active' : ''}}" href="{{ route('panel.maps.index') }}">{{ __('FsLang::panel.sidebar_maps') }}</a></li>
                     <li class="nav-item d-block d-lg-none my-3 text-secondary">Powered by Fresns</li>
                 </ul>
             </div>
