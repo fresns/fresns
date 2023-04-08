@@ -495,6 +495,7 @@ return [
     'user_edit_username_periodicity' => 'Number of days between username changes',
     'user_edit_nickname_length' => 'Nickname Length',
     'user_edit_nickname_periodicity' => 'Number of days between nickname changes',
+    'user_edit_nickname_unique' => 'Nickname Unique',
     'user_edit_bio_length' => 'Bio Length',
     'user_edit_bio_support' => 'Bio Support',
     'user_bio_support_mention' => 'Mention User',

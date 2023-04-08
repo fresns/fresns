@@ -495,6 +495,7 @@ return [
     'user_edit_username_periodicity' => 'Nomor Interval Modifikasi Nama Pengguna',
     'user_edit_nickname_length' => 'Panjang Nama Panggilan',
     'user_edit_nickname_periodicity' => 'Nomor Interval Modifikasi Nama Julukan Pengguna',
+    'user_edit_nickname_unique' => 'Nama panggilan Unik',
     'user_edit_bio_length' => 'Panjang Bio',
     'user_edit_bio_support' => 'Dukungan Bio',
     'user_bio_support_mention' => 'Sebutkan Pengguna',

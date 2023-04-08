@@ -495,6 +495,7 @@ return [
     'user_edit_username_periodicity' => 'Numero di intervallo di modifica del nome utente',
     'user_edit_nickname_length' => 'Nickname Lunghezza',
     'user_edit_nickname_periodicity' => 'Numero di intervallo di modificazione del nickname dell\'utente',
+    'user_edit_nickname_unique' => 'Soprannome Unico',
     'user_edit_bio_length' => 'Lunghezza Bio',
     'user_edit_bio_support' => 'Supporto bio',
     'user_bio_support_mention' => 'Menzione dell\'utente',

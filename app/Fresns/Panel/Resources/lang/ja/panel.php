@@ -495,6 +495,7 @@ return [
     'user_edit_username_periodicity' => 'ユーザー名変更間隔番号',
     'user_edit_nickname_length' => 'ニックネームの長さ',
     'user_edit_nickname_periodicity' => 'ユーザーのニックネームの修正間隔番号',
+    'user_edit_nickname_unique' => 'ニックネーム ユニーク',
     'user_edit_bio_length' => 'バイオの長さ',
     'user_edit_bio_support' => 'バイオサポート',
     'user_bio_support_mention' => 'ユーザーへの言及',

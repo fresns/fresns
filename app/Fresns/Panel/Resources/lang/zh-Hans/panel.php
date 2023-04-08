@@ -496,6 +496,7 @@ return [
     'user_edit_username_periodicity' => '用户名修改间隔天数',
     'user_edit_nickname_length' => '用户昵称长度',
     'user_edit_nickname_periodicity' => '用户昵称修改间隔天数',
+    'user_edit_nickname_unique' => '用户昵称唯一值',
     'user_edit_bio_length' => '用户简介长度',
     'user_edit_bio_support' => '用户简介支持',
     'user_bio_support_mention' => '艾特用户',

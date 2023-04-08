@@ -297,6 +297,19 @@
                     <span class="input-group-text">{{ __('FsLang::panel.unit_day') }}</span>
                 </div>
                 <div class="input-group mb-2">
+                    <label class="input-group-text">{{ __('FsLang::panel.user_edit_nickname_unique') }}</label>
+                    <div class="form-control bg-white">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="nickname_unique" id="nickname_unique_false" value="false" {{ ! $params['nickname_unique'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="nickname_unique_false">{{ __('FsLang::panel.option_no') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="nickname_unique" id="nickname_unique_true" value="true" {{ $params['nickname_unique'] ? 'checked' : '' }}>
+                            <label class="form-check-label" for="nickname_unique_true">{{ __('FsLang::panel.option_yes') }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-2">
                     <label class="input-group-text">{{ __('FsLang::panel.user_edit_bio_length') }}</label>
                     <input type="number" class="form-control input-number" name="bio_length" value="{{ $params['bio_length'] }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_character') }}</span>

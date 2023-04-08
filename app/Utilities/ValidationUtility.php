@@ -110,7 +110,7 @@ class ValidationUtility
             'ban_names',
         ]);
         $length = Str::length($username);
-        $user = User::withTrashed()->where('username', $username)->first();
+        $checkUser = User::withTrashed()->where('username', $username)->first();
 
         // formatString
         $formatString = true;
@@ -149,7 +149,7 @@ class ValidationUtility
 
         // use
         $use = true;
-        if (! empty($user)) {
+        if ($checkUser) {
             $use = false;
         }
 
@@ -180,6 +180,7 @@ class ValidationUtility
         $config = ConfigHelper::fresnsConfigByItemKeys([
             'nickname_min',
             'nickname_max',
+            'nickname_unique',
             'ban_names',
         ]);
         $length = Str::length($nickname);
@@ -230,6 +231,16 @@ class ValidationUtility
             $maxLength = false;
         }
 
+        // use
+        $use = true;
+        if ($config['nickname_unique']) {
+            $checkUser = User::where('nickname', $nickname)->first();
+
+            if ($checkUser) {
+                $use = false;
+            }
+        }
+
         // banName
         $configBanNames = array_map('strtolower', $config['ban_names']);
         $newBanNames = array_merge($banNames, $configBanNames);
@@ -240,6 +251,7 @@ class ValidationUtility
             'formatSpace' => $formatSpace,
             'minLength' => $minLength,
             'maxLength' => $maxLength,
+            'use' => $use,
             'banName' => $isBanName ? false : true,
         ];
 

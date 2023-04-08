@@ -495,6 +495,7 @@ return [
     'user_edit_username_periodicity' => '사용자 이름 수정 간격 번호',
     'user_edit_nickname_length' => '닉네임 길이',
     'user_edit_nickname_periodicity' => '사용자 별명 수정 간격 번호',
+    'user_edit_nickname_unique' => '고유한 닉네임',
     'user_edit_bio_length' => '약력',
     'user_edit_bio_support' => '바이오 지원',
     'user_bio_support_mention' => '사용자 멘션',

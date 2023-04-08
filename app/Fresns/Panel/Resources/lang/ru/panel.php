@@ -495,6 +495,7 @@ return [
     'user_edit_username_periodicity' => 'Номер интервала модификации имени пользователя',
     'user_edit_nickname_length' => 'Длина псевдонима',
     'user_edit_nickname_periodicity' => 'Интервал изменение прозвище пользователя',
+    'user_edit_nickname_unique' => 'Прозвище Уникальный',
     'user_edit_bio_length' => 'Био длина',
     'user_edit_bio_support' => 'Поддержка био',
     'user_bio_support_mention' => 'Упоминание пользователя',

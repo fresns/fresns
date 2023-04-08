@@ -495,6 +495,7 @@ return [
     'user_edit_username_periodicity' => 'Benutzername-Modifikationsintervallnummer',
     'user_edit_nickname_length' => 'Nickname Länge',
     'user_edit_nickname_periodicity' => 'Benutzer-Nickname-Modifikationsintervallnummer',
+    'user_edit_nickname_unique' => 'Spitzname Einzigartig',
     'user_edit_bio_length' => 'Bio Länge',
     'user_edit_bio_support' => 'Bio-Unterstützung',
     'user_bio_support_mention' => 'Benutzer erwähnen',

@@ -495,6 +495,7 @@ return [
     'user_edit_username_periodicity' => 'उपयोगकर्ता नाम संशोधन अंतराल संख्या',
     'user_edit_nickname_length' => 'उपनाम लंबाई',
     'user_edit_nickname_periodicity' => 'उपयोगकर्ता उपनाम संशोधन अंतराल संख्या',
+    'user_edit_nickname_unique' => 'उपनाम अद्वितीय',
     'user_edit_bio_length' => 'जैव लंबाई',
     'user_edit_bio_support' => 'जैव समर्थन',
     'user_bio_support_mention' => 'उपयोगकर्ता का उल्लेख करें',

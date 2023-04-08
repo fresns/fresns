@@ -65,12 +65,12 @@ class UserController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $userQuery = UserStat::with('profile', 'mainRole')->whereRelation('profile', 'is_enable', true)->whereRelation('profile', 'wait_delete', false);
+        $userQuery = UserStat::with('profile', 'mainRoleId')->whereRelation('profile', 'is_enable', true)->whereRelation('profile', 'wait_delete', false);
 
         if ($dtoRequest->roles) {
             $roleArr = array_filter(explode(',', $dtoRequest->roles));
 
-            $userQuery->whereHas('mainRole', function ($query) use ($roleArr) {
+            $userQuery->whereHas('mainRoleId', function ($query) use ($roleArr) {
                 $query->whereIn('role_id', $roleArr);
             });
         }
@@ -750,6 +750,10 @@ class UserController extends Controller
 
             if (! $validateNickname['maxLength']) {
                 throw new ApiException(35109);
+            }
+
+            if (! $validateNickname['use']) {
+                throw new ApiException(35111);
             }
 
             if (! $validateNickname['banName']) {
