@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('uid')->unique('uid');
             $table->string('username', 64)->unique('username');
-            $table->string('nickname', 64);
+            $table->string('nickname', 64)->index('nickname');
             $table->string('password', 64)->nullable();
             $table->unsignedBigInteger('avatar_file_id')->nullable();
             $table->string('avatar_file_url')->nullable();
@@ -103,8 +103,8 @@ class CreateUsersTable extends Migration
 
         Schema::create('user_roles', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedInteger('role_id');
+            $table->unsignedBigInteger('user_id')->index('role_user_id');
+            $table->unsignedInteger('role_id')->index('user_role_id');
             $table->unsignedTinyInteger('is_main')->default(0);
             $table->timestamp('expired_at')->nullable();
             $table->unsignedInteger('restore_role_id')->nullable();

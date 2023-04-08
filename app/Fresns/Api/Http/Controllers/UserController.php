@@ -700,11 +700,11 @@ class UserController extends Controller
             }
 
             if (! $validateUsername['minLength']) {
-                throw new ApiException(35103);
+                throw new ApiException(35104);
             }
 
             if (! $validateUsername['maxLength']) {
-                throw new ApiException(35104);
+                throw new ApiException(35103);
             }
 
             if (! $validateUsername['use']) {
@@ -745,11 +745,11 @@ class UserController extends Controller
             }
 
             if (! $validateNickname['minLength']) {
-                throw new ApiException(35108);
+                throw new ApiException(35109);
             }
 
             if (! $validateNickname['maxLength']) {
-                throw new ApiException(35109);
+                throw new ApiException(35108);
             }
 
             if (! $validateNickname['use']) {
