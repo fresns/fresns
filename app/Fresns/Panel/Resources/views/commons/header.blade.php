@@ -107,7 +107,6 @@
             </div>
             <div class="modal-body">
                 <ul class="list-group list-group-flush">
-                    {{-- {{ $langs[\App::getLocale()] ?? '' }} --}}
                     @foreach($langs as $code => $lang)
                         <a href="?lang={{$code}}" class="list-group-item list-group-item-action @if ($code == \App::getLocale()) active @endif">{{ $lang }}</a>
                     @endforeach

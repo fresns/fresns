@@ -9,6 +9,7 @@
 namespace App\Fresns\Panel\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cookie;
 
 class ChangeLocale
@@ -21,9 +22,9 @@ class ChangeLocale
             return back()->withInput($request->except('panel_lang'));
         }
 
-        \App::setLocale(Cookie::get('panel_lang', config('app.locale')));
+        App::setLocale(Cookie::get('panel_lang', config('app.locale')));
 
-        $request->headers->set('panel_lang', \App::getLocale());
+        $request->headers->set('panel_lang', App::getLocale());
 
         return $next($request);
     }
