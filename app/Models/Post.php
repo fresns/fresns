@@ -48,7 +48,7 @@ class Post extends Model
 
     public function hashtags()
     {
-        return $this->belongsToMany(Hashtag::class, 'hashtag_usages', 'usage_id', 'hashtag_id')->wherePivot('usage_type', HashtagUsage::TYPE_POST)->wherePivot('deleted_at', null);
+        return $this->belongsToMany(Hashtag::class, 'hashtag_usages', 'usage_id', 'hashtag_id')->wherePivot('usage_type', HashtagUsage::TYPE_POST)->wherePivotNull('deleted_at');
     }
 
     public function hashtagUsages()

@@ -17,15 +17,24 @@ class UserStat extends Model
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'user_roles', 'user_id')->wherePivot('deleted_at', null);
+        return $this->belongsToMany(Role::class, 'user_roles', 'user_id')->wherePivotNull('deleted_at');
     }
 
     public function mainRole()
     {
         return $this->belongsToMany(Role::class, 'user_roles', 'user_id')
-            ->wherePivot('deleted_at', null)
             ->wherePivot('is_main', true)
-            ->wherePivot('expired_at', null)
+            ->wherePivotNull('deleted_at')
+            ->wherePivotNull('expired_at')
             ->orWherePivot('expired_at', '>=', now());
+    }
+
+    public function mainRoleId()
+    {
+        return $this->belongsTo(UserRole::class, 'user_id', 'user_id')
+            ->where('is_main', true)
+            ->whereNull('deleted_at')
+            ->whereNull('deleted_at')
+            ->orWhere('expired_at', '>=', now());
     }
 }

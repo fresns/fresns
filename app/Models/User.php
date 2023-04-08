@@ -76,11 +76,11 @@ class User extends Model
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'user_roles')->wherePivot('deleted_at', null);
+        return $this->belongsToMany(Role::class, 'user_roles')->wherePivotNull('deleted_at');
     }
 
     public function getMainRoleAttribute()
     {
-        return $this->roles()->wherePivot('is_main', true)->wherePivot('expired_at', null)->orWherePivot('expired_at', '>=', now())->first();
+        return $this->roles()->wherePivot('is_main', true)->wherePivotNull('expired_at')->orWherePivot('expired_at', '>=', now())->first();
     }
 }
