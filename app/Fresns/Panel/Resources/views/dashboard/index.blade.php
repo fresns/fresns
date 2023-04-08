@@ -92,22 +92,22 @@
             <h3 class="h6">{{ __('FsLang::panel.support') }}</h3>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://fresns.org" target="_blank">{{ __('FsLang::panel.support_website') }}</a>
+                    <a class="fresns-link" href="{{ $docsUrl }}" target="_blank">{{ __('FsLang::panel.support_website') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://fresns.org/community/teams.html" target="_blank">{{ __('FsLang::panel.support_teams') }}</a>
+                    <a class="fresns-link" href="{{ $docsUrl.'/community/teams.html' }}" target="_blank">{{ __('FsLang::panel.support_teams') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://fresns.org/community/sponsor.html" target="_blank">{{ __('FsLang::panel.support_sponsor') }}</a>
+                    <a class="fresns-link" href="{{ $docsUrl.'/community/sponsor.html' }}" target="_blank">{{ __('FsLang::panel.support_sponsor') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://fresns.org/community/join.html" target="_blank">{{ __('FsLang::panel.support_join') }}</a>
+                    <a class="fresns-link" href="{{ $docsUrl.'/community/join.html' }}" target="_blank">{{ __('FsLang::panel.support_join') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://discuss.fresns.com" target="_blank">{{ __('FsLang::panel.support_community') }}</a>
+                    <a class="fresns-link" href="{{ $discussUrl }}" target="_blank">{{ __('FsLang::panel.support_community') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="https://market.fresns.com/open-source" target="_blank">{{ __('FsLang::panel.support_marketplace') }}</a>
+                    <a class="fresns-link" href="{{ $marketUrl }}" target="_blank">{{ __('FsLang::panel.support_marketplace') }}</a>
                 </li>
             </ul>
         </div>

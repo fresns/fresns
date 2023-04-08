@@ -45,7 +45,7 @@ class AppUtility
 
         if (empty($newVersion)) {
             try {
-                $versionInfoUrl = AppUtility::getAppHost().'/version.json';
+                $versionInfoUrl = ConfigHelper::APP.'/version.json';
                 $client = new \GuzzleHttp\Client(['verify' => false]);
                 $response = $client->request('GET', $versionInfoUrl);
                 $versionInfo = json_decode($response->getBody(), true);
@@ -116,27 +116,13 @@ class AppUtility
         }
     }
 
-    public static function getAppHost(): string
-    {
-        $appHost = base64_decode('aHR0cHM6Ly9hcHAuZnJlc25zLm9yZw==', true);
-
-        return $appHost;
-    }
-
-    public static function getApiHost(): string
-    {
-        $apiHost = base64_decode('aHR0cHM6Ly9tYXJrZXQuZnJlc25zLmNvbQ==', true);
-
-        return $apiHost;
-    }
-
     public static function macroMarketHeaders(): void
     {
         Http::macro('market', function () {
             return Http::withHeaders(
                 AppUtility::getMarketHeaders()
             )->baseUrl(
-                AppUtility::getApiHost()
+                ConfigHelper::MARKET
             );
         });
     }

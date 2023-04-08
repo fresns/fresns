@@ -59,7 +59,7 @@
                     <button type="button" class="btn btn-outline-primary" id="manualUpgradeButton" data-action="{{ route('panel.upgrade.info') }}">
                         {{ __('FsLang::panel.button_manual_upgrade') }}
                     </button>
-                    <a class="link-success ms-2" href="https://fresns.org/guide/upgrade.html#manual-upgrade" target="_blank" id="manualUpgradeGuide">{{ __('FsLang::tips.manual_upgrade_guide') }}</a>
+                    <a class="link-success ms-2" href="{{ $manualUpgradeGuide }}" target="_blank" id="manualUpgradeGuide">{{ __('FsLang::tips.manual_upgrade_guide') }}</a>
                 @endif
             @else
                 <div class="p-5 text-center">

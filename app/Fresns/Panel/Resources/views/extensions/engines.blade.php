@@ -30,41 +30,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!--default engine-->
-                {{-- <tr>
-                    <th scope="row" class="py-3">{{ __('FsLang::panel.website_engine_default') }}</th>
-                    <td><a href="https://fresns.org" target="_blank" class="link-info fresns-link fs-7">Fresns</a></td>
-                    <td>
-                        <span class="badge bg-light text-dark"><i class="bi bi-laptop"></i>
-                            @if ($themeUnikey['desktop'])
-                                {{ $themeName['desktop'] ?? $themeUnikey['desktop'] }}
-                            @else
-                                {{ __('FsLang::panel.option_not_set') }}
-                            @endif
-                        </span>
-                        <span class="badge bg-light text-dark"><i class="bi bi-phone"></i>
-                            @if ($themeUnikey['mobile'])
-                                {{ $themeName['mobile'] ?? $themeUnikey['mobile'] }}
-                            @else
-                                {{ __('FsLang::panel.option_not_set') }}
-                            @endif
-                        </span>
-                    </td>
-                    <td class="text-center">
-                        @if ($FresnsEngine)
-                            <button type="button" class="btn btn-outline-secondary btn-sm plugin-manage" data-action="{{ route('panel.defaultEngine.theme.update') }}" data-enable="0">{{ __('FsLang::panel.button_deactivate') }}</button>
-                            <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                data-action="{{ route('panel.engine.theme.update', ['unikey' => 'FresnsEngine']) }}"
-                                data-unikey="FresnsEngine"
-                                data-desktop_plugin="{{ $themeUnikey['desktop'] }}"
-                                data-mobile_plugin="{{ $themeUnikey['mobile'] }}"
-                                data-bs-target="#themeSetting">{{ __('FsLang::panel.engine_theme_title') }}</button>
-                        @else
-                            <button type="button" class="btn btn-outline-success btn-sm plugin-manage" data-action="{{ route('panel.defaultEngine.theme.update') }}" data-enable="1">{{ __('FsLang::panel.button_activate') }}</button>
-                        @endif
-                    </td>
-                </tr> --}}
-
                 <!--engine list-->
                 @foreach ($engines as $engine)
                     <tr>

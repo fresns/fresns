@@ -9,13 +9,14 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\AppHelper;
+use App\Helpers\ConfigHelper;
 use App\Models\Config;
-use App\Utilities\AppUtility;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\View;
 
 class Controller extends BaseController
@@ -46,8 +47,6 @@ class Controller extends BaseController
         $languageMenus = $configs->where('item_key', 'language_menus')->first()?->item_value ?? [];
         $areaCodes = $configs->where('item_key', 'area_codes')->first()?->item_value ?? [];
         $checkVersionDatetime = $configs->where('item_key', 'check_version_datetime')->first()?->item_value ?? now();
-        $siteUrl = $configs->where('item_key', 'site_url')->first()?->item_value ?? '/';
-        $marketUrl = AppUtility::getApiHost().'/open-source';
 
         try {
             // default language
@@ -72,8 +71,27 @@ class Controller extends BaseController
         } catch (\Exception $e) {
         }
 
+        // lang tag
+        $langTag = Cookie::get('panel_lang', config('app.locale'));
+
         // url
+        $siteUrl = $configs->where('item_key', 'site_url')->first()?->item_value ?? '/';
+        $docsUrl = ConfigHelper::WEBSITE;
+        $discussUrl = ConfigHelper::DISCUSS;
+        $marketUrl = ConfigHelper::MARKET.'/open-source';
+        if ($langTag == 'zh-Hans') {
+            $docsUrl = ConfigHelper::WEBSITE_ZH_HANS;
+            $discussUrl = ConfigHelper::DISCUSS.'/zh-Hans';
+            $marketUrl = ConfigHelper::MARKET.'/zh-Hans/open-source';
+        }
+        if ($langTag == 'zh-Hant') {
+            $discussUrl = ConfigHelper::DISCUSS.'/zh-Hant';
+            $marketUrl = ConfigHelper::MARKET.'/zh-Hant/open-source';
+        }
+
         View::share('siteUrl', $siteUrl);
+        View::share('docsUrl', $docsUrl);
+        View::share('discussUrl', $discussUrl);
         View::share('marketUrl', $marketUrl);
 
         // md5 16bit

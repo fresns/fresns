@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Cache;
 
 class ConfigHelper
 {
+    const APP = 'https://app.fresns.org';
+    const WEBSITE = 'https://fresns.org';
+    const WEBSITE_ZH_HANS = 'https://zh-hans.fresns.org';
+    const WEBSITE_ZH_HANT = 'https://zh-hant.fresns.org';
+    const DISCUSS = 'https://discuss.fresns.com';
+    const MARKET = 'https://market.fresns.com';
+
     // default langTag
     public static function fresnsConfigDefaultLangTag(): string
     {

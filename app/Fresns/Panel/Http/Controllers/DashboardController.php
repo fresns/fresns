@@ -10,6 +10,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
+use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Models\Account;
 use App\Models\Comment;
@@ -22,6 +23,7 @@ use App\Models\SessionKey;
 use App\Models\User;
 use App\Utilities\AppUtility;
 use App\Utilities\CommandUtility;
+use Illuminate\Support\Facades\App;
 
 class DashboardController extends Controller
 {
@@ -45,7 +47,7 @@ class DashboardController extends Controller
 
         if (empty($news)) {
             try {
-                $newUrl = AppUtility::getAppHost().'/news.json';
+                $newUrl = ConfigHelper::APP.'/news.json';
                 $client = new \GuzzleHttp\Client(['verify' => false]);
                 $response = $client->request('GET', $newUrl);
                 $news = json_decode($response->getBody(), true);
@@ -58,7 +60,7 @@ class DashboardController extends Controller
 
         $newsList = [];
         if ($news) {
-            $newsData = collect($news)->where('langTag', \App::getLocale())->first();
+            $newsData = collect($news)->where('langTag', App::getLocale())->first();
             $defaultNewsData = collect($news)->where('langTag', config('app.locale'))->first();
             $newsList = $newsData['news'] ?? $defaultNewsData['news'] ?? [];
         }
