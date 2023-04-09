@@ -36,6 +36,7 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'uploadSessionLog', 'provider' => [Basic::class, 'uploadSessionLog']],
         ['word' => 'sendCode', 'provider' => [Basic::class, 'sendCode']],
         ['word' => 'checkCode', 'provider' => [Basic::class, 'checkCode']],
+        ['word' => 'ipInfo', 'provider' => [Basic::class, 'ipInfo']],
 
         // Send
         ['word' => 'sendEmail', 'provider' => [Send::class, 'sendEmail']],
