@@ -43,6 +43,8 @@ class CheckHeaderByWhitelist
         } catch (\Exception $e) {
             $deviceInfo = [];
         }
+
+        // check deviceInfo
         new DeviceInfoDTO($deviceInfo);
 
         // check sign
