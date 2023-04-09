@@ -9,8 +9,8 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\AppHelper;
-use App\Helpers\ConfigHelper;
 use App\Models\Config;
+use App\Utilities\AppUtility;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -76,17 +76,17 @@ class Controller extends BaseController
 
         // url
         $siteUrl = $configs->where('item_key', 'site_url')->first()?->item_value ?? '/';
-        $docsUrl = ConfigHelper::WEBSITE;
-        $discussUrl = ConfigHelper::DISCUSS;
-        $marketUrl = ConfigHelper::MARKET.'/open-source';
+        $docsUrl = AppUtility::WEBSITE_URL;
+        $discussUrl = AppUtility::DISCUSS_URL;
+        $marketUrl = AppUtility::MARKET_URL.'/open-source';
         if ($langTag == 'zh-Hans') {
-            $docsUrl = ConfigHelper::WEBSITE_ZH_HANS;
-            $discussUrl = ConfigHelper::DISCUSS.'/zh-Hans';
-            $marketUrl = ConfigHelper::MARKET.'/zh-Hans/open-source';
+            $docsUrl = AppUtility::WEBSITE_ZH_HANS_URL;
+            $discussUrl = AppUtility::DISCUSS_URL.'/zh-Hans';
+            $marketUrl = AppUtility::MARKET_URL.'/zh-Hans/open-source';
         }
         if ($langTag == 'zh-Hant') {
-            $discussUrl = ConfigHelper::DISCUSS.'/zh-Hant';
-            $marketUrl = ConfigHelper::MARKET.'/zh-Hant/open-source';
+            $discussUrl = AppUtility::DISCUSS_URL.'/zh-Hant';
+            $marketUrl = AppUtility::MARKET_URL.'/zh-Hant/open-source';
         }
 
         View::share('siteUrl', $siteUrl);

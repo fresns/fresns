@@ -8,7 +8,6 @@
 
 namespace App\Utilities;
 
-use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
@@ -256,7 +255,7 @@ class ContentUtility
 
         $urlDataList = DomainLink::with('domain')->whereIn('link_url', $urlList)->get();
 
-        $siteUrl = ConfigHelper::fresnsConfigByItemKey('site_url') ?? ConfigHelper::WEBSITE;
+        $siteUrl = ConfigHelper::fresnsConfigByItemKey('site_url') ?? AppUtility::WEBSITE_URL;
         $siteDomain = StrHelper::extractDomainByUrl($siteUrl);
 
         $mainRolePerms = $userId ? PermissionUtility::getUserMainRole($userId)['permissions'] : null;

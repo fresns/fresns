@@ -10,7 +10,6 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
-use App\Helpers\ConfigHelper;
 use App\Models\Config;
 use App\Models\Plugin;
 use App\Utilities\AppUtility;
@@ -63,9 +62,9 @@ class UpgradeController extends Controller
         }
 
         $langTag = Cookie::get('panel_lang', config('app.locale'));
-        $manualUpgradeGuide = ConfigHelper::WEBSITE.'/guide/upgrade.html#manual-upgrade';
+        $manualUpgradeGuide = AppUtility::WEBSITE_URL.'/guide/upgrade.html#manual-upgrade';
         if ($langTag == 'zh-Hans') {
-            $manualUpgradeGuide = ConfigHelper::WEBSITE_ZH_HANS.'/guide/upgrade.html#%E6%89%8B%E5%8A%A8%E5%8D%87%E7%BA%A7';
+            $manualUpgradeGuide = AppUtility::WEBSITE_ZH_HANS_URL.'/guide/upgrade.html#%E6%89%8B%E5%8A%A8%E5%8D%87%E7%BA%A7';
         }
 
         return view('FsView::dashboard.upgrade', compact(

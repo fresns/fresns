@@ -10,7 +10,6 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
-use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Models\Account;
 use App\Models\Comment;
@@ -47,7 +46,7 @@ class DashboardController extends Controller
 
         if (empty($news)) {
             try {
-                $newUrl = ConfigHelper::APP.'/news.json';
+                $newUrl = AppUtility::BASE_URL.'/news.json';
                 $client = new \GuzzleHttp\Client(['verify' => false]);
                 $response = $client->request('GET', $newUrl);
                 $news = json_decode($response->getBody(), true);

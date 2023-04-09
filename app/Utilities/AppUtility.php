@@ -18,6 +18,13 @@ use Illuminate\Support\Facades\Http;
 
 class AppUtility
 {
+    const BASE_URL = 'https://app.fresns.org';
+    const WEBSITE_URL = 'https://fresns.org';
+    const WEBSITE_ZH_HANS_URL = 'https://zh-hans.fresns.org';
+    const WEBSITE_ZH_HANT_URL = 'https://zh-hant.fresns.org';
+    const DISCUSS_URL = 'https://discuss.fresns.com';
+    const MARKET_URL = 'https://market.fresns.com';
+
     public static function currentVersion(): array
     {
         $cacheKey = 'fresns_current_version';
@@ -45,7 +52,7 @@ class AppUtility
 
         if (empty($newVersion)) {
             try {
-                $versionInfoUrl = ConfigHelper::APP.'/version.json';
+                $versionInfoUrl = AppUtility::BASE_URL.'/version.json';
                 $client = new \GuzzleHttp\Client(['verify' => false]);
                 $response = $client->request('GET', $versionInfoUrl);
                 $versionInfo = json_decode($response->getBody(), true);
@@ -122,7 +129,7 @@ class AppUtility
             return Http::withHeaders(
                 AppUtility::getMarketHeaders()
             )->baseUrl(
-                ConfigHelper::MARKET
+                AppUtility::MARKET_URL
             );
         });
     }
