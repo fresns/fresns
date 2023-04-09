@@ -13,6 +13,7 @@ use App\Fresns\Words\Content\DTO\ContentQuickPublishDTO;
 use App\Fresns\Words\Content\DTO\CreateDraftDTO;
 use App\Fresns\Words\Content\DTO\GenerateDraftDTO;
 use App\Fresns\Words\Content\DTO\LogicalDeletionContentDTO;
+use App\Fresns\Words\Content\DTO\MapDTO;
 use App\Fresns\Words\Content\DTO\PhysicalDeletionContentDTO;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
@@ -399,6 +400,11 @@ class Content
             1 => 'post',
             2 => 'comment',
         };
+
+        // map
+        if ($dtoWordBody->map) {
+            new MapDTO($dtoWordBody->map);
+        }
 
         // review
         if ($dtoWordBody->requireReview) {

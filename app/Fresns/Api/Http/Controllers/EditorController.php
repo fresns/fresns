@@ -16,6 +16,7 @@ use App\Fresns\Api\Http\DTO\EditorUpdateDTO;
 use App\Fresns\Api\Services\CommentService;
 use App\Fresns\Api\Services\PostService;
 use App\Fresns\Api\Services\UserService;
+use App\Fresns\Words\Content\DTO\MapDTO;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
@@ -558,6 +559,8 @@ class EditorController extends Controller
 
         // map
         if ($dtoRequest->map) {
+            new MapDTO($dtoRequest->map);
+
             $draft->update([
                 'map_json' => $dtoRequest->map,
             ]);
@@ -915,6 +918,15 @@ class EditorController extends Controller
             }
         }
 
+        $map = null;
+        if ($dtoRequest->map) {
+            $map = json_decode($dtoRequest->map, true);
+            new MapDTO($map);
+        }
+
+        $extends = $dtoRequest->extends ? json_decode($dtoRequest->extends, true) : null;
+        $archives = $dtoRequest->archives ? json_decode($dtoRequest->archives, true) : null;
+
         $wordType = match ($dtoRequest->type) {
             'post' => 1,
             'comment' => 2,
@@ -934,9 +946,9 @@ class EditorController extends Controller
             'content' => $dtoRequest->content,
             'isMarkdown' => $dtoRequest->isMarkdown,
             'isAnonymous' => $dtoRequest->isAnonymous,
-            'map' => $dtoRequest->map,
-            'extends' => $dtoRequest->extends,
-            'archives' => $dtoRequest->archives,
+            'map' => $map,
+            'extends' => $extends,
+            'archives' => $archives,
             'requireReview' => ($checkDraft == 38200),
         ];
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->contentQuickPublish($wordBody);
@@ -979,7 +991,7 @@ class EditorController extends Controller
         }
 
         // upload file
-        if ($dtoRequest->file) {
+        if ($dtoRequest->image) {
             $fileWordBody = [
                 'usageType' => $usageType,
                 'platformId' => $this->platformId(),
@@ -991,7 +1003,7 @@ class EditorController extends Controller
                 'uid' => $authUser->uid,
                 'type' => File::TYPE_IMAGE,
                 'moreJson' => null,
-                'file' => $dtoRequest->file,
+                'file' => $dtoRequest->image,
             ];
 
             \FresnsCmdWord::plugin('Fresns')->uploadFile($fileWordBody);

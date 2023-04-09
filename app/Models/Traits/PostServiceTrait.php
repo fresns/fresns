@@ -82,18 +82,13 @@ trait PostServiceTrait
 
         $info['moreJson'] = $appendData->more_json;
 
-        $location['isLbs'] = (bool) ($postData->map_latitude && $postData->map_longitude);
-        $location['mapId'] = $appendData->map_id;
-        $location['latitude'] = $postData->map_latitude;
-        $location['longitude'] = $postData->map_longitude;
-        $location['scale'] = $appendData->map_json['scale'] ?? null;
-        $location['poi'] = $appendData->map_json['poi'] ?? null;
-        $location['poiId'] = $appendData->map_poi_id;
-        $location['distance'] = null;
-        $location['unit'] = ConfigHelper::fresnsConfigLengthUnit($langTag);
+        $mapJson = $appendData->map_json;
+        $mapJson['isLbs'] = (bool) ($postData->map_latitude && $postData->map_longitude);
+        $mapJson['distance'] = null;
+        $mapJson['unit'] = ConfigHelper::fresnsConfigLengthUnit($langTag);
 
-        $info['location'] = $location;
-        $info['location']['encode'] = urlencode(base64_encode(json_encode($location)));
+        $info['location'] = $mapJson;
+        $info['location']['encode'] = urlencode(base64_encode(json_encode($mapJson)));
 
         $info['isComment'] = (bool) $appendData->is_comment;
         $info['isCommentPublic'] = (bool) $appendData->is_comment_public;

@@ -29,10 +29,10 @@ class EditorQuickPublishDTO extends DTO
             'content' => ['string', 'nullable'],
             'isMarkdown' => ['boolean', 'nullable'],
             'isAnonymous' => ['boolean', 'nullable'],
-            'map' => ['array', 'nullable'],
-            'extends' => ['array', 'nullable'],
-            'archives' => ['array', 'nullable'],
-            'file' => ['file', 'nullable'],
+            'map' => ['string', 'nullable'],
+            'extends' => ['string', 'nullable'],
+            'archives' => ['string', 'nullable'],
+            'image' => ['file', 'nullable'],
         ];
     }
 }
