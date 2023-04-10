@@ -894,6 +894,7 @@ return [
     'group_table_mode' => 'Mode',
     'group_table_mode_public' => 'Public',
     'group_table_mode_private' => 'Private',
+    'group_table_mode_whitelist_roles' => 'Whitelist Roles',
     'group_table_find' => 'Hide Group',
     'group_table_follow' => 'Follow way',
     'group_table_recommend' => 'Recommend',

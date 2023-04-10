@@ -894,6 +894,7 @@ return [
     'group_table_mode' => 'グループモード',
     'group_table_mode_public' => '公衆',
     'group_table_mode_private' => '非公開',
+    'group_table_mode_whitelist_roles' => 'ホワイトリストの役割',
     'group_table_find' => '見つけることができるかどうか',
     'group_table_follow' => '注意を払う',
     'group_table_recommend' => 'それはお勧めですか？',

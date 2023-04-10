@@ -894,6 +894,7 @@ return [
     'group_table_mode' => 'Групповой режим',
     'group_table_mode_public' => 'публичный',
     'group_table_mode_private' => 'Не публиковать',
+    'group_table_mode_whitelist_roles' => 'Роли в белых списках',
     'group_table_find' => 'Можно ли найти его',
     'group_table_follow' => 'Обращать внимание',
     'group_table_recommend' => 'Это рекомендуется?',

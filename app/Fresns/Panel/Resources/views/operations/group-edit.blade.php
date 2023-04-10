@@ -84,7 +84,7 @@
                                 <label class="form-check-label" for="type_mode_false">{{ __('FsLang::panel.group_option_mode_private') }}</label>
                             </div>
                             <div class="collapse mt-2" id="mode_setting">
-                                <div class="input-group">
+                                <div class="input-group mb-2">
                                     <span class="input-group-text">{{ __('FsLang::panel.group_table_find') }}</span>
                                     <div class="form-control">
                                         <div class="form-check form-check-inline">
@@ -96,6 +96,14 @@
                                             <label class="form-check-label" for="type_find_false">{{ __('FsLang::panel.group_option_find_hidden') }}</label>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-text">{{ __('FsLang::panel.group_table_mode_whitelist_roles') }}</span>
+                                    <select class="form-select select2" name="permissions[mode_whitelist_roles][]" multiple="multiple">
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->id }}">{{ $role->getLangName($defaultLanguage) }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>

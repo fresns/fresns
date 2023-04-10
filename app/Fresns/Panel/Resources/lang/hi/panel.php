@@ -894,6 +894,7 @@ return [
     'group_table_mode' => 'समूह मोड',
     'group_table_mode_public' => 'जनता',
     'group_table_mode_private' => 'गैर-प्रचारित',
+    'group_table_mode_whitelist_roles' => 'श्वेतसूची भूमिकाएँ',
     'group_table_find' => 'चाहे वह पाया जा सके',
     'group_table_follow' => 'ध्यान दें',
     'group_table_recommend' => 'क्या यह अनुशंसित है?',

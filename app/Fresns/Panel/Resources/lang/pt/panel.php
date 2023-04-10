@@ -894,6 +894,7 @@ return [
     'group_table_mode' => 'Modo de grupo',
     'group_table_mode_public' => 'público',
     'group_table_mode_private' => 'Não divulgado',
+    'group_table_mode_whitelist_roles' => 'Funções da lista branca',
     'group_table_find' => 'Se pode ser encontrado',
     'group_table_follow' => 'Preste atenção',
     'group_table_recommend' => 'É recomendado?',

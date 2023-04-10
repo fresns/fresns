@@ -895,6 +895,7 @@ return [
     'group_table_mode' => '社團模式',
     'group_table_mode_public' => '公開',
     'group_table_mode_private' => '非公開',
+    'group_table_mode_whitelist_roles' => '白名單角色',
     'group_table_find' => '是否可發現',
     'group_table_follow' => '跟隨方式',
     'group_table_recommend' => '是否推薦',

@@ -895,6 +895,7 @@ return [
     'group_table_mode' => '小组模式',
     'group_table_mode_public' => '公开',
     'group_table_mode_private' => '非公开',
+    'group_table_mode_whitelist_roles' => '白名单角色',
     'group_table_find' => '是否可发现',
     'group_table_follow' => '关注方式',
     'group_table_recommend' => '是否推荐',

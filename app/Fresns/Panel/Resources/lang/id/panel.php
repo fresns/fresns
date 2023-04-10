@@ -894,6 +894,7 @@ return [
     'group_table_mode' => 'Mode grup',
     'group_table_mode_public' => 'publik',
     'group_table_mode_private' => 'Non-Publikasikan',
+    'group_table_mode_whitelist_roles' => 'Peran Daftar Putih',
     'group_table_find' => 'Apakah itu dapat ditemukan',
     'group_table_follow' => 'Perhatian',
     'group_table_recommend' => 'Apakah disarankan?',

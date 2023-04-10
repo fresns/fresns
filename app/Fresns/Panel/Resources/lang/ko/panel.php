@@ -894,6 +894,7 @@ return [
     'group_table_mode' => '그룹 모드',
     'group_table_mode_public' => '공공의',
     'group_table_mode_private' => '비공개화',
+    'group_table_mode_whitelist_roles' => '화이트리스트 역할',
     'group_table_find' => '찾을 수 있는지 여부',
     'group_table_follow' => '주의를 기울이십시오',
     'group_table_recommend' => '추천하고 있습니까?',

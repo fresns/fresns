@@ -1491,6 +1491,7 @@ $(document).ready(function () {
         form.find('input:radio[name=type_mode][value="' + params.type_mode + '"]')
             .prop('checked', true)
             .click();
+        form.find('select[name="permissions[mode_whitelist_roles][]"]').val(params.permissions.mode_whitelist_roles).change();
 
         form.find('select[name=plugin_unikey]').val(params.plugin_unikey);
 

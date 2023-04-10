@@ -318,6 +318,7 @@ class GroupController extends Controller
             $requestPerms = $request->permissions;
 
             $permissions = $group->permissions;
+            $permissions['mode_whitelist_roles'] = $requestPerms['mode_whitelist_roles'] ?? [];
             $permissions['publish_post'] = $requestPerms['publish_post'];
             $permissions['publish_post_subgroup'] = (bool) ($requestPerms['publish_post_subgroup'] ?? 0);
             $permissions['publish_post_roles'] = $requestPerms['publish_post_roles'] ?? [];
