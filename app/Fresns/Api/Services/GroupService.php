@@ -92,12 +92,24 @@ class GroupService
             CacheHelper::put($groupInfo, $cacheKey, $cacheTag, null, $cacheTime);
         }
 
+        $item['canViewContent'] = $groupInfo['mode'] == 1;
         $item['publishRule'] = PermissionUtility::checkUserGroupPublishPerm($group->id, $group->permissions, $authUserId);
 
         $interactionConfig = InteractionHelper::fresnsGroupInteraction($langTag);
         $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_GROUP, $group->id, $authUserId);
 
         $item['interaction'] = array_merge($interactionConfig, $interactionStatus);
+
+        if ($groupInfo['mode'] == 2 && $authUserId) {
+            $userRole = PermissionUtility::getUserMainRole($authUserId);
+            $whitelistRoles = $group->permissions['mode_whitelist_roles'] ?? [];
+
+            if ($whitelistRoles && in_array($userRole['rid'], $whitelistRoles)) {
+                $item['canViewContent'] = true;
+            } else {
+                $item['canViewContent'] = $interactionStatus['followStatus'];
+            }
+        }
 
         $data = array_merge($groupInfo, $item);
 
@@ -205,8 +217,14 @@ class GroupService
             return $checkResp;
         }
 
-        $follow = PrimaryHelper::fresnsFollowModelByType('group', $groupId, $authUserId);
+        $userRole = PermissionUtility::getUserMainRole($authUserId);
+        $whitelistRoles = $group->permissions['mode_whitelist_roles'] ?? [];
 
+        if ($whitelistRoles && in_array($userRole['rid'], $whitelistRoles)) {
+            return $checkResp;
+        }
+
+        $follow = PrimaryHelper::fresnsFollowModelByType('group', $groupId, $authUserId);
         if (empty($follow)) {
             $checkResp['code'] = 37103;
 

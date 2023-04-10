@@ -126,44 +126,70 @@ class PermissionUtility
     // Get group filter ids
     public static function getGroupFilterIds(?int $userId = null): array
     {
-        $guestCacheKey = 'fresns_filter_groups_by_guest';
         $cacheTag = 'fresnsGroups';
-
-        $userCacheKey = "fresns_filter_groups_by_user_{$userId}";
         $cacheTags = ['fresnsGroups', 'fresnsUsers'];
 
-        // is known to be empty
-        $isKnownEmpty = CacheHelper::isKnownEmpty($guestCacheKey);
-        if ($isKnownEmpty) {
-            $hiddenGroupIds = [];
-        } else {
-            // get cache
-            $hiddenGroupIds = CacheHelper::get($guestCacheKey, $cacheTag);
+        // hidden group models
+        $allCacheKey = 'fresns_filter_group_models';
 
-            if (empty($hiddenGroupIds)) {
-                $hiddenGroupIds = Group::where('type_mode', Group::MODE_PRIVATE)->where('type_find', Group::FIND_HIDDEN)->pluck('id')->toArray();
+        $isKnownEmpty = CacheHelper::isKnownEmpty($allCacheKey);
+        if ($isKnownEmpty && empty($userId)) {
+            return [];
+        }
 
-                CacheHelper::put($hiddenGroupIds, $guestCacheKey, $cacheTag);
-            }
+        $hiddenGroups = CacheHelper::get($allCacheKey, $cacheTag);
+        if (empty($hiddenGroups)) {
+            $hiddenGroups = Group::where('type_mode', Group::MODE_PRIVATE)->where('type_find', Group::FIND_HIDDEN)->get();
+
+            CacheHelper::put($hiddenGroups, $allCacheKey, $cacheTag);
+        }
+
+        if (empty($hiddenGroups) && empty($userId)) {
+            return [];
+        }
+
+        // guest hidden groups
+        $guestCacheKey = 'fresns_filter_groups_by_guest';
+
+        $hiddenGroupIds = CacheHelper::get($guestCacheKey, $cacheTag);
+        if (empty($hiddenGroupIds)) {
+            $hiddenGroupIds = $hiddenGroups->pluck('id')->toArray();
+
+            CacheHelper::put($hiddenGroupIds, $guestCacheKey, $cacheTag);
         }
 
         if (empty($userId)) {
             return $hiddenGroupIds;
         }
 
-        // is known to be empty
-        $isKnownEmpty = CacheHelper::isKnownEmpty($userCacheKey);
-        if ($isKnownEmpty) {
-            return [];
+        // user hidden groups
+        $userCacheKey = "fresns_filter_groups_by_user_{$userId}";
+        $isKnownEmptyByUser = CacheHelper::isKnownEmpty($userCacheKey);
+        if ($isKnownEmptyByUser) {
+            return $hiddenGroupIds;
         }
 
         // get cache
         $filterIds = CacheHelper::get($userCacheKey, $cacheTags);
-
         if (empty($filterIds)) {
-            $followGroupIds = UserFollow::type(UserFollow::TYPE_GROUP)->where('user_id', $userId)->pluck('follow_id')->toArray();
+            $userRole = PermissionUtility::getUserMainRole($userId);
 
-            $filterIds = array_values(array_diff($hiddenGroupIds, $followGroupIds));
+            $hiddenGroupIdArr = [];
+            foreach ($hiddenGroups as $group) {
+                $permissions = $group->permissions;
+
+                $whitelistRoles = $permissions['mode_whitelist_roles'] ?? [];
+
+                if ($whitelistRoles && in_array($userRole['rid'], $whitelistRoles)) {
+                    continue;
+                }
+
+                $hiddenGroupIdArr[] = $group->id;
+            }
+
+            $followGroupIds = InteractionUtility::getFollowIdArr(UserFollow::TYPE_GROUP, $userId);
+
+            $filterIds = array_values(array_diff($hiddenGroupIdArr, $followGroupIds));
 
             CacheHelper::put($filterIds, $userCacheKey, $cacheTags);
         }
@@ -174,15 +200,30 @@ class PermissionUtility
     // Get post filter by group ids
     public static function getPostFilterByGroupIds(?int $userId = null): array
     {
-        $privateGroupIds = Group::where('type_mode', Group::MODE_PRIVATE)->pluck('id')->toArray();
+        $privateGroupIds = Group::where('type_mode', Group::MODE_PRIVATE)->get();
 
         if (empty($userId)) {
-            return $privateGroupIds;
+            return $privateGroupIds->pluck('id')->toArray();
         }
 
-        $followGroupIds = UserFollow::type(UserFollow::TYPE_GROUP)->where('user_id', $userId)->pluck('follow_id')->toArray();
+        $userRole = PermissionUtility::getUserMainRole($userId);
 
-        $filterIds = array_values(array_diff($privateGroupIds, $followGroupIds));
+        $privateGroupIdArr = [];
+        foreach ($privateGroupIds as $group) {
+            $permissions = $group->permissions;
+
+            $whitelistRoles = $permissions['mode_whitelist_roles'] ?? [];
+
+            if ($whitelistRoles && in_array($userRole['rid'], $whitelistRoles)) {
+                continue;
+            }
+
+            $privateGroupIdArr[] = $group->id;
+        }
+
+        $followGroupIds = InteractionUtility::getFollowIdArr(UserFollow::TYPE_GROUP, $userId);
+
+        $filterIds = array_values(array_diff($privateGroupIdArr, $followGroupIds));
 
         $blockGroupIds = UserBlock::type(UserBlock::TYPE_GROUP)->where('user_id', $userId)->pluck('block_id')->toArray();
 

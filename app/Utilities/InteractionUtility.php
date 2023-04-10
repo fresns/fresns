@@ -1098,12 +1098,12 @@ class InteractionUtility
                     $allUserIds = Arr::prepend($filterIds, $userId);
                 }
 
-                return array_values($allUserIds);
+                $followIds = array_values($allUserIds);
+            } else {
+                $followArr = UserFollow::type($type)->where('user_id', $userId)->pluck('follow_id')->toArray();
+
+                $followIds = array_values($followArr);
             }
-
-            $followArr = UserFollow::type($type)->where('user_id', $userId)->pluck('follow_id')->toArray();
-
-            $followIds = array_values($followArr);
 
             CacheHelper::put($followIds, $cacheKey, $cacheTag);
         }
@@ -1137,22 +1137,25 @@ class InteractionUtility
         $blockIds = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($blockIds)) {
-            if ($type == UserBlock::TYPE_USER) {
-                $myBlockUserIds = UserBlock::type(UserBlock::TYPE_USER)->where('user_id', $userId)->pluck('block_id')->toArray();
-                $blockMeUserIds = UserBlock::type(UserBlock::TYPE_USER)->where('block_id', $userId)->pluck('user_id')->toArray();
+            switch ($type) {
+                case UserBlock::TYPE_USER:
+                    $myBlockUserIds = UserBlock::type(UserBlock::TYPE_USER)->where('user_id', $userId)->pluck('block_id')->toArray();
+                    $blockMeUserIds = UserBlock::type(UserBlock::TYPE_USER)->where('block_id', $userId)->pluck('user_id')->toArray();
 
-                $allUserIds = array_unique(array_merge($myBlockUserIds, $blockMeUserIds));
+                    $allUserIds = array_unique(array_merge($myBlockUserIds, $blockMeUserIds));
 
-                return array_values($allUserIds);
+                    $blockIds = array_values($allUserIds);
+                    break;
+
+                case UserBlock::TYPE_GROUP:
+                    $blockIds = PermissionUtility::getPostFilterByGroupIds($userId);
+                    break;
+
+                default:
+                    $blockArr = UserBlock::type($type)->where('user_id', $userId)->pluck('block_id')->toArray();
+
+                    $blockIds = array_values($blockArr);
             }
-
-            if ($type == UserBlock::TYPE_GROUP) {
-                return PermissionUtility::getPostFilterByGroupIds($userId);
-            }
-
-            $blockArr = UserBlock::type($type)->where('user_id', $userId)->pluck('block_id')->toArray();
-
-            $blockIds = array_values($blockArr);
 
             CacheHelper::put($blockIds, $cacheKey, $cacheTag);
         }

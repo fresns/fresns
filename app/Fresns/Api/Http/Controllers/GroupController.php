@@ -126,9 +126,12 @@ class GroupController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $groupFilterIds = PermissionUtility::getGroupFilterIds($authUserId);
+        $groupQuery = Group::where('type', '!=', Group::TYPE_CATEGORY)->isEnable();
 
-        $groupQuery = Group::where('type', '!=', Group::TYPE_CATEGORY)->whereNotIn('id', $groupFilterIds)->isEnable();
+        $groupFilterIds = PermissionUtility::getGroupFilterIds($authUserId);
+        $groupQuery->when($groupFilterIds, function ($query, $value) {
+            $query->whereNotIn('id', $value);
+        });
 
         $groupQuery->where(function ($query) {
             $query->whereIn('type', [1, 2])->orWhere(function ($query) {

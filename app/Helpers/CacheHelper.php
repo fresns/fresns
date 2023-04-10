@@ -372,6 +372,7 @@ class CacheHelper
                 CacheHelper::forgetFresnsKeys([
                     'fresns_group_count',
                     'fresns_private_groups',
+                    'fresns_filter_group_models',
                     'fresns_filter_groups_by_guest',
                     'fresns_guest_all_groups',
                 ], 'fresnsGroups');
@@ -456,12 +457,17 @@ class CacheHelper
      */
     public static function forgetFresnsKey(string $cacheKey, mixed $cacheTags = null): void
     {
+        $nullCacheKey = CacheHelper::getNullCacheKey($cacheKey);
+        $nullCacheTag = ['fresnsNullCount'];
+
         if (Cache::supportsTags() && $cacheTags) {
             $cacheTags = (array) $cacheTags;
 
             Cache::tags($cacheTags)->forget($cacheKey);
+            Cache::tags($nullCacheTag)->forget($nullCacheKey);
         } else {
             Cache::forget($cacheKey);
+            Cache::forget($nullCacheKey);
         }
     }
 
@@ -470,15 +476,23 @@ class CacheHelper
      */
     public static function forgetFresnsKeys(array $cacheKeys, mixed $cacheTags = null): void
     {
+        $nullCacheTag = ['fresnsNullCount'];
+
         if (Cache::supportsTags()) {
             $cacheTags = (array) $cacheTags;
 
             foreach ($cacheKeys as $key) {
+                $nullCacheKey = CacheHelper::getNullCacheKey($key);
+
                 Cache::tags($cacheTags)->forget($key);
+                Cache::tags($nullCacheTag)->forget($nullCacheKey);
             }
         } else {
             foreach ($cacheKeys as $key) {
+                $nullCacheKey = CacheHelper::getNullCacheKey($key);
+
                 Cache::forget($key);
+                Cache::forget($nullCacheKey);
             }
         }
     }
@@ -858,6 +872,7 @@ class CacheHelper
      */
     // fresns_group_count
     // fresns_private_groups
+    // fresns_filter_group_models
     // fresns_filter_groups_by_guest
     // fresns_filter_groups_by_user_{$userId}   // +tag: fresnsUsers
     // fresns_guest_all_groups
