@@ -49,15 +49,15 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.publish_comment_rules_config') }}:</label>
             <div class="col-lg-6 pt-2">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="comment_limit_status" id="comment_limit_status_0" value="false" data-bs-toggle="collapse" data-bs-target="#comment_limit_setting.show" aria-expanded="false" aria-controls="comment_limit_setting" {{ !$params['comment_limit_status'] ? 'checked' : '' }}>
+                    <input class="form-check-input" type="radio" name="comment_limit_status" id="comment_limit_status_0" value="false" data-bs-toggle="collapse" data-bs-target=".comment_limit_setting.show" aria-expanded="false" aria-controls="comment_limit_setting" {{ !$params['comment_limit_status'] ? 'checked' : '' }}>
                     <label class="form-check-label" for="comment_limit_status_0">{{ __('FsLang::panel.option_close') }}</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="comment_limit_status" id="comment_limit_status_1" value="true" data-bs-toggle="collapse" data-bs-target="#comment_limit_setting:not(.show)" aria-expanded="false" aria-controls="comment_limit_setting" {{ $params['comment_limit_status'] ? 'checked' : '' }}>
+                    <input class="form-check-input" type="radio" name="comment_limit_status" id="comment_limit_status_1" value="true" data-bs-toggle="collapse" data-bs-target=".comment_limit_setting:not(.show)" aria-expanded="false" aria-controls="comment_limit_setting" {{ $params['comment_limit_status'] ? 'checked' : '' }}>
                     <label class="form-check-label" for="comment_limit_status_1">{{ __('FsLang::panel.option_open') }}</label>
                 </div>
                 <!--rules_config-->
-                <div class="collapse mt-3  {{ $params['comment_limit_status'] ? 'show' : '' }}" id="comment_limit_setting">
+                <div class="collapse comment_limit_setting mt-3 {{ $params['comment_limit_status'] ? 'show' : '' }}">
                     <div class="input-group mb-3">
                         <label class="input-group-text fresns-label" id="post_limit_status">{{ __('FsLang::panel.publish_rule_type') }}</label>
                         <select class="form-select" id="comment_limit_type" name="comment_limit_type">
@@ -119,15 +119,15 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.publish_comment_edit_config') }}:</label>
             <div class="col-lg-6 pt-2">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="comment_edit" id="comment_edit_status_0" value="false" data-bs-toggle="collapse" data-bs-target="#comment_edit_setting.show" aria-expanded="false" aria-controls="comment_edit_setting" {{ !$params['comment_edit'] ? 'checked' : '' }}>
+                    <input class="form-check-input" type="radio" name="comment_edit" id="comment_edit_status_0" value="false" data-bs-toggle="collapse" data-bs-target=".comment_edit_setting.show" aria-expanded="false" aria-controls="comment_edit_setting" {{ !$params['comment_edit'] ? 'checked' : '' }}>
                     <label class="form-check-label" for="comment_edit_status_0">{{ __('FsLang::panel.permission_option_non_editable') }}</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="comment_edit" id="comment_edit_status_1" value="true" data-bs-toggle="collapse" data-bs-target="#comment_edit_setting:not(.show)" aria-expanded="false" aria-controls="comment_edit_setting" {{ $params['comment_edit'] ? 'checked' : '' }}>
+                    <input class="form-check-input" type="radio" name="comment_edit" id="comment_edit_status_1" value="true" data-bs-toggle="collapse" data-bs-target=".comment_edit_setting:not(.show)" aria-expanded="false" aria-controls="comment_edit_setting" {{ $params['comment_edit'] ? 'checked' : '' }}>
                     <label class="form-check-label" for="comment_edit_status_1">{{ __('FsLang::panel.permission_option_editable') }}</label>
                 </div>
                 <!--comment_edit_setting-->
-                <div class="collapse mt-3  {{ $params['comment_edit'] ? 'show' : '' }}" id="comment_edit_setting">
+                <div class="collapse comment_edit_setting mt-3 {{ $params['comment_edit'] ? 'show' : '' }}">
                     <div class="input-group mb-3">
                         <label class="input-group-text">{{ __('FsLang::panel.publish_edit_time_limit') }}</label>
                         <input type="number" class="form-control input-number" name="comment_edit_time_limit" value="{{ $params['comment_edit_time_limit'] }}" id="comment_edit_time_limit" value="30">

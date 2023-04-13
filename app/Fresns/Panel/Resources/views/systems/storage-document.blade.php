@@ -67,17 +67,17 @@
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_url_status') }}</label>
                     <div class="form-control bg-white">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="document_url_status" id="document_url_status_false" value="false" data-bs-toggle="collapse" data-bs-target="#document_url_status_setting.show" aria-expanded="false" aria-controls="document_url_status_setting" {{ !$params['document_url_status'] ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="document_url_status" id="document_url_status_false" value="false" data-bs-toggle="collapse" data-bs-target=".document_url_status_setting.show" aria-expanded="false" aria-controls="document_url_status_setting" {{ !$params['document_url_status'] ? 'checked' : '' }}>
                             <label class="form-check-label" for="document_url_status_false">{{ __('FsLang::panel.option_close') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="document_url_status" id="document_url_status_true" value="true" data-bs-toggle="collapse" data-bs-target="#document_url_status_setting:not(.show)" aria-expanded="false" aria-controls="document_url_status_setting" {{ $params['document_url_status'] ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="document_url_status" id="document_url_status_true" value="true" data-bs-toggle="collapse" data-bs-target=".document_url_status_setting:not(.show)" aria-expanded="false" aria-controls="document_url_status_setting" {{ $params['document_url_status'] ? 'checked' : '' }}>
                             <label class="form-check-label" for="document_url_status_true">{{ __('FsLang::panel.option_open') }}</label>
                         </div>
                     </div>
                 </div>
                 <!--AntiLink-->
-                <div class="collapse  {{ $params['document_url_status'] ? 'show' : '' }}" id="document_url_status_setting">
+                <div class="collapse document_url_status_setting {{ $params['document_url_status'] ? 'show' : '' }}">
                     <div class="input-group mb-3">
                         <label class="input-group-text w-25">{{ __('FsLang::panel.storage_url_key') }}</label>
                         <input type="text" class="form-control" id="document_url_key" name="document_url_key" value="{{ $params['document_url_key'] }}">

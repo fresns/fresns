@@ -34,16 +34,16 @@
                     <label class="input-group-text">{{ __('FsLang::panel.table_status') }}</label>
                     <div class="form-control bg-white">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="wallet_status" id="wallet_false" value="false" data-bs-toggle="collapse" data-bs-target="#wallet_setting.show" aria-expanded="false" aria-controls="wallet_setting" {{ !$params['wallet_status'] ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="wallet_status" id="wallet_false" value="false" data-bs-toggle="collapse" data-bs-target=".wallet_setting.show" aria-expanded="false" aria-controls="wallet_setting" {{ !$params['wallet_status'] ? 'checked' : '' }}>
                             <label class="form-check-label" for="wallet_false">{{ __('FsLang::panel.option_deactivate') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="wallet_status" id="wallet_true" value="true" data-bs-toggle="collapse" data-bs-target="#wallet_setting:not(.show)" aria-expanded="false" aria-controls="wallet_setting" {{ $params['wallet_status'] ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="wallet_status" id="wallet_true" value="true" data-bs-toggle="collapse" data-bs-target=".wallet_setting:not(.show)" aria-expanded="false" aria-controls="wallet_setting" {{ $params['wallet_status'] ? 'checked' : '' }}>
                             <label class="form-check-label" for="wallet_true">{{ __('FsLang::panel.option_activate') }}</label>
                         </div>
                     </div>
                 </div>
-                <div class="collapse {{ $params['wallet_status'] == 'true' ? 'show' : '' }}" id="wallet_setting">
+                <div class="collapse wallet_setting {{ $params['wallet_status'] == 'true' ? 'show' : '' }}">
                     <div class="input-group mb-3">
                         <label class="input-group-text">{{ __('FsLang::panel.wallet_currency_code') }}</label>
                         <select class="form-select select2" name="wallet_currency_code">
@@ -72,11 +72,11 @@
                         <span class="input-group-text">{{ __('FsLang::panel.wallet_withdraw_status') }}</span>
                         <div class="form-control bg-white">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="wallet_withdraw_status" id="withdraw_false" value="false" data-bs-toggle="collapse" data-bs-target="#withdraw_setting.show" aria-expanded="false" aria-controls="withdraw_setting" {{ !$params['wallet_withdraw_status'] ? 'checked' : '' }}>
+                                <input class="form-check-input" type="radio" name="wallet_withdraw_status" id="withdraw_false" value="false" data-bs-toggle="collapse" data-bs-target=".withdraw_setting.show" aria-expanded="false" aria-controls="withdraw_setting" {{ !$params['wallet_withdraw_status'] ? 'checked' : '' }}>
                                 <label class="form-check-label" for="withdraw_false">{{ __('FsLang::panel.option_close') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="wallet_withdraw_status" id="withdraw_true" value="true" data-bs-toggle="collapse" data-bs-target="#withdraw_setting:not(.show)" aria-expanded="false" aria-controls="withdraw_setting" {{ $params['wallet_withdraw_status'] ? 'checked' : '' }}>
+                                <input class="form-check-input" type="radio" name="wallet_withdraw_status" id="withdraw_true" value="true" data-bs-toggle="collapse" data-bs-target=".withdraw_setting:not(.show)" aria-expanded="false" aria-controls="withdraw_setting" {{ $params['wallet_withdraw_status'] ? 'checked' : '' }}>
                                 <label class="form-check-label" for="withdraw_true">{{ __('FsLang::panel.option_open') }}</label>
                             </div>
                         </div>
@@ -87,7 +87,7 @@
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.wallet_functions_desc') }}</div>
         </div>
         <!--wallet_functions-->
-        <div class="collapse {{ $params['wallet_withdraw_status'] == 'true' ? 'show' : '' }}" id="withdraw_setting">
+        <div class="collapse withdraw_setting {{ $params['wallet_withdraw_status'] == 'true' ? 'show' : '' }}">
             <div class="row mb-4">
                 <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.wallet_withdraw_config') }}:</label>
                 <div class="col-lg-6">

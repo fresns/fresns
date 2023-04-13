@@ -72,17 +72,17 @@
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_url_status') }}</label>
                     <div class="form-control bg-white">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="video_url_status" id="video_url_status_false" value="false" data-bs-toggle="collapse" data-bs-target="#video_url_status_setting.show" aria-expanded="false" aria-controls="video_url_status_setting" {{ !$params['video_url_status'] ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="video_url_status" id="video_url_status_false" value="false" data-bs-toggle="collapse" data-bs-target=".video_url_status_setting.show" aria-expanded="false" aria-controls="video_url_status_setting" {{ !$params['video_url_status'] ? 'checked' : '' }}>
                             <label class="form-check-label" for="video_url_status_false">{{ __('FsLang::panel.option_close') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="video_url_status" id="video_url_status_true" value="true" data-bs-toggle="collapse" data-bs-target="#video_url_status_setting:not(.show)" aria-expanded="false" aria-controls="video_url_status_setting" {{ $params['video_url_status'] ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="video_url_status" id="video_url_status_true" value="true" data-bs-toggle="collapse" data-bs-target=".video_url_status_setting:not(.show)" aria-expanded="false" aria-controls="video_url_status_setting" {{ $params['video_url_status'] ? 'checked' : '' }}>
                             <label class="form-check-label" for="video_url_status_true">{{ __('FsLang::panel.option_open') }}</label>
                         </div>
                     </div>
                 </div>
                 <!--AntiLink-->
-                <div class="collapse {{ $params['video_url_status'] == 'true' ? 'show' : '' }}" id="video_url_status_setting">
+                <div class="collapse video_url_status_setting {{ $params['video_url_status'] == 'true' ? 'show' : '' }}">
                     <div class="input-group mb-3">
                         <label class="input-group-text w-25">{{ __('FsLang::panel.storage_url_key') }}</label>
                         <input type="text" class="form-control" id="video_url_key" name="video_url_key" value="{{ $params['video_url_key'] }}">

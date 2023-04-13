@@ -72,17 +72,17 @@
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_url_status') }}</label>
                     <div class="form-control bg-white">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="audio_url_status" id="audio_url_status_false" value="false" data-bs-toggle="collapse" data-bs-target="#audio_url_status_setting.show" aria-expanded="false" aria-controls="audio_url_status_setting" {{ !$params['audio_url_status'] ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="audio_url_status" id="audio_url_status_false" value="false" data-bs-toggle="collapse" data-bs-target=".audio_url_status_setting.show" aria-expanded="false" aria-controls="audio_url_status_setting" {{ !$params['audio_url_status'] ? 'checked' : '' }}>
                             <label class="form-check-label" for="audio_url_status_false">{{ __('FsLang::panel.option_close') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="audio_url_status" id="audio_url_status_true" value="true" data-bs-toggle="collapse" data-bs-target="#audio_url_status_setting:not(.show)" aria-expanded="false" aria-controls="audio_url_status_setting" {{ $params['audio_url_status'] ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="audio_url_status" id="audio_url_status_true" value="true" data-bs-toggle="collapse" data-bs-target=".audio_url_status_setting:not(.show)" aria-expanded="false" aria-controls="audio_url_status_setting" {{ $params['audio_url_status'] ? 'checked' : '' }}>
                             <label class="form-check-label" for="audio_url_status_true">{{ __('FsLang::panel.option_open') }}</label>
                         </div>
                     </div>
                 </div>
                 <!--AntiLink-->
-                <div class="collapse  {{ $params['audio_url_status'] ? 'show' : '' }}" id="audio_url_status_setting">
+                <div class="collapse audio_url_status_setting {{ $params['audio_url_status'] ? 'show' : '' }}">
                     <div class="input-group mb-3">
                         <label class="input-group-text w-25">{{ __('FsLang::panel.storage_url_key') }}</label>
                         <input type="text" class="form-control" id="audio_url_key" name="audio_url_key" value="{{ $params['audio_url_key'] }}">

@@ -129,7 +129,7 @@
                             <input class="form-check-input" type="radio"
                                 {{ !($permissions['post_limit_status']['permValue'] ?? '') ? 'checked' : '' }}
                                 name="permissions[post_limit_status]" id="post.limit.status.0" value="0"
-                                data-bs-toggle="collapse" data-bs-target="#post_limit_setting.show" aria-expanded="false"
+                                data-bs-toggle="collapse" data-bs-target=".post_limit_setting.show" aria-expanded="false"
                                 aria-controls="post_limit_setting">
                             <label class="form-check-label" for="post.limit.status.0">{{ __('FsLang::panel.option_close') }}</label>
                         </div>
@@ -137,14 +137,14 @@
                             <input class="form-check-input" type="radio"
                                 {{ $permissions['post_limit_status']['permValue'] ?? '' ? 'checked' : '' }}
                                 name="permissions[post_limit_status]" id="post.limit.status.1" value="1"
-                                data-bs-toggle="collapse" data-bs-target="#post_limit_setting:not(.show)"
+                                data-bs-toggle="collapse" data-bs-target=".post_limit_setting:not(.show)"
                                 aria-expanded="false" aria-controls="post_limit_setting">
                             <label class="form-check-label" for="post.limit.status.1">{{ __('FsLang::panel.option_open') }}</label>
                         </div>
                     </div>
                 </div>
                 <!--publish_rule-->
-                <div class="collapse {{ $permissions['post_limit_status']['permValue'] ?? false ? 'show' : '' }}" id="post_limit_setting">
+                <div class="collapse post_limit_setting {{ $permissions['post_limit_status']['permValue'] ?? false ? 'show' : '' }}">
                     <div class="input-group mb-3">
                         <label class="input-group-text">{{ __('FsLang::panel.publish_rule_type') }}</label>
                         <select class="form-select" id="post_limit_type" name="permissions[post_limit_type]">
@@ -257,7 +257,7 @@
                             <input class="form-check-input" type="radio"
                                 {{ !($permissions['comment_limit_status']['permValue'] ?? '') ? 'checked' : '' }}
                                 name="permissions[comment_limit_status]" id="comment.limit.status.0" value="0"
-                                data-bs-toggle="collapse" data-bs-target="#comment_limit_setting.show" aria-expanded="false"
+                                data-bs-toggle="collapse" data-bs-target=".comment_limit_setting.show" aria-expanded="false"
                                 aria-controls="comment_limit_setting" checked>
                             <label class="form-check-label" for="comment.limit.status.0">{{ __('FsLang::panel.option_close') }}</label>
                         </div>
@@ -265,14 +265,14 @@
                             <input class="form-check-input" type="radio"
                                 {{ $permissions['comment_limit_status']['permValue'] ?? '' ? 'checked' : '' }}
                                 name="permissions[comment_limit_status]" id="comment.limit.status.1" value="1"
-                                data-bs-toggle="collapse" data-bs-target="#comment_limit_setting:not(.show)"
+                                data-bs-toggle="collapse" data-bs-target=".comment_limit_setting:not(.show)"
                                 aria-expanded="false" aria-controls="comment_limit_setting">
                             <label class="form-check-label" for="comment.limit.status.1">{{ __('FsLang::panel.option_open') }}</label>
                         </div>
                     </div>
                 </div>
                 <!--publish_rule-->
-                <div class="collapse  {{ $permissions['comment_limit_status']['permValue'] ?? false ? 'show' : '' }}" id="comment_limit_setting">
+                <div class="collapse comment_limit_setting {{ $permissions['comment_limit_status']['permValue'] ?? false ? 'show' : '' }}">
                     <div class="input-group mb-3">
                         <label class="input-group-text">{{ __('FsLang::panel.publish_rule_type') }}</label>
                         <select class="form-select" id="comment_limit_type" name="permissions[comment_limit_type]">

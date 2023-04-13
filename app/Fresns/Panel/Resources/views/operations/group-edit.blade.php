@@ -76,14 +76,14 @@
                         <label class="col-sm-3 col-md-2 col-form-label">{{ __('FsLang::panel.group_table_mode') }}</label>
                         <div class="col-sm-9 col-md-10 pt-2">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="type_mode" id="type_mode_true" value="1" data-bs-toggle="collapse" data-bs-target="#mode_setting.show" aria-expanded="false" aria-controls="mode_setting" checked>
+                                <input class="form-check-input" type="radio" name="type_mode" id="type_mode_true" value="1" data-bs-toggle="collapse" data-bs-target=".mode_setting.show" aria-expanded="false" aria-controls="mode_setting" checked>
                                 <label class="form-check-label" for="type_mode_true">{{ __('FsLang::panel.group_option_mode_public') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="type_mode" id="type_mode_false" value="2" data-bs-toggle="collapse" data-bs-target="#mode_setting:not(.show)" aria-expanded="false" aria-controls="mode_setting">
+                                <input class="form-check-input" type="radio" name="type_mode" id="type_mode_false" value="2" data-bs-toggle="collapse" data-bs-target=".mode_setting:not(.show)" aria-expanded="false" aria-controls="mode_setting">
                                 <label class="form-check-label" for="type_mode_false">{{ __('FsLang::panel.group_option_mode_private') }}</label>
                             </div>
-                            <div class="collapse mt-2" id="mode_setting">
+                            <div class="collapse mode_setting mt-2">
                                 <div class="input-group mb-2">
                                     <span class="input-group-text">{{ __('FsLang::panel.group_table_find') }}</span>
                                     <div class="form-control">
@@ -112,14 +112,14 @@
                         <label class="col-sm-3 col-md-2 col-form-label">{{ __('FsLang::panel.group_table_follow') }}</label>
                         <div class="col-sm-9 col-md-10 pt-2">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="type_follow" id="type_follow_true" value="1" data-bs-toggle="collapse" data-bs-target="#follow_setting.show" aria-expanded="false" aria-controls="follow_setting" checked>
+                                <input class="form-check-input" type="radio" name="type_follow" id="type_follow_true" value="1" data-bs-toggle="collapse" data-bs-target=".follow_setting.show" aria-expanded="false" aria-controls="follow_setting" checked>
                                 <label class="form-check-label" for="type_follow_true">{{ __('FsLang::panel.group_option_follow_fresns') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="type_follow" id="type_follow_false" value="2" data-bs-toggle="collapse" data-bs-target="#follow_setting:not(.show)" aria-expanded="false" aria-controls="follow_setting">
+                                <input class="form-check-input" type="radio" name="type_follow" id="type_follow_false" value="2" data-bs-toggle="collapse" data-bs-target=".follow_setting:not(.show)" aria-expanded="false" aria-controls="follow_setting">
                                 <label class="form-check-label" for="type_follow_false">{{ __('FsLang::panel.group_option_follow_plugin') }}</label>
                             </div>
-                            <div class="collapse mt-2" id="follow_setting">
+                            <div class="collapse follow_setting mt-2">
                                 <div class="input-group">
                                     <span class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</span>
                                     <select class="form-select" name="plugin_unikey">
@@ -155,22 +155,22 @@
                         <label class="col-sm-3 col-md-2 col-form-label">{{ __('FsLang::panel.group_table_post_publish') }}</label>
                         <div class="col-sm-9 col-md-10 pt-2">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="permissions[publish_post]" id="publish.post.1" value="1" data-bs-toggle="collapse" data-bs-target="#publish_post_setting.show" aria-expanded="false" aria-controls="publish_post_setting" checked>
+                                <input class="form-check-input" type="radio" name="permissions[publish_post]" id="publish.post.1" value="1" data-bs-toggle="collapse" data-bs-target=".publish_post_setting.show" aria-expanded="false" aria-controls="publish_post_setting" checked>
                                 <label class="form-check-label" for="publish.post.1">{{ __('FsLang::panel.group_option_publish_all') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="permissions[publish_post]" id="publish.post.2" value="2" data-bs-toggle="collapse" data-bs-target="#publish_post_setting.show" aria-expanded="false" aria-controls="publish_post_setting">
+                                <input class="form-check-input" type="radio" name="permissions[publish_post]" id="publish.post.2" value="2" data-bs-toggle="collapse" data-bs-target=".publish_post_setting.show" aria-expanded="false" aria-controls="publish_post_setting">
                                 <label class="form-check-label" for="publish.post.2">{{ __('FsLang::panel.group_option_publish_follow') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="permissions[publish_post]" id="publish.post.3" value="3" data-bs-toggle="collapse" data-bs-target="#publish_post_setting:not(.show)" aria-expanded="false" aria-controls="publish_post_setting">
+                                <input class="form-check-input" type="radio" name="permissions[publish_post]" id="publish.post.3" value="3" data-bs-toggle="collapse" data-bs-target=".publish_post_setting:not(.show)" aria-expanded="false" aria-controls="publish_post_setting">
                                 <label class="form-check-label" for="publish.post.3">{{ __('FsLang::panel.group_option_publish_role') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="permissions[publish_post]" id="publish.post.4" value="4" data-bs-toggle="collapse" data-bs-target="#publish_post_setting.show" aria-expanded="false" aria-controls="publish_post_setting">
+                                <input class="form-check-input" type="radio" name="permissions[publish_post]" id="publish.post.4" value="4" data-bs-toggle="collapse" data-bs-target=".publish_post_setting.show" aria-expanded="false" aria-controls="publish_post_setting">
                                 <label class="form-check-label" for="publish.post.4">{{ __('FsLang::panel.group_option_publish_admin') }}</label>
                             </div>
-                            <div class="collapse mt-2" id="publish_post_setting">
+                            <div class="collapse publish_post_setting mt-2">
                                 <div class="input-group">
                                     <span class="input-group-text">{{ __('FsLang::panel.group_table_publish_perm_role') }}</span>
                                     <select class="form-select select2" name="permissions[publish_post_roles][]" multiple="multiple">
@@ -199,22 +199,22 @@
                         <label class="col-sm-3 col-md-2 col-form-label">{{ __('FsLang::panel.group_table_comment_publish') }}</label>
                         <div class="col-sm-9 col-md-10 pt-2">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="permissions[publish_comment]" id="publish.comment.1" value="1" data-bs-toggle="collapse" data-bs-target="#publish_comment_setting.show" aria-expanded="false" aria-controls="publish_comment_setting" checked>
+                                <input class="form-check-input" type="radio" name="permissions[publish_comment]" id="publish.comment.1" value="1" data-bs-toggle="collapse" data-bs-target=".publish_comment_setting.show" aria-expanded="false" aria-controls="publish_comment_setting" checked>
                                 <label class="form-check-label" for="publish.comment.1">{{ __('FsLang::panel.group_option_publish_all') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="permissions[publish_comment]" id="publish.comment.2" value="2" data-bs-toggle="collapse" data-bs-target="#publish_comment_setting.show" aria-expanded="false" aria-controls="publish_comment_setting">
+                                <input class="form-check-input" type="radio" name="permissions[publish_comment]" id="publish.comment.2" value="2" data-bs-toggle="collapse" data-bs-target=".publish_comment_setting.show" aria-expanded="false" aria-controls="publish_comment_setting">
                                 <label class="form-check-label" for="publish.comment.2">{{ __('FsLang::panel.group_option_publish_follow') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="permissions[publish_comment]" id="publish.comment.3" value="3" data-bs-toggle="collapse" data-bs-target="#publish_comment_setting:not(.show)" aria-expanded="false" aria-controls="publish_comment_setting">
+                                <input class="form-check-input" type="radio" name="permissions[publish_comment]" id="publish.comment.3" value="3" data-bs-toggle="collapse" data-bs-target=".publish_comment_setting:not(.show)" aria-expanded="false" aria-controls="publish_comment_setting">
                                 <label class="form-check-label" for="publish.comment.3">{{ __('FsLang::panel.group_option_publish_role') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="permissions[publish_comment]" id="publish.comment.4" value="4" data-bs-toggle="collapse" data-bs-target="#publish_comment_setting.show" aria-expanded="false" aria-controls="publish_comment_setting">
+                                <input class="form-check-input" type="radio" name="permissions[publish_comment]" id="publish.comment.4" value="4" data-bs-toggle="collapse" data-bs-target=".publish_comment_setting.show" aria-expanded="false" aria-controls="publish_comment_setting">
                                 <label class="form-check-label" for="publish.comment.4">{{ __('FsLang::panel.group_option_publish_admin') }}</label>
                             </div>
-                            <div class="collapse mt-2" id="publish_comment_setting">
+                            <div class="collapse publish_comment_setting mt-2">
                                 <div class="input-group">
                                     <span class="input-group-text">{{ __('FsLang::panel.group_table_publish_perm_role') }}</span>
                                     <select class="form-select select2" name="permissions[publish_comment_roles][]" multiple="multiple">

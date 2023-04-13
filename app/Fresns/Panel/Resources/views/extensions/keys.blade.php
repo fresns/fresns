@@ -90,21 +90,21 @@
                             <span class="input-group-text">{{ __('FsLang::panel.table_type') }}</span>
                             <div class="form-control bg-white">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="type" value="1" id="create_fresns_key" data-bs-toggle="collapse" data-bs-target="#key_plugin_setting.show" aria-expanded="false" aria-controls="key_plugin_setting" checked>
+                                    <input class="form-check-input" type="radio" name="type" value="1" id="create_fresns_key" data-bs-toggle="collapse" data-bs-target=".key_plugin_setting.show" aria-expanded="false" aria-controls="key_plugin_setting" checked>
                                     <label class="form-check-label" for="create_fresns_key">{{ __('FsLang::panel.key_option_main_api') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="type" value="2" id="create_admin_key" data-bs-toggle="collapse" data-bs-target="#key_plugin_setting.show" aria-expanded="false" aria-controls="key_plugin_setting">
+                                    <input class="form-check-input" type="radio" name="type" value="2" id="create_admin_key" data-bs-toggle="collapse" data-bs-target=".key_plugin_setting.show" aria-expanded="false" aria-controls="key_plugin_setting">
                                     <label class="form-check-label" for="create_admin_key">{{ __('FsLang::panel.key_option_manage_api') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="type" value="3" id="create_plugin_key" data-bs-toggle="collapse" data-bs-target="#key_plugin_setting:not(.show)" aria-expanded="false" aria-controls="key_plugin_setting">
+                                    <input class="form-check-input" type="radio" name="type" value="3" id="create_plugin_key" data-bs-toggle="collapse" data-bs-target=".key_plugin_setting:not(.show)" aria-expanded="false" aria-controls="key_plugin_setting">
                                     <label class="form-check-label" for="create_plugin_key">{{ __('FsLang::panel.key_option_plugin_api') }}</label>
                                 </div>
                             </div>
                         </div>
                         <!--type: select plugin-->
-                        <div class="input-group mb-3 collapse" id="key_plugin_setting">
+                        <div class="input-group mb-3 collapse key_plugin_setting">
                             <span class="input-group-text">{{ __('FsLang::panel.table_plugin') }} <i class="bi bi-info-circle ms-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.key_option_plugin_api_select_desc') }}"></i></span>
                             <select class="form-select" name="plugin_unikey" id="create_key_plugin">
                                 <option selected disabled>{{ __('FsLang::panel.key_option_plugin_api_select') }}</option>
@@ -170,21 +170,21 @@
                             <span class="input-group-text">{{ __('FsLang::panel.table_type') }}</span>
                             <div class="form-control bg-white">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="type" value="1" id="fresns_key" data-bs-toggle="collapse" data-bs-target="#key_plugin_setting.show" aria-expanded="false" aria-controls="key_plugin_setting" checked>
+                                    <input class="form-check-input" type="radio" name="type" value="1" id="fresns_key" data-bs-toggle="collapse" data-bs-target=".key_plugin_setting.show" aria-expanded="false" aria-controls="key_plugin_setting" checked>
                                     <label class="form-check-label" for="fresns_key">{{ __('FsLang::panel.key_option_main_api') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="type" value="2" id="admin_key" data-bs-toggle="collapse" data-bs-target="#key_plugin_setting.show" aria-expanded="false" aria-controls="key_plugin_setting">
+                                    <input class="form-check-input" type="radio" name="type" value="2" id="admin_key" data-bs-toggle="collapse" data-bs-target=".key_plugin_setting.show" aria-expanded="false" aria-controls="key_plugin_setting">
                                     <label class="form-check-label" for="admin_key">{{ __('FsLang::panel.key_option_manage_api') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="type" value="3" id="plugin_key" data-bs-toggle="collapse" data-bs-target="#key_plugin_setting:not(.show)" aria-expanded="false" aria-controls="key_plugin_setting">
+                                    <input class="form-check-input" type="radio" name="type" value="3" id="plugin_key" data-bs-toggle="collapse" data-bs-target=".key_plugin_setting:not(.show)" aria-expanded="false" aria-controls="key_plugin_setting">
                                     <label class="form-check-label" for="plugin_key">{{ __('FsLang::panel.key_option_plugin_api') }}</label>
                                 </div>
                             </div>
                         </div>
                         <!--type: select plugin-->
-                        <div class="input-group mb-3 collapse" id="key_plugin_setting">
+                        <div class="input-group mb-3 collapse key_plugin_setting">
                             <span class="input-group-text">{{ __('FsLang::panel.table_plugin') }} <i class="bi bi-info-circle ms-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.key_option_plugin_api_select_desc') }}"></i></span>
                             <select class="form-select" name="plugin_unikey" id="key_plugin">
                                 <option selected disabled>{{ __('FsLang::panel.key_option_plugin_api_select') }}</option>

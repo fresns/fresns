@@ -67,17 +67,17 @@
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_url_status') }}</label>
                     <div class="form-control bg-white">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="image_url_status" id="image_url_status_false" value="false" data-bs-toggle="collapse" data-bs-target="#image_url_status_setting.show" aria-expanded="false" aria-controls="image_url_status_setting" {{ !$params['image_url_status'] ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="image_url_status" id="image_url_status_false" value="false" data-bs-toggle="collapse" data-bs-target=".image_url_status_setting.show" aria-expanded="false" aria-controls="image_url_status_setting" {{ !$params['image_url_status'] ? 'checked' : '' }}>
                             <label class="form-check-label" for="image_url_status_false">{{ __('FsLang::panel.option_close') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="image_url_status" id="image_url_status_true" value="true" data-bs-toggle="collapse" data-bs-target="#image_url_status_setting:not(.show)" aria-expanded="false" aria-controls="image_url_status_setting" {{ $params['image_url_status'] ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="image_url_status" id="image_url_status_true" value="true" data-bs-toggle="collapse" data-bs-target=".image_url_status_setting:not(.show)" aria-expanded="false" aria-controls="image_url_status_setting" {{ $params['image_url_status'] ? 'checked' : '' }}>
                             <label class="form-check-label" for="image_url_status_true">{{ __('FsLang::panel.option_open') }}</label>
                         </div>
                     </div>
                 </div>
                 <!--AntiLink-->
-                <div class="collapse {{ $params['image_url_status'] == 'true' ? 'show' : '' }}" id="image_url_status_setting">
+                <div class="collapse image_url_status_setting {{ $params['image_url_status'] == 'true' ? 'show' : '' }}">
                     <div class="input-group mb-3">
                         <label class="input-group-text w-25">{{ __('FsLang::panel.storage_url_key') }}</label>
                         <input type="text" class="form-control" name="image_url_key" value="{{ $params['image_url_key'] }}">

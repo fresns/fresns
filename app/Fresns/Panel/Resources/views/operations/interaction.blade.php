@@ -231,11 +231,11 @@
                     <label class="input-group-text">{{ __('FsLang::panel.interaction_conversation_status') }}</label>
                     <div class="form-control bg-white">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="conversation_status" id="conversation_status_true" value="true" data-bs-toggle="collapse" data-bs-target="#conversation_setting:not(.show)" aria-expanded="false" aria-controls="conversation_setting" {{ $params['conversation_status'] ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="conversation_status" id="conversation_status_true" value="true" data-bs-toggle="collapse" data-bs-target=".conversation_setting:not(.show)" aria-expanded="false" aria-controls="conversation_setting" {{ $params['conversation_status'] ? 'checked' : '' }}>
                             <label class="form-check-label" for="conversation_status_true">{{ __('FsLang::panel.option_open') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="conversation_status" id="conversation_status_false" value="false" data-bs-toggle="collapse" data-bs-target="#conversation_setting.show" aria-expanded="false" aria-controls="conversation_setting" {{ !$params['conversation_status'] ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="conversation_status" id="conversation_status_false" value="false" data-bs-toggle="collapse" data-bs-target=".conversation_setting.show" aria-expanded="false" aria-controls="conversation_setting" {{ !$params['conversation_status'] ? 'checked' : '' }}>
                             <label class="form-check-label" for="conversation_status_false">{{ __('FsLang::panel.option_close') }}</label>
                         </div>
                     </div>
@@ -244,7 +244,7 @@
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.interaction_conversation_status_desc') }}</div>
         </div>
 
-        <div class="collapse {{ $params['conversation_status'] ? 'show' : '' }}" id="conversation_setting">
+        <div class="collapse conversation_setting {{ $params['conversation_status'] ? 'show' : '' }}">
             <div class="row">
                 <label class="col-lg-2 col-form-label text-lg-end"></label>
                 <div class="col-lg-6">

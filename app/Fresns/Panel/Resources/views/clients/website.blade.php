@@ -42,11 +42,11 @@
                         <label class="input-group-text">{{ __('FsLang::panel.website_engine_api_type') }}</label>
                         <div class="form-control bg-white">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="engine_api_type" id="api_local" value="local" data-bs-toggle="collapse" data-bs-target="#local_key_setting:not(.show)" aria-expanded="true" aria-controls="local_key_setting" @if($params['engine_api_type'] == 'local') checked @endif>
+                                <input class="form-check-input" type="radio" name="engine_api_type" id="api_local" value="local" data-bs-toggle="collapse" data-bs-target=".local_key_setting:not(.show)" aria-expanded="true" aria-controls="local_key_setting" @if($params['engine_api_type'] == 'local') checked @endif>
                                 <label class="form-check-label" for="api_local">{{ __('FsLang::panel.option_local') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="engine_api_type" id="api_remote" value="remote" data-bs-toggle="collapse" data-bs-target="#remote_key_setting:not(.show)" aria-expanded="false" aria-controls="remote_key_setting" @if($params['engine_api_type'] == 'remote') checked @endif>
+                                <input class="form-check-input" type="radio" name="engine_api_type" id="api_remote" value="remote" data-bs-toggle="collapse" data-bs-target=".remote_key_setting:not(.show)" aria-expanded="false" aria-controls="remote_key_setting" @if($params['engine_api_type'] == 'remote') checked @endif>
                                 <label class="form-check-label" for="api_remote">{{ __('FsLang::panel.option_remote') }}</label>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                     </div>
                     <!--api_type config-->
                     <!--api_local-->
-                    <div class="collapse {{ $params['engine_api_type'] == 'local' ? 'show' : '' }}" id="local_key_setting" aria-labelledby="api_local" data-bs-parent="#accordionApiType">
+                    <div class="collapse local_key_setting {{ $params['engine_api_type'] == 'local' ? 'show' : '' }}" aria-labelledby="api_local" data-bs-parent="#accordionApiType">
                         <div class="input-group mb-2">
                             <label class="input-group-text">{{ __('FsLang::panel.website_engine_key_id') }}</label>
                             <select class="form-select" name="engine_key_id">
@@ -76,7 +76,7 @@
                         </div>
                     </div>
                     <!--api_remote-->
-                    <div class="collapse {{ $params['engine_api_type'] == 'remote' ? 'show' : '' }}" id="remote_key_setting" aria-labelledby="api_remote" data-bs-parent="#accordionApiType">
+                    <div class="collapse remote_key_setting {{ $params['engine_api_type'] == 'remote' ? 'show' : '' }}" aria-labelledby="api_remote" data-bs-parent="#accordionApiType">
                         <div class="input-group mb-3">
                             <label class="input-group-text">API Host</label>
                             <input type="url" class="form-control" name="engine_api_host" id="engine_api_host" value="{{ $params['engine_api_host'] }}" placeholder="https://">
@@ -157,15 +157,15 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.website_status') }}:</label>
             <div class="col-lg-5 pt-2">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="website_status" id="website_status_true" value=true data-bs-toggle="collapse" data-bs-target="#website_status_setting.show" aria-expanded="false" aria-controls="website_status_setting" {{ $params['website_status'] ? 'checked' : '' }}>
+                    <input class="form-check-input" type="radio" name="website_status" id="website_status_true" value=true data-bs-toggle="collapse" data-bs-target=".website_status_setting.show" aria-expanded="false" aria-controls="website_status_setting" {{ $params['website_status'] ? 'checked' : '' }}>
                     <label class="form-check-label" for="website_status_true">{{ __('FsLang::panel.option_open') }}</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="website_status" id="website_status_false" value=false data-bs-toggle="collapse" data-bs-target="#website_status_setting:not(.show)" aria-expanded="false" aria-controls="website_status_setting" {{ !$params['website_status'] ? 'checked' : '' }}>
+                    <input class="form-check-input" type="radio" name="website_status" id="website_status_false" value=false data-bs-toggle="collapse" data-bs-target=".website_status_setting:not(.show)" aria-expanded="false" aria-controls="website_status_setting" {{ !$params['website_status'] ? 'checked' : '' }}>
                     <label class="form-check-label" for="website_status_false">{{ __('FsLang::panel.option_close') }}</label>
                 </div>
                 <!--Web Status Config-->
-                <div class="collapse {{ !$params['website_status'] ? 'show' : '' }}" id="website_status_setting">
+                <div class="collapse website_status_setting {{ !$params['website_status'] ? 'show' : '' }}">
                     <div class="card mt-1">
                         <div class="card-header text-success">{{ __('FsLang::panel.website_status_config') }}</div>
                         <div class="card-body">
@@ -193,11 +193,11 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.china_mode') }}:</label>
             <div class="col-lg-5 pt-2">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="site_china_mode" id="china_server_false" value=false data-bs-toggle="collapse" data-bs-target="#china_server_setting.show" aria-expanded="false" aria-controls="china_server_setting" {{ !$params['site_china_mode'] ? 'checked' : '' }}>
+                    <input class="form-check-input" type="radio" name="site_china_mode" id="china_server_false" value=false data-bs-toggle="collapse" data-bs-target=".china_server_setting.show" aria-expanded="false" aria-controls="china_server_setting" {{ !$params['site_china_mode'] ? 'checked' : '' }}>
                     <label class="form-check-label" for="china_server_false">{{ __('FsLang::panel.option_no') }}</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="site_china_mode" id="china_server_true" value=true data-bs-toggle="collapse" data-bs-target="#china_server_setting:not(.show)" aria-expanded="false" aria-controls="china_server_setting"{{ $params['site_china_mode'] ? 'checked' : '' }}>
+                    <input class="form-check-input" type="radio" name="site_china_mode" id="china_server_true" value=true data-bs-toggle="collapse" data-bs-target=".china_server_setting:not(.show)" aria-expanded="false" aria-controls="china_server_setting" {{ $params['site_china_mode'] ? 'checked' : '' }}>
                     <label class="form-check-label" for="china_server_true">{{ __('FsLang::panel.option_yes') }}</label>
                 </div>
             </div>
@@ -207,7 +207,7 @@
         <div class="row mb-4">
             <label class="col-lg-2 col-form-label text-lg-end"></label>
             <div class="col-lg-10">
-                <div class="collapse {{ $params['site_china_mode'] ? 'show' : '' }}" id="china_server_setting">
+                <div class="collapse china_server_setting {{ $params['site_china_mode'] ? 'show' : '' }}">
                     <div class="card mt-1">
                         <div class="card-header">{{ __('FsLang::panel.china_mode_config') }}</div>
                         <div class="card-body">

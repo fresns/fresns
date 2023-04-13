@@ -126,15 +126,16 @@
             <label for="site_mode" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.site_mode') }}:</label>
             <div class="col-lg-6 pt-2" id="accordionSiteMode">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="site_mode" id="site_mode_public" value="public" data-bs-toggle="collapse" data-bs-target="#public_setting:not(.show)" aria-expanded="true" aria-controls="public_setting" {{ $params['site_mode'] == 'public' ? 'checked' : '' }}>
+                    <input class="form-check-input" type="radio" name="site_mode" id="site_mode_public" value="public" data-bs-toggle="collapse" data-bs-target=".public_setting:not(.show)" aria-controls="public_setting" {{ $params['site_mode'] == 'public' ? 'aria-expanded="true" checked' : 'aria-expanded="false"' }}>
                     <label class="form-check-label" for="site_mode_public">{{ __('FsLang::panel.site_mode_public') }}</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="site_mode" id="site_mode_private" value="private" data-bs-toggle="collapse" data-bs-target="#private_setting:not(.show)" aria-expanded="false" aria-controls="private_setting" {{ $params['site_mode'] == 'private' ? 'checked' : '' }}>
+                    <input class="form-check-input" type="radio" name="site_mode" id="site_mode_private" value="private" data-bs-toggle="collapse" data-bs-target=".private_setting:not(.show)" aria-controls="private_setting" {{ $params['site_mode'] == 'private' ? 'aria-expanded="true" checked' : 'aria-expanded="false"' }}>
                     <label class="form-check-label" for="site_mode_private">{{ __('FsLang::panel.site_mode_private') }}</label>
                 </div>
+
                 <!--public-->
-                <div class="collapse {{ $params['site_mode'] == 'public' ? 'show' : '' }}" id="public_setting" aria-labelledby="site_mode_public" data-bs-parent="#accordionSiteMode">
+                <div class="collapse public_setting {{ $params['site_mode'] == 'public' ? 'show' : '' }}" aria-labelledby="site_mode_public" data-bs-parent="#accordionSiteMode">
                     <div class="card mt-2">
                         <div class="card-header text-success">{{ __('FsLang::panel.site_mode_public_desc') }}</div>
                         <div class="card-body">
@@ -179,8 +180,9 @@
                         </div>
                     </div>
                 </div>
+
                 <!--private-->
-                <div class="collapse {{ $params['site_mode'] == 'private' ? 'show' : '' }}" id="private_setting" aria-labelledby="site_mode_private" data-bs-parent="#accordionSiteMode">
+                <div class="collapse private_setting {{ $params['site_mode'] == 'private' ? 'show' : '' }}" aria-labelledby="site_mode_private" data-bs-parent="#accordionSiteMode">
                     <div class="card mt-2">
                         <div class="card-header text-danger">{{ __('FsLang::panel.site_mode_private_desc') }}</div>
                         <div class="card-body">

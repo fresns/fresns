@@ -66,15 +66,15 @@
             <label for="user_multiple" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.user_multiple') }}:</label>
             <div class="col-lg-6 pt-2">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="multi_user_status" id="multi_user_status_false" value="false" data-bs-toggle="collapse" data-bs-target="#multi_user_setting.show" aria-expanded="false" aria-controls="multi_user_setting" {{ !$params['multi_user_status'] ? 'checked' : '' }}>
+                    <input class="form-check-input" type="radio" name="multi_user_status" id="multi_user_status_false" value="false" data-bs-toggle="collapse" data-bs-target=".multi_user_setting.show" aria-expanded="false" aria-controls="multi_user_setting" {{ !$params['multi_user_status'] ? 'checked' : '' }}>
                     <label class="form-check-label" for="multi_user_status_false">{{ __('FsLang::panel.option_close') }}</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="multi_user_status" id="multi_user_status_true" value="true" data-bs-toggle="collapse" data-bs-target="#multi_user_setting:not(.show)" aria-expanded="false" aria-controls="multi_user_setting" {{ $params['multi_user_status'] ? 'checked' : '' }}>
+                    <input class="form-check-input" type="radio" name="multi_user_status" id="multi_user_status_true" value="true" data-bs-toggle="collapse" data-bs-target=".multi_user_setting:not(.show)" aria-expanded="false" aria-controls="multi_user_setting" {{ $params['multi_user_status'] ? 'checked' : '' }}>
                     <label class="form-check-label" for="multi_user_status_true">{{ __('FsLang::panel.option_open') }}</label>
                 </div>
                 <!--multi_user_config-->
-                <div class="collapse {{ $params['multi_user_status'] == 'true' ? 'show' : '' }}" id="multi_user_setting">
+                <div class="collapse multi_user_setting {{ $params['multi_user_status'] == 'true' ? 'show' : '' }}">
                     <div class="card mt-2">
                         <div class="card-header">{{ __('FsLang::panel.user_multiple_config') }}</div>
                         <div class="card-body">

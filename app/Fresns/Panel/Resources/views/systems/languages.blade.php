@@ -115,17 +115,17 @@
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.language_table_area') }}</label>
                             <div class="col-sm-9 pt-2">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="area_status" id="create_area_status_false" value="0" data-bs-toggle="collapse" data-bs-target="#area_setting.show" aria-expanded="false" aria-controls="area_setting" checked>
+                                    <input class="form-check-input" type="radio" name="area_status" id="create_area_status_false" value="0" data-bs-toggle="collapse" data-bs-target=".area_setting.show" aria-expanded="false" aria-controls="area_setting" checked>
                                     <label class="form-check-label" for="create_area_status_false">{{ __('FsLang::panel.option_close') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="area_status" id="create_area_status_true" value="1" data-bs-toggle="collapse" data-bs-target="#area_setting:not(.show)" aria-expanded="false" aria-controls="area_setting">
+                                    <input class="form-check-input" type="radio" name="area_status" id="create_area_status_true" value="1" data-bs-toggle="collapse" data-bs-target=".area_setting:not(.show)" aria-expanded="false" aria-controls="area_setting">
                                     <label class="form-check-label" for="create_area_status_true">{{ __('FsLang::panel.option_open') }}</label>
                                 </div>
                             </div>
                         </div>
                         <!--table_areaCode-->
-                        <div class="collapse" id="area_setting">
+                        <div class="collapse area_setting">
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.language_table_areaCode') }}</label>
                                 <div class="col-sm-9">
@@ -259,17 +259,17 @@
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.language_table_area') }}</label>
                             <div class="col-sm-9 pt-2">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="area_status" id="area_status_false" value="0" data-bs-toggle="collapse" data-bs-target="#area_setting.show" aria-expanded="false" aria-controls="area_setting" checked>
+                                    <input class="form-check-input" type="radio" name="area_status" id="area_status_false" value="0" data-bs-toggle="collapse" data-bs-target=".edit_area_setting.show" aria-expanded="false" aria-controls="area_setting" checked>
                                     <label class="form-check-label" for="area_status_false">{{ __('FsLang::panel.option_close') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="area_status" id="area_status_true" value="1" data-bs-toggle="collapse" data-bs-target="#area_setting:not(.show)" aria-expanded="false" aria-controls="area_setting">
+                                    <input class="form-check-input" type="radio" name="area_status" id="area_status_true" value="1" data-bs-toggle="collapse" data-bs-target=".edit_area_setting:not(.show)" aria-expanded="false" aria-controls="area_setting">
                                     <label class="form-check-label" for="area_status_true">{{ __('FsLang::panel.option_open') }}</label>
                                 </div>
                             </div>
                         </div>
                         <!--table_areaCode-->
-                        <div class="collapse" id="area_setting">
+                        <div class="collapse edit_area_setting">
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.language_table_areaCode') }}</label>
                                 <div class="col-sm-9">

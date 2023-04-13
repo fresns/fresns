@@ -49,15 +49,15 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.publish_post_rules_config') }}:</label>
             <div class="col-lg-6 pt-2">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="post_limit_status" id="post_limit_status_0" data-bs-toggle="collapse" data-bs-target="#post_limit_setting.show" aria-expanded="false" aria-controls="post_limit_setting" value="false" {{ !$params['post_limit_status'] ? 'checked' : '' }}>
+                    <input class="form-check-input" type="radio" name="post_limit_status" id="post_limit_status_0" data-bs-toggle="collapse" data-bs-target=".post_limit_setting.show" aria-expanded="false" aria-controls="post_limit_setting" value="false" {{ !$params['post_limit_status'] ? 'checked' : '' }}>
                     <label class="form-check-label" for="post_limit_status_0">{{ __('FsLang::panel.option_close') }}</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="post_limit_status" id="post_limit_status_1" data-bs-toggle="collapse" data-bs-target="#post_limit_setting:not(.show)" aria-expanded="false" aria-controls="post_limit_setting" value="true" {{ $params['post_limit_status'] ? 'checked' : '' }}>
+                    <input class="form-check-input" type="radio" name="post_limit_status" id="post_limit_status_1" data-bs-toggle="collapse" data-bs-target=".post_limit_setting:not(.show)" aria-expanded="false" aria-controls="post_limit_setting" value="true" {{ $params['post_limit_status'] ? 'checked' : '' }}>
                     <label class="form-check-label" for="post_limit_status_1">{{ __('FsLang::panel.option_open') }}</label>
                 </div>
                 <!--rules_config-->
-                <div class="collapse mt-3 {{ $params['post_limit_status'] ? 'show' : '' }}" id="post_limit_setting">
+                <div class="collapse post_limit_setting mt-3 {{ $params['post_limit_status'] ? 'show' : '' }}">
                     <div class="input-group mb-3">
                         <label class="input-group-text fresns-label">{{ __('FsLang::panel.publish_rule_type') }}</label>
                         <select class="form-select" id="post_limit_type" name="post_limit_type">
@@ -119,15 +119,15 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.publish_post_edit_config') }}:</label>
             <div class="col-lg-6 pt-2">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="post_edit" id="post_edit_status_0" data-bs-toggle="collapse" data-bs-target="#post_edit_setting.show" aria-expanded="false" aria-controls="post_edit_setting" value="false" {{ !$params['post_edit'] ? 'checked' : '' }}>
+                    <input class="form-check-input" type="radio" name="post_edit" id="post_edit_status_0" data-bs-toggle="collapse" data-bs-target=".post_edit_setting.show" aria-expanded="false" aria-controls="post_edit_setting" value="false" {{ !$params['post_edit'] ? 'checked' : '' }}>
                     <label class="form-check-label" for="post_edit_status_0">{{ __('FsLang::panel.permission_option_non_editable') }}</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="post_edit" id="post_edit_status_1" data-bs-toggle="collapse" data-bs-target="#post_edit_setting:not(.show)" aria-expanded="true" aria-controls="post_edit_setting" value="true" {{ $params['post_edit'] ? 'checked' : '' }}>
+                    <input class="form-check-input" type="radio" name="post_edit" id="post_edit_status_1" data-bs-toggle="collapse" data-bs-target=".post_edit_setting:not(.show)" aria-expanded="true" aria-controls="post_edit_setting" value="true" {{ $params['post_edit'] ? 'checked' : '' }}>
                     <label class="form-check-label" for="post_edit_status_1">{{ __('FsLang::panel.permission_option_editable') }}</label>
                 </div>
                 <!--post_edit_setting-->
-                <div class="collapse mt-3 {{ $params['post_edit'] ? 'show' : '' }}" id="post_edit_setting">
+                <div class="collapse post_edit_setting mt-3 {{ $params['post_edit'] ? 'show' : '' }}">
                     <div class="input-group mb-3">
                         <label class="input-group-text">{{ __('FsLang::panel.publish_edit_time_limit') }}</label>
                         <input type="number" name="post_edit_time_limit" value="{{ $params['post_edit_time_limit'] }}" class="form-control input-number" id="post_edit_time_limit" value="30">
