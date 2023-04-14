@@ -216,7 +216,7 @@ class CommentService
         $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_COMMENT, $comment->id, $authUserId);
         $interArr['interaction'] = array_merge($interactionConfig, $interactionStatus, $commentData['interaction']);
 
-        $replyToPid = $commentData['replyToPost']['pid'];
+        $replyToPid = $commentData['replyToPost']['pid'] ?? null;
         if (! $isPreviewPost) {
             $commentData['replyToPost'] = null;
             $commentData['replyToPost']['pid'] = $replyToPid;
