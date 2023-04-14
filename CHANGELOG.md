@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.8.0 (2023-04-14)
+
+### Added
+- Data: Support for five databases `MySQL`, `MariaDB`, `PostgreSQL`, `SQL Server`, `SQLite`.
+- API: Added `isMultiLevelQuote` and `quotedPost` parameters to the post data structure.
+- API: Added `postQuotePid` parameter to editor interface
+- API: added `/api/v2/common/ip-info' interface
+- API: added `/api/v2/post/{pid}/quotes` interface
+- Panel: User nicknames can be configured to be unique or not
+- Panel: Topics can be configured with a length limit
+- Panel: Topic parsing can be customised with regular expressions
+- Panel: Panel non-public mode supports role whitelisting
+
+### Fixes
+- API: Interactive manipulation of fsid format to hide incompatible topics
+- API: Special symbols for password formatting do not match correctly
+- API: Missing language identifier and content for real name authentication
+- API: Role posting is checked but not recognised
+- Help: MaskName is judged to be empty with a key name error
+- Utility: Topic limit 20 characters, avoid very long topics
+- Models: Posts and comments do not declare map json fields
+
+### BREAKING CHANGES
+- API: Quick post interface, changed `file` parameter to `image
+- API: Comment data structure `post` key name changed to `replyToPost`.
+- API: Comment data structure `pid` parameter removed
+- API: removed `fileCount` parameter from post and comment datastructure
+- API: moved post and comment data structure from `ipLocation` parameter to `moreJson` parameter
+- API: added group information structure `canViewContent` parameter
+
+
 ## 2.7.2 (2023-03-05)
 
 ### Fixes
