@@ -83,15 +83,29 @@ class PostController extends Controller
             });
         }
 
+        // filterGroups
         $filterGroups = array_filter(explode(',', $dtoRequest->blockGroups));
         if ($filterGroups) {
             $groupIds = [];
             foreach ($filterGroups as $gid) {
-                $groupIds[] = PrimaryHelper::fresnsGroupIdByGid($gid);
+                $groupId = PrimaryHelper::fresnsGroupIdByGid($gid);
+
+                if (empty($groupId)) {
+                    continue;
+                }
+
+                $groupIds[] = $groupId;
             }
 
             $blockGroupIds = array_merge($blockGroupIds, $groupIds);
+            $blockGroupIds = array_unique($blockGroupIds);
         }
+
+        $postQuery->when($blockGroupIds, function ($query, $value) {
+            $query->whereNotIn('group_id', $value);
+        });
+
+        // filterHashtags
         $filterHashtags = array_filter(explode(',', $dtoRequest->blockHashtags));
         if ($filterHashtags) {
             $hashtagIds = [];
@@ -100,11 +114,8 @@ class PostController extends Controller
             }
 
             $blockHashtagIds = array_merge($blockHashtagIds, $hashtagIds);
+            $blockHashtagIds = array_unique($blockHashtagIds);
         }
-
-        $postQuery->when($blockGroupIds, function ($query, $value) {
-            $query->whereNotIn('group_id', $value);
-        });
 
         $postQuery->when($blockHashtagIds, function ($query, $value) {
             $query->where(function ($postQuery) use ($value) {
@@ -530,25 +541,6 @@ class PostController extends Controller
             $postQuery->when($blockUserIds, function ($query, $value) {
                 $query->whereNotIn('user_id', $value);
             });
-        }
-
-        $filterGroups = array_filter(explode(',', $dtoRequest->blockGroups));
-        if ($filterGroups) {
-            $groupIds = [];
-            foreach ($filterGroups as $gid) {
-                $groupIds[] = PrimaryHelper::fresnsGroupIdByGid($gid);
-            }
-
-            $blockGroupIds = array_merge($blockGroupIds, $groupIds);
-        }
-        $filterHashtags = array_filter(explode(',', $dtoRequest->blockHashtags));
-        if ($filterHashtags) {
-            $hashtagIds = [];
-            foreach ($filterHashtags as $hid) {
-                $hashtagIds[] = PrimaryHelper::fresnsHashtagIdByHid($hid);
-            }
-
-            $blockHashtagIds = array_merge($blockHashtagIds, $hashtagIds);
         }
 
         $postQuery->when($blockGroupIds, function ($query, $value) {
