@@ -21,7 +21,7 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('pid', 32)->unique('pid');
-            $table->unsignedBigInteger('parent_id')->default(0);
+            $table->unsignedBigInteger('parent_id')->default(0)->index('post_parent_id');
             $table->unsignedBigInteger('user_id')->index('post_user_id');
             $table->unsignedInteger('group_id')->default(0)->index('post_group_id');
             $table->string('title')->nullable();

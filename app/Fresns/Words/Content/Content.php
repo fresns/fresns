@@ -471,8 +471,8 @@ class Content
             case 'post':
                 $post = Post::create([
                     'user_id' => $creator->id,
-                    'parent_id' => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->postQuotePid),
-                    'group_id' => PrimaryHelper::fresnsGroupIdByGid($dtoWordBody->postGid),
+                    'parent_id' => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->postQuotePid) ?? 0,
+                    'group_id' => PrimaryHelper::fresnsGroupIdByGid($dtoWordBody->postGid) ?? 0,
                     'title' => $dtoWordBody->postTitle ? Str::of($dtoWordBody->postTitle)->trim() : null,
                     'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
                     'is_markdown' => $dtoWordBody->isMarkdown ?? 0,

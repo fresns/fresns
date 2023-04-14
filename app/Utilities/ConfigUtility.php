@@ -19,7 +19,6 @@ use App\Models\CommentLog;
 use App\Models\Config;
 use App\Models\File;
 use App\Models\Language;
-use App\Models\PluginUsage;
 use App\Models\PostLog;
 use App\Models\SessionLog;
 use Carbon\Carbon;

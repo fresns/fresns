@@ -748,9 +748,9 @@ class EditorController extends Controller
             'commentPostId' => $draft->post_id,
             'content' => $draft->content,
         ];
-        $checkDraft = ValidationUtility::draft($type, $validDraft);
+        $checkDraftCode = ValidationUtility::draft($type, $validDraft);
 
-        if ($checkDraft == 38200) {
+        if ($checkDraftCode == 38200) {
             // upload session log
             \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
@@ -768,8 +768,8 @@ class EditorController extends Controller
             throw new ApiException(38200);
         }
 
-        if ($checkDraft) {
-            throw new ApiException($checkDraft);
+        if ($checkDraftCode) {
+            throw new ApiException($checkDraftCode);
         }
 
         $draft->update([
@@ -890,17 +890,17 @@ class EditorController extends Controller
             'commentPostId' => PrimaryHelper::fresnsPostIdByPid($dtoRequest->commentPid),
             'content' => $dtoRequest->content,
         ];
-        $checkDraft = ValidationUtility::draft($dtoRequest->type, $validDraft);
+        $checkDraftCode = ValidationUtility::draft($dtoRequest->type, $validDraft);
 
-        if ($checkDraft && $checkDraft != 38200) {
-            throw new ApiException($checkDraft);
+        if ($checkDraftCode && $checkDraftCode != 38200) {
+            throw new ApiException($checkDraftCode);
         }
 
         // check publish prem
         $publishService = new UserService;
         $publishService->checkPublishPerm($dtoRequest->type, $authUser->id, null, $langTag, $timezone);
 
-        if ($dtoRequest->file) {
+        if ($dtoRequest->image) {
             $fileConfig = FileHelper::fresnsFileStorageConfigByType(File::TYPE_IMAGE);
 
             if (! $fileConfig['storageConfigStatus']) {
@@ -949,7 +949,7 @@ class EditorController extends Controller
             'map' => $map,
             'extends' => $extends,
             'archives' => $archives,
-            'requireReview' => ($checkDraft == 38200),
+            'requireReview' => ($checkDraftCode == 38200),
         ];
         $fresnsResp = \FresnsCmdWord::plugin('Fresns')->contentQuickPublish($wordBody);
 

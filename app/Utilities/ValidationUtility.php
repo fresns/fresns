@@ -554,8 +554,17 @@ class ValidationUtility
                 break;
         }
 
-        // limit config
-        $limitConfig = ConfigUtility::getPublishConfigByType($draft['userId'], $type)['limit'];
+        // Publish config
+        $publishConfig = ConfigUtility::getPublishConfigByType($draft['userId'], $type);
+
+        // check perm
+        $permConfig = $publishConfig['perm'];
+        if ($permConfig['review']) {
+            return 38200;
+        }
+
+        // check limit
+        $limitConfig = $publishConfig['limit'];
         $checkRule = true;
         if ($limitConfig['status'] && $limitConfig['isInTime'] && $limitConfig['rule'] == 1) {
             $checkRule = false;
