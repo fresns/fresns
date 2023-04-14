@@ -77,16 +77,19 @@ class Controller extends BaseController
         // url
         $siteUrl = $configs->where('item_key', 'site_url')->first()?->item_value ?? '/';
         $docsUrl = AppUtility::WEBSITE_URL;
-        $discussUrl = AppUtility::DISCUSS_URL;
-        $marketUrl = AppUtility::MARKET_URL.'/open-source';
+        $discussUrl = AppUtility::COMMUNITY_URL;
+        $marketUrl = AppUtility::MARKETPLACE_URL.'/open-source';
+        if ($langTag != 'en') {
+            $marketUrl = AppUtility::MARKETPLACE_URL.'/'.$langTag.'/open-source';
+        }
         if ($langTag == 'zh-Hans') {
             $docsUrl = AppUtility::WEBSITE_ZH_HANS_URL;
-            $discussUrl = AppUtility::DISCUSS_URL.'/zh-Hans';
-            $marketUrl = AppUtility::MARKET_URL.'/zh-Hans/open-source';
+            $discussUrl = AppUtility::COMMUNITY_URL.'/zh-Hans';
+            $marketUrl = AppUtility::MARKETPLACE_URL.'/zh-Hans/open-source';
         }
         if ($langTag == 'zh-Hant') {
-            $discussUrl = AppUtility::DISCUSS_URL.'/zh-Hant';
-            $marketUrl = AppUtility::MARKET_URL.'/zh-Hant/open-source';
+            $discussUrl = AppUtility::COMMUNITY_URL.'/zh-Hant';
+            $marketUrl = AppUtility::MARKETPLACE_URL.'/zh-Hant/open-source';
         }
 
         View::share('siteUrl', $siteUrl);

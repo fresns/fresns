@@ -21,7 +21,7 @@ return [
         'extends/',
         'plugins/',
         'clients/',
-        'market/',
+        'marketplace/',
     ],
 
     'langs' => [

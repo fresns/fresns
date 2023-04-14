@@ -33,7 +33,7 @@ return [
     'menu_extends' => 'Erweitert',
     'menu_clients' => 'Kunden',
     'menu_app_center' => 'App-Zentrum',
-    'menu_marketplace' => 'Markt',
+    'menu_marketplace' => 'Marketplace',
     // Sidebar menus
     'sidebar_home' => 'Zuhause',
     'sidebar_admins' => 'Admins',
