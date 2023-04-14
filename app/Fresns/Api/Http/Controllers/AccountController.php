@@ -26,12 +26,14 @@ use App\Helpers\DateHelper;
 use App\Models\Account;
 use App\Models\AccountWallet;
 use App\Models\AccountWalletLog;
+use App\Models\BlockWord;
 use App\Models\SessionLog;
 use App\Models\SessionToken;
 use App\Models\VerifyCode;
 use App\Utilities\ValidationUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class AccountController extends Controller
 {
@@ -102,6 +104,40 @@ class AccountController extends Controller
             throw new ApiException(34109);
         }
 
+        // check nickname
+        $nicknameIsEmpty = Str::of($dtoRequest->nickname)->trim()->isEmpty();
+        if ($nicknameIsEmpty) {
+            throw new ApiException(35107);
+        }
+
+        $nickname = Str::of($dtoRequest->nickname)->trim();
+
+        $validateNickname = ValidationUtility::nickname($nickname);
+
+        if (! $validateNickname['formatString'] || ! $validateNickname['formatSpace']) {
+            throw new ApiException(35107);
+        }
+
+        if (! $validateNickname['minLength']) {
+            throw new ApiException(35109);
+        }
+
+        if (! $validateNickname['maxLength']) {
+            throw new ApiException(35108);
+        }
+
+        if (! $validateNickname['use']) {
+            throw new ApiException(35111);
+        }
+
+        if (! $validateNickname['banName']) {
+            throw new ApiException(35110);
+        }
+
+        $blockWords = BlockWord::where('user_mode', 2)->get('word', 'replace_word');
+
+        $newNickname = str_ireplace($blockWords->pluck('word')->toArray(), $blockWords->pluck('replace_word')->toArray(), $nickname);
+
         // check code
         $checkCodeWordBody = [
             'type' => $accountType,
@@ -152,7 +188,7 @@ class AccountController extends Controller
             'appId' => $this->appId(),
             'aid' => null,
             'aidToken' => null,
-            'nickname' => $dtoRequest->nickname,
+            'nickname' => $newNickname,
             'username' => null,
             'password' => null,
             'avatarFid' => null,
@@ -318,7 +354,7 @@ class AccountController extends Controller
                 'appId' => $this->appId(),
                 'aid' => null,
                 'aidToken' => null,
-                'nickname' => \Str::random(8),
+                'nickname' => Str::random(8),
                 'username' => null,
                 'password' => null,
                 'avatarFid' => null,
