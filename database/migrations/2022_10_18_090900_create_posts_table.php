@@ -140,8 +140,8 @@ class CreatePostsTable extends Migration
 
         Schema::create('post_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('post_id')->nullable();
+            $table->unsignedBigInteger('user_id')->index('post_log_user_id');
+            $table->unsignedBigInteger('post_id')->nullable()->index('post_log_post_id');
             $table->unsignedBigInteger('parent_post_id')->nullable();
             $table->unsignedTinyInteger('create_type')->default(1);
             $table->unsignedTinyInteger('is_plugin_editor')->default(0);

@@ -94,8 +94,8 @@ class CreateCommentsTable extends Migration
 
         Schema::create('comment_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('comment_id')->nullable();
+            $table->unsignedBigInteger('user_id')->index('comment_log_user_id');
+            $table->unsignedBigInteger('comment_id')->nullable()->index('comment_log_comment_id');
             $table->unsignedBigInteger('post_id');
             $table->unsignedBigInteger('parent_comment_id')->nullable();
             $table->unsignedTinyInteger('create_type')->default(1);
