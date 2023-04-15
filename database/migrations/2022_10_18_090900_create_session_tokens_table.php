@@ -21,7 +21,7 @@ class CreateSessionTokensTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedTinyInteger('platform_id');
             $table->string('version', 16);
-            $table->string('app_id', 8)->nullable();
+            $table->string('app_id', 8)->nullable()->index('token_app_id');
             $table->unsignedBigInteger('account_id');
             $table->string('account_token', 32);
             $table->unsignedBigInteger('user_id')->nullable();
