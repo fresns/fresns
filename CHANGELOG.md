@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.8.1 (2023-04-15)
+
+### Fixes
+- Fix data table field errors
+
+### BREAKING CHANGES
+- Data: Optimise data indexing
+- Panel: Remove cookie.js file
+
+
 ## 2.8.0 (2023-04-14)
 
 ### Added
