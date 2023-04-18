@@ -23,7 +23,7 @@ class AppUtility
     const WEBSITE_ZH_HANS_URL = 'https://zh-hans.fresns.org';
     const WEBSITE_ZH_HANT_URL = 'https://zh-hant.fresns.org';
     const COMMUNITY_URL = 'https://discuss.fresns.com';
-    const MARKETPLACE_URL = 'https://marketplace.fresns.com';
+    const MARKETPLACE_URL = config('app.marketplace_url') ?? 'https://marketplace.fresns.com';
 
     public static function currentVersion(): array
     {
@@ -150,21 +150,22 @@ class AppUtility
         $isHttps = \request()->getScheme() === 'https';
 
         return [
-            'panelLangTag' => App::getLocale(),
-            'installDatetime' => $appConfig['install_datetime'],
-            'buildType' => $appConfig['build_type'],
-            'version' => self::currentVersion()['version'],
-            'versionInt' => self::currentVersion()['versionInt'],
-            'httpSsl' => $isHttps ? 1 : 0,
-            'httpHost' => \request()->getHost(),
-            'httpPort' => \request()->getPort(),
-            'systemUrl' => config('app.url'),
-            'siteUrl' => $appConfig['site_url'],
-            'siteName' => base64_encode($appConfig['site_name']),
-            'siteDesc' => base64_encode($appConfig['site_desc']),
-            'siteCopyright' => base64_encode($appConfig['site_copyright']),
-            'siteTimezone' => $appConfig['default_timezone'],
-            'siteLanguage' => $appConfig['default_language'],
+            'X-Fresns-Panel-Lang-Tag' => App::getLocale(),
+            'X-Fresns-Install-Datetime' => $appConfig['install_datetime'],
+            'X-Fresns-Build-Type' => $appConfig['build_type'],
+            'X-Fresns-Version' => self::currentVersion()['version'],
+            'X-Fresns-Version-Int' => self::currentVersion()['versionInt'],
+            'X-Fresns-Http-Ssl' => $isHttps ? 1 : 0,
+            'X-Fresns-Http-Host' => \request()->getHost(),
+            'X-Fresns-Http-Port' => \request()->getPort(),
+            'X-Fresns-Database' => config('database.default'),
+            'X-Fresns-System-Url' => config('app.url'),
+            'X-Fresns-Site-Url' => $appConfig['site_url'],
+            'X-Fresns-Site-Name' => base64_encode($appConfig['site_name']),
+            'X-Fresns-Site-Desc' => base64_encode($appConfig['site_desc']),
+            'X-Fresns-Site-Copyright' => base64_encode($appConfig['site_copyright']),
+            'X-Fresns-Site-Timezone' => $appConfig['default_timezone'],
+            'X-Fresns-Site-Language' => $appConfig['default_language'],
         ];
     }
 
