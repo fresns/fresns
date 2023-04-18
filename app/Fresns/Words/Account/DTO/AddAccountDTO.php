@@ -16,7 +16,7 @@ use Fresns\DTO\DTO;
  * @property int $type
  * @property string $account
  * @property int $countryCode
- * @property int $connectInfo
+ * @property array $connectInfo
  * @property string $password
  */
 class AddAccountDTO extends DTO

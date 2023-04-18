@@ -55,14 +55,21 @@ class Account
             );
         }
 
-        $connectInfoArr = [];
-        if (isset($dtoWordBody->connectInfo)) {
-            $connectInfoArr = json_decode($dtoWordBody->connectInfo, true);
+        if ($dtoWordBody->connectInfo) {
             $connectTokenArr = [];
-            foreach ($connectInfoArr as $v) {
-                $connectTokenArr[] = $v['connectToken'];
+            foreach ($dtoWordBody->connectInfo as $connect) {
+                if (empty($connect['connectToken'])) {
+                    continue;
+                }
+
+                $connectTokenArr[] = $connect['connectToken'];
             }
-            $count = AccountConnect::whereIn('connect_token', $connectTokenArr)->count();
+
+            $count = 0;
+            if ($connectTokenArr) {
+                $count = AccountConnect::whereIn('connect_token', $connectTokenArr)->count();
+            }
+
             if ($count > 0) {
                 ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
             }
@@ -90,21 +97,24 @@ class Account
         AccountWallet::create($accountWalletsInput);
 
         // Account Connects Table
-        if ($connectInfoArr) {
-            $itemArr = [];
-            foreach ($connectInfoArr as $info) {
-                $item['account_id'] = $accountModel->id;
-                $item['connect_id'] = $info['connectId'];
-                $item['connect_token'] = $info['connectToken'];
-                $item['connect_refresh_token'] = $info['connectRefreshToken'];
-                $item['connect_name'] = $info['connectName'];
-                $item['connect_nickname'] = $info['connectNickname'];
-                $item['connect_avatar'] = $info['connectAvatar'];
-                $item['plugin_unikey'] = 'fresns_cmd_user_register';
-                $itemArr[] = $item;
-            }
+        if ($dtoWordBody->connectInfo) {
+            foreach ($dtoWordBody->connectInfo as $info) {
+                if (empty($info['connectId']) || empty($info['connectToken']) || empty($info['connectNickname']) || empty($info['pluginUnikey'])) {
+                    continue;
+                }
 
-            AccountConnect::create($itemArr);
+                AccountConnect::create([
+                    'account_id' => $accountModel->id,
+                    'connect_id' => $info['connectId'],
+                    'connect_token' => $info['connectToken'],
+                    'connect_refresh_token' => $info['connectRefreshToken'] ?? null,
+                    'connect_username' => $info['connectUsername'] ?? null,
+                    'connect_nickname' => $info['connectNickname'],
+                    'connect_avatar' => $info['connectAvatar'] ?? null,
+                    'plugin_unikey' => $info['pluginUnikey'],
+                    'more_json' => $info['moreJson'] ?? null,
+                ]);
+            }
         }
 
         return $this->success([
