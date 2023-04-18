@@ -220,7 +220,7 @@ class InteractionService
                         continue;
                     }
 
-                    $itemData = $service->postData($mark->post, 'list', $langTag, $timezone, false, $authUserId);
+                    $itemData = $service->postData($mark->post, 'list', $langTag, $timezone, $authUserId);
 
                     if ($filter['keys']) {
                         $itemData = ArrUtility::filter($itemData, $filter['type'], $filter['keys']);

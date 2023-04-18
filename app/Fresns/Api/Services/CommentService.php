@@ -35,7 +35,7 @@ use Illuminate\Support\Str;
 class CommentService
 {
     // $type = list or detail
-    public function commentData(?Comment $comment, string $type, string $langTag, string $timezone, bool $isPreviewPost, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLong = null, ?string $authUserLat = null, ?bool $outputSubComments = false, ?bool $whetherToFilter = true)
+    public function commentData(?Comment $comment, string $type, string $langTag, string $timezone, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLong = null, ?string $authUserLat = null, ?bool $outputSubComments = false, ?bool $outputReplyToPost = false, ?bool $outputReplyToComment = false, ?bool $whetherToFilter = false)
     {
         if (! $comment) {
             return null;
@@ -217,9 +217,12 @@ class CommentService
         $interArr['interaction'] = array_merge($interactionConfig, $interactionStatus, $commentData['interaction']);
 
         $replyToPid = $commentData['replyToPost']['pid'] ?? null;
-        if (! $isPreviewPost) {
+        if (! $outputReplyToPost) {
             $commentData['replyToPost'] = null;
             $commentData['replyToPost']['pid'] = $replyToPid;
+        }
+        if (! $outputReplyToComment) {
+            $commentData['replyToComment'] = null;
         }
 
         $data = array_merge($commentData, $interArr);
@@ -410,7 +413,7 @@ class CommentService
 
             $commentList = [];
             foreach ($comments as $comment) {
-                $commentList[] = $commentService->commentData($comment, 'list', $langTag, $timezone, false, null, null, null, null, false, false);
+                $commentList[] = $commentService->commentData($comment, 'list', $langTag, $timezone);
             }
 
             CacheHelper::put($commentList, $cacheKey, $cacheTag, 10, now()->addMinutes(10));
@@ -429,7 +432,7 @@ class CommentService
         $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
         $postService = new PostService;
 
-        $postData = $postService->postData($post, 'list', $langTag, $timezone, false);
+        $postData = $postService->postData($post, 'list', $langTag, $timezone);
         $postData['quotedPost'] = null;
 
         return $postData;
@@ -445,9 +448,7 @@ class CommentService
         $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
 
         $commentService = new CommentService;
-
-        $commentData = $commentService->commentData($comment?->parentComment, 'list', $langTag, $timezone, false, null, null, null, null, false, false);
-        $commentData['replyToComment'] = null;
+        $commentData = $commentService->commentData($comment?->parentComment, 'list', $langTag, $timezone);
 
         return $commentData;
     }

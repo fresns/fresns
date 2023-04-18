@@ -35,7 +35,7 @@ use Illuminate\Support\Str;
 class PostService
 {
     // $type = list or detail
-    public function postData(?Post $post, string $type, string $langTag, string $timezone, bool $isPreview, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLong = null, ?string $authUserLat = null)
+    public function postData(?Post $post, string $type, string $langTag, string $timezone, ?int $authUserId = null, ?bool $isPreview = false, ?int $authUserMapId = null, ?string $authUserLong = null, ?string $authUserLat = null)
     {
         if (! $post) {
             return null;
@@ -476,7 +476,7 @@ class PostService
 
             $commentList = [];
             foreach ($comments as $comment) {
-                $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, false, null, null, null, null, false, false);
+                $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone);
             }
 
             CacheHelper::put($commentList, $cacheKey, $cacheTags, 10, now()->addMinutes(10));
@@ -495,7 +495,7 @@ class PostService
         $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
         $postService = new PostService;
 
-        $postData = $postService->postData($post, 'list', $langTag, $timezone, false);
+        $postData = $postService->postData($post, 'list', $langTag, $timezone);
         $postData['quotedPost'] = null;
 
         return $postData;

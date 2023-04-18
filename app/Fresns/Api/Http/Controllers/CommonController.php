@@ -479,6 +479,30 @@ class CommonController extends Controller
             if ($conversationPermInt != 0) {
                 throw new ApiException($conversationPermInt);
             }
+
+            $conversationFiles = ConfigHelper::fresnsConfigByItemKey('conversation_files');
+            if (! in_array($dtoRequest->type, $conversationFiles)) {
+                switch ($dtoRequest->type) {
+                    case 'image':
+                        throw new ApiException(36109);
+                        break;
+
+                    case 'video':
+                        throw new ApiException(36110);
+                        break;
+
+                    case 'audio':
+                        throw new ApiException(36111);
+                        break;
+
+                    case 'document':
+                        throw new ApiException(36112);
+                        break;
+
+                    default:
+                        throw new ApiException(36200);
+                }
+            }
         }
 
         // usage type

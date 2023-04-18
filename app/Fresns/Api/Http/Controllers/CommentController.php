@@ -94,8 +94,8 @@ class CommentController extends Controller
         $isPreviewPost = true;
 
         if ($dtoRequest->uidOrUsername) {
-            $commentConfig = ConfigHelper::fresnsConfigByItemKey('it_comments');
-            if (! $commentConfig) {
+            $userCommentConfig = ConfigHelper::fresnsConfigByItemKey('it_comments');
+            if (! $userCommentConfig) {
                 throw new ApiException(35305);
             }
 
@@ -364,6 +364,16 @@ class CommentController extends Controller
 
         $comments = $commentQuery->paginate($dtoRequest->pageSize ?? 15);
 
+        $commentConfig = [
+            'mapId' => $dtoRequest->mapId,
+            'longitude' => $dtoRequest->mapLng,
+            'latitude' => $dtoRequest->mapLat,
+            'outputSubComments' => $outputSubComments,
+            'outputReplyToPost' => $isPreviewPost,
+            'outputReplyToComment' => false,
+            'whetherToFilter' => true,
+        ];
+
         $commentList = [];
         $service = new CommentService();
         foreach ($comments as $comment) {
@@ -377,7 +387,20 @@ class CommentController extends Controller
                 continue;
             }
 
-            $commentList[] = $service->commentData($comment, $dataType, $langTag, $timezone, $isPreviewPost, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat, $outputSubComments);
+            $commentList[] = $service->commentData(
+                $comment,
+                $dataType,
+                $langTag,
+                $timezone,
+                $authUserId,
+                $commentConfig['mapId'],
+                $commentConfig['longitude'],
+                $commentConfig['latitude'],
+                $commentConfig['outputSubComments'],
+                $commentConfig['outputReplyToPost'],
+                $commentConfig['outputReplyToComment'],
+                $commentConfig['whetherToFilter'],
+            );
         }
 
         return $this->fresnsPaginate($commentList, $comments->total(), $comments->perPage());
@@ -417,8 +440,31 @@ class CommentController extends Controller
         $item['description'] = $seoData?->description;
         $data['items'] = $item;
 
+        $commentConfig = [
+            'mapId' => $dtoRequest->mapId,
+            'longitude' => $dtoRequest->mapLng,
+            'latitude' => $dtoRequest->mapLat,
+            'outputSubComments' => false,
+            'outputReplyToPost' => true,
+            'outputReplyToComment' => true,
+            'whetherToFilter' => true,
+        ];
+
         $service = new CommentService();
-        $data['detail'] = $service->commentData($comment, 'detail', $langTag, $timezone, true, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+        $data['detail'] = $service->commentData(
+            $comment,
+            'detail',
+            $langTag,
+            $timezone,
+            $authUserId,
+            $commentConfig['mapId'],
+            $commentConfig['longitude'],
+            $commentConfig['latitude'],
+            $commentConfig['outputSubComments'],
+            $commentConfig['outputReplyToPost'],
+            $commentConfig['outputReplyToComment'],
+            $commentConfig['whetherToFilter'],
+        );
 
         return $this->success($data);
     }
@@ -615,10 +661,34 @@ class CommentController extends Controller
                 break;
         }
 
+        $commentConfig = [
+            'mapId' => $dtoRequest->mapId,
+            'longitude' => $dtoRequest->mapLng,
+            'latitude' => $dtoRequest->mapLat,
+            'outputSubComments' => true,
+            'outputReplyToPost' => true,
+            'outputReplyToComment' => true,
+            'whetherToFilter' => true,
+        ];
+
         $commentList = [];
         $service = new CommentService();
         foreach ($comments as $comment) {
-            $listItem = $service->commentData($comment, 'list', $langTag, $timezone, true, $authUser->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+            $listItem = $service->commentData(
+                $comment,
+                'list',
+                $langTag,
+                $timezone,
+                $authUser->id,
+                $commentConfig['mapId'],
+                $commentConfig['longitude'],
+                $commentConfig['latitude'],
+                $commentConfig['outputSubComments'],
+                $commentConfig['outputReplyToPost'],
+                $commentConfig['outputReplyToComment'],
+                $commentConfig['whetherToFilter'],
+            );
+
             $listItem['followType'] = InteractionUtility::getFollowType($comment->user_id, $authUser?->id, $comment?->group_id, $comment?->hashtags?->toArray());
 
             $commentList[] = $listItem;
@@ -675,10 +745,33 @@ class CommentController extends Controller
             ->orderBy('distance')
             ->paginate($dtoRequest->pageSize ?? 15);
 
+        $commentConfig = [
+            'mapId' => $dtoRequest->mapId,
+            'longitude' => $dtoRequest->mapLng,
+            'latitude' => $dtoRequest->mapLat,
+            'outputSubComments' => true,
+            'outputReplyToPost' => true,
+            'outputReplyToComment' => true,
+            'whetherToFilter' => true,
+        ];
+
         $commentList = [];
         $service = new CommentService();
         foreach ($comments as $comment) {
-            $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone, true, $authUser?->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+            $commentList[] = $service->commentData(
+                $comment,
+                'list',
+                $langTag,
+                $timezone,
+                $authUser?->id,
+                $commentConfig['mapId'],
+                $commentConfig['longitude'],
+                $commentConfig['latitude'],
+                $commentConfig['outputSubComments'],
+                $commentConfig['outputReplyToPost'],
+                $commentConfig['outputReplyToComment'],
+                $commentConfig['whetherToFilter'],
+            );
         }
 
         return $this->fresnsPaginate($commentList, $comments->total(), $comments->perPage());
