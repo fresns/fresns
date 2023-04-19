@@ -348,6 +348,7 @@ class InstallController extends Controller
             'putenv', // laravel framework .env
             'symlink', // storage:link
             'proc_open', // symfony/process
+            'shell_exec', // symfony/console
             'passthru', // fresns upgrade
         ];
 
