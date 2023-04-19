@@ -35,7 +35,7 @@
                     <tr>
                         <th scope="row" class="py-3">
                             <img src="/assets/plugins/{{ $engine->unikey }}/fresns.png" class="me-2" width="44" height="44">
-                            <a href="{{ $marketUrl.'/detail/'.$engine->unikey }}" target="_blank" class="link-dark fresns-link">{{ $engine->name }}</a>
+                            <a href="{{ $marketplaceUrl.'/detail/'.$engine->unikey }}" target="_blank" class="link-dark fresns-link">{{ $engine->name }}</a>
                             <span class="badge bg-secondary fs-9">{{ $engine->version }}</span>
                             @if ($engine->is_upgrade)
                                 <a href="{{ route('panel.upgrades') }}" class="badge rounded-pill bg-danger link-light fs-9 fresns-link">{{ __('FsLang::panel.new_version') }}</a>

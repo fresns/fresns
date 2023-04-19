@@ -33,7 +33,7 @@
                     </div>
                     <div class="card-body">
                         <h5 class="text-nowrap overflow-hidden">
-                            <a href="{{ $marketUrl.'/detail/'.$theme->unikey }}" target="_blank" class="link-dark fresns-link">{{ $theme->name }}</a>
+                            <a href="{{ $marketplaceUrl.'/detail/'.$theme->unikey }}" target="_blank" class="link-dark fresns-link">{{ $theme->name }}</a>
                             <span class="badge bg-secondary align-middle fs-9">{{ $theme->version }}</span>
                         </h5>
                         <p class="card-text text-height">{{ $theme->description }}</p>

@@ -23,7 +23,7 @@ class AppUtility
     const WEBSITE_ZH_HANS_URL = 'https://zh-hans.fresns.org';
     const WEBSITE_ZH_HANT_URL = 'https://zh-hant.fresns.org';
     const COMMUNITY_URL = 'https://discuss.fresns.com';
-    const MARKETPLACE_URL = config('app.marketplace_url') ?? 'https://marketplace.fresns.com';
+    const MARKETPLACE_URL = 'https://marketplace.fresns.com';
 
     public static function currentVersion(): array
     {
@@ -129,7 +129,7 @@ class AppUtility
             return Http::withHeaders(
                 AppUtility::getMarketHeaders()
             )->baseUrl(
-                AppUtility::MARKETPLACE_URL
+                config('app.marketplace_url', AppUtility::MARKETPLACE_URL)
             );
         });
     }

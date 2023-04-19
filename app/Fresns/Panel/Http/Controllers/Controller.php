@@ -77,25 +77,23 @@ class Controller extends BaseController
         // url
         $siteUrl = $configs->where('item_key', 'site_url')->first()?->item_value ?? '/';
         $docsUrl = AppUtility::WEBSITE_URL;
-        $discussUrl = AppUtility::COMMUNITY_URL;
-        $marketUrl = AppUtility::MARKETPLACE_URL.'/open-source';
+        $communityUrl = AppUtility::COMMUNITY_URL;
+        $marketplaceUrl = config('app.marketplace_url', AppUtility::MARKETPLACE_URL).'/open-source';
         if ($langTag != 'en') {
-            $marketUrl = AppUtility::MARKETPLACE_URL.'/'.$langTag.'/open-source';
+            $marketplaceUrl = config('app.marketplace_url', AppUtility::MARKETPLACE_URL).'/'.$langTag.'/open-source';
         }
         if ($langTag == 'zh-Hans') {
             $docsUrl = AppUtility::WEBSITE_ZH_HANS_URL;
-            $discussUrl = AppUtility::COMMUNITY_URL.'/zh-Hans';
-            $marketUrl = AppUtility::MARKETPLACE_URL.'/zh-Hans/open-source';
+            $communityUrl = AppUtility::COMMUNITY_URL.'/zh-Hans';
         }
         if ($langTag == 'zh-Hant') {
-            $discussUrl = AppUtility::COMMUNITY_URL.'/zh-Hant';
-            $marketUrl = AppUtility::MARKETPLACE_URL.'/zh-Hant/open-source';
+            $communityUrl = AppUtility::COMMUNITY_URL.'/zh-Hant';
         }
 
         View::share('siteUrl', $siteUrl);
         View::share('docsUrl', $docsUrl);
-        View::share('discussUrl', $discussUrl);
-        View::share('marketUrl', $marketUrl);
+        View::share('communityUrl', $communityUrl);
+        View::share('marketplaceUrl', $marketplaceUrl);
 
         // md5 16bit
         View::share('versionMd5', AppHelper::VERSION_MD5_16BIT);

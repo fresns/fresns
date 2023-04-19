@@ -104,10 +104,10 @@
                     <a class="fresns-link" href="{{ $docsUrl.'/community/join.html' }}" target="_blank">{{ __('FsLang::panel.support_join') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="{{ $discussUrl }}" target="_blank">{{ __('FsLang::panel.support_community') }}</a>
+                    <a class="fresns-link" href="{{ $communityUrl }}" target="_blank">{{ __('FsLang::panel.support_community') }}</a>
                 </li>
                 <li class="list-group-item">
-                    <a class="fresns-link" href="{{ $marketUrl }}" target="_blank">{{ __('FsLang::panel.support_marketplace') }}</a>
+                    <a class="fresns-link" href="{{ $marketplaceUrl }}" target="_blank">{{ __('FsLang::panel.support_marketplace') }}</a>
                 </li>
             </ul>
         </div>
