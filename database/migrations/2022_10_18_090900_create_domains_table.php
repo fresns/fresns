@@ -46,7 +46,7 @@ class CreateDomainsTable extends Migration
             $table->increments('id');
             $table->unsignedTinyInteger('usage_type');
             $table->unsignedBigInteger('usage_id');
-            $table->unsignedInteger('link_id');
+            $table->unsignedInteger('link_id')->index('usage_link_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

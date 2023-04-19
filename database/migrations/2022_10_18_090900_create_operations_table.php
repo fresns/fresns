@@ -40,7 +40,7 @@ class CreateOperationsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedTinyInteger('usage_type');
             $table->unsignedBigInteger('usage_id');
-            $table->unsignedInteger('operation_id');
+            $table->unsignedInteger('operation_id')->index('usage_operation_id');
             $table->string('plugin_unikey', 64)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();

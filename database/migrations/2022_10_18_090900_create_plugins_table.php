@@ -53,7 +53,7 @@ class CreatePluginsTable extends Migration
 
         Schema::create('plugin_usages', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedTinyInteger('usage_type');
+            $table->unsignedTinyInteger('usage_type')->index('plugin_usage_type');
             $table->string('plugin_unikey', 64);
             $table->string('name', 128);
             $table->unsignedBigInteger('icon_file_id')->nullable();
@@ -74,7 +74,7 @@ class CreatePluginsTable extends Migration
                     $table->json('data_sources')->nullable();
             }
             $table->unsignedTinyInteger('is_group_admin')->nullable()->default(0);
-            $table->unsignedInteger('group_id')->nullable();
+            $table->unsignedInteger('group_id')->nullable()->index('plugin_usage_group_id');
             $table->string('roles', 128)->nullable();
             $table->string('parameter', 128)->nullable();
             $table->unsignedSmallInteger('rating')->default(9);
@@ -96,7 +96,7 @@ class CreatePluginsTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->unique(['plugin_unikey', 'user_id'], 'unikey_user');
+            $table->unique(['plugin_unikey', 'user_id'], 'plugin_badge_user_id');
         });
 
         Schema::create('plugin_callbacks', function (Blueprint $table) {

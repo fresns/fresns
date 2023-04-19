@@ -62,7 +62,7 @@ class CreateFilesTable extends Migration
 
         Schema::create('file_usages', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('file_id');
+            $table->unsignedBigInteger('file_id')->index('usage_file_id');
             $table->unsignedTinyInteger('file_type');
             $table->unsignedTinyInteger('usage_type');
             $table->unsignedTinyInteger('platform_id');

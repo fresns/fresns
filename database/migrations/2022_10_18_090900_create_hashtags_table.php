@@ -42,7 +42,7 @@ class CreateHashtagsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedTinyInteger('usage_type');
             $table->unsignedBigInteger('usage_id');
-            $table->unsignedBigInteger('hashtag_id');
+            $table->unsignedBigInteger('hashtag_id')->index('usage_hashtag_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

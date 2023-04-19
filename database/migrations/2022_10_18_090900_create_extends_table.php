@@ -60,7 +60,7 @@ class CreateExtendsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedTinyInteger('usage_type');
             $table->unsignedBigInteger('usage_id');
-            $table->unsignedBigInteger('extend_id');
+            $table->unsignedBigInteger('extend_id')->index('usage_extend_id');
             $table->unsignedTinyInteger('can_delete')->default(1);
             $table->unsignedSmallInteger('rating')->default(9);
             $table->string('plugin_unikey', 64);
