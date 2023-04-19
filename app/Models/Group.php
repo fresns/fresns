@@ -25,6 +25,7 @@ class Group extends Model
 
     const FOLLOW_FRESNS = 1;
     const FOLLOW_PLUGIN = 2;
+    const FOLLOW_CLOSE = 3;
 
     use Traits\LangNameTrait;
     use Traits\LangDescriptionTrait;

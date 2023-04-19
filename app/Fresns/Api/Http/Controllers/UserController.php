@@ -35,6 +35,7 @@ use App\Models\Conversation;
 use App\Models\ConversationMessage;
 use App\Models\DomainLinkUsage;
 use App\Models\File;
+use App\Models\Group;
 use App\Models\HashtagUsage;
 use App\Models\Mention;
 use App\Models\Notification;
@@ -976,6 +977,14 @@ class UserController extends Controller
 
                     if ($rolePerm <= $followCount) {
                         throw new ApiException(36118);
+                    }
+                }
+
+                if ($markType == UserFollow::TYPE_GROUP) {
+                    $group = PrimaryHelper::fresnsModelById('group', $primaryId);
+
+                    if ($group?->type_follow != Group::FOLLOW_FRESNS) {
+                        throw new ApiException(36200);
                     }
                 }
 

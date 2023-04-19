@@ -54,8 +54,10 @@
                         <td>
                             @if ($group->type_follow == 1)
                                 {{ __('FsLang::panel.group_option_follow_fresns') }}
-                            @else
+                            @elseif ($group->type_follow == 2)
                                 {{ __('FsLang::panel.group_option_follow_plugin') }} <span class="badge bg-light text-dark">{{ optional($group->plugin)->name }}</span>
+                            @else
+                                {{ __('FsLang::panel.option_close') }}
                             @endif
                         </td>
                         <td>

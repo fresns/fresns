@@ -119,6 +119,10 @@
                                 <input class="form-check-input" type="radio" name="type_follow" id="type_follow_false" value="2" data-bs-toggle="collapse" data-bs-target=".follow_setting:not(.show)" aria-expanded="false" aria-controls="follow_setting">
                                 <label class="form-check-label" for="type_follow_false">{{ __('FsLang::panel.group_option_follow_plugin') }}</label>
                             </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="type_follow" id="type_follow_close" value="3" data-bs-toggle="collapse" data-bs-target=".follow_setting.show" aria-expanded="false" aria-controls="follow_setting">
+                                <label class="form-check-label" for="type_follow_close">{{ __('FsLang::panel.option_close') }}</label>
+                            </div>
                             <div class="collapse follow_setting mt-2">
                                 <div class="input-group">
                                     <span class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</span>

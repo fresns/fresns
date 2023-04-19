@@ -151,7 +151,7 @@ class InteractionHelper
         return $interaction;
     }
 
-    public static function fresnsGroupInteraction(?string $langTag = null): array
+    public static function fresnsGroupInteraction(?string $langTag = null, ?int $typeFollow = 1): array
     {
         $itemData = ConfigHelper::fresnsConfigByItemKeys([
             'group_name',
@@ -167,7 +167,7 @@ class InteractionHelper
         $interaction['likeName'] = $itemData['like_group_name'];
         $interaction['dislikeSetting'] = $itemData['dislike_group_setting'];
         $interaction['dislikeName'] = $itemData['dislike_group_name'];
-        $interaction['followSetting'] = $itemData['follow_group_setting'];
+        $interaction['followSetting'] = $typeFollow == Group::FOLLOW_CLOSE ? false : $itemData['follow_group_setting'];
         $interaction['followName'] = $itemData['follow_group_name'];
         $interaction['blockSetting'] = $itemData['block_group_setting'];
         $interaction['blockName'] = $itemData['block_group_name'];
