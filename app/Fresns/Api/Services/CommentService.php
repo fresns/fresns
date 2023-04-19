@@ -82,7 +82,7 @@ class CommentService
 
             $item['subComments'] = [];
 
-            $item['extendBtn'] = [
+            $item['extendButton'] = [
                 'status' => (bool) $postAppend->is_comment_btn,
                 'type' => $commentAppend->is_change_btn ? 'active' : 'default',
                 'default' => [
@@ -184,7 +184,7 @@ class CommentService
         if ($isMe) {
             $commentData['editStatus']['canEdit'] = PermissionUtility::checkContentIsCanEdit('comment', $comment->created_at, $comment->is_sticky, $comment->digest_state, $langTag, $timezone);
         } else {
-            $commentData['extendBtn'] = [
+            $commentData['extendButton'] = [
                 'status' => false,
                 'type' => null,
                 'default' => [
@@ -361,12 +361,12 @@ class CommentService
             return $commentData;
         }
 
-        $commentData['createTime'] = DateHelper::fresnsFormatDateTime($commentData['createTime'], $timezone, $langTag);
-        $commentData['createTimeFormat'] = DateHelper::fresnsFormatTime($commentData['createTimeFormat'], $langTag);
-        $commentData['editTime'] = DateHelper::fresnsFormatDateTime($commentData['editTime'], $timezone, $langTag);
-        $commentData['editTimeFormat'] = DateHelper::fresnsFormatTime($commentData['editTimeFormat'], $langTag);
-        $commentData['latestCommentTime'] = DateHelper::fresnsFormatDateTime($commentData['latestCommentTime'], $timezone, $langTag);
-        $commentData['latestCommentTimeFormat'] = DateHelper::fresnsFormatTime($commentData['latestCommentTimeFormat'], $langTag);
+        $commentData['createdDatetime'] = DateHelper::fresnsFormatDateTime($commentData['createdDatetime'], $timezone, $langTag);
+        $commentData['createdTimeAgo'] = DateHelper::fresnsFormatTime($commentData['createdTimeAgo'], $langTag);
+        $commentData['editedDatetime'] = DateHelper::fresnsFormatDateTime($commentData['editedDatetime'], $timezone, $langTag);
+        $commentData['editedTimeAgo'] = DateHelper::fresnsFormatTime($commentData['editedTimeAgo'], $langTag);
+        $commentData['latestCommentDatetime'] = DateHelper::fresnsFormatDateTime($commentData['latestCommentDatetime'], $timezone, $langTag);
+        $commentData['latestCommentTimeAgo'] = DateHelper::fresnsFormatTime($commentData['latestCommentTimeAgo'], $langTag);
 
         $commentData['interaction']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($commentData['interaction']['followExpiryDateTime'], $timezone, $langTag);
 

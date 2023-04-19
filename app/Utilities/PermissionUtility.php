@@ -504,7 +504,7 @@ class PermissionUtility
 
     // Check content is can edit
     // $type = post or comment
-    public static function checkContentIsCanEdit(string $type, Carbon $createTime, int $stickyState, int $digestState, string $langTag, string $timezone): bool
+    public static function checkContentIsCanEdit(string $type, Carbon $createdDatetime, int $stickyState, int $digestState, string $langTag, string $timezone): bool
     {
         $editConfig = ConfigHelper::fresnsConfigByItemKeys([
             "{$type}_edit",
@@ -517,7 +517,7 @@ class PermissionUtility
             return false;
         }
 
-        $checkContentEditPerm = static::checkContentEditPerm($createTime, $editConfig["{$type}_edit_time_limit"], $timezone, $langTag);
+        $checkContentEditPerm = static::checkContentEditPerm($createdDatetime, $editConfig["{$type}_edit_time_limit"], $timezone, $langTag);
 
         if (! $checkContentEditPerm['editableStatus']) {
             return false;
@@ -576,7 +576,7 @@ class PermissionUtility
     }
 
     // Check content edit
-    public static function checkContentEdit(string $type, string $createTime, int $stickyState, int $digestState): int
+    public static function checkContentEdit(string $type, string $createdDatetime, int $stickyState, int $digestState): int
     {
         $editConfig = ConfigHelper::fresnsConfigByItemKeys([
             "{$type}_edit",
@@ -598,7 +598,7 @@ class PermissionUtility
         }
 
         // check time
-        $timeDiff = Carbon::parse($createTime)->diffInMinutes(now());
+        $timeDiff = Carbon::parse($createdDatetime)->diffInMinutes(now());
         if ($timeDiff > $config['timeLimit']) {
             return 36309;
         }

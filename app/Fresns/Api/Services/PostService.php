@@ -105,7 +105,7 @@ class PostService
         $contentHandle = self::handlePostContent($post, $postData, $type, $authUserId);
         $postData['content'] = $contentHandle['content'];
         $postData['isBrief'] = $contentHandle['isBrief'];
-        $postData['isAllow'] = $contentHandle['isAllow'];
+        $postData['allowConfig'] = $contentHandle['allowConfig'];
         $postData['files'] = $contentHandle['files'];
 
         // archives
@@ -283,7 +283,7 @@ class PostService
             $contentData = [
                 'content' => $postContent,
                 'isBrief' => $isBrief,
-                'isAllow' => $postData['isAllow'],
+                'allowConfig' => $postData['allowConfig'],
                 'files' => $files,
             ];
 
@@ -299,7 +299,7 @@ class PostService
 
         $contentFormat = \request()->header('X-Fresns-Client-Content-Format');
 
-        if ($contentData['isAllow']) {
+        if ($contentData['allowConfig']['isAllow']) {
             if ($contentFormat == 'html') {
                 $contentData['content'] = $post->is_markdown ? Str::markdown($contentData['content']) : nl2br($contentData['content']);
             }
@@ -307,14 +307,14 @@ class PostService
             return $contentData;
         }
 
-        $contentData['isAllow'] = true;
+        $contentData['allowConfig']['isAllow'] = true;
         $checkPostAllow = PermissionUtility::checkPostAllow($post->id, $authUserId);
 
         if (empty($authUserId) || ! $checkPostAllow) {
             $allowProportion = $postData['allowProportion'] / 100;
             $allowLength = intval($postData['contentLength'] * $allowProportion);
 
-            $contentData['isAllow'] = false;
+            $contentData['allowConfig']['isAllow'] = false;
             $contentData['content'] = Str::limit($contentData['content'], $allowLength);
         }
 
@@ -365,12 +365,12 @@ class PostService
             return $postData;
         }
 
-        $postData['createTime'] = DateHelper::fresnsFormatDateTime($postData['createTime'], $timezone, $langTag);
-        $postData['createTimeFormat'] = DateHelper::fresnsFormatTime($postData['createTimeFormat'], $langTag);
-        $postData['editTime'] = DateHelper::fresnsFormatDateTime($postData['editTime'], $timezone, $langTag);
-        $postData['editTimeFormat'] = DateHelper::fresnsFormatTime($postData['editTimeFormat'], $langTag);
-        $postData['latestCommentTime'] = DateHelper::fresnsFormatDateTime($post->latest_comment_at, $timezone, $langTag);
-        $postData['latestCommentTimeFormat'] = DateHelper::fresnsFormatTime($post->latest_comment_at, $langTag);
+        $postData['createdDatetime'] = DateHelper::fresnsFormatDateTime($postData['createdDatetime'], $timezone, $langTag);
+        $postData['createdTimeAgo'] = DateHelper::fresnsFormatTime($postData['createdTimeAgo'], $langTag);
+        $postData['editedDatetime'] = DateHelper::fresnsFormatDateTime($postData['editedDatetime'], $timezone, $langTag);
+        $postData['editedTimeAgo'] = DateHelper::fresnsFormatTime($postData['editedTimeAgo'], $langTag);
+        $postData['latestCommentDatetime'] = DateHelper::fresnsFormatDateTime($post->latest_comment_at, $timezone, $langTag);
+        $postData['latestCommentTimeAgo'] = DateHelper::fresnsFormatTime($post->latest_comment_at, $langTag);
 
         $postData['interaction']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($postData['interaction']['followExpiryDateTime'], $timezone, $langTag);
 

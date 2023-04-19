@@ -57,28 +57,29 @@ trait PostServiceTrait
         $info['commentFollowCount'] = $configKeys['comment_follower_count'] ? $postData->comment_follow_count : null;
         $info['commentBlockCount'] = $configKeys['comment_blocker_count'] ? $postData->comment_block_count : null;
         $info['postCount'] = $postData->post_count;
-        $info['createTime'] = $postData->created_at;
-        $info['createTimeFormat'] = $postData->created_at;
-        $info['editTime'] = $postData->latest_edit_at;
-        $info['editTimeFormat'] = $postData->latest_edit_at;
-        $info['editCount'] = $appendData->edit_count;
-        $info['latestCommentTime'] = $postData->latest_comment_at;
-        $info['latestCommentTimeFormat'] = $postData->latest_comment_at;
+        $info['createdDatetime'] = $postData->created_at;
+        $info['createdTimeAgo'] = $postData->created_at;
+        $info['editedDatetime'] = $postData->latest_edit_at;
+        $info['editedTimeAgo'] = $postData->latest_edit_at;
+        $info['editedCount'] = $appendData->edit_count;
+        $info['latestCommentDatetime'] = $postData->latest_comment_at;
+        $info['latestCommentTimeAgo'] = $postData->latest_comment_at;
         $info['rankState'] = $postData->rank_state;
         $info['status'] = (bool) $postData->is_enable;
 
-        $info['isAllow'] = (bool) $appendData->is_allow;
-        $info['allowProportion'] = $appendData->allow_proportion;
-        $info['allowBtnName'] = LanguageHelper::fresnsLanguageByTableId('post_appends', 'allow_btn_name', $appendData->post_id, $langTag) ?? $appendData->allow_btn_name;
-        $info['allowBtnUrl'] = PluginHelper::fresnsPluginUrlByUnikey($appendData->allow_plugin_unikey);
+        $info['allowConfig'] = [
+            'isAllow' => (bool) $appendData->is_allow,
+            'previewProportion' => $appendData->allow_proportion,
+            'buttonName' => LanguageHelper::fresnsLanguageByTableId('post_appends', 'allow_btn_name', $appendData->post_id, $langTag) ?? $appendData->allow_btn_name,
+            'buttonUrl' => PluginHelper::fresnsPluginUrlByUnikey($appendData->allow_plugin_unikey),
+        ];
 
-        $info['isUserList'] = (bool) $appendData->is_user_list;
-        $info['userListName'] = LanguageHelper::fresnsLanguageByTableId('post_appends', 'user_list_name', $appendData->post_id, $langTag) ?? $appendData->user_list_name;
-        $info['userListUrl'] = PluginHelper::fresnsPluginUrlByUnikey($appendData->user_list_plugin_unikey);
-        $info['userListCount'] = 0;
-        if ($info['isUserList']) {
-            $info['userListCount'] = PostAllow::where('post_id', $postData->id)->count();
-        }
+        $info['affiliatedUserConfig'] = [
+            'hasUserList' => (bool) $appendData->is_user_list,
+            'userListName' => LanguageHelper::fresnsLanguageByTableId('post_appends', 'user_list_name', $appendData->post_id, $langTag) ?? $appendData->user_list_name,
+            'userListUrl' => PluginHelper::fresnsPluginUrlByUnikey($appendData->user_list_plugin_unikey),
+            'userListCount' => $appendData->is_user_list ? PostAllow::where('post_id', $postData->id)->count() : 0,
+        ];
 
         $info['moreJson'] = $appendData->more_json;
 

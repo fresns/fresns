@@ -48,13 +48,13 @@ trait CommentServiceTrait
         $info['commentDislikeCount'] = $configKeys['comment_disliker_count'] ? $commentData->comment_dislike_count : null;
         $info['commentFollowCount'] = $configKeys['comment_follower_count'] ? $commentData->comment_follow_count : null;
         $info['commentBlockCount'] = $configKeys['comment_blocker_count'] ? $commentData->comment_block_count : null;
-        $info['createTime'] = $commentData->created_at;
-        $info['createTimeFormat'] = $commentData->created_at;
-        $info['editTime'] = $commentData->latest_edit_at;
-        $info['editTimeFormat'] = $commentData->latest_edit_at;
-        $info['editCount'] = $appendData->edit_count;
-        $info['latestCommentTime'] = $commentData->latest_comment_at;
-        $info['latestCommentTimeFormat'] = $commentData->latest_comment_at;
+        $info['createdDatetime'] = $commentData->created_at;
+        $info['createdTimeAgo'] = $commentData->created_at;
+        $info['editedDatetime'] = $commentData->latest_edit_at;
+        $info['editedTimeAgo'] = $commentData->latest_edit_at;
+        $info['editedCount'] = $appendData->edit_count;
+        $info['latestCommentDatetime'] = $commentData->latest_comment_at;
+        $info['latestCommentTimeAgo'] = $commentData->latest_comment_at;
         $info['rankState'] = $commentData->rank_state;
         $info['status'] = (bool) $commentData->is_enable;
 

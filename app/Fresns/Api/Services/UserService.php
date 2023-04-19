@@ -317,10 +317,10 @@ class UserService
 
         $authUser = PrimaryHelper::fresnsModelById('user', $authUserId);
 
-        $contentCreateTime = strtotime($dateTime);
+        $contentCreatedDatetime = strtotime($dateTime);
         $dateLimit = strtotime($authUser->expired_at);
 
-        if ($contentCreateTime > $dateLimit) {
+        if ($contentCreatedDatetime > $dateLimit) {
             throw new ApiException(35304);
         }
     }

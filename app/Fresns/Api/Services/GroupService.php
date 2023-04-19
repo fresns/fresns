@@ -95,7 +95,7 @@ class GroupService
         $item['canViewContent'] = $groupInfo['mode'] == 1;
         $item['publishRule'] = PermissionUtility::checkUserGroupPublishPerm($group->id, $group->permissions, $authUserId);
 
-        $interactionConfig = InteractionHelper::fresnsGroupInteraction($langTag);
+        $interactionConfig = InteractionHelper::fresnsGroupInteraction($langTag, $group->type_follow);
         $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_GROUP, $group->id, $authUserId);
 
         $item['interaction'] = array_merge($interactionConfig, $interactionStatus);
@@ -287,10 +287,10 @@ class GroupService
             throw new ApiException(37105);
         }
 
-        $contentCreateTime = strtotime($dateTime);
+        $contentCreatedDatetime = strtotime($dateTime);
         $dateLimit = strtotime($follow->expired_at);
 
-        if ($contentCreateTime > $dateLimit) {
+        if ($contentCreatedDatetime > $dateLimit) {
             throw new ApiException(37106);
         }
     }
