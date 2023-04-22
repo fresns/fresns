@@ -56,7 +56,6 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
-    'marketplace_url' => env('MARKETPLACE_URL', ''),
 
     'asset_url' => env('ASSET_URL'),
 
@@ -68,6 +67,7 @@ return [
 
     'founder' => env('APP_FOUNDER', 1),
     'trusted_proxies' => env('TRUSTED_PROXIES', ''),
+    'marketplace_url' => env('MARKETPLACE_URL', 'https://marketplace.fresns.com'),
 
     /*
     |--------------------------------------------------------------------------
