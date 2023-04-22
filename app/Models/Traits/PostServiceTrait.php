@@ -84,7 +84,8 @@ trait PostServiceTrait
         $info['moreJson'] = $appendData->more_json;
 
         $mapJson = $appendData->map_json;
-        $mapJson['isLbs'] = (bool) ($postData->map_latitude && $postData->map_longitude);
+        $poi = $mapJson['poi'] ?? null;
+        $mapJson['isLbs'] = (bool) ($postData->map_latitude && $postData->map_longitude && $poi);
         $mapJson['distance'] = null;
         $mapJson['unit'] = ConfigHelper::fresnsConfigLengthUnit($langTag);
 

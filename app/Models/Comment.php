@@ -28,6 +28,19 @@ class Comment extends Model
         return 'cid';
     }
 
+    public function getCommentAppendAttribute()
+    {
+        $commentAppend = $this->commentAppend()->first();
+
+        if (empty($commentAppend)) {
+            $commentAppend = CommentAppend::create([
+                'comment_id' => $this->id,
+            ]);
+        }
+
+        return $commentAppend;
+    }
+
     public function commentAppend()
     {
         return $this->hasOne(CommentAppend::class);

@@ -31,6 +31,19 @@ class Post extends Model
         return 'pid';
     }
 
+    public function getPostAppendAttribute()
+    {
+        $postAppend = $this->postAppend()->first();
+
+        if (empty($postAppend)) {
+            $postAppend = PostAppend::create([
+                'post_id' => $this->id,
+            ]);
+        }
+
+        return $postAppend;
+    }
+
     public function postAppend()
     {
         return $this->hasOne(PostAppend::class);

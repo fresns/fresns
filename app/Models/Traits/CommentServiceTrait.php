@@ -61,7 +61,8 @@ trait CommentServiceTrait
         $info['moreJson'] = $appendData->more_json;
 
         $mapJson = $appendData->map_json;
-        $mapJson['isLbs'] = (bool) ($commentData->map_latitude && $commentData->map_longitude);
+        $poi = $mapJson['poi'] ?? null;
+        $mapJson['isLbs'] = (bool) ($commentData->map_latitude && $commentData->map_longitude && $poi);
         $mapJson['distance'] = null;
         $mapJson['unit'] = ConfigHelper::fresnsConfigLengthUnit($langTag);
 

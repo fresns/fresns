@@ -107,10 +107,13 @@ class Content
 
                 if (empty($checkLog)) {
                     $logModel = PostLog::create($logData);
-                } elseif (empty($checkLog?->content) && empty($checkLog?->files) && empty($checkLog?->extends)) {
-                    $logModel = $checkLog->update($logData);
                 } else {
-                    $logModel = PostLog::create($logData);
+                    if (empty($checkLog->content) && empty($checkLog->files) && empty($checkLog->extends)) {
+                        $checkLog->update($logData);
+                        $logModel = $checkLog;
+                    } else {
+                        $logModel = PostLog::create($logData);
+                    }
                 }
                 break;
 
@@ -141,15 +144,17 @@ class Content
 
                 if (empty($checkLog)) {
                     $logModel = CommentLog::create($logData);
-                }
-
-                if ($checkLog?->post_id == $checkPost->id) {
-                    $logModel = $checkLog->update($logData);
                 } else {
-                    if (empty($checkLog?->content) && empty($checkLog?->files) && empty($checkLog?->extends)) {
-                        $logModel = $checkLog->update($logData);
+                    if ($checkLog->post_id == $checkPost->id) {
+                        $checkLog->update($logData);
+                        $logModel = $checkLog;
                     } else {
-                        $logModel = CommentLog::create($logData);
+                        if (empty($checkLog->content) && empty($checkLog->files) && empty($checkLog->extends)) {
+                            $checkLog->update($logData);
+                            $logModel = $checkLog;
+                        } else {
+                            $logModel = CommentLog::create($logData);
+                        }
                     }
                 }
                 break;
