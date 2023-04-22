@@ -225,9 +225,8 @@ class UpgradeFresns extends Command
         logger('upgrade: fresns edit version');
 
         $newVersion = AppHelper::VERSION;
-        $newVersionInt = AppHelper::VERSION_INT;
 
-        AppUtility::editVersion($newVersion, $newVersionInt);
+        AppUtility::editVersion($newVersion);
 
         return true;
     }

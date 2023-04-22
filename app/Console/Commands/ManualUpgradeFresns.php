@@ -198,9 +198,8 @@ class ManualUpgradeFresns extends Command
         $this->updateStep(self::STEP_UPDATE_VERSION);
 
         $newVersion = AppHelper::VERSION;
-        $newVersionInt = AppHelper::VERSION_INT;
 
-        AppUtility::editVersion($newVersion, $newVersionInt);
+        AppUtility::editVersion($newVersion);
 
         return true;
     }

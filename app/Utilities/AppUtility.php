@@ -64,7 +64,9 @@ class AppUtility
                     $newVersion = $versionInfo['betaBuild'];
                 }
             } catch (\Exception $e) {
-                $newVersion = AppHelper::getAppVersion();
+                $newVersion = [
+                    'version' => AppHelper::VERSION,
+                ];
             }
 
             CacheHelper::put($newVersion, $cacheKey, $cacheTag, 10, now()->addHours(6));
@@ -85,7 +87,7 @@ class AppUtility
         return false; // No new version
     }
 
-    public static function editVersion(string $version, int $versionInt): bool
+    public static function editVersion(string $version): bool
     {
         $fresnsJson = file_get_contents(
             $path = base_path('fresns.json')
@@ -97,7 +99,6 @@ class AppUtility
         }
 
         $currentVersion['version'] = $version;
-        $currentVersion['versionInt'] = $versionInt;
 
         $editContent = json_encode($currentVersion, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
         file_put_contents($path, $editContent);
@@ -153,12 +154,11 @@ class AppUtility
             'X-Fresns-Panel-Lang-Tag' => App::getLocale(),
             'X-Fresns-Install-Datetime' => $appConfig['install_datetime'],
             'X-Fresns-Build-Type' => $appConfig['build_type'],
-            'X-Fresns-Version' => self::currentVersion()['version'],
-            'X-Fresns-Version-Int' => self::currentVersion()['versionInt'],
+            'X-Fresns-Version' => AppHelper::VERSION,
+            'X-Fresns-Database' => config('database.default'),
             'X-Fresns-Http-Ssl' => $isHttps ? 1 : 0,
             'X-Fresns-Http-Host' => \request()->getHost(),
             'X-Fresns-Http-Port' => \request()->getPort(),
-            'X-Fresns-Database' => config('database.default'),
             'X-Fresns-System-Url' => config('app.url'),
             'X-Fresns-Site-Url' => $appConfig['site_url'],
             'X-Fresns-Site-Name' => base64_encode($appConfig['site_name']),
