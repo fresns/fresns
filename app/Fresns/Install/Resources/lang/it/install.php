@@ -38,7 +38,7 @@ return [
     'server_check_folder_ownership' => 'Proprietà delle cartelle',
     'server_check_php_extensions' => 'Estensioni PHP',
     'server_check_php_functions' => 'Funzioni PHP',
-    'server_check_error' => 'Fallimento del rilevamento dell\'ambiente del server.',
+    'server_check_error' => "Fallimento del rilevamento dell'ambiente del server.",
     'server_check_self' => 'Autocontrollo',
     'server_status_success' => 'ok',
     'server_status_failure' => 'Errore',
@@ -70,7 +70,7 @@ return [
     'database_config_invalid' => 'Configurazione del database non valida',
     'database_import_log' => 'Registro di importazione dei dati',
     // install
-    'install_failure' => 'L\'installazione non è riuscita, verificare il motivo nel log.',
+    'install_failure' => "L'installazione non è riuscita, verificare il motivo nel log.",
     // register
     'register_welcome' => 'Benvenuto nel processo di installazione di Fresns! Basta compilare le informazioni qui sotto e sarai sulla strada per utilizzare il software di servizi di social network più estendibile e multipiattaforma del mondo.',
     'register_title' => 'Informazioni necessarie',

@@ -29,7 +29,7 @@ return [
     'intro_database_host' => 'Datenbank-Host',
     'intro_database_table_prefix' => 'Tabellen-Präfix (falls du mehrere Fresns-Installationen innerhalb einer Datenbank aufbauen möchtest)',
     'intro_database_desc' => 'Wahrscheinlich kannst du diese Informationen in deinem Webhosting-Konto finden. Wenn du sie nicht parat hast, kontaktiere die Firma, bei der deine Website gehostet wird, bevor du weitermachst …',
-    'intro_next_btn' => 'Los geht\'s!',
+    'intro_next_btn' => "Los geht's!",
     // server
     'server_title' => 'Server-Anforderungen',
     'server_check_php_version' => 'PHP 8.1+',

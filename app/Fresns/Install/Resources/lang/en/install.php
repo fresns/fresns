@@ -29,7 +29,7 @@ return [
     'intro_database_host' => 'Database host',
     'intro_database_table_prefix' => 'Table prefix (if you want to run more than one Fresns in a single database)',
     'intro_database_desc' => 'In all likelihood, these items were supplied to you by your web host. If you don’t have this information, then you will need to contact them before you can continue. If you’re all ready…',
-    'intro_next_btn' => 'Let\'s go!',
+    'intro_next_btn' => "Let's go!",
     // server
     'server_title' => 'Server Requirements',
     'server_check_php_version' => 'PHP 8.1+',
