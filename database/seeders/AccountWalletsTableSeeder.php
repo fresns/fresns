@@ -21,7 +21,7 @@ class AccountWalletsTableSeeder extends Seeder
         DB::table('account_wallets')->delete();
 
         DB::table('account_wallets')->insert([
-            0 => [
+            [
                 'id' => 1,
                 'account_id' => 1,
                 'balance' => '0.00',

@@ -21,7 +21,7 @@ class RolesTableSeeder extends Seeder
         DB::table('roles')->delete();
 
         DB::table('roles')->insert([
-            0 => [
+            [
                 'id' => 1,
                 'name' => 'Administrator',
                 'type' => 1,
@@ -38,7 +38,7 @@ class RolesTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            1 => [
+            [
                 'id' => 2,
                 'name' => 'Interdiction',
                 'type' => 2,
@@ -55,7 +55,7 @@ class RolesTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            2 => [
+            [
                 'id' => 3,
                 'name' => 'Pending Review',
                 'type' => 2,
@@ -72,7 +72,7 @@ class RolesTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            3 => [
+            [
                 'id' => 4,
                 'name' => 'General User',
                 'type' => 3,

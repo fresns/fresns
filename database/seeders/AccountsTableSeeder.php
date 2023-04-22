@@ -21,7 +21,7 @@ class AccountsTableSeeder extends Seeder
         DB::table('accounts')->delete();
 
         DB::table('accounts')->insert([
-            0 => [
+            [
                 'id' => 1,
                 'aid' => 'fresns',
                 'type' => 1,

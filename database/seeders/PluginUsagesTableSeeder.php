@@ -21,7 +21,7 @@ class PluginUsagesTableSeeder extends Seeder
         DB::table('plugin_usages')->delete();
 
         DB::table('plugin_usages')->insert([
-            0 => [
+            [
                 'id' => 1,
                 'usage_type' => 4,
                 'plugin_unikey' => 'All',
@@ -43,7 +43,7 @@ class PluginUsagesTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            1 => [
+            [
                 'id' => 2,
                 'usage_type' => 4,
                 'plugin_unikey' => 'Text',
@@ -65,7 +65,7 @@ class PluginUsagesTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            2 => [
+            [
                 'id' => 3,
                 'usage_type' => 4,
                 'plugin_unikey' => 'Image',
@@ -87,7 +87,7 @@ class PluginUsagesTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            3 => [
+            [
                 'id' => 4,
                 'usage_type' => 4,
                 'plugin_unikey' => 'Video',
@@ -109,7 +109,7 @@ class PluginUsagesTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            4 => [
+            [
                 'id' => 5,
                 'usage_type' => 4,
                 'plugin_unikey' => 'Audio',
@@ -131,7 +131,7 @@ class PluginUsagesTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            5 => [
+            [
                 'id' => 6,
                 'usage_type' => 4,
                 'plugin_unikey' => 'Document',

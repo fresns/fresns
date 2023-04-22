@@ -21,7 +21,7 @@ class UserStatsTableSeeder extends Seeder
         DB::table('user_stats')->delete();
 
         DB::table('user_stats')->insert([
-            0 => [
+            [
                 'id' => 1,
                 'user_id' => 1,
                 'like_user_count' => 0,
