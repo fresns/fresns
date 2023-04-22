@@ -18,10 +18,9 @@ use Illuminate\Support\Str;
 
 class AppHelper
 {
-    const VERSION = '2.8.1';
-    const VERSION_INT = 23;
-    const VERSION_MD5 = 'fe036b55ded21d38e2b6cc58ff9930a1';
-    const VERSION_MD5_16BIT = 'ded21d38e2b6cc58';
+    const VERSION = '2.9.0';
+    const VERSION_MD5 = '0d6f7e6ce6f1553544acb14682c8eb07';
+    const VERSION_MD5_16BIT = 'e6f1553544acb146';
 
     // fresns test helper
     public static function fresnsTestHelper(): mixed
@@ -29,15 +28,6 @@ class AppHelper
         $fresnsTest = Str::ulid();
 
         return $fresnsTest;
-    }
-
-    // app version
-    public static function getAppVersion(): array
-    {
-        return [
-            'version' => self::VERSION,
-            'versionInt' => self::VERSION_INT,
-        ];
     }
 
     // get system info

@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.9.0 (2023-04-22)
+
+### Added
+- Panel: Configurable maximum number of posts per day for role permissions
+
+### Fixes
+- API: Upload file interface does not determine file type when uploading private messages
+- API: Comment message `replyToComment` parameter formatted incorrectly
+- API: User tag interface does not determine whether the group is allowed to follow
+- Words: Fix bug with connection information when adding account command word
+- Words: Fixed empty draft detection bug when posting comments
+- Words: Wallet command word not registered
+- Model: fixed bug with missing attachment table for posts and comments
+
+### BREAKING CHANGES
+- API: Post and comment data structure changed by creating and modifying key names
+    - `createTime` changed to `createdDatetime`
+    - `createTimeFormat` changed to `createdTimeAgo`
+    - `editTime` changed to `editedDatetime`
+    - `editTimeFormat` changed to `editedTimeAgo`
+    - `editCount` changed to `editedCount`
+    - `latestCommentTime` changed to `latestCommentDatetime`
+    - `latestCommentTimeFormat` changed to `latestCommentTimeAgo`
+- Install: Changed install function from AlpineJS solution to jQuery
+- Utilities: Drop numeric version numbers and use semantic version numbers only
+- Marketplace: There are interface customizations in the Application Marketplace, if you do not customize before upgrading, you will not be able to use the Application Marketplace.
+
+
 ## 2.8.1 (2023-04-15)
 
 ### Fixes
