@@ -28,7 +28,7 @@ class Wallet
 {
     use CmdWordResponseTrait;
 
-    // wallet recharge
+    // cmd word: wallet recharge
     public function walletRecharge($wordBody)
     {
         $dtoWordBody = new WalletRechargeDTO($wordBody);
@@ -54,7 +54,7 @@ class Wallet
             );
         }
 
-        $checkClosingBalance = static::checkClosingBalance($wallet, $accountId, $userId);
+        $checkClosingBalance = static::checkClosingBalance($wallet);
         // The closing balance not match with the wallet limit
         if (! $checkClosingBalance) {
             return $this->failure(
@@ -96,7 +96,7 @@ class Wallet
         return $this->success();
     }
 
-    // wallet withdraw
+    // cmd word: wallet withdraw
     public function walletWithdraw($wordBody)
     {
         $dtoWordBody = new WalletWithdrawDTO($wordBody);
@@ -133,7 +133,7 @@ class Wallet
             }
         }
 
-        $checkClosingBalance = static::checkClosingBalance($wallet, $accountId, $userId);
+        $checkClosingBalance = static::checkClosingBalance($wallet);
         // The closing balance not match with the wallet limit
         if (! $checkClosingBalance) {
             return $this->failure(
@@ -183,7 +183,7 @@ class Wallet
         return $this->success();
     }
 
-    // wallet freeze
+    // cmd word: wallet freeze
     public function walletFreeze($wordBody)
     {
         $dtoWordBody = new WalletFreezeDTO($wordBody);
@@ -209,7 +209,7 @@ class Wallet
             );
         }
 
-        $checkClosingBalance = static::checkClosingBalance($wallet, $accountId, $userId);
+        $checkClosingBalance = static::checkClosingBalance($wallet);
         // The closing balance not match with the wallet limit
         if (! $checkClosingBalance) {
             return $this->failure(
@@ -256,7 +256,7 @@ class Wallet
         return $this->success();
     }
 
-    // wallet unfreeze
+    // cmd word: wallet unfreeze
     public function walletUnfreeze($wordBody)
     {
         $dtoWordBody = new WalletUnfreezeDTO($wordBody);
@@ -282,7 +282,7 @@ class Wallet
             );
         }
 
-        $checkClosingBalance = static::checkClosingBalance($wallet, $accountId, $userId);
+        $checkClosingBalance = static::checkClosingBalance($wallet);
         // The closing balance not match with the wallet limit
         if (! $checkClosingBalance) {
             return $this->failure(
@@ -328,7 +328,7 @@ class Wallet
         return $this->success();
     }
 
-    // wallet increase
+    // cmd word: wallet increase
     public function walletIncrease($wordBody)
     {
         $dtoWordBody = new WalletIncreaseDTO($wordBody);
@@ -356,7 +356,7 @@ class Wallet
             );
         }
 
-        $checkClosingBalance = static::checkClosingBalance($wallet, $accountId, $userId);
+        $checkClosingBalance = static::checkClosingBalance($wallet);
         // The closing balance not match with the wallet limit
         if (! $checkClosingBalance) {
             return $this->failure(
@@ -416,7 +416,7 @@ class Wallet
             }
 
             // The closing balance of the counterparty does not match with the wallet limit
-            $checkOriginClosingBalance = static::checkClosingBalance($originWallet, $originAccountId, $originUserId);
+            $checkOriginClosingBalance = static::checkClosingBalance($originWallet);
             if (! $checkOriginClosingBalance) {
                 return $this->failure(
                     34507,
@@ -460,7 +460,7 @@ class Wallet
         return $this->success();
     }
 
-    // wallet decrease
+    // cmd word: wallet decrease
     public function walletDecrease($wordBody)
     {
         $dtoWordBody = new WalletDecreaseDTO($wordBody);
@@ -515,7 +515,7 @@ class Wallet
             );
         }
 
-        $checkClosingBalance = static::checkClosingBalance($wallet, $accountId, $userId);
+        $checkClosingBalance = static::checkClosingBalance($wallet);
         // The closing balance not match with the wallet limit
         if (! $checkClosingBalance) {
             return $this->failure(
@@ -559,7 +559,7 @@ class Wallet
             }
 
             // The closing balance of the counterparty does not match with the wallet limit
-            $checkOriginClosingBalance = static::checkClosingBalance($originWallet, $originAccountId, $originUserId);
+            $checkOriginClosingBalance = static::checkClosingBalance($originWallet);
             if (! $checkOriginClosingBalance) {
                 return $this->failure(
                     34507,
@@ -603,10 +603,7 @@ class Wallet
         return $this->success();
     }
 
-    /**
-     * @param $wordBody
-     * @return array
-     */
+    // cmd word: wallet revoke
     public function walletRevoke($wordBody)
     {
         $dtoWordBody = new WalletRevokeDTO($wordBody);
@@ -715,21 +712,13 @@ class Wallet
     }
 
     // check closing balance
-    public static function checkClosingBalance(AccountWallet $wallet, int $accountId, ?int $userId = null): bool
+    public static function checkClosingBalance(AccountWallet $wallet): bool
     {
-        if (empty($userId)) {
-            $walletLog = AccountWalletLog::where('account_id', $accountId)->isEnable()->first();
-        } else {
-            $walletLog = AccountWalletLog::where('account_id', $accountId)->where('user_id', $userId)->isEnable()->first();
-        }
+        $walletLog = AccountWalletLog::where('account_id', $wallet->account_id)->isEnable()->latest()->first();
 
         $closingBalance = $walletLog?->closing_balance ?? 0.00;
 
-        if ($closingBalance != $wallet->balance) {
-            return false;
-        }
-
-        return true;
+        return $wallet->balance == $closingBalance;
     }
 
     // wallet balance

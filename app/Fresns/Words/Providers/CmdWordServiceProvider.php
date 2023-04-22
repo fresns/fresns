@@ -53,8 +53,13 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'logicalDeletionAccount', 'provider' => [Account::class, 'logicalDeletionAccount']],
 
         // Wallet
+        ['word' => 'walletRecharge', 'provider' => [Wallet::class, 'walletRecharge']],
+        ['word' => 'walletWithdraw', 'provider' => [Wallet::class, 'walletWithdraw']],
+        ['word' => 'walletFreeze', 'provider' => [Wallet::class, 'walletFreeze']],
+        ['word' => 'walletUnfreeze', 'provider' => [Wallet::class, 'walletUnfreeze']],
         ['word' => 'walletIncrease', 'provider' => [Wallet::class, 'walletIncrease']],
         ['word' => 'walletDecrease', 'provider' => [Wallet::class, 'walletDecrease']],
+        ['word' => 'walletRevoke', 'provider' => [Wallet::class, 'walletRevoke']],
 
         // User
         ['word' => 'addUser', 'provider' => [User::class, 'addUser']],
