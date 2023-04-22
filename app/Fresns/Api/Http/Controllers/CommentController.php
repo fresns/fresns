@@ -91,7 +91,7 @@ class CommentController extends Controller
             });
         });
 
-        $isPreviewPost = true;
+        $outputReplyToPost = true;
 
         if ($dtoRequest->uidOrUsername) {
             $userCommentConfig = ConfigHelper::fresnsConfigByItemKey('it_comments');
@@ -130,7 +130,7 @@ class CommentController extends Controller
 
             $commentQuery->where('post_id', $viewPost->id)->where('top_parent_id', 0);
 
-            $isPreviewPost = false;
+            $outputReplyToPost = false;
         } else {
             // user is enable
             $commentQuery->whereHas('creator', function ($query) {
@@ -140,6 +140,7 @@ class CommentController extends Controller
 
         $dataType = 'list';
         $outputSubComments = true;
+        $outputReplyToComment = false;
         if ($dtoRequest->cid) {
             $viewComment = PrimaryHelper::fresnsModelByFsid('comment', $dtoRequest->cid);
 
@@ -159,7 +160,8 @@ class CommentController extends Controller
 
             $dataType = 'detail';
             $outputSubComments = false;
-            $isPreviewPost = false;
+            $outputReplyToPost = false;
+            $outputReplyToComment = true;
         }
 
         $groupDateLimit = null;
@@ -369,8 +371,8 @@ class CommentController extends Controller
             'longitude' => $dtoRequest->mapLng,
             'latitude' => $dtoRequest->mapLat,
             'outputSubComments' => $outputSubComments,
-            'outputReplyToPost' => $isPreviewPost,
-            'outputReplyToComment' => false,
+            'outputReplyToPost' => $outputReplyToPost,
+            'outputReplyToComment' => $outputReplyToComment,
             'whetherToFilter' => true,
         ];
 
