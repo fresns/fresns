@@ -627,6 +627,13 @@ class PermissionUtility
     // Check content interval time
     public static function checkContentIntervalTime(int $userId, string $type): bool
     {
+        $rolePerm = PermissionUtility::getUserMainRole($userId)['permissions'];
+        $interval = $rolePerm["{$type}_second_interval"] ?? 0;
+
+        if ($interval == 0) {
+            return true;
+        }
+
         $model = match ($type) {
             'post' => Post::where('user_id', $userId)->latest()->first(),
             'comment' => Comment::where('user_id', $userId)->latest()->first(),
@@ -636,14 +643,31 @@ class PermissionUtility
             return true;
         }
 
-        $rolePerm = PermissionUtility::getUserMainRole($userId)['permissions'];
-        $interval = $rolePerm["{$type}_second_interval"] ?? 0;
-
-        if ($interval == 0) {
+        if ($model->created_at->addSeconds($interval) < now()) {
             return true;
         }
 
-        if ($model->created_at->addSeconds($interval) < now()) {
+        return false;
+    }
+
+    // Check content publish count rules
+    public static function checkContentPublishCountRules(int $userId, string $type): bool
+    {
+        $rolePerm = PermissionUtility::getUserMainRole($userId)['permissions'];
+        $dailyCount = $rolePerm["{$type}_daily_count"] ?? 0;
+
+        if ($dailyCount == 0) {
+            return true;
+        }
+
+        $dayDate = Carbon::today()->format('Y-m-d');
+
+        $modelCount = match ($type) {
+            'post' => Post::where('user_id', $userId)->whereDate('created_at', $dayDate)->count(),
+            'comment' => Comment::where('user_id', $userId)->whereDate('created_at', $dayDate)->count(),
+        };
+
+        if ($modelCount < $dailyCount) {
             return true;
         }
 

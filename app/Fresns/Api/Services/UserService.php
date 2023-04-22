@@ -347,10 +347,16 @@ class UserService
     // $type = post / comment
     public function checkPublishPerm(string $type, int $authUserId, ?int $contentMainId = null, ?string $langTag = null, ?string $timezone = null)
     {
-        // Check time limit
+        // $contentMainId has a value indicating that it is a modify content, not restricted by the publish check.
+
+        // Check publish limit
         $contentInterval = PermissionUtility::checkContentIntervalTime($authUserId, $type);
         if (! $contentInterval && ! $contentMainId) {
             throw new ApiException(36119);
+        }
+        $contentCount = PermissionUtility::checkContentPublishCountRules($authUserId, $type);
+        if (! $contentCount && ! $contentMainId) {
+            throw new ApiException(36120);
         }
 
         $publishConfig = ConfigUtility::getPublishConfigByType($authUserId, $type, $langTag, $timezone);
