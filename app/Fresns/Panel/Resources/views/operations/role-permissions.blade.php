@@ -190,6 +190,12 @@
                     <input type="number" class="form-control input-number" value="{{ $permissions['post_second_interval']['permValue'] ?? '' }}" name="permissions[post_second_interval]" placeholder="60">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_second') }}</span>
                 </div>
+                <!--post_daily_count-->
+                <div class="input-group mb-3">
+                    <label class="input-group-text">{{ __('FsLang::panel.role_perm_post_daily_count') }}</label>
+                    <input type="number" class="form-control input-number" value="{{ $permissions['post_daily_count']['permValue'] ?? '' }}" name="permissions[post_daily_count]" placeholder="0">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
+                </div>
                 <!--post_draft_count-->
                 <div class="input-group mb-3">
                     <label class="input-group-text">{{ __('FsLang::panel.role_perm_post_draft_count') }}</label>
@@ -312,13 +318,19 @@
                     </div>
                 </div>
                 <!--publish_rule end-->
-                <!--role_perm_comment_time_interval-->
+                <!--comment_second_interval-->
                 <div class="input-group mb-3">
                     <label class="input-group-text">{{ __('FsLang::panel.role_perm_comment_time_interval') }}</label>
                     <input type="number" class="form-control input-number" value="{{ $permissions['comment_second_interval']['permValue'] ?? '' }}" name="permissions[comment_second_interval]" placeholder="60">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_second') }}</span>
                 </div>
-                <!--role_perm_comment_draft_count-->
+                <!--comment_daily_count-->
+                <div class="input-group mb-3">
+                    <label class="input-group-text">{{ __('FsLang::panel.role_perm_comment_daily_count') }}</label>
+                    <input type="number" class="form-control input-number" value="{{ $permissions['comment_daily_count']['permValue'] ?? '' }}" name="permissions[comment_daily_count]" placeholder="0">
+                    <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
+                </div>
+                <!--comment_draft_count-->
                 <div class="input-group mb-3">
                     <label class="input-group-text">{{ __('FsLang::panel.role_perm_comment_draft_count') }}</label>
                     <input type="number" class="form-control input-number" value="{{ $permissions['comment_draft_count']['permValue'] ?? '' }}" name="permissions[comment_draft_count]" placeholder="10">
