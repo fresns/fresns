@@ -21,8 +21,7 @@ class DomainsTableSeeder extends Seeder
         DB::table('domains')->delete();
 
         DB::table('domains')->insert([
-            0 => [
-                'id' => 1,
+            [
                 'domain' => 'fresns.com',
                 'host' => 'fresns.com',
                 'post_count' => 0,
@@ -32,8 +31,7 @@ class DomainsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            1 => [
-                'id' => 2,
+            [
                 'domain' => 'fresns.org',
                 'host' => 'fresns.org',
                 'post_count' => 0,
@@ -43,8 +41,7 @@ class DomainsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            2 => [
-                'id' => 3,
+            [
                 'domain' => 'fresns.net',
                 'host' => 'fresns.net',
                 'post_count' => 0,
@@ -54,8 +51,7 @@ class DomainsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            3 => [
-                'id' => 4,
+            [
                 'domain' => 'fresns.com',
                 'host' => 'discuss.fresns.com',
                 'post_count' => 0,
@@ -65,10 +61,9 @@ class DomainsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            4 => [
-                'id' => 5,
+            [
                 'domain' => 'fresns.com',
-                'host' => 'developers.fresns.com',
+                'host' => 'developer.fresns.com',
                 'post_count' => 0,
                 'comment_count' => 0,
                 'is_enable' => 1,
@@ -76,10 +71,9 @@ class DomainsTableSeeder extends Seeder
                 'updated_at' => null,
                 'deleted_at' => null,
             ],
-            5 => [
-                'id' => 6,
+            [
                 'domain' => 'fresns.com',
-                'host' => 'market.fresns.com',
+                'host' => 'marketplace.fresns.com',
                 'post_count' => 0,
                 'comment_count' => 0,
                 'is_enable' => 1,
