@@ -5,19 +5,23 @@
 /storage/*.key
 /vendor
 /.phpunit.cache
+/.fleet
+/.idea
+/.vscode
 .env
 .env.backup
 .env.production
 .phpunit.result.cache
+.phpstorm.meta.php
+.devcontainer
+.DS_Store
+_ide_helper.php
+_ide_helper_models.php
 Homestead.json
 Homestead.yaml
 auth.json
 npm-debug.log
 yarn-error.log
-/.fleet
-/.idea
-/.vscode
-.DS_Store
 install.lock
 composer.lock
 
