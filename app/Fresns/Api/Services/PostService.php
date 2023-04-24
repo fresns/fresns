@@ -86,12 +86,12 @@ class PostService
             $item['previewLikeUsers'] = [];
             $item['manages'] = [];
 
-            $editStatus['isMe'] = true;
-            $editStatus['canDelete'] = (bool) $post->postAppend->can_delete;
-            $editStatus['canEdit'] = PermissionUtility::checkContentIsCanEdit('post', $post->created_at, $post->sticky_state, $post->digest_state, $langTag, $timezone);
-            $editStatus['isPluginEditor'] = (bool) $post->postAppend->is_plugin_editor;
-            $editStatus['editorUrl'] = PluginHelper::fresnsPluginUrlByUnikey($post->postAppend->editor_unikey);
-            $item['editStatus'] = $editStatus;
+            $editControl['isMe'] = true;
+            $editControl['canDelete'] = (bool) $post->postAppend->can_delete;
+            $editControl['canEdit'] = PermissionUtility::checkContentIsCanEdit('post', $post->created_at, $post->sticky_state, $post->digest_state, $langTag, $timezone);
+            $editControl['isPluginEditor'] = (bool) $post->postAppend->is_plugin_editor;
+            $editControl['editorUrl'] = PluginHelper::fresnsPluginUrlByUnikey($post->postAppend->editor_unikey);
+            $item['editControls'] = $editControl;
 
             $item['commentHidden'] = false;
             $item['followType'] = null;
@@ -186,9 +186,9 @@ class PostService
 
         // auth user is creator
         if ($post->user_id == $authUserId) {
-            $postData['editStatus']['canEdit'] = PermissionUtility::checkContentIsCanEdit('post', $post->created_at, $post->sticky_state, $post->digest_state, $langTag, $timezone);
+            $postData['editControls']['canEdit'] = PermissionUtility::checkContentIsCanEdit('post', $post->created_at, $post->sticky_state, $post->digest_state, $langTag, $timezone);
         } else {
-            $postData['editStatus'] = [
+            $postData['editControls'] = [
                 'isMe' => false,
                 'canDelete' => false,
                 'canEdit' => false,
@@ -366,11 +366,11 @@ class PostService
         }
 
         $postData['createdDatetime'] = DateHelper::fresnsFormatDateTime($postData['createdDatetime'], $timezone, $langTag);
-        $postData['createdTimeAgo'] = DateHelper::fresnsFormatTime($postData['createdTimeAgo'], $langTag);
+        $postData['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($postData['createdTimeAgo'], $langTag);
         $postData['editedDatetime'] = DateHelper::fresnsFormatDateTime($postData['editedDatetime'], $timezone, $langTag);
-        $postData['editedTimeAgo'] = DateHelper::fresnsFormatTime($postData['editedTimeAgo'], $langTag);
+        $postData['editedTimeAgo'] = DateHelper::fresnsHumanReadableTime($postData['editedTimeAgo'], $langTag);
         $postData['latestCommentDatetime'] = DateHelper::fresnsFormatDateTime($post->latest_comment_at, $timezone, $langTag);
-        $postData['latestCommentTimeAgo'] = DateHelper::fresnsFormatTime($post->latest_comment_at, $langTag);
+        $postData['latestCommentTimeAgo'] = DateHelper::fresnsHumanReadableTime($post->latest_comment_at, $langTag);
 
         $postData['interaction']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($postData['interaction']['followExpiryDateTime'], $timezone, $langTag);
 
