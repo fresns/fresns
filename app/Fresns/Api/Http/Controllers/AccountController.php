@@ -571,7 +571,7 @@ class AccountController extends Controller
             $item['openingBalance'] = $log->opening_balance;
             $item['closingBalance'] = $log->closing_balance;
             $info['createdDatetime'] = DateHelper::fresnsFormatDateTime($log->created_at, $timezone, $langTag);
-            $info['createdTimeAgo'] = DateHelper::fresnsFormatTime($log->created_at, $langTag);
+            $info['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($log->created_at, $langTag);
             $item['remark'] = $log->remark;
             $item['pluginUnikey'] = $log->object_unikey;
             $item['status'] = (bool) $log->is_enable;

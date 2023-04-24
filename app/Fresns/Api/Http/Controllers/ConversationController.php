@@ -75,6 +75,7 @@ class ConversationController extends Controller
             $latestMessage['message'] = $message;
             $latestMessage['datetime'] = DateHelper::fresnsDateTimeByTimezone($latestMessageModel?->created_at, $timezone, $langTag);
             $latestMessage['datetimeFormat'] = DateHelper::fresnsFormatDateTime($latestMessageModel?->created_at, $timezone, $langTag);
+            $latestMessage['timeAgo'] = DateHelper::fresnsHumanReadableTime($latestMessageModel?->created_at, $langTag);
 
             $aMessages = conversationMessage::where('conversation_id', $conversation->id)
                 ->where('send_user_id', $authUser->id)
@@ -209,6 +210,7 @@ class ConversationController extends Controller
             $item['file'] = $message->message_file_id ? FileHelper::fresnsFileInfoById($message->message_file_id) : null;
             $item['datetime'] = DateHelper::fresnsDateTimeByTimezone($message->created_at, $timezone, $langTag);
             $item['datetimeFormat'] = DateHelper::fresnsFormatDateTime($message->created_at, $timezone, $langTag);
+            $item['timeAgo'] = DateHelper::fresnsHumanReadableTime($message->created_at, $langTag);
             $item['readStatus'] = (bool) $message->receive_read_at;
 
             $messageList[] = $item;
@@ -314,6 +316,7 @@ class ConversationController extends Controller
         $data['file'] = $conversationMessage->message_file_id ? FileHelper::fresnsFileInfoById($conversationMessage->message_file_id) : null;
         $data['datetime'] = DateHelper::fresnsDateTimeByTimezone($conversationMessage->created_at, $timezone, $langTag);
         $data['datetimeFormat'] = DateHelper::fresnsFormatDateTime($conversationMessage->created_at, $timezone, $langTag);
+        $data['timeAgo'] = DateHelper::fresnsHumanReadableTime($conversationMessage->created_at, $langTag);
         $data['readStatus'] = (bool) $conversationMessage->receive_read_at;
 
         CacheHelper::forgetFresnsKey("fresns_api_user_panel_conversations_{$authUser->uid}", 'fresnsUsers');

@@ -91,6 +91,7 @@ class NotificationController extends Controller
             $item['actionCid'] = $notification->action_comment_id ? PrimaryHelper::fresnsModelById('comment', $notification?->action_comment_id)?->cid : null;
             $item['datetime'] = DateHelper::fresnsDateTimeByTimezone($notification->created_at, $timezone, $langTag);
             $item['datetimeFormat'] = DateHelper::fresnsFormatDateTime($notification->created_at, $timezone, $langTag);
+            $item['timeAgo'] = DateHelper::fresnsHumanReadableTime($notification->created_at, $langTag);
             $item['readStatus'] = (bool) $notification->is_read;
 
             if ($notification->action_object && $notification->action_id) {

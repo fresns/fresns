@@ -257,8 +257,22 @@ class DateHelper
         return date('H:i', strtotime($tzDatetime));
     }
 
+    // Date time format conversion
+    public static function fresnsFormatConversion(?string $datetime = null, ?string $langTag = null): ?string
+    {
+        if (empty($datetime)) {
+            return null;
+        }
+
+        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
+
+        $dateFormat = ConfigHelper::fresnsConfigDateFormat($langTag).' H:i:s';
+
+        return date($dateFormat, strtotime($datetime));
+    }
+
     // Processing output by language humanization time
-    public static function fresnsFormatTime(?string $datetime = null, ?string $langTag = null): ?string
+    public static function fresnsHumanReadableTime(?string $datetime = null, ?string $langTag = null): ?string
     {
         if (! $datetime) {
             return null;
@@ -326,19 +340,5 @@ class DateHelper
         //     // {n} year ago
         //     return floor($timeLine / (60 * 60 * 24 * 7 * 4 * 12)) . ' year ago';
         // }
-    }
-
-    // Date time format conversion
-    public static function fresnsFormatConversion(?string $datetime = null, ?string $langTag = null): ?string
-    {
-        if (empty($datetime)) {
-            return null;
-        }
-
-        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
-
-        $dateFormat = ConfigHelper::fresnsConfigDateFormat($langTag).' H:i:s';
-
-        return date($dateFormat, strtotime($datetime));
     }
 }
