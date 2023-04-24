@@ -19,6 +19,7 @@ use Illuminate\Support\Str;
 class AppHelper
 {
     const VERSION = '2.9.0';
+    const VERSION_INT = 24;
     const VERSION_MD5 = '0d6f7e6ce6f1553544acb14682c8eb07';
     const VERSION_MD5_16BIT = 'e6f1553544acb146';
 

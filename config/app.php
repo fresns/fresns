@@ -67,7 +67,6 @@ return [
 
     'founder' => env('APP_FOUNDER', 1),
     'trusted_proxies' => env('TRUSTED_PROXIES', ''),
-    'marketplace_url' => env('MARKETPLACE_URL', 'https://marketplace.fresns.com'),
 
     /*
     |--------------------------------------------------------------------------

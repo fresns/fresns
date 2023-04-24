@@ -66,6 +66,11 @@ class AppUtility
             } catch (\Exception $e) {
                 $newVersion = [
                     'version' => AppHelper::VERSION,
+                    'releaseDate' => null,
+                    'changeIntro' => 'https://fresns.org/guide/upgrade.html#version-info',
+                    'upgradeAuto' => false,
+                    'upgradeIntro' => 'https://github.com/fresns/fresns/blob/2.x/CHANGELOG.md',
+                    'upgradePackage' => null,
                 ];
             }
 
@@ -130,7 +135,7 @@ class AppUtility
             return Http::withHeaders(
                 AppUtility::getMarketHeaders()
             )->baseUrl(
-                config('app.marketplace_url', AppUtility::MARKETPLACE_URL)
+                AppUtility::MARKETPLACE_URL
             );
         });
     }
