@@ -730,6 +730,18 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
+                'item_key' => 'site_private_whitelist_roles',
+                'item_value' => null,
+                'item_type' => 'array',
+                'item_tag' => 'general',
+                'is_multilingual' => 0,
+                'is_custom' => 0,
+                'is_api' => 1,
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
                 'item_key' => 'site_email_login',
                 'item_value' => 'true',
                 'item_type' => 'boolean',
