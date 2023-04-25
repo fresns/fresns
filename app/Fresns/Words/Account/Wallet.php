@@ -336,8 +336,8 @@ class Wallet
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
-        $originAccountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
-        $originUserId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $originAccountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->originAid);
+        $originUserId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->originUid);
 
         // Account wallet password is incorrect
         if (empty($accountId)) {
@@ -456,6 +456,7 @@ class Wallet
         }
 
         CacheHelper::forgetFresnsAccount($dtoWordBody->aid);
+        CacheHelper::forgetFresnsAccount($dtoWordBody->originAid);
 
         return $this->success();
     }
@@ -468,8 +469,8 @@ class Wallet
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
-        $originAccountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
-        $originUserId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $originAccountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->originAid);
+        $originUserId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->originUid);
 
         // Account wallet password is incorrect
         if (empty($accountId)) {
@@ -599,6 +600,7 @@ class Wallet
         }
 
         CacheHelper::forgetFresnsAccount($dtoWordBody->aid);
+        CacheHelper::forgetFresnsAccount($dtoWordBody->originAid);
 
         return $this->success();
     }
