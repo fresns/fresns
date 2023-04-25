@@ -262,6 +262,9 @@ class ConfigHelper
                 }
 
                 $file = File::where('id', $config->item_value)->first();
+                if (! $file) {
+                    continue;
+                }
 
                 $fileTypeArr[] = $file->type;
             }
