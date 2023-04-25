@@ -100,7 +100,7 @@
                         <button class="btn btn-outline-secondary text-start fresns-control name-button" type="button" data-bs-toggle="modal" data-bs-target="#langModal">{{ $languages->where('lang_tag', $defaultLanguage)->first()['lang_content'] ?? '' }}</button>
                     </div>
                     <div class="input-group mb-3">
-                        <label class="input-group-text fresns-label">{{ __('FsLang::panel.publish_rule_whitelist') }}</label>
+                        <label class="input-group-text fresns-label">{{ __('FsLang::panel.table_whitelist_rules') }}</label>
                         <select class="form-select select2" name="comment_limit_whitelist[]" multiple="multiple">
                             @foreach ($roles as $role)
                                 <option value="{{ $role->id }}" @if ($params['comment_limit_whitelist'] && is_array($params['comment_limit_whitelist']) && in_array($role->id, $params['comment_limit_whitelist'])) selected @endif>

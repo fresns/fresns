@@ -17,6 +17,7 @@ use App\Models\File;
 use App\Models\FileUsage;
 use App\Models\Language;
 use App\Models\Plugin;
+use App\Models\Role;
 use Illuminate\Support\Str;
 
 class GeneralController extends Controller
@@ -42,6 +43,7 @@ class GeneralController extends Controller
             'site_private_status',
             'site_private_service',
             'site_private_end_after',
+            'site_private_whitelist_roles',
             'site_email_login',
             'site_phone_login',
             'site_email',
@@ -83,7 +85,9 @@ class GeneralController extends Controller
         $configImageInfo['logoType'] = ConfigHelper::fresnsConfigFileValueTypeByItemKey('site_logo');
         $configImageInfo[] = $configImageInfo;
 
-        return view('FsView::systems.general', compact('params', 'configImageInfo', 'langParams', 'defaultLangParams', 'registerPlugins', 'joinPlugins'));
+        $roles = Role::all();
+
+        return view('FsView::systems.general', compact('params', 'configImageInfo', 'langParams', 'defaultLangParams', 'registerPlugins', 'joinPlugins', 'roles'));
     }
 
     public function update(UpdateGeneralRequest $request)
@@ -144,6 +148,7 @@ class GeneralController extends Controller
             'site_private_status',
             'site_private_service',
             'site_private_end_after',
+            'site_private_whitelist_roles',
             'site_email_login',
             'site_phone_login',
             'site_email',
@@ -169,7 +174,14 @@ class GeneralController extends Controller
                 $request->$configKey = $url;
             }
 
-            $config->item_value = $request->$configKey;
+            $value = $request->$configKey;
+            if ($configKey == 'site_private_whitelist_roles') {
+                if (in_array(0, $request->$configKey)) {
+                    $value = [];
+                }
+            }
+
+            $config->item_value = $value;
             $config->save();
         }
 
