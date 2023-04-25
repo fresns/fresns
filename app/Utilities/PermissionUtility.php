@@ -261,6 +261,15 @@ class PermissionUtility
         return array_intersect($userRoles, $permRoleIds) ? true : false;
     }
 
+    // Check user role private whitelist
+    public static function checkUserRolePrivateWhitelist(int $userId): bool
+    {
+        $whitelist = ConfigHelper::fresnsConfigByItemKey('site_private_whitelist_roles');
+        $userRole = PermissionUtility::getUserMainRole($userId);
+
+        return in_array($userRole['rid'], $whitelist) ? true : false;
+    }
+
     // Check user conversation permission
     public static function checkUserConversationPerm(int $receiveUserId, ?int $authUserId = null, ?string $langTag = null): int
     {

@@ -12,6 +12,7 @@ use App\Exceptions\ApiException;
 use App\Fresns\Api\Traits\ApiHeaderTrait;
 use App\Fresns\Api\Traits\ApiResponseTrait;
 use App\Helpers\ConfigHelper;
+use App\Utilities\PermissionUtility;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -35,6 +36,11 @@ class CheckSiteMode
 
         if (empty($authUser)) {
             throw new ApiException(31601);
+        }
+
+        $checkUserRolePrivateWhitelist = PermissionUtility::checkUserRolePrivateWhitelist($authUser->id);
+        if ($checkUserRolePrivateWhitelist) {
+            return $next($request);
         }
 
         if (empty($authUser->expired_at)) {

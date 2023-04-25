@@ -13,6 +13,7 @@ use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
 use App\Models\Role;
 use App\Models\UserRole;
+use App\Utilities\PermissionUtility;
 
 trait UserServiceTrait
 {
@@ -37,7 +38,11 @@ trait UserServiceTrait
 
         $expired = false;
         if ($configKeys['site_mode'] == 'private') {
-            if (empty($userData->expired_at)) {
+            $checkUserRolePrivateWhitelist = PermissionUtility::checkUserRolePrivateWhitelist($userData->id);
+
+            if ($checkUserRolePrivateWhitelist) {
+                $expired = false;
+            } elseif (empty($userData->expired_at)) {
                 $expired = true;
             } else {
                 $now = time();
