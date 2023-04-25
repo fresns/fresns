@@ -448,7 +448,7 @@ class CommentService
         $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
 
         $commentService = new CommentService;
-        $commentData = $commentService->commentData($comment?->parentComment, 'list', $langTag, $timezone);
+        $commentData = $commentService->commentData($comment, 'list', $langTag, $timezone);
 
         return $commentData;
     }
