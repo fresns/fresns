@@ -85,6 +85,13 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'contentQuickPublish', 'provider' => [Content::class, 'contentQuickPublish']],
         ['word' => 'logicalDeletionContent', 'provider' => [Content::class, 'logicalDeletionContent']],
         ['word' => 'physicalDeletionContent', 'provider' => [Content::class, 'physicalDeletionContent']],
+        ['word' => 'addContentMoreInfo', 'provider' => [Content::class, 'addContentMoreInfo']],
+        ['word' => 'setContentSticky', 'provider' => [Content::class, 'setContentSticky']],
+        ['word' => 'setContentDigest', 'provider' => [Content::class, 'setContentDigest']],
+        ['word' => 'setContentCloseDelete', 'provider' => [Content::class, 'setContentCloseDelete']],
+        ['word' => 'setPostAuth', 'provider' => [Content::class, 'setPostAuth']],
+        ['word' => 'setPostAffiliateUser', 'provider' => [Content::class, 'setPostAffiliateUser']],
+        ['word' => 'setCommentExtendButton', 'provider' => [Content::class, 'setCommentExtendButton']],
 
         // Crontab
         ['word' => 'addCrontabItem', 'provider' => [Crontab::class, 'addCrontabItem']],

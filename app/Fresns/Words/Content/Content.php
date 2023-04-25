@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Words\Content;
 
+use App\Fresns\Words\Content\DTO\AddContentMoreInfoDTO;
 use App\Fresns\Words\Content\DTO\ContentPublishByDraftDTO;
 use App\Fresns\Words\Content\DTO\ContentQuickPublishDTO;
 use App\Fresns\Words\Content\DTO\CreateDraftDTO;
@@ -15,6 +16,12 @@ use App\Fresns\Words\Content\DTO\GenerateDraftDTO;
 use App\Fresns\Words\Content\DTO\LogicalDeletionContentDTO;
 use App\Fresns\Words\Content\DTO\MapDTO;
 use App\Fresns\Words\Content\DTO\PhysicalDeletionContentDTO;
+use App\Fresns\Words\Content\DTO\SetCommentExtendButtonDTO;
+use App\Fresns\Words\Content\DTO\SetContentCloseDeleteDTO;
+use App\Fresns\Words\Content\DTO\SetContentStickyAndDigestDTO;
+use App\Fresns\Words\Content\DTO\SetPostAffiliateUserDTO;
+use App\Fresns\Words\Content\DTO\SetPostAuthDTO;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\ArchiveUsage;
@@ -39,6 +46,7 @@ use App\Utilities\ContentUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class Content
@@ -762,6 +770,344 @@ class Content
                 'fileIdsOrFids' => $ids,
             ]);
         }
+
+        return $this->success();
+    }
+
+    // addContentMoreInfo
+    public function addContentMoreInfo($wordBody)
+    {
+        $dtoWordBody = new AddContentMoreInfoDTO($wordBody);
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+
+        $primaryId = match ($dtoWordBody->type) {
+            1 => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->fsid),
+            2 => PrimaryHelper::fresnsCommentIdByCid($dtoWordBody->fsid),
+        };
+
+        $errorCode = match ($dtoWordBody->type) {
+            1 => 37300,
+            2 => 37400,
+        };
+
+        if (empty($primaryId)) {
+            return $this->failure(
+                $errorCode,
+                ConfigUtility::getCodeMessage($errorCode, 'Fresns', $langTag)
+            );
+        }
+
+        $model = match ($dtoWordBody->type) {
+            1 => PostAppend::where('post_id', $primaryId)->first(),
+            2 => CommentAppend::where('comment_id', $primaryId)->first(),
+        };
+
+        if (empty($model)) {
+            return $this->failure(
+                $errorCode,
+                ConfigUtility::getCodeMessage($errorCode, 'Fresns', $langTag)
+            );
+        }
+
+        $moreJson = $model->more_json ?? [];
+
+        $newMoreJson = Arr::add($moreJson, $dtoWordBody->key, $dtoWordBody->value);
+
+        $model->update([
+            'more_json' => $newMoreJson,
+        ]);
+
+        $typeName = match ($dtoWordBody->type) {
+            1 => 'post',
+            2 => 'comment',
+        };
+
+        CacheHelper::clearDataCache($typeName, $dtoWordBody->fsid);
+
+        return $this->success();
+    }
+
+    // setContentSticky
+    public function setContentSticky($wordBody)
+    {
+        $dtoWordBody = new setContentStickyAndDigestDTO($wordBody);
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+
+        $primaryId = match ($dtoWordBody->type) {
+            1 => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->fsid),
+            2 => PrimaryHelper::fresnsCommentIdByCid($dtoWordBody->fsid),
+        };
+
+        $errorCode = match ($dtoWordBody->type) {
+            1 => 37300,
+            2 => 37400,
+        };
+
+        if (empty($primaryId)) {
+            return $this->failure(
+                $errorCode,
+                ConfigUtility::getCodeMessage($errorCode, 'Fresns', $langTag)
+            );
+        }
+
+        $typeName = match ($dtoWordBody->type) {
+            1 => 'post',
+            2 => 'comment',
+        };
+
+        InteractionUtility::markContentSticky($typeName, $primaryId, $dtoWordBody->state);
+
+        CacheHelper::clearDataCache($typeName, $dtoWordBody->fsid);
+
+        return $this->success();
+    }
+
+    // setContentDigest
+    public function setContentDigest($wordBody)
+    {
+        $dtoWordBody = new SetContentStickyAndDigestDTO($wordBody);
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+
+        $primaryId = match ($dtoWordBody->type) {
+            1 => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->fsid),
+            2 => PrimaryHelper::fresnsCommentIdByCid($dtoWordBody->fsid),
+        };
+
+        $errorCode = match ($dtoWordBody->type) {
+            1 => 37300,
+            2 => 37400,
+        };
+
+        if (empty($primaryId)) {
+            return $this->failure(
+                $errorCode,
+                ConfigUtility::getCodeMessage($errorCode, 'Fresns', $langTag)
+            );
+        }
+
+        $typeName = match ($dtoWordBody->type) {
+            1 => 'post',
+            2 => 'comment',
+        };
+
+        InteractionUtility::markContentDigest($typeName, $primaryId, $dtoWordBody->state);
+
+        CacheHelper::clearDataCache($typeName, $dtoWordBody->fsid);
+
+        return $this->success();
+    }
+
+    // setContentCloseDelete
+    public function setContentCloseDelete($wordBody)
+    {
+        $dtoWordBody = new SetContentCloseDeleteDTO($wordBody);
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+
+        $primaryId = match ($dtoWordBody->type) {
+            1 => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->fsid),
+            2 => PrimaryHelper::fresnsCommentIdByCid($dtoWordBody->fsid),
+        };
+
+        $errorCode = match ($dtoWordBody->type) {
+            1 => 37300,
+            2 => 37400,
+        };
+
+        if (empty($primaryId)) {
+            return $this->failure(
+                $errorCode,
+                ConfigUtility::getCodeMessage($errorCode, 'Fresns', $langTag)
+            );
+        }
+
+        $model = match ($dtoWordBody->type) {
+            1 => PostAppend::where('post_id', $primaryId)->first(),
+            2 => CommentAppend::where('comment_id', $primaryId)->first(),
+        };
+
+        if (empty($model)) {
+            return $this->failure(
+                $errorCode,
+                ConfigUtility::getCodeMessage($errorCode, 'Fresns', $langTag)
+            );
+        }
+
+        $model->update([
+            'can_delete' => $dtoWordBody->canDelete,
+        ]);
+
+        $typeName = match ($dtoWordBody->type) {
+            1 => 'post',
+            2 => 'comment',
+        };
+        CacheHelper::clearDataCache($typeName, $dtoWordBody->fsid);
+
+        return $this->success();
+    }
+
+    // setPostAuth
+    public function setPostAuth($wordBody)
+    {
+        $dtoWordBody = new SetPostAuthDTO($wordBody);
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+
+        $postId = PrimaryHelper::fresnsPostIdByPid($dtoWordBody->pid);
+        if (empty($postId)) {
+            return $this->failure(
+                37300,
+                ConfigUtility::getCodeMessage(37300, 'Fresns', $langTag)
+            );
+        }
+
+        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $roleId = $dtoWordBody->rid;
+        if (empty($userId) && empty($roleId)) {
+            return $this->failure(
+                30001,
+                ConfigUtility::getCodeMessage(30001, 'Fresns', $langTag)
+            );
+        }
+
+        switch ($dtoWordBody->type) {
+            case 'add':
+                // add
+                if ($userId) {
+                    PostAllow::updateOrCreate([
+                        'post_id' => $postId,
+                        'type' => PostAllow::TYPE_USER,
+                        'object_id' => $userId,
+                    ]);
+                }
+                if ($roleId) {
+                    PostAllow::updateOrCreate([
+                        'post_id' => $postId,
+                        'type' => PostAllow::TYPE_ROLE,
+                        'object_id' => $roleId,
+                    ]);
+                }
+                break;
+
+            case 'remove':
+                // remove
+                if ($userId) {
+                    $userAllow = PostAllow::where('post_id', $postId)->where('type', PostAllow::TYPE_USER)->where('object_id', $userId)->first();
+                    $userAllow->delete();
+                }
+                if ($roleId) {
+                    $roleAllow = PostAllow::where('post_id', $postId)->where('type', PostAllow::TYPE_ROLE)->where('object_id', $userId)->first();
+                    $roleAllow->delete();
+                }
+                break;
+        }
+
+        $cacheKey = "fresns_user_post_allow_{$dtoWordBody->pid}_{$dtoWordBody->uid}";
+        $cacheTag = 'fresnsUsers';
+
+        CacheHelper::forgetFresnsKey($cacheKey, $cacheTag);
+
+        return $this->success();
+    }
+
+    // setPostAffiliateUser
+    public function setPostAffiliateUser($wordBody)
+    {
+        $dtoWordBody = new SetPostAffiliateUserDTO($wordBody);
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+
+        $postId = PrimaryHelper::fresnsPostIdByPid($dtoWordBody->pid);
+        if (empty($postId)) {
+            return $this->failure(
+                37300,
+                ConfigUtility::getCodeMessage(37300, 'Fresns', $langTag)
+            );
+        }
+
+        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        if (empty($userId)) {
+            return $this->failure(
+                35201,
+                ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
+            );
+        }
+
+        switch ($dtoWordBody->type) {
+            case 'add':
+                // add
+                PostUser::updateOrCreate([
+                    'post_id' => $postId,
+                    'user_id' => $userId,
+                ], [
+                    'plugin_unikey' => $dtoWordBody->pluginUnikey,
+                    'more_json' => $dtoWordBody->moreJson ?? null,
+                ]);
+                break;
+
+            case 'remove':
+                // remove
+                $postUser = PostUser::where('post_id', $postId)->where('user_id', $userId)->first();
+                $postUser->delete();
+                break;
+        }
+
+        return $this->success();
+    }
+
+    // setCommentExtendButton
+    public function setCommentExtendButton($wordBody)
+    {
+        $dtoWordBody = new SetCommentExtendButtonDTO($wordBody);
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+
+        $commentId = PrimaryHelper::fresnsCommentIdByCid($dtoWordBody->cid);
+        if (empty($commentId)) {
+            return $this->failure(
+                37400,
+                ConfigUtility::getCodeMessage(37400, 'Fresns', $langTag)
+            );
+        }
+
+        $commentAppend = CommentAppend::where('comment_id', $commentId)->first();
+        if (empty($commentAppend)) {
+            return $this->failure(
+                37400,
+                ConfigUtility::getCodeMessage(37400, 'Fresns', $langTag)
+            );
+        }
+
+        // close button
+        if (isset($dtoWordBody->close)) {
+            $commentAppend->fill([
+                'is_close_btn' => $dtoWordBody->close,
+            ]);
+        }
+
+        // button config
+        if ($dtoWordBody->change) {
+            $commentAppend->fill([
+                'is_change_btn' => ($dtoWordBody->change == 'default') ? false : true,
+            ]);
+        }
+        if ($dtoWordBody->activeNameKey) {
+            $activeName = ConfigHelper::fresnsConfigByItemKey($dtoWordBody->activeNameKey);
+            if (empty($activeName)) {
+                return $this->failure(
+                    32202,
+                    ConfigUtility::getCodeMessage(32202, 'Fresns', $langTag)
+                );
+            }
+
+            $commentAppend->fill([
+                'btn_name_key' => $dtoWordBody->activeNameKey,
+            ]);
+        }
+        if ($dtoWordBody->activeStyle) {
+            $commentAppend->fill([
+                'btn_style' => $dtoWordBody->activeStyle,
+            ]);
+        }
+
+        // save
+        $commentAppend->save();
 
         return $this->success();
     }
