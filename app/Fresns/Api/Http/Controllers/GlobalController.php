@@ -267,6 +267,7 @@ class GlobalController extends Controller
                 $permissions[$perm['permKey']] = $perm['permValue'];
             }
 
+            $item['type'] = $role->type;
             $item['rid'] = $role->id;
             $item['nicknameColor'] = $role->nickname_color;
             $item['name'] = LanguageHelper::fresnsLanguageByTableId('roles', 'name', $role->id, $langTag);
