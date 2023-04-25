@@ -315,6 +315,11 @@ class UserService
             return;
         }
 
+        $checkUserRolePrivateWhitelist = PermissionUtility::checkUserRolePrivateWhitelist($authUserId);
+        if ($checkUserRolePrivateWhitelist) {
+            return;
+        }
+
         $authUser = PrimaryHelper::fresnsModelById('user', $authUserId);
 
         $contentCreatedDatetime = strtotime($dateTime);
