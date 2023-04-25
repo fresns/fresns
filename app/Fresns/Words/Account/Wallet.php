@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Words\Account;
 
+use App\Fresns\Words\Account\DTO\WalletCheckPasswordDTO;
 use App\Fresns\Words\Account\DTO\WalletDecreaseDTO;
 use App\Fresns\Words\Account\DTO\WalletFreezeDTO;
 use App\Fresns\Words\Account\DTO\WalletIncreaseDTO;
@@ -27,6 +28,41 @@ use Illuminate\Support\Facades\Hash;
 class Wallet
 {
     use CmdWordResponseTrait;
+
+    // cmd word: wallet check password
+    public function walletCheckPassword($wordBody)
+    {
+        $dtoWordBody = new WalletCheckPasswordDTO($wordBody);
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+
+        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
+
+        $wallet = AccountWallet::where('account_id', $accountId)->isEnable()->first();
+        // Account wallet not exist or has been banned
+        if (empty($wallet)) {
+            return $this->failure(
+                34501,
+                ConfigUtility::getCodeMessage(34501, 'Fresns', $langTag)
+            );
+        }
+
+        if (empty($wallet->password) && empty($dtoWordBody->password)) {
+            return $this->success();
+        }
+
+        if ($wallet->password) {
+            $checkWallet = static::checkWalletPassword($wallet, $dtoWordBody->password);
+            // Account wallet password is incorrect
+            if (! $checkWallet) {
+                return $this->failure(
+                    34502,
+                    ConfigUtility::getCodeMessage(34502, 'Fresns', $langTag)
+                );
+            }
+        }
+
+        return $this->success();
+    }
 
     // cmd word: wallet recharge
     public function walletRecharge($wordBody)
@@ -696,8 +732,12 @@ class Wallet
     }
 
     // check wallet password
-    public static function checkWalletPassword(AccountWallet $wallet, string $walletPassword): bool
+    public static function checkWalletPassword(AccountWallet $wallet, ?string $walletPassword = null): bool
     {
+        if ($wallet->password && empty($walletPassword)) {
+            return false;
+        }
+
         return Hash::check($walletPassword, $wallet->password);
     }
 
