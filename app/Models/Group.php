@@ -20,6 +20,10 @@ class Group extends Model
     const MODE_PUBLIC = 1;
     const MODE_PRIVATE = 2;
 
+    const PRIVATE_OPTION_UNRESTRICTED = 1;
+    const PRIVATE_OPTION_HIDE_ALL = 2;
+    const PRIVATE_OPTION_HIDE_NEW = 3;
+
     const FIND_VISIBLE = 1;
     const FIND_HIDDEN = 2;
 

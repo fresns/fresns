@@ -207,7 +207,7 @@ class GroupService
             'datetime' => null,
         ];
 
-        if ($group->type_mode == 1) {
+        if ($group->type_mode == Group::MODE_PUBLIC) {
             return $checkResp;
         }
 
@@ -231,11 +231,11 @@ class GroupService
             return $checkResp;
         }
 
-        if ($group->type_mode_end_after == 1) {
+        if ($group->type_mode_end_after == Group::PRIVATE_OPTION_UNRESTRICTED) {
             return $checkResp;
         }
 
-        if ($group->type_mode_end_after == 2) {
+        if ($group->type_mode_end_after == Group::PRIVATE_OPTION_HIDE_ALL) {
             if (empty($follow?->expired_at)) {
                 $checkResp['code'] = 37105;
 
@@ -265,7 +265,7 @@ class GroupService
 
         $group = PrimaryHelper::fresnsModelById('group', $groupId);
 
-        if ($group->type_mode == 1) {
+        if ($group->type_mode == Group::MODE_PUBLIC) {
             return;
         }
 
@@ -279,11 +279,11 @@ class GroupService
             throw new ApiException(37103);
         }
 
-        if ($group->type_mode_end_after == 1) {
+        if ($group->type_mode_end_after == Group::PRIVATE_OPTION_UNRESTRICTED) {
             return;
         }
 
-        if ($group->type_mode_end_after == 2) {
+        if ($group->type_mode_end_after == Group::PRIVATE_OPTION_HIDE_ALL) {
             throw new ApiException(37105);
         }
 
