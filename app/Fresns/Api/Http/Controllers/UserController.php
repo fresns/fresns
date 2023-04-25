@@ -716,7 +716,7 @@ class UserController extends Controller
                 throw new ApiException(35106);
             }
 
-            $authUser->update([
+            $authUser->fill([
                 'username' => $username,
                 'last_username_at' => now(),
             ]);
@@ -765,7 +765,7 @@ class UserController extends Controller
 
             $newNickname = str_ireplace($blockWords->pluck('word')->toArray(), $blockWords->pluck('replace_word')->toArray(), $nickname);
 
-            $authUser->update([
+            $authUser->fill([
                 'nickname' => $newNickname,
                 'last_nickname_at' => now(),
             ]);
@@ -775,7 +775,7 @@ class UserController extends Controller
         if ($dtoRequest->avatarFid) {
             $fileId = PrimaryHelper::fresnsFileIdByFid($dtoRequest->avatarFid);
 
-            $authUser->update([
+            $authUser->fill([
                 'avatar_file_id' => $fileId,
                 'avatar_file_url' => null,
             ]);
@@ -783,7 +783,7 @@ class UserController extends Controller
 
         // edit avatarUrl
         if ($dtoRequest->avatarUrl) {
-            $authUser->update([
+            $authUser->fill([
                 'avatar_file_id' => null,
                 'avatar_file_url' => $dtoRequest->avatarUrl,
             ]);
@@ -793,7 +793,7 @@ class UserController extends Controller
         if ($dtoRequest->bannerFid) {
             $fileId = PrimaryHelper::fresnsFileIdByFid($dtoRequest->bannerFid);
 
-            $authUser->update([
+            $authUser->fill([
                 'banner_file_id' => $fileId,
                 'banner_file_url' => null,
             ]);
@@ -801,7 +801,7 @@ class UserController extends Controller
 
         // edit bannerUrl
         if ($dtoRequest->bannerUrl) {
-            $authUser->update([
+            $authUser->fill([
                 'banner_file_id' => null,
                 'banner_file_url' => $dtoRequest->bannerUrl,
             ]);
@@ -809,14 +809,14 @@ class UserController extends Controller
 
         // edit gender
         if ($dtoRequest->gender) {
-            $authUser->update([
+            $authUser->fill([
                 'gender' => $dtoRequest->gender,
             ]);
         }
 
         // edit birthday
         if ($dtoRequest->birthday) {
-            $authUser->update([
+            $authUser->fill([
                 'birthday' => $dtoRequest->birthday,
             ]);
         }
@@ -853,7 +853,7 @@ class UserController extends Controller
                 ContentUtility::saveHashtag($bio, HashtagUsage::TYPE_USER, $authUser->id);
             }
 
-            $authUser->update([
+            $authUser->fill([
                 'bio' => $bio,
             ]);
         }
@@ -861,31 +861,38 @@ class UserController extends Controller
         // edit location
         if ($dtoRequest->location) {
             $location = Str::of($dtoRequest->location)->trim();
-            $authUser->update([
+            $authUser->fill([
                 'location' => $location,
             ]);
         }
 
         // edit conversationLimit
         if ($dtoRequest->conversationLimit) {
-            $authUser->update([
+            $authUser->fill([
                 'conversation_limit' => $dtoRequest->conversationLimit,
             ]);
         }
 
         // edit commentLimit
         if ($dtoRequest->commentLimit) {
-            $authUser->update([
+            $authUser->fill([
                 'comment_limit' => $dtoRequest->commentLimit,
             ]);
         }
 
         // edit timezone
         if ($dtoRequest->timezone) {
-            $authUser->update([
+            $authUser->fill([
                 'timezone' => $dtoRequest->timezone,
             ]);
         }
+
+        // edit save
+        if (! $authUser->isDirty() && empty($dtoRequest->archives) && empty($dtoRequest->deviceToken)) {
+            throw new ApiException(30001);
+        }
+
+        $authUser->save();
 
         // edit archives
         if ($dtoRequest->archives) {
@@ -1053,6 +1060,8 @@ class UserController extends Controller
             $userNote->update([
                 'user_note' => null,
             ]);
+
+            return $this->success();
         }
 
         $userNote->update([

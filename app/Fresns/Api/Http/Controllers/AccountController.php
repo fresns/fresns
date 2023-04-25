@@ -703,7 +703,7 @@ class AccountController extends Controller
                 return $fresnsResp->getOrigin();
             }
 
-            $authAccount->update([
+            $authAccount->fill([
                 'email' => $dtoRequest->editEmail,
             ]);
         }
@@ -741,7 +741,7 @@ class AccountController extends Controller
                 throw new ApiException(34206);
             }
 
-            $authAccount->update([
+            $authAccount->fill([
                 'country_code' => $dtoRequest->editCountryCode,
                 'pure_phone' => $dtoRequest->editPhone,
                 'phone' => $newPhone,
@@ -783,7 +783,7 @@ class AccountController extends Controller
             }
 
             $newPassword = base64_decode($dtoRequest->editPassword, true);
-            $authAccount->update([
+            $authAccount->fill([
                 'password' => Hash::make($newPassword),
             ]);
 
@@ -833,7 +833,7 @@ class AccountController extends Controller
             }
 
             $newWalletPassword = base64_decode($dtoRequest->editWalletPassword, true);
-            $wallet->update([
+            $wallet->fill([
                 'password' => Hash::make($newWalletPassword),
             ]);
 
@@ -845,10 +845,17 @@ class AccountController extends Controller
 
         // edit last login time
         if ($dtoRequest->editLastLoginTime) {
-            $authAccount->update([
+            $authAccount->fill([
                 'last_login_at' => now(),
             ]);
         }
+
+        // edit save
+        if (! $authAccount->isDirty() && empty($dtoRequest->deviceToken)) {
+            throw new ApiException(30001);
+        }
+
+        $authAccount->save();
 
         // upload session log
         $sessionLog['type'] = SessionLog::TYPE_ACCOUNT_EDIT_DATA;
