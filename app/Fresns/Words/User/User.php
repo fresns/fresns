@@ -11,6 +11,8 @@ namespace App\Fresns\Words\User;
 use App\Fresns\Words\User\DTO\AddUserDTO;
 use App\Fresns\Words\User\DTO\CreateUserTokenDTO;
 use App\Fresns\Words\User\DTO\LogicalDeletionUserDTO;
+use App\Fresns\Words\User\DTO\SetUserExpiryDatetimeDTO;
+use App\Fresns\Words\User\DTO\SetUserGroupExpiryDatetimeDTO;
 use App\Fresns\Words\User\DTO\VerifyUserDTO;
 use App\Fresns\Words\User\DTO\VerifyUserTokenDTO;
 use App\Helpers\CacheHelper;
@@ -21,9 +23,11 @@ use App\Models\Conversation;
 use App\Models\File;
 use App\Models\SessionToken;
 use App\Models\User as UserModel;
+use App\Models\UserFollow;
 use App\Models\UserRole;
 use App\Models\UserStat;
 use App\Utilities\ConfigUtility;
+use App\Utilities\InteractionUtility;
 use Carbon\Carbon;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 use Illuminate\Support\Facades\Hash;
@@ -32,12 +36,7 @@ class User
 {
     use CmdWordResponseTrait;
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
+    // addUser
     public function addUser($wordBody)
     {
         $dtoWordBody = new AddUserDTO($wordBody);
@@ -94,12 +93,7 @@ class User
         ]);
     }
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
+    // verifyUser
     public function verifyUser($wordBody)
     {
         $dtoWordBody = new VerifyUserDTO($wordBody);
@@ -154,12 +148,7 @@ class User
         return $this->success($data);
     }
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
+    // createUserToken
     public function createUserToken($wordBody)
     {
         $dtoWordBody = new CreateUserTokenDTO($wordBody);
@@ -244,12 +233,7 @@ class User
         ]);
     }
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
+    // verifyUserToken
     public function verifyUserToken($wordBody)
     {
         $dtoWordBody = new VerifyUserTokenDTO($wordBody);
@@ -313,12 +297,7 @@ class User
         return $this->success();
     }
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
+    // logicalDeletionUser
     public function logicalDeletionUser($wordBody)
     {
         $dtoWordBody = new LogicalDeletionUserDTO($wordBody);
@@ -326,6 +305,49 @@ class User
         $user = UserModel::where('uid', $dtoWordBody->uid)->first();
 
         $user->delete();
+
+        return $this->success();
+    }
+
+    // setUserExpiryDatetime
+    public function setUserExpiryDatetime($wordBody)
+    {
+        $dtoWordBody = new SetUserExpiryDatetimeDTO($wordBody);
+
+        $user = UserModel::where('uid', $dtoWordBody->uid)->first();
+
+        $user->update([
+            'expired_at' => $dtoWordBody->clearDatetime ? null : $dtoWordBody->datetime,
+        ]);
+
+        CacheHelper::forgetFresnsUser($user->id, $user->uid);
+
+        return $this->success();
+    }
+
+    // setUserGroupExpiryDatetime
+    public function setUserGroupExpiryDatetime($wordBody)
+    {
+        $dtoWordBody = new SetUserGroupExpiryDatetimeDTO($wordBody);
+
+        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $groupId = PrimaryHelper::fresnsGroupIdByGid($dtoWordBody->gid);
+
+        $userFollow = UserFollow::where('user_id', $userId)->type(UserFollow::TYPE_GROUP)->where('follow_id', $groupId)->first();
+
+        if (empty($userFollow)) {
+            InteractionUtility::markUserFollow($userId, UserFollow::TYPE_GROUP, $groupId);
+
+            $userFollow = UserFollow::where('user_id', $userId)->type(UserFollow::TYPE_GROUP)->where('follow_id', $groupId)->first();
+        }
+
+        $userFollow->update([
+            'expired_at' => $dtoWordBody->clearDatetime ? null : $dtoWordBody->datetime,
+        ]);
+
+        $cacheKey = "fresns_model_follow_group_{$groupId}_by_{$userId}";
+        $cacheTags = ['fresnsModels', 'fresnsGroups'];
+        CacheHelper::forgetFresnsKey($cacheKey, $cacheTags);
 
         return $this->success();
     }
