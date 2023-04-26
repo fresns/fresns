@@ -237,11 +237,11 @@ class EditorController extends Controller
                 break;
         }
 
-        $edit['isEdit'] = false;
+        $edit['isEditDraft'] = false;
         $edit['editableStatus'] = true;
         $edit['editableTime'] = null;
         $edit['deadlineTime'] = null;
-        $data['edit'] = $edit;
+        $data['editControls'] = $edit;
 
         CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}", 'fresnsUsers');
 
@@ -316,11 +316,11 @@ class EditorController extends Controller
                 break;
         }
 
-        $edit['isEdit'] = true;
+        $edit['isEditDraft'] = true;
         $edit['editableStatus'] = $fresnsResp->getData('editableStatus');
         $edit['editableTime'] = $fresnsResp->getData('editableTime');
         $edit['deadlineTime'] = $fresnsResp->getData('deadlineTime');
-        $data['edit'] = $edit;
+        $data['editControls'] = $edit;
 
         CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}", 'fresnsUsers');
 
@@ -344,15 +344,11 @@ class EditorController extends Controller
             throw new ApiException(38100);
         }
 
-        if ($draft->state == 2) {
-            throw new ApiException(38101);
-        }
-
         if ($draft->state == 3) {
             throw new ApiException(38102);
         }
 
-        $isEdit = false;
+        $isEditDraft = false;
         $editableStatus = true;
         $editableTime = null;
         $deadlineTime = null;
@@ -365,7 +361,7 @@ class EditorController extends Controller
                 $data['detail'] = $service->postLogData($draft, 'detail', $langTag, $timezone, $authUser->id);
 
                 if ($draft->post_id) {
-                    $isEdit = true;
+                    $isEditDraft = true;
 
                     $post = PrimaryHelper::fresnsModelById('post', $draft->post_id);
 
@@ -381,7 +377,7 @@ class EditorController extends Controller
                 $data['detail'] = $service->commentLogData($draft, 'detail', $langTag, $timezone, $authUser->id);
 
                 if ($draft->comment_id) {
-                    $isEdit = true;
+                    $isEditDraft = true;
 
                     $comment = PrimaryHelper::fresnsModelById('comment', $draft->comment_id);
 
@@ -393,11 +389,11 @@ class EditorController extends Controller
                 break;
         }
 
-        $edit['isEdit'] = $isEdit;
+        $edit['isEditDraft'] = $isEditDraft;
         $edit['editableStatus'] = $editableStatus;
         $edit['editableTime'] = $editableTime;
         $edit['deadlineTime'] = $deadlineTime;
-        $data['edit'] = $edit;
+        $data['editControls'] = $edit;
 
         return $this->success($data);
     }
