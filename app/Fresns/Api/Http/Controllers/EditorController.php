@@ -762,7 +762,9 @@ class EditorController extends Controller
 
             // review notice
             $contentReviewService = ConfigHelper::fresnsConfigByItemKey('content_review_service');
-            \FresnsCmdWord::plugin($contentReviewService)->reviewNotice($wordBody);
+            if ($contentReviewService) {
+                \FresnsCmdWord::plugin($contentReviewService)->reviewNotice($wordBody);
+            }
 
             // Review
             throw new ApiException(38200);
@@ -1040,6 +1042,16 @@ class EditorController extends Controller
         ];
 
         if (! $fsid) {
+            // review notice
+            $contentReviewService = ConfigHelper::fresnsConfigByItemKey('content_review_service');
+            if ($contentReviewService) {
+                $noticeWordBody = [
+                    'type' => $wordType,
+                    'logId' => $fresnsResp->getData('logId'),
+                ];
+                \FresnsCmdWord::plugin($contentReviewService)->reviewNotice($noticeWordBody);
+            }
+
             throw new ApiException(38200, 'Fresns', $data);
         }
 
