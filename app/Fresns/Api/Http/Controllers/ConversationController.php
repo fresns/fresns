@@ -43,9 +43,9 @@ class ConversationController extends Controller
         $aConversationsQuery = Conversation::with(['aUser', 'latestMessage'])->where('a_user_id', $authUser->id)->where('a_is_display', 1);
         $bConversationsQuery = Conversation::with(['bUser', 'latestMessage'])->where('b_user_id', $authUser->id)->where('b_is_display', 1);
 
-        if (isset($dtoRequest->isPin)) {
-            $aConversationsQuery->where('a_is_pin', $dtoRequest->isPin);
-            $bConversationsQuery->where('b_is_pin', $dtoRequest->isPin);
+        if (isset($dtoRequest->pinned)) {
+            $aConversationsQuery->where('a_is_pin', $dtoRequest->pinned);
+            $bConversationsQuery->where('b_is_pin', $dtoRequest->pinned);
         }
 
         $allConversations = $aConversationsQuery->union($bConversationsQuery)->latest('latest_message_at')->paginate($dtoRequest->pageSize ?? 15);
@@ -56,10 +56,10 @@ class ConversationController extends Controller
         foreach ($allConversations as $conversation) {
             if ($conversation->a_user_id == $authUser->id) {
                 $conversationUser = $userService->userData($conversation?->bUser, 'list', $langTag, $timezone, $authUser->id);
-                $isPin = $conversation->a_is_pin;
+                $pinned = $conversation->a_is_pin;
             } else {
                 $conversationUser = $userService->userData($conversation?->aUser, 'list', $langTag, $timezone, $authUser->id);
-                $isPin = $conversation->b_is_pin;
+                $pinned = $conversation->b_is_pin;
             }
 
             $latestMessageModel = $conversation?->latestMessage;
@@ -90,7 +90,7 @@ class ConversationController extends Controller
             $item['id'] = $conversation->id;
             $item['user'] = $conversationUser;
             $item['latestMessage'] = $latestMessage;
-            $item['isPin'] = (bool) $isPin;
+            $item['pinned'] = (bool) $pinned;
             $item['messageCount'] = $messageCount;
             $item['unreadCount'] = conversationMessage::where('conversation_id', $conversation->id)->where('receive_user_id', $authUser->id)->whereNull('receive_read_at')->whereNull('receive_deleted_at')->isEnable()->count();
 

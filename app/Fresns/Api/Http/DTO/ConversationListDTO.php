@@ -18,7 +18,7 @@ class ConversationListDTO extends DTO
     public function rules(): array
     {
         return [
-            'isPin' => ['boolean', 'nullable'],
+            'pinned' => ['boolean', 'nullable'],
             'whitelistKeys' => ['string', 'nullable'],
             'blacklistKeys' => ['string', 'nullable'],
             'pageSize' => ['integer', 'nullable', 'between:1,30'],
