@@ -31,6 +31,9 @@ class AddAccountDTO extends DTO
             'account' => ['string', 'nullable', 'required_if:type,1,2'],
             'countryCode' => ['integer', 'nullable', 'required_if:type,2'],
             'connectInfo' => ['array', 'nullable', 'required_if:type,3'],
+            'connectEmail' => ['string', 'nullable'],
+            'connectPhone' => ['integer', 'nullable'],
+            'connectCountryCode' => ['integer', 'nullable'],
             'password' => ['string', 'nullable'],
         ];
     }

@@ -42,46 +42,68 @@ class Account
         $dtoWordBody = new AddAccountDTO($wordBody);
         $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
-        if ($dtoWordBody->type == 1) {
-            $checkAccount = AccountModel::where('email', $dtoWordBody->account)->first();
-        } else {
-            $checkAccount = AccountModel::where('phone', $dtoWordBody->countryCode.$dtoWordBody->account)->first();
+        $typeInt = (int) $dtoWordBody->type;
+
+        switch ($typeInt) {
+            case 1:
+                // email
+                $checkAccount = AccountModel::where('email', $dtoWordBody->account)->first();
+                break;
+
+            case 2:
+                // phone
+                $checkAccount = AccountModel::where('phone', $dtoWordBody->countryCode.$dtoWordBody->account)->first();
+                break;
+
+            case 3:
+                // connect
+                $checkAccount = null;
+
+                $connectTokenArr = [];
+                foreach ($dtoWordBody->connectInfo as $connect) {
+                    if (empty($connect['connectToken'])) {
+                        continue;
+                    }
+
+                    $connectTokenArr[] = $connect['connectToken'];
+                }
+
+                $count = 0;
+                if ($connectTokenArr) {
+                    $count = AccountConnect::whereIn('connect_token', $connectTokenArr)->count();
+                }
+
+                if ($count > 0) {
+                    return $this->failure(
+                        34403,
+                        ConfigUtility::getCodeMessage(34403, 'Fresns', $langTag)
+                    );
+                }
+                break;
         }
 
-        if (! empty($checkAccount)) {
+        if ($checkAccount) {
             return $this->failure(
                 34204,
                 ConfigUtility::getCodeMessage(34204, 'Fresns', $langTag)
             );
         }
 
-        if ($dtoWordBody->connectInfo) {
-            $connectTokenArr = [];
-            foreach ($dtoWordBody->connectInfo as $connect) {
-                if (empty($connect['connectToken'])) {
-                    continue;
-                }
-
-                $connectTokenArr[] = $connect['connectToken'];
-            }
-
-            $count = 0;
-            if ($connectTokenArr) {
-                $count = AccountConnect::whereIn('connect_token', $connectTokenArr)->count();
-            }
-
-            if ($count > 0) {
-                ExceptionConstant::getHandleClassByCode(ExceptionConstant::CMD_WORD_DATA_ERROR)::throw();
-            }
-        }
-
         $inputArr = [];
-        $inputArr = match ($dtoWordBody->type) {
-            1 => ['email' => $dtoWordBody->account],
+        $inputArr = match ($typeInt) {
+            1 => [
+                'email' => $dtoWordBody->account,
+            ],
             2 => [
                 'country_code' => $dtoWordBody->countryCode,
                 'pure_phone' => $dtoWordBody->account,
                 'phone' => $dtoWordBody->countryCode.$dtoWordBody->account,
+            ],
+            3 => [
+                'email' => $dtoWordBody->connectEmail,
+                'country_code' => $dtoWordBody->connectCountryCode,
+                'pure_phone' => $dtoWordBody->connectPhone,
+                'phone' => $dtoWordBody->connectPhone ? $dtoWordBody->connectCountryCode.$dtoWordBody->connectPhone : null,
             ],
             default => [],
         };
@@ -134,12 +156,37 @@ class Account
         $dtoWordBody = new VerifyAccountDTO($wordBody);
         $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
-        if ($dtoWordBody->type == 1) {
-            $accountName = $dtoWordBody->account;
-            $account = AccountModel::where('email', $accountName)->first();
-        } else {
-            $accountName = $dtoWordBody->countryCode.$dtoWordBody->account;
-            $account = AccountModel::where('phone', $accountName)->first();
+        switch ($dtoWordBody->type) {
+            case 1:
+                // email
+                $account = AccountModel::where('email', $dtoWordBody->account)->first();
+                break;
+
+            case 2:
+                // phone
+                $phoneNumber = $dtoWordBody->countryCode.$dtoWordBody->account;
+                $account = AccountModel::where('phone', $phoneNumber)->first();
+                break;
+
+            case 3:
+                // connect
+                $accountConnect = AccountConnect::where('connect_token', $dtoWordBody->connectToken)->first();
+                if (empty($accountConnect)) {
+                    return $this->failure(
+                        34301,
+                        ConfigUtility::getCodeMessage(34301, 'Fresns', $langTag),
+                    );
+                }
+
+                if (! $accountConnect->is_enable) {
+                    return $this->failure(
+                        34404,
+                        ConfigUtility::getCodeMessage(34404, 'Fresns', $langTag),
+                    );
+                }
+
+                $account = AccountModel::where('id', $accountConnect->account_id)->first();
+                break;
         }
 
         if (empty($account)) {
@@ -165,7 +212,9 @@ class Account
                     ConfigUtility::getCodeMessage(34304, 'Fresns', $langTag),
                 );
             }
-        } else {
+        }
+
+        if ($dtoWordBody->verifyCode) {
             $codeWordBody = [
                 'type' => $dtoWordBody->type,
                 'account' => $dtoWordBody->account,
