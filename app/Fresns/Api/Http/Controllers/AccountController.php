@@ -851,11 +851,16 @@ class AccountController extends Controller
         }
 
         // edit save
-        if (! $authAccount->isDirty() && empty($dtoRequest->deviceToken)) {
+        if (! $authAccount->isDirty() && ! $wallet->isDirty() && empty($dtoRequest->deviceToken)) {
             throw new ApiException(30001);
         }
 
-        $authAccount->save();
+        if ($authAccount->isDirty()) {
+            $authAccount->save();
+        }
+        if ($wallet->isDirty()) {
+            $wallet->save();
+        }
 
         // upload session log
         $sessionLog['type'] = SessionLog::TYPE_ACCOUNT_EDIT_DATA;
