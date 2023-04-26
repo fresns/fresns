@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.10.0 (2023-04-27)
+
+### Added
+- API: Private mode support for whitelist role configuration
+- API: Notification message and private message session interfaces add humanised time parameter `timeAgo`.
+- API: Add `type` parameter to role list interface
+- Words: `verifyAccount` command word support connect token
+- Words: Add command word `walletCheckPassword`
+- Words: Add command word `addContentMoreInfo`
+- Words: Add command word `setContentSticky`
+- Words: Add command word `setContentDigest`
+- Words: Add command word `setContentCloseDelete`
+- Words: Add command word `setPostAuth`
+- Words: Add command word `setPostAffiliateUser`
+- Words: Add command word `setCommentExtendButton`
+- Words: Add command word `setUserExpiryDatetime`
+- Words: Add command word `setUserGroupExpiryDatetime`
+
+### Fixes
+- API: Incompatible in private mode valid for null
+- API: IP interface cannot be requested in private mode
+- API: Account and user profile editing, data operation not performed on null request
+- API: `replyToComment` data error for comment
+- Words: Wrong `originAid` and `originUid` parameters for wallet transaction command word
+- Help: Error if configuration file is empty
+
+### BREAKING CHANGES
+- API: `/api/v2/common/file/{fid}/users`
+    - `downloadTime` changed to `datetime`
+    - `downloadTimeFormat` changed to `timeAgo`
+    - `downloadUser` changed to `user`
+- API: Post and comment data structure change edit control key name
+    - `editStatus` changed to `editControls`
+- API: Change draft detail parameters in the editor
+    - Changed the name of the parameter to determine if a draft is being edited from `edit` to `editControls`
+    - Changed the name of the parameter to determine if the draft is being edited from `isEdit` to `isEditDraft`
+
+
 ## 2.9.0 (2023-04-22)
 
 ### Added
