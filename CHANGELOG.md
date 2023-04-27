@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.10.1 (2023-04-27)
+
+### Fixes
+- API: Post authorization parameter error
+- Words: draft pending review cannot be published
+
+
 ## 2.10.0 (2023-04-27)
 
 ### Added
