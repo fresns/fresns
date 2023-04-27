@@ -312,7 +312,7 @@ class PostService
 
         if (empty($authUserId) || ! $checkPostAllow) {
             $previewPercentage = $contentData['allowConfig']['previewPercentage'] / 100;
-            $allowLength = intval($contentData['contentLength'] * $previewPercentage);
+            $allowLength = intval($postData['contentLength'] * $previewPercentage);
 
             $contentData['allowConfig']['isAllow'] = false;
             $contentData['content'] = Str::limit($contentData['content'], $allowLength);
