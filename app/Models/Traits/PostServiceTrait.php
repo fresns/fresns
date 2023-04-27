@@ -69,7 +69,7 @@ trait PostServiceTrait
 
         $info['allowConfig'] = [
             'isAllow' => (bool) $appendData->is_allow,
-            'previewProportion' => $appendData->allow_proportion,
+            'previewPercentage' => $appendData->allow_percentage,
             'buttonName' => LanguageHelper::fresnsLanguageByTableId('post_appends', 'allow_btn_name', $appendData->post_id, $langTag) ?? $appendData->allow_btn_name,
             'buttonUrl' => PluginHelper::fresnsPluginUrlByUnikey($appendData->allow_plugin_unikey),
         ];

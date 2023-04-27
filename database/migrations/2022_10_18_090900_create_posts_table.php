@@ -61,7 +61,7 @@ class CreatePostsTable extends Migration
             $table->string('editor_unikey', 64)->nullable();
             $table->unsignedTinyInteger('can_delete')->default(1);
             $table->unsignedTinyInteger('is_allow')->default(1);
-            $table->unsignedTinyInteger('allow_proportion')->nullable();
+            $table->unsignedTinyInteger('allow_percentage')->nullable();
             $table->string('allow_btn_name', 64)->nullable();
             $table->string('allow_plugin_unikey', 64)->nullable();
             $table->unsignedTinyInteger('is_user_list')->default(0);

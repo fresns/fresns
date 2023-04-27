@@ -599,7 +599,7 @@ class ContentUtility
         }
 
         $item['isAllow'] = (bool) $readAllowConfig['isAllow'];
-        $item['proportion'] = $readAllowConfig['proportion'];
+        $item['percentage'] = $readAllowConfig['percentage'];
         $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByUnikey($readAllowConfig['pluginUnikey']);
         $item['pluginUnikey'] = $readAllowConfig['pluginUnikey'];
         $item['defaultLangBtnName'] = collect($readAllowConfig['btnName'])->where('langTag', $langTag)->first()['name'] ?? null;
@@ -957,7 +957,7 @@ class ContentUtility
             'is_plugin_editor' => $postLog->is_plugin_editor,
             'editor_unikey' => $postLog->editor_unikey,
             'is_allow' => $postLog->allow_json['isAllow'] ?? true,
-            'allow_proportion' => $postLog->allow_json['proportion'] ?? null,
+            'allow_percentage' => $postLog->allow_json['percentage'] ?? null,
             'allow_btn_name' => $allowBtnName,
             'allow_plugin_unikey' => $postLog->allow_json['pluginUnikey'] ?? null,
             'is_user_list' => $postLog->user_list_json['isUserList'] ?? false,
@@ -1261,7 +1261,7 @@ class ContentUtility
 
         $allowJson['isAllow'] = $post->postAppend->is_allow;
         $allowJson['btnName'] = $allowBtnName;
-        $allowJson['proportion'] = $post->postAppend->allow_proportion;
+        $allowJson['percentage'] = $post->postAppend->allow_percentage;
         $allowJson['permissions'] = $allowPermissions;
         $allowJson['pluginUnikey'] = $post->postAppend->allow_plugin_unikey;
 

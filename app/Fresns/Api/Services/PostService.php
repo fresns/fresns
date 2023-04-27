@@ -311,8 +311,8 @@ class PostService
         $checkPostAllow = PermissionUtility::checkPostAllow($post->id, $authUserId);
 
         if (empty($authUserId) || ! $checkPostAllow) {
-            $allowProportion = $postData['allowProportion'] / 100;
-            $allowLength = intval($postData['contentLength'] * $allowProportion);
+            $previewPercentage = $contentData['allowConfig']['previewPercentage'] / 100;
+            $allowLength = intval($contentData['contentLength'] * $previewPercentage);
 
             $contentData['allowConfig']['isAllow'] = false;
             $contentData['content'] = Str::limit($contentData['content'], $allowLength);
