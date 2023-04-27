@@ -19,7 +19,6 @@ use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Account;
-use App\Models\Conversation;
 use App\Models\File;
 use App\Models\SessionToken;
 use App\Models\User as UserModel;

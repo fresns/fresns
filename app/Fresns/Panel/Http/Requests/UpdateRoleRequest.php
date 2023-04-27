@@ -8,8 +8,6 @@
 
 namespace App\Fresns\Panel\Http\Requests;
 
-use Illuminate\Validation\Rule;
-
 class UpdateRoleRequest extends FormRequest
 {
     /**

@@ -8,9 +8,6 @@
 
 namespace App\Fresns\Subscribe;
 
-use App\Fresns\Subscribe\Subscribe;
-use App\Fresns\Subscribe\TableDataChangeEvent;
-use App\Fresns\Subscribe\UserActivateEvent;
 use App\Helpers\PluginHelper;
 use App\Models\Plugin;
 use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;

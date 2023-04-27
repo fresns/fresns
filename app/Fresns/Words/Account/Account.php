@@ -23,7 +23,6 @@ use App\Models\SessionToken;
 use App\Models\VerifyCode;
 use App\Utilities\ConfigUtility;
 use Carbon\Carbon;
-use Fresns\CmdWordManager\Exceptions\Constants\ExceptionConstant;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 use Illuminate\Support\Facades\Hash;
 

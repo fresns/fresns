@@ -17,7 +17,6 @@ use App\Models\Config;
 use App\Models\Plugin;
 use App\Models\User;
 use App\Models\UserRole;
-use App\Utilities\AppUtility;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 use Illuminate\Support\Facades\Http;
 
