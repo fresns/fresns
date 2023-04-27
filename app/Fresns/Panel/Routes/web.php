@@ -45,7 +45,6 @@ use App\Fresns\Panel\Http\Controllers\ThemeFunctionController;
 use App\Fresns\Panel\Http\Controllers\UpgradeController;
 use App\Fresns\Panel\Http\Controllers\UserController;
 use App\Fresns\Panel\Http\Controllers\UserSearchController;
-use App\Fresns\Panel\Http\Controllers\VerifyCodeController;
 use App\Fresns\Panel\Http\Controllers\WalletController;
 use App\Fresns\Panel\Http\Controllers\WebsiteController;
 use App\Helpers\CacheHelper;

@@ -10,7 +10,7 @@
     <title>Fresns @lang('Install::install.title')</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="{{ @asset('/static/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ @asset('/static/css/bootstrap-icons.css') }}">
+    <link rel="stylesheet" href="{{ @asset('/static/css/bootstrap-icons.min.css') }}">
     <link rel="stylesheet" href="{{ @asset('/static/css/fresns-panel.css') }}">
     @stack('css')
 </head>
