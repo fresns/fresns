@@ -314,13 +314,6 @@ class Content
             );
         }
 
-        if ($logModel->state == 2) {
-            return $this->failure(
-                38103,
-                ConfigUtility::getCodeMessage(38103, 'Fresns', $langTag),
-            );
-        }
-
         if ($logModel->state == 3) {
             return $this->failure(
                 38104,

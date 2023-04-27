@@ -344,10 +344,6 @@ class EditorController extends Controller
             throw new ApiException(38100);
         }
 
-        if ($draft->state == 3) {
-            throw new ApiException(38102);
-        }
-
         $isEditDraft = false;
         $editableStatus = true;
         $editableTime = null;
