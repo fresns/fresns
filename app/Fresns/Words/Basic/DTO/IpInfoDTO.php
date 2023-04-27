@@ -21,7 +21,7 @@ class IpInfoDTO extends DTO
     public function rules(): array
     {
         return [
-            'ip' => ['string', 'required', 'ip'],
+            'ip' => ['ip', 'required'],
         ];
     }
 }
