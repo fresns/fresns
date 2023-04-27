@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.10.2 (2023-04-27)
+
+### Fixes
+- Words: `verifyUrlAuthorization` verify account or user login
+- Words: `ipInfo` redundant DTO configuration
+
+
 ## 2.10.1 (2023-04-27)
 
 ### Fixes
