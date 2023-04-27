@@ -599,7 +599,7 @@ class ContentUtility
         }
 
         $item['isAllow'] = (bool) $readAllowConfig['isAllow'];
-        $item['percentage'] = $readAllowConfig['percentage'];
+        $item['percentage'] = $readAllowConfig['percentage'] ?? 0;
         $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByUnikey($readAllowConfig['pluginUnikey']);
         $item['pluginUnikey'] = $readAllowConfig['pluginUnikey'];
         $item['defaultLangBtnName'] = collect($readAllowConfig['btnName'])->where('langTag', $langTag)->first()['name'] ?? null;
