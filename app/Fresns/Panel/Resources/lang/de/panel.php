@@ -1052,7 +1052,7 @@ return [
     'website_status_config' => 'Konfiguration der Anzeige, wenn sie ausgeschaltet ist',
     'website_status_config_desc' => 'Wie viel Inhalt auf der Listenseite angezeigt werden soll und wie viel Prozent des Inhalts auf der Detailseite angezeigt werden soll.',
     'website_status_config_content_number' => 'Anzahl der angezeigten Artikel',
-    'website_status_config_content_proportion' => 'Anzeigeverhältnis',
+    'website_status_config_content_percentage' => 'Anzeigeverhältnis',
     'china_mode' => 'China-Modus',
     'china_mode_desc' => 'Erforderliche Informationen, wenn der Site-Server in China eingesetzt wird.',
     'china_mode_config' => 'Serverkonfiguration für das chinesische Festland (nicht erforderliches Feld)',

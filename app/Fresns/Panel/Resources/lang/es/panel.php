@@ -1052,7 +1052,7 @@ return [
     'website_status_config' => 'Configuración de la visualización cuando está desactivada',
     'website_status_config_desc' => 'La cantidad de contenido a mostrar en la página de lista y el porcentaje de contenido a mostrar en la página de detalle.',
     'website_status_config_content_number' => 'Número de elementos mostrados',
-    'website_status_config_content_proportion' => 'Proporción de visualización',
+    'website_status_config_content_percentage' => 'Proporción de visualización',
     'china_mode' => 'Modo China',
     'china_mode_desc' => 'Información requerida cuando el servidor del sitio está desplegado en China.',
     'china_mode_config' => 'Configuración del servidor de China continental (campo no obligatorio)',

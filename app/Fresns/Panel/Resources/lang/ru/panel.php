@@ -1052,7 +1052,7 @@ return [
     'website_status_config' => 'Конфигурация отображения при выключении',
     'website_status_config_desc' => 'Сколько содержимого отображать на странице списка и какой процент содержимого отображать на странице подробностей.',
     'website_status_config_content_number' => 'Количество отображаемых элементов',
-    'website_status_config_content_proportion' => 'Соотношение отображения',
+    'website_status_config_content_percentage' => 'Соотношение отображения',
     'china_mode' => 'Режим Китая',
     'china_mode_desc' => 'Необходимая информация, если сервер сайта развернут в Китае.',
     'china_mode_config' => 'Конфигурация сервера материкового Китая (необязательное поле)',

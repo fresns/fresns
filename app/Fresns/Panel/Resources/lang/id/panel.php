@@ -1052,7 +1052,7 @@ return [
     'website_status_config' => 'Konfigurasi tampilan saat dimatikan',
     'website_status_config_desc' => 'Berapa banyak konten yang akan ditampilkan pada halaman daftar dan persentase konten yang akan ditampilkan pada halaman detail.',
     'website_status_config_content_number' => 'Jumlah item yang ditampilkan',
-    'website_status_config_content_proportion' => 'Rasio tampilan',
+    'website_status_config_content_percentage' => 'Rasio tampilan',
     'china_mode' => 'China Mode',
     'china_mode_desc' => 'Informasi yang diperlukan apabila server situs digunakan di Tiongkok.',
     'china_mode_config' => 'Konfigurasi server daratan Tiongkok (bidang yang tidak diperlukan)',

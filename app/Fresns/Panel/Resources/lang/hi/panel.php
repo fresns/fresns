@@ -1052,7 +1052,7 @@ return [
     'website_status_config' => 'बंद होने पर कॉन्फ़िगरेशन प्रदर्शित करें',
     'website_status_config_desc' => 'सूची पृष्ठ पर प्रदर्शित करने के लिए कितनी सामग्री और विवरण पृष्ठ पर प्रदर्शित होने वाली सामग्री का प्रतिशत।',
     'website_status_config_content_number' => 'प्रदर्शित वस्तुओं की संख्या',
-    'website_status_config_content_proportion' => 'प्रदर्शन अनुपात',
+    'website_status_config_content_percentage' => 'प्रदर्शन अनुपात',
     'china_mode' => 'चीन मोड',
     'china_mode_desc' => 'चीन में साइट सर्वर तैनात होने पर आवश्यक जानकारी।',
     'china_mode_config' => 'चीन मुख्य भूमि सर्वर कॉन्फ़िगरेशन (गैर-आवश्यक फ़ील्ड)',

@@ -1053,7 +1053,7 @@ return [
     'website_status_config' => '关闭后显示配置',
     'website_status_config_desc' => '列表页显示多少条内容，详情页显示内容百分比。',
     'website_status_config_content_number' => '显示数量',
-    'website_status_config_content_proportion' => '显示比例',
+    'website_status_config_content_percentage' => '显示比例',
     'china_mode' => '中国大陆模式',
     'china_mode_desc' => '站点服务器部署在中国大陆境内时需要填写的信息。',
     'china_mode_config' => '中国大陆服务器配置（非必填项）',

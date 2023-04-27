@@ -1052,7 +1052,7 @@ return [
     'website_status_config' => '꺼져 있을 때 디스플레이 구성',
     'website_status_config_desc' => '목록 페이지에 표시할 콘텐츠의 양과 세부 정보 페이지에 표시할 콘텐츠의 비율입니다.',
     'website_status_config_content_number' => '표시된 항목 수',
-    'website_status_config_content_proportion' => '디스플레이 비율',
+    'website_status_config_content_percentage' => '디스플레이 비율',
     'china_mode' => '차이나 모드',
     'china_mode_desc' => '사이트 서버를 중국에 배포할 때 필요한 정보입니다.',
     'china_mode_config' => '중국 본토 서버 구성(필수 필드 없음)',

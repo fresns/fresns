@@ -1052,7 +1052,7 @@ return [
     'website_status_config' => 'オフの場合の表示設定',
     'website_status_config_desc' => '一覧ページに表示するコンテンツの量と、詳細ページに表示するコンテンツの割合。',
     'website_status_config_content_number' => '表示件数',
-    'website_status_config_content_proportion' => '表示割合',
+    'website_status_config_content_percentage' => '表示割合',
     'china_mode' => '中国モード',
     'china_mode_desc' => 'サイトサーバーが中国に展開されている場合に必要な情報。',
     'china_mode_config' => '中国本土サーバーの設定（非必須項目）',

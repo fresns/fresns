@@ -175,8 +175,8 @@
                                 <span class="input-group-text">{{ __('FsLang::panel.unit_number') }}</span>
                             </div>
                             <div class="input-group">
-                                <label class="input-group-text" for="website_proportion">{{ __('FsLang::panel.website_status_config_content_proportion') }}</label>
-                                <input type="number" class="form-control" name="website_proportion" id="website_proportion" value="{{ $params['website_proportion'] }}">
+                                <label class="input-group-text" for="website_percentage">{{ __('FsLang::panel.website_status_config_content_percentage') }}</label>
+                                <input type="number" class="form-control" name="website_percentage" id="website_percentage" value="{{ $params['website_percentage'] }}">
                                 <span class="input-group-text">%</span>
                             </div>
                             <div class="form-text"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.website_status_config_desc') }}</div>
