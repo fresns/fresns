@@ -130,7 +130,7 @@ class UpgradeFresns extends Command
             $this->info($content);
         }
 
-        $output = cache('autoUpgradeTip')."\n";
+        $output = Cache::get('autoUpgradeTip')."\n";
         $output .= $content;
 
         Cache::put('autoUpgradeStep', $step);
@@ -214,6 +214,13 @@ class UpgradeFresns extends Command
         // composer command
         logger('-- composer command');
         $process = Process::run('composer update', $this->output);
+
+        if (! $process->isSuccessful()) {
+            logger('-- -- composer error: '.$process->getErrorOutput());
+
+            return false;
+        }
+
         logger('-- -- composer finish: '.$process->getOutput());
 
         return true;

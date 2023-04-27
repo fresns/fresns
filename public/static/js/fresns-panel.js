@@ -331,7 +331,7 @@ $(document).ready(function () {
 
         if (!upgradeTimer) {
             checkAutoUpgradeStep(action);
-            upgradeTimer = setInterval(checkAutoUpgradeStep, 1000, action);
+            upgradeTimer = setInterval(checkAutoUpgradeStep, 5000, action);
         }
     });
     $('#manualUpgradeStepModal').on('show.bs.modal', function (e) {
@@ -340,7 +340,7 @@ $(document).ready(function () {
 
         if (!upgradeTimer) {
             checkManualUpgradeStep(action);
-            upgradeTimer = setInterval(checkManualUpgradeStep, 1000, action);
+            upgradeTimer = setInterval(checkManualUpgradeStep, 5000, action);
         }
     });
 

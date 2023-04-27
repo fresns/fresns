@@ -53,8 +53,8 @@ class UpgradeController extends Controller
             7 => __('FsLang::tips.manual_upgrade_step_7'),
         ];
 
-        $autoUpgradeStepInt = cache('autoUpgradeStep');
-        $manualUpgradeStepInt = cache('manualUpgradeStep');
+        $autoUpgradeStepInt = Cache::get('autoUpgradeStep');
+        $manualUpgradeStepInt = Cache::get('manualUpgradeStep');
 
         if ($autoUpgradeStepInt == 6 || $manualUpgradeStepInt == 7) {
             $autoUpgradeStepInt = null;
@@ -115,11 +115,11 @@ class UpgradeController extends Controller
         }
 
         // If the upgrade is already in progress, the upgrade button is not displayed
-        if (cache('autoUpgradeStep')) {
+        if (Cache::get('autoUpgradeStep')) {
             return $this->successResponse('upgrade');
         }
 
-        \Cache::put('autoUpgradeStep', 1);
+        Cache::put('autoUpgradeStep', 1);
 
         passthru($phpPath.' '.base_path('artisan').' fresns:upgrade > /dev/null &');
 
@@ -135,10 +135,10 @@ class UpgradeController extends Controller
         }
 
         // If the upgrade is already in progress, the upgrade button is not displayed
-        if (cache('manualUpgradeStep')) {
+        if (Cache::get('manualUpgradeStep')) {
             return $this->successResponse('upgrade');
         }
-        \Cache::put('manualUpgradeStep', 1);
+        Cache::put('manualUpgradeStep', 1);
 
         passthru($phpPath.' '.base_path('artisan').' fresns:manual-upgrade > /dev/null &');
 
@@ -149,10 +149,10 @@ class UpgradeController extends Controller
     public function upgradeInfo()
     {
         $upgradeInfo = [
-            'autoUpgradeStep' => cache('autoUpgradeStep'),
-            'autoUpgradeTip' => cache('autoUpgradeTip') ?? '',
-            'manualUpgradeStep' => cache('manualUpgradeStep'),
-            'manualUpgradeTip' => cache('manualUpgradeTip') ?? '',
+            'autoUpgradeStep' => Cache::get('autoUpgradeStep'),
+            'autoUpgradeTip' => Cache::get('autoUpgradeTip') ?? '',
+            'manualUpgradeStep' => Cache::get('manualUpgradeStep'),
+            'manualUpgradeTip' => Cache::get('manualUpgradeTip') ?? '',
         ];
 
         return response()->json($upgradeInfo);

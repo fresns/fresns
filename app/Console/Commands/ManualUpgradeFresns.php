@@ -116,7 +116,7 @@ class ManualUpgradeFresns extends Command
             $this->info($content);
         }
 
-        $output = cache('manualUpgradeTip')."\n";
+        $output = Cache::get('manualUpgradeTip')."\n";
         $output .= $content;
 
         Cache::put('manualUpgradeStep', $step);
