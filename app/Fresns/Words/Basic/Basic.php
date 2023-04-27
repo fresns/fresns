@@ -14,6 +14,7 @@ use App\Fresns\Words\Basic\DTO\IpInfoDTO;
 use App\Fresns\Words\Basic\DTO\SendCodeDTO;
 use App\Fresns\Words\Basic\DTO\UploadSessionLogDTO;
 use App\Fresns\Words\Basic\DTO\VerifySignDTO;
+use App\Fresns\Words\Basic\DTO\VerifyUrlAuthorizationDTO;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\SignHelper;
@@ -138,23 +139,23 @@ class Basic
      */
     public function verifyUrlAuthorization($wordBody)
     {
-        $urlAuthorization = $wordBody['urlAuthorization'] ?? '';
+        $dtoWordBody = new VerifyUrlAuthorizationDTO($wordBody);
         $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
-        if (empty($urlAuthorization)) {
-            return $this->failure(
-                30001,
-                ConfigUtility::getCodeMessage(30001, 'Fresns', $langTag)
-            );
-        }
+        try {
+            $urlAuthorizationData = urldecode(base64_decode($dtoWordBody->urlAuthorization));
+            $authorizationJson = json_decode($urlAuthorizationData, true) ?? [];
 
-        $urlAuthorizationData = urldecode(base64_decode($urlAuthorization));
-        $authorizationJson = json_decode($urlAuthorizationData, true) ?? [];
-
-        if (empty($authorizationJson)) {
+            if (empty($authorizationJson)) {
+                return $this->failure(
+                    30002,
+                    ConfigUtility::getCodeMessage(30002, 'Fresns', $langTag)
+                );
+            }
+        } catch (\Exception $e) {
             return $this->failure(
-                30004,
-                ConfigUtility::getCodeMessage(30004, 'Fresns', $langTag)
+                31000,
+                ConfigUtility::getCodeMessage(31000, 'Fresns', $langTag)
             );
         }
 
@@ -178,6 +179,24 @@ class Basic
 
         if ($fresnsResp->isErrorResponse()) {
             return $fresnsResp->getOrigin();
+        }
+
+        if ($dtoWordBody->accountLogin) {
+            if (empty($headers['aid']) || empty($headers['aidToken'])) {
+                return $this->failure(
+                    31501,
+                    ConfigUtility::getCodeMessage(31501, 'Fresns', $langTag)
+                );
+            }
+        }
+
+        if ($dtoWordBody->userLogin) {
+            if (empty($headers['uid']) || empty($headers['uidToken'])) {
+                return $this->failure(
+                    31601,
+                    ConfigUtility::getCodeMessage(31601, 'Fresns', $langTag)
+                );
+            }
         }
 
         return $this->success($headers);
