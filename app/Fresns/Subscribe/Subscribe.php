@@ -20,6 +20,10 @@ class Subscribe
     const TYPE_USER_ACTIVATE = 2;
     const TYPE_ACCOUNT_AND_USER_LOGIN = 3;
 
+    const CHANGE_TYPE_CREATED = 'created';
+    const CHANGE_TYPE_UPDATED = 'updated';
+    const CHANGE_TYPE_DELETED = 'deleted';
+
     protected int $type;
     protected string $unikey;
     protected string $cmdWord;

@@ -8,6 +8,8 @@
 
 namespace App\Models\Traits;
 
+use App\Fresns\Subscribe\Subscribe;
+
 trait DataChangeNotifyTrait
 {
     public static function bootDataChangeNotifyTrait(): void
@@ -16,7 +18,15 @@ trait DataChangeNotifyTrait
             notifyDataChange([
                 'tableName' => static::class,
                 'primaryId' => $model->id,
-                'changeType' => 'created',
+                'changeType' => Subscribe::CHANGE_TYPE_CREATED,
+            ]);
+        });
+
+        static::updated(function ($model) {
+            notifyDataChange([
+                'tableName' => static::class,
+                'primaryId' => $model->id,
+                'changeType' => Subscribe::CHANGE_TYPE_UPDATED,
             ]);
         });
 
@@ -24,7 +34,7 @@ trait DataChangeNotifyTrait
             notifyDataChange([
                 'tableName' => static::class,
                 'primaryId' => $model->id,
-                'changeType' => 'deleted',
+                'changeType' => Subscribe::CHANGE_TYPE_DELETED,
             ]);
         });
     }
