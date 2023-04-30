@@ -19,7 +19,7 @@ class CreatePlacementsTable extends Migration
     {
         Schema::create('placements', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('plugin_unikey', 64);
+            $table->string('plugin_fskey', 64);
             $table->unsignedTinyInteger('implant_type');
             $table->unsignedBigInteger('implant_id');
             switch (config('database.default')) {

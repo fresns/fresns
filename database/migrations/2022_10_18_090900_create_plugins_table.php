@@ -19,8 +19,8 @@ class CreatePluginsTable extends Migration
     {
         Schema::create('plugins', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->string('unikey', 64)->unique('plugin_unikey');
-            $table->unsignedTinyInteger('type');
+            $table->string('fskey', 64)->unique('plugin_fskey');
+            $table->unsignedTinyInteger('type')->default(1);
             $table->string('name', 64);
             $table->string('description');
             $table->string('version', 16);
@@ -54,7 +54,7 @@ class CreatePluginsTable extends Migration
         Schema::create('plugin_usages', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedTinyInteger('usage_type')->index('plugin_usage_type');
-            $table->string('plugin_unikey', 64);
+            $table->string('plugin_fskey', 64);
             $table->string('name', 128);
             $table->unsignedBigInteger('icon_file_id')->nullable();
             $table->string('icon_file_url')->nullable();
@@ -87,7 +87,7 @@ class CreatePluginsTable extends Migration
 
         Schema::create('plugin_badges', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('plugin_unikey', 64);
+            $table->string('plugin_fskey', 64);
             $table->unsignedBigInteger('user_id');
             $table->unsignedTinyInteger('display_type')->default(1);
             $table->string('value_text', 8)->nullable();
@@ -96,12 +96,12 @@ class CreatePluginsTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->unique(['plugin_unikey', 'user_id'], 'plugin_badge_user_id');
+            $table->unique(['plugin_fskey', 'user_id'], 'plugin_badge_user_id');
         });
 
         Schema::create('plugin_callbacks', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('plugin_unikey', 64);
+            $table->string('plugin_fskey', 64);
             $table->unsignedBigInteger('account_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('ulid', 64)->unique('callback_ulid');
@@ -119,7 +119,7 @@ class CreatePluginsTable extends Migration
                     $table->json('content')->nullable();
             }
             $table->unsignedTinyInteger('is_use')->default(0);
-            $table->string('use_plugin_unikey', 64)->nullable();
+            $table->string('use_plugin_fskey', 64)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

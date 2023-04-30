@@ -19,7 +19,7 @@ class CreateArchivesTable extends Migration
     {
         Schema::create('archives', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('plugin_unikey', 64);
+            $table->string('plugin_fskey', 64);
             $table->string('name', 64)->nullable();
             $table->text('description')->nullable();
             $table->string('code', 32)->unique('archive_code');
@@ -65,7 +65,7 @@ class CreateArchivesTable extends Migration
             $table->unsignedInteger('archive_id')->index('usage_archive_id');
             $table->text('archive_value')->nullable();
             $table->tinyInteger('is_private')->default(0);
-            $table->string('plugin_unikey', 64)->nullable();
+            $table->string('plugin_fskey', 64)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

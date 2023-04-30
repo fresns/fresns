@@ -87,7 +87,7 @@ class CreateFilesTable extends Migration
             $table->unsignedTinyInteger('file_type');
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('plugin_unikey', 64)->nullable();
+            $table->string('plugin_fskey', 64)->nullable();
             $table->unsignedTinyInteger('object_type');
             $table->unsignedBigInteger('object_id');
             $table->timestamp('created_at')->useCurrent();

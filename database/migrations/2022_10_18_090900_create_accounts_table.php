@@ -28,7 +28,7 @@ class CreateAccountsTable extends Migration
             $table->string('password', 64)->nullable();
             $table->timestamp('last_login_at');
             $table->unsignedTinyInteger('is_verify')->default(0);
-            $table->string('verify_plugin_unikey', 32)->nullable();
+            $table->string('verify_plugin_fskey', 32)->nullable();
             $table->string('verify_real_name', 128)->nullable();
             $table->unsignedTinyInteger('verify_gender')->default(1);
             $table->string('verify_cert_type', 32)->nullable();
@@ -53,7 +53,7 @@ class CreateAccountsTable extends Migration
             $table->string('connect_username', 128)->nullable();
             $table->string('connect_nickname', 128);
             $table->string('connect_avatar')->nullable();
-            $table->string('plugin_unikey', 64);
+            $table->string('plugin_fskey', 64);
             $table->unsignedTinyInteger('is_enable')->default(1);
             switch (config('database.default')) {
                 case 'pgsql':
@@ -96,7 +96,7 @@ class CreateAccountsTable extends Migration
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedTinyInteger('type');
-            $table->string('plugin_unikey', 64);
+            $table->string('plugin_fskey', 64);
             $table->unsignedBigInteger('transaction_id')->nullable();
             $table->string('transaction_code', 128)->nullable();
             $table->unsignedDecimal('amount_total', 10);

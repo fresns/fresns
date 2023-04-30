@@ -19,7 +19,7 @@ class CreateCodeMessagesTable extends Migration
     {
         Schema::create('code_messages', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('plugin_unikey', 64);
+            $table->string('plugin_fskey', 64);
             $table->unsignedInteger('code');
             $table->string('lang_tag', 16);
             $table->string('message');
@@ -27,7 +27,7 @@ class CreateCodeMessagesTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->unique(['plugin_unikey', 'code', 'lang_tag'], 'plugin_code_lang');
+            $table->unique(['plugin_fskey', 'code', 'lang_tag'], 'plugin_code_lang');
         });
     }
 

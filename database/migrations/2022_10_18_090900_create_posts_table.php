@@ -57,21 +57,21 @@ class CreatePostsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('post_id')->unique('post_id');
             $table->unsignedTinyInteger('is_plugin_editor')->default(0);
-            $table->string('editor_unikey', 64)->nullable();
+            $table->string('editor_fskey', 64)->nullable();
             $table->unsignedTinyInteger('can_delete')->default(1);
             $table->unsignedTinyInteger('is_allow')->default(1);
             $table->unsignedTinyInteger('allow_percentage')->nullable();
             $table->string('allow_btn_name', 64)->nullable();
-            $table->string('allow_plugin_unikey', 64)->nullable();
+            $table->string('allow_plugin_fskey', 64)->nullable();
             $table->unsignedTinyInteger('is_user_list')->default(0);
             $table->string('user_list_name', 128)->nullable();
-            $table->string('user_list_plugin_unikey', 64)->nullable();
+            $table->string('user_list_plugin_fskey', 64)->nullable();
             $table->unsignedTinyInteger('is_comment')->default(1);
             $table->unsignedTinyInteger('is_comment_public')->default(1);
             $table->unsignedTinyInteger('is_comment_btn')->default(0);
             $table->string('comment_btn_name', 64)->nullable();
             $table->string('comment_btn_style', 64)->nullable();
-            $table->string('comment_btn_plugin_unikey', 64)->nullable();
+            $table->string('comment_btn_plugin_fskey', 64)->nullable();
             switch (config('database.default')) {
                 case 'pgsql':
                     $table->jsonb('more_json')->nullable();
@@ -119,7 +119,7 @@ class CreatePostsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('post_id');
             $table->unsignedBigInteger('user_id');
-            $table->string('plugin_unikey', 64);
+            $table->string('plugin_fskey', 64);
             switch (config('database.default')) {
                 case 'pgsql':
                     $table->jsonb('more_json')->nullable();
@@ -144,7 +144,7 @@ class CreatePostsTable extends Migration
             $table->unsignedBigInteger('parent_post_id')->nullable();
             $table->unsignedTinyInteger('create_type')->default(1);
             $table->unsignedTinyInteger('is_plugin_editor')->default(0);
-            $table->string('editor_unikey', 64)->nullable();
+            $table->string('editor_fskey', 64)->nullable();
             $table->unsignedInteger('group_id')->nullable();
             $table->string('title')->nullable();
             $table->longText('content')->nullable();

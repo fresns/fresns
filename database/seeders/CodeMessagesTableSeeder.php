@@ -22,7 +22,7 @@ class CodeMessagesTableSeeder extends Seeder
 
         DB::table('code_messages')->insert([
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21000,
                 'lang_tag' => 'en',
                 'message' => 'Unconfigured plugin',
@@ -31,7 +31,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21001,
                 'lang_tag' => 'en',
                 'message' => 'Plugin does not exist',
@@ -40,7 +40,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21002,
                 'lang_tag' => 'en',
                 'message' => 'Command word does not exist',
@@ -49,7 +49,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21003,
                 'lang_tag' => 'en',
                 'message' => 'Command word unknown error',
@@ -58,7 +58,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21004,
                 'lang_tag' => 'en',
                 'message' => 'Command word not responding',
@@ -67,7 +67,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21005,
                 'lang_tag' => 'en',
                 'message' => 'Command word request parameter error',
@@ -76,7 +76,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21006,
                 'lang_tag' => 'en',
                 'message' => 'Command word execution request error',
@@ -85,7 +85,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21007,
                 'lang_tag' => 'en',
                 'message' => 'Command word response result is incorrect',
@@ -94,7 +94,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21008,
                 'lang_tag' => 'en',
                 'message' => 'Data anomalies, queries not available or data duplication',
@@ -103,7 +103,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21009,
                 'lang_tag' => 'en',
                 'message' => 'Execution anomalies, missing files or logging errors',
@@ -112,7 +112,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21000,
                 'lang_tag' => 'zh-Hans',
                 'message' => '未配置插件',
@@ -121,7 +121,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21001,
                 'lang_tag' => 'zh-Hans',
                 'message' => '插件不存在',
@@ -130,7 +130,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21002,
                 'lang_tag' => 'zh-Hans',
                 'message' => '命令字不存在',
@@ -139,7 +139,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21003,
                 'lang_tag' => 'zh-Hans',
                 'message' => '命令字未知错误',
@@ -148,7 +148,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21004,
                 'lang_tag' => 'zh-Hans',
                 'message' => '命令字无响应',
@@ -157,7 +157,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21005,
                 'lang_tag' => 'zh-Hans',
                 'message' => '命令字请求参数错误',
@@ -166,7 +166,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21006,
                 'lang_tag' => 'zh-Hans',
                 'message' => '命令字执行请求出错',
@@ -175,7 +175,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21007,
                 'lang_tag' => 'zh-Hans',
                 'message' => '命令字响应结果不正确',
@@ -184,7 +184,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21008,
                 'lang_tag' => 'zh-Hans',
                 'message' => '数据异常，查询不到或者数据重复',
@@ -193,7 +193,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21009,
                 'lang_tag' => 'zh-Hans',
                 'message' => '执行异常，文件丢失或者记录错误',
@@ -202,7 +202,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21000,
                 'lang_tag' => 'zh-Hant',
                 'message' => '未配置外掛',
@@ -211,7 +211,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21001,
                 'lang_tag' => 'zh-Hant',
                 'message' => '外掛不存在',
@@ -220,7 +220,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21002,
                 'lang_tag' => 'zh-Hant',
                 'message' => '命令字不存在',
@@ -229,7 +229,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21003,
                 'lang_tag' => 'zh-Hant',
                 'message' => '命令字未知錯誤',
@@ -238,7 +238,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21004,
                 'lang_tag' => 'zh-Hant',
                 'message' => '命令字無響應',
@@ -247,7 +247,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21005,
                 'lang_tag' => 'zh-Hant',
                 'message' => '命令字請求參數錯誤',
@@ -256,7 +256,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21006,
                 'lang_tag' => 'zh-Hant',
                 'message' => '命令字執行請求出錯',
@@ -265,7 +265,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21007,
                 'lang_tag' => 'zh-Hant',
                 'message' => '命令字響應結果不正確',
@@ -274,7 +274,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21008,
                 'lang_tag' => 'zh-Hant',
                 'message' => '資料異常，查詢不到或者資料重複',
@@ -283,7 +283,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'CmdWord',
+                'plugin_fskey' => 'CmdWord',
                 'code' => 21009,
                 'lang_tag' => 'zh-Hant',
                 'message' => '執行異常，文件丟失或者記錄錯誤',
@@ -292,7 +292,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 0,
                 'lang_tag' => 'en',
                 'message' => 'Success',
@@ -301,7 +301,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 30000,
                 'lang_tag' => 'en',
                 'message' => 'Parameter error',
@@ -310,7 +310,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 30001,
                 'lang_tag' => 'en',
                 'message' => 'Parameter missing error',
@@ -319,7 +319,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 30002,
                 'lang_tag' => 'en',
                 'message' => 'Parameter values do not meet the requirements',
@@ -328,7 +328,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 30003,
                 'lang_tag' => 'en',
                 'message' => 'The parameter value is not in a valid Json array format',
@@ -337,7 +337,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 30004,
                 'lang_tag' => 'en',
                 'message' => 'The parameter value is not in a valid Json object format',
@@ -346,7 +346,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 30005,
                 'lang_tag' => 'en',
                 'message' => 'The two-choice parameter value cannot be passed to both parameters',
@@ -355,7 +355,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31000,
                 'lang_tag' => 'en',
                 'message' => 'Header error',
@@ -364,7 +364,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31101,
                 'lang_tag' => 'en',
                 'message' => 'Platform ID not exist',
@@ -373,7 +373,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31102,
                 'lang_tag' => 'en',
                 'message' => 'Platform ID and Key do not match',
@@ -382,7 +382,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31103,
                 'lang_tag' => 'en',
                 'message' => 'Platform ID does not match the account or user',
@@ -391,7 +391,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31201,
                 'lang_tag' => 'en',
                 'message' => 'Version not exist',
@@ -400,7 +400,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31202,
                 'lang_tag' => 'en',
                 'message' => 'Version and key do not match',
@@ -409,7 +409,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31301,
                 'lang_tag' => 'en',
                 'message' => 'App ID does not exist or is disabled',
@@ -418,7 +418,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31302,
                 'lang_tag' => 'en',
                 'message' => 'Signature error',
@@ -427,7 +427,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31303,
                 'lang_tag' => 'en',
                 'message' => 'Signature expired',
@@ -436,7 +436,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31304,
                 'lang_tag' => 'en',
                 'message' => 'The key does not have the right to request for the interface',
@@ -445,7 +445,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31401,
                 'lang_tag' => 'en',
                 'message' => 'Language tag incorrect',
@@ -454,7 +454,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31402,
                 'lang_tag' => 'en',
                 'message' => 'Timezone incorrect',
@@ -463,7 +463,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31501,
                 'lang_tag' => 'en',
                 'message' => 'Account not logged in, Unable to use',
@@ -472,7 +472,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31502,
                 'lang_tag' => 'en',
                 'message' => 'Wrong account or record not exist',
@@ -481,7 +481,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31503,
                 'lang_tag' => 'en',
                 'message' => 'Lost login token, Please login again',
@@ -490,7 +490,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31504,
                 'lang_tag' => 'en',
                 'message' => 'Login token is no longer valid, please login again',
@@ -499,7 +499,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31505,
                 'lang_tag' => 'en',
                 'message' => 'Account login token are incorrect or do not exist',
@@ -508,7 +508,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31601,
                 'lang_tag' => 'en',
                 'message' => 'User not logged in, Unable to use',
@@ -517,7 +517,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31602,
                 'lang_tag' => 'en',
                 'message' => 'Wrong user or record not exist',
@@ -526,7 +526,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31603,
                 'lang_tag' => 'en',
                 'message' => 'User login token are incorrect or do not exist',
@@ -535,7 +535,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31701,
                 'lang_tag' => 'en',
                 'message' => 'Device information is not available',
@@ -544,7 +544,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31702,
                 'lang_tag' => 'en',
                 'message' => 'Wrong format of device information',
@@ -553,7 +553,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31703,
                 'lang_tag' => 'en',
                 'message' => 'Missing IP information in device information',
@@ -562,7 +562,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32100,
                 'lang_tag' => 'en',
                 'message' => 'No service provider configured',
@@ -571,7 +571,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32101,
                 'lang_tag' => 'en',
                 'message' => 'The service provider not exist',
@@ -580,7 +580,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32102,
                 'lang_tag' => 'en',
                 'message' => 'The service provider not enabled',
@@ -589,7 +589,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32103,
                 'lang_tag' => 'en',
                 'message' => 'Service provider config parameter is empty',
@@ -598,7 +598,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32104,
                 'lang_tag' => 'en',
                 'message' => 'Storage service provider configuration exception, temporarily unable to upload file',
@@ -607,7 +607,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32201,
                 'lang_tag' => 'en',
                 'message' => 'Wrong ID or record not exist',
@@ -616,7 +616,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32202,
                 'lang_tag' => 'en',
                 'message' => 'Abnormal data: failed to be queried or data duplicated.',
@@ -625,7 +625,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32203,
                 'lang_tag' => 'en',
                 'message' => 'Record expired and invalid',
@@ -634,7 +634,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32204,
                 'lang_tag' => 'en',
                 'message' => 'Record used. Please try again.',
@@ -643,7 +643,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32301,
                 'lang_tag' => 'en',
                 'message' => 'No response from the service provider',
@@ -652,7 +652,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32302,
                 'lang_tag' => 'en',
                 'message' => 'Service provider processing failed',
@@ -661,7 +661,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32303,
                 'lang_tag' => 'en',
                 'message' => 'Callback error: data lost or wrong record',
@@ -670,7 +670,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32304,
                 'lang_tag' => 'en',
                 'message' => 'Abnormal execution: file lost or wrong record',
@@ -679,7 +679,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33100,
                 'lang_tag' => 'en',
                 'message' => 'This interface or version has been disabled by the system and cannot be requested',
@@ -688,7 +688,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33101,
                 'lang_tag' => 'en',
                 'message' => 'Request for the interface is forbidden under private mode',
@@ -697,7 +697,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33102,
                 'lang_tag' => 'en',
                 'message' => 'Site mode configuration error',
@@ -706,7 +706,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33200,
                 'lang_tag' => 'en',
                 'message' => 'Verify code template unavailable or not exist',
@@ -715,7 +715,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33201,
                 'lang_tag' => 'en',
                 'message' => 'Send the verify code too often, please try again later',
@@ -724,7 +724,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33202,
                 'lang_tag' => 'en',
                 'message' => 'Verify code cannot be empty',
@@ -733,7 +733,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33203,
                 'lang_tag' => 'en',
                 'message' => 'Verify code incorrect or expired',
@@ -742,7 +742,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33301,
                 'lang_tag' => 'en',
                 'message' => 'Content contains system banned words, please modify before submitting',
@@ -751,7 +751,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33302,
                 'lang_tag' => 'en',
                 'message' => 'The length of the content exceeds the system limit, please reduce it and submit again',
@@ -760,7 +760,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33400,
                 'lang_tag' => 'en',
                 'message' => 'IP error, not a valid IP address',
@@ -769,7 +769,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33401,
                 'lang_tag' => 'en',
                 'message' => 'The IP is abnormal and the details are not available',
@@ -778,7 +778,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33402,
                 'lang_tag' => 'en',
                 'message' => 'The IP cannot be queried for details',
@@ -787,7 +787,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33403,
                 'lang_tag' => 'en',
                 'message' => 'The IP has been disabled and the system cannot provide service',
@@ -796,7 +796,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33404,
                 'lang_tag' => 'en',
                 'message' => 'The IP is unknown.',
@@ -805,7 +805,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34101,
                 'lang_tag' => 'en',
                 'message' => 'Email format incorrect',
@@ -814,7 +814,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34102,
                 'lang_tag' => 'en',
                 'message' => 'Phone number format incorrect',
@@ -823,7 +823,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34103,
                 'lang_tag' => 'en',
                 'message' => 'Country calling code error',
@@ -832,7 +832,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34104,
                 'lang_tag' => 'en',
                 'message' => 'The new password entered twice does not match',
@@ -841,7 +841,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34105,
                 'lang_tag' => 'en',
                 'message' => 'Password length incorrect',
@@ -850,7 +850,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34106,
                 'lang_tag' => 'en',
                 'message' => 'Password should contain numbers',
@@ -859,7 +859,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34107,
                 'lang_tag' => 'en',
                 'message' => 'Password should contain lowercase letters',
@@ -868,7 +868,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34108,
                 'lang_tag' => 'en',
                 'message' => 'Password should contain uppercase letters',
@@ -877,7 +877,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34109,
                 'lang_tag' => 'en',
                 'message' => 'Password should contain symbols',
@@ -886,7 +886,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34110,
                 'lang_tag' => 'en',
                 'message' => 'Email that do not support the domain',
@@ -895,7 +895,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34111,
                 'lang_tag' => 'en',
                 'message' => 'Account password or verification code cannot be empty',
@@ -904,7 +904,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34201,
                 'lang_tag' => 'en',
                 'message' => 'This registration channel has been closed and account registration through this function is prohibited',
@@ -913,7 +913,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34202,
                 'lang_tag' => 'en',
                 'message' => 'Registration with Email not supported',
@@ -922,7 +922,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34203,
                 'lang_tag' => 'en',
                 'message' => 'Registration with mobile phone number not supported',
@@ -931,7 +931,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34204,
                 'lang_tag' => 'en',
                 'message' => 'The account has registered',
@@ -940,7 +940,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34205,
                 'lang_tag' => 'en',
                 'message' => 'Email has been used',
@@ -949,7 +949,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34206,
                 'lang_tag' => 'en',
                 'message' => 'Phone number has been used',
@@ -958,7 +958,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34301,
                 'lang_tag' => 'en',
                 'message' => 'Account not exist',
@@ -967,7 +967,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34302,
                 'lang_tag' => 'en',
                 'message' => 'Email not exist',
@@ -976,7 +976,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34303,
                 'lang_tag' => 'en',
                 'message' => 'Phone number not exist',
@@ -985,7 +985,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34304,
                 'lang_tag' => 'en',
                 'message' => 'Incorrect account password',
@@ -994,7 +994,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34305,
                 'lang_tag' => 'en',
                 'message' => 'Incorrect account or wrong password',
@@ -1003,7 +1003,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34306,
                 'lang_tag' => 'en',
                 'message' => 'The error has exceeded the system limit. Please log in again 1 hour later',
@@ -1012,7 +1012,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34307,
                 'lang_tag' => 'en',
                 'message' => 'Current account has been banned',
@@ -1021,7 +1021,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34308,
                 'lang_tag' => 'en',
                 'message' => 'The account has been logged out',
@@ -1030,7 +1030,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34401,
                 'lang_tag' => 'en',
                 'message' => 'Email bound',
@@ -1039,7 +1039,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34402,
                 'lang_tag' => 'en',
                 'message' => 'Phone bound',
@@ -1048,7 +1048,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34403,
                 'lang_tag' => 'en',
                 'message' => 'Connect account error',
@@ -1057,7 +1057,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34404,
                 'lang_tag' => 'en',
                 'message' => 'Connect token is disabled',
@@ -1066,7 +1066,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34501,
                 'lang_tag' => 'en',
                 'message' => 'Account wallet not exist or has been banned',
@@ -1075,7 +1075,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34502,
                 'lang_tag' => 'en',
                 'message' => 'Account wallet password is incorrect',
@@ -1084,7 +1084,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34503,
                 'lang_tag' => 'en',
                 'message' => 'The counterparty wallet not exist or has been banned',
@@ -1093,7 +1093,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34504,
                 'lang_tag' => 'en',
                 'message' => 'Wallet balance is not allowed to make payment',
@@ -1102,7 +1102,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34505,
                 'lang_tag' => 'en',
                 'message' => 'The counterparty wallet balance is not allowed to make payment',
@@ -1111,7 +1111,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34506,
                 'lang_tag' => 'en',
                 'message' => 'The closing balance not match with the wallet limit',
@@ -1120,7 +1120,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34507,
                 'lang_tag' => 'en',
                 'message' => 'The closing balance of the counterparty does not match with the wallet limit',
@@ -1129,7 +1129,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35101,
                 'lang_tag' => 'en',
                 'message' => 'Could only be modified once within the specified number of days',
@@ -1138,7 +1138,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35102,
                 'lang_tag' => 'en',
                 'message' => 'Your username can only contain letters, numbers and single hyphens',
@@ -1147,7 +1147,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35103,
                 'lang_tag' => 'en',
                 'message' => 'Username length incorrect',
@@ -1156,7 +1156,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35104,
                 'lang_tag' => 'en',
                 'message' => 'Username does not meet the minimum length requirement',
@@ -1165,7 +1165,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35105,
                 'lang_tag' => 'en',
                 'message' => 'That username has been taken. Please choose another.',
@@ -1174,7 +1174,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35106,
                 'lang_tag' => 'en',
                 'message' => 'The username contains block words',
@@ -1183,7 +1183,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35107,
                 'lang_tag' => 'en',
                 'message' => 'Consider using a nickname without special characters so it’s accessible to even more people, including people who are blind or have low vision.',
@@ -1192,7 +1192,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35108,
                 'lang_tag' => 'en',
                 'message' => 'Nickname length incorrect',
@@ -1201,7 +1201,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35109,
                 'lang_tag' => 'en',
                 'message' => 'Nickname does not meet the minimum length requirement',
@@ -1210,7 +1210,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35110,
                 'lang_tag' => 'en',
                 'message' => 'The nickname contains block words',
@@ -1219,7 +1219,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35111,
                 'lang_tag' => 'en',
                 'message' => 'That nickname has been taken. Please choose another.',
@@ -1228,7 +1228,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35201,
                 'lang_tag' => 'en',
                 'message' => 'Current user not exist or not belong to the current account',
@@ -1237,7 +1237,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35202,
                 'lang_tag' => 'en',
                 'message' => 'Current user has been banned',
@@ -1246,7 +1246,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35203,
                 'lang_tag' => 'en',
                 'message' => 'The user has been logged out',
@@ -1255,7 +1255,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35204,
                 'lang_tag' => 'en',
                 'message' => 'Incorrect password',
@@ -1264,7 +1264,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35301,
                 'lang_tag' => 'en',
                 'message' => 'Current user has no right to request',
@@ -1273,7 +1273,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35302,
                 'lang_tag' => 'en',
                 'message' => 'The user has expired and has no right to use the function',
@@ -1282,7 +1282,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35303,
                 'lang_tag' => 'en',
                 'message' => 'User has expired and is not entitled to view current content',
@@ -1291,7 +1291,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35304,
                 'lang_tag' => 'en',
                 'message' => 'The content belongs to the new content after the expiration date, the current user has expired and does not have the right to view',
@@ -1300,7 +1300,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35305,
                 'lang_tag' => 'en',
                 'message' => 'You cannot specify a user to view the content',
@@ -1309,7 +1309,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35306,
                 'lang_tag' => 'en',
                 'message' => 'The system has been opened in private mode, the current user has no authorization information',
@@ -1318,7 +1318,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36100,
                 'lang_tag' => 'en',
                 'message' => 'Wrong role or record not exist',
@@ -1327,7 +1327,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36101,
                 'lang_tag' => 'en',
                 'message' => 'Current role not configured with permissions. Please contact the administrator to confirm.',
@@ -1336,7 +1336,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36102,
                 'lang_tag' => 'en',
                 'message' => 'Current role has no right to make request',
@@ -1345,7 +1345,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36103,
                 'lang_tag' => 'en',
                 'message' => 'Current role has no right to browse',
@@ -1354,7 +1354,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36104,
                 'lang_tag' => 'en',
                 'message' => 'Current role has no right to publish content',
@@ -1363,7 +1363,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36105,
                 'lang_tag' => 'en',
                 'message' => 'There is a time limit for the current role to publish content. Please try again within specific time',
@@ -1372,7 +1372,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36106,
                 'lang_tag' => 'en',
                 'message' => 'Current role has to have an email bound before publishing content',
@@ -1381,7 +1381,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36107,
                 'lang_tag' => 'en',
                 'message' => 'Current role has to have a mobile phone number bound before publishing content',
@@ -1390,7 +1390,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36108,
                 'lang_tag' => 'en',
                 'message' => 'Real-name verification is required for current role to publish content',
@@ -1399,7 +1399,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36109,
                 'lang_tag' => 'en',
                 'message' => 'Current role has no right to upload images',
@@ -1408,7 +1408,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36110,
                 'lang_tag' => 'en',
                 'message' => 'Current role has no right to upload videos',
@@ -1417,7 +1417,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36111,
                 'lang_tag' => 'en',
                 'message' => 'Current role has no right to upload audios',
@@ -1426,7 +1426,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36112,
                 'lang_tag' => 'en',
                 'message' => 'Current role has no right to upload files',
@@ -1435,7 +1435,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36113,
                 'lang_tag' => 'en',
                 'message' => 'File size exceeds the set limit',
@@ -1444,7 +1444,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36114,
                 'lang_tag' => 'en',
                 'message' => 'File time length exceeds the set limit',
@@ -1453,7 +1453,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36115,
                 'lang_tag' => 'en',
                 'message' => 'The number of files exceeds the set limit',
@@ -1462,7 +1462,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36116,
                 'lang_tag' => 'en',
                 'message' => 'Current role has no conversation message permission',
@@ -1471,7 +1471,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36117,
                 'lang_tag' => 'en',
                 'message' => 'The current role has reached the upper limit of today download, please download again tomorrow.',
@@ -1480,7 +1480,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36118,
                 'lang_tag' => 'en',
                 'message' => 'The current number of characters has reached the maximum number and cannot be added',
@@ -1489,7 +1489,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36119,
                 'lang_tag' => 'en',
                 'message' => 'Publish too fast, please post again at intervals. Please check the current role settings for details',
@@ -1498,7 +1498,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36120,
                 'lang_tag' => 'en',
                 'message' => 'The daily publish limit has been reached, please publish again tomorrow',
@@ -1507,7 +1507,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36200,
                 'lang_tag' => 'en',
                 'message' => 'This feature is not open and cannot be operated',
@@ -1516,7 +1516,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36201,
                 'lang_tag' => 'en',
                 'message' => 'The content is not open and cannot be viewed',
@@ -1525,7 +1525,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36202,
                 'lang_tag' => 'en',
                 'message' => 'Cannot operate on yourself or your published content',
@@ -1534,7 +1534,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36300,
                 'lang_tag' => 'en',
                 'message' => 'Only the specified method of publication is supported, and this interface prohibits requests',
@@ -1543,7 +1543,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36301,
                 'lang_tag' => 'en',
                 'message' => 'Please have your email bound before publishing content',
@@ -1552,7 +1552,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36302,
                 'lang_tag' => 'en',
                 'message' => 'Please have your mobile phone number bound before publishing content',
@@ -1561,7 +1561,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36303,
                 'lang_tag' => 'en',
                 'message' => 'Please go through the real-name verification process before publishing content',
@@ -1570,7 +1570,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36304,
                 'lang_tag' => 'en',
                 'message' => 'The system has time limit for content publishing. Please try again within specified time',
@@ -1579,7 +1579,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36305,
                 'lang_tag' => 'en',
                 'message' => 'Post cannot be edited after publication',
@@ -1588,7 +1588,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36306,
                 'lang_tag' => 'en',
                 'message' => 'Comment can not be edited after posting',
@@ -1597,7 +1597,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36307,
                 'lang_tag' => 'en',
                 'message' => 'Editing not allowed for top contents',
@@ -1606,7 +1606,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36308,
                 'lang_tag' => 'en',
                 'message' => 'Editing not allowed for highlighted contents',
@@ -1615,7 +1615,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36309,
                 'lang_tag' => 'en',
                 'message' => 'Editable time expired',
@@ -1624,7 +1624,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36310,
                 'lang_tag' => 'en',
                 'message' => 'This type of file can not be uploaded',
@@ -1633,7 +1633,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36311,
                 'lang_tag' => 'en',
                 'message' => 'Current user does not have the post permission of the group',
@@ -1642,7 +1642,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36312,
                 'lang_tag' => 'en',
                 'message' => 'Current user does not have the comment permission of the group.',
@@ -1651,7 +1651,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36313,
                 'lang_tag' => 'en',
                 'message' => 'This comment type does not allow editing',
@@ -1660,7 +1660,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36400,
                 'lang_tag' => 'en',
                 'message' => 'Failed to delete. Content error or not exist',
@@ -1669,7 +1669,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36401,
                 'lang_tag' => 'en',
                 'message' => 'The content can not be deleted',
@@ -1678,7 +1678,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36402,
                 'lang_tag' => 'en',
                 'message' => 'The resource is being used and deletion is not allowed',
@@ -1687,7 +1687,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36403,
                 'lang_tag' => 'en',
                 'message' => 'You can only delete your own content',
@@ -1696,7 +1696,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36404,
                 'lang_tag' => 'en',
                 'message' => 'Not allowed to delete in the review, please withdraw the review and then delete',
@@ -1705,7 +1705,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36405,
                 'lang_tag' => 'en',
                 'message' => 'Content has been published, the draft can no longer operate, if you need to delete please delete the published content',
@@ -1714,7 +1714,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36500,
                 'lang_tag' => 'en',
                 'message' => 'Operation failed. Please confirm that you are the author',
@@ -1723,7 +1723,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36501,
                 'lang_tag' => 'en',
                 'message' => 'There is no need to withdraw the content, for it is not being reviewed',
@@ -1732,7 +1732,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36600,
                 'lang_tag' => 'en',
                 'message' => 'Conversation function is not enabled and cannot be used',
@@ -1741,7 +1741,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36601,
                 'lang_tag' => 'en',
                 'message' => 'Conversation exception or non-existent',
@@ -1750,7 +1750,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36602,
                 'lang_tag' => 'en',
                 'message' => 'The conversation does not belong to the current user',
@@ -1759,7 +1759,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36603,
                 'lang_tag' => 'en',
                 'message' => 'You can not send messages to yourself',
@@ -1768,7 +1768,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36604,
                 'lang_tag' => 'en',
                 'message' => 'Each message should be either [file] or [text]',
@@ -1777,7 +1777,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36605,
                 'lang_tag' => 'en',
                 'message' => 'The message could not be sent for the block words it contains',
@@ -1786,7 +1786,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36606,
                 'lang_tag' => 'en',
                 'message' => 'The user they set that only the users he follows can send messages',
@@ -1795,7 +1795,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36607,
                 'lang_tag' => 'en',
                 'message' => 'The user they set that only the users he follows and the verified users can send messages',
@@ -1804,7 +1804,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36608,
                 'lang_tag' => 'en',
                 'message' => 'The other party they set the conversation off function',
@@ -1813,7 +1813,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36609,
                 'lang_tag' => 'en',
                 'message' => 'Only your own conversation messages could be deleted.',
@@ -1822,7 +1822,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36700,
                 'lang_tag' => 'en',
                 'message' => 'Notification exception or non-existent',
@@ -1831,7 +1831,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36701,
                 'lang_tag' => 'en',
                 'message' => 'The notification does not belong to the current user',
@@ -1840,7 +1840,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36702,
                 'lang_tag' => 'en',
                 'message' => 'Only your own notification messages could be deleted.',
@@ -1849,7 +1849,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37100,
                 'lang_tag' => 'en',
                 'message' => 'Wrong group or record not exist',
@@ -1858,7 +1858,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37101,
                 'lang_tag' => 'en',
                 'message' => 'Group has been banned',
@@ -1867,7 +1867,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37102,
                 'lang_tag' => 'en',
                 'message' => 'Only members can view this group.',
@@ -1876,7 +1876,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37103,
                 'lang_tag' => 'en',
                 'message' => 'Only members can see who\'s in the group and what they post.',
@@ -1885,7 +1885,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37104,
                 'lang_tag' => 'en',
                 'message' => 'The current user has been banned from viewing the content of this group',
@@ -1894,7 +1894,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37105,
                 'lang_tag' => 'en',
                 'message' => 'Service has expired, cannot browse and interact within this group',
@@ -1903,7 +1903,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37106,
                 'lang_tag' => 'en',
                 'message' => 'Service has expired, can\'t view new content',
@@ -1912,7 +1912,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37200,
                 'lang_tag' => 'en',
                 'message' => 'Wrong hashtag or record not exist',
@@ -1921,7 +1921,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37201,
                 'lang_tag' => 'en',
                 'message' => 'Hashtag has been banned',
@@ -1930,7 +1930,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37300,
                 'lang_tag' => 'en',
                 'message' => 'Wrong post or record not exist',
@@ -1939,7 +1939,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37301,
                 'lang_tag' => 'en',
                 'message' => 'Post has been banned',
@@ -1948,7 +1948,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37302,
                 'lang_tag' => 'en',
                 'message' => 'Wrong post log or record not exist',
@@ -1957,7 +1957,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37303,
                 'lang_tag' => 'en',
                 'message' => 'The content could not be accessed without authorization',
@@ -1966,7 +1966,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37400,
                 'lang_tag' => 'en',
                 'message' => 'Wrong comment or record not exist',
@@ -1975,7 +1975,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37401,
                 'lang_tag' => 'en',
                 'message' => 'Comment has been banned',
@@ -1984,7 +1984,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37402,
                 'lang_tag' => 'en',
                 'message' => 'Wrong comment log or record not exist',
@@ -1993,7 +1993,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37403,
                 'lang_tag' => 'en',
                 'message' => 'Comments are only visible to the author of the post',
@@ -2002,7 +2002,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37404,
                 'lang_tag' => 'en',
                 'message' => 'The post has timed out and no longer shows comments',
@@ -2011,7 +2011,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37500,
                 'lang_tag' => 'en',
                 'message' => 'Wrong file or record not exist',
@@ -2020,7 +2020,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37501,
                 'lang_tag' => 'en',
                 'message' => 'File has been banned',
@@ -2029,7 +2029,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37600,
                 'lang_tag' => 'en',
                 'message' => 'Wrong extend content or record not exist',
@@ -2038,7 +2038,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37601,
                 'lang_tag' => 'en',
                 'message' => 'Extend has been banned',
@@ -2047,7 +2047,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38100,
                 'lang_tag' => 'en',
                 'message' => 'Draft ID is incorrect or does not exist',
@@ -2056,7 +2056,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38101,
                 'lang_tag' => 'en',
                 'message' => 'The content is being reviewed and can not be edited',
@@ -2065,7 +2065,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38102,
                 'lang_tag' => 'en',
                 'message' => 'The content has been published and can not be edited',
@@ -2074,7 +2074,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38103,
                 'lang_tag' => 'en',
                 'message' => 'Content being reviewed can not be submitted again',
@@ -2083,7 +2083,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38104,
                 'lang_tag' => 'en',
                 'message' => 'Content being published can not be submitted again',
@@ -2092,7 +2092,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38105,
                 'lang_tag' => 'en',
                 'message' => 'Failed to create draft comment. Only first-level comment can create draft',
@@ -2101,7 +2101,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38106,
                 'lang_tag' => 'en',
                 'message' => 'Draft creation failed, draft box is full, please organize and create again',
@@ -2110,7 +2110,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38107,
                 'lang_tag' => 'en',
                 'message' => 'Comment failed, belongs to the post or has been deleted',
@@ -2119,7 +2119,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38108,
                 'lang_tag' => 'en',
                 'message' => 'Comment failed, the post belongs to the comment function has been closed',
@@ -2128,7 +2128,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38200,
                 'lang_tag' => 'en',
                 'message' => 'Content has been submitted, pending review and approval before official publication',
@@ -2137,7 +2137,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38201,
                 'lang_tag' => 'en',
                 'message' => 'The existence of content to be audited, the system does not allow the simultaneous submission of two pieces of content for review, to be submitted after the end of the audit',
@@ -2146,7 +2146,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38202,
                 'lang_tag' => 'en',
                 'message' => 'Title cannot be empty',
@@ -2155,7 +2155,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38203,
                 'lang_tag' => 'en',
                 'message' => 'The title is too long and has exceeded the length limit',
@@ -2164,7 +2164,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38204,
                 'lang_tag' => 'en',
                 'message' => 'The content cannot be empty, please write the content and then publish',
@@ -2173,7 +2173,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38205,
                 'lang_tag' => 'en',
                 'message' => 'The content is too long and has exceeded the length limit',
@@ -2182,7 +2182,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38206,
                 'lang_tag' => 'en',
                 'message' => 'There are banned words in the title, please modify it before publishing',
@@ -2191,7 +2191,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38207,
                 'lang_tag' => 'en',
                 'message' => 'There are banned words in the content, please revise before publishing',
@@ -2200,7 +2200,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38208,
                 'lang_tag' => 'en',
                 'message' => 'Group cannot be empty, please select group',
@@ -2209,7 +2209,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38209,
                 'lang_tag' => 'en',
                 'message' => 'The author has set only the users he follows to comment',
@@ -2218,7 +2218,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38210,
                 'lang_tag' => 'en',
                 'message' => 'The author has set only the users he follows and the verified users can comment',
@@ -2227,7 +2227,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38211,
                 'lang_tag' => 'en',
                 'message' => 'The author has turned off the comment function',
@@ -2236,7 +2236,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 0,
                 'lang_tag' => 'zh-Hans',
                 'message' => '成功',
@@ -2245,7 +2245,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 30000,
                 'lang_tag' => 'zh-Hans',
                 'message' => '参数格式错误',
@@ -2254,7 +2254,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 30001,
                 'lang_tag' => 'zh-Hans',
                 'message' => '参数缺失错误',
@@ -2263,7 +2263,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 30002,
                 'lang_tag' => 'zh-Hans',
                 'message' => '参数值不符合要求',
@@ -2272,7 +2272,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 30003,
                 'lang_tag' => 'zh-Hans',
                 'message' => '参数值不是有效 Json 数组格式',
@@ -2281,7 +2281,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 30004,
                 'lang_tag' => 'zh-Hans',
                 'message' => '参数值不是有效 Json 对象格式',
@@ -2290,7 +2290,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 30005,
                 'lang_tag' => 'zh-Hans',
                 'message' => '二选一参数值不可以两个都传参',
@@ -2299,7 +2299,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31000,
                 'lang_tag' => 'zh-Hans',
                 'message' => 'Header Error',
@@ -2308,7 +2308,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31101,
                 'lang_tag' => 'zh-Hans',
                 'message' => '平台 ID 不存在',
@@ -2317,7 +2317,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31102,
                 'lang_tag' => 'zh-Hans',
                 'message' => '平台 ID 与密钥不匹配',
@@ -2326,7 +2326,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31103,
                 'lang_tag' => 'zh-Hans',
                 'message' => '平台 ID 与账号或用户不匹配',
@@ -2335,7 +2335,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31201,
                 'lang_tag' => 'zh-Hans',
                 'message' => '版本号不存在',
@@ -2344,7 +2344,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31202,
                 'lang_tag' => 'zh-Hans',
                 'message' => '版本号与密钥不匹配',
@@ -2353,7 +2353,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31301,
                 'lang_tag' => 'zh-Hans',
                 'message' => 'App ID 不存在或已禁用',
@@ -2362,7 +2362,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31302,
                 'lang_tag' => 'zh-Hans',
                 'message' => '签名错误',
@@ -2371,7 +2371,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31303,
                 'lang_tag' => 'zh-Hans',
                 'message' => '签名已过期',
@@ -2380,7 +2380,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31304,
                 'lang_tag' => 'zh-Hans',
                 'message' => '该密钥无权请求本接口',
@@ -2389,7 +2389,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31401,
                 'lang_tag' => 'zh-Hans',
                 'message' => '语言标签不正确',
@@ -2398,7 +2398,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31402,
                 'lang_tag' => 'zh-Hans',
                 'message' => '时区不正确',
@@ -2407,7 +2407,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31501,
                 'lang_tag' => 'zh-Hans',
                 'message' => '账号未登录，无权操作',
@@ -2416,7 +2416,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31502,
                 'lang_tag' => 'zh-Hans',
                 'message' => '账号错误或者不存在',
@@ -2425,7 +2425,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31503,
                 'lang_tag' => 'zh-Hans',
                 'message' => '登录凭证丢失，请重新登录',
@@ -2434,7 +2434,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31504,
                 'lang_tag' => 'zh-Hans',
                 'message' => '登录凭证已失效，请重新登录',
@@ -2443,7 +2443,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31505,
                 'lang_tag' => 'zh-Hans',
                 'message' => '账号登录凭证错误或者不存在',
@@ -2452,7 +2452,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31601,
                 'lang_tag' => 'zh-Hans',
                 'message' => '用户未登录，无权操作',
@@ -2461,7 +2461,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31602,
                 'lang_tag' => 'zh-Hans',
                 'message' => '用户错误或者不存在',
@@ -2470,7 +2470,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31603,
                 'lang_tag' => 'zh-Hans',
                 'message' => '用户登录凭证错误或者不存在',
@@ -2479,7 +2479,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31701,
                 'lang_tag' => 'zh-Hans',
                 'message' => '无法获知设备信息',
@@ -2488,7 +2488,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31702,
                 'lang_tag' => 'zh-Hans',
                 'message' => '设备信息格式错误',
@@ -2497,7 +2497,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31703,
                 'lang_tag' => 'zh-Hans',
                 'message' => '设备信息中缺失 IP 信息',
@@ -2506,7 +2506,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32100,
                 'lang_tag' => 'zh-Hans',
                 'message' => '未配置服务商',
@@ -2515,7 +2515,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32101,
                 'lang_tag' => 'zh-Hans',
                 'message' => '服务商不存在',
@@ -2524,7 +2524,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32102,
                 'lang_tag' => 'zh-Hans',
                 'message' => '服务商未启用',
@@ -2533,7 +2533,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32103,
                 'lang_tag' => 'zh-Hans',
                 'message' => '服务商配置参数为空',
@@ -2542,7 +2542,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32104,
                 'lang_tag' => 'zh-Hans',
                 'message' => '存储服务商配置异常，暂时无法上传文件',
@@ -2551,7 +2551,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32201,
                 'lang_tag' => 'zh-Hans',
                 'message' => 'ID 错误或者记录不存在',
@@ -2560,7 +2560,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32202,
                 'lang_tag' => 'zh-Hans',
                 'message' => '数据异常，查询不到或者数据重复',
@@ -2569,7 +2569,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32203,
                 'lang_tag' => 'zh-Hans',
                 'message' => '记录已超时失效',
@@ -2578,7 +2578,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32204,
                 'lang_tag' => 'zh-Hans',
                 'message' => '记录已被使用过，请重新操作',
@@ -2587,7 +2587,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32301,
                 'lang_tag' => 'zh-Hans',
                 'message' => '服务商未响应',
@@ -2596,7 +2596,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32302,
                 'lang_tag' => 'zh-Hans',
                 'message' => '服务商处理失败',
@@ -2605,7 +2605,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32303,
                 'lang_tag' => 'zh-Hans',
                 'message' => '回调异常，查询不到或者数据记录错误',
@@ -2614,7 +2614,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32304,
                 'lang_tag' => 'zh-Hans',
                 'message' => '执行异常，文件丢失或者记录错误',
@@ -2623,7 +2623,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33100,
                 'lang_tag' => 'zh-Hans',
                 'message' => '该接口或该版本已被系统禁用，无法请求',
@@ -2632,7 +2632,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33101,
                 'lang_tag' => 'zh-Hans',
                 'message' => '私有模式禁止请求该接口',
@@ -2641,7 +2641,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33102,
                 'lang_tag' => 'zh-Hans',
                 'message' => '站点模式配置错误',
@@ -2650,7 +2650,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33200,
                 'lang_tag' => 'zh-Hans',
                 'message' => '验证码模板关闭或者不存在',
@@ -2659,7 +2659,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33201,
                 'lang_tag' => 'zh-Hans',
                 'message' => '发送验证码太频繁，请稍后再试',
@@ -2668,7 +2668,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33202,
                 'lang_tag' => 'zh-Hans',
                 'message' => '验证码不能为空',
@@ -2677,7 +2677,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33203,
                 'lang_tag' => 'zh-Hans',
                 'message' => '验证码不正确或验证码已过期',
@@ -2686,7 +2686,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33301,
                 'lang_tag' => 'zh-Hans',
                 'message' => '内容含有系统禁用词，请修改后再提交',
@@ -2695,7 +2695,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33302,
                 'lang_tag' => 'zh-Hans',
                 'message' => '内容长度超过系统上限，请删减后再提交',
@@ -2704,7 +2704,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33400,
                 'lang_tag' => 'zh-Hans',
                 'message' => 'IP 错误，不是有效 IP 地址',
@@ -2713,7 +2713,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33401,
                 'lang_tag' => 'zh-Hans',
                 'message' => 'IP 异常，查询不到详情信息',
@@ -2722,7 +2722,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33402,
                 'lang_tag' => 'zh-Hans',
                 'message' => '该 IP 查询不到详情信息',
@@ -2731,7 +2731,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33403,
                 'lang_tag' => 'zh-Hans',
                 'message' => '该 IP 已被禁用，系统无法提供服务',
@@ -2740,7 +2740,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33404,
                 'lang_tag' => 'zh-Hans',
                 'message' => 'IP 属地未知',
@@ -2749,7 +2749,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34101,
                 'lang_tag' => 'zh-Hans',
                 'message' => '邮箱格式不正确',
@@ -2758,7 +2758,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34102,
                 'lang_tag' => 'zh-Hans',
                 'message' => '手机号格式不正确',
@@ -2767,7 +2767,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34103,
                 'lang_tag' => 'zh-Hans',
                 'message' => '国际区号错误',
@@ -2776,7 +2776,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34104,
                 'lang_tag' => 'zh-Hans',
                 'message' => '两次输入的新密码不一致',
@@ -2785,7 +2785,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34105,
                 'lang_tag' => 'zh-Hans',
                 'message' => '密码长度不正确',
@@ -2794,7 +2794,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34106,
                 'lang_tag' => 'zh-Hans',
                 'message' => '密码应包含数字',
@@ -2803,7 +2803,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34107,
                 'lang_tag' => 'zh-Hans',
                 'message' => '密码应包含小写字母',
@@ -2812,7 +2812,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34108,
                 'lang_tag' => 'zh-Hans',
                 'message' => '密码应包含大写字母',
@@ -2821,7 +2821,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34109,
                 'lang_tag' => 'zh-Hans',
                 'message' => '密码应包含符号',
@@ -2830,7 +2830,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34110,
                 'lang_tag' => 'zh-Hans',
                 'message' => '不支持该域名的邮箱',
@@ -2839,7 +2839,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34111,
                 'lang_tag' => 'zh-Hans',
                 'message' => '账号密码或者验证码不能全部为空',
@@ -2848,7 +2848,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34201,
                 'lang_tag' => 'zh-Hans',
                 'message' => '该注册通道已关闭，禁止通过此功能注册账号',
@@ -2857,7 +2857,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34202,
                 'lang_tag' => 'zh-Hans',
                 'message' => '不支持邮箱注册',
@@ -2866,7 +2866,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34203,
                 'lang_tag' => 'zh-Hans',
                 'message' => '不支持手机号注册',
@@ -2875,7 +2875,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34204,
                 'lang_tag' => 'zh-Hans',
                 'message' => '该账号已注册',
@@ -2884,7 +2884,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34205,
                 'lang_tag' => 'zh-Hans',
                 'message' => '邮箱已被使用',
@@ -2893,7 +2893,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34206,
                 'lang_tag' => 'zh-Hans',
                 'message' => '手机号已被使用',
@@ -2902,7 +2902,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34301,
                 'lang_tag' => 'zh-Hans',
                 'message' => '该账号不存在',
@@ -2911,7 +2911,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34302,
                 'lang_tag' => 'zh-Hans',
                 'message' => '邮箱不存在',
@@ -2920,7 +2920,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34303,
                 'lang_tag' => 'zh-Hans',
                 'message' => '手机号不存在',
@@ -2929,7 +2929,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34304,
                 'lang_tag' => 'zh-Hans',
                 'message' => '账号密码不正确',
@@ -2938,7 +2938,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34305,
                 'lang_tag' => 'zh-Hans',
                 'message' => '账号不正确或者密码错误',
@@ -2947,7 +2947,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34306,
                 'lang_tag' => 'zh-Hans',
                 'message' => '错误已超系统限制，请 1 小时后再登录',
@@ -2956,7 +2956,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34307,
                 'lang_tag' => 'zh-Hans',
                 'message' => '该账号已被禁用',
@@ -2965,7 +2965,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34308,
                 'lang_tag' => 'zh-Hans',
                 'message' => '该账号已注销',
@@ -2974,7 +2974,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34401,
                 'lang_tag' => 'zh-Hans',
                 'message' => '已绑定邮箱',
@@ -2983,7 +2983,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34402,
                 'lang_tag' => 'zh-Hans',
                 'message' => '已绑定手机',
@@ -2992,7 +2992,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34403,
                 'lang_tag' => 'zh-Hans',
                 'message' => '互联账号已存在',
@@ -3001,7 +3001,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34404,
                 'lang_tag' => 'zh-Hans',
                 'message' => '互联凭证已禁用',
@@ -3010,7 +3010,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34501,
                 'lang_tag' => 'zh-Hans',
                 'message' => '账号钱包不存在或者已禁用',
@@ -3019,7 +3019,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34502,
                 'lang_tag' => 'zh-Hans',
                 'message' => '账号钱包密码不正确',
@@ -3028,7 +3028,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34503,
                 'lang_tag' => 'zh-Hans',
                 'message' => '对方钱包不存在或者已禁用',
@@ -3037,7 +3037,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34504,
                 'lang_tag' => 'zh-Hans',
                 'message' => '钱包余额不允许支付',
@@ -3046,7 +3046,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34505,
                 'lang_tag' => 'zh-Hans',
                 'message' => '对方钱包余额不足',
@@ -3055,7 +3055,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34506,
                 'lang_tag' => 'zh-Hans',
                 'message' => '期末余额和钱包额度不匹配',
@@ -3064,7 +3064,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34507,
                 'lang_tag' => 'zh-Hans',
                 'message' => '对方期末余额和钱包额度不匹配',
@@ -3073,7 +3073,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35101,
                 'lang_tag' => 'zh-Hans',
                 'message' => '指定天数内只能修改一次',
@@ -3082,7 +3082,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35102,
                 'lang_tag' => 'zh-Hans',
                 'message' => '用户名格式错误，请勿使用特殊字符',
@@ -3091,7 +3091,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35103,
                 'lang_tag' => 'zh-Hans',
                 'message' => '用户名长度超出限制',
@@ -3100,7 +3100,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35104,
                 'lang_tag' => 'zh-Hans',
                 'message' => '用户名未达到最小长度要求',
@@ -3109,7 +3109,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35105,
                 'lang_tag' => 'zh-Hans',
                 'message' => '用户名已被使用',
@@ -3118,7 +3118,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35106,
                 'lang_tag' => 'zh-Hans',
                 'message' => '用户名存在禁用词',
@@ -3127,7 +3127,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35107,
                 'lang_tag' => 'zh-Hans',
                 'message' => '昵称格式错误，请勿使用特殊字符',
@@ -3136,7 +3136,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35108,
                 'lang_tag' => 'zh-Hans',
                 'message' => '昵称长度超出限制',
@@ -3145,7 +3145,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35109,
                 'lang_tag' => 'zh-Hans',
                 'message' => '昵称未达到最小长度要求',
@@ -3154,7 +3154,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35110,
                 'lang_tag' => 'zh-Hans',
                 'message' => '昵称存在禁用词',
@@ -3163,7 +3163,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35111,
                 'lang_tag' => 'zh-Hans',
                 'message' => '昵称已被使用',
@@ -3172,7 +3172,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35201,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前用户不存在或者不属于当前账号',
@@ -3181,7 +3181,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35202,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前用户已被禁用',
@@ -3190,7 +3190,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35203,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前用户已注销',
@@ -3199,7 +3199,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35204,
                 'lang_tag' => 'zh-Hans',
                 'message' => '用户登录密码不正确',
@@ -3208,7 +3208,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35301,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前用户无权请求',
@@ -3217,7 +3217,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35302,
                 'lang_tag' => 'zh-Hans',
                 'message' => '用户已过期，无权操作该功能',
@@ -3226,7 +3226,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35303,
                 'lang_tag' => 'zh-Hans',
                 'message' => '用户已过期，无权查看当前内容',
@@ -3235,7 +3235,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35304,
                 'lang_tag' => 'zh-Hans',
                 'message' => '该内容属于过期后的新内容，当前用户已过期，无权浏览',
@@ -3244,7 +3244,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35305,
                 'lang_tag' => 'zh-Hans',
                 'message' => '无法指定用户查看内容',
@@ -3253,7 +3253,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35306,
                 'lang_tag' => 'zh-Hans',
                 'message' => '系统已开启私有模式，当前用户暂无授权信息',
@@ -3262,7 +3262,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36100,
                 'lang_tag' => 'zh-Hans',
                 'message' => '角色错误或者不存在',
@@ -3271,7 +3271,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36101,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前角色未配置权限，请联系管理员确认',
@@ -3280,7 +3280,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36102,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前角色无权请求',
@@ -3289,7 +3289,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36103,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前角色无权浏览',
@@ -3298,7 +3298,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36104,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前角色无权发表',
@@ -3307,7 +3307,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36105,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前角色发表内容有时间限制，请在规定的时间内再发表',
@@ -3316,7 +3316,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36106,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前角色发表内容需要先绑定邮箱',
@@ -3325,7 +3325,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36107,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前角色发表内容需要先绑定手机号',
@@ -3334,7 +3334,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36108,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前角色发表内容需要先实名制认证',
@@ -3343,7 +3343,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36109,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前角色无权上传图片',
@@ -3352,7 +3352,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36110,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前角色无权上传视频',
@@ -3361,7 +3361,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36111,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前角色无权上传音频',
@@ -3370,7 +3370,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36112,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前角色无权上传文档',
@@ -3379,7 +3379,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36113,
                 'lang_tag' => 'zh-Hans',
                 'message' => '文件尺寸超出设置的限制',
@@ -3388,7 +3388,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36114,
                 'lang_tag' => 'zh-Hans',
                 'message' => '文件时长超出设置的限制',
@@ -3397,7 +3397,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36115,
                 'lang_tag' => 'zh-Hans',
                 'message' => '文件数量超出设置的限制',
@@ -3406,7 +3406,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36116,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前角色无私信权限',
@@ -3415,7 +3415,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36117,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前角色已经达到今天下载次数上限，请明天再下载',
@@ -3424,7 +3424,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36118,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前角色已经达到上限数量，无法再添加',
@@ -3433,7 +3433,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36119,
                 'lang_tag' => 'zh-Hans',
                 'message' => '发表太快，请间隔一段时间再发。详情请查看当前角色的设置',
@@ -3442,7 +3442,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36120,
                 'lang_tag' => 'zh-Hans',
                 'message' => '发表已达每日上限，请明天再发表',
@@ -3451,7 +3451,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36200,
                 'lang_tag' => 'zh-Hans',
                 'message' => '该功能未开启，无法操作',
@@ -3460,7 +3460,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36201,
                 'lang_tag' => 'zh-Hans',
                 'message' => '该内容未开放，无法浏览',
@@ -3469,7 +3469,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36202,
                 'lang_tag' => 'zh-Hans',
                 'message' => '不能对自己或自己发表的内容操作',
@@ -3478,7 +3478,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36300,
                 'lang_tag' => 'zh-Hans',
                 'message' => '仅支持指定方式发表，本接口禁止请求',
@@ -3487,7 +3487,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36301,
                 'lang_tag' => 'zh-Hans',
                 'message' => '发表内容需要先绑定邮箱',
@@ -3496,7 +3496,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36302,
                 'lang_tag' => 'zh-Hans',
                 'message' => '发表内容需要先绑定手机号',
@@ -3505,7 +3505,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36303,
                 'lang_tag' => 'zh-Hans',
                 'message' => '发表内容需要先实名制认证',
@@ -3514,7 +3514,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36304,
                 'lang_tag' => 'zh-Hans',
                 'message' => '系统已经开启发表时间限制，请在规定的时间内再发表',
@@ -3523,7 +3523,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36305,
                 'lang_tag' => 'zh-Hans',
                 'message' => '帖子发表后不可再编辑',
@@ -3532,7 +3532,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36306,
                 'lang_tag' => 'zh-Hans',
                 'message' => '评论发表后不可再编辑',
@@ -3541,7 +3541,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36307,
                 'lang_tag' => 'zh-Hans',
                 'message' => '置顶后不允许编辑',
@@ -3550,7 +3550,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36308,
                 'lang_tag' => 'zh-Hans',
                 'message' => '加精后不允许编辑',
@@ -3559,7 +3559,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36309,
                 'lang_tag' => 'zh-Hans',
                 'message' => '超出可编辑时间',
@@ -3568,7 +3568,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36310,
                 'lang_tag' => 'zh-Hans',
                 'message' => '该文件类型不在允许上传的范围内',
@@ -3577,7 +3577,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36311,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前用户无权在该小组发帖',
@@ -3586,7 +3586,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36312,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前用户无权在该小组评论',
@@ -3595,7 +3595,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36313,
                 'lang_tag' => 'zh-Hans',
                 'message' => '该评论类型不允许编辑',
@@ -3604,7 +3604,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36400,
                 'lang_tag' => 'zh-Hans',
                 'message' => '删除失败，内容错误或者不存在',
@@ -3613,7 +3613,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36401,
                 'lang_tag' => 'zh-Hans',
                 'message' => '该内容不允许删除',
@@ -3622,7 +3622,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36402,
                 'lang_tag' => 'zh-Hans',
                 'message' => '该资源正在被使用，不允许删除',
@@ -3631,7 +3631,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36403,
                 'lang_tag' => 'zh-Hans',
                 'message' => '只能删除自己的内容',
@@ -3640,7 +3640,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36404,
                 'lang_tag' => 'zh-Hans',
                 'message' => '正在审核中不允许删除，请撤销审核再删除',
@@ -3649,7 +3649,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36405,
                 'lang_tag' => 'zh-Hans',
                 'message' => '内容已发表，草稿不可再操作，如需删除请删除发表内容',
@@ -3658,7 +3658,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36500,
                 'lang_tag' => 'zh-Hans',
                 'message' => '操作失败，内容不属于当前用户',
@@ -3667,7 +3667,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36501,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前内容并非审核状态，无需撤回',
@@ -3676,7 +3676,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36600,
                 'lang_tag' => 'zh-Hans',
                 'message' => '对话功能未启用，无法使用',
@@ -3685,7 +3685,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36601,
                 'lang_tag' => 'zh-Hans',
                 'message' => '对话异常或者不存在',
@@ -3694,7 +3694,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36602,
                 'lang_tag' => 'zh-Hans',
                 'message' => '该对话不属于当前用户',
@@ -3703,7 +3703,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36603,
                 'lang_tag' => 'zh-Hans',
                 'message' => '自己不能给自己发送消息',
@@ -3712,7 +3712,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36604,
                 'lang_tag' => 'zh-Hans',
                 'message' => '单个消息只能「文件」或「文本」二选一',
@@ -3721,7 +3721,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36605,
                 'lang_tag' => 'zh-Hans',
                 'message' => '消息文本中含有禁用词，不能发送',
@@ -3730,7 +3730,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36606,
                 'lang_tag' => 'zh-Hans',
                 'message' => '用户已设置仅他关注的人可以发送消息',
@@ -3739,7 +3739,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36607,
                 'lang_tag' => 'zh-Hans',
                 'message' => '用户已设置仅他关注的人和认证用户可以发送消息',
@@ -3748,7 +3748,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36608,
                 'lang_tag' => 'zh-Hans',
                 'message' => '用户已关闭对话功能',
@@ -3757,7 +3757,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36609,
                 'lang_tag' => 'zh-Hans',
                 'message' => '只能删除自己的对话消息',
@@ -3766,7 +3766,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36700,
                 'lang_tag' => 'zh-Hans',
                 'message' => '通知异常或者不存在',
@@ -3775,7 +3775,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36701,
                 'lang_tag' => 'zh-Hans',
                 'message' => '该通知不属于当前用户',
@@ -3784,7 +3784,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36702,
                 'lang_tag' => 'zh-Hans',
                 'message' => '只能删除自己的通知消息',
@@ -3793,7 +3793,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37100,
                 'lang_tag' => 'zh-Hans',
                 'message' => '小组错误或者不存在',
@@ -3802,7 +3802,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37101,
                 'lang_tag' => 'zh-Hans',
                 'message' => '小组已被禁用',
@@ -3811,7 +3811,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37102,
                 'lang_tag' => 'zh-Hans',
                 'message' => '只有小组成员才能查看小组',
@@ -3820,7 +3820,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37103,
                 'lang_tag' => 'zh-Hans',
                 'message' => '只有小组成员才能查看小组内帖子',
@@ -3829,7 +3829,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37104,
                 'lang_tag' => 'zh-Hans',
                 'message' => '当前用户已被禁止查看本小组内容',
@@ -3838,7 +3838,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37105,
                 'lang_tag' => 'zh-Hans',
                 'message' => '服务已到期，不能在本小组内浏览和互动',
@@ -3847,7 +3847,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37106,
                 'lang_tag' => 'zh-Hans',
                 'message' => '服务已到期，无法浏览新内容',
@@ -3856,7 +3856,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37200,
                 'lang_tag' => 'zh-Hans',
                 'message' => '话题错误或者不存在',
@@ -3865,7 +3865,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37201,
                 'lang_tag' => 'zh-Hans',
                 'message' => '话题已被禁用',
@@ -3874,7 +3874,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37300,
                 'lang_tag' => 'zh-Hans',
                 'message' => '帖子错误或者不存在',
@@ -3883,7 +3883,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37301,
                 'lang_tag' => 'zh-Hans',
                 'message' => '帖子已被禁用',
@@ -3892,7 +3892,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37302,
                 'lang_tag' => 'zh-Hans',
                 'message' => '帖子日志错误或者不存在',
@@ -3901,7 +3901,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37303,
                 'lang_tag' => 'zh-Hans',
                 'message' => '该内容需要授权后才能浏览',
@@ -3910,7 +3910,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37400,
                 'lang_tag' => 'zh-Hans',
                 'message' => '评论错误或者不存在',
@@ -3919,7 +3919,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37401,
                 'lang_tag' => 'zh-Hans',
                 'message' => '评论已被禁用',
@@ -3928,7 +3928,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37402,
                 'lang_tag' => 'zh-Hans',
                 'message' => '评论日志错误或者不存在',
@@ -3937,7 +3937,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37403,
                 'lang_tag' => 'zh-Hans',
                 'message' => '评论仅限帖子作者可见',
@@ -3946,7 +3946,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37404,
                 'lang_tag' => 'zh-Hans',
                 'message' => '帖子已超时，不再显示评论',
@@ -3955,7 +3955,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37500,
                 'lang_tag' => 'zh-Hans',
                 'message' => '文件错误或者不存在',
@@ -3964,7 +3964,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37501,
                 'lang_tag' => 'zh-Hans',
                 'message' => '文件已被禁用',
@@ -3973,7 +3973,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37600,
                 'lang_tag' => 'zh-Hans',
                 'message' => '扩展错误或者不存在',
@@ -3982,7 +3982,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37601,
                 'lang_tag' => 'zh-Hans',
                 'message' => '扩展已被禁用',
@@ -3991,7 +3991,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38100,
                 'lang_tag' => 'zh-Hans',
                 'message' => '草稿 ID 错误或者不存在',
@@ -4000,7 +4000,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38101,
                 'lang_tag' => 'zh-Hans',
                 'message' => '内容审核中不可编辑',
@@ -4009,7 +4009,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38102,
                 'lang_tag' => 'zh-Hans',
                 'message' => '内容已正式发表不可编辑',
@@ -4018,7 +4018,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38103,
                 'lang_tag' => 'zh-Hans',
                 'message' => '处于审核状态的内容不可再提交',
@@ -4027,7 +4027,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38104,
                 'lang_tag' => 'zh-Hans',
                 'message' => '处于发布状态的内容不可再提交',
@@ -4036,7 +4036,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38105,
                 'lang_tag' => 'zh-Hans',
                 'message' => '评论草稿创建失败，只有一级评论才能创建草稿',
@@ -4045,7 +4045,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38106,
                 'lang_tag' => 'zh-Hans',
                 'message' => '草稿创建失败，草稿箱已满，请整理后再创建',
@@ -4054,7 +4054,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38107,
                 'lang_tag' => 'zh-Hans',
                 'message' => '评论失败，所属帖子或已删除',
@@ -4063,7 +4063,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38108,
                 'lang_tag' => 'zh-Hans',
                 'message' => '评论失败，所属帖子已关闭评论功能',
@@ -4072,7 +4072,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38200,
                 'lang_tag' => 'zh-Hans',
                 'message' => '内容已提交，待审核通过后才能正式发表',
@@ -4081,7 +4081,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38201,
                 'lang_tag' => 'zh-Hans',
                 'message' => '存在待审核内容，系统不允许同时提交审核两篇内容，待审核结束后再提交',
@@ -4090,7 +4090,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38202,
                 'lang_tag' => 'zh-Hans',
                 'message' => '标题不能为空',
@@ -4099,7 +4099,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38203,
                 'lang_tag' => 'zh-Hans',
                 'message' => '标题过长，已超出限制长度',
@@ -4108,7 +4108,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38204,
                 'lang_tag' => 'zh-Hans',
                 'message' => '内容不能为空，请撰写内容后再发表',
@@ -4117,7 +4117,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38205,
                 'lang_tag' => 'zh-Hans',
                 'message' => '内容过长，已超出限制长度',
@@ -4126,7 +4126,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38206,
                 'lang_tag' => 'zh-Hans',
                 'message' => '标题存在禁用词，请修改后再发表',
@@ -4135,7 +4135,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38207,
                 'lang_tag' => 'zh-Hans',
                 'message' => '内容存在禁用词，请修改后再发表',
@@ -4144,7 +4144,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38208,
                 'lang_tag' => 'zh-Hans',
                 'message' => '小组不能为空，请选择小组',
@@ -4153,7 +4153,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38209,
                 'lang_tag' => 'zh-Hans',
                 'message' => '作者已设置仅他关注的人可以评论',
@@ -4162,7 +4162,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38210,
                 'lang_tag' => 'zh-Hans',
                 'message' => '作者已设置仅他关注的人和认证用户可以评论',
@@ -4171,7 +4171,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38211,
                 'lang_tag' => 'zh-Hans',
                 'message' => '作者已关闭评论功能',
@@ -4180,7 +4180,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 0,
                 'lang_tag' => 'zh-Hant',
                 'message' => '成功',
@@ -4189,7 +4189,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 30000,
                 'lang_tag' => 'zh-Hant',
                 'message' => '參數格式錯誤',
@@ -4198,7 +4198,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 30001,
                 'lang_tag' => 'zh-Hant',
                 'message' => '參數缺失錯誤',
@@ -4207,7 +4207,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 30002,
                 'lang_tag' => 'zh-Hant',
                 'message' => '參數值不符合要求',
@@ -4216,7 +4216,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 30003,
                 'lang_tag' => 'zh-Hant',
                 'message' => '參數值不是有效 Json 數組格式',
@@ -4225,7 +4225,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 30004,
                 'lang_tag' => 'zh-Hant',
                 'message' => '參數值不是有效 Json 對象格式',
@@ -4234,7 +4234,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 30005,
                 'lang_tag' => 'zh-Hant',
                 'message' => '二選一參數值不可以兩個都傳參',
@@ -4243,7 +4243,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31000,
                 'lang_tag' => 'zh-Hant',
                 'message' => 'Header Error',
@@ -4252,7 +4252,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31101,
                 'lang_tag' => 'zh-Hant',
                 'message' => '平台 ID 不存在',
@@ -4261,7 +4261,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31102,
                 'lang_tag' => 'zh-Hant',
                 'message' => '平台 ID 與密鑰不匹配',
@@ -4270,7 +4270,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31103,
                 'lang_tag' => 'zh-Hant',
                 'message' => '平台 ID 與賬號或用戶不匹配',
@@ -4279,7 +4279,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31201,
                 'lang_tag' => 'zh-Hant',
                 'message' => '版本號不存在',
@@ -4288,7 +4288,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31202,
                 'lang_tag' => 'zh-Hant',
                 'message' => '版本號與密鑰不匹配',
@@ -4297,7 +4297,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31301,
                 'lang_tag' => 'zh-Hant',
                 'message' => 'App ID 不存在或已禁用',
@@ -4306,7 +4306,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31302,
                 'lang_tag' => 'zh-Hant',
                 'message' => '簽名錯誤',
@@ -4315,7 +4315,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31303,
                 'lang_tag' => 'zh-Hant',
                 'message' => '簽名已過期',
@@ -4324,7 +4324,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31304,
                 'lang_tag' => 'zh-Hant',
                 'message' => '該密鑰無權請求本接口',
@@ -4333,7 +4333,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31401,
                 'lang_tag' => 'zh-Hant',
                 'message' => '語言標籤不正確',
@@ -4342,7 +4342,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31402,
                 'lang_tag' => 'zh-Hant',
                 'message' => '時區不正確',
@@ -4351,7 +4351,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31501,
                 'lang_tag' => 'zh-Hant',
                 'message' => '賬號未登錄，無權操作',
@@ -4360,7 +4360,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31502,
                 'lang_tag' => 'zh-Hant',
                 'message' => '賬號錯誤或者不存在',
@@ -4369,7 +4369,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31503,
                 'lang_tag' => 'zh-Hant',
                 'message' => '登錄憑證丟失，請重新登錄',
@@ -4378,7 +4378,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31504,
                 'lang_tag' => 'zh-Hant',
                 'message' => '登錄憑證已失效，請重新登錄',
@@ -4387,7 +4387,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31505,
                 'lang_tag' => 'zh-Hant',
                 'message' => '賬號登錄憑證錯誤或者不存在',
@@ -4396,7 +4396,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31601,
                 'lang_tag' => 'zh-Hant',
                 'message' => '用戶未登錄，無權操作',
@@ -4405,7 +4405,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31602,
                 'lang_tag' => 'zh-Hant',
                 'message' => '用戶錯誤或者不存在',
@@ -4414,7 +4414,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31603,
                 'lang_tag' => 'zh-Hant',
                 'message' => '用戶登錄憑證錯誤或者不存在',
@@ -4423,7 +4423,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31701,
                 'lang_tag' => 'zh-Hant',
                 'message' => '無法獲知設備信息',
@@ -4432,7 +4432,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31702,
                 'lang_tag' => 'zh-Hant',
                 'message' => '設備信息格式錯誤',
@@ -4441,7 +4441,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 31703,
                 'lang_tag' => 'zh-Hant',
                 'message' => '設備信息中缺失 IP 信息',
@@ -4450,7 +4450,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32100,
                 'lang_tag' => 'zh-Hant',
                 'message' => '未配置服務商',
@@ -4459,7 +4459,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32101,
                 'lang_tag' => 'zh-Hant',
                 'message' => '服務商不存在',
@@ -4468,7 +4468,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32102,
                 'lang_tag' => 'zh-Hant',
                 'message' => '服務商未啟用',
@@ -4477,7 +4477,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32103,
                 'lang_tag' => 'zh-Hant',
                 'message' => '服務商配置參數為空',
@@ -4486,7 +4486,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32104,
                 'lang_tag' => 'zh-Hant',
                 'message' => '存儲服務商配置異常，暫時無法上傳文件',
@@ -4495,7 +4495,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32201,
                 'lang_tag' => 'zh-Hant',
                 'message' => 'ID 錯誤或者記錄不存在',
@@ -4504,7 +4504,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32202,
                 'lang_tag' => 'zh-Hant',
                 'message' => '數據異常，查詢不到或者數據重複',
@@ -4513,7 +4513,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32203,
                 'lang_tag' => 'zh-Hant',
                 'message' => '記錄已超時失效',
@@ -4522,7 +4522,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32204,
                 'lang_tag' => 'zh-Hant',
                 'message' => '記錄已被使用過，請重新操作',
@@ -4531,7 +4531,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32301,
                 'lang_tag' => 'zh-Hant',
                 'message' => '服務商未響應',
@@ -4540,7 +4540,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32302,
                 'lang_tag' => 'zh-Hant',
                 'message' => '服務商處理失敗',
@@ -4549,7 +4549,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32303,
                 'lang_tag' => 'zh-Hant',
                 'message' => '回調異常，查詢不到或者數據記錄錯誤',
@@ -4560,7 +4560,7 @@ class CodeMessagesTableSeeder extends Seeder
         ]);
         DB::table('code_messages')->insert([
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 32304,
                 'lang_tag' => 'zh-Hant',
                 'message' => '執行異常，文件丟失或者記錄錯誤',
@@ -4569,7 +4569,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33100,
                 'lang_tag' => 'zh-Hant',
                 'message' => '該接口或該版本已被系統禁用，無法請求',
@@ -4578,7 +4578,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33101,
                 'lang_tag' => 'zh-Hant',
                 'message' => '私有模式禁止請求該接口',
@@ -4587,7 +4587,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33102,
                 'lang_tag' => 'zh-Hant',
                 'message' => '站點模式配置錯誤',
@@ -4596,7 +4596,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33200,
                 'lang_tag' => 'zh-Hant',
                 'message' => '驗證碼模板關閉或者不存在',
@@ -4605,7 +4605,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33201,
                 'lang_tag' => 'zh-Hant',
                 'message' => '發送驗證碼太頻繁，請稍後再試',
@@ -4614,7 +4614,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33202,
                 'lang_tag' => 'zh-Hant',
                 'message' => '驗證碼不能為空',
@@ -4623,7 +4623,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33203,
                 'lang_tag' => 'zh-Hant',
                 'message' => '驗證碼不正確或驗證碼已過期',
@@ -4632,7 +4632,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33301,
                 'lang_tag' => 'zh-Hant',
                 'message' => '內容含有系統禁用詞，請修改後再提交',
@@ -4641,7 +4641,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33302,
                 'lang_tag' => 'zh-Hant',
                 'message' => '內容長度超過系統上限，請刪減後再提交',
@@ -4650,7 +4650,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33400,
                 'lang_tag' => 'zh-Hant',
                 'message' => 'IP 錯誤，不是有效 IP 地址',
@@ -4659,7 +4659,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33401,
                 'lang_tag' => 'zh-Hant',
                 'message' => 'IP 異常，查詢不到詳情信息',
@@ -4668,7 +4668,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33402,
                 'lang_tag' => 'zh-Hant',
                 'message' => '該 IP 查詢不到詳情信息',
@@ -4677,7 +4677,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33403,
                 'lang_tag' => 'zh-Hant',
                 'message' => '該 IP 已被禁用，系統無法提供服務',
@@ -4686,7 +4686,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 33404,
                 'lang_tag' => 'zh-Hant',
                 'message' => 'IP 屬地未知',
@@ -4695,7 +4695,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34101,
                 'lang_tag' => 'zh-Hant',
                 'message' => '郵箱格式不正確',
@@ -4704,7 +4704,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34102,
                 'lang_tag' => 'zh-Hant',
                 'message' => '手機號格式不正確',
@@ -4713,7 +4713,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34103,
                 'lang_tag' => 'zh-Hant',
                 'message' => '國際區號錯誤',
@@ -4722,7 +4722,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34104,
                 'lang_tag' => 'zh-Hant',
                 'message' => '兩次輸入的新密碼不一致',
@@ -4731,7 +4731,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34105,
                 'lang_tag' => 'zh-Hant',
                 'message' => '密碼長度不正確',
@@ -4740,7 +4740,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34106,
                 'lang_tag' => 'zh-Hant',
                 'message' => '密碼應包含數字',
@@ -4749,7 +4749,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34107,
                 'lang_tag' => 'zh-Hant',
                 'message' => '密碼應包含小寫字母',
@@ -4758,7 +4758,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34108,
                 'lang_tag' => 'zh-Hant',
                 'message' => '密碼應包含大寫字母',
@@ -4767,7 +4767,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34109,
                 'lang_tag' => 'zh-Hant',
                 'message' => '密碼應包含符號',
@@ -4776,7 +4776,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34110,
                 'lang_tag' => 'zh-Hant',
                 'message' => '不支持該域名的郵箱',
@@ -4785,7 +4785,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34111,
                 'lang_tag' => 'zh-Hant',
                 'message' => '賬號密碼或者驗證碼不能全部為空',
@@ -4794,7 +4794,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34201,
                 'lang_tag' => 'zh-Hant',
                 'message' => '該註冊通道已關閉，禁止通過此功能註冊賬號',
@@ -4803,7 +4803,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34202,
                 'lang_tag' => 'zh-Hant',
                 'message' => '不支持郵箱註冊',
@@ -4812,7 +4812,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34203,
                 'lang_tag' => 'zh-Hant',
                 'message' => '不支持手機號註冊',
@@ -4821,7 +4821,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34204,
                 'lang_tag' => 'zh-Hant',
                 'message' => '該賬號已註冊',
@@ -4830,7 +4830,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34205,
                 'lang_tag' => 'zh-Hant',
                 'message' => '郵箱已被使用',
@@ -4839,7 +4839,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34206,
                 'lang_tag' => 'zh-Hant',
                 'message' => '手機號已被使用',
@@ -4848,7 +4848,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34301,
                 'lang_tag' => 'zh-Hant',
                 'message' => '該賬號不存在',
@@ -4857,7 +4857,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34302,
                 'lang_tag' => 'zh-Hant',
                 'message' => '郵箱不存在',
@@ -4866,7 +4866,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34303,
                 'lang_tag' => 'zh-Hant',
                 'message' => '手機號不存在',
@@ -4875,7 +4875,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34304,
                 'lang_tag' => 'zh-Hant',
                 'message' => '賬號密碼不正確',
@@ -4884,7 +4884,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34305,
                 'lang_tag' => 'zh-Hant',
                 'message' => '賬號不正確或者密碼錯誤',
@@ -4893,7 +4893,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34306,
                 'lang_tag' => 'zh-Hant',
                 'message' => '錯誤已超系統限制，請 1 小時後再登錄',
@@ -4902,7 +4902,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34307,
                 'lang_tag' => 'zh-Hant',
                 'message' => '該賬號已被禁用',
@@ -4911,7 +4911,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34308,
                 'lang_tag' => 'zh-Hant',
                 'message' => '該賬號已註銷',
@@ -4920,7 +4920,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34401,
                 'lang_tag' => 'zh-Hant',
                 'message' => '已綁定郵箱',
@@ -4929,7 +4929,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34402,
                 'lang_tag' => 'zh-Hant',
                 'message' => '已綁定手機',
@@ -4938,7 +4938,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34403,
                 'lang_tag' => 'zh-Hant',
                 'message' => '互聯賬號已存在',
@@ -4947,7 +4947,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34404,
                 'lang_tag' => 'zh-Hant',
                 'message' => '互聯憑證已禁用',
@@ -4956,7 +4956,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34501,
                 'lang_tag' => 'zh-Hant',
                 'message' => '賬號錢包不存在或者已禁用',
@@ -4965,7 +4965,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34502,
                 'lang_tag' => 'zh-Hant',
                 'message' => '賬號錢包密碼不正確',
@@ -4974,7 +4974,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34503,
                 'lang_tag' => 'zh-Hant',
                 'message' => '對方錢包不存在或者已禁用',
@@ -4983,7 +4983,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34504,
                 'lang_tag' => 'zh-Hant',
                 'message' => '錢包餘額不允許支付',
@@ -4992,7 +4992,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34505,
                 'lang_tag' => 'zh-Hant',
                 'message' => '對方錢包餘額不足',
@@ -5001,7 +5001,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34506,
                 'lang_tag' => 'zh-Hant',
                 'message' => '期末餘額和錢包額度不匹配',
@@ -5010,7 +5010,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 34507,
                 'lang_tag' => 'zh-Hant',
                 'message' => '對方期末餘額和錢包額度不匹配',
@@ -5019,7 +5019,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35101,
                 'lang_tag' => 'zh-Hant',
                 'message' => '指定天數內只能修改一次',
@@ -5028,7 +5028,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35102,
                 'lang_tag' => 'zh-Hant',
                 'message' => '用戶名格式錯誤，請勿使用特殊字符',
@@ -5037,7 +5037,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35103,
                 'lang_tag' => 'zh-Hant',
                 'message' => '用戶名長度超出限制',
@@ -5046,7 +5046,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35104,
                 'lang_tag' => 'zh-Hant',
                 'message' => '用戶名未達到最小長度要求',
@@ -5055,7 +5055,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35105,
                 'lang_tag' => 'zh-Hant',
                 'message' => '用戶名已被使用',
@@ -5064,7 +5064,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35106,
                 'lang_tag' => 'zh-Hant',
                 'message' => '用戶名存在禁用詞',
@@ -5073,7 +5073,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35107,
                 'lang_tag' => 'zh-Hant',
                 'message' => '暱稱格式錯誤，請勿使用特殊字符',
@@ -5082,7 +5082,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35108,
                 'lang_tag' => 'zh-Hant',
                 'message' => '暱稱長度超出限制',
@@ -5091,7 +5091,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35109,
                 'lang_tag' => 'zh-Hant',
                 'message' => '暱稱未達到最小長度要求',
@@ -5100,7 +5100,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35110,
                 'lang_tag' => 'zh-Hant',
                 'message' => '暱稱存在禁用詞',
@@ -5109,7 +5109,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35111,
                 'lang_tag' => 'zh-Hant',
                 'message' => '暱稱已被使用',
@@ -5118,7 +5118,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35201,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前用戶不存在或者不屬於當前賬號',
@@ -5127,7 +5127,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35202,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前用戶已被禁用',
@@ -5136,7 +5136,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35203,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前用戶已註銷',
@@ -5145,7 +5145,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35204,
                 'lang_tag' => 'zh-Hant',
                 'message' => '用戶登錄密碼不正確',
@@ -5154,7 +5154,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35301,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前用戶無權請求',
@@ -5163,7 +5163,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35302,
                 'lang_tag' => 'zh-Hant',
                 'message' => '用戶已過期，無權操作該功能',
@@ -5172,7 +5172,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35303,
                 'lang_tag' => 'zh-Hant',
                 'message' => '用戶已過期，無權查看當前內容',
@@ -5181,7 +5181,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35304,
                 'lang_tag' => 'zh-Hant',
                 'message' => '該內容屬於過期後的新內容，當前用戶已過期，無權瀏覽',
@@ -5190,7 +5190,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35305,
                 'lang_tag' => 'zh-Hant',
                 'message' => '無法指定用戶查看內容',
@@ -5199,7 +5199,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 35306,
                 'lang_tag' => 'zh-Hant',
                 'message' => '系統已開啟私有模式，當前用戶暫無授權信息',
@@ -5208,7 +5208,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36100,
                 'lang_tag' => 'zh-Hant',
                 'message' => '角色錯誤或者不存在',
@@ -5217,7 +5217,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36101,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前角色未配置權限，請聯繫管理員確認',
@@ -5226,7 +5226,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36102,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前角色無權請求',
@@ -5235,7 +5235,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36103,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前角色無權瀏覽',
@@ -5244,7 +5244,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36104,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前角色無權發表',
@@ -5253,7 +5253,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36105,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前角色發表內容有時間限制，請在規定的時間內再發表',
@@ -5262,7 +5262,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36106,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前角色發表內容需要先綁定郵箱',
@@ -5271,7 +5271,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36107,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前角色發表內容需要先綁定手機號',
@@ -5280,7 +5280,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36108,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前角色發表內容需要先實名制認證',
@@ -5289,7 +5289,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36109,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前角色無權上傳圖片',
@@ -5298,7 +5298,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36110,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前角色無權上傳視頻',
@@ -5307,7 +5307,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36111,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前角色無權上傳音頻',
@@ -5316,7 +5316,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36112,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前角色無權上傳文檔',
@@ -5325,7 +5325,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36113,
                 'lang_tag' => 'zh-Hant',
                 'message' => '文件尺寸超出設置的限制',
@@ -5334,7 +5334,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36114,
                 'lang_tag' => 'zh-Hant',
                 'message' => '文件時長超出設置的限制',
@@ -5343,7 +5343,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36115,
                 'lang_tag' => 'zh-Hant',
                 'message' => '文件數量超出設置的限制',
@@ -5352,7 +5352,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36116,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前角色無私信權限',
@@ -5361,7 +5361,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36117,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前角色已經達到今天下載次數上限，請明天再下載',
@@ -5370,7 +5370,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36118,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前角色已經達到上限數量，無法再添加',
@@ -5379,7 +5379,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36119,
                 'lang_tag' => 'zh-Hant',
                 'message' => '發表太快，請間隔一段時間再發。詳情請查看當前角色的設置',
@@ -5388,7 +5388,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36120,
                 'lang_tag' => 'zh-Hant',
                 'message' => '發表已達每日上限，請明天再發表',
@@ -5397,7 +5397,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36200,
                 'lang_tag' => 'zh-Hant',
                 'message' => '該功能未開啟，無法操作',
@@ -5406,7 +5406,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36201,
                 'lang_tag' => 'zh-Hant',
                 'message' => '該內容未開放，無法瀏覽',
@@ -5415,7 +5415,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36202,
                 'lang_tag' => 'zh-Hant',
                 'message' => '不能對自己或自己發表的內容操作',
@@ -5424,7 +5424,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36300,
                 'lang_tag' => 'zh-Hant',
                 'message' => '僅支持指定方式發表，本接口禁止請求',
@@ -5433,7 +5433,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36301,
                 'lang_tag' => 'zh-Hant',
                 'message' => '發表內容需要先綁定郵箱',
@@ -5442,7 +5442,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36302,
                 'lang_tag' => 'zh-Hant',
                 'message' => '發表內容需要先綁定手機號',
@@ -5451,7 +5451,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36303,
                 'lang_tag' => 'zh-Hant',
                 'message' => '發表內容需要先實名制認證',
@@ -5460,7 +5460,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36304,
                 'lang_tag' => 'zh-Hant',
                 'message' => '系統已經開啟發表時間限制，請在規定的時間內再發表',
@@ -5469,7 +5469,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36305,
                 'lang_tag' => 'zh-Hant',
                 'message' => '貼文發表後不可再編輯',
@@ -5478,7 +5478,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36306,
                 'lang_tag' => 'zh-Hant',
                 'message' => '留言發表後不可再編輯',
@@ -5487,7 +5487,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36307,
                 'lang_tag' => 'zh-Hant',
                 'message' => '置頂後不允許編輯',
@@ -5496,7 +5496,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36308,
                 'lang_tag' => 'zh-Hant',
                 'message' => '加精後不允許編輯',
@@ -5505,7 +5505,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36309,
                 'lang_tag' => 'zh-Hant',
                 'message' => '超出可編輯時間',
@@ -5514,7 +5514,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36310,
                 'lang_tag' => 'zh-Hant',
                 'message' => '該文件類型不在允許上傳的範圍內',
@@ -5523,7 +5523,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36311,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前用戶無權在該社團發帖',
@@ -5532,7 +5532,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36312,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前用戶無權在該社團留言',
@@ -5541,7 +5541,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36313,
                 'lang_tag' => 'zh-Hant',
                 'message' => '該評論類型不允許編輯',
@@ -5550,7 +5550,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36400,
                 'lang_tag' => 'zh-Hant',
                 'message' => '刪除失敗，內容錯誤或者不存在',
@@ -5559,7 +5559,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36401,
                 'lang_tag' => 'zh-Hant',
                 'message' => '該內容不允許刪除',
@@ -5568,7 +5568,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36402,
                 'lang_tag' => 'zh-Hant',
                 'message' => '該資源正在被使用，不允許刪除',
@@ -5577,7 +5577,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36403,
                 'lang_tag' => 'zh-Hant',
                 'message' => '只能刪除自己的內容',
@@ -5586,7 +5586,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36404,
                 'lang_tag' => 'zh-Hant',
                 'message' => '正在審核中不允許刪除，請撤銷審核再刪除',
@@ -5595,7 +5595,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36405,
                 'lang_tag' => 'zh-Hant',
                 'message' => '內容已發表，草稿不可再操作，如需刪除請刪除發表內容',
@@ -5604,7 +5604,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36500,
                 'lang_tag' => 'zh-Hant',
                 'message' => '操作失敗，內容不屬於當前用戶',
@@ -5613,7 +5613,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36501,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前內容並非審核狀態，無需撤回',
@@ -5622,7 +5622,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36600,
                 'lang_tag' => 'zh-Hant',
                 'message' => '對話功能未啟用，無法使用',
@@ -5631,7 +5631,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36601,
                 'lang_tag' => 'zh-Hant',
                 'message' => '對話異常或者不存在',
@@ -5640,7 +5640,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36602,
                 'lang_tag' => 'zh-Hant',
                 'message' => '該對話不屬於當前用戶',
@@ -5649,7 +5649,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36603,
                 'lang_tag' => 'zh-Hant',
                 'message' => '自己不能給自己發送消息',
@@ -5658,7 +5658,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36604,
                 'lang_tag' => 'zh-Hant',
                 'message' => '單個消息只能「文件」或「文本」二選一',
@@ -5667,7 +5667,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36605,
                 'lang_tag' => 'zh-Hant',
                 'message' => '消息文本中含有禁用詞，不能發送',
@@ -5676,7 +5676,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36606,
                 'lang_tag' => 'zh-Hant',
                 'message' => '用戶已設置僅他跟隨的人可以發送消息',
@@ -5685,7 +5685,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36607,
                 'lang_tag' => 'zh-Hant',
                 'message' => '用戶已設置僅他跟隨的人和認證用戶可以發送消息',
@@ -5694,7 +5694,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36608,
                 'lang_tag' => 'zh-Hant',
                 'message' => '用戶已關閉對話功能',
@@ -5703,7 +5703,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36609,
                 'lang_tag' => 'zh-Hant',
                 'message' => '只能刪除自己的對話消息',
@@ -5712,7 +5712,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36700,
                 'lang_tag' => 'zh-Hant',
                 'message' => '通知異常或者不存在',
@@ -5721,7 +5721,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36701,
                 'lang_tag' => 'zh-Hant',
                 'message' => '該通知不屬於當前用戶',
@@ -5730,7 +5730,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 36702,
                 'lang_tag' => 'zh-Hant',
                 'message' => '只能刪除自己的通知消息',
@@ -5739,7 +5739,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37100,
                 'lang_tag' => 'zh-Hant',
                 'message' => '社團錯誤或者不存在',
@@ -5748,7 +5748,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37101,
                 'lang_tag' => 'zh-Hant',
                 'message' => '社團已被禁用',
@@ -5757,7 +5757,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37102,
                 'lang_tag' => 'zh-Hant',
                 'message' => '只有社團成員才能查看社團',
@@ -5766,7 +5766,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37103,
                 'lang_tag' => 'zh-Hant',
                 'message' => '只有社團成員才能查看社團內貼文',
@@ -5775,7 +5775,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37104,
                 'lang_tag' => 'zh-Hant',
                 'message' => '當前用戶已被禁止查看本社團內容',
@@ -5784,7 +5784,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37105,
                 'lang_tag' => 'zh-Hant',
                 'message' => '服務已到期，不能在本社團內瀏覽和互動',
@@ -5793,7 +5793,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37106,
                 'lang_tag' => 'zh-Hant',
                 'message' => '服務已到期，無法瀏覽新內容',
@@ -5802,7 +5802,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37200,
                 'lang_tag' => 'zh-Hant',
                 'message' => '話題錯誤或者不存在',
@@ -5811,7 +5811,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37201,
                 'lang_tag' => 'zh-Hant',
                 'message' => '話題已被禁用',
@@ -5820,7 +5820,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37300,
                 'lang_tag' => 'zh-Hant',
                 'message' => '貼文錯誤或者不存在',
@@ -5829,7 +5829,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37301,
                 'lang_tag' => 'zh-Hant',
                 'message' => '貼文已被禁用',
@@ -5838,7 +5838,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37302,
                 'lang_tag' => 'zh-Hant',
                 'message' => '貼文日誌錯誤或者不存在',
@@ -5847,7 +5847,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37303,
                 'lang_tag' => 'zh-Hant',
                 'message' => '該內容需要授權後才能瀏覽',
@@ -5856,7 +5856,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37400,
                 'lang_tag' => 'zh-Hant',
                 'message' => '留言錯誤或者不存在',
@@ -5865,7 +5865,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37401,
                 'lang_tag' => 'zh-Hant',
                 'message' => '留言已被禁用',
@@ -5874,7 +5874,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37402,
                 'lang_tag' => 'zh-Hant',
                 'message' => '留言日誌錯誤或者不存在',
@@ -5883,7 +5883,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37403,
                 'lang_tag' => 'zh-Hant',
                 'message' => '留言僅限貼文作者可見',
@@ -5892,7 +5892,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37404,
                 'lang_tag' => 'zh-Hant',
                 'message' => '貼文已超時，不再顯示留言',
@@ -5901,7 +5901,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37500,
                 'lang_tag' => 'zh-Hant',
                 'message' => '文件錯誤或者不存在',
@@ -5910,7 +5910,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37501,
                 'lang_tag' => 'zh-Hant',
                 'message' => '文件已被禁用',
@@ -5919,7 +5919,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37600,
                 'lang_tag' => 'zh-Hant',
                 'message' => '擴展錯誤或者不存在',
@@ -5928,7 +5928,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 37601,
                 'lang_tag' => 'zh-Hant',
                 'message' => '擴展已被禁用',
@@ -5937,7 +5937,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38100,
                 'lang_tag' => 'zh-Hant',
                 'message' => '草稿 ID 錯誤或者不存在',
@@ -5946,7 +5946,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38101,
                 'lang_tag' => 'zh-Hant',
                 'message' => '內容審核中不可編輯',
@@ -5955,7 +5955,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38102,
                 'lang_tag' => 'zh-Hant',
                 'message' => '內容已正式發表不可編輯',
@@ -5964,7 +5964,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38103,
                 'lang_tag' => 'zh-Hant',
                 'message' => '處於審核狀態的內容不可再提交',
@@ -5973,7 +5973,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38104,
                 'lang_tag' => 'zh-Hant',
                 'message' => '處於發布狀態的內容不可再提交',
@@ -5982,7 +5982,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38105,
                 'lang_tag' => 'zh-Hant',
                 'message' => '留言草稿創建失敗，只有一級留言才能創建草稿',
@@ -5991,7 +5991,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38106,
                 'lang_tag' => 'zh-Hant',
                 'message' => '草稿創建失敗，草稿箱已滿，請整理後再創建',
@@ -6000,7 +6000,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38107,
                 'lang_tag' => 'zh-Hant',
                 'message' => '評論失敗，所屬帖子或已刪除',
@@ -6009,7 +6009,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38108,
                 'lang_tag' => 'zh-Hant',
                 'message' => '留言失敗，所屬貼文已關閉留言功能',
@@ -6018,7 +6018,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38200,
                 'lang_tag' => 'zh-Hant',
                 'message' => '內容已提交，待審核通過後才能正式發表',
@@ -6027,7 +6027,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38201,
                 'lang_tag' => 'zh-Hant',
                 'message' => '存在待審核內容，系統不允許同時提交審核兩篇內容，待審核結束後再提交',
@@ -6036,7 +6036,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38202,
                 'lang_tag' => 'zh-Hant',
                 'message' => '標題不能為空',
@@ -6045,7 +6045,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38203,
                 'lang_tag' => 'zh-Hant',
                 'message' => '標題過長，已超出限制長度',
@@ -6054,7 +6054,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38204,
                 'lang_tag' => 'zh-Hant',
                 'message' => '內容不能為空，請撰寫內容後再發表',
@@ -6063,7 +6063,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38205,
                 'lang_tag' => 'zh-Hant',
                 'message' => '內容過長，已超出限制長度',
@@ -6072,7 +6072,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38206,
                 'lang_tag' => 'zh-Hant',
                 'message' => '標題存在禁用詞，請修改後再發表',
@@ -6081,7 +6081,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38207,
                 'lang_tag' => 'zh-Hant',
                 'message' => '內容存在禁用詞，請修改後再發表',
@@ -6090,7 +6090,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38208,
                 'lang_tag' => 'zh-Hant',
                 'message' => '小組不能為空，請選擇小組',
@@ -6099,7 +6099,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38209,
                 'lang_tag' => 'zh-Hant',
                 'message' => '作者已設置僅他關注的人可以評論',
@@ -6108,7 +6108,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38210,
                 'lang_tag' => 'zh-Hant',
                 'message' => '作者已設置僅他關注的人和認證用戶可以評論',
@@ -6117,7 +6117,7 @@ class CodeMessagesTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'plugin_unikey' => 'Fresns',
+                'plugin_fskey' => 'Fresns',
                 'code' => 38211,
                 'lang_tag' => 'zh-Hant',
                 'message' => '作者已關閉評論功能',

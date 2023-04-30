@@ -95,7 +95,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             [
                 'item_key' => 'crontab_items',
-                'item_value' => '[{"unikey":"Fresns","cmdWord":"checkUserRoleExpired","cronTableFormat":"*/10 * * * *"},{"unikey":"Fresns","cmdWord":"checkDeleteAccount","cronTableFormat":"* */6 * * *"},{"unikey":"Fresns","cmdWord":"checkExtensionsVersion","cronTableFormat":"* */8 * * *"}]',
+                'item_value' => '[{"fskey":"Fresns","cmdWord":"checkUserRoleExpired","cronTableFormat":"*/10 * * * *"},{"fskey":"Fresns","cmdWord":"checkDeleteAccount","cronTableFormat":"* */6 * * *"},{"fskey":"Fresns","cmdWord":"checkExtensionsVersion","cronTableFormat":"* */8 * * *"}]',
                 'item_type' => 'array',
                 'item_tag' => 'systems',
                 'is_multilingual' => 0,

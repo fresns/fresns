@@ -56,7 +56,7 @@ class CreateCommentsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('comment_id')->unique('comment_id');
             $table->unsignedTinyInteger('is_plugin_editor')->default(0);
-            $table->string('editor_unikey', 64)->nullable();
+            $table->string('editor_fskey', 64)->nullable();
             $table->unsignedTinyInteger('can_delete')->default(1);
             $table->unsignedTinyInteger('is_close_btn')->default(0);
             $table->unsignedTinyInteger('is_change_btn')->default(0);
@@ -100,7 +100,7 @@ class CreateCommentsTable extends Migration
             $table->unsignedBigInteger('parent_comment_id')->nullable();
             $table->unsignedTinyInteger('create_type')->default(1);
             $table->unsignedTinyInteger('is_plugin_editor')->default(0);
-            $table->string('editor_unikey', 64)->nullable();
+            $table->string('editor_fskey', 64)->nullable();
             $table->longText('content')->nullable();
             $table->unsignedTinyInteger('is_markdown')->default(0);
             $table->unsignedTinyInteger('is_anonymous')->default(0);

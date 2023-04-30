@@ -21,7 +21,7 @@ class CreateExtendsTable extends Migration
             $table->bigIncrements('id');
             $table->string('eid', 32)->unique('eid');
             $table->unsignedBigInteger('user_id');
-            $table->string('plugin_unikey', 64);
+            $table->string('plugin_fskey', 64);
             $table->unsignedTinyInteger('type')->default(1);
             $table->text('text_content')->nullable();
             $table->unsignedTinyInteger('text_is_markdown')->default(0);
@@ -63,7 +63,7 @@ class CreateExtendsTable extends Migration
             $table->unsignedBigInteger('extend_id')->index('usage_extend_id');
             $table->unsignedTinyInteger('can_delete')->default(1);
             $table->unsignedSmallInteger('rating')->default(9);
-            $table->string('plugin_unikey', 64);
+            $table->string('plugin_fskey', 64);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

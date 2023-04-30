@@ -29,7 +29,7 @@ class CreateGroupsTable extends Migration
             $table->unsignedTinyInteger('type_mode_end_after')->default(1);
             $table->unsignedTinyInteger('type_find')->default(1);
             $table->unsignedTinyInteger('type_follow')->default(1);
-            $table->string('plugin_unikey', 64)->nullable();
+            $table->string('plugin_fskey', 64)->nullable();
             $table->unsignedTinyInteger('sublevel_public')->default(0);
             $table->unsignedBigInteger('cover_file_id')->nullable();
             $table->string('cover_file_url')->nullable();

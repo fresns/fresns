@@ -29,7 +29,7 @@ class CreateOperationsTable extends Migration
             $table->unsignedBigInteger('image_active_file_id')->nullable();
             $table->string('image_active_file_url')->nullable();
             $table->unsignedTinyInteger('display_type')->default(1);
-            $table->string('plugin_unikey', 64);
+            $table->string('plugin_fskey', 64);
             $table->unsignedTinyInteger('is_enable')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
@@ -41,7 +41,7 @@ class CreateOperationsTable extends Migration
             $table->unsignedTinyInteger('usage_type');
             $table->unsignedBigInteger('usage_id');
             $table->unsignedInteger('operation_id')->index('usage_operation_id');
-            $table->string('plugin_unikey', 64)->nullable();
+            $table->string('plugin_fskey', 64)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

@@ -19,7 +19,7 @@ class CreateSessionLogsTable extends Migration
     {
         Schema::create('session_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('plugin_unikey', 64)->default('Fresns')->index('log_plugin_unikey');
+            $table->string('plugin_fskey', 64)->default('Fresns')->index('log_plugin_fskey');
             $table->unsignedTinyInteger('type')->default(1)->index('log_type');
             $table->unsignedTinyInteger('platform_id');
             $table->string('version', 16);

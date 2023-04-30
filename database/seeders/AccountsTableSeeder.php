@@ -32,7 +32,7 @@ class AccountsTableSeeder extends Seeder
                 'password' => '$2y$10$NAnHTCpECr8mR./fDq21q./Og2x/JKzhDUw0hX8VYFTuSb2UOrk3i', //password=123456
                 'last_login_at' => '2022-10-18 17:00:00',
                 'is_verify' => 1,
-                'verify_plugin_unikey' => null,
+                'verify_plugin_fskey' => null,
                 'verify_real_name' => null,
                 'verify_gender' => 1,
                 'verify_cert_type' => null,
