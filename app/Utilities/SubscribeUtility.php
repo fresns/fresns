@@ -54,7 +54,8 @@ class SubscribeUtility
             if ($tableName) {
                 $subTableName = StrHelper::qualifyTableName($tableName);
             }
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+        }
 
         if (empty($subTableName)) {
             return;
@@ -72,7 +73,8 @@ class SubscribeUtility
                 $cmdWord = $item['cmdWord'];
 
                 \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
         }
     }
 
@@ -97,7 +99,8 @@ class SubscribeUtility
                 $cmdWord = $item['cmdWord'];
 
                 \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
         }
     }
 
@@ -126,7 +129,8 @@ class SubscribeUtility
                 $cmdWord = $item['cmdWord'];
 
                 \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
         }
     }
 }
