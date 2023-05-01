@@ -96,7 +96,7 @@ class DateHelper
                 }
             }
 
-            $databaseTimezone = ($closestTimezone >= 0 ? '+' : '-') . $closestTimezone;
+            $databaseTimezone = ($closestTimezone >= 0 ? '+' : '-').$closestTimezone;
 
             CacheHelper::put($databaseTimezone, $cacheKey, $cacheTag);
         }
