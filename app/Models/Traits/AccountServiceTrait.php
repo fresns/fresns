@@ -9,7 +9,6 @@
 namespace App\Models\Traits;
 
 use App\Helpers\ConfigHelper;
-use App\Helpers\PluginHelper;
 use App\Helpers\StrHelper;
 
 trait AccountServiceTrait
