@@ -74,10 +74,10 @@ class Content
         }
 
         $isPluginEditor = 0;
-        $editorUnikey = null;
-        if ($dtoWordBody->editorUnikey) {
+        $editorFskey = null;
+        if ($dtoWordBody->editorFskey) {
             $isPluginEditor = 1;
-            $editorUnikey = $dtoWordBody->editorUnikey;
+            $editorFskey = $dtoWordBody->editorFskey;
         }
 
         $content = null;
@@ -104,7 +104,7 @@ class Content
                     'parent_post_id' => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->postQuotePid),
                     'create_type' => $dtoWordBody->createType,
                     'is_plugin_editor' => $isPluginEditor,
-                    'editor_unikey' => $editorUnikey,
+                    'editor_fskey' => $editorFskey,
                     'group_id' => $groupId ?? 0,
                     'title' => $title,
                     'content' => $content,
@@ -143,7 +143,7 @@ class Content
                     'parent_comment_id' => PrimaryHelper::fresnsCommentIdByCid($checkPost->commentCid),
                     'create_type' => $dtoWordBody->createType,
                     'is_plugin_editor' => $isPluginEditor,
-                    'editor_unikey' => $editorUnikey,
+                    'editor_fskey' => $editorFskey,
                     'content' => $content,
                     'is_markdown' => $isMarkdown,
                     'is_anonymous' => $isAnonymous,
@@ -415,7 +415,7 @@ class Content
         // review
         if ($dtoWordBody->requireReview) {
             $wordBody['createType'] = 1;
-            $wordBody['editorUnikey'] = null;
+            $wordBody['editorFskey'] = null;
 
             $reviewResp = \FresnsCmdWord::plugin('Fresns')->createDraft($wordBody);
 
@@ -1030,7 +1030,7 @@ class Content
                     'post_id' => $postId,
                     'user_id' => $userId,
                 ], [
-                    'plugin_unikey' => $dtoWordBody->pluginUnikey,
+                    'plugin_fskey' => $dtoWordBody->fskey,
                     'more_json' => $dtoWordBody->moreJson ?? null,
                 ]);
                 break;

@@ -20,7 +20,7 @@ class EditorCreateDTO extends DTO
         return [
             'type' => ['string', 'required', 'in:post,comment'],
             'createType' => ['integer', 'required', 'in:1,2'],
-            'editorUnikey' => ['string', 'nullable'],
+            'editorFskey' => ['string', 'nullable'],
             'postGid' => ['string', 'nullable'],
             'postTitle' => ['string', 'nullable'],
             'postIsComment' => ['boolean', 'nullable'],

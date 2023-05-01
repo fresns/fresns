@@ -336,7 +336,7 @@ class CommentController extends Controller
                 });
             } else {
                 $commentQuery->whereHas('extendUsages', function ($query) use ($contentType) {
-                    $query->where('plugin_unikey', $contentType);
+                    $query->where('plugin_fskey', $contentType);
                 });
             }
         }
@@ -620,19 +620,19 @@ class CommentController extends Controller
         $dtoRequest = new FollowDTO($requestData);
 
         // Plugin provides data
-        $dataPluginUnikey = ConfigHelper::fresnsConfigByItemKey('content_follow_service');
+        $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('content_follow_service');
 
-        if ($dtoRequest->contentType && ! $dataPluginUnikey) {
-            $dataPluginUnikey = ExtendUtility::getDataExtend($dtoRequest->contentType, 'commentByFollow');
+        if ($dtoRequest->contentType && ! $dataPluginFskey) {
+            $dataPluginFskey = ExtendUtility::getDataExtend($dtoRequest->contentType, 'commentByFollow');
         }
 
-        if ($dataPluginUnikey) {
+        if ($dataPluginFskey) {
             $wordBody = [
                 'headers' => \request()->headers->all(),
                 'body' => $dtoRequest->toArray(),
             ];
 
-            $fresnsResp = \FresnsCmdWord::plugin($dataPluginUnikey)->getCommentByAll($wordBody);
+            $fresnsResp = \FresnsCmdWord::plugin($dataPluginFskey)->getCommentByAll($wordBody);
 
             return $fresnsResp->getOrigin();
         }
@@ -705,19 +705,19 @@ class CommentController extends Controller
         $dtoRequest = new NearbyDTO($request->all());
 
         // Plugin provides data
-        $dataPluginUnikey = ConfigHelper::fresnsConfigByItemKey('content_nearby_service');
+        $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('content_nearby_service');
 
-        if ($dtoRequest->contentType && ! $dataPluginUnikey) {
-            $dataPluginUnikey = ExtendUtility::getDataExtend($dtoRequest->contentType, 'commentByNearby');
+        if ($dtoRequest->contentType && ! $dataPluginFskey) {
+            $dataPluginFskey = ExtendUtility::getDataExtend($dtoRequest->contentType, 'commentByNearby');
         }
 
-        if ($dataPluginUnikey) {
+        if ($dataPluginFskey) {
             $wordBody = [
                 'headers' => \request()->headers->all(),
                 'body' => $dtoRequest->toArray(),
             ];
 
-            $fresnsResp = \FresnsCmdWord::plugin($dataPluginUnikey)->getCommentByNearby($wordBody);
+            $fresnsResp = \FresnsCmdWord::plugin($dataPluginFskey)->getCommentByNearby($wordBody);
 
             return $fresnsResp->getOrigin();
         }

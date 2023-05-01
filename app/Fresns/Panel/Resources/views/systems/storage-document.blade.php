@@ -19,7 +19,7 @@
                     <select class="form-select" id="document_service" name="document_service">
                         <option value="">🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
                         @foreach ($pluginParams['storage'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['document_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                            <option value="{{ $plugin->fskey }}" {{ $params['document_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>

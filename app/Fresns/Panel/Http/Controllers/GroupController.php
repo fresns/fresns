@@ -181,7 +181,7 @@ class GroupController extends Controller
             $group->type_find = $request->type_find;
             $group->type_follow = $request->type_follow;
             $group->is_recommend = $request->is_recommend;
-            $group->plugin_unikey = $request->plugin_unikey;
+            $group->plugin_fskey = $request->plugin_fskey;
 
             $permissions = $request->permissions;
             $permissions['publish_post_subgroup'] = (bool) ($permissions['publish_post_subgroup'] ?? 0);
@@ -313,7 +313,7 @@ class GroupController extends Controller
             $group->type_find = $request->type_find;
             $group->type_follow = $request->type_follow;
             $group->is_recommend = $request->is_recommend;
-            $group->plugin_unikey = $request->plugin_unikey;
+            $group->plugin_fskey = $request->plugin_fskey;
 
             $requestPerms = $request->permissions;
 

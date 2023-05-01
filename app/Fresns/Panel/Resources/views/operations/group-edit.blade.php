@@ -126,10 +126,10 @@
                             <div class="collapse follow_setting mt-2">
                                 <div class="input-group">
                                     <span class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</span>
-                                    <select class="form-select" name="plugin_unikey">
+                                    <select class="form-select" name="plugin_fskey">
                                         <option selected disabled>{{ __('FsLang::panel.select_box_tip_plugin') }}</option>
                                         @foreach ($plugins as $plugin)
-                                            <option value="{{ $plugin->unikey }}">{{ $plugin->name }}</option>
+                                            <option value="{{ $plugin->fskey }}">{{ $plugin->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

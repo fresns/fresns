@@ -20,7 +20,7 @@ class EditorUpdateDTO extends DTO
         return [
             'type' => ['string', 'required', 'in:post,comment'],
             'draftId' => ['integer', 'required'],
-            'editorUnikey' => ['string', 'nullable'],
+            'editorFskey' => ['string', 'nullable'],
             'postGid' => ['string', 'nullable'],
             'postTitle' => ['string', 'nullable'],
             'postIsComment' => ['boolean', 'nullable'],

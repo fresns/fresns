@@ -143,7 +143,7 @@ $(document).ready(function () {
 
         template = $($(templateId).html()).clone();
         template.find('input.plugin-code').attr('name', key+'['+(index+ 1)+'][code]')
-        template.find('select.plugin-unikey').attr('name', key+'['+(index+ 1)+'][plugin]')
+        template.find('select.plugin-fskey').attr('name', key+'['+(index+ 1)+'][plugin]')
 
         $(this).data('count', index+1)
 

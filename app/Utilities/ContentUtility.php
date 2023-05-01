@@ -600,8 +600,8 @@ class ContentUtility
 
         $item['isAllow'] = (bool) $readAllowConfig['isAllow'];
         $item['percentage'] = $readAllowConfig['percentage'] ?? 0;
-        $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByUnikey($readAllowConfig['pluginUnikey']);
-        $item['pluginUnikey'] = $readAllowConfig['pluginUnikey'];
+        $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByFskey($readAllowConfig['pluginFskey']);
+        $item['pluginFskey'] = $readAllowConfig['pluginFskey'];
         $item['defaultLangBtnName'] = collect($readAllowConfig['btnName'])->where('langTag', $langTag)->first()['name'] ?? null;
         $item['btnName'] = $readAllowConfig['btnName'];
         $item['permissions'] = $permissions;
@@ -619,8 +619,8 @@ class ContentUtility
         $item['isUserList'] = (bool) $userListConfig['isUserList'];
         $item['defaultLangUserListName'] = collect($userListConfig['userListName'])->where('langTag', $langTag)->first()['name'] ?? null;
         $item['userListName'] = $userListConfig['userListName'];
-        $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByUnikey($userListConfig['pluginUnikey']);
-        $item['pluginUnikey'] = $userListConfig['pluginUnikey'];
+        $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByFskey($userListConfig['pluginFskey']);
+        $item['pluginFskey'] = $userListConfig['pluginFskey'];
 
         return $item;
     }
@@ -636,14 +636,14 @@ class ContentUtility
         $item['defaultLangBtnName'] = collect($commentBtnConfig['btnName'])->where('langTag', $langTag)->first()['name'] ?? null;
         $item['btnName'] = $commentBtnConfig['btnName'];
         $item['btnStyle'] = $commentBtnConfig['btnStyle'] ?? null;
-        $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByUnikey($commentBtnConfig['pluginUnikey']);
-        $item['pluginUnikey'] = $commentBtnConfig['pluginUnikey'];
+        $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByFskey($commentBtnConfig['pluginFskey']);
+        $item['pluginFskey'] = $commentBtnConfig['pluginFskey'];
 
         return $item;
     }
 
     // save operation usages
-    // $operations = [{"id": "id", "pluginUnikey": null}]
+    // $operations = [{"id": "id", "pluginFskey": null}]
     public static function saveOperationUsages(int $usageType, int $usageId, array $operations): void
     {
         foreach ($operations as $operation) {
@@ -662,13 +662,13 @@ class ContentUtility
                 'usage_id' => $usageId,
                 'operation_id' => $operation->id,
             ], [
-                'plugin_unikey' => $operation['pluginUnikey'] ?? $operationModel->plugin_unikey,
+                'plugin_fskey' => $operation['pluginFskey'] ?? $operationModel->plugin_fskey,
             ]);
         }
     }
 
     // save archive usages
-    // $archives = [{"code": "code", "value": "value", "isPrivate": true, "pluginUnikey": null}]
+    // $archives = [{"code": "code", "value": "value", "isPrivate": true, "pluginFskey": null}]
     public static function saveArchiveUsages(int $usageType, int $usageId, array $archives): void
     {
         foreach ($archives as $archive) {
@@ -689,13 +689,13 @@ class ContentUtility
             ], [
                 'archive_value' => $archive['value'] ?? null,
                 'is_private' => $archive['isPrivate'] ?? false,
-                'plugin_unikey' => $archive['pluginUnikey'] ?? $archiveModel->plugin_unikey,
+                'plugin_fskey' => $archive['pluginFskey'] ?? $archiveModel->plugin_fskey,
             ]);
         }
     }
 
     // save extend usages
-    // $extends = [{"eid": "eid", "canDelete": true, "rating": 9, "pluginUnikey": null}]
+    // $extends = [{"eid": "eid", "canDelete": true, "rating": 9, "pluginFskey": null}]
     public static function saveExtendUsages(int $usageType, int $usageId, array $extends): void
     {
         foreach ($extends as $extend) {
@@ -716,7 +716,7 @@ class ContentUtility
             ], [
                 'can_delete' => $extend['canDelete'] ?? true,
                 'rating' => $extend['rating'] ?? 9,
-                'plugin_unikey' => $extend['pluginUnikey'] ?? $extendModel->plugin_unikey,
+                'plugin_fskey' => $extend['pluginFskey'] ?? $extendModel->plugin_fskey,
             ]);
         }
     }
@@ -804,7 +804,7 @@ class ContentUtility
                 'extend_id' => $extend->extend_id,
                 'can_delete' => $extend->can_delete,
                 'rating' => $extend->rating,
-                'plugin_unikey' => $extend->plugin_unikey,
+                'plugin_fskey' => $extend->plugin_fskey,
             ];
 
             ExtendUsage::create($extendDataItem);
@@ -871,7 +871,7 @@ class ContentUtility
                 'usage_type' => $usageType,
                 'usage_id' => $primaryId,
                 'operation_id' => $operation->operation_id,
-                'plugin_unikey' => $operation->plugin_unikey,
+                'plugin_fskey' => $operation->plugin_fskey,
             ];
 
             OperationUsage::create($operationDataItem);
@@ -902,7 +902,7 @@ class ContentUtility
                 'archive_id' => $archive->archive_id,
                 'archive_value' => $archive->archive_value,
                 'is_private' => $archive->is_private,
-                'plugin_unikey' => $archive->plugin_unikey,
+                'plugin_fskey' => $archive->plugin_fskey,
             ];
 
             ArchiveUsage::create($archiveDataItem);
@@ -955,20 +955,20 @@ class ContentUtility
             'post_id' => $post->id,
         ], [
             'is_plugin_editor' => $postLog->is_plugin_editor,
-            'editor_unikey' => $postLog->editor_unikey,
+            'editor_fskey' => $postLog->editor_fskey,
             'is_allow' => $postLog->allow_json['isAllow'] ?? true,
             'allow_percentage' => $postLog->allow_json['percentage'] ?? null,
             'allow_btn_name' => $allowBtnName,
-            'allow_plugin_unikey' => $postLog->allow_json['pluginUnikey'] ?? null,
+            'allow_plugin_fskey' => $postLog->allow_json['pluginFskey'] ?? null,
             'is_user_list' => $postLog->user_list_json['isUserList'] ?? false,
             'user_list_name' => $userListName,
-            'user_list_plugin_unikey' => $postLog->user_list_json['pluginUnikey'] ?? null,
+            'user_list_plugin_fskey' => $postLog->user_list_json['pluginFskey'] ?? null,
             'is_comment' => $postLog->is_comment ?? true,
             'is_comment_public' => $postLog->is_comment_public ?? true,
             'is_comment_btn' => $postLog->comment_btn_json['isCommentBtn'] ?? false,
             'comment_btn_name' => $commentBtnName,
             'comment_btn_style' => $postLog->comment_btn_json['btnStyle'] ?? null,
-            'comment_btn_plugin_unikey' => $postLog->comment_btn_json['pluginUnikey'] ?? null,
+            'comment_btn_plugin_fskey' => $postLog->comment_btn_json['pluginFskey'] ?? null,
             'map_id' => $postLog->map_json['mapId'] ?? null,
             'map_json' => $postLog->map_json ?? null,
             'map_continent_code' => $postLog->map_json['continentCode'] ?? null,
@@ -1065,7 +1065,7 @@ class ContentUtility
             'comment_id' => $comment->id,
         ], [
             'is_plugin_editor' => $commentLog->is_plugin_editor,
-            'editor_unikey' => $commentLog->editor_unikey,
+            'editor_fskey' => $commentLog->editor_fskey,
             'map_id' => $commentLog->map_json['mapId'] ?? null,
             'map_json' => $commentLog->map_json ?? null,
             'map_continent_code' => $commentLog->map_json['continentCode'] ?? null,
@@ -1198,7 +1198,7 @@ class ContentUtility
                 'usage_type' => $logUsageType,
                 'usage_id' => $logId,
                 'operation_id' => $operation->operation_id,
-                'plugin_unikey' => $operation->plugin_unikey,
+                'plugin_fskey' => $operation->plugin_fskey,
             ];
 
             OperationUsage::create($operationDataItem);
@@ -1214,7 +1214,7 @@ class ContentUtility
                 'archive_id' => $archive->archive_id,
                 'archive_value' => $archive->archive_value,
                 'is_private' => $archive->is_private,
-                'plugin_unikey' => $archive->plugin_unikey,
+                'plugin_fskey' => $archive->plugin_fskey,
             ];
 
             ArchiveUsage::create($archiveDataItem);
@@ -1230,7 +1230,7 @@ class ContentUtility
                 'extend_id' => $extend->extend_id,
                 'can_delete' => $extend->can_delete,
                 'rating' => $extend->rating,
-                'plugin_unikey' => $extend->plugin_unikey,
+                'plugin_fskey' => $extend->plugin_fskey,
             ];
 
             ExtendUsage::create($extendDataItem);
@@ -1263,7 +1263,7 @@ class ContentUtility
         $allowJson['btnName'] = $allowBtnName;
         $allowJson['percentage'] = $post->postAppend->allow_percentage;
         $allowJson['permissions'] = $allowPermissions;
-        $allowJson['pluginUnikey'] = $post->postAppend->allow_plugin_unikey;
+        $allowJson['pluginFskey'] = $post->postAppend->allow_plugin_fskey;
 
         // user list json
         $userListNameArr = Language::where('table_name', 'post_appends')->where('table_column', 'user_list_name')->where('table_id', $post->id)->get();
@@ -1276,7 +1276,7 @@ class ContentUtility
 
         $userListJson['isUserList'] = $post->postAppend->is_user_list;
         $userListJson['userListName'] = $userListName;
-        $userListJson['pluginUnikey'] = $post->postAppend->user_list_plugin_unikey;
+        $userListJson['pluginFskey'] = $post->postAppend->user_list_plugin_fskey;
 
         // comment btn json
         $commentBtnNameArr = Language::where('table_name', 'post_appends')->where('table_column', 'comment_btn_name')->where('table_id', $post->id)->get();
@@ -1289,7 +1289,7 @@ class ContentUtility
 
         $commentBtnJson['isCommentBtn'] = $post->postAppend->is_comment_btn;
         $commentBtnJson['btnName'] = $commentBtnName;
-        $commentBtnJson['pluginUnikey'] = $post->postAppend->comment_btn_plugin_unikey;
+        $commentBtnJson['pluginFskey'] = $post->postAppend->comment_btn_plugin_fskey;
 
         // post log
         $logData = [
@@ -1298,7 +1298,7 @@ class ContentUtility
             'parent_post_id' => $post->parent_id ?: null,
             'create_type' => 3,
             'is_plugin_editor' => $post->postAppend->is_plugin_editor,
-            'editor_unikey' => $post->postAppend->editor_unikey,
+            'editor_fskey' => $post->postAppend->editor_fskey,
             'group_id' => $post->group_id,
             'title' => $post->title,
             'content' => $post->content,
@@ -1335,7 +1335,7 @@ class ContentUtility
             'parent_comment_id' => $comment->parent_id ?: null,
             'create_type' => 3,
             'is_plugin_editor' => $comment->commentAppend->is_plugin_editor,
-            'editor_unikey' => $comment->commentAppend->editor_unikey,
+            'editor_fskey' => $comment->commentAppend->editor_fskey,
             'content' => $comment->content,
             'is_markdown' => $comment->is_markdown,
             'is_anonymous' => $comment->is_anonymous,

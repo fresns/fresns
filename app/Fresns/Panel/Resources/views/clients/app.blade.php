@@ -32,7 +32,7 @@
                     <select class="form-select" name="ios_notifications_service">
                         <option value="" {{ !$params['ios_notifications_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
                         @foreach ($pluginParams['appNotifications'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['ios_notifications_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                            <option value="{{ $plugin->fskey }}" {{ $params['ios_notifications_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -49,7 +49,7 @@
                     <select class="form-select" name="android_notifications_service">
                         <option value="" {{ !$params['android_notifications_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
                         @foreach ($pluginParams['appNotifications'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['android_notifications_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                            <option value="{{ $plugin->fskey }}" {{ $params['android_notifications_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -66,7 +66,7 @@
                     <select class="form-select" name="wechat_notifications_service">
                         <option value="" {{ !$params['wechat_notifications_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
                         @foreach ($pluginParams['appNotifications'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['wechat_notifications_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                            <option value="{{ $plugin->fskey }}" {{ $params['wechat_notifications_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>

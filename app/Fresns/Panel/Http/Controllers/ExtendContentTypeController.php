@@ -34,21 +34,21 @@ class ExtendContentTypeController extends Controller
         $pluginUsage->usage_type = PluginUsage::TYPE_CONTENT;
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->scene = $request->scene ? implode(',', $request->scene) : '';
-        $pluginUsage->plugin_unikey = $request->plugin_unikey;
+        $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rating = $request->rating;
         $pluginUsage->can_delete = 1;
         $pluginUsage->data_sources = [
             'postByAll' => [
-                'pluginUnikey' => $request->post_list,
+                'pluginFskey' => $request->post_list,
                 'pluginRating' => [],
             ],
             'postByFollow' => [
-                'pluginUnikey' => $request->post_follow,
+                'pluginFskey' => $request->post_follow,
                 'pluginRating' => [],
             ],
             'postByNearby' => [
-                'pluginUnikey' => $request->post_nearby,
+                'pluginFskey' => $request->post_nearby,
                 'pluginRating' => [],
             ],
         ];
@@ -88,49 +88,49 @@ class ExtendContentTypeController extends Controller
         $pluginUsage = PluginUsage::findOrFail($id);
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->scene = $request->scene ? implode(',', $request->scene) : '';
-        $pluginUsage->plugin_unikey = $request->plugin_unikey;
+        $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rating = $request->rating;
         $dataSources = $pluginUsage->data_sources;
 
-        if ($request->post_all != ($dataSources['postByAll']['pluginUnikey'] ?? null)) {
+        if ($request->post_all != ($dataSources['postByAll']['pluginFskey'] ?? null)) {
             $dataSources['postByAll'] = [
-                'pluginUnikey' => $request->post_all,
+                'pluginFskey' => $request->post_all,
                 'pluginRating' => [],
             ];
         }
 
-        if ($request->post_follow != ($dataSources['postByFollow']['pluginUnikey'] ?? null)) {
+        if ($request->post_follow != ($dataSources['postByFollow']['pluginFskey'] ?? null)) {
             $dataSources['postByFollow'] = [
-                'pluginUnikey' => $request->post_follow,
+                'pluginFskey' => $request->post_follow,
                 'pluginRating' => [],
             ];
         }
 
-        if ($request->post_nearby != ($dataSources['postByNearby']['pluginUnikey'] ?? null)) {
+        if ($request->post_nearby != ($dataSources['postByNearby']['pluginFskey'] ?? null)) {
             $dataSources['postByNearby'] = [
-                'pluginUnikey' => $request->post_nearby,
+                'pluginFskey' => $request->post_nearby,
                 'pluginRating' => [],
             ];
         }
 
-        if ($request->comment_all != ($dataSources['commentByAll']['pluginUnikey'] ?? null)) {
+        if ($request->comment_all != ($dataSources['commentByAll']['pluginFskey'] ?? null)) {
             $dataSources['commentByAll'] = [
-                'pluginUnikey' => $request->comment_all,
+                'pluginFskey' => $request->comment_all,
                 'pluginRating' => [],
             ];
         }
 
-        if ($request->comment_follow != ($dataSources['commentByFollow']['pluginUnikey'] ?? null)) {
+        if ($request->comment_follow != ($dataSources['commentByFollow']['pluginFskey'] ?? null)) {
             $dataSources['commentByFollow'] = [
-                'pluginUnikey' => $request->comment_follow,
+                'pluginFskey' => $request->comment_follow,
                 'pluginRating' => [],
             ];
         }
 
-        if ($request->comment_nearby != ($dataSources['commentByNearby']['pluginUnikey'] ?? null)) {
+        if ($request->comment_nearby != ($dataSources['commentByNearby']['pluginFskey'] ?? null)) {
             $dataSources['commentByNearby'] = [
-                'pluginUnikey' => $request->comment_nearby,
+                'pluginFskey' => $request->comment_nearby,
                 'pluginRating' => [],
             ];
         }

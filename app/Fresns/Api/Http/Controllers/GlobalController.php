@@ -61,12 +61,12 @@ class GlobalController extends Controller
                 } elseif ($config->item_type == 'file') {
                     $item[$config->item_key] = ConfigHelper::fresnsConfigFileUrlByItemKey($config->item_key);
                 } elseif ($config->item_type == 'plugin') {
-                    $item[$config->item_key] = PluginHelper::fresnsPluginUrlByUnikey($config->item_value) ?? $config->item_value;
+                    $item[$config->item_key] = PluginHelper::fresnsPluginUrlByFskey($config->item_value) ?? $config->item_value;
                 } elseif ($config->item_type == 'plugins') {
                     if ($config->item_value) {
                         foreach ($config->item_value as $plugin) {
                             $pluginItem['code'] = $plugin['code'];
-                            $pluginItem['url'] = PluginHelper::fresnsPluginUrlByUnikey($plugin['unikey']);
+                            $pluginItem['url'] = PluginHelper::fresnsPluginUrlByFskey($plugin['fskey']);
                             $itemArr[] = $pluginItem;
                         }
                         $item[$config->item_key] = $itemArr;
@@ -117,10 +117,10 @@ class GlobalController extends Controller
         $dtoRequest = new GlobalCodeMessagesDTO($request->all());
 
         $langTag = $this->langTag();
-        $unikey = $dtoRequest->unikey ?? 'Fresns';
+        $fskey = $dtoRequest->fskey ?? 'Fresns';
         $isAll = $dtoRequest->isAll ?? false;
 
-        $cacheKey = "fresns_code_messages_{$unikey}_{$langTag}";
+        $cacheKey = "fresns_code_messages_{$fskey}_{$langTag}";
         $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
@@ -132,10 +132,10 @@ class GlobalController extends Controller
         $codeMessages = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($codeMessages)) {
-            $codeMessages = CodeMessage::where('plugin_unikey', $unikey)->where('lang_tag', $langTag)->get();
+            $codeMessages = CodeMessage::where('plugin_fskey', $fskey)->where('lang_tag', $langTag)->get();
 
             if (empty($codeMessages)) {
-                $codeMessages = CodeMessage::where('plugin_unikey', $unikey)->where('lang_tag', 'en')->get();
+                $codeMessages = CodeMessage::where('plugin_fskey', $fskey)->where('lang_tag', 'en')->get();
             }
 
             CacheHelper::put($codeMessages, $cacheKey, $cacheTag);
@@ -165,7 +165,7 @@ class GlobalController extends Controller
         $dtoRequest = new GlobalArchivesDTO($requestData);
 
         $langTag = $this->langTag();
-        $unikey = $dtoRequest->unikey ?? null;
+        $fskey = $dtoRequest->fskey ?? null;
 
         $usageType = match ($dtoRequest->type) {
             'user' => Archive::TYPE_USER,
@@ -175,7 +175,7 @@ class GlobalController extends Controller
             'comment' => Archive::TYPE_COMMENT,
         };
 
-        $cacheKey = "fresns_api_archives_{$dtoRequest->type}_{$unikey}_{$langTag}";
+        $cacheKey = "fresns_api_archives_{$dtoRequest->type}_{$fskey}_{$langTag}";
         $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
@@ -188,8 +188,8 @@ class GlobalController extends Controller
 
         if (empty($archives)) {
             $archiveData = Archive::type($usageType)
-                ->when($unikey, function ($query, $value) {
-                    $query->where('plugin_unikey', $value);
+                ->when($fskey, function ($query, $value) {
+                    $query->where('plugin_fskey', $value);
                 })
                 ->where('usage_group_id', 0)
                 ->isEnable()

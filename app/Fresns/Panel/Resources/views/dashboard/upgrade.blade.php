@@ -88,15 +88,15 @@
                             @foreach ($pluginsData as $plugin)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <img src="/assets/plugins/{{ $plugin->unikey }}/fresns.png" class="me-2" width="22" height="22">
-                                        <a href="{{ $marketplaceUrl.'/detail/'.$plugin->unikey }}" target="_blank" class="link-dark fresns-link">{{ $plugin->name }}</a>
+                                        <img src="/assets/plugins/{{ $plugin->fskey }}/fresns.png" class="me-2" width="22" height="22">
+                                        <a href="{{ $marketplaceUrl.'/detail/'.$plugin->fskey }}" target="_blank" class="link-dark fresns-link">{{ $plugin->name }}</a>
                                         <span class="badge bg-secondary">{{ $plugin->version }}</span> to <span class="badge bg-primary">{{ $plugin->upgrade_version }}</span>
                                     </div>
                                     <div>
                                         <button type="button" class="btn btn-warning btn-sm upgrade-extensions"
                                             data-bs-toggle="modal"
                                             data-bs-target="#upgradeExtensions"
-                                            data-unikey="{{ $plugin->unikey }}"
+                                            data-fskey="{{ $plugin->fskey }}"
                                             data-type="{{ $plugin->type }}"
                                             data-name="{{ $plugin->name }}"
                                             data-version="{{ $plugin->version }}"
@@ -126,15 +126,15 @@
                             @foreach ($appsData as $app)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <img src="/assets/plugins/{{ $app->unikey }}/fresns.png" class="me-2" width="22" height="22">
-                                        <a href="{{ $marketplaceUrl.'/detail/'.$app->unikey }}" target="_blank" class="link-dark fresns-link">{{ $app->name }}</a>
+                                        <img src="/assets/plugins/{{ $app->fskey }}/fresns.png" class="me-2" width="22" height="22">
+                                        <a href="{{ $marketplaceUrl.'/detail/'.$app->fskey }}" target="_blank" class="link-dark fresns-link">{{ $app->name }}</a>
                                         <span class="badge bg-secondary">{{ $app->version }}</span> to <span class="badge bg-primary">{{ $app->upgrade_version }}</span>
                                     </div>
                                     <div>
                                         <button type="button" class="btn btn-warning btn-sm upgrade-extensions"
                                             data-bs-toggle="modal"
                                             data-bs-target="#upgradeExtensions"
-                                            data-unikey="{{ $app->unikey }}"
+                                            data-fskey="{{ $app->fskey }}"
                                             data-type="{{ $app->type }}"
                                             data-name="{{ $app->name }}"
                                             data-version="{{ $app->version }}"
@@ -164,15 +164,15 @@
                             @foreach ($enginesData as $engine)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <img src="/assets/plugins/{{ $engine->unikey }}/fresns.png" class="me-2" width="22" height="22">
-                                        <a href="{{ $marketplaceUrl.'/detail/'.$engine->unikey }}" target="_blank" class="link-dark fresns-link">{{ $engine->name }}</a>
+                                        <img src="/assets/plugins/{{ $engine->fskey }}/fresns.png" class="me-2" width="22" height="22">
+                                        <a href="{{ $marketplaceUrl.'/detail/'.$engine->fskey }}" target="_blank" class="link-dark fresns-link">{{ $engine->name }}</a>
                                         <span class="badge bg-secondary">{{ $engine->version }}</span> to <span class="badge bg-primary">{{ $engine->upgrade_version }}</span>
                                     </div>
                                     <div>
                                         <button type="button" class="btn btn-warning btn-sm upgrade-extensions"
                                             data-bs-toggle="modal"
                                             data-bs-target="#upgradeExtensions"
-                                            data-unikey="{{ $engine->unikey }}"
+                                            data-fskey="{{ $engine->fskey }}"
                                             data-type="{{ $engine->type }}"
                                             data-name="{{ $engine->name }}"
                                             data-version="{{ $engine->version }}"
@@ -202,15 +202,15 @@
                             @foreach ($themesData as $theme)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <img src="/assets/themes/{{ $theme->unikey }}/fresns.png" class="me-2" width="22" height="22">
-                                        <a href="{{ $marketplaceUrl.'/detail/'.$theme->unikey }}" target="_blank" class="link-dark fresns-link">{{ $theme->name }}</a>
+                                        <img src="/assets/themes/{{ $theme->fskey }}/fresns.png" class="me-2" width="22" height="22">
+                                        <a href="{{ $marketplaceUrl.'/detail/'.$theme->fskey }}" target="_blank" class="link-dark fresns-link">{{ $theme->name }}</a>
                                         <span class="badge bg-secondary">{{ $theme->version }}</span> to <span class="badge bg-primary">{{ $theme->upgrade_version }}</span>
                                     </div>
                                     <div>
                                         <button type="button" class="btn btn-warning btn-sm upgrade-extensions"
                                             data-bs-toggle="modal"
                                             data-bs-target="#upgradeExtensions"
-                                            data-unikey="{{ $theme->unikey }}"
+                                            data-fskey="{{ $theme->fskey }}"
                                             data-type="{{ $theme->type }}"
                                             data-name="{{ $theme->name }}"
                                             data-version="{{ $theme->version }}"
@@ -371,7 +371,7 @@
                         <div class="input-group mb-3">
                             <span class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</span>
                             <span class="input-group-text">Key</span>
-                            <input type="text" class="form-control" name="pluginUnikey" maxlength="64" required>
+                            <input type="text" class="form-control" name="pluginFskey" maxlength="64" required>
                         </div>
                         <div class="input-group">
                             <span class="input-group-text">{{ __('FsLang::panel.button_upgrade') }}</span>
@@ -407,7 +407,7 @@
                     <form action="{{ route('panel.plugin.upgrade') }}" method="post">
                         @csrf
                         @method('put')
-                        <input type="hidden" name="unikey">
+                        <input type="hidden" name="fskey">
                         <input type="hidden" name="type">
                         <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#upgradeStepModal" id="extensionsUpgradeSubmit">{{ __('FsLang::panel.button_confirm_upgrade') }}</button>
                     </form>

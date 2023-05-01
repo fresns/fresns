@@ -36,7 +36,7 @@ class Crontab
         $cronArr = ConfigHelper::fresnsConfigByItemKey('crontab_items');
         $cronIsset = 0;
         foreach ($cronArr as $k => $v) {
-            if ($v['unikey'] == $dtoWordBody->unikey && $v['cmdWord'] == $dtoWordBody->cmdWord) {
+            if ($v['fskey'] == $dtoWordBody->fskey && $v['cmdWord'] == $dtoWordBody->cmdWord) {
                 $cronArr[$k] = $wordBody;
                 $cronIsset = 1;
             }
@@ -65,7 +65,7 @@ class Crontab
         $dtoWordBody = new DeleteCrontabItemDTO($wordBody);
         $cronArr = ConfigHelper::fresnsConfigByItemKey('crontab_items');
         foreach ($cronArr as $k => $v) {
-            if ($v['unikey'] == $dtoWordBody->unikey && $v['cmdWord'] == $dtoWordBody->cmdWord) {
+            if ($v['fskey'] == $dtoWordBody->fskey && $v['cmdWord'] == $dtoWordBody->cmdWord) {
                 unset($cronArr[$k]);
             }
         }
@@ -165,7 +165,7 @@ class Crontab
 
         // market-manager
         $response = Http::market()->get('/api/open-source/v2/check', [
-            'unikeys' => json_encode($plugins->pluck('unikey')->all()),
+            'fskeys' => json_encode($plugins->pluck('fskey')->all()),
         ]);
 
         // Request error
@@ -181,12 +181,12 @@ class Crontab
             return $this->success();
         }
 
-        foreach ($response->json('data') as $unikey => $version) {
+        foreach ($response->json('data') as $fskey => $version) {
             if (is_null($version)) {
                 continue;
             }
 
-            $plugin = $plugins->where('unikey', $unikey)->first();
+            $plugin = $plugins->where('fskey', $fskey)->first();
 
             // Same version number
             if (version_compare($plugin->version, $version) === 0) {

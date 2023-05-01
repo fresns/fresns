@@ -165,7 +165,7 @@ class WalletController extends Controller
         $pluginUsage = new PluginUsage;
         $pluginUsage->usage_type = PluginUsage::TYPE_WALLET_RECHARGE;
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
-        $pluginUsage->plugin_unikey = $request->plugin_unikey;
+        $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rating = $request->rating;
@@ -225,7 +225,7 @@ class WalletController extends Controller
     public function rechargeUpdate(PluginUsage $pluginUsage, Request $request)
     {
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
-        $pluginUsage->plugin_unikey = $request->plugin_unikey;
+        $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rating = $request->rating;
@@ -304,7 +304,7 @@ class WalletController extends Controller
         $pluginUsage = new PluginUsage;
         $pluginUsage->usage_type = PluginUsage::TYPE_WALLET_WITHDRAW;
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
-        $pluginUsage->plugin_unikey = $request->plugin_unikey;
+        $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rating = $request->rating;
@@ -364,7 +364,7 @@ class WalletController extends Controller
     public function withdrawUpdate(PluginUsage $pluginUsage, Request $request)
     {
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
-        $pluginUsage->plugin_unikey = $request->plugin_unikey;
+        $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rating = $request->rating;

@@ -32,10 +32,10 @@ class UserActivateEvent
 
     public function notify(Subscribe $subscribe)
     {
-        $unikey = $subscribe->getUnikey();
+        $fskey = $subscribe->getFskey();
         $cmdWord = $subscribe->getCmdWord();
 
-        \FresnsCmdWord::plugin($unikey)->$cmdWord([
+        \FresnsCmdWord::plugin($fskey)->$cmdWord([
             'uri' => $this->uri,
             'headers' => $this->headers,
             'body' => $this->body,

@@ -47,7 +47,7 @@
                         </td>
                         <td><i class="bi {{ $key->is_enable ? 'bi-check-lg text-success' : 'bi-dash-lg text-secondary' }}"></i></td>
                         <td>
-                            <button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#updateKey" data-id="{{ $key->id }}" data-name="{{ $key->name }}" data-type="{{ $key->type }}" data-platform_id="{{ $key->platform_id }}" data-plugin_unikey="{{ $key->plugin_unikey }}" data-is_enable="{{ $key->is_enable }}" data-action="{{ route('panel.keys.update', $key) }}">{{ __('FsLang::panel.button_edit') }}</button>
+                            <button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#updateKey" data-id="{{ $key->id }}" data-name="{{ $key->name }}" data-type="{{ $key->type }}" data-platform_id="{{ $key->platform_id }}" data-plugin_fskey="{{ $key->plugin_fskey }}" data-is_enable="{{ $key->is_enable }}" data-action="{{ route('panel.keys.update', $key) }}">{{ __('FsLang::panel.button_edit') }}</button>
                             <button type="button" class="btn btn-outline-primary btn-sm mx-2" data-bs-toggle="modal" data-app_id="{{ $key->app_id }}" data-name="{{ $key->name }}" data-action="{{ route('panel.keys.reset', $key) }}" data-bs-target="#resetSecret">{{ __('FsLang::panel.button_reset_secret') }}</button>
                             <button type="button" class="btn btn-link btn-sm text-danger fresns-link" data-bs-toggle="modal" data-app_id="{{ $key->app_id }}" data-name="{{ $key->name }}" data-action="{{ route('panel.keys.destroy', $key) }}" data-bs-target="#deleteKey">{{ __('FsLang::panel.button_delete') }}</button>
                         </td>
@@ -106,10 +106,10 @@
                         <!--type: select plugin-->
                         <div class="input-group mb-3 collapse key_plugin_setting">
                             <span class="input-group-text">{{ __('FsLang::panel.table_plugin') }} <i class="bi bi-info-circle ms-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.key_option_plugin_api_select_desc') }}"></i></span>
-                            <select class="form-select" name="plugin_unikey" id="create_key_plugin">
+                            <select class="form-select" name="plugin_fskey" id="create_key_plugin">
                                 <option selected disabled>{{ __('FsLang::panel.key_option_plugin_api_select') }}</option>
                                 @foreach ($plugins as $plugin)
-                                    <option value="{{ $plugin->unikey }}">{{ $plugin->name }}</option>
+                                    <option value="{{ $plugin->fskey }}">{{ $plugin->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -186,10 +186,10 @@
                         <!--type: select plugin-->
                         <div class="input-group mb-3 collapse key_plugin_setting">
                             <span class="input-group-text">{{ __('FsLang::panel.table_plugin') }} <i class="bi bi-info-circle ms-2" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.key_option_plugin_api_select_desc') }}"></i></span>
-                            <select class="form-select" name="plugin_unikey" id="key_plugin">
+                            <select class="form-select" name="plugin_fskey" id="key_plugin">
                                 <option selected disabled>{{ __('FsLang::panel.key_option_plugin_api_select') }}</option>
                                 @foreach ($plugins as $plugin)
-                                    <option value="{{ $plugin->unikey }}">{{ $plugin->name }}</option>
+                                    <option value="{{ $plugin->fskey }}">{{ $plugin->name }}</option>
                                 @endforeach
                             </select>
                         </div>

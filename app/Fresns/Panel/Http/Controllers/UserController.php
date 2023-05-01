@@ -209,7 +209,7 @@ class UserController extends Controller
                 }
                 $services[$connect] = [
                     'code' => $connect,
-                    'unikey' => $request->connect_plugins[$key] ?? '',
+                    'fskey' => $request->connect_plugins[$key] ?? '',
                 ];
             }
 

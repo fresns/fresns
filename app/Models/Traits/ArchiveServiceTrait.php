@@ -34,7 +34,7 @@ trait ArchiveServiceTrait
             default => null,
         };
 
-        $info['plugin'] = $archiveData->plugin_unikey;
+        $info['plugin'] = $archiveData->plugin_fskey;
         $info['name'] = LanguageHelper::fresnsLanguageByTableId('archives', 'name', $archiveData->id, $langTag) ?? $archiveData->name;
         $info['description'] = LanguageHelper::fresnsLanguageByTableId('archives', 'description', $archiveData->id, $langTag) ?? $archiveData->description;
         $info['code'] = $archiveData->code;

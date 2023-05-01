@@ -70,7 +70,7 @@ class ExtendUtility
     }
 
     // get plugin badge
-    public static function getPluginBadge(string $unikey, ?int $userId = null): array
+    public static function getPluginBadge(string $fskey, ?int $userId = null): array
     {
         $badge['badgeType'] = null;
         $badge['badgeValue'] = null;
@@ -79,7 +79,7 @@ class ExtendUtility
             return $badge;
         }
 
-        $cacheKey = "fresns_plugin_{$unikey}_badge_{$userId}";
+        $cacheKey = "fresns_plugin_{$fskey}_badge_{$userId}";
         $cacheTag = 'fresnsUsers';
 
         // is known to be empty
@@ -91,7 +91,7 @@ class ExtendUtility
         $badge = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($badge)) {
-            $badgeModel = PluginBadge::where('plugin_unikey', $unikey)->where('user_id', $userId)->first();
+            $badgeModel = PluginBadge::where('plugin_fskey', $fskey)->where('user_id', $userId)->first();
             $badge['badgeType'] = $badgeModel?->display_type;
             $badge['badgeValue'] = match ($badgeModel?->display_type) {
                 1 => $badgeModel?->value_number,
@@ -108,21 +108,21 @@ class ExtendUtility
     // get data extend
     public static function getDataExtend(string $contentType, string $dataType): ?string
     {
-        $dataConfig = PluginUsage::type(PluginUsage::TYPE_CONTENT)->where('plugin_unikey', $contentType)->isEnable()->value('data_sources');
+        $dataConfig = PluginUsage::type(PluginUsage::TYPE_CONTENT)->where('plugin_fskey', $contentType)->isEnable()->value('data_sources');
 
         if (empty($dataConfig)) {
             return null;
         }
 
-        $dataPluginUnikey = $dataConfig[$dataType]['pluginUnikey'] ?? null;
+        $dataPluginFskey = $dataConfig[$dataType]['pluginFskey'] ?? null;
 
-        $dataPlugin = Plugin::where('unikey', $dataPluginUnikey)->isEnable()->first();
+        $dataPlugin = Plugin::where('fskey', $dataPluginFskey)->isEnable()->first();
 
         if (empty($dataPlugin)) {
             return null;
         }
 
-        return $dataPlugin->unikey;
+        return $dataPlugin->fskey;
     }
 
     // get operations
@@ -143,7 +143,7 @@ class ExtendUtility
             $item['imageUrl'] = FileHelper::fresnsFileUrlByTableColumn($operationUse->operation->image_file_id, $operationUse->operation->image_file_url);
             $item['imageActiveUrl'] = FileHelper::fresnsFileUrlByTableColumn($operationUse->operation->image_active_file_id, $operationUse->operation->image_active_file_url);
             $item['displayType'] = $operationUse->operation->display_type;
-            $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByUnikey($operationUse->operation->plugin_unikey);
+            $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByFskey($operationUse->operation->plugin_fskey);
 
             return $item;
         })->groupBy('type');
@@ -178,7 +178,7 @@ class ExtendUtility
             if ($archive->value_type == 'plugins') {
                 foreach ($use->archive_value ?? [] as $plugin) {
                     $plugin['code'] = $plugin['code'];
-                    $plugin['url'] = PluginHelper::fresnsPluginUrlByUnikey($plugin['unikey']) ?? $plugin['unikey'];
+                    $plugin['url'] = PluginHelper::fresnsPluginUrlByFskey($plugin['fskey']) ?? $plugin['fskey'];
 
                     $pluginArr[] = $plugin;
                 }
@@ -186,7 +186,7 @@ class ExtendUtility
 
             $archiveValue = match ($archive->value_type) {
                 'file' => StrHelper::isPureInt($use->archive_value) ? FileHelper::fresnsFileUrlById($use->archive_value) : $use->archive_value,
-                'plugin' => PluginHelper::fresnsPluginUrlByUnikey($use->archive_value) ?? $use->archive_value,
+                'plugin' => PluginHelper::fresnsPluginUrlByFskey($use->archive_value) ?? $use->archive_value,
                 'plugins' => $pluginArr,
                 'number' => (int) $use->archive_value,
                 'boolean' => (bool) $use->archive_value,
@@ -233,7 +233,7 @@ class ExtendUtility
             $item['buttonName'] = LanguageHelper::fresnsLanguageByTableId('extends', 'button_name', $extendUsage->extend->id, $langTag) ?? $extendUsage->extend->button_name;
             $item['buttonColor'] = $extendUsage->extend->button_color;
             $item['position'] = $extendUsage->extend->position;
-            $item['accessUrl'] = PluginHelper::fresnsPluginUsageUrl($extendUsage->extend->plugin_unikey, $extendUsage->extend->parameter);
+            $item['accessUrl'] = PluginHelper::fresnsPluginUsageUrl($extendUsage->extend->plugin_fskey, $extendUsage->extend->parameter);
             $item['moreJson'] = $extendUsage->extend->more_json;
 
             return $item;
@@ -425,9 +425,9 @@ class ExtendUtility
             return [];
         }
 
-        $unikeys = array_column($allExtends, 'name');
-        $unikeys = array_unique($unikeys);
-        $newAllExtends = array_intersect_key($allExtends, $unikeys);
+        $fskeys = array_column($allExtends, 'name');
+        $fskeys = array_unique($fskeys);
+        $newAllExtends = array_intersect_key($allExtends, $fskeys);
 
         return array_values($newAllExtends);
     }
@@ -466,9 +466,9 @@ class ExtendUtility
             return [];
         }
 
-        $unikeys = array_column($allManageExtends, 'name');
-        $unikeys = array_unique($unikeys);
-        $newManageExtends = array_intersect_key($allManageExtends, $unikeys);
+        $fskeys = array_column($allManageExtends, 'name');
+        $fskeys = array_unique($fskeys);
+        $newManageExtends = array_intersect_key($allManageExtends, $fskeys);
 
         return array_values($newManageExtends);
     }
@@ -502,14 +502,14 @@ class ExtendUtility
             return [];
         }
 
-        $unikeys = array_column($allExtends, 'name');
-        $unikeys = array_unique($unikeys);
-        $newAllExtends = array_intersect_key($allExtends, $unikeys);
+        $fskeys = array_column($allExtends, 'name');
+        $fskeys = array_unique($fskeys);
+        $newAllExtends = array_intersect_key($allExtends, $fskeys);
         $newAllExtends = array_values($newAllExtends);
 
         $userExtensions = [];
         foreach ($newAllExtends as $extend) {
-            $badge = ExtendUtility::getPluginBadge($extend['unikey'], $authUserId);
+            $badge = ExtendUtility::getPluginBadge($extend['fskey'], $authUserId);
 
             $extend['badgeType'] = $badge['badgeType'];
             $extend['badgeValue'] = $badge['badgeValue'];
@@ -543,14 +543,14 @@ class ExtendUtility
             return [];
         }
 
-        $unikeys = array_column($allExtends, 'name');
-        $unikeys = array_unique($unikeys);
-        $newAllExtends = array_intersect_key($allExtends, $unikeys);
+        $fskeys = array_column($allExtends, 'name');
+        $fskeys = array_unique($fskeys);
+        $newAllExtends = array_intersect_key($allExtends, $fskeys);
         $newAllExtends = array_values($newAllExtends);
 
         $groupExtensions = [];
         foreach ($newAllExtends as $extend) {
-            $badge = ExtendUtility::getPluginBadge($extend['unikey'], $authUserId);
+            $badge = ExtendUtility::getPluginBadge($extend['fskey'], $authUserId);
 
             $extend['badgeType'] = $badge['badgeType'];
             $extend['badgeValue'] = $badge['badgeValue'];

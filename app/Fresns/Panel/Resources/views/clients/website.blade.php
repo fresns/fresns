@@ -103,9 +103,9 @@
             <div class="col-lg-5">
                 <div class="input-group mb-3">
                     <div class="form-control bg-white" style="padding:0.28rem 0.75rem;">
-                        @if ($themeUnikey['desktop'])
+                        @if ($themeFskey['desktop'])
                             <span class="badge bg-success fw-normal ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.engine_theme_desktop') }}">
-                                <i class="bi bi-laptop"></i> {{ $themeName['desktop'] ?? $themeUnikey['desktop'] }}
+                                <i class="bi bi-laptop"></i> {{ $themeName['desktop'] ?? $themeFskey['desktop'] }}
                             </span>
                         @else
                             <span class="badge bg-secondary fw-normal ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.engine_theme_desktop') }}">
@@ -113,9 +113,9 @@
                             </span>
                         @endif
 
-                        @if ($themeUnikey['mobile'])
+                        @if ($themeFskey['mobile'])
                             <span class="badge bg-success fw-normal ms-3" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.engine_theme_mobile') }}">
-                                <i class="bi bi-phone"></i> {{ $themeName['mobile'] ?? $themeUnikey['mobile'] }}
+                                <i class="bi bi-phone"></i> {{ $themeName['mobile'] ?? $themeFskey['mobile'] }}
                             </span>
                         @else
                             <span class="badge bg-secondary fw-normal ms-3" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.engine_theme_mobile') }}">

@@ -94,12 +94,12 @@ class ConfigUtility
     }
 
     // get code message
-    public static function getCodeMessage(int $code, ?string $unikey = null, ?string $langTag = null): string
+    public static function getCodeMessage(int $code, ?string $fskey = null, ?string $langTag = null): string
     {
-        $unikey = $unikey ?: 'Fresns';
+        $fskey = $fskey ?: 'Fresns';
         $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
 
-        $cacheKey = "fresns_code_messages_{$unikey}_{$langTag}";
+        $cacheKey = "fresns_code_messages_{$fskey}_{$langTag}";
         $cacheTag = 'fresnsConfigs';
 
         // is known to be empty
@@ -111,10 +111,10 @@ class ConfigUtility
         $codeMessages = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($codeMessages)) {
-            $codeMessages = CodeMessage::where('plugin_unikey', $unikey)->where('lang_tag', $langTag)->get();
+            $codeMessages = CodeMessage::where('plugin_fskey', $fskey)->where('lang_tag', $langTag)->get();
 
             if (empty($codeMessages)) {
-                $codeMessages = CodeMessage::where('plugin_unikey', $unikey)->where('lang_tag', 'en')->get();
+                $codeMessages = CodeMessage::where('plugin_fskey', $fskey)->where('lang_tag', 'en')->get();
             }
 
             CacheHelper::put($codeMessages, $cacheKey, $cacheTag);
@@ -204,10 +204,10 @@ class ConfigUtility
             'map_service',
         ]);
 
-        $imageUploadUrl = PluginHelper::fresnsPluginUrlByUnikey($editorConfig['image_service']);
-        $videoUploadUrl = PluginHelper::fresnsPluginUrlByUnikey($editorConfig['video_service']);
-        $audioUploadUrl = PluginHelper::fresnsPluginUrlByUnikey($editorConfig['audio_service']);
-        $documentUploadUrl = PluginHelper::fresnsPluginUrlByUnikey($editorConfig['document_service']);
+        $imageUploadUrl = PluginHelper::fresnsPluginUrlByFskey($editorConfig['image_service']);
+        $videoUploadUrl = PluginHelper::fresnsPluginUrlByFskey($editorConfig['video_service']);
+        $audioUploadUrl = PluginHelper::fresnsPluginUrlByFskey($editorConfig['audio_service']);
+        $documentUploadUrl = PluginHelper::fresnsPluginUrlByFskey($editorConfig['document_service']);
 
         // images
         $image['status'] = $editorConfig["{$type}_editor_image"] ? $rolePerm["{$type}_editor_image"] : false;
@@ -294,7 +294,7 @@ class ConfigUtility
 
         // location
         $location['status'] = $editorConfig["{$type}_editor_location"];
-        $location['map'] = PluginHelper::fresnsPluginUrlByUnikey($editorConfig['map_service']);
+        $location['map'] = PluginHelper::fresnsPluginUrlByFskey($editorConfig['map_service']);
 
         // feature
         $feature['group'] = $group;

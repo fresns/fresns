@@ -291,7 +291,7 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::get('panels', [ExtensionController::class, 'panelIndex'])->name('panels.index');
         // engines
         Route::get('engines', [ExtensionController::class, 'engineIndex'])->name('engines.index');
-        Route::put('engines/{unikey}/theme', [ExtensionController::class, 'updateEngineTheme'])->name('engine.theme.update');
+        Route::put('engines/{fskey}/theme', [ExtensionController::class, 'updateEngineTheme'])->name('engine.theme.update');
         Route::patch('updateDefaultEngine', [ExtensionController::class, 'updateDefaultEngine'])->name('defaultEngine.theme.update');
         // themes
         Route::get('themes', [ExtensionController::class, 'themeIndex'])->name('themes.index');

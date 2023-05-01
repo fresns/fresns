@@ -29,16 +29,16 @@ class CodeMessageController extends Controller
             $languageConfig[$config->item_key] = $config->item_value;
         }
 
-        $unikeyArr = CodeMessage::pluck('plugin_unikey')->toArray();
-        $unikeys = array_unique($unikeyArr);
-        $pluginList = Plugin::whereIn('unikey', $unikeys)->get(['unikey', 'name'])->toArray();
+        $fskeyArr = CodeMessage::pluck('plugin_fskey')->toArray();
+        $fskeys = array_unique($fskeyArr);
+        $pluginList = Plugin::whereIn('fskey', $fskeys)->get(['fskey', 'name'])->toArray();
 
         $langTag = $request->lang_tag ?: $languageConfig['default_language'];
 
         $codeMessages = CodeMessage::where('lang_tag', $langTag);
 
-        $codeMessages->when($request->plugin_unikey, function ($query, $value) {
-            $query->where('plugin_unikey', $value);
+        $codeMessages->when($request->plugin_fskey, function ($query, $value) {
+            $query->where('plugin_fskey', $value);
         });
 
         if (isset($request->code)) {
@@ -70,7 +70,7 @@ class CodeMessageController extends Controller
             $brotherCodeMessage = CodeMessage::firstOrNew([
                 'code' => $codeMessage->code,
                 'lang_tag' => $langTag,
-                'plugin_unikey' => $codeMessage->plugin_unikey,
+                'plugin_fskey' => $codeMessage->plugin_fskey,
             ]);
 
             $brotherCodeMessage->message = $message ?: '';

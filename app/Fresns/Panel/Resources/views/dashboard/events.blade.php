@@ -35,7 +35,7 @@
                     <tbody>
                         @foreach ($crontabList as $crontab)
                             <tr>
-                                <td>{{ $crontab['unikey'] }} </td>
+                                <td>{{ $crontab['fskey'] }} </td>
                                 <td>{{ $crontab['cmdWord'] }} </td>
                                 <td>{{ $crontab['cronTableFormat'] }} </td>
                             </tr>
@@ -63,7 +63,7 @@
                         @foreach ($subscribeList as $sub)
                             <tr>
                                 <td>{{ $sub['type'] }} </td>
-                                <td>{{ $sub['unikey'] }} </td>
+                                <td>{{ $sub['fskey'] }} </td>
                                 <td>{{ $sub['cmdWord'] }} </td>
                                 <td>{{ $sub['subTableName'] }} </td>
                             </tr>

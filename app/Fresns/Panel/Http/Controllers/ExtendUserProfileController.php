@@ -42,7 +42,7 @@ class ExtendUserProfileController extends Controller
         $pluginUsage = new PluginUsage;
         $pluginUsage->usage_type = PluginUsage::TYPE_PROFILE;
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
-        $pluginUsage->plugin_unikey = $request->plugin_unikey;
+        $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rating = $request->rating;
@@ -107,7 +107,7 @@ class ExtendUserProfileController extends Controller
             return $this->updateSuccess();
         }
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
-        $pluginUsage->plugin_unikey = $request->plugin_unikey;
+        $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enable = $request->is_enable;
         $pluginUsage->rating = $request->rating;

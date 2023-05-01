@@ -71,26 +71,26 @@ class ExtensionController extends Controller
 
         $configKeys = [];
         $engines->each(function ($engine) use (&$configKeys) {
-            $configKeys[] = $engine->unikey.'_Desktop';
-            $configKeys[] = $engine->unikey.'_Mobile';
+            $configKeys[] = $engine->fskey.'_Desktop';
+            $configKeys[] = $engine->fskey.'_Mobile';
         });
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
         $pluginKeys = $configs->pluck('item_value')->filter();
-        $plugins = Plugin::whereIn('unikey', $pluginKeys)->get()->mapWithKeys(function ($plugin, $key) {
-            return [$plugin->unikey => $plugin->name];
+        $plugins = Plugin::whereIn('fskey', $pluginKeys)->get()->mapWithKeys(function ($plugin, $key) {
+            return [$plugin->fskey => $plugin->name];
         })->toArray();
 
         $themes = Plugin::type(4)->latest()->get();
 
         $FresnsEngine = Config::where('item_key', 'FresnsEngine')->first()?->item_value;
-        $themeUnikey['desktop'] = Config::where('item_key', 'FresnsEngine_Desktop')->value('item_value');
-        $themeUnikey['mobile'] = Config::where('item_key', 'FresnsEngine_Mobile')->value('item_value');
+        $themeFskey['desktop'] = Config::where('item_key', 'FresnsEngine_Desktop')->value('item_value');
+        $themeFskey['mobile'] = Config::where('item_key', 'FresnsEngine_Mobile')->value('item_value');
 
-        $themeName['desktop'] = Plugin::where('unikey', $themeUnikey['desktop'])->value('name');
-        $themeName['mobile'] = Plugin::where('unikey', $themeUnikey['mobile'])->value('name');
+        $themeName['desktop'] = Plugin::where('fskey', $themeFskey['desktop'])->value('name');
+        $themeName['mobile'] = Plugin::where('fskey', $themeFskey['mobile'])->value('name');
 
-        return view('FsView::extensions.engines', compact('engines', 'configs', 'themes', 'plugins', 'FresnsEngine', 'themeUnikey', 'themeName'));
+        return view('FsView::extensions.engines', compact('engines', 'configs', 'themes', 'plugins', 'FresnsEngine', 'themeFskey', 'themeName'));
     }
 
     public function updateDefaultEngine(Request $request)
@@ -108,10 +108,10 @@ class ExtensionController extends Controller
         return $this->updateSuccess();
     }
 
-    public function updateEngineTheme(string $unikey, Request $request)
+    public function updateEngineTheme(string $fskey, Request $request)
     {
-        $desktopKey = $unikey.'_Desktop';
-        $mobileKey = $unikey.'_Mobile';
+        $desktopKey = $fskey.'_Desktop';
+        $mobileKey = $fskey.'_Mobile';
 
         $desktopConfig = Config::where('item_key', $desktopKey)->first();
         if ($request->has($desktopKey)) {
@@ -164,17 +164,17 @@ class ExtensionController extends Controller
         $installMethod = $request->install_method;
 
         switch ($installMethod) {
-            // unikey
-            case 'inputUnikey':
-                $pluginUnikey = $request->plugin_unikey;
+            // fskey
+            case 'inputFskey':
+                $pluginFskey = $request->plugin_fskey;
 
-                if (empty($pluginUnikey)) {
+                if (empty($pluginFskey)) {
                     return back()->with('failure', __('FsLang::tips.install_not_entered_key'));
                 }
 
                 // market-manager
                 $exitCode = Artisan::call('market:require', [
-                    'unikey' => $pluginUnikey,
+                    'fskey' => $pluginFskey,
                 ]);
                 $output = Artisan::output();
                 break;
@@ -236,7 +236,7 @@ class ExtensionController extends Controller
 
     public function upgrade(Request $request)
     {
-        $unikey = $request->get('unikey');
+        $fskey = $request->get('fskey');
         $packageType = match ($request->get('type')) {
             default => 'plugin',
             4 => 'theme',
@@ -245,7 +245,7 @@ class ExtensionController extends Controller
 
         // market-manager
         $code = Artisan::call('market:upgrade', [
-            'unikey' => $unikey,
+            'fskey' => $fskey,
             'package_type' => $packageType,
             '--install_type' => $installType,
         ]);
@@ -268,9 +268,9 @@ class ExtensionController extends Controller
     public function update(Request $request)
     {
         if ($request->get('is_enable') != 0) {
-            $exitCode = Artisan::call('market:activate', ['unikey' => $request->plugin]);
+            $exitCode = Artisan::call('market:activate', ['fskey' => $request->plugin]);
         } else {
-            $exitCode = Artisan::call('market:deactivate', ['unikey' => $request->plugin]);
+            $exitCode = Artisan::call('market:deactivate', ['fskey' => $request->plugin]);
         }
 
         return $this->updateSuccess();
@@ -279,9 +279,9 @@ class ExtensionController extends Controller
     public function uninstall(Request $request)
     {
         if ($request->get('clearData') == 1) {
-            $exitCode = Artisan::call('market:remove-plugin', ['unikey' => $request->plugin, '--cleardata' => true]);
+            $exitCode = Artisan::call('market:remove-plugin', ['fskey' => $request->plugin, '--cleardata' => true]);
         } else {
-            $exitCode = Artisan::call('market:remove-plugin', ['unikey' => $request->plugin, '--cleardata' => false]);
+            $exitCode = Artisan::call('market:remove-plugin', ['fskey' => $request->plugin, '--cleardata' => false]);
         }
 
         // $exitCode = 0 success
@@ -314,9 +314,9 @@ class ExtensionController extends Controller
                 ConfigUtility::removeFresnsConfigItems($itemKeys);
             }
 
-            $exitCode = Artisan::call('market:remove-theme', ['unikey' => $request->theme]);
+            $exitCode = Artisan::call('market:remove-theme', ['fskey' => $request->theme]);
         } else {
-            $exitCode = Artisan::call('market:remove-theme', ['unikey' => $request->theme]);
+            $exitCode = Artisan::call('market:remove-theme', ['fskey' => $request->theme]);
         }
 
         // $exitCode = 0 success
@@ -332,7 +332,7 @@ class ExtensionController extends Controller
 
     public function updateCode(Request $request)
     {
-        $plugin = Plugin::where('unikey', $request->input('pluginUnikey'))->first();
+        $plugin = Plugin::where('fskey', $request->input('pluginFskey'))->first();
 
         if (! empty($plugin)) {
             $plugin->upgrade_code = $request->upgradeCode;

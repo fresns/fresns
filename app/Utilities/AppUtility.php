@@ -122,7 +122,7 @@ class AppUtility
         $pluginModels = Plugin::type($type)->get();
 
         foreach ($pluginModels as $plugin) {
-            $status = $plugins[$plugin->unikey] ?? false;
+            $status = $plugins[$plugin->fskey] ?? false;
 
             $plugin->is_enable = $status;
             $plugin->save();

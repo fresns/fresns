@@ -41,7 +41,7 @@ class Basic
 
         $keyInfo = PrimaryHelper::fresnsModelByFsid('key', $dtoWordBody->appId);
         $keyType = $dtoWordBody->verifyType ?? SessionKey::TYPE_CORE;
-        $keyUnikey = $dtoWordBody->verifyUnikey;
+        $keyFskey = $dtoWordBody->verifyFskey;
 
         if (empty($keyInfo) || ! $keyInfo->is_enable) {
             return $this->failure(
@@ -57,7 +57,7 @@ class Basic
             );
         }
 
-        if ($keyType == SessionKey::TYPE_PLUGIN && $keyInfo->plugin_unikey != $keyUnikey) {
+        if ($keyType == SessionKey::TYPE_PLUGIN && $keyInfo->plugin_fskey != $keyFskey) {
             return $this->failure(
                 31304,
                 ConfigUtility::getCodeMessage(31304, 'Fresns', $langTag),
@@ -226,7 +226,7 @@ class Basic
 
         $input = [
             'type' => $dtoWordBody->type,
-            'plugin_unikey' => $dtoWordBody->pluginUnikey ?? 'Fresns',
+            'plugin_fskey' => $dtoWordBody->fskey ?? 'Fresns',
             'platform_id' => $dtoWordBody->platformId,
             'version' => $dtoWordBody->version,
             'app_id' => $dtoWordBody->appId ?? null,
@@ -257,20 +257,20 @@ class Basic
     {
         $dtoWordBody = new SendCodeDTO($wordBody);
         if ($dtoWordBody->type == 1) {
-            $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('send_email_service');
+            $pluginFskey = ConfigHelper::fresnsConfigByItemKey('send_email_service');
         } else {
-            $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('send_sms_service');
+            $pluginFskey = ConfigHelper::fresnsConfigByItemKey('send_sms_service');
         }
 
         $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
-        if (empty($pluginUniKey)) {
+        if (empty($pluginFskey)) {
             return $this->failure(
                 32100,
                 ConfigUtility::getCodeMessage(32100, 'Fresns', $langTag),
             );
         }
 
-        $fresnsResp = \FresnsCmdWord::plugin($pluginUniKey)->sendCode($wordBody);
+        $fresnsResp = \FresnsCmdWord::plugin($pluginFskey)->sendCode($wordBody);
 
         return $fresnsResp->getOrigin();
     }
@@ -357,10 +357,10 @@ class Basic
             'zip' => null,
         ];
 
-        $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('ip_service');
+        $pluginFskey = ConfigHelper::fresnsConfigByItemKey('ip_service');
 
-        if ($pluginUniKey) {
-            $fresnsResp = \FresnsCmdWord::plugin($pluginUniKey)->ipInfo($wordBody);
+        if ($pluginFskey) {
+            $fresnsResp = \FresnsCmdWord::plugin($pluginFskey)->ipInfo($wordBody);
 
             return $fresnsResp->getOrigin();
         }

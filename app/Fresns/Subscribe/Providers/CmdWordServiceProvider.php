@@ -17,7 +17,7 @@ class CmdWordServiceProvider extends ServiceProvider implements CmdWordProviderC
 {
     use CmdWordProviderTrait;
 
-    protected $unikeyName = 'Fresns';
+    protected $fsKeyName = 'Fresns';
 
     /**
      * @var array[]
@@ -31,10 +31,8 @@ class CmdWordServiceProvider extends ServiceProvider implements CmdWordProviderC
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->registerCmdWordProvider();
     }

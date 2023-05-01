@@ -392,7 +392,7 @@ $(document).ready(function () {
             name = button.data('name'),
             type = button.data('type'),
             isEnable = button.data('is_enable'),
-            pluginUnikey = button.data('plugin_unikey'),
+            pluginFskey = button.data('plugin_fskey'),
             action = button.data('action'),
             platformId = button.data('platform_id');
 
@@ -412,16 +412,16 @@ $(document).ready(function () {
         $(this)
             .find('input:radio[name=is_enable][value="' + isEnable + '"]')
             .prop('checked', true);
-        $(this).find('#key_plugin').val(pluginUnikey);
+        $(this).find('#key_plugin').val(pluginFskey);
     });
 
     $('#updateKey,#createKey')
         .find('input[name=type]')
         .change(function () {
             if ($(this).val() == 3) {
-                $(this).closest('form').find('select[name=plugin_unikey]').prop('required', true);
+                $(this).closest('form').find('select[name=plugin_fskey]').prop('required', true);
             } else {
-                $(this).closest('form').find('select[name=plugin_unikey]').prop('required', false);
+                $(this).closest('form').find('select[name=plugin_fskey]').prop('required', false);
             }
         });
 
@@ -788,7 +788,7 @@ $(document).ready(function () {
             $('.inputFile').css('display', 'none');
         }
         $(this).find('input[name=rating]').val(params.rating);
-        $(this).find('select[name=plugin_unikey]').val(params.plugin_unikey);
+        $(this).find('select[name=plugin_fskey]').val(params.plugin_fskey);
         $(this).find('select[name=parameter]').val(params.parameter);
         $(this).find('input[name=app_id]').val(configParams.appId);
         $(this).find('input[name=app_key]').val(configParams.appKey);
@@ -1068,20 +1068,22 @@ $(document).ready(function () {
             success: function (response) {
                 progressDown && progressDown()
                 var ansi_up = new AnsiUp;
-                var html = ansi_up.ansi_to_html(response.message || '');
-                window.uninstallMessage = html;
-                $('#uninstallStepModal').find('#uninstall_artisan_output').html(html);
+                var html = ansi_up.ansi_to_html(response);
+
+                console.log('uninstall response', html)
+                $('#uninstall_artisan_output').html(html || trans('tips.uninstallSuccess')) //FsLang
             },
             error: function (response) {
                 progressExit && progressExit()
+                $('#uninstall_artisan_output').html(response.responseJSON.message + "<br><br>" + trans('tips.uninstallFailure'))
                 window.tips(response.responseJSON.message);
             },
         });
     });
 
     $('#installModal').on('show.bs.modal', function (e) {
-        $('#inputUnikeyOrInputFile').text('').hide()
-        $('input[name=plugin_unikey]').removeClass('is-invalid')
+        $('#inputFskeyOrInputFile').text('').hide()
+        $('input[name=plugin_fskey]').removeClass('is-invalid')
         $('input[name=plugin_zipball]').removeClass('is-invalid')
     });
 
@@ -1094,31 +1096,31 @@ $(document).ready(function () {
         e.preventDefault();
 
         let install_method = $('input[name=install_method]').val()
-        let plugin_unikey = $('input[name=plugin_unikey]').val()
+        let plugin_fskey = $('input[name=plugin_fskey]').val()
         let plugin_directory = $('input[name=plugin_directory]').val()
         let plugin_zipball = $('input[name=plugin_zipball]').val()
 
-        if (plugin_unikey || plugin_zipball || plugin_directory) {
+        if (plugin_fskey || plugin_zipball || plugin_directory) {
             $(this).submit()
             $('#installStepModal').modal('toggle')
             return;
         }
 
-        if (install_method == 'inputUnikey' && !plugin_unikey) {
-            $('input[name=plugin_unikey]').addClass('is-invalid')
-            $('#inputUnikeyOrInputFile').text(trans('tips.install_not_entered_key')).show() // FsLang
+        if (install_method == 'inputFskey' && !plugin_fskey) {
+            $('input[name=plugin_fskey]').addClass('is-invalid')
+            $('#inputFskeyOrInputFile').text(trans('tips.install_not_entered_key')).show() // FsLang
             return;
         }
 
         if (install_method == 'inputDirectory' && !plugin_zipball) {
             $('input[name=plugin_directory]').addClass('is-invalid')
-            $('#inputUnikeyOrInputFile').text(trans('tips.install_not_entered_directory')).show() // FsLang
+            $('#inputFskeyOrInputFile').text(trans('tips.install_not_entered_directory')).show() // FsLang
             return;
         }
 
         if (install_method == 'inputZipball' && !plugin_zipball) {
             $('input[name=plugin_zipball]').addClass('is-invalid')
-            $('#inputUnikeyOrInputFile').text(trans('tips.install_not_upload_zip')).show() // FsLang
+            $('#inputFskeyOrInputFile').text(trans('tips.install_not_upload_zip')).show() // FsLang
             return;
         }
     });
@@ -1127,17 +1129,17 @@ $(document).ready(function () {
     $('#themeSetting').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget);
         let action = button.data('action');
-        let unikey = button.data('unikey');
+        let fskey = button.data('fskey');
         let desktopPlugin = button.data('desktop_plugin');
         let mobilePlugin = button.data('mobile_plugin');
 
         $(this).find('form').attr('action', action);
         $(this)
             .find('#desktopTheme')
-            .attr('name', unikey + '_Desktop');
+            .attr('name', fskey + '_Desktop');
         $(this)
             .find('#mobileTheme')
-            .attr('name', unikey + '_Mobile');
+            .attr('name', fskey + '_Mobile');
 
         $(this).find('#desktopTheme').val(desktopPlugin);
         $(this).find('#mobileTheme').val(mobilePlugin);
@@ -1267,7 +1269,7 @@ $(document).ready(function () {
             $(this).find('input[name=icon_file_url]').val('');
         }
         $(this).find('input[name=rating]').val(params.rating);
-        $(this).find('select[name=plugin_unikey]').val(params.plugin_unikey);
+        $(this).find('select[name=plugin_fskey]').val(params.plugin_fskey);
         $(this).find('input[name=parameter]').val(params.parameter);
         if (params.name) {
             $(this).find('.name-button').text(params.name);
@@ -1466,7 +1468,7 @@ $(document).ready(function () {
 
         form.find('select[name=parent_id]').val(params.parent_id);
         form.find('input[name=rating]').val(params.rating);
-        form.find('select[name=plugin_unikey]').val(params.plugin_unikey);
+        form.find('select[name=plugin_fskey]').val(params.plugin_fskey);
 
         let names = button.data('names');
         let descriptions = button.data('descriptions');
@@ -1493,7 +1495,7 @@ $(document).ready(function () {
             .click();
         form.find('select[name="permissions[mode_whitelist_roles][]"]').val(params.permissions.mode_whitelist_roles).change();
 
-        form.find('select[name=plugin_unikey]').val(params.plugin_unikey);
+        form.find('select[name=plugin_fskey]').val(params.plugin_fskey);
 
         let adminIds = [];
         if (adminUsers) {
@@ -1583,7 +1585,7 @@ $(document).ready(function () {
         $('#inlineCheckbox1').removeAttr('checked');
         $('#inlineCheckbox2').removeAttr('checked');
         $(this).find('input[name=rating]').val(params.rating);
-        $(this).find('select[name=plugin_unikey]').val(params.plugin_unikey);
+        $(this).find('select[name=plugin_fskey]').val(params.plugin_fskey);
         $(this).find('input[name=parameter]').val(params.parameter);
         $(this).find('input[name=editor_number]').val(params.editor_number);
 
@@ -1636,7 +1638,7 @@ $(document).ready(function () {
         $('#inlineCheckbox3').removeAttr('checked');
 
         $(this).find('input[name=rating]').val(params.rating);
-        $(this).find('select[name=plugin_unikey]').val(params.plugin_unikey);
+        $(this).find('select[name=plugin_fskey]').val(params.plugin_fskey);
         $(this).find('input[name=parameter]').val(params.parameter);
 
         $('.inputUrl').css('display', 'none');
@@ -1695,7 +1697,7 @@ $(document).ready(function () {
             return;
         }
         $(this).find('input[name=rating]').val(params.rating);
-        $(this).find('select[name=plugin_unikey]').val(params.plugin_unikey);
+        $(this).find('select[name=plugin_fskey]').val(params.plugin_fskey);
         $(this).find('input[name=parameter]').val(params.parameter);
 
         $('.inputUrl').css('display', 'none');
@@ -1730,7 +1732,7 @@ $(document).ready(function () {
             return;
         }
         $(this).find('input[name=rating]').val(params.rating);
-        $(this).find('select[name=plugin_unikey]').val(params.plugin_unikey);
+        $(this).find('select[name=plugin_fskey]').val(params.plugin_fskey);
         $(this).find('input[name=parameter]').val(params.parameter);
 
         $('.inputUrl').css('display', 'none');
@@ -1797,7 +1799,7 @@ $(document).ready(function () {
         $('#childGroup').val(group.id);
 
         $(this).find('input[name=rating]').val(params.rating);
-        $(this).find('select[name=plugin_unikey]').val(params.plugin_unikey);
+        $(this).find('select[name=plugin_fskey]').val(params.plugin_fskey);
         $(this).find('input[name=parameter]').val(params.parameter);
 
         $('.inputUrl').css('display', 'none');
@@ -1843,18 +1845,18 @@ $(document).ready(function () {
         }
 
         let dataSources = params.data_sources;
-        let postByAll = dataSources.postByAll ? dataSources.postByAll.pluginUnikey : null;
-        let postByFollow = dataSources.postByFollow ? dataSources.postByFollow.pluginUnikey : null;
-        let postByNearby = dataSources.postByNearby ? dataSources.postByNearby.pluginUnikey : null;
-        let commentByAll = dataSources.commentByAll ? dataSources.commentByAll.pluginUnikey : null;
-        let commentByFollow = dataSources.commentByFollow ? dataSources.commentByFollow.pluginUnikey : null;
-        let commentByNearby = dataSources.commentByNearby ? dataSources.commentByNearby.pluginUnikey : null;
+        let postByAll = dataSources.postByAll ? dataSources.postByAll.pluginFskey : null;
+        let postByFollow = dataSources.postByFollow ? dataSources.postByFollow.pluginFskey : null;
+        let postByNearby = dataSources.postByNearby ? dataSources.postByNearby.pluginFskey : null;
+        let commentByAll = dataSources.commentByAll ? dataSources.commentByAll.pluginFskey : null;
+        let commentByFollow = dataSources.commentByFollow ? dataSources.commentByFollow.pluginFskey : null;
+        let commentByNearby = dataSources.commentByNearby ? dataSources.commentByNearby.pluginFskey : null;
 
         $('#inlineCheckbox1').removeAttr('checked');
         $('#inlineCheckbox2').removeAttr('checked');
 
         $(this).find('input[name=rating]').val(params.rating);
-        $(this).find('select[name=plugin_unikey]').val(params.plugin_unikey);
+        $(this).find('select[name=plugin_fskey]').val(params.plugin_fskey);
 
         if (postByAll) {
             $(this).find('select[name=post_all]').val(postByAll);
@@ -2247,7 +2249,7 @@ $(document).ready(function () {
 
     // extensions upgrade
     $('.upgrade-extensions').on('click', function () {
-        let unikey = $(this).data('unikey');
+        let fskey = $(this).data('fskey');
         let type = $(this).data('type');
         let name = $(this).data('name');
         let version = $(this).data('version');
@@ -2256,7 +2258,7 @@ $(document).ready(function () {
         $('.extension-name').text(name)
         $('.extension-version').text(version)
         $('.extension-new-version').text(upgradeVersion)
-        $('input[name=unikey]').val(unikey)
+        $('input[name=fskey]').val(fskey)
         $('input[name=type]').val(type)
     });
 
@@ -2329,11 +2331,11 @@ $(document).ready(function () {
         let messages = button.data('messages');
         let name = button.data('name');
         let code = button.data('code');
-        let unikey= button.data('unikey');
+        let fskey= button.data('fskey');
 
         $(this).find('.code-message-plugin-name').text(name)
         $(this).find('.code-message-plugin-code').text(code)
-        $(this).find('.code-message-plugin-unikey').text(unikey)
+        $(this).find('.code-message-plugin-fskey').text(fskey)
 
         $(this).find('form').attr('action', action);
         Object.entries(messages).forEach(([langTag, message]) => {

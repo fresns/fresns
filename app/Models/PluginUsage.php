@@ -38,7 +38,7 @@ class PluginUsage extends Model
 
     public function plugin()
     {
-        return $this->belongsTo(Plugin::class, 'plugin_unikey', 'unikey');
+        return $this->belongsTo(Plugin::class, 'plugin_fskey', 'fskey');
     }
 
     public function group()

@@ -43,8 +43,8 @@
                 @foreach ($panels as $panel)
                     <tr>
                         <td class="py-3">
-                            <img src="/assets/plugins/{{ $panel->unikey }}/fresns.png" class="me-2" width="44" height="44">
-                            <span class="fs-6"><a href="{{ $marketplaceUrl.'/detail/'.$panel->unikey }}" target="_blank" class="link-dark fresns-link">{{ $panel->name }}</a></span>
+                            <img src="/assets/plugins/{{ $panel->fskey }}/fresns.png" class="me-2" width="44" height="44">
+                            <span class="fs-6"><a href="{{ $marketplaceUrl.'/detail/'.$panel->fskey }}" target="_blank" class="link-dark fresns-link">{{ $panel->name }}</a></span>
                             <span class="badge bg-secondary fs-9">{{ $panel->version }}</span>
                             @if ($panel->is_upgrade)
                                 <a href="{{ route('panel.upgrades') }}" class="badge rounded-pill bg-danger link-light fs-9 fresns-link">{{ __('FsLang::panel.new_version') }}</a>
@@ -54,13 +54,13 @@
                         <td><a href="{{ $panel->author_link }}" target="_blank" class="link-info fresns-link fs-7">{{ $panel->author }}</a></td>
                         <td>
                             @if ($panel->is_enable)
-                                <button type="button" class="btn btn-outline-secondary btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['plugin' => $panel->unikey]) }}" data-enable="0">{{ __('FsLang::panel.button_deactivate') }}</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['plugin' => $panel->fskey]) }}" data-enable="0">{{ __('FsLang::panel.button_deactivate') }}</button>
                                 @if ($panel->settings_path)
                                     <a href="{{ route('panel.iframe.setting', ['url' => $panel->settings_path]) }}" class="btn btn-primary btn-sm px-4">{{ __('FsLang::panel.enter') }}</a>
                                 @endif
                             @else
-                                <button type="button" class="btn btn-outline-success btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['plugin' => $panel->unikey]) }}" data-enable="1">{{ __('FsLang::panel.button_activate') }}</button>
-                                <button type="button" class="btn btn-link btn-sm ms-2 text-danger fresns-link plugin-uninstall-button" data-action="{{ route('panel.plugin.uninstall', ['plugin' => $panel->unikey]) }}" data-name="{{ $panel->name }}" data-clear_data_desc="{{ __('FsLang::panel.option_uninstall_plugin_data') }}" data-bs-toggle="modal" data-bs-target="#uninstallConfirm">{{ __('FsLang::panel.button_uninstall') }}</button>
+                                <button type="button" class="btn btn-outline-success btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['plugin' => $panel->fskey]) }}" data-enable="1">{{ __('FsLang::panel.button_activate') }}</button>
+                                <button type="button" class="btn btn-link btn-sm ms-2 text-danger fresns-link plugin-uninstall-button" data-action="{{ route('panel.plugin.uninstall', ['plugin' => $panel->fskey]) }}" data-name="{{ $panel->name }}" data-clear_data_desc="{{ __('FsLang::panel.option_uninstall_plugin_data') }}" data-bs-toggle="modal" data-bs-target="#uninstallConfirm">{{ __('FsLang::panel.button_uninstall') }}</button>
                             @endif
                         </td>
                     </tr>

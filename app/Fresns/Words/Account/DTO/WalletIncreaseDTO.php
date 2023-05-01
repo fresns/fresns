@@ -24,7 +24,7 @@ class WalletIncreaseDTO extends DTO
             'systemFee' => ['numeric', 'required'],
             'originAid' => ['string', 'nullable'],
             'originUid' => ['integer', 'nullable'],
-            'transactionUnikey' => ['string', 'required', 'exists:App\Models\Plugin,unikey'],
+            'transactionFskey' => ['string', 'required', 'exists:App\Models\Plugin,fskey'],
             'transactionId' => ['integer', 'nullable'],
             'transactionCode' => ['string', 'nullable'],
             'remark' => ['string', 'nullable'],

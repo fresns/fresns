@@ -112,16 +112,16 @@ class FollowService
                 });
             } else {
                 $userPostQuery->whereHas('extendUsages', function ($query) use ($contentType) {
-                    $query->where('plugin_unikey', $contentType);
+                    $query->where('plugin_fskey', $contentType);
                 });
                 $groupPostQuery->whereHas('extendUsages', function ($query) use ($contentType) {
-                    $query->where('plugin_unikey', $contentType);
+                    $query->where('plugin_fskey', $contentType);
                 });
                 $hashtagPostQuery->whereHas('extendUsages', function ($query) use ($contentType) {
-                    $query->where('plugin_unikey', $contentType);
+                    $query->where('plugin_fskey', $contentType);
                 });
                 $digestPostQuery->whereHas('extendUsages', function ($query) use ($contentType) {
-                    $query->where('plugin_unikey', $contentType);
+                    $query->where('plugin_fskey', $contentType);
                 });
             }
         }
@@ -186,7 +186,7 @@ class FollowService
                 });
             } else {
                 $postQuery->whereHas('extendUsages', function ($query) use ($contentType) {
-                    $query->where('plugin_unikey', $contentType);
+                    $query->where('plugin_fskey', $contentType);
                 });
             }
         }
@@ -248,7 +248,7 @@ class FollowService
                 });
             } else {
                 $postQuery->whereHas('extendUsages', function ($query) use ($contentType) {
-                    $query->where('plugin_unikey', $contentType);
+                    $query->where('plugin_fskey', $contentType);
                 });
             }
         }
@@ -311,7 +311,7 @@ class FollowService
                 });
             } else {
                 $postQuery->whereHas('extendUsages', function ($query) use ($contentType) {
-                    $query->where('plugin_unikey', $contentType);
+                    $query->where('plugin_fskey', $contentType);
                 });
             }
         }
@@ -446,16 +446,16 @@ class FollowService
                 });
             } else {
                 $userCommentQuery->whereHas('extendUsages', function ($query) use ($contentType) {
-                    $query->where('plugin_unikey', $contentType);
+                    $query->where('plugin_fskey', $contentType);
                 });
                 $groupCommentQuery->whereHas('extendUsages', function ($query) use ($contentType) {
-                    $query->where('plugin_unikey', $contentType);
+                    $query->where('plugin_fskey', $contentType);
                 });
                 $hashtagCommentQuery->whereHas('extendUsages', function ($query) use ($contentType) {
-                    $query->where('plugin_unikey', $contentType);
+                    $query->where('plugin_fskey', $contentType);
                 });
                 $digestCommentQuery->whereHas('extendUsages', function ($query) use ($contentType) {
-                    $query->where('plugin_unikey', $contentType);
+                    $query->where('plugin_fskey', $contentType);
                 });
             }
         }
@@ -528,7 +528,7 @@ class FollowService
                 });
             } else {
                 $commentQuery->whereHas('extendUsages', function ($query) use ($contentType) {
-                    $query->where('plugin_unikey', $contentType);
+                    $query->where('plugin_fskey', $contentType);
                 });
             }
         }
@@ -602,7 +602,7 @@ class FollowService
                 });
             } else {
                 $commentQuery->whereHas('extendUsages', function ($query) use ($contentType) {
-                    $query->where('plugin_unikey', $contentType);
+                    $query->where('plugin_fskey', $contentType);
                 });
             }
         }
@@ -672,7 +672,7 @@ class FollowService
                 });
             } else {
                 $commentQuery->whereHas('extendUsages', function ($query) use ($contentType) {
-                    $query->where('plugin_unikey', $contentType);
+                    $query->where('plugin_fskey', $contentType);
                 });
             }
         }

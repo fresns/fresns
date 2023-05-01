@@ -22,7 +22,7 @@ class WalletRechargeDTO extends DTO
             'uid' => ['integer', 'nullable'],
             'amountTotal' => ['numeric', 'required'],
             'systemFee' => ['numeric', 'required'],
-            'transactionUnikey' => ['string', 'required', 'exists:App\Models\Plugin,unikey'],
+            'transactionFskey' => ['string', 'required', 'exists:App\Models\Plugin,fskey'],
             'transactionId' => ['integer', 'nullable'],
             'transactionCode' => ['string', 'nullable'],
             'remark' => ['string', 'nullable'],

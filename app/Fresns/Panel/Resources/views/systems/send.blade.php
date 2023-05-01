@@ -44,7 +44,7 @@
                             <select class="form-select" name="send_email_service">
                                 <option value="" {{ !$params['send_email_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
                                 @foreach ($pluginParams['sendEmail'] as $plugin)
-                                    <option value="{{ $plugin->unikey }}" {{ $params['send_email_service'] == $plugin->unikey ? 'selected' : '' }}> {{ $plugin->name }}</option>
+                                    <option value="{{ $plugin->fskey }}" {{ $params['send_email_service'] == $plugin->fskey ? 'selected' : '' }}> {{ $plugin->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -60,7 +60,7 @@
                             <select class="form-select" name="send_sms_service">
                                 <option value="" {{ !$params['send_sms_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
                                 @foreach ($pluginParams['sendSms'] as $plugin)
-                                    <option value="{{ $plugin->unikey }}" {{ $params['send_sms_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                                    <option value="{{ $plugin->fskey }}" {{ $params['send_sms_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                                 @endforeach
                             </select>
                         </div>

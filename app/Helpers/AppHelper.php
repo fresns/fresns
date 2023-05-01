@@ -238,6 +238,6 @@ class AppHelper
         }
 
         // activate web engine
-        Artisan::call('market:activate', ['unikey' => 'FresnsEngine']);
+        Artisan::call('market:activate', ['fskey' => 'FresnsEngine']);
     }
 }

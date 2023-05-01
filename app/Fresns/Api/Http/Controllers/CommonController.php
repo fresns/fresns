@@ -203,7 +203,7 @@ class CommonController extends Controller
     {
         $dtoRequest = new CommonCallbacksDTO($request->all());
 
-        $plugin = Plugin::whereUnikey($dtoRequest->unikey)->first();
+        $plugin = Plugin::where('fskey', $dtoRequest->fskey)->first();
 
         if (empty($plugin)) {
             throw new ApiException(32101);
@@ -232,7 +232,7 @@ class CommonController extends Controller
         $data = $callback->content;
 
         $callback->is_use = 1;
-        $callback->use_plugin_unikey = $dtoRequest->unikey;
+        $callback->use_plugin_fskey = $dtoRequest->fskey;
         $callback->save();
 
         return $this->success($data);
@@ -353,7 +353,7 @@ class CommonController extends Controller
 
         $wordBody = [
             'type' => $dtoRequest->type,
-            'pluginUnikey' => $dtoRequest->pluginUnikey,
+            'fskey' => $dtoRequest->fskey,
             'platformId' => $this->platformId(),
             'version' => $this->version(),
             'appId' => $this->appId(),
@@ -396,7 +396,7 @@ class CommonController extends Controller
             throw new ApiException(32100);
         }
 
-        $servicePlugin = Plugin::where('unikey', $storageConfig['service'])->isEnable()->first();
+        $servicePlugin = Plugin::where('fskey', $storageConfig['service'])->isEnable()->first();
 
         if (! $servicePlugin) {
             throw new ApiException(32102);
@@ -711,7 +711,7 @@ class CommonController extends Controller
                         DB::raw('any_value(file_type) as file_type'),
                         DB::raw('any_value(account_id) as account_id'),
                         DB::raw('any_value(user_id) as user_id'),
-                        DB::raw('any_value(plugin_unikey) as plugin_unikey'),
+                        DB::raw('any_value(plugin_fskey) as plugin_fskey'),
                         DB::raw('any_value(object_type) as object_type'),
                         DB::raw('any_value(object_id) as object_id'),
                         DB::raw('any_value(created_at) as created_at'),
@@ -730,7 +730,7 @@ class CommonController extends Controller
                         'file_type',
                         'account_id',
                         'user_id',
-                        'plugin_unikey',
+                        'plugin_fskey',
                         'object_type',
                         'object_id',
                         'created_at',
@@ -749,7 +749,7 @@ class CommonController extends Controller
                         'file_id',
                         'file_type',
                         'account_id',
-                        'plugin_unikey',
+                        'plugin_fskey',
                         'object_type',
                         'object_id',
                         'created_at',
@@ -768,7 +768,7 @@ class CommonController extends Controller
                         'file_type',
                         'account_id',
                         'user_id',
-                        'plugin_unikey',
+                        'plugin_fskey',
                         'object_type',
                         'object_id',
                         'created_at',

@@ -85,7 +85,7 @@ class LoginController extends Controller
 
             $wordBody = [
                 'type' => SessionLog::TYPE_LOGIN_PANEL,
-                'pluginUnikey' => 'Fresns',
+                'fskey' => 'Fresns',
                 'platformId' => Browser::isMobile() ? 3 : 2,
                 'version' => AppHelper::VERSION,
                 'appId' => null,

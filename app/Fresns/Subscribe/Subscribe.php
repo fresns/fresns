@@ -25,7 +25,7 @@ class Subscribe
     const CHANGE_TYPE_DELETED = 'deleted';
 
     protected int $type;
-    protected string $unikey;
+    protected string $fskey;
     protected string $cmdWord;
     protected ?string $subTableName;
 
@@ -37,7 +37,7 @@ class Subscribe
             $this->wordBody = $wordBody;
 
             $this->type = $this->getItem('type');
-            $this->unikey = $this->getItem('unikey');
+            $this->fskey = $this->getItem('fskey');
             $this->cmdWord = $this->getItem('cmdWord');
             $this->setSubTableName($this->getItem('subTableName'));
         }
@@ -47,7 +47,7 @@ class Subscribe
     {
         \validator()->validate($wordBody, [
             'type' => 'required|int',
-            'unikey' => 'required|string',
+            'fskey' => 'required|string',
             'cmdWord' => 'required|string',
             'subTableName' => 'nullable',
         ]);
@@ -68,9 +68,9 @@ class Subscribe
         return $this->type;
     }
 
-    public function getUnikey()
+    public function getFskey()
     {
-        return $this->unikey;
+        return $this->fskey;
     }
 
     public function getCmdWord()
@@ -91,7 +91,7 @@ class Subscribe
     public function same(Subscribe $subscribe)
     {
         return $this->getType() === $subscribe->getType()
-            && $this->getUnikey() === $subscribe->getUnikey()
+            && $this->getFskey() === $subscribe->getFskey()
             && $this->getCmdWord() === $subscribe->getCmdWord()
             && $this->getSubTableName() === $subscribe->getSubTableName();
     }
@@ -124,7 +124,7 @@ class Subscribe
     {
         return [
             'type' => $this->getType(),
-            'unikey' => $this->getUnikey(),
+            'fskey' => $this->getFskey(),
             'cmdWord' => $this->getCmdWord(),
             'subTableName' => $this->getSubTableName(),
         ];

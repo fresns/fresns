@@ -18,7 +18,7 @@ class CommonCallbacksDTO extends DTO
     public function rules(): array
     {
         return [
-            'unikey' => ['string', 'required'],
+            'fskey' => ['string', 'required'],
             'ulid' => ['ulid', 'required'],
         ];
     }

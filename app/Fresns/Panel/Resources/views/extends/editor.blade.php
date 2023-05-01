@@ -122,10 +122,10 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_plugin') }}</label>
                             <div class="col-sm-9">
-                                <select class="form-select" name="plugin_unikey" required>
+                                <select class="form-select" name="plugin_fskey" required>
                                     <option selected disabled value="">{{ __('FsLang::panel.select_box_tip_plugin') }}</option>
                                     @foreach ($plugins as $plugin)
-                                        <option value="{{ $plugin->unikey }}">{{ $plugin->name }}</option>
+                                        <option value="{{ $plugin->fskey }}">{{ $plugin->name }}</option>
                                     @endforeach
                                 </select>
                             </div>

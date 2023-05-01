@@ -171,7 +171,7 @@
                 <select class="form-select" name="post_editor_service" id="post_editor">
                     <option value="">{{ __('FsLang::panel.option_default') }}</option>
                     @foreach ($plugins as $plugin)
-                        <option value="{{ $plugin->unikey }}" @if ($plugin->unikey == $params['post_editor_service']) selected @endif>{{ $plugin->name }}</option>
+                        <option value="{{ $plugin->fskey }}" @if ($plugin->fskey == $params['post_editor_service']) selected @endif>{{ $plugin->name }}</option>
                     @endforeach
                 </select>
             </div>

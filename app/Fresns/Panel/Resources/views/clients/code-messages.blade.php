@@ -28,12 +28,12 @@
                     @endforeach
                 </select>
                 <span class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</span>
-                <select class="form-select" id="unikey" name="plugin_unikey">
+                <select class="form-select" id="fskey" name="plugin_fskey">
                     <option value="">{{ __('FsLang::panel.option_all') }}</option>
-                    <option value="Fresns" @if (request('plugin_unikey') == 'Fresns') selected @endif>Fresns</option>
-                    <option value="CmdWord" @if (request('plugin_unikey') == 'CmdWord') selected @endif>CmdWord</option>
+                    <option value="Fresns" @if (request('plugin_fskey') == 'Fresns') selected @endif>Fresns</option>
+                    <option value="CmdWord" @if (request('plugin_fskey') == 'CmdWord') selected @endif>CmdWord</option>
                     @foreach ($pluginList as $plugin)
-                        <option @if (request('plugin_unikey') == $plugin['unikey']) selected @endif value="{{ $plugin['unikey'] }}">{{ $plugin['unikey'] }} -> {{ $plugin['name'] }}</option>
+                        <option @if (request('plugin_fskey') == $plugin['fskey']) selected @endif value="{{ $plugin['fskey'] }}">{{ $plugin['fskey'] }} -> {{ $plugin['name'] }}</option>
                     @endforeach
                 </select>
                 <span class="input-group-text">{{ __('FsLang::panel.table_number') }}</span>
@@ -60,8 +60,8 @@
                 @foreach ($codeMessages as $message)
                     <tr>
                         <td>
-                            {{ collect($pluginList)->where('unikey', $message->plugin_unikey)->first()['name'] ?? $message->plugin_unikey }}
-                            <span class="badge bg-secondary">{{ $message->plugin_unikey }}</span>
+                            {{ collect($pluginList)->where('fskey', $message->plugin_fskey)->first()['name'] ?? $message->plugin_fskey }}
+                            <span class="badge bg-secondary">{{ $message->plugin_fskey }}</span>
                         </td>
                         <td>{{ $message->code }}</td>
                         <td>{{ $message->lang_tag }}</td>
@@ -70,8 +70,8 @@
                             <button type="button" class="btn btn-outline-primary btn-sm"
                                 data-bs-toggle="modal"
                                 data-bs-target="#editMessages"
-                                data-name="{{ collect($pluginList)->where('unikey', $message->plugin_unikey)->first()['name'] ?? $message->plugin_unikey }}"
-                                data-unikey="{{ $message->plugin_unikey }}"
+                                data-name="{{ collect($pluginList)->where('fskey', $message->plugin_fskey)->first()['name'] ?? $message->plugin_fskey }}"
+                                data-fskey="{{ $message->plugin_fskey }}"
                                 data-action="{{ route('panel.code.messages.update', $message->id)}}"
                                 data-messages="{{ $message->messages->toJson() }}"
                                 data-code="{{ $message->code }}">
@@ -93,7 +93,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="editMessagesModalLabel">
                         <span class="code-message-plugin-name">Fresns</span>
-                        <span class="code-message-plugin-unikey badge bg-secondary">Fresns</span>
+                        <span class="code-message-plugin-fskey badge bg-secondary">Fresns</span>
                         <span class="code-message-plugin-code badge bg-warning text-dark">30000</span>
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

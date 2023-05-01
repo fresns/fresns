@@ -94,6 +94,6 @@ class Group extends Model
 
     public function followByPlugin()
     {
-        return $this->belongsTo(Plugin::class, 'plugin_unikey', 'unikey');
+        return $this->belongsTo(Plugin::class, 'plugin_fskey', 'fskey');
     }
 }

@@ -81,28 +81,28 @@ class PublishController extends Controller
 
         $plugins = Plugin::all();
 
-        $imageService = $plugins->where('unikey', $params['image_service'])->first();
-        $videoService = $plugins->where('unikey', $params['video_service'])->first();
-        $audioService = $plugins->where('unikey', $params['audio_service'])->first();
-        $documentService = $plugins->where('unikey', $params['document_service'])->first();
+        $imageService = $plugins->where('fskey', $params['image_service'])->first();
+        $videoService = $plugins->where('fskey', $params['video_service'])->first();
+        $audioService = $plugins->where('fskey', $params['audio_service'])->first();
+        $documentService = $plugins->where('fskey', $params['document_service'])->first();
         $uploadPlugin = [
             'image' => [
-                'unikey' => $imageService?->unikey,
+                'fskey' => $imageService?->fskey,
                 'name' => $imageService?->name,
                 'uploadPage' => $imageService?->access_path ? true : false,
             ],
             'video' => [
-                'unikey' => $videoService?->unikey,
+                'fskey' => $videoService?->fskey,
                 'name' => $videoService?->name,
                 'uploadPage' => $videoService?->access_path ? true : false,
             ],
             'audio' => [
-                'unikey' => $audioService?->unikey,
+                'fskey' => $audioService?->fskey,
                 'name' => $audioService?->name,
                 'uploadPage' => $audioService?->access_path ? true : false,
             ],
             'document' => [
-                'unikey' => $documentService?->unikey,
+                'fskey' => $documentService?->fskey,
                 'name' => $documentService?->name,
                 'uploadPage' => $documentService?->access_path ? true : false,
             ],
@@ -268,28 +268,28 @@ class PublishController extends Controller
 
         $plugins = Plugin::all();
 
-        $imageService = $plugins->where('unikey', $params['image_service'])->first();
-        $videoService = $plugins->where('unikey', $params['video_service'])->first();
-        $audioService = $plugins->where('unikey', $params['audio_service'])->first();
-        $documentService = $plugins->where('unikey', $params['document_service'])->first();
+        $imageService = $plugins->where('fskey', $params['image_service'])->first();
+        $videoService = $plugins->where('fskey', $params['video_service'])->first();
+        $audioService = $plugins->where('fskey', $params['audio_service'])->first();
+        $documentService = $plugins->where('fskey', $params['document_service'])->first();
         $uploadPlugin = [
             'image' => [
-                'unikey' => $imageService?->unikey,
+                'fskey' => $imageService?->fskey,
                 'name' => $imageService?->name,
                 'uploadPage' => $imageService?->access_path ? true : false,
             ],
             'video' => [
-                'unikey' => $videoService?->unikey,
+                'fskey' => $videoService?->fskey,
                 'name' => $videoService?->name,
                 'uploadPage' => $videoService?->access_path ? true : false,
             ],
             'audio' => [
-                'unikey' => $audioService?->unikey,
+                'fskey' => $audioService?->fskey,
                 'name' => $audioService?->name,
                 'uploadPage' => $audioService?->access_path ? true : false,
             ],
             'document' => [
-                'unikey' => $documentService?->unikey,
+                'fskey' => $documentService?->fskey,
                 'name' => $documentService?->name,
                 'uploadPage' => $documentService?->access_path ? true : false,
             ],

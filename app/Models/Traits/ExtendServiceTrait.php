@@ -35,7 +35,7 @@ trait ExtendServiceTrait
         $info['buttonName'] = LanguageHelper::fresnsLanguageByTableId('extends', 'button_name', $extendData->id, $langTag) ?? $extendData->button_name;
         $info['buttonColor'] = $extendData->button_color;
         $info['position'] = $extendData->position;
-        $info['accessUrl'] = PluginHelper::fresnsPluginUsageUrl($extendData->plugin_unikey, $extendData->parameter);
+        $info['accessUrl'] = PluginHelper::fresnsPluginUsageUrl($extendData->plugin_fskey, $extendData->parameter);
         $info['moreJson'] = $extendData->more_json;
 
         return $info;

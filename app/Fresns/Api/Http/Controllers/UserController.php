@@ -467,7 +467,7 @@ class UserController extends Controller
         // session log
         $sessionLog = [
             'type' => SessionLog::TYPE_USER_LOGIN,
-            'pluginUnikey' => 'Fresns',
+            'fskey' => 'Fresns',
             'platformId' => $this->platformId(),
             'version' => $this->version(),
             'appId' => $this->appId(),
@@ -586,7 +586,7 @@ class UserController extends Controller
         }
         $multiUser = [
             'status' => $multiUserStatus,
-            'service' => PluginHelper::fresnsPluginUrlByUnikey($multiUserConfigs['multi_user_service']),
+            'service' => PluginHelper::fresnsPluginUrlByFskey($multiUserConfigs['multi_user_service']),
         ];
 
         // conversations
@@ -902,7 +902,7 @@ class UserController extends Controller
         // session log
         $sessionLog = [
             'type' => SessionLog::TYPE_USER_EDIT_DATA,
-            'pluginUnikey' => 'Fresns',
+            'fskey' => 'Fresns',
             'platformId' => $this->platformId(),
             'version' => $this->version(),
             'appId' => $this->appId(),

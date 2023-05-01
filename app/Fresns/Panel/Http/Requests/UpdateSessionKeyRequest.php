@@ -22,7 +22,7 @@ class UpdateSessionKeyRequest extends FormRequest
             'name' => 'required|string',
             'type' => 'required|int',
             'is_enable' => 'required|boolean',
-            'plugin_unikey' => 'exists:App\Models\Plugin,unikey',
+            'plugin_fskey' => 'exists:App\Models\Plugin,fskey',
         ];
     }
 
@@ -33,7 +33,7 @@ class UpdateSessionKeyRequest extends FormRequest
             'name' => __('FsLang::panel.table_name'),
             'type' => __('FsLang::panel.table_type'),
             'is_enable' => __('FsLang::panel.table_status'),
-            'plugin_unikey' => __('FsLang::panel.table_plugin'),
+            'plugin_fskey' => __('FsLang::panel.table_plugin'),
         ];
     }
 }

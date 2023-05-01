@@ -18,7 +18,7 @@ class GlobalCodeMessagesDTO extends DTO
     public function rules(): array
     {
         return [
-            'unikey' => ['string', 'nullable'],
+            'fskey' => ['string', 'nullable'],
             'isAll' => ['boolean', 'nullable', 'required_without:codes'],
             'codes' => ['string', 'nullable', 'required_without:isAll'],
         ];

@@ -88,12 +88,12 @@ class CommentService
                 'default' => [
                     'name' => $post?->id ? LanguageHelper::fresnsLanguageByTableId('post_appends', 'comment_btn_name', $post?->id, $langTag) : null,
                     'style' => $postAppend->comment_btn_style,
-                    'url' => PluginHelper::fresnsPluginUrlByUnikey($postAppend->comment_btn_plugin_unikey),
+                    'url' => PluginHelper::fresnsPluginUrlByFskey($postAppend->comment_btn_plugin_fskey),
                 ],
                 'active' => [
                     'name' => $commentAppend->btn_name_key ? ConfigHelper::fresnsConfigByItemKey($commentAppend->btn_name_key, $langTag) : null,
                     'style' => $commentAppend->btn_style,
-                    'url' => PluginHelper::fresnsPluginUrlByUnikey($postAppend->comment_btn_plugin_unikey),
+                    'url' => PluginHelper::fresnsPluginUrlByFskey($postAppend->comment_btn_plugin_fskey),
                 ],
             ];
 
@@ -103,7 +103,7 @@ class CommentService
                 'canDelete' => (bool) $commentAppend->can_delete,
                 'canEdit' => false,
                 'isPluginEditor' => (bool) $commentAppend->is_plugin_editor,
-                'editorUrl' => PluginHelper::fresnsPluginUrlByUnikey($commentAppend->editor_unikey),
+                'editorUrl' => PluginHelper::fresnsPluginUrlByFskey($commentAppend->editor_fskey),
             ];
             $item['interaction']['postCreatorLikeStatus'] = InteractionUtility::checkUserLike(InteractionUtility::TYPE_COMMENT, $comment->id, $post?->user_id);
 
@@ -466,8 +466,8 @@ class CommentService
         $info['pid'] = $post?->pid;
         $info['parentCid'] = $parentComment?->cid;
         $info['isPluginEditor'] = (bool) $log->is_plugin_editor;
-        $info['editorUnikey'] = $log->editor_unikey;
-        $info['editorUrl'] = PluginHelper::fresnsPluginUrlByUnikey($log->editor_unikey);
+        $info['editorFskey'] = $log->editor_fskey;
+        $info['editorUrl'] = PluginHelper::fresnsPluginUrlByFskey($log->editor_fskey);
         $info['content'] = $log->content;
         $info['contentLength'] = Str::length($log->content);
         $info['isBrief'] = false;

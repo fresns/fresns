@@ -21,7 +21,7 @@ class AddCrontabItemDTO extends DTO
     public function rules(): array
     {
         return [
-            'unikey' => ['string', 'required', 'exists:App\Models\Plugin,unikey'],
+            'fskey' => ['string', 'required', 'exists:App\Models\Plugin,fskey'],
             'cmdWord' => ['string', 'required'],
             'cronTableFormat' => ['string', 'required'],
         ];

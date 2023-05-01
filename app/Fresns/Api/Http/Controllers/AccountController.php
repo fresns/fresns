@@ -156,7 +156,7 @@ class AccountController extends Controller
         // session log
         $sessionLog = [
             'type' => SessionLog::TYPE_ACCOUNT_REGISTER,
-            'pluginUnikey' => 'Fresns',
+            'fskey' => 'Fresns',
             'platformId' => $this->platformId(),
             'version' => $this->version(),
             'appId' => $this->appId(),
@@ -226,7 +226,7 @@ class AccountController extends Controller
         // create token session log
         $tokenSessionLog = [
             'type' => SessionLog::TYPE_ACCOUNT_LOGIN,
-            'pluginUnikey' => 'Fresns',
+            'fskey' => 'Fresns',
             'platformId' => $this->platformId(),
             'version' => $this->version(),
             'appId' => $this->appId(),
@@ -285,7 +285,7 @@ class AccountController extends Controller
         // session log
         $sessionLog = [
             'type' => SessionLog::TYPE_ACCOUNT_LOGIN,
-            'pluginUnikey' => 'Fresns',
+            'fskey' => 'Fresns',
             'platformId' => $this->platformId(),
             'version' => $this->version(),
             'appId' => $this->appId(),
@@ -463,7 +463,7 @@ class AccountController extends Controller
         // session log
         $sessionLog = [
             'type' => SessionLog::TYPE_ACCOUNT_EDIT_PASSWORD,
-            'pluginUnikey' => 'Fresns',
+            'fskey' => 'Fresns',
             'platformId' => $this->platformId(),
             'version' => $this->version(),
             'appId' => $this->appId(),
@@ -573,7 +573,7 @@ class AccountController extends Controller
             $info['createdDatetime'] = DateHelper::fresnsFormatDateTime($log->created_at, $timezone, $langTag);
             $info['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($log->created_at, $langTag);
             $item['remark'] = $log->remark;
-            $item['pluginUnikey'] = $log->object_unikey;
+            $item['fskey'] = $log->plugin_fskey;
             $item['status'] = (bool) $log->is_enable;
             $logList[] = $item;
         }
@@ -650,7 +650,7 @@ class AccountController extends Controller
         // session log
         $sessionLog = [
             'type' => SessionLog::TYPE_ACCOUNT_EDIT_DATA,
-            'pluginUnikey' => 'Fresns',
+            'fskey' => 'Fresns',
             'platformId' => $this->platformId(),
             'version' => $this->version(),
             'appId' => $this->appId(),
@@ -951,7 +951,7 @@ class AccountController extends Controller
         // session log
         $sessionLog = [
             'type' => SessionLog::TYPE_ACCOUNT_DELETE,
-            'pluginUnikey' => 'Fresns',
+            'fskey' => 'Fresns',
             'platformId' => $this->platformId(),
             'version' => $this->version(),
             'appId' => $this->appId(),
@@ -989,7 +989,7 @@ class AccountController extends Controller
         // session log
         $sessionLog = [
             'type' => SessionLog::TYPE_ACCOUNT_DELETE,
-            'pluginUnikey' => 'Fresns',
+            'fskey' => 'Fresns',
             'platformId' => $this->platformId(),
             'version' => $this->version(),
             'appId' => $this->appId(),

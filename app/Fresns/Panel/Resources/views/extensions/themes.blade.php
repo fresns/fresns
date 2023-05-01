@@ -24,7 +24,7 @@
             <div class="col-sm-6 col-xl-3 mb-4">
                 <div class="card">
                     <div class="position-relative">
-                        <img src="/assets/themes/{{ $theme->unikey }}/fresns.png" class="card-img-top">
+                        <img src="/assets/themes/{{ $theme->fskey }}/fresns.png" class="card-img-top">
                         @if ($theme->is_upgrade)
                             <div class="position-absolute top-0 start-100 translate-middle">
                                 <a href="{{ route('panel.upgrades') }}"><span class="badge rounded-pill bg-danger">{{ __('FsLang::panel.new_version') }}</span></a>
@@ -33,15 +33,15 @@
                     </div>
                     <div class="card-body">
                         <h5 class="text-nowrap overflow-hidden">
-                            <a href="{{ $marketplaceUrl.'/detail/'.$theme->unikey }}" target="_blank" class="link-dark fresns-link">{{ $theme->name }}</a>
+                            <a href="{{ $marketplaceUrl.'/detail/'.$theme->fskey }}" target="_blank" class="link-dark fresns-link">{{ $theme->name }}</a>
                             <span class="badge bg-secondary align-middle fs-9">{{ $theme->version }}</span>
                         </h5>
                         <p class="card-text text-height">{{ $theme->description }}</p>
                         <div>
                             @if ($theme->theme_functions)
-                                <a href="{{ route('panel.iframe.setting', ['url' => route('panel.theme.functions', ['theme' => $theme->unikey])]) }}" class="btn btn-primary btn-sm px-4">{{ __('FsLang::panel.button_setting') }}</a>
+                                <a href="{{ route('panel.iframe.setting', ['url' => route('panel.theme.functions', ['theme' => $theme->fskey])]) }}" class="btn btn-primary btn-sm px-4">{{ __('FsLang::panel.button_setting') }}</a>
                             @endif
-                            <button type="button" class="btn btn-link btn-sm ms-2 text-danger fresns-link plugin-uninstall-button" data-action="{{ route('panel.plugin.uninstallTheme', ['theme' => $theme->unikey]) }}" data-name="{{ $theme->name }}" data-clear_data_desc="{{ __('FsLang::panel.option_uninstall_theme_data') }}" data-bs-toggle="modal" data-bs-target="#uninstallConfirm">{{ __('FsLang::panel.button_uninstall') }}</button>
+                            <button type="button" class="btn btn-link btn-sm ms-2 text-danger fresns-link plugin-uninstall-button" data-action="{{ route('panel.plugin.uninstallTheme', ['theme' => $theme->fskey]) }}" data-name="{{ $theme->name }}" data-clear_data_desc="{{ __('FsLang::panel.option_uninstall_theme_data') }}" data-bs-toggle="modal" data-bs-target="#uninstallConfirm">{{ __('FsLang::panel.button_uninstall') }}</button>
                         </div>
                     </div>
                     <div class="card-footer fs-8">{{ __('FsLang::panel.author') }}: <a href="{{ $theme->author_link }}" target="_blank" class="link-info fresns-link">{{ $theme->author }}</a></div>

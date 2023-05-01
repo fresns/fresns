@@ -29,7 +29,7 @@ class UploadSessionLogDTO extends DTO
             'version' => ['string', 'required'],
             'appId' => ['string', 'nullable'],
             'langTag' => ['string', 'nullable'],
-            'pluginUnikey' => ['string', 'nullable'],
+            'fskey' => ['string', 'nullable'],
             'aid' => ['string', 'nullable'],
             'uid' => ['integer', 'nullable'],
             'objectName' => ['string', 'required'],

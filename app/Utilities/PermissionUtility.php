@@ -684,7 +684,7 @@ class PermissionUtility
     }
 
     // Check extend perm
-    public static function checkExtendPerm(string $unikey, string $scene, ?int $groupId = null, ?int $userId = null): bool
+    public static function checkExtendPerm(string $fskey, string $scene, ?int $groupId = null, ?int $userId = null): bool
     {
         $usageType = match ($scene) {
             'postEditor' => PluginUsage::TYPE_EDITOR,
@@ -706,19 +706,19 @@ class PermissionUtility
         }
 
         // check group admin
-        $checkGroupAdmin = self::checkExtendPermByGroupAdmin($unikey, $usageType, $groupId, $userId);
+        $checkGroupAdmin = self::checkExtendPermByGroupAdmin($fskey, $usageType, $groupId, $userId);
 
         if ($checkGroupAdmin) {
             return true;
         }
 
         // check role
-        $checkRole = self::checkExtendPermByRole($unikey, $usageType, $groupId, $userId);
+        $checkRole = self::checkExtendPermByRole($fskey, $usageType, $groupId, $userId);
 
         return $checkRole;
     }
 
-    private static function checkExtendPermByGroupAdmin(string $unikey, int $usageType, ?int $groupId = null, ?int $userId = null): bool
+    private static function checkExtendPermByGroupAdmin(string $fskey, int $usageType, ?int $groupId = null, ?int $userId = null): bool
     {
         if (empty($groupId) || $groupId == 0) {
             return false;
@@ -727,14 +727,14 @@ class PermissionUtility
         // get usage list
         if ($usageType == PluginUsage::TYPE_GROUP) {
             $usages = PluginUsage::where('usage_type', $usageType)
-                ->where('plugin_unikey', $unikey)
+                ->where('plugin_fskey', $fskey)
                 ->where('group_id', $groupId)
                 ->where('is_group_admin', true)
                 ->where('is_enable', true)
                 ->get();
         } else {
             $usages = PluginUsage::where('usage_type', $usageType)
-                ->where('plugin_unikey', $unikey)
+                ->where('plugin_fskey', $fskey)
                 ->where('is_group_admin', true)
                 ->where('is_enable', true)
                 ->get();
@@ -753,19 +753,19 @@ class PermissionUtility
         return true;
     }
 
-    private static function checkExtendPermByRole(string $unikey, int $usageType, ?int $groupId = null, ?int $userId = null): bool
+    private static function checkExtendPermByRole(string $fskey, int $usageType, ?int $groupId = null, ?int $userId = null): bool
     {
         // get usage list
         if ($usageType == PluginUsage::TYPE_GROUP) {
             $usages = PluginUsage::where('usage_type', $usageType)
-                ->where('plugin_unikey', $unikey)
+                ->where('plugin_fskey', $fskey)
                 ->where('group_id', $groupId)
                 ->where('is_group_admin', false)
                 ->where('is_enable', true)
                 ->get();
         } else {
             $usages = PluginUsage::where('usage_type', $usageType)
-                ->where('plugin_unikey', $unikey)
+                ->where('plugin_fskey', $fskey)
                 ->where('is_group_admin', false)
                 ->where('is_enable', true)
                 ->get();

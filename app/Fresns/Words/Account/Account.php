@@ -120,7 +120,7 @@ class Account
         // Account Connects Table
         if ($dtoWordBody->connectInfo) {
             foreach ($dtoWordBody->connectInfo as $info) {
-                if (empty($info['connectId']) || empty($info['connectToken']) || empty($info['connectNickname']) || empty($info['pluginUnikey'])) {
+                if (empty($info['connectId']) || empty($info['connectToken']) || empty($info['connectNickname']) || empty($info['pluginFskey'])) {
                     continue;
                 }
 
@@ -132,7 +132,7 @@ class Account
                     'connect_username' => $info['connectUsername'] ?? null,
                     'connect_nickname' => $info['connectNickname'],
                     'connect_avatar' => $info['connectAvatar'] ?? null,
-                    'plugin_unikey' => $info['pluginUnikey'],
+                    'plugin_fskey' => $info['pluginFskey'],
                     'more_json' => $info['moreJson'] ?? null,
                 ]);
             }

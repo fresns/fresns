@@ -34,7 +34,7 @@ class VerifySignDTO extends DTO
             'signature' => ['string', 'required'],
             'timestamp' => ['integer', 'required', 'digits_between:10,13'],
             'verifyType' => ['integer', 'nullable'],
-            'verifyUnikey' => ['string', 'nullable'],
+            'verifyFskey' => ['string', 'nullable'],
         ];
     }
 }

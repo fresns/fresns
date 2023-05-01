@@ -174,7 +174,7 @@ class EditorController extends Controller
             'uid' => $authUser->uid,
             'type' => $wordType,
             'createType' => $dtoRequest->createType,
-            'editorUnikey' => $dtoRequest->editorUnikey,
+            'editorFskey' => $dtoRequest->editorFskey,
             'postGid' => $dtoRequest->postGid,
             'postTitle' => $dtoRequest->postTitle,
             'postIsComment' => $dtoRequest->postIsComment,
@@ -202,7 +202,7 @@ class EditorController extends Controller
         };
         $sessionLog = [
             'type' => $logType,
-            'pluginUnikey' => 'Fresns',
+            'fskey' => 'Fresns',
             'platformId' => $this->platformId(),
             'version' => $this->version(),
             'appId' => $this->appId(),
@@ -281,7 +281,7 @@ class EditorController extends Controller
         };
         $sessionLog = [
             'type' => $logType,
-            'pluginUnikey' => 'Fresns',
+            'fskey' => 'Fresns',
             'platformId' => $this->platformId(),
             'version' => $this->version(),
             'appId' => $this->appId(),
@@ -422,15 +422,15 @@ class EditorController extends Controller
             throw new ApiException(38102);
         }
 
-        // editorUnikey
-        if ($dtoRequest->editorUnikey) {
-            if ($dtoRequest->editorUnikey == 'Fresns' || $dtoRequest->editorUnikey == 'fresns') {
+        // editorFskey
+        if ($dtoRequest->editorFskey) {
+            if ($dtoRequest->editorFskey == 'Fresns' || $dtoRequest->editorFskey == 'fresns') {
                 $draft->update([
                     'is_plugin_editor' => 0,
-                    'editor_unikey' => null,
+                    'editor_fskey' => null,
                 ]);
             } else {
-                $editorPlugin = Plugin::where('unikey', $dtoRequest->editorUnikey)->first();
+                $editorPlugin = Plugin::where('fskey', $dtoRequest->editorFskey)->first();
                 if (empty($editorPlugin)) {
                     throw new ApiException(32101);
                 }
@@ -441,7 +441,7 @@ class EditorController extends Controller
 
                 $draft->update([
                     'is_plugin_editor' => 1,
-                    'editor_unikey' => $dtoRequest->editorUnikey,
+                    'editor_fskey' => $dtoRequest->editorFskey,
                 ]);
             }
         }
@@ -704,7 +704,7 @@ class EditorController extends Controller
         };
         $sessionLog = [
             'type' => $sessionLogType,
-            'pluginUnikey' => 'Fresns',
+            'fskey' => 'Fresns',
             'platformId' => $this->platformId(),
             'version' => $this->version(),
             'appId' => $this->appId(),
@@ -905,7 +905,7 @@ class EditorController extends Controller
                 throw new ApiException(32104);
             }
 
-            $servicePlugin = Plugin::where('unikey', $fileConfig['service'])->isEnable()->first();
+            $servicePlugin = Plugin::where('fskey', $fileConfig['service'])->isEnable()->first();
 
             if (! $servicePlugin) {
                 throw new ApiException(32102);
@@ -1006,7 +1006,7 @@ class EditorController extends Controller
         // session log
         $sessionLog = [
             'type' => $logType,
-            'pluginUnikey' => 'Fresns',
+            'fskey' => 'Fresns',
             'platformId' => $this->platformId(),
             'version' => $this->version(),
             'appId' => $this->appId(),

@@ -39,7 +39,7 @@
                         <label class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</label>
                         <select class="form-select" name="connect_plugins[]">
                             @foreach ($pluginParams['connect'] as $plugin)
-                                <option value="{{ $plugin->unikey }}" {{ $connectService['unikey'] == $plugin->unikey ? 'selected' : '' }}> {{ $plugin->name }}</option>
+                                <option value="{{ $plugin->fskey }}" {{ $connectService['fskey'] == $plugin->fskey ? 'selected' : '' }}> {{ $plugin->name }}</option>
                             @endforeach
                         </select>
                         <button class="btn btn-outline-secondary delete-connect" type="button">{{ __('FsLang::panel.button_delete') }}</button>
@@ -55,7 +55,7 @@
                 <select class="form-select" name="account_real_name_service">
                     <option value="" selected>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
                     @foreach ($pluginParams['realName'] as $plugin)
-                        <option value="{{ $plugin->unikey }}" {{ $params['account_real_name_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                        <option value="{{ $plugin->fskey }}" {{ $params['account_real_name_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -84,7 +84,7 @@
                                 <select class="form-select" name="multi_user_service">
                                     <option value="">🚫 {{ __('FsLang::panel.user_multiple_service_none') }}</option>
                                     @foreach ($pluginParams['multiUser'] as $plugin)
-                                        <option value="{{ $plugin->unikey }}" {{ $params['multi_user_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                                        <option value="{{ $plugin->fskey }}" {{ $params['multi_user_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -355,7 +355,7 @@
             <label class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</label>
             <select class="form-select" name="connect_plugins[]">
                 @foreach ($pluginParams['connect'] as $plugin)
-                    <option value="{{ $plugin->unikey }}">{{ $plugin->name }}</option>
+                    <option value="{{ $plugin->fskey }}">{{ $plugin->name }}</option>
                 @endforeach
             </select>
             <button class="btn btn-outline-secondary delete-connect" type="button">{{ __('FsLang::panel.button_delete') }}</button>

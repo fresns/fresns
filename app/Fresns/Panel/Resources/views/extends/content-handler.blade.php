@@ -32,7 +32,7 @@
                     <select class="form-select" name="ip_service">
                         <option value="" {{ !$params['ip_service'] ? 'selected' : '' }}>⛔️ {{ __('FsLang::panel.option_close') }}</option>
                         @foreach ($pluginParams['extendIp'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['ip_service'] == $plugin->unikey ? 'selected' : '' }}> {{ $plugin->name }}</option>
+                            <option value="{{ $plugin->fskey }}" {{ $params['ip_service'] == $plugin->fskey ? 'selected' : '' }}> {{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -41,7 +41,7 @@
                     <select class="form-select" name="map_service">
                         <option value="" {{ !$params['map_service'] ? 'selected' : '' }}>⛔️ {{ __('FsLang::panel.option_close') }}</option>
                         @foreach ($pluginParams['extendMap'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['map_service'] == $plugin->unikey ? 'selected' : '' }}> {{ $plugin->name }}</option>
+                            <option value="{{ $plugin->fskey }}" {{ $params['map_service'] == $plugin->fskey ? 'selected' : '' }}> {{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -50,7 +50,7 @@
                     <select class="form-select" name="notifications_service">
                         <option value="" {{ !$params['notifications_service'] ? 'selected' : '' }}>{{ __('FsLang::panel.option_default') }}</option>
                         @foreach ($pluginParams['extendNotification'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['notifications_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                            <option value="{{ $plugin->fskey }}" {{ $params['notifications_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -59,7 +59,7 @@
                     <select class="form-select" name="content_review_service">
                         <option value="" {{ !$params['content_review_service'] ? 'selected' : '' }}>⛔️ {{ __('FsLang::panel.option_close') }}</option>
                         @foreach ($pluginParams['extendReview'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['content_review_service'] == $plugin->unikey ? 'selected' : '' }}> {{ $plugin->name }}</option>
+                            <option value="{{ $plugin->fskey }}" {{ $params['content_review_service'] == $plugin->fskey ? 'selected' : '' }}> {{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -75,7 +75,7 @@
                     <select class="form-select" name="content_list_service">
                         <option value="" {{ !$params['content_list_service'] ? 'selected' : '' }}>{{ __('FsLang::panel.option_default') }}</option>
                         @foreach ($pluginParams['extendData'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['content_list_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                            <option value="{{ $plugin->fskey }}" {{ $params['content_list_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -84,7 +84,7 @@
                     <select class="form-select" name="content_follow_service">
                         <option value="" {{ !$params['content_follow_service'] ? 'selected' : '' }}>{{ __('FsLang::panel.option_default') }}</option>
                         @foreach ($pluginParams['extendData'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['content_follow_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                            <option value="{{ $plugin->fskey }}" {{ $params['content_follow_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -93,7 +93,7 @@
                     <select class="form-select" name="content_nearby_service">
                         <option value="" {{ !$params['content_nearby_service'] ? 'selected' : '' }}>{{ __('FsLang::panel.option_default') }}</option>
                         @foreach ($pluginParams['extendData'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['content_nearby_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                            <option value="{{ $plugin->fskey }}" {{ $params['content_nearby_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -110,7 +110,7 @@
                     <select class="form-select" name="content_detail_service">
                         <option value="" {{ !$params['search_users_service'] ? 'selected' : '' }}>{{ __('FsLang::panel.option_default') }}</option>
                         @foreach ($pluginParams['extendData'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['content_detail_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                            <option value="{{ $plugin->fskey }}" {{ $params['content_detail_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -127,7 +127,7 @@
                     <select class="form-select" name="search_users_service">
                         <option value="" {{ !$params['search_users_service'] ? 'selected' : '' }}>⛔️ {{ __('FsLang::panel.option_close') }}</option>
                         @foreach ($pluginParams['extendSearch'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['search_users_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                            <option value="{{ $plugin->fskey }}" {{ $params['search_users_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -137,7 +137,7 @@
                     <select class="form-select" name="search_groups_service">
                         <option value="" {{ !$params['search_groups_service'] ? 'selected' : '' }}>⛔️ {{ __('FsLang::panel.option_close') }}</option>
                         @foreach ($pluginParams['extendSearch'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['search_groups_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                            <option value="{{ $plugin->fskey }}" {{ $params['search_groups_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -147,7 +147,7 @@
                     <select class="form-select" name="search_hashtags_service">
                         <option value="" {{ !$params['search_hashtags_service'] ? 'selected' : '' }}>⛔️ {{ __('FsLang::panel.option_close') }}</option>
                         @foreach ($pluginParams['extendSearch'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['search_hashtags_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                            <option value="{{ $plugin->fskey }}" {{ $params['search_hashtags_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -157,7 +157,7 @@
                     <select class="form-select" name="search_posts_service">
                         <option value="" {{ !$params['search_posts_service'] ? 'selected' : '' }}>⛔️ {{ __('FsLang::panel.option_close') }}</option>
                         @foreach ($pluginParams['extendSearch'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['search_posts_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                            <option value="{{ $plugin->fskey }}" {{ $params['search_posts_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -167,7 +167,7 @@
                     <select class="form-select" name="search_comments_service">
                         <option value="" {{ !$params['search_comments_service'] ? 'selected' : '' }}>⛔️ {{ __('FsLang::panel.option_close') }}</option>
                         @foreach ($pluginParams['extendSearch'] as $plugin)
-                            <option value="{{ $plugin->unikey }}" {{ $params['search_comments_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                            <option value="{{ $plugin->fskey }}" {{ $params['search_comments_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>

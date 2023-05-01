@@ -18,17 +18,17 @@ class ApiException extends \Exception
 
     protected $data;
 
-    public function __construct(int $code, ?string $unikey = '', mixed $data = null)
+    public function __construct(int $code, ?string $fskey = '', mixed $data = null)
     {
-        $message = $this->getCodeMessage($code, $unikey);
+        $message = $this->getCodeMessage($code, $fskey);
         $this->data = $data;
 
         parent::__construct($message, $code);
     }
 
-    public function getCodeMessage(int $code, ?string $unikey = '')
+    public function getCodeMessage(int $code, ?string $fskey = '')
     {
-        return ConfigUtility::getCodeMessage($code, $unikey, \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag()));
+        return ConfigUtility::getCodeMessage($code, $fskey, \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag()));
     }
 
     public function render()

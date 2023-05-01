@@ -152,7 +152,7 @@
                                 <select class="form-select" id="register_plugin" name="site_public_service">
                                     <option value="" selected>{{ __('FsLang::panel.option_default') }}</option>
                                     @foreach ($registerPlugins as $plugin)
-                                        <option value="{{ $plugin->unikey }}" {{ $params['site_public_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                                        <option value="{{ $plugin->fskey }}" {{ $params['site_public_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -199,7 +199,7 @@
                                 <select class="form-select" id="site_private_plugin" name="site_private_service">
                                     <option value="" selected>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
                                     @foreach ($joinPlugins as $plugin)
-                                        <option value="{{ $plugin->unikey }}" {{ $params['site_private_service'] == $plugin->unikey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                                        <option value="{{ $plugin->fskey }}" {{ $params['site_private_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                                     @endforeach
                                 </select>
                             </div>

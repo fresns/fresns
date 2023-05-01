@@ -62,10 +62,10 @@ class TableDataChangeEvent
 
     public function notify(Subscribe $subscribe)
     {
-        $unikey = $subscribe->getUnikey();
+        $fskey = $subscribe->getFskey();
         $cmdWord = $subscribe->getCmdWord();
 
-        \FresnsCmdWord::plugin($unikey)->$cmdWord($this->toArray());
+        \FresnsCmdWord::plugin($fskey)->$cmdWord($this->toArray());
     }
 
     public function toArray()

@@ -19,7 +19,7 @@ class CommonUploadLogDTO extends DTO
     {
         return [
             'type' => ['integer', 'required', 'between:1,16'],
-            'pluginUnikey' => ['string', 'nullable'],
+            'fskey' => ['string', 'nullable'],
             'objectName' => ['string', 'required'],
             'objectAction' => ['string', 'required'],
             'objectResult' => ['integer', 'required', 'in:1,2,3'],

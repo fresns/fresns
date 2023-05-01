@@ -52,7 +52,7 @@ class SessionKeyController extends Controller
     {
         $attributes = $request->all();
         if ($request->type != 3) {
-            $attributes['plugin_unikey'] = null;
+            $attributes['plugin_fskey'] = null;
         }
         $key->update($attributes);
 

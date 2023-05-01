@@ -38,10 +38,10 @@
                 @foreach ($pluginUsages as $item)
                     <tr>
                         <td><input type="number" data-action="{{ route('panel.content-type.rating', $item->id) }}" class="form-control input-number rating-number" value="{{ $item['rating'] }}"></td>
-                        <td>{{ optional($item->plugin)->name ?? $item->plugin_unikey }}</td>
+                        <td>{{ optional($item->plugin)->name ?? $item->plugin_fskey }}</td>
                         <td>{{ $item->getLangName($defaultLanguage) }}</td>
                         <td>
-                            @if (!empty($item->data_sources['postByAll']['pluginUnikey']))
+                            @if (!empty($item->data_sources['postByAll']['pluginFskey']))
                                 <button type="button" class="btn btn-outline-secondary btn-sm update-data-source"
                                     data-bs-toggle="modal"
                                     data-action="{{ route('panel.content-type.source', ['id' => $item->id, 'key' => 'postByAll']) }}"
@@ -49,7 +49,7 @@
                                     data-default_language="{{$defaultLanguage}}"
                                     data-bs-target="#pluginRatingModal">{{ __('FsLang::panel.extend_content_type_option_post_all') }}</button>
                             @endif
-                            @if (!empty($item->data_sources['postByFollow']['pluginUnikey']))
+                            @if (!empty($item->data_sources['postByFollow']['pluginFskey']))
                                 <button type="button" class="btn btn-outline-secondary btn-sm update-data-source"
                                     data-bs-toggle="modal"
                                     data-action="{{ route('panel.content-type.source', ['id' => $item->id, 'key' => 'postByFollow']) }}"
@@ -57,7 +57,7 @@
                                     data-default_language="{{$defaultLanguage}}"
                                     data-bs-target="#pluginRatingModal">{{ __('FsLang::panel.extend_content_type_option_post_follow') }}</button>
                             @endif
-                            @if (!empty($item->data_sources['postByNearby']['pluginUnikey']))
+                            @if (!empty($item->data_sources['postByNearby']['pluginFskey']))
                                 <button type="button" class="btn btn-outline-secondary btn-sm update-data-source"
                                     data-bs-toggle="modal"
                                     data-action="{{ route('panel.content-type.source', ['id' => $item->id, 'key' => 'postByNearby']) }}"
@@ -126,7 +126,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_plugin') }}</label>
                             <div class="col-sm-9">
-                                <select class="form-select" name="plugin_unikey" required>
+                                <select class="form-select" name="plugin_fskey" required>
                                     <option selected disabled value="">{{ __('FsLang::panel.select_box_tip_plugin') }}</option>
                                     <option value="All">All</option>
                                     <option value="Text">Text</option>
@@ -135,7 +135,7 @@
                                     <option value="Audio">Audio</option>
                                     <option value="Document">Document</option>
                                     @foreach ($plugins as $plugin)
-                                        <option value="{{ $plugin->unikey }}">{{ $plugin->name }}</option>
+                                        <option value="{{ $plugin->fskey }}">{{ $plugin->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -154,7 +154,7 @@
                                         <option disabled>{{ __('FsLang::panel.select_box_tip_data_source') }}</option>
                                         <option value="" selected>{{ __('FsLang::panel.option_default') }}</option>
                                         @foreach ($plugins as $plugin)
-                                            <option value="{{ $plugin->unikey }}">{{ $plugin->name }}</option>
+                                            <option value="{{ $plugin->fskey }}">{{ $plugin->name }}</option>
                                         @endforeach
                                     </select>
                                     <label for="floatingSelect"><i class="bi bi-card-list me-1"></i>/api/v2/post/list <i class="bi bi-card-list me-1 ms-3"></i>/api/v2/comment/list</label>
@@ -164,7 +164,7 @@
                                         <option disabled>{{ __('FsLang::panel.select_box_tip_data_source') }}</option>
                                         <option value="" selected>{{ __('FsLang::panel.option_default') }}</option>
                                         @foreach ($plugins as $plugin)
-                                            <option value="{{ $plugin->unikey }}">{{ $plugin->name }}</option>
+                                            <option value="{{ $plugin->fskey }}">{{ $plugin->name }}</option>
                                         @endforeach
                                     </select>
                                     <label for="floatingSelect"><i class="bi bi-card-list me-1"></i>/api/v2/post/follow <i class="bi bi-card-list me-1 ms-3"></i>/api/v2/comment/follow</label>
@@ -174,7 +174,7 @@
                                         <option disabled>{{ __('FsLang::panel.select_box_tip_data_source') }}</option>
                                         <option value="" selected>{{ __('FsLang::panel.option_default') }}</option>
                                         @foreach ($plugins as $plugin)
-                                            <option value="{{ $plugin->unikey }}">{{ $plugin->name }}</option>
+                                            <option value="{{ $plugin->fskey }}">{{ $plugin->name }}</option>
                                         @endforeach
                                     </select>
                                     <label for="floatingSelect"><i class="bi bi-card-list me-1"></i>/api/v2/post/nearby <i class="bi bi-card-list me-1 ms-3"></i>/api/v2/comment/nearby</label>

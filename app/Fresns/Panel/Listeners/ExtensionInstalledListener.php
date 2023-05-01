@@ -30,11 +30,11 @@ class ExtensionInstalledListener
      */
     public function handle($event)
     {
-        $unikey = $event['unikey'] ?? null;
-        if (empty($unikey)) {
+        $fskey = $event['fskey'] ?? null;
+        if (empty($fskey)) {
             return;
         }
 
-        CacheHelper::forgetFresnsKey("fresns_plugin_version_{$unikey}");
+        CacheHelper::forgetFresnsKey("fresns_plugin_version_{$fskey}");
     }
 }

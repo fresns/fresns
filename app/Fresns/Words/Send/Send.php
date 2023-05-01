@@ -38,11 +38,11 @@ class Send
     {
         $dtoWordBody = new SendEmailDTO($wordBody);
 
-        $this->ensureUnikeyIsNotEmpty(
-            $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('send_email_service')
+        $this->ensureFskeyIsNotEmpty(
+            $pluginFskey = ConfigHelper::fresnsConfigByItemKey('send_email_service')
         );
 
-        $fresnsResp = \FresnsCmdWord::plugin($pluginUniKey)->sendEmail($wordBody);
+        $fresnsResp = \FresnsCmdWord::plugin($pluginFskey)->sendEmail($wordBody);
 
         return $fresnsResp->getOrigin();
     }
@@ -57,11 +57,11 @@ class Send
     {
         $dtoWordBody = new SendSmsDTO($wordBody);
 
-        $this->ensureUnikeyIsNotEmpty(
-            $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('send_sms_service')
+        $this->ensureFskeyIsNotEmpty(
+            $pluginFskey = ConfigHelper::fresnsConfigByItemKey('send_sms_service')
         );
 
-        $fresnsResp = \FresnsCmdWord::plugin($pluginUniKey)->sendSms($wordBody);
+        $fresnsResp = \FresnsCmdWord::plugin($pluginFskey)->sendSms($wordBody);
 
         return $fresnsResp->getOrigin();
     }
@@ -130,11 +130,11 @@ class Send
 
         $itemKey = $channelMap[$dtoWordBody->channel];
 
-        $this->ensureUnikeyIsNotEmpty(
-            $pluginUniKey = ConfigHelper::fresnsConfigByItemKey($itemKey)
+        $this->ensureFskeyIsNotEmpty(
+            $pluginFskey = ConfigHelper::fresnsConfigByItemKey($itemKey)
         );
 
-        $fresnsResp = \FresnsCmdWord::plugin($pluginUniKey)->sendAppNotification($wordBody);
+        $fresnsResp = \FresnsCmdWord::plugin($pluginFskey)->sendAppNotification($wordBody);
 
         return $fresnsResp->getOrigin();
     }
@@ -149,16 +149,16 @@ class Send
     {
         $dtoWordBody = new SendWechatMessageDTO($wordBody);
 
-        $this->ensureUnikeyIsNotEmpty(
-            $pluginUniKey = ConfigHelper::fresnsConfigByItemKey('send_wechat_service')
+        $this->ensureFskeyIsNotEmpty(
+            $pluginFskey = ConfigHelper::fresnsConfigByItemKey('send_wechat_service')
         );
 
-        $fresnsResp = \FresnsCmdWord::plugin($pluginUniKey)->sendWechatMessage($wordBody);
+        $fresnsResp = \FresnsCmdWord::plugin($pluginFskey)->sendWechatMessage($wordBody);
 
         return $fresnsResp->getOrigin();
     }
 
-    protected function ensureUnikeyIsNotEmpty(string $string)
+    protected function ensureFskeyIsNotEmpty(string $string)
     {
         if (empty($string)) {
             ExceptionConstant::getHandleClassByCode(ExceptionConstant::PLUGIN_CONFIG_ERROR)::throw();
@@ -221,7 +221,7 @@ class Send
             'is_markdown' => $dtoWordBody['isMarkdown'] ?? 0,
             'is_multilingual' => $dtoWordBody['isMultilingual'] ?? 0,
             'is_access_plugin' => $dtoWordBody['isAccessPlugin'] ?? 0,
-            'plugin_unikey' => $dtoWordBody['pluginUnikey'] ?? null,
+            'plugin_fskey' => $dtoWordBody['pluginFskey'] ?? null,
             'action_user_id' => $actionUser?->id ?? null,
             'action_type' => $dtoWordBody['actionType'] ?? null,
             'action_object' => $dtoWordBody['actionObject'] ?? null,

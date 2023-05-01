@@ -13,9 +13,9 @@ use App\Models\Plugin;
 class PluginHelper
 {
     // Get the plugin host.
-    public static function fresnsPluginHostByUnikey(string $unikey): ?string
+    public static function fresnsPluginHostByFskey(string $fskey): ?string
     {
-        $cacheKey = "fresns_plugin_host_{$unikey}";
+        $cacheKey = "fresns_plugin_host_{$fskey}";
         $cacheTags = ['fresnsExtensions', 'fresnsConfigs'];
 
         // is known to be empty
@@ -27,7 +27,7 @@ class PluginHelper
         $pluginHost = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($pluginHost)) {
-            $pluginHost = Plugin::where('unikey', $unikey)->value('plugin_host');
+            $pluginHost = Plugin::where('fskey', $fskey)->value('plugin_host');
 
             CacheHelper::put($pluginHost, $cacheKey, $cacheTags);
         }
@@ -36,13 +36,13 @@ class PluginHelper
     }
 
     // Get the plugin access url
-    public static function fresnsPluginUrlByUnikey(?string $unikey = null): ?string
+    public static function fresnsPluginUrlByFskey(?string $fskey = null): ?string
     {
-        if (empty($unikey)) {
+        if (empty($fskey)) {
             return null;
         }
 
-        $cacheKey = "fresns_plugin_url_{$unikey}";
+        $cacheKey = "fresns_plugin_url_{$fskey}";
         $cacheTags = ['fresnsExtensions', 'fresnsConfigs'];
 
         // is known to be empty
@@ -54,7 +54,7 @@ class PluginHelper
         $pluginUrl = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($pluginUrl)) {
-            $plugin = Plugin::where('unikey', $unikey)->first();
+            $plugin = Plugin::where('fskey', $fskey)->first();
 
             $link = null;
             if ($plugin) {
@@ -72,9 +72,9 @@ class PluginHelper
     }
 
     // Get the url of the plugin that has replaced the custom parameters
-    public static function fresnsPluginUsageUrl(string $unikey, ?string $parameter = null): ?string
+    public static function fresnsPluginUsageUrl(string $fskey, ?string $parameter = null): ?string
     {
-        $url = PluginHelper::fresnsPluginUrlByUnikey($unikey);
+        $url = PluginHelper::fresnsPluginUrlByFskey($fskey);
 
         if (empty($parameter) || empty($url)) {
             return $url;
@@ -84,15 +84,15 @@ class PluginHelper
     }
 
     // get plugin version
-    public static function fresnsPluginVersionByUnikey(string $unikey): ?string
+    public static function fresnsPluginVersionByFskey(string $fskey): ?string
     {
-        $cacheKey = "fresns_plugin_version_{$unikey}";
+        $cacheKey = "fresns_plugin_version_{$fskey}";
         $cacheTags = ['fresnsExtensions', 'fresnsConfigs'];
 
         $version = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($version)) {
-            $version = Plugin::where('unikey', $unikey)->value('version');
+            $version = Plugin::where('fskey', $fskey)->value('version');
 
             if (empty($version)) {
                 return null;
@@ -105,9 +105,9 @@ class PluginHelper
     }
 
     // get plugin upgrade code
-    public static function fresnsPluginUpgradeCodeByUnikey(string $unikey): ?string
+    public static function fresnsPluginUpgradeCodeByFskey(string $fskey): ?string
     {
-        $upgradeCode = Plugin::where('unikey', $unikey)->value('upgrade_code');
+        $upgradeCode = Plugin::where('fskey', $fskey)->value('upgrade_code');
 
         if (empty($upgradeCode)) {
             return null;

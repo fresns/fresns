@@ -171,7 +171,7 @@
                 <select class="form-select" id="comment_editor" name="comment_editor_service">
                     <option value="">{{ __('FsLang::panel.option_default') }}</option>
                     @foreach ($plugins as $plugin)
-                        <option value="{{ $plugin->unikey }}" @if ($plugin->unikey == $params['comment_editor_service']) selected @endif>{{ $plugin->name }}</option>
+                        <option value="{{ $plugin->fskey }}" @if ($plugin->fskey == $params['comment_editor_service']) selected @endif>{{ $plugin->name }}</option>
                     @endforeach
                 </select>
             </div>
