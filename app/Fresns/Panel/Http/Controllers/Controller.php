@@ -67,6 +67,15 @@ class Controller extends BaseController
             // Check Extensions Version
             if (Carbon::parse($checkVersionDatetime)->diffInMinutes(now()) > 10) {
                 \FresnsCmdWord::plugin('Fresns')->checkExtensionsVersion();
+
+                // Time of the latest check version
+                Config::updateOrCreate([
+                    'item_key' => 'check_version_datetime',
+                ], [
+                    'item_value' => now(),
+                    'item_type' => 'string',
+                    'item_tag' => 'systems',
+                ]);
             }
         } catch (\Exception $e) {
         }
