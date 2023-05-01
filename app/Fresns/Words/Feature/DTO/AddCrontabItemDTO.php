@@ -6,14 +6,14 @@
  * Released under the Apache-2.0 License.
  */
 
-namespace App\Fresns\Words\Crontab\DTO;
+namespace App\Fresns\Words\Feature\DTO;
 
 use Fresns\DTO\DTO;
 
 /**
  * Class AddCrontabItemDTO.
  */
-class DeleteCrontabItemDTO extends DTO
+class AddCrontabItemDTO extends DTO
 {
     /**
      * @return array
@@ -21,8 +21,9 @@ class DeleteCrontabItemDTO extends DTO
     public function rules(): array
     {
         return [
-            'fskey' => ['string', 'required'],
+            'fskey' => ['string', 'required', 'exists:App\Models\Plugin,fskey'],
             'cmdWord' => ['string', 'required'],
+            'cronTableFormat' => ['string', 'required'],
         ];
     }
 }

@@ -8,9 +8,9 @@
 
 namespace App\Models\Traits;
 
-use App\Fresns\Subscribe\Subscribe;
 use App\Models\Config;
 use App\Models\Language;
+use App\Utilities\SubscribeUtility;
 
 trait DataChangeNotifyTrait
 {
@@ -21,27 +21,15 @@ trait DataChangeNotifyTrait
         }
 
         static::created(function ($model) {
-            notifyDataChange([
-                'tableName' => static::class,
-                'primaryId' => $model->id,
-                'changeType' => Subscribe::CHANGE_TYPE_CREATED,
-            ]);
+            SubscribeUtility::notifyDataChange(static::class, $model->id, SubscribeUtility::CHANGE_TYPE_CREATED);
         });
 
         static::updated(function ($model) {
-            notifyDataChange([
-                'tableName' => static::class,
-                'primaryId' => $model->id,
-                'changeType' => Subscribe::CHANGE_TYPE_UPDATED,
-            ]);
+            SubscribeUtility::notifyDataChange(static::class, $model->id, SubscribeUtility::CHANGE_TYPE_UPDATED);
         });
 
         static::deleted(function ($model) {
-            notifyDataChange([
-                'tableName' => static::class,
-                'primaryId' => $model->id,
-                'changeType' => Subscribe::CHANGE_TYPE_DELETED,
-            ]);
+            SubscribeUtility::notifyDataChange(static::class, $model->id, SubscribeUtility::CHANGE_TYPE_DELETED);
         });
     }
 }

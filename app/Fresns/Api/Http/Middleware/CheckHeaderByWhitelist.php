@@ -12,6 +12,7 @@ use App\Exceptions\ApiException;
 use App\Fresns\Api\Http\DTO\HeadersDTO;
 use App\Fresns\Words\Basic\DTO\DeviceInfoDTO;
 use App\Helpers\ConfigHelper;
+use App\Utilities\SubscribeUtility;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -47,6 +48,9 @@ class CheckHeaderByWhitelist
         // check deviceInfo
         new DeviceInfoDTO($deviceInfo);
 
+        // current route name
+        $currentRouteName = \request()->route()->getName();
+
         // check sign
         $isCheckSign = ConfigHelper::fresnsConfigDeveloperMode()['apiSignature'];
         if ($isCheckSign) {
@@ -55,11 +59,17 @@ class CheckHeaderByWhitelist
             if ($fresnsResp->isErrorResponse()) {
                 return $fresnsResp->errorResponse();
             }
+
+            // notify user activity
+            if ($headers['uid']) {
+                $uri = sprintf('/%s', ltrim(\request()->getRequestUri(), '/'));
+
+                SubscribeUtility::notifyUserActivity($currentRouteName, $uri, $headers, \request()->all());
+            }
         }
 
         // config
         $siteMode = ConfigHelper::fresnsConfigByItemKey('site_mode');
-        $currentRouteName = \request()->route()->getName();
 
         // account and user login
         $accountLogin = $headers['aid'] ? true : false;

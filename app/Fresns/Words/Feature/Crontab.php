@@ -6,10 +6,10 @@
  * Released under the Apache-2.0 License.
  */
 
-namespace App\Fresns\Words\Crontab;
+namespace App\Fresns\Words\Feature;
 
-use App\Fresns\Words\Crontab\DTO\AddCrontabItemDTO;
-use App\Fresns\Words\Crontab\DTO\DeleteCrontabItemDTO;
+use App\Fresns\Words\Feature\DTO\AddCrontabItemDTO;
+use App\Fresns\Words\Feature\DTO\RemoveCrontabItemDTO;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Models\Account;
@@ -33,23 +33,31 @@ class Crontab
     public function addCrontabItem($wordBody)
     {
         $dtoWordBody = new AddCrontabItemDTO($wordBody);
-        $cronArr = ConfigHelper::fresnsConfigByItemKey('crontab_items');
-        $cronIsset = 0;
-        foreach ($cronArr as $k => $v) {
-            if ($v['fskey'] == $dtoWordBody->fskey && $v['cmdWord'] == $dtoWordBody->cmdWord) {
-                $cronArr[$k] = $wordBody;
-                $cronIsset = 1;
+
+        $crontabItems = Config::withTrashed()->where('item_key', 'crontab_items')->first();
+        $itemArr = $crontabItems->item_value;
+
+        $found = false;
+        foreach ($itemArr as $item) {
+            if ($item['fskey'] == $dtoWordBody->fskey && $item['cmdWord'] == $dtoWordBody->cmdWord) {
+                $found = true;
+                break;
             }
         }
-        if (empty($cronIsset)) {
-            $cronArr[] = $wordBody;
+
+        if (! $found) {
+            $itemArr[] = [
+                'fskey' => $dtoWordBody->fskey,
+                'cmdWord' => $dtoWordBody->cmdWord,
+                'taskPeriod' => $dtoWordBody->taskPeriod,
+            ];
         }
-        Config::where('item_key', 'crontab_items')->update(['item_value' => $cronArr]);
 
-        $cacheKey = 'fresns_crontab_items';
-        $cacheTag = 'fresnsSystems';
+        $crontabItems->update([
+            'item_value' => $itemArr,
+        ]);
 
-        CacheHelper::put($cronArr, $cacheKey, $cacheTag);
+        CacheHelper::forgetFresnsConfigs('crontab_items');
 
         return $this->success();
     }
@@ -60,21 +68,24 @@ class Crontab
      *
      * @throws \Throwable
      */
-    public function deleteCrontabItem($wordBody)
+    public function removeCrontabItem($wordBody)
     {
-        $dtoWordBody = new DeleteCrontabItemDTO($wordBody);
-        $cronArr = ConfigHelper::fresnsConfigByItemKey('crontab_items');
-        foreach ($cronArr as $k => $v) {
-            if ($v['fskey'] == $dtoWordBody->fskey && $v['cmdWord'] == $dtoWordBody->cmdWord) {
-                unset($cronArr[$k]);
-            }
-        }
-        Config::where('item_key', 'crontab_items')->update(['item_value' => $cronArr]);
+        $dtoWordBody = new RemoveCrontabItemDTO($wordBody);
 
-        $cacheKey = 'fresns_crontab_items';
-        $cacheTag = 'fresnsSystems';
+        $crontabItems = Config::withTrashed()->where('item_key', 'crontab_items')->first();
+        $cronArr = $crontabItems->item_value;
 
-        CacheHelper::put($cronArr, $cacheKey, $cacheTag);
+        $newItemArr = array_filter($cronArr, function ($item) use ($dtoWordBody) {
+            return ! ($item['fskey'] == $dtoWordBody->fskey && $item['cmdWord'] == $dtoWordBody->cmdWord);
+        });
+
+        $newItemArr = array_values($newItemArr);
+
+        $crontabItems->update([
+            'item_value' => $newItemArr,
+        ]);
+
+        CacheHelper::forgetFresnsConfigs('crontab_items');
 
         return $this->success();
     }

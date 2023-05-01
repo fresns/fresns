@@ -19,7 +19,6 @@ use App\Fresns\Api\Http\DTO\AccountResetPasswordDTO;
 use App\Fresns\Api\Http\DTO\AccountVerifyIdentityDTO;
 use App\Fresns\Api\Http\DTO\AccountWalletLogsDTO;
 use App\Fresns\Api\Services\AccountService;
-use App\Fresns\Subscribe\SubscribeService;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
@@ -30,6 +29,7 @@ use App\Models\BlockWord;
 use App\Models\SessionLog;
 use App\Models\SessionToken;
 use App\Models\VerifyCode;
+use App\Utilities\SubscribeUtility;
 use App\Utilities\ValidationUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -259,7 +259,7 @@ class AccountController extends Controller
         $data = array_merge($sessionToken, $detail);
 
         // notify subscribe
-        SubscribeService::notifyAccountAndUserLogin($account->id, $data['sessionToken'], $data['detail']);
+        SubscribeUtility::notifyAccountAndUserLogin($account->id, $data['sessionToken'], $data['detail']);
 
         return $this->success($data);
     }
@@ -419,7 +419,7 @@ class AccountController extends Controller
         $data = array_merge($sessionToken, $detail);
 
         // notify subscribe
-        SubscribeService::notifyAccountAndUserLogin($account->id, $data['sessionToken'], $data['detail']);
+        SubscribeUtility::notifyAccountAndUserLogin($account->id, $data['sessionToken'], $data['detail']);
 
         return $this->success($data);
     }

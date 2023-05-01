@@ -20,7 +20,6 @@ use App\Fresns\Api\Http\DTO\UserMarkNoteDTO;
 use App\Fresns\Api\Services\AccountService;
 use App\Fresns\Api\Services\InteractionService;
 use App\Fresns\Api\Services\UserService;
-use App\Fresns\Subscribe\SubscribeService;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
@@ -50,6 +49,7 @@ use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
+use App\Utilities\SubscribeUtility;
 use App\Utilities\ValidationUtility;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -552,7 +552,7 @@ class UserController extends Controller
         $accountService = new AccountService();
         $accountDetail = $accountService->accountDetail($authAccount, $langTag, $timezone);
 
-        SubscribeService::notifyAccountAndUserLogin($authAccount->id, $accountToken, $accountDetail, $authUser->id, $data['sessionToken'], $data['detail']);
+        SubscribeUtility::notifyAccountAndUserLogin($authAccount->id, $accountToken, $accountDetail, $authUser->id, $data['sessionToken'], $data['detail']);
 
         return $this->success($data);
     }

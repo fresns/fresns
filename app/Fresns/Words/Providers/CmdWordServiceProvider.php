@@ -12,7 +12,8 @@ use App\Fresns\Words\Account\Account;
 use App\Fresns\Words\Account\Wallet;
 use App\Fresns\Words\Basic\Basic;
 use App\Fresns\Words\Content\Content;
-use App\Fresns\Words\Crontab\Crontab;
+use App\Fresns\Words\Feature\Crontab;
+use App\Fresns\Words\Feature\Subscribe;
 use App\Fresns\Words\File\File;
 use App\Fresns\Words\Send\Send;
 use App\Fresns\Words\User\User;
@@ -96,7 +97,11 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
 
         // Crontab
         ['word' => 'addCrontabItem', 'provider' => [Crontab::class, 'addCrontabItem']],
-        ['word' => 'deleteCrontabItem', 'provider' => [Crontab::class, 'deleteCrontabItem']],
+        ['word' => 'removeCrontabItem', 'provider' => [Crontab::class, 'removeCrontabItem']],
+
+        // Subscribe
+        ['word' => 'addSubscribeItem', 'provider' => [Subscribe::class, 'addSubscribeItem']],
+        ['word' => 'removeSubscribeItem', 'provider' => [Subscribe::class, 'removeSubscribeItem']],
 
         // Fresns Crontab List
         ['word' => 'checkUserRoleExpired', 'provider' => [Crontab::class, 'checkUserRoleExpired']],

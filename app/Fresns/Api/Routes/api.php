@@ -20,13 +20,11 @@ use App\Fresns\Api\Http\Controllers\SearchController;
 use App\Fresns\Api\Http\Controllers\UserController;
 use App\Fresns\Api\Http\Middleware\CheckHeaderByWhitelist;
 use App\Fresns\Api\Http\Middleware\CheckSiteMode;
-use App\Fresns\Subscribe\Middleware\UserActivate;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v2')->middleware([
     CheckHeaderByWhitelist::class,
     CheckSiteMode::class,
-    UserActivate::class,
 ])->group(function () {
     // global
     Route::prefix('global')->name('global.')->withoutMiddleware([CheckSiteMode::class])->group(function () {
