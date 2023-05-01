@@ -138,24 +138,4 @@ class PluginHelper
 
         return $pluginRating;
     }
-
-    // get subscribe items
-    public static function fresnsPluginSubscribeItems(?int $type = null): array
-    {
-        $subscribeItems = ConfigHelper::fresnsConfigByItemKey('subscribe_items') ?? [];
-
-        if (empty($subscribeItems)) {
-            return [];
-        }
-
-        if (empty($type)) {
-            return $subscribeItems;
-        }
-
-        $filtered = array_filter($subscribeItems, function ($item) use ($type) {
-            return $item['type'] == $type;
-        });
-
-        return array_values($filtered);
-    }
 }

@@ -8,6 +8,7 @@
 
 namespace App\Helpers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class StrHelper
@@ -93,6 +94,24 @@ class StrHelper
         }
 
         return sprintf('%s/%s', rtrim($domain, '/'), ltrim($uri, '/'));
+    }
+
+    // qualify table name
+    public static function qualifyTableName(mixed $model): string
+    {
+        $modelName = $model;
+
+        if (class_exists($model)) {
+            $model = new $model;
+
+            if (! ($model instanceof Model)) {
+                throw new \LogicException("unknown table name of $model");
+            }
+
+            $modelName = $model->getTable();
+        }
+
+        return str_replace(config('database.connections.mysql.prefix'), '', $modelName);
     }
 
     // Whether it is a pure number

@@ -770,7 +770,6 @@ class CacheHelper
     // fresns_panel_login_path
     // fresns_panel_translation_{$locale}
     // fresns_model_key_{$appId}
-    // fresns_crontab_items
 
     /**
      * tag: fresnsConfigs.
