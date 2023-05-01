@@ -17,20 +17,16 @@ class SqlLogServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }
 
     /**
      * Bootstrap services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerQueryLogger();
     }
@@ -38,7 +34,7 @@ class SqlLogServiceProvider extends ServiceProvider
     /**
      * SQL time-consuming query log at development time.
      */
-    protected function registerQueryLogger()
+    protected function registerQueryLogger(): void
     {
         if (! $this->app['config']->get('app.debug')) {
             return;
@@ -59,11 +55,8 @@ class SqlLogServiceProvider extends ServiceProvider
 
     /**
      * Time unit conversion.
-     *
-     * @param $seconds
-     * @return string
      */
-    private function formatDuration($seconds)
+    private function formatDuration($seconds): string
     {
         if ($seconds < 0.001) {
             return round($seconds * 1000000).'μs';
