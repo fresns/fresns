@@ -173,12 +173,12 @@
                         <label class="input-group-text">{{ __('FsLang::panel.publish_rule_rule') }}</label>
                         <div class="form-control bg-white">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" {{ $permissions['post_limit_rule']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[post_limit_rule]" id="post.limit.rule.0" value="0">
-                                <label class="form-check-label" for="post.limit.rule.0">{{ __('FsLang::panel.permission_option_review_publish') }}</label>
+                                <input class="form-check-input" type="radio" {{ ($permissions['post_limit_rule']['permValue'] ?? '1') == '1' ? 'checked' : '' }} name="permissions[post_limit_rule]" id="post.limit.rule.1" value="1">
+                                <label class="form-check-label" for="post.limit.rule.1">{{ __('FsLang::panel.permission_option_review_publish') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" {{ !($permissions['post_limit_rule']['permValue'] ?? '') ? 'checked' : '' }}  name="permissions[post_limit_rule]" id="post.limit.rule.1" value="1">
-                                <label class="form-check-label" for="post.limit.rule.1">{{ __('FsLang::panel.permission_option_close_publish') }}</label>
+                                <input class="form-check-input" type="radio" {{ ($permissions['post_limit_rule']['permValue'] ?? '1') == '2' ? 'checked' : '' }}  name="permissions[post_limit_rule]" id="post.limit.rule.2" value="2">
+                                <label class="form-check-label" for="post.limit.rule.2">{{ __('FsLang::panel.permission_option_close_publish') }}</label>
                             </div>
                         </div>
                     </div>
@@ -307,12 +307,12 @@
                         <label class="input-group-text">{{ __('FsLang::panel.publish_rule_rule') }}</label>
                         <div class="form-control bg-white">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" {{ $permissions['comment_limit_rule']['permValue'] ?? '' ? 'checked' : '' }} name="permissions[comment_limit_rule]" id="comment.limit.rule.0" value="0">
-                                <label class="form-check-label" for="comment.limit.rule.0">{{ __('FsLang::panel.permission_option_review_publish') }}</label>
+                                <input class="form-check-input" type="radio" {{ ($permissions['comment_limit_rule']['permValue'] ?? '1') == '1' ? 'checked' : '' }} name="permissions[comment_limit_rule]" id="comment.limit.rule.1" value="1">
+                                <label class="form-check-label" for="comment.limit.rule.1">{{ __('FsLang::panel.permission_option_review_publish') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" {{ !($permissions['comment_limit_rule']['permValue'] ?? '') ? 'checked' : '' }} name="permissions[comment_limit_rule]" id="comment.limit.rule.1" value="1">
-                                <label class="form-check-label" for="comment.limit.rule.1">{{ __('FsLang::panel.permission_option_close_publish') }}</label>
+                                <input class="form-check-input" type="radio" {{ ($permissions['comment_limit_rule']['permValue'] ?? '1') == '2' ? 'checked' : '' }} name="permissions[comment_limit_rule]" id="comment.limit.rule.2" value="2">
+                                <label class="form-check-label" for="comment.limit.rule.2">{{ __('FsLang::panel.permission_option_close_publish') }}</label>
                             </div>
                         </div>
                     </div>

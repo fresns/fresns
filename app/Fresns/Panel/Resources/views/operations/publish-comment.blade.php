@@ -86,12 +86,12 @@
                         <label class="input-group-text fresns-label">{{ __('FsLang::panel.publish_rule_rule') }}</label>
                         <div class="form-control bg-white">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="comment_limit_rule" id="post.limit.rule.0" value="1" {{ $params['comment_limit_rule'] == '1' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="post.limit.rule.0">{{ __('FsLang::panel.permission_option_review_publish') }}</label>
+                                <input class="form-check-input" type="radio" name="comment_limit_rule" id="post.limit.rule.1" value="1" {{ $params['comment_limit_rule'] == '1' ? 'checked' : '' }}>
+                                <label class="form-check-label" for="post.limit.rule.1">{{ __('FsLang::panel.permission_option_review_publish') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="comment_limit_rule" id="post.limit.rule.1" value="2" {{ $params['comment_limit_rule'] == '2' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="post.limit.rule.1">{{ __('FsLang::panel.permission_option_close_publish') }}</label>
+                                <input class="form-check-input" type="radio" name="comment_limit_rule" id="post.limit.rule.2" value="2" {{ $params['comment_limit_rule'] == '2' ? 'checked' : '' }}>
+                                <label class="form-check-label" for="post.limit.rule.2">{{ __('FsLang::panel.permission_option_close_publish') }}</label>
                             </div>
                         </div>
                     </div>
