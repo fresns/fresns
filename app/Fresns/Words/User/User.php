@@ -12,6 +12,7 @@ use App\Fresns\Words\User\DTO\AddUserDTO;
 use App\Fresns\Words\User\DTO\CreateUserTokenDTO;
 use App\Fresns\Words\User\DTO\LogicalDeletionUserDTO;
 use App\Fresns\Words\User\DTO\SetUserExpiryDatetimeDTO;
+use App\Fresns\Words\User\DTO\SetUserExtcreditsDTO;
 use App\Fresns\Words\User\DTO\SetUserGroupExpiryDatetimeDTO;
 use App\Fresns\Words\User\DTO\VerifyUserDTO;
 use App\Fresns\Words\User\DTO\VerifyUserTokenDTO;
@@ -22,6 +23,7 @@ use App\Models\Account;
 use App\Models\File;
 use App\Models\SessionToken;
 use App\Models\User as UserModel;
+use App\Models\UserExtcreditsLog;
 use App\Models\UserFollow;
 use App\Models\UserRole;
 use App\Models\UserStat;
@@ -306,6 +308,81 @@ class User
         $user->delete();
 
         return $this->success();
+    }
+
+    // setUserExtcredits
+    public function setUserExtcredits($wordBody)
+    {
+        $dtoWordBody = new SetUserExtcreditsDTO($wordBody);
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+
+        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $userStat = UserStat::where('user_id', $userId)->first();
+        $extcredits = 'extcredits'.$dtoWordBody->extcredits;
+
+        $openingAmount = $userStat->$extcredits;
+
+        $checkClosingAmount = static::checkClosingAmount($userStat, $extcredits);
+        if (! $checkClosingAmount) {
+            return $this->failure(21006, 'Error closing amount');
+        }
+
+        $amount = $dtoWordBody->amount ?? 1;
+
+        switch ($dtoWordBody->operation) {
+            case 'increment':
+                $type = 1;
+                $operationStat = $userStat->increment($extcredits, $amount);
+                $closingAmount = $openingAmount + $amount;
+                break;
+
+            case 'decrement':
+                if ($openingAmount == 0) {
+                    return $this->failure(21006, 'User value is 0 and cannot be decrement');
+                }
+
+                $type = 2;
+                $operationStat = $userStat->decrement($extcredits, $amount);
+                $closingAmount = $openingAmount - $amount;
+                break;
+        }
+
+        if (! $operationStat) {
+            return $this->failure(
+                21006,
+                ConfigUtility::getCodeMessage(21006, 'Fresns', $langTag)
+            );
+        }
+
+        $log = [
+            'user_id' => $userId,
+            'extcredits' => $dtoWordBody->extcredits,
+            'type' => $type,
+            'amount' => $amount,
+            'opening_amount' => $openingAmount,
+            'closing_amount' => $closingAmount,
+            'plugin_fskey' => $dtoWordBody->fskey,
+            'remark' => $dtoWordBody->remark,
+        ];
+
+        UserExtcreditsLog::create($log);
+
+        CacheHelper::forgetFresnsUser($userId, $dtoWordBody->uid);
+
+        return $this->success();
+    }
+
+    // check closing amount
+    public static function checkClosingAmount(UserStat $userStat, int $extcredits): bool
+    {
+        $log = UserExtcreditsLog::where('user_id', $userStat->user_id)->where('extcredits', $extcredits)->latest()->first();
+
+        $columnName = 'extcredits'.$extcredits;
+
+        $amount = $userStat->$columnName;
+        $closingAmount = $log?->closing_amount ?? 0;
+
+        return $amount == $closingAmount;
     }
 
     // setUserExpiryDatetime
