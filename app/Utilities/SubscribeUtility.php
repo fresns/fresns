@@ -10,6 +10,7 @@ namespace App\Utilities;
 
 use App\Helpers\ConfigHelper;
 use App\Helpers\StrHelper;
+use Illuminate\Support\Facades\Queue;
 
 class SubscribeUtility
 {
@@ -22,7 +23,7 @@ class SubscribeUtility
     const CHANGE_TYPE_DELETED = 'deleted';
 
     // get subscribe items
-    public static function getSubscribeItems(?int $type = null): array
+    public static function getSubscribeItems(?int $type = null, ?string $tableName = null): array
     {
         $subscribeItems = ConfigHelper::fresnsConfigByItemKey('subscribe_items') ?? [];
 
@@ -34,7 +35,11 @@ class SubscribeUtility
             return $subscribeItems;
         }
 
-        $filtered = array_filter($subscribeItems, function ($item) use ($type) {
+        $filtered = array_filter($subscribeItems, function ($item) use ($type, $tableName) {
+            if ($tableName) {
+                return ($item['type'] == $type && $item['subTableName'] == $tableName);
+            }
+
             return $item['type'] == $type;
         });
 
@@ -44,20 +49,21 @@ class SubscribeUtility
     // notifyDataChange
     public static function notifyDataChange(mixed $tableName, int $primaryId, string $changeType): void
     {
-        $subscribeItems = SubscribeUtility::getSubscribeItems(SubscribeUtility::TYPE_TABLE_DATA_CHANGE);
-        if (empty($subscribeItems)) {
-            return;
-        }
-
         $subTableName = null;
         try {
             if ($tableName) {
                 $subTableName = StrHelper::qualifyTableName($tableName);
             }
         } catch (\Exception $e) {
+            return;
         }
 
         if (empty($subTableName)) {
+            return;
+        }
+
+        $subscribeItems = SubscribeUtility::getSubscribeItems(SubscribeUtility::TYPE_TABLE_DATA_CHANGE, $subTableName);
+        if (empty($subscribeItems)) {
             return;
         }
 
@@ -68,13 +74,15 @@ class SubscribeUtility
         ];
 
         foreach ($subscribeItems as $item) {
-            try {
-                $fskey = $item['fskey'];
-                $cmdWord = $item['cmdWord'];
+            Queue::push(function () use ($item, $wordBody) {
+                try {
+                    $fskey = $item['fskey'];
+                    $cmdWord = $item['cmdWord'];
 
-                \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
-            } catch (\Exception $e) {
-            }
+                    \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
+                } catch (\Exception $e) {
+                }
+            });
         }
     }
 
@@ -94,13 +102,15 @@ class SubscribeUtility
         ];
 
         foreach ($subscribeItems as $item) {
-            try {
-                $fskey = $item['fskey'];
-                $cmdWord = $item['cmdWord'];
+            Queue::push(function () use ($item, $wordBody) {
+                try {
+                    $fskey = $item['fskey'];
+                    $cmdWord = $item['cmdWord'];
 
-                \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
-            } catch (\Exception $e) {
-            }
+                    \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
+                } catch (\Exception $e) {
+                }
+            });
         }
     }
 
@@ -124,13 +134,15 @@ class SubscribeUtility
         ];
 
         foreach ($subscribeItems as $item) {
-            try {
-                $fskey = $item['fskey'];
-                $cmdWord = $item['cmdWord'];
+            Queue::push(function () use ($item, $wordBody) {
+                try {
+                    $fskey = $item['fskey'];
+                    $cmdWord = $item['cmdWord'];
 
-                \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
-            } catch (\Exception $e) {
-            }
+                    \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
+                } catch (\Exception $e) {
+                }
+            });
         }
     }
 }
