@@ -244,7 +244,30 @@ return [
     ],
 
     // Disable after user expiry
-    'disableRoutes' => [
+    'disableByContentNotVisible' => [
+        'api.user.list',
+        'api.user.followers.you.follow',
+        'api.user.interaction',
+        'api.user.mark.list',
+        'api.group.interaction',
+        'api.hashtag.list',
+        'api.hashtag.interaction',
+        'api.post.list',
+        'api.post.interaction',
+        'api.post.users',
+        'api.post.quotes',
+        'api.post.logs',
+        'api.post.follow',
+        'api.post.nearby',
+        'api.comment.list',
+        'api.comment.interaction',
+        'api.comment.logs',
+        'api.comment.follow',
+        'api.comment.nearby',
+    ],
+
+    // Disable after user expiry
+    'disableForAfterExpiry' => [
         'api.common.upload.file',
         'api.common.file.link',
         'api.user.edit',
@@ -263,5 +286,18 @@ return [
         'api.editor.publish',
         'api.editor.recall',
         'api.editor.delete',
+    ],
+
+    // Read-only key disabled
+    'disableForReadOnly' => [
+        'api.common.send.verify.code',
+        'api.common.upload.file',
+        'api.account.register',
+        'api.conversation.send.message',
+        'api.editor.quick.publish',
+        'api.editor.create',
+        'api.editor.generate',
+        'api.editor.update',
+        'api.editor.publish',
     ],
 ];

@@ -53,36 +53,16 @@ class CheckSiteMode
         $currentRouteName = \request()->route()->getName();
 
         if ($modeConfig['site_private_end_after'] == 1 && $expireTime < $now) {
-            $list = [
-                'api.user.list',
-                'api.user.followers.you.follow',
-                'api.user.interaction',
-                'api.user.mark.list',
-                'api.group.interaction',
-                'api.hashtag.list',
-                'api.hashtag.interaction',
-                'api.post.list',
-                'api.post.interaction',
-                'api.post.users',
-                'api.post.quotes',
-                'api.post.logs',
-                'api.post.follow',
-                'api.post.nearby',
-                'api.comment.list',
-                'api.comment.interaction',
-                'api.comment.logs',
-                'api.comment.follow',
-                'api.comment.nearby',
-            ];
+            $disableList = config('FsApiBlacklist.disableByContentNotVisible');
 
-            if (in_array($currentRouteName, $list)) {
+            if (in_array($currentRouteName, $disableList)) {
                 return $this->warning(35303);
             }
 
             throw new ApiException(35302);
         }
 
-        $blacklist = config('FsApiBlacklist.disableRoutes');
+        $blacklist = config('FsApiBlacklist.disableForAfterExpiry');
 
         // check blacklist
         if (in_array($currentRouteName, $blacklist)) {
