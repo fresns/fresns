@@ -19,7 +19,7 @@ class GlobalArchivesDTO extends DTO
     {
         return [
             'type' => ['string', 'required', 'in:user,group,hashtag,post,comment'],
-            'fskey' => ['string', 'nullable'],
+            'fskey' => ['string', 'nullable', 'exists:App\Models\Plugin,fskey'],
         ];
     }
 }
