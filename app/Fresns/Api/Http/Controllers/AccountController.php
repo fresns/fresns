@@ -19,6 +19,7 @@ use App\Fresns\Api\Http\DTO\AccountResetPasswordDTO;
 use App\Fresns\Api\Http\DTO\AccountVerifyIdentityDTO;
 use App\Fresns\Api\Http\DTO\AccountWalletLogsDTO;
 use App\Fresns\Api\Services\AccountService;
+use App\Fresns\Api\Services\UserService;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
@@ -546,10 +547,11 @@ class AccountController extends Controller
         $dtoRequest = new AccountWalletLogsDTO($request->all());
 
         $authAccount = $this->account();
+        $authUser = $this->user();
         $langTag = $this->langTag();
         $timezone = $this->timezone();
 
-        $walletLogQuery = AccountWalletLog::where('account_id', $authAccount->id)->orderBy('created_at', 'desc');
+        $walletLogQuery = AccountWalletLog::with(['user'])->where('account_id', $authAccount->id)->orderBy('created_at', 'desc');
 
         if (isset($dtoRequest->status)) {
             $walletLogQuery->where('is_enable', $dtoRequest->status);
@@ -562,6 +564,8 @@ class AccountController extends Controller
 
         $walletLogs = $walletLogQuery->paginate($dtoRequest->pageSize ?? 15);
 
+        $service = new UserService();
+
         $logList = [];
         foreach ($walletLogs as $log) {
             $item['type'] = $log->object_type;
@@ -573,6 +577,7 @@ class AccountController extends Controller
             $info['createdDatetime'] = DateHelper::fresnsFormatDateTime($log->created_at, $timezone, $langTag);
             $info['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($log->created_at, $langTag);
             $item['remark'] = $log->remark;
+            $item['user'] = $log?->user ? $service->userData($log?->user, 'list', $langTag, $timezone, $authUser?->id) : null;
             $item['fskey'] = $log->plugin_fskey;
             $item['status'] = (bool) $log->is_enable;
             $logList[] = $item;

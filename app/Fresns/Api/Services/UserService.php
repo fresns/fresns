@@ -126,6 +126,7 @@ class UserService
 
         $currentRouteName = \request()->route()->getName();
         $filterRouteList = [
+            'api.account.wallet.logs',
             'api.user.list',
             'api.user.detail',
             'api.user.followers.you.follow',

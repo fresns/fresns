@@ -27,4 +27,9 @@ class AccountWalletLog extends Model
     {
         return $query->where('type', $type);
     }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'object_user_id');
+    }
 }
