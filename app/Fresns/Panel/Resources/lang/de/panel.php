@@ -1076,6 +1076,7 @@ return [
     'engine_theme_desktop' => 'Computerseite',
     'engine_theme_mobile' => 'Handythema',
     // App-Center-Keys
+    'key_table_read_only' => 'Nur lesen',
     'key_select_platform' => 'Wählen Sie die wichtigste Anwendungsplattform aus',
     'key_option_main_api' => 'Haupt-API',
     'key_option_manage_api' => 'Management-API',

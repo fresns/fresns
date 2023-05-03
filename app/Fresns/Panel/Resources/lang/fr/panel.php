@@ -1076,6 +1076,7 @@ return [
     'engine_theme_desktop' => 'Thème côté ordinateur',
     'engine_theme_mobile' => 'Sujet de téléphone portable',
     // App-Center-Keys
+    'key_table_read_only' => 'Lecture seule',
     'key_select_platform' => 'Sélectionnez la plate-forme d\'application clé',
     'key_option_main_api' => 'API principale',
     'key_option_manage_api' => 'API de gestion',

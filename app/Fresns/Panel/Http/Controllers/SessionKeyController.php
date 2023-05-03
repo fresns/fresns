@@ -12,6 +12,7 @@ use App\Fresns\Panel\Http\Requests\UpdateSessionKeyRequest;
 use App\Models\Config;
 use App\Models\Plugin;
 use App\Models\SessionKey;
+use Illuminate\Support\Str;
 
 class SessionKeyController extends Controller
 {
@@ -41,8 +42,8 @@ class SessionKeyController extends Controller
     {
         $key = new SessionKey;
         $key->fill($request->all());
-        $key->app_id = \Str::random(8);
-        $key->app_secret = \Str::random(32);
+        $key->app_id = Str::random(8);
+        $key->app_secret = Str::random(32);
         $key->save();
 
         return $this->createSuccess();
@@ -61,7 +62,7 @@ class SessionKeyController extends Controller
 
     public function reset(SessionKey $key)
     {
-        $key->app_secret = \Str::random(32);
+        $key->app_secret = Str::random(32);
         $key->save();
 
         return $this->updateSuccess();

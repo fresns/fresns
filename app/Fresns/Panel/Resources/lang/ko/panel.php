@@ -1076,6 +1076,7 @@ return [
     'engine_theme_desktop' => '컴퓨터 측 테마',
     'engine_theme_mobile' => '휴대 전화 주제',
     // App-Center-Keys
+    'key_table_read_only' => '읽기 전용',
     'key_select_platform' => '키 응용 프로그램 플랫폼을 선택하십시오',
     'key_option_main_api' => '메인 API',
     'key_option_manage_api' => '관리 API',

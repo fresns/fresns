@@ -1076,6 +1076,7 @@ return [
     'engine_theme_desktop' => 'Tema sisi komputer',
     'engine_theme_mobile' => 'Topik Ponsel',
     // App-Center-Keys
+    'key_table_read_only' => 'Hanya Baca',
     'key_select_platform' => 'Pilih Platform Aplikasi Kunci',
     'key_option_main_api' => 'API utama',
     'key_option_manage_api' => 'API manajemen',

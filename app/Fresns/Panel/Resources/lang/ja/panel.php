@@ -1076,6 +1076,7 @@ return [
     'engine_theme_desktop' => 'コンピュータサイドのテーマ',
     'engine_theme_mobile' => '携帯電話のトピック',
     // App-Center-Keys
+    'key_table_read_only' => 'リードオンリー',
     'key_select_platform' => 'キーアプリケーションプラットフォームを選択します',
     'key_option_main_api' => 'メインアピリ',
     'key_option_manage_api' => '管理API',

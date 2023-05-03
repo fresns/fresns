@@ -28,6 +28,7 @@
                     <th scope="col">{{ __('FsLang::panel.table_app_id') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_app_secret') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_type') }}</th>
+                    <th scope="col">{{ __('FsLang::panel.key_table_read_only') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_status') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_options') }}</th>
                 </tr>
@@ -45,9 +46,10 @@
                                 <span class="badge bg-light text-dark">{{ optional($key->plugin)->name }}</span>
                             @endif
                         </td>
+                        <td><i class="bi {{ $key->is_read_only ? 'bi-check-lg text-success' : 'bi-dash-lg text-secondary' }}"></i></td>
                         <td><i class="bi {{ $key->is_enable ? 'bi-check-lg text-success' : 'bi-dash-lg text-secondary' }}"></i></td>
                         <td>
-                            <button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#updateKey" data-id="{{ $key->id }}" data-name="{{ $key->name }}" data-type="{{ $key->type }}" data-platform_id="{{ $key->platform_id }}" data-plugin_fskey="{{ $key->plugin_fskey }}" data-is_enable="{{ $key->is_enable }}" data-action="{{ route('panel.keys.update', $key) }}">{{ __('FsLang::panel.button_edit') }}</button>
+                            <button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#updateKey" data-id="{{ $key->id }}" data-name="{{ $key->name }}" data-type="{{ $key->type }}" data-platform_id="{{ $key->platform_id }}" data-plugin_fskey="{{ $key->plugin_fskey }}" data-is_read_only="{{ $key->is_read_only }}" data-is_enable="{{ $key->is_enable }}" data-action="{{ route('panel.keys.update', $key) }}">{{ __('FsLang::panel.button_edit') }}</button>
                             <button type="button" class="btn btn-outline-primary btn-sm mx-2" data-bs-toggle="modal" data-app_id="{{ $key->app_id }}" data-name="{{ $key->name }}" data-action="{{ route('panel.keys.reset', $key) }}" data-bs-target="#resetSecret">{{ __('FsLang::panel.button_reset_secret') }}</button>
                             <button type="button" class="btn btn-link btn-sm text-danger fresns-link" data-bs-toggle="modal" data-app_id="{{ $key->app_id }}" data-name="{{ $key->name }}" data-action="{{ route('panel.keys.destroy', $key) }}" data-bs-target="#deleteKey">{{ __('FsLang::panel.button_delete') }}</button>
                         </td>
@@ -112,6 +114,20 @@
                                     <option value="{{ $plugin->fskey }}">{{ $plugin->name }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                        <!--read only-->
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">{{ __('FsLang::panel.key_table_read_only') }}</span>
+                            <div class="form-control bg-white">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="is_read_only" id="readOnly_no" value="0">
+                                    <label class="form-check-label" for="readOnly_no">{{ __('FsLang::panel.option_no') }}</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" checked type="radio" name="is_read_only" id="readOnly_yes" value="1">
+                                    <label class="form-check-label" for="readOnly_yes">{{ __('FsLang::panel.option_yes') }}</label>
+                                </div>
+                            </div>
                         </div>
                         <!--status-->
                         <div class="input-group mb-3">
@@ -192,6 +208,20 @@
                                     <option value="{{ $plugin->fskey }}">{{ $plugin->name }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                        <!--read only-->
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">{{ __('FsLang::panel.key_table_read_only') }}</span>
+                            <div class="form-control bg-white">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="is_read_only" id="updateKeyReadOnly_no" value="0">
+                                    <label class="form-check-label" for="updateKeyReadOnly_no">{{ __('FsLang::panel.option_no') }}</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" checked type="radio" name="is_read_only" id="updateKeyReadOnly_yes" value="1">
+                                    <label class="form-check-label" for="updateKeyReadOnly_yes">{{ __('FsLang::panel.option_yes') }}</label>
+                                </div>
+                            </div>
                         </div>
                         <!--status-->
                         <div class="input-group mb-3">

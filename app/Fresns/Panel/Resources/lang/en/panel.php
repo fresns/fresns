@@ -1076,6 +1076,7 @@ return [
     'engine_theme_desktop' => 'Desktop Theme',
     'engine_theme_mobile' => 'Mobile Theme',
     // App-Center-Keys
+    'key_table_read_only' => 'Read Only',
     'key_select_platform' => 'Select a key application platform',
     'key_option_main_api' => 'Main API',
     'key_option_manage_api' => 'Manage API',

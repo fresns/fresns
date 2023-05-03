@@ -1076,6 +1076,7 @@ return [
     'engine_theme_desktop' => 'Тема на стороне компьютера',
     'engine_theme_mobile' => 'Тема мобильного телефона',
     // App-Center-Keys
+    'key_table_read_only' => 'Только чтение',
     'key_select_platform' => 'Выберите ключевую прикладную платформу',
     'key_option_main_api' => 'Основная API',
     'key_option_manage_api' => 'Управление API',

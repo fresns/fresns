@@ -1077,6 +1077,7 @@ return [
     'engine_theme_desktop' => '電腦端主題',
     'engine_theme_mobile' => '手機端主題',
     // App-Center-Keys
+    'key_table_read_only' => '只讀',
     'key_select_platform' => '選擇密鑰應用平台',
     'key_option_main_api' => '主程 API',
     'key_option_manage_api' => '管理 API',

@@ -391,6 +391,7 @@ $(document).ready(function () {
             id = button.data('id'),
             name = button.data('name'),
             type = button.data('type'),
+            isReadOnly = button.data('is_read_only'),
             isEnable = button.data('is_enable'),
             pluginFskey = button.data('plugin_fskey'),
             action = button.data('action'),
@@ -409,6 +410,9 @@ $(document).ready(function () {
         } else {
             $(this).find('#key_plugin').prop('required', false);
         }
+        $(this)
+            .find('input:radio[name=is_read_only][value="' + isReadOnly + '"]')
+            .prop('checked', true);
         $(this)
             .find('input:radio[name=is_enable][value="' + isEnable + '"]')
             .prop('checked', true);

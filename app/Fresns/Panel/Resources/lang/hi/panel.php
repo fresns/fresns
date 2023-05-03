@@ -1076,6 +1076,7 @@ return [
     'engine_theme_desktop' => 'कंप्यूटर-साइड थीम',
     'engine_theme_mobile' => 'मोबाइल फोन विषय',
     // App-Center-Keys
+    'key_table_read_only' => 'केवल पढ़ने के लिए',
     'key_select_platform' => 'कुंजी आवेदन मंच का चयन करें',
     'key_option_main_api' => 'मुख्य एपीआई',
     'key_option_manage_api' => 'प्रबंधन एपीआई',
