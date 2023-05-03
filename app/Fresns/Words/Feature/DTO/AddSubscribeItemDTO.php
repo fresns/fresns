@@ -22,9 +22,9 @@ class AddSubscribeItemDTO extends DTO
     {
         return [
             'type' => ['integer', 'required', 'in:1,2,3'],
-            'fskey' => ['string', 'required', 'exists:App\Models\Plugin,fskey'],
+            'fskey' => ['string', 'required'],
             'cmdWord' => ['string', 'required'],
-            'subTableName' => ['nullable'],
+            'subTableName' => ['nullable', 'required_if:type,1'],
         ];
     }
 }
