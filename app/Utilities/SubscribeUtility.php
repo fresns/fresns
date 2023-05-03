@@ -37,7 +37,7 @@ class SubscribeUtility
 
         $filtered = array_filter($subscribeItems, function ($item) use ($type, $tableName) {
             if ($tableName) {
-                return ($item['type'] == $type && $item['subTableName'] == $tableName);
+                return $item['type'] == $type && $item['subTableName'] == $tableName;
             }
 
             return $item['type'] == $type;
