@@ -84,6 +84,7 @@ Route::prefix('v2')->middleware([
         Route::get('{uidOrUsername}/mark/{markType}/{listType}', [UserController::class, 'markList'])->name('mark.list');
         Route::post('auth', [UserController::class, 'auth'])->name('auth')->withoutMiddleware([CheckSiteMode::class]);
         Route::get('panel', [UserController::class, 'panel'])->name('panel')->withoutMiddleware([CheckSiteMode::class]);
+        Route::get('extcredits-logs', [UserController::class, 'extcreditsLogs'])->name('extcredits.logs')->withoutMiddleware([CheckSiteMode::class]);
         Route::put('edit', [UserController::class, 'edit'])->name('edit');
         Route::post('mark', [UserController::class, 'mark'])->name('mark');
         Route::put('mark-note', [UserController::class, 'markNote'])->name('mark.note');

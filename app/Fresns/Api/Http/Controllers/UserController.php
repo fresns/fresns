@@ -13,6 +13,7 @@ use App\Fresns\Api\Http\DTO\InteractionDTO;
 use App\Fresns\Api\Http\DTO\PaginationDTO;
 use App\Fresns\Api\Http\DTO\UserAuthDTO;
 use App\Fresns\Api\Http\DTO\UserEditDTO;
+use App\Fresns\Api\Http\DTO\UserExtcreditsLogsDTO;
 use App\Fresns\Api\Http\DTO\UserListDTO;
 use App\Fresns\Api\Http\DTO\UserMarkDTO;
 use App\Fresns\Api\Http\DTO\UserMarkListDTO;
@@ -22,6 +23,7 @@ use App\Fresns\Api\Services\InteractionService;
 use App\Fresns\Api\Services\UserService;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
+use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
@@ -42,6 +44,7 @@ use App\Models\PostLog;
 use App\Models\SessionLog;
 use App\Models\User;
 use App\Models\UserBlock;
+use App\Models\UserExtcreditsLog;
 use App\Models\UserFollow;
 use App\Models\UserStat;
 use App\Utilities\ConfigUtility;
@@ -562,8 +565,10 @@ class UserController extends Controller
     {
         $langTag = $this->langTag();
         $timezone = $this->timezone();
-        $authUserId = $this->user()->id;
-        $authUid = \request()->header('X-Fresns-Uid');
+        $authUser = $this->user();
+
+        $userId = $authUser->id;
+        $userUid = $authUser->uid;
 
         $cacheTag = 'fresnsUsers';
         $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_IMAGE);
@@ -577,12 +582,12 @@ class UserController extends Controller
 
         $multiUserStatus = $multiUserConfigs['multi_user_status'];
         if ($multiUserConfigs['multi_user_status'] && $multiUserConfigs['multi_user_roles']) {
-            $authUserRoles = PermissionUtility::getUserRoles($authUserId, $langTag);
+            $authUserRoles = PermissionUtility::getUserRoles($userId, $langTag);
             $authUserRoleIdArr = array_column($authUserRoles, 'rid');
 
             $intersect = array_intersect($multiUserConfigs['multi_user_roles'], $authUserRoleIdArr);
 
-            $multiUserStatus = ! empty($intersect) ? true : false;
+            $multiUserStatus = $intersect ? true : false;
         }
         $multiUser = [
             'status' => $multiUserStatus,
@@ -590,14 +595,14 @@ class UserController extends Controller
         ];
 
         // conversations
-        $conversationsCacheKey = "fresns_api_user_panel_conversations_{$authUid}";
+        $conversationsCacheKey = "fresns_api_user_panel_conversations_{$userUid}";
         $conversations = CacheHelper::get($conversationsCacheKey, $cacheTag);
         if (empty($conversations)) {
-            $aConversations = Conversation::where('a_user_id', $authUserId)->where('a_is_display', 1);
-            $bConversations = Conversation::where('b_user_id', $authUserId)->where('b_is_display', 1);
+            $aConversations = Conversation::where('a_user_id', $userId)->where('a_is_display', 1);
+            $bConversations = Conversation::where('b_user_id', $userId)->where('b_is_display', 1);
 
             $conversationCount = $aConversations->union($bConversations)->count();
-            $conversationMessageCount = ConversationMessage::where('receive_user_id', $authUserId)->whereNull('receive_read_at')->whereNull('receive_deleted_at')->isEnable()->count();
+            $conversationMessageCount = ConversationMessage::where('receive_user_id', $userId)->whereNull('receive_read_at')->whereNull('receive_deleted_at')->isEnable()->count();
 
             $conversations = [
                 'conversationCount' => $conversationCount,
@@ -608,43 +613,43 @@ class UserController extends Controller
         }
 
         // unread notifications
-        $notificationsCacheKey = "fresns_api_user_panel_notifications_{$authUid}";
+        $notificationsCacheKey = "fresns_api_user_panel_notifications_{$userUid}";
         $unreadNotifications = CacheHelper::get($notificationsCacheKey, $cacheTag);
         if (empty($unreadNotifications)) {
             $unreadNotifications = [
-                'systems' => Notification::where('type', 1)->where('user_id', $authUserId)->where('is_read', 0)->count(),
-                'recommends' => Notification::where('type', 2)->where('user_id', $authUserId)->where('is_read', 0)->count(),
-                'likes' => Notification::where('type', 3)->where('user_id', $authUserId)->where('is_read', 0)->count(),
-                'dislikes' => Notification::where('type', 4)->where('user_id', $authUserId)->where('is_read', 0)->count(),
-                'follows' => Notification::where('type', 5)->where('user_id', $authUserId)->where('is_read', 0)->count(),
-                'blocks' => Notification::where('type', 6)->where('user_id', $authUserId)->where('is_read', 0)->count(),
-                'mentions' => Notification::where('type', 7)->where('user_id', $authUserId)->where('is_read', 0)->count(),
-                'comments' => Notification::where('type', 8)->where('user_id', $authUserId)->where('is_read', 0)->count(),
+                'systems' => Notification::where('type', 1)->where('user_id', $userId)->where('is_read', 0)->count(),
+                'recommends' => Notification::where('type', 2)->where('user_id', $userId)->where('is_read', 0)->count(),
+                'likes' => Notification::where('type', 3)->where('user_id', $userId)->where('is_read', 0)->count(),
+                'dislikes' => Notification::where('type', 4)->where('user_id', $userId)->where('is_read', 0)->count(),
+                'follows' => Notification::where('type', 5)->where('user_id', $userId)->where('is_read', 0)->count(),
+                'blocks' => Notification::where('type', 6)->where('user_id', $userId)->where('is_read', 0)->count(),
+                'mentions' => Notification::where('type', 7)->where('user_id', $userId)->where('is_read', 0)->count(),
+                'comments' => Notification::where('type', 8)->where('user_id', $userId)->where('is_read', 0)->count(),
             ];
 
             CacheHelper::put($unreadNotifications, $notificationsCacheKey, $cacheTag, null, $cacheTime);
         }
 
         // draft count
-        $draftsCacheKey = "fresns_api_user_panel_drafts_{$authUid}";
+        $draftsCacheKey = "fresns_api_user_panel_drafts_{$userUid}";
         $draftCount = CacheHelper::get($draftsCacheKey, $cacheTag);
         if (empty($draftCount)) {
             $draftCount = [
-                'posts' => PostLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count(),
-                'comments' => CommentLog::where('user_id', $authUserId)->whereIn('state', [1, 4])->count(),
+                'posts' => PostLog::where('user_id', $userId)->whereIn('state', [1, 4])->count(),
+                'comments' => CommentLog::where('user_id', $userId)->whereIn('state', [1, 4])->count(),
             ];
 
             CacheHelper::put($draftCount, $draftsCacheKey, $cacheTag, null, $cacheTime);
         }
 
         $publishConfig = [
-            'post' => ConfigUtility::getPublishConfigByType($authUserId, 'post', $langTag, $timezone),
-            'comment' => ConfigUtility::getPublishConfigByType($authUserId, 'comment', $langTag, $timezone),
+            'post' => ConfigUtility::getPublishConfigByType($userId, 'post', $langTag, $timezone),
+            'comment' => ConfigUtility::getPublishConfigByType($userId, 'comment', $langTag, $timezone),
         ];
 
         $data['multiUser'] = $multiUser;
-        $data['features'] = ExtendUtility::getUserExtensions('features', $authUserId, $langTag);
-        $data['profiles'] = ExtendUtility::getUserExtensions('profiles', $authUserId, $langTag);
+        $data['features'] = ExtendUtility::getUserExtensions('features', $userId, $langTag);
+        $data['profiles'] = ExtendUtility::getUserExtensions('profiles', $userId, $langTag);
         $data['conversations'] = $conversations;
         $data['unreadNotifications'] = $unreadNotifications;
         $data['draftCount'] = $draftCount;
@@ -652,6 +657,43 @@ class UserController extends Controller
         $data['fileAccept'] = FileHelper::fresnsFileAcceptByType();
 
         return $this->success($data);
+    }
+
+    // extcredits logs
+    public function extcreditsLogs(Request $request)
+    {
+        $langTag = $this->langTag();
+        $timezone = $this->timezone();
+        $authUser = $this->user();
+
+        $dtoRequest = new UserExtcreditsLogsDTO($request->all());
+
+        $logQuery = UserExtcreditsLog::where('user_id', $authUser->id)->orderBy('created_at', 'desc');
+
+        if ($dtoRequest->extcredits) {
+            $typeArr = array_filter(explode(',', $dtoRequest->extcredits));
+
+            $logQuery->whereIn('extcredits', $typeArr);
+        }
+
+        $extcreditsLogs = $logQuery->paginate($dtoRequest->pageSize ?? 15);
+
+        $logList = [];
+        foreach ($extcreditsLogs as $log) {
+            $item['extcredits'] = $log->extcredits;
+            $item['type'] = $log->type == 1 ? 'increment' : 'decrement';
+            $item['amount'] = $log->amount;
+            $item['openingAmount'] = $log->opening_amount;
+            $item['closingAmount'] = $log->closing_amount;
+            $item['fskey'] = $log->plugin_fskey;
+            $item['remark'] = $log->remark;
+            $item['createdDatetime'] = DateHelper::fresnsFormatDateTime($log->created_at, $timezone, $langTag);
+            $item['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($log->created_at, $langTag);
+
+            $logList[] = $item;
+        }
+
+        return $this->fresnsPaginate($logList, $extcreditsLogs->total(), $extcreditsLogs->perPage());
     }
 
     // edit
