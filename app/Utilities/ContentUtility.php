@@ -643,7 +643,7 @@ class ContentUtility
     }
 
     // save operation usages
-    // $operations = [{"id": "id", "pluginFskey": null}]
+    // $operations = [{"id": "id", "fskey": null}]
     public static function saveOperationUsages(int $usageType, int $usageId, array $operations): void
     {
         foreach ($operations as $operation) {
@@ -662,13 +662,13 @@ class ContentUtility
                 'usage_id' => $usageId,
                 'operation_id' => $operation->id,
             ], [
-                'plugin_fskey' => $operation['pluginFskey'] ?? $operationModel->plugin_fskey,
+                'plugin_fskey' => $operation['fskey'] ?? $operationModel->plugin_fskey,
             ]);
         }
     }
 
     // save archive usages
-    // $archives = [{"code": "code", "value": "value", "isPrivate": true, "pluginFskey": null}]
+    // $archives = [{"code": "code", "value": "value", "isPrivate": true, "fskey": null}]
     public static function saveArchiveUsages(int $usageType, int $usageId, array $archives): void
     {
         foreach ($archives as $archive) {
@@ -689,13 +689,13 @@ class ContentUtility
             ], [
                 'archive_value' => $archive['value'] ?? null,
                 'is_private' => $archive['isPrivate'] ?? false,
-                'plugin_fskey' => $archive['pluginFskey'] ?? $archiveModel->plugin_fskey,
+                'plugin_fskey' => $archive['fskey'] ?? $archiveModel->plugin_fskey,
             ]);
         }
     }
 
     // save extend usages
-    // $extends = [{"eid": "eid", "canDelete": true, "rating": 9, "pluginFskey": null}]
+    // $extends = [{"eid": "eid", "canDelete": true, "rating": 9, "fskey": null}]
     public static function saveExtendUsages(int $usageType, int $usageId, array $extends): void
     {
         foreach ($extends as $extend) {
@@ -716,7 +716,7 @@ class ContentUtility
             ], [
                 'can_delete' => $extend['canDelete'] ?? true,
                 'rating' => $extend['rating'] ?? 9,
-                'plugin_fskey' => $extend['pluginFskey'] ?? $extendModel->plugin_fskey,
+                'plugin_fskey' => $extend['fskey'] ?? $extendModel->plugin_fskey,
             ]);
         }
     }

@@ -22,6 +22,7 @@ use App\Models\Language;
 use App\Models\PostLog;
 use App\Models\SessionLog;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class ConfigUtility
@@ -377,7 +378,7 @@ class ConfigUtility
                 }
             }
 
-            $perm['tips'] = \Arr::flatten(array_filter([$publishTip, $emailTip, $phoneTip, $realNameTip]));
+            $perm['tips'] = Arr::flatten(array_filter([$publishTip, $emailTip, $phoneTip, $realNameTip]));
 
             if ($limitConfig["{$type}_limit_status"]) {
                 $checkWhiteList = PermissionUtility::checkUserRolePerm($userId, $limitConfig["{$type}_limit_whitelist"]);
