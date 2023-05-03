@@ -101,6 +101,21 @@ class CreateUsersTable extends Migration
             $table->softDeletes();
         });
 
+        Schema::create('user_extcredits_logs', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedTinyInteger('extcredits');
+            $table->unsignedTinyInteger('type');
+            $table->unsignedInteger('amount');
+            $table->unsignedInteger('opening_amount');
+            $table->unsignedInteger('closing_amount');
+            $table->string('plugin_fskey', 64);
+            $table->text('remark')->nullable();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
+            $table->softDeletes();
+        });
+
         Schema::create('user_roles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id')->index('role_user_id');
