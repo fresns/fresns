@@ -59,13 +59,13 @@ class CheckHeaderByWhitelist
             if ($fresnsResp->isErrorResponse()) {
                 return $fresnsResp->errorResponse();
             }
+        }
 
-            // notify user activity
-            if ($headers['uid']) {
-                $uri = sprintf('/%s', ltrim(\request()->getRequestUri(), '/'));
+        // notify user activity
+        if ($headers['uid']) {
+            $uri = sprintf('/%s', ltrim(\request()->getRequestUri(), '/'));
 
-                SubscribeUtility::notifyUserActivity($currentRouteName, $uri, $headers, \request()->all());
-            }
+            SubscribeUtility::notifyUserActivity($currentRouteName, $uri, $headers, \request()->all());
         }
 
         // config
