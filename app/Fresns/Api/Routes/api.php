@@ -19,12 +19,14 @@ use App\Fresns\Api\Http\Controllers\PostController;
 use App\Fresns\Api\Http\Controllers\SearchController;
 use App\Fresns\Api\Http\Controllers\UserController;
 use App\Fresns\Api\Http\Middleware\CheckHeaderByWhitelist;
+use App\Fresns\Api\Http\Middleware\CheckReadOnly;
 use App\Fresns\Api\Http\Middleware\CheckSiteMode;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v2')->middleware([
     CheckHeaderByWhitelist::class,
     CheckSiteMode::class,
+    CheckReadOnly::class,
 ])->group(function () {
     // global
     Route::prefix('global')->name('global.')->withoutMiddleware([CheckSiteMode::class])->group(function () {
@@ -43,7 +45,7 @@ Route::prefix('v2')->middleware([
         Route::get('ip-info', [CommonController::class, 'ipInfo'])->name('ip.info')->withoutMiddleware([CheckSiteMode::class]);
         Route::get('input-tips', [CommonController::class, 'inputTips'])->name('input.tips');
         Route::get('callback', [CommonController::class, 'callback'])->name('callback')->withoutMiddleware([CheckSiteMode::class]);
-        Route::post('send-verify-code', [CommonController::class, 'sendVerifyCode'])->name('send.verifyCode')->withoutMiddleware([CheckSiteMode::class]);
+        Route::post('send-verify-code', [CommonController::class, 'sendVerifyCode'])->name('send.verify.code')->withoutMiddleware([CheckSiteMode::class]);
         Route::post('upload-log', [CommonController::class, 'uploadLog'])->name('upload.log')->withoutMiddleware([CheckSiteMode::class]);
         Route::post('upload-file', [CommonController::class, 'uploadFile'])->name('upload.file');
         Route::get('file/{fid}/link', [CommonController::class, 'fileLink'])->name('file.link');
