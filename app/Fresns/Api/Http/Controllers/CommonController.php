@@ -526,7 +526,41 @@ class CommonController extends Controller
         if ($publishType) {
             $authUserId = $this->user()->id;
 
-            $editorConfig = ConfigUtility::getEditorConfigByType($authUserId, $publishType);
+            $editorConfig = ConfigUtility::getEditorConfigByType($authUserId, $publishType, $langTag);
+
+            switch ($dtoRequest->type) {
+                case 'image':
+                    $uploadStatus = $editorConfig['toolbar']['image']['status'];
+
+                    if (! $uploadStatus) {
+                        throw new ApiException(36109);
+                    }
+                    break;
+
+                case 'video':
+                    $uploadStatus = $editorConfig['toolbar']['video']['status'];
+
+                    if (! $uploadStatus) {
+                        throw new ApiException(36110);
+                    }
+                    break;
+
+                case 'audio':
+                    $uploadStatus = $editorConfig['toolbar']['audio']['status'];
+
+                    if (! $uploadStatus) {
+                        throw new ApiException(36111);
+                    }
+                    break;
+
+                case 'document':
+                    $uploadStatus = $editorConfig['toolbar']['document']['status'];
+
+                    if (! $uploadStatus) {
+                        throw new ApiException(36112);
+                    }
+                    break;
+            }
 
             $uploadNumber = match ($dtoRequest->type) {
                 'image' => $editorConfig['toolbar']['image']['uploadNumber'],
