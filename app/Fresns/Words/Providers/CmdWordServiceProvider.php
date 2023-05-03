@@ -67,6 +67,7 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'createUserToken', 'provider' => [User::class, 'createUserToken']],
         ['word' => 'verifyUserToken', 'provider' => [User::class, 'verifyUserToken']],
         ['word' => 'logicalDeletionUser', 'provider' => [User::class, 'logicalDeletionUser']],
+        ['word' => 'setUserExtcredits', 'provider' => [User::class, 'setUserExtcredits']],
         ['word' => 'setUserExpiryDatetime', 'provider' => [User::class, 'setUserExpiryDatetime']],
         ['word' => 'setUserGroupExpiryDatetime', 'provider' => [User::class, 'setUserGroupExpiryDatetime']],
 

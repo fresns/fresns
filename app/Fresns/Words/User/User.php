@@ -322,7 +322,7 @@ class User
 
         $openingAmount = $userStat->$extcredits;
 
-        $checkClosingAmount = static::checkClosingAmount($userStat, $extcredits);
+        $checkClosingAmount = static::checkClosingAmount($userStat, $dtoWordBody->extcredits);
         if (! $checkClosingAmount) {
             return $this->failure(21006, 'Error closing amount');
         }
