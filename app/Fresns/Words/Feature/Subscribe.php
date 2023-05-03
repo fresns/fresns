@@ -30,7 +30,11 @@ class Subscribe
         }
 
         $subscribeItems = Config::withTrashed()->where('item_key', 'subscribe_items')->first();
-        $itemArr = $subscribeItems->item_value;
+        if (empty($subscribeItems)) {
+            return $this->failure(21008);
+        }
+
+        $itemArr = $subscribeItems->item_value ?? [];
 
         $found = false;
         foreach ($itemArr as $item) {
@@ -69,7 +73,11 @@ class Subscribe
         }
 
         $subscribeItems = Config::withTrashed()->where('item_key', 'subscribe_items')->first();
-        $itemArr = $subscribeItems->item_value;
+        if (empty($subscribeItems)) {
+            return $this->failure(21008);
+        }
+
+        $itemArr = $subscribeItems->item_value ?? [];
 
         $newItemArr = array_filter($itemArr, function ($item) use ($dtoWordBody, $subTableName) {
             return ! ($item['type'] == $dtoWordBody->type && $item['fskey'] == $dtoWordBody->fskey && $item['cmdWord'] == $dtoWordBody->cmdWord && $item['subTableName'] == $subTableName);

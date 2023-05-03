@@ -35,7 +35,11 @@ class Crontab
         $dtoWordBody = new AddCrontabItemDTO($wordBody);
 
         $crontabItems = Config::withTrashed()->where('item_key', 'crontab_items')->first();
-        $itemArr = $crontabItems->item_value;
+        if (empty($crontabItems)) {
+            return $this->failure(21008);
+        }
+
+        $itemArr = $crontabItems->item_value ?? [];
 
         $found = false;
         foreach ($itemArr as $item) {
@@ -73,7 +77,11 @@ class Crontab
         $dtoWordBody = new RemoveCrontabItemDTO($wordBody);
 
         $crontabItems = Config::withTrashed()->where('item_key', 'crontab_items')->first();
-        $cronArr = $crontabItems->item_value;
+        if (empty($crontabItems)) {
+            return $this->failure(21008);
+        }
+
+        $cronArr = $crontabItems->item_value ?? [];
 
         $newItemArr = array_filter($cronArr, function ($item) use ($dtoWordBody) {
             return ! ($item['fskey'] == $dtoWordBody->fskey && $item['cmdWord'] == $dtoWordBody->cmdWord);
