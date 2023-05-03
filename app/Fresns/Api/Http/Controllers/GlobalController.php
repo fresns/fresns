@@ -250,14 +250,14 @@ class GlobalController extends Controller
             $roleQuery->where('is_enable', $dtoRequest->status);
         }
 
-        if (! empty($dtoRequest->ids)) {
+        if ($dtoRequest->ids) {
             $ids = array_filter(explode(',', $dtoRequest->ids));
             $roleQuery->whereIn('id', $ids);
         }
 
-        if (! empty($dtoRequest->type)) {
-            $roleQuery->where('type', $dtoRequest->type);
-        }
+        $roleQuery->when($dtoRequest->type, function ($query, $value) {
+            $query->where('type', $value);
+        });
 
         $roles = $roleQuery->paginate($dtoRequest->pageSize ?? 15);
 

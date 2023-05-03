@@ -144,9 +144,9 @@ class ConfigUtility
             ->where('account_id', $accountId)
             ->where('created_at', '>=', now()->subHour());
 
-        if (! empty($userId)) {
-            $sessionLog->where('user_id', $userId);
-        }
+        $sessionLog->when($userId, function ($query, $value) {
+            $query->where('user_id', $value);
+        });
 
         $errorCount = $sessionLog->count();
 

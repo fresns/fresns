@@ -19,15 +19,15 @@ trait AccountServiceTrait
 
         $info['aid'] = $accountData->aid;
         $info['countryCode'] = (int) $accountData->country_code;
-        $info['purePhone'] = ! empty($accountData->pure_phone) ? StrHelper::maskNumber($accountData->pure_phone) : null;
-        $info['phone'] = ! empty($accountData->phone) ? StrHelper::maskNumber($accountData->phone) : null;
-        $info['email'] = ! empty($accountData->email) ? StrHelper::maskEmail($accountData->email) : null;
+        $info['purePhone'] = $accountData->pure_phone ? StrHelper::maskNumber($accountData->pure_phone) : null;
+        $info['phone'] = $accountData->phone ? StrHelper::maskNumber($accountData->phone) : null;
+        $info['email'] = $accountData->email ? StrHelper::maskEmail($accountData->email) : null;
         $info['hasPassword'] = (bool) $accountData->password;
         $info['verifyStatus'] = (bool) $accountData->is_verify;
-        $info['verifyRealName'] = ! empty($accountData->verify_real_name) ? StrHelper::maskName($accountData->verify_real_name) : null;
+        $info['verifyRealName'] = $accountData->verify_real_name ? StrHelper::maskName($accountData->verify_real_name) : null;
         $info['verifyGender'] = $accountData->verify_gender;
         $info['verifyCertType'] = $accountData->verify_cert_type;
-        $info['verifyCertNumber'] = ! empty($accountData->verify_cert_number) ? StrHelper::maskName($accountData->verify_cert_number) : null;
+        $info['verifyCertNumber'] = $accountData->verify_cert_number ? StrHelper::maskName($accountData->verify_cert_number) : null;
         $info['verifyIdentityType'] = $accountData->verify_identity_type;
         $info['verifyDateTime'] = $accountData->verify_at;
         $info['registerDateTime'] = $accountData->created_at;
@@ -77,7 +77,7 @@ trait AccountServiceTrait
         $wallet['bankName'] = $walletData->bank_name;
         $wallet['swiftCode'] = $walletData->swift_code;
         $wallet['bankAddress'] = $walletData->bank_address;
-        $wallet['bankAccount'] = ! empty($walletData->bank_account) ? \Str::mask($walletData->bank_account, '*', -8, 4) : null;
+        $wallet['bankAccount'] = $walletData->bank_account ? \Str::mask($walletData->bank_account, '*', -8, 4) : null;
         $wallet['bankStatus'] = (bool) $walletData->bank_status;
 
         return $wallet;

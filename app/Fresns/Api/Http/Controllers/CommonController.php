@@ -287,7 +287,7 @@ class CommonController extends Controller
             'langTag' => $langTag,
         ];
 
-        if ($dtoRequest->useType == 1 && ! empty($account)) {
+        if ($dtoRequest->useType == 1 && $account) {
             switch ($dtoRequest->type) {
                 case 'email':
                     throw new ApiException(34205);
@@ -302,7 +302,7 @@ class CommonController extends Controller
             throw new ApiException(34301);
         }
 
-        if ($dtoRequest->useType == 3 && ! empty($accountConfig)) {
+        if ($dtoRequest->useType == 3 && $accountConfig) {
             switch ($dtoRequest->type) {
                 case 'email':
                     throw new ApiException(34401);
@@ -315,7 +315,7 @@ class CommonController extends Controller
 
         if ($dtoRequest->useType == 4 && empty($authAccount?->aid)) {
             throw new ApiException(31501);
-        } elseif ($dtoRequest->useType == 4 && ! empty($authAccount?->aid)) {
+        } elseif ($dtoRequest->useType == 4 && $authAccount?->aid) {
             switch ($dtoRequest->type) {
                 case 'email':
                     $wordBody['account'] = $authAccount->email;

@@ -207,7 +207,7 @@ class InstallController extends Controller
 
                 $result['email'] = Account::first()?->value('email');
 
-                if (! empty($result['email'])) {
+                if ($result['email']) {
                     $this->writeInstallTime();
                 }
             }

@@ -126,7 +126,7 @@ class User
             );
         }
 
-        if (! empty($user->password)) {
+        if ($user->password) {
             if (empty($dtoWordBody->password)) {
                 return $this->failure(
                     34111,

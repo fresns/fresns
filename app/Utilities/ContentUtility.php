@@ -574,7 +574,7 @@ class ContentUtility
         }
 
         $permissions['users'] = [];
-        if (! empty($readAllowConfig['permissions']['users'])) {
+        if ($readAllowConfig['permissions']['users']) {
             $users = User::whereIn('uid', $readAllowConfig['permissions']['users'])->first();
             foreach ($users as $user) {
                 $userList = $user->getUserProfile($langTag, $timezone);
@@ -583,7 +583,7 @@ class ContentUtility
         }
 
         $permissions['roles'] = [];
-        if (! empty($readAllowConfig['permissions']['roles'])) {
+        if ($readAllowConfig['permissions']['roles']) {
             $roles = Role::whereIn('id', $readAllowConfig['permissions']['roles'])->first();
             foreach ($roles as $role) {
                 $roleItem['rid'] = $role->id;
@@ -818,7 +818,7 @@ class ContentUtility
             return;
         }
 
-        if (! empty($permArr['users'])) {
+        if ($permArr['users']) {
             PostAllow::where('post_id', $postId)->where('type', PostAllow::TYPE_USER)->where('is_initial', 1)->delete();
 
             foreach ($permArr['users'] as $userId) {
@@ -833,7 +833,7 @@ class ContentUtility
             }
         }
 
-        if (! empty($permArr['roles'])) {
+        if ($permArr['roles']) {
             PostAllow::where('post_id', $postId)->where('type', PostAllow::TYPE_ROLE)->where('is_initial', 1)->delete();
 
             foreach ($permArr['roles'] as $roleId) {
@@ -912,7 +912,7 @@ class ContentUtility
     // release post
     public static function releasePost(PostLog $postLog): Post
     {
-        if (! empty($postLog->post_id)) {
+        if ($postLog->post_id) {
             $oldPost = PrimaryHelper::fresnsModelById('post', $postLog->post_id);
         }
 
@@ -1241,7 +1241,7 @@ class ContentUtility
     public static function generatePostDraft(Post $post): PostLog
     {
         $postLog = PostLog::where('post_id', $post->id)->whereIn('state', [1, 2, 4])->first();
-        if (! empty($postLog)) {
+        if ($postLog) {
             return $postLog;
         }
 
@@ -1323,7 +1323,7 @@ class ContentUtility
     public static function generateCommentDraft(Comment $comment): CommentLog
     {
         $commentLog = CommentLog::where('comment_id', $comment->id)->whereIn('state', [1, 2, 4])->first();
-        if (! empty($commentLog)) {
+        if ($commentLog) {
             return $commentLog;
         }
 

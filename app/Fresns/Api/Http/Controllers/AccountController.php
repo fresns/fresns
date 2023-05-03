@@ -51,7 +51,7 @@ class AccountController extends Controller
             'site_phone_register',
         ]);
 
-        if ($configs['site_mode'] == 'private' || ! $configs['site_public_status'] || ! empty($configs['site_public_service'])) {
+        if ($configs['site_mode'] == 'private' || ! $configs['site_public_status'] || $configs['site_public_service']) {
             throw new ApiException(34201);
         }
 
@@ -557,7 +557,7 @@ class AccountController extends Controller
             $walletLogQuery->where('is_enable', $dtoRequest->status);
         }
 
-        if (! empty($dtoRequest->type)) {
+        if ($dtoRequest->type) {
             $typeArr = array_filter(explode(',', $dtoRequest->keys));
             $walletLogQuery->whereIn('object_type', $typeArr);
         }
@@ -574,12 +574,13 @@ class AccountController extends Controller
             $item['systemFee'] = $log->system_fee;
             $item['openingBalance'] = $log->opening_balance;
             $item['closingBalance'] = $log->closing_balance;
-            $info['createdDatetime'] = DateHelper::fresnsFormatDateTime($log->created_at, $timezone, $langTag);
-            $info['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($log->created_at, $langTag);
+            $item['createdDatetime'] = DateHelper::fresnsFormatDateTime($log->created_at, $timezone, $langTag);
+            $item['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($log->created_at, $langTag);
             $item['remark'] = $log->remark;
             $item['user'] = $log?->user ? $service->userData($log?->user, 'list', $langTag, $timezone, $authUser?->id) : null;
             $item['fskey'] = $log->plugin_fskey;
             $item['status'] = (bool) $log->is_enable;
+
             $logList[] = $item;
         }
 

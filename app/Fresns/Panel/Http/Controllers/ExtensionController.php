@@ -334,7 +334,7 @@ class ExtensionController extends Controller
     {
         $plugin = Plugin::where('fskey', $request->input('pluginFskey'))->first();
 
-        if (! empty($plugin)) {
+        if ($plugin) {
             $plugin->upgrade_code = $request->upgradeCode;
             $plugin->save();
 

@@ -297,7 +297,7 @@ class InteractionUtility
             $myFollow = UserFollow::where('user_id', $userId)->type(UserFollow::TYPE_USER)->where('follow_id', $followId)->first();
             $itFollow = UserFollow::where('user_id', $followId)->type(UserFollow::TYPE_USER)->where('follow_id', $userId)->first();
 
-            if (! empty($myFollow) && ! empty($itFollow)) {
+            if ($myFollow && $itFollow) {
                 $myFollow->update(['is_mutual' => 1]);
                 $itFollow->update(['is_mutual' => 1]);
             } else {
@@ -307,7 +307,7 @@ class InteractionUtility
         }
 
         $userBlock = UserBlock::where('user_id', $userId)->type($followType)->where('block_id', $followId)->first();
-        if (! empty($userBlock)) {
+        if ($userBlock) {
             $userBlock->delete();
 
             InteractionUtility::markStats($userId, 'block', $followType, $followId, 'decrement');
@@ -348,7 +348,7 @@ class InteractionUtility
         }
 
         $userFollow = UserFollow::where('user_id', $userId)->type($blockType)->where('follow_id', $blockId)->first();
-        if (! empty($userFollow)) {
+        if ($userFollow) {
             $userFollow->delete();
 
             InteractionUtility::markStats($userId, 'follow', $blockType, $blockId, 'decrement');

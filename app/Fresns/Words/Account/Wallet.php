@@ -712,7 +712,7 @@ class Wallet
             case AccountWalletLog::TYPE_IN_TRANSACTION:
                 $wallet->decrement('balance', $walletLog->amount_total);
 
-                if (! empty($objectWalletLog)) {
+                if ($objectWalletLog) {
                     $objectWallet->increment('balance', $objectWalletLog->amount_total);
                 }
                 break;
@@ -720,7 +720,7 @@ class Wallet
             case AccountWalletLog::TYPE_DE_TRANSACTION:
                 $wallet->increment('balance', $walletLog->amount_total);
 
-                if (! empty($objectWalletLog)) {
+                if ($objectWalletLog) {
                     $objectWallet->decrement('balance', $objectWalletLog->amount_total);
                 }
                 break;

@@ -121,9 +121,12 @@ class FileUtility
 
         $fileIdArr = [];
         foreach ($bodyInfo['fileInfo'] as $fileInfo) {
+            $imageWidth = $fileInfo['imageWidth'] ?? null;
+            $imageHeight = $fileInfo['imageHeight'] ?? null;
             $imageIsLong = 0;
-            if ($bodyInfo['type'] == 1 && ! empty($fileInfo['imageWidth']) >= 700) {
-                if ($fileInfo['imageHeight'] >= $fileInfo['imageWidth'] * 3) {
+
+            if ($bodyInfo['type'] == 1 && $imageWidth >= 700) {
+                if ($imageHeight >= $imageWidth * 3) {
                     $imageIsLong = 1;
                 }
             }
@@ -139,8 +142,8 @@ class FileUtility
                 'sha_type' =>  $fileInfo['shaType'] ?? null,
                 'disk' =>  $fileInfo['disk'] ?? 'remote',
                 'path' => $fileInfo['path'],
-                'image_width' => $fileInfo['imageWidth'] ?? null,
-                'image_height' => $fileInfo['imageHeight'] ?? null,
+                'image_width' =>$imageWidth,
+                'image_height' => $imageHeight,
                 'image_is_long' => $imageIsLong,
                 'video_time' => $fileInfo['videoTime'] ?? null,
                 'video_poster_path' => $fileInfo['videoPosterPath'] ?? null,
@@ -202,7 +205,7 @@ class FileUtility
             $imageWidth = $imageSize[0] ?? null;
             $imageHeight = $imageSize[1] ?? null;
 
-            if (! empty($imageWidth) >= 700) {
+            if ($imageWidth >= 700) {
                 if ($imageHeight >= $imageWidth * 3) {
                     $imageIsLong = 1;
                 }
