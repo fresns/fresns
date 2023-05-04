@@ -45,7 +45,7 @@ class CreatePluginsTable extends Migration
             $table->unsignedTinyInteger('is_upgrade')->default(0);
             $table->string('upgrade_code', 32)->nullable();
             $table->string('upgrade_version', 16)->nullable();
-            $table->unsignedTinyInteger('is_enable')->default(0);
+            $table->unsignedTinyInteger('is_enabled')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
@@ -79,7 +79,7 @@ class CreatePluginsTable extends Migration
             $table->string('parameter', 128)->nullable();
             $table->unsignedSmallInteger('rating')->default(9);
             $table->unsignedTinyInteger('can_delete')->default(1);
-            $table->unsignedTinyInteger('is_enable')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

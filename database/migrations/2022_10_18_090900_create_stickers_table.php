@@ -26,7 +26,7 @@ class CreateStickersTable extends Migration
             $table->unsignedTinyInteger('type')->default(1);
             $table->unsignedInteger('parent_id')->nullable();
             $table->unsignedSmallInteger('rating')->default(9);
-            $table->unsignedTinyInteger('is_enable')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

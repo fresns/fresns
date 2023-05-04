@@ -40,7 +40,7 @@ class AccountsTableSeeder extends Seeder
                 'verify_identity_type' => null,
                 'verify_at' => null,
                 'verify_log' => null,
-                'is_enable' => 1,
+                'is_enabled' => 1,
                 'wait_delete' => 0,
                 'wait_delete_at' => null,
                 'created_at' => '2022-10-18 17:00:00',

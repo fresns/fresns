@@ -53,7 +53,7 @@ class CreateFilesTable extends Migration
             $table->string('transcoding_reason')->nullable();
             $table->string('original_path')->nullable();
             $table->unsignedTinyInteger('is_sensitive')->default(0);
-            $table->unsignedTinyInteger('is_enable')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->unsignedTinyInteger('physical_deletion')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();

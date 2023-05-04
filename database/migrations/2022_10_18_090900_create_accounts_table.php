@@ -36,7 +36,7 @@ class CreateAccountsTable extends Migration
             $table->unsignedTinyInteger('verify_identity_type')->nullable();
             $table->timestamp('verify_at')->nullable();
             $table->text('verify_log')->nullable();
-            $table->unsignedTinyInteger('is_enable')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->unsignedTinyInteger('wait_delete')->default(0);
             $table->timestamp('wait_delete_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
@@ -54,7 +54,7 @@ class CreateAccountsTable extends Migration
             $table->string('connect_nickname', 128);
             $table->string('connect_avatar')->nullable();
             $table->string('plugin_fskey', 64);
-            $table->unsignedTinyInteger('is_enable')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1);
             switch (config('database.default')) {
                 case 'pgsql':
                     $table->jsonb('more_json')->nullable();
@@ -76,7 +76,7 @@ class CreateAccountsTable extends Migration
 
         Schema::create('account_wallets', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('account_id')->unique('account_id');
+            $table->unsignedBigInteger('account_id')->unique('wallet_account_id');
             $table->decimal('balance', 10)->default(0);
             $table->decimal('freeze_amount', 10)->default(0);
             $table->string('password', 64)->nullable();
@@ -85,7 +85,7 @@ class CreateAccountsTable extends Migration
             $table->string('bank_address')->nullable();
             $table->string('bank_account', 128)->nullable();
             $table->unsignedTinyInteger('bank_status')->default(1);
-            $table->unsignedTinyInteger('is_enable')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
@@ -93,7 +93,7 @@ class CreateAccountsTable extends Migration
 
         Schema::create('account_wallet_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('account_id');
+            $table->unsignedBigInteger('account_id')->index('wallet_log_account_id');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedTinyInteger('type');
             $table->string('plugin_fskey', 64);
@@ -107,7 +107,7 @@ class CreateAccountsTable extends Migration
             $table->unsignedBigInteger('object_account_id')->nullable();
             $table->unsignedBigInteger('object_user_id')->nullable();
             $table->unsignedBigInteger('object_wallet_log_id')->nullable();
-            $table->unsignedTinyInteger('is_enable')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->text('remark')->nullable();
             switch (config('database.default')) {
                 case 'pgsql':

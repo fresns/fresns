@@ -40,7 +40,7 @@ class CreateRolesTable extends Migration
             }
             $table->unsignedTinyInteger('rank_state')->default(1);
             $table->unsignedSmallInteger('rating')->default(9);
-            $table->unsignedTinyInteger('is_enable')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

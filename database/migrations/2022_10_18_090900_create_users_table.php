@@ -44,7 +44,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('last_username_at')->nullable();
             $table->timestamp('last_nickname_at')->nullable();
             $table->unsignedTinyInteger('rank_state')->default(1);
-            $table->unsignedTinyInteger('is_enable')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->unsignedTinyInteger('wait_delete')->default(0);
             $table->timestamp('wait_delete_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
@@ -103,8 +103,8 @@ class CreateUsersTable extends Migration
 
         Schema::create('user_extcredits_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedTinyInteger('extcredits');
+            $table->unsignedBigInteger('user_id')->index('extcredits_log_user_id');
+            $table->unsignedTinyInteger('extcredits_id')->index('extcredits_id');
             $table->unsignedTinyInteger('type');
             $table->unsignedInteger('amount');
             $table->unsignedInteger('opening_amount');
@@ -148,7 +148,7 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('follow_id');
             $table->string('user_note', 128)->nullable();
             $table->unsignedTinyInteger('is_mutual')->default(0);
-            $table->unsignedTinyInteger('is_enable')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->timestamp('expired_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();

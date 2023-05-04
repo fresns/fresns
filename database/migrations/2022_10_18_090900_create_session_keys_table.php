@@ -26,7 +26,7 @@ class CreateSessionKeysTable extends Migration
             $table->string('app_id', 8)->unique('app_id');
             $table->string('app_secret', 32);
             $table->unsignedTinyInteger('is_read_only')->default(0);
-            $table->unsignedTinyInteger('is_enable')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->text('remark')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();

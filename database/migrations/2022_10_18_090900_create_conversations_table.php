@@ -42,7 +42,7 @@ class CreateConversationsTable extends Migration
             $table->unsignedBigInteger('receive_user_id');
             $table->timestamp('receive_read_at')->nullable();
             $table->timestamp('receive_deleted_at')->nullable();
-            $table->unsignedTinyInteger('is_enable')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

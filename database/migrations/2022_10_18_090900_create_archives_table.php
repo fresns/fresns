@@ -52,7 +52,7 @@ class CreateArchivesTable extends Migration
             $table->unsignedSmallInteger('input_step')->nullable();
             $table->unsignedSmallInteger('rating')->default(9);
             $table->string('value_type', 16)->default('string');
-            $table->unsignedTinyInteger('is_enable')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

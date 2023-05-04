@@ -48,7 +48,7 @@ class UsersTableSeeder extends Seeder
                 'last_username_at' => null,
                 'last_nickname_at' => null,
                 'rank_state' => 1,
-                'is_enable' => 1,
+                'is_enabled' => 1,
                 'wait_delete' => 0,
                 'wait_delete_at' => null,
                 'created_at' => '2022-10-18 17:00:00',

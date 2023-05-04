@@ -23,7 +23,7 @@ class CreateDomainsTable extends Migration
             $table->string('host', 128)->unique('host');
             $table->unsignedInteger('post_count')->default(0);
             $table->unsignedInteger('comment_count')->default(0);
-            $table->unsignedTinyInteger('is_enable')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
@@ -36,7 +36,7 @@ class CreateDomainsTable extends Migration
             $table->string('link_title')->nullable();
             $table->unsignedInteger('post_count')->default(0);
             $table->unsignedInteger('comment_count')->default(0);
-            $table->unsignedTinyInteger('is_enable')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
