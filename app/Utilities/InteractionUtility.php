@@ -548,12 +548,12 @@ class InteractionUtility
             case 'post':
                 $userState = UserStat::where('user_id', $userId)->first();
                 $post = Post::where('id', $markId)->first();
-                $postCreatorState = UserStat::where('user_id', $post?->user_id)->first();
+                $postAuthorState = UserStat::where('user_id', $post?->user_id)->first();
 
                 if ($actionType == 'increment') {
                     $userState?->increment("{$interactionType}_post_count");
                     $post?->increment("{$interactionType}_count");
-                    $postCreatorState?->increment("post_{$interactionType}_count");
+                    $postAuthorState?->increment("post_{$interactionType}_count");
 
                     return;
                 }
@@ -568,22 +568,22 @@ class InteractionUtility
                     $post?->decrement("{$interactionType}_count");
                 }
 
-                $postCreatorStateCount = $postCreatorState?->{"post_{$interactionType}_count"} ?? 0;
-                if ($postCreatorStateCount > 0) {
-                    $postCreatorState?->decrement("post_{$interactionType}_count");
+                $postAuthorStateCount = $postAuthorState?->{"post_{$interactionType}_count"} ?? 0;
+                if ($postAuthorStateCount > 0) {
+                    $postAuthorState?->decrement("post_{$interactionType}_count");
                 }
                 break;
 
             case 'comment':
                 $userState = UserStat::where('user_id', $userId)->first();
                 $comment = Comment::where('id', $markId)->first();
-                $commentCreatorState = UserStat::where('user_id', $comment?->user_id)->first();
+                $commentAuthorState = UserStat::where('user_id', $comment?->user_id)->first();
                 $commentPost = Post::where('id', $comment?->post_id)->first();
 
                 if ($actionType == 'increment') {
                     $userState->increment("{$interactionType}_comment_count");
                     $comment?->increment("{$interactionType}_count");
-                    $commentCreatorState?->increment("comment_{$interactionType}_count");
+                    $commentAuthorState?->increment("comment_{$interactionType}_count");
                     $commentPost?->increment("comment_{$interactionType}_count");
 
                     // parent comment
@@ -604,9 +604,9 @@ class InteractionUtility
                     $comment?->decrement("{$interactionType}_count");
                 }
 
-                $commentCreatorStateCount = $commentCreatorState?->{"comment_{$interactionType}_count"} ?? 0;
-                if ($commentCreatorStateCount > 0) {
-                    $commentCreatorState?->decrement("comment_{$interactionType}_count");
+                $commentAuthorStateCount = $commentAuthorState?->{"comment_{$interactionType}_count"} ?? 0;
+                if ($commentAuthorStateCount > 0) {
+                    $commentAuthorState?->decrement("comment_{$interactionType}_count");
                 }
 
                 $commentPostCount = $commentPost?->{"comment_{$interactionType}_count"} ?? 0;

@@ -88,7 +88,7 @@ class EditorController extends Controller
         $draftList = [];
         switch ($type) {
             case 'post':
-                $drafts = PostLog::with(['parentPost', 'group', 'creator'])
+                $drafts = PostLog::with(['parentPost', 'group', 'author'])
                     ->where('user_id', $authUser->id)
                     ->whereIn('state', $status)
                     ->latest()
@@ -101,7 +101,7 @@ class EditorController extends Controller
                 break;
 
             case 'comment':
-                $drafts = CommentLog::with(['parentComment', 'post', 'creator'])
+                $drafts = CommentLog::with(['parentComment', 'post', 'author'])
                     ->where('user_id', $authUser->id)
                     ->whereIn('state', $status)
                     ->latest()
@@ -225,14 +225,14 @@ class EditorController extends Controller
             case 'post':
                 $service = new PostService();
 
-                $postLog = PostLog::with(['parentPost', 'group', 'creator'])->where('id', $fresnsResp->getData('logId'))->first();
+                $postLog = PostLog::with(['parentPost', 'group', 'author'])->where('id', $fresnsResp->getData('logId'))->first();
                 $data['detail'] = $service->postLogData($postLog, 'detail', $langTag, $timezone, $authUser->id);
                 break;
 
             case 'comment':
                 $service = new CommentService();
 
-                $commentLog = CommentLog::with(['parentComment', 'post', 'creator'])->where('id', $fresnsResp->getData('logId'))->first();
+                $commentLog = CommentLog::with(['parentComment', 'post', 'author'])->where('id', $fresnsResp->getData('logId'))->first();
                 $data['detail'] = $service->commentLogData($commentLog, 'detail', $langTag, $timezone, $authUser->id);
                 break;
         }
@@ -304,14 +304,14 @@ class EditorController extends Controller
             case 'post':
                 $service = new PostService();
 
-                $postLog = PostLog::with(['parentPost', 'group', 'creator'])->where('id', $fresnsResp->getData('logId'))->first();
+                $postLog = PostLog::with(['parentPost', 'group', 'author'])->where('id', $fresnsResp->getData('logId'))->first();
                 $data['detail'] = $service->postLogData($postLog, 'detail', $langTag, $timezone, $authUser->id);
                 break;
 
             case 'comment':
                 $service = new CommentService();
 
-                $commentLog = CommentLog::with(['parentComment', 'post', 'creator'])->where('id', $fresnsResp->getData('logId'))->first();
+                $commentLog = CommentLog::with(['parentComment', 'post', 'author'])->where('id', $fresnsResp->getData('logId'))->first();
                 $data['detail'] = $service->commentLogData($commentLog, 'detail', $langTag, $timezone, $authUser->id);
                 break;
         }
@@ -335,8 +335,8 @@ class EditorController extends Controller
         $authUser = $this->user();
 
         $draft = match ($type) {
-            'post' => PostLog::with(['parentPost', 'group', 'creator'])->where('id', $draftId)->where('user_id', $authUser->id)->first(),
-            'comment' => CommentLog::with(['parentComment', 'post', 'creator'])->where('id', $draftId)->where('user_id', $authUser->id)->first(),
+            'post' => PostLog::with(['parentPost', 'group', 'author'])->where('id', $draftId)->where('user_id', $authUser->id)->first(),
+            'comment' => CommentLog::with(['parentComment', 'post', 'author'])->where('id', $draftId)->where('user_id', $authUser->id)->first(),
             default => null,
         };
 
@@ -670,8 +670,8 @@ class EditorController extends Controller
         $authUser = $this->user();
 
         $draft = match ($type) {
-            'post' => PostLog::with('creator')->where('id', $draftId)->where('user_id', $authUser->id)->first(),
-            'comment' => CommentLog::with('creator')->where('id', $draftId)->where('user_id', $authUser->id)->first(),
+            'post' => PostLog::with('author')->where('id', $draftId)->where('user_id', $authUser->id)->first(),
+            'comment' => CommentLog::with('author')->where('id', $draftId)->where('user_id', $authUser->id)->first(),
             default => null,
         };
 

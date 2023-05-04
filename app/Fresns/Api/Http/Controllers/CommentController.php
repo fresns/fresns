@@ -43,7 +43,7 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $commentQuery = Comment::with(['creator', 'post', 'hashtagUsages'])->has('creator');
+        $commentQuery = Comment::with(['author', 'post', 'hashtagUsages'])->has('author');
 
         $blockGroupIds = InteractionUtility::getPrivateGroupIdArr();
 
@@ -133,7 +133,7 @@ class CommentController extends Controller
             $outputReplyToPost = false;
         } else {
             // user is enabled
-            $commentQuery->whereHas('creator', function ($query) {
+            $commentQuery->whereHas('author', function ($query) {
                 $query->where('is_enabled', true);
             });
         }
@@ -416,14 +416,14 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $comment = Comment::with(['creator'])->where('cid', $cid)->first();
+        $comment = Comment::with(['author'])->where('cid', $cid)->first();
 
         if (empty($comment)) {
             throw new ApiException(37400);
         }
 
-        // check creator
-        if (empty($comment?->creator)) {
+        // check author
+        if (empty($comment?->author)) {
             throw new ApiException(35203);
         }
 
@@ -478,14 +478,14 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $comment = Comment::with(['creator'])->where('cid', $cid)->first();
+        $comment = Comment::with(['author'])->where('cid', $cid)->first();
 
         if (empty($comment)) {
             throw new ApiException(37400);
         }
 
-        // check creator
-        if (empty($comment?->creator)) {
+        // check author
+        if (empty($comment?->author)) {
             throw new ApiException(35203);
         }
 
@@ -518,14 +518,14 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $comment = Comment::with(['creator'])->where('cid', $cid)->first();
+        $comment = Comment::with(['author'])->where('cid', $cid)->first();
 
         if (empty($comment)) {
             throw new ApiException(37400);
         }
 
-        // check creator
-        if (empty($comment?->creator)) {
+        // check author
+        if (empty($comment?->author)) {
             throw new ApiException(35203);
         }
 
@@ -536,7 +536,7 @@ class CommentController extends Controller
 
         UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
 
-        $commentLogs = CommentLog::with(['parentComment', 'post', 'creator'])->where('comment_id', $comment->id)->where('state', 3)->latest()->paginate($dtoRequest->pageSize ?? 15);
+        $commentLogs = CommentLog::with(['parentComment', 'post', 'author'])->where('comment_id', $comment->id)->where('state', 3)->latest()->paginate($dtoRequest->pageSize ?? 15);
 
         $commentLogList = [];
         $service = new CommentService();
@@ -554,14 +554,14 @@ class CommentController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $comment = Comment::with(['creator'])->where('cid', $cid)->first();
+        $comment = Comment::with(['author'])->where('cid', $cid)->first();
 
         if (empty($comment)) {
             throw new ApiException(37400);
         }
 
-        // check creator
-        if (empty($comment?->creator)) {
+        // check author
+        if (empty($comment?->author)) {
             throw new ApiException(35203);
         }
 
@@ -572,7 +572,7 @@ class CommentController extends Controller
 
         UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
 
-        $log = CommentLog::with(['parentComment', 'post', 'creator'])->where('comment_id', $comment->id)->where('id', $logId)->where('state', 3)->first();
+        $log = CommentLog::with(['parentComment', 'post', 'author'])->where('comment_id', $comment->id)->where('id', $logId)->where('state', 3)->first();
 
         if (empty($log)) {
             throw new ApiException(37402);

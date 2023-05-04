@@ -63,7 +63,7 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $postQuery = Post::with(['creator', 'hashtagUsages'])->has('creator');
+        $postQuery = Post::with(['author', 'hashtagUsages'])->has('author');
 
         $blockGroupIds = InteractionUtility::getPrivateGroupIdArr();
         $blockHashtagIds = [];
@@ -136,7 +136,7 @@ class PostController extends Controller
         });
 
         // user is enabled
-        $postQuery->whereHas('creator', function ($query) {
+        $postQuery->whereHas('author', function ($query) {
             $query->where('is_enabled', true);
         });
 
@@ -374,14 +374,14 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $post = Post::with(['creator'])->where('pid', $pid)->first();
+        $post = Post::with(['author'])->where('pid', $pid)->first();
 
         if (empty($post)) {
             throw new ApiException(37300);
         }
 
-        // check creator
-        if (empty($post?->creator)) {
+        // check author
+        if (empty($post?->author)) {
             throw new ApiException(35203);
         }
 
@@ -432,14 +432,14 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $post = Post::with(['creator'])->where('pid', $pid)->first();
+        $post = Post::with(['author'])->where('pid', $pid)->first();
 
         if (empty($post)) {
             throw new ApiException(37300);
         }
 
-        // check creator
-        if (empty($post?->creator)) {
+        // check author
+        if (empty($post?->author)) {
             throw new ApiException(35203);
         }
 
@@ -468,14 +468,14 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $post = Post::with(['creator'])->where('pid', $pid)->first();
+        $post = Post::with(['author'])->where('pid', $pid)->first();
 
         if (empty($post)) {
             throw new ApiException(37300);
         }
 
-        // check creator
-        if (empty($post?->creator)) {
+        // check author
+        if (empty($post?->author)) {
             throw new ApiException(35203);
         }
 
@@ -505,14 +505,14 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $post = Post::with(['creator'])->where('pid', $pid)->first();
+        $post = Post::with(['author'])->where('pid', $pid)->first();
 
         if (empty($post)) {
             throw new ApiException(37300);
         }
 
-        // check creator
-        if (empty($post?->creator)) {
+        // check author
+        if (empty($post?->author)) {
             throw new ApiException(35203);
         }
 
@@ -523,7 +523,7 @@ class PostController extends Controller
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
 
-        $postQuery = Post::with(['creator', 'hashtagUsages'])->has('creator');
+        $postQuery = Post::with(['author', 'hashtagUsages'])->has('author');
 
         $blockGroupIds = InteractionUtility::getPrivateGroupIdArr();
         $blockHashtagIds = [];
@@ -566,7 +566,7 @@ class PostController extends Controller
         });
 
         // user is enabled
-        $postQuery->whereHas('creator', function ($query) {
+        $postQuery->whereHas('author', function ($query) {
             $query->where('is_enabled', true);
         });
 
@@ -595,14 +595,14 @@ class PostController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $post = Post::with(['creator'])->where('pid', $pid)->first();
+        $post = Post::with(['author'])->where('pid', $pid)->first();
 
         if (empty($post)) {
             throw new ApiException(37300);
         }
 
-        // check creator
-        if (empty($post?->creator)) {
+        // check author
+        if (empty($post?->author)) {
             throw new ApiException(35203);
         }
 
@@ -613,7 +613,7 @@ class PostController extends Controller
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
 
-        $postLogs = PostLog::with(['parentPost', 'group', 'creator'])->where('post_id', $post->id)->where('state', 3)->latest()->paginate($dtoRequest->pageSize ?? 15);
+        $postLogs = PostLog::with(['parentPost', 'group', 'author'])->where('post_id', $post->id)->where('state', 3)->latest()->paginate($dtoRequest->pageSize ?? 15);
 
         $postLogList = [];
         $service = new PostService();
@@ -643,7 +643,7 @@ class PostController extends Controller
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
 
-        $log = PostLog::with(['parentPost', 'group', 'creator'])->where('post_id', $post->id)->where('id', $logId)->where('state', 3)->first();
+        $log = PostLog::with(['parentPost', 'group', 'author'])->where('post_id', $post->id)->where('id', $logId)->where('state', 3)->first();
 
         if (empty($log)) {
             throw new ApiException(37302);

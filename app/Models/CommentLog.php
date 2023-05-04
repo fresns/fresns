@@ -29,7 +29,7 @@ class CommentLog extends Model
         return $this->belongsTo(Comment::class, 'parent_comment_id', 'id');
     }
 
-    public function creator()
+    public function author()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }

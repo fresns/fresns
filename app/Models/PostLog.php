@@ -32,7 +32,7 @@ class PostLog extends Model
         return $this->belongsTo(Group::class, 'group_id', 'id');
     }
 
-    public function creator()
+    public function author()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }

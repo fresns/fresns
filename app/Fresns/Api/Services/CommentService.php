@@ -75,10 +75,10 @@ class CommentService
                 $item['hashtags'] = $hashtagItem;
             }
 
-            // creator
+            // author
             $userService = new UserService;
-            $item['creator'] = $userService->userData($comment->creator, 'list', $langTag, $timezone);
-            $item['creator']['isPostCreator'] = $comment->user_id == $post?->user_id ? true : false;
+            $item['author'] = $userService->userData($comment->author, 'list', $langTag, $timezone);
+            $item['author']['isPostAuthor'] = $comment->user_id == $post?->user_id ? true : false;
 
             $item['subComments'] = [];
 
@@ -105,7 +105,7 @@ class CommentService
                 'isPluginEditor' => (bool) $commentAppend->is_plugin_editor,
                 'editorUrl' => PluginHelper::fresnsPluginUrlByFskey($commentAppend->editor_fskey),
             ];
-            $item['interaction']['postCreatorLikeStatus'] = InteractionUtility::checkUserLike(InteractionUtility::TYPE_COMMENT, $comment->id, $post?->user_id);
+            $item['interaction']['postAuthorLikeStatus'] = InteractionUtility::checkUserLike(InteractionUtility::TYPE_COMMENT, $comment->id, $post?->user_id);
 
             // reply to post
             $postData = self::getReplyToPost($post, $langTag);
@@ -157,20 +157,20 @@ class CommentService
             );
         }
 
-        // creator
+        // author
         if ($comment->is_anonymous) {
-            $commentData['creator'] = InteractionHelper::fresnsUserSubstitutionProfile();
-            $commentData['creator']['isPostCreator'] = false;
-        } elseif (! ($commentData['creator']['uid'] ?? null)) {
-            $commentData['creator'] = InteractionHelper::fresnsUserSubstitutionProfile('deactivate');
-            $commentData['creator']['isPostCreator'] = false;
+            $commentData['author'] = InteractionHelper::fresnsUserSubstitutionProfile();
+            $commentData['author']['isPostAuthor'] = false;
+        } elseif (! ($commentData['author']['uid'] ?? null)) {
+            $commentData['author'] = InteractionHelper::fresnsUserSubstitutionProfile('deactivate');
+            $commentData['author']['isPostAuthor'] = false;
         } else {
-            $commentCreator = PrimaryHelper::fresnsModelByFsid('user', $commentData['creator']['uid']);
+            $commentAuthor = PrimaryHelper::fresnsModelByFsid('user', $commentData['author']['uid']);
 
             $userService = new UserService;
-            $commentData['creator'] = $userService->userData($commentCreator, 'list', $langTag, $timezone);
-            $creatorUid = $commentData['replyToPost']['creator']['uid'] ?? null;
-            $commentData['creator']['isPostCreator'] = $commentData['creator']['uid'] == $creatorUid ? true : false;
+            $commentData['author'] = $userService->userData($commentAuthor, 'list', $langTag, $timezone);
+            $authorUid = $commentData['replyToPost']['author']['uid'] ?? null;
+            $commentData['author']['isPostAuthor'] = $commentData['author']['uid'] == $authorUid ? true : false;
         }
 
         // whether to output sub-level comments
@@ -179,7 +179,7 @@ class CommentService
             $commentData['subComments'] = self::getSubComments($comment->id, $previewConfig, $langTag);
         }
 
-        // auth user is creator
+        // auth user is author
         $isMe = $comment->user_id == $authUserId ? true : false;
         if ($isMe) {
             $commentData['editControls']['canEdit'] = PermissionUtility::checkContentIsCanEdit('comment', $comment->created_at, $comment->is_sticky, $comment->digest_state, $langTag, $timezone);
@@ -312,7 +312,7 @@ class CommentService
 
         $authUid = PrimaryHelper::fresnsModelById('user', $authUserId)?->uid;
 
-        if ($commentData['isCommentPrivate'] && $commentData['replyToPost']['creator']['uid'] != $authUid) {
+        if ($commentData['isCommentPrivate'] && $commentData['replyToPost']['author']['uid'] != $authUid) {
             $contentData['content'] = null;
 
             return $contentData;
@@ -391,7 +391,7 @@ class CommentService
         if (empty($commentList)) {
             $previewSortConfig = ConfigHelper::fresnsConfigByItemKey('preview_sub_comment_sort');
 
-            $commentQuery = Comment::with(['creator'])->has('creator')->where('top_parent_id', $commentId)->isEnabled();
+            $commentQuery = Comment::with(['author'])->has('author')->where('top_parent_id', $commentId)->isEnabled();
 
             if ($previewSortConfig == 'like') {
                 $commentQuery->orderByDesc('like_count');
@@ -487,11 +487,11 @@ class CommentService
         $info['state'] = $log->state;
         $info['reason'] = $log->reason;
 
-        $info['creator'] = InteractionHelper::fresnsUserSubstitutionProfile();
+        $info['author'] = InteractionHelper::fresnsUserSubstitutionProfile();
         if (! $log->is_anonymous) {
             $userService = new UserService;
 
-            $item['creator'] = $userService->userData($log->creator, 'list', $langTag, $timezone);
+            $item['author'] = $userService->userData($log->author, 'list', $langTag, $timezone);
         }
 
         $info['files'] = FileHelper::fresnsFileInfoListByTableColumn('comment_logs', 'id', $log->id);

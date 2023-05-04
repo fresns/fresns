@@ -46,7 +46,7 @@ class Comment extends Model
         return $this->hasOne(CommentAppend::class);
     }
 
-    public function creator()
+    public function author()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }

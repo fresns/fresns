@@ -59,14 +59,14 @@ class Content
         $dtoWordBody = new CreateDraftDTO($wordBody);
         $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
-        $creator = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
-        if (! $creator) {
+        $author = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
+        if (! $author) {
             return $this->failure(
                 35201,
                 ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
             );
         }
-        if (! $creator->is_enabled) {
+        if (! $author->is_enabled) {
             return $this->failure(
                 35202,
                 ConfigUtility::getCodeMessage(35202, 'Fresns', $langTag)
@@ -97,10 +97,10 @@ class Content
                     $title = Str::of($dtoWordBody->postTitle)->trim();
                 }
 
-                $checkLog = PostLog::with(['fileUsages', 'extendUsages'])->where('user_id', $creator->id)->where('create_type', 1)->where('state', 1)->first();
+                $checkLog = PostLog::with(['fileUsages', 'extendUsages'])->where('user_id', $author->id)->where('create_type', 1)->where('state', 1)->first();
 
                 $logData = [
-                    'user_id' => $creator->id,
+                    'user_id' => $author->id,
                     'parent_post_id' => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->postQuotePid),
                     'create_type' => $dtoWordBody->createType,
                     'is_plugin_editor' => $isPluginEditor,
@@ -135,10 +135,10 @@ class Content
                     );
                 }
 
-                $checkLog = CommentLog::with(['fileUsages', 'extendUsages'])->where('user_id', $creator->id)->where('create_type', 1)->where('state', 1)->first();
+                $checkLog = CommentLog::with(['fileUsages', 'extendUsages'])->where('user_id', $author->id)->where('create_type', 1)->where('state', 1)->first();
 
                 $logData = [
-                    'user_id' => $creator->id,
+                    'user_id' => $author->id,
                     'post_id' => $checkPost->id,
                     'parent_comment_id' => PrimaryHelper::fresnsCommentIdByCid($checkPost->commentCid),
                     'create_type' => $dtoWordBody->createType,
@@ -212,14 +212,14 @@ class Content
                 // post
                 $post = PrimaryHelper::fresnsModelByFsid('post', $dtoWordBody->fsid);
 
-                $creator = PrimaryHelper::fresnsModelById('user', $post->user_id);
-                if (! $creator) {
+                $author = PrimaryHelper::fresnsModelById('user', $post->user_id);
+                if (! $author) {
                     return $this->failure(
                         35201,
                         ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
                     );
                 }
-                if (! $creator->is_enabled) {
+                if (! $author->is_enabled) {
                     return $this->failure(
                         35202,
                         ConfigUtility::getCodeMessage(35202, 'Fresns', $langTag)
@@ -247,14 +247,14 @@ class Content
                 // comment
                 $comment = PrimaryHelper::fresnsModelByFsid('comment', $dtoWordBody->fsid);
 
-                $creator = PrimaryHelper::fresnsModelById('user', $comment->user_id);
-                if (! $creator) {
+                $author = PrimaryHelper::fresnsModelById('user', $comment->user_id);
+                if (! $author) {
                     return $this->failure(
                         35201,
                         ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
                     );
                 }
-                if (! $creator->is_enabled) {
+                if (! $author->is_enabled) {
                     return $this->failure(
                         35202,
                         ConfigUtility::getCodeMessage(35202, 'Fresns', $langTag)
@@ -321,14 +321,14 @@ class Content
             );
         }
 
-        $creator = PrimaryHelper::fresnsModelById('user', $logModel->user_id);
-        if (! $creator) {
+        $author = PrimaryHelper::fresnsModelById('user', $logModel->user_id);
+        if (! $author) {
             return $this->failure(
                 35201,
                 ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
             );
         }
-        if (! $creator->is_enabled) {
+        if (! $author->is_enabled) {
             return $this->failure(
                 35202,
                 ConfigUtility::getCodeMessage(35202, 'Fresns', $langTag)
@@ -388,14 +388,14 @@ class Content
         $dtoWordBody = new ContentQuickPublishDTO($wordBody);
         $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
-        $creator = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
-        if (! $creator) {
+        $author = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
+        if (! $author) {
             return $this->failure(
                 35201,
                 ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
             );
         }
-        if (! $creator->is_enabled) {
+        if (! $author->is_enabled) {
             return $this->failure(
                 35202,
                 ConfigUtility::getCodeMessage(35202, 'Fresns', $langTag)
@@ -476,7 +476,7 @@ class Content
             // post
             case 'post':
                 $post = Post::create([
-                    'user_id' => $creator->id,
+                    'user_id' => $author->id,
                     'parent_id' => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->postQuotePid) ?? 0,
                     'group_id' => PrimaryHelper::fresnsGroupIdByGid($dtoWordBody->postGid) ?? 0,
                     'title' => $dtoWordBody->postTitle ? Str::of($dtoWordBody->postTitle)->trim() : null,
@@ -504,7 +504,7 @@ class Content
                 ContentUtility::handleAndSaveAllInteraction($post->content, Mention::TYPE_POST, $post->id, $post->user_id);
                 InteractionUtility::publishStats('post', $post->id, 'increment');
 
-                $creator->update([
+                $author->update([
                     'last_post_at' => now(),
                 ]);
 
@@ -525,7 +525,7 @@ class Content
                 $post = PrimaryHelper::fresnsModelByFsid('post', $dtoWordBody->commentPid);
 
                 $comment = Comment::create([
-                    'user_id' => $creator->id,
+                    'user_id' => $author->id,
                     'post_id' => $post->id,
                     'top_parent_id' => $commentTopParentId,
                     'parent_id' => $parentComment?->id ?? 0,
@@ -551,7 +551,7 @@ class Content
                 ContentUtility::handleAndSaveAllInteraction($comment->content, Mention::TYPE_COMMENT, $comment->id, $comment->user_id);
                 InteractionUtility::publishStats('comment', $comment->id, 'increment');
 
-                $creator->update([
+                $author->update([
                     'last_comment_at' => now(),
                 ]);
 

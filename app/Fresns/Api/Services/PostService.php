@@ -73,9 +73,9 @@ class PostService
                 $item['hashtags'] = $hashtagItem;
             }
 
-            // creator
+            // author
             $userService = new UserService;
-            $item['creator'] = $userService->userData($post->creator, 'list', $langTag, $timezone);
+            $item['author'] = $userService->userData($post->author, 'list', $langTag, $timezone);
 
             // quoted post
             $parentPost = $post->parentPost;
@@ -162,16 +162,16 @@ class PostService
             }
         }
 
-        // creator
+        // author
         if ($post->is_anonymous) {
-            $postData['creator'] = InteractionHelper::fresnsUserSubstitutionProfile();
-        } elseif (! ($postData['creator']['uid'] ?? null)) {
-            $postData['creator'] = InteractionHelper::fresnsUserSubstitutionProfile('deactivate');
+            $postData['author'] = InteractionHelper::fresnsUserSubstitutionProfile();
+        } elseif (! ($postData['author']['uid'] ?? null)) {
+            $postData['author'] = InteractionHelper::fresnsUserSubstitutionProfile('deactivate');
         } else {
-            $postCreator = PrimaryHelper::fresnsModelByFsid('user', $postData['creator']['uid']);
+            $postAuthor = PrimaryHelper::fresnsModelByFsid('user', $postData['author']['uid']);
 
             $userService = new UserService;
-            $postData['creator'] = $userService->userData($postCreator, 'list', $langTag, $timezone);
+            $postData['author'] = $userService->userData($postAuthor, 'list', $langTag, $timezone);
         }
 
         // get preview configs
@@ -191,7 +191,7 @@ class PostService
             $postData['previewComments'] = self::getPreviewComments($post, $previewConfig['preview_post_comments'], $langTag);
         }
 
-        // auth user is creator
+        // auth user is author
         if ($post->user_id == $authUserId) {
             $postData['editControls']['canEdit'] = PermissionUtility::checkContentIsCanEdit('post', $post->created_at, $post->sticky_state, $post->digest_state, $langTag, $timezone);
         } else {
@@ -461,8 +461,8 @@ class PostService
         $commentList = CacheHelper::get($cacheKey, $cacheTags);
 
         if (empty($commentList)) {
-            $commentQuery = Comment::with(['creator'])
-                ->has('creator')
+            $commentQuery = Comment::with(['author'])
+                ->has('author')
                 ->where('post_id', $post->id)
                 ->where('top_parent_id', 0)
                 ->isEnabled()
@@ -553,11 +553,11 @@ class PostService
         $info['state'] = $log->state;
         $info['reason'] = $log->reason;
 
-        $info['creator'] = InteractionHelper::fresnsUserSubstitutionProfile();
+        $info['author'] = InteractionHelper::fresnsUserSubstitutionProfile();
         if (! $log->is_anonymous) {
             $userService = new UserService;
 
-            $item['creator'] = $userService->userData($log->creator, 'list', $langTag, $timezone);
+            $item['author'] = $userService->userData($log->author, 'list', $langTag, $timezone);
         }
 
         if ($group) {

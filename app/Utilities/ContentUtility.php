@@ -1026,8 +1026,8 @@ class ContentUtility
             'state' => 3,
         ]);
 
-        $creator = PrimaryHelper::fresnsModelById('user', $post->user_id);
-        $creator->update([
+        $author = PrimaryHelper::fresnsModelById('user', $post->user_id);
+        $author->update([
             'last_post_at' => now(),
         ]);
 
@@ -1112,8 +1112,8 @@ class ContentUtility
             'state' => 3,
         ]);
 
-        $creator = PrimaryHelper::fresnsModelById('user', $comment->user_id);
-        $creator->update([
+        $author = PrimaryHelper::fresnsModelById('user', $comment->user_id);
+        $author->update([
             'last_comment_at' => now(),
         ]);
 
