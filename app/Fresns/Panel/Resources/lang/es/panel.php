@@ -325,11 +325,11 @@ return [
     'system_info_database_engine' => 'Motor de valores de datos',
     'system_info_database_collation' => 'Reglas de clasificación de la base de datos',
     'system_info_database_size' => 'Tamaño actual de la base de datos',
-    'notes' => 'Instrucciones de uso',
+    'tips' => 'Instrucciones de uso',
     'news' => 'FRESNS ACTIVIDADES Y NOTICIAS',
-    // Dashboard-Notes
-    'note_config' => 'Después de modificar la configuración, es necesario borrar la caché antes de que la nueva configuración surta efecto.',
-    'note_plugin_install_or_upgrade' => 'Después de instalar o actualizar el plugin, se desactiva por defecto y es necesario activarlo manualmente para evitar problemas en el sistema causados por errores en el plugin.',
+    // Dashboard-Tips
+    'tip_config' => 'Después de modificar la configuración, es necesario borrar la caché antes de que la nueva configuración surta efecto.',
+    'tip_plugin_install_or_upgrade' => 'Después de instalar o actualizar el plugin, se desactiva por defecto y es necesario activarlo manualmente para evitar problemas en el sistema causados por errores en el plugin.',
     // Dashboard-Events
     'event_subscribe_table' => 'Suscripción a la tabla de datos',
     'event_crontab_time' => 'Ciclo de ejecución',

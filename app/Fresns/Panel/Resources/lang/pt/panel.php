@@ -325,11 +325,11 @@ return [
     'system_info_database_engine' => 'Data Stock Engine',
     'system_info_database_collation' => 'Regras de classificação do banco de dados',
     'system_info_database_size' => 'Tamanho atual do banco de dados',
-    'notes' => 'Instruções de utilização',
+    'tips' => 'Instruções de utilização',
     'news' => 'Atividades e notícias fresns',
-    // Dashboard-Notes
-    'note_config' => 'Após a modificação da configuração, a cache precisa de ser limpa antes que a nova configuração possa ter efeito.',
-    'note_plugin_install_or_upgrade' => 'Depois de instalado ou actualizado, o plugin é desligado por defeito e precisa de ser activado manualmente para evitar problemas no sistema causados por erros no plugin.',
+    // Dashboard-Tips
+    'tip_config' => 'Após a modificação da configuração, a cache precisa de ser limpa antes que a nova configuração possa ter efeito.',
+    'tip_plugin_install_or_upgrade' => 'Depois de instalado ou actualizado, o plugin é desligado por defeito e precisa de ser activado manualmente para evitar problemas no sistema causados por erros no plugin.',
     // Dashboard-Events
     'event_subscribe_table' => 'Subscrever a tabela de dados',
     'event_crontab_time' => 'Ciclo de Execução',

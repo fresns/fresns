@@ -325,11 +325,11 @@ return [
     'system_info_database_engine' => 'Mesin basis data',
     'system_info_database_collation' => 'Basis data Colation',
     'system_info_database_size' => 'Ukuran basis data',
-    'notes' => 'Petunjuk penggunaan',
+    'tips' => 'Petunjuk penggunaan',
     'news' => 'Fresns Acara dan Berita',
-    // Dashboard-Notes
-    'note_config' => 'Setelah memodifikasi konfigurasi, cache perlu dibersihkan sebelum konfigurasi baru dapat berlaku.',
-    'note_plugin_install_or_upgrade' => 'Setelah plugin diinstal atau di-upgrade, plugin dimatikan secara default dan perlu diaktifkan secara manual untuk menghindari masalah sistem yang disebabkan oleh kesalahan pada plugin.',
+    // Dashboard-Tips
+    'tip_config' => 'Setelah memodifikasi konfigurasi, cache perlu dibersihkan sebelum konfigurasi baru dapat berlaku.',
+    'tip_plugin_install_or_upgrade' => 'Setelah plugin diinstal atau di-upgrade, plugin dimatikan secara default dan perlu diaktifkan secara manual untuk menghindari masalah sistem yang disebabkan oleh kesalahan pada plugin.',
     // Dashboard-Events
     'event_subscribe_table' => 'Berlangganan ke tabel data',
     'event_crontab_time' => 'Siklus Eksekusi',

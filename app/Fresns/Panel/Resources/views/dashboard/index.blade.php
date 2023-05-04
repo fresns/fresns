@@ -170,15 +170,15 @@
                 </div>
             </div>
         </div>
-        <!--notes and news-->
+        <!--tips and news-->
         <div class="col-md">
-            <!--notes-->
+            <!--tips-->
             <div class="card mb-4">
-                <div class="card-header">{{ __('FsLang::panel.notes') }}</div>
+                <div class="card-header">{{ __('FsLang::panel.tips') }}</div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item text-secondary">{{ __('FsLang::panel.note_config') }}</li>
-                        <li class="list-group-item text-secondary">{{ __('FsLang::panel.note_plugin_install_or_upgrade') }}</li>
+                        <li class="list-group-item text-secondary">{{ __('FsLang::panel.tip_config') }}</li>
+                        <li class="list-group-item text-secondary">{{ __('FsLang::panel.tip_plugin_install_or_upgrade') }}</li>
                     </ul>
                 </div>
             </div>

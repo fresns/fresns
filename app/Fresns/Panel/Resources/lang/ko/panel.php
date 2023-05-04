@@ -325,11 +325,11 @@ return [
     'system_info_database_engine' => '데이터 주식 엔진',
     'system_info_database_collation' => '데이터베이스 정렬 규칙',
     'system_info_database_size' => '현재 데이터베이스 크기',
-    'notes' => '사용 지침',
+    'tips' => '사용 지침',
     'news' => 'Fresns 활동 및 뉴스',
-    // Dashboard-Notes
-    'note_config' => '구성을 수정한 후 새 구성을 적용하려면 캐시를 지워야 합니다.',
-    'note_plugin_install_or_upgrade' => '플러그인을 설치하거나 업그레이드한 후 플러그인 오류로 인한 시스템 문제를 방지하기 위해 기본적으로 비활성화되어 있으며 수동으로 활성화해야 합니다.',
+    // Dashboard-Tips
+    'tip_config' => '구성을 수정한 후 새 구성을 적용하려면 캐시를 지워야 합니다.',
+    'tip_plugin_install_or_upgrade' => '플러그인을 설치하거나 업그레이드한 후 플러그인 오류로 인한 시스템 문제를 방지하기 위해 기본적으로 비활성화되어 있으며 수동으로 활성화해야 합니다.',
     // Dashboard-Events
     'event_subscribe_table' => '데이터 테이블 구독',
     'event_crontab_time' => '실행 주기',

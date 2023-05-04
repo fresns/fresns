@@ -325,11 +325,11 @@ return [
     'system_info_database_engine' => 'Datenbestandmotor',
     'system_info_database_collation' => 'Datenbanksortierregeln',
     'system_info_database_size' => 'Aktuelle Datenbankgröße',
-    'notes' => 'Anweisungen für den Gebrauch',
+    'tips' => 'Anweisungen für den Gebrauch',
     'news' => 'Fresns-Aktivitäten und Nachrichten',
-    // Dashboard-Notes
-    'note_config' => 'Nach der Änderung der Konfiguration muss der Cache geleert werden, bevor die neue Konfiguration wirksam werden kann.',
-    'note_plugin_install_or_upgrade' => 'Nachdem das Plugin installiert oder aktualisiert wurde, ist es standardmäßig deaktiviert und muss manuell aktiviert werden, um Systemprobleme zu vermeiden, die durch Fehler im Plugin verursacht werden.',
+    // Dashboard-Tips
+    'tip_config' => 'Nach der Änderung der Konfiguration muss der Cache geleert werden, bevor die neue Konfiguration wirksam werden kann.',
+    'tip_plugin_install_or_upgrade' => 'Nachdem das Plugin installiert oder aktualisiert wurde, ist es standardmäßig deaktiviert und muss manuell aktiviert werden, um Systemprobleme zu vermeiden, die durch Fehler im Plugin verursacht werden.',
     // Dashboard-Events
     'event_subscribe_table' => 'Abonnieren Sie die Datentabelle',
     'event_crontab_time' => 'Zyklus der Ausführung',

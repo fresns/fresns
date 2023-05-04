@@ -325,11 +325,11 @@ return [
     'system_info_database_engine' => 'Motore automatico dei dati',
     'system_info_database_collation' => 'Regole di ordinamento del database',
     'system_info_database_size' => 'Dimensioni del database corrente',
-    'notes' => 'Istruzioni per l\'uso',
+    'tips' => 'Istruzioni per l\'uso',
     'news' => 'Attività e notizie di Fresns',
-    // Dashboard-Notes
-    'note_config' => 'Dopo aver modificato la configurazione, è necessario cancellare la cache prima che la nuova configurazione diventi effettiva.',
-    'note_plugin_install_or_upgrade' => 'Dopo l\'installazione o l\'aggiornamento, il plugin è disattivato per impostazione predefinita e deve essere attivato manualmente per evitare problemi di sistema causati da errori nel plugin.',
+    // Dashboard-Tips
+    'tip_config' => 'Dopo aver modificato la configurazione, è necessario cancellare la cache prima che la nuova configurazione diventi effettiva.',
+    'tip_plugin_install_or_upgrade' => 'Dopo l\'installazione o l\'aggiornamento, il plugin è disattivato per impostazione predefinita e deve essere attivato manualmente per evitare problemi di sistema causati da errori nel plugin.',
     // Dashboard-Events
     'event_subscribe_table' => 'Sottoscrivere la tabella dei dati',
     'event_crontab_time' => 'Ciclo di esecuzione',

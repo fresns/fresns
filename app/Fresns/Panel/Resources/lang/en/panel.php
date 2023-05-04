@@ -325,11 +325,11 @@ return [
     'system_info_database_engine' => 'Database engine',
     'system_info_database_collation' => 'Database collation',
     'system_info_database_size' => 'Database size',
-    'notes' => 'Notes',
+    'tips' => 'Tips',
     'news' => 'Fresns Events and News',
-    // Dashboard-Notes
-    'note_config' => 'After modifying the configuration, the cache needs to be cleared before the new configuration can take effect.',
-    'note_plugin_install_or_upgrade' => 'After the plug-in is installed or upgraded, the default state is off and needs to be enabled manually to avoid system problems caused by errors in the plug-in.',
+    // Dashboard-Tips
+    'tip_config' => 'After modifying the configuration, the cache needs to be cleared before the new configuration can take effect.',
+    'tip_plugin_install_or_upgrade' => 'After the plug-in is installed or upgraded, the default state is off and needs to be enabled manually to avoid system problems caused by errors in the plug-in.',
     // Dashboard-Events
     'event_subscribe_table' => 'Subscribe to the data table',
     'event_crontab_time' => 'Execution Cycle',

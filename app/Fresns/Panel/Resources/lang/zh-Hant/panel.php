@@ -326,11 +326,11 @@ return [
     'system_info_database_engine' => '資料庫存儲引擎',
     'system_info_database_collation' => '資料庫排序規則',
     'system_info_database_size' => '當前資料庫尺寸',
-    'notes' => '使用說明',
+    'tips' => '使用說明',
     'news' => 'Fresns 活動和新聞',
-    // Dashboard-Notes
-    'note_config' => '修改配置後，需要清空緩存才能生效新配置。',
-    'note_plugin_install_or_upgrade' => '外掛安裝或升級後，為避免外掛的錯誤導致系統問題，所以默認為關閉狀態，需手動啟用。',
+    // Dashboard-Tips
+    'tip_config' => '修改配置後，需要清空緩存才能生效新配置。',
+    'tip_plugin_install_or_upgrade' => '外掛安裝或升級後，為避免外掛的錯誤導致系統問題，所以默認為關閉狀態，需手動啟用。',
     // Dashboard-Events
     'event_subscribe_table' => '訂閱的數據表',
     'event_crontab_time' => '執行週期',
