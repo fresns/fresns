@@ -124,7 +124,7 @@ class AppUtility
         foreach ($pluginModels as $plugin) {
             $status = $plugins[$plugin->fskey] ?? false;
 
-            $plugin->is_enable = $status;
+            $plugin->is_enabled = $status;
             $plugin->save();
         }
     }

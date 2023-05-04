@@ -46,7 +46,7 @@
                         </td>
                         <td>{{ $lang['writingDirection'] }}</td>
                         <td>
-                            @if ($lang['isEnable'])
+                            @if ($lang['isEnabled'])
                                 <i class="bi bi-check-lg text-success"></i>
                             @else
                                 <i class="bi bi-dash-lg text-secondary"></i>

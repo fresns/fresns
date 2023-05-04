@@ -14,7 +14,7 @@ use App\Helpers\StrHelper;
 class User extends Model
 {
     use Traits\UserServiceTrait;
-    use Traits\IsEnableTrait;
+    use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
 
     protected $dates = [

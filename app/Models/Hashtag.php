@@ -11,5 +11,5 @@ namespace App\Models;
 class Hashtag extends Model
 {
     use Traits\HashtagServiceTrait;
-    use Traits\IsEnableTrait;
+    use Traits\IsEnabledTrait;
 }

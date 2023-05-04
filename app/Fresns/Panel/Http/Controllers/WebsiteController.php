@@ -42,7 +42,7 @@ class WebsiteController extends Controller
             $params[$config->item_key] = $config->item_value;
         }
 
-        $keyData = SessionKey::where('type', 1)->whereIn('platform_id', [2, 3, 4])->isEnable()->get();
+        $keyData = SessionKey::where('type', 1)->whereIn('platform_id', [2, 3, 4])->isEnabled()->get();
         $keys = [];
         foreach ($keyData as $key) {
             $item['id'] = $key->id;

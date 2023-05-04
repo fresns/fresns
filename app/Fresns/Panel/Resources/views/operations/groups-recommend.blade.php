@@ -68,7 +68,7 @@
                         <td><span class="badge bg-light text-dark">{{ $permissionLabels[$group->permissions['publish_post'] ?? 0] ?? '' }}</span></td>
                         <td><span class="badge bg-light text-dark">{{ $permissionLabels[$group->permissions['publish_comment'] ?? 0] ?? '' }}</span></td>
                         <td>
-                            <form action="{{ route('panel.groups.enable.update', ['group' => $group->id, 'is_enable' => 0]) }}" method="post">
+                            <form action="{{ route('panel.groups.enable.update', ['group' => $group->id, 'is_enabled' => 0]) }}" method="post">
                                 @csrf
                                 @method('put')
                                 <button type="button" class="btn btn-outline-primary btn-sm"

@@ -66,7 +66,7 @@ class Content
                 ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
             );
         }
-        if (! $creator->is_enable) {
+        if (! $creator->is_enabled) {
             return $this->failure(
                 35202,
                 ConfigUtility::getCodeMessage(35202, 'Fresns', $langTag)
@@ -219,7 +219,7 @@ class Content
                         ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
                     );
                 }
-                if (! $creator->is_enable) {
+                if (! $creator->is_enabled) {
                     return $this->failure(
                         35202,
                         ConfigUtility::getCodeMessage(35202, 'Fresns', $langTag)
@@ -254,7 +254,7 @@ class Content
                         ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
                     );
                 }
-                if (! $creator->is_enable) {
+                if (! $creator->is_enabled) {
                     return $this->failure(
                         35202,
                         ConfigUtility::getCodeMessage(35202, 'Fresns', $langTag)
@@ -328,7 +328,7 @@ class Content
                 ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
             );
         }
-        if (! $creator->is_enable) {
+        if (! $creator->is_enabled) {
             return $this->failure(
                 35202,
                 ConfigUtility::getCodeMessage(35202, 'Fresns', $langTag)
@@ -395,7 +395,7 @@ class Content
                 ConfigUtility::getCodeMessage(35201, 'Fresns', $langTag)
             );
         }
-        if (! $creator->is_enable) {
+        if (! $creator->is_enabled) {
             return $this->failure(
                 35202,
                 ConfigUtility::getCodeMessage(35202, 'Fresns', $langTag)

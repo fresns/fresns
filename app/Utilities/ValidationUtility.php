@@ -489,7 +489,7 @@ class ValidationUtility
                         return 37100;
                     }
 
-                    if (! $group->is_enable) {
+                    if (! $group->is_enabled) {
                         return 37101;
                     }
 
@@ -536,7 +536,7 @@ class ValidationUtility
                         return 37100;
                     }
 
-                    if (! $group->is_enable) {
+                    if (! $group->is_enabled) {
                         return 37101;
                     }
 

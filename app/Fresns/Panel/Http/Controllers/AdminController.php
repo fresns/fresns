@@ -37,7 +37,7 @@ class AdminController extends Controller
             $credentials['email'] = $accountName :
             $credentials['phone'] = $accountName;
 
-        $admin = Account::where($credentials)->isEnable()->first();
+        $admin = Account::where($credentials)->isEnabled()->first();
 
         if (! $admin) {
             return back()->with('failure', __('FsLang::tips.account_not_found'));

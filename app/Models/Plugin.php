@@ -15,7 +15,7 @@ class Plugin extends Model
     const TYPE_ENGINE = 3;
     const TYPE_THEME = 4;
 
-    use Traits\IsEnableTrait;
+    use Traits\IsEnabledTrait;
 
     protected $casts = [
         'scene' => 'array',

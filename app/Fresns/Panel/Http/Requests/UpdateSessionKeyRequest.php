@@ -21,7 +21,7 @@ class UpdateSessionKeyRequest extends FormRequest
             'platform_id' => 'required|int',
             'name' => 'required|string',
             'type' => 'required|int',
-            'is_enable' => 'required|boolean',
+            'is_enabled' => 'required|boolean',
             'plugin_fskey' => 'exists:App\Models\Plugin,fskey',
         ];
     }
@@ -32,7 +32,7 @@ class UpdateSessionKeyRequest extends FormRequest
             'platform_id' => __('FsLang::panel.table_platform'),
             'name' => __('FsLang::panel.table_name'),
             'type' => __('FsLang::panel.table_type'),
-            'is_enable' => __('FsLang::panel.table_status'),
+            'is_enabled' => __('FsLang::panel.table_status'),
             'plugin_fskey' => __('FsLang::panel.table_plugin'),
         ];
     }

@@ -44,7 +44,7 @@ class ExtendEditorController extends Controller
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->parameter = $request->parameter;
-        $pluginUsage->is_enable = $request->is_enable;
+        $pluginUsage->is_enabled = $request->is_enabled;
         $pluginUsage->rating = $request->rating;
         $pluginUsage->editor_toolbar = $request->editor_toolbar;
         $pluginUsage->editor_number = $request->editor_number;
@@ -110,7 +110,7 @@ class ExtendEditorController extends Controller
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->parameter = $request->parameter;
-        $pluginUsage->is_enable = $request->is_enable;
+        $pluginUsage->is_enabled = $request->is_enabled;
         $pluginUsage->rating = $request->rating;
         $pluginUsage->editor_toolbar = $request->editor_toolbar;
         $pluginUsage->editor_number = $request->editor_number;

@@ -178,7 +178,7 @@ class ManualUpgradeFresns extends Command
                 } else {
                     $this->call('plugin:publish', ['fskey' => $plugin->fskey]);
 
-                    if ($plugin->is_enable) {
+                    if ($plugin->is_enabled) {
                         $this->call('plugin:activate', ['fskey' => $plugin->fskey]);
                     }
                 }

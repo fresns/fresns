@@ -69,7 +69,7 @@ class UserController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $userQuery = UserStat::with('profile', 'mainRoleId')->whereRelation('profile', 'is_enable', true)->whereRelation('profile', 'wait_delete', false);
+        $userQuery = UserStat::with('profile', 'mainRoleId')->whereRelation('profile', 'is_enabled', true)->whereRelation('profile', 'wait_delete', false);
 
         if ($dtoRequest->roles) {
             $roleArr = array_filter(explode(',', $dtoRequest->roles));
@@ -361,7 +361,7 @@ class UserController extends Controller
         }
 
         $userQuery = User::whereIn('id', $youKnowArr)
-            ->where('is_enable', true)
+            ->where('is_enabledd', true)
             ->where('wait_delete', false)
             ->paginate($pageSize);
 
@@ -602,7 +602,7 @@ class UserController extends Controller
             $bConversations = Conversation::where('b_user_id', $userId)->where('b_is_display', 1);
 
             $conversationCount = $aConversations->union($bConversations)->count();
-            $conversationMessageCount = ConversationMessage::where('receive_user_id', $userId)->whereNull('receive_read_at')->whereNull('receive_deleted_at')->isEnable()->count();
+            $conversationMessageCount = ConversationMessage::where('receive_user_id', $userId)->whereNull('receive_read_at')->whereNull('receive_deleted_at')->isEnabled()->count();
 
             $conversations = [
                 'conversationCount' => $conversationCount,
@@ -701,7 +701,7 @@ class UserController extends Controller
 
         $authUser = $this->user();
 
-        if (! $authUser->is_enable) {
+        if (! $authUser->is_enabled) {
             throw new ApiException(35202);
         }
 
@@ -970,7 +970,7 @@ class UserController extends Controller
     {
         $dtoRequest = new UserMarkDTO($request->all());
         $authUser = $this->user();
-        if (! $authUser->is_enable) {
+        if (! $authUser->is_enabled) {
             throw new ApiException(35202);
         }
 
@@ -1069,7 +1069,7 @@ class UserController extends Controller
         $dtoRequest = new UserMarkNoteDTO($request->all());
 
         $authUser = $this->user();
-        if (! $authUser->is_enable) {
+        if (! $authUser->is_enabled) {
             throw new ApiException(35202);
         }
 

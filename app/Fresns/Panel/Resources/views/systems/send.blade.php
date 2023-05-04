@@ -107,17 +107,17 @@
                                 <td>{{ $index }}</td>
                                 <td>{{ $name }}</td>
                                 <td>
-                                    @if ($codeParams[$key]['email']['isEnable'] ?? false)
+                                    @if ($codeParams[$key]['email']['isEnabled'] ?? false)
                                         <span class="badge bg-success me-2">{{ __('FsLang::panel.option_email') }}</span>
                                     @endif
-                                    @if ($codeParams[$key]['sms']['isEnable'] ?? false)
+                                    @if ($codeParams[$key]['sms']['isEnabled'] ?? false)
                                         <span class="badge bg-success">{{ __('FsLang::panel.option_sms') }}</span>
                                     @endif
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-outline-primary btn-sm me-3"
                                         data-languages="{{ json_encode($codeParams[$key]['email']['template'] ?? []) }}"
-                                        data-enable="{{ $codeParams[$key]['email']['isEnable'] ?? false }}"
+                                        data-enable="{{ $codeParams[$key]['email']['isEnabled'] ?? false }}"
                                         data-action="{{ route('panel.send.email.update', ['itemKey' => $key])}}"
                                         data-title="{{ $name }}"
                                         data-bs-toggle="modal" data-bs-target="#emailModal">
@@ -125,7 +125,7 @@
                                     </button>
                                     <button type="button" class="btn btn-outline-primary btn-sm"
                                         data-languages="{{ json_encode($codeParams[$key]['sms']['template'] ?? []) }}"
-                                        data-enable="{{ $codeParams[$key]['sms']['isEnable'] ?? false }}"
+                                        data-enable="{{ $codeParams[$key]['sms']['isEnabled'] ?? false }}"
                                         data-action="{{ route('panel.send.sms.update', ['itemKey' => $key])}}"
                                         data-title="{{ $name }}"
                                         data-languages="{{ json_encode($codeParams[$key]['sms']['template'] ?? []) }}"
@@ -158,11 +158,11 @@
                             <span class="input-group-text">{{ __('FsLang::panel.table_status') }}</span>
                             <div class="form-control">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_enable" id="email_status_true" value="1">
+                                    <input class="form-check-input" type="radio" name="is_enabled" id="email_status_true" value="1">
                                     <label class="form-check-label" for="email_status_true">{{ __('FsLang::panel.option_activate') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_enable" id="email_status_false" value="0" checked>
+                                    <input class="form-check-input" type="radio" name="is_enabled" id="email_status_false" value="0" checked>
                                     <label class="form-check-label" for="email_status_false">{{ __('FsLang::panel.option_deactivate') }}</label>
                                 </div>
                             </div>
@@ -226,11 +226,11 @@
                             <span class="input-group-text">{{ __('FsLang::panel.table_status') }}</span>
                             <div class="form-control">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_enable" id="sms_status_true" value="1">
+                                    <input class="form-check-input" type="radio" name="is_enabled" id="sms_status_true" value="1">
                                     <label class="form-check-label" for="sms_status_true">{{ __('FsLang::panel.option_activate') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_enable" id="sms_status_false" value="0" checked>
+                                    <input class="form-check-input" type="radio" name="is_enabled" id="sms_status_false" value="0" checked>
                                     <label class="form-check-label" for="sms_status_false">{{ __('FsLang::panel.option_deactivate') }}</label>
                                 </div>
                             </div>

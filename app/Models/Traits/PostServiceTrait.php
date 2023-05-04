@@ -65,7 +65,7 @@ trait PostServiceTrait
         $info['latestCommentDatetime'] = $postData->latest_comment_at;
         $info['latestCommentTimeAgo'] = $postData->latest_comment_at;
         $info['rankState'] = $postData->rank_state;
-        $info['status'] = (bool) $postData->is_enable;
+        $info['status'] = (bool) $postData->is_enabled;
 
         $info['allowConfig'] = [
             'isAllow' => (bool) $appendData->is_allow,

@@ -34,7 +34,7 @@ class Group extends Model
     use Traits\LangNameTrait;
     use Traits\LangDescriptionTrait;
     use Traits\GroupServiceTrait;
-    use Traits\IsEnableTrait;
+    use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
 
     protected $casts = [

@@ -298,7 +298,7 @@ class PermissionUtility
         }
 
         // Current user has been banned
-        if (! $receiveUser->is_enable) {
+        if (! $receiveUser->is_enabled) {
             return 35202;
         }
 
@@ -730,13 +730,13 @@ class PermissionUtility
                 ->where('plugin_fskey', $fskey)
                 ->where('group_id', $groupId)
                 ->where('is_group_admin', true)
-                ->where('is_enable', true)
+                ->where('is_enabled', true)
                 ->get();
         } else {
             $usages = PluginUsage::where('usage_type', $usageType)
                 ->where('plugin_fskey', $fskey)
                 ->where('is_group_admin', true)
-                ->where('is_enable', true)
+                ->where('is_enabled', true)
                 ->get();
         }
 
@@ -761,13 +761,13 @@ class PermissionUtility
                 ->where('plugin_fskey', $fskey)
                 ->where('group_id', $groupId)
                 ->where('is_group_admin', false)
-                ->where('is_enable', true)
+                ->where('is_enabled', true)
                 ->get();
         } else {
             $usages = PluginUsage::where('usage_type', $usageType)
                 ->where('plugin_fskey', $fskey)
                 ->where('is_group_admin', false)
-                ->where('is_enable', true)
+                ->where('is_enabled', true)
                 ->get();
         }
 

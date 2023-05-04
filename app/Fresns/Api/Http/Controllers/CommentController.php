@@ -75,12 +75,12 @@ class CommentController extends Controller
             });
         }
 
-        // is enable
+        // is enabled
         $commentQuery->where(function ($query) use ($authUserId) {
-            $query->where('is_enable', true);
+            $query->where('is_enabled', true);
             if ($authUserId) {
                 $query->orWhere(function ($query) use ($authUserId) {
-                    $query->where('is_enable', false)->where('user_id', $authUserId);
+                    $query->where('is_enabled', false)->where('user_id', $authUserId);
                 });
             }
         });
@@ -115,7 +115,7 @@ class CommentController extends Controller
                 throw new ApiException(37300);
             }
 
-            if (! $viewPost->is_enable && $viewPost->user_id != $authUserId) {
+            if (! $viewPost->is_enabled && $viewPost->user_id != $authUserId) {
                 throw new ApiException(37301);
             }
 
@@ -132,9 +132,9 @@ class CommentController extends Controller
 
             $outputReplyToPost = false;
         } else {
-            // user is enable
+            // user is enabled
             $commentQuery->whereHas('creator', function ($query) {
-                $query->where('is_enable', true);
+                $query->where('is_enabled', true);
             });
         }
 
@@ -148,7 +148,7 @@ class CommentController extends Controller
                 throw new ApiException(37400);
             }
 
-            if (! $viewComment->is_enable) {
+            if (! $viewComment->is_enabled) {
                 throw new ApiException(37401);
             }
 
@@ -173,7 +173,7 @@ class CommentController extends Controller
                 throw new ApiException(37100);
             }
 
-            if (! $viewGroup->is_enable) {
+            if (! $viewGroup->is_enabled) {
                 throw new ApiException(37101);
             }
 
@@ -209,7 +209,7 @@ class CommentController extends Controller
                 throw new ApiException(37200);
             }
 
-            if (! $viewHashtag->is_enable) {
+            if (! $viewHashtag->is_enabled) {
                 throw new ApiException(37201);
             }
 
@@ -427,8 +427,8 @@ class CommentController extends Controller
             throw new ApiException(35203);
         }
 
-        // check is enable
-        if (! $comment->is_enable && $comment->user_id != $authUserId) {
+        // check is enabled
+        if (! $comment->is_enabled && $comment->user_id != $authUserId) {
             throw new ApiException(37401);
         }
 
@@ -489,8 +489,8 @@ class CommentController extends Controller
             throw new ApiException(35203);
         }
 
-        // check is enable
-        if (! $comment->is_enable && $comment->user_id != $authUserId) {
+        // check is enabled
+        if (! $comment->is_enabled && $comment->user_id != $authUserId) {
             throw new ApiException(37401);
         }
 
@@ -529,8 +529,8 @@ class CommentController extends Controller
             throw new ApiException(35203);
         }
 
-        // check is enable
-        if (! $comment->is_enable && $comment->user_id != $authUserId) {
+        // check is enabled
+        if (! $comment->is_enabled && $comment->user_id != $authUserId) {
             throw new ApiException(37401);
         }
 
@@ -565,8 +565,8 @@ class CommentController extends Controller
             throw new ApiException(35203);
         }
 
-        // check is enable
-        if (! $comment->is_enable && $comment->user_id != $authUserId) {
+        // check is enabled
+        if (! $comment->is_enabled && $comment->user_id != $authUserId) {
             throw new ApiException(37401);
         }
 

@@ -23,7 +23,7 @@ class StickerController extends Controller
         $stickerImage->rating = $request->rating;
         $stickerImage->code = $request->code;
         $stickerImage->name = $request->code;
-        $stickerImage->is_enable = $request->is_enable;
+        $stickerImage->is_enabled = $request->is_enabled;
         $stickerImage->image_file_url = $request->image_file_url ?: '';
         $stickerImage->type = 1;
         $stickerImage->save();
@@ -54,7 +54,7 @@ class StickerController extends Controller
 
     public function update(Sticker $stickerImage, Request $request)
     {
-        $stickerImage->is_enable = $request->is_enable;
+        $stickerImage->is_enabled = $request->is_enabled;
         $stickerImage->save();
 
         return $this->updateSuccess();
@@ -83,7 +83,7 @@ class StickerController extends Controller
                 continue;
             }
             $stickerImage->rating = $rating;
-            $stickerImage->is_enable = $request->enable[$id] ?? 0;
+            $stickerImage->is_enabled = $request->enable[$id] ?? 0;
             $stickerImage->save();
         }
 

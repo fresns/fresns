@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
 
         foreach ($crontabItems as $cron) {
             if ($cron['fskey'] !== 'Fresns') {
-                $plugin = Plugin::where('fskey', $cron['fskey'])->isEnable()->first();
+                $plugin = Plugin::where('fskey', $cron['fskey'])->isEnabled()->first();
 
                 if (empty($plugin)) {
                     continue;

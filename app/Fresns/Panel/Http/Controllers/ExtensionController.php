@@ -23,22 +23,22 @@ class ExtensionController extends Controller
         AppUtility::checkPluginsStatus(1);
         $plugins = Plugin::type(1);
 
-        $isEnable = match ($request->status) {
+        $isEnabled = match ($request->status) {
             'active' => 1,
             'inactive' => 0,
             default => null,
         };
 
-        if (! is_null($isEnable)) {
-            $plugins->isEnable($isEnable);
+        if (! is_null($isEnabled)) {
+            $plugins->isEnabled($isEnabled);
         }
 
         $plugins = $plugins->latest()->get();
 
-        $enableCount = Plugin::type(1)->isEnable()->count();
-        $disableCount = Plugin::type(1)->isEnable(false)->count();
+        $enableCount = Plugin::type(1)->isEnabled()->count();
+        $disableCount = Plugin::type(1)->isEnabled(false)->count();
 
-        return view('FsView::extensions.plugins', compact('plugins', 'enableCount', 'disableCount', 'isEnable'));
+        return view('FsView::extensions.plugins', compact('plugins', 'enableCount', 'disableCount', 'isEnabled'));
     }
 
     public function panelIndex(Request $request)
@@ -46,22 +46,22 @@ class ExtensionController extends Controller
         AppUtility::checkPluginsStatus(2);
         $panels = Plugin::type(2);
 
-        $isEnable = match ($request->status) {
+        $isEnabled = match ($request->status) {
             'active' => 1,
             'inactive' => 0,
             default => null,
         };
 
-        if ($isEnable) {
-            $panels->isEnable($isEnable);
+        if ($isEnabled) {
+            $panels->isEnabled($isEnabled);
         }
 
         $panels = $panels->latest()->get();
 
-        $enableCount = Plugin::type(2)->isEnable()->count();
-        $disableCount = Plugin::type(2)->where('is_enable', 0)->count();
+        $enableCount = Plugin::type(2)->isEnabled()->count();
+        $disableCount = Plugin::type(2)->where('is_enabled', 0)->count();
 
-        return view('FsView::extensions.panels', compact('panels', 'enableCount', 'disableCount', 'isEnable'));
+        return view('FsView::extensions.panels', compact('panels', 'enableCount', 'disableCount', 'isEnabled'));
     }
 
     public function engineIndex()
@@ -95,7 +95,7 @@ class ExtensionController extends Controller
 
     public function updateDefaultEngine(Request $request)
     {
-        if ($request->get('is_enable') != 0) {
+        if ($request->get('is_enabled') != 0) {
             Config::where('item_key', 'FresnsEngine')->update([
                 'item_value' => 'true',
             ]);
@@ -267,7 +267,7 @@ class ExtensionController extends Controller
 
     public function update(Request $request)
     {
-        if ($request->get('is_enable') != 0) {
+        if ($request->get('is_enabled') != 0) {
             $exitCode = Artisan::call('market:activate', ['fskey' => $request->plugin]);
         } else {
             $exitCode = Artisan::call('market:deactivate', ['fskey' => $request->plugin]);

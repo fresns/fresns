@@ -31,7 +31,7 @@
             <div class="col-lg-3">
                 <div class="list-group">
                     @foreach ($categories as $category)
-                        @if ($category['is_enable'])
+                        @if ($category['is_enabled'])
                             <!--category activate-->
                             <a href="{{ route('panel.groups.index', ['parent_id' => $category->id]) }}" class="list-group-item list-group-item-action {{ $category->id == $parentId ? 'active' : '' }} d-flex justify-content-between align-items-center">
                                 <input type="number" class="form-control input-number rating-number" data-action="{{ route('panel.groups.rating.update', $category->id) }}" value="{{ $category->rating }}" style="width:50px;">
@@ -121,7 +121,7 @@
                                 <td><span class="badge bg-light text-dark">{{ $permissionLabels[$group->permissions['publish_post'] ?? 0] ?? '' }}</span></td>
                                 <td><span class="badge bg-light text-dark">{{ $permissionLabels[$group->permissions['publish_comment'] ?? 0] ?? '' }}</span></td>
                                 <td>
-                                    <form action="{{ route('panel.groups.enable.update', ['group' => $group->id, 'is_enable' => 0]) }}" method="post">
+                                    <form action="{{ route('panel.groups.enable.update', ['group' => $group->id, 'is_enabled' => 0]) }}" method="post">
                                         @csrf
                                         @method('put')
                                         <button type="button" class="btn btn-outline-primary btn-sm"
@@ -219,11 +219,11 @@
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_status') }}</label>
                             <div class="col-sm-9 pt-2">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_enable" id="cat_status_true" value="1" checked>
+                                    <input class="form-check-input" type="radio" name="is_enabled" id="cat_status_true" value="1" checked>
                                     <label class="form-check-label" for="cat_status_true">{{ __('FsLang::panel.option_activate') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_enable" id="cat_status_false" value="0">
+                                    <input class="form-check-input" type="radio" name="is_enabled" id="cat_status_false" value="0">
                                     <label class="form-check-label" for="cat_status_false">{{ __('FsLang::panel.option_deactivate') }}</label>
                                 </div>
                             </div>

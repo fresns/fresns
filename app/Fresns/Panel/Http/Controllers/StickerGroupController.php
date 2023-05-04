@@ -35,7 +35,7 @@ class StickerGroupController extends Controller
     {
         $sticker->rating = $request->rating;
         $sticker->code = $request->code;
-        $sticker->is_enable = $request->is_enable;
+        $sticker->is_enabled = $request->is_enabled;
         $sticker->image_file_url = $request->image_file_url ?: '';
         $sticker->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $sticker->type = 2;
@@ -93,7 +93,7 @@ class StickerGroupController extends Controller
     {
         $sticker->rating = $request->rating;
         $sticker->code = $request->code;
-        $sticker->is_enable = $request->is_enable;
+        $sticker->is_enabled = $request->is_enabled;
         $sticker->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
 
         if ($request->file('image_file')) {

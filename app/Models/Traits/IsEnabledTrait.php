@@ -8,10 +8,10 @@
 
 namespace App\Models\Traits;
 
-trait IsEnableTrait
+trait IsEnabledTrait
 {
-    public function scopeIsEnable($query, bool $isEnable = true): mixed
+    public function scopeIsEnabled($query, bool $isEnabled = true): mixed
     {
-        return $query->where('is_enable', $isEnable);
+        return $query->where('is_enabled', $isEnabled);
     }
 }

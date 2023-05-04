@@ -79,7 +79,7 @@ class CommonController extends Controller
                     $userQuery = User::where('username', 'like', "%$dtoRequest->key%");
                 }
 
-                $users = $userQuery->orWhere('nickname', 'like', "%$dtoRequest->key%")->isEnable()->limit(10)->get();
+                $users = $userQuery->orWhere('nickname', 'like', "%$dtoRequest->key%")->isEnabled()->limit(10)->get();
 
                 $data = [];
                 if ($users) {
@@ -107,7 +107,7 @@ class CommonController extends Controller
                 if ($tipQuery) {
                     $groupIds = array_unique($tipQuery);
 
-                    $groupQuery = Language::whereIn('id', $groupIds)->isEnable()->get();
+                    $groupQuery = Language::whereIn('id', $groupIds)->isEnabled()->get();
 
                     foreach ($groupQuery as $group) {
                         $item['fsid'] = $group->gid;
@@ -121,7 +121,7 @@ class CommonController extends Controller
                 break;
 
             case 'hashtag':
-                $hashtagQuery = Hashtag::where('name', 'like', "%$dtoRequest->key%")->isEnable()->limit(10)->get();
+                $hashtagQuery = Hashtag::where('name', 'like', "%$dtoRequest->key%")->isEnabled()->limit(10)->get();
 
                 $data = [];
                 if ($hashtagQuery) {
@@ -137,7 +137,7 @@ class CommonController extends Controller
                 break;
 
             case 'post':
-                $postQuery = Post::where('title', 'like', "%$dtoRequest->key%")->isEnable()->limit(10)->get();
+                $postQuery = Post::where('title', 'like', "%$dtoRequest->key%")->isEnabled()->limit(10)->get();
 
                 $data = [];
                 if ($postQuery) {
@@ -153,7 +153,7 @@ class CommonController extends Controller
                 break;
 
             case 'comment':
-                $commentQuery = Comment::where('content', 'like', "%$dtoRequest->key%")->isEnable()->limit(10)->get();
+                $commentQuery = Comment::where('content', 'like', "%$dtoRequest->key%")->isEnabled()->limit(10)->get();
 
                 $data = [];
                 if ($commentQuery) {
@@ -181,7 +181,7 @@ class CommonController extends Controller
                 if ($tipQuery) {
                     $extendIds = array_unique($tipQuery);
 
-                    $extendQuery = Extend::whereIn('id', $extendIds)->isEnable()->get();
+                    $extendQuery = Extend::whereIn('id', $extendIds)->isEnabled()->get();
 
                     foreach ($extendQuery as $extend) {
                         $item['fsid'] = $extend->eid;
@@ -209,7 +209,7 @@ class CommonController extends Controller
             throw new ApiException(32101);
         }
 
-        if (! $plugin->is_enable) {
+        if (! $plugin->is_enabled) {
             throw new ApiException(32102);
         }
 
@@ -396,7 +396,7 @@ class CommonController extends Controller
             throw new ApiException(32100);
         }
 
-        $servicePlugin = Plugin::where('fskey', $storageConfig['service'])->isEnable()->first();
+        $servicePlugin = Plugin::where('fskey', $storageConfig['service'])->isEnabled()->first();
 
         if (! $servicePlugin) {
             throw new ApiException(32102);
@@ -647,7 +647,7 @@ class CommonController extends Controller
             throw new ApiException(37500);
         }
 
-        if (! $file->is_enable) {
+        if (! $file->is_enabled) {
             throw new ApiException(37501);
         }
 
@@ -730,7 +730,7 @@ class CommonController extends Controller
             throw new ApiException(37500);
         }
 
-        if (! $file->is_enable) {
+        if (! $file->is_enabled) {
             throw new ApiException(37501);
         }
 

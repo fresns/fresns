@@ -11,7 +11,7 @@ namespace App\Models;
 class Post extends Model
 {
     use Traits\PostServiceTrait;
-    use Traits\IsEnableTrait;
+    use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
 
     const DIGEST_NO = 1;

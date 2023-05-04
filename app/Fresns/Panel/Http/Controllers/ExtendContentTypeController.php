@@ -35,7 +35,7 @@ class ExtendContentTypeController extends Controller
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->scene = $request->scene ? implode(',', $request->scene) : '';
         $pluginUsage->plugin_fskey = $request->plugin_fskey;
-        $pluginUsage->is_enable = $request->is_enable;
+        $pluginUsage->is_enabled = $request->is_enabled;
         $pluginUsage->rating = $request->rating;
         $pluginUsage->can_delete = 1;
         $pluginUsage->data_sources = [
@@ -89,7 +89,7 @@ class ExtendContentTypeController extends Controller
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->scene = $request->scene ? implode(',', $request->scene) : '';
         $pluginUsage->plugin_fskey = $request->plugin_fskey;
-        $pluginUsage->is_enable = $request->is_enable;
+        $pluginUsage->is_enabled = $request->is_enabled;
         $pluginUsage->rating = $request->rating;
         $dataSources = $pluginUsage->data_sources;
 

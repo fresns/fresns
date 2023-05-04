@@ -25,7 +25,7 @@ class PluginUsage extends Model
 
     use Traits\LangNameTrait;
     use Traits\PluginUsageServiceTrait;
-    use Traits\IsEnableTrait;
+    use Traits\IsEnabledTrait;
 
     protected $casts = [
         'data_sources' => 'json',

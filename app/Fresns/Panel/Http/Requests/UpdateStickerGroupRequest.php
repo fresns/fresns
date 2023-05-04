@@ -21,7 +21,7 @@ class UpdateStickerGroupRequest extends FormRequest
     {
         $rule = [
             'rating' => 'string|required',
-            'is_enable' => 'boolean|required',
+            'is_enabled' => 'boolean|required',
         ];
         if ($this->method() == 'POST') {
             $rule['code'] = [

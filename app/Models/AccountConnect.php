@@ -10,7 +10,7 @@ namespace App\Models;
 
 class AccountConnect extends Model
 {
-    use Traits\IsEnableTrait;
+    use Traits\IsEnabledTrait;
 
     protected $casts = [
         'more_json' => 'json',

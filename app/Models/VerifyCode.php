@@ -19,7 +19,7 @@ class VerifyCode extends Model
     const TEMPLATE_LOGIN = 7;
     const TEMPLATE_DELETE_ACCOUNT = 8;
 
-    use Traits\IsEnableTrait;
+    use Traits\IsEnabledTrait;
 
     protected $dates = [
         'expired_at',

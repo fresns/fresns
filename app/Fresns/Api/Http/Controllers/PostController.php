@@ -125,19 +125,19 @@ class PostController extends Controller
             });
         });
 
-        // is enable
+        // is enabled
         $postQuery->where(function ($query) use ($authUserId) {
-            $query->where('is_enable', true);
+            $query->where('is_enabled', true);
             if ($authUserId) {
                 $query->orWhere(function ($query) use ($authUserId) {
-                    $query->where('is_enable', false)->where('user_id', $authUserId);
+                    $query->where('is_enabled', false)->where('user_id', $authUserId);
                 });
             }
         });
 
-        // user is enable
+        // user is enabled
         $postQuery->whereHas('creator', function ($query) {
-            $query->where('is_enable', true);
+            $query->where('is_enabled', true);
         });
 
         if ($dtoRequest->uidOrUsername) {
@@ -164,7 +164,7 @@ class PostController extends Controller
             }
 
             // group disable
-            if (! $viewGroup->is_enable) {
+            if (! $viewGroup->is_enabled) {
                 throw new ApiException(37101);
             }
 
@@ -197,7 +197,7 @@ class PostController extends Controller
             }
 
             // hashtag disable
-            if (! $viewHashtag->is_enable) {
+            if (! $viewHashtag->is_enabled) {
                 throw new ApiException(37201);
             }
 
@@ -385,8 +385,8 @@ class PostController extends Controller
             throw new ApiException(35203);
         }
 
-        // check is enable
-        if (! $post->is_enable && $post->user_id != $authUserId) {
+        // check is enabled
+        if (! $post->is_enabled && $post->user_id != $authUserId) {
             throw new ApiException(37301);
         }
 
@@ -443,8 +443,8 @@ class PostController extends Controller
             throw new ApiException(35203);
         }
 
-        // check is enable
-        if (! $post->is_enable && $post->user_id != $authUserId) {
+        // check is enabled
+        if (! $post->is_enabled && $post->user_id != $authUserId) {
             throw new ApiException(37301);
         }
 
@@ -479,8 +479,8 @@ class PostController extends Controller
             throw new ApiException(35203);
         }
 
-        // check is enable
-        if (! $post->is_enable && $post->user_id != $authUserId) {
+        // check is enabled
+        if (! $post->is_enabled && $post->user_id != $authUserId) {
             throw new ApiException(37301);
         }
 
@@ -516,8 +516,8 @@ class PostController extends Controller
             throw new ApiException(35203);
         }
 
-        // check is enable
-        if (! $post->is_enable && $post->user_id != $authUserId) {
+        // check is enabled
+        if (! $post->is_enabled && $post->user_id != $authUserId) {
             throw new ApiException(37301);
         }
 
@@ -555,19 +555,19 @@ class PostController extends Controller
             });
         });
 
-        // is enable
+        // is enabled
         $postQuery->where(function ($query) use ($authUserId) {
-            $query->where('is_enable', true);
+            $query->where('is_enabled', true);
             if ($authUserId) {
                 $query->orWhere(function ($query) use ($authUserId) {
-                    $query->where('is_enable', false)->where('user_id', $authUserId);
+                    $query->where('is_enabled', false)->where('user_id', $authUserId);
                 });
             }
         });
 
-        // user is enable
+        // user is enabled
         $postQuery->whereHas('creator', function ($query) {
-            $query->where('is_enable', true);
+            $query->where('is_enabled', true);
         });
 
         // date limit
@@ -606,8 +606,8 @@ class PostController extends Controller
             throw new ApiException(35203);
         }
 
-        // check is enable
-        if (! $post->is_enable && $post->user_id != $authUserId) {
+        // check is enabled
+        if (! $post->is_enabled && $post->user_id != $authUserId) {
             throw new ApiException(37301);
         }
 
@@ -637,7 +637,7 @@ class PostController extends Controller
             throw new ApiException(37300);
         }
 
-        if (! $post->is_enable && $post->user_id != $authUserId) {
+        if (! $post->is_enabled && $post->user_id != $authUserId) {
             throw new ApiException(37301);
         }
 

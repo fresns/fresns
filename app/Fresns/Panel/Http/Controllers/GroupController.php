@@ -57,7 +57,7 @@ class GroupController extends Controller
             $groups = Group::typeGroup()
                 ->orderBy('rating')
                 ->where('parent_id', $parentId)
-                ->isEnable()
+                ->isEnabled()
                 ->with('creator', 'followByPlugin', 'names', 'descriptions', 'admins')
                 ->paginate();
         }
@@ -86,7 +86,7 @@ class GroupController extends Controller
     {
         $groups = Group::typeGroup()
             ->where('parent_id', $request->category_id)
-            ->isEnable()
+            ->isEnabled()
             ->get();
 
         return response()->json($groups);
@@ -104,7 +104,7 @@ class GroupController extends Controller
             ->orderBy('recommend_rating')
             ->with('creator', 'followByPlugin', 'category', 'admins')
             ->where('is_recommend', 1)
-            ->isEnable()
+            ->isEnabled()
             ->paginate();
 
         $plugins = Plugin::all();
@@ -135,7 +135,7 @@ class GroupController extends Controller
             ->get();
 
         $groups = Group::typeGroup()
-            ->where('is_enable', 0)
+            ->where('is_enabled', 0)
             ->orderBy('rating')
             ->with('creator', 'followByPlugin', 'category')
             ->paginate();
@@ -171,8 +171,8 @@ class GroupController extends Controller
             $group->parent_id = 0;
             $group->type = 1;
             $group->permissions = [];
-            if ($request->has('is_enable')) {
-                $group->is_enable = $request->is_enable;
+            if ($request->has('is_enabled')) {
+                $group->is_enabled = $request->is_enabled;
             }
         } else {
             $group->parent_id = $request->parent_id;
@@ -304,8 +304,8 @@ class GroupController extends Controller
         // group category
         if ($request->is_category) {
             $group->permissions = [];
-            if ($request->has('is_enable')) {
-                $group->is_enable = $request->is_enable;
+            if ($request->has('is_enabled')) {
+                $group->is_enabled = $request->is_enabled;
             }
         } else {
             $group->parent_id = $request->parent_id;
@@ -439,7 +439,7 @@ class GroupController extends Controller
 
     public function updateEnable(Group $group, Request $request)
     {
-        $group->is_enable = $request->is_enable ?: 0;
+        $group->is_enabled = $request->is_enabled ?: 0;
         $group->save();
 
         return $this->updateSuccess();

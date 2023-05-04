@@ -192,7 +192,7 @@ class GlobalController extends Controller
                     $query->where('plugin_fskey', $value);
                 })
                 ->where('usage_group_id', 0)
-                ->isEnable()
+                ->isEnabled()
                 ->orderBy('rating')
                 ->get();
 
@@ -247,7 +247,7 @@ class GlobalController extends Controller
         $roleQuery = Role::orderBy('rating');
 
         if (isset($dtoRequest->status)) {
-            $roleQuery->where('is_enable', $dtoRequest->status);
+            $roleQuery->where('is_enabled', $dtoRequest->status);
         }
 
         if ($dtoRequest->ids) {
@@ -275,7 +275,7 @@ class GlobalController extends Controller
             $item['icon'] = FileHelper::fresnsFileUrlByTableColumn($role->icon_file_id, $role->icon_file_url);
             $item['iconDisplay'] = (bool) $role->is_display_icon;
             $item['permissions'] = $permissions;
-            $item['status'] = (bool) $role->is_enable;
+            $item['status'] = (bool) $role->is_enabled;
             $roleList[] = $item;
         }
 
@@ -321,7 +321,7 @@ class GlobalController extends Controller
         $stickerTree = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($stickerTree)) {
-            $stickers = Sticker::isEnable()->orderBy('rating')->get();
+            $stickers = Sticker::isEnabled()->orderBy('rating')->get();
 
             $stickerData = [];
             foreach ($stickers as $index => $sticker) {

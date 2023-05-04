@@ -46,7 +46,7 @@ class GroupController extends Controller
                 ->when($groupFilterIds, function ($query, $value) {
                     $query->whereNotIn('id', $value);
                 })
-                ->isEnable()
+                ->isEnabled()
                 ->orderBy('recommend_rating')
                 ->orderBy('rating')
                 ->get();
@@ -82,7 +82,7 @@ class GroupController extends Controller
                 ->when($groupFilterIds, function ($query, $value) {
                     $query->whereNotIn('id', $value);
                 })
-                ->isEnable()
+                ->isEnabled()
                 ->orderBy('recommend_rating')
                 ->orderBy('rating')
                 ->get();
@@ -104,7 +104,7 @@ class GroupController extends Controller
     {
         $langTag = $this->langTag();
 
-        $groupQuery = Group::where('type', Group::TYPE_CATEGORY)->orderBy('rating')->isEnable();
+        $groupQuery = Group::where('type', Group::TYPE_CATEGORY)->orderBy('rating')->isEnabled();
 
         $categories = $groupQuery->paginate($request->get('pageSize', 30));
 
@@ -126,7 +126,7 @@ class GroupController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $groupQuery = Group::where('type', '!=', Group::TYPE_CATEGORY)->isEnable();
+        $groupQuery = Group::where('type', '!=', Group::TYPE_CATEGORY)->isEnabled();
 
         $groupFilterIds = PermissionUtility::getGroupFilterIds($authUserId);
         $groupQuery->when($groupFilterIds, function ($query, $value) {
@@ -146,7 +146,7 @@ class GroupController extends Controller
                 throw new ApiException(37100);
             }
 
-            if (! $parentGroup->is_enable) {
+            if (! $parentGroup->is_enabled) {
                 throw new ApiException(37101);
             }
 
@@ -296,7 +296,7 @@ class GroupController extends Controller
             throw new ApiException(37100);
         }
 
-        if (! $group->is_enable) {
+        if (! $group->is_enabled) {
             throw new ApiException(37101);
         }
 
@@ -329,7 +329,7 @@ class GroupController extends Controller
     // interaction
     public function interaction(string $gid, string $type, Request $request)
     {
-        $group = Group::where('gid', $gid)->isEnable()->first();
+        $group = Group::where('gid', $gid)->isEnabled()->first();
         if (empty($group)) {
             throw new ApiException(37100);
         }

@@ -554,7 +554,7 @@ class AccountController extends Controller
         $walletLogQuery = AccountWalletLog::with(['user'])->where('account_id', $authAccount->id)->orderBy('created_at', 'desc');
 
         if (isset($dtoRequest->status)) {
-            $walletLogQuery->where('is_enable', $dtoRequest->status);
+            $walletLogQuery->where('is_enabled', $dtoRequest->status);
         }
 
         if ($dtoRequest->type) {
@@ -579,7 +579,7 @@ class AccountController extends Controller
             $item['remark'] = $log->remark;
             $item['user'] = $log?->user ? $service->userData($log?->user, 'list', $langTag, $timezone, $authUser?->id) : null;
             $item['fskey'] = $log->plugin_fskey;
-            $item['status'] = (bool) $log->is_enable;
+            $item['status'] = (bool) $log->is_enabled;
 
             $logList[] = $item;
         }
@@ -608,7 +608,7 @@ class AccountController extends Controller
             'type' => $codeType,
             'account' => $accountName,
             'code' => $dtoRequest->verifyCode,
-            'is_enable' => true,
+            'is_enabled' => true,
         ];
         $verifyInfo = VerifyCode::where($term)->where('expired_at', '>', now())->first();
 
@@ -625,12 +625,12 @@ class AccountController extends Controller
         $dtoRequest = new AccountEditDTO($request->all());
         $authAccount = $this->account();
 
-        if (! $authAccount->is_enable) {
+        if (! $authAccount->is_enabled) {
             throw new ApiException(34307);
         }
 
         $authUser = $this->user();
-        if ($authUser && ! $authUser?->is_enable) {
+        if ($authUser && ! $authUser?->is_enabled) {
             throw new ApiException(35202);
         }
 

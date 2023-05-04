@@ -210,7 +210,7 @@ class ContentUtility
         $linkList = [];
         foreach ($hashtagArr as $hashtagName) {
             $hashtagData = $hashtagDataList->where('slug', StrHelper::slug($hashtagName))->first();
-            if (empty($hashtagData) || ! $hashtagData->is_enable) {
+            if (empty($hashtagData) || ! $hashtagData->is_enabled) {
                 continue;
             }
 
@@ -592,7 +592,7 @@ class ContentUtility
                 $roleItem['nameDisplay'] = (bool) $role->is_display_name;
                 $roleItem['icon'] = FileHelper::fresnsFileUrlByTableColumn($role->icon_file_id, $role->icon_file_url);
                 $roleItem['iconDisplay'] = (bool) $role->is_display_icon;
-                $roleItem['status'] = (bool) $role->is_enable;
+                $roleItem['status'] = (bool) $role->is_enabled;
                 $roleList[] = $roleItem;
             }
             $permissions['roles'] = $roleList;

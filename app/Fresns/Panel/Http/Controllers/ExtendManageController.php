@@ -44,7 +44,7 @@ class ExtendManageController extends Controller
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->parameter = $request->parameter;
-        $pluginUsage->is_enable = $request->is_enable;
+        $pluginUsage->is_enabled = $request->is_enabled;
         $pluginUsage->rating = $request->rating;
         $pluginUsage->is_group_admin = $request->is_group_admin;
         $pluginUsage->roles = ($request->is_group_admin == 0 && $request->roles) ? implode(',', $request->roles) : '';
@@ -113,7 +113,7 @@ class ExtendManageController extends Controller
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->parameter = $request->parameter;
-        $pluginUsage->is_enable = $request->is_enable;
+        $pluginUsage->is_enabled = $request->is_enabled;
         $pluginUsage->rating = $request->rating;
         $pluginUsage->is_group_admin = $request->is_group_admin;
         $pluginUsage->roles = ($request->is_group_admin == 0 && $request->roles) ? implode(',', $request->roles) : '';

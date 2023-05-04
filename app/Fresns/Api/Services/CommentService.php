@@ -391,7 +391,7 @@ class CommentService
         if (empty($commentList)) {
             $previewSortConfig = ConfigHelper::fresnsConfigByItemKey('preview_sub_comment_sort');
 
-            $commentQuery = Comment::with(['creator'])->has('creator')->where('top_parent_id', $commentId)->isEnable();
+            $commentQuery = Comment::with(['creator'])->has('creator')->where('top_parent_id', $commentId)->isEnabled();
 
             if ($previewSortConfig == 'like') {
                 $commentQuery->orderByDesc('like_count');

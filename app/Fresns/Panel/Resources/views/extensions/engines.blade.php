@@ -59,7 +59,7 @@
                             </span>
                         </td>
                         <td class="text-center">
-                            @if ($engine->is_enable)
+                            @if ($engine->is_enabled)
                                 <button type="button" class="btn btn-outline-secondary btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['plugin' => $engine->fskey]) }}" data-enable="0">{{ __('FsLang::panel.button_deactivate') }}</button>
                                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                     data-action="{{ route('panel.engine.theme.update', ['fskey' => $engine->fskey]) }}"

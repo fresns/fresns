@@ -10,7 +10,7 @@ namespace App\Models;
 
 class Domain extends Model
 {
-    use Traits\IsEnableTrait;
+    use Traits\IsEnabledTrait;
 
     public function links()
     {

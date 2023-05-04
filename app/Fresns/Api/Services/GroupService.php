@@ -49,7 +49,7 @@ class GroupService
             $postArchiveData = Archive::type(Archive::TYPE_GROUP)
                 ->where('usage_group_id', $group->id)
                 ->where('usage_group_content_type', 1)
-                ->isEnable()
+                ->isEnabled()
                 ->orderBy('rating')
                 ->get();
             $contentMetaPost = [];
@@ -60,7 +60,7 @@ class GroupService
             $commentArchiveData = Archive::type(Archive::TYPE_GROUP)
                 ->where('usage_group_id', $group->id)
                 ->where('usage_group_content_type', 2)
-                ->isEnable()
+                ->isEnabled()
                 ->orderBy('rating')
                 ->get();
             $contentMetaComment = [];

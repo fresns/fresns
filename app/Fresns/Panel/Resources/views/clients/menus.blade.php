@@ -85,7 +85,7 @@
                         <td>
                             <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#menuEdit"
                                 data-action="{{ route('panel.menus.update', ['key' => $key]) }}"
-                                data-is_enable="{{ optional($configs['menu_' . $key . '_status'])->item_value ?: 0 }}"
+                                data-is_enabled="{{ optional($configs['menu_' . $key . '_status'])->item_value ?: 0 }}"
                                 data-no_type="{{ $key == 'group' ? 0 : 1 }}"
                                 data-type="{{ optional($configs['menu_' . $key . '_type'] ?? [])->item_value }}"
                                 data-no_query_state="{{ $key == 'portal' ? 1 : 0 }}"
@@ -120,11 +120,11 @@
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_status') }}</label>
                             <div class="col-sm-9 pt-2">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_enable" id="status_true" value="1" checked>
+                                    <input class="form-check-input" type="radio" name="is_enabled" id="status_true" value="1" checked>
                                     <label class="form-check-label" for="status_true">{{ __('FsLang::panel.option_activate') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_enable" id="status_false" value="0">
+                                    <input class="form-check-input" type="radio" name="is_enabled" id="status_false" value="0">
                                     <label class="form-check-label" for="status_false">{{ __('FsLang::panel.option_deactivate') }}</label>
                                 </div>
                             </div>

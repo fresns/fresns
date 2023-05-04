@@ -392,7 +392,7 @@ $(document).ready(function () {
             name = button.data('name'),
             type = button.data('type'),
             isReadOnly = button.data('is_read_only'),
-            isEnable = button.data('is_enable'),
+            isEnabled = button.data('is_enabled'),
             pluginFskey = button.data('plugin_fskey'),
             action = button.data('action'),
             platformId = button.data('platform_id');
@@ -414,7 +414,7 @@ $(document).ready(function () {
             .find('input:radio[name=is_read_only][value="' + isReadOnly + '"]')
             .prop('checked', true);
         $(this)
-            .find('input:radio[name=is_enable][value="' + isEnable + '"]')
+            .find('input:radio[name=is_enabled][value="' + isEnabled + '"]')
             .prop('checked', true);
         $(this).find('#key_plugin').val(pluginFskey);
     });
@@ -513,7 +513,7 @@ $(document).ready(function () {
             action = button.data('action');
 
         let status = language.areaStatus ? 1 : 0;
-        let isEnable = language.isEnable ? 1 : 0;
+        let isEnabled = language.isEnabled ? 1 : 0;
 
         $(this).find('form').attr('action', action);
         $(this).find('input[name=rating]').val(language.rating);
@@ -551,7 +551,7 @@ $(document).ready(function () {
         $(this).find('input[name=time_format_month]').val(language.timeFormatMonth);
         $(this).find('input[name=time_format_year]').val(language.timeFormatYear);
         $(this)
-            .find('input:radio[name=is_enable][value="' + isEnable + '"]')
+            .find('input:radio[name=is_enabled][value="' + isEnabled + '"]')
             .prop('checked', true)
             .click();
     });
@@ -797,7 +797,7 @@ $(document).ready(function () {
         $(this).find('input[name=app_id]').val(configParams.appId);
         $(this).find('input[name=app_key]').val(configParams.appKey);
         $(this)
-            .find('input:radio[name=is_enable][value="' + params.is_enable + '"]')
+            .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
             .prop('checked', true)
             .click();
     });
@@ -846,7 +846,7 @@ $(document).ready(function () {
         $(this).find('input[name=rating]').val(params.rating);
         $(this).find('input[name=code]').val(params.code);
         $(this)
-            .find('input:radio[name=is_enable][value="' + params.is_enable + '"]')
+            .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
             .prop('checked', true)
             .click();
     });
@@ -877,7 +877,7 @@ $(document).ready(function () {
             stickerTemplate.find('.sticker-code').html(sticker.code);
 
             stickerTemplate.find('input.sticker-enable').attr('name', 'enable[' + sticker.id + ']');
-            if (sticker.is_enable) {
+            if (sticker.is_enabled) {
                 stickerTemplate.find('input.sticker-enable').attr('checked', 'checked');
             }
             $('#stickerList').append(stickerTemplate);
@@ -972,7 +972,7 @@ $(document).ready(function () {
             $(this).find('input[name=no_color]').prop('checked', true);
         }
         $(this)
-            .find('input:radio[name=is_enable][value="' + params.is_enable + '"]')
+            .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
             .prop('checked', true)
             .click();
     });
@@ -1031,7 +1031,7 @@ $(document).ready(function () {
             url: $(this).data('action'),
             data: {
                 _method: 'patch',
-                is_enable: $(this).data('enable')
+                is_enabled: $(this).data('enable')
             },
             success: function (response) {
                 window.tips(response.message);
@@ -1168,7 +1168,7 @@ $(document).ready(function () {
     $('#menuEdit').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget),
             action = button.data('action');
-            isEnable = button.data('is_enable');
+            isEnabled = button.data('is_enabled');
             noType = button.data('no_type');
             indexType = button.data('type');
             noQueryState = button.data('no_query_state');
@@ -1196,7 +1196,7 @@ $(document).ready(function () {
 
         $(this).find('form').attr('action', action);
         $(this)
-            .find('input:radio[name=is_enable][value="' + isEnable + '"]')
+            .find('input:radio[name=is_enabled][value="' + isEnabled + '"]')
             .prop('checked', true);
         $(this)
             .find('input:radio[name=index_type][value="' + indexType + '"]')
@@ -1279,7 +1279,7 @@ $(document).ready(function () {
             $(this).find('.name-button').text(params.name);
         }
         $(this)
-            .find('input:radio[name=is_enable][value="' + params.is_enable + '"]')
+            .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
             .prop('checked', true)
             .click();
     });
@@ -1304,7 +1304,7 @@ $(document).ready(function () {
         if (params) {
             $('#createCategoryModal').find('input[name=rating]').val(params.rating);
             $('#createCategoryModal')
-                .find('input:radio[name=is_enable][value="' + params.is_enable + '"]')
+                .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
                 .prop('checked', true);
 
             if (params.cover_file_url) {
@@ -1544,7 +1544,7 @@ $(document).ready(function () {
         form.find('select[name="permissions[publish_comment_roles][]"]')
             .val(params.permissions.publish_comment_roles)
             .change();
-        form.find('input:radio[name=is_enable][value="' + params.is_enable + '"]')
+        form.find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
             .prop('checked', true)
             .click();
 
@@ -1624,7 +1624,7 @@ $(document).ready(function () {
             .prop('checked', true)
             .click();
         $(this)
-            .find('input:radio[name=is_enable][value="' + params.is_enable + '"]')
+            .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
             .prop('checked', true)
             .click();
     });
@@ -1676,7 +1676,7 @@ $(document).ready(function () {
             $(this).find('.name-button').text(params.name);
         }
         $(this)
-            .find('input:radio[name=is_enable][value="' + params.is_enable + '"]')
+            .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
             .prop('checked', true)
             .click();
 
@@ -1722,7 +1722,7 @@ $(document).ready(function () {
             $(this).find('.name-button').text(params.name);
         }
         $(this)
-            .find('input:radio[name=is_enable][value="' + params.is_enable + '"]')
+            .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
             .prop('checked', true)
             .click();
     });
@@ -1757,7 +1757,7 @@ $(document).ready(function () {
             $(this).find('.name-button').text(params.name);
         }
         $(this)
-            .find('input:radio[name=is_enable][value="' + params.is_enable + '"]')
+            .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
             .prop('checked', true)
             .click();
     });
@@ -1824,7 +1824,7 @@ $(document).ready(function () {
             $(this).find('.name-button').text(params.name);
         }
         $(this)
-            .find('input:radio[name=is_enable][value="' + params.is_enable + '"]')
+            .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
             .prop('checked', true)
             .click();
 
@@ -1894,7 +1894,7 @@ $(document).ready(function () {
         }
 
         $(this)
-            .find('input:radio[name=is_enable][value="' + params.is_enable + '"]')
+            .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
             .prop('checked', true);
     });
 
@@ -2050,13 +2050,13 @@ $(document).ready(function () {
     $('#emailModal').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget);
         let languages = button.data('languages');
-        let isEnable = button.data('enable');
+        let isEnabled = button.data('enable');
         let action = button.data('action');
         let title = button.data('title');
 
         $(this).find('form').trigger('reset');
         $(this)
-            .find('input:radio[name=is_enable][value="' + isEnable + '"]')
+            .find('input:radio[name=is_enabled][value="' + isEnabled + '"]')
             .prop('checked', true);
         $(this).find('form').attr('action', action);
         $(this).find('.modal-title').text(title);
@@ -2076,13 +2076,13 @@ $(document).ready(function () {
     $('#smsModal').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget);
         let languages = button.data('languages');
-        let isEnable = button.data('enable');
+        let isEnabled = button.data('enable');
         let action = button.data('action');
         let title = button.data('title');
 
         $(this).find('form').trigger('reset');
         $(this)
-            .find('input:radio[name=is_enable][value="' + isEnable + '"]')
+            .find('input:radio[name=is_enabled][value="' + isEnabled + '"]')
             .prop('checked', true);
         $(this).find('form').attr('action', action);
         $(this).find('.modal-title').text(title);

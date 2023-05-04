@@ -30,7 +30,7 @@ class HashtagController extends Controller
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
 
-        $hashtagQuery = Hashtag::isEnable();
+        $hashtagQuery = Hashtag::isEnabled();
 
         $blockHashtagIds = InteractionUtility::getBlockIdArr(InteractionUtility::TYPE_HASHTAG, $authUserId);
         $hashtagQuery->when($blockHashtagIds, function ($query, $value) {
@@ -177,7 +177,7 @@ class HashtagController extends Controller
             throw new ApiException(37200);
         }
 
-        if (! $hashtag->is_enable) {
+        if (! $hashtag->is_enabled) {
             throw new ApiException(37201);
         }
 
@@ -201,7 +201,7 @@ class HashtagController extends Controller
     // interaction
     public function interaction(string $hid, string $type, Request $request)
     {
-        $hashtag = Hashtag::where('slug', $hid)->isEnable()->first();
+        $hashtag = Hashtag::where('slug', $hid)->isEnabled()->first();
         if (empty($hashtag)) {
             throw new ApiException(37200);
         }

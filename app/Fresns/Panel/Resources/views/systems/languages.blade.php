@@ -64,7 +64,7 @@
                         <td>{{ $language['areaName'] }}</td>
                         <td>{{ $language['lengthUnit'] }}</td>
                         <td>{{ $language['writingDirection'] }}</td>
-                        <td><i class="bi {{ $language['isEnable'] ? 'bi-check-lg text-success' : 'bi-dash-lg text-secondary' }} "></i></td>
+                        <td><i class="bi {{ $language['isEnabled'] ? 'bi-check-lg text-success' : 'bi-dash-lg text-secondary' }} "></i></td>
                         <td>
                             <form action="{{ route('panel.languageMenus.destroy', ['langTag' => $language['langTag']]) }}" method="post">
                                 @csrf
@@ -203,11 +203,11 @@
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_status') }}</label>
                             <div class="col-sm-9 pt-2">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_enable" id="create_language_status_true" value="1" checked>
+                                    <input class="form-check-input" type="radio" name="is_enabled" id="create_language_status_true" value="1" checked>
                                     <label class="form-check-label" for="language_status_true">{{ __('FsLang::panel.option_activate') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_enable" id="create_language_status_false" value="0">
+                                    <input class="form-check-input" type="radio" name="is_enabled" id="create_language_status_false" value="0">
                                     <label class="form-check-label" for="language_status_false">{{ __('FsLang::panel.option_deactivate') }}</label>
                                 </div>
                             </div>
@@ -348,11 +348,11 @@
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_status') }}</label>
                             <div class="col-sm-9 pt-2">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_enable" id="language_status_true" value="1" checked>
+                                    <input class="form-check-input" type="radio" name="is_enabled" id="language_status_true" value="1" checked>
                                     <label class="form-check-label" for="language_status_true">{{ __('FsLang::panel.option_activate') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_enable" id="language_status_false" value="0">
+                                    <input class="form-check-input" type="radio" name="is_enabled" id="language_status_false" value="0">
                                     <label class="form-check-label" for="language_status_false">{{ __('FsLang::panel.option_deactivate') }}</label>
                                 </div>
                             </div>

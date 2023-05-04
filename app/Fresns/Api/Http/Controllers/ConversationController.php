@@ -80,11 +80,11 @@ class ConversationController extends Controller
             $aMessages = conversationMessage::where('conversation_id', $conversation->id)
                 ->where('send_user_id', $authUser->id)
                 ->whereNull('send_deleted_at')
-                ->isEnable();
+                ->isEnabled();
             $bMessages = conversationMessage::where('conversation_id', $conversation->id)
                 ->where('receive_user_id', $authUser->id)
                 ->whereNull('receive_deleted_at')
-                ->isEnable();
+                ->isEnabled();
             $messageCount = $aMessages->union($bMessages)->count();
 
             $item['id'] = $conversation->id;
@@ -92,7 +92,7 @@ class ConversationController extends Controller
             $item['latestMessage'] = $latestMessage;
             $item['pinned'] = (bool) $pinned;
             $item['messageCount'] = $messageCount;
-            $item['unreadCount'] = conversationMessage::where('conversation_id', $conversation->id)->where('receive_user_id', $authUser->id)->whereNull('receive_read_at')->whereNull('receive_deleted_at')->isEnable()->count();
+            $item['unreadCount'] = conversationMessage::where('conversation_id', $conversation->id)->where('receive_user_id', $authUser->id)->whereNull('receive_read_at')->whereNull('receive_deleted_at')->isEnabled()->count();
 
             $list[] = $item;
         }
@@ -125,7 +125,7 @@ class ConversationController extends Controller
             ->where('receive_user_id', $authUser->id)
             ->whereNull('receive_read_at')
             ->whereNull('receive_deleted_at')
-            ->isEnable()
+            ->isEnabled()
             ->count();
 
         $userService = new UserService();
@@ -139,11 +139,11 @@ class ConversationController extends Controller
         $aMessages = conversationMessage::where('conversation_id', $conversation->id)
             ->where('send_user_id', $authUser->id)
             ->whereNull('send_deleted_at')
-            ->isEnable();
+            ->isEnabled();
         $bMessages = conversationMessage::where('conversation_id', $conversation->id)
             ->where('receive_user_id', $authUser->id)
             ->whereNull('receive_deleted_at')
-            ->isEnable();
+            ->isEnabled();
         $messageCount = $aMessages->union($bMessages)->count();
 
         // return
@@ -182,12 +182,12 @@ class ConversationController extends Controller
             ->where('conversation_id', $conversation->id)
             ->where('send_user_id', $authUser->id)
             ->whereNull('send_deleted_at')
-            ->isEnable();
+            ->isEnabled();
         $receiveMessages = ConversationMessage::with(['sendUser', 'file'])
             ->where('conversation_id', $conversation->id)
             ->where('receive_user_id', $authUser->id)
             ->whereNull('receive_deleted_at')
-            ->isEnable();
+            ->isEnabled();
 
         $orderDirection = match ($dtoRequest->orderDirection) {
             default => 'latest',
@@ -244,7 +244,7 @@ class ConversationController extends Controller
             throw new ApiException(31602);
         }
 
-        if (! $authUser->is_enable || ! $receiveUser->is_enable) {
+        if (! $authUser->is_enabled || ! $receiveUser->is_enabled) {
             throw new ApiException(35202);
         }
 

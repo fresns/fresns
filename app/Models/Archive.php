@@ -18,7 +18,7 @@ class Archive extends Model
     const TYPE_POST = 4;
     const TYPE_COMMENT = 5;
 
-    use Traits\IsEnableTrait;
+    use Traits\IsEnabledTrait;
 
     protected $casts = [
         'element_options' => 'array',

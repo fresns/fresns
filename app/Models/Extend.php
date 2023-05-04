@@ -19,7 +19,7 @@ class Extend extends Model
     const INFO_BOX_PORTRAIT = 3;
     const INFO_BOX_LANDSCAPE = 4;
 
-    use Traits\IsEnableTrait;
+    use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
     use Traits\ExtendServiceTrait;
 

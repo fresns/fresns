@@ -177,7 +177,7 @@ class Account
                     );
                 }
 
-                if (! $accountConnect->is_enable) {
+                if (! $accountConnect->is_enabled) {
                     return $this->failure(
                         34404,
                         ConfigUtility::getCodeMessage(34404, 'Fresns', $langTag),
@@ -260,7 +260,7 @@ class Account
             );
         }
 
-        if (empty($keyInfo) || ! $keyInfo->is_enable) {
+        if (empty($keyInfo) || ! $keyInfo->is_enabled) {
             return $this->failure(
                 31301,
                 ConfigUtility::getCodeMessage(31301, 'Fresns', $langTag),

@@ -78,7 +78,7 @@ trait FileServiceTrait
 
         $info['fid'] = $fileData->fid;
         $info['type'] = $fileData->type;
-        $info['status'] = (bool) $fileData->is_enable;
+        $info['status'] = (bool) $fileData->is_enabled;
         $info['substitutionImageUrl'] = ConfigHelper::fresnsConfigFileUrlByItemKey($substitutionConfig);
         $info['sensitive'] = (bool) $fileData->is_sensitive;
         $info['name'] = $fileData->name;

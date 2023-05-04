@@ -108,7 +108,7 @@ class ExtendUtility
     // get data extend
     public static function getDataExtend(string $contentType, string $dataType): ?string
     {
-        $dataConfig = PluginUsage::type(PluginUsage::TYPE_CONTENT)->where('plugin_fskey', $contentType)->isEnable()->value('data_sources');
+        $dataConfig = PluginUsage::type(PluginUsage::TYPE_CONTENT)->where('plugin_fskey', $contentType)->isEnabled()->value('data_sources');
 
         if (empty($dataConfig)) {
             return null;
@@ -116,7 +116,7 @@ class ExtendUtility
 
         $dataPluginFskey = $dataConfig[$dataType]['pluginFskey'] ?? null;
 
-        $dataPlugin = Plugin::where('fskey', $dataPluginFskey)->isEnable()->first();
+        $dataPlugin = Plugin::where('fskey', $dataPluginFskey)->isEnabled()->first();
 
         if (empty($dataPlugin)) {
             return null;
@@ -131,7 +131,7 @@ class ExtendUtility
         $operationQuery = OperationUsage::with('operation')->type($type)->where('usage_id', $id);
 
         $operationQuery->whereHas('operation', function ($query) {
-            $query->where('is_enable', true);
+            $query->where('is_enabled', true);
         });
 
         $operations = $operationQuery->get()->map(function ($operationUse) use ($langTag) {
@@ -162,7 +162,7 @@ class ExtendUtility
         $archiveQuery = ArchiveUsage::with('archive')->type($type)->where('usage_id', $id);
 
         $archiveQuery->whereHas('archive', function ($query) {
-            $query->where('is_enable', true)->orderBy('rating');
+            $query->where('is_enabled', true)->orderBy('rating');
         });
 
         $archiveUsages = $archiveQuery->get();
@@ -213,7 +213,7 @@ class ExtendUtility
         $extendQuery = ExtendUsage::with('extend')->type($type)->where('usage_id', $id)->orderBy('rating');
 
         $extendQuery->whereHas('extend', function ($query) {
-            $query->where('is_enable', true);
+            $query->where('is_enabled', true);
         });
 
         $extends = $extendQuery->get()->map(function ($extendUsage) use ($langTag) {

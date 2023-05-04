@@ -31,7 +31,7 @@ trait AccountServiceTrait
         $info['verifyIdentityType'] = $accountData->verify_identity_type;
         $info['verifyDateTime'] = $accountData->verify_at;
         $info['registerDateTime'] = $accountData->created_at;
-        $info['status'] = (bool) $accountData->is_enable;
+        $info['status'] = (bool) $accountData->is_enabled;
         $info['waitDelete'] = (bool) $accountData->wait_delete;
         $info['waitDeleteDateTime'] = $accountData->wait_delete_at;
 
@@ -48,7 +48,7 @@ trait AccountServiceTrait
             $item['username'] = $connect->connect_username;
             $item['nickname'] = $connect->connect_nickname;
             $item['avatar'] = $connect->connect_avatar;
-            $item['status'] = (bool) $connect->is_enable;
+            $item['status'] = (bool) $connect->is_enabled;
             $connectsItemArr[] = $item;
         }
 
@@ -66,7 +66,7 @@ trait AccountServiceTrait
             'wallet_currency_precision',
         ], $langTag);
 
-        $wallet['status'] = (bool) $walletData->is_enable;
+        $wallet['status'] = (bool) $walletData->is_enabled;
         $wallet['hasPassword'] = (bool) $walletData->password;
         $wallet['currencyCode'] = $currencyConfig['wallet_currency_code'];
         $wallet['currencyName'] = $currencyConfig['wallet_currency_name'];

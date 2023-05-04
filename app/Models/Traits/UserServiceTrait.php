@@ -79,7 +79,7 @@ trait UserServiceTrait
         $profile['registerDate'] = $userData->created_at;
         $profile['hasPassword'] = (bool) $userData->password;
         $profile['rankState'] = $userData->rank_state;
-        $profile['status'] = (bool) $userData->is_enable;
+        $profile['status'] = (bool) $userData->is_enabled;
         $profile['waitDelete'] = (bool) $userData->wait_delete;
         $profile['waitDeleteDateTime'] = $userData->wait_delete_at;
 
@@ -90,7 +90,7 @@ trait UserServiceTrait
     {
         $userData = $this;
 
-        if ($userData->wait_delete || ! $userData->is_enable) {
+        if ($userData->wait_delete || ! $userData->is_enabled) {
             // user deactivate avatar
             $userAvatar = ConfigHelper::fresnsConfigFileUrlByItemKey('deactivate_avatar', 'imageSquareUrl');
         } else {
@@ -134,7 +134,7 @@ trait UserServiceTrait
         $mainRole['roleExpiryDateTime'] = $mainRoleData?->expired_at;
         $mainRole['roleRankState'] = $roleData?->rank_state;
         $mainRole['rolePermissions'] = $permission;
-        $mainRole['roleStatus'] = (bool) $roleData?->is_enable;
+        $mainRole['roleStatus'] = (bool) $roleData?->is_enabled;
 
         return $mainRole;
     }

@@ -11,7 +11,7 @@ namespace App\Models;
 class Comment extends Model
 {
     use Traits\CommentServiceTrait;
-    use Traits\IsEnableTrait;
+    use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
 
     const DIGEST_NO = 1;

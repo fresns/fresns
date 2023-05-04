@@ -435,7 +435,7 @@ class EditorController extends Controller
                     throw new ApiException(32101);
                 }
 
-                if (! $editorPlugin->is_enable) {
+                if (! $editorPlugin->is_enabled) {
                     throw new ApiException(32102);
                 }
 
@@ -453,7 +453,7 @@ class EditorController extends Controller
                 $group = PrimaryHelper::fresnsModelByFsid('group', $dtoRequest->postGid);
 
                 if ($group) {
-                    if (! $group->is_enable) {
+                    if (! $group->is_enabled) {
                         throw new ApiException(37101);
                     }
 
@@ -500,10 +500,10 @@ class EditorController extends Controller
                 ]);
             }
 
-            // postIsCommentPublic
-            if (isset($dtoRequest->postIsCommentPublic)) {
+            // postIsCommentPrivate
+            if (isset($dtoRequest->postIsCommentPrivate)) {
                 $draft->update([
-                    'is_comment_public' => $dtoRequest->postIsCommentPublic,
+                    'is_comment_private' => $dtoRequest->postIsCommentPrivate,
                 ]);
             }
 
@@ -905,7 +905,7 @@ class EditorController extends Controller
                 throw new ApiException(32104);
             }
 
-            $servicePlugin = Plugin::where('fskey', $fileConfig['service'])->isEnable()->first();
+            $servicePlugin = Plugin::where('fskey', $fileConfig['service'])->isEnabled()->first();
 
             if (! $servicePlugin) {
                 throw new ApiException(32102);

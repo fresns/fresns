@@ -450,7 +450,7 @@ class PostService
                 ->has('creator')
                 ->where('post_id', $post->id)
                 ->where('top_parent_id', 0)
-                ->isEnable()
+                ->isEnabled()
                 ->limit($limit);
 
             if ($previewConfig['preview_post_comment_sort'] == 'like') {

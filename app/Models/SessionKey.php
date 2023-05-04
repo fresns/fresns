@@ -16,7 +16,7 @@ class SessionKey extends Model
     const TYPE_MANAGE = 2;
     const TYPE_PLUGIN = 3;
 
-    use Traits\IsEnableTrait;
+    use Traits\IsEnabledTrait;
 
     public function platformName($platforms = []): string
     {

@@ -18,7 +18,7 @@ class ArchiveUsage extends Model
     const TYPE_POST_LOG = 6;
     const TYPE_COMMENT_LOG = 7;
 
-    use Traits\IsEnableTrait;
+    use Traits\IsEnabledTrait;
 
     public function getArchiveValueAttribute($value)
     {

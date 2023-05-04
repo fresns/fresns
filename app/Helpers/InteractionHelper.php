@@ -66,7 +66,7 @@ class InteractionHelper
             $item['expiryDateTime'] = null;
             $item['rankState'] = $roleModel->rank_state;
             $item['permissions'] = $permission;
-            $item['status'] = (bool) $roleModel->is_enable;
+            $item['status'] = (bool) $roleModel->is_enabled;
 
             $roleData = $item;
 

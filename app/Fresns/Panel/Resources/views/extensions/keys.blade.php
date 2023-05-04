@@ -47,9 +47,9 @@
                             @endif
                         </td>
                         <td><i class="bi {{ $key->is_read_only ? 'bi-check-lg text-success' : 'bi-dash-lg text-secondary' }}"></i></td>
-                        <td><i class="bi {{ $key->is_enable ? 'bi-check-lg text-success' : 'bi-dash-lg text-secondary' }}"></i></td>
+                        <td><i class="bi {{ $key->is_enabled ? 'bi-check-lg text-success' : 'bi-dash-lg text-secondary' }}"></i></td>
                         <td>
-                            <button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#updateKey" data-id="{{ $key->id }}" data-name="{{ $key->name }}" data-type="{{ $key->type }}" data-platform_id="{{ $key->platform_id }}" data-plugin_fskey="{{ $key->plugin_fskey }}" data-is_read_only="{{ $key->is_read_only }}" data-is_enable="{{ $key->is_enable }}" data-action="{{ route('panel.keys.update', $key) }}">{{ __('FsLang::panel.button_edit') }}</button>
+                            <button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#updateKey" data-id="{{ $key->id }}" data-name="{{ $key->name }}" data-type="{{ $key->type }}" data-platform_id="{{ $key->platform_id }}" data-plugin_fskey="{{ $key->plugin_fskey }}" data-is_read_only="{{ $key->is_read_only }}" data-is_enabled="{{ $key->is_enabled }}" data-action="{{ route('panel.keys.update', $key) }}">{{ __('FsLang::panel.button_edit') }}</button>
                             <button type="button" class="btn btn-outline-primary btn-sm mx-2" data-bs-toggle="modal" data-app_id="{{ $key->app_id }}" data-name="{{ $key->name }}" data-action="{{ route('panel.keys.reset', $key) }}" data-bs-target="#resetSecret">{{ __('FsLang::panel.button_reset_secret') }}</button>
                             <button type="button" class="btn btn-link btn-sm text-danger fresns-link" data-bs-toggle="modal" data-app_id="{{ $key->app_id }}" data-name="{{ $key->name }}" data-action="{{ route('panel.keys.destroy', $key) }}" data-bs-target="#deleteKey">{{ __('FsLang::panel.button_delete') }}</button>
                         </td>
@@ -134,11 +134,11 @@
                             <span class="input-group-text">{{ __('FsLang::panel.table_status') }}</span>
                             <div class="form-control bg-white">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_enable" id="keyStatus1" value="1">
+                                    <input class="form-check-input" type="radio" name="is_enabled" id="keyStatus1" value="1">
                                     <label class="form-check-label" for="keyStatus1">{{ __('FsLang::panel.option_activate') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" checked type="radio" name="is_enable" id="keyStatus0" value="0">
+                                    <input class="form-check-input" checked type="radio" name="is_enabled" id="keyStatus0" value="0">
                                     <label class="form-check-label" for="keyStatus0">{{ __('FsLang::panel.option_deactivate') }}</label>
                                 </div>
                             </div>
@@ -228,11 +228,11 @@
                             <span class="input-group-text">{{ __('FsLang::panel.table_status') }}</span>
                             <div class="form-control bg-white">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_enable" id="updateKeyStatus1" value="1">
+                                    <input class="form-check-input" type="radio" name="is_enabled" id="updateKeyStatus1" value="1">
                                     <label class="form-check-label" for="updateKeyStatus1">{{ __('FsLang::panel.option_activate') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" checked type="radio" name="is_enable" id="updateKeyStatus0" value="0">
+                                    <input class="form-check-input" checked type="radio" name="is_enabled" id="updateKeyStatus0" value="0">
                                     <label class="form-check-label" for="updateKeyStatus0">{{ __('FsLang::panel.option_deactivate') }}</label>
                                 </div>
                             </div>

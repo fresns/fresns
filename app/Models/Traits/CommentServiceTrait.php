@@ -56,7 +56,7 @@ trait CommentServiceTrait
         $info['latestCommentDatetime'] = $commentData->latest_comment_at;
         $info['latestCommentTimeAgo'] = $commentData->latest_comment_at;
         $info['rankState'] = $commentData->rank_state;
-        $info['status'] = (bool) $commentData->is_enable;
+        $info['status'] = (bool) $commentData->is_enabled;
 
         $info['moreJson'] = $appendData->more_json;
 

@@ -21,7 +21,7 @@ class Account extends Authenticatable
     use SoftDeletes;
     use Traits\AccountServiceTrait;
     use Traits\DataChangeNotifyTrait;
-    use Traits\IsEnableTrait;
+    use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
     use Traits\LangNameTrait;
     use Traits\LangDescriptionTrait;

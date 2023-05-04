@@ -39,15 +39,15 @@ class FollowService
         // best digest post query
         $digestPostQuery = Post::with(['hashtagUsages'])->where('digest_state', Post::DIGEST_BEST);
 
-        // is enable
-        $userPostQuery->where('is_enable', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enable', false)->where('user_id', $authUserId);
+        // is enabled
+        $userPostQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enabled', false)->where('user_id', $authUserId);
         });
-        $groupPostQuery->where('is_enable', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enable', false)->where('user_id', $authUserId);
+        $groupPostQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enabled', false)->where('user_id', $authUserId);
         });
-        $hashtagPostQuery->where('is_enable', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enable', false)->where('user_id', $authUserId);
+        $hashtagPostQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enabled', false)->where('user_id', $authUserId);
         });
 
         // block post
@@ -150,9 +150,9 @@ class FollowService
 
         $postQuery = Post::with(['hashtagUsages'])->whereIn('user_id', $followUserIds)->where('is_anonymous', 0)->latest();
 
-        // is enable
-        $postQuery->where('is_enable', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enable', false)->where('user_id', $authUserId);
+        // is enabled
+        $postQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enabled', false)->where('user_id', $authUserId);
         });
 
         // block post
@@ -212,9 +212,9 @@ class FollowService
 
         $postQuery = Post::with(['hashtagUsages'])->whereIn('group_id', $followGroupIds)->latest();
 
-        // is enable
-        $postQuery->where('is_enable', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enable', false)->where('user_id', $authUserId);
+        // is enabled
+        $postQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enabled', false)->where('user_id', $authUserId);
         });
 
         // block post
@@ -274,9 +274,9 @@ class FollowService
 
         $postQuery = Post::with(['hashtagUsages'])->latest();
 
-        // is enable
-        $postQuery->where('is_enable', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enable', false)->where('user_id', $authUserId);
+        // is enabled
+        $postQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enabled', false)->where('user_id', $authUserId);
         });
 
         // follow hashtags
@@ -354,15 +354,15 @@ class FollowService
         // best digest post query
         $digestCommentQuery = Comment::with(['post', 'hashtagUsages'])->where('digest_state', Comment::DIGEST_BEST);
 
-        // is enable
-        $userCommentQuery->where('is_enable', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enable', false)->where('user_id', $authUserId);
+        // is enabled
+        $userCommentQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enabled', false)->where('user_id', $authUserId);
         });
-        $groupCommentQuery->where('is_enable', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enable', false)->where('user_id', $authUserId);
+        $groupCommentQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enabled', false)->where('user_id', $authUserId);
         });
-        $hashtagCommentQuery->where('is_enable', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enable', false)->where('user_id', $authUserId);
+        $hashtagCommentQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enabled', false)->where('user_id', $authUserId);
         });
 
         // block comment
@@ -485,9 +485,9 @@ class FollowService
 
         $commentQuery = Comment::with(['post', 'hashtagUsages'])->whereIn('user_id', $followUserIds)->where('is_anonymous', 0)->latest();
 
-        // is enable
-        $commentQuery->where('is_enable', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enable', false)->where('user_id', $authUserId);
+        // is enabled
+        $commentQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enabled', false)->where('user_id', $authUserId);
         });
 
         // block comment
@@ -555,9 +555,9 @@ class FollowService
 
         $commentQuery = Comment::with(['post', 'hashtagUsages'])->where('top_parent_id', 0)->latest();
 
-        // is enable
-        $commentQuery->where('is_enable', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enable', false)->where('user_id', $authUserId);
+        // is enabled
+        $commentQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enabled', false)->where('user_id', $authUserId);
         });
 
         $commentQuery->when($followGroupIds, function ($query, $value) {
@@ -629,9 +629,9 @@ class FollowService
 
         $commentQuery = Comment::with(['post', 'hashtagUsages'])->where('top_parent_id', 0)->latest();
 
-        // is enable
-        $commentQuery->where('is_enable', true)->orWhere(function ($query) use ($authUserId) {
-            $query->where('is_enable', false)->where('user_id', $authUserId);
+        // is enabled
+        $commentQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
+            $query->where('is_enabled', false)->where('user_id', $authUserId);
         });
 
         $commentQuery->whereHas('hashtagUsages', function ($query) use ($followHashtagIds) {

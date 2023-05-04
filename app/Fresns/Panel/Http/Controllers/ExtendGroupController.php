@@ -54,7 +54,7 @@ class ExtendGroupController extends Controller
         $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->is_group_admin = $request->is_group_admin;
         $pluginUsage->parameter = $request->parameter;
-        $pluginUsage->is_enable = $request->is_enable;
+        $pluginUsage->is_enabled = $request->is_enabled;
         $pluginUsage->rating = $request->rating;
         $pluginUsage->roles = $request->roles ? implode(',', $request->roles) : $pluginUsage->roles;
         if ($request->is_group_admin) {
@@ -124,7 +124,7 @@ class ExtendGroupController extends Controller
         $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->is_group_admin = $request->is_group_admin;
         $pluginUsage->parameter = $request->parameter;
-        $pluginUsage->is_enable = $request->is_enable;
+        $pluginUsage->is_enabled = $request->is_enabled;
         $pluginUsage->rating = $request->rating;
         $pluginUsage->roles = $request->roles ? implode(',', $request->roles) : $pluginUsage->roles;
         if ($request->is_group_admin) {

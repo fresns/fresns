@@ -43,7 +43,7 @@ class RoleController extends Controller
         $role->is_display_icon = $request->is_display_icon ?? 0;
         $role->is_display_name = $request->is_display_name ?? 0;
         $role->nickname_color = $request->nickname_color;
-        $role->is_enable = $request->is_enable;
+        $role->is_enabled = $request->is_enabled;
 
         $role->permissions = json_decode(config('FsConfig.role_default_permissions'), true);
         if ($request->no_color) {
@@ -107,7 +107,7 @@ class RoleController extends Controller
         $role->is_display_icon = $request->is_display_icon ?? 0;
         $role->is_display_name = $request->is_display_name ?? 0;
         $role->nickname_color = $request->nickname_color;
-        $role->is_enable = $request->is_enable;
+        $role->is_enabled = $request->is_enabled;
 
         if ($request->no_color) {
             $role->nickname_color = null;

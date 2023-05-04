@@ -167,7 +167,7 @@ class WalletController extends Controller
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->parameter = $request->parameter;
-        $pluginUsage->is_enable = $request->is_enable;
+        $pluginUsage->is_enabled = $request->is_enabled;
         $pluginUsage->rating = $request->rating;
         $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->save();
@@ -227,7 +227,7 @@ class WalletController extends Controller
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->parameter = $request->parameter;
-        $pluginUsage->is_enable = $request->is_enable;
+        $pluginUsage->is_enabled = $request->is_enabled;
         $pluginUsage->rating = $request->rating;
 
         if ($request->file('icon_file')) {
@@ -306,7 +306,7 @@ class WalletController extends Controller
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->parameter = $request->parameter;
-        $pluginUsage->is_enable = $request->is_enable;
+        $pluginUsage->is_enabled = $request->is_enabled;
         $pluginUsage->rating = $request->rating;
         $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->save();
@@ -366,7 +366,7 @@ class WalletController extends Controller
         $pluginUsage->name = $request->names[$this->defaultLanguage] ?? (current(array_filter($request->names)) ?: '');
         $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->parameter = $request->parameter;
-        $pluginUsage->is_enable = $request->is_enable;
+        $pluginUsage->is_enabled = $request->is_enabled;
         $pluginUsage->rating = $request->rating;
 
         if ($request->file('icon_file')) {

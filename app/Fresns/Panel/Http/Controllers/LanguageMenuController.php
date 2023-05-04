@@ -130,7 +130,7 @@ class LanguageMenuController extends Controller
             'timeFormatMonth' => $request->time_format_month,
             'timeFormatYear' => $request->time_format_year,
             'packVersion' => 1,
-            'isEnable' => (bool) $request->is_enable,
+            'isEnabled' => (bool) $request->is_enabled,
         ];
 
         $languages[] = $data;
@@ -197,7 +197,7 @@ class LanguageMenuController extends Controller
             'timeFormatMonth' => $request->time_format_month,
             'timeFormatYear' => $request->time_format_year,
             'packVersion' => 1,
-            'isEnable' => (bool) $request->is_enable,
+            'isEnabled' => (bool) $request->is_enabled,
         ];
 
         $languages[$languageKey] = $data;

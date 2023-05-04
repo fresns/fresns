@@ -42,7 +42,7 @@
                         </td>
                         <td>{{ $group->stickers->count() }}</td>
                         <td>
-                            @if ($group->is_enable)
+                            @if ($group->is_enabled)
                                 <i class="bi bi-check-lg text-success"></i>
                             @else
                                 <i class="bi bi-dash-lg text-secondary"></i>
@@ -127,11 +127,11 @@
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_status') }}</label>
                             <div class="col-sm-9 pt-2">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_enable" id="status_true" value="1" checked>
+                                    <input class="form-check-input" type="radio" name="is_enabled" id="status_true" value="1" checked>
                                     <label class="form-check-label" for="status_true">{{ __('FsLang::panel.option_activate') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_enable" id="status_false" value="0">
+                                    <input class="form-check-input" type="radio" name="is_enabled" id="status_false" value="0">
                                     <label class="form-check-label" for="status_false">{{ __('FsLang::panel.option_deactivate') }}</label>
                                 </div>
                             </div>
@@ -296,11 +296,11 @@
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_status') }}</label>
                             <div class="col-sm-9 pt-2">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_enable" id="sticker_status_true" value="1" checked>
+                                    <input class="form-check-input" type="radio" name="is_enabled" id="sticker_status_true" value="1" checked>
                                     <label class="form-check-label" for="sticker_status_true">{{ __('FsLang::panel.option_activate') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_enable" id="sticker_status_false" value="0">
+                                    <input class="form-check-input" type="radio" name="is_enabled" id="sticker_status_false" value="0">
                                     <label class="form-check-label" for="sticker_status_false">{{ __('FsLang::panel.option_deactivate') }}</label>
                                 </div>
                             </div>

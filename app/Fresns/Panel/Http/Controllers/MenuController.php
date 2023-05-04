@@ -185,7 +185,7 @@ class MenuController extends Controller
         $queryStateKey = 'menu_'.$key.'_query_state';
         $queryConfigKey = 'menu_'.$key.'_query_config';
 
-        if ($request->has('is_enable')) {
+        if ($request->has('is_enabled')) {
             $status = Config::where('item_key', $enableKey)->first();
             if (! $status) {
                 $status = new Config;
@@ -193,7 +193,7 @@ class MenuController extends Controller
                 $status->item_type = 'boolean';
                 $status->item_tag = 'menus';
             }
-            $status->item_value = $request->is_enable;
+            $status->item_value = $request->is_enabled;
             $status->save();
         }
 

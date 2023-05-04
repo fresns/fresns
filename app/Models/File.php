@@ -29,7 +29,7 @@ class File extends Model
     const TRANSCODING_STATE_FAILURE = 4;
 
     use Traits\FileServiceTrait;
-    use Traits\IsEnableTrait;
+    use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
 
     protected $casts = [

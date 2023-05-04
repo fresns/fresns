@@ -22,11 +22,11 @@ class Conversation extends Model
 
     public function latestMessage()
     {
-        return $this->hasOne(ConversationMessage::class)->isEnable()->latest();
+        return $this->hasOne(ConversationMessage::class)->isEnabled()->latest();
     }
 
     public function messages()
     {
-        return $this->hasMany(ConversationMessage::class)->isEnable();
+        return $this->hasMany(ConversationMessage::class)->isEnabled();
     }
 }

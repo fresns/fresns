@@ -37,7 +37,7 @@ class Wallet
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
 
-        $wallet = AccountWallet::where('account_id', $accountId)->isEnable()->first();
+        $wallet = AccountWallet::where('account_id', $accountId)->isEnabled()->first();
         // Account wallet not exist or has been banned
         if (empty($wallet)) {
             return $this->failure(
@@ -81,7 +81,7 @@ class Wallet
             );
         }
 
-        $wallet = AccountWallet::where('account_id', $accountId)->isEnable()->first();
+        $wallet = AccountWallet::where('account_id', $accountId)->isEnabled()->first();
         // Account wallet not exist or has been banned
         if (empty($wallet)) {
             return $this->failure(
@@ -149,7 +149,7 @@ class Wallet
             );
         }
 
-        $wallet = AccountWallet::where('account_id', $accountId)->isEnable()->first();
+        $wallet = AccountWallet::where('account_id', $accountId)->isEnabled()->first();
         // Account wallet not exist or has been banned
         if (empty($wallet)) {
             return $this->failure(
@@ -236,7 +236,7 @@ class Wallet
             );
         }
 
-        $wallet = AccountWallet::where('account_id', $accountId)->isEnable()->first();
+        $wallet = AccountWallet::where('account_id', $accountId)->isEnabled()->first();
         // Account wallet not exist or has been banned
         if (empty($wallet)) {
             return $this->failure(
@@ -309,7 +309,7 @@ class Wallet
             );
         }
 
-        $wallet = AccountWallet::where('account_id', $accountId)->isEnable()->first();
+        $wallet = AccountWallet::where('account_id', $accountId)->isEnabled()->first();
         // Account wallet not exist or has been banned
         if (empty($wallet)) {
             return $this->failure(
@@ -383,7 +383,7 @@ class Wallet
             );
         }
 
-        $wallet = AccountWallet::where('account_id', $accountId)->isEnable()->first();
+        $wallet = AccountWallet::where('account_id', $accountId)->isEnabled()->first();
         // Account wallet not exist or has been banned
         if (empty($wallet)) {
             return $this->failure(
@@ -432,7 +432,7 @@ class Wallet
             AccountWalletLog::create($logData);
             static::balanceChange($wallet, 'increment', $transactionAmount);
         } else {
-            $originWallet = AccountWallet::where('account_id', $originAccountId)->isEnable()->first();
+            $originWallet = AccountWallet::where('account_id', $originAccountId)->isEnabled()->first();
 
             // The counterparty wallet not exist or has been banned
             if (empty($originWallet)) {
@@ -516,7 +516,7 @@ class Wallet
             );
         }
 
-        $wallet = AccountWallet::where('account_id', $accountId)->isEnable()->first();
+        $wallet = AccountWallet::where('account_id', $accountId)->isEnabled()->first();
         // Account wallet not exist or has been banned
         if (empty($wallet)) {
             return $this->failure(
@@ -585,7 +585,7 @@ class Wallet
             AccountWalletLog::create($logData);
             static::balanceChange($wallet, 'decrement', $amountTotal);
         } else {
-            $originWallet = AccountWallet::where('account_id', $originAccountId)->isEnable()->first();
+            $originWallet = AccountWallet::where('account_id', $originAccountId)->isEnabled()->first();
 
             // The counterparty wallet not exist or has been banned
             if (empty($originWallet)) {
@@ -659,9 +659,9 @@ class Wallet
         }
 
         if (empty($userId)) {
-            $walletLog = AccountWalletLog::where('id', $dtoWordBody->logId)->where('account_id', $accountId)->isEnable()->first();
+            $walletLog = AccountWalletLog::where('id', $dtoWordBody->logId)->where('account_id', $accountId)->isEnabled()->first();
         } else {
-            $walletLog = AccountWalletLog::where('id', $dtoWordBody->logId)->where('account_id', $accountId)->where('user_id', $userId)->isEnable()->first();
+            $walletLog = AccountWalletLog::where('id', $dtoWordBody->logId)->where('account_id', $accountId)->where('user_id', $userId)->isEnabled()->first();
         }
 
         if (empty($walletLog)) {
@@ -687,7 +687,7 @@ class Wallet
             }
 
             $objectWalletLog->update([
-                'is_enable' => false,
+                'is_enabled' => false,
             ]);
         } else {
             $objectWalletLog = null;
@@ -705,7 +705,7 @@ class Wallet
         }
 
         $walletLog->update([
-            'is_enable' => false,
+            'is_enabled' => false,
         ]);
 
         switch ($walletLog->type) {
@@ -756,7 +756,7 @@ class Wallet
     // check closing balance
     public static function checkClosingBalance(AccountWallet $wallet): bool
     {
-        $walletLog = AccountWalletLog::where('account_id', $wallet->account_id)->isEnable()->latest()->first();
+        $walletLog = AccountWalletLog::where('account_id', $wallet->account_id)->isEnabled()->latest()->first();
 
         $closingBalance = $walletLog?->closing_balance ?? 0.00;
 

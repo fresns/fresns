@@ -113,7 +113,7 @@ class SendController extends Controller
         $value = $config->item_value;
         foreach ($value as &$item) {
             if ($item['type'] == 'email') {
-                $item['isEnable'] = $request->is_enable ? true : false;
+                $item['isEnabled'] = $request->is_enabled ? true : false;
                 $item['template'] = $emailTemplates;
             }
         }
@@ -141,7 +141,7 @@ class SendController extends Controller
         $value = $config->item_value;
         foreach ($value as &$item) {
             if ($item['type'] == 'sms') {
-                $item['isEnable'] = $request->is_enable ? true : false;
+                $item['isEnabled'] = $request->is_enabled ? true : false;
                 $item['template'] = $smsTemplates;
             }
         }

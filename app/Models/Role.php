@@ -15,7 +15,7 @@ class Role extends Model
     const TYPE_USER = 3;
 
     use Traits\LangNameTrait;
-    use Traits\IsEnableTrait;
+    use Traits\IsEnabledTrait;
 
     protected $casts = [
         'permissions' => 'json',
