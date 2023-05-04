@@ -24,7 +24,7 @@ class PluginCallback extends Model
     const TYPE_OPERATION = 12;
     const TYPE_FILE = 13;
     const TYPE_MAP = 14;
-    const TYPE_CONTENT_READ_ALLOW = 15;
+    const TYPE_CONTENT_READ_AUTH = 15;
     const TYPE_CONTENT_USER_LIST = 16;
     const TYPE_CONTENT_COMMENT_BUTTON = 17;
     const TYPE_CONTENT_COMMENT_CONFIG = 18;

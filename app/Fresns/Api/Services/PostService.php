@@ -93,7 +93,6 @@ class PostService
             $editControl['editorUrl'] = PluginHelper::fresnsPluginUrlByFskey($post->postAppend->editor_fskey);
             $item['editControls'] = $editControl;
 
-            $item['commentHidden'] = false;
             $item['followType'] = null;
 
             $postData = array_merge($postInfo, $item);
@@ -105,7 +104,15 @@ class PostService
         $contentHandle = self::handlePostContent($post, $postData, $type, $authUserId);
         $postData['content'] = $contentHandle['content'];
         $postData['isBrief'] = $contentHandle['isBrief'];
-        $postData['allowConfig'] = $contentHandle['allowConfig'];
+        $postData['readConfig'] = $contentHandle['readConfig'];
+        if ($contentHandle['readConfig']['isReadLocked']) {
+            $postData['archives'] = [];
+            $postData['extends'] = [
+                'textBox' => [],
+                'infoBox' => [],
+                'interactionBox' => [],
+            ];
+        }
         $postData['files'] = $contentHandle['files'];
 
         // archives
@@ -210,7 +217,7 @@ class PostService
         if ($commentVisibilityRule > 0) {
             $visibilityTime = $post->created_at->addDay($commentVisibilityRule);
 
-            $postData['commentHidden'] = $visibilityTime->lt(now());
+            $postData['isCommentHidden'] = $visibilityTime->lt(now());
         }
 
         $newPostData = self::handlePostCount($post, $postData);
@@ -283,7 +290,7 @@ class PostService
             $contentData = [
                 'content' => $postContent,
                 'isBrief' => $isBrief,
-                'allowConfig' => $postData['allowConfig'],
+                'readConfig' => $postData['readConfig'],
                 'files' => $files,
             ];
 
@@ -299,7 +306,7 @@ class PostService
 
         $contentFormat = \request()->header('X-Fresns-Client-Content-Format');
 
-        if ($contentData['allowConfig']['isAllow']) {
+        if (! $contentData['readConfig']['isReadLocked']) {
             if ($contentFormat == 'html') {
                 $contentData['content'] = $post->is_markdown ? Str::markdown($contentData['content']) : nl2br($contentData['content']);
             }
@@ -307,15 +314,23 @@ class PostService
             return $contentData;
         }
 
-        $contentData['allowConfig']['isAllow'] = true;
-        $checkPostAllow = PermissionUtility::checkPostAllow($post->id, $authUserId);
+        $contentData['readConfig']['isReadLocked'] = false;
+        $checkPostAuth = PermissionUtility::checkPostAuth($post->id, $authUserId);
 
-        if (empty($authUserId) || ! $checkPostAllow) {
-            $previewPercentage = $contentData['allowConfig']['previewPercentage'] / 100;
-            $allowLength = intval($postData['contentLength'] * $previewPercentage);
+        if (empty($authUserId) || ! $checkPostAuth) {
+            $previewPercentage = $contentData['readConfig']['previewPercentage'] / 100;
+            $readLength = intval($postData['contentLength'] * $previewPercentage);
 
-            $contentData['allowConfig']['isAllow'] = false;
-            $contentData['content'] = Str::limit($contentData['content'], $allowLength);
+            $emptyFiles = [
+                'images' => [],
+                'videos' => [],
+                'audios' => [],
+                'documents' => [],
+            ];
+
+            $contentData['readConfig']['isReadLocked'] = true;
+            $contentData['content'] = Str::limit($contentData['content'], $readLength);
+            $contentData['files'] = $emptyFiles;
         }
 
         if ($contentFormat == 'html') {
@@ -529,10 +544,10 @@ class PostService
 
         $info['isMarkdown'] = (bool) $log->is_markdown;
         $info['isAnonymous'] = (bool) $log->is_anonymous;
-        $info['isComment'] = (bool) $log->is_comment;
-        $info['isCommentPublic'] = (bool) $log->is_comment_public;
+        $info['isCommentDisabled'] = (bool) $log->is_comment_disabled;
+        $info['isCommentPrivate'] = (bool) $log->is_comment_private;
         $info['mapJson'] = $log->map_json;
-        $info['allowJson'] = ContentUtility::handleAllowJson($log->allow_json, $langTag, $timezone);
+        $info['readJson'] = ContentUtility::handleReadJson($log->read_json, $langTag, $timezone);
         $info['userListJson'] = ContentUtility::handleUserListJson($log->user_list_json, $langTag);
         $info['commentBtnJson'] = ContentUtility::handleCommentBtnJson($log->comment_btn_json, $langTag);
         $info['state'] = $log->state;

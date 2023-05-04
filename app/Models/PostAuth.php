@@ -8,7 +8,7 @@
 
 namespace App\Models;
 
-class PostAllow extends Model
+class PostAuth extends Model
 {
     const TYPE_USER = 1;
     const TYPE_ROLE = 2;

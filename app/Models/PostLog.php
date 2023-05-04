@@ -12,7 +12,7 @@ class PostLog extends Model
 {
     protected $casts = [
         'map_json' => 'json',
-        'allow_json' => 'json',
+        'read_json' => 'json',
         'user_list_json' => 'json',
         'comment_btn_json' => 'json',
     ];

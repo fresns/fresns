@@ -11,7 +11,7 @@ namespace App\Models\Traits;
 use App\Helpers\ConfigHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
-use App\Models\PostAllow;
+use App\Models\PostUser;
 use Illuminate\Support\Str;
 
 trait PostServiceTrait
@@ -67,18 +67,18 @@ trait PostServiceTrait
         $info['rankState'] = $postData->rank_state;
         $info['status'] = (bool) $postData->is_enabled;
 
-        $info['allowConfig'] = [
-            'isAllow' => (bool) $appendData->is_allow,
-            'previewPercentage' => $appendData->allow_percentage,
-            'buttonName' => LanguageHelper::fresnsLanguageByTableId('post_appends', 'allow_btn_name', $appendData->post_id, $langTag) ?? $appendData->allow_btn_name,
-            'buttonUrl' => PluginHelper::fresnsPluginUrlByFskey($appendData->allow_plugin_fskey),
+        $info['readConfig'] = [
+            'isReadLocked' => (bool) $appendData->is_read_locked,
+            'previewPercentage' => $appendData->read_pre_percentage,
+            'buttonName' => LanguageHelper::fresnsLanguageByTableId('post_appends', 'read_btn_name', $appendData->post_id, $langTag) ?? $appendData->read_btn_name,
+            'buttonUrl' => PluginHelper::fresnsPluginUrlByFskey($appendData->read_plugin_fskey),
         ];
 
         $info['affiliatedUserConfig'] = [
             'hasUserList' => (bool) $appendData->is_user_list,
             'userListName' => LanguageHelper::fresnsLanguageByTableId('post_appends', 'user_list_name', $appendData->post_id, $langTag) ?? $appendData->user_list_name,
             'userListUrl' => PluginHelper::fresnsPluginUrlByFskey($appendData->user_list_plugin_fskey),
-            'userListCount' => $appendData->is_user_list ? PostAllow::where('post_id', $postData->id)->count() : 0,
+            'userListCount' => $appendData->is_user_list ? PostUser::where('post_id', $postData->id)->count() : 0,
         ];
 
         $info['moreJson'] = $appendData->more_json;
@@ -92,8 +92,9 @@ trait PostServiceTrait
         $info['location'] = $mapJson;
         $info['location']['encode'] = urlencode(base64_encode(json_encode($mapJson)));
 
-        $info['isComment'] = (bool) $appendData->is_comment;
-        $info['isCommentPublic'] = (bool) $appendData->is_comment_public;
+        $info['isCommentHidden'] = false;
+        $info['isCommentDisabled'] = (bool) $appendData->is_comment_disabled;
+        $info['isCommentPrivate'] = (bool) $appendData->is_comment_private;
 
         return $info;
     }

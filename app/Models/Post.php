@@ -84,9 +84,9 @@ class Post extends Model
         return $this->hasMany(PostUser::class);
     }
 
-    public function allows()
+    public function auths()
     {
-        return $this->hasMany(PostAllow::class);
+        return $this->hasMany(PostAuth::class);
     }
 
     public function parentPost()

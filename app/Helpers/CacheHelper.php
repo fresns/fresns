@@ -859,7 +859,7 @@ class CacheHelper
     // fresns_interaction_status_{$markType}_{$markId}_{$userId}
     // fresns_follow_{$type}_array_by_{$userId}
     // fresns_block_{$type}_array_by_{$userId}
-    // fresns_user_post_allow_{$pid}_{$uid}
+    // fresns_user_post_read_{$pid}_{$uid}
     // fresns_api_user_{$uid}_{$langTag}
     // fresns_api_user_stats_{$uid}
     // fresns_api_user_panel_conversations_{$uid}

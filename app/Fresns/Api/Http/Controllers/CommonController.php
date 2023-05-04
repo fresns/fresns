@@ -678,10 +678,10 @@ class CommonController extends Controller
         }
 
         // check permission
-        if ($dtoRequest->type == 'post' && ! $model?->postAppend?->is_allow) {
-            $checkPostAllow = PermissionUtility::checkPostAllow($model->id, $authUserId);
+        if ($dtoRequest->type == 'post' && ! $model?->postAppend?->is_read_locked) {
+            $checkPostAuth = PermissionUtility::checkPostAuth($model->id, $authUserId);
 
-            if (! $checkPostAllow) {
+            if (! $checkPostAuth) {
                 throw new ApiException(35301);
             }
         }

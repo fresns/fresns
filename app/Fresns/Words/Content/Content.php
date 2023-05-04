@@ -37,8 +37,8 @@ use App\Models\Language;
 use App\Models\Mention;
 use App\Models\OperationUsage;
 use App\Models\Post;
-use App\Models\PostAllow;
 use App\Models\PostAppend;
+use App\Models\PostAuth;
 use App\Models\PostLog;
 use App\Models\PostUser;
 use App\Utilities\ConfigUtility;
@@ -489,8 +489,8 @@ class Content
 
                 PostAppend::create([
                     'post_id' => $post->id,
-                    'is_comment' => $dtoWordBody->postIsComment ?? 1,
-                    'is_comment_public' => $dtoWordBody->postIsCommentPublic ?? 1,
+                    'is_comment_disabled' => $dtoWordBody->postIsCommentDisabled ?? 0,
+                    'is_comment_private' => $dtoWordBody->postIsCommentPrivate ?? 0,
                     'map_id' => $dtoWordBody->map['mapId'] ?? null,
                     'map_json' => $dtoWordBody->map ?? null,
                     'map_continent_code' => $dtoWordBody->map['continentCode'] ?? null,
@@ -617,9 +617,9 @@ class Content
                 InteractionUtility::publishStats($type, $model->id, 'decrement');
 
                 if ($dtoWordBody->type == 1) {
-                    PostAllow::where('post_id', $model->id)->delete();
+                    PostAuth::where('post_id', $model->id)->delete();
                     PostUser::where('post_id', $model->id)->delete();
-                    Language::where('table_name', 'post_appends')->where('table_column', 'allow_btn_name')->where('table_id', $model->id)->delete();
+                    Language::where('table_name', 'post_appends')->where('table_column', 'read_btn_name')->where('table_id', $model->id)->delete();
                     Language::where('table_name', 'post_appends')->where('table_column', 'user_list_name')->where('table_id', $model->id)->delete();
                     Language::where('table_name', 'post_appends')->where('table_column', 'comment_btn_name')->where('table_id', $model->id)->delete();
                 }
@@ -695,9 +695,9 @@ class Content
                 InteractionUtility::publishStats($type, $model->id, 'decrement');
 
                 if ($dtoWordBody->type == 1) {
-                    PostAllow::where('post_id', $model->id)->forceDelete();
+                    PostAuth::where('post_id', $model->id)->forceDelete();
                     PostUser::where('post_id', $model->id)->forceDelete();
-                    Language::where('table_name', 'post_appends')->where('table_column', 'allow_btn_name')->where('table_id', $model->id)->forceDelete();
+                    Language::where('table_name', 'post_appends')->where('table_column', 'read_btn_name')->where('table_id', $model->id)->forceDelete();
                     Language::where('table_name', 'post_appends')->where('table_column', 'user_list_name')->where('table_id', $model->id)->forceDelete();
                     Language::where('table_name', 'post_appends')->where('table_column', 'comment_btn_name')->where('table_id', $model->id)->forceDelete();
                 }
@@ -965,16 +965,16 @@ class Content
             case 'add':
                 // add
                 if ($userId) {
-                    PostAllow::updateOrCreate([
+                    PostAuth::updateOrCreate([
                         'post_id' => $postId,
-                        'type' => PostAllow::TYPE_USER,
+                        'type' => PostAuth::TYPE_USER,
                         'object_id' => $userId,
                     ]);
                 }
                 if ($roleId) {
-                    PostAllow::updateOrCreate([
+                    PostAuth::updateOrCreate([
                         'post_id' => $postId,
-                        'type' => PostAllow::TYPE_ROLE,
+                        'type' => PostAuth::TYPE_ROLE,
                         'object_id' => $roleId,
                     ]);
                 }
@@ -983,17 +983,17 @@ class Content
             case 'remove':
                 // remove
                 if ($userId) {
-                    $userAllow = PostAllow::where('post_id', $postId)->where('type', PostAllow::TYPE_USER)->where('object_id', $userId)->first();
-                    $userAllow->delete();
+                    $userAuth = PostAuth::where('post_id', $postId)->where('type', PostAuth::TYPE_USER)->where('object_id', $userId)->first();
+                    $userAuth->delete();
                 }
                 if ($roleId) {
-                    $roleAllow = PostAllow::where('post_id', $postId)->where('type', PostAllow::TYPE_ROLE)->where('object_id', $userId)->first();
-                    $roleAllow->delete();
+                    $roleAuth = PostAuth::where('post_id', $postId)->where('type', PostAuth::TYPE_ROLE)->where('object_id', $userId)->first();
+                    $roleAuth->delete();
                 }
                 break;
         }
 
-        $cacheKey = "fresns_user_post_allow_{$dtoWordBody->pid}_{$dtoWordBody->uid}";
+        $cacheKey = "fresns_user_post_read_{$dtoWordBody->pid}_{$dtoWordBody->uid}";
         $cacheTag = 'fresnsUsers';
 
         CacheHelper::forgetFresnsKey($cacheKey, $cacheTag);

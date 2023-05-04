@@ -53,7 +53,7 @@ class CommentService
 
             $commentInfo = $comment->getCommentInfo($langTag);
 
-            $item['isCommentPublic'] = (bool) $postAppend->is_comment_public;
+            $item['isCommentPrivate'] = (bool) $postAppend->is_comment_private;
 
             // extend list
             $item['archives'] = ExtendUtility::getArchives(ArchiveUsage::TYPE_COMMENT, $comment->id, $langTag);
@@ -312,7 +312,7 @@ class CommentService
 
         $authUid = PrimaryHelper::fresnsModelById('user', $authUserId)?->uid;
 
-        if (! $commentData['isCommentPublic'] && $commentData['replyToPost']['creator']['uid'] != $authUid) {
+        if ($commentData['isCommentPrivate'] && $commentData['replyToPost']['creator']['uid'] != $authUid) {
             $contentData['content'] = null;
 
             return $contentData;
@@ -481,7 +481,7 @@ class CommentService
         $info['isMarkdown'] = (bool) $log->is_markdown;
         $info['isAnonymous'] = (bool) $log->is_anonymous;
         $info['mapJson'] = $log->map_json;
-        $info['allowJson'] = null;
+        $info['readJson'] = null;
         $info['userListJson'] = null;
         $info['commentBtnJson'] = null;
         $info['state'] = $log->state;

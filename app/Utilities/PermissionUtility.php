@@ -18,7 +18,7 @@ use App\Models\Comment;
 use App\Models\Group;
 use App\Models\PluginUsage;
 use App\Models\Post;
-use App\Models\PostAllow;
+use App\Models\PostAuth;
 use App\Models\User;
 use App\Models\UserBlock;
 use App\Models\UserFollow;
@@ -411,42 +411,42 @@ class PermissionUtility
         return $perms;
     }
 
-    // Check post allow
-    public static function checkPostAllow(int $postId, ?int $userId = null): bool
+    // Check post auth
+    public static function checkPostAuth(int $postId, ?int $userId = null): bool
     {
         if (empty($userId)) {
             return false;
         }
 
-        $uid = PrimaryHelper::fresnsModelById('user', $userId)?->uid;
         $pid = PrimaryHelper::fresnsModelById('post', $postId)?->pid;
+        $uid = PrimaryHelper::fresnsModelById('user', $userId)?->uid;
 
         if (empty($uid) || empty($pid)) {
             return false;
         }
 
-        $cacheKey = "fresns_user_post_allow_{$pid}_{$uid}";
+        $cacheKey = "fresns_user_post_read_{$pid}_{$uid}";
         $cacheTag = 'fresnsUsers';
 
         // get cache
-        $checkPostAllow = CacheHelper::get($cacheKey, $cacheTag);
+        $checkPostAuth = CacheHelper::get($cacheKey, $cacheTag);
 
-        if (empty($checkPostAllow)) {
-            $allowUsers = PostAllow::where('post_id', $postId)->where('type', 1)->pluck('object_id')->toArray();
+        if (empty($checkPostAuth)) {
+            $allowUsers = PostAuth::where('post_id', $postId)->where('type', 1)->pluck('object_id')->toArray();
             $checkUser = PermissionUtility::checkUserPerm($userId, $allowUsers);
 
             if ($checkUser) {
-                $checkPostAllow = true;
+                $checkPostAuth = true;
             } else {
-                $allowRoles = PostAllow::where('post_id', $postId)->where('type', 2)->pluck('object_id')->toArray();
+                $allowRoles = PostAuth::where('post_id', $postId)->where('type', 2)->pluck('object_id')->toArray();
 
-                $checkPostAllow = PermissionUtility::checkUserRolePerm($userId, $allowRoles);
+                $checkPostAuth = PermissionUtility::checkUserRolePerm($userId, $allowRoles);
             }
 
-            CacheHelper::put($checkPostAllow, $cacheKey, $cacheTag);
+            CacheHelper::put($checkPostAuth, $cacheKey, $cacheTag);
         }
 
-        return $checkPostAllow;
+        return $checkPostAuth;
     }
 
     // Check post comment perm
@@ -475,7 +475,7 @@ class PermissionUtility
             return $commentPerm;
         }
 
-        if (! $post->postAppend->is_comment) {
+        if ($post->postAppend->is_comment_disabled) {
             $commentPerm['code'] = 38108;
 
             return $commentPerm;
