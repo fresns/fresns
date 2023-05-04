@@ -18,7 +18,7 @@ class UserExtcreditsLogsDTO extends DTO
     public function rules(): array
     {
         return [
-            'extcredits' => ['string', 'nullable'],
+            'extcreditsId' => ['integer', 'nullable', 'in:1,2,3,4,5'],
             'pageSize' => ['integer', 'nullable', 'between:1,50'],
             'page' => ['integer', 'nullable'],
         ];

@@ -559,7 +559,7 @@ class AccountController extends Controller
 
         if ($dtoRequest->type) {
             $typeArr = array_filter(explode(',', $dtoRequest->keys));
-            $walletLogQuery->whereIn('object_type', $typeArr);
+            $walletLogQuery->whereIn('type', $typeArr);
         }
 
         $walletLogs = $walletLogQuery->paginate($dtoRequest->pageSize ?? 15);
@@ -568,7 +568,7 @@ class AccountController extends Controller
 
         $logList = [];
         foreach ($walletLogs as $log) {
-            $item['type'] = $log->object_type;
+            $item['type'] = $log->type;
             $item['amountTotal'] = $log->amount_total;
             $item['transactionAmount'] = $log->transaction_amount;
             $item['systemFee'] = $log->system_fee;

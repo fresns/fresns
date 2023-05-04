@@ -670,17 +670,15 @@ class UserController extends Controller
 
         $logQuery = UserExtcreditsLog::where('user_id', $authUser->id)->orderBy('created_at', 'desc');
 
-        if ($dtoRequest->extcredits) {
-            $typeArr = array_filter(explode(',', $dtoRequest->extcredits));
-
-            $logQuery->whereIn('extcredits', $typeArr);
-        }
+        $logQuery->when($dtoRequest->extcreditsId, function ($query, $value) {
+            $query->where('extcredits_id', $value);
+        });
 
         $extcreditsLogs = $logQuery->paginate($dtoRequest->pageSize ?? 15);
 
         $logList = [];
         foreach ($extcreditsLogs as $log) {
-            $item['extcredits'] = $log->extcredits;
+            $item['extcreditsId'] = $log->extcredits_id;
             $item['type'] = $log->type == 1 ? 'increment' : 'decrement';
             $item['amount'] = $log->amount;
             $item['openingAmount'] = $log->opening_amount;
