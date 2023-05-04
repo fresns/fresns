@@ -320,15 +320,15 @@ class ValidationUtility
         if ($markType == InteractionUtility::TYPE_POST || $markType == InteractionUtility::TYPE_COMMENT) {
             switch ($markType) {
                 case InteractionUtility::TYPE_POST:
-                    $creator = Post::where('id', $markId)->value('user_id');
+                    $authorId = Post::where('id', $markId)->value('user_id');
                     break;
 
                 case InteractionUtility::TYPE_COMMENT:
-                    $creator = Comment::where('id', $markId)->value('user_id');
+                    $authorId = Comment::where('id', $markId)->value('user_id');
                     break;
             }
 
-            if ($creator == $userId) {
+            if ($authorId == $userId) {
                 return false;
             }
         }
