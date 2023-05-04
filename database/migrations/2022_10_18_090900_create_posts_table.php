@@ -47,7 +47,7 @@ class CreatePostsTable extends Migration
             $table->timestamp('latest_edit_at')->nullable();
             $table->timestamp('latest_comment_at')->nullable();
             $table->unsignedTinyInteger('rank_state')->default(1);
-            $table->unsignedTinyInteger('is_enable')->default(1);
+            $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
@@ -59,15 +59,15 @@ class CreatePostsTable extends Migration
             $table->unsignedTinyInteger('is_plugin_editor')->default(0);
             $table->string('editor_fskey', 64)->nullable();
             $table->unsignedTinyInteger('can_delete')->default(1);
-            $table->unsignedTinyInteger('is_allow')->default(1);
-            $table->unsignedTinyInteger('allow_percentage')->nullable();
-            $table->string('allow_btn_name', 64)->nullable();
-            $table->string('allow_plugin_fskey', 64)->nullable();
+            $table->unsignedTinyInteger('is_read_locked')->default(0);
+            $table->unsignedTinyInteger('read_pre_percentage')->nullable();
+            $table->string('read_btn_name', 64)->nullable();
+            $table->string('read_plugin_fskey', 64)->nullable();
             $table->unsignedTinyInteger('is_user_list')->default(0);
             $table->string('user_list_name', 128)->nullable();
             $table->string('user_list_plugin_fskey', 64)->nullable();
-            $table->unsignedTinyInteger('is_comment')->default(1);
-            $table->unsignedTinyInteger('is_comment_public')->default(1);
+            $table->unsignedTinyInteger('is_comment_disabled')->default(0);
+            $table->unsignedTinyInteger('is_comment_private')->default(0);
             $table->unsignedTinyInteger('is_comment_btn')->default(0);
             $table->string('comment_btn_name', 64)->nullable();
             $table->string('comment_btn_style', 64)->nullable();
@@ -102,7 +102,7 @@ class CreatePostsTable extends Migration
             $table->index(['map_continent_code', 'map_country_code'], 'post_continent_country');
         });
 
-        Schema::create('post_allows', function (Blueprint $table) {
+        Schema::create('post_auths', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('post_id');
             $table->unsignedTinyInteger('type')->default(1);
@@ -112,13 +112,13 @@ class CreatePostsTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->index(['post_id', 'type', 'object_id'], 'post_type_id');
+            $table->index(['post_id', 'type', 'object_id'], 'post_auth_type_id');
         });
 
         Schema::create('post_users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('post_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('post_id')->index('post_affiliated_post_id');
+            $table->unsignedBigInteger('user_id')->index('post_affiliated_user_id');
             $table->string('plugin_fskey', 64);
             switch (config('database.default')) {
                 case 'pgsql':
@@ -150,26 +150,26 @@ class CreatePostsTable extends Migration
             $table->longText('content')->nullable();
             $table->unsignedTinyInteger('is_markdown')->default(0);
             $table->unsignedTinyInteger('is_anonymous')->default(0);
-            $table->unsignedTinyInteger('is_comment')->default(1);
-            $table->unsignedTinyInteger('is_comment_public')->default(1);
+            $table->unsignedTinyInteger('is_comment_disabled')->default(0);
+            $table->unsignedTinyInteger('is_comment_private')->default(0);
             switch (config('database.default')) {
                 case 'pgsql':
                     $table->jsonb('map_json')->nullable();
-                    $table->jsonb('allow_json')->nullable();
+                    $table->jsonb('read_json')->nullable();
                     $table->jsonb('user_list_json')->nullable();
                     $table->jsonb('comment_btn_json')->nullable();
                     break;
 
                 case 'sqlsrv':
                     $table->nvarchar('map_json', 'max')->nullable();
-                    $table->nvarchar('allow_json', 'max')->nullable();
+                    $table->nvarchar('read_json', 'max')->nullable();
                     $table->nvarchar('user_list_json', 'max')->nullable();
                     $table->nvarchar('comment_btn_json', 'max')->nullable();
                     break;
 
                 default:
                     $table->json('map_json')->nullable();
-                    $table->json('allow_json')->nullable();
+                    $table->json('read_json')->nullable();
                     $table->json('user_list_json')->nullable();
                     $table->json('comment_btn_json')->nullable();
             }
