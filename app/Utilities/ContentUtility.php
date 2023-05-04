@@ -33,7 +33,7 @@ use App\Models\Language;
 use App\Models\Mention;
 use App\Models\OperationUsage;
 use App\Models\Post;
-use App\Models\PostAllow;
+use App\Models\PostAuth;
 use App\Models\PostAppend;
 use App\Models\PostLog;
 use App\Models\Role;
@@ -566,16 +566,16 @@ class ContentUtility
         }
     }
 
-    // handle read allow json
-    public static function handleAllowJson(?array $readAllowConfig, string $langTag, string $timezone): ?array
+    // handle read json
+    public static function handleReadJson(?array $readConfig, string $langTag, string $timezone): ?array
     {
-        if (! $readAllowConfig) {
+        if (! $readConfig) {
             return null;
         }
 
         $permissions['users'] = [];
-        if ($readAllowConfig['permissions']['users']) {
-            $users = User::whereIn('uid', $readAllowConfig['permissions']['users'])->first();
+        if ($readConfig['permissions']['users']) {
+            $users = User::whereIn('uid', $readConfig['permissions']['users'])->first();
             foreach ($users as $user) {
                 $userList = $user->getUserProfile($langTag, $timezone);
             }
@@ -583,8 +583,8 @@ class ContentUtility
         }
 
         $permissions['roles'] = [];
-        if ($readAllowConfig['permissions']['roles']) {
-            $roles = Role::whereIn('id', $readAllowConfig['permissions']['roles'])->first();
+        if ($readConfig['permissions']['roles']) {
+            $roles = Role::whereIn('id', $readConfig['permissions']['roles'])->first();
             foreach ($roles as $role) {
                 $roleItem['rid'] = $role->id;
                 $roleItem['nicknameColor'] = $role->nickname_color;
@@ -598,12 +598,12 @@ class ContentUtility
             $permissions['roles'] = $roleList;
         }
 
-        $item['isAllow'] = (bool) $readAllowConfig['isAllow'];
-        $item['percentage'] = $readAllowConfig['percentage'] ?? 0;
-        $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByFskey($readAllowConfig['pluginFskey']);
-        $item['pluginFskey'] = $readAllowConfig['pluginFskey'];
-        $item['defaultLangBtnName'] = collect($readAllowConfig['btnName'])->where('langTag', $langTag)->first()['name'] ?? null;
-        $item['btnName'] = $readAllowConfig['btnName'];
+        $item['isReadLocked'] = (bool) $readConfig['isReadLocked'];
+        $item['previewPercentage'] = $readConfig['previewPercentage'] ?? 0;
+        $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByFskey($readConfig['pluginFskey']);
+        $item['pluginFskey'] = $readConfig['pluginFskey'];
+        $item['defaultLangBtnName'] = collect($readConfig['btnName'])->where('langTag', $langTag)->first()['name'] ?? null;
+        $item['btnName'] = $readConfig['btnName'];
         $item['permissions'] = $permissions;
 
         return $item;
@@ -811,20 +811,20 @@ class ContentUtility
         }
     }
 
-    // release allow users and roles
-    public static function releaseAllowUsersAndRoles(int $postId, array $permArr): void
+    // release auth users and roles
+    public static function releaseReadAuthUsersAndRoles(int $postId, array $permArr): void
     {
         if (empty($permArr)) {
             return;
         }
 
         if ($permArr['users']) {
-            PostAllow::where('post_id', $postId)->where('type', PostAllow::TYPE_USER)->where('is_initial', 1)->delete();
+            PostAuth::where('post_id', $postId)->where('type', PostAuth::TYPE_USER)->where('is_initial', 1)->delete();
 
             foreach ($permArr['users'] as $userId) {
-                PostAllow::withTrashed()->updateOrCreate([
+                PostAuth::withTrashed()->updateOrCreate([
                     'post_id' => $postId,
-                    'type' => PostAllow::TYPE_USER,
+                    'type' => PostAuth::TYPE_USER,
                     'object_id' => $userId,
                 ], [
                     'is_initial' => 1,
@@ -834,12 +834,12 @@ class ContentUtility
         }
 
         if ($permArr['roles']) {
-            PostAllow::where('post_id', $postId)->where('type', PostAllow::TYPE_ROLE)->where('is_initial', 1)->delete();
+            PostAuth::where('post_id', $postId)->where('type', PostAuth::TYPE_ROLE)->where('is_initial', 1)->delete();
 
             foreach ($permArr['roles'] as $roleId) {
-                PostAllow::withTrashed()->updateOrCreate([
+                PostAuth::withTrashed()->updateOrCreate([
                     'post_id' => $postId,
-                    'type' => PostAllow::TYPE_ROLE,
+                    'type' => PostAuth::TYPE_ROLE,
                     'object_id' => $roleId,
                 ], [
                     'is_initial' => 1,
@@ -930,11 +930,11 @@ class ContentUtility
             'map_latitude' => $postLog->map_json['longitude'] ?? null,
         ]);
 
-        $allowBtnName = null;
-        if (empty($postLog->allow_json)) {
-            Language::where('table_name', 'post_appends')->where('table_column', 'allow_btn_name')->where('table_id', $post->id)->delete();
+        $readBtnName = null;
+        if (empty($postLog->read_json)) {
+            Language::where('table_name', 'post_appends')->where('table_column', 'read_btn_name')->where('table_id', $post->id)->delete();
         } else {
-            $allowBtnName = ContentUtility::releaseLangName('post_appends', 'allow_btn_name', $post->id, $postLog->allow_json['btnName']);
+            $readBtnName = ContentUtility::releaseLangName('post_appends', 'read_btn_name', $post->id, $postLog->read_json['btnName']);
         }
 
         $userListName = null;
@@ -956,15 +956,15 @@ class ContentUtility
         ], [
             'is_plugin_editor' => $postLog->is_plugin_editor,
             'editor_fskey' => $postLog->editor_fskey,
-            'is_allow' => $postLog->allow_json['isAllow'] ?? true,
-            'allow_percentage' => $postLog->allow_json['percentage'] ?? null,
-            'allow_btn_name' => $allowBtnName,
-            'allow_plugin_fskey' => $postLog->allow_json['pluginFskey'] ?? null,
+            'is_read_locked' => $postLog->read_json['isReadLocked'] ?? false,
+            'read_pre_percentage' => $postLog->read_json['previewPercentage'] ?? null,
+            'read_btn_name' => $readBtnName,
+            'read_plugin_fskey' => $postLog->read_json['pluginFskey'] ?? null,
             'is_user_list' => $postLog->user_list_json['isUserList'] ?? false,
             'user_list_name' => $userListName,
             'user_list_plugin_fskey' => $postLog->user_list_json['pluginFskey'] ?? null,
-            'is_comment' => $postLog->is_comment ?? true,
-            'is_comment_public' => $postLog->is_comment_public ?? true,
+            'is_comment_disabled' => $postLog->is_comment_disabled ?? true,
+            'is_comment_private' => $postLog->is_comment_private ?? true,
             'is_comment_btn' => $postLog->comment_btn_json['isCommentBtn'] ?? false,
             'comment_btn_name' => $commentBtnName,
             'comment_btn_style' => $postLog->comment_btn_json['btnStyle'] ?? null,
@@ -981,7 +981,7 @@ class ContentUtility
 
         ContentUtility::releaseFileUsages('post', $postLog->id, $post->id);
         ContentUtility::releaseExtendUsages('post', $postLog->id, $post->id);
-        ContentUtility::releaseAllowUsersAndRoles($post->id, $postLog->allow_json['permissions'] ?? []);
+        ContentUtility::releaseReadAuthUsersAndRoles($post->id, $postLog->read_json['permissions'] ?? []);
         ContentUtility::releaseArchiveUsages('post', $postLog->id, $post->id);
         ContentUtility::releaseOperationUsages('post', $postLog->id, $post->id);
 
@@ -1245,25 +1245,25 @@ class ContentUtility
             return $postLog;
         }
 
-        // allow json
-        $allowBtnNameArr = Language::where('table_name', 'post_appends')->where('table_column', 'allow_btn_name')->where('table_id', $post->id)->get();
-        $allowBtnName = [];
-        foreach ($allowBtnNameArr as $btnName) {
+        // read json
+        $readBtnNameArr = Language::where('table_name', 'post_appends')->where('table_column', 'read_btn_name')->where('table_id', $post->id)->get();
+        $readBtnName = [];
+        foreach ($readBtnNameArr as $btnName) {
             $item['langTag'] = $btnName->lang_tag;
             $item['name'] = $btnName->lang_content;
-            $allowBtnName[] = $item;
+            $readBtnName[] = $item;
         }
 
-        $allowUserArr = PostAllow::where('post_id', $post->id)->where('is_initial', 1)->get()->groupBy('type');
+        $readUserArr = PostAuth::where('post_id', $post->id)->where('is_initial', 1)->get()->groupBy('type');
 
-        $allowPermissions['users'] = $allowUserArr->get(PostAllow::TYPE_USER)?->pluck('object_id')->all();
-        $allowPermissions['roles'] = $allowUserArr->get(PostAllow::TYPE_ROLE)?->pluck('object_id')->all();
+        $readPermissions['users'] = $readUserArr->get(PostAuth::TYPE_USER)?->pluck('object_id')->all();
+        $readPermissions['roles'] = $readUserArr->get(PostAuth::TYPE_ROLE)?->pluck('object_id')->all();
 
-        $allowJson['isAllow'] = $post->postAppend->is_allow;
-        $allowJson['btnName'] = $allowBtnName;
-        $allowJson['percentage'] = $post->postAppend->allow_percentage;
-        $allowJson['permissions'] = $allowPermissions;
-        $allowJson['pluginFskey'] = $post->postAppend->allow_plugin_fskey;
+        $readJson['isReadLocked'] = $post->postAppend->is_read_locked;
+        $readJson['btnName'] = $readBtnName;
+        $readJson['previewPercentage'] = $post->postAppend->read_pre_percentage;
+        $readJson['permissions'] = $readPermissions;
+        $readJson['pluginFskey'] = $post->postAppend->read_plugin_fskey;
 
         // user list json
         $userListNameArr = Language::where('table_name', 'post_appends')->where('table_column', 'user_list_name')->where('table_id', $post->id)->get();
@@ -1304,10 +1304,10 @@ class ContentUtility
             'content' => $post->content,
             'is_markdown' => $post->is_markdown,
             'is_anonymous' => $post->is_anonymous,
-            'is_comment' => $post->postAppend->is_comment,
-            'is_comment_public' => $post->postAppend->is_comment_public,
+            'is_comment_disabled' => $post->postAppend->is_comment_disabled,
+            'is_comment_private' => $post->postAppend->is_comment_private,
             'map_json' => $post->postAppend->map_json,
-            'allow_json' => $allowJson,
+            'read_json' => $readJson,
             'user_list_json' => $userListJson,
             'comment_btn_json' => $commentBtnJson,
         ];

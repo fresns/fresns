@@ -177,8 +177,8 @@ class EditorController extends Controller
             'editorFskey' => $dtoRequest->editorFskey,
             'postGid' => $dtoRequest->postGid,
             'postTitle' => $dtoRequest->postTitle,
-            'postIsComment' => $dtoRequest->postIsComment,
-            'postIsCommentPublic' => $dtoRequest->postIsCommentPublic,
+            'postIsCommentDisabled' => $dtoRequest->postIsCommentDisabled,
+            'postIsCommentPrivate' => $dtoRequest->postIsCommentPrivate,
             'postQuotePid' => $dtoRequest->postQuotePid,
             'commentPid' => $dtoRequest->commentPid,
             'commentCid' => $dtoRequest->commentCid,
@@ -493,10 +493,10 @@ class EditorController extends Controller
                 }
             }
 
-            // postIsComment
-            if (isset($dtoRequest->postIsComment)) {
+            // postIsCommentDisabled
+            if (isset($dtoRequest->postIsCommentDisabled)) {
                 $draft->update([
-                    'is_comment' => $dtoRequest->postIsComment,
+                    'is_comment_disabled' => $dtoRequest->postIsCommentDisabled,
                 ]);
             }
 
@@ -932,8 +932,8 @@ class EditorController extends Controller
             'createType' => 1,
             'postGid' => $dtoRequest->postGid,
             'postTitle' => $dtoRequest->postTitle,
-            'postIsComment' => $dtoRequest->postIsComment,
-            'postIsCommentPublic' => $dtoRequest->postIsCommentPublic,
+            'postIsCommentDisabled' => $dtoRequest->postIsCommentDisabled,
+            'postIsCommentPrivate' => $dtoRequest->postIsCommentPrivate,
             'postQuotePid' => $dtoRequest->postQuotePid,
             'commentPid' => $dtoRequest->commentPid,
             'commentCid' => $dtoRequest->commentCid,
