@@ -128,6 +128,8 @@ class CommentService
         $contentHandle = self::handleCommentContent($comment, $commentData, $type, $authUserId);
         $commentData['content'] = $contentHandle['content'];
         $commentData['isBrief'] = $contentHandle['isBrief'];
+        $commentData['isCommentPrivate'] = $contentHandle['isCommentPrivate'];
+        $commentData['extends'] = $contentHandle['extends'];
         $commentData['files'] = $contentHandle['files'];
 
         // archives
@@ -175,7 +177,7 @@ class CommentService
 
         // whether to output sub-level comments
         $previewConfig = ConfigHelper::fresnsConfigByItemKey('preview_sub_comments');
-        if ($outputSubComments && $previewConfig != 0) {
+        if ($outputSubComments && $previewConfig != 0 && ! $contentHandle['isCommentPrivate']) {
             $commentData['subComments'] = self::getSubComments($comment->id, $previewConfig, $langTag);
         }
 
@@ -297,6 +299,8 @@ class CommentService
             $contentData = [
                 'content' => $commentContent,
                 'isBrief' => $isBrief,
+                'isCommentPrivate' => $commentData['isCommentPrivate'],
+                'extends' => $commentData['extends'],
                 'files' => $files,
             ];
 
@@ -310,18 +314,33 @@ class CommentService
             CacheHelper::put($contentData, $cacheKey, $cacheTag, null, $cacheTime);
         }
 
-        $authUid = PrimaryHelper::fresnsModelById('user', $authUserId)?->uid;
+        if ($commentData['isCommentPrivate']) {
+            $authUid = \request()->header('X-Fresns-Uid');
 
-        if ($commentData['isCommentPrivate'] && $commentData['replyToPost']['author']['uid'] != $authUid) {
-            $contentData['content'] = null;
+            if ($commentData['author']['uid'] != $authUid && $commentData['replyToPost']['author']['uid'] != $authUid) {
+                $contentData['content'] = null;
+                $contentData['extends'] = [
+                    'textBox' => [],
+                    'infoBox' => [],
+                    'interactionBox' => [],
+                ];
+                $contentData['files'] = [
+                    'images' => [],
+                    'videos' => [],
+                    'audios' => [],
+                    'documents' => [],
+                ];
 
-            return $contentData;
+                return $contentData;
+            }
         }
 
         $contentFormat = \request()->header('X-Fresns-Client-Content-Format');
         if ($contentFormat == 'html') {
             $contentData['content'] = $comment->is_markdown ? Str::markdown($contentData['content']) : nl2br($contentData['content']);
         }
+
+        $contentData['isCommentPrivate'] = false;
 
         return $contentData;
     }

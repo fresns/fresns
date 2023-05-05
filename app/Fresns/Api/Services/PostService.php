@@ -105,14 +105,7 @@ class PostService
         $postData['content'] = $contentHandle['content'];
         $postData['isBrief'] = $contentHandle['isBrief'];
         $postData['readConfig'] = $contentHandle['readConfig'];
-        if ($contentHandle['readConfig']['isReadLocked']) {
-            $postData['archives'] = [];
-            $postData['extends'] = [
-                'textBox' => [],
-                'infoBox' => [],
-                'interactionBox' => [],
-            ];
-        }
+        $postData['extends'] = $contentHandle['extends'];
         $postData['files'] = $contentHandle['files'];
 
         // archives
@@ -187,7 +180,7 @@ class PostService
         }
 
         // get preview comments
-        if ($type == 'list' && $isPreview && $previewConfig['preview_post_comments'] != 0) {
+        if ($type == 'list' && $isPreview && $previewConfig['preview_post_comments'] != 0 && ! $postData['isCommentPrivate']) {
             $postData['previewComments'] = self::getPreviewComments($post, $previewConfig['preview_post_comments'], $langTag);
         }
 
@@ -291,6 +284,7 @@ class PostService
                 'content' => $postContent,
                 'isBrief' => $isBrief,
                 'readConfig' => $postData['readConfig'],
+                'extends' => $postData['extends'],
                 'files' => $files,
             ];
 
@@ -321,16 +315,19 @@ class PostService
             $previewPercentage = $contentData['readConfig']['previewPercentage'] / 100;
             $readLength = intval($postData['contentLength'] * $previewPercentage);
 
-            $emptyFiles = [
+            $contentData['readConfig']['isReadLocked'] = true;
+            $contentData['content'] = Str::limit($contentData['content'], $readLength);
+            $contentData['extends'] = [
+                'textBox' => [],
+                'infoBox' => [],
+                'interactionBox' => [],
+            ];
+            $contentData['files'] = [
                 'images' => [],
                 'videos' => [],
                 'audios' => [],
                 'documents' => [],
             ];
-
-            $contentData['readConfig']['isReadLocked'] = true;
-            $contentData['content'] = Str::limit($contentData['content'], $readLength);
-            $contentData['files'] = $emptyFiles;
         }
 
         if ($contentFormat == 'html') {
