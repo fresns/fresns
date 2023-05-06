@@ -246,11 +246,11 @@ class UserService
                 $stats['commentBlockCount'] = null;
             }
 
-            $stats['extcredits1'] = ($stats['extcredits1Status'] == 3) ? $stats['extcredits1'] : null;
-            $stats['extcredits2'] = ($stats['extcredits2Status'] == 3) ? $stats['extcredits2'] : null;
-            $stats['extcredits3'] = ($stats['extcredits3Status'] == 3) ? $stats['extcredits3'] : null;
-            $stats['extcredits4'] = ($stats['extcredits4Status'] == 3) ? $stats['extcredits4'] : null;
-            $stats['extcredits5'] = ($stats['extcredits5Status'] == 3) ? $stats['extcredits5'] : null;
+            $stats['extcredits1'] = ($stats['extcredits1State'] == 3) ? $stats['extcredits1'] : null;
+            $stats['extcredits2'] = ($stats['extcredits2State'] == 3) ? $stats['extcredits2'] : null;
+            $stats['extcredits3'] = ($stats['extcredits3State'] == 3) ? $stats['extcredits3'] : null;
+            $stats['extcredits4'] = ($stats['extcredits4State'] == 3) ? $stats['extcredits4'] : null;
+            $stats['extcredits5'] = ($stats['extcredits5State'] == 3) ? $stats['extcredits5'] : null;
         }
 
         return $stats;

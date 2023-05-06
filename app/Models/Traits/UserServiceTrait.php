@@ -166,11 +166,11 @@ trait UserServiceTrait
         $statData = $this->stat;
 
         $statConfig = ConfigHelper::fresnsConfigByItemKeys([
-            'extcredits1_status', 'extcredits1_name', 'extcredits1_unit',
-            'extcredits2_status', 'extcredits2_name', 'extcredits2_unit',
-            'extcredits3_status', 'extcredits3_name', 'extcredits3_unit',
-            'extcredits4_status', 'extcredits4_name', 'extcredits4_unit',
-            'extcredits5_status', 'extcredits5_name', 'extcredits5_unit',
+            'extcredits1_state', 'extcredits1_name', 'extcredits1_unit',
+            'extcredits2_state', 'extcredits2_name', 'extcredits2_unit',
+            'extcredits3_state', 'extcredits3_name', 'extcredits3_unit',
+            'extcredits4_state', 'extcredits4_name', 'extcredits4_unit',
+            'extcredits5_state', 'extcredits5_name', 'extcredits5_unit',
 
             'post_liker_count', 'post_disliker_count', 'post_follower_count', 'post_blocker_count',
             'comment_liker_count', 'comment_disliker_count', 'comment_follower_count', 'comment_blocker_count',
@@ -219,24 +219,24 @@ trait UserServiceTrait
         $stats['commentFollowCount'] = $statConfig['comment_follower_count'] ? $statData->comment_follow_count : null;
         $stats['commentBlockCount'] = $statConfig['comment_blocker_count'] ? $statData->comment_block_count : null;
 
-        $stats['extcredits1'] = ($statConfig['extcredits1_status'] != 1) ? $statData->extcredits1 : null;
-        $stats['extcredits1Status'] = $statConfig['extcredits1_status'];
+        $stats['extcredits1'] = ($statConfig['extcredits1_state'] != 1) ? $statData->extcredits1 : null;
+        $stats['extcredits1State'] = $statConfig['extcredits1_state'];
         $stats['extcredits1Name'] = $statConfig['extcredits1_name'];
         $stats['extcredits1Unit'] = $statConfig['extcredits1_unit'];
-        $stats['extcredits2'] = ($statConfig['extcredits2_status'] != 1) ? $statData->extcredits2 : null;
-        $stats['extcredits2Status'] = $statConfig['extcredits2_status'];
+        $stats['extcredits2'] = ($statConfig['extcredits2_state'] != 1) ? $statData->extcredits2 : null;
+        $stats['extcredits2State'] = $statConfig['extcredits2_state'];
         $stats['extcredits2Name'] = $statConfig['extcredits2_name'];
         $stats['extcredits2Unit'] = $statConfig['extcredits2_unit'];
-        $stats['extcredits3'] = ($statConfig['extcredits3_status'] != 1) ? $statData->extcredits3 : null;
-        $stats['extcredits3Status'] = $statConfig['extcredits3_status'];
+        $stats['extcredits3'] = ($statConfig['extcredits3_state'] != 1) ? $statData->extcredits3 : null;
+        $stats['extcredits3State'] = $statConfig['extcredits3_state'];
         $stats['extcredits3Name'] = $statConfig['extcredits3_name'];
         $stats['extcredits3Unit'] = $statConfig['extcredits3_unit'];
-        $stats['extcredits4'] = ($statConfig['extcredits4_status'] != 1) ? $statData->extcredits4 : null;
-        $stats['extcredits4Status'] = $statConfig['extcredits4_status'];
+        $stats['extcredits4'] = ($statConfig['extcredits4_state'] != 1) ? $statData->extcredits4 : null;
+        $stats['extcredits4State'] = $statConfig['extcredits4_state'];
         $stats['extcredits4Name'] = $statConfig['extcredits4_name'];
         $stats['extcredits4Unit'] = $statConfig['extcredits4_unit'];
-        $stats['extcredits5'] = ($statConfig['extcredits5_status'] != 1) ? $statData->extcredits5 : null;
-        $stats['extcredits5Status'] = $statConfig['extcredits5_status'];
+        $stats['extcredits5'] = ($statConfig['extcredits5_state'] != 1) ? $statData->extcredits5 : null;
+        $stats['extcredits5State'] = $statConfig['extcredits5_state'];
         $stats['extcredits5Name'] = $statConfig['extcredits5_name'];
         $stats['extcredits5Unit'] = $statConfig['extcredits5_unit'];
 
