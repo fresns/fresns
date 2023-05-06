@@ -10,9 +10,7 @@ namespace App\Fresns\Install\Http\Controllers;
 
 use App\Helpers\AppHelper;
 use App\Models\Account;
-use App\Models\Config;
-use App\Models\UserRole;
-use Carbon\Carbon;
+use App\Utilities\AppUtility;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
@@ -137,7 +135,7 @@ class InstallController extends Controller
                         $dbConfig['default'] = $connection;
                         $dbConfig['connections'][$connection] = array_merge($dbConfig['connections'][$connection], $fresnsDB);
 
-                        if ($connection == 'sqlite' && ! file_exists($fresnsDB['database'])) {
+                        if ($connection == 'sqlite' && ! is_file($fresnsDB['database'])) {
                             return \response()->json([
                                 'step' => $step,
                                 'code' => 500,
@@ -188,14 +186,14 @@ class InstallController extends Controller
 
             $result = [];
             if ($step === 4) {
-                $this->writeEnvironment($data);
+                AppUtility::writeEnvironment($data['database']);
 
                 $result = $this->installDatabase();
             }
 
             if ($step === 5) {
                 try {
-                    $this->generateAdminInfo($data);
+                    AppUtility::makeAdminAccount($data['admin_info']['email'], $data['admin_info']['password']);
                 } catch (\Throwable $exception) {
                     return \response()->json([
                         'step' => $step,
@@ -208,7 +206,7 @@ class InstallController extends Controller
                 $result['email'] = Account::first()?->value('email');
 
                 if ($result['email']) {
-                    $this->writeInstallTime();
+                    AppUtility::writeInstallTime();
                 }
             }
         } catch (\Throwable $e) {
@@ -367,41 +365,6 @@ class InstallController extends Controller
         return $functionsCheckResult;
     }
 
-    protected function writeEnvironment(array $data)
-    {
-        // Get the config file template
-        $envExamplePath = __DIR__.'/../../.env.template';
-        $envPath = base_path('.env');
-
-        $envTemp = file_get_contents($envExamplePath);
-
-        $appKey = \Illuminate\Encryption\Encrypter::generateKey(config('app.cipher'));
-        $appKey = sprintf('base64:%s', base64_encode($appKey));
-
-        $appUrl = str_replace(\request()->getRequestUri(), '', \request()->getUri());
-
-        $driver = $data['database']['DB_CONNECTION'];
-
-        // Temp write key
-        $template['APP_KEY'] = $appKey;
-        $template['APP_URL'] = $appUrl;
-        $template['DB_CONNECTION'] = $driver;
-        $template['DB_HOST'] = ($driver == 'sqlite') ? '' : $data['database']['DB_HOST'];
-        $template['DB_PORT'] = ($driver == 'sqlite') ? '' : $data['database']['DB_PORT'];
-        $template['DB_DATABASE'] = $data['database']['DB_DATABASE'];
-        $template['DB_USERNAME'] = ($driver == 'sqlite') ? '' : $data['database']['DB_USERNAME'];
-        $template['DB_PASSWORD'] = ($driver == 'sqlite') ? '' : $data['database']['DB_PASSWORD'];
-        $template['DB_TIMEZONE'] = $data['database']['DB_TIMEZONE'];
-        $template['DB_PREFIX'] = $data['database']['DB_PREFIX'];
-
-        foreach ($template as $key => $value) {
-            $envTemp = str_replace('{'.$key.'}', $value, $envTemp);
-        }
-
-        // Write config
-        file_put_contents($envPath, $envTemp);
-    }
-
     protected function installDatabase()
     {
         (new \Illuminate\Database\DatabaseServiceProvider(app()))->register();
@@ -437,62 +400,5 @@ class InstallController extends Controller
             'code' => $code,
             'output' => implode('', $output),
         ];
-    }
-
-    protected function generateAdminInfo(array $data)
-    {
-        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->addAccount([
-            'type' => 1,
-            'account' => $data['admin_info']['email'],
-            'password' => $data['admin_info']['password'],
-        ]);
-
-        $aid = $fresnsResp->getData('aid');
-
-        \FresnsCmdWord::plugin('Fresns')->addUser([
-            'aid' => $aid,
-            'nickname' => 'Admin',
-            'username' => 'admin',
-        ]);
-
-        // set account to admin
-        $result = Account::whereAid($aid)->update([
-            'type' => 1,
-        ]);
-
-        UserRole::where('user_id', 1)->where('is_main', 1)->update([
-            'role_id' => 1,
-        ]);
-
-        Artisan::call('plugin:install', [
-            'path' => realpath(base_path('extensions/plugins/FresnsEngine')),
-        ]);
-        Artisan::call('theme:install', [
-            'path' => realpath(base_path('extensions/themes/ThemeFrame')),
-        ]);
-        Artisan::call('theme:install', [
-            'path' => realpath(base_path('extensions/themes/Moments')),
-        ]);
-
-        AppHelper::setInitialConfiguration();
-
-        info('update type', [$result, $aid]);
-    }
-
-    protected function writeInstallTime()
-    {
-        $item = [
-            'item_key' => 'install_datetime',
-            'item_value' => Carbon::createFromFormat('Y-m-d H:i:s', now()),
-        ];
-
-        Config::updateOrCreate([
-            'item_key' => $item['item_key'],
-        ], $item);
-
-        // install.lock
-        $installLock = base_path('install.lock');
-
-        file_put_contents($installLock, now()->toDateTimeString());
     }
 }
