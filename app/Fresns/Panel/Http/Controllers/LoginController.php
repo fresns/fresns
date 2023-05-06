@@ -11,7 +11,6 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Helpers\AppHelper;
 use App\Models\Config;
 use App\Models\SessionLog;
-use App\Utilities\AppUtility;
 use App\Utilities\ConfigUtility;
 use Browser;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -96,7 +95,7 @@ class LoginController extends Controller
                 'objectAction' => 'Panel Login',
                 'objectResult' => $result ? SessionLog::STATE_SUCCESS : SessionLog::STATE_FAILURE,
                 'objectOrderId' => null,
-                'deviceInfo' => AppUtility::getDeviceInfo(),
+                'deviceInfo' => AppHelper::getDeviceInfo(),
                 'deviceToken' => null,
                 'moreJson' => null,
             ];
