@@ -128,7 +128,9 @@
                         <span class="input-group-text">%</span>
                     </div>
 
-                    <?php $currency = collect($params['currency_codes'])->where('code', $params['wallet_currency_code'])->first(); ?>
+                    @php
+                        $currency = collect($params['currency_codes'])->where('code', $params['wallet_currency_code'])->first();
+                    @endphp
 
                     <div class="input-group mb-3">
                         <label class="input-group-text">{{ __('FsLang::panel.wallet_withdraw_min') }}</label>

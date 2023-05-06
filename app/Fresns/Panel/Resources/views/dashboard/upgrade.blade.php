@@ -72,7 +72,7 @@
     <!-- Upgrade Alert -->
     @if ($pluginsData->isNotEmpty() || $appsData->isNotEmpty() || $enginesData->isNotEmpty())
         <div class="alert alert-danger" role="alert">
-            <i class="bi bi-exclamation-triangle-fill"></i> {{ __('FsLang::panel.note_plugin_install_or_upgrade') }}
+            <i class="bi bi-exclamation-triangle-fill"></i> {{ __('FsLang::panel.tip_plugin_install_or_upgrade') }}
         </div>
     @endif
 
