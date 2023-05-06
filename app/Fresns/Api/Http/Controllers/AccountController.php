@@ -839,7 +839,8 @@ class AccountController extends Controller
             }
 
             $newWalletPassword = base64_decode($dtoRequest->editWalletPassword, true);
-            $wallet->fill([
+
+            $wallet->update([
                 'password' => Hash::make($newWalletPassword),
             ]);
 
@@ -863,9 +864,6 @@ class AccountController extends Controller
 
         if ($authAccount->isDirty()) {
             $authAccount->save();
-        }
-        if ($wallet->isDirty()) {
-            $wallet->save();
         }
 
         // upload session log
