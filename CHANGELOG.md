@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.11.0 (2023-05-06)
+
+### Added
+- API: Editor uploads files to determine if content type is enabled for upload
+- API: Wallet logging interface adds `user` parameter
+- API: Added user extcredits logs interface `/api/v2/user/extcredits-logs`.
+- Words: Added `setUserExtcredits` command word
+- Data: Added `user_extcredits_logs` data table
+- Subscribe: Added support for data change `updated` type `SubscribeUtility::CHANGE_TYPE_UPDATED`.
+- Panel: Add 'User Extended Score' setting feature
+- Panel: Support for creating read-only keys
+- Console: Support for installing Fresns in the terminal
+
+### Fixes
+- API: Non-public comments do not hide attachment content
+- Panel: Migration data conflict for upgrade feature
+- Panel: Role permissions configuration view issue
+
+### BREAKING CHANGES
+- API: Post and comment data structure `creator` parameter changed to `author`
+- Framework: Plugin Manager changed `unikey` to `fskey`
+- Framework: Plugin data `pluginUnikey` changed to `pluginFskey`
+- Framework: Command word manager `unikeyName` changed to `fsKeyName`
+
+
 ## 2.10.2 (2023-04-27)
 
 ### Fixes
