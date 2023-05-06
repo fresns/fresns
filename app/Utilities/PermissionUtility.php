@@ -684,19 +684,9 @@ class PermissionUtility
     }
 
     // Check extend perm
-    public static function checkExtendPerm(string $fskey, string $scene, ?int $groupId = null, ?int $userId = null): bool
+    public static function checkExtendPerm(string $fskey, int $usageType, ?int $groupId = null, ?int $userId = null): bool
     {
-        $usageType = match ($scene) {
-            'postEditor' => PluginUsage::TYPE_EDITOR,
-            'commentEditor' => PluginUsage::TYPE_EDITOR,
-            'manage' => PluginUsage::TYPE_MANAGE,
-            'groupExtension' => PluginUsage::TYPE_GROUP,
-            'profileExtension' => PluginUsage::TYPE_PROFILE,
-            'featureExtension' => PluginUsage::TYPE_FEATURE,
-            default => null,
-        };
-
-        if (empty($usageType) || empty($userId)) {
+        if (empty($userId)) {
             return false;
         }
 
