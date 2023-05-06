@@ -502,6 +502,12 @@ return [
     'user_bio_support_mention' => 'उपयोगकर्ता का उल्लेख करें',
     'user_bio_support_link' => 'संपर्क',
     'user_bio_support_hashtag' => 'हैशटैग',
+    'user_extcredits_config' => 'Extcredits विन्यास',
+    'user_extcredits_name' => 'Extcredits नाम',
+    'user_extcredits_unit' => 'इकाई का नाम',
+    'user_extcredits_state_not_enabled' => 'सक्षम नहीं',
+    'user_extcredits_state_private' => 'निजी',
+    'user_extcredits_state_public' => 'जनता',
     // System-Wallet
     'wallet_functions' => 'वॉलेट समारोह',
     'wallet_functions_desc' => 'फ्रेंच मनी पैकेज को सक्षम करना है या नहीं',

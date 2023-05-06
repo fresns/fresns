@@ -502,6 +502,12 @@ return [
     'user_bio_support_mention' => 'Упоминание пользователя',
     'user_bio_support_link' => 'Ссылка',
     'user_bio_support_hashtag' => 'Хэштег',
+    'user_extcredits_config' => 'Extcredits Конфигурация',
+    'user_extcredits_name' => 'Extcredits Имя',
+    'user_extcredits_unit' => 'Имя устройства',
+    'user_extcredits_state_not_enabled' => 'Не включено',
+    'user_extcredits_state_private' => 'Частный',
+    'user_extcredits_state_public' => 'Публичный',
     // System-Wallet
     'wallet_functions' => 'Функция кошелька',
     'wallet_functions_desc' => 'Будь то, чтобы включить французский денежный пакет',

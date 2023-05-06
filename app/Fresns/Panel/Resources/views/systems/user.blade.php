@@ -334,6 +334,46 @@
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.user_edit_username_length_desc') }}</div>
         </div>
+        <!--user_extcredits_config-->
+        <div class="row mb-4">
+            <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.user_extcredits_config') }}:</label>
+            <div class="col-lg-6">
+                @foreach ([1, 2, 3, 4, 5] as $extcreditsId)
+                    <div class="input-group mb-2">
+                        <label class="input-group-text">{{ 'extcredits'.$extcreditsId }}</label>
+                        <button type="button" class="btn btn-outline-secondary btn-modal form-control text-start"
+                            data-bs-toggle="modal"
+                            data-bs-target="#configLangModal"
+                            data-action="{{ route('panel.languages.batch.update', ['itemKey' => "extcredits{$extcreditsId}_name"]) }}"
+                            data-languages="{{ optional($langConfigs["extcredits{$extcreditsId}_name"])->languages->toJson() }}"
+                            data-item_key="{{ "extcredits{$extcreditsId}_name" }}">
+                            {{ $defaultLangParams["extcredits{$extcreditsId}_name"] ??  __('FsLang::panel.user_extcredits_name') }}
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-modal form-control text-start"
+                            data-bs-toggle="modal"
+                            data-bs-target="#configLangModal"
+                            data-action="{{ route('panel.languages.batch.update', ['itemKey' => "extcredits{$extcreditsId}_unit"]) }}"
+                            data-languages="{{ optional($langConfigs["extcredits{$extcreditsId}_unit"])->languages->toJson() }}"
+                            data-item_key="{{ "extcredits{$extcreditsId}_unit" }}">
+                            {{ $defaultLangParams["extcredits{$extcreditsId}_unit"] ??  __('FsLang::panel.user_extcredits_unit') }}
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-modal form-control"
+                            data-bs-toggle="modal"
+                            data-bs-target="#extcreditsSetting"
+                            data-id="{{ $extcreditsId }}"
+                            data-state="{{ $params["extcredits{$extcreditsId}_state"] }}">
+                            @if ($params["extcredits{$extcreditsId}_state"] == 2)
+                                {{ __('FsLang::panel.user_extcredits_state_private') }}
+                            @elseif ($params["extcredits{$extcreditsId}_state"] == 3)
+                                {{ __('FsLang::panel.user_extcredits_state_public') }}
+                            @else
+                                {{ __('FsLang::panel.user_extcredits_state_not_enabled') }}
+                            @endif
+                        </button>
+                    </div>
+                @endforeach
+            </div>
+        </div>
         <!--button_save-->
         <div class="row my-3">
             <div class="col-lg-2"></div>
@@ -367,6 +407,101 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="position-relative image-box">
                 <img class="img-fluid" src="">
+            </div>
+        </div>
+    </div>
+
+    <!-- Language Modal (input) -->
+    <div class="modal fade" id="configLangModal" tabindex="-1" aria-labelledby="configLangModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('FsLang::panel.button_setting') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post">
+                        @csrf
+                        @method('put')
+                        <input type="hidden" name="sync_config" value="1">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle text-nowrap">
+                                <thead>
+                                    <tr class="table-info">
+                                        <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_tag') }}</th>
+                                        <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_name') }}</th>
+                                        <th scope="col" class="w-50">{{ __('FsLang::panel.table_content') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($optionalLanguages as $lang)
+                                        <tr>
+                                            <td>
+                                                {{ $lang['langTag'] }}
+                                                @if ($lang['langTag'] == $defaultLanguage)
+                                                    <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}"></i>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                {{ $lang['langName'] }}
+                                                @if ($lang['areaName'])
+                                                    {{ '('.$lang['areaName'].')' }}
+                                                @endif
+                                            </td>
+                                            <td><input class="form-control" name="languages[{{ $lang['langTag'] }}]"></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_save') }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Setting -->
+    <div class="modal fade" id="extcreditsSetting" tabindex="-1" aria-labelledby="extcreditsSetting" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('FsLang::panel.button_setting') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('panel.user.update.extcredits') }}" method="post">
+                        @csrf
+                        @method('put')
+                        <input type="hidden" name="extcreditsId" value="1">
+                        <!--state-->
+                        <div class="mb-3 row extcredits_state">
+                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_status') }}</label>
+                            <div class="col-sm-9 pt-2">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="extcredits_state" id="extcredits_state_1" value="1" checked>
+                                    <label class="form-check-label" for="extcredits_state_1">{{ __('FsLang::panel.user_extcredits_state_not_enabled') }}</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="extcredits_state" id="extcredits_state_2" value="2">
+                                    <label class="form-check-label" for="extcredits_state_2">{{ __('FsLang::panel.user_extcredits_state_private') }}</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="extcredits_state" id="extcredits_state_3" value="3">
+                                    <label class="form-check-label" for="extcredits_state_3">{{ __('FsLang::panel.user_extcredits_state_public') }}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--button_save-->
+                        <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label"></label>
+                            <div class="col-sm-9"><button type="submit" class="btn btn-primary">{{ __('FsLang::panel.button_save') }}</button></div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

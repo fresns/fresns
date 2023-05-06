@@ -502,6 +502,12 @@ return [
     'user_bio_support_mention' => 'Benutzer erwähnen',
     'user_bio_support_link' => 'Link',
     'user_bio_support_hashtag' => 'Hashtag',
+    'user_extcredits_config' => 'Extcredits Konfiguration',
+    'user_extcredits_name' => 'Extcredits Name',
+    'user_extcredits_unit' => 'Name der Einheit',
+    'user_extcredits_state_not_enabled' => 'Nicht aktiviert',
+    'user_extcredits_state_private' => 'Privat',
+    'user_extcredits_state_public' => 'Öffentlich',
     // System-Wallet
     'wallet_functions' => 'Geldbörsenfunktion',
     'wallet_functions_desc' => 'Ob das französische Geldpaket aktivieren soll',

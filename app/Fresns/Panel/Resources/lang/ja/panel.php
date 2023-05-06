@@ -502,6 +502,12 @@ return [
     'user_bio_support_mention' => 'ユーザーへの言及',
     'user_bio_support_link' => 'リンク',
     'user_bio_support_hashtag' => 'ハッシュタグ',
+    'user_extcredits_config' => 'Extcreditsコンフィギュレーション',
+    'user_extcredits_name' => 'Extcredits名称',
+    'user_extcredits_unit' => 'ユニット名',
+    'user_extcredits_state_not_enabled' => '有効でない',
+    'user_extcredits_state_private' => 'プライベート',
+    'user_extcredits_state_public' => 'パブリック',
     // System-Wallet
     'wallet_functions' => '財布',
     'wallet_functions_desc' => 'フランスのお金のパッケージを有効にするかどうか',

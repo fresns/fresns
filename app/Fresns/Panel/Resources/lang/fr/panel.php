@@ -502,6 +502,12 @@ return [
     'user_bio_support_mention' => 'Mention de l\'utilisateur',
     'user_bio_support_link' => 'Lien',
     'user_bio_support_hashtag' => 'Hashtag',
+    'user_extcredits_config' => 'Extcredits Configuration',
+    'user_extcredits_name' => 'Extcredits Nom',
+    'user_extcredits_unit' => 'Nom de l\'unité',
+    'user_extcredits_state_not_enabled' => 'Non activé',
+    'user_extcredits_state_private' => 'Privé',
+    'user_extcredits_state_public' => 'Public',
     // System-Wallet
     'wallet_functions' => 'Fonction de portefeuille',
     'wallet_functions_desc' => 'Que ce soit pour activer le forfait d\'argent français',

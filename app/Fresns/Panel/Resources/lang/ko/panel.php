@@ -502,6 +502,12 @@ return [
     'user_bio_support_mention' => '사용자 멘션',
     'user_bio_support_link' => '링크',
     'user_bio_support_hashtag' => '해시태그',
+    'user_extcredits_config' => 'Extcredits 구성',
+    'user_extcredits_name' => 'Extcredits 이름',
+    'user_extcredits_unit' => '단위 이름',
+    'user_extcredits_state_not_enabled' => '사용할 수 없음',
+    'user_extcredits_state_private' => '사적인',
+    'user_extcredits_state_public' => '공공의',
     // System-Wallet
     'wallet_functions' => '지갑 기능',
     'wallet_functions_desc' => '프랑스 돈 패키지를 사용할 수 있는지 여부',

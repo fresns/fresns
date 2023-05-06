@@ -502,6 +502,12 @@ return [
     'user_bio_support_mention' => 'Mention User',
     'user_bio_support_link' => 'Link',
     'user_bio_support_hashtag' => 'Hashtag',
+    'user_extcredits_config' => 'Extcredits Config',
+    'user_extcredits_name' => 'Extcredits Name',
+    'user_extcredits_unit' => 'Unit Name',
+    'user_extcredits_state_not_enabled' => 'Not Enabled',
+    'user_extcredits_state_private' => 'Private',
+    'user_extcredits_state_public' => 'Public',
     // System-Wallet
     'wallet_functions' => 'Wallet Functions',
     'wallet_functions_desc' => 'Whether to enable the fiat wallet function',

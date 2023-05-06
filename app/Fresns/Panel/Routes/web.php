@@ -140,7 +140,8 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::put('send/verifyCodeTemplate/{itemKey}/email', [SendController::class, 'updateEmail'])->name('send.email.update');
         // user
         Route::get('user', [UserController::class, 'show'])->name('user.index');
-        Route::put('user', [UserController::class, 'update'])->name('user.update');
+        Route::put('user-update', [UserController::class, 'update'])->name('user.update');
+        Route::put('user/update-extcredits', [UserController::class, 'updateExtcredits'])->name('user.update.extcredits');
         // wallet
         Route::get('wallet', [WalletController::class, 'show'])->name('wallet.index');
         Route::put('wallet', [WalletController::class, 'update'])->name('wallet.update');

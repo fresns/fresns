@@ -502,6 +502,12 @@ return [
     'user_bio_support_mention' => 'Sebutkan Pengguna',
     'user_bio_support_link' => 'Tautan',
     'user_bio_support_hashtag' => 'Tanda pagar',
+    'user_extcredits_config' => 'Extcredits Konfigurasi',
+    'user_extcredits_name' => 'Extcredits Nama',
+    'user_extcredits_unit' => 'Nama Unit',
+    'user_extcredits_state_not_enabled' => 'Tidak Diaktifkan',
+    'user_extcredits_state_private' => 'Pribadi',
+    'user_extcredits_state_public' => 'Publik',
     // System-Wallet
     'wallet_functions' => 'Fungsi dompet',
     'wallet_functions_desc' => 'Apakah akan mengaktifkan paket uang Prancis',

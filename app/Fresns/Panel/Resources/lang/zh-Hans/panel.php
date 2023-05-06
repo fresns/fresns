@@ -503,6 +503,12 @@ return [
     'user_bio_support_mention' => '艾特用户',
     'user_bio_support_link' => '超链接',
     'user_bio_support_hashtag' => '话题',
+    'user_extcredits_config' => '扩展分值配置',
+    'user_extcredits_name' => '分值名称',
+    'user_extcredits_unit' => '分值单位',
+    'user_extcredits_state_not_enabled' => '不启用',
+    'user_extcredits_state_private' => '私有',
+    'user_extcredits_state_public' => '公开',
     // System-Wallet
     'wallet_functions' => '钱包功能',
     'wallet_functions_desc' => '是否启用法币钱包功能',

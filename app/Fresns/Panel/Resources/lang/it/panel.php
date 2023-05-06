@@ -502,6 +502,12 @@ return [
     'user_bio_support_mention' => 'Menzione dell\'utente',
     'user_bio_support_link' => 'Collegamento',
     'user_bio_support_hashtag' => 'Hashtag',
+    'user_extcredits_config' => 'Extcredits Configurazione',
+    'user_extcredits_name' => 'Extcredits Nome',
+    'user_extcredits_unit' => 'Nome unità',
+    'user_extcredits_state_not_enabled' => 'Non abilitato',
+    'user_extcredits_state_private' => 'Privato',
+    'user_extcredits_state_public' => 'Pubblico',
     // System-Wallet
     'wallet_functions' => 'Funzione del portafoglio',
     'wallet_functions_desc' => 'Se abilitare il pacchetto di denaro francese',

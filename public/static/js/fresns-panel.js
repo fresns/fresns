@@ -636,6 +636,18 @@ $(document).ready(function () {
         }
     });
 
+    // user extcredits setting
+    $('#extcreditsSetting').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget),
+            id = button.data('id'),
+            state = button.data('state');
+
+        $(this).find('input[name=extcreditsId]').val(id);
+        $(this)
+            .find('input:radio[name=extcredits_state][value="' + state + '"]')
+            .prop('checked', true);
+    });
+
     // use config delete  connect
     $(document).on('click', '.delete-connect', function () {
         $(this).parent().remove();
