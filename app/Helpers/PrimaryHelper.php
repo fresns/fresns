@@ -398,6 +398,25 @@ class PrimaryHelper
         return PrimaryHelper::fresnsModelByFsid('group', $gid)?->id;
     }
 
+    public static function fresnsGroupIdByContentFsid(string $type, ?string $fsid = null): ?int
+    {
+        if (empty($fsid)) {
+            return null;
+        }
+
+        if ($type != 'post' && $type != 'comment') {
+            return null;
+        }
+
+        if ($type == 'post') {
+            return PrimaryHelper::fresnsModelByFsid('post', $fsid)?->group_id;
+        }
+
+        $comment = PrimaryHelper::fresnsModelByFsid('comment', $fsid);
+
+        return $comment?->post?->group_id;
+    }
+
     public static function fresnsHashtagIdByHid(?string $hid = null): ?int
     {
         if (empty($hid)) {
