@@ -101,7 +101,12 @@ class InstallFresns extends Command
             'DB_TIMEZONE' => self::timezoneIdentifier(trim($dbUtc)),
             'DB_PREFIX' => trim($dbPrefix),
         ];
-        AppUtility::writeEnvironment($dbConfig, 'http://localhost');
+
+        // 4. Configuring app url
+        $appUrl = $this->ask('Please enter the website host(APP_URL)', 'http://localhost');
+
+        // 5. Write to configuration
+        AppUtility::writeEnvironment($dbConfig, $appUrl);
 
         $laravelDbConfig = config('database');
         $laravelDbConnection = $dbConfig['DB_CONNECTION'];
@@ -119,13 +124,13 @@ class InstallFresns extends Command
         config(['database' => $laravelDbConfig]);
         DB::purge();
 
-        // 4. Execution of installation data
+        // 6. Execution of installation data
         $this->call('migrate');
         $this->call('db:seed');
         $this->call('storage:link');
         $this->call('plugin:migrate');
 
-        // 5. Register for an administrator account
+        // 7. Register for an administrator account
         do {
             $adminEmail = $this->ask('Please enter administrator email');
             $adminEmail = trim($adminEmail);
@@ -146,12 +151,15 @@ class InstallFresns extends Command
 
         AppUtility::makeAdminAccount($adminEmail, $adminPassword);
 
-        // 6. Write to installation time
+        // 8. Write to installation time
         AppUtility::writeInstallTime();
 
-        // 7. Installation completion message
-        $this->info('Admin Panel: /fresns/admin');
-        $this->info('Fresns installed successfully');
+        // 9. Installation completion message
+        $this->info("Fresns installed successfully\n");
+        $this->info("Admin Panel: {$appUrl}/fresns/admin");
+        $this->info("Admin Account: {$adminEmail}");
+        $this->info("Admin Password: {$adminPassword}\n");
+        $this->warn('Tip: Don\'t forget to reset folder ownership');
 
         return Command::SUCCESS;
     }
