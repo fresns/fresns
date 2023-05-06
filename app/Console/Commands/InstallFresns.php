@@ -83,7 +83,7 @@ class InstallFresns extends Command
             $dbPass = '';
         } else {
             $dbHost = $this->ask('Please enter the database host', '127.0.0.1');
-            $dbPort = $this->ask("Please enter the database port", "{$port}");
+            $dbPort = $this->ask('Please enter the database port', "{$port}");
             $dbName = $this->ask('Please enter the database name', 'fresns');
             $dbUser = $this->ask('Please enter the database username', 'fresns');
             $dbPass = $this->ask('Please enter the database password');
