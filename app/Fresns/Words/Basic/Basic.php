@@ -43,7 +43,7 @@ class Basic
         $keyType = $dtoWordBody->verifyType ?? SessionKey::TYPE_CORE;
         $keyFskey = $dtoWordBody->verifyFskey;
 
-        if (empty($keyInfo) || ! $keyInfo->is_enable) {
+        if (empty($keyInfo) || ! $keyInfo->is_enabled) {
             return $this->failure(
                 31301,
                 ConfigUtility::getCodeMessage(31301, 'Fresns', $langTag),
