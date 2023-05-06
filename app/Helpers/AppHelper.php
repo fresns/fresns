@@ -8,10 +8,8 @@
 
 namespace App\Helpers;
 
-use App\Models\Config;
-use App\Models\SessionKey;
 use App\Utilities\CommandUtility;
-use Illuminate\Support\Facades\Artisan;
+use Browser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -196,48 +194,67 @@ class AppHelper
         return $themeConfig;
     }
 
-    // set initial configuration
-    public static function setInitialConfiguration(): void
+    // get device info
+    public static function getDeviceInfo(): array
     {
-        $engine = AppHelper::getPluginConfig('FresnsEngine');
-        $theme = AppHelper::getThemeConfig('ThemeFrame');
-
-        // check web engine and theme
-        if (empty($engine) && empty($theme)) {
-            return;
+        $ip = request()->ip();
+        if (strpos($ip, ':') !== false) {
+            $ipv4 = null;
+            $ipv6 = $ip;
+        } else {
+            $ipv4 = $ip;
+            $ipv6 = null;
         }
 
-        // create key
-        $appKey = new SessionKey;
-        $appKey->platform_id = 4;
-        $appKey->name = 'Fresns Engine';
-        $appKey->app_id = Str::random(8);
-        $appKey->app_secret = Str::random(32);
-        $appKey->save();
-
-        // config web engine and theme
-        $configKeys = [
-            'engine_key_id',
-            'FresnsEngine_Desktop',
-            'FresnsEngine_Mobile',
-        ];
-
-        $configValues = [
-            'engine_key_id' => $appKey->id,
-            'FresnsEngine_Desktop' => 'ThemeFrame',
-            'FresnsEngine_Mobile' => 'ThemeFrame',
-        ];
-
-        $configs = Config::whereIn('item_key', $configKeys)->get();
-
-        foreach ($configKeys as $configKey) {
-            $config = $configs->where('item_key', $configKey)->first();
-
-            $config->item_value = $configValues[$configKey];
-            $config->save();
+        $networkType = null;
+        if (empty(request()->header('HTTP_VIA'))) {
+            $networkType = 'wifi';
         }
 
-        // activate web engine
-        Artisan::call('market:activate', ['fskey' => 'FresnsEngine']);
+        $deviceInfo = [
+            'agent' => Browser::userAgent(),
+            'type' => Browser::deviceType(),
+            'mac' => null,
+            'brand' => Browser::deviceFamily(),
+            'model' => Browser::deviceModel(),
+            'platformName' => Browser::platformFamily(),
+            'platformVersion' => Browser::platformVersion(),
+            'browserName' => Browser::browserFamily(),
+            'browserVersion' => Browser::browserVersion(),
+            'browserEngine' => Browser::browserEngine(),
+            'appImei' => null,
+            'appAndroidId' => null,
+            'appOaid' => null,
+            'appIdfa' => null,
+            'simImsi' => null,
+            'networkType' => $networkType,
+            'networkIpv4' => $ipv4,
+            'networkIpv6' => $ipv6,
+            'networkPort' => $_SERVER['REMOTE_PORT'],
+            'networkTimezone' => null,
+            'networkOffset' => null,
+            'networkIsp' => null,
+            'networkOrg' => null,
+            'networkAs' => null,
+            'networkAsName' => null,
+            'networkMobile' => false,
+            'networkProxy' => false,
+            'networkHosting' => false,
+            'mapId' => 1,
+            'latitude' => null,
+            'longitude' => null,
+            'scale' => null,
+            'continent' => null,
+            'continentCode' => null,
+            'country' => null,
+            'countryCode' => null,
+            'region' => null,
+            'regionCode' => null,
+            'city' => null,
+            'district' => null,
+            'zip' => null,
+        ];
+
+        return $deviceInfo;
     }
 }
