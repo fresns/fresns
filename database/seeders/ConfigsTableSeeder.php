@@ -347,7 +347,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             [
                 'item_key' => 'language_menus',
-                'item_value' => '[{"rating":1,"langCode":"en","langName":"English","areaStatus":false,"areaCode":"","areaName":"","langTag":"en","writingDirection":"ltr","lengthUnit":"mi","dateFormat":"m/d/Y","timeFormatMinute":"{n} minute ago","timeFormatHour":"{n} hour ago","timeFormatDay":"{n} day ago","timeFormatMonth":"{n} month ago","packVersion":1,"isEnable":true},{"rating":2,"langCode":"zh-Hans","langName":"简体中文","areaStatus":false,"areaCode":"","areaName":"","langTag":"zh-Hans","writingDirection":"ltr","lengthUnit":"km","dateFormat":"Y-m-d","timeFormatMinute":"{n} 分钟前","timeFormatHour":"{n} 小时前","timeFormatDay":"{n} 天前","timeFormatMonth":"{n} 个月前","packVersion":1,"isEnable":true},{"rating":3,"langCode":"zh-Hant","langName":"繁體中文","areaStatus":false,"areaCode":"","areaName":"","langTag":"zh-Hant","writingDirection":"ltr","lengthUnit":"km","dateFormat":"Y-m-d","timeFormatMinute":"{n} 分鐘前","timeFormatHour":"{n} 小時前","timeFormatDay":"{n} 天前","timeFormatMonth":"{n} 個月前","packVersion":1,"isEnable":true}]',
+                'item_value' => '[{"rating":1,"langCode":"en","langName":"English","areaStatus":false,"areaCode":"","areaName":"","langTag":"en","writingDirection":"ltr","lengthUnit":"mi","dateFormat":"m/d/Y","timeFormatMinute":"{n} minute ago","timeFormatHour":"{n} hour ago","timeFormatDay":"{n} day ago","timeFormatMonth":"{n} month ago","packVersion":1,"isEnabled":true},{"rating":2,"langCode":"zh-Hans","langName":"简体中文","areaStatus":false,"areaCode":"","areaName":"","langTag":"zh-Hans","writingDirection":"ltr","lengthUnit":"km","dateFormat":"Y-m-d","timeFormatMinute":"{n} 分钟前","timeFormatHour":"{n} 小时前","timeFormatDay":"{n} 天前","timeFormatMonth":"{n} 个月前","packVersion":1,"isEnabled":true},{"rating":3,"langCode":"zh-Hant","langName":"繁體中文","areaStatus":false,"areaCode":"","areaName":"","langTag":"zh-Hant","writingDirection":"ltr","lengthUnit":"km","dateFormat":"Y-m-d","timeFormatMinute":"{n} 分鐘前","timeFormatHour":"{n} 小時前","timeFormatDay":"{n} 天前","timeFormatMonth":"{n} 個月前","packVersion":1,"isEnabled":true}]',
                 'item_type' => 'array',
                 'item_tag' => 'languages',
                 'is_multilingual' => 0,
@@ -827,7 +827,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             [
                 'item_key' => 'verifycode_template1',
-                'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>{sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】您的验证码","content":"<div>{sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】您的驗證碼","content":"<div>{sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
+                'item_value' => '[{"type":"email","isEnabled":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>{sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】您的验证码","content":"<div>{sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】您的驗證碼","content":"<div>{sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnabled":false,"template":[]}]',
                 'item_type' => 'array',
                 'item_tag' => 'verifyCodes',
                 'is_multilingual' => 0,
@@ -839,7 +839,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             [
                 'item_key' => 'verifycode_template2',
-                'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Welcome to {sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】您的验证码","content":"<div>欢迎来到 {sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】您的驗證碼","content":"<div>歡迎來到 {sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
+                'item_value' => '[{"type":"email","isEnabled":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Welcome to {sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】您的验证码","content":"<div>欢迎来到 {sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】您的驗證碼","content":"<div>歡迎來到 {sitename}</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnabled":false,"template":[]}]',
                 'item_type' => 'array',
                 'item_tag' => 'verifyCodes',
                 'is_multilingual' => 0,
@@ -851,7 +851,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             [
                 'item_key' => 'verifycode_template3',
-                'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Modify {sitename} account information</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>修改 {sitename} 账号资料</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>修改 {sitename} 賬號資料</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
+                'item_value' => '[{"type":"email","isEnabled":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Modify {sitename} account information</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>修改 {sitename} 账号资料</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>修改 {sitename} 賬號資料</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnabled":false,"template":[]}]',
                 'item_type' => 'array',
                 'item_tag' => 'verifyCodes',
                 'is_multilingual' => 0,
@@ -863,7 +863,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             [
                 'item_key' => 'verifycode_template4',
-                'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Change {sitename} Phone Number</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>更换 {sitename} 手机号</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>更換 {sitename} 手機號</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
+                'item_value' => '[{"type":"email","isEnabled":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Change {sitename} Phone Number</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>更换 {sitename} 手机号</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>更換 {sitename} 手機號</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnabled":false,"template":[]}]',
                 'item_type' => 'array',
                 'item_tag' => 'verifyCodes',
                 'is_multilingual' => 0,
@@ -875,7 +875,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             [
                 'item_key' => 'verifycode_template5',
-                'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Reset Login Password</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>重置登录密码</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>重置登錄密碼</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
+                'item_value' => '[{"type":"email","isEnabled":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Reset Login Password</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>重置登录密码</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>重置登錄密碼</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnabled":false,"template":[]}]',
                 'item_type' => 'array',
                 'item_tag' => 'verifyCodes',
                 'is_multilingual' => 0,
@@ -887,7 +887,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             [
                 'item_key' => 'verifycode_template6',
-                'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Reset Payment Password</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>重置支付密码</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>重置支付密碼</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
+                'item_value' => '[{"type":"email","isEnabled":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Reset Payment Password</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>重置支付密码</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>重置支付密碼</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnabled":false,"template":[]}]',
                 'item_type' => 'array',
                 'item_tag' => 'verifyCodes',
                 'is_multilingual' => 0,
@@ -899,7 +899,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             [
                 'item_key' => 'verifycode_template7',
-                'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Login with verification code</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>使用验证码登录</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>使用驗證碼登錄</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
+                'item_value' => '[{"type":"email","isEnabled":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Login with verification code</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>使用验证码登录</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>使用驗證碼登錄</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnabled":false,"template":[]}]',
                 'item_type' => 'array',
                 'item_tag' => 'verifyCodes',
                 'is_multilingual' => 0,
@@ -911,7 +911,7 @@ class ConfigsTableSeeder extends Seeder
             ],
             [
                 'item_key' => 'verifycode_template8',
-                'item_value' => '[{"type":"email","isEnable":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Login with verification code</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>使用验证码登录</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>使用驗證碼登錄</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnable":false,"template":[]}]',
+                'item_value' => '[{"type":"email","isEnabled":true,"template":[{"langTag":"en","title":"[{sitename}] Your verify code","content":"<div>Login with verification code</div><div><br></div><div>&nbsp;&nbsp;&nbsp; Your verify code: {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hans","title":"【{sitename}】验证码","content":"<div>使用验证码登录</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的验证码： {code}</div><div><br></div><div>{time}</div>"},{"langTag":"zh-Hant","title":"【{sitename}】驗證碼","content":"<div>使用驗證碼登錄</div><div><br></div><div>&nbsp;&nbsp;&nbsp; 您的驗證碼： {code}</div><div><br></div><div>{time}</div>"}]},{"type":"sms","isEnabled":false,"template":[]}]',
                 'item_type' => 'array',
                 'item_tag' => 'verifyCodes',
                 'is_multilingual' => 0,
@@ -1234,7 +1234,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'extcredits1_status',
+                'item_key' => 'extcredits1_state',
                 'item_value' => '1',
                 'item_type' => 'number',
                 'item_tag' => 'users',
@@ -1270,7 +1270,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'extcredits2_status',
+                'item_key' => 'extcredits2_state',
                 'item_value' => '1',
                 'item_type' => 'number',
                 'item_tag' => 'users',
@@ -1306,7 +1306,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'extcredits3_status',
+                'item_key' => 'extcredits3_state',
                 'item_value' => '1',
                 'item_type' => 'number',
                 'item_tag' => 'users',
@@ -1342,7 +1342,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'extcredits4_status',
+                'item_key' => 'extcredits4_state',
                 'item_value' => '1',
                 'item_type' => 'number',
                 'item_tag' => 'users',
@@ -1378,7 +1378,7 @@ class ConfigsTableSeeder extends Seeder
                 'deleted_at' => null,
             ],
             [
-                'item_key' => 'extcredits5_status',
+                'item_key' => 'extcredits5_state',
                 'item_value' => '1',
                 'item_type' => 'number',
                 'item_tag' => 'users',
