@@ -361,7 +361,7 @@ class UserController extends Controller
         }
 
         $userQuery = User::whereIn('id', $youKnowArr)
-            ->where('is_enabledd', true)
+            ->where('is_enabled', true)
             ->where('wait_delete', false)
             ->paginate($pageSize);
 
