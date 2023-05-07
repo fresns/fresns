@@ -316,7 +316,7 @@ class PostService
             $readLength = intval($postData['contentLength'] * $previewPercentage);
 
             $contentData['readConfig']['isReadLocked'] = true;
-            $contentData['content'] = Str::limit($contentData['content'], $readLength);
+            $contentData['content'] = Str::limit($post->content, $readLength);
             $contentData['extends'] = [
                 'textBox' => [],
                 'infoBox' => [],
