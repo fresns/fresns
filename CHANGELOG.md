@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.11.2 (2023-05-08)
+
+### Fixes
+- API: Post and Comment data plugin provides
+
+
 ## 2.11.1 (2023-05-08)
 
 ### Fixes
