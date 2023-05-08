@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.11.1 (2023-05-08)
+
+### Fixes
+- API: Percentage of post content preview not calculated correctly
+- Data: Incorrect language pack key name
+- Data: Inconsistent upgrade dates
+
+
 ## 2.11.0 (2023-05-06)
 
 ### Added
