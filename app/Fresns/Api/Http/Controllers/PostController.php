@@ -703,7 +703,7 @@ class PostController extends Controller
                 'body' => $dtoRequest->toArray(),
             ];
 
-            $fresnsResp = \FresnsCmdWord::plugin($dataPluginFskey)->getPostByAll($wordBody);
+            $fresnsResp = \FresnsCmdWord::plugin($dataPluginFskey)->getPostByFollow($wordBody);
 
             return $fresnsResp->getOrigin();
         }
@@ -764,7 +764,7 @@ class PostController extends Controller
                 'body' => $dtoRequest->toArray(),
             ];
 
-            $fresnsResp = \FresnsCmdWord::plugin($dataPluginFskey)->getPostByAll($wordBody);
+            $fresnsResp = \FresnsCmdWord::plugin($dataPluginFskey)->getPostByNearby($wordBody);
 
             return $fresnsResp->getOrigin();
         }

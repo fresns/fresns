@@ -39,6 +39,25 @@ class CommentController extends Controller
     {
         $dtoRequest = new CommentListDTO($request->all());
 
+        // Plugin provides data
+        $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('content_list_service');
+
+        if ($dtoRequest->contentType && ! $dataPluginFskey) {
+            $dataPluginFskey = ExtendUtility::getDataExtend($dtoRequest->contentType, 'commentByAll');
+        }
+
+        if ($dataPluginFskey) {
+            $wordBody = [
+                'headers' => \request()->headers->all(),
+                'body' => $dtoRequest->toArray(),
+            ];
+
+            $fresnsResp = \FresnsCmdWord::plugin($dataPluginFskey)->getCommentByAll($wordBody);
+
+            return $fresnsResp->getOrigin();
+        }
+
+        // Fresns provides data
         $langTag = $this->langTag();
         $timezone = $this->timezone();
         $authUserId = $this->user()?->id;
@@ -435,6 +454,20 @@ class CommentController extends Controller
         UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
         GroupService::checkGroupContentViewPerm($comment->created_at, $comment?->post?->group_id, $authUserId);
 
+        // Plugin provides data
+        $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('content_detail_service');
+
+        if ($dataPluginFskey) {
+            $wordBody = [
+                'headers' => \request()->headers->all(),
+                'body' => $dtoRequest->toArray(),
+            ];
+
+            $fresnsResp = \FresnsCmdWord::plugin($dataPluginFskey)->getCommentDetail($wordBody);
+
+            return $fresnsResp->getOrigin();
+        }
+
         $seoData = LanguageHelper::fresnsLanguageSeoDataById('comment', $comment->id, $langTag);
 
         $item['title'] = $seoData?->title;
@@ -632,7 +665,7 @@ class CommentController extends Controller
                 'body' => $dtoRequest->toArray(),
             ];
 
-            $fresnsResp = \FresnsCmdWord::plugin($dataPluginFskey)->getCommentByAll($wordBody);
+            $fresnsResp = \FresnsCmdWord::plugin($dataPluginFskey)->getCommentByFollow($wordBody);
 
             return $fresnsResp->getOrigin();
         }
