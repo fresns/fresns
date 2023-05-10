@@ -41,7 +41,7 @@ class PostController extends Controller
         $dtoRequest = new PostListDTO($request->all());
 
         // Plugin provides data
-        $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('content_list_service');
+        $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('post_list_service');
 
         if ($dtoRequest->contentType && ! $dataPluginFskey) {
             $dataPluginFskey = ExtendUtility::getDataExtend($dtoRequest->contentType, 'postByAll');
@@ -394,7 +394,7 @@ class PostController extends Controller
         GroupService::checkGroupContentViewPerm($post->created_at, $post->group_id, $authUserId);
 
         // Plugin provides data
-        $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('content_detail_service');
+        $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('post_detail_service');
 
         if ($dataPluginFskey) {
             $wordBody = [
@@ -691,7 +691,7 @@ class PostController extends Controller
         $dtoRequest = new FollowDTO($requestData);
 
         // Plugin provides data
-        $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('content_follow_service');
+        $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('post_follow_service');
 
         if ($dtoRequest->contentType && ! $dataPluginFskey) {
             $dataPluginFskey = ExtendUtility::getDataExtend($dtoRequest->contentType, 'postByFollow');
@@ -752,7 +752,7 @@ class PostController extends Controller
         $dtoRequest = new NearbyDTO($request->all());
 
         // Plugin provides data
-        $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('content_nearby_service');
+        $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('post_nearby_service');
 
         if ($dtoRequest->contentType && ! $dataPluginFskey) {
             $dataPluginFskey = ExtendUtility::getDataExtend($dtoRequest->contentType, 'postByNearby');

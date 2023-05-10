@@ -40,7 +40,7 @@ class CommentController extends Controller
         $dtoRequest = new CommentListDTO($request->all());
 
         // Plugin provides data
-        $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('content_list_service');
+        $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('comment_list_service');
 
         if ($dtoRequest->contentType && ! $dataPluginFskey) {
             $dataPluginFskey = ExtendUtility::getDataExtend($dtoRequest->contentType, 'commentByAll');
@@ -455,7 +455,7 @@ class CommentController extends Controller
         GroupService::checkGroupContentViewPerm($comment->created_at, $comment?->post?->group_id, $authUserId);
 
         // Plugin provides data
-        $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('content_detail_service');
+        $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('comment_detail_service');
 
         if ($dataPluginFskey) {
             $wordBody = [
@@ -653,7 +653,7 @@ class CommentController extends Controller
         $dtoRequest = new FollowDTO($requestData);
 
         // Plugin provides data
-        $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('content_follow_service');
+        $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('comment_follow_service');
 
         if ($dtoRequest->contentType && ! $dataPluginFskey) {
             $dataPluginFskey = ExtendUtility::getDataExtend($dtoRequest->contentType, 'commentByFollow');
@@ -738,7 +738,7 @@ class CommentController extends Controller
         $dtoRequest = new NearbyDTO($request->all());
 
         // Plugin provides data
-        $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('content_nearby_service');
+        $dataPluginFskey = ConfigHelper::fresnsConfigByItemKey('comment_nearby_service');
 
         if ($dtoRequest->contentType && ! $dataPluginFskey) {
             $dataPluginFskey = ExtendUtility::getDataExtend($dtoRequest->contentType, 'commentByNearby');
