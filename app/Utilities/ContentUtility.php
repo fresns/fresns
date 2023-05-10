@@ -926,8 +926,8 @@ class ContentUtility
             'content' => $postLog->content,
             'is_markdown' => $postLog->is_markdown,
             'is_anonymous' => $postLog->is_anonymous,
-            'map_longitude' => $postLog->map_json['latitude'] ?? null,
-            'map_latitude' => $postLog->map_json['longitude'] ?? null,
+            'map_longitude' => $postLog->map_json['longitude'] ?? null,
+            'map_latitude' => $postLog->map_json['latitude'] ?? null,
         ]);
 
         $readBtnName = null;
@@ -1057,8 +1057,8 @@ class ContentUtility
             'content' => $commentLog->content,
             'is_markdown' => $commentLog->is_markdown,
             'is_anonymous' => $commentLog->is_anonymous,
-            'map_longitude' => $commentLog->map_json['latitude'] ?? null,
-            'map_latitude' => $commentLog->map_json['longitude'] ?? null,
+            'map_longitude' => $commentLog->map_json['longitude'] ?? null,
+            'map_latitude' => $commentLog->map_json['latitude'] ?? null,
         ]);
 
         $commentAppend = CommentAppend::updateOrCreate([

@@ -483,8 +483,8 @@ class Content
                     'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
                     'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
                     'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
-                    'map_longitude' => $dtoWordBody->map['latitude'] ?? null,
-                    'map_latitude' => $dtoWordBody->map['longitude'] ?? null,
+                    'map_longitude' => $dtoWordBody->map['longitude'] ?? null,
+                    'map_latitude' => $dtoWordBody->map['latitude'] ?? null,
                 ]);
 
                 PostAppend::create([
@@ -532,8 +532,8 @@ class Content
                     'content' => $dtoWordBody->content ? Str::of($dtoWordBody->content)->trim() : null,
                     'is_markdown' => $dtoWordBody->isMarkdown ?? 0,
                     'is_anonymous' => $dtoWordBody->isAnonymous ?? 0,
-                    'map_longitude' => $dtoWordBody->map['latitude'] ?? null,
-                    'map_latitude' => $dtoWordBody->map['longitude'] ?? null,
+                    'map_longitude' => $dtoWordBody->map['longitude'] ?? null,
+                    'map_latitude' => $dtoWordBody->map['latitude'] ?? null,
                 ]);
 
                 CommentAppend::create([
