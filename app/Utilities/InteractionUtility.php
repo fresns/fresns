@@ -24,6 +24,7 @@ use App\Models\UserFollow;
 use App\Models\UserLike;
 use App\Models\UserStat;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
 
 class InteractionUtility
@@ -876,7 +877,7 @@ class InteractionUtility
             'actionType' => Notification::ACTION_TYPE_DIGEST,
             'actionObject' => $actionObject,
             'actionFsid' => $actionFsid,
-            'actionCid' => null,
+            'contentFsid' => null,
         ];
 
         \FresnsCmdWord::plugin('Fresns')->sendNotification($wordBody);
@@ -955,7 +956,7 @@ class InteractionUtility
             'actionType' => $actionType,
             'actionObject' => $markType,
             'actionFsid' => $actionFsid,
-            'actionCid' => null,
+            'contentFsid' => null,
         ];
         \FresnsCmdWord::plugin('Fresns')->sendNotification($notificationWordBody);
     }
@@ -963,102 +964,130 @@ class InteractionUtility
     // send publish notification
     public static function sendPublishNotification(string $type, int $contentId): void
     {
-        $actionModel = match ($type) {
-            'post' => PrimaryHelper::fresnsModelById('post', $contentId),
-            'comment' => PrimaryHelper::fresnsModelById('comment', $contentId),
-            default => null,
-        };
+        Queue::push(function () use ($type, $contentId) {
+            $actionModel = match ($type) {
+                'post' => PrimaryHelper::fresnsModelById('post', $contentId),
+                'comment' => PrimaryHelper::fresnsModelById('comment', $contentId),
+                default => null,
+            };
 
-        if (empty($actionModel)) {
-            return;
-        }
-
-        $actionUser = PrimaryHelper::fresnsModelById('user', $actionModel->user_id);
-        $actionObject = match ($type) {
-            'post' => Notification::ACTION_OBJECT_POST,
-            'comment' => Notification::ACTION_OBJECT_COMMENT,
-        };
-        $actionFsid = match ($type) {
-            'post' => $actionModel->pid,
-            'comment' => $actionModel->cid,
-        };
-
-        $typeNumber = match ($type) {
-            'post' => 4,
-            'comment' => 5,
-        };
-
-        $mentions = Mention::where('user_id', $actionUser->id)
-            ->where('mention_type', $typeNumber)
-            ->where('mention_id', $actionModel->id)
-            ->get();
-
-        if ($mentions) {
-            foreach ($mentions as $mention) {
-                $mentionUser = PrimaryHelper::fresnsModelById('user', $mention->mention_user_id);
-
-                $mentionWordBody = [
-                    'uid' => $mentionUser->uid,
-                    'type' => Notification::TYPE_MENTION,
-                    'content' => Str::limit($actionModel->content),
-                    'isMarkdown' => 0,
-                    'isMultilingual' => 0,
-                    'isAccessPlugin' => null,
-                    'pluginFskey' => null,
-                    'actionUid' => $actionUser->uid,
-                    'actionType' => Notification::ACTION_TYPE_PUBLISH,
-                    'actionObject' => $actionObject,
-                    'actionFsid' => $actionFsid,
-                    'actionCid' => null,
-                ];
-
-                \FresnsCmdWord::plugin('Fresns')->sendNotification($mentionWordBody);
+            if (empty($actionModel)) {
+                return;
             }
-        }
 
-        if ($type == 'comment') {
-            $userId = null;
-            $actionFsid = null;
+            $actionUser = PrimaryHelper::fresnsModelById('user', $actionModel->user_id);
+            $actionObject = match ($type) {
+                'post' => Notification::ACTION_OBJECT_POST,
+                'comment' => Notification::ACTION_OBJECT_COMMENT,
+            };
+            $actionFsid = match ($type) {
+                'post' => $actionModel->pid,
+                'comment' => $actionModel->cid,
+            };
 
-            $parentComment = PrimaryHelper::fresnsModelById('comment', $actionModel->parent_id);
-            if ($parentComment) {
-                if ($parentComment->user_id == $actionModel->user_id) {
-                    return;
+            $typeNumber = match ($type) {
+                'post' => 4,
+                'comment' => 5,
+            };
+
+            $mentions = Mention::where('user_id', $actionUser->id)
+                ->where('mention_type', $typeNumber)
+                ->where('mention_id', $actionModel->id)
+                ->get();
+
+            if ($mentions) {
+                foreach ($mentions as $mention) {
+                    $mentionUser = PrimaryHelper::fresnsModelById('user', $mention->mention_user_id);
+
+                    $mentionWordBody = [
+                        'uid' => $mentionUser->uid,
+                        'type' => Notification::TYPE_MENTION,
+                        'content' => Str::limit($actionModel->content),
+                        'isMarkdown' => 0,
+                        'isMultilingual' => 0,
+                        'isAccessPlugin' => null,
+                        'pluginFskey' => null,
+                        'actionUid' => $actionUser->uid,
+                        'actionType' => Notification::ACTION_TYPE_PUBLISH,
+                        'actionObject' => $actionObject,
+                        'actionFsid' => $actionFsid,
+                        'contentFsid' => null,
+                    ];
+
+                    \FresnsCmdWord::plugin('Fresns')->sendNotification($mentionWordBody);
                 }
-
-                $userId = $parentComment->user_id;
-                $actionFsid = $parentComment->cid;
             }
 
-            if (empty($userId)) {
-                $post = PrimaryHelper::fresnsModelById('post', $actionModel->post_id);
-                if ($actionModel->user_id == $post->user_id) {
-                    return;
-                }
+            switch ($type) {
+                case 'post':
+                    if (empty($actionModel->parent_id)) {
+                        return;
+                    }
 
-                $userId = $post->user_id;
-                $actionFsid = $post->pid;
+                    $notifyPost = PrimaryHelper::fresnsModelById('post', $actionModel->parent_id);
+                    $notifyUser = PrimaryHelper::fresnsModelById('user', $notifyPost->user_id);
+
+                    $quoteWordBody = [
+                        'uid' => $notifyUser->uid,
+                        'type' => Notification::TYPE_QUOTE,
+                        'content' => Str::limit($actionModel->content),
+                        'isMarkdown' => 0,
+                        'isMultilingual' => 0,
+                        'isAccessPlugin' => null,
+                        'pluginFskey' => null,
+                        'actionUid' => $actionUser->uid,
+                        'actionType' => Notification::ACTION_TYPE_PUBLISH,
+                        'actionObject' => Notification::ACTION_OBJECT_POST,
+                        'actionFsid' => $actionFsid,
+                        'contentFsid' => $notifyPost->pid,
+                    ];
+                    \FresnsCmdWord::plugin('Fresns')->sendNotification($quoteWordBody);
+                    break;
+
+                case 'comment':
+                    $notifyUserId = null;
+                    $contentFsid = null;
+
+                    $parentComment = PrimaryHelper::fresnsModelById('comment', $actionModel->parent_id);
+                    if ($parentComment) {
+                        if ($parentComment->user_id == $actionModel->user_id) {
+                            return;
+                        }
+
+                        $notifyUserId = $parentComment->user_id;
+                        $contentFsid = $parentComment->cid;
+                    }
+
+                    if (empty($notifyUserId)) {
+                        $notifyPost = PrimaryHelper::fresnsModelById('post', $actionModel->post_id);
+                        if ($actionModel->user_id == $notifyPost->user_id) {
+                            return;
+                        }
+
+                        $notifyUserId = $notifyPost->user_id;
+                        $contentFsid = $notifyPost->pid;
+                    }
+
+                    $notifyUser = PrimaryHelper::fresnsModelById('user', $notifyUserId);
+
+                    $commentWordBody = [
+                        'uid' => $notifyUser->uid,
+                        'type' => Notification::TYPE_COMMENT,
+                        'content' => Str::limit($actionModel->content),
+                        'isMarkdown' => 0,
+                        'isMultilingual' => 0,
+                        'isAccessPlugin' => null,
+                        'pluginFskey' => null,
+                        'actionUid' => $actionUser->uid,
+                        'actionType' => Notification::ACTION_TYPE_PUBLISH,
+                        'actionObject' => $actionModel->top_parent_id ? Notification::ACTION_OBJECT_COMMENT : Notification::ACTION_OBJECT_POST,
+                        'actionFsid' => $actionFsid,
+                        'contentFsid' => $contentFsid,
+                    ];
+                    \FresnsCmdWord::plugin('Fresns')->sendNotification($commentWordBody);
+                    break;
             }
-
-            $user = PrimaryHelper::fresnsModelById('user', $userId);
-
-            $commentWordBody = [
-                'uid' => $user->uid,
-                'type' => Notification::TYPE_COMMENT,
-                'content' => Str::limit($actionModel->content),
-                'isMarkdown' => 0,
-                'isMultilingual' => 0,
-                'isAccessPlugin' => null,
-                'pluginFskey' => null,
-                'actionUid' => $actionUser->uid,
-                'actionType' => Notification::ACTION_TYPE_PUBLISH,
-                'actionObject' => $actionModel->top_parent_id ? Notification::ACTION_OBJECT_COMMENT : Notification::ACTION_OBJECT_POST,
-                'actionFsid' => $actionFsid,
-                'actionCid' => $actionFsid,
-            ];
-
-            \FresnsCmdWord::plugin('Fresns')->sendNotification($commentWordBody);
-        }
+        });
     }
 
     // get follow id array

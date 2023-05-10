@@ -78,17 +78,24 @@ class NotificationController extends Controller
                 $actionUser = ArrUtility::filter($actionUser, $actionUserFilter['type'], $actionUserFilter['keys']);
             }
 
+            $contentFsid = match ($notification->type) {
+                Notification::TYPE_COMMENT => PrimaryHelper::fresnsModelById('comment', $notification?->action_content_id)?->cid,
+                Notification::TYPE_QUOTE => PrimaryHelper::fresnsModelById('post', $notification?->action_content_id)?->pid,
+                default => null,
+            };
+
             $item['id'] = $notification->id;
             $item['type'] = $notification->type;
             $item['content'] = $notification->is_multilingual ? LanguageHelper::fresnsLanguageByTableId('notifications', 'content', $notification->id, $langTag) : $notification->content;
             $item['isMarkdown'] = (bool) $notification->is_markdown;
+            $item['isMention'] = (bool) $notification->is_mention;
             $item['isAccessPlugin'] = (bool) $notification->is_access_plugin;
             $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByFskey($notification->plugin_fskey);
             $item['actionUser'] = $actionUser;
             $item['actionType'] = $notification->action_type;
             $item['actionObject'] = $notification->action_object;
             $item['actionInfo'] = null;
-            $item['actionCid'] = $notification->action_comment_id ? PrimaryHelper::fresnsModelById('comment', $notification?->action_comment_id)?->cid : null;
+            $item['contentFsid'] = $contentFsid;
             $item['datetime'] = DateHelper::fresnsDateTimeByTimezone($notification->created_at, $timezone, $langTag);
             $item['datetimeFormat'] = DateHelper::fresnsFormatDateTime($notification->created_at, $timezone, $langTag);
             $item['timeAgo'] = DateHelper::fresnsHumanReadableTime($notification->created_at, $langTag);
@@ -96,7 +103,6 @@ class NotificationController extends Controller
 
             if ($notification->action_object && $notification->action_id) {
                 $actionInfo = match ($notification->action_object) {
-                    default => null,
                     Notification::ACTION_OBJECT_USER => $userService->userData($notification?->user, 'list', $langTag, $timezone, $authUserId),
                     Notification::ACTION_OBJECT_GROUP => $groupService->groupData($notification?->group, $langTag, $timezone, $authUserId),
                     Notification::ACTION_OBJECT_HASHTAG => $hashtagService->hashtagData($notification?->hashtag, $langTag, $timezone, $authUserId),
@@ -105,6 +111,7 @@ class NotificationController extends Controller
                     Notification::ACTION_OBJECT_POST_LOG => $postService->postLogData($notification?->postLog, 'list', $langTag, $timezone),
                     Notification::ACTION_OBJECT_COMMENT_LOG => $commentService->commentLogData($notification?->commentLog, 'list', $langTag, $timezone),
                     Notification::ACTION_OBJECT_EXTEND => $notification?->extend->getExtendInfo($langTag),
+                    default => null,
                 };
 
                 // actionInfo user filter

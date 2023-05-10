@@ -22,7 +22,7 @@ class SendNotificationDTO extends DTO
     {
         return [
             'uid' => ['integer', 'required'],
-            'type' => ['integer', 'required', 'between:1,8'],
+            'type' => ['integer', 'required', 'between:1,9'],
             'content' => ['string', 'nullable'],
             'isMarkdown' => ['Boolean', 'nullable'],
             'isMultilingual' => ['Boolean', 'nullable', 'required_with:content'],
@@ -32,7 +32,7 @@ class SendNotificationDTO extends DTO
             'actionType' => ['integer', 'nullable', 'between:1,10', 'required_with:actionObject', 'required_with:actionFsid'],
             'actionObject' => ['integer', 'nullable', 'between:1,8', 'required_with:actionFsid'],
             'actionFsid' => ['string', 'nullable', 'required_with:actionObject'],
-            'actionCid' => ['string', 'nullable'],
+            'contentFsid' => ['string', 'nullable'],
         ];
     }
 }

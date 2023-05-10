@@ -18,6 +18,7 @@ class Notification extends Model
     const TYPE_BLOCK = 6;
     const TYPE_MENTION = 7;
     const TYPE_COMMENT = 8;
+    const TYPE_QUOTE = 9;
 
     const ACTION_TYPE_LIKE = 1;
     const ACTION_TYPE_DISLIKE = 2;

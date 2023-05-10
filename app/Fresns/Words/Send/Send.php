@@ -213,6 +213,12 @@ class Send
 
         $isMultilingual = $dtoWordBody['isMultilingual'] ?? 0;
 
+        $contentId = match ($dtoWordBody['type']) {
+            Notification::TYPE_COMMENT => PrimaryHelper::fresnsCommentIdByCid($dtoWordBody['contentFsid']),
+            Notification::TYPE_QUOTE => PrimaryHelper::fresnsPostIdByPid($dtoWordBody['contentFsid']),
+            default => null,
+        };
+
         // notification data
         $notificationData = [
             'user_id' => $userId,
@@ -226,7 +232,7 @@ class Send
             'action_type' => $dtoWordBody['actionType'] ?? null,
             'action_object' => $dtoWordBody['actionObject'] ?? null,
             'action_id' => $actionModel?->id ?? null,
-            'action_comment_id' => $dtoWordBody['actionCid'] ? PrimaryHelper::fresnsModelByFsid('comment', $dtoWordBody['actionCid'])?->id : null,
+            'action_content_id' => $contentId,
         ];
 
         $notification = Notification::create($notificationData);

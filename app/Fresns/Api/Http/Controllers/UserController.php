@@ -617,14 +617,15 @@ class UserController extends Controller
         $unreadNotifications = CacheHelper::get($notificationsCacheKey, $cacheTag);
         if (empty($unreadNotifications)) {
             $unreadNotifications = [
-                'systems' => Notification::where('type', 1)->where('user_id', $userId)->where('is_read', 0)->count(),
-                'recommends' => Notification::where('type', 2)->where('user_id', $userId)->where('is_read', 0)->count(),
-                'likes' => Notification::where('type', 3)->where('user_id', $userId)->where('is_read', 0)->count(),
-                'dislikes' => Notification::where('type', 4)->where('user_id', $userId)->where('is_read', 0)->count(),
-                'follows' => Notification::where('type', 5)->where('user_id', $userId)->where('is_read', 0)->count(),
-                'blocks' => Notification::where('type', 6)->where('user_id', $userId)->where('is_read', 0)->count(),
-                'mentions' => Notification::where('type', 7)->where('user_id', $userId)->where('is_read', 0)->count(),
-                'comments' => Notification::where('type', 8)->where('user_id', $userId)->where('is_read', 0)->count(),
+                'systems' => Notification::where('type', Notification::TYPE_SYSTEM)->where('user_id', $userId)->where('is_read', false)->count(),
+                'recommends' => Notification::where('type', Notification::TYPE_RECOMMEND)->where('user_id', $userId)->where('is_read', false)->count(),
+                'likes' => Notification::where('type', Notification::TYPE_LIKE)->where('user_id', $userId)->where('is_read', false)->count(),
+                'dislikes' => Notification::where('type', Notification::TYPE_DISLIKE)->where('user_id', $userId)->where('is_read', false)->count(),
+                'follows' => Notification::where('type', Notification::TYPE_FOLLOW)->where('user_id', $userId)->where('is_read', false)->count(),
+                'blocks' => Notification::where('type', Notification::TYPE_BLOCK)->where('user_id', $userId)->where('is_read', false)->count(),
+                'mentions' => Notification::where('type', Notification::TYPE_MENTION)->where('user_id', $userId)->where('is_read', false)->count(),
+                'comments' => Notification::where('type', Notification::TYPE_COMMENT)->where('user_id', $userId)->where('is_read', false)->count(),
+                'quotes' => Notification::where('type', Notification::TYPE_QUOTE)->where('user_id', $userId)->where('is_read', false)->count(),
             ];
 
             CacheHelper::put($unreadNotifications, $notificationsCacheKey, $cacheTag, null, $cacheTime);
