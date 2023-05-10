@@ -327,7 +327,7 @@ class ExtensionController extends Controller
             $message = __('FsLang::tips.uninstallFailure');
         }
 
-        return response()->json(['message' => Artisan::output().$message], 200);
+        return response(Artisan::output()."\n".$message);
     }
 
     public function updateCode(Request $request)
