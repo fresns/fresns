@@ -1033,6 +1033,7 @@ return [
     'menu_notifications_blocks' => 'Notificar-Блокирует',
     'menu_notifications_mentions' => 'Notificar-Упоминания',
     'menu_notifications_comments' => 'Notificar-Комментарии',
+    'menu_notifications_quotes' => 'Notificar-Цитата',
     'menu_search' => 'поиск',
     'menu_editor_functions' => 'редактор',
     'menu_editor_drafts' => 'Проект коробки',

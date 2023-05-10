@@ -1033,6 +1033,7 @@ return [
     'menu_notifications_blocks' => 'Notificar-Bloqueos',
     'menu_notifications_mentions' => 'Notificar-Menciones',
     'menu_notifications_comments' => 'Notificar-Comentarios',
+    'menu_notifications_quotes' => 'Notificar-Cita',
     'menu_search' => 'búsqueda',
     'menu_editor_functions' => 'editor',
     'menu_editor_drafts' => 'Caja de tiro',

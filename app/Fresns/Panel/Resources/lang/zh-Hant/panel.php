@@ -1034,6 +1034,7 @@ return [
     'menu_notifications_blocks' => '通知-封鎖',
     'menu_notifications_mentions' => '通知-提及',
     'menu_notifications_comments' => '通知-留言',
+    'menu_notifications_quotes' => '通知-引用',
     'menu_search' => '搜索',
     'menu_editor_functions' => '編輯器',
     'menu_editor_drafts' => '草稿箱',

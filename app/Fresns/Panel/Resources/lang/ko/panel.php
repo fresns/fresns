@@ -1033,6 +1033,7 @@ return [
     'menu_notifications_blocks' => '알림-블록',
     'menu_notifications_mentions' => '알림-언급',
     'menu_notifications_comments' => '알림-코멘트',
+    'menu_notifications_quotes' => '알림-인용하다',
     'menu_search' => '검색',
     'menu_editor_functions' => '편집자',
     'menu_editor_drafts' => '초안 상자',

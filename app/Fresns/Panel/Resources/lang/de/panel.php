@@ -1033,6 +1033,7 @@ return [
     'menu_notifications_blocks' => 'Benachrichtigen-Blockiert',
     'menu_notifications_mentions' => 'Benachrichtigen-Erwähnungen',
     'menu_notifications_comments' => 'Benachrichtigen-Kommentare',
+    'menu_notifications_quotes' => 'Benachrichtigen-Zitat',
     'menu_search' => 'Suche',
     'menu_editor_functions' => 'Editor',
     'menu_editor_drafts' => 'Faltschachtel',

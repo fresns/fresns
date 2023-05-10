@@ -1033,6 +1033,7 @@ return [
     'menu_notifications_blocks' => '通知する-ブロック',
     'menu_notifications_mentions' => '通知する-メンション',
     'menu_notifications_comments' => '通知する-コメント',
+    'menu_notifications_quotes' => '通知する-引用',
     'menu_search' => '探す',
     'menu_editor_functions' => '編集者',
     'menu_editor_drafts' => 'ドラフトボックス',

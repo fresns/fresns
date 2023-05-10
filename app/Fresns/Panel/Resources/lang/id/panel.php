@@ -1033,6 +1033,7 @@ return [
     'menu_notifications_blocks' => 'Memberitahu-Blokir',
     'menu_notifications_mentions' => 'Memberitahu-Sebutan',
     'menu_notifications_comments' => 'Memberitahu-Komentar',
+    'menu_notifications_quotes' => 'Memberitahu-Kutipan',
     'menu_search' => 'Cari',
     'menu_editor_functions' => 'editor',
     'menu_editor_drafts' => 'Draft box',

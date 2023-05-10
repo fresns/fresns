@@ -67,6 +67,7 @@ class ColumnController extends Controller
             'menu_notifications_blocks',
             'menu_notifications_mentions',
             'menu_notifications_comments',
+            'menu_notifications_quotes',
             'menu_search',
             'menu_editor_functions',
             'menu_editor_drafts',

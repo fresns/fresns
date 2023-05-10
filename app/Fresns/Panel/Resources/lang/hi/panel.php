@@ -1033,6 +1033,7 @@ return [
     'menu_notifications_blocks' => 'सूचित करें-ब्लाकों',
     'menu_notifications_mentions' => 'सूचित करें-का उल्लेख है',
     'menu_notifications_comments' => 'सूचित करें-टिप्पणियाँ',
+    'menu_notifications_quotes' => 'सूचित करें-उद्धरण',
     'menu_search' => 'तलाशी',
     'menu_editor_functions' => 'संपादक',
     'menu_editor_drafts' => 'ड्राफ्ट बॉक्स',

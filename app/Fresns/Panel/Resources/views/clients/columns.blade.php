@@ -521,6 +521,15 @@
                     data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notifications_comments'] ?? '' }}
                 </button>
             </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.menu_notifications_quotes') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'menu_notifications_quotes']) }}"
+                    data-languages="{{ optional($configs['menu_notifications_quotes'])->languages->toJson() }}"
+                    data-item_key="menu_notifications_quotes"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['menu_notifications_quotes'] ?? '' }}
+                </button>
+            </div>
         </div>
     </div>
 
