@@ -223,13 +223,21 @@ class CommonController extends Controller
             throw new ApiException(32204);
         }
 
+        if (empty($callback->content)) {
+            throw new ApiException(32205);
+        }
+
         $timeDifference = time() - strtotime($callback->created_at);
         // 30 minutes
         if ($timeDifference > 1800) {
             throw new ApiException(32203);
         }
 
-        $data = $callback->content;
+        $data = [
+            'ulid' => $callback->ulid,
+            'type' => $callback->type,
+            'content' => $callback->content,
+        ];
 
         $callback->is_use = 1;
         $callback->use_plugin_fskey = $dtoRequest->fskey;
