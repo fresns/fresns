@@ -125,6 +125,7 @@ class PrimaryHelper
 
         $cacheKey = "fresns_model_{$modelName}_{$id}";
         $cacheTags = match ($modelName) {
+            'key' => ['fresnsModels', 'fresnsSystems'],
             'account' => ['fresnsModels', 'fresnsAccounts'],
             'user' => ['fresnsModels', 'fresnsUsers'],
             'group' => ['fresnsModels', 'fresnsGroups'],
@@ -149,6 +150,10 @@ class PrimaryHelper
 
         if (empty($fresnsModel)) {
             switch ($modelName) {
+                case 'key':
+                    $fresnsModel = SessionKey::where('id', $id)->first();
+                    break;
+
                 case 'account':
                     $fresnsModel = Account::withTrashed()->with(['users', 'connects'])->where('id', $id)->first();
                     break;
