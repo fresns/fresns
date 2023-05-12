@@ -265,6 +265,10 @@ class PermissionUtility
     public static function checkUserRolePrivateWhitelist(int $userId): bool
     {
         $whitelist = ConfigHelper::fresnsConfigByItemKey('site_private_whitelist_roles');
+        if (empty($whitelist)) {
+            return false;
+        }
+
         $userRole = PermissionUtility::getUserMainRole($userId);
 
         return in_array($userRole['rid'], $whitelist) ? true : false;
