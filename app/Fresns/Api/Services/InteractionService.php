@@ -26,12 +26,7 @@ class InteractionService
     // check interaction setting
     public static function checkInteractionSetting(string $interactionType, string $markType)
     {
-        $setKey = match ($interactionType) {
-            'like' => "{$markType}_likers",
-            'dislike' => "{$markType}_dislikers",
-            'follow' => "{$markType}_followers",
-            'block' => "{$markType}_blockers",
-        };
+        $setKey = "{$markType}_{$interactionType}";
 
         $interactionSet = ConfigHelper::fresnsConfigByItemKey($setKey);
         if (! $interactionSet) {
@@ -42,24 +37,14 @@ class InteractionService
     // check my interaction setting
     public static function checkMyInteractionSetting(string $interactionType, string $markType)
     {
-        $setKey = match ($interactionType) {
-            'like' => "{$markType}_likers",
-            'dislike' => "{$markType}_dislikers",
-            'follow' => "{$markType}_followers",
-            'block' => "{$markType}_blockers",
-        };
+        $setKey = "{$markType}_{$interactionType}";
 
         $interactionSet = ConfigHelper::fresnsConfigByItemKey($setKey);
         if ($interactionSet) {
             return;
         }
 
-        $mySetKey = match ($interactionType) {
-            'like' => 'my_likers',
-            'dislike' => 'my_dislikers',
-            'follow' => 'my_followers',
-            'block' => 'my_blockers',
-        };
+        $mySetKey = "my_{$interactionType}";
 
         $myInteractionSet = ConfigHelper::fresnsConfigByItemKey($mySetKey);
         if (! $myInteractionSet) {
@@ -71,19 +56,19 @@ class InteractionService
     public function getUsersWhoMarkIt(string $getType, string $markType, int $markId, string $orderDirection, string $langTag, string $timezone, ?int $authUserId = null)
     {
         switch ($getType) {
-            case 'like':
+            case 'likers':
                 $interactionQuery = UserLike::markType(UserLike::MARK_TYPE_LIKE)->where('like_id', $markId);
                 break;
 
-            case 'dislike':
+            case 'dislikers':
                 $interactionQuery = UserLike::markType(UserLike::MARK_TYPE_DISLIKE)->where('like_id', $markId);
                 break;
 
-            case 'follow':
+            case 'followers':
                 $interactionQuery = UserFollow::where('follow_id', $markId);
                 break;
 
-            case 'block':
+            case 'blockers':
                 $interactionQuery = UserBlock::where('block_id', $markId);
                 break;
         }
