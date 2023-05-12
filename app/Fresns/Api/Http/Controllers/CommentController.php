@@ -155,6 +155,11 @@ class CommentController extends Controller
             $commentQuery->whereHas('author', function ($query) {
                 $query->where('is_enabled', true);
             });
+
+            // is comment private
+            $commentQuery->whereHas('postAppend', function ($query) {
+                $query->where('is_comment_private', false);
+            });
         }
 
         $dataType = 'list';
