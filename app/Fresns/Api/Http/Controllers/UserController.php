@@ -311,7 +311,7 @@ class UserController extends Controller
     }
 
     // followers you follow
-    public function followersYouFollow(Request $request, string $uidOrUsername)
+    public function followersYouFollow(string $uidOrUsername, Request $request)
     {
         $dtoRequest = new PaginationDTO($request->all());
 

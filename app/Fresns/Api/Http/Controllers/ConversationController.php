@@ -156,7 +156,7 @@ class ConversationController extends Controller
     }
 
     // messages
-    public function messages(Request $request, int $conversationId)
+    public function messages(int $conversationId, Request $request)
     {
         $dtoRequest = new ConversationMessagesDTO($request->all());
         $langTag = $this->langTag();

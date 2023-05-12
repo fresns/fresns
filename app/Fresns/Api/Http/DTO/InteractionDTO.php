@@ -18,7 +18,7 @@ class InteractionDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => ['string', 'required', 'in:like,dislike,follow,block'],
+            'type' => ['string', 'required', 'in:likers,dislikers,followers,blockers'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
             'whitelistKeys' => ['string', 'nullable'],
             'blacklistKeys' => ['string', 'nullable'],
