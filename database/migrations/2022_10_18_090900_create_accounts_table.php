@@ -67,6 +67,7 @@ class CreateAccountsTable extends Migration
                 default:
                     $table->json('more_json')->nullable();
             }
+            $table->timestamp('refresh_token_expired_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
