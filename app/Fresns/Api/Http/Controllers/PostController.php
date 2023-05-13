@@ -334,23 +334,27 @@ class PostController extends Controller
             $query->where('created_at', '<=', $value);
         });
 
-        $orderType = match ($dtoRequest->orderType) {
-            default => 'created_at',
-            'createDate' => 'created_at',
-            'like' => 'like_count',
-            'dislike' => 'dislike_count',
-            'follow' => 'follow_count',
-            'block' => 'block_count',
-            'comment' => 'comment_count',
-        };
+        if ($dtoRequest->orderType == 'random') {
+            $postQuery->inRandomOrder();
+        } else {
+            $orderType = match ($dtoRequest->orderType) {
+                default => 'created_at',
+                'createDate' => 'created_at',
+                'like' => 'like_count',
+                'dislike' => 'dislike_count',
+                'follow' => 'follow_count',
+                'block' => 'block_count',
+                'comment' => 'comment_count',
+            };
 
-        $orderDirection = match ($dtoRequest->orderDirection) {
-            default => 'desc',
-            'asc' => 'asc',
-            'desc' => 'desc',
-        };
+            $orderDirection = match ($dtoRequest->orderDirection) {
+                default => 'desc',
+                'asc' => 'asc',
+                'desc' => 'desc',
+            };
 
-        $postQuery->orderBy($orderType, $orderDirection);
+            $postQuery->orderBy($orderType, $orderDirection);
+        }
 
         $posts = $postQuery->paginate($dtoRequest->pageSize ?? 15);
 

@@ -136,24 +136,28 @@ class HashtagController extends Controller
             $query->where('post_digest_count', '<=', $value);
         });
 
-        $orderType = match ($dtoRequest->orderType) {
-            default => 'created_at',
-            'createDate' => 'created_at',
-            'like' => 'like_count',
-            'dislike' => 'dislike_count',
-            'follow' => 'follow_count',
-            'block' => 'block_count',
-            'post' => 'post_count',
-            'postDigest' => 'post_digest_count',
-        };
+        if ($dtoRequest->orderType == 'random') {
+            $hashtagQuery->inRandomOrder();
+        } else {
+            $orderType = match ($dtoRequest->orderType) {
+                default => 'created_at',
+                'createDate' => 'created_at',
+                'like' => 'like_count',
+                'dislike' => 'dislike_count',
+                'follow' => 'follow_count',
+                'block' => 'block_count',
+                'post' => 'post_count',
+                'postDigest' => 'post_digest_count',
+            };
 
-        $orderDirection = match ($dtoRequest->orderDirection) {
-            default => 'desc',
-            'asc' => 'asc',
-            'desc' => 'desc',
-        };
+            $orderDirection = match ($dtoRequest->orderDirection) {
+                default => 'desc',
+                'asc' => 'asc',
+                'desc' => 'desc',
+            };
 
-        $hashtagQuery->orderBy($orderType, $orderDirection);
+            $hashtagQuery->orderBy($orderType, $orderDirection);
+        }
 
         $hashtagData = $hashtagQuery->paginate($dtoRequest->pageSize ?? 30);
 

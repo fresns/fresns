@@ -256,25 +256,29 @@ class GroupController extends Controller
             $query->where('post_digest_count', '<=', $value);
         });
 
-        $orderType = match ($dtoRequest->orderType) {
-            default => 'rating',
-            'createDate' => 'created_at',
-            'like' => 'like_count',
-            'dislike' => 'dislike_count',
-            'follow' => 'follow_count',
-            'block' => 'block_count',
-            'post' => 'post_count',
-            'postDigest' => 'post_digest_count',
-            'rating' => 'rating',
-        };
+        if ($dtoRequest->orderType == 'random') {
+            $groupQuery->inRandomOrder();
+        } else {
+            $orderType = match ($dtoRequest->orderType) {
+                default => 'rating',
+                'createDate' => 'created_at',
+                'like' => 'like_count',
+                'dislike' => 'dislike_count',
+                'follow' => 'follow_count',
+                'block' => 'block_count',
+                'post' => 'post_count',
+                'postDigest' => 'post_digest_count',
+                'rating' => 'rating',
+            };
 
-        $orderDirection = match ($dtoRequest->orderDirection) {
-            default => 'asc',
-            'asc' => 'asc',
-            'desc' => 'desc',
-        };
+            $orderDirection = match ($dtoRequest->orderDirection) {
+                default => 'asc',
+                'asc' => 'asc',
+                'desc' => 'desc',
+            };
 
-        $groupQuery->orderBy('recommend_rating')->orderBy($orderType, $orderDirection);
+            $groupQuery->orderBy('recommend_rating')->orderBy($orderType, $orderDirection);
+        }
 
         $groupData = $groupQuery->paginate($dtoRequest->pageSize ?? 15);
 

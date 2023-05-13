@@ -242,31 +242,35 @@ class UserController extends Controller
             $query->where('extcredits5', '<=', $value);
         });
 
-        $orderType = match ($dtoRequest->orderType) {
-            default => 'created_at',
-            'createDate' => 'created_at',
-            'like' => 'like_me_count',
-            'dislike' => 'dislike_me_count',
-            'follow' => 'follow_me_count',
-            'block' => 'block_me_count',
-            'post' => 'post_publish_count',
-            'comment' => 'comment_publish_count',
-            'postDigest' => 'post_digest_count',
-            'commentDigest' => 'comment_digest_count',
-            'extcredits1' => 'extcredits1',
-            'extcredits2' => 'extcredits2',
-            'extcredits3' => 'extcredits3',
-            'extcredits4' => 'extcredits4',
-            'extcredits5' => 'extcredits5',
-        };
+        if ($dtoRequest->orderType == 'random') {
+            $userQuery->inRandomOrder();
+        } else {
+            $orderType = match ($dtoRequest->orderType) {
+                default => 'created_at',
+                'createDate' => 'created_at',
+                'like' => 'like_me_count',
+                'dislike' => 'dislike_me_count',
+                'follow' => 'follow_me_count',
+                'block' => 'block_me_count',
+                'post' => 'post_publish_count',
+                'comment' => 'comment_publish_count',
+                'postDigest' => 'post_digest_count',
+                'commentDigest' => 'comment_digest_count',
+                'extcredits1' => 'extcredits1',
+                'extcredits2' => 'extcredits2',
+                'extcredits3' => 'extcredits3',
+                'extcredits4' => 'extcredits4',
+                'extcredits5' => 'extcredits5',
+            };
 
-        $orderDirection = match ($dtoRequest->orderDirection) {
-            default => 'desc',
-            'asc' => 'asc',
-            'desc' => 'desc',
-        };
+            $orderDirection = match ($dtoRequest->orderDirection) {
+                default => 'desc',
+                'asc' => 'asc',
+                'desc' => 'desc',
+            };
 
-        $userQuery->orderBy($orderType, $orderDirection);
+            $userQuery->orderBy($orderType, $orderDirection);
+        }
 
         $userData = $userQuery->paginate($dtoRequest->pageSize ?? 15);
 

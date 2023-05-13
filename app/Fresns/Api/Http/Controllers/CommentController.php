@@ -370,23 +370,27 @@ class CommentController extends Controller
             $query->where('created_at', '<=', $value);
         });
 
-        $orderType = match ($dtoRequest->orderType) {
-            default => 'created_at',
-            'createDate' => 'created_at',
-            'like' => 'like_count',
-            'dislike' => 'dislike_count',
-            'follow' => 'follow_count',
-            'block' => 'block_count',
-            'comment' => 'comment_count',
-        };
+        if ($dtoRequest->orderType == 'random') {
+            $commentQuery->inRandomOrder();
+        } else {
+            $orderType = match ($dtoRequest->orderType) {
+                default => 'created_at',
+                'createDate' => 'created_at',
+                'like' => 'like_count',
+                'dislike' => 'dislike_count',
+                'follow' => 'follow_count',
+                'block' => 'block_count',
+                'comment' => 'comment_count',
+            };
 
-        $orderDirection = match ($dtoRequest->orderDirection) {
-            default => 'desc',
-            'asc' => 'asc',
-            'desc' => 'desc',
-        };
+            $orderDirection = match ($dtoRequest->orderDirection) {
+                default => 'desc',
+                'asc' => 'asc',
+                'desc' => 'desc',
+            };
 
-        $commentQuery->orderBy($orderType, $orderDirection);
+            $commentQuery->orderBy($orderType, $orderDirection);
+        }
 
         $comments = $commentQuery->paginate($dtoRequest->pageSize ?? 15);
 
