@@ -178,7 +178,6 @@ class AccountController extends Controller
             'type' => $accountType,
             'account' => $dtoRequest->account,
             'countryCode' => $dtoRequest->countryCode,
-            'connectInfo' => null,
             'password' => $password,
         ];
 
@@ -858,7 +857,7 @@ class AccountController extends Controller
         }
 
         // edit save
-        if (! $authAccount->isDirty() && ! $wallet->isDirty() && empty($dtoRequest->deviceToken)) {
+        if ($dtoRequest->isEmpty()) {
             throw new ApiException(30001);
         }
 

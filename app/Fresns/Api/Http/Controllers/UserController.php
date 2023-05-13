@@ -933,7 +933,7 @@ class UserController extends Controller
         }
 
         // edit save
-        if (! $authUser->isDirty() && empty($dtoRequest->archives) && empty($dtoRequest->deviceToken)) {
+        if ($dtoRequest->isEmpty()) {
             throw new ApiException(30001);
         }
 
