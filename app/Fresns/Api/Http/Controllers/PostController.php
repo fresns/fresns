@@ -400,6 +400,7 @@ class PostController extends Controller
             $wordBody = [
                 'headers' => \request()->headers->all(),
                 'body' => $dtoRequest->toArray(),
+                'fsid' => $pid,
             ];
 
             $fresnsResp = \FresnsCmdWord::plugin($dataPluginFskey)->getPostDetail($wordBody);
@@ -701,6 +702,7 @@ class PostController extends Controller
             $wordBody = [
                 'headers' => \request()->headers->all(),
                 'body' => $dtoRequest->toArray(),
+                'type' => $type,
             ];
 
             $fresnsResp = \FresnsCmdWord::plugin($dataPluginFskey)->getPostByFollow($wordBody);

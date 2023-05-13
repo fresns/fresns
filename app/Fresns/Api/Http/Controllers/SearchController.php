@@ -33,7 +33,7 @@ class SearchController extends Controller
                 'body' => $dtoRequest->toArray(),
             ];
 
-            $fresnsResp = \FresnsCmdWord::plugin($searchService)->getPostByAll($wordBody);
+            $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchUsers($wordBody);
 
             return $fresnsResp->getOrigin();
         }
@@ -50,7 +50,7 @@ class SearchController extends Controller
         $langTag = $this->langTag();
         $dtoRequest = new SearchGroupDTO($request->all());
 
-        $searchService = ConfigHelper::fresnsConfigByItemKey('search_users_service');
+        $searchService = ConfigHelper::fresnsConfigByItemKey('search_groups_service');
 
         if ($searchService) {
             $wordBody = [
@@ -58,7 +58,7 @@ class SearchController extends Controller
                 'body' => $dtoRequest->toArray(),
             ];
 
-            $fresnsResp = \FresnsCmdWord::plugin($searchService)->getPostByAll($wordBody);
+            $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchGroups($wordBody);
 
             return $fresnsResp->getOrigin();
         }
@@ -75,7 +75,7 @@ class SearchController extends Controller
         $langTag = $this->langTag();
         $dtoRequest = new SearchHashtagDTO($request->all());
 
-        $searchService = ConfigHelper::fresnsConfigByItemKey('search_users_service');
+        $searchService = ConfigHelper::fresnsConfigByItemKey('search_hashtags_service');
 
         if ($searchService) {
             $wordBody = [
@@ -83,7 +83,7 @@ class SearchController extends Controller
                 'body' => $dtoRequest->toArray(),
             ];
 
-            $fresnsResp = \FresnsCmdWord::plugin($searchService)->getPostByAll($wordBody);
+            $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchHashtags($wordBody);
 
             return $fresnsResp->getOrigin();
         }
@@ -100,7 +100,7 @@ class SearchController extends Controller
         $langTag = $this->langTag();
         $dtoRequest = new SearchPostDTO($request->all());
 
-        $searchService = ConfigHelper::fresnsConfigByItemKey('search_users_service');
+        $searchService = ConfigHelper::fresnsConfigByItemKey('search_posts_service');
 
         if ($searchService) {
             $wordBody = [
@@ -108,7 +108,7 @@ class SearchController extends Controller
                 'body' => $dtoRequest->toArray(),
             ];
 
-            $fresnsResp = \FresnsCmdWord::plugin($searchService)->getPostByAll($wordBody);
+            $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchPosts($wordBody);
 
             return $fresnsResp->getOrigin();
         }
@@ -125,7 +125,7 @@ class SearchController extends Controller
         $langTag = $this->langTag();
         $dtoRequest = new SearchCommentDTO($request->all());
 
-        $searchService = ConfigHelper::fresnsConfigByItemKey('search_users_service');
+        $searchService = ConfigHelper::fresnsConfigByItemKey('search_comments_service');
 
         if ($searchService) {
             $wordBody = [
@@ -133,7 +133,7 @@ class SearchController extends Controller
                 'body' => $dtoRequest->toArray(),
             ];
 
-            $fresnsResp = \FresnsCmdWord::plugin($searchService)->getPostByAll($wordBody);
+            $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchComments($wordBody);
 
             return $fresnsResp->getOrigin();
         }

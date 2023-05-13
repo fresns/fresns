@@ -466,6 +466,7 @@ class CommentController extends Controller
             $wordBody = [
                 'headers' => \request()->headers->all(),
                 'body' => $dtoRequest->toArray(),
+                'fsid' => $cid,
             ];
 
             $fresnsResp = \FresnsCmdWord::plugin($dataPluginFskey)->getCommentDetail($wordBody);
@@ -668,6 +669,7 @@ class CommentController extends Controller
             $wordBody = [
                 'headers' => \request()->headers->all(),
                 'body' => $dtoRequest->toArray(),
+                'type' => $type,
             ];
 
             $fresnsResp = \FresnsCmdWord::plugin($dataPluginFskey)->getCommentByFollow($wordBody);
