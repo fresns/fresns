@@ -10,14 +10,8 @@ namespace App\Fresns\Words\Account\DTO;
 
 use Fresns\DTO\DTO;
 
-/**
- * Class CreateAccountTokenDTO.
- */
 class CreateAccountTokenDTO extends DTO
 {
-    /**
-     * @return array
-     */
     public function rules(): array
     {
         return [

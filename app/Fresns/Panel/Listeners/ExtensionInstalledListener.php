@@ -14,8 +14,6 @@ class ExtensionInstalledListener
 {
     /**
      * Create the event listener.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -26,9 +24,8 @@ class ExtensionInstalledListener
      * Handle the event.
      *
      * @param  object  $event
-     * @return void
      */
-    public function handle($event)
+    public function handle($event): void
     {
         $fskey = $event['fskey'] ?? null;
         if (empty($fskey)) {

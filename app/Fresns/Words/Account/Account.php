@@ -30,12 +30,6 @@ class Account
 {
     use CmdWordResponseTrait;
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
     public function addAccount($wordBody)
     {
         $dtoWordBody = new AddAccountDTO($wordBody);
@@ -44,17 +38,17 @@ class Account
         $typeInt = (int) $dtoWordBody->type;
 
         switch ($typeInt) {
-            case 1:
+            case AccountModel::REGISTER_TYPE_EMAIL:
                 // email
                 $checkAccount = AccountModel::where('email', $dtoWordBody->account)->first();
                 break;
 
-            case 2:
+            case AccountModel::REGISTER_TYPE_PHONE:
                 // phone
                 $checkAccount = AccountModel::where('phone', $dtoWordBody->countryCode.$dtoWordBody->account)->first();
                 break;
 
-            case 3:
+            case AccountModel::REGISTER_TYPE_CONNECT:
                 // connect
                 $checkAccount = null;
 
@@ -90,15 +84,15 @@ class Account
 
         $inputArr = [];
         $inputArr = match ($typeInt) {
-            1 => [
+            AccountModel::REGISTER_TYPE_EMAIL => [
                 'email' => $dtoWordBody->account,
             ],
-            2 => [
+            AccountModel::REGISTER_TYPE_PHONE => [
                 'country_code' => $dtoWordBody->countryCode,
                 'pure_phone' => $dtoWordBody->account,
                 'phone' => $dtoWordBody->countryCode.$dtoWordBody->account,
             ],
-            3 => [
+            AccountModel::REGISTER_TYPE_CONNECT => [
                 'email' => $dtoWordBody->connectEmail,
                 'country_code' => $dtoWordBody->connectCountryCode,
                 'pure_phone' => $dtoWordBody->connectPhone,
@@ -134,6 +128,7 @@ class Account
                     'connect_avatar' => $info['connectAvatar'] ?? null,
                     'plugin_fskey' => $info['pluginFskey'],
                     'more_json' => $info['moreJson'] ?? null,
+                    'refresh_token_expired_at' => $info['refreshTokenExpiredDatetime'] ?? null,
                 ]);
             }
         }
@@ -144,12 +139,6 @@ class Account
         ]);
     }
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
     public function verifyAccount($wordBody)
     {
         $dtoWordBody = new VerifyAccountDTO($wordBody);
@@ -239,12 +228,6 @@ class Account
         ]);
     }
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
     public function createAccountToken($wordBody)
     {
         $dtoWordBody = new CreateAccountTokenDTO($wordBody);
@@ -304,12 +287,6 @@ class Account
         ]);
     }
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
     public function verifyAccountToken($wordBody)
     {
         $dtoWordBody = new VerifyAccountTokenDTO($wordBody);
@@ -373,12 +350,6 @@ class Account
         return $this->success();
     }
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
     public function logicalDeletionAccount($wordBody)
     {
         $dtoWordBody = new LogicalDeletionAccountDTO($wordBody);

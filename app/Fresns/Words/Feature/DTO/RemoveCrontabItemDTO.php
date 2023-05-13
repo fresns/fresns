@@ -10,14 +10,8 @@ namespace App\Fresns\Words\Feature\DTO;
 
 use Fresns\DTO\DTO;
 
-/**
- * Class RemoveCrontabItemDTO.
- */
 class RemoveCrontabItemDTO extends DTO
 {
-    /**
-     * @return array
-     */
     public function rules(): array
     {
         return [

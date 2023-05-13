@@ -10,19 +10,14 @@ namespace App\Fresns\Panel\Http\Requests;
 
 class UpdateLanguageRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'languages' => 'required|array',
         ];
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
         ];

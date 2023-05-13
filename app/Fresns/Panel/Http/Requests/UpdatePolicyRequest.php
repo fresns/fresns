@@ -10,12 +10,7 @@ namespace App\Fresns\Panel\Http\Requests;
 
 class UpdatePolicyRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'send_email_service' => 'string|nullable',
@@ -29,7 +24,7 @@ class UpdatePolicyRequest extends FormRequest
         ];
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
         ];

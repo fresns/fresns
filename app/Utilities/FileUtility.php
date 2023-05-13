@@ -21,9 +21,6 @@ class FileUtility
 {
     /**
      * Get the mime-type of a given file.
-     *
-     * @param  string  $path
-     * @return string|false
      */
     public static function mimeTypeFromPath($path): string|bool
     {
@@ -32,9 +29,6 @@ class FileUtility
 
     /**
      * Get the mime-type of a given content.
-     *
-     * @param  string  $path
-     * @return string|false
      */
     public static function mimeTypeFromContent($content): string|bool
     {

@@ -15,10 +15,8 @@ class InstallServiceProvider extends ServiceProvider
 {
     /**
      * Boot the application events.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerInstallAppKey();
         $this->registerReverseProxySchema();
@@ -26,10 +24,8 @@ class InstallServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->registerConfig();
         $this->registerViews();
@@ -38,7 +34,7 @@ class InstallServiceProvider extends ServiceProvider
         $this->app->register(RouteServiceProvider::class);
     }
 
-    public function registerReverseProxySchema()
+    public function registerReverseProxySchema(): void
     {
         // No more registered installation routes after they have been installed
         if (! file_exists(base_path('install.lock'))) {
@@ -60,7 +56,7 @@ class InstallServiceProvider extends ServiceProvider
         $handler->pushMiddleware(\App\Fresns\Install\Http\Middleware\DetectionRequestProtocol::class);
     }
 
-    public function registerInstallAppKey()
+    public function registerInstallAppKey(): void
     {
         if (! file_exists(base_path('.env'))) {
             $appKey = Encrypter::generateKey(config('app.cipher'));
@@ -78,30 +74,24 @@ class InstallServiceProvider extends ServiceProvider
 
     /**
      * Register config.
-     *
-     * @return void
      */
-    protected function registerConfig()
+    protected function registerConfig(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../Config/config.php', 'install');
     }
 
     /**
      * Register views.
-     *
-     * @return void
      */
-    public function registerViews()
+    public function registerViews(): void
     {
         $this->loadViewsFrom(__DIR__.'/../Resources/views', 'Install');
     }
 
     /**
      * Register translations.
-     *
-     * @return void
      */
-    public function registerTranslations()
+    public function registerTranslations(): void
     {
         $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'Install');
     }

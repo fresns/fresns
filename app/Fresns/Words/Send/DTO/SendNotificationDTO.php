@@ -10,14 +10,8 @@ namespace App\Fresns\Words\Send\DTO;
 
 use Fresns\DTO\DTO;
 
-/**
- * Class SendNotificationDTO.
- */
 class SendNotificationDTO extends DTO
 {
-    /**
-     * @return array
-     */
     public function rules(): array
     {
         return [

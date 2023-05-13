@@ -10,12 +10,7 @@ namespace App\Fresns\Panel\Http\Requests;
 
 class UpdateUserConfigRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'connects' => 'array',
@@ -39,7 +34,7 @@ class UpdateUserConfigRequest extends FormRequest
         ];
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
         ];

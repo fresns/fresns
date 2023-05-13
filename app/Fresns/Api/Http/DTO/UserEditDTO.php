@@ -12,9 +12,6 @@ use Fresns\DTO\DTO;
 
 class UserEditDTO extends DTO
 {
-    /**
-     * @return array
-     */
     public function rules(): array
     {
         return [
@@ -28,8 +25,8 @@ class UserEditDTO extends DTO
             'birthday' => ['date', 'nullable', 'before:today', 'after_or_equal:1920-01-01 00:00:00'],
             'bio' => ['string', 'nullable'],
             'location' => ['string', 'nullable'],
-            'conversationLimit' => ['string', 'nullable', 'in:1,2,3,4'],
-            'commentLimit' => ['string', 'nullable', 'in:1,2,3,4'],
+            'conversationLimit' => ['integer', 'nullable', 'in:1,2,3,4'],
+            'commentLimit' => ['integer', 'nullable', 'in:1,2,3,4'],
             'timezone' => ['string', 'nullable'],
             'archives' => ['array', 'nullable'],
             'deviceToken' => ['string', 'nullable'],

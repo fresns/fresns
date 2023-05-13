@@ -24,12 +24,6 @@ class Crontab
 {
     use CmdWordResponseTrait;
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
     public function addCrontabItem($wordBody)
     {
         $dtoWordBody = new AddCrontabItemDTO($wordBody);
@@ -66,12 +60,6 @@ class Crontab
         return $this->success();
     }
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
     public function removeCrontabItem($wordBody)
     {
         $dtoWordBody = new RemoveCrontabItemDTO($wordBody);
@@ -98,9 +86,6 @@ class Crontab
         return $this->success();
     }
 
-    /**
-     * @return array
-     */
     public function checkUserRoleExpired()
     {
         $roleArr = UserRole::where('is_main', 1)->where('expired_at', '<', now())->get();
@@ -136,9 +121,6 @@ class Crontab
         return $this->success();
     }
 
-    /**
-     * @return array
-     */
     public function checkDeleteAccount()
     {
         $deleteType = ConfigHelper::fresnsConfigByItemKey('delete_account_type');

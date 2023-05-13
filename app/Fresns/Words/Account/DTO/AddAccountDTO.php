@@ -10,20 +10,8 @@ namespace App\Fresns\Words\Account\DTO;
 
 use Fresns\DTO\DTO;
 
-/**
- * Class AddAccountDTO.
- *
- * @property int $type
- * @property string $account
- * @property int $countryCode
- * @property array $connectInfo
- * @property string $password
- */
 class AddAccountDTO extends DTO
 {
-    /**
-     * @return array
-     */
     public function rules(): array
     {
         return [

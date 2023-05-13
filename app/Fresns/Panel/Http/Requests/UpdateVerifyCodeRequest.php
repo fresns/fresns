@@ -10,12 +10,7 @@ namespace App\Fresns\Panel\Http\Requests;
 
 class UpdateVerifyCodeRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'email_templates' => 'array',
@@ -23,7 +18,7 @@ class UpdateVerifyCodeRequest extends FormRequest
         ];
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
         ];

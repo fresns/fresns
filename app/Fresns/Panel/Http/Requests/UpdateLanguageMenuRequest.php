@@ -10,12 +10,7 @@ namespace App\Fresns\Panel\Http\Requests;
 
 class UpdateLanguageMenuRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         $rules = [
             'rating' => 'required|string',
@@ -42,7 +37,7 @@ class UpdateLanguageMenuRequest extends FormRequest
         return $rules;
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
         ];

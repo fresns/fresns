@@ -10,12 +10,7 @@ namespace App\Fresns\Panel\Http\Requests;
 
 class UpdateRoleRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'type' => 'required|int',
@@ -24,7 +19,7 @@ class UpdateRoleRequest extends FormRequest
         ];
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
         ];

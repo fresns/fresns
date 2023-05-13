@@ -10,17 +10,8 @@ namespace App\Fresns\Words\Basic\DTO;
 
 use Fresns\DTO\DTO;
 
-/**
- * Class UploadSessionLogDTO.
- *
- * @property int $platform
- * @property string $version
- */
 class UploadSessionLogDTO extends DTO
 {
-    /**
-     * @return array
-     */
     public function rules(): array
     {
         return [

@@ -26,12 +26,6 @@ class File
 {
     use CmdWordResponseTrait;
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
     public function getUploadToken($wordBody)
     {
         $dtoWordBody = new GetUploadTokenDTO($wordBody);
@@ -51,12 +45,6 @@ class File
         return $fresnsResp->getOrigin();
     }
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
     public function uploadFile($wordBody)
     {
         $dtoWordBody = new UploadFileDTO($wordBody);
@@ -92,12 +80,6 @@ class File
         return $fresnsResp->getOrigin();
     }
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
     public function uploadFileInfo($wordBody)
     {
         $dtoWordBody = new UploadFileInfoDTO($wordBody);
@@ -133,12 +115,6 @@ class File
         return $fresnsResp->getOrigin();
     }
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
     public function getAntiLinkFileInfo($wordBody)
     {
         $dtoWordBody = new GetAntiLinkFileInfoDTO($wordBody);
@@ -162,12 +138,6 @@ class File
         return $this->success(FileHelper::fresnsFileInfoById($dtoWordBody->fileIdOrFid));
     }
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
     public function getAntiLinkFileInfoList($wordBody)
     {
         $dtoWordBody = new GetAntiLinkFileInfoListDTO($wordBody);
@@ -191,12 +161,6 @@ class File
         return $this->success(FileHelper::fresnsFileInfoListByIds($dtoWordBody->fileIdsOrFids));
     }
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
     public function getAntiLinkFileOriginalUrl($wordBody)
     {
         $dtoWordBody = new GetAntiLinkFileOriginalUrlDTO($wordBody);
@@ -222,12 +186,6 @@ class File
         ]);
     }
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
     public function logicalDeletionFiles($wordBody)
     {
         $dtoWordBody = new LogicalDeletionFilesDTO($wordBody);
@@ -237,12 +195,6 @@ class File
         return $this->success();
     }
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
     public function physicalDeletionFiles($wordBody)
     {
         $dtoWordBody = new PhysicalDeletionFilesDTO($wordBody);

@@ -28,12 +28,6 @@ class Send
 {
     use CmdWordResponseTrait;
 
-    /**
-     * @param $wordBody
-     * @return string
-     *
-     * @throws \Throwable
-     */
     public function sendEmail($wordBody)
     {
         $dtoWordBody = new SendEmailDTO($wordBody);
@@ -47,12 +41,6 @@ class Send
         return $fresnsResp->getOrigin();
     }
 
-    /**
-     * @param $wordBody
-     * @return mixed
-     *
-     * @throws \Throwable
-     */
     public function sendSms($wordBody)
     {
         $dtoWordBody = new SendSmsDTO($wordBody);
@@ -66,12 +54,6 @@ class Send
         return $fresnsResp->getOrigin();
     }
 
-    /**
-     * @param $wordBody
-     * @return mixed
-     *
-     * @throws \Throwable
-     */
     public function sendNotification($wordBody)
     {
         $dtoWordBody = new SendNotificationDTO($wordBody);
@@ -113,12 +95,6 @@ class Send
         return $this->success();
     }
 
-    /**
-     * @param $wordBody
-     * @return string
-     *
-     * @throws \Throwable
-     */
     public function sendAppNotification($wordBody)
     {
         $dtoWordBody = new SendAppNotificationDTO($wordBody);
@@ -139,12 +115,6 @@ class Send
         return $fresnsResp->getOrigin();
     }
 
-    /**
-     * @param $wordBody
-     * @return string
-     *
-     * @throws \Throwable
-     */
     public function sendWechatMessage($wordBody)
     {
         $dtoWordBody = new SendWechatMessageDTO($wordBody);

@@ -19,7 +19,7 @@ class PanelServiceProvider extends ServiceProvider
     /**
      * Booting the package.
      */
-    public function boot()
+    public function boot(): void
     {
         Paginator::useBootstrap();
 
@@ -42,7 +42,7 @@ class PanelServiceProvider extends ServiceProvider
     /**
      * Register the service provider.
      */
-    public function register()
+    public function register(): void
     {
         $this->registerConfig();
         $this->app->register(RouteServiceProvider::class);
@@ -51,30 +51,24 @@ class PanelServiceProvider extends ServiceProvider
 
     /**
      * Register views.
-     *
-     * @return void
      */
-    protected function registerViews()
+    protected function registerViews(): void
     {
         $this->loadViewsFrom(__DIR__.'/../Resources/views', 'FsView');
     }
 
     /**
      * Register config.
-     *
-     * @return void
      */
-    protected function registerConfig()
+    protected function registerConfig(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../Config/panel.php', 'FsConfig');
     }
 
     /**
      * Register translations.
-     *
-     * @return void
      */
-    protected function registerTranslations()
+    protected function registerTranslations(): void
     {
         $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'FsLang');
     }

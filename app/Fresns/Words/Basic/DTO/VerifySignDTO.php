@@ -10,17 +10,8 @@ namespace App\Fresns\Words\Basic\DTO;
 
 use Fresns\DTO\DTO;
 
-/**
- * Class VerifySignDTO.
- *
- * @property int $platform
- * @property string $version
- */
 class VerifySignDTO extends DTO
 {
-    /**
-     * @return array
-     */
     public function rules(): array
     {
         return [

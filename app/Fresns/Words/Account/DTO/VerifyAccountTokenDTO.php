@@ -10,14 +10,8 @@ namespace App\Fresns\Words\Account\DTO;
 
 use Fresns\DTO\DTO;
 
-/**
- * Class VerifyAccountTokenDTO.
- */
 class VerifyAccountTokenDTO extends DTO
 {
-    /**
-     * @return array
-     */
     public function rules(): array
     {
         return [

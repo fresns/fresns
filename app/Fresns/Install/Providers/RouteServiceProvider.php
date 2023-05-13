@@ -20,20 +20,16 @@ class RouteServiceProvider extends ServiceProvider
      * Called before routes are registered.
      *
      * Register any model bindings or pattern based filters.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
     }
 
     /**
      * Define the routes for the application.
-     *
-     * @return void
      */
-    public function map()
+    public function map(): void
     {
         // No more registered installation routes after they have been installed
         if (file_exists(base_path('install.lock'))) {
@@ -51,7 +47,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware(['api', 'cookie'])->group(__DIR__.'/../Routes/api.php');
     }
 
-    protected function configureRateLimiting()
+    protected function configureRateLimiting(): void
     {
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());

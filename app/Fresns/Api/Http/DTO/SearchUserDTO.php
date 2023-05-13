@@ -12,9 +12,6 @@ use Fresns\DTO\DTO;
 
 class SearchUserDTO extends DTO
 {
-    /**
-     * @return array
-     */
     public function rules(): array
     {
         return [
@@ -50,7 +47,7 @@ class SearchUserDTO extends DTO
             'extcredits4CountLt' => ['integer', 'nullable', 'gt:extcredits4CountGt'],
             'extcredits5CountGt' => ['integer', 'nullable', 'lt:extcredits5CountLt'], // user_stats->extcredits5
             'extcredits5CountLt' => ['integer', 'nullable', 'gt:extcredits5CountGt'],
-            'orderType' => ['string', 'nullable', 'in:createDate,like,dislike,follow,block,post,comment,postDigest,commentDigest,extcredits1,extcredits2,extcredits3,extcredits4,extcredits5'],
+            'orderType' => ['string', 'nullable', 'in:createDate,random,like,dislike,follow,block,post,comment,postDigest,commentDigest,extcredits1,extcredits2,extcredits3,extcredits4,extcredits5'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
             'whitelistKeys' => ['string', 'nullable'],
             'blacklistKeys' => ['string', 'nullable'],

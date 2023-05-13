@@ -15,12 +15,7 @@ use Illuminate\Support\Facades\Cookie;
 
 class ChangeLanguage
 {
-    /**
-     * @param  Request  $request
-     * @param  Closure  $next
-     * @return mixed
-     */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): mixed
     {
         if ($currentLang = \request()->input('install_lang')) {
             Cookie::queue('install_lang', $currentLang);

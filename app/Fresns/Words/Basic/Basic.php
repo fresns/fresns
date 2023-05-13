@@ -28,12 +28,6 @@ class Basic
 {
     use CmdWordResponseTrait;
 
-    /**
-     * @param $wordBody
-     * @return array|string
-     *
-     * @throws \Throwable
-     */
     public function verifySign($wordBody)
     {
         $dtoWordBody = new VerifySignDTO($wordBody);
@@ -131,12 +125,6 @@ class Basic
         return $this->success();
     }
 
-    /**
-     * @param $wordBody
-     * @return mixed
-     *
-     * @throws \Throwable
-     */
     public function verifyUrlAuthorization($wordBody)
     {
         $dtoWordBody = new VerifyUrlAuthorizationDTO($wordBody);
@@ -202,12 +190,6 @@ class Basic
         return $this->success($headers);
     }
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
     public function uploadSessionLog($wordBody)
     {
         $dtoWordBody = new UploadSessionLogDTO($wordBody);
@@ -247,12 +229,6 @@ class Basic
         return $this->success();
     }
 
-    /**
-     * @param $wordBody
-     * @return mixed
-     *
-     * @throws \Throwable
-     */
     public function sendCode($wordBody)
     {
         $dtoWordBody = new SendCodeDTO($wordBody);
@@ -275,12 +251,6 @@ class Basic
         return $fresnsResp->getOrigin();
     }
 
-    /**
-     * @param $wordBody
-     * @return array
-     *
-     * @throws \Throwable
-     */
     public function checkCode($wordBody)
     {
         $dtoWordBody = new CheckCodeDTO($wordBody);

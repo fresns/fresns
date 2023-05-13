@@ -12,9 +12,6 @@ use Fresns\DTO\DTO;
 
 class WalletCheckPasswordDTO extends DTO
 {
-    /**
-     * @return array
-     */
     public function rules(): array
     {
         return [

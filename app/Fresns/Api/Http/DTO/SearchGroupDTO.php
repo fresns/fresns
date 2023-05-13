@@ -12,9 +12,6 @@ use Fresns\DTO\DTO;
 
 class SearchGroupDTO extends DTO
 {
-    /**
-     * @return array
-     */
     public function rules(): array
     {
         return [
@@ -35,7 +32,7 @@ class SearchGroupDTO extends DTO
             'postCountLt' => ['integer', 'nullable', 'gt:postCountGt'],
             'postDigestCountGt' => ['integer', 'nullable', 'lt:postDigestCountLt'], // groups->post_digest_count
             'postDigestCountLt' => ['integer', 'nullable', 'gt:postDigestCountGt'],
-            'orderType' => ['string', 'nullable', 'in:createDate,like,follow,block,post,postDigest,rating'],
+            'orderType' => ['string', 'nullable', 'in:createDate,random,like,follow,block,post,postDigest,rating'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
             'whitelistKeys' => ['string', 'nullable'],
             'blacklistKeys' => ['string', 'nullable'],

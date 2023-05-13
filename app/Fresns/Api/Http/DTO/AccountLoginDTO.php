@@ -12,9 +12,6 @@ use Fresns\DTO\DTO;
 
 class AccountLoginDTO extends DTO
 {
-    /**
-     * @return array
-     */
     public function rules(): array
     {
         return [

@@ -10,14 +10,8 @@ namespace App\Fresns\Words\Feature\DTO;
 
 use Fresns\DTO\DTO;
 
-/**
- * Class AddSubscribeItemDTO.
- */
 class AddSubscribeItemDTO extends DTO
 {
-    /**
-     * @return array
-     */
     public function rules(): array
     {
         return [

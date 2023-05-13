@@ -53,11 +53,8 @@ class LoginController extends Controller
 
     /**
      * Attempt to log the account into the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return bool
      */
-    protected function attemptLogin(Request $request)
+    protected function attemptLogin(Request $request): bool
     {
         // check account type
         $account = $this->guard()->getProvider()->retrieveByCredentials($this->credentials($request));

@@ -12,9 +12,6 @@ use Fresns\DTO\DTO;
 
 class UserMarkNoteDTO extends DTO
 {
-    /**
-     * @return array
-     */
     public function rules(): array
     {
         return [

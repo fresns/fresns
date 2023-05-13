@@ -12,12 +12,7 @@ use Illuminate\Validation\Rule;
 
 class UpdateStickerRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         $rule = [
             'rating' => 'string|required',
@@ -38,7 +33,7 @@ class UpdateStickerRequest extends FormRequest
         return $rule;
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
         ];

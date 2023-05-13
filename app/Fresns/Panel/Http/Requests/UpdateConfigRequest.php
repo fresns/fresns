@@ -10,19 +10,14 @@ namespace App\Fresns\Panel\Http\Requests;
 
 class UpdateConfigRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'panel_path' => 'string',
         ];
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'panel_path' => __('FsLang::panel.setting_panel_path'),

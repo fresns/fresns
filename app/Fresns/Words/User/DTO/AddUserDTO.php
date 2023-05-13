@@ -12,9 +12,6 @@ use Fresns\DTO\DTO;
 
 class AddUserDTO extends DTO
 {
-    /**
-     * @return array
-     */
     public function rules(): array
     {
         return [

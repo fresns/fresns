@@ -12,9 +12,6 @@ use Fresns\DTO\DTO;
 
 class SearchPostDTO extends DTO
 {
-    /**
-     * @return array
-     */
     public function rules(): array
     {
         return [
@@ -46,7 +43,7 @@ class SearchPostDTO extends DTO
             'blockCountLt' => ['integer', 'nullable', 'gt:blockCountGt'],
             'commentCountGt' => ['integer', 'nullable', 'lt:commentCountLt'], // posts->comment_count
             'commentCountLt' => ['integer', 'nullable', 'gt:commentCountGt'],
-            'orderType' => ['string', 'nullable', 'in:createDate,like,dislike,follow,block,comment'],
+            'orderType' => ['string', 'nullable', 'in:createDate,random,like,dislike,follow,block,comment'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
             'blockGroups' => ['string', 'nullable'],
             'blockHashtags' => ['string', 'nullable'],
