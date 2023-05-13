@@ -26,6 +26,10 @@ class Account extends Authenticatable
     use Traits\LangNameTrait;
     use Traits\LangDescriptionTrait;
 
+    const REGISTER_TYPE_EMAIL = 1;
+    const REGISTER_TYPE_PHONE = 2;
+    const REGISTER_TYPE_CONNECT = 3;
+
     protected $guarded = [];
 
     protected $dates = [
