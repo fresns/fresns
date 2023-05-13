@@ -38,7 +38,7 @@
         "laravel/scout": "^9.8",
         "laravel/ui": "^4.2",
         "doctrine/dbal": "^3.6",
-        "fresns/dto": "^1.1",
+        "fresns/dto": "^1.2",
         "fresns/cmd-word-manager": "^1.4",
         "fresns/plugin-manager": "^2.7",
         "fresns/theme-manager": "^2.2",
