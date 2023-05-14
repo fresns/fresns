@@ -683,6 +683,7 @@ class CacheHelper
 
         CacheHelper::forgetFresnsModel('account', $aid);
         CacheHelper::forgetFresnsMultilingual("fresns_api_account_{$aid}", 'fresnsAccounts');
+        CacheHelper::forgetFresnsMultilingual("fresns_web_account_{$aid}", 'fresnsWeb');
     }
 
     // forget fresns user
@@ -703,6 +704,9 @@ class CacheHelper
         CacheHelper::forgetFresnsMultilingual("fresns_api_user_panel_conversations_{$uid}", 'fresnsUsers');
         CacheHelper::forgetFresnsMultilingual("fresns_api_user_panel_notifications_{$uid}", 'fresnsUsers');
         CacheHelper::forgetFresnsMultilingual("fresns_api_user_panel_drafts_{$uid}", 'fresnsUsers');
+
+        CacheHelper::forgetFresnsMultilingual("fresns_web_user_{$uid}", 'fresnsWeb');
+        CacheHelper::forgetFresnsMultilingual("fresns_web_user_panel_{$uid}", 'fresnsWeb');
     }
 
     /**

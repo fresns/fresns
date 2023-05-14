@@ -121,7 +121,7 @@ class PluginHelper
         }
 
         if (empty($callback->content)) {
-            $callbackArr['code'] = 32205;
+            $callbackArr['code'] = 32206;
 
             return $callbackArr;
         }
