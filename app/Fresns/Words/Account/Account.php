@@ -232,19 +232,32 @@ class Account
 
         $account = AccountModel::where('aid', $dtoWordBody->aid)->first();
 
-        AccountConnect::updateOrCreate([
-            'account_id' => $account->id,
-            'connect_id' => $dtoWordBody->connectId,
-            'connect_token' => $dtoWordBody->connectToken,
-        ], [
-            'connect_refresh_token' => $dtoWordBody->connectRefreshToken,
-            'refresh_token_expired_at' => $dtoWordBody->refreshTokenExpiredDatetime,
-            'connect_username' => $dtoWordBody->connectUsername,
-            'connect_nickname' => $dtoWordBody->connectNickname,
-            'connect_avatar' => $dtoWordBody->connectAvatar,
-            'more_json' => $dtoWordBody->moreJson,
-            'plugin_fskey' => $dtoWordBody->fskey,
-        ]);
+        $accountConnect = AccountConnect::where('account_id', $account->id)
+            ->where('connect_id', $dtoWordBody->connectId)
+            ->where('connect_token', $dtoWordBody->connectToken)
+            ->first();
+
+        if ($accountConnect) {
+            return $this->failure(34405);
+        }
+
+        try {
+            AccountConnect::updateOrCreate([
+                'account_id' => $account->id,
+                'connect_id' => $dtoWordBody->connectId,
+                'connect_token' => $dtoWordBody->connectToken,
+            ], [
+                'connect_refresh_token' => $dtoWordBody->connectRefreshToken,
+                'refresh_token_expired_at' => $dtoWordBody->refreshTokenExpiredDatetime,
+                'connect_username' => $dtoWordBody->connectUsername,
+                'connect_nickname' => $dtoWordBody->connectNickname,
+                'connect_avatar' => $dtoWordBody->connectAvatar,
+                'more_json' => $dtoWordBody->moreJson,
+                'plugin_fskey' => $dtoWordBody->fskey,
+            ]);
+        } catch (\Exception $e) {
+            return $this->failure(32302);
+        }
 
         if (empty($account->email) && $dtoWordBody->connectEmail) {
             $account->update([

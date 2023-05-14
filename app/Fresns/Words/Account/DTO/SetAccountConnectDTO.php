@@ -18,7 +18,7 @@ class SetAccountConnectDTO extends DTO
             'fskey' => ['string', 'required', 'exists:App\Models\Plugin,fskey'],
             'aid' => ['string', 'required', 'exists:App\Models\Account,aid'],
             'connectId' => ['integer', 'required'],
-            'connectToken' => ['integer', 'required'],
+            'connectToken' => ['string', 'required'],
             'connectRefreshToken' => ['string', 'nullable'],
             'refreshTokenExpiredDatetime' => ['string', 'nullable', 'date_format:"Y-m-d H:i:s"'],
             'connectUsername' => ['string', 'nullable'],
