@@ -47,6 +47,7 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         // Account
         ['word' => 'addAccount', 'provider' => [Account::class, 'addAccount']],
         ['word' => 'verifyAccount', 'provider' => [Account::class, 'verifyAccount']],
+        ['word' => 'setAccountConnect', 'provider' => [Account::class, 'setAccountConnect']],
         ['word' => 'createAccountToken', 'provider' => [Account::class, 'createAccountToken']],
         ['word' => 'verifyAccountToken', 'provider' => [Account::class, 'verifyAccountToken']],
         ['word' => 'logicalDeletionAccount', 'provider' => [Account::class, 'logicalDeletionAccount']],

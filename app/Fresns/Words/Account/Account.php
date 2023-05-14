@@ -11,6 +11,7 @@ namespace App\Fresns\Words\Account;
 use App\Fresns\Words\Account\DTO\AddAccountDTO;
 use App\Fresns\Words\Account\DTO\CreateAccountTokenDTO;
 use App\Fresns\Words\Account\DTO\LogicalDeletionAccountDTO;
+use App\Fresns\Words\Account\DTO\SetAccountConnectDTO;
 use App\Fresns\Words\Account\DTO\VerifyAccountDTO;
 use App\Fresns\Words\Account\DTO\VerifyAccountTokenDTO;
 use App\Helpers\CacheHelper;
@@ -38,17 +39,17 @@ class Account
         $typeInt = (int) $dtoWordBody->type;
 
         switch ($typeInt) {
-            case AccountModel::REGISTER_TYPE_EMAIL:
+            case AccountModel::ACT_TYPE_EMAIL:
                 // email
                 $checkAccount = AccountModel::where('email', $dtoWordBody->account)->first();
                 break;
 
-            case AccountModel::REGISTER_TYPE_PHONE:
+            case AccountModel::ACT_TYPE_PHONE:
                 // phone
                 $checkAccount = AccountModel::where('phone', $dtoWordBody->countryCode.$dtoWordBody->account)->first();
                 break;
 
-            case AccountModel::REGISTER_TYPE_CONNECT:
+            case AccountModel::ACT_TYPE_CONNECT:
                 // connect
                 $checkAccount = null;
 
@@ -84,15 +85,15 @@ class Account
 
         $inputArr = [];
         $inputArr = match ($typeInt) {
-            AccountModel::REGISTER_TYPE_EMAIL => [
+            AccountModel::ACT_TYPE_EMAIL => [
                 'email' => $dtoWordBody->account,
             ],
-            AccountModel::REGISTER_TYPE_PHONE => [
+            AccountModel::ACT_TYPE_PHONE => [
                 'country_code' => $dtoWordBody->countryCode,
                 'pure_phone' => $dtoWordBody->account,
                 'phone' => $dtoWordBody->countryCode.$dtoWordBody->account,
             ],
-            AccountModel::REGISTER_TYPE_CONNECT => [
+            AccountModel::ACT_TYPE_CONNECT => [
                 'email' => $dtoWordBody->connectEmail,
                 'country_code' => $dtoWordBody->connectCountryCode,
                 'pure_phone' => $dtoWordBody->connectPhone,
@@ -145,20 +146,17 @@ class Account
         $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         switch ($dtoWordBody->type) {
-            case 1:
-                // email
+            case AccountModel::ACT_TYPE_EMAIL:
                 $account = AccountModel::where('email', $dtoWordBody->account)->first();
                 break;
 
-            case 2:
-                // phone
+            case AccountModel::ACT_TYPE_PHONE:
                 $phoneNumber = $dtoWordBody->countryCode.$dtoWordBody->account;
                 $account = AccountModel::where('phone', $phoneNumber)->first();
                 break;
 
-            case 3:
-                // connect
-                $accountConnect = AccountConnect::where('connect_token', $dtoWordBody->connectToken)->first();
+            case AccountModel::ACT_TYPE_CONNECT:
+                $accountConnect = AccountConnect::with(['account'])->where('connect_id', $dtoWordBody->connectId)->where('connect_token', $dtoWordBody->connectToken)->first();
                 if (empty($accountConnect)) {
                     return $this->failure(
                         34301,
@@ -173,7 +171,7 @@ class Account
                     );
                 }
 
-                $account = AccountModel::where('id', $accountConnect->account_id)->first();
+                $account = $accountConnect?->account;
                 break;
         }
 
@@ -226,6 +224,43 @@ class Account
             'type' => $account->type,
             'aid' => $account->aid,
         ]);
+    }
+
+    public function setAccountConnect($wordBody)
+    {
+        $dtoWordBody = new SetAccountConnectDTO($wordBody);
+
+        $account = AccountModel::where('aid', $dtoWordBody->aid)->first();
+
+        AccountConnect::updateOrCreate([
+            'account_id' => $account->id,
+            'connect_id' => $dtoWordBody->connectId,
+            'connect_token' => $dtoWordBody->connectToken,
+        ], [
+            'connect_refresh_token' => $dtoWordBody->connectRefreshToken,
+            'refresh_token_expired_at' => $dtoWordBody->refreshTokenExpiredDatetime,
+            'connect_username' => $dtoWordBody->connectUsername,
+            'connect_nickname' => $dtoWordBody->connectNickname,
+            'connect_avatar' => $dtoWordBody->connectAvatar,
+            'more_json' => $dtoWordBody->moreJson,
+            'plugin_fskey' => $dtoWordBody->fskey,
+        ]);
+
+        if (empty($account->email) && $dtoWordBody->connectEmail) {
+            $account->update([
+                'email' => $dtoWordBody->connectEmail,
+            ]);
+        }
+
+        if (empty($account->phone) && $dtoWordBody->connectPhone) {
+            $account->update([
+                'country_code' => $dtoWordBody->connectCountryCode,
+                'pure_phone' => $dtoWordBody->connectPhone,
+                'phone' => $dtoWordBody->connectCountryCode.$dtoWordBody->connectPhone,
+            ]);
+        }
+
+        return $this->success();
     }
 
     public function createAccountToken($wordBody)
