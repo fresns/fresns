@@ -21,7 +21,7 @@ class Authenticate extends Middleware
      *
      * @throws \Illuminate\Auth\AuthenticationException
      */
-    protected function authenticate($request, array $guards): void
+    protected function authenticate($request, array $guards)
     {
         if (empty($guards)) {
             $guards = [null];
@@ -36,7 +36,7 @@ class Authenticate extends Middleware
         $this->unauthenticated($request, $guards);
     }
 
-    protected function redirectTo($request): void
+    protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
             return route('panel.empty', 'empty');
