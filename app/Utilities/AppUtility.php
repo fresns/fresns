@@ -157,7 +157,7 @@ class AppUtility
 
         // set account to admin
         $result = Account::whereAid($aid)->update([
-            'type' => 1,
+            'type' => Account::TYPE_SYSTEM_ADMIN,
         ]);
 
         UserRole::where('user_id', 1)->where('is_main', 1)->update([

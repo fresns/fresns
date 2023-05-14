@@ -26,9 +26,13 @@ class Account extends Authenticatable
     use Traits\LangNameTrait;
     use Traits\LangDescriptionTrait;
 
-    const REGISTER_TYPE_EMAIL = 1;
-    const REGISTER_TYPE_PHONE = 2;
-    const REGISTER_TYPE_CONNECT = 3;
+    const TYPE_SYSTEM_ADMIN = 1;
+    const TYPE_GENERAL_ADMIN = 2;
+    const TYPE_GENERAL_ACCOUNT = 3;
+
+    const ACT_TYPE_EMAIL = 1;
+    const ACT_TYPE_PHONE = 2;
+    const ACT_TYPE_CONNECT = 3;
 
     protected $guarded = [];
 
@@ -74,7 +78,7 @@ class Account extends Authenticatable
 
     public function scopeOfAdmin($query)
     {
-        return $query->where('type', 1);
+        return $query->where('type', Account::TYPE_SYSTEM_ADMIN);
     }
 
     public function getSecretPurePhoneAttribute(): string
@@ -100,6 +104,6 @@ class Account extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->type == 1;
+        return $this->type == Account::TYPE_SYSTEM_ADMIN;
     }
 }
