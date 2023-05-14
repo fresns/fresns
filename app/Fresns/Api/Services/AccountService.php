@@ -96,7 +96,7 @@ class AccountService
             $sessionLog['objectResult'] = SessionLog::STATE_FAILURE;
             \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
-            $response['account'] = $addAccountResp->errorResponse();
+            $response['account'] = $addAccountResp->getOrigin();
 
             return $response;
         }
@@ -124,8 +124,8 @@ class AccountService
             $sessionLog['aid'] = $addAccountResp->getData('aid');
             \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
-            $response['account'] = $addAccountResp->errorResponse();
-            $response['user'] = $addUserResp->errorResponse();
+            $response['account'] = $addAccountResp->getOrigin();
+            $response['user'] = $addUserResp->getOrigin();
 
             return $response;
         }
