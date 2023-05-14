@@ -24,6 +24,7 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
+use App\Helpers\PluginHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
 use App\Models\Account;
@@ -203,47 +204,13 @@ class CommonController extends Controller
     {
         $dtoRequest = new CommonCallbacksDTO($request->all());
 
-        $plugin = Plugin::where('fskey', $dtoRequest->fskey)->first();
+        $callback = PluginHelper::fresnsPluginCallback($dtoRequest->fskey, $dtoRequest->ulid);
 
-        if (empty($plugin)) {
-            throw new ApiException(32101);
+        if ($callback['code']) {
+            throw new ApiException($callback['code']);
         }
 
-        if (! $plugin->is_enabled) {
-            throw new ApiException(32102);
-        }
-
-        $callback = PluginCallback::where('ulid', $dtoRequest->ulid)->first();
-
-        if (empty($callback)) {
-            throw new ApiException(32303);
-        }
-
-        if ($callback->is_use) {
-            throw new ApiException(32204);
-        }
-
-        if (empty($callback->content)) {
-            throw new ApiException(32205);
-        }
-
-        $timeDifference = time() - strtotime($callback->created_at);
-        // 30 minutes
-        if ($timeDifference > 1800) {
-            throw new ApiException(32203);
-        }
-
-        $data = [
-            'ulid' => $callback->ulid,
-            'type' => $callback->type,
-            'content' => $callback->content,
-        ];
-
-        $callback->is_use = 1;
-        $callback->use_plugin_fskey = $dtoRequest->fskey;
-        $callback->save();
-
-        return $this->success($data);
+        return $this->success($callback['data']);
     }
 
     // send verify code

@@ -9,6 +9,7 @@
 namespace App\Helpers;
 
 use App\Models\Plugin;
+use App\Models\PluginCallback;
 
 class PluginHelper
 {
@@ -81,6 +82,71 @@ class PluginHelper
         }
 
         return str_replace('{parameter}', $parameter, $url);
+    }
+
+    // get plugin callback
+    public static function fresnsPluginCallback(string $fskey, string $ulid): array
+    {
+        $callbackArr = [
+            'code' => 0,
+            'data' => [],
+        ];
+
+        $plugin = Plugin::where('fskey', $fskey)->first();
+
+        if (empty($plugin)) {
+            $callbackArr['code'] = 32101;
+
+            return $callbackArr;
+        }
+
+        if (! $plugin->is_enabled) {
+            $callbackArr['code'] = 32102;
+
+            return $callbackArr;
+        }
+
+        $callback = PluginCallback::where('ulid', $ulid)->first();
+
+        if (empty($callback)) {
+            $callbackArr['code'] = 32303;
+
+            return $callbackArr;
+        }
+
+        if ($callback->is_use) {
+            $callbackArr['code'] = 32204;
+
+            return $callbackArr;
+        }
+
+        if (empty($callback->content)) {
+            $callbackArr['code'] = 32205;
+
+            return $callbackArr;
+        }
+
+        $timeDifference = time() - strtotime($callback->created_at);
+        // 30 minutes
+        if ($timeDifference > 1800) {
+            $callbackArr['code'] = 32203;
+
+            return $callbackArr;
+        }
+
+        $callback->is_use = 1;
+        $callback->use_plugin_fskey = $fskey;
+        $callback->save();
+
+        $data = [
+            'ulid' => $callback->ulid,
+            'type' => $callback->type,
+            'content' => $callback->content,
+        ];
+
+        $callbackArr['data'] = $data;
+
+        return $callbackArr;
     }
 
     // get plugin version
