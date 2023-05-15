@@ -9,7 +9,9 @@
 namespace App\Models\Traits;
 
 use App\Helpers\ConfigHelper;
+use App\Helpers\PluginHelper;
 use App\Helpers\StrHelper;
+use App\Models\AccountConnect;
 
 trait AccountServiceTrait
 {
@@ -42,13 +44,77 @@ trait AccountServiceTrait
     {
         $connectsArr = $this->connects;
 
+        $connects = ConfigHelper::fresnsConfigByItemKey('connects');
+        $connectServices = ConfigHelper::fresnsConfigByItemKey('account_connect_services') ?? [];
+
         $connectsItemArr = [];
         foreach ($connectsArr as $connect) {
+            if ($connect->connect_id == AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM) {
+                continue;
+            }
+
+            // connect key
+            $connectKey = array_search($connect->connect_id, array_column($connects, 'id'));
+
+            $connectName = null;
+            if ($connectKey) {
+                $connectName = $connects[$connectKey]['name'];
+            }
+
+            // service fskey
+            $fskey = null;
+            foreach ($connectServices as $service) {
+                $code = (int) $service['code'];
+
+                if ($code != $connect->connect_id) {
+                    continue;
+                }
+
+                $fskey = $service['fskey'];
+            }
+
             $item['connectId'] = $connect->connect_id;
+            $item['connectName'] = $connectName;
+            $item['connected'] = true;
+            $item['service'] = PluginHelper::fresnsPluginUrlByFskey($fskey) ?? $fskey;
             $item['username'] = $connect->connect_username;
             $item['nickname'] = $connect->connect_nickname;
             $item['avatar'] = $connect->connect_avatar;
             $item['status'] = (bool) $connect->is_enabled;
+
+            $connectsItemArr[] = $item;
+        }
+
+        $connectIdArr = $connectsArr->pluck('connect_id')->toArray();
+
+        foreach ($connectServices as $service) {
+            $connectId = (int) $service['code'];
+
+            if ($connectId == AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM) {
+                continue;
+            }
+
+            if (in_array($connectId, $connectIdArr)) {
+                continue;
+            }
+
+            // connect key
+            $connectKey = array_search($connectId, array_column($connects, 'id'));
+
+            $connectName = null;
+            if ($connectKey) {
+                $connectName = $connects[$connectKey]['name'];
+            }
+
+            $item['connectId'] = $connectId;
+            $item['connectName'] = $connectName;
+            $item['connected'] = false;
+            $item['service'] = PluginHelper::fresnsPluginUrlByFskey($service['fskey']) ?? $service['fskey'];
+            $item['username'] = null;
+            $item['nickname'] = null;
+            $item['avatar'] = null;
+            $item['status'] = false;
+
             $connectsItemArr[] = $item;
         }
 
