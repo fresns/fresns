@@ -30,6 +30,7 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
      */
     protected $cmdWordsMap = [
         // Basic
+        ['word' => 'checkHeaders', 'provider' => [Basic::class, 'checkHeaders']],
         ['word' => 'verifySign', 'provider' => [Basic::class, 'verifySign']],
         ['word' => 'verifyUrlAuthorization', 'provider' => [Basic::class, 'verifyUrlAuthorization']],
         ['word' => 'uploadSessionLog', 'provider' => [Basic::class, 'uploadSessionLog']],
@@ -48,6 +49,7 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'addAccount', 'provider' => [Account::class, 'addAccount']],
         ['word' => 'verifyAccount', 'provider' => [Account::class, 'verifyAccount']],
         ['word' => 'setAccountConnect', 'provider' => [Account::class, 'setAccountConnect']],
+        ['word' => 'disconnectAccountConnect', 'provider' => [Account::class, 'disconnectAccountConnect']],
         ['word' => 'createAccountToken', 'provider' => [Account::class, 'createAccountToken']],
         ['word' => 'verifyAccountToken', 'provider' => [Account::class, 'verifyAccountToken']],
         ['word' => 'logicalDeletionAccount', 'provider' => [Account::class, 'logicalDeletionAccount']],

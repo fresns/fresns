@@ -10,6 +10,7 @@ namespace App\Fresns\Words\Account;
 
 use App\Fresns\Words\Account\DTO\AddAccountDTO;
 use App\Fresns\Words\Account\DTO\CreateAccountTokenDTO;
+use App\Fresns\Words\Account\DTO\DisconnectAccountConnectDTO;
 use App\Fresns\Words\Account\DTO\LogicalDeletionAccountDTO;
 use App\Fresns\Words\Account\DTO\SetAccountConnectDTO;
 use App\Fresns\Words\Account\DTO\VerifyAccountDTO;
@@ -229,24 +230,35 @@ class Account
     public function setAccountConnect($wordBody)
     {
         $dtoWordBody = new SetAccountConnectDTO($wordBody);
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
-        $account = AccountModel::where('aid', $dtoWordBody->aid)->first();
-
-        $accountConnect = AccountConnect::where('account_id', $account->id)
+        $accountConnect = AccountConnect::withTrashed()
+            ->with(['account'])
             ->where('connect_id', $dtoWordBody->connectId)
             ->where('connect_token', $dtoWordBody->connectToken)
             ->first();
 
-        if ($accountConnect) {
-            return $this->failure(34405);
+        $account = $accountConnect?->account;
+
+        // I already have connected an account
+        if ($accountConnect && $account) {
+            // The account you already have connected with does not match the account you want to run.
+            if ($account->aid != $dtoWordBody->aid) {
+                return $this->failure(
+                    34405,
+                    ConfigUtility::getCodeMessage(34405, 'Fresns', $langTag),
+                );
+            }
         }
 
         try {
-            AccountConnect::updateOrCreate([
-                'account_id' => $account->id,
+            $accountModel = AccountModel::where('aid', $dtoWordBody->aid)->first();
+
+            AccountConnect::withTrashed()->updateOrCreate([
                 'connect_id' => $dtoWordBody->connectId,
                 'connect_token' => $dtoWordBody->connectToken,
             ], [
+                'account_id' => $accountModel->id,
                 'connect_refresh_token' => $dtoWordBody->connectRefreshToken,
                 'refresh_token_expired_at' => $dtoWordBody->refreshTokenExpiredDatetime,
                 'connect_username' => $dtoWordBody->connectUsername,
@@ -254,9 +266,13 @@ class Account
                 'connect_avatar' => $dtoWordBody->connectAvatar,
                 'more_json' => $dtoWordBody->moreJson,
                 'plugin_fskey' => $dtoWordBody->fskey,
+                'deleted_at' => null,
             ]);
         } catch (\Exception $e) {
-            return $this->failure(32302);
+            return $this->failure(
+                32302,
+                ConfigUtility::getCodeMessage(32302, 'Fresns', $langTag),
+            );
         }
 
         if (empty($account->email) && $dtoWordBody->connectEmail) {
@@ -272,6 +288,49 @@ class Account
                 'phone' => $dtoWordBody->connectCountryCode.$dtoWordBody->connectPhone,
             ]);
         }
+
+        CacheHelper::forgetFresnsAccount($accountModel->aid);
+
+        return $this->success();
+    }
+
+    public function disconnectAccountConnect($wordBody)
+    {
+        $dtoWordBody = new DisconnectAccountConnectDTO($wordBody);
+
+        $accountModel = AccountModel::where('aid', $dtoWordBody->aid)->first();
+
+        $connectArr = AccountConnect::withTrashed()->where('account_id', $accountModel->id)->where('connect_id', $dtoWordBody->connectId)->get();
+
+        foreach ($connectArr as $connect) {
+            $connect->forceDelete();
+        }
+
+        $wechatArr = [
+            AccountConnect::CONNECT_WECHAT_OFFICIAL_ACCOUNT,
+            AccountConnect::CONNECT_WECHAT_MINI_PROGRAM,
+            AccountConnect::CONNECT_WECHAT_MOBILE_APPLICATION,
+            AccountConnect::CONNECT_WECHAT_WEBSITE_APPLICATION,
+        ];
+
+        if (in_array($dtoWordBody->connectId, $wechatArr)) {
+            $connects = AccountConnect::where('account_id', $accountModel->id)->whereIn('connect_id', [
+                AccountConnect::CONNECT_WECHAT_OFFICIAL_ACCOUNT,
+                AccountConnect::CONNECT_WECHAT_MINI_PROGRAM,
+                AccountConnect::CONNECT_WECHAT_WEBSITE_APPLICATION,
+                AccountConnect::CONNECT_WECHAT_MOBILE_APPLICATION,
+            ])->get();
+
+            // Delete WeChat unionid
+            if ($connects->isEmpty()) {
+                AccountConnect::withTrashed()
+                    ->where('account_id', $accountModel->id)
+                    ->where('connect_id', AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM)
+                    ->forceDelete();
+            }
+        }
+
+        CacheHelper::forgetFresnsAccount($accountModel->aid);
 
         return $this->success();
     }

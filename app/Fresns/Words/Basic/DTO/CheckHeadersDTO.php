@@ -6,11 +6,11 @@
  * Released under the Apache-2.0 License.
  */
 
-namespace App\Fresns\Api\Http\DTO;
+namespace App\Fresns\Words\Basic\DTO;
 
 use Fresns\DTO\DTO;
 
-class HeadersDTO extends DTO
+class CheckHeadersDTO extends DTO
 {
     public function rules(): array
     {

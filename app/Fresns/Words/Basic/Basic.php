@@ -9,6 +9,7 @@
 namespace App\Fresns\Words\Basic;
 
 use App\Fresns\Words\Basic\DTO\CheckCodeDTO;
+use App\Fresns\Words\Basic\DTO\CheckHeadersDTO;
 use App\Fresns\Words\Basic\DTO\DeviceInfoDTO;
 use App\Fresns\Words\Basic\DTO\IpInfoDTO;
 use App\Fresns\Words\Basic\DTO\SendCodeDTO;
@@ -27,6 +28,51 @@ use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 class Basic
 {
     use CmdWordResponseTrait;
+
+    public function checkHeaders()
+    {
+        $headers = [
+            'appId' => \request()->header('X-Fresns-App-Id'),
+            'platformId' => \request()->header('X-Fresns-Client-Platform-Id'),
+            'version' => \request()->header('X-Fresns-Client-Version'),
+            'deviceInfo' => \request()->header('X-Fresns-Client-Device-Info'),
+            'langTag' => \request()->header('X-Fresns-Client-Lang-Tag'),
+            'timezone' => \request()->header('X-Fresns-Client-Timezone'),
+            'contentFormat' => \request()->header('X-Fresns-Client-Content-Format'),
+            'aid' => \request()->header('X-Fresns-Aid'),
+            'aidToken' => \request()->header('X-Fresns-Aid-Token'),
+            'uid' => \request()->header('X-Fresns-Uid'),
+            'uidToken' => \request()->header('X-Fresns-Uid-Token'),
+            'signature' => \request()->header('X-Fresns-Signature'),
+            'timestamp' => \request()->header('X-Fresns-Signature-Timestamp'),
+        ];
+
+        // check header
+        $dtoWordBody = new CheckHeadersDTO($headers);
+
+        try {
+            $deviceInfo = json_decode($dtoWordBody->deviceInfo, true);
+        } catch (\Exception $e) {
+            $deviceInfo = [];
+        }
+
+        // check deviceInfo
+        new DeviceInfoDTO($deviceInfo);
+
+        // check sign
+        $isCheckSign = ConfigHelper::fresnsConfigDeveloperMode()['apiSignature'];
+        if ($isCheckSign) {
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->verifySign($headers);
+
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+        }
+
+        $headers['deviceInfo'] = $deviceInfo;
+
+        return $this->success($headers);
+    }
 
     public function verifySign($wordBody)
     {
@@ -147,11 +193,21 @@ class Basic
             );
         }
 
+        // check deviceInfo
+        try {
+            $deviceInfo = json_decode($authorizationJson['X-Fresns-Client-Device-Info'], true);
+        } catch (\Exception $e) {
+            $deviceInfo = [];
+        }
+
+        new DeviceInfoDTO($deviceInfo);
+
+        // check headers
         $headers = [
             'appId' => $authorizationJson['X-Fresns-App-Id'] ?? null,
             'platformId' => $authorizationJson['X-Fresns-Client-Platform-Id'] ?? null,
             'version' => $authorizationJson['X-Fresns-Client-Version'] ?? null,
-            'deviceInfo' => json_decode($authorizationJson['X-Fresns-Client-Device-Info'], true),
+            'deviceInfo' => $deviceInfo,
             'langTag' => $authorizationJson['X-Fresns-Client-Lang-Tag'] ?? ConfigHelper::fresnsConfigDefaultLangTag(),
             'timezone' => $authorizationJson['X-Fresns-Client-Timezone'] ?? null,
             'contentFormat' => $authorizationJson['X-Fresns-Client-Content-Format'] ?? null,
