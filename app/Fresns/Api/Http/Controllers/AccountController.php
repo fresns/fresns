@@ -622,6 +622,10 @@ class AccountController extends Controller
     public function edit(Request $request)
     {
         $dtoRequest = new AccountEditDTO($request->all());
+        if ($dtoRequest->isEmpty()) {
+            throw new ApiException(30001);
+        }
+
         $authAccount = $this->account();
 
         if (! $authAccount->is_enabled) {
@@ -857,12 +861,21 @@ class AccountController extends Controller
         }
 
         // edit save
-        if ($dtoRequest->isEmpty()) {
-            throw new ApiException(30001);
-        }
-
         if ($authAccount->isDirty()) {
             $authAccount->save();
+        }
+
+        if ($dtoRequest->disconnectConnectId) {
+            $wordBody = [
+                'aid' => $authAccount->aid,
+                'connectId' => $dtoRequest->disconnectConnectId,
+            ];
+
+            $disconnectResp = \FresnsCmdWord::plugin('Fresns')->disconnectAccountConnect($wordBody);
+
+            if ($disconnectResp->isErrorResponse()) {
+                return $disconnectResp->errorResponse();
+            }
         }
 
         // upload session log
