@@ -703,6 +703,9 @@ class UserController extends Controller
     public function edit(Request $request)
     {
         $dtoRequest = new UserEditDTO($request->all());
+        if ($dtoRequest->isEmpty()) {
+            throw new ApiException(30001);
+        }
 
         $authUser = $this->user();
 
@@ -933,10 +936,6 @@ class UserController extends Controller
         }
 
         // edit save
-        if ($dtoRequest->isEmpty()) {
-            throw new ApiException(30001);
-        }
-
         $authUser->save();
 
         // edit archives
