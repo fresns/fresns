@@ -17,6 +17,10 @@ class User extends Model
     use Traits\IsEnabledTrait;
     use Traits\FsidTrait;
 
+    const GENDER_UNKNOWN = 1;
+    const GENDER_MALE = 2;
+    const GENDER_FEMALE = 3;
+
     protected $dates = [
         'birthday',
         'verified_at',
