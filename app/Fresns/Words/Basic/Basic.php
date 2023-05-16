@@ -193,6 +193,8 @@ class Basic
             );
         }
 
+        $langTag = $authorizationJson['X-Fresns-Client-Lang-Tag'] ?? $langTag;
+
         // check deviceInfo
         try {
             $deviceInfo = json_decode($authorizationJson['X-Fresns-Client-Device-Info'], true);
@@ -208,7 +210,7 @@ class Basic
             'platformId' => $authorizationJson['X-Fresns-Client-Platform-Id'] ?? null,
             'version' => $authorizationJson['X-Fresns-Client-Version'] ?? null,
             'deviceInfo' => $deviceInfo,
-            'langTag' => $authorizationJson['X-Fresns-Client-Lang-Tag'] ?? ConfigHelper::fresnsConfigDefaultLangTag(),
+            'langTag' => $langTag,
             'timezone' => $authorizationJson['X-Fresns-Client-Timezone'] ?? null,
             'contentFormat' => $authorizationJson['X-Fresns-Client-Content-Format'] ?? null,
             'aid' => $authorizationJson['X-Fresns-Aid'] ?? null,
