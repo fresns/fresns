@@ -592,6 +592,22 @@ class CommonController extends Controller
                 break;
         }
 
+        if ($fresnsResp->isSuccessResponse() && $dtoRequest->tableName == 'users') {
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('aid'));
+
+            if ($dtoRequest->tableColumn == 'avatar_file_id') {
+                $authUser->update([
+                    'avatar_file_id' => $fileId,
+                ]);
+            }
+
+            if ($dtoRequest->tableColumn == 'banner_file_id') {
+                $authUser->update([
+                    'banner_file_id' => $fileId,
+                ]);
+            }
+        }
+
         return $fresnsResp->getOrigin();
     }
 
