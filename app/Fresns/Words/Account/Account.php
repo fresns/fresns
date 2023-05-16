@@ -8,7 +8,7 @@
 
 namespace App\Fresns\Words\Account;
 
-use App\Fresns\Words\Account\DTO\AddAccountDTO;
+use App\Fresns\Words\Account\DTO\CreateAccountDTO;
 use App\Fresns\Words\Account\DTO\CreateAccountTokenDTO;
 use App\Fresns\Words\Account\DTO\DisconnectAccountConnectDTO;
 use App\Fresns\Words\Account\DTO\LogicalDeletionAccountDTO;
@@ -32,9 +32,9 @@ class Account
 {
     use CmdWordResponseTrait;
 
-    public function addAccount($wordBody)
+    public function createAccount($wordBody)
     {
-        $dtoWordBody = new AddAccountDTO($wordBody);
+        $dtoWordBody = new CreateAccountDTO($wordBody);
         $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         $typeInt = (int) $dtoWordBody->type;
@@ -116,7 +116,7 @@ class Account
         // Account Connects Table
         if ($dtoWordBody->connectInfo) {
             foreach ($dtoWordBody->connectInfo as $info) {
-                if (empty($info['connectId']) || empty($info['connectToken']) || empty($info['connectNickname']) || empty($info['pluginFskey'])) {
+                if (empty($info['connectId']) || empty($info['connectToken']) || empty($info['pluginFskey'])) {
                     continue;
                 }
 
@@ -126,7 +126,7 @@ class Account
                     'connect_token' => $info['connectToken'],
                     'connect_refresh_token' => $info['connectRefreshToken'] ?? null,
                     'connect_username' => $info['connectUsername'] ?? null,
-                    'connect_nickname' => $info['connectNickname'],
+                    'connect_nickname' => $info['connectNickname'] ?? null,
                     'connect_avatar' => $info['connectAvatar'] ?? null,
                     'plugin_fskey' => $info['pluginFskey'],
                     'more_json' => $info['moreJson'] ?? null,
@@ -135,9 +135,42 @@ class Account
             }
         }
 
+        $uid = null;
+        $username = null;
+        $nickname = null;
+        if ($dtoWordBody->createUser) {
+            $userInfo = $dtoWordBody->userInfo;
+
+            $userWordBody = [
+                'aid' => $accountModel->aid,
+                'username' => $userInfo['username'] ?? null,
+                'nickname' => $userInfo['nickname'] ?? null,
+                'password' => $userInfo['password'] ?? null,
+                'avatarFid' => $userInfo['avatarFid'] ?? null,
+                'avatarUrl' => $userInfo['avatarUrl'] ?? null,
+                'gender' => $userInfo['gender'] ?? null,
+                'birthday' => $userInfo['birthday'] ?? null,
+                'timezone' => $userInfo['timezone'] ?? null,
+                'language' => $userInfo['language'] ?? null,
+            ];
+
+            $fresnsResp = \FresnsCmdWord::plugin('Fresns')->createUser($userWordBody);
+
+            if ($fresnsResp->isErrorResponse()) {
+                return $fresnsResp->errorResponse();
+            }
+
+            $uid = $fresnsResp->getData('uid');
+            $username = $fresnsResp->getData('username');
+            $nickname = $fresnsResp->getData('nickname');
+        }
+
         return $this->success([
             'type' => $accountModel->type,
             'aid' => $accountModel->aid,
+            'uid' => $uid,
+            'username' => $username,
+            'nickname' => $nickname,
         ]);
     }
 

@@ -8,7 +8,7 @@
 
 namespace App\Fresns\Words\User;
 
-use App\Fresns\Words\User\DTO\AddUserDTO;
+use App\Fresns\Words\User\DTO\CreateUserDTO;
 use App\Fresns\Words\User\DTO\CreateUserTokenDTO;
 use App\Fresns\Words\User\DTO\LogicalDeletionUserDTO;
 use App\Fresns\Words\User\DTO\SetUserExpiryDatetimeDTO;
@@ -32,15 +32,16 @@ use App\Utilities\InteractionUtility;
 use Carbon\Carbon;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class User
 {
     use CmdWordResponseTrait;
 
-    // addUser
-    public function addUser($wordBody)
+    // createUser
+    public function createUser($wordBody)
     {
-        $dtoWordBody = new AddUserDTO($wordBody);
+        $dtoWordBody = new CreateUserDTO($wordBody);
 
         if ($dtoWordBody->aidToken) {
             $verifyAccountToken = \FresnsCmdWord::plugin()->verifyAccountToken($wordBody);
@@ -63,11 +64,13 @@ class User
         $userArr = [
             'account_id' => $account->id,
             'username' => $dtoWordBody->username,
-            'nickname' => $dtoWordBody->nickname,
+            'nickname' => $dtoWordBody->nickname ?? Str::random(8),
             'password' => isset($dtoWordBody->password) ? Hash::make($dtoWordBody->password) : null,
-            'avatarFid' => isset($dtoWordBody->avatarFid) ? File::where('fid', $dtoWordBody->avatarFid)->value('id') : null,
-            'avatarUrl' => $dtoWordBody->avatar_file_url ?? null,
-            'gender' => $dtoWordBody->gender ?? 0,
+            'avatar_file_id' => isset($dtoWordBody->avatarFid) ? File::where('fid', $dtoWordBody->avatarFid)->value('id') : null,
+            'avatar_file_url' => $dtoWordBody->avatarUrl ?? null,
+            'banner_file_id' => isset($dtoWordBody->bannerFid) ? File::where('fid', $dtoWordBody->bannerFid)->value('id') : null,
+            'banner_file_url' => $dtoWordBody->bannerUrl ?? null,
+            'gender' => $dtoWordBody->gender ?? UserModel::GENDER_UNKNOWN,
             'birthday' => $dtoWordBody->birthday ?? null,
             'timezone' => $dtoWordBody->timezone ?? null,
             'language' => $dtoWordBody->language ?? null,

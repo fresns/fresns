@@ -10,7 +10,7 @@ namespace App\Fresns\Words\Account\DTO;
 
 use Fresns\DTO\DTO;
 
-class AddAccountDTO extends DTO
+class CreateAccountDTO extends DTO
 {
     public function rules(): array
     {
@@ -23,6 +23,8 @@ class AddAccountDTO extends DTO
             'connectPhone' => ['integer', 'nullable'],
             'connectCountryCode' => ['integer', 'nullable'],
             'password' => ['string', 'nullable'],
+            'createUser' => ['boolean', 'nullable'],
+            'userInfo' => ['array', 'nullable'],
         ];
     }
 }
