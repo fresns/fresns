@@ -141,22 +141,21 @@ class AppUtility
 
     public static function makeAdminAccount(string $email, string $password): void
     {
-        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->addAccount([
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->createAccount([
             'type' => 1,
             'account' => $email,
             'password' => $password,
+            'createUser' => true,
+            'userInfo' => [
+                'nickname' => 'Admin',
+                'username' => 'admin',
+            ],
         ]);
 
         $aid = $fresnsResp->getData('aid');
 
-        \FresnsCmdWord::plugin('Fresns')->addUser([
-            'aid' => $aid,
-            'nickname' => 'Admin',
-            'username' => 'admin',
-        ]);
-
         // set account to admin
-        $result = Account::whereAid($aid)->update([
+        Account::where('aid', $aid)->update([
             'type' => Account::TYPE_SYSTEM_ADMIN,
         ]);
 
@@ -175,8 +174,6 @@ class AppUtility
         ]);
 
         AppUtility::setInitialConfiguration();
-
-        info('update type', [$result, $aid]);
     }
 
     public static function setInitialConfiguration(): void
