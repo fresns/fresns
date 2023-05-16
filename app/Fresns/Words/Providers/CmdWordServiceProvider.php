@@ -12,6 +12,7 @@ use App\Fresns\Words\Account\Account;
 use App\Fresns\Words\Account\Wallet;
 use App\Fresns\Words\Basic\Basic;
 use App\Fresns\Words\Content\Content;
+use App\Fresns\Words\Detail\Detail;
 use App\Fresns\Words\Feature\Crontab;
 use App\Fresns\Words\Feature\Subscribe;
 use App\Fresns\Words\File\File;
@@ -46,7 +47,7 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'sendWechatMessage', 'provider' => [Send::class, 'sendWechatMessage']],
 
         // Account
-        ['word' => 'addAccount', 'provider' => [Account::class, 'addAccount']],
+        ['word' => 'createAccount', 'provider' => [Account::class, 'createAccount']],
         ['word' => 'verifyAccount', 'provider' => [Account::class, 'verifyAccount']],
         ['word' => 'setAccountConnect', 'provider' => [Account::class, 'setAccountConnect']],
         ['word' => 'disconnectAccountConnect', 'provider' => [Account::class, 'disconnectAccountConnect']],
@@ -65,7 +66,7 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'walletRevoke', 'provider' => [Wallet::class, 'walletRevoke']],
 
         // User
-        ['word' => 'addUser', 'provider' => [User::class, 'addUser']],
+        ['word' => 'createUser', 'provider' => [User::class, 'createUser']],
         ['word' => 'verifyUser', 'provider' => [User::class, 'verifyUser']],
         ['word' => 'createUserToken', 'provider' => [User::class, 'createUserToken']],
         ['word' => 'verifyUserToken', 'provider' => [User::class, 'verifyUserToken']],
@@ -98,6 +99,14 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'setPostAuth', 'provider' => [Content::class, 'setPostAuth']],
         ['word' => 'setPostAffiliateUser', 'provider' => [Content::class, 'setPostAffiliateUser']],
         ['word' => 'setCommentExtendButton', 'provider' => [Content::class, 'setCommentExtendButton']],
+
+        // Detail
+        ['word' => 'getAccountDetail', 'provider' => [Detail::class, 'getAccountDetail']],
+        ['word' => 'getUserDetail', 'provider' => [Detail::class, 'getUserDetail']],
+        ['word' => 'getGroupDetail', 'provider' => [Detail::class, 'getGroupDetail']],
+        ['word' => 'getHashtagDetail', 'provider' => [Detail::class, 'getHashtagDetail']],
+        ['word' => 'getPostDetail', 'provider' => [Detail::class, 'getPostDetail']],
+        ['word' => 'getCommentDetail', 'provider' => [Detail::class, 'getCommentDetail']],
 
         // Crontab
         ['word' => 'addCrontabItem', 'provider' => [Crontab::class, 'addCrontabItem']],
