@@ -51,7 +51,7 @@ class CreateAccountsTable extends Migration
             $table->string('connect_token', 128);
             $table->string('connect_refresh_token', 128)->nullable();
             $table->string('connect_username', 128)->nullable();
-            $table->string('connect_nickname', 128);
+            $table->string('connect_nickname', 128)->nullable();
             $table->string('connect_avatar')->nullable();
             $table->string('plugin_fskey', 64);
             $table->unsignedTinyInteger('is_enabled')->default(1);
