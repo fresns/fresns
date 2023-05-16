@@ -532,16 +532,18 @@ class UserController extends Controller
             return $fresnsTokenResponse->errorResponse();
         }
 
-        // get user token
-        $token['token'] = $fresnsTokenResponse->getData('uidToken');
-        $token['expiredHours'] = $fresnsTokenResponse->getData('expiredHours');
-        $token['expiredDays'] = $fresnsTokenResponse->getData('expiredDays');
-        $token['expiredDateTime'] = $fresnsTokenResponse->getData('expiredDateTime');
-        $data['sessionToken'] = $token;
-
         // get user data
         $service = new UserService();
-        $data['detail'] = $service->userData($authUser, 'list', $langTag, $timezone);
+        $data = [
+            'sessionToken' => [
+                'uid' => $fresnsTokenResponse->getData('uid'),
+                'token' => $fresnsTokenResponse->getData('uidToken'),
+                'expiredHours' => $fresnsTokenResponse->getData('expiredHours'),
+                'expiredDays' => $fresnsTokenResponse->getData('expiredDays'),
+                'expiredDateTime' => $fresnsTokenResponse->getData('expiredDateTime'),
+            ],
+            'detail' => $service->userData($authUser, 'list', $langTag, $timezone),
+        ];
 
         // upload session log
         $sessionLog['objectOrderId'] = $fresnsResponse->getData('uidTokenId');
@@ -550,6 +552,7 @@ class UserController extends Controller
         // notify subscribe
         $authAccount = $this->account();
         $accountToken = [
+            'aid' => \request()->header('X-Fresns-Aid'),
             'token' => \request()->header('X-Fresns-Aid-Token'),
             'expiredHours' => null,
             'expiredDays' => null,
@@ -557,7 +560,7 @@ class UserController extends Controller
         ];
 
         $accountService = new AccountService();
-        $accountDetail = $accountService->accountDetail($authAccount, $langTag, $timezone);
+        $accountDetail = $accountService->accountData($authAccount, $langTag, $timezone);
 
         SubscribeUtility::notifyAccountAndUserLogin($authAccount->id, $accountToken, $accountDetail, $authUser->id, $data['sessionToken'], $data['detail']);
 
