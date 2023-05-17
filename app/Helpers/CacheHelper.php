@@ -241,10 +241,6 @@ class CacheHelper
             'is_custom' => 0,
             'is_api' => 1,
         ]);
-
-        Artisan::call('config:cache');
-        Artisan::call('view:cache');
-        Artisan::call('event:cache');
     }
 
     /**
