@@ -330,10 +330,22 @@ class Account
     public function disconnectAccountConnect($wordBody)
     {
         $dtoWordBody = new DisconnectAccountConnectDTO($wordBody);
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         $accountModel = AccountModel::where('aid', $dtoWordBody->aid)->first();
 
-        $connectArr = AccountConnect::withTrashed()->where('account_id', $accountModel->id)->where('connect_id', $dtoWordBody->connectId)->get();
+        $connectArr = AccountConnect::withTrashed()
+            ->where('account_id', $accountModel->id)
+            ->where('connect_id', $dtoWordBody->connectId)
+            ->where('connect_id', '!=', AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM)
+            ->get();
+
+        if ($connectArr->count() == 1 && empty($accountModel->email) && empty($accountModel->phone)) {
+            return $this->failure(
+                34406,
+                ConfigUtility::getCodeMessage(34406, 'Fresns', $langTag),
+            );
+        }
 
         foreach ($connectArr as $connect) {
             $connect->forceDelete();
