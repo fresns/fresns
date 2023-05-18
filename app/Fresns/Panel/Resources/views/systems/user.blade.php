@@ -24,29 +24,34 @@
         <!--account_connect_services-->
         <div class="row mb-4">
             <label for="user_account_connect_services" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.user_account_connect_services') }}:</label>
-            <div class="col-lg-6 connect-box">
-                <div class="input-group">
-                    <button type="button" class="btn btn-outline-primary btn-sm mt-2 me-3" id="addConnect">{{ __('FsLang::panel.button_add_account_connect') }}</button>
+            <div class="col-lg-10 connect-box">
+                <div class="d-flex justify-content-start pt-1">
+                    <button type="button" class="btn btn-outline-primary btn-sm" id="addConnect">{{ __('FsLang::panel.button_add_account_connect') }}</button>
+                    <div class="form-text ms-3 pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.user_account_connect_services_desc') }}</div>
                 </div>
                 @foreach ($params['account_connect_services'] ?? [] as $connectService)
                     <div class="input-group mt-3">
                         <label class="input-group-text">{{ __('FsLang::panel.table_platform') }}</label>
-                        <select class="form-select" name="connects[]">
+                        <select class="form-select" name="connectId[]">
                             @foreach ($params['connects'] as $connect)
+                                @if ($connect['id'] == 23 || $connect['id'] == 26)
+                                    @continue
+                                @endif
                                 <option value="{{ $connect['id'] }}" @if ($connectService['code'] == $connect['id']) selected @endif>{{ $connect['name'] }}</option>
                             @endforeach
                         </select>
                         <label class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</label>
-                        <select class="form-select" name="connect_plugins[]">
+                        <select class="form-select" name="connectPlugin[]">
                             @foreach ($pluginParams['connect'] as $plugin)
                                 <option value="{{ $plugin->fskey }}" {{ $connectService['fskey'] == $plugin->fskey ? 'selected' : '' }}> {{ $plugin->name }}</option>
                             @endforeach
                         </select>
+                        <label class="input-group-text">{{ __('FsLang::panel.table_order') }}</label>
+                        <input type="number" class="form-control input-number" name="connectOrder[]" value="{{ $connectService['order'] ?? '' }}">
                         <button class="btn btn-outline-secondary delete-connect" type="button">{{ __('FsLang::panel.button_delete') }}</button>
                     </div>
                 @endforeach
             </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.user_account_connect_services_desc') }}</div>
         </div>
         <!--user_account_real_name_services-->
         <div class="row mb-4">
@@ -387,17 +392,22 @@
     <template id="connectTemplate">
         <div class="input-group mt-3">
             <label class="input-group-text">{{ __('FsLang::panel.table_platform') }}</label>
-            <select class="form-select" name="connects[]">
+            <select class="form-select" name="connectId[]">
                 @foreach ($params['connects'] as $connect)
+                    @if ($connect['id'] == 23 || $connect['id'] == 26)
+                        @continue
+                    @endif
                     <option value="{{ $connect['id'] }}">{{ $connect['name'] }}</option>
                 @endforeach
             </select>
             <label class="input-group-text">{{ __('FsLang::panel.table_plugin') }}</label>
-            <select class="form-select" name="connect_plugins[]">
+            <select class="form-select" name="connectPlugin[]">
                 @foreach ($pluginParams['connect'] as $plugin)
                     <option value="{{ $plugin->fskey }}">{{ $plugin->name }}</option>
                 @endforeach
             </select>
+            <label class="input-group-text">{{ __('FsLang::panel.table_order') }}</label>
+            <input type="number" class="form-control input-number" max="2" name="connectOrder[]">
             <button class="btn btn-outline-secondary delete-connect" type="button">{{ __('FsLang::panel.button_delete') }}</button>
         </div>
     </template>

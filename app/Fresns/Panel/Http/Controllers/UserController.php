@@ -233,19 +233,27 @@ class UserController extends Controller
         }
 
         $services = [];
-        if ($request->connects) {
-            $services = [];
-            foreach ($request->connects as $key => $connect) {
+        if ($request->connectId) {
+            foreach ($request->connectId as $key => $id) {
                 if (array_key_exists($key, $services)) {
                     continue;
                 }
-                $services[$connect] = [
-                    'code' => $connect,
-                    'fskey' => $request->connect_plugins[$key] ?? '',
+                $services[$id] = [
+                    'order' => $request->connectOrder[$key] ?? 9,
+                    'code' => $id,
+                    'fskey' => $request->connectPlugin[$key] ?? '',
                 ];
             }
 
-            $services = array_values($services);
+            usort($services, function ($a, $b) {
+                if ($a['order'] == 1) {
+                    return -1;
+                } elseif ($b['order'] == 1) {
+                    return 1;
+                } else {
+                    return $a['order'] - $b['order'];
+                }
+            });
         }
         $config = Config::where('item_key', 'account_connect_services')->first();
         $config->item_value = $services;
