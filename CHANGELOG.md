@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.12.0 (2023-05-18)
+
+### Added
+- API: Plugin services for post and comment data can be configured separately
+- API: Message notifications add `quote` type
+- API: Message notifications support mentioner interaction notifications (someone else's content mentions me, and then notifies me of the interaction action)
+- API: Full comment list no longer shows comments visible only to author
+- API: Users, groups, topics, posts, comments, lists support random sorting `orderType=random`.
+- Words: Add command word `checkHeaders`.
+- Words: Add command word `setAccountConnect`
+- Words: Add command word `disconnectAccountConnect`
+
+### Fixes
+- Panel: Unable to uninstall theme
+- API: Map latitude and longitude are reversed
+- API: Search command word error
+- API: Content detail page command word missing fsid parameter
+- Utilities: `in_array` error if private mode whitelist array is empty
+
+### BREAKING CHANGES
+- API: Message list interface `actionCid` changed to `contentFsid`.
+- API: Change interactive list type `type` parameter value `likers`,`dislikers`,`followers`,`blockers`.
+    - /api/v2/user/`{uidOrUsername}`/interaction/`{type}`
+    - /api/v2/group/`{gid}`/interaction/`{type}`
+    - /api/v2/hashtag/`{hid}`/interaction/`{type}`
+    - /api/v2/post/`{pid}`/interaction/`{type}`
+    - /api/v2/comment/`{cid}`/interaction/`{type}`
+- API: Upload File Interface, if the upload is a user image, the user's profile (avatar image or banner image) is automatically updated without the need to prompt the user to change the profile interface.
+
+
 ## 2.11.2 (2023-05-08)
 
 ### Fixes
