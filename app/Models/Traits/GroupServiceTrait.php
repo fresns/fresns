@@ -45,6 +45,7 @@ trait GroupServiceTrait
         $info['followUrl'] = PluginHelper::fresnsPluginUrlByFskey($groupData->plugin_fskey);
         $info['parentGid'] = $parentGroup?->gid ?? null;
         $info['category'] = $parentGroup?->getCategoryInfo($langTag) ?? null;
+        $info['subgroupCount'] = $groupData->groups->count();
         $info['likeCount'] = $configKeys['group_liker_count'] ? $groupData->like_count : null;
         $info['dislikeCount'] = $configKeys['group_disliker_count'] ? $groupData->dislike_count : null;
         $info['followCount'] = $configKeys['group_follower_count'] ? $groupData->follow_count : null;

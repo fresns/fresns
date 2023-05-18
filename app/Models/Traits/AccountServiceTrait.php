@@ -61,22 +61,27 @@ trait AccountServiceTrait
                 $connectName = $connects[$connectKey]['name'];
             }
 
-            // service fskey
-            $fskey = null;
-            foreach ($connectServices as $service) {
-                $code = (int) $service['code'];
+            $pluginUrl = PluginHelper::fresnsPluginUrlByFskey($connect->plugin_fskey);
+            if (empty($pluginUrl)) {
+                // service fskey
+                $fskey = null;
+                foreach ($connectServices as $service) {
+                    $code = (int) $service['code'];
 
-                if ($code != $connect->connect_id) {
-                    continue;
+                    if ($code != $connect->connect_id) {
+                        continue;
+                    }
+
+                    $fskey = $service['fskey'];
                 }
 
-                $fskey = $service['fskey'];
+                $pluginUrl = PluginHelper::fresnsPluginUrlByFskey($fskey);
             }
 
             $item['connectId'] = $connect->connect_id;
             $item['connectName'] = $connectName;
             $item['connected'] = true;
-            $item['service'] = PluginHelper::fresnsPluginUrlByFskey($fskey) ?? $fskey;
+            $item['service'] = $pluginUrl;
             $item['username'] = $connect->connect_username;
             $item['nickname'] = $connect->connect_nickname;
             $item['avatar'] = $connect->connect_avatar;
