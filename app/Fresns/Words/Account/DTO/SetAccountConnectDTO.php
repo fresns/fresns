@@ -22,7 +22,7 @@ class SetAccountConnectDTO extends DTO
             'connectRefreshToken' => ['string', 'nullable'],
             'refreshTokenExpiredDatetime' => ['string', 'nullable', 'date_format:"Y-m-d H:i:s"'],
             'connectUsername' => ['string', 'nullable'],
-            'connectNickname' => ['string', 'required'],
+            'connectNickname' => ['string', 'nullable'],
             'connectAvatar' => ['string', 'nullable'],
             'moreJson' => ['json', 'nullable'],
             'connectEmail' => ['email', 'nullable'],

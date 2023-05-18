@@ -20,6 +20,7 @@ use App\Fresns\Api\Http\DTO\CommonUploadFileDTO;
 use App\Fresns\Api\Http\DTO\CommonUploadLogDTO;
 use App\Fresns\Api\Http\DTO\PaginationDTO;
 use App\Fresns\Api\Services\UserService;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
@@ -593,7 +594,7 @@ class CommonController extends Controller
         }
 
         if ($fresnsResp->isSuccessResponse() && $dtoRequest->tableName == 'users') {
-            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('aid'));
+            $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
             if ($dtoRequest->tableColumn == 'avatar_file_id') {
                 $authUser->update([
@@ -606,6 +607,8 @@ class CommonController extends Controller
                     'banner_file_id' => $fileId,
                 ]);
             }
+
+            CacheHelper::forgetFresnsUser($authUser->id, $authUser->uid);
         }
 
         return $fresnsResp->getOrigin();
