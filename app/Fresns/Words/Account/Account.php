@@ -54,18 +54,20 @@ class Account
                 // connect
                 $checkAccount = null;
 
+                $connectIdArr = [];
                 $connectTokenArr = [];
                 foreach ($dtoWordBody->connectInfo as $connect) {
-                    if (empty($connect['connectToken'])) {
+                    if (empty($connect['connectId']) || empty($connect['connectToken'])) {
                         continue;
                     }
 
+                    $connectIdArr[] = $connect['connectId'];
                     $connectTokenArr[] = $connect['connectToken'];
                 }
 
                 $count = 0;
                 if ($connectTokenArr) {
-                    $count = AccountConnect::whereIn('connect_token', $connectTokenArr)->count();
+                    $count = AccountConnect::whereIn('connect_id', $connectIdArr)->whereIn('connect_token', $connectTokenArr)->count();
                 }
 
                 if ($count > 0) {

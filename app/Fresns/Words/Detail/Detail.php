@@ -40,6 +40,7 @@ class Detail
     public function getAccountDetail($wordBody)
     {
         $dtoWordBody = new GetAccountDetailDTO($wordBody);
+        $langTag = $dtoWordBody->langTag ?? $this->langTag();
 
         $account = Account::where('aid', $dtoWordBody->aid)->first();
 
@@ -50,7 +51,6 @@ class Detail
             );
         }
 
-        $langTag = $dtoWordBody->langTag ?? $this->langTag();
         $timezone = $dtoWordBody->timezone ?? $this->timezone();
 
         $service = new AccountService();
