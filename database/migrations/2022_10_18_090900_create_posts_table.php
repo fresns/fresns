@@ -33,6 +33,7 @@ class CreatePostsTable extends Migration
             $table->decimal('map_latitude', 12, 8)->nullable();
             $table->unsignedTinyInteger('sticky_state')->default(1)->index('post_sticky_state');
             $table->unsignedTinyInteger('digest_state')->default(1)->index('post_digest_state');
+            $table->unsignedInteger('view_count')->default(0);
             $table->unsignedInteger('like_count')->default(0);
             $table->unsignedInteger('dislike_count')->default(0);
             $table->unsignedInteger('follow_count')->default(0);
