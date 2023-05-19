@@ -407,7 +407,7 @@
                 @endforeach
             </select>
             <label class="input-group-text">{{ __('FsLang::panel.table_order') }}</label>
-            <input type="number" class="form-control input-number" max="2" name="connectOrder[]">
+            <input type="number" class="form-control input-number" name="connectOrder[]">
             <button class="btn btn-outline-secondary delete-connect" type="button">{{ __('FsLang::panel.button_delete') }}</button>
         </div>
     </template>
