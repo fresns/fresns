@@ -778,8 +778,9 @@ class CacheHelper
     // fresns_default_timezone
     // fresns_lang_tags
     // fresns_config_{$itemKey}_{$langTag}
-    // fresns_config_keys_{$key}_{$langTag}
+    // fresns_config_keys_{$itemKey}_{$langTag}
     // fresns_config_tag_{$itemTag}_{$langTag}
+    // fresns_config_api_{$itemKey}_{$langTag}
     // fresns_config_file_accept
     // fresns_config_file_url_expire
     // fresns_content_block_words       // fresns_{$type}_block_words
