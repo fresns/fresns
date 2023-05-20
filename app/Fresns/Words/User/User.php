@@ -321,11 +321,11 @@ class User
 
         $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
         $userStat = UserStat::where('user_id', $userId)->first();
-        $extcredits = 'extcredits'.$dtoWordBody->extcredits;
+        $extcreditsIdName = 'extcredits'.$dtoWordBody->extcreditsId;
 
-        $openingAmount = $userStat->$extcredits;
+        $openingAmount = $userStat->$extcreditsIdName;
 
-        $checkClosingAmount = static::checkClosingAmount($userStat, $dtoWordBody->extcredits);
+        $checkClosingAmount = static::checkClosingAmount($userStat, $dtoWordBody->extcreditsId);
         if (! $checkClosingAmount) {
             return $this->failure(21006, 'Error closing amount');
         }
@@ -335,7 +335,7 @@ class User
         switch ($dtoWordBody->operation) {
             case 'increment':
                 $type = 1;
-                $operationStat = $userStat->increment($extcredits, $amount);
+                $operationStat = $userStat->increment($extcreditsIdName, $amount);
                 $closingAmount = $openingAmount + $amount;
                 break;
 
@@ -345,7 +345,7 @@ class User
                 }
 
                 $type = 2;
-                $operationStat = $userStat->decrement($extcredits, $amount);
+                $operationStat = $userStat->decrement($extcreditsIdName, $amount);
                 $closingAmount = $openingAmount - $amount;
                 break;
         }
@@ -359,7 +359,7 @@ class User
 
         $log = [
             'user_id' => $userId,
-            'extcredits' => $dtoWordBody->extcredits,
+            'extcredits_id' => $dtoWordBody->extcreditsId,
             'type' => $type,
             'amount' => $amount,
             'opening_amount' => $openingAmount,
@@ -376,11 +376,11 @@ class User
     }
 
     // check closing amount
-    public static function checkClosingAmount(UserStat $userStat, int $extcredits): bool
+    public static function checkClosingAmount(UserStat $userStat, int $extcreditsId): bool
     {
-        $log = UserExtcreditsLog::where('user_id', $userStat->user_id)->where('extcredits', $extcredits)->latest()->first();
+        $log = UserExtcreditsLog::where('user_id', $userStat->user_id)->where('extcredits_id', $extcreditsId)->latest()->first();
 
-        $columnName = 'extcredits'.$extcredits;
+        $columnName = 'extcredits'.$extcreditsId;
 
         $amount = $userStat->$columnName;
         $closingAmount = $log?->closing_amount ?? 0;
