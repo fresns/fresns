@@ -49,100 +49,106 @@ class SubscribeUtility
     // notifyDataChange
     public static function notifyDataChange(mixed $tableName, int $primaryId, string $changeType): void
     {
-        $subTableName = null;
-        try {
-            if ($tableName) {
-                $subTableName = StrHelper::qualifyTableName($tableName);
-            }
-        } catch (\Exception $e) {
-            return;
-        }
-
-        if (empty($subTableName)) {
-            return;
-        }
-
-        $subscribeItems = SubscribeUtility::getSubscribeItems(SubscribeUtility::TYPE_TABLE_DATA_CHANGE, $subTableName);
-        if (empty($subscribeItems)) {
-            return;
-        }
-
-        $wordBody = [
-            'tableName' => $subTableName,
-            'primaryId' => $primaryId,
-            'changeType' => $changeType,
-        ];
-
-        foreach ($subscribeItems as $item) {
-            Queue::push(function () use ($item, $wordBody) {
-                try {
-                    $fskey = $item['fskey'];
-                    $cmdWord = $item['cmdWord'];
-
-                    \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
-                } catch (\Exception $e) {
+        Queue::push(function () use ($tableName, $primaryId, $changeType) {
+            $subTableName = null;
+            try {
+                if ($tableName) {
+                    $subTableName = StrHelper::qualifyTableName($tableName);
                 }
-            });
-        }
+            } catch (\Exception $e) {
+                return;
+            }
+
+            if (empty($subTableName)) {
+                return;
+            }
+
+            $subscribeItems = SubscribeUtility::getSubscribeItems(SubscribeUtility::TYPE_TABLE_DATA_CHANGE, $subTableName);
+            if (empty($subscribeItems)) {
+                return;
+            }
+
+            $wordBody = [
+                'tableName' => $subTableName,
+                'primaryId' => $primaryId,
+                'changeType' => $changeType,
+            ];
+
+            foreach ($subscribeItems as $item) {
+                Queue::push(function () use ($item, $wordBody) {
+                    try {
+                        $fskey = $item['fskey'];
+                        $cmdWord = $item['cmdWord'];
+
+                        \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
+                    } catch (\Exception $e) {
+                    }
+                });
+            }
+        });
     }
 
     // notifyUserActivity
     public static function notifyUserActivity(string $route, string $uri, array $headers, mixed $body): void
     {
-        $subscribeItems = SubscribeUtility::getSubscribeItems(SubscribeUtility::TYPE_USER_ACTIVITY);
-        if (empty($subscribeItems)) {
-            return;
-        }
+        Queue::push(function () use ($route, $uri, $headers, $body) {
+            $subscribeItems = SubscribeUtility::getSubscribeItems(SubscribeUtility::TYPE_USER_ACTIVITY);
+            if (empty($subscribeItems)) {
+                return;
+            }
 
-        $wordBody = [
-            'route' => $route,
-            'uri' => $uri,
-            'headers' => $headers,
-            'body' => $body,
-        ];
+            $wordBody = [
+                'route' => $route,
+                'uri' => $uri,
+                'headers' => $headers,
+                'body' => $body,
+            ];
 
-        foreach ($subscribeItems as $item) {
-            Queue::push(function () use ($item, $wordBody) {
-                try {
-                    $fskey = $item['fskey'];
-                    $cmdWord = $item['cmdWord'];
+            foreach ($subscribeItems as $item) {
+                Queue::push(function () use ($item, $wordBody) {
+                    try {
+                        $fskey = $item['fskey'];
+                        $cmdWord = $item['cmdWord'];
 
-                    \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
-                } catch (\Exception $e) {
-                }
-            });
-        }
+                        \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
+                    } catch (\Exception $e) {
+                    }
+                });
+            }
+        });
     }
 
     // notifyAccountAndUserLogin
     public static function notifyAccountAndUserLogin(int $accountId, array $accountToken, array $accountDetail, ?int $userId = null, ?array $userToken = null, ?array $userDetail = null): void
     {
-        $subscribeItems = SubscribeUtility::getSubscribeItems(SubscribeUtility::TYPE_ACCOUNT_AND_USER_LOGIN);
-        if (empty($subscribeItems)) {
-            return;
-        }
+        Queue::push(function () use ($accountId, $accountToken, $accountDetail, $userId, $userToken, $userDetail) {
+            $subscribeItems = SubscribeUtility::getSubscribeItems(SubscribeUtility::TYPE_ACCOUNT_AND_USER_LOGIN);
+            if (empty($subscribeItems)) {
+                return;
+            }
 
-        $wordBody = [
-            'primaryId' => [
-                'accountId' => $accountId,
-                'userId' => $userId,
-            ],
-            'accountToken' => $accountToken,
-            'accountDetail' => $accountDetail,
-            'userToken' => $userToken,
-            'userDetail' => $userDetail,
-        ];
+            $wordBody = [
+                'primaryId' => [
+                    'accountId' => $accountId,
+                    'userId' => $userId,
+                ],
+                'accountToken' => $accountToken,
+                'accountDetail' => $accountDetail,
+                'userToken' => $userToken,
+                'userDetail' => $userDetail,
+            ];
 
-        foreach ($subscribeItems as $item) {
-            Queue::push(function () use ($item, $wordBody) {
-                try {
-                    $fskey = $item['fskey'];
-                    $cmdWord = $item['cmdWord'];
+            foreach ($subscribeItems as $item) {
+                Queue::push(function () use ($item, $wordBody) {
+                    try {
+                        $fskey = $item['fskey'];
+                        $cmdWord = $item['cmdWord'];
 
-                    \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
-                } catch (\Exception $e) {
-                }
-            });
-        }
+                        \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
+                    } catch (\Exception $e) {
+                    }
+                });
+            }
+        });
     }
 }
