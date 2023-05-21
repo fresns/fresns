@@ -38,6 +38,7 @@ trait CommentServiceTrait
         $info['isAnonymous'] = (bool) $commentData->is_anonymous;
         $info['isSticky'] = (bool) $commentData->is_sticky;
         $info['digestState'] = $commentData->digest_state;
+        $info['viewCount'] = $commentData->view_count;
         $info['likeCount'] = $configKeys['comment_liker_count'] ? $commentData->like_count : null;
         $info['dislikeCount'] = $configKeys['comment_disliker_count'] ? $commentData->dislike_count : null;
         $info['followCount'] = $configKeys['comment_follower_count'] ? $commentData->follow_count : null;

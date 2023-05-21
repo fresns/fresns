@@ -46,6 +46,7 @@ trait PostServiceTrait
         $info['isAnonymous'] = (bool) $postData->is_anonymous;
         $info['stickyState'] = $postData->sticky_state;
         $info['digestState'] = $postData->digest_state;
+        $info['viewCount'] = $postData->view_count;
         $info['likeCount'] = $configKeys['post_liker_count'] ? $postData->like_count : null;
         $info['dislikeCount'] = $configKeys['post_disliker_count'] ? $postData->dislike_count : null;
         $info['followCount'] = $configKeys['post_follower_count'] ? $postData->follow_count : null;
