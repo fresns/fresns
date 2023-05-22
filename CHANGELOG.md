@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.13.0 (2023-05-23)
+
+### Added
+- API: Add `viewCount` parameter to data structure for users, groups, hashtags, posts and comments
+- API: Five types of content list pages support `view` filter and sort parameters
+- Words: New type of subscription command word `4` View event notifications
+
+### Fixes
+- Utilities: Publish trigger notifications that fail
+- Words: Missing `connectId` when checking account connection credentials
+- Words: User extended credit ID `extcreditsId` error
+
+### BREAKING CHANGES
+- Words: `subTableName` parameter changed to `subject` for subscription command word
+- Words: userExtendedCredits command word `extcredits` parameter changed to `extcreditsId`.
+
+
 ## 2.12.0 (2023-05-18)
 
 ### Added
