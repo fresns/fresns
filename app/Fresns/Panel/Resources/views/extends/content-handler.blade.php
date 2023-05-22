@@ -206,6 +206,63 @@
             </div>
         </div>
 
+        <!--content view-->
+        <div class="row mb-4">
+            <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.extend_content_view_event') }}:</label>
+            <div class="col-lg-6">
+                <!--user-->
+                <div class="input-group mb-3">
+                    <label class="input-group-text">{{ __('FsLang::panel.user') }}</label>
+                    <select class="form-select" name="view_user_service">
+                        <option value="" {{ !$params['view_user_service'] ? 'selected' : '' }}>⛔️ {{ __('FsLang::panel.option_close') }}</option>
+                        @foreach ($pluginParams['extendView'] as $plugin)
+                            <option value="{{ $plugin->fskey }}" {{ $params['view_user_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <!--group-->
+                <div class="input-group mb-3">
+                    <label class="input-group-text">{{ __('FsLang::panel.group') }}</label>
+                    <select class="form-select" name="view_group_service">
+                        <option value="" {{ !$params['view_group_service'] ? 'selected' : '' }}>⛔️ {{ __('FsLang::panel.option_close') }}</option>
+                        @foreach ($pluginParams['extendView'] as $plugin)
+                            <option value="{{ $plugin->fskey }}" {{ $params['view_group_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <!--hashtag-->
+                <div class="input-group mb-3">
+                    <label class="input-group-text">{{ __('FsLang::panel.hashtag') }}</label>
+                    <select class="form-select" name="view_hashtag_service">
+                        <option value="" {{ !$params['view_hashtag_service'] ? 'selected' : '' }}>⛔️ {{ __('FsLang::panel.option_close') }}</option>
+                        @foreach ($pluginParams['extendView'] as $plugin)
+                            <option value="{{ $plugin->fskey }}" {{ $params['view_hashtag_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <!--post-->
+                <div class="input-group mb-3">
+                    <label class="input-group-text">{{ __('FsLang::panel.post') }}</label>
+                    <select class="form-select" name="view_post_service">
+                        <option value="" {{ !$params['view_post_service'] ? 'selected' : '' }}>⛔️ {{ __('FsLang::panel.option_close') }}</option>
+                        @foreach ($pluginParams['extendView'] as $plugin)
+                            <option value="{{ $plugin->fskey }}" {{ $params['view_post_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <!--comment-->
+                <div class="input-group mb-3">
+                    <label class="input-group-text">{{ __('FsLang::panel.comment') }}</label>
+                    <select class="form-select" name="view_comment_service">
+                        <option value="" {{ !$params['view_comment_service'] ? 'selected' : '' }}>⛔️ {{ __('FsLang::panel.option_close') }}</option>
+                        @foreach ($pluginParams['extendView'] as $plugin)
+                            <option value="{{ $plugin->fskey }}" {{ $params['view_comment_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
+
         <!--button_save-->
         <div class="row my-3">
             <div class="col-lg-2"></div>

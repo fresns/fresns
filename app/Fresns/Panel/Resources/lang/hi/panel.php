@@ -937,6 +937,7 @@ return [
     'extend_content_list' => 'सामग्री सूची',
     'extend_content_detail' => 'सामग्री विवरण',
     'extend_content_search' => 'सामग्री खोज',
+    'extend_content_view_event' => 'घटना देखें',
     'extend_content_list_desc' => 'इस कॉन्फ़िगरेशन की सामग्री प्रकार कॉन्फ़िगरेशन की तुलना में उच्च प्राथमिकता है, और कॉन्फ़िगर किए जाने पर, सामग्री प्रकार द्वारा निर्दिष्ट डेटा स्रोत को बदल दिया जाएगा।',
     'extend_content_ip' => 'आईपी सेवा',
     'extend_content_map' => 'नक्शा सेवा',

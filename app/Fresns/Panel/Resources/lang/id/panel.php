@@ -937,6 +937,7 @@ return [
     'extend_content_list' => 'Daftar Konten',
     'extend_content_detail' => 'Detail Konten',
     'extend_content_search' => 'Pencarian Konten',
+    'extend_content_view_event' => 'Lihat Acara',
     'extend_content_list_desc' => 'Konfigurasi ini memiliki prioritas yang lebih tinggi daripada konfigurasi jenis konten, dan apabila dikonfigurasi, sumber data yang ditentukan oleh jenis konten akan diganti.',
     'extend_content_ip' => 'Layanan IP',
     'extend_content_map' => 'Layanan Peta',

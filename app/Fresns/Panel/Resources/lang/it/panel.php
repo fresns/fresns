@@ -937,6 +937,7 @@ return [
     'extend_content_list' => 'Elenco dei contenuti',
     'extend_content_detail' => 'Dettagli sui contenuti',
     'extend_content_search' => 'Ricerca del contenuto',
+    'extend_content_view_event' => 'Visualizza evento',
     'extend_content_list_desc' => 'Questa configurazione ha una priorità maggiore rispetto a quella del tipo di contenuto e, quando viene configurata, l\'origine dati specificata dal tipo di contenuto viene sostituita.',
     'extend_content_ip' => 'Servizio IP',
     'extend_content_map' => 'Servizio mappe',

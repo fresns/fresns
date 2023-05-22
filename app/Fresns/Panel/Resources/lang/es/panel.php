@@ -937,6 +937,7 @@ return [
     'extend_content_list' => 'Lista de contenidos',
     'extend_content_detail' => 'Detalles del contenido',
     'extend_content_search' => 'Búsqueda de contenido',
+    'extend_content_view_event' => 'Ver evento',
     'extend_content_list_desc' => 'Esta configuración tiene mayor prioridad que la configuración del tipo de contenido, y cuando se configura, se sustituye la fuente de datos especificada por el tipo de contenido.',
     'extend_content_ip' => 'Servicio IP',
     'extend_content_map' => 'Servicio de mapas',

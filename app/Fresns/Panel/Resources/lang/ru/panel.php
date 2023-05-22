@@ -937,6 +937,7 @@ return [
     'extend_content_list' => 'Список контента',
     'extend_content_detail' => 'Детали контента',
     'extend_content_search' => 'Поиск содержимого',
+    'extend_content_view_event' => 'Посмотреть событие',
     'extend_content_list_desc' => 'Эта конфигурация имеет более высокий приоритет, чем конфигурация типа содержимого, и когда она настроена, источник данных, указанный типом содержимого, будет заменен.',
     'extend_content_ip' => 'Служба IP',
     'extend_content_map' => 'Обслуживание карт',

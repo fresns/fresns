@@ -938,6 +938,7 @@ return [
     'extend_content_list' => '内容列表',
     'extend_content_detail' => '内容详情',
     'extend_content_search' => '内容搜索',
+    'extend_content_view_event' => '查看事件',
     'extend_content_list_desc' => '该配置的优先级大于内容类型配置，当配置后，内容类型指定的数据来源将被取代。',
     'extend_content_ip' => 'IP 服务',
     'extend_content_map' => '地图服务',

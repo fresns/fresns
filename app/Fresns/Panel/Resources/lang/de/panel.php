@@ -937,6 +937,7 @@ return [
     'extend_content_list' => 'Inhalt Liste',
     'extend_content_detail' => 'Inhalt Details',
     'extend_content_search' => 'Inhaltssuche',
+    'extend_content_view_event' => 'Ereignis anzeigen',
     'extend_content_list_desc' => 'Diese Konfiguration hat eine höhere Priorität als die Konfiguration des Inhaltstyps, und wenn sie konfiguriert ist, wird die durch den Inhaltstyp angegebene Datenquelle ersetzt.',
     'extend_content_ip' => 'IP-Dienst',
     'extend_content_map' => 'Kartendienst',

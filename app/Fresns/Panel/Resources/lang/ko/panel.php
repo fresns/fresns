@@ -937,6 +937,7 @@ return [
     'extend_content_list' => '콘텐츠 목록',
     'extend_content_detail' => '콘텐츠 세부 정보',
     'extend_content_search' => '콘텐츠 검색',
+    'extend_content_view_event' => '이벤트 보기',
     'extend_content_list_desc' => '이 구성은 컨텐츠 유형 구성보다 우선 순위가 높으며 구성되면 컨텐츠 유형으로 지정된 데이터 소스가 대체됩니다.',
     'extend_content_ip' => 'IP 서비스',
     'extend_content_map' => '지도 서비스',
