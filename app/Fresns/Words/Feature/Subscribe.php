@@ -24,9 +24,9 @@ class Subscribe
     {
         $dtoWordBody = new AddSubscribeItemDTO($wordBody);
 
-        $subTableName = null;
-        if ($dtoWordBody->type == SubscribeUtility::TYPE_TABLE_DATA_CHANGE && $dtoWordBody->subTableName) {
-            $subTableName = StrHelper::qualifyTableName($dtoWordBody->subTableName);
+        $subject = null;
+        if ($dtoWordBody->type == SubscribeUtility::TYPE_TABLE_DATA_CHANGE && $dtoWordBody->subject) {
+            $subject = StrHelper::qualifyTableName($dtoWordBody->subject);
         }
 
         $subscribeItems = Config::withTrashed()->where('item_key', 'subscribe_items')->first();
@@ -38,7 +38,7 @@ class Subscribe
 
         $found = false;
         foreach ($itemArr as $item) {
-            if ($item['type'] == $dtoWordBody->type && $item['fskey'] == $dtoWordBody->fskey && $item['cmdWord'] == $dtoWordBody->cmdWord && $item['subTableName'] == $subTableName) {
+            if ($item['type'] == $dtoWordBody->type && $item['fskey'] == $dtoWordBody->fskey && $item['cmdWord'] == $dtoWordBody->cmdWord && $item['subject'] == $subject) {
                 $found = true;
                 break;
             }
@@ -49,7 +49,7 @@ class Subscribe
                 'type' => $dtoWordBody->type,
                 'fskey' => $dtoWordBody->fskey,
                 'cmdWord' => $dtoWordBody->cmdWord,
-                'subTableName' => $subTableName,
+                'subject' => $subject,
             ];
         }
 
@@ -67,9 +67,9 @@ class Subscribe
     {
         $dtoWordBody = new AddSubscribeItemDTO($wordBody);
 
-        $subTableName = null;
-        if ($dtoWordBody->type == SubscribeUtility::TYPE_TABLE_DATA_CHANGE && $dtoWordBody->subTableName) {
-            $subTableName = StrHelper::qualifyTableName($dtoWordBody->subTableName);
+        $subject = null;
+        if ($dtoWordBody->type == SubscribeUtility::TYPE_TABLE_DATA_CHANGE && $dtoWordBody->subject) {
+            $subject = StrHelper::qualifyTableName($dtoWordBody->subject);
         }
 
         $subscribeItems = Config::withTrashed()->where('item_key', 'subscribe_items')->first();
@@ -79,8 +79,8 @@ class Subscribe
 
         $itemArr = $subscribeItems->item_value ?? [];
 
-        $newItemArr = array_filter($itemArr, function ($item) use ($dtoWordBody, $subTableName) {
-            return ! ($item['type'] == $dtoWordBody->type && $item['fskey'] == $dtoWordBody->fskey && $item['cmdWord'] == $dtoWordBody->cmdWord && $item['subTableName'] == $subTableName);
+        $newItemArr = array_filter($itemArr, function ($item) use ($dtoWordBody, $subject) {
+            return ! ($item['type'] == $dtoWordBody->type && $item['fskey'] == $dtoWordBody->fskey && $item['cmdWord'] == $dtoWordBody->cmdWord && $item['subject'] == $subject);
         });
 
         $newItemArr = array_values($newItemArr);

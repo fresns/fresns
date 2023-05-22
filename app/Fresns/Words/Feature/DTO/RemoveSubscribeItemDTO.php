@@ -15,10 +15,10 @@ class RemoveSubscribeItemDTO extends DTO
     public function rules(): array
     {
         return [
-            'type' => ['integer', 'required', 'in:1,2,3'],
+            'type' => ['integer', 'required', 'in:1,2,3,4'],
             'fskey' => ['string', 'required'],
             'cmdWord' => ['string', 'required'],
-            'subTableName' => ['nullable', 'required_if:type,1'],
+            'subject' => ['nullable', 'required_if:type,1,4'],
         ];
     }
 }
