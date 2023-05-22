@@ -8,6 +8,7 @@
 
 namespace App\Utilities;
 
+use App\Helpers\AppHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\StrHelper;
 use Illuminate\Support\Facades\Queue;
@@ -17,13 +18,20 @@ class SubscribeUtility
     const TYPE_TABLE_DATA_CHANGE = 1;
     const TYPE_USER_ACTIVITY = 2;
     const TYPE_ACCOUNT_AND_USER_LOGIN = 3;
+    const TYPE_VIEW_CONTENT = 4;
 
     const CHANGE_TYPE_CREATED = 'created';
     const CHANGE_TYPE_UPDATED = 'updated';
     const CHANGE_TYPE_DELETED = 'deleted';
 
+    const VIEW_TYPE_USER = 'user';
+    const VIEW_TYPE_GROUP = 'group';
+    const VIEW_TYPE_HASHTAG = 'hashtag';
+    const VIEW_TYPE_POST = 'post';
+    const VIEW_TYPE_COMMENT = 'comment';
+
     // get subscribe items
-    public static function getSubscribeItems(?int $type = null, ?string $tableName = null): array
+    public static function getSubscribeItems(?int $type = null, ?string $subject = null): array
     {
         $subscribeItems = ConfigHelper::fresnsConfigByItemKey('subscribe_items') ?? [];
 
@@ -35,9 +43,9 @@ class SubscribeUtility
             return $subscribeItems;
         }
 
-        $filtered = array_filter($subscribeItems, function ($item) use ($type, $tableName) {
-            if ($tableName) {
-                return $item['type'] == $type && $item['subTableName'] == $tableName;
+        $filtered = array_filter($subscribeItems, function ($item) use ($type, $subject) {
+            if ($subject) {
+                return $item['type'] == $type && $item['subject'] == $subject;
             }
 
             return $item['type'] == $type;
@@ -89,20 +97,22 @@ class SubscribeUtility
     }
 
     // notifyUserActivity
-    public static function notifyUserActivity(string $route, string $uri, array $headers, mixed $body): void
+    public static function notifyUserActivity(): void
     {
-        Queue::push(function () use ($route, $uri, $headers, $body) {
+        $wordBody = [
+            'ip' => request()->ip(),
+            'port' => $_SERVER['REMOTE_PORT'],
+            'uri' => request()->getRequestUri(),
+            'routeName' => request()->route()->getName(),
+            'headers' => AppHelper::getHeaders(),
+            'body' => request()->all(),
+        ];
+
+        Queue::push(function () use ($wordBody) {
             $subscribeItems = SubscribeUtility::getSubscribeItems(SubscribeUtility::TYPE_USER_ACTIVITY);
             if (empty($subscribeItems)) {
                 return;
             }
-
-            $wordBody = [
-                'route' => $route,
-                'uri' => $uri,
-                'headers' => $headers,
-                'body' => $body,
-            ];
 
             foreach ($subscribeItems as $item) {
                 Queue::push(function () use ($item, $wordBody) {
@@ -137,6 +147,64 @@ class SubscribeUtility
                 'userToken' => $userToken,
                 'userDetail' => $userDetail,
             ];
+
+            foreach ($subscribeItems as $item) {
+                Queue::push(function () use ($item, $wordBody) {
+                    try {
+                        $fskey = $item['fskey'];
+                        $cmdWord = $item['cmdWord'];
+
+                        \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
+                    } catch (\Exception $e) {
+                    }
+                });
+            }
+        });
+    }
+
+    // notifyViewContent
+    public static function notifyViewContent(string $type, string $fsid, ?string $viewType = null, ?int $authUserId = null): void
+    {
+        if (! in_array($type, [
+            'user',
+            'group',
+            'hashtag',
+            'post',
+            'comment',
+        ])) {
+            return;
+        }
+
+        $routeName = request()->route()->getName();
+        if (empty($viewType)) {
+            $checkRouteName = in_array($routeName, [
+                'api.user.detail',
+                'api.group.detail',
+                'api.hashtag.detail',
+                'api.post.detail',
+                'api.comment.detail',
+            ]);
+
+            $viewType = $checkRouteName ? 'detail' : 'list';
+        }
+
+        $wordBody = [
+            'ip' => request()->ip(),
+            'port' => $_SERVER['REMOTE_PORT'],
+            'uri' => request()->getRequestUri(),
+            'routeName' => $routeName,
+            'headers' => AppHelper::getHeaders(),
+            'type' => $type,
+            'fsid' => $fsid,
+            'viewType' => $viewType, // list or detail
+            'authUserId' => $authUserId,
+        ];
+
+        Queue::push(function () use ($type, $wordBody) {
+            $subscribeItems = SubscribeUtility::getSubscribeItems(SubscribeUtility::TYPE_VIEW_CONTENT, $type);
+            if (empty($subscribeItems)) {
+                return;
+            }
 
             foreach ($subscribeItems as $item) {
                 Queue::push(function () use ($item, $wordBody) {
