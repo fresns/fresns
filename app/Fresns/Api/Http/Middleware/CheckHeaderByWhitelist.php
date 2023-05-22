@@ -24,14 +24,9 @@ class CheckHeaderByWhitelist
             return $fresnsResp->errorResponse();
         }
 
-        // current route name
-        $currentRouteName = \request()->route()->getName();
-
         // notify user activity
         if ($fresnsResp->getData('uid')) {
-            $uri = sprintf('/%s', ltrim(\request()->getRequestUri(), '/'));
-
-            SubscribeUtility::notifyUserActivity($currentRouteName, $uri, $fresnsResp->getData(), \request()->all());
+            SubscribeUtility::notifyUserActivity();
         }
 
         // config
@@ -64,6 +59,9 @@ class CheckHeaderByWhitelist
         if (empty($accountWhitelist) || empty($userWhitelist)) {
             throw new ApiException(33102);
         }
+
+        // current route name
+        $currentRouteName = \request()->route()->getName();
 
         // check account whitelist
         if (! in_array($currentRouteName, $accountWhitelist) && ! $accountLogin) {
