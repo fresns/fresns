@@ -82,40 +82,39 @@ class PermissionUtility
         $cacheKey = "fresns_user_{$userId}_roles_{$langTag}";
         $cacheTag = 'fresnsUsers';
 
+        $roleListArr = [];
+
         $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
-        if ($isKnownEmpty) {
-            return [];
-        }
+        if (! $isKnownEmpty) {
+            $roleAllConfig = CacheHelper::get($cacheKey, $cacheTag);
 
-        $roleAllConfig = CacheHelper::get($cacheKey, $cacheTag);
+            if (empty($roleAllConfig)) {
+                $roleArr1 = UserRole::where('user_id', $userId)->where('is_main', 0)->where('expired_at', '<', now());
+                $roleArr2 = UserRole::where('user_id', $userId)->where('is_main', 0)->whereNull('expired_at');
 
-        if (empty($roleAllConfig)) {
-            $roleArr1 = UserRole::where('user_id', $userId)->where('is_main', 0)->where('expired_at', '<', now());
-            $roleArr2 = UserRole::where('user_id', $userId)->where('is_main', 0)->whereNull('expired_at');
+                $roleArr = $roleArr1->union($roleArr2)->get();
 
-            $roleArr = $roleArr1->union($roleArr2)->get();
+                $roleList = [];
+                foreach ($roleArr as $role) {
+                    $item['rid'] = $role->role_id;
+                    $item['expiryDateTime'] = $role->expired_at;
 
-            $roleList = [];
-            foreach ($roleArr as $role) {
-                $item['rid'] = $role->role_id;
-                $item['expiryDateTime'] = $role->expired_at;
+                    $roleList[] = $item;
+                }
 
-                $roleList[] = $item;
+                $roleAllConfig = $roleList;
+
+                CacheHelper::put($roleAllConfig, $cacheKey, $cacheTag);
             }
 
-            $roleAllConfig = $roleList;
+            foreach ($roleAllConfig as $config) {
+                $role = InteractionHelper::fresnsRoleInfo($config['rid'], $langTag);
+                $role['expiryDateTime'] = $config['expiryDateTime'];
 
-            CacheHelper::put($roleAllConfig, $cacheKey, $cacheTag);
-        }
+                unset($role['permissions']);
 
-        $roleListArr = [];
-        foreach ($roleAllConfig as $config) {
-            $role = InteractionHelper::fresnsRoleInfo($config['rid'], $langTag);
-            $role['expiryDateTime'] = $config['expiryDateTime'];
-
-            unset($role['permissions']);
-
-            $roleListArr[] = $role;
+                $roleListArr[] = $role;
+            }
         }
 
         $mainRole = PermissionUtility::getUserMainRole($userId, $langTag);
