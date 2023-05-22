@@ -1013,7 +1013,11 @@ class InteractionUtility
                     'contentFsid' => null,
                 ];
 
-                \FresnsCmdWord::plugin('Fresns')->sendNotification($mentionWordBody);
+                try {
+                    \FresnsCmdWord::plugin('Fresns')->sendNotification($mentionWordBody);
+                } catch (\Exception $e) {
+                    continue;
+                }
             }
 
             if ($type == 'post' && $actionModel->parent_id) {

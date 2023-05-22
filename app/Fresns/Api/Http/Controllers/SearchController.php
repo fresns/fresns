@@ -13,6 +13,7 @@ use App\Fresns\Api\Http\DTO\SearchGroupDTO;
 use App\Fresns\Api\Http\DTO\SearchHashtagDTO;
 use App\Fresns\Api\Http\DTO\SearchPostDTO;
 use App\Fresns\Api\Http\DTO\SearchUserDTO;
+use App\Helpers\AppHelper;
 use App\Helpers\ConfigHelper;
 use App\Utilities\ConfigUtility;
 use Illuminate\Http\Request;
@@ -29,7 +30,7 @@ class SearchController extends Controller
 
         if ($searchService) {
             $wordBody = [
-                'headers' => \request()->headers->all(),
+                'headers' => AppHelper::getHeaders(),
                 'body' => $dtoRequest->toArray(),
             ];
 
@@ -54,7 +55,7 @@ class SearchController extends Controller
 
         if ($searchService) {
             $wordBody = [
-                'headers' => \request()->headers->all(),
+                'headers' => AppHelper::getHeaders(),
                 'body' => $dtoRequest->toArray(),
             ];
 
@@ -79,7 +80,7 @@ class SearchController extends Controller
 
         if ($searchService) {
             $wordBody = [
-                'headers' => \request()->headers->all(),
+                'headers' => AppHelper::getHeaders(),
                 'body' => $dtoRequest->toArray(),
             ];
 
@@ -104,7 +105,7 @@ class SearchController extends Controller
 
         if ($searchService) {
             $wordBody = [
-                'headers' => \request()->headers->all(),
+                'headers' => AppHelper::getHeaders(),
                 'body' => $dtoRequest->toArray(),
             ];
 
@@ -129,7 +130,7 @@ class SearchController extends Controller
 
         if ($searchService) {
             $wordBody = [
-                'headers' => \request()->headers->all(),
+                'headers' => AppHelper::getHeaders(),
                 'body' => $dtoRequest->toArray(),
             ];
 

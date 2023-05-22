@@ -133,20 +133,6 @@ class AppHelper
         return $versionInfo;
     }
 
-    // get composer version info
-    public static function getComposerConfigInfo(): array
-    {
-        $configInfoDiagnose = CommandUtility::getComposerProcess(['diagnose'])->run()->getOutput();
-        $configInfoRepositories = json_decode(CommandUtility::getComposerProcess(['config', '-g', 'repositories-packagist'])->run()->getOutput(), true);
-        $configInfoAll = CommandUtility::getComposerProcess(['config', '-g', '--list'])->run()->getOutput();
-
-        $configInfo['diagnose'] = $configInfoDiagnose ?? null;
-        $configInfo['repositories'] = $configInfoRepositories ?? null;
-        $configInfo['configList'] = $configInfoAll ?? null;
-
-        return $configInfo;
-    }
-
     // get themes
     public static function getThemes(): array
     {
@@ -256,5 +242,22 @@ class AppHelper
         ];
 
         return $deviceInfo;
+    }
+
+    // get headers
+    public static function getHeaders(): array
+    {
+        $headers = request()->headers->all();
+
+        $newHeaders = [];
+        foreach ($headers as $name => $values) {
+            $filteredValues = array_filter($values);
+
+            $mergedValue = implode(',', $filteredValues);
+
+            $newHeaders[$name] = $mergedValue;
+        }
+
+        return $newHeaders;
     }
 }

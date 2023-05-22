@@ -46,7 +46,7 @@ class DashboardController extends Controller
 
         if (empty($news)) {
             try {
-                $newUrl = AppUtility::BASE_URL.'/news.json';
+                $newUrl = AppUtility::BASE_URL.'/v2/news.json';
                 $client = new \GuzzleHttp\Client(['verify' => false]);
                 $response = $client->request('GET', $newUrl);
                 $news = json_decode($response->getBody(), true);
@@ -87,7 +87,7 @@ class DashboardController extends Controller
 
     public function composerConfigInfo()
     {
-        $configInfo = CommandUtility::getComposerProcess(['config', '-g', '--list'])->run()->getOutput();
+        $configInfo = CommandUtility::getComposerProcess(['config', '-g', '-l'])->run()->getOutput();
 
         return $configInfo;
     }

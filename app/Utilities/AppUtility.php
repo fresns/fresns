@@ -58,7 +58,7 @@ class AppUtility
 
         if (empty($newVersion)) {
             try {
-                $versionInfoUrl = AppUtility::BASE_URL.'/version.json';
+                $versionInfoUrl = AppUtility::BASE_URL.'/v2/version.json';
                 $client = new \GuzzleHttp\Client(['verify' => false]);
                 $response = $client->request('GET', $versionInfoUrl);
                 $versionInfo = json_decode($response->getBody(), true);
@@ -73,9 +73,9 @@ class AppUtility
                 $newVersion = [
                     'version' => AppHelper::VERSION,
                     'releaseDate' => null,
-                    'changeIntro' => 'https://fresns.org/guide/upgrade.html#version-info',
+                    'changeIntro' => 'https://fresns.org/guide/changelog.html',
                     'upgradeAuto' => false,
-                    'upgradeIntro' => 'https://github.com/fresns/fresns/blob/2.x/CHANGELOG.md',
+                    'upgradeIntro' => 'https://fresns.org/guide/changelog.html',
                     'upgradePackage' => null,
                 ];
             }
