@@ -32,6 +32,7 @@ trait HashtagServiceTrait
         $info['hname'] = $hashtagData->name;
         $info['cover'] = FileHelper::fresnsFileUrlByTableColumn($hashtagData->cover_file_id, $hashtagData->cover_file_url);
         $info['description'] = LanguageHelper::fresnsLanguageByTableId('hashtags', 'description', $hashtagData->id, $langTag) ?? $hashtagData->description;
+        $info['viewCount'] = $hashtagData->view_count;
         $info['likeCount'] = $configKeys['hashtag_liker_count'] ? $hashtagData->like_count : null;
         $info['dislikeCount'] = $configKeys['hashtag_disliker_count'] ? $hashtagData->dislike_count : null;
         $info['followCount'] = $configKeys['hashtag_follower_count'] ? $hashtagData->follow_count : null;
