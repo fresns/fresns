@@ -208,6 +208,14 @@ class GroupController extends Controller
             });
         }
 
+        $groupQuery->when($dtoRequest->viewCountGt, function ($query, $value) {
+            $query->where('view_count', '>=', $value);
+        });
+
+        $groupQuery->when($dtoRequest->viewCountLt, function ($query, $value) {
+            $query->where('view_count', '<=', $value);
+        });
+
         $groupQuery->when($dtoRequest->likeCountGt, function ($query, $value) {
             $query->where('like_count', '>=', $value);
         });
@@ -262,6 +270,7 @@ class GroupController extends Controller
             $orderType = match ($dtoRequest->orderType) {
                 default => 'rating',
                 'createDate' => 'created_at',
+                'view' => 'view_count',
                 'like' => 'like_count',
                 'dislike' => 'dislike_count',
                 'follow' => 'follow_count',

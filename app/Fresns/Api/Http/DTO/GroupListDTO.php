@@ -20,6 +20,8 @@ class GroupListDTO extends DTO
             'createDate' => ['string', 'nullable', 'in:today,yesterday,week,lastWeek,month,lastMonth,year,lastYear'],
             'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // groups->created_at
             'createDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createDateGt'],
+            'viewCountGt' => ['integer', 'nullable', 'lt:viewCountLt'], // groups->view_count
+            'viewCountLt' => ['integer', 'nullable', 'gt:viewCountGt'],
             'likeCountGt' => ['integer', 'nullable', 'lt:likeCountLt'], // groups->like_count
             'likeCountLt' => ['integer', 'nullable', 'gt:likeCountGt'],
             'dislikeCountGt' => ['integer', 'nullable', 'lt:dislikeCountLt'], // groups->dislike_count
@@ -32,7 +34,7 @@ class GroupListDTO extends DTO
             'postCountLt' => ['integer', 'nullable', 'gt:postCountGt'],
             'postDigestCountGt' => ['integer', 'nullable', 'lt:postDigestCountLt'], // groups->post_digest_count
             'postDigestCountLt' => ['integer', 'nullable', 'gt:postDigestCountGt'],
-            'orderType' => ['string', 'nullable', 'in:createDate,random,like,follow,block,post,postDigest,rating'],
+            'orderType' => ['string', 'nullable', 'in:createDate,random,view,like,follow,block,post,postDigest,rating'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
             'whitelistKeys' => ['string', 'nullable'],
             'blacklistKeys' => ['string', 'nullable'],

@@ -33,6 +33,8 @@ class SearchPostDTO extends DTO
             'createDate' => ['string', 'nullable', 'in:today,yesterday,week,lastWeek,month,lastMonth,year,lastYear'],
             'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // posts->created_at
             'createDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createDateGt'],
+            'viewCountGt' => ['integer', 'nullable', 'lt:viewCountLt'], // posts->view_count
+            'viewCountLt' => ['integer', 'nullable', 'gt:viewCountGt'],
             'likeCountGt' => ['integer', 'nullable', 'lt:likeCountLt'], // posts->like_count
             'likeCountLt' => ['integer', 'nullable', 'gt:likeCountGt'],
             'dislikeCountGt' => ['integer', 'nullable', 'lt:dislikeCountLt'], // posts->dislike_count
@@ -43,7 +45,7 @@ class SearchPostDTO extends DTO
             'blockCountLt' => ['integer', 'nullable', 'gt:blockCountGt'],
             'commentCountGt' => ['integer', 'nullable', 'lt:commentCountLt'], // posts->comment_count
             'commentCountLt' => ['integer', 'nullable', 'gt:commentCountGt'],
-            'orderType' => ['string', 'nullable', 'in:createDate,random,like,dislike,follow,block,comment'],
+            'orderType' => ['string', 'nullable', 'in:createDate,random,view,like,dislike,follow,block,comment'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
             'blockGroups' => ['string', 'nullable'],
             'blockHashtags' => ['string', 'nullable'],

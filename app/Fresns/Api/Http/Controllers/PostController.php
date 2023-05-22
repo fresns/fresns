@@ -20,6 +20,7 @@ use App\Fresns\Api\Services\GroupService;
 use App\Fresns\Api\Services\InteractionService;
 use App\Fresns\Api\Services\PostService;
 use App\Fresns\Api\Services\UserService;
+use App\Helpers\AppHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\LanguageHelper;
@@ -49,7 +50,7 @@ class PostController extends Controller
 
         if ($dataPluginFskey) {
             $wordBody = [
-                'headers' => \request()->headers->all(),
+                'headers' => AppHelper::getHeaders(),
                 'body' => $dtoRequest->toArray(),
             ];
 
@@ -271,6 +272,14 @@ class PostController extends Controller
             });
         }
 
+        $postQuery->when($dtoRequest->viewCountGt, function ($query, $value) {
+            $query->where('view_count', '>=', $value);
+        });
+
+        $postQuery->when($dtoRequest->viewCountLt, function ($query, $value) {
+            $query->where('view_count', '<=', $value);
+        });
+
         $postQuery->when($dtoRequest->likeCountGt, function ($query, $value) {
             $query->where('like_count', '>=', $value);
         });
@@ -340,6 +349,7 @@ class PostController extends Controller
             $orderType = match ($dtoRequest->orderType) {
                 default => 'created_at',
                 'createDate' => 'created_at',
+                'view' => 'view_count',
                 'like' => 'like_count',
                 'dislike' => 'dislike_count',
                 'follow' => 'follow_count',
@@ -402,7 +412,7 @@ class PostController extends Controller
 
         if ($dataPluginFskey) {
             $wordBody = [
-                'headers' => \request()->headers->all(),
+                'headers' => AppHelper::getHeaders(),
                 'body' => $dtoRequest->toArray(),
                 'fsid' => $pid,
             ];
@@ -704,7 +714,7 @@ class PostController extends Controller
 
         if ($dataPluginFskey) {
             $wordBody = [
-                'headers' => \request()->headers->all(),
+                'headers' => AppHelper::getHeaders(),
                 'body' => $dtoRequest->toArray(),
                 'type' => $type,
             ];
@@ -766,7 +776,7 @@ class PostController extends Controller
 
         if ($dataPluginFskey) {
             $wordBody = [
-                'headers' => \request()->headers->all(),
+                'headers' => AppHelper::getHeaders(),
                 'body' => $dtoRequest->toArray(),
             ];
 

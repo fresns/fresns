@@ -88,6 +88,14 @@ class HashtagController extends Controller
             });
         }
 
+        $hashtagQuery->when($dtoRequest->viewCountGt, function ($query, $value) {
+            $query->where('view_count', '>=', $value);
+        });
+
+        $hashtagQuery->when($dtoRequest->viewCountLt, function ($query, $value) {
+            $query->where('view_count', '<=', $value);
+        });
+
         $hashtagQuery->when($dtoRequest->likeCountGt, function ($query, $value) {
             $query->where('like_count', '>=', $value);
         });
@@ -142,6 +150,7 @@ class HashtagController extends Controller
             $orderType = match ($dtoRequest->orderType) {
                 default => 'created_at',
                 'createDate' => 'created_at',
+                'view' => 'view_count',
                 'like' => 'like_count',
                 'dislike' => 'dislike_count',
                 'follow' => 'follow_count',

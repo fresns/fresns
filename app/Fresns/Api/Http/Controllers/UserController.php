@@ -138,6 +138,14 @@ class UserController extends Controller
             });
         }
 
+        $userQuery->when($dtoRequest->viewCountGt, function ($query, $value) {
+            $query->where('view_me_count', '>=', $value);
+        });
+
+        $userQuery->when($dtoRequest->viewCountLt, function ($query, $value) {
+            $query->where('view_me_count', '<=', $value);
+        });
+
         $userQuery->when($dtoRequest->likeCountGt, function ($query, $value) {
             $query->where('like_me_count', '>=', $value);
         });
@@ -248,6 +256,7 @@ class UserController extends Controller
             $orderType = match ($dtoRequest->orderType) {
                 default => 'created_at',
                 'createDate' => 'created_at',
+                'view' => 'view_me_count',
                 'like' => 'like_me_count',
                 'dislike' => 'dislike_me_count',
                 'follow' => 'follow_me_count',
