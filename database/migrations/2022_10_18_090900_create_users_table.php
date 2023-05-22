@@ -75,6 +75,7 @@ class CreateUsersTable extends Migration
             $table->unsignedInteger('block_hashtag_count')->default(0);
             $table->unsignedInteger('block_post_count')->default(0);
             $table->unsignedInteger('block_comment_count')->default(0);
+            $table->unsignedInteger('view_me_count')->default(0);
             $table->unsignedInteger('like_me_count')->default(0);
             $table->unsignedInteger('dislike_me_count')->default(0);
             $table->unsignedInteger('follow_me_count')->default(0);

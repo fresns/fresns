@@ -50,6 +50,7 @@ class CreateGroupsTable extends Migration
                 default:
                     $table->json('permissions')->nullable();
             }
+            $table->unsignedInteger('view_count')->default(0);
             $table->unsignedInteger('like_count')->default(0);
             $table->unsignedInteger('dislike_count')->default(0);
             $table->unsignedInteger('follow_count')->default(0);

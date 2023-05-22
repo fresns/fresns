@@ -24,6 +24,7 @@ class CreateHashtagsTable extends Migration
             $table->string('description')->nullable();
             $table->unsignedBigInteger('cover_file_id')->nullable();
             $table->string('cover_file_url')->nullable();
+            $table->unsignedInteger('view_count')->default(0);
             $table->unsignedInteger('like_count')->default(0);
             $table->unsignedInteger('dislike_count')->default(0);
             $table->unsignedInteger('follow_count')->default(0);
