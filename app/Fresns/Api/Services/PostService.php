@@ -30,6 +30,7 @@ use App\Utilities\ExtendUtility;
 use App\Utilities\GeneralUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
+use App\Utilities\SubscribeUtility;
 use Illuminate\Support\Str;
 
 class PostService
@@ -206,6 +207,8 @@ class PostService
         $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_POST, $post->id, $authUserId);
         $postData['interaction'] = array_merge($interactionConfig, $interactionStatus);
 
+        SubscribeUtility::notifyViewContent('post', $post->pid, $type, $authUserId);
+
         $commentVisibilityRule = ConfigHelper::fresnsConfigByItemKey('comment_visibility_rule');
         if ($commentVisibilityRule > 0) {
             $visibilityTime = $post->created_at->addDay($commentVisibilityRule);
@@ -355,6 +358,7 @@ class PostService
             'comment_blocker_count',
         ]);
 
+        $postData['viewCount'] = $post->view_count;
         $postData['likeCount'] = $configKeys['post_liker_count'] ? $post->like_count : null;
         $postData['dislikeCount'] = $configKeys['post_disliker_count'] ? $post->dislike_count : null;
         $postData['followCount'] = $configKeys['post_follower_count'] ? $post->follow_count : null;

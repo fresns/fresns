@@ -20,6 +20,7 @@ use App\Models\OperationUsage;
 use App\Utilities\ArrUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
+use App\Utilities\SubscribeUtility;
 
 class HashtagService
 {
@@ -50,6 +51,8 @@ class HashtagService
         $interactionConfig = InteractionHelper::fresnsHashtagInteraction($langTag);
         $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_HASHTAG, $hashtag->id, $authUserId);
         $data['interaction'] = array_merge($interactionConfig, $interactionStatus);
+
+        SubscribeUtility::notifyViewContent('hashtag', $hashtag->slug, null, $authUserId);
 
         $hashtagData = self::handleHashtagCount($hashtag, $data);
         $result = self::handleHashtagDate($hashtagData, $timezone, $langTag);
@@ -92,6 +95,7 @@ class HashtagService
             'hashtag_blocker_count',
         ]);
 
+        $hashtagData['viewCount'] = $hashtag->view_count;
         $hashtagData['likeCount'] = $configKeys['hashtag_liker_count'] ? $hashtag->like_count : null;
         $hashtagData['dislikeCount'] = $configKeys['hashtag_disliker_count'] ? $hashtag->dislike_count : null;
         $hashtagData['followCount'] = $configKeys['hashtag_follower_count'] ? $hashtag->follow_count : null;

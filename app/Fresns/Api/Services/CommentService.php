@@ -30,6 +30,7 @@ use App\Utilities\ExtendUtility;
 use App\Utilities\GeneralUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
+use App\Utilities\SubscribeUtility;
 use Illuminate\Support\Str;
 
 class CommentService
@@ -218,6 +219,8 @@ class CommentService
         $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_COMMENT, $comment->id, $authUserId);
         $interArr['interaction'] = array_merge($interactionConfig, $interactionStatus, $commentData['interaction']);
 
+        SubscribeUtility::notifyViewContent('comment', $comment->cid, $type, $authUserId);
+
         $replyToPid = $commentData['replyToPost']['pid'] ?? null;
         if (! $outputReplyToPost) {
             $commentData['replyToPost'] = null;
@@ -359,6 +362,7 @@ class CommentService
             'comment_blocker_count',
         ]);
 
+        $commentData['viewCount'] = $comment->view_count;
         $commentData['likeCount'] = $configKeys['comment_liker_count'] ? $comment->like_count : null;
         $commentData['dislikeCount'] = $configKeys['comment_disliker_count'] ? $comment->dislike_count : null;
         $commentData['followCount'] = $configKeys['comment_follower_count'] ? $comment->follow_count : null;

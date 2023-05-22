@@ -24,6 +24,7 @@ use App\Utilities\ArrUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
+use App\Utilities\SubscribeUtility;
 
 class GroupService
 {
@@ -100,6 +101,8 @@ class GroupService
 
         $item['interaction'] = array_merge($interactionConfig, $interactionStatus);
 
+        SubscribeUtility::notifyViewContent('group', $group->gid, null, $authUserId);
+
         if ($groupInfo['mode'] == 2 && $authUserId) {
             $userRole = PermissionUtility::getUserMainRole($authUserId);
             $whitelistRoles = $group->permissions['mode_whitelist_roles'] ?? [];
@@ -163,6 +166,7 @@ class GroupService
             'group_blocker_count',
         ]);
 
+        $groupData['viewCount'] = $group->view_count;
         $groupData['likeCount'] = $configKeys['group_liker_count'] ? $group->like_count : null;
         $groupData['dislikeCount'] = $configKeys['group_disliker_count'] ? $group->dislike_count : null;
         $groupData['followCount'] = $configKeys['group_follower_count'] ? $group->follow_count : null;

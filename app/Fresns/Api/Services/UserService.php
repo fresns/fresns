@@ -26,6 +26,7 @@ use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
 use App\Utilities\PermissionUtility;
+use App\Utilities\SubscribeUtility;
 
 class UserService
 {
@@ -103,6 +104,8 @@ class UserService
         $interactionConfig = InteractionHelper::fresnsUserInteraction($langTag);
         $interactionStatus = InteractionUtility::getInteractionStatus(InteractionUtility::TYPE_USER, $user->id, $authUserId);
         $userData['interaction'] = array_merge($interactionConfig, $interactionStatus);
+
+        SubscribeUtility::notifyViewContent('user', $user->uid, $type, $authUserId);
 
         $conversationPermInt = PermissionUtility::checkUserConversationPerm($user->id, $authUserId, $langTag);
         $userData['conversation'] = [
