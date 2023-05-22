@@ -28,10 +28,10 @@ class UpgradeController extends Controller
         $appVersion = AppHelper::VERSION;
         $versionCheckTime = Config::where('item_key', 'check_version_datetime')->first()?->item_value;
 
-        $pluginsData = Plugin::type(1)->where('is_upgrade', 1)->get();
-        $appsData = Plugin::type(2)->where('is_upgrade', 1)->get();
-        $enginesData = Plugin::type(3)->where('is_upgrade', 1)->get();
-        $themesData = Plugin::type(4)->where('is_upgrade', 1)->get();
+        $pluginsData = Plugin::type(Plugin::TYPE_PLUGIN)->where('is_upgrade', 1)->get();
+        $appsData = Plugin::type(Plugin::TYPE_PANEL)->where('is_upgrade', 1)->get();
+        $enginesData = Plugin::type(Plugin::TYPE_ENGINE)->where('is_upgrade', 1)->get();
+        $themesData = Plugin::type(Plugin::TYPE_THEME)->where('is_upgrade', 1)->get();
         $pluginUpgradeCount = Plugin::where('is_upgrade', 1)->count();
 
         $autoUpgradeSteps = [

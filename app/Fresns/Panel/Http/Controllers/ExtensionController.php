@@ -20,8 +20,8 @@ class ExtensionController extends Controller
 {
     public function pluginIndex(Request $request)
     {
-        AppUtility::checkPluginsStatus(1);
-        $plugins = Plugin::type(1);
+        AppUtility::checkPluginsStatus(Plugin::TYPE_PLUGIN);
+        $plugins = Plugin::type(Plugin::TYPE_PLUGIN);
 
         $isEnabled = match ($request->status) {
             'active' => 1,
@@ -35,16 +35,16 @@ class ExtensionController extends Controller
 
         $plugins = $plugins->latest()->get();
 
-        $enableCount = Plugin::type(1)->isEnabled()->count();
-        $disableCount = Plugin::type(1)->isEnabled(false)->count();
+        $enableCount = Plugin::type(Plugin::TYPE_PLUGIN)->isEnabled()->count();
+        $disableCount = Plugin::type(Plugin::TYPE_PLUGIN)->isEnabled(false)->count();
 
         return view('FsView::extensions.plugins', compact('plugins', 'enableCount', 'disableCount', 'isEnabled'));
     }
 
     public function panelIndex(Request $request)
     {
-        AppUtility::checkPluginsStatus(2);
-        $panels = Plugin::type(2);
+        AppUtility::checkPluginsStatus(Plugin::TYPE_PANEL);
+        $panels = Plugin::type(Plugin::TYPE_PANEL);
 
         $isEnabled = match ($request->status) {
             'active' => 1,
@@ -58,16 +58,16 @@ class ExtensionController extends Controller
 
         $panels = $panels->latest()->get();
 
-        $enableCount = Plugin::type(2)->isEnabled()->count();
-        $disableCount = Plugin::type(2)->where('is_enabled', 0)->count();
+        $enableCount = Plugin::type(Plugin::TYPE_PANEL)->isEnabled()->count();
+        $disableCount = Plugin::type(Plugin::TYPE_PANEL)->where('is_enabled', false)->count();
 
         return view('FsView::extensions.panels', compact('panels', 'enableCount', 'disableCount', 'isEnabled'));
     }
 
     public function engineIndex()
     {
-        AppUtility::checkPluginsStatus(3);
-        $engines = Plugin::type(3)->latest()->get();
+        AppUtility::checkPluginsStatus(Plugin::TYPE_ENGINE);
+        $engines = Plugin::type(Plugin::TYPE_ENGINE)->latest()->get();
 
         $configKeys = [];
         $engines->each(function ($engine) use (&$configKeys) {
@@ -81,7 +81,7 @@ class ExtensionController extends Controller
             return [$plugin->fskey => $plugin->name];
         })->toArray();
 
-        $themes = Plugin::type(4)->latest()->get();
+        $themes = Plugin::type(Plugin::TYPE_THEME)->latest()->get();
 
         $FresnsEngine = Config::where('item_key', 'FresnsEngine')->first()?->item_value;
         $themeFskey['desktop'] = Config::where('item_key', 'FresnsEngine_Desktop')->value('item_value');
@@ -153,7 +153,7 @@ class ExtensionController extends Controller
 
     public function themeIndex()
     {
-        $themes = Plugin::type(4)->latest()->get();
+        $themes = Plugin::type(Plugin::TYPE_THEME)->latest()->get();
 
         return view('FsView::extensions.themes', compact('themes'));
     }
