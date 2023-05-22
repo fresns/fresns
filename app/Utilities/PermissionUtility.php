@@ -82,6 +82,11 @@ class PermissionUtility
         $cacheKey = "fresns_user_{$userId}_roles_{$langTag}";
         $cacheTag = 'fresnsUsers';
 
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return [];
+        }
+
         $roleAllConfig = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($roleAllConfig)) {
@@ -431,6 +436,11 @@ class PermissionUtility
 
         $cacheKey = "fresns_user_post_read_{$pid}_{$uid}";
         $cacheTag = 'fresnsUsers';
+
+        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
+        if ($isKnownEmpty) {
+            return false;
+        }
 
         // get cache
         $checkPostAuth = CacheHelper::get($cacheKey, $cacheTag);
