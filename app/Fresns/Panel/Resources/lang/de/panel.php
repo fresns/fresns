@@ -331,7 +331,7 @@ return [
     'tip_config' => 'Nach der Änderung der Konfiguration muss der Cache geleert werden, bevor die neue Konfiguration wirksam werden kann.',
     'tip_plugin_install_or_upgrade' => 'Nachdem das Plugin installiert oder aktualisiert wurde, ist es standardmäßig deaktiviert und muss manuell aktiviert werden, um Systemprobleme zu vermeiden, die durch Fehler im Plugin verursacht werden.',
     // Dashboard-Events
-    'event_subscribe_table' => 'Abonnieren Sie die Datentabelle',
+    'event_subscribe_subject' => 'Thema',
     'event_crontab_time' => 'Zyklus der Ausführung',
     'event_crontab_time_desc' => 'Laravel-Aufgabenplanung Cron-Tabellenformat',
     // Dashboard-Caches
@@ -937,7 +937,6 @@ return [
     'extend_content_list' => 'Inhalt Liste',
     'extend_content_detail' => 'Inhalt Details',
     'extend_content_search' => 'Inhaltssuche',
-    'extend_content_view_event' => 'Ereignis anzeigen',
     'extend_content_list_desc' => 'Diese Konfiguration hat eine höhere Priorität als die Konfiguration des Inhaltstyps, und wenn sie konfiguriert ist, wird die durch den Inhaltstyp angegebene Datenquelle ersetzt.',
     'extend_content_ip' => 'IP-Dienst',
     'extend_content_map' => 'Kartendienst',

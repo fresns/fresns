@@ -35,11 +35,6 @@ class ExtendContentHandlerController extends Controller
             'search_hashtags_service',
             'search_posts_service',
             'search_comments_service',
-            'view_user_service',
-            'view_group_service',
-            'view_hashtag_service',
-            'view_post_service',
-            'view_comment_service',
         ];
         $configs = Config::whereIn('item_key', $configKeys)->get();
 
@@ -54,7 +49,6 @@ class ExtendContentHandlerController extends Controller
             'extendData',
             'extendNotification',
             'extendSearch',
-            'extendView',
         ];
         $plugins = Plugin::all();
         $pluginParams = [];
@@ -88,11 +82,6 @@ class ExtendContentHandlerController extends Controller
             'search_hashtags_service',
             'search_posts_service',
             'search_comments_service',
-            'view_user_service',
-            'view_group_service',
-            'view_hashtag_service',
-            'view_post_service',
-            'view_comment_service',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();

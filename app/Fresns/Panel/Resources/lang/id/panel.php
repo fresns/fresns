@@ -331,7 +331,7 @@ return [
     'tip_config' => 'Setelah memodifikasi konfigurasi, cache perlu dibersihkan sebelum konfigurasi baru dapat berlaku.',
     'tip_plugin_install_or_upgrade' => 'Setelah plugin diinstal atau di-upgrade, plugin dimatikan secara default dan perlu diaktifkan secara manual untuk menghindari masalah sistem yang disebabkan oleh kesalahan pada plugin.',
     // Dashboard-Events
-    'event_subscribe_table' => 'Berlangganan ke tabel data',
+    'event_subscribe_subject' => 'Subjek',
     'event_crontab_time' => 'Siklus Eksekusi',
     'event_crontab_time_desc' => 'Format tabel cron penjadwalan tugas Laravel',
     // Dashboard-Caches
@@ -937,7 +937,6 @@ return [
     'extend_content_list' => 'Daftar Konten',
     'extend_content_detail' => 'Detail Konten',
     'extend_content_search' => 'Pencarian Konten',
-    'extend_content_view_event' => 'Lihat Acara',
     'extend_content_list_desc' => 'Konfigurasi ini memiliki prioritas yang lebih tinggi daripada konfigurasi jenis konten, dan apabila dikonfigurasi, sumber data yang ditentukan oleh jenis konten akan diganti.',
     'extend_content_ip' => 'Layanan IP',
     'extend_content_map' => 'Layanan Peta',

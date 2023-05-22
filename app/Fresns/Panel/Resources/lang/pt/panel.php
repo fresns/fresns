@@ -331,7 +331,7 @@ return [
     'tip_config' => 'Após a modificação da configuração, a cache precisa de ser limpa antes que a nova configuração possa ter efeito.',
     'tip_plugin_install_or_upgrade' => 'Depois de instalado ou actualizado, o plugin é desligado por defeito e precisa de ser activado manualmente para evitar problemas no sistema causados por erros no plugin.',
     // Dashboard-Events
-    'event_subscribe_table' => 'Subscrever a tabela de dados',
+    'event_subscribe_subject' => 'Assunto',
     'event_crontab_time' => 'Ciclo de Execução',
     'event_crontab_time_desc' => 'Laravel formato de tabela de agendamento de tarefas cron',
     // Dashboard-Caches
@@ -937,7 +937,6 @@ return [
     'extend_content_list' => 'Lista de conteúdos',
     'extend_content_detail' => 'Detalhes do conteúdo',
     'extend_content_search' => 'Pesquisa de conteúdo',
-    'extend_content_view_event' => 'Ver evento',
     'extend_content_list_desc' => 'Esta configuração tem uma prioridade maior do que a configuração do tipo de conteúdo, e quando configurada, a fonte de dados especificada pelo tipo de conteúdo será substituída.',
     'extend_content_ip' => 'Serviço IP',
     'extend_content_map' => 'Serviço de mapas',

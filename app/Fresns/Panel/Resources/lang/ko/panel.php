@@ -331,7 +331,7 @@ return [
     'tip_config' => '구성을 수정한 후 새 구성을 적용하려면 캐시를 지워야 합니다.',
     'tip_plugin_install_or_upgrade' => '플러그인을 설치하거나 업그레이드한 후 플러그인 오류로 인한 시스템 문제를 방지하기 위해 기본적으로 비활성화되어 있으며 수동으로 활성화해야 합니다.',
     // Dashboard-Events
-    'event_subscribe_table' => '데이터 테이블 구독',
+    'event_subscribe_subject' => '주제',
     'event_crontab_time' => '실행 주기',
     'event_crontab_time_desc' => 'Laravel 작업 스케줄링 크론 테이블 형식',
     // Dashboard-Caches
@@ -937,7 +937,6 @@ return [
     'extend_content_list' => '콘텐츠 목록',
     'extend_content_detail' => '콘텐츠 세부 정보',
     'extend_content_search' => '콘텐츠 검색',
-    'extend_content_view_event' => '이벤트 보기',
     'extend_content_list_desc' => '이 구성은 컨텐츠 유형 구성보다 우선 순위가 높으며 구성되면 컨텐츠 유형으로 지정된 데이터 소스가 대체됩니다.',
     'extend_content_ip' => 'IP 서비스',
     'extend_content_map' => '지도 서비스',

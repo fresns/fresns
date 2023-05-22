@@ -331,7 +331,7 @@ return [
     'tip_config' => '修改配置后，需要清空缓存才能生效新配置。',
     'tip_plugin_install_or_upgrade' => '插件安装或升级后，为避免插件的错误导致系统问题，所以默认为关闭状态，需手动启用。',
     // Dashboard-Events
-    'event_subscribe_table' => '订阅的数据表',
+    'event_subscribe_subject' => '主题',
     'event_crontab_time' => '执行周期',
     'event_crontab_time_desc' => 'Laravel 定时任务表达式',
     // Dashboard-Caches
@@ -938,7 +938,6 @@ return [
     'extend_content_list' => '内容列表',
     'extend_content_detail' => '内容详情',
     'extend_content_search' => '内容搜索',
-    'extend_content_view_event' => '查看事件',
     'extend_content_list_desc' => '该配置的优先级大于内容类型配置，当配置后，内容类型指定的数据来源将被取代。',
     'extend_content_ip' => 'IP 服务',
     'extend_content_map' => '地图服务',

@@ -331,7 +331,7 @@ return [
     'tip_config' => 'コンフィギュレーションを変更した後、新しいコンフィギュレーションを有効にする前に、キャッシュをクリアする必要があります。',
     'tip_plugin_install_or_upgrade' => 'プラグインをインストールまたはアップグレードすると、デフォルトでオフになり、プラグインのエラーに起因するシステムの問題を回避するために、手動で有効にする必要があります。',
     // Dashboard-Events
-    'event_subscribe_table' => 'データテーブルを購読する',
+    'event_subscribe_subject' => 'テーマ',
     'event_crontab_time' => '実行サイクル',
     'event_crontab_time_desc' => 'Laravelタスクスケジューリングcronテーブル形式',
     // Dashboard-Caches
@@ -937,7 +937,6 @@ return [
     'extend_content_list' => 'コンテンツ一覧',
     'extend_content_detail' => 'コンテンツ詳細',
     'extend_content_search' => 'コンテンツ検索',
-    'extend_content_view_event' => 'イベントを見る',
     'extend_content_list_desc' => 'この設定はコンテンツタイプの設定よりも優先度が高く、設定するとコンテンツタイプで指定されたデータソースに置き換わります。',
     'extend_content_ip' => 'IPサービス',
     'extend_content_map' => '地図サービス',

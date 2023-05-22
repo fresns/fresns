@@ -331,7 +331,7 @@ return [
     'tip_config' => 'After modifying the configuration, the cache needs to be cleared before the new configuration can take effect.',
     'tip_plugin_install_or_upgrade' => 'After the plug-in is installed or upgraded, the default state is off and needs to be enabled manually to avoid system problems caused by errors in the plug-in.',
     // Dashboard-Events
-    'event_subscribe_table' => 'Subscribe to the data table',
+    'event_subscribe_subject' => 'Subject',
     'event_crontab_time' => 'Execution Cycle',
     'event_crontab_time_desc' => 'Laravel task scheduling cron table format',
     // Dashboard-Caches
@@ -937,7 +937,6 @@ return [
     'extend_content_list' => 'Content List',
     'extend_content_detail' => 'Content Details',
     'extend_content_search' => 'Content Search',
-    'extend_content_view_event' => 'View Event',
     'extend_content_list_desc' => 'This configuration has a higher priority than the content type configuration, and when configured, the data source specified by the content type will be replaced.',
     'extend_content_ip' => 'IP Service',
     'extend_content_map' => 'Map Service',

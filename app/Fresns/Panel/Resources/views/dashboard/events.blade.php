@@ -56,7 +56,7 @@
                             <th scope="col">{{ __('FsLang::panel.table_type') }}</th>
                             <th scope="col">{{ __('FsLang::panel.table_plugin') }}</th>
                             <th scope="col">{{ __('FsLang::panel.table_command_word') }}</th>
-                            <th scope="col">{{ __('FsLang::panel.event_subscribe_table') }}</th>
+                            <th scope="col">{{ __('FsLang::panel.event_subscribe_subject') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,7 +65,7 @@
                                 <td>{{ $sub['type'] }} </td>
                                 <td>{{ $sub['fskey'] }} </td>
                                 <td>{{ $sub['cmdWord'] }} </td>
-                                <td>{{ $sub['subTableName'] }} </td>
+                                <td>{{ $sub['subject'] }} </td>
                             </tr>
                         @endforeach
                     </tbody>
