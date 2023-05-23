@@ -25,8 +25,22 @@ class Subscribe
         $dtoWordBody = new AddSubscribeItemDTO($wordBody);
 
         $subject = null;
-        if ($dtoWordBody->type == SubscribeUtility::TYPE_TABLE_DATA_CHANGE && $dtoWordBody->subject) {
+        if ($dtoWordBody->type == SubscribeUtility::TYPE_TABLE_DATA_CHANGE) {
             $subject = StrHelper::qualifyTableName($dtoWordBody->subject);
+        }
+
+        if ($dtoWordBody->type == SubscribeUtility::TYPE_VIEW_CONTENT) {
+            if (! in_array($dtoWordBody->subject, [
+                SubscribeUtility::VIEW_TYPE_USER,
+                SubscribeUtility::VIEW_TYPE_GROUP,
+                SubscribeUtility::VIEW_TYPE_HASHTAG,
+                SubscribeUtility::VIEW_TYPE_POST,
+                SubscribeUtility::VIEW_TYPE_COMMENT,
+            ])) {
+                return $this->failure(21005);
+            }
+
+            $subject = $dtoWordBody->subject;
         }
 
         $subscribeItems = Config::withTrashed()->where('item_key', 'subscribe_items')->first();
@@ -68,8 +82,22 @@ class Subscribe
         $dtoWordBody = new AddSubscribeItemDTO($wordBody);
 
         $subject = null;
-        if ($dtoWordBody->type == SubscribeUtility::TYPE_TABLE_DATA_CHANGE && $dtoWordBody->subject) {
+        if ($dtoWordBody->type == SubscribeUtility::TYPE_TABLE_DATA_CHANGE) {
             $subject = StrHelper::qualifyTableName($dtoWordBody->subject);
+        }
+
+        if ($dtoWordBody->type == SubscribeUtility::TYPE_VIEW_CONTENT) {
+            if (! in_array($dtoWordBody->subject, [
+                SubscribeUtility::VIEW_TYPE_USER,
+                SubscribeUtility::VIEW_TYPE_GROUP,
+                SubscribeUtility::VIEW_TYPE_HASHTAG,
+                SubscribeUtility::VIEW_TYPE_POST,
+                SubscribeUtility::VIEW_TYPE_COMMENT,
+            ])) {
+                return $this->failure(21005);
+            }
+
+            $subject = $dtoWordBody->subject;
         }
 
         $subscribeItems = Config::withTrashed()->where('item_key', 'subscribe_items')->first();

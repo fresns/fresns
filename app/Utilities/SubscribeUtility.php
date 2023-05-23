@@ -105,7 +105,7 @@ class SubscribeUtility
             'uri' => request()->getRequestUri(),
             'routeName' => request()->route()->getName(),
             'headers' => AppHelper::getHeaders(),
-            'body' => request()->all(),
+            'body' => request()->except(['file', 'image', 'video', 'audio', 'document']),
         ];
 
         Queue::push(function () use ($wordBody) {
