@@ -20,7 +20,7 @@ class GetPostDetailDTO extends DTO
             'timezone' => ['string', 'nullable'],
             'authUidOrUsername' => ['string', 'nullable'],
             'type' => ['string', 'nullable'],
-            'outputPreviewComments' => ['boolean', 'nullable'],
+            'outputPreview' => ['boolean', 'nullable'],
             'mapId' => ['integer', 'nullable', 'between:1,11'],
             'mapLng' => ['numeric', 'nullable', 'min:-180', 'max:180'],
             'mapLat' => ['numeric', 'nullable', 'min:-90', 'max:90'],

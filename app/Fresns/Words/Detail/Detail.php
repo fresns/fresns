@@ -183,7 +183,7 @@ class Detail
         $type = $dtoWordBody->type ?? 'detail';
 
         $service = new PostService();
-        $detail = $service->postData($post, $type, $langTag, $timezone, $authUserId, $dtoWordBody->outputPreviewComments, $dtoWordBody->mapId, $dtoWordBody->mapLng, $dtoWordBody->mapLat);
+        $detail = $service->postData($post, $type, $langTag, $timezone, $authUserId, $dtoWordBody->mapId, $dtoWordBody->mapLng, $dtoWordBody->mapLat, $dtoWordBody->outputPreview, false);
 
         return $this->success($detail);
     }
@@ -223,7 +223,31 @@ class Detail
         $type = $dtoWordBody->type ?? 'detail';
 
         $service = new CommentService();
-        $detail = $service->commentData($comment, $type, $langTag, $timezone, $authUserId, $dtoWordBody->mapId, $dtoWordBody->mapLng, $dtoWordBody->mapLat, $dtoWordBody->outputSubComments, $dtoWordBody->outputReplyToPost, $dtoWordBody->outputReplyToComment);
+
+        $commentConfig = [
+            'mapId' => $dtoWordBody->mapId,
+            'longitude' => $dtoWordBody->mapLng,
+            'latitude' => $dtoWordBody->mapLat,
+            'outputSubComments' => $dtoWordBody->outputSubComments,
+            'outputReplyToPost' => $dtoWordBody->outputReplyToPost,
+            'outputReplyToComment' => $dtoWordBody->outputReplyToComment,
+            'whetherToFilter' => false,
+        ];
+
+        $detail = $service->commentData(
+            $comment,
+            $type,
+            $langTag,
+            $timezone,
+            $authUserId,
+            $commentConfig['mapId'],
+            $commentConfig['longitude'],
+            $commentConfig['latitude'],
+            $commentConfig['outputSubComments'],
+            $commentConfig['outputReplyToPost'],
+            $commentConfig['outputReplyToComment'],
+            $commentConfig['whetherToFilter'],
+        );
 
         return $this->success($detail);
     }
