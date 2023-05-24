@@ -371,7 +371,7 @@ class PostController extends Controller
         $postList = [];
         $service = new PostService();
         foreach ($posts as $post) {
-            $postList[] = $service->postData($post, 'list', $langTag, $timezone, $authUserId, true, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+            $postList[] = $service->postData($post, 'list', $langTag, $timezone, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat, true);
         }
 
         return $this->fresnsPaginate($postList, $posts->total(), $posts->perPage());
@@ -431,7 +431,7 @@ class PostController extends Controller
         $data['items'] = $item;
 
         $service = new PostService();
-        $data['detail'] = $service->postData($post, 'detail', $langTag, $timezone, $authUserId, true, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+        $data['detail'] = $service->postData($post, 'detail', $langTag, $timezone, $authUserId, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat, true);
 
         return $this->success($data);
     }
@@ -753,7 +753,7 @@ class PostController extends Controller
         $postList = [];
         $service = new PostService();
         foreach ($posts as $post) {
-            $listItem = $service->postData($post, 'list', $langTag, $timezone, $authUser->id, true, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+            $listItem = $service->postData($post, 'list', $langTag, $timezone, $authUser->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat, true);
             $listItem['followType'] = InteractionUtility::getFollowType($post->user_id, $authUser?->id, $post->group_id, $post?->hashtags?->toArray());
 
             $postList[] = $listItem;
@@ -813,7 +813,7 @@ class PostController extends Controller
         $postList = [];
         $service = new PostService();
         foreach ($posts as $post) {
-            $postList[] = $service->postData($post, 'list', $langTag, $timezone, $authUser?->id, true, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat);
+            $postList[] = $service->postData($post, 'list', $langTag, $timezone, $authUser?->id, $dtoRequest->mapId, $dtoRequest->mapLng, $dtoRequest->mapLat, true);
         }
 
         return $this->fresnsPaginate($postList, $posts->total(), $posts->perPage());

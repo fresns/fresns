@@ -36,7 +36,7 @@ use Illuminate\Support\Str;
 class CommentService
 {
     // $type = list or detail
-    public function commentData(?Comment $comment, string $type, string $langTag, string $timezone, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLong = null, ?string $authUserLat = null, ?bool $outputSubComments = false, ?bool $outputReplyToPost = false, ?bool $outputReplyToComment = false, ?bool $whetherToFilter = false)
+    public function commentData(?Comment $comment, string $type, string $langTag, string $timezone, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLong = null, ?string $authUserLat = null, ?bool $outputSubComments = false, ?bool $outputReplyToPost = false, ?bool $outputReplyToComment = false, ?bool $whetherToFilter = true)
     {
         if (! $comment) {
             return null;
@@ -434,9 +434,33 @@ class CommentService
 
             $commentService = new CommentService;
 
+            $commentConfig = [
+                'userId' => null,
+                'mapId' => null,
+                'longitude' => null,
+                'latitude' => null,
+                'outputSubComments' => false,
+                'outputReplyToPost' => false,
+                'outputReplyToComment' => false,
+                'whetherToFilter' => false,
+            ];
+
             $commentList = [];
             foreach ($comments as $comment) {
-                $commentList[] = $commentService->commentData($comment, 'list', $langTag, $timezone);
+                $commentList[] = $commentService->commentData(
+                    $comment,
+                    'list',
+                    $langTag,
+                    $timezone,
+                    $commentConfig['userId'],
+                    $commentConfig['mapId'],
+                    $commentConfig['longitude'],
+                    $commentConfig['latitude'],
+                    $commentConfig['outputSubComments'],
+                    $commentConfig['outputReplyToPost'],
+                    $commentConfig['outputReplyToComment'],
+                    $commentConfig['whetherToFilter'],
+                );
             }
 
             CacheHelper::put($commentList, $cacheKey, $cacheTag, 10, now()->addMinutes(10));
@@ -455,7 +479,27 @@ class CommentService
         $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
         $postService = new PostService;
 
-        $postData = $postService->postData($post, 'list', $langTag, $timezone);
+        $postConfig = [
+            'userId' => null,
+            'mapId' => null,
+            'longitude' => null,
+            'latitude' => null,
+            'isPreview' => false,
+            'whetherToFilter' => false,
+        ];
+
+        $postData = $postService->postData(
+            $post,
+            'list',
+            $langTag,
+            $timezone,
+            $postConfig['userId'],
+            $postConfig['mapId'],
+            $postConfig['longitude'],
+            $postConfig['latitude'],
+            $postConfig['isPreview'],
+            $postConfig['whetherToFilter'],
+        );
         $postData['quotedPost'] = null;
 
         return $postData;
@@ -471,7 +515,32 @@ class CommentService
         $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
 
         $commentService = new CommentService;
-        $commentData = $commentService->commentData($comment, 'list', $langTag, $timezone);
+
+        $commentConfig = [
+            'userId' => null,
+            'mapId' => null,
+            'longitude' => null,
+            'latitude' => null,
+            'outputSubComments' => false,
+            'outputReplyToPost' => false,
+            'outputReplyToComment' => false,
+            'whetherToFilter' => false,
+        ];
+
+        $commentData = $commentService->commentData(
+            $comment,
+            'list',
+            $langTag,
+            $timezone,
+            $commentConfig['userId'],
+            $commentConfig['mapId'],
+            $commentConfig['longitude'],
+            $commentConfig['latitude'],
+            $commentConfig['outputSubComments'],
+            $commentConfig['outputReplyToPost'],
+            $commentConfig['outputReplyToComment'],
+            $commentConfig['whetherToFilter'],
+        );
 
         return $commentData;
     }

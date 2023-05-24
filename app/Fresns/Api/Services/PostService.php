@@ -36,7 +36,7 @@ use Illuminate\Support\Str;
 class PostService
 {
     // $type = list or detail
-    public function postData(?Post $post, string $type, string $langTag, string $timezone, ?int $authUserId = null, ?bool $isPreview = false, ?int $authUserMapId = null, ?string $authUserLong = null, ?string $authUserLat = null)
+    public function postData(?Post $post, string $type, string $langTag, string $timezone, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLong = null, ?string $authUserLat = null, ?bool $isPreview = false, ?bool $whetherToFilter = true)
     {
         if (! $post) {
             return null;
@@ -226,7 +226,7 @@ class PostService
             'keys' => array_filter(explode(',', $filterKeys)),
         ];
 
-        if (empty($filter['keys'])) {
+        if (empty($filter['keys']) || ! $whetherToFilter) {
             return $result;
         }
 
@@ -488,11 +488,35 @@ class PostService
             $comments = $commentQuery->get();
 
             $service = new CommentService();
+
             $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
+            $commentConfig = [
+                'userId' => null,
+                'mapId' => null,
+                'longitude' => null,
+                'latitude' => null,
+                'outputSubComments' => false,
+                'outputReplyToPost' => false,
+                'outputReplyToComment' => false,
+                'whetherToFilter' => false,
+            ];
 
             $commentList = [];
             foreach ($comments as $comment) {
-                $commentList[] = $service->commentData($comment, 'list', $langTag, $timezone);
+                $commentList[] = $service->commentData(
+                    $comment,
+                    'list',
+                    $langTag,
+                    $timezone,
+                    $commentConfig['userId'],
+                    $commentConfig['mapId'],
+                    $commentConfig['longitude'],
+                    $commentConfig['latitude'],
+                    $commentConfig['outputSubComments'],
+                    $commentConfig['outputReplyToPost'],
+                    $commentConfig['outputReplyToComment'],
+                    $commentConfig['whetherToFilter'],
+                );
             }
 
             CacheHelper::put($commentList, $cacheKey, $cacheTags, 10, now()->addMinutes(10));
@@ -511,7 +535,27 @@ class PostService
         $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
         $postService = new PostService;
 
-        $postData = $postService->postData($post, 'list', $langTag, $timezone);
+        $postConfig = [
+            'userId' => null,
+            'mapId' => null,
+            'longitude' => null,
+            'latitude' => null,
+            'isPreview' => false,
+            'whetherToFilter' => false,
+        ];
+
+        $postData = $postService->postData(
+            $post,
+            'list',
+            $langTag,
+            $timezone,
+            $postConfig['userId'],
+            $postConfig['mapId'],
+            $postConfig['longitude'],
+            $postConfig['latitude'],
+            $postConfig['isPreview'],
+            $postConfig['whetherToFilter'],
+        );
         $postData['quotedPost'] = null;
 
         return $postData;

@@ -405,6 +405,7 @@ class CommentController extends Controller
         $comments = $commentQuery->paginate($dtoRequest->pageSize ?? 15);
 
         $commentConfig = [
+            'userId' => $authUserId,
             'mapId' => $dtoRequest->mapId,
             'longitude' => $dtoRequest->mapLng,
             'latitude' => $dtoRequest->mapLat,
@@ -432,7 +433,7 @@ class CommentController extends Controller
                 $dataType,
                 $langTag,
                 $timezone,
-                $authUserId,
+                $commentConfig['userId'],
                 $commentConfig['mapId'],
                 $commentConfig['longitude'],
                 $commentConfig['latitude'],
@@ -496,6 +497,7 @@ class CommentController extends Controller
         $data['items'] = $item;
 
         $commentConfig = [
+            'userId' => $authUserId,
             'mapId' => $dtoRequest->mapId,
             'longitude' => $dtoRequest->mapLng,
             'latitude' => $dtoRequest->mapLat,
@@ -511,7 +513,7 @@ class CommentController extends Controller
             'detail',
             $langTag,
             $timezone,
-            $authUserId,
+            $commentConfig['userId'],
             $commentConfig['mapId'],
             $commentConfig['longitude'],
             $commentConfig['latitude'],
@@ -718,6 +720,7 @@ class CommentController extends Controller
         }
 
         $commentConfig = [
+            'userId' => $authUser->id,
             'mapId' => $dtoRequest->mapId,
             'longitude' => $dtoRequest->mapLng,
             'latitude' => $dtoRequest->mapLat,
@@ -735,7 +738,7 @@ class CommentController extends Controller
                 'list',
                 $langTag,
                 $timezone,
-                $authUser->id,
+                $commentConfig['userId'],
                 $commentConfig['mapId'],
                 $commentConfig['longitude'],
                 $commentConfig['latitude'],
@@ -802,6 +805,7 @@ class CommentController extends Controller
             ->paginate($dtoRequest->pageSize ?? 15);
 
         $commentConfig = [
+            'userId' => $authUser?->id,
             'mapId' => $dtoRequest->mapId,
             'longitude' => $dtoRequest->mapLng,
             'latitude' => $dtoRequest->mapLat,
@@ -819,7 +823,7 @@ class CommentController extends Controller
                 'list',
                 $langTag,
                 $timezone,
-                $authUser?->id,
+                $commentConfig['userId'],
                 $commentConfig['mapId'],
                 $commentConfig['longitude'],
                 $commentConfig['latitude'],
