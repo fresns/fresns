@@ -516,7 +516,10 @@ class CacheHelper
 
         foreach ($itemKeys as $key) {
             $cacheKey = "fresns_config_{$key}";
+            $cacheApiKey = "fresns_config_api_{$key}";
+
             CacheHelper::forgetFresnsMultilingual($cacheKey, 'fresnsConfigs');
+            CacheHelper::forgetFresnsMultilingual($cacheApiKey, 'fresnsConfigs');
         }
     }
 

@@ -47,7 +47,7 @@ class Crontab
             $itemArr[] = [
                 'fskey' => $dtoWordBody->fskey,
                 'cmdWord' => $dtoWordBody->cmdWord,
-                'taskPeriod' => $dtoWordBody->taskPeriod,
+                'cronTableFormat' => $dtoWordBody->cronTableFormat,
             ];
         }
 

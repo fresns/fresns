@@ -18,6 +18,7 @@ class PluginUsage extends Model
     const TYPE_GROUP = 6;
     const TYPE_FEATURE = 7;
     const TYPE_PROFILE = 8;
+    const TYPE_CHANNEL = 9;
 
     const SCENE_POST = 1;
     const SCENE_COMMENT = 2;

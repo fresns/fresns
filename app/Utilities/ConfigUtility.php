@@ -41,7 +41,7 @@ class ConfigUtility
                         'table_column' => 'item_value',
                         'table_id' => null,
                         'table_key' => $item['item_key'],
-                        'language_values' => $item['language_values'],
+                        'language_values' => $item['language_values'] ?? [],
                     ];
                     ConfigUtility::changeFresnsLanguageItems($fresnsLangItems);
                 }
@@ -52,8 +52,14 @@ class ConfigUtility
     // remove config items
     public static function removeFresnsConfigItems(array $fresnsConfigKeys): void
     {
-        foreach ($fresnsConfigKeys as $item) {
-            Config::where('item_key', $item)->where('is_custom', 1)->forceDelete();
+        foreach ($fresnsConfigKeys as $key) {
+            $config = Config::where('item_key', $key)->where('is_custom', 1)->first();
+
+            if ($config?->is_custom == 1 && $config?->is_multilingual == 1) {
+                Language::where('table_name', 'configs')->where('table_column', 'item_value')->where('table_key', $key)->forceDelete();
+            }
+
+            $config?->forceDelete();
         }
     }
 
@@ -73,7 +79,7 @@ class ConfigUtility
                     'table_column' => 'item_value',
                     'table_id' => null,
                     'table_key' => $item['item_key'],
-                    'language_values' => $item['language_values'],
+                    'language_values' => $item['language_values'] ?? [],
                 ];
                 ConfigUtility::changeFresnsLanguageItems($fresnsLangItems);
             }
