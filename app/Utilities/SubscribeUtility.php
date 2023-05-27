@@ -9,7 +9,9 @@
 namespace App\Utilities;
 
 use App\Helpers\AppHelper;
+use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
+use App\Helpers\PrimaryHelper;
 use App\Helpers\StrHelper;
 use Illuminate\Support\Facades\Queue;
 
@@ -100,15 +102,30 @@ class SubscribeUtility
     public static function notifyUserActivity(): void
     {
         $wordBody = [
-            'ip' => request()->ip(),
+            'ip' => request()?->ip(),
             'port' => $_SERVER['REMOTE_PORT'],
-            'uri' => request()->getRequestUri(),
-            'routeName' => request()->route()->getName(),
+            'uri' => request()?->getRequestUri(),
+            'routeName' => request()?->route()?->getName(),
             'headers' => AppHelper::getHeaders(),
             'body' => request()->except(['file', 'image', 'video', 'audio', 'document']),
         ];
 
         Queue::push(function () use ($wordBody) {
+            $uid =  $wordBody['headers']['uid'];
+            $cacheKey = "fresns_user_activity_{$uid}";
+            $cacheTag = 'fresnsUsers';
+
+            $userCache = CacheHelper::get($cacheKey, $cacheTag);
+            if (empty($userCache)) {
+                $user = PrimaryHelper::fresnsModelByFsid('user', $uid);
+
+                $user?->update([
+                    'last_activity_at' => now(),
+                ]);
+
+                CacheHelper::put(now(), $cacheKey, $cacheTag, 10, now()->addMinutes(10));
+            }
+
             $subscribeItems = SubscribeUtility::getSubscribeItems(SubscribeUtility::TYPE_USER_ACTIVITY);
             if (empty($subscribeItems)) {
                 return;
@@ -175,8 +192,8 @@ class SubscribeUtility
             return;
         }
 
-        $routeName = request()->route()->getName();
-        if (empty($viewType)) {
+        $routeName = request()?->route()?->getName();
+        if (empty($viewType) && $routeName) {
             $checkRouteName = in_array($routeName, [
                 'api.user.detail',
                 'api.group.detail',
@@ -189,14 +206,14 @@ class SubscribeUtility
         }
 
         $wordBody = [
-            'ip' => request()->ip(),
+            'ip' => request()?->ip(),
             'port' => $_SERVER['REMOTE_PORT'],
-            'uri' => request()->getRequestUri(),
+            'uri' => request()?->getRequestUri(),
             'routeName' => $routeName,
             'headers' => AppHelper::getHeaders(),
             'type' => $type,
             'fsid' => $fsid,
-            'viewType' => $viewType, // list or detail
+            'viewType' => $viewType ?? 'list', // list or detail
             'authUserId' => $authUserId,
         ];
 
