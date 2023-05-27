@@ -14,6 +14,7 @@
                     <li class="nav-item"><a class="nav-link {{ \Route::is('panel.group.*') ? 'active' : '' }}" href="{{ route('panel.group.index') }}">{{ __('FsLang::panel.sidebar_extend_group') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ \Route::is('panel.user-feature.*') ? 'active' : '' }}" href="{{ route('panel.user-feature.index') }}">{{ __('FsLang::panel.sidebar_extend_user_feature') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ \Route::is('panel.user-profile.*') ? 'active' : '' }}" href="{{ route('panel.user-profile.index') }}">{{ __('FsLang::panel.sidebar_extend_user_profile') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.channel.*') ? 'active' : '' }}" href="{{ route('panel.channel.index') }}">{{ __('FsLang::panel.sidebar_extend_channel') }}</a></li>
                 </ul>
             </div>
         </div>

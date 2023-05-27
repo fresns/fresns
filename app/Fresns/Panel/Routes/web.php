@@ -13,6 +13,7 @@ use App\Fresns\Panel\Http\Controllers\CodeMessageController;
 use App\Fresns\Panel\Http\Controllers\ColumnController;
 use App\Fresns\Panel\Http\Controllers\ConfigController;
 use App\Fresns\Panel\Http\Controllers\DashboardController;
+use App\Fresns\Panel\Http\Controllers\ExtendChannel;
 use App\Fresns\Panel\Http\Controllers\ExtendContentHandlerController;
 use App\Fresns\Panel\Http\Controllers\ExtendContentTypeController;
 use App\Fresns\Panel\Http\Controllers\ExtendEditorController;
@@ -77,7 +78,7 @@ Route::middleware(['panelAuth'])->group(function () {
     // update config
     Route::put('configs/{config:item_key}', [ConfigController::class, 'update'])->name('configs.update');
     // plugin usages
-    Route::put('plugin-usages/{pluginUsage}/rating', [PluginUsageController::class, 'updateRating'])->name('plugin-usages.rating.update');
+    Route::put('plugin-usages/{id}/rating', [PluginUsageController::class, 'updateRating'])->name('plugin-usages.rating.update');
     Route::resource('plugin-usages', PluginUsageController::class)->only([
         'store', 'update', 'destroy',
     ])->parameters([
@@ -227,13 +228,11 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::resource('editor', ExtendEditorController::class)->only([
             'index', 'store', 'update', 'destroy',
         ]);
-        Route::put('editor/{id}/rating', [ExtendEditorController::class, 'updateRating'])->name('editor.rating');
         // content-type
         Route::resource('content-type', ExtendContentTypeController::class)->only([
             'index', 'store', 'update', 'destroy',
         ]);
         Route::put('content-type/{id}/dataSources/{key}', [ExtendContentTypeController::class, 'updateSource'])->name('content-type.source');
-        Route::put('content-type/{id}/rating', [ExtendContentTypeController::class, 'updateRating'])->name('content-type.rating');
         // content-handler
         Route::get('content-handler', [ExtendContentHandlerController::class, 'index'])->name('content-handler.index');
         Route::put('content-handler', [ExtendContentHandlerController::class, 'update'])->name('content-handler.update');
@@ -241,22 +240,22 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::resource('manage', ExtendManageController::class)->only([
             'index', 'store', 'update', 'destroy',
         ]);
-        Route::put('manage/{id}/rating', [ExtendManageController::class, 'updateRating'])->name('manage.rating');
         // group
         Route::resource('group', ExtendGroupController::class)->only([
             'index', 'store', 'update', 'destroy',
         ]);
-        Route::put('group/{id}/rating', [ExtendGroupController::class, 'updateRating'])->name('group.rating');
         // user-feature
         Route::resource('user-feature', ExtendUserFeatureController::class)->only([
             'index', 'store', 'update', 'destroy',
         ]);
-        Route::put('user-feature/{id}/rating', [ExtendUserFeatureController::class, 'updateRating'])->name('user-feature.rating');
         // user-profile
         Route::resource('user-profile', ExtendUserProfileController::class)->only([
             'index', 'store', 'update', 'destroy',
         ]);
-        Route::put('user-profile/{id}/rating', [ExtendUserProfileController::class, 'updateRating'])->name('user-profile.rating');
+        // channel
+        Route::resource('channel', ExtendChannel::class)->only([
+            'index', 'store', 'update', 'destroy',
+        ]);
     });
 
     // clients
