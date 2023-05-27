@@ -111,7 +111,7 @@ class SubscribeUtility
         ];
 
         Queue::push(function () use ($wordBody) {
-            $uid =  $wordBody['headers']['uid'];
+            $uid = $wordBody['headers']['uid'];
             $cacheKey = "fresns_user_activity_{$uid}";
             $cacheTag = 'fresnsUsers';
 
