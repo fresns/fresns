@@ -1262,8 +1262,8 @@ $(document).ready(function () {
         $('.lang-pack-box').append(template.html());
     });
 
-    // wallet services
-    $('.wallet-modal').on('show.bs.modal', function (e) {
+    // extend services
+    $('.extend-modal').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget);
         let params = button.data('params');
 
@@ -1300,6 +1300,8 @@ $(document).ready(function () {
     $('.edit-group-category').click(function () {
         let action = $(this).data('action');
         let params = $(this).data('params');
+        let coverUrl = $(this).data('cover-url');
+        let bannerUrl = $(this).data('banner-url');
         let form = $('#createCategoryModal').parent('form');
 
         form.find('input[name=_method]').val(params ? 'put' : 'post');
@@ -1312,6 +1314,8 @@ $(document).ready(function () {
         $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
         $('.inputUrl').hide();
         $('.inputFile').show();
+        $('#category_cover_file_view').hide();
+        $('#category_banner_file_view').hide();
 
         if (params) {
             $('#createCategoryModal').find('input[name=rating]').val(params.rating);
@@ -1319,12 +1323,22 @@ $(document).ready(function () {
                 .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
                 .prop('checked', true);
 
+            if (params.cover_file_id) {
+                $('#category_cover_file_view').css('display', 'block');
+                $('#category_cover_file_view').attr('href', coverUrl);
+            }
+
             if (params.cover_file_url) {
                 $('#createCategoryModal').find('input[name=cover_file_url]').parent().find('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
                 $('#createCategoryModal').find('input[name=cover_file_url]').parent().find('.inputFile').css('display', 'none');
 
                 $('#createCategoryModal').find('input[name=cover_file_url]').val(params.cover_file_url);
                 $('#createCategoryModal').find('input[name=cover_file_url]').css('display', 'block');
+            }
+
+            if (params.banner_file_id) {
+                $('#category_banner_file_view').css('display', 'block');
+                $('#category_banner_file_view').attr('href', bannerUrl);
             }
 
             if (params.banner_file_url) {
@@ -1461,6 +1475,8 @@ $(document).ready(function () {
         let button = $(e.relatedTarget);
         let action = button.data('action');
         let params = button.data('params');
+        let coverUrl = button.data('cover-url');
+        let bannerUrl = button.data('banner-url');
 
         let form = $(this).parents('form');
         let selectAdmin = form.find('select[name="admin_ids[]"]');
@@ -1477,6 +1493,8 @@ $(document).ready(function () {
         $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
         $('.inputUrl').hide();
         $('.inputFile').show();
+        $('#cover_file_view').hide();
+        $('#banner_file_view').hide();
 
         if (!params) {
             return;
@@ -1492,11 +1510,21 @@ $(document).ready(function () {
         let defaultDesc = $(this).data('default-desc');
         let adminUsers = button.data('admin_users');
 
+        if (params.cover_file_id) {
+            $('#cover_file_view').css('display', 'block');
+            $('#cover_file_view').attr('href', coverUrl);
+        }
+
         if (params.cover_file_url) {
             $('#groupModal').find('input[name=cover_file_url]').parent().find('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
             $('#groupModal').find('input[name=cover_file_url]').parent().find('.inputFile').css('display', 'none');
             form.find('input[name=cover_file_url]').val(params.cover_file_url);
             form.find('input[name=cover_file_url]').css('display', 'block');
+        }
+
+        if (params.banner_file_id) {
+            $('#banner_file_view').css('display', 'block');
+            $('#banner_file_view').attr('href', bannerUrl);
         }
 
         if (params.banner_file_url) {

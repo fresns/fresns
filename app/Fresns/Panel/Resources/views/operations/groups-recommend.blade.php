@@ -77,7 +77,10 @@
                                     data-admin_users="{{ $group->admins }}"
                                     data-descriptions="{{ $group->descriptions->toJson() }}"
                                     data-names="{{ $group->names->toJson() }}"
-                                    data-descriptions="{{ $group->descriptions->toJson() }}" data-bs-toggle="modal"
+                                    data-descriptions="{{ $group->descriptions->toJson() }}"
+                                    data-cover-url="{{ $group->getCoverUrl() }}"
+                                    data-banner-url="{{ $group->getBannerUrl() }}"
+                                    data-bs-toggle="modal"
                                     data-bs-target="#groupModal">{{ __('FsLang::panel.button_edit') }}</button>
 
                                 <button type="button" class="btn btn-outline-success btn-sm"

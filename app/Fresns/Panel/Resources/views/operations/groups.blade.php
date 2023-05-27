@@ -36,13 +36,15 @@
                             <a href="{{ route('panel.groups.index', ['parent_id' => $category->id]) }}" class="list-group-item list-group-item-action {{ $category->id == $parentId ? 'active' : '' }} d-flex justify-content-between align-items-center">
                                 <input type="number" class="form-control input-number rating-number" data-action="{{ route('panel.groups.rating.update', $category->id) }}" value="{{ $category->rating }}" style="width:50px;">
                                 <span class="ms-2 text-nowrap overflow-hidden">{{ $category->name }}</span>
-                                <button type="button" data-params="{{ $category->toJson() }}"
+                                <button type="button" class="btn btn-outline-info btn-sm text-nowrap fs-9 ms-auto edit-group-category"
+                                    data-params="{{ $category->toJson() }}"
+                                    data-cover-url="{{ $category->getCoverUrl() }}"
+                                    data-banner-url="{{ $category->getBannerUrl() }}"
                                     data-names="{{ $category->names->toJson() }}"
                                     data-default-name="{{ $category->getLangName($defaultLanguage) }}"
                                     data-default-desc="{{ $category->getLangDescription($defaultLanguage) }}"
                                     data-descriptions="{{ $category->descriptions->toJson() }}"
                                     data-action="{{ route('panel.groups.update', $category->id) }}"
-                                    class="btn btn-outline-info btn-sm text-nowrap fs-9 ms-auto edit-group-category"
                                     data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.button_edit') }}">
                                     <i class="bi bi-pencil-square"></i>
                                 </button>
@@ -52,13 +54,15 @@
                             <a href="{{ route('panel.groups.index', ['parent_id' => $category->id]) }}" class="list-group-item list-group-item-secondary {{ $category->id == $parentId ? 'active' : '' }} d-flex justify-content-between align-items-center">
                                 <input type="number" class="form-control input-number rating-number" data-action="{{ route('panel.groups.rating.update', $category->id) }}" value="{{ $category->rating }}" style="width:50px;">
                                 <span class="ms-2 text-nowrap overflow-hidden">{{ $category->name }}</span>
-                                <button type="button" data-params="{{ $category->toJson() }}"
+                                <button type="button" class="btn btn-outline-info btn-sm text-nowrap fs-9 ms-auto edit-group-category"
+                                    data-params="{{ $category->toJson() }}"
+                                    data-cover-url="{{ $category->getCoverUrl() }}"
+                                    data-banner-url="{{ $category->getBannerUrl() }}"
                                     data-names="{{ $category->names->toJson() }}"
                                     data-default-name="{{ $category->getLangName($defaultLanguage) }}"
                                     data-default-desc="{{ $category->getLangDescription($defaultLanguage) }}"
                                     data-descriptions="{{ $category->descriptions->toJson() }}"
                                     data-action="{{ route('panel.groups.update', $category->id) }}"
-                                    class="btn btn-outline-info btn-sm text-nowrap fs-9 ms-auto edit-group-category"
                                     data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.button_edit') }}">
                                     <i class="bi bi-pencil-square"></i>
                                 </button>
@@ -132,7 +136,10 @@
                                             data-descriptions="{{ $group->descriptions->toJson() }}"
                                             data-names="{{ $group->names->toJson() }}"
                                             data-descriptions="{{ $group->descriptions->toJson() }}"
-                                            data-bs-toggle="modal" data-bs-target="#groupModal">{{ __('FsLang::panel.button_edit') }}</button>
+                                            data-cover-url="{{ $group->getCoverUrl() }}"
+                                            data-banner-url="{{ $group->getBannerUrl() }}"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#groupModal">{{ __('FsLang::panel.button_edit') }}</button>
 
                                         <button type="button" class="btn btn-outline-success btn-sm"
                                             data-action="{{ route('panel.groups.merge', $group->id) }}"
@@ -198,6 +205,7 @@
                                     </ul>
                                     <input type="file" class="form-control inputFile" name="cover_file">
                                     <input type="text" class="form-control inputUrl" name="cover_file_url" style="display:none;">
+                                    <a class="btn btn-outline-secondary" href="#" target="_blank" role="button" id="category_cover_file_view" style="display:none;">{{ __('FsLang::panel.button_view') }}</a>
                                 </div>
                             </div>
                         </div>
@@ -212,6 +220,7 @@
                                     </ul>
                                     <input type="file" class="form-control inputFile" name="banner_file">
                                     <input type="text" class="form-control inputUrl" name="banner_file_url" style="display:none;">
+                                    <a class="btn btn-outline-secondary" href="#" target="_blank" role="button" id="category_banner_file_view" style="display:none;">{{ __('FsLang::panel.button_view') }}</a>
                                 </div>
                             </div>
                         </div>

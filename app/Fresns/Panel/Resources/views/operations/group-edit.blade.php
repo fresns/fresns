@@ -55,6 +55,7 @@
                                 </ul>
                                 <input type="file" class="form-control inputFile" name="cover_file">
                                 <input type="text" class="form-control inputUrl" name="cover_file_url" style="display:none;">
+                                <a class="btn btn-outline-secondary" href="#" target="_blank" role="button" id="cover_file_view" style="display:none;">{{ __('FsLang::panel.button_view') }}</a>
                             </div>
                         </div>
                     </div>
@@ -69,6 +70,7 @@
                                 </ul>
                                 <input type="file" class="form-control inputFile" name="banner_file">
                                 <input type="text" class="form-control inputUrl" name="banner_file_url" style="display:none;">
+                                <a class="btn btn-outline-secondary" href="#" target="_blank" role="button" id="banner_file_view" style="display:none;">{{ __('FsLang::panel.button_view') }}</a>
                             </div>
                         </div>
                     </div>
