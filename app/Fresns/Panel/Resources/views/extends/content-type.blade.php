@@ -37,7 +37,7 @@
             <tbody>
                 @foreach ($pluginUsages as $item)
                     <tr>
-                        <td><input type="number" data-action="{{ route('panel.content-type.rating', $item->id) }}" class="form-control input-number rating-number" value="{{ $item['rating'] }}"></td>
+                        <td><input type="number" data-action="{{ route('panel.plugin-usages.rating.update', $item->id) }}" class="form-control input-number rating-number" value="{{ $item['rating'] }}"></td>
                         <td>{{ optional($item->plugin)->name ?? $item->plugin_fskey }}</td>
                         <td>{{ $item->getLangName($defaultLanguage) }}</td>
                         <td>

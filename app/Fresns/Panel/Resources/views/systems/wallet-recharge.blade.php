@@ -41,7 +41,7 @@
             <tbody>
                 @foreach ($pluginUsages as $item)
                     <tr>
-                        <td><input type="number" class="form-control input-number rating-number" data-action="{{ route('panel.plugin-usages.rating.update', $item) }}" value="{{ $item['rating'] }}"></td>
+                        <td><input type="number" class="form-control input-number rating-number" data-action="{{ route('panel.plugin-usages.rating.update', $item->id) }}" value="{{ $item['rating'] }}"></td>
                         <td>{{ optional($item->plugin)->name }}</td>
                         <td>
                             @if ($item->getIconUrl())
@@ -81,7 +81,7 @@
         @method('post')
         <input type="hidden" name="update_name" value="0">
         <!-- Modal -->
-        <div class="modal fade name-lang-parent wallet-modal" id="createPayModal" tabindex="-1" aria-labelledby="createPayModal" aria-hidden="true">
+        <div class="modal fade name-lang-parent extend-modal" id="createPayModal" tabindex="-1" aria-labelledby="createPayModal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

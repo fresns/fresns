@@ -37,7 +37,7 @@
             <tbody>
                 @foreach ($pluginUsages as $item)
                     <tr>
-                        <td><input type="number" data-action="{{ route('panel.user-profile.rating', $item->id) }}" class="form-control input-number rating-number" value="{{ $item['rating'] }}"></td>
+                        <td><input type="number" data-action="{{ route('panel.plugin-usages.rating.update', $item->id) }}" class="form-control input-number rating-number" value="{{ $item['rating'] }}"></td>
                         <td>{{ optional($item->plugin)->name }}</td>
                         <td>
                             @if ($item->getIconUrl())

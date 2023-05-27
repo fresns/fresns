@@ -81,7 +81,7 @@
         @method('post')
         <input type="hidden" name="update_name" value="0">
         <!-- Modal -->
-        <div class="modal fade name-lang-parent wallet-modal" id="createWithdrawModal" tabindex="-1" aria-labelledby="createWithdrawModal" aria-hidden="true">
+        <div class="modal fade name-lang-parent extend-modal" id="createWithdrawModal" tabindex="-1" aria-labelledby="createWithdrawModal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

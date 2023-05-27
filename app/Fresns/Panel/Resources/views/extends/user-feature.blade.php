@@ -37,7 +37,7 @@
             <tbody>
                 @foreach ($pluginUsages as $item)
                     <tr>
-                        <td><input type="number" data-action="{{ route('panel.user-feature.rating', $item->id) }}" class="form-control input-number rating-number" value="{{ $item['rating'] }}"></td>
+                        <td><input type="number" data-action="{{ route('panel.plugin-usages.rating.update', $item->id) }}" class="form-control input-number rating-number" value="{{ $item['rating'] }}"></td>
                         <td>{{ optional($item->plugin)->name }}</td>
                         <td>
                             @if ($item->getIconUrl())
@@ -94,7 +94,7 @@
         @csrf
         @method('post')
         <input type="hidden" name="update_name" value="0">
-        <div class="modal fade   name-lang-parent expend-feature-modal" id="configModal" tabindex="-1" aria-labelledby="configModal" aria-hidden="true">
+        <div class="modal fade name-lang-parent expend-feature-modal" id="configModal" tabindex="-1" aria-labelledby="configModal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

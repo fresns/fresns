@@ -172,13 +172,4 @@ class ExtendUserFeatureController extends Controller
 
         return $this->deleteSuccess();
     }
-
-    public function updateRating($id, Request $request)
-    {
-        $pluginUsage = PluginUsage::findOrFail($id);
-        $pluginUsage->rating = $request->rating;
-        $pluginUsage->save();
-
-        return $this->updateSuccess();
-    }
 }

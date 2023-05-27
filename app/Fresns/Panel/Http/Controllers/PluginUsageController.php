@@ -13,8 +13,9 @@ use Illuminate\Http\Request;
 
 class PluginUsageController extends Controller
 {
-    public function updateRating(PluginUsage $pluginUsage, Request $request)
+    public function updateRating(int $id, Request $request)
     {
+        $pluginUsage = PluginUsage::findOrFail($id);
         $pluginUsage->rating = $request->rating;
         $pluginUsage->save();
 

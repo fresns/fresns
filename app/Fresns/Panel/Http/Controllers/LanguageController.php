@@ -40,8 +40,6 @@ class LanguageController extends Controller
 
     public function batchUpdate($itemKey, Request $request)
     {
-        $configContent = null;
-
         foreach ($request->languages as $langTag => $content) {
             $language = Language::ofConfig()
                 ->where('table_key', $itemKey)
