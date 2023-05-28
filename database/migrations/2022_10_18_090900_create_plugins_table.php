@@ -90,8 +90,8 @@ class CreatePluginsTable extends Migration
             $table->string('plugin_fskey', 64);
             $table->unsignedBigInteger('user_id');
             $table->unsignedTinyInteger('display_type')->default(1);
-            $table->string('value_text', 8)->nullable();
             $table->unsignedSmallInteger('value_number')->nullable();
+            $table->string('value_text', 8)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

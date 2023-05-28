@@ -97,8 +97,8 @@ class ExtendUtility
 
             $badge['badgeType'] = $badgeModel?->display_type;
             $badge['badgeValue'] = match ($badgeModel?->display_type) {
-                1 => $badgeModel?->value_number,
-                2 => $badgeModel?->value_text,
+                PluginBadge::TYPE_NUMBER => $badgeModel?->value_number,
+                PluginBadge::TYPE_TEXT => $badgeModel?->value_text,
                 default => null,
             };
 
