@@ -103,7 +103,7 @@ class SubscribeUtility
     {
         $wordBody = [
             'ip' => request()?->ip(),
-            'port' => $_SERVER['REMOTE_PORT'],
+            'port' => $_SERVER['REMOTE_PORT'] ?? null,
             'uri' => request()?->getRequestUri(),
             'routeName' => request()?->route()?->getName(),
             'headers' => AppHelper::getHeaders(),
@@ -111,7 +111,7 @@ class SubscribeUtility
         ];
 
         Queue::push(function () use ($wordBody) {
-            $uid = $wordBody['headers']['uid'];
+            $uid = $wordBody['headers']['x-fresns-uid'];
             $cacheKey = "fresns_user_activity_{$uid}";
             $cacheTag = 'fresnsUsers';
 
@@ -207,7 +207,7 @@ class SubscribeUtility
 
         $wordBody = [
             'ip' => request()?->ip(),
-            'port' => $_SERVER['REMOTE_PORT'],
+            'port' => $_SERVER['REMOTE_PORT'] ?? null,
             'uri' => request()?->getRequestUri(),
             'routeName' => $routeName,
             'headers' => AppHelper::getHeaders(),
