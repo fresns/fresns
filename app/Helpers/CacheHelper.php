@@ -921,6 +921,7 @@ class CacheHelper
     // fresns_group_{$groupId}_extends_by_everyone_{$langTag}           // +tag: fresnsGroups
     // fresns_feature_extends_by_everyone_{$langTag}
     // fresns_profile_extends_by_everyone_{$langTag}
+    // fresns_channel_extends_by_everyone_{$langTag}
 
     // fresns_editor_post_extends_by_role_{$roleId}_{$langTag}
     // fresns_editor_comment_extends_by_role_{$roleId}_{$langTag}

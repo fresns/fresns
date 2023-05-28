@@ -32,6 +32,7 @@ Route::prefix('v2')->middleware([
     Route::prefix('global')->name('global.')->withoutMiddleware([CheckSiteMode::class])->group(function () {
         Route::get('configs', [GlobalController::class, 'configs'])->name('configs');
         Route::get('code-messages', [GlobalController::class, 'codeMessages'])->name('code.messages');
+        Route::get('channels', [GlobalController::class, 'channels'])->name('channels');
         Route::get('{type}/archives', [GlobalController::class, 'archives'])->name('archives');
         Route::get('upload-token', [GlobalController::class, 'uploadToken'])->name('upload.token');
         Route::get('roles', [GlobalController::class, 'roles'])->name('roles');

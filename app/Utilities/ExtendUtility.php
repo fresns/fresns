@@ -46,6 +46,7 @@ class ExtendUtility
             PluginUsage::TYPE_GROUP => "fresns_group_{$groupId}_extends_by_{$typeName}_{$langTag}",
             PluginUsage::TYPE_FEATURE => "fresns_feature_extends_by_{$typeName}_{$langTag}",
             PluginUsage::TYPE_PROFILE => "fresns_profile_extends_by_{$typeName}_{$langTag}",
+            PluginUsage::TYPE_CHANNEL => "fresns_channel_extends_by_{$typeName}_{$langTag}",
             default => null,
         };
 
@@ -64,6 +65,7 @@ class ExtendUtility
             PluginUsage::TYPE_GROUP => ['fresnsExtensions', 'fresnsGroups'],
             PluginUsage::TYPE_FEATURE => ['fresnsExtensions'],
             PluginUsage::TYPE_PROFILE => ['fresnsExtensions'],
+            PluginUsage::TYPE_CHANNEL => ['fresnsExtensions'],
         };
 
         return $cacheTags;
@@ -92,6 +94,7 @@ class ExtendUtility
 
         if (empty($badge)) {
             $badgeModel = PluginBadge::where('plugin_fskey', $fskey)->where('user_id', $userId)->first();
+
             $badge['badgeType'] = $badgeModel?->display_type;
             $badge['badgeValue'] = match ($badgeModel?->display_type) {
                 1 => $badgeModel?->value_number,

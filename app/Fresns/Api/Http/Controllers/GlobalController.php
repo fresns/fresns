@@ -157,6 +157,25 @@ class GlobalController extends Controller
         return $this->success($item);
     }
 
+    // channels
+    public function channels(Request $request)
+    {
+        $channels = ExtendUtility::getExtendsByEveryone(PluginUsage::TYPE_CHANNEL, null, null, $this->langTag());
+        $authUserId = $this->user()?->id;
+
+        $channelList = [];
+        foreach ($channels as $channel) {
+            $badge = ExtendUtility::getPluginBadge($channel['fskey'], $authUserId);
+
+            $channel['badgeType'] = $badge['badgeType'];
+            $channel['badgeValue'] = $badge['badgeValue'];
+
+            $channelList[] = $channel;
+        }
+
+        return $this->success($channelList);
+    }
+
     // archives
     public function archives($type, Request $request)
     {
