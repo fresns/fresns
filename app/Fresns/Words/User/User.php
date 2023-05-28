@@ -8,9 +8,12 @@
 
 namespace App\Fresns\Words\User;
 
+use App\Fresns\Words\User\DTO\ClearUserAllBadgesDTO;
+use App\Fresns\Words\User\DTO\ClearUserBadgeDTO;
 use App\Fresns\Words\User\DTO\CreateUserDTO;
 use App\Fresns\Words\User\DTO\CreateUserTokenDTO;
 use App\Fresns\Words\User\DTO\LogicalDeletionUserDTO;
+use App\Fresns\Words\User\DTO\SetUserBadgeDTO;
 use App\Fresns\Words\User\DTO\SetUserExpiryDatetimeDTO;
 use App\Fresns\Words\User\DTO\SetUserExtcreditsDTO;
 use App\Fresns\Words\User\DTO\SetUserGroupExpiryDatetimeDTO;
@@ -21,6 +24,7 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Account;
 use App\Models\File;
+use App\Models\PluginBadge;
 use App\Models\SessionToken;
 use App\Models\User as UserModel;
 use App\Models\UserExtcreditsLog;
@@ -427,6 +431,91 @@ class User
         $cacheKey = "fresns_model_follow_group_{$groupId}_by_{$userId}";
         $cacheTags = ['fresnsModels', 'fresnsGroups'];
         CacheHelper::forgetFresnsKey($cacheKey, $cacheTags);
+
+        return $this->success();
+    }
+
+    // setUserBadge
+    public function setUserBadge($wordBody)
+    {
+        $dtoWordBody = new SetUserBadgeDTO($wordBody);
+
+        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $fskey = $dtoWordBody->fskey;
+
+        $cacheKey = "fresns_plugin_{$fskey}_badge_{$userId}";
+        $cacheTag = 'fresnsUsers';
+
+        $userBadge = PluginBadge::where('user_id', $userId)->where('plugin_fskey', $fskey)->first();
+
+        if (! $userBadge) {
+            $badge = [
+                'plugin_fskey' => $fskey,
+                'user_id' => $userId,
+                'display_type' => $dtoWordBody->type,
+                'value_number' => $dtoWordBody->badgeNumber,
+                'value_text' => $dtoWordBody->badgeText,
+            ];
+
+            PluginBadge::create($badge);
+
+            CacheHelper::forgetFresnsKey($cacheKey, $cacheTag);
+
+            return $this->success();
+        }
+
+        $badgeNumber = $dtoWordBody->badgeNumber;
+        if ($dtoWordBody->type == PluginBadge::TYPE_NUMBER) {
+            $badgeNumber = $userBadge->value_number + $dtoWordBody->badgeNumber;
+        }
+
+        $userBadge->update([
+            'display_type' => $dtoWordBody->type,
+            'value_number' => $badgeNumber,
+            'value_text' => $dtoWordBody->badgeText,
+        ]);
+
+        CacheHelper::forgetFresnsKey($cacheKey, $cacheTag);
+
+        return $this->success();
+    }
+
+    // clearUserBadge
+    public function clearUserBadge($wordBody)
+    {
+        $dtoWordBody = new ClearUserBadgeDTO($wordBody);
+
+        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $fskey = $dtoWordBody->fskey;
+
+        PluginBadge::where('user_id', $userId)->where('plugin_fskey', $fskey)->forceDelete();
+
+        $cacheKey = "fresns_plugin_{$fskey}_badge_{$userId}";
+        $cacheTag = 'fresnsUsers';
+
+        CacheHelper::forgetFresnsKey($cacheKey, $cacheTag);
+
+        return $this->success();
+    }
+
+    // clearUserAllBadges
+    public function clearUserAllBadges($wordBody)
+    {
+        $dtoWordBody = new ClearUserAllBadgesDTO($wordBody);
+
+        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $cacheTag = 'fresnsUsers';
+
+        $userBadges = PluginBadge::where('user_id', $userId)->get();
+
+        foreach ($userBadges as $badge) {
+            $fskey = $badge->plugin_fskey;
+
+            $badge->forceDelete();
+
+            $cacheKey = "fresns_plugin_{$fskey}_badge_{$userId}";
+            CacheHelper::forgetFresnsKey($cacheKey, $cacheTag);
+        }
 
         return $this->success();
     }

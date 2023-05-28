@@ -74,6 +74,9 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'setUserExtcredits', 'provider' => [User::class, 'setUserExtcredits']],
         ['word' => 'setUserExpiryDatetime', 'provider' => [User::class, 'setUserExpiryDatetime']],
         ['word' => 'setUserGroupExpiryDatetime', 'provider' => [User::class, 'setUserGroupExpiryDatetime']],
+        ['word' => 'setUserBadge', 'provider' => [User::class, 'setUserBadge']],
+        ['word' => 'clearUserBadge', 'provider' => [User::class, 'clearUserBadge']],
+        ['word' => 'clearUserAllBadges', 'provider' => [User::class, 'clearUserAllBadges']],
 
         // File
         ['word' => 'getUploadToken', 'provider' => [File::class, 'getUploadToken']],
@@ -116,7 +119,7 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'addSubscribeItem', 'provider' => [Subscribe::class, 'addSubscribeItem']],
         ['word' => 'removeSubscribeItem', 'provider' => [Subscribe::class, 'removeSubscribeItem']],
 
-        // Fresns Crontab List
+        // Fresns Crontab
         ['word' => 'checkUserRoleExpired', 'provider' => [Crontab::class, 'checkUserRoleExpired']],
         ['word' => 'checkDeleteAccount', 'provider' => [Crontab::class, 'checkDeleteAccount']],
         ['word' => 'checkExtensionsVersion', 'provider' => [Crontab::class, 'checkExtensionsVersion']],
