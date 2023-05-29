@@ -277,6 +277,13 @@ class GroupService
             throw new ApiException(37103);
         }
 
+        $userRole = PermissionUtility::getUserMainRole($authUserId);
+        $whitelistRoles = $group->permissions['mode_whitelist_roles'] ?? [];
+
+        if ($whitelistRoles && in_array($userRole['rid'], $whitelistRoles)) {
+            return;
+        }
+
         $follow = PrimaryHelper::fresnsFollowModelByType('group', $groupId, $authUserId);
 
         if (empty($follow)) {
