@@ -449,6 +449,17 @@ class ConversationController extends Controller
             ConversationMessage::where('conversation_id', $dtoRequest->conversationId)->where('receive_user_id', $authUser->id)->whereNull('receive_deleted_at')->update([
                 'receive_deleted_at' => now(),
             ]);
+
+            $aUserId = $aConversation?->a_user_id ?? $bConversation?->a_user_id;
+            $bUserId = $aConversation?->b_user_id ?? $bConversation?->b_user_id;
+
+            CacheHelper::forgetFresnsKeys([
+                "fresns_model_conversation_{$aUserId}_{$bUserId}",
+                "fresns_model_conversation_{$bUserId}_{$aUserId}",
+            ], [
+                'fresnsModels',
+                'fresnsUsers',
+            ]);
         } else {
             $idArr = array_filter(explode(',', $dtoRequest->messageIds));
 
