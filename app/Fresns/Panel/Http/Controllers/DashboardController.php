@@ -9,7 +9,6 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\AppHelper;
-use App\Helpers\CacheHelper;
 use App\Helpers\DateHelper;
 use App\Models\Account;
 use App\Models\Comment;
@@ -22,51 +21,16 @@ use App\Models\SessionKey;
 use App\Models\User;
 use App\Utilities\AppUtility;
 use App\Utilities\CommandUtility;
-use Illuminate\Support\Facades\App;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function show()
     {
-        $overview = [
-            'accountCount' => Account::count(),
-            'userCount' => User::count(),
-            'groupCount' => Group::count(),
-            'hashtagCount' => Hashtag::count(),
-            'postCount' => Post::count(),
-            'commentCount' => Comment::count(),
-            'keyCount' => SessionKey::count(),
-            'adminCount' => Account::ofAdmin()->count(),
-        ];
-
-        $cacheKey = 'fresns_news';
-        $cacheTag = 'fresnsSystems';
-
-        $news = CacheHelper::get($cacheKey, $cacheTag);
-
-        if (empty($news)) {
-            try {
-                $newUrl = AppUtility::BASE_URL.'/v2/news.json';
-                $client = new \GuzzleHttp\Client(['verify' => false]);
-                $response = $client->request('GET', $newUrl);
-                $news = json_decode($response->getBody(), true);
-            } catch (\Exception $e) {
-                $news = [];
-            }
-
-            CacheHelper::put($news, $cacheKey, $cacheTag, 5, now()->addHours(3));
-        }
-
-        $newsList = [];
-        if ($news) {
-            $newsData = collect($news)->where('langTag', App::getLocale())->first();
-            $defaultNewsData = collect($news)->where('langTag', config('app.locale'))->first();
-            $newsList = $newsData['news'] ?? $defaultNewsData['news'] ?? [];
-        }
-
         $currentVersion = AppUtility::currentVersion();
-        $newVersion = AppUtility::newVersion();
-        $checkVersion = AppUtility::checkVersion();
+
+        $adminCount = Account::ofAdmin()->count();
+        $keyCount = SessionKey::count();
 
         $plugins = Plugin::all();
         $pluginUpgradeCount = Plugin::where('is_upgrade', 1)->count();
@@ -75,7 +39,23 @@ class DashboardController extends Controller
         $databaseInfo = AppHelper::getDatabaseInfo();
         $timezones = DateHelper::fresnsDatabaseTimezoneNames();
 
-        return view('FsView::dashboard.index', compact('overview', 'pluginUpgradeCount', 'newsList', 'plugins', 'currentVersion', 'newVersion', 'checkVersion', 'systemInfo', 'databaseInfo', 'timezones'));
+        return view('FsView::dashboard.index', compact('currentVersion', 'adminCount', 'keyCount', 'plugins', 'pluginUpgradeCount', 'systemInfo', 'databaseInfo', 'timezones'));
+    }
+
+    public function dashboardData(Request $request)
+    {
+        $data = match ($request->type) {
+            'news' => AppUtility::fresnsNews(),
+            'checkVersion' => AppUtility::checkVersion(),
+            'accountCount' => Account::count(),
+            'userCount' => User::count(),
+            'groupCount' => Group::count(),
+            'hashtagCount' => Hashtag::count(),
+            'postCount' => Post::count(),
+            'commentCount' => Comment::count(),
+        };
+
+        return response()->json($data);
     }
 
     public function composerDiagnose()

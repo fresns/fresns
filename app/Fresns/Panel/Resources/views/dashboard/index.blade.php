@@ -10,9 +10,8 @@
         <h1 class="fs-3 fw-normal">{{ __('FsLang::panel.welcome') }}</h1>
         <p class="text-secondary">
             {{ __('FsLang::panel.current_version') }} v{{$currentVersion['version'] ?? ''}}
-            @if ($checkVersion)
-                <a href="{{ route('panel.upgrades') }}" class="badge rounded-pill bg-danger ms-2 text-decoration-none">{{ __('FsLang::panel.new_version') }}</a>
-            @endif
+
+            <a href="{{ route('panel.upgrades') }}" class="badge rounded-pill bg-danger ms-2 text-decoration-none" id="checkVersion" style="display: none">{{ __('FsLang::panel.new_version') }}</a>
         </p>
     </div>
 
@@ -23,27 +22,27 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <i class="bi bi-person-fill"></i> {{ __('FsLang::panel.overview_accounts') }}
-                    <span class="badge bg-success">{{ $overview['accountCount'] }}</span>
+                    <span class="badge bg-success" id="accountCount">0</span>
                 </li>
                 <li class="list-group-item">
                     <i class="bi bi-people"></i> {{ __('FsLang::panel.overview_users') }}
-                    <span class="badge bg-success">{{ $overview['userCount'] }}</span>
+                    <span class="badge bg-success" id="userCount">0</span>
                 </li>
                 <li class="list-group-item">
                     <i class="bi bi-collection"></i> {{ __('FsLang::panel.overview_groups') }}
-                    <span class="badge bg-success">{{ $overview['groupCount'] }}</span>
+                    <span class="badge bg-success" id="groupCount">0</span>
                 </li>
                 <li class="list-group-item">
                     <i class="bi bi-hash"></i> {{ __('FsLang::panel.overview_hashtags') }}
-                    <span class="badge bg-success">{{ $overview['hashtagCount'] }}</span>
+                    <span class="badge bg-success" id="hashtagCount">0</span>
                 </li>
                 <li class="list-group-item">
                     <i class="bi bi-postcard"></i> {{ __('FsLang::panel.overview_posts') }}
-                    <span class="badge bg-success">{{ $overview['postCount'] }}</span>
+                    <span class="badge bg-success" id="postCount">0</span>
                 </li>
                 <li class="list-group-item">
                     <i class="bi bi-chat-right-dots"></i> {{ __('FsLang::panel.overview_comments') }}
-                    <span class="badge bg-success">{{ $overview['commentCount'] }}</span>
+                    <span class="badge bg-success" id="commentCount">0</span>
                 </li>
             </ul>
         </div>
@@ -53,13 +52,13 @@
                 <li class="list-group-item">
                     <i class="bi bi-person"></i> {{ __('FsLang::panel.sidebar_admins') }}
                     <a href="{{ route('panel.admins.index') }}">
-                        <span class="badge bg-info">{{ $overview['adminCount'] }}</span>
+                        <span class="badge bg-info">{{ $adminCount }}</span>
                     </a>
                 </li>
                 <li class="list-group-item">
                     <i class="bi bi-key"></i> {{ __('FsLang::panel.sidebar_keys') }}
                     <a href="{{ route('panel.keys.index') }}">
-                        <span class="badge bg-info">{{ $overview['keyCount'] }}</span>
+                        <span class="badge bg-info">{{ $keyCount }}</span>
                     </a>
                 </li>
                 <li class="list-group-item">
@@ -186,14 +185,7 @@
             <div class="card mb-4">
                 <div class="card-header">{{ __('FsLang::panel.news') }}</div>
                 <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        @foreach ($newsList as $news)
-                            <li class="list-group-item">
-                                <span class="badge bg-warning text-dark">{{ $news['date'] }}</span>
-                                <a class="fresns-link ms-2" href="{{ $news['link'] }}" target="_blank" {{ 'style=color:'.$news['color'] }}>{{ $news['title'] }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
+                    <ul class="list-group list-group-flush" id="news"></ul>
                 </div>
             </div>
         </div>
@@ -312,5 +304,133 @@
                 },
             });
         });
+
+        // dashboard data
+        fetch('/fresns/dashboard-data?type=accountCount')
+            .then(response => response.json())
+            .then(data => {
+                const accountCountElement = document.getElementById('accountCount');
+
+                if (accountCountElement) {
+                    accountCountElement.innerText = data;
+                }
+            })
+            .catch(error => {
+                console.error('accountCount Error: ', error);
+            });
+
+        fetch('/fresns/dashboard-data?type=userCount')
+            .then(response => response.json())
+            .then(data => {
+                const userCountElement = document.getElementById('userCount');
+
+                if (userCountElement) {
+                    userCountElement.innerText = data;
+                }
+            })
+            .catch(error => {
+                console.error('userCount Error: ', error);
+            });
+
+        fetch('/fresns/dashboard-data?type=groupCount')
+            .then(response => response.json())
+            .then(data => {
+                const groupCountElement = document.getElementById('groupCount');
+
+                if (groupCountElement) {
+                    groupCountElement.innerText = data;
+                }
+            })
+            .catch(error => {
+                console.error('groupCount Error: ', error);
+            });
+
+        fetch('/fresns/dashboard-data?type=hashtagCount')
+            .then(response => response.json())
+            .then(data => {
+                const hashtagCountElement = document.getElementById('hashtagCount');
+
+                if (hashtagCountElement) {
+                    hashtagCountElement.innerText = data;
+                }
+            })
+            .catch(error => {
+                console.error('hashtagCount Error: ', error);
+            });
+
+        fetch('/fresns/dashboard-data?type=postCount')
+            .then(response => response.json())
+            .then(data => {
+                const postCountElement = document.getElementById('postCount');
+
+                if (postCountElement) {
+                    postCountElement.innerText = data;
+                }
+            })
+            .catch(error => {
+                console.error('postCount Error: ', error);
+            });
+
+        fetch('/fresns/dashboard-data?type=commentCount')
+            .then(response => response.json())
+            .then(data => {
+                const commentCountElement = document.getElementById('commentCount');
+
+                if (commentCountElement) {
+                    commentCountElement.innerText = data;
+                }
+            })
+            .catch(error => {
+                console.error('commentCount Error: ', error);
+            });
+
+        fetch('/fresns/dashboard-data?type=checkVersion')
+            .then(response => response.json())
+            .then(data => {
+                const checkVersionElement = document.getElementById('checkVersion');
+
+                if (checkVersionElement && data) {
+                    checkVersionElement.show();
+                }
+            })
+            .catch(error => {
+                console.error('checkVersion Error: ', error);
+            });
+
+        fetch('/fresns/dashboard-data?type=news')
+            .then(response => response.json())
+            .then(data => {
+                // ul
+                const newsList = document.getElementById('news');
+
+                // for
+                data.forEach(newsItem => {
+                    // li
+                    const listItem = document.createElement('li');
+                    listItem.classList.add('list-group-item');
+
+                    // span
+                    const badge = document.createElement('span');
+                    badge.classList.add('badge', 'bg-warning', 'text-dark');
+                    badge.textContent = newsItem.date;
+
+                    // a
+                    const link = document.createElement('a');
+                    link.classList.add('fresns-link', 'ms-2');
+                    link.href = newsItem.link;
+                    link.target = '_blank';
+                    link.textContent = newsItem.title;
+                    link.style.color = newsItem.color;
+
+                    // list
+                    listItem.appendChild(badge);
+                    listItem.appendChild(link);
+
+                    newsList.appendChild(listItem);
+                });
+            })
+            .catch(error => {
+                console.error('checkVersion Error: ', error);
+            });
     </script>
 @endpush

@@ -94,6 +94,7 @@ Route::middleware(['panelAuth'])->group(function () {
 
     // dashboard-home
     Route::get('dashboard', [DashboardController::class, 'show'])->name('dashboard');
+    Route::get('dashboard-data', [DashboardController::class, 'dashboardData'])->name('dashboard.data');
     Route::get('composer/diagnose', [DashboardController::class, 'composerDiagnose'])->name('composer.diagnose');
     Route::get('composer/config', [DashboardController::class, 'composerConfigInfo'])->name('composer.config');
     // dashboard-events

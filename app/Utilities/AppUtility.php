@@ -86,6 +86,37 @@ class AppUtility
         return $newVersion;
     }
 
+    public static function fresnsNews(): array
+    {
+        $cacheKey = 'fresns_news';
+        $cacheTag = 'fresnsSystems';
+
+        $news = CacheHelper::get($cacheKey, $cacheTag);
+
+        if (empty($news)) {
+            try {
+                $newUrl = AppUtility::BASE_URL.'/v2/news.json';
+                $client = new \GuzzleHttp\Client(['verify' => false]);
+                $response = $client->request('GET', $newUrl);
+                $news = json_decode($response->getBody(), true);
+            } catch (\Exception $e) {
+                $news = [];
+            }
+
+            CacheHelper::put($news, $cacheKey, $cacheTag, 5, now()->addHours(3));
+        }
+
+        $newsList = [];
+        if ($news) {
+            $newsData = collect($news)->where('langTag', App::getLocale())->first();
+            $defaultNewsData = collect($news)->where('langTag', config('app.locale'))->first();
+
+            $newsList = $newsData['news'] ?? $defaultNewsData['news'] ?? [];
+        }
+
+        return $newsList;
+    }
+
     public static function writeEnvironment(array $dbConfig, ?string $appUrl = null): void
     {
         // Get the config file template
