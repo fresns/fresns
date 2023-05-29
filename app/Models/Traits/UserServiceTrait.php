@@ -148,12 +148,12 @@ trait UserServiceTrait
         $roles = [];
         foreach ($roleArr as $role) {
             $item['id'] = $role->id;
-            $item['rid'] = $role->roleInfo->id;
-            $item['name'] = $role->roleInfo->getLangName($langTag);
+            $item['rid'] = $role->role_id;
+            $item['name'] = $role->roleInfo?->getLangName($langTag);
             $item['isMain'] = (bool) $role->is_main;
             $item['expiryDateTime'] = $role->expired_at;
             $item['restoreRoleId'] = $role->restore_role_id;
-            $item['restoreRoleName'] = $role?->restoreRole?->getLangName($langTag);
+            $item['restoreRoleName'] = $role->restoreRole?->getLangName($langTag);
 
             $roles[] = $item;
         }
@@ -222,23 +222,23 @@ trait UserServiceTrait
 
         $stats['extcredits1'] = ($statConfig['extcredits1_state'] != 1) ? $statData->extcredits1 : null;
         $stats['extcredits1State'] = $statConfig['extcredits1_state'];
-        $stats['extcredits1Name'] = $statConfig['extcredits1_name'];
+        $stats['extcredits1Name'] = $statConfig['extcredits1_name'] ?? 'extcredits1';
         $stats['extcredits1Unit'] = $statConfig['extcredits1_unit'];
         $stats['extcredits2'] = ($statConfig['extcredits2_state'] != 1) ? $statData->extcredits2 : null;
         $stats['extcredits2State'] = $statConfig['extcredits2_state'];
-        $stats['extcredits2Name'] = $statConfig['extcredits2_name'];
+        $stats['extcredits2Name'] = $statConfig['extcredits2_name'] ?? 'extcredits2';
         $stats['extcredits2Unit'] = $statConfig['extcredits2_unit'];
         $stats['extcredits3'] = ($statConfig['extcredits3_state'] != 1) ? $statData->extcredits3 : null;
         $stats['extcredits3State'] = $statConfig['extcredits3_state'];
-        $stats['extcredits3Name'] = $statConfig['extcredits3_name'];
+        $stats['extcredits3Name'] = $statConfig['extcredits3_name'] ?? 'extcredits3';
         $stats['extcredits3Unit'] = $statConfig['extcredits3_unit'];
         $stats['extcredits4'] = ($statConfig['extcredits4_state'] != 1) ? $statData->extcredits4 : null;
         $stats['extcredits4State'] = $statConfig['extcredits4_state'];
-        $stats['extcredits4Name'] = $statConfig['extcredits4_name'];
+        $stats['extcredits4Name'] = $statConfig['extcredits4_name'] ?? 'extcredits4';
         $stats['extcredits4Unit'] = $statConfig['extcredits4_unit'];
         $stats['extcredits5'] = ($statConfig['extcredits5_state'] != 1) ? $statData->extcredits5 : null;
         $stats['extcredits5State'] = $statConfig['extcredits5_state'];
-        $stats['extcredits5Name'] = $statConfig['extcredits5_name'];
+        $stats['extcredits5Name'] = $statConfig['extcredits5_name'] ?? 'extcredits5';
         $stats['extcredits5Unit'] = $statConfig['extcredits5_unit'];
 
         return $stats;
