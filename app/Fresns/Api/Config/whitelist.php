@@ -11,6 +11,7 @@ return [
     'publicAccount' => [
         'api.global.configs',
         'api.global.code.messages',
+        'api.global.channels',
         'api.global.roles',
         'api.global.content.types',
         'api.global.stickers',
@@ -61,6 +62,7 @@ return [
     'publicUser' => [
         'api.global.configs',
         'api.global.code.messages',
+        'api.global.channels',
         'api.global.roles',
         'api.global.content.types',
         'api.global.stickers',
@@ -118,6 +120,7 @@ return [
     'privateAccount' => [
         'api.global.configs',
         'api.global.code.messages',
+        'api.global.channels',
         'api.common.ip.info',
         'api.common.callback',
         'api.common.send.verify.code',
@@ -130,6 +133,7 @@ return [
     'privateUser' => [
         'api.global.configs',
         'api.global.code.messages',
+        'api.global.channels',
         'api.common.ip.info',
         'api.common.callback',
         'api.common.send.verify.code',
