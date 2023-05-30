@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Helpers\CacheHelper;
 use App\Models\Config;
 use App\Models\SessionKey;
 use Illuminate\Http\Request;
@@ -101,6 +102,8 @@ class WebsiteController extends Controller
             $config->item_value = $request->$configKey;
             $config->save();
         }
+
+        CacheHelper::forgetFresnsConfigs('site_china_mode');
 
         return $this->updateSuccess();
     }

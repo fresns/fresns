@@ -9,6 +9,7 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\AppHelper;
+use App\Helpers\ConfigHelper;
 use App\Models\Config;
 use App\Utilities\AppUtility;
 use Carbon\Carbon;
@@ -97,6 +98,12 @@ class Controller extends BaseController
         }
         if ($langTag == 'zh-Hant') {
             $communityUrl = AppUtility::COMMUNITY_URL.'/zh-Hant';
+        }
+        $isChina = ConfigHelper::fresnsConfigByItemKey('site_china_mode');
+        if ($isChina) {
+            $docsUrl = 'https://docs.fresns.cn';
+            $communityUrl = 'https://discuss.fresns.cn';
+            $marketplaceUrl = 'https://marketplace.fresns.cn';
         }
 
         View::share('siteUrl', $siteUrl);
