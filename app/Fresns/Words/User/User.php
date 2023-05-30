@@ -325,9 +325,9 @@ class User
 
         $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
         $userStat = UserStat::where('user_id', $userId)->first();
-        $extcreditsIdName = 'extcredits'.$dtoWordBody->extcreditsId;
+        $extcreditsId = 'extcredits'.$dtoWordBody->extcreditsId;
 
-        $openingAmount = $userStat->$extcreditsIdName;
+        $openingAmount = $userStat->$extcreditsId;
 
         $checkClosingAmount = static::checkClosingAmount($userStat, $dtoWordBody->extcreditsId);
         if (! $checkClosingAmount) {
@@ -339,7 +339,7 @@ class User
         switch ($dtoWordBody->operation) {
             case 'increment':
                 $type = 1;
-                $operationStat = $userStat->increment($extcreditsIdName, $amount);
+                $operationStat = $userStat->increment($extcreditsId, $amount);
                 $closingAmount = $openingAmount + $amount;
                 break;
 
@@ -348,8 +348,12 @@ class User
                     return $this->failure(21006, 'User value is 0 and cannot be decrement');
                 }
 
+                if ($openingAmount < $amount) {
+                    return $this->failure(21006, 'The user current value is less than the decremented value and cannot be manipulated.');
+                }
+
                 $type = 2;
-                $operationStat = $userStat->decrement($extcreditsIdName, $amount);
+                $operationStat = $userStat->decrement($extcreditsId, $amount);
                 $closingAmount = $openingAmount - $amount;
                 break;
         }
