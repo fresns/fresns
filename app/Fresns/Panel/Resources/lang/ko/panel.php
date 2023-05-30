@@ -358,8 +358,8 @@ return [
     'admin_add_form_account_desc' => '휴대 전화 번호는 국제 지역 코드가 완비되어야합니다',
     'admin_add_form_account_btn' => '검색 및 증가',
     // Dashboard-Settings
-    'setting_developer_mode' => '개발자 모드',
-    'setting_developer_mode_desc' => '개발 환경이 아닌 경우 옵션을 비활성화하지 마십시오.',
+    'setting_developer_options' => '개발자 옵션',
+    'setting_developer_options_desc' => '개발 환경이 아닌 경우 옵션을 비활성화하지 마십시오.',
     'setting_build_type' => '버전 유형',
     'setting_build_type_desc' => '베타 버전은 안정성이 좋지 않으므로 신중하게 선택하십시오.',
     'setting_build_select_tip' => '업그레이드 버전 유형 선택',

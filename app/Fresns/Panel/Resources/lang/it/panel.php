@@ -358,8 +358,8 @@ return [
     'admin_add_form_account_desc' => 'Il numero di telefono del cellulare deve essere un numero intero con il prefisso internazionale',
     'admin_add_form_account_btn' => 'Ricerca e aumento',
     // Dashboard-Settings
-    'setting_developer_mode' => 'Modalità sviluppatore',
-    'setting_developer_mode_desc' => 'Non disattivare le opzioni se non si tratta di un ambiente di sviluppo.',
+    'setting_developer_options' => 'Opzioni per gli sviluppatori',
+    'setting_developer_options_desc' => 'Non disattivare le opzioni se non si tratta di un ambiente di sviluppo.',
     'setting_build_type' => 'Tipo di versione',
     'setting_build_type_desc' => 'La versione beta è meno stabile, quindi scegliete con attenzione.',
     'setting_build_select_tip' => 'Selezionare il tipo di versione di aggiornamento',

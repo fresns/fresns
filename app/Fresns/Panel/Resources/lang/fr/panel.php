@@ -358,8 +358,8 @@ return [
     'admin_add_form_account_desc' => 'Le numéro de téléphone mobile doit être un numéro complet avec l\'indicatif régional international',
     'admin_add_form_account_btn' => 'Recherche et augmentation',
     // Dashboard-Settings
-    'setting_developer_mode' => 'Mode Développeur',
-    'setting_developer_mode_desc' => 'Ne désactivez pas les options s\'il ne s\'agit pas d\'un environnement de développement.',
+    'setting_developer_options' => 'Options pour les développeurs',
+    'setting_developer_options_desc' => 'Ne désactivez pas les options s\'il ne s\'agit pas d\'un environnement de développement.',
     'setting_build_type' => 'Version Type',
     'setting_build_type_desc' => 'La version bêta est moins stable, veuillez donc choisir avec soin.',
     'setting_build_select_tip' => 'Sélectionnez le type de version de mise à niveau',

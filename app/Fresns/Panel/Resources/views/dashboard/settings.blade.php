@@ -59,7 +59,7 @@
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_build_type_desc') }}</div>
         </div>
         <div class="row mb-3">
-            <label for="backend_url" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_developer_mode') }}:</label>
+            <label for="backend_url" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_developer_options') }}:</label>
             <div class="col-lg-6">
                 <div class="input-group mb-2">
                     <span class="input-group-text w-25">API Signature</span>
@@ -88,7 +88,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_developer_mode_desc') }}</div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_developer_options_desc') }}</div>
         </div>
 
         <!--Save-->

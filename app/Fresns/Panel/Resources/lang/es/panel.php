@@ -358,8 +358,8 @@ return [
     'admin_add_form_account_desc' => 'El número de teléfono móvil debe ser un número completo con el código de área internacional',
     'admin_add_form_account_btn' => 'Búsqueda y aumento',
     // Dashboard-Settings
-    'setting_developer_mode' => 'Modo Desarrollador',
-    'setting_developer_mode_desc' => 'No desactive las opciones si no se trata de un entorno de desarrollo.',
+    'setting_developer_options' => 'Opciones de desarrollo',
+    'setting_developer_options_desc' => 'No desactive las opciones si no se trata de un entorno de desarrollo.',
     'setting_build_type' => 'Tipo de versión',
     'setting_build_type_desc' => 'La versión beta es menos estable, así que elige con cuidado.',
     'setting_build_select_tip' => 'Seleccione el tipo de versión de actualización',
