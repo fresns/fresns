@@ -22,7 +22,7 @@
         </div>
 
         <div class="text-center">
-            <p class="my-5 text-muted">&copy; 2021-2023 Fresns</p>
+            <p class="my-5 text-muted">&copy; <span class="copyright-year"></span> Fresns</p>
         </div>
     </main>
 @endsection
