@@ -52,7 +52,7 @@
                         </td>
                         <td>{{ $panel->description }}</td>
                         <td><a href="{{ $panel->author_link }}" target="_blank" class="link-info fresns-link fs-7">{{ $panel->author }}</a></td>
-                        <td>
+                        <td {!! App::getLocale() == 'en' ? 'style="width:200px"' : '' !!}>
                             @if ($panel->is_enabled)
                                 <button type="button" class="btn btn-outline-secondary btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['plugin' => $panel->fskey]) }}" data-enable="0">{{ __('FsLang::panel.button_deactivate') }}</button>
                                 @if ($panel->settings_path)
