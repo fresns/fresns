@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.14.0 (2023-05-30)
+
+### Added
+- API: Added channels interface `/api/v2/global/channels`
+- Panel: Added channels config
+- Data: Last activity time field `users->last_activity_at`
+- Words: Add command word `setUserBadge`.
+- Words: Add command word `clearUserBadge`
+- Words: Add command word `clearUserAllBadges`
+
+### Fixes
+- API: Cache filtering issue for quoted posts
+- API: Conversation model cache not cleared after deleting conversation messages
+- API: Role whitelist not working when viewing posts in a panel
+- Panel: Panel cover image editing style issue
+
+### BREAKING CHANGES
+- Panel: Dashboard data loaded asynchronously
+
+
 ## 2.13.2 (2023-05-23)
 
 ### Fixes
