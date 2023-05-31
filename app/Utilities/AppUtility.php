@@ -54,11 +54,14 @@ class AppUtility
     {
         $cacheKey = 'fresns_new_version';
         $cacheTag = 'fresnsSystems';
+
         $newVersion = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($newVersion)) {
+            $baseUrl = AppUtility::BASE_URL;
+
             try {
-                $versionInfoUrl = AppUtility::BASE_URL.'/v2/version.json';
+                $versionInfoUrl = $baseUrl.'/v2/version.json';
                 $client = new \GuzzleHttp\Client(['verify' => false]);
                 $response = $client->request('GET', $versionInfoUrl);
                 $versionInfo = json_decode($response->getBody(), true);
@@ -94,8 +97,10 @@ class AppUtility
         $news = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($news)) {
+            $baseUrl = AppUtility::BASE_URL;
+
             try {
-                $newUrl = AppUtility::BASE_URL.'/v2/news.json';
+                $newUrl = $baseUrl.'/v2/news.json';
                 $client = new \GuzzleHttp\Client(['verify' => false]);
                 $response = $client->request('GET', $newUrl);
                 $news = json_decode($response->getBody(), true);
@@ -302,12 +307,10 @@ class AppUtility
 
     public static function macroMarketHeaders(): void
     {
-        Http::macro('market', function () {
-            return Http::withHeaders(
-                AppUtility::getMarketHeaders()
-            )->baseUrl(
-                AppUtility::MARKETPLACE_URL
-            );
+        $marketplaceUrl = AppUtility::MARKETPLACE_URL;
+
+        Http::macro('market', function () use ($marketplaceUrl) {
+            return Http::withHeaders(AppUtility::getMarketHeaders())->baseUrl($marketplaceUrl);
         });
     }
 
