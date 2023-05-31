@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 - API: Added channels interface `/api/v2/global/channels`
 - Panel: Added channels config
 - Data: Last activity time field `users->last_activity_at`
-- Words: Add command word `setUserBadge`.
+- Words: Add command word `setUserBadge`
 - Words: Add command word `clearUserBadge`
 - Words: Add command word `clearUserAllBadges`
 
