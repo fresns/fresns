@@ -16,7 +16,7 @@ class DisconnectAccountConnectDTO extends DTO
     {
         return [
             'aid' => ['string', 'required', 'exists:App\Models\Account,aid'],
-            'connectId' => ['integer', 'required'],
+            'connectPlatformId' => ['integer', 'required'],
         ];
     }
 }

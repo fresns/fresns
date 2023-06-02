@@ -49,12 +49,12 @@ trait AccountServiceTrait
 
         $connectsItemArr = [];
         foreach ($connectsArr as $connect) {
-            if ($connect->connect_id == AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM) {
+            if ($connect->connect_platform_id == AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM) {
                 continue;
             }
 
             // connect key
-            $connectKey = array_search($connect->connect_id, array_column($connects, 'id'));
+            $connectKey = array_search($connect->connect_platform_id, array_column($connects, 'id'));
 
             $connectName = null;
             if ($connectKey) {
@@ -68,7 +68,7 @@ trait AccountServiceTrait
                 foreach ($connectServices as $service) {
                     $code = (int) $service['code'];
 
-                    if ($code != $connect->connect_id) {
+                    if ($code != $connect->connect_platform_id) {
                         continue;
                     }
 
@@ -78,7 +78,7 @@ trait AccountServiceTrait
                 $pluginUrl = PluginHelper::fresnsPluginUrlByFskey($fskey);
             }
 
-            $item['connectId'] = $connect->connect_id;
+            $item['connectPlatformId'] = $connect->connect_platform_id;
             $item['connectName'] = $connectName;
             $item['connected'] = true;
             $item['service'] = $pluginUrl;
@@ -90,28 +90,28 @@ trait AccountServiceTrait
             $connectsItemArr[] = $item;
         }
 
-        $connectIdArr = $connectsArr->pluck('connect_id')->toArray();
+        $connectPlatformIdArr = $connectsArr->pluck('connect_platform_id')->toArray();
 
         foreach ($connectServices as $service) {
-            $connectId = (int) $service['code'];
+            $connectPlatformId = (int) $service['code'];
 
-            if ($connectId == AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM) {
+            if ($connectPlatformId == AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM) {
                 continue;
             }
 
-            if (in_array($connectId, $connectIdArr)) {
+            if (in_array($connectPlatformId, $connectPlatformIdArr)) {
                 continue;
             }
 
             // connect key
-            $connectKey = array_search($connectId, array_column($connects, 'id'));
+            $connectKey = array_search($connectPlatformId, array_column($connects, 'id'));
 
             $connectName = null;
             if ($connectKey) {
                 $connectName = $connects[$connectKey]['name'];
             }
 
-            $item['connectId'] = $connectId;
+            $item['connectPlatformId'] = $connectPlatformId;
             $item['connectName'] = $connectName;
             $item['connected'] = false;
             $item['service'] = PluginHelper::fresnsPluginUrlByFskey($service['fskey']) ?? $service['fskey'];

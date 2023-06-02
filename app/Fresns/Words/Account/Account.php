@@ -54,20 +54,20 @@ class Account
                 // connect
                 $checkAccount = null;
 
-                $connectIdArr = [];
-                $connectTokenArr = [];
+                $connectPlatformIdArr = [];
+                $connectAccountIdArr = [];
                 foreach ($dtoWordBody->connectInfo as $connect) {
-                    if (empty($connect['connectId']) || empty($connect['connectToken'])) {
+                    if (empty($connect['connectPlatformId']) || empty($connect['connectAccountId'])) {
                         continue;
                     }
 
-                    $connectIdArr[] = $connect['connectId'];
-                    $connectTokenArr[] = $connect['connectToken'];
+                    $connectPlatformIdArr[] = $connect['connectPlatformId'];
+                    $connectAccountIdArr[] = $connect['connectAccountId'];
                 }
 
                 $count = 0;
-                if ($connectTokenArr) {
-                    $count = AccountConnect::whereIn('connect_id', $connectIdArr)->whereIn('connect_token', $connectTokenArr)->count();
+                if ($connectAccountIdArr) {
+                    $count = AccountConnect::whereIn('connect_platform_id', $connectPlatformIdArr)->whereIn('connect_account_id', $connectAccountIdArr)->count();
                 }
 
                 if ($count > 0) {
@@ -118,13 +118,14 @@ class Account
         // Account Connects Table
         if ($dtoWordBody->connectInfo) {
             foreach ($dtoWordBody->connectInfo as $info) {
-                if (empty($info['connectId']) || empty($info['connectToken']) || empty($info['pluginFskey'])) {
+                if (empty($info['connectPlatformId']) || empty($info['connectAccountId']) || empty($info['pluginFskey'])) {
                     continue;
                 }
 
                 AccountConnect::create([
                     'account_id' => $accountModel->id,
-                    'connect_id' => $info['connectId'],
+                    'connect_platform_id' => $info['connectPlatformId'],
+                    'connect_account_id' => $info['connectAccountId'],
                     'connect_token' => $info['connectToken'],
                     'connect_refresh_token' => $info['connectRefreshToken'] ?? null,
                     'connect_username' => $info['connectUsername'] ?? null,
@@ -192,7 +193,7 @@ class Account
                 break;
 
             case AccountModel::ACT_TYPE_CONNECT:
-                $accountConnect = AccountConnect::with(['account'])->where('connect_id', $dtoWordBody->connectId)->where('connect_token', $dtoWordBody->connectToken)->first();
+                $accountConnect = AccountConnect::with(['account'])->where('connect_platform_id', $dtoWordBody->connectPlatformId)->where('connect_account_id', $dtoWordBody->connectAccountId)->first();
                 if (empty($accountConnect)) {
                     return $this->failure(
                         34301,
@@ -269,8 +270,8 @@ class Account
 
         $accountConnect = AccountConnect::withTrashed()
             ->with(['account'])
-            ->where('connect_id', $dtoWordBody->connectId)
-            ->where('connect_token', $dtoWordBody->connectToken)
+            ->where('connect_platform_id', $dtoWordBody->connectPlatformId)
+            ->where('connect_account_id', $dtoWordBody->connectAccountId)
             ->first();
 
         $account = $accountConnect?->account;
@@ -290,10 +291,11 @@ class Account
             $accountModel = AccountModel::where('aid', $dtoWordBody->aid)->first();
 
             AccountConnect::withTrashed()->updateOrCreate([
-                'connect_id' => $dtoWordBody->connectId,
-                'connect_token' => $dtoWordBody->connectToken,
+                'connect_platform_id' => $dtoWordBody->connectPlatformId,
+                'connect_account_id' => $dtoWordBody->connectAccountId,
             ], [
                 'account_id' => $accountModel->id,
+                'connect_token' => $dtoWordBody->connectToken,
                 'connect_refresh_token' => $dtoWordBody->connectRefreshToken,
                 'refresh_token_expired_at' => $dtoWordBody->refreshTokenExpiredDatetime,
                 'connect_username' => $dtoWordBody->connectUsername,
@@ -338,8 +340,8 @@ class Account
 
         $connectArr = AccountConnect::withTrashed()
             ->where('account_id', $accountModel->id)
-            ->where('connect_id', $dtoWordBody->connectId)
-            ->where('connect_id', '!=', AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM)
+            ->where('connect_platform_id', $dtoWordBody->connectPlatformId)
+            ->where('connect_platform_id', '!=', AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM)
             ->get();
 
         if ($connectArr->count() == 1 && empty($accountModel->email) && empty($accountModel->phone)) {
@@ -360,8 +362,8 @@ class Account
             AccountConnect::CONNECT_WECHAT_WEBSITE_APPLICATION,
         ];
 
-        if (in_array($dtoWordBody->connectId, $wechatArr)) {
-            $connects = AccountConnect::where('account_id', $accountModel->id)->whereIn('connect_id', [
+        if (in_array($dtoWordBody->connectPlatformId, $wechatArr)) {
+            $connects = AccountConnect::where('account_id', $accountModel->id)->whereIn('connect_platform_id', [
                 AccountConnect::CONNECT_WECHAT_OFFICIAL_ACCOUNT,
                 AccountConnect::CONNECT_WECHAT_MINI_PROGRAM,
                 AccountConnect::CONNECT_WECHAT_WEBSITE_APPLICATION,
@@ -372,7 +374,7 @@ class Account
             if ($connects->isEmpty()) {
                 AccountConnect::withTrashed()
                     ->where('account_id', $accountModel->id)
-                    ->where('connect_id', AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM)
+                    ->where('connect_platform_id', AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM)
                     ->forceDelete();
             }
         }

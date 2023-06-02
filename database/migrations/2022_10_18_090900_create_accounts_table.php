@@ -47,8 +47,9 @@ class CreateAccountsTable extends Migration
         Schema::create('account_connects', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('account_id');
-            $table->unsignedTinyInteger('connect_id');
-            $table->string('connect_token', 128);
+            $table->unsignedTinyInteger('connect_platform_id');
+            $table->string('connect_account_id', 128);
+            $table->string('connect_token', 128)->nullable();
             $table->string('connect_refresh_token', 128)->nullable();
             $table->string('connect_username', 128)->nullable();
             $table->string('connect_nickname', 128)->nullable();
@@ -72,7 +73,7 @@ class CreateAccountsTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
-            $table->unique(['connect_id', 'connect_token'], 'connect_id_token');
+            $table->unique(['connect_platform_id', 'connect_account_id'], 'connect_id');
         });
 
         Schema::create('account_wallets', function (Blueprint $table) {

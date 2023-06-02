@@ -870,10 +870,10 @@ class AccountController extends Controller
             $authAccount->save();
         }
 
-        if ($dtoRequest->disconnectConnectId) {
+        if ($dtoRequest->disconnectPlatformId) {
             $wordBody = [
                 'aid' => $authAccount->aid,
-                'connectId' => $dtoRequest->disconnectConnectId,
+                'connectPlatformId' => $dtoRequest->disconnectPlatformId,
             ];
 
             $disconnectResp = \FresnsCmdWord::plugin('Fresns')->disconnectAccountConnect($wordBody);
