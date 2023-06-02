@@ -14,7 +14,9 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 var yearElement = document.querySelector('.copyright-year');
 var currentDate = new Date();
 var currentYear = currentDate.getFullYear();
-yearElement.textContent = currentYear;
+if (yearElement) {
+    yearElement.textContent = currentYear;   
+}
 
 /* Fresns Token */
 $.ajaxSetup({
