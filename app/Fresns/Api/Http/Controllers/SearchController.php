@@ -31,7 +31,7 @@ class SearchController extends Controller
         if ($searchService) {
             $wordBody = [
                 'headers' => AppHelper::getHeaders(),
-                'body' => request()->all(),
+                'body' => $request->all(),
             ];
 
             $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchUsers($wordBody);
@@ -56,7 +56,7 @@ class SearchController extends Controller
         if ($searchService) {
             $wordBody = [
                 'headers' => AppHelper::getHeaders(),
-                'body' => request()->all(),
+                'body' => $request->all(),
             ];
 
             $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchGroups($wordBody);
@@ -81,7 +81,7 @@ class SearchController extends Controller
         if ($searchService) {
             $wordBody = [
                 'headers' => AppHelper::getHeaders(),
-                'body' => request()->all(),
+                'body' => $request->all(),
             ];
 
             $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchHashtags($wordBody);
@@ -106,7 +106,7 @@ class SearchController extends Controller
         if ($searchService) {
             $wordBody = [
                 'headers' => AppHelper::getHeaders(),
-                'body' => request()->all(),
+                'body' => $request->all(),
             ];
 
             $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchPosts($wordBody);
@@ -131,7 +131,7 @@ class SearchController extends Controller
         if ($searchService) {
             $wordBody = [
                 'headers' => AppHelper::getHeaders(),
-                'body' => request()->all(),
+                'body' => $request->all(),
             ];
 
             $fresnsResp = \FresnsCmdWord::plugin($searchService)->searchComments($wordBody);

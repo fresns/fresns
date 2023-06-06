@@ -51,7 +51,7 @@ class PostController extends Controller
         if ($dataPluginFskey) {
             $wordBody = [
                 'headers' => AppHelper::getHeaders(),
-                'body' => request()->all(),
+                'body' => $request->all(),
             ];
 
             $fresnsResp = \FresnsCmdWord::plugin($dataPluginFskey)->getPostByAll($wordBody);
@@ -413,7 +413,7 @@ class PostController extends Controller
         if ($dataPluginFskey) {
             $wordBody = [
                 'headers' => AppHelper::getHeaders(),
-                'body' => request()->all(),
+                'body' => $request->all(),
                 'fsid' => $pid,
             ];
 
@@ -715,7 +715,7 @@ class PostController extends Controller
         if ($dataPluginFskey) {
             $wordBody = [
                 'headers' => AppHelper::getHeaders(),
-                'body' => request()->all(),
+                'body' => $request->all(),
                 'type' => $type,
             ];
 
@@ -777,7 +777,7 @@ class PostController extends Controller
         if ($dataPluginFskey) {
             $wordBody = [
                 'headers' => AppHelper::getHeaders(),
-                'body' => request()->all(),
+                'body' => $request->all(),
             ];
 
             $fresnsResp = \FresnsCmdWord::plugin($dataPluginFskey)->getPostByNearby($wordBody);

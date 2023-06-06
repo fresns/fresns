@@ -50,7 +50,7 @@ class CommentController extends Controller
         if ($dataPluginFskey) {
             $wordBody = [
                 'headers' => AppHelper::getHeaders(),
-                'body' => request()->all(),
+                'body' => $request->all(),
             ];
 
             $fresnsResp = \FresnsCmdWord::plugin($dataPluginFskey)->getCommentByAll($wordBody);
@@ -480,7 +480,7 @@ class CommentController extends Controller
         if ($dataPluginFskey) {
             $wordBody = [
                 'headers' => AppHelper::getHeaders(),
-                'body' => request()->all(),
+                'body' => $request->all(),
                 'fsid' => $cid,
             ];
 
@@ -684,7 +684,7 @@ class CommentController extends Controller
         if ($dataPluginFskey) {
             $wordBody = [
                 'headers' => AppHelper::getHeaders(),
-                'body' => request()->all(),
+                'body' => $request->all(),
                 'type' => $type,
             ];
 
@@ -771,7 +771,7 @@ class CommentController extends Controller
         if ($dataPluginFskey) {
             $wordBody = [
                 'headers' => AppHelper::getHeaders(),
-                'body' => request()->all(),
+                'body' => $request->all(),
             ];
 
             $fresnsResp = \FresnsCmdWord::plugin($dataPluginFskey)->getCommentByNearby($wordBody);
