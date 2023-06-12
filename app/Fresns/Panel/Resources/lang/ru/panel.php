@@ -1094,10 +1094,6 @@ return [
     'key_option_plugin_api_select_desc' => 'Этот ключ может запросить только API соответствующего плагина',
     // App-Center-Install
     'install_application' => 'Установить приложение',
-    'install_type' => 'Тип установки',
-    'install_type_desc' => 'Плагины, панели, движки, все они относятся к приложениям',
-    'install_type_application' => 'Приложение',
-    'install_type_theme' => 'Тематический шаблон',
     'install_mode' => 'Режим установки',
     'install_mode_input' => 'Ввод ключа Fresns',
     'install_mode_upload' => 'Загрузить Zip-пакет',

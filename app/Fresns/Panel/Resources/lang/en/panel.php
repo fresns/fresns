@@ -1094,10 +1094,6 @@ return [
     'key_option_plugin_api_select_desc' => 'This key can only request the API of the associated plugin',
     // App-Center-Install
     'install_application' => 'Install App',
-    'install_type' => 'Install Type',
-    'install_type_desc' => 'Plugins, Panels, Engines, All belong to applications',
-    'install_type_application' => 'Application',
-    'install_type_theme' => 'Theme Template',
     'install_mode' => 'Install Mode',
     'install_mode_input' => 'Input Fresns Key',
     'install_mode_upload' => 'Upload Zip Package',

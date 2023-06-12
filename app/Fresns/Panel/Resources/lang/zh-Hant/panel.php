@@ -1095,10 +1095,6 @@ return [
     'key_option_plugin_api_select_desc' => '該密鑰僅能請求關聯外掛的 API',
     // App-Center-Install
     'install_application' => '安裝應用',
-    'install_type' => '安裝類型',
-    'install_type_desc' => '擴充外掛、控制面板、網站引擎，都屬於應用程序',
-    'install_type_application' => '應用程序',
-    'install_type_theme' => '主題模板',
     'install_mode' => '安裝方式',
     'install_mode_input' => '輸入 key',
     'install_mode_upload' => '上傳 zip',

@@ -1094,10 +1094,6 @@ return [
     'key_option_plugin_api_select_desc' => 'このキーは、関連するプラグインのAPIのみを要求できます。',
     // App-Center-Install
     'install_application' => 'インストールアプリ',
-    'install_type' => 'インストールタイプ',
-    'install_type_desc' => 'プラグイン、パネル、エンジン、すべてアプリケーションに属します。',
-    'install_type_application' => 'アプリケーション',
-    'install_type_theme' => 'テーマテンプレート',
     'install_mode' => 'インストールモード',
     'install_mode_input' => 'Fresnsキーの入力',
     'install_mode_upload' => 'Zipパッケージのアップロード',

@@ -1094,10 +1094,6 @@ return [
     'key_option_plugin_api_select_desc' => 'यह कुंजी केवल संबंधित प्लगइन के एपीआई का अनुरोध कर सकती है',
     // App-Center-Install
     'install_application' => 'एप्लिकेशन इंस्टॉल करें',
-    'install_type' => 'प्रकार स्थापित करें',
-    'install_type_desc' => 'प्लगइन्स, पैनल, इंजन, सभी एप्लिकेशन से संबंधित हैं',
-    'install_type_application' => 'आवेदन पत्र',
-    'install_type_theme' => 'थीम टेम्पलेट',
     'install_mode' => 'मोड स्थापित करें',
     'install_mode_input' => 'इनपुट Fresns कुंजी',
     'install_mode_upload' => 'ज़िप पैकेज अपलोड करें',

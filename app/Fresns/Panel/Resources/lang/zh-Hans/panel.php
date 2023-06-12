@@ -1095,10 +1095,6 @@ return [
     'key_option_plugin_api_select_desc' => '该密钥仅能请求关联插件的 API',
     // App-Center-Install
     'install_application' => '安装应用',
-    'install_type' => '安装类型',
-    'install_type_desc' => '扩展插件、控制面板、网站引擎，都属于应用程序',
-    'install_type_application' => '应用程序',
-    'install_type_theme' => '主题模板',
     'install_mode' => '安装方式',
     'install_mode_input' => '输入标识名',
     'install_mode_upload' => '上传安装包',

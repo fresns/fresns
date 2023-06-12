@@ -1094,10 +1094,6 @@ return [
     'key_option_plugin_api_select_desc' => 'Kunci ini hanya dapat meminta API dari plugin terkait',
     // App-Center-Install
     'install_application' => 'Instal aplikasi',
-    'install_type' => 'Menginstal Jenis',
-    'install_type_desc' => 'Plugin, Panel, Mesin, Semua milik aplikasi',
-    'install_type_application' => 'Aplikasi',
-    'install_type_theme' => 'Template Tema',
     'install_mode' => 'Instal Mode',
     'install_mode_input' => 'Masukkan Kunci Fresns',
     'install_mode_upload' => 'Unggah Paket Zip',

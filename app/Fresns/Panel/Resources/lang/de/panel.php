@@ -1094,10 +1094,6 @@ return [
     'key_option_plugin_api_select_desc' => 'Dieser Schlüssel kann nur die API des zugehörigen Plugins anfordern',
     // App-Center-Install
     'install_application' => 'App installieren',
-    'install_type' => 'Typ installieren',
-    'install_type_desc' => 'Plugins, Panels, Engines, alle gehören zu Anwendungen',
-    'install_type_application' => 'Anwendung',
-    'install_type_theme' => 'Thema Vorlage',
     'install_mode' => 'Installieren Modus',
     'install_mode_input' => 'Fresns-Schlüssel eingeben',
     'install_mode_upload' => 'Zip-Paket hochladen',

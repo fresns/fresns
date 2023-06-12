@@ -1094,10 +1094,6 @@ return [
     'key_option_plugin_api_select_desc' => 'Esta clave solo puede solicitar la API del complemento asociado',
     // App-Center-Install
     'install_application' => 'Instalar la aplicación',
-    'install_type' => 'Tipo de instalación',
-    'install_type_desc' => 'Plugins, Paneles, Motores, Todo pertenece a las aplicaciones',
-    'install_type_application' => 'Aplicación',
-    'install_type_theme' => 'Plantilla del tema',
     'install_mode' => 'Modo de instalación',
     'install_mode_input' => 'Introducir la clave de Fresns',
     'install_mode_upload' => 'Subir el paquete Zip',

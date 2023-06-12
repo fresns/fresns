@@ -1094,10 +1094,6 @@ return [
     'key_option_plugin_api_select_desc' => '이 키는 연관된 플러그인의 API 만 요청할 수 있습니다',
     // App-Center-Install
     'install_application' => '앱 설치',
-    'install_type' => '설치 유형',
-    'install_type_desc' => '플러그인, 패널, 엔진, 모두 애플리케이션에 속합니다.',
-    'install_type_application' => '신청',
-    'install_type_theme' => '테마 템플릿',
     'install_mode' => '설치 모드',
     'install_mode_input' => '입력 Fresns 키',
     'install_mode_upload' => 'Zip 패키지 업로드',
