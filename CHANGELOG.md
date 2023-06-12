@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.15.0 (2023-06-12)
+
+### Fixes
+- Panel: Issue with output information view of installed plugin
+- API: Fix `body` being empty when interface requests data from plugin
+
+### BREAKING CHANGES
+- Data: `account_connects` account connection table field adjustment
+    - Field `connect_id` changed to `connect_platform_id`
+    - Field `connect_token` changed to `connect_account_id`, e.g. github id
+    - Use of field `connect_token` changed to the request token for the credential platform, e.g. github token
+- Words: Credential related command words will be adjusted
+    - The `createAccount` command word modifies the `connectInfo` array parameter
+    - The `setAccountConnect` command modifies the `connectId` and `connectToken` parameters
+    - The `disconnectAccountConnect` command word changes the `connectId` parameter to `connectPlatformId`
+    - Please read the official documentation for the new implementation of these changes
+- Panel: Reconfigure the way extensions are installed, users do not need to select plugins or themes, the program will decide by itself
+- Panel: Support one-click installation of extensions, no need for users to copy anything
+
+
 ## 2.14.0 (2023-05-30)
 
 ### Added
