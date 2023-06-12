@@ -193,7 +193,7 @@ class ExtensionController extends Controller
                 }
 
                 // plugin-manager or theme-manager
-                $exitCode = Artisan::call("market:require", [
+                $exitCode = Artisan::call('market:require', [
                     'fskey' => $pluginDirectory,
                     '--install_type' => 'local',
                 ]);
@@ -217,7 +217,7 @@ class ExtensionController extends Controller
                 }
 
                 // plugin-manager or theme-manager
-                $exitCode = Artisan::call("market:require", [
+                $exitCode = Artisan::call('market:require', [
                     'fskey' => $pluginZipball,
                     '--install_type' => 'local',
                 ]);
