@@ -15,7 +15,7 @@ var yearElement = document.querySelector('.copyright-year');
 var currentDate = new Date();
 var currentYear = currentDate.getFullYear();
 if (yearElement) {
-    yearElement.textContent = currentYear;   
+    yearElement.textContent = currentYear;
 }
 
 /* Fresns Token */
@@ -2397,3 +2397,56 @@ $(document).ready(function () {
         })
     });
 });
+
+// fresns extensions callback
+window.onmessage = function (event) {
+    let fresnsCallback;
+
+    try {
+        fresnsCallback = JSON.parse(event.data);
+    } catch (error) {
+        return;
+    }
+
+    console.log('fresnsCallback', fresnsCallback);
+
+    if (!fresnsCallback) {
+        return;
+    }
+
+    if (fresnsCallback.code != 0) {
+        if (fresnsCallback.message) {
+            window.tips(fresnsCallback.message, fresnsCallback.code);
+        }
+        return;
+    }
+
+    switch (fresnsCallback.action.postMessageKey) {
+        case 'fresnsInstallExtension':
+            // (new bootstrap.Modal('#installModal')).show();
+
+            setTimeout(function () {
+                console.log("Install Extension ", fresnsCallback.data.fskey)
+
+                $('.showSelectTypeName').text($('#installModal .selectInputType li[data-name="inputDirectory"]').text())
+                $('input[name="install_method"]').val('inputFskey')
+                $('input[name="plugin_fskey"]').val(fresnsCallback.data.fskey)
+
+                $('input[name="plugin_fskey"]').css('display', 'block').siblings('input').css('display', 'none')
+                $('input[name="plugin_fskey"]').attr('required', true).siblings('input').attr('required', false)
+
+                $('#installSubmit').click()
+            }, 1000);
+            break;
+    }
+
+    if (fresnsCallback.action.windowClose) {
+        $('#fresnsModal').modal('hide');
+    }
+
+    if (fresnsCallback.action.redirectUrl) {
+        window.location.href = fresnsCallback.action.redirectUrl;
+    }
+
+    console.log('fresnsCallback end');
+};

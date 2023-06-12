@@ -175,6 +175,7 @@ class ExtensionController extends Controller
                 // market-manager
                 $exitCode = Artisan::call('market:require', [
                     'fskey' => $pluginFskey,
+                    '--install_type' => 'market',
                 ]);
                 $output = Artisan::output();
                 break;
@@ -192,9 +193,9 @@ class ExtensionController extends Controller
                 }
 
                 // plugin-manager or theme-manager
-                $exitCode = Artisan::call("{$installType}:install", [
-                    'path' => $pluginDirectory,
-                    '--is_dir' => true,
+                $exitCode = Artisan::call("market:require", [
+                    'fskey' => $pluginDirectory,
+                    '--install_type' => 'local',
                 ]);
                 $output = Artisan::output();
                 break;
@@ -216,8 +217,9 @@ class ExtensionController extends Controller
                 }
 
                 // plugin-manager or theme-manager
-                $exitCode = Artisan::call("{$installType}:install", [
-                    'path' => $pluginZipball,
+                $exitCode = Artisan::call("market:require", [
+                    'fskey' => $pluginZipball,
+                    '--install_type' => 'local',
                 ]);
                 $output = Artisan::output();
                 break;
@@ -237,16 +239,12 @@ class ExtensionController extends Controller
     public function upgrade(Request $request)
     {
         $fskey = $request->get('fskey');
-        $packageType = match ($request->get('type')) {
-            default => 'plugin',
-            4 => 'theme',
-        };
+
         $installType = $request->get('install_type', 'market');
 
         // market-manager
         $code = Artisan::call('market:upgrade', [
             'fskey' => $fskey,
-            'package_type' => $packageType,
             '--install_type' => $installType,
         ]);
 
