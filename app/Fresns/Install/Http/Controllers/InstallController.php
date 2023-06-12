@@ -343,7 +343,6 @@ class InstallController extends Controller
     protected function functionCheck()
     {
         $functions = [
-            'putenv', // laravel framework .env
             'symlink', // storage:link
             'proc_open', // symfony/process
             'shell_exec', // symfony/console
