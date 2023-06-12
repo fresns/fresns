@@ -251,8 +251,6 @@ class UpgradeFresns extends Command
         CacheHelper::clearConfigCache('fresnsEvent');
         CacheHelper::clearConfigCache('fresnsSchedule');
 
-        $this->call('storage:link', ['--force' => true]);
-
         if ($this->path) {
             $file = new Filesystem;
             $file->cleanDirectory('storage/app/'.$this->path);
