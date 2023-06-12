@@ -671,7 +671,7 @@ class CommonController extends Controller
         }
 
         // check permission
-        if ($dtoRequest->type == 'post' && ! $model?->postAppend?->is_read_locked) {
+        if ($dtoRequest->type == 'post' && $model?->postAppend?->is_read_locked) {
             $checkPostAuth = PermissionUtility::checkPostAuth($model->id, $authUserId);
 
             if (! $checkPostAuth) {
