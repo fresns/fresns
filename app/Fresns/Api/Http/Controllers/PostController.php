@@ -210,7 +210,7 @@ class PostController extends Controller
         }
 
         if ($dtoRequest->allDigest) {
-            $postQuery->whereIn('digest_state', [Post::DIGEST_GENERAL, Post::DIGEST_BEST]);
+            $postQuery->whereIn('digest_state', [Post::DIGEST_GENERAL, Post::DIGEST_PREMIUM]);
         } else {
             $postQuery->when($dtoRequest->digestState, function ($query, $value) {
                 $query->where('digest_state', $value);
@@ -628,7 +628,7 @@ class PostController extends Controller
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
 
-        $postLogs = PostLog::with(['parentPost', 'group', 'author'])->where('post_id', $post->id)->where('state', 3)->latest()->paginate($dtoRequest->pageSize ?? 15);
+        $postLogs = PostLog::with(['parentPost', 'group', 'author'])->where('post_id', $post->id)->where('state', PostLog::STATE_SUCCESS)->latest()->paginate($dtoRequest->pageSize ?? 15);
 
         $postLogList = [];
         $service = new PostService();
@@ -658,7 +658,7 @@ class PostController extends Controller
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
 
-        $log = PostLog::with(['parentPost', 'group', 'author'])->where('post_id', $post->id)->where('id', $logId)->where('state', 3)->first();
+        $log = PostLog::with(['parentPost', 'group', 'author'])->where('post_id', $post->id)->where('id', $logId)->where('state', PostLog::STATE_SUCCESS)->first();
 
         if (empty($log)) {
             throw new ApiException(37302);

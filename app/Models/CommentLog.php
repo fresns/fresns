@@ -10,6 +10,11 @@ namespace App\Models;
 
 class CommentLog extends Model
 {
+    const STATE_DRAFT = 1;
+    const STATE_UNDER_REVIEW = 2;
+    const STATE_SUCCESS = 3;
+    const STATE_FAILURE = 4;
+
     protected $casts = [
         'map_json' => 'json',
     ];

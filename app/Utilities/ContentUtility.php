@@ -1023,7 +1023,7 @@ class ContentUtility
 
         $postLog->update([
             'post_id' => $post->id,
-            'state' => 3,
+            'state' => PostLog::STATE_SUCCESS,
         ]);
 
         $author = PrimaryHelper::fresnsModelById('user', $post->user_id);
@@ -1109,7 +1109,7 @@ class ContentUtility
 
         $commentLog->update([
             'comment_id' => $comment->id,
-            'state' => 3,
+            'state' => CommentLog::STATE_SUCCESS,
         ]);
 
         $author = PrimaryHelper::fresnsModelById('user', $comment->user_id);
@@ -1240,7 +1240,7 @@ class ContentUtility
     // generate post draft
     public static function generatePostDraft(Post $post): PostLog
     {
-        $postLog = PostLog::where('post_id', $post->id)->whereIn('state', [1, 2, 4])->first();
+        $postLog = PostLog::where('post_id', $post->id)->whereIn('state', [PostLog::STATE_DRAFT, PostLog::STATE_UNDER_REVIEW, PostLog::STATE_FAILURE])->first();
         if ($postLog) {
             return $postLog;
         }
@@ -1322,7 +1322,7 @@ class ContentUtility
     // generate comment draft
     public static function generateCommentDraft(Comment $comment): CommentLog
     {
-        $commentLog = CommentLog::where('comment_id', $comment->id)->whereIn('state', [1, 2, 4])->first();
+        $commentLog = CommentLog::where('comment_id', $comment->id)->whereIn('state', [CommentLog::STATE_DRAFT, CommentLog::STATE_UNDER_REVIEW, CommentLog::STATE_FAILURE])->first();
         if ($commentLog) {
             return $commentLog;
         }

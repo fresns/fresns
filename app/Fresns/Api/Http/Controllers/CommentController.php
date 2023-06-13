@@ -246,7 +246,7 @@ class CommentController extends Controller
         }
 
         if ($dtoRequest->allDigest) {
-            $commentQuery->whereIn('digest_state', [Comment::DIGEST_GENERAL, Comment::DIGEST_BEST]);
+            $commentQuery->whereIn('digest_state', [Comment::DIGEST_GENERAL, Comment::DIGEST_PREMIUM]);
         } else {
             $commentQuery->when($dtoRequest->digestState, function ($query, $value) {
                 $query->where('digest_state', $value);
@@ -591,7 +591,7 @@ class CommentController extends Controller
 
         UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
 
-        $commentLogs = CommentLog::with(['parentComment', 'post', 'author'])->where('comment_id', $comment->id)->where('state', 3)->latest()->paginate($dtoRequest->pageSize ?? 15);
+        $commentLogs = CommentLog::with(['parentComment', 'post', 'author'])->where('comment_id', $comment->id)->where('state', CommentLog::STATE_SUCCESS)->latest()->paginate($dtoRequest->pageSize ?? 15);
 
         $commentLogList = [];
         $service = new CommentService();
@@ -627,7 +627,7 @@ class CommentController extends Controller
 
         UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
 
-        $log = CommentLog::with(['parentComment', 'post', 'author'])->where('comment_id', $comment->id)->where('id', $logId)->where('state', 3)->first();
+        $log = CommentLog::with(['parentComment', 'post', 'author'])->where('comment_id', $comment->id)->where('id', $logId)->where('state', CommentLog::STATE_SUCCESS)->first();
 
         if (empty($log)) {
             throw new ApiException(37402);

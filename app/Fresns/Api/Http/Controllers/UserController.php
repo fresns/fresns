@@ -652,8 +652,8 @@ class UserController extends Controller
         $draftCount = CacheHelper::get($draftsCacheKey, $cacheTag);
         if (empty($draftCount)) {
             $draftCount = [
-                'posts' => PostLog::where('user_id', $userId)->whereIn('state', [1, 4])->count(),
-                'comments' => CommentLog::where('user_id', $userId)->whereIn('state', [1, 4])->count(),
+                'posts' => PostLog::where('user_id', $userId)->whereIn('state', [PostLog::STATE_DRAFT, PostLog::STATE_FAILURE])->count(),
+                'comments' => CommentLog::where('user_id', $userId)->whereIn('state', [CommentLog::STATE_DRAFT, CommentLog::STATE_FAILURE])->count(),
             ];
 
             CacheHelper::put($draftCount, $draftsCacheKey, $cacheTag, null, $cacheTime);

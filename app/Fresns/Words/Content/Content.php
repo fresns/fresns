@@ -97,7 +97,7 @@ class Content
                     $title = Str::of($dtoWordBody->postTitle)->trim();
                 }
 
-                $checkLog = PostLog::with(['fileUsages', 'extendUsages'])->where('user_id', $author->id)->where('create_type', 1)->where('state', 1)->first();
+                $checkLog = PostLog::with(['fileUsages', 'extendUsages'])->where('user_id', $author->id)->where('create_type', 1)->where('state', PostLog::STATE_DRAFT)->first();
 
                 $logData = [
                     'user_id' => $author->id,
@@ -135,7 +135,7 @@ class Content
                     );
                 }
 
-                $checkLog = CommentLog::with(['fileUsages', 'extendUsages'])->where('user_id', $author->id)->where('create_type', 1)->where('state', 1)->first();
+                $checkLog = CommentLog::with(['fileUsages', 'extendUsages'])->where('user_id', $author->id)->where('create_type', 1)->where('state', CommentLog::STATE_DRAFT)->first();
 
                 $logData = [
                     'user_id' => $author->id,
@@ -426,7 +426,7 @@ class Content
             switch ($type) {
                 case 'post':
                     PostLog::where('id', $reviewResp->getData('logId'))->update([
-                        'state' => 2,
+                        'state' => PostLog::STATE_UNDER_REVIEW,
                         'submit_at' => now(),
                     ]);
 
@@ -435,7 +435,7 @@ class Content
 
                 case 'comment':
                     CommentLog::where('id', $reviewResp->getData('logId'))->update([
-                        'state' => 2,
+                        'state' => CommentLog::STATE_UNDER_REVIEW,
                         'submit_at' => now(),
                     ]);
 

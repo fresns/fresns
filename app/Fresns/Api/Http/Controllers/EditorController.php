@@ -77,12 +77,12 @@ class EditorController extends Controller
         $timezone = $this->timezone();
         $authUser = $this->user();
 
-        $status = [1, 2, 4];
+        $status = [PostLog::STATE_DRAFT, PostLog::STATE_UNDER_REVIEW, PostLog::STATE_FAILURE];
         if ($dtoRequest->status == 1) {
-            $status = [1, 4];
+            $status = [PostLog::STATE_DRAFT, PostLog::STATE_FAILURE];
         }
         if ($dtoRequest->status == 2) {
-            $status = [2];
+            $status = [PostLog::STATE_UNDER_REVIEW];
         }
 
         $draftList = [];
@@ -140,7 +140,7 @@ class EditorController extends Controller
                     throw new ApiException(36104);
                 }
 
-                $checkLogCount = PostLog::where('user_id', $authUser->id)->whereIn('state', [1, 2, 4])->count();
+                $checkLogCount = PostLog::where('user_id', $authUser->id)->whereIn('state', [PostLog::STATE_DRAFT, PostLog::STATE_UNDER_REVIEW, PostLog::STATE_FAILURE])->count();
 
                 if ($checkLogCount >= $userRolePerm['post_draft_count']) {
                     throw new ApiException(38106);
@@ -157,7 +157,7 @@ class EditorController extends Controller
                     throw new ApiException($checkCommentPerm['code']);
                 }
 
-                $checkLogCount = CommentLog::where('user_id', $authUser->id)->whereIn('state', [1, 2, 4])->count();
+                $checkLogCount = CommentLog::where('user_id', $authUser->id)->whereIn('state', [CommentLog::STATE_DRAFT, CommentLog::STATE_UNDER_REVIEW, CommentLog::STATE_FAILURE])->count();
 
                 if ($checkLogCount >= $userRolePerm['comment_draft_count']) {
                     throw new ApiException(38106);
@@ -748,7 +748,7 @@ class EditorController extends Controller
 
             // change state
             $draft->update([
-                'state' => 2,
+                'state' => PostLog::STATE_UNDER_REVIEW,
                 'submit_at' => now(),
             ]);
 
@@ -819,7 +819,7 @@ class EditorController extends Controller
         }
 
         $draft->update([
-            'state' => 1,
+            'state' => PostLog::STATE_DRAFT,
         ]);
 
         return $this->success();

@@ -352,8 +352,8 @@ class ConfigUtility
             $perm['realNameRequired'] = $limitConfig["{$type}_real_name_verify"] ? $limitConfig["{$type}_real_name_verify"] : $rolePerm["{$type}_real_name_verify"];
 
             $checkLogCount = match ($type) {
-                'post' => PostLog::where('user_id', $userId)->whereIn('state', [1, 2, 4])->count(),
-                'comment' => CommentLog::where('user_id', $userId)->whereIn('state', [1, 2, 4])->count(),
+                'post' => PostLog::where('user_id', $userId)->whereIn('state', [PostLog::STATE_DRAFT, PostLog::STATE_UNDER_REVIEW, PostLog::STATE_FAILURE])->count(),
+                'comment' => CommentLog::where('user_id', $userId)->whereIn('state', [CommentLog::STATE_DRAFT, CommentLog::STATE_UNDER_REVIEW, CommentLog::STATE_FAILURE])->count(),
             };
             if ($checkLogCount >= $rolePerm["{$type}_draft_count"]) {
                 $perm['draft'] = false;

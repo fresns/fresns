@@ -37,7 +37,7 @@ class FollowService
             $query->whereIn('hashtag_id', $followHashtagIds);
         });
         // best digest post query
-        $digestPostQuery = Post::with(['hashtagUsages'])->where('digest_state', Post::DIGEST_BEST);
+        $digestPostQuery = Post::with(['hashtagUsages'])->where('digest_state', Post::DIGEST_PREMIUM);
 
         // is enabled
         $userPostQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
@@ -352,7 +352,7 @@ class FollowService
             $query->whereIn('hashtag_id', $followHashtagIds);
         });
         // best digest post query
-        $digestCommentQuery = Comment::with(['post', 'hashtagUsages'])->where('digest_state', Comment::DIGEST_BEST);
+        $digestCommentQuery = Comment::with(['post', 'hashtagUsages'])->where('digest_state', Comment::DIGEST_PREMIUM);
 
         // is enabled
         $userCommentQuery->where('is_enabled', true)->orWhere(function ($query) use ($authUserId) {
