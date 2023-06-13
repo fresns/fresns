@@ -160,7 +160,6 @@ class ExtensionController extends Controller
 
     public function install(Request $request)
     {
-        $installType = $request->install_type;
         $installMethod = $request->install_method;
 
         switch ($installMethod) {
@@ -186,10 +185,6 @@ class ExtensionController extends Controller
 
                 if (empty($pluginDirectory)) {
                     return back()->with('failure', __('FsLang::tips.install_not_entered_directory'));
-                }
-
-                if (strpos($pluginDirectory, '/') == false) {
-                    $pluginDirectory = "extensions/{$installType}s/{$pluginDirectory}";
                 }
 
                 // plugin-manager or theme-manager
@@ -240,12 +235,10 @@ class ExtensionController extends Controller
     {
         $fskey = $request->get('fskey');
 
-        $installType = $request->get('install_type', 'market');
-
         // market-manager
         $code = Artisan::call('market:upgrade', [
             'fskey' => $fskey,
-            '--install_type' => $installType,
+            '--install_type' => 'market',
         ]);
 
         $message = __('FsLang::tips.upgradeSuccess');

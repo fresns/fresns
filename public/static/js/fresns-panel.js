@@ -2302,7 +2302,6 @@ $(document).ready(function () {
     // extensions upgrade
     $('.upgrade-extensions').on('click', function () {
         let fskey = $(this).data('fskey');
-        let type = $(this).data('type');
         let name = $(this).data('name');
         let version = $(this).data('version');
         let upgradeVersion = $(this).data('new-version');
@@ -2311,7 +2310,6 @@ $(document).ready(function () {
         $('.extension-version').text(version)
         $('.extension-new-version').text(upgradeVersion)
         $('input[name=fskey]').val(fskey)
-        $('input[name=type]').val(type)
     });
 
     // extensions upgrade form

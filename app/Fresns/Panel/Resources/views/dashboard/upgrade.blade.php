@@ -97,7 +97,6 @@
                                             data-bs-toggle="modal"
                                             data-bs-target="#upgradeExtensions"
                                             data-fskey="{{ $plugin->fskey }}"
-                                            data-type="{{ $plugin->type }}"
                                             data-name="{{ $plugin->name }}"
                                             data-version="{{ $plugin->version }}"
                                             data-new-version="{{ $plugin->upgrade_version }}">
@@ -135,7 +134,6 @@
                                             data-bs-toggle="modal"
                                             data-bs-target="#upgradeExtensions"
                                             data-fskey="{{ $app->fskey }}"
-                                            data-type="{{ $app->type }}"
                                             data-name="{{ $app->name }}"
                                             data-version="{{ $app->version }}"
                                             data-new-version="{{ $app->upgrade_version }}">
@@ -173,7 +171,6 @@
                                             data-bs-toggle="modal"
                                             data-bs-target="#upgradeExtensions"
                                             data-fskey="{{ $engine->fskey }}"
-                                            data-type="{{ $engine->type }}"
                                             data-name="{{ $engine->name }}"
                                             data-version="{{ $engine->version }}"
                                             data-new-version="{{ $engine->upgrade_version }}">
@@ -211,7 +208,6 @@
                                             data-bs-toggle="modal"
                                             data-bs-target="#upgradeExtensions"
                                             data-fskey="{{ $theme->fskey }}"
-                                            data-type="{{ $theme->type }}"
                                             data-name="{{ $theme->name }}"
                                             data-version="{{ $theme->version }}"
                                             data-new-version="{{ $theme->upgrade_version }}">
@@ -230,9 +226,6 @@
             </div>
         </div>
     </div>
-
-    {{-- JS --}}
-    <script src="/static/js/ansi_up.js"></script>
 
     <!-- Fresns Upgrade Modal: auto upgrade confirm -->
     <div class="modal fade" id="autoUpgradeModal" tabindex="-1" aria-labelledby="upgrade" aria-hidden="true">
@@ -444,3 +437,7 @@
         </div>
     </div>
 @endsection
+
+@push('script')
+    <script src="/static/js/ansi_up.js"></script>
+@endpush
