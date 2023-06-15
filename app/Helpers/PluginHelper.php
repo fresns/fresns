@@ -114,7 +114,7 @@ class PluginHelper
             return $callbackArr;
         }
 
-        if ($callback->is_use) {
+        if ($callback->is_used) {
             $callbackArr['code'] = 32204;
 
             return $callbackArr;
@@ -134,8 +134,8 @@ class PluginHelper
             return $callbackArr;
         }
 
-        $callback->is_use = 1;
-        $callback->use_plugin_fskey = $fskey;
+        $callback->is_used = 1;
+        $callback->used_plugin_fskey = $fskey;
         $callback->save();
 
         $data = [

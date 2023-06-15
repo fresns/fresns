@@ -118,8 +118,8 @@ class CreatePluginsTable extends Migration
                 default:
                     $table->json('content')->nullable();
             }
-            $table->unsignedTinyInteger('is_use')->default(0);
-            $table->string('use_plugin_fskey', 64)->nullable();
+            $table->unsignedTinyInteger('is_used')->default(0);
+            $table->string('used_plugin_fskey', 64)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

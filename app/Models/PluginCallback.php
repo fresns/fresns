@@ -29,9 +29,6 @@ class PluginCallback extends Model
     const TYPE_CONTENT_COMMENT_BUTTON = 17;
     const TYPE_CONTENT_COMMENT_CONFIG = 18;
 
-    const IS_USE_FALSE = 0;
-    const IS_USE_TRUE = 1;
-
     protected $casts = [
         'content' => 'json',
     ];
