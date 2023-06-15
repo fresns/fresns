@@ -386,7 +386,7 @@ class User
     // check closing amount
     public static function checkClosingAmount(UserStat $userStat, int $extcreditsId): bool
     {
-        $log = UserExtcreditsLog::where('user_id', $userStat->user_id)->where('extcredits_id', $extcreditsId)->latest()->first();
+        $log = UserExtcreditsLog::where('user_id', $userStat->user_id)->where('extcredits_id', $extcreditsId)->latest('id')->first();
 
         $columnName = 'extcredits'.$extcreditsId;
 

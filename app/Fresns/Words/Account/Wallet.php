@@ -756,7 +756,7 @@ class Wallet
     // check closing balance
     public static function checkClosingBalance(AccountWallet $wallet): bool
     {
-        $walletLog = AccountWalletLog::where('account_id', $wallet->account_id)->isEnabled()->latest()->first();
+        $walletLog = AccountWalletLog::where('account_id', $wallet->account_id)->isEnabled()->latest('id')->first();
 
         $closingBalance = $walletLog?->closing_balance ?? 0.00;
 
