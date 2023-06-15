@@ -26,6 +26,7 @@ return [
     'updateFailure' => '업데이트 실패',
     'upgradeFailure' => '업그레이드 실패',
     'installFailure' => '설치 실패',
+    'downloadFailure' => '다운로드 실패',
     'uninstallFailure' => '제거 실패',
 
     'copySuccess' => '성공을 복사하십시오',

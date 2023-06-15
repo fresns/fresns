@@ -26,6 +26,7 @@ return [
     'updateFailure' => 'अद्यतन विफलता',
     'upgradeFailure' => 'अपग्रेड विफलता',
     'installFailure' => 'स्थापना विफलता',
+    'downloadFailure' => 'डाउनलोड विफलता',
     'uninstallFailure' => 'स्थापना रद्द करने में विफलता',
 
     'copySuccess' => 'सफलतापूर्वक कॉपी करें',

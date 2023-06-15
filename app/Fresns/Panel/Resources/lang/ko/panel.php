@@ -163,6 +163,7 @@ return [
     'button_reset' => '초기화',
     'button_confirm' => '확인하다',
     'button_save' => '구하다',
+    'button_download' => '다운로드',
     'button_upgrade' => '업그레이드',
     'button_automatic_upgrade' => '자동 업그레이드',
     'button_manual_upgrade' => '수동 업그레이드',
@@ -1095,7 +1096,8 @@ return [
     // App-Center-Install
     'install_application' => '앱 설치',
     'install_mode' => '설치 모드',
-    'install_mode_input' => '입력 Fresns 키',
+    'install_mode_fskey' => '입력 Fresns 키',
     'install_mode_upload' => 'Zip 패키지 업로드',
     'install_mode_directory' => '입력 디렉토리 경로',
+    'download_application' => '앱 다운로드',
 ];

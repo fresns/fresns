@@ -26,6 +26,7 @@ return [
     'updateFailure' => 'Сбой обновления',
     'upgradeFailure' => 'Сбой обновления',
     'installFailure' => 'Сбой установки',
+    'downloadFailure' => 'Скачать провал',
     'uninstallFailure' => 'Сбой при деинсталляции',
 
     'copySuccess' => 'Копировать успех',

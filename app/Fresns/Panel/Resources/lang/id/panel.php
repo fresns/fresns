@@ -163,6 +163,7 @@ return [
     'button_reset' => 'Mengatur ulang',
     'button_confirm' => 'Mengonfirmasi',
     'button_save' => 'Menyimpan',
+    'button_download' => 'Unduh',
     'button_upgrade' => 'Meningkatkan',
     'button_automatic_upgrade' => 'Peningkatan otomatis',
     'button_manual_upgrade' => 'Peningkatan Manual',
@@ -1095,7 +1096,8 @@ return [
     // App-Center-Install
     'install_application' => 'Instal aplikasi',
     'install_mode' => 'Instal Mode',
-    'install_mode_input' => 'Masukkan Kunci Fresns',
+    'install_mode_fskey' => 'Masukkan Kunci Fresns',
     'install_mode_upload' => 'Unggah Paket Zip',
     'install_mode_directory' => 'Jalur Direktori Input',
+    'download_application' => 'Unduh Aplikasi',
 ];

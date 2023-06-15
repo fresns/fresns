@@ -26,6 +26,7 @@ return [
     'updateFailure' => '修改失败',
     'upgradeFailure' => '更新失败',
     'installFailure' => '安装失败',
+    'downloadFailure' => '下载失败',
     'uninstallFailure' => '卸载失败',
 
     'copySuccess' => '复制成功',

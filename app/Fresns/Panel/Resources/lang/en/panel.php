@@ -163,6 +163,7 @@ return [
     'button_reset' => 'Reset',
     'button_confirm' => 'Confirm',
     'button_save' => 'Save',
+    'button_download' => 'Download',
     'button_upgrade' => 'Upgrade',
     'button_automatic_upgrade' => 'Auto Upgrade',
     'button_manual_upgrade' => 'Manual Upgrade',
@@ -1095,7 +1096,8 @@ return [
     // App-Center-Install
     'install_application' => 'Install App',
     'install_mode' => 'Install Mode',
-    'install_mode_input' => 'Input Fresns Key',
+    'install_mode_fskey' => 'Input Fresns Key',
     'install_mode_upload' => 'Upload Zip Package',
     'install_mode_directory' => 'Input Directory Path',
+    'download_application' => 'Download App',
 ];

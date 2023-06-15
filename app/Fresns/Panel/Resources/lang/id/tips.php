@@ -26,6 +26,7 @@ return [
     'updateFailure' => 'Kegagalan Pembaruan',
     'upgradeFailure' => 'Kegagalan Peningkatan',
     'installFailure' => 'Kegagalan Pemasangan',
+    'downloadFailure' => 'Unduh Kegagalan',
     'uninstallFailure' => 'Kegagalan Penghapusan Instalasi',
 
     'copySuccess' => 'Salin kesuksesan',

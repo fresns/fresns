@@ -164,6 +164,7 @@ return [
     'button_reset' => '重設',
     'button_confirm' => '確認',
     'button_save' => '提交保存',
+    'button_download' => '下載',
     'button_upgrade' => '升級',
     'button_automatic_upgrade' => '自動升級',
     'button_manual_upgrade' => '手動升級',
@@ -1096,7 +1097,8 @@ return [
     // App-Center-Install
     'install_application' => '安裝應用',
     'install_mode' => '安裝方式',
-    'install_mode_input' => '輸入 key',
+    'install_mode_fskey' => '輸入 key',
     'install_mode_upload' => '上傳 zip',
     'install_mode_directory' => '输入目錄路徑',
+    'download_application' => '下載應用',
 ];

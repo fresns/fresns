@@ -26,6 +26,7 @@ return [
     'updateFailure' => '更新の失敗',
     'upgradeFailure' => 'アップグレードに失敗しました。',
     'installFailure' => 'インストールに失敗しました',
+    'downloadFailure' => 'ダウンロード失敗',
     'uninstallFailure' => 'アンインストールに失敗しました',
 
     'copySuccess' => '成功をコピーする',

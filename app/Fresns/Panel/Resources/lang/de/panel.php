@@ -163,6 +163,7 @@ return [
     'button_reset' => 'Zurücksetzen',
     'button_confirm' => 'Bestätigen Sie',
     'button_save' => 'Speichern',
+    'button_download' => 'Herunterladen',
     'button_upgrade' => 'Aktualisieren',
     'button_automatic_upgrade' => 'Auto Upgrade',
     'button_manual_upgrade' => 'Manuelles Upgrade',
@@ -1095,7 +1096,8 @@ return [
     // App-Center-Install
     'install_application' => 'App installieren',
     'install_mode' => 'Installieren Modus',
-    'install_mode_input' => 'Fresns-Schlüssel eingeben',
+    'install_mode_fskey' => 'Fresns-Schlüssel eingeben',
     'install_mode_upload' => 'Zip-Paket hochladen',
     'install_mode_directory' => 'Eingabeverzeichnis Pfad',
+    'download_application' => 'App herunterladen',
 ];

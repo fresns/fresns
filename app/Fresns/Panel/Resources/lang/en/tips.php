@@ -26,6 +26,7 @@ return [
     'updateFailure' => 'Update Failure',
     'upgradeFailure' => 'Upgrade Failure',
     'installFailure' => 'Install Failure',
+    'downloadFailure' => 'Download Failure',
     'uninstallFailure' => 'Uninstall Failure',
 
     'copySuccess' => 'Copy Success',

@@ -26,6 +26,7 @@ return [
     'updateFailure' => 'Actualizar Error',
     'upgradeFailure' => 'Error de actualización',
     'installFailure' => 'Error de instalación',
+    'downloadFailure' => 'Descargar Fracaso',
     'uninstallFailure' => 'Fallo de desinstalación',
 
     'copySuccess' => 'Copiar el éxito',

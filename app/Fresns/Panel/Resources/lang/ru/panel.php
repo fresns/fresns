@@ -163,6 +163,7 @@ return [
     'button_reset' => 'Сброс настроек',
     'button_confirm' => 'Подтверждать',
     'button_save' => 'Сохранять',
+    'button_download' => 'Скачать',
     'button_upgrade' => 'Обновление',
     'button_automatic_upgrade' => 'Автоматическое обновление',
     'button_manual_upgrade' => 'Ручное обновление',
@@ -1095,7 +1096,8 @@ return [
     // App-Center-Install
     'install_application' => 'Установить приложение',
     'install_mode' => 'Режим установки',
-    'install_mode_input' => 'Ввод ключа Fresns',
+    'install_mode_fskey' => 'Ввод ключа Fresns',
     'install_mode_upload' => 'Загрузить Zip-пакет',
     'install_mode_directory' => 'Путь к входному каталогу',
+    'download_application' => 'Загрузить приложение',
 ];

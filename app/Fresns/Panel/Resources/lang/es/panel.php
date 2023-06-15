@@ -163,6 +163,7 @@ return [
     'button_reset' => 'Reiniciar',
     'button_confirm' => 'Confirmar',
     'button_save' => 'Salvar',
+    'button_download' => 'Descargar',
     'button_upgrade' => 'Actualizar',
     'button_automatic_upgrade' => 'Actualización automática',
     'button_manual_upgrade' => 'Actualización manual',
@@ -1093,9 +1094,10 @@ return [
     'key_option_plugin_api_select' => 'Seleccione el complemento para usar',
     'key_option_plugin_api_select_desc' => 'Esta clave solo puede solicitar la API del complemento asociado',
     // App-Center-Install
-    'install_application' => 'Instalar la aplicación',
+    'install_application' => 'Instalar aplicación',
     'install_mode' => 'Modo de instalación',
-    'install_mode_input' => 'Introducir la clave de Fresns',
+    'install_mode_fskey' => 'Introducir la clave de Fresns',
     'install_mode_upload' => 'Subir el paquete Zip',
     'install_mode_directory' => 'Ruta del directorio de entrada',
+    'download_application' => 'Descargar aplicación',
 ];

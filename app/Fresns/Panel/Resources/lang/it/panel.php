@@ -163,6 +163,7 @@ return [
     'button_reset' => 'Ripristina',
     'button_confirm' => 'Confermare',
     'button_save' => 'Salva',
+    'button_download' => 'Scaricare',
     'button_upgrade' => 'Aggiornare',
     'button_automatic_upgrade' => 'Aggiornamento automatico',
     'button_manual_upgrade' => 'Aggiornamento manuale',
@@ -1095,7 +1096,8 @@ return [
     // App-Center-Install
     'install_application' => 'Installare l\'app',
     'install_mode' => 'Modalità di installazione',
-    'install_mode_input' => 'Immettere la chiave Fresns',
+    'install_mode_fskey' => 'Immettere la chiave Fresns',
     'install_mode_upload' => 'Caricare il pacchetto zip',
     'install_mode_directory' => 'Percorso della directory di ingresso',
+    'download_application' => 'Scarica l\'app',
 ];

@@ -163,6 +163,7 @@ return [
     'button_reset' => 'रीसेट',
     'button_confirm' => 'पुष्टि करना',
     'button_save' => 'सहेजें',
+    'button_download' => 'डाउनलोड करना',
     'button_upgrade' => 'उन्नत करना',
     'button_automatic_upgrade' => 'ऑटो अपग्रेड',
     'button_manual_upgrade' => 'मैनुअल अपग्रेड',
@@ -1095,7 +1096,8 @@ return [
     // App-Center-Install
     'install_application' => 'एप्लिकेशन इंस्टॉल करें',
     'install_mode' => 'मोड स्थापित करें',
-    'install_mode_input' => 'इनपुट Fresns कुंजी',
+    'install_mode_fskey' => 'इनपुट Fresns कुंजी',
     'install_mode_upload' => 'ज़िप पैकेज अपलोड करें',
     'install_mode_directory' => 'इनपुट निर्देशिका पथ',
+    'download_application' => 'ऐप डाउनलोड करें',
 ];

@@ -163,6 +163,7 @@ return [
     'button_reset' => 'リセットする',
     'button_confirm' => '確認',
     'button_save' => 'セーブ',
+    'button_download' => 'ダウンロード',
     'button_upgrade' => 'アップグレード',
     'button_automatic_upgrade' => '自動アップグレード',
     'button_manual_upgrade' => 'マニュアルアップグレード',
@@ -1095,7 +1096,8 @@ return [
     // App-Center-Install
     'install_application' => 'インストールアプリ',
     'install_mode' => 'インストールモード',
-    'install_mode_input' => 'Fresnsキーの入力',
+    'install_mode_fskey' => 'Fresnsキーの入力',
     'install_mode_upload' => 'Zipパッケージのアップロード',
     'install_mode_directory' => '入力ディレクトリパス',
+    'download_application' => 'アプリをダウンロード',
 ];

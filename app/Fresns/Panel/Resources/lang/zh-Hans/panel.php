@@ -163,6 +163,7 @@ return [
     'button_reset' => '重置',
     'button_confirm' => '确认',
     'button_save' => '提交保存',
+    'button_download' => '下载',
     'button_upgrade' => '升级',
     'button_automatic_upgrade' => '自动升级',
     'button_manual_upgrade' => '手动升级',
@@ -1096,7 +1097,8 @@ return [
     // App-Center-Install
     'install_application' => '安装应用',
     'install_mode' => '安装方式',
-    'install_mode_input' => '输入标识名',
+    'install_mode_fskey' => '输入标识名',
     'install_mode_upload' => '上传安装包',
     'install_mode_directory' => '输入目录路径',
+    'download_application' => '下载应用',
 ];
