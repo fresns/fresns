@@ -158,7 +158,15 @@ class DateHelper
 
         $dbTimezone = DateHelper::fresnsDatabaseTimezone();
 
-        $standard = Carbon::createFromFormat($dateTimeFormat, $datetime, $timezone)->setTimezone($dbTimezone)->format($dateTimeFormat);
+        // timezone_identifiers_list
+        $timezones = ConfigHelper::fresnsConfigByItemKey('timezones');
+        $keys = array_keys($timezones, $dbTimezone);
+        $matchingKey = '+8';
+        if ($keys) {
+            $matchingKey = $keys[0];
+        }
+
+        $standard = Carbon::createFromFormat($dateTimeFormat, $datetime, $timezone)->setTimezone($matchingKey)->format($dateTimeFormat);
 
         return $standard;
     }
@@ -187,7 +195,15 @@ class DateHelper
             return $datetime;
         }
 
-        $standard = Carbon::createFromFormat('Y-m-d H:i:s', $datetime, $dbTimezone)->setTimezone($timezone)->format($dateTimeFormat);
+        // timezone_identifiers_list
+        $timezones = ConfigHelper::fresnsConfigByItemKey('timezones');
+        $keys = array_keys($timezones, $timezone);
+        $matchingKey = '+8';
+        if ($keys) {
+            $matchingKey = $keys[0];
+        }
+
+        $standard = Carbon::createFromFormat('Y-m-d H:i:s', $datetime, $dbTimezone)->setTimezone($matchingKey)->format($dateTimeFormat);
 
         return $standard;
     }
