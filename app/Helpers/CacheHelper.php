@@ -520,6 +520,12 @@ class CacheHelper
 
             CacheHelper::forgetFresnsMultilingual($cacheKey, 'fresnsConfigs');
             CacheHelper::forgetFresnsMultilingual($cacheApiKey, 'fresnsConfigs');
+
+            $configKeys = Cache::get('fresns_cache_config_keys') ?? [];
+            $configKeysCacheKey = $configKeys[$key] ?? null;
+            if ($configKeysCacheKey) {
+                CacheHelper::forgetFresnsMultilingual($configKeysCacheKey, 'fresnsConfigs');
+            }
         }
     }
 
@@ -756,6 +762,7 @@ class CacheHelper
      * no tag.
      */
     // fresns_cache_tags
+    // fresns_cache_config_keys
     // developer_mode
     // install_{$step}
     // autoUpgradeStep

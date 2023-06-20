@@ -10,6 +10,7 @@ namespace App\Helpers;
 
 use App\Models\Config;
 use App\Models\File;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 
 class ConfigHelper
@@ -128,12 +129,17 @@ class ConfigHelper
         $keysData = CacheHelper::get($cacheKey, 'fresnsConfigs');
 
         if (empty($keysData)) {
+            $cacheConfigKeys = Cache::get('fresns_cache_config_keys') ?? [];
             $keysData = [];
+
             foreach ($itemKeys as $itemKey) {
                 $keysData[$itemKey] = ConfigHelper::fresnsConfigByItemKey($itemKey, $langTag);
+
+                $cacheConfigKeys = Arr::add($cacheConfigKeys, $itemKey, $cacheKey);
             }
 
             CacheHelper::put($keysData, $cacheKey, 'fresnsConfigs');
+            Cache::forever('fresns_cache_config_keys', $cacheConfigKeys);
         }
 
         return $keysData;
