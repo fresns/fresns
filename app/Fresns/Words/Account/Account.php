@@ -126,7 +126,7 @@ class Account
                     'account_id' => $accountModel->id,
                     'connect_platform_id' => $info['connectPlatformId'],
                     'connect_account_id' => $info['connectAccountId'],
-                    'connect_token' => $info['connectToken'],
+                    'connect_token' => $info['connectToken'] ?? null,
                     'connect_refresh_token' => $info['connectRefreshToken'] ?? null,
                     'connect_username' => $info['connectUsername'] ?? null,
                     'connect_nickname' => $info['connectNickname'] ?? null,
