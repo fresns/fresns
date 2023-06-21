@@ -671,32 +671,40 @@ class Wallet
             );
         }
 
-        // objectWalletLog
+        $wallet = AccountWallet::where('account_id', $accountId)->first();
+        if (empty($wallet)) {
+            return $this->failure(
+                34501,
+                ConfigUtility::getCodeMessage(34501, 'Fresns', $langTag)
+            );
+        }
+
+        // object wallet and log
+        $objectWalletLog = null;
+        $objectWallet = null;
         if ($walletLog->object_wallet_log_id) {
             $objectWalletLog = AccountWalletLog::where('id', $walletLog->object_wallet_log_id)->first();
 
-            $objectWallet = AccountWallet::where('account_id', $objectWalletLog->account_id)->first();
+            $objectWallet = AccountWallet::where('account_id', $objectWalletLog?->account_id)->first();
 
-            $checkObjectBalance = static::checkBalance($objectWallet, $objectWalletLog->amount_total);
-            // The counterparty wallet balance is not allowed to make payment
-            if (! $checkObjectBalance) {
-                return $this->failure(
-                    34504,
-                    ConfigUtility::getCodeMessage(34504, 'Fresns', $langTag)
-                );
+            if ($objectWalletLog && $objectWallet) {
+                $checkObjectBalance = static::checkBalance($objectWallet, $objectWalletLog->amount_total);
+                // The counterparty wallet balance is not allowed to make payment
+                if (! $checkObjectBalance) {
+                    return $this->failure(
+                        34504,
+                        ConfigUtility::getCodeMessage(34504, 'Fresns', $langTag)
+                    );
+                }
+
+                $objectWalletLog->update([
+                    'is_enabled' => false,
+                ]);
             }
-
-            $objectWalletLog->update([
-                'is_enabled' => false,
-            ]);
-        } else {
-            $objectWalletLog = null;
         }
 
-        $wallet = AccountWallet::where('account_id', $objectWalletLog->account_id)->first();
-
-        $checkBalance = static::checkBalance($wallet, $walletLog->amount_total);
         // The counterparty wallet balance is not allowed to make payment
+        $checkBalance = static::checkBalance($wallet, $walletLog->amount_total);
         if (! $checkBalance) {
             return $this->failure(
                 34504,
@@ -712,7 +720,7 @@ class Wallet
             case AccountWalletLog::TYPE_IN_TRANSACTION:
                 $wallet->decrement('balance', $walletLog->amount_total);
 
-                if ($objectWalletLog) {
+                if ($objectWalletLog && $objectWallet) {
                     $objectWallet->increment('balance', $objectWalletLog->amount_total);
                 }
                 break;
@@ -720,7 +728,7 @@ class Wallet
             case AccountWalletLog::TYPE_DE_TRANSACTION:
                 $wallet->increment('balance', $walletLog->amount_total);
 
-                if ($objectWalletLog) {
+                if ($objectWalletLog && $objectWallet) {
                     $objectWallet->decrement('balance', $objectWalletLog->amount_total);
                 }
                 break;
