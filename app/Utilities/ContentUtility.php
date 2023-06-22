@@ -267,7 +267,7 @@ class ContentUtility
             $url = $matches[1];
 
             $urlData = $urlDataList->where('link_url', $url)->first();
-            if (empty($urlData) || empty($urlData?->domain)) {
+            if (empty($urlData) || empty($urlData?->domain) || ! $urlData?->is_enabled || ! $urlData?->domain?->is_enabled) {
                 return $url;
             }
 
