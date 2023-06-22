@@ -267,18 +267,22 @@ class ContentUtility
             $url = $matches[1];
 
             $urlData = $urlDataList->where('link_url', $url)->first();
-            $title = $urlData?->link_title ?? $url;
+            if (empty($urlData) || empty($urlData?->domain)) {
+                return $url;
+            }
+
+            $title = $urlData->link_title ?? $url;
             // <a href="https://fresns.org" class="fresns_link" target="_blank">Fresns Website</a>
             // or
             // <a href="https://fresns.org" class="fresns_link" target="_blank">https://fresns.org</a>
 
-            if ($urlData?->domain?->domain == $siteDomain) {
+            if ($urlData->domain->domain == $siteDomain) {
                 $contentLinkHandle = 3;
             }
 
             switch ($contentLinkHandle) {
                 case 1:
-                    return Str::replace($urlData?->domain?->host, '******', $url);
+                    return Str::replace($urlData->domain->host, '******', $url);
                     break;
 
                 case 2:
@@ -492,19 +496,22 @@ class ContentUtility
 
         // add domain data
         foreach ($urlArr as $url) {
-            Domain::firstOrCreate([
+            $domain = StrHelper::extractDomainByUrl($url);
+
+            if (empty($domain)) {
+                continue;
+            }
+
+            $domainModel = Domain::firstOrCreate([
                 'host' => parse_url($url, PHP_URL_HOST),
             ], [
-                'domain' => StrHelper::extractDomainByUrl($url),
+                'domain' => $domain,
             ]);
-        }
 
-        // add domain link data
-        foreach ($urlArr as $url) {
             DomainLink::firstOrCreate([
                 'link_url' => $url,
             ], [
-                'domain_id' => Domain::withTrashed()->where('host', parse_url($url, PHP_URL_HOST))->value('id') ?? 0,
+                'domain_id' => $domainModel->id,
             ]);
         }
 
