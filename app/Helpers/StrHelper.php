@@ -162,36 +162,40 @@ class StrHelper
 
         $ianaRoot = array_unique($ianaRoot);
 
-        $domainPartData = explode('.', $host);
+        try {
+            $domainPartData = explode('.', $host);
 
-        $reverseDomainData = array_reverse($domainPartData);
+            $reverseDomainData = array_reverse($domainPartData);
 
-        $suffixDomainData = [$reverseDomainData[0], $reverseDomainData[1]];
+            $suffixDomainData = [$reverseDomainData[0], $reverseDomainData[1]];
 
-        $count = 0;
-        foreach ($suffixDomainData as $part) {
-            foreach ($ianaRoot as $value) {
-                if ($value === $part) {
-                    $count++;
+            $count = 0;
+            foreach ($suffixDomainData as $part) {
+                foreach ($ianaRoot as $value) {
+                    if ($value === $part) {
+                        $count++;
+                    }
                 }
             }
+
+            $domain = match ($count) {
+                1 => implode('.', array_reverse([$reverseDomainData[0], $reverseDomainData[1]])),
+                2 => implode('.', array_reverse([$reverseDomainData[0], $reverseDomainData[1], $reverseDomainData[2]])),
+                default => $host,
+            };
+        } catch (\Exception $e) {
+            $domain = null;
         }
 
-        $domain = match ($count) {
-            1 => implode('.', array_reverse([$reverseDomainData[0], $reverseDomainData[1]])),
-            2 => implode('.', array_reverse([$reverseDomainData[0], $reverseDomainData[1], $reverseDomainData[2]])),
-            default => $host,
-        };
-
-        return $domain ?? 'Unknown Error';
+        return $domain ?? null;
     }
 
-    public static function extractDomainByUrl(string $url): string
+    public static function extractDomainByUrl(string $url): ?string
     {
         $host = parse_url($url, PHP_URL_HOST);
         $domain = self::extractDomainByHost($host);
 
-        return $domain ?? 'Unknown Error';
+        return $domain;
     }
 
     public static function slug(string $text): string
