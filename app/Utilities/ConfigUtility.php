@@ -94,6 +94,8 @@ class ConfigUtility
             $item['lang_tag'] = $key;
             $item['lang_content'] = $value;
 
+            // use collect()->only() instead of unset($item['language_values'])
+            // https://fresns.org/supports/utilities/config.html#change-multilingual-content
             unset($item['language_values']);
 
             Language::updateOrCreate($item);
