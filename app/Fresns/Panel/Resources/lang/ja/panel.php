@@ -170,6 +170,7 @@ return [
     'button_confirm_delete' => '削除を確認してください',
     'button_confirm_install' => 'インストールを確認する',
     'button_confirm_upgrade' => 'アップグレードを確認します',
+    'button_confirm_download' => 'ダウンロードの確認',
     'button_confirm_uninstall' => 'アンインストールを確認してください',
     'button_view' => '意見',
     'button_image_upload' => 'アップロード',

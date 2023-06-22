@@ -76,6 +76,8 @@ return [
     'uninstall_step_3' => 'Dateien löschen',
     'uninstall_step_4' => 'Cache leeren',
     'uninstall_step_5' => 'Getan',
+    // delete app
+    'delete_app_warning' => 'Wenn Sie keine Update-Warnung für die App anzeigen möchten, können Sie die App löschen. Nach dem Löschen werden Sie nicht mehr benachrichtigt, wenn eine neue Version verfügbar ist.',
     // website
     'website_path_empty_error' => 'Speichern fehlgeschlagen, Pfadparameter darf nicht leer sein',
     'website_path_format_error' => 'konnte nicht gespeichert werden, Pfadparameter werden nur in Klartext unterstützt',

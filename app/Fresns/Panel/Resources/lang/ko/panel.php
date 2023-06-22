@@ -170,6 +170,7 @@ return [
     'button_confirm_delete' => '삭제 확인',
     'button_confirm_install' => '설치 확인',
     'button_confirm_upgrade' => '업그레이드 확인',
+    'button_confirm_download' => '다운로드 확인',
     'button_confirm_uninstall' => '제거를 확인하십시오',
     'button_view' => '보다',
     'button_image_upload' => '업로드',

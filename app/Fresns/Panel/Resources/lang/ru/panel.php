@@ -170,6 +170,7 @@ return [
     'button_confirm_delete' => 'Подтвердите удаление',
     'button_confirm_install' => 'Подтверждение установки',
     'button_confirm_upgrade' => 'Подтвердить обновление',
+    'button_confirm_download' => 'Подтвердить загрузку',
     'button_confirm_uninstall' => 'Подтвердите удаление',
     'button_view' => 'Вид',
     'button_image_upload' => 'Загрузить',

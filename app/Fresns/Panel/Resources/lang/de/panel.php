@@ -170,6 +170,7 @@ return [
     'button_confirm_delete' => 'Löschen bestätigen',
     'button_confirm_install' => 'Bestätigen Sie die Installation',
     'button_confirm_upgrade' => 'Aktualisierung bestätigen',
+    'button_confirm_download' => 'Bestätigen Sie den Download',
     'button_confirm_uninstall' => 'Deinstallation bestätigen',
     'button_view' => 'Sicht',
     'button_image_upload' => 'Hochladen',

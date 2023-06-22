@@ -170,6 +170,7 @@ return [
     'button_confirm_delete' => '确认删除',
     'button_confirm_install' => '确认安装',
     'button_confirm_upgrade' => '确认升级',
+    'button_confirm_download' => '确认下载',
     'button_confirm_uninstall' => '确认卸载',
     'button_view' => '查看',
     'button_image_upload' => '上传图片',

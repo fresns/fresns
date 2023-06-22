@@ -76,6 +76,8 @@ return [
     'uninstall_step_3' => '파일 삭제',
     'uninstall_step_4' => '캐시 지우기',
     'uninstall_step_5' => '완료',
+    // delete app
+    'delete_app_warning' => '앱에 대한 업데이트 알림을 표시하지 않으려면 앱을 삭제하면 됩니다. 앱을 삭제하면 새 버전이 출시될 때 더 이상 알림이 표시되지 않습니다.',
     // website
     'website_path_empty_error' => '저장하지 못했습니다. 경로 매개변수는 비워둘 수 없습니다.',
     'website_path_format_error' => '저장에 실패했습니다. 경로 매개변수는 순수 영문자만 지원합니다.',

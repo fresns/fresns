@@ -76,6 +76,8 @@ return [
     'uninstall_step_3' => 'Cancella file',
     'uninstall_step_4' => 'Cancella cache',
     'uninstall_step_5' => 'Fatto',
+    // delete app
+    'delete_app_warning' => 'Se non si desidera visualizzare un avviso di aggiornamento per l\'applicazione, è possibile eliminare l\'applicazione. Dopo l\'eliminazione, l\'utente non verrà più avvisato quando sarà disponibile una nuova versione.',
     // website
     'website_path_empty_error' => 'Salvataggio fallito, il parametro percorso non può essere vuoto',
     'website_path_format_error' => 'non è riuscito a salvare, i parametri di percorso sono supportati solo in lettere semplici.',

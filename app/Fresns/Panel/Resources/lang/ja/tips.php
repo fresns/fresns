@@ -76,6 +76,8 @@ return [
     'uninstall_step_3' => 'ファイルを削除します',
     'uninstall_step_4' => 'キャッシュの消去',
     'uninstall_step_5' => '終わり',
+    // delete app
+    'delete_app_warning' => 'アプリのアップデートアラートを表示したくない場合は、アプリを削除することができます。 削除すると、新しいバージョンが利用可能になったときにアラートが表示されなくなります。',
     // website
     'website_path_empty_error' => '保存に失敗しました。pathパラメータは空であってはいけません。',
     'website_path_format_error' => '保存に失敗しました。パスパラメータは、プレーンな英字でのみサポートされています。',

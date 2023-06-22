@@ -76,6 +76,8 @@ return [
     'uninstall_step_3' => 'Borrar archivos',
     'uninstall_step_4' => 'Limpiar cache',
     'uninstall_step_5' => 'Hecho',
+    // delete app
+    'delete_app_warning' => 'Si no desea mostrar una alerta de actualización de la aplicación, puede eliminarla. Una vez eliminada, dejará de recibir alertas cuando haya una nueva versión disponible.',
     // website
     'website_path_empty_error' => 'Fallo al guardar, el parámetro de la ruta no puede estar vacío',
     'website_path_format_error' => 'no se ha podido guardar, los parámetros de la ruta sólo se admiten en letras inglesas simples',

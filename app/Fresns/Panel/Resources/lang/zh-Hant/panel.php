@@ -171,6 +171,7 @@ return [
     'button_confirm_delete' => '確認刪除',
     'button_confirm_install' => '確認安裝',
     'button_confirm_upgrade' => '確認升級',
+    'button_confirm_download' => '確認下載',
     'button_confirm_uninstall' => '確認卸載',
     'button_view' => '查看',
     'button_image_upload' => '上傳圖片',

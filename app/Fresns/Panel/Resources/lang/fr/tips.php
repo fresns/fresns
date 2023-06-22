@@ -76,6 +76,8 @@ return [
     'uninstall_step_3' => 'Supprimer les fichiers',
     'uninstall_step_4' => 'Vider le cache',
     'uninstall_step_5' => 'Terminé',
+    // delete app
+    'delete_app_warning' => 'Si vous ne souhaitez pas afficher d\'alerte de mise à jour pour l\'application, vous pouvez la supprimer. Après la suppression, vous ne serez plus alerté de la disponibilité d\'une nouvelle version.',
     // website
     'website_path_empty_error' => 'Échec de la sauvegarde, le paramètre "path" ne doit pas être vide.',
     'website_path_format_error' => 'a échoué à enregistrer, les paramètres de chemin d\'accès ne sont supportés qu\'en lettres anglaises simples.',

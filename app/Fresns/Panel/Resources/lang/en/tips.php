@@ -76,6 +76,8 @@ return [
     'uninstall_step_3' => 'Delete files',
     'uninstall_step_4' => 'Clear cache',
     'uninstall_step_5' => 'Done',
+    // delete app
+    'delete_app_warning' => 'If you don\'t want to see update alerts for the application, you can delete it. Once deleted, you will no longer receive alerts for new versions.',
     // website
     'website_path_empty_error' => 'Failed to save, path parameter is not allowed to be empty',
     'website_path_format_error' => 'Failed to save, path parameters only support plain English letters',

@@ -76,6 +76,8 @@ return [
     'uninstall_step_3' => 'Hapus file',
     'uninstall_step_4' => 'Cure cache',
     'uninstall_step_5' => 'Selesai',
+    // delete app
+    'delete_app_warning' => 'Jika Anda tidak ingin menampilkan peringatan pembaruan untuk aplikasi, Anda dapat menghapus aplikasi tersebut. Setelah dihapus, Anda tidak akan lagi diberi peringatan ketika versi baru tersedia.',
     // website
     'website_path_empty_error' => 'Gagal menyimpan, parameter jalur tidak diperbolehkan kosong',
     'website_path_format_error' => 'Gagal disimpan, parameter jalur hanya didukung dalam huruf Inggris biasa',

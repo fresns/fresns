@@ -170,6 +170,7 @@ return [
     'button_confirm_delete' => 'Konfirmasikan Hapus',
     'button_confirm_install' => 'Konfirmasi Instal',
     'button_confirm_upgrade' => 'Konfirmasikan Peningkatan',
+    'button_confirm_download' => 'Konfirmasi Pengunduhan',
     'button_confirm_uninstall' => 'Konfirmasikan Uninstall',
     'button_view' => 'Melihat',
     'button_image_upload' => 'Mengunggah',

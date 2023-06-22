@@ -76,6 +76,8 @@ return [
     'uninstall_step_3' => '刪除文件',
     'uninstall_step_4' => '清理緩存',
     'uninstall_step_5' => '完成',
+    // delete app
+    'delete_app_warning' => '如果你不希望顯示該應用的升級提醒，可以刪除該應用。刪除後，有新版本將不再提示。',
     // website
     'website_path_empty_error' => '保存失敗，路徑參數不允許為空',
     'website_path_format_error' => '保存失敗，路徑參數僅支持純英文字母',

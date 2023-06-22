@@ -76,6 +76,8 @@ return [
     'uninstall_step_3' => '删除文件',
     'uninstall_step_4' => '清理缓存',
     'uninstall_step_5' => '完成',
+    // delete app
+    'delete_app_warning' => '如果你不希望显示该应用的升级提醒，可以删除该应用。删除后，有新版本将不再提示。',
     // website
     'website_path_empty_error' => '保存失败，路径参数不允许为空',
     'website_path_format_error' => '保存失败，路径参数仅支持纯英文字母',

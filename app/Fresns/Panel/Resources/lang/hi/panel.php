@@ -170,6 +170,7 @@ return [
     'button_confirm_delete' => 'हटाने की पुष्टि करें',
     'button_confirm_install' => 'इंस्टॉल की पुष्टि करें',
     'button_confirm_upgrade' => 'अपग्रेड की पुष्टि करें',
+    'button_confirm_download' => 'डाउनलोड की पुष्टि करें',
     'button_confirm_uninstall' => 'अनइंस्टॉल की पुष्टि करें',
     'button_view' => 'राय',
     'button_image_upload' => 'डालना',

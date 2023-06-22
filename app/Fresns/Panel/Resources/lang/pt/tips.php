@@ -76,6 +76,8 @@ return [
     'uninstall_step_3' => 'Deletar arquivos',
     'uninstall_step_4' => 'Limpar cache',
     'uninstall_step_5' => 'Feito',
+    // delete app
+    'delete_app_warning' => 'Se não pretender apresentar um alerta de atualização para a aplicação, pode eliminar a aplicação. Após a eliminação, deixará de ser alertado quando estiver disponível uma nova versão.',
     // website
     'website_path_empty_error' => 'Falha no salvamento, o parâmetro do caminho não pode estar vazio',
     'website_path_format_error' => 'não conseguiu salvar, os parâmetros do caminho só são suportados em letras simples em inglês',

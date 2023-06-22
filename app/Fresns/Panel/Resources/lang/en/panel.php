@@ -170,6 +170,7 @@ return [
     'button_confirm_delete' => 'Confirm Delete',
     'button_confirm_install' => 'Confirm Install',
     'button_confirm_upgrade' => 'Confirm Upgrade',
+    'button_confirm_download' => 'Confirm Download',
     'button_confirm_uninstall' => 'Confirm Uninstall',
     'button_view' => 'View',
     'button_image_upload' => 'Upload',
