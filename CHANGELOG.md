@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.16.0 (2023-06-23)
+
+### Added
+- API: Added site status file `/status.json`
+- Panel: New client status configuration `Fresns Panel -> Clients -> Status`.
+- Panel: New download operation in Application Center
+
+### Fixes
+- Words: Problem with querying records to determine end of period values
+- Words: Error if `connectToken` is empty when creating account in Connect
+- Words: Fix anomaly caused by fskey validation in upload log
+- Helpers: Failed to process domain name extraction compatibility
+- Utilities: Fix broken link replacement control
+
+### BREAKING CHANGES
+- Data: `plugin_callbacks` plugin callback table field adjustment
+    - Field `is_use` changed to `is_used`
+    - Field `use_plugin_fskey` changed to `used_plugin_fskey`
+
+
 ## 2.15.0 (2023-06-12)
 
 ### Fixes
