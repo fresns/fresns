@@ -282,6 +282,9 @@ Route::middleware(['panelAuth'])->group(function () {
         // app
         Route::get('app', [AppController::class, 'index'])->name('app.index');
         Route::put('app', [AppController::class, 'update'])->name('app.update');
+        // status
+        Route::get('status', [AppController::class, 'statusIndex'])->name('status.index');
+        Route::put('status', [AppController::class, 'statusUpdate'])->name('status.update');
     });
 
     // app center

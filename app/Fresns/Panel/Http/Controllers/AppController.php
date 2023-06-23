@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Helpers\ConfigHelper;
 use App\Models\Config;
 use App\Models\Plugin;
 use Illuminate\Http\Request;
@@ -64,6 +65,53 @@ class AppController extends Controller
             $config->item_value = $request->$configKey;
             $config->save();
         }
+
+        return $this->updateSuccess();
+    }
+
+    public function statusIndex()
+    {
+        $statusJson = [
+            'name' => 'Fresns',
+            'activate' => true,
+            'deactivateDescription' => [
+                'default' => '',
+            ],
+        ];
+
+        $statusJsonFile = public_path('status.json');
+
+        if (file_exists($statusJsonFile)) {
+            $statusJson = json_decode(file_get_contents($statusJsonFile), true);
+        }
+
+        return view('FsView::clients.status', compact('statusJson'));
+    }
+
+    public function statusUpdate(Request $request)
+    {
+        $activate = (bool) $request->activate;
+
+        $descriptionArr = [];
+        if ($request->descriptionLangTag) {
+            foreach ($request->descriptionLangTag as $key => $langTag) {
+                $descriptionArr[$langTag] = $request->descriptionLangContent[$key] ?? '';
+            }
+        }
+
+        $defaultLangTag = ConfigHelper::fresnsConfigDefaultLangTag();
+        $descriptionArr['default'] = $descriptionArr[$defaultLangTag] ?? array_values($descriptionArr)[0] ?? '';
+
+        $statusJson = [
+            'name' => 'Fresns',
+            'activate' => $activate,
+            'deactivateDescription' => $descriptionArr,
+        ];
+
+        $statusJsonFile = public_path('status.json');
+
+        $editContent = json_encode($statusJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
+        file_put_contents($statusJsonFile, $editContent);
 
         return $this->updateSuccess();
     }

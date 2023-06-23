@@ -15,6 +15,7 @@
                     <li><hr style="margin: 0.5rem 0"></li>
                     <li class="nav-item"><a class="nav-link {{ \Route::is('panel.website.*') ? 'active' : '' }}" href="{{ route('panel.website.index') }}">{{ __('FsLang::panel.sidebar_website') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ \Route::is('panel.app.*') ? 'active' : '' }}" href="{{ route('panel.app.index') }}">{{ __('FsLang::panel.sidebar_app') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.status.*') ? 'active' : '' }}" href="{{ route('panel.status.index') }}">{{ __('FsLang::panel.sidebar_status') }}</a></li>
                 </ul>
             </div>
         </div>
