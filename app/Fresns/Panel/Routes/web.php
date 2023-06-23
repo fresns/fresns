@@ -321,6 +321,12 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::delete('uninstallTheme', [ExtensionController::class, 'uninstallTheme'])->name('uninstallTheme');
     });
 
+    // extension apps
+    Route::prefix('app')->name('app.')->group(function () {
+        Route::post('download', [ExtensionController::class, 'appDownload'])->name('download');
+        Route::delete('delete', [ExtensionController::class, 'appDelete'])->name('delete');
+    });
+
     // theme manage
     Route::prefix('theme')->name('theme.')->group(function () {
         Route::get('{theme}', [ThemeFunctionController::class, 'show'])->name('functions');

@@ -16,6 +16,7 @@
                     <li><hr style="margin: 0.5rem 0"></li>
                     <li class="nav-item"><a class="nav-link {{ \Route::is('panel.iframe.marketplace') ? 'active' : '' }}" href="{{ route('panel.iframe.marketplace', ['url' => $marketplaceUrl]) }}"><i class="bi bi-shop"></i> {{ __('FsLang::panel.menu_marketplace') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="#installModal" data-bs-toggle="modal" role="button"><i class="bi bi-tools"></i> {{ __('FsLang::panel.install_application') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#downloadModal" data-bs-toggle="modal" role="button"><i class="bi bi-cloud-arrow-down"></i> {{ __('FsLang::panel.download_application') }}</a></li>
                     <li><hr style="margin: 0.5rem 0"></li>
                 </ul>
             </div>
@@ -25,6 +26,7 @@
 </div>
 
 <script src="/static/js/ansi_up.js"></script>
+
 <!--install modal-->
 <div class="modal fade" id="installModal" tabindex="-1" aria-labelledby="install" aria-hidden="true">
     <div class="modal-dialog">
@@ -40,9 +42,9 @@
                     <div class="input-group">
                         <span class="input-group-text">{{ __('FsLang::panel.install_mode') }}</span>
 
-                        <button class="btn btn-outline-secondary dropdown-toggle showSelectTypeName" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('FsLang::panel.install_mode_input') }}</button>
+                        <button class="btn btn-outline-secondary dropdown-toggle showSelectTypeName" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('FsLang::panel.install_mode_fskey') }}</button>
                         <ul class="dropdown-menu selectInputType">
-                            <li data-name="inputFskey"><a class="dropdown-item install_method" href="#">{{ __('FsLang::panel.install_mode_input') }}</a></li>
+                            <li data-name="inputFskey"><a class="dropdown-item install_method" href="#">{{ __('FsLang::panel.install_mode_fskey') }}</a></li>
                             <li data-name="inputDirectory"><a class="dropdown-item install_method" href="#">{{ __('FsLang::panel.install_mode_directory') }}</a></li>
                             <li data-name="inputZipball"><a class="dropdown-item install_method" href="#">{{ __('FsLang::panel.install_mode_upload') }}</a></li>
                         </ul>
@@ -69,7 +71,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title"><i class="bi bi-tools"></i> {{ __('FsLang::panel.install_application') }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="reloadPage()"></button>
             </div>
             <div class="modal-body">
                 <pre class="form-control" id="install_artisan_output">{{ __('FsLang::tips.install_in_progress') }}</pre>
@@ -114,7 +116,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">{{ __('FsLang::panel.button_uninstall') }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="reloadPage()"></button>
             </div>
             <div class="modal-body">
                 <pre class="form-control" id="uninstall_artisan_output">{{ __('FsLang::tips.uninstall_in_progress') }}</pre>
@@ -126,6 +128,51 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="reloadPage()">{{ __('FsLang::panel.button_close') }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--download modal-->
+<div class="modal fade" id="downloadModal" tabindex="-1" aria-labelledby="download" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-cloud-arrow-down"></i> {{ __('FsLang::panel.download_application') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('panel.app.download') }}" method="post">
+                @csrf
+                @method('post')
+                <div class="modal-body">
+                    <div class="input-group">
+                        <span class="input-group-text">{{ __('FsLang::panel.install_mode_fskey') }}</span>
+                        <input type="text" class="form-control" name="app_fskey" maxlength="64">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="downloadSubmit">{{ __('FsLang::panel.button_confirm') }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--show download result modal-->
+<div class="modal fade" id="downloadResultModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="downloadResult" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-cloud-arrow-down"></i> {{ __('FsLang::panel.download_application') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="reloadPage()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="my-3 ms-3">
+                    <div class="spinner-border spinner-border-sm me-1" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    {{ __('FsLang::tips.request_in_progress') }}
+                </div>
             </div>
         </div>
     </div>

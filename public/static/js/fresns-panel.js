@@ -2312,6 +2312,26 @@ $(document).ready(function () {
         $('input[name=fskey]').val(fskey)
     });
 
+    // download apps
+    $('.download-apps').on('click', function () {
+        let fskey = $(this).data('fskey');
+        let name = $(this).data('name');
+        let upgradeVersion = $(this).data('new-version');
+
+        $('.app-name').text(name)
+        $('.app-new-version').text(upgradeVersion)
+        $('input[name=app_fskey]').val(fskey)
+    });
+
+    // delete apps
+    $('.delete-apps').on('click', function () {
+        let fskey = $(this).data('fskey');
+        let name = $(this).data('name');
+
+        $('.app-name').text(name)
+        $('input[name=app_fskey]').val(fskey)
+    });
+
     // extensions upgrade form
     $('#upgradeExtensions form').submit(function (event) {
         event.preventDefault();
@@ -2394,6 +2414,48 @@ $(document).ready(function () {
                     .val(message);
         })
     });
+
+    $('#downloadModal form').submit(function () {
+        $('#downloadModal').modal('hide');
+        $('#downloadResultModal .modal-body').html(`<div class="my-3 ms-3">
+            <div class="spinner-border spinner-border-sm me-1" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            ${trans('tips.request_in_progress')}
+        </div>`);
+        $('#downloadResultModal').modal('show');
+
+        $.ajax({
+            method: $(this).attr('method'),
+            data: new FormData(document.querySelector('#downloadModal form')),
+            contentType: false,
+            processData: false,
+            url: $(this).attr('action'),
+            success: function (response) {
+                console.log(response)
+                if (response.code != 0) {
+                    html = `<div class="alert alert-danger" role="alert">[${response.code}] ${response.message}</div>`;
+                } else {
+                    const data = response.data
+
+                    html = `<ul class="list-group list-group-flush">
+                        <li class="list-group-item d-none">${data.fskey}</li>
+                        <li class="list-group-item">${data.name} <span class="badge bg-secondary ms-1 fs-9">${data.version}</span></li>
+                        <li class="list-group-item">${data.description}</li>
+                        <li class="list-group-item text-center"><a class="btn btn-primary" href="${data.zipBall}" target="_blank" role="button">${trans('panel.button_download')}</a></li>
+                    </ul>`
+                }
+
+                $('#downloadResultModal .modal-body').html(html)
+            },
+            error: function (response) {
+                console.error(response)
+                window.tips(response.responseJSON.message);
+            },
+        });
+
+        return false;
+    });
 });
 
 // fresns extensions callback
@@ -2434,6 +2496,17 @@ window.onmessage = function (event) {
                 $('input[name="plugin_fskey"]').attr('required', true).siblings('input').attr('required', false)
 
                 $('#installSubmit').click()
+            }, 1000);
+            break;
+        case 'fresnsDownloadExtension':
+            // (new bootstrap.Modal('#downloadModal')).show();
+
+            setTimeout(function () {
+                console.log("Download Extension ", fresnsCallback.data.fskey)
+
+                $('input[name="app_fskey"]').val(fresnsCallback.data.fskey)
+
+                $('#downloadSubmit').click()
             }, 1000);
             break;
     }

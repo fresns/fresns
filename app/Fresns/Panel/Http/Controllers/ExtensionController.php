@@ -222,13 +222,13 @@ class ExtensionController extends Controller
 
         if ($exitCode == 0) {
             return \response($output."\n ".__('FsLang::tips.installSuccess'));
-        } else {
-            if ($output == '') {
-                $output = __('FsLang::tips.viewLog')."\n ".' /storage/logs';
-            }
-
-            return \response($output."\n ".__('FsLang::tips.installFailure'));
         }
+
+        if ($output == '') {
+            $output = __('FsLang::tips.viewLog')."\n ".' /storage/logs';
+        }
+
+        return \response($output."\n ".__('FsLang::tips.installFailure'));
     }
 
     public function upgrade(Request $request)
@@ -333,5 +333,35 @@ class ExtensionController extends Controller
         }
 
         return back()->with('failure', __('FsLang::tips.plugin_not_exists'));
+    }
+
+    public function appDownload(Request $request)
+    {
+        $appFskey = $request->app_fskey;
+
+        if (empty($appFskey)) {
+            return \response()->json([
+                'code' => 21005,
+                'message' => __('FsLang::tips.install_not_entered_key'),
+                'data' => null,
+            ]);
+        }
+
+        $fresnsResp = \FresnsCmdWord::plugin('MarketManager')->appDownload(['fskey' => $appFskey]);
+
+        return \response()->json($fresnsResp->getOrigin());
+    }
+
+    public function appDelete(Request $request)
+    {
+        $fskey = $request->app_fskey;
+
+        if (empty($fskey)) {
+            return back()->with('failure', 'fskey cannot be empty');
+        }
+
+        Plugin::where('fskey', $fskey)->delete();
+
+        return $this->deleteSuccess();
     }
 }

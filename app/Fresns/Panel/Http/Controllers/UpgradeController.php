@@ -32,6 +32,7 @@ class UpgradeController extends Controller
         $appsData = Plugin::type(Plugin::TYPE_PANEL)->where('is_upgrade', 1)->get();
         $enginesData = Plugin::type(Plugin::TYPE_ENGINE)->where('is_upgrade', 1)->get();
         $themesData = Plugin::type(Plugin::TYPE_THEME)->where('is_upgrade', 1)->get();
+        $standaloneData = Plugin::type(Plugin::TYPE_STANDALONE)->where('is_upgrade', 1)->get();
         $pluginUpgradeCount = Plugin::where('is_upgrade', 1)->count();
 
         $autoUpgradeSteps = [
@@ -77,6 +78,7 @@ class UpgradeController extends Controller
             'appsData',
             'enginesData',
             'themesData',
+            'standaloneData',
             'pluginUpgradeCount',
             'autoUpgradeSteps',
             'autoUpgradeStepInt',

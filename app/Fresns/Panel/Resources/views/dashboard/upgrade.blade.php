@@ -225,6 +225,50 @@
                 </div>
             </div>
         </div>
+
+        <!--Standalone Deploy Apps-->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">{{ __('FsLang::panel.download_application') }}</div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        @if($standaloneData->isNotEmpty())
+                            @foreach ($standaloneData as $standalone)
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <a href="{{ $marketplaceUrl.'/detail/'.$standalone->fskey }}" target="_blank" class="link-dark fresns-link">{{ $standalone->name }}</a>
+                                        <span class="badge bg-secondary">{{ $standalone->version }}</span> to <span class="badge bg-primary">{{ $standalone->upgrade_version }}</span>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-warning btn-sm download-apps"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#downloadModal"
+                                            data-fskey="{{ $standalone->fskey }}"
+                                            data-name="{{ $standalone->name }}"
+                                            data-new-version="{{ $standalone->upgrade_version }}">
+                                            {{ __('FsLang::panel.button_download') }}
+                                        </button>
+
+                                        <button type="button" class="btn btn-outline-danger btn-sm ms-2 delete-apps"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteApps"
+                                            data-fskey="{{ $standalone->fskey }}"
+                                            data-name="{{ $standalone->name }}">
+                                            {{ __('FsLang::panel.button_delete') }}
+                                        </button>
+                                    </div>
+                                </li>
+                            @endforeach
+                        @else
+                            <div class="p-5 text-center">
+                                <i class="bi bi-view-list"></i> {{ __('FsLang::tips.upgrade_none') }}
+                            </div>
+                        @endif
+                    </ul>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- Fresns Upgrade Modal: auto upgrade confirm -->
@@ -432,6 +476,78 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal" onclick="reloadPage()">{{ __('FsLang::panel.button_close') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upgrade Extensions Modal: download apps -->
+    <div class="modal fade" id="downloadModal" tabindex="-1" aria-labelledby="download" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-cloud-arrow-down"></i> {{ __('FsLang::panel.download_application') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <span class="app-name"></span>
+                    <span class="badge bg-success app-new-version"></span>
+                </div>
+                <div class="modal-footer">
+                    <form action="{{ route('panel.app.download') }}" method="post">
+                        @csrf
+                        @method('post')
+                        <input type="hidden" name="app_fskey">
+                        <button type="submit" class="btn btn-primary" id="downloadSubmit">{{ __('FsLang::panel.button_confirm_download') }}</button>
+                    </form>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('FsLang::panel.button_cancel') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upgrade Extensions Modal: download result -->
+    <div class="modal fade" id="downloadResultModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="downloadResult" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-cloud-arrow-down"></i> {{ __('FsLang::panel.download_application') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="reloadPage()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="my-3 ms-3">
+                        <div class="spinner-border spinner-border-sm me-1" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        {{ __('FsLang::tips.request_in_progress') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upgrade Extensions Modal: delete apps -->
+    <div class="modal fade" id="deleteApps" tabindex="-1" aria-labelledby="deleteApps" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="bi bi-cloud-arrow-down"></i>
+                        <span class="app-name"></span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-danger">{{ __('FsLang::tips.delete_app_warning') }}</p>
+                </div>
+                <div class="modal-footer">
+                    <form action="{{ route('panel.app.delete') }}" method="post">
+                        @csrf
+                        @method('delete')
+                        <input type="hidden" name="app_fskey">
+                        <button type="submit" class="btn btn-danger">{{ __('FsLang::panel.button_confirm_delete') }}</button>
+                    </form>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('FsLang::panel.button_cancel') }}</button>
                 </div>
             </div>
         </div>
