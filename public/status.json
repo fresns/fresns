@@ -1,0 +1,7 @@
+{
+    "name": "Fresns",
+    "activate": true,
+    "deactivateDescription": {
+        "default": ""
+    }
+}
