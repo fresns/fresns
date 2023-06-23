@@ -1082,6 +1082,8 @@ return [
     'app_android_notifications_desc' => 'Funzione di notifica pop-up del sistema Android',
     'app_wechat_config' => 'Configurazione wechat',
     'app_wechat_notifications_desc' => 'Notifica del servizio WeChat o messaggio del modello del numero pubblico',
+    // Client-Status
+    'client_status_desc' => 'Configurazione dello stato di richiesta del cliente ogni 10 minuti',
     // App-Center-Engines
     'engine_table_name_desc' => 'Se si desidera distribuire un sito Web in modo indipendente, oppure non è necessario un\'app mobile sitifica. Semplicemente "disattivare" o "Disinstalla" il motore del sito Web in modo da Fresns sarà solo un sistema di back-rend che viene eseguito su API e plugin',
     'engine_table_options_desc' => 'Supporto Per abilitare più motori, devi solo passare l\'un l\'altro, consultare lo sviluppatore del motore per i dettagli',

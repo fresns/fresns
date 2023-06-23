@@ -1082,6 +1082,8 @@ return [
     'app_android_notifications_desc' => 'Android-System-Popup-Benachrichtigungsfunktion',
     'app_wechat_config' => 'Wechat-Konfiguration',
     'app_wechat_notifications_desc' => 'WECHAT-SERVICE-Benachrichtigung oder Nummernschablonenmeldung',
+    // Client-Status
+    'client_status_desc' => 'Client-Anforderung der Statuskonfiguration alle 10 Minuten',
     // App-Center-Engines
     'engine_table_name_desc' => 'Wenn Sie eine Website unabhängig bereitstellen möchten, oder benötigen Sie keine mobile App-App. Wählen Sie einfach "Deaktivieren" oder "Deinstallieren" der Website-Engine, sodass FRESNS nur ein Backend-System sein wird, das auf einer API und einem Plug-In ausgeführt wird',
     'engine_table_options_desc' => 'Unterstützung, um mehrere Motoren zu aktivieren, müssen Sie einfach weitergeben, wenden Sie sich bitte an den Motorentwickler',

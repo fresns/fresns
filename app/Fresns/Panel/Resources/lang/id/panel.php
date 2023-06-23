@@ -1082,6 +1082,8 @@ return [
     'app_android_notifications_desc' => 'Sistem Notifikasi Pop-Up Sistem Android',
     'app_wechat_config' => 'Konfigurasi WeChat',
     'app_wechat_notifications_desc' => 'Pemberitahuan layanan WeChat atau pesan templat nomor publik',
+    // Client-Status
+    'client_status_desc' => 'Konfigurasi status permintaan klien setiap 10 menit',
     // App-Center-Engines
     'engine_table_name_desc' => 'Jika Anda ingin menyebarkan situs web secara independen, atau Anda tidak memerlukan aplikasi seluler situs web. Cukup "nonaktifkan" atau "hapus instalan" mesin situs web sehingga Fresns hanya akan hanya sistem backend yang berjalan pada API dan plugin',
     'engine_table_options_desc' => 'Dukungan untuk memungkinkan beberapa mesin, hanya perlu saling lewat, silakan berkonsultasi dengan pengembang mesin untuk detailnya',

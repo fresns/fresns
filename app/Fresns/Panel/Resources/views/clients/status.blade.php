@@ -25,16 +25,19 @@
 
         <div class="row mb-4">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.table_status') }}:</label>
-            <div class="col-lg-9 pt-2">
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="activate" id="activate_true" value="1" @if($statusJson['activate'] ?? true) checked @endif>
-                    <label class="form-check-label" for="activate_true">{{ __('FsLang::panel.option_activate') }}</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="activate" id="activate_false" value="0" @if(!$statusJson['activate'] ?? true) checked @endif>
-                    <label class="form-check-label" for="activate_false">{{ __('FsLang::panel.option_deactivate') }}</label>
+            <div class="col-lg-5">
+                <div class="form-control bg-white">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="activate" id="activate_true" value="1" @if($statusJson['activate'] ?? true) checked @endif>
+                        <label class="form-check-label" for="activate_true">{{ __('FsLang::panel.option_activate') }}</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="activate" id="activate_false" value="0" @if(!$statusJson['activate'] ?? true) checked @endif>
+                        <label class="form-check-label" for="activate_false">{{ __('FsLang::panel.option_deactivate') }}</label>
+                    </div>
                 </div>
             </div>
+            <div class="col-lg-5 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.client_status_desc') }}</div>
         </div>
 
         <div class="row mb-4">

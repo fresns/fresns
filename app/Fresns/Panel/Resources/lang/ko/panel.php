@@ -1082,6 +1082,8 @@ return [
     'app_android_notifications_desc' => 'Android 시스템 팝업 알림 기능',
     'app_wechat_config' => 'WeChat 구성',
     'app_wechat_notifications_desc' => 'WeChat 서비스 알림 또는 공용 번호 템플릿 메시지',
+    // Client-Status
+    'client_status_desc' => '10분마다 클라이언트 요청 상태 구성',
     // App-Center-Engines
     'engine_table_name_desc' => '웹 사이트를 독립적으로 배포하려는 경우 또는 웹 사이트 모바일 앱이 필요하지 않습니다. FRESNS는 API 및 플러그인에서 실행되는 백엔드 시스템 일뿐 만 아니라 FRESNS만이 "비활성화"또는 "제거"또는 "제거"웹 사이트 엔진 일뿐입니다',
     'engine_table_options_desc' => '여러 엔진을 사용하도록 지원하며 서로를 통과 해야하는 경우 엔진 개발자에게 자세한 내용을 참조하십시오',

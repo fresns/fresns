@@ -1082,6 +1082,8 @@ return [
     'app_android_notifications_desc' => 'Androidシステムポップアップ通知機能',
     'app_wechat_config' => 'WeChatの設定',
     'app_wechat_notifications_desc' => 'WECHATサービス通知またはパブリックナンバーテンプレートメッセージ。',
+    // Client-Status
+    'client_status_desc' => 'クライアントは10分ごとにステータス設定を要求',
     // App-Center-Engines
     'engine_table_name_desc' => 'Webサイトを単独で展開したい場合、またはWebサイトを持たないモバイルアプリケーションを展開したい場合。 ウェブサイトエンジンを「停止」または「アンインストール」するだけで、FresnsはAPIとプラグインが動作するバックエンドシステムとなります。',
     'engine_table_options_desc' => '複数のエンジンを有効にするためのサポート、互いに渡す必要があるだけで、詳細についてはエンジン開発者を参照してください。',

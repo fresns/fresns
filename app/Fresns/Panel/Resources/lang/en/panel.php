@@ -1082,6 +1082,8 @@ return [
     'app_android_notifications_desc' => 'Android pop-up notification function',
     'app_wechat_config' => 'WeChat Config',
     'app_wechat_notifications_desc' => 'WeChat service notifications or public template messages',
+    // Client-Status
+    'client_status_desc' => 'Client request status configuration every 10 minutes',
     // App-Center-Engines
     'engine_table_name_desc' => 'If you want to deploy a website standalone, or a mobile app without a website. Simply "deactivate" or "uninstall" the website engine so that Fresns will just be a back-end system with APIs and plugins running',
     'engine_table_options_desc' => 'Support to enable multiple engines, as long as they do not conflict with each other\'s routing paths, please consult the engine developers for details',

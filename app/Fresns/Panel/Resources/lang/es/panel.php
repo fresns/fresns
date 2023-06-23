@@ -1082,6 +1082,8 @@ return [
     'app_android_notifications_desc' => 'Función de notificación emergente del sistema Android',
     'app_wechat_config' => 'Configuración de Wechat',
     'app_wechat_notifications_desc' => 'Notificación de servicio WeChat o mensaje de plantilla de números públicos',
+    // Client-Status
+    'client_status_desc' => 'El cliente solicita la configuración del estado cada 10 minutos',
     // App-Center-Engines
     'engine_table_name_desc' => 'Si desea implementar un sitio web de forma independiente, o no necesita una aplicación móvil de un sitio web. Simplemente "desactivar" o "desinstalar" el motor del sitio web, por lo que FRESNS solo será solo un sistema de backend que se ejecute en una API y el complemento',
     'engine_table_options_desc' => 'Soporte Para habilitar múltiples motores, solo debe transmitirse entre sí, consulte al desarrollador del motor para obtener más información',

@@ -1083,6 +1083,8 @@ return [
     'app_android_notifications_desc' => 'Android 系统弹窗通知功能。',
     'app_wechat_config' => '微信配置',
     'app_wechat_notifications_desc' => '微信服务通知或者公众号模板消息。',
+    // Client-Status
+    'client_status_desc' => '客户端每 10 分钟请求一次状态配置',
     // App-Center-Engines
     'engine_table_name_desc' => '如果你希望独立部署网站，或者是不需要网站的移动应用。只需“停用”或“卸载”网站引擎，这样 Fresns 将只是一个 API 和插件运行的后端系统。',
     'engine_table_options_desc' => '支持启用多个引擎，只需要彼此路径不冲突即可，详情请咨询引擎开发者。',
