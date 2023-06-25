@@ -567,9 +567,9 @@ class PermissionUtility
     }
 
     // Check content edit perm
-    public static function checkContentEditPerm(Carbon $createDateTime, int $editTimeConfig, ?string $timezone = null, ?string $langTag = null): array
+    public static function checkContentEditPerm(Carbon $createdDatetime, int $editTimeConfig, ?string $timezone = null, ?string $langTag = null): array
     {
-        $editableDateTime = $createDateTime->addMinutes($editTimeConfig);
+        $editableDateTime = $createdDatetime->addMinutes($editTimeConfig);
         $editableSeconds = $editableDateTime->timestamp - time();
         $editableTimeMinutes = intval($editableSeconds / 60);
         $editableTimeSeconds = $editableSeconds % 60;
