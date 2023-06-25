@@ -36,9 +36,13 @@ class AppHelper
         $systemInfo['composer'] = self::getComposerVersionInfo();
 
         $phpInfo['version'] = PHP_VERSION;
-        $phpInfo['cliInfo'] = CommandUtility::getPhpProcess(['-v'])->run()->getOutput();
+        $phpInfo['cliInfo'] = 'PHP function proc_open is disabled and cannot fetch information';
         $phpInfo['uploadMaxFileSize'] = ini_get('upload_max_filesize');
         $systemInfo['php'] = $phpInfo;
+
+        if (function_exists('proc_open') && ! in_array('proc_open', explode(',', ini_get('disable_functions')))) {
+            $phpInfo['cliInfo'] = CommandUtility::getPhpProcess(['-v'])->run()->getOutput();
+        }
 
         return $systemInfo;
     }
@@ -115,19 +119,28 @@ class AppHelper
     // get composer version info
     public static function getComposerVersionInfo(): array
     {
-        $composerInfo = CommandUtility::getComposerProcess(['-V'])->run()->getOutput();
-        $toArray = explode(' ', $composerInfo);
+        $versionInfo = [
+            'version' => 0,
+            'versionInfo' => 'PHP function proc_open is disabled and version information is not available',
+        ];
 
-        $version = null;
-        foreach ($toArray as $item) {
-            if (substr_count($item, '.') == 2) {
-                $version = $item;
-                break;
+        if (function_exists('proc_open') && ! in_array('proc_open', explode(',', ini_get('disable_functions')))) {
+            $composerInfo = CommandUtility::getComposerProcess(['-V'])->run()->getOutput();
+            $toArray = explode(' ', $composerInfo);
+
+            $version = null;
+            foreach ($toArray as $item) {
+                if (substr_count($item, '.') == 2) {
+                    $version = $item;
+                    break;
+                }
             }
-        }
 
-        $versionInfo['version'] = $version ?? 0;
-        $versionInfo['versionInfo'] = $composerInfo;
+            $versionInfo = [
+                'version' => $version ?? 0,
+                'versionInfo' => $composerInfo,
+            ];
+        }
 
         return $versionInfo;
     }
