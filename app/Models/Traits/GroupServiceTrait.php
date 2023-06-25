@@ -56,7 +56,7 @@ trait GroupServiceTrait
         $info['commentCount'] = $groupData->comment_count;
         $info['commentDigestCount'] = $groupData->comment_digest_count;
         $info['permissions'] = $groupData->permissions;
-        $info['createDate'] = $groupData->created_at;
+        $info['createdDatetime'] = $groupData->created_at;
 
         return $info;
     }

@@ -41,7 +41,7 @@ trait HashtagServiceTrait
         $info['postDigestCount'] = $hashtagData->post_digest_count;
         $info['commentCount'] = $hashtagData->comment_count;
         $info['commentDigestCount'] = $hashtagData->comment_digest_count;
-        $info['createDate'] = $hashtagData->created_at;
+        $info['createdDatetime'] = $hashtagData->created_at;
 
         return $info;
     }
