@@ -15,9 +15,10 @@ class HashtagListDTO extends DTO
     public function rules(): array
     {
         return [
-            'createDate' => ['string', 'nullable', 'in:today,yesterday,week,lastWeek,month,lastMonth,year,lastYear'],
-            'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // hashtags->created_at
-            'createDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createDateGt'],
+            'createdDays' => ['integer', 'nullable'],
+            'createdDate' => ['string', 'nullable', 'in:today,yesterday,week,lastWeek,month,lastMonth,year,lastYear'],
+            'createdDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createdDateLt'], // hashtags->created_at
+            'createdDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createdDateGt'],
             'viewCountGt' => ['integer', 'nullable', 'lt:viewCountLt'], // hashtags->view_count
             'viewCountLt' => ['integer', 'nullable', 'gt:viewCountGt'],
             'likeCountGt' => ['integer', 'nullable', 'lt:likeCountLt'], // hashtags->like_count
@@ -32,7 +33,7 @@ class HashtagListDTO extends DTO
             'postCountLt' => ['integer', 'nullable', 'gt:postCountGt'],
             'postDigestCountGt' => ['integer', 'nullable', 'lt:postDigestCountLt'], // hashtags->post_digest_count
             'postDigestCountLt' => ['integer', 'nullable', 'gt:postDigestCountGt'],
-            'orderType' => ['string', 'nullable', 'in:createDate,random,view,like,follow,block,post,postDigest'],
+            'orderType' => ['string', 'nullable', 'in:createdTime,random,view,like,follow,block,post,postDigest'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
             'whitelistKeys' => ['string', 'nullable'],
             'blacklistKeys' => ['string', 'nullable'],

@@ -157,8 +157,8 @@ class GroupController extends Controller
             $groupQuery->where('is_recommend', $dtoRequest->recommend);
         }
 
-        if ($dtoRequest->createDate) {
-            switch ($dtoRequest->createDate) {
+        if ($dtoRequest->createdDate) {
+            switch ($dtoRequest->createdDate) {
                 case 'today':
                     $groupQuery->whereDate('created_at', now()->format('Y-m-d'));
                     break;
@@ -199,11 +199,11 @@ class GroupController extends Controller
                     break;
             }
         } else {
-            $groupQuery->when($dtoRequest->createDateGt, function ($query, $value) {
+            $groupQuery->when($dtoRequest->createdDateGt, function ($query, $value) {
                 $query->whereDate('created_at', '>=', $value);
             });
 
-            $groupQuery->when($dtoRequest->createDateLt, function ($query, $value) {
+            $groupQuery->when($dtoRequest->createdDateLt, function ($query, $value) {
                 $query->whereDate('created_at', '<=', $value);
             });
         }
@@ -269,7 +269,7 @@ class GroupController extends Controller
         } else {
             $orderType = match ($dtoRequest->orderType) {
                 default => 'rating',
-                'createDate' => 'created_at',
+                'createdTime' => 'created_at',
                 'view' => 'view_count',
                 'like' => 'like_count',
                 'dislike' => 'dislike_count',

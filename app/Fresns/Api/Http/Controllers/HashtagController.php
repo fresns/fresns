@@ -37,8 +37,8 @@ class HashtagController extends Controller
             $query->whereNotIn('id', $value);
         });
 
-        if ($dtoRequest->createDate) {
-            switch ($dtoRequest->createDate) {
+        if ($dtoRequest->createdDate) {
+            switch ($dtoRequest->createdDate) {
                 case 'today':
                     $hashtagQuery->whereDate('created_at', now()->format('Y-m-d'));
                     break;
@@ -79,11 +79,11 @@ class HashtagController extends Controller
                     break;
             }
         } else {
-            $hashtagQuery->when($dtoRequest->createDateGt, function ($query, $value) {
+            $hashtagQuery->when($dtoRequest->createdDateGt, function ($query, $value) {
                 $query->whereDate('created_at', '>=', $value);
             });
 
-            $hashtagQuery->when($dtoRequest->createDateLt, function ($query, $value) {
+            $hashtagQuery->when($dtoRequest->createdDateLt, function ($query, $value) {
                 $query->whereDate('created_at', '<=', $value);
             });
         }
@@ -149,7 +149,7 @@ class HashtagController extends Controller
         } else {
             $orderType = match ($dtoRequest->orderType) {
                 default => 'created_at',
-                'createDate' => 'created_at',
+                'createdTime' => 'created_at',
                 'view' => 'view_count',
                 'like' => 'like_count',
                 'dislike' => 'dislike_count',

@@ -115,7 +115,7 @@ class HashtagService
             return $hashtagData;
         }
 
-        $hashtagData['createDate'] = DateHelper::fresnsDateTimeByTimezone($hashtagData['createDate'], $timezone, $langTag);
+        $hashtagData['createdDatetime'] = DateHelper::fresnsDateTimeByTimezone($hashtagData['createdDatetime'], $timezone, $langTag);
 
         $hashtagData['interaction']['followExpiryDateTime'] = DateHelper::fresnsDateTimeByTimezone($hashtagData['interaction']['followExpiryDateTime'], $timezone, $langTag);
 

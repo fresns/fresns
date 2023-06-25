@@ -87,8 +87,8 @@ class UserController extends Controller
             $query->whereRelation('profile', 'gender', $value);
         });
 
-        if ($dtoRequest->createDate) {
-            switch ($dtoRequest->createDate) {
+        if ($dtoRequest->createdDate) {
+            switch ($dtoRequest->createdDate) {
                 case 'today':
                     $userQuery->whereDate('created_at', now()->format('Y-m-d'));
                     break;
@@ -129,11 +129,11 @@ class UserController extends Controller
                     break;
             }
         } else {
-            $userQuery->when($dtoRequest->createDateGt, function ($query, $value) {
+            $userQuery->when($dtoRequest->createdDateGt, function ($query, $value) {
                 $query->whereDate('created_at', '>=', $value);
             });
 
-            $userQuery->when($dtoRequest->createDateLt, function ($query, $value) {
+            $userQuery->when($dtoRequest->createdDateLt, function ($query, $value) {
                 $query->whereDate('created_at', '<=', $value);
             });
         }
@@ -255,7 +255,7 @@ class UserController extends Controller
         } else {
             $orderType = match ($dtoRequest->orderType) {
                 default => 'created_at',
-                'createDate' => 'created_at',
+                'createdTime' => 'created_at',
                 'view' => 'view_me_count',
                 'like' => 'like_me_count',
                 'dislike' => 'dislike_me_count',

@@ -221,8 +221,8 @@ class PostController extends Controller
             $query->where('sticky_state', $value);
         });
 
-        if ($dtoRequest->createDate) {
-            switch ($dtoRequest->createDate) {
+        if ($dtoRequest->createdDays || $dtoRequest->createdDate) {
+            switch ($dtoRequest->createdDate) {
                 case 'today':
                     $postQuery->whereDate('created_at', now()->format('Y-m-d'));
                     break;
@@ -261,13 +261,16 @@ class PostController extends Controller
                 case 'lastYear':
                     $postQuery->whereYear('created_at', now()->subYear()->year);
                     break;
+
+                default:
+                    $postQuery->whereDate('created_at', '>=', now()->subDays($dtoRequest->createdDays ?? 1)->format('Y-m-d'));
             }
         } else {
-            $postQuery->when($dtoRequest->createDateGt, function ($query, $value) {
+            $postQuery->when($dtoRequest->createdDateGt, function ($query, $value) {
                 $query->whereDate('created_at', '>=', $value);
             });
 
-            $postQuery->when($dtoRequest->createDateLt, function ($query, $value) {
+            $postQuery->when($dtoRequest->createdDateLt, function ($query, $value) {
                 $query->whereDate('created_at', '<=', $value);
             });
         }
@@ -348,7 +351,8 @@ class PostController extends Controller
         } else {
             $orderType = match ($dtoRequest->orderType) {
                 default => 'created_at',
-                'createDate' => 'created_at',
+                'createdTime' => 'created_at',
+                'commentTime' => 'latest_comment_at',
                 'view' => 'view_count',
                 'like' => 'like_count',
                 'dislike' => 'dislike_count',
@@ -363,7 +367,11 @@ class PostController extends Controller
                 'desc' => 'desc',
             };
 
-            $postQuery->orderBy($orderType, $orderDirection);
+            if ($dtoRequest->orderType == 'commentTime') {
+                $postQuery->orderBy(DB::raw('COALESCE(latest_comment_at, created_at)'), $orderDirection);
+            } else {
+                $postQuery->orderBy($orderType, $orderDirection);
+            }
         }
 
         $posts = $postQuery->paginate($dtoRequest->pageSize ?? 15);

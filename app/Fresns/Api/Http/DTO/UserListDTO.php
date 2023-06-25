@@ -18,9 +18,10 @@ class UserListDTO extends DTO
             'roles' => ['string', 'nullable'],
             'verified' => ['boolean', 'nullable'],
             'gender' => ['integer', 'nullable', 'in:1,2,3'],
-            'createDate' => ['string', 'nullable', 'in:today,yesterday,week,lastWeek,month,lastMonth,year,lastYear'],
-            'createDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createDateLt'], // user_stats->created_at
-            'createDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createDateGt'],
+            'createdDays' => ['integer', 'nullable'],
+            'createdDate' => ['string', 'nullable', 'in:today,yesterday,week,lastWeek,month,lastMonth,year,lastYear'],
+            'createdDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createdDateLt'], // user_stats->created_at
+            'createdDateLt' => ['date_format:Y-m-d', 'nullable', 'after:createdDateGt'],
             'viewCountGt' => ['integer', 'nullable', 'lt:viewCountLt'], // user_stats->view_me_count
             'viewCountLt' => ['integer', 'nullable', 'gt:viewCountGt'],
             'likeCountGt' => ['integer', 'nullable', 'lt:likeCountLt'], // user_stats->like_me_count
@@ -49,7 +50,7 @@ class UserListDTO extends DTO
             'extcredits4CountLt' => ['integer', 'nullable', 'gt:extcredits4CountGt'],
             'extcredits5CountGt' => ['integer', 'nullable', 'lt:extcredits5CountLt'], // user_stats->extcredits5
             'extcredits5CountLt' => ['integer', 'nullable', 'gt:extcredits5CountGt'],
-            'orderType' => ['string', 'nullable', 'in:createDate,random,view,like,dislike,follow,block,post,comment,postDigest,commentDigest,extcredits1,extcredits2,extcredits3,extcredits4,extcredits5'],
+            'orderType' => ['string', 'nullable', 'in:createdTime,random,view,like,dislike,follow,block,post,comment,postDigest,commentDigest,extcredits1,extcredits2,extcredits3,extcredits4,extcredits5'],
             'orderDirection' => ['string', 'nullable', 'in:asc,desc'],
             'whitelistKeys' => ['string', 'nullable'],
             'blacklistKeys' => ['string', 'nullable'],

@@ -186,7 +186,7 @@ class GroupService
             return $groupData;
         }
 
-        $groupData['createDate'] = DateHelper::fresnsDateTimeByTimezone($groupData['createDate'], $timezone, $langTag);
+        $groupData['createdDatetime'] = DateHelper::fresnsDateTimeByTimezone($groupData['createdDatetime'], $timezone, $langTag);
 
         $groupData['creator'] = UserService::handleUserDate($groupData['creator'], $timezone, $langTag);
 
