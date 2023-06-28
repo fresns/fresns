@@ -116,7 +116,7 @@ class Content
                 if (empty($checkLog)) {
                     $logModel = PostLog::create($logData);
                 } else {
-                    if (empty($checkLog->content) && empty($checkLog->files) && empty($checkLog->extends)) {
+                    if (empty($checkLog->content) && $checkLog?->fileUsages?->isEmpty() && $checkLog?->extendUsages?->isEmpty()) {
                         $checkLog->update($logData);
                         $logModel = $checkLog;
                     } else {
@@ -157,7 +157,7 @@ class Content
                         $checkLog->update($logData);
                         $logModel = $checkLog;
                     } else {
-                        if (empty($checkLog->content) && empty($checkLog->files) && empty($checkLog->extends)) {
+                        if (empty($checkLog->content) && $checkLog?->fileUsages?->isEmpty() && $checkLog?->extendUsages?->isEmpty()) {
                             $checkLog->update($logData);
                             $logModel = $checkLog;
                         } else {
