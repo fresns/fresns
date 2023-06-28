@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Helpers\AppHelper;
 use App\Helpers\ConfigHelper;
 use App\Models\Config;
 use App\Models\Plugin;
@@ -104,6 +105,7 @@ class AppController extends Controller
 
         $statusJson = [
             'name' => 'Fresns',
+            'version' => AppHelper::VERSION,
             'activate' => $activate,
             'deactivateDescription' => $descriptionArr,
         ];
