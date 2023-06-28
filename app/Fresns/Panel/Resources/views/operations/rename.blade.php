@@ -512,6 +512,83 @@
         <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.rename_block_comment_name_desc') }}</div>
     </div>
 
+    <!--rename_follower_config-->
+    <div class="row mb-3">
+        <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.rename_follower_config') }}:</label>
+        <div class="col-lg-6">
+            <div class="input-group">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.rename_user_follower_name') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'user_follower_name']) }}"
+                    data-languages="{{ optional($configs['user_follower_name'] ?? null)?->languages?->toJson() }}"
+                    data-item_key="user_follower_name"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['user_follower_name'] ?? '' }}
+                </button>
+            </div>
+        </div>
+        <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.rename_user_follower_name_desc') }}</div>
+    </div>
+    <div class="row mb-3">
+        <label class="col-lg-2"></label>
+        <div class="col-lg-6">
+            <div class="input-group">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.rename_group_follower_name') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'group_follower_name']) }}"
+                    data-languages="{{ optional($configs['group_follower_name'] ?? null)?->languages?->toJson() }}"
+                    data-item_key="group_follower_name"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['group_follower_name'] ?? '' }}
+                </button>
+            </div>
+        </div>
+        <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.rename_group_follower_name_desc') }}</div>
+    </div>
+    <div class="row mb-3">
+        <label class="col-lg-2"></label>
+        <div class="col-lg-6">
+            <div class="input-group">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.rename_hashtag_follower_name') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'hashtag_follower_name']) }}"
+                    data-languages="{{ optional($configs['hashtag_follower_name'] ?? null)?->languages?->toJson() }}"
+                    data-item_key="hashtag_follower_name"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['hashtag_follower_name'] ?? '' }}
+                </button>
+            </div>
+        </div>
+        <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.rename_hashtag_follower_name_desc') }}</div>
+    </div>
+    <div class="row mb-3">
+        <label class="col-lg-2"></label>
+        <div class="col-lg-6">
+            <div class="input-group">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.rename_post_follower_name') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'post_follower_name']) }}"
+                    data-languages="{{ optional($configs['post_follower_name'] ?? null)?->languages?->toJson() }}"
+                    data-item_key="post_follower_name"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['post_follower_name'] ?? '' }}
+                </button>
+            </div>
+        </div>
+        <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.rename_post_follower_name_desc') }}</div>
+    </div>
+    <div class="row mb-5">
+        <label class="col-lg-2"></label>
+        <div class="col-lg-6">
+            <div class="input-group">
+                <label class="input-group-text rename-label">{{ __('FsLang::panel.rename_comment_follower_name') }}</label>
+                <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
+                    data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'comment_follower_name']) }}"
+                    data-languages="{{ optional($configs['comment_follower_name'] ?? null)?->languages?->toJson() }}"
+                    data-item_key="comment_follower_name"
+                    data-bs-target="#configLangModal">{{ $defaultLangParams['comment_follower_name'] ?? '' }}
+                </button>
+            </div>
+        </div>
+        <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.rename_comment_follower_name_desc') }}</div>
+    </div>
+
     <!-- Language Modal -->
     <div class="modal fade" id="configLangModal" tabindex="-1" aria-labelledby="configLangModal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
