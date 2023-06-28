@@ -220,35 +220,47 @@ class CommonController extends Controller
         $authAccount = $this->account();
         $langTag = $this->langTag();
 
+        if ($dtoRequest->useType == 3 || $dtoRequest->useType == 4) {
+            if (empty($authAccount)) {
+                throw new ApiException(31501);
+            }
+        }
+
         $sendConfigs = ConfigHelper::fresnsConfigByItemKeys([
             'send_email_service',
             'send_sms_service',
             'site_login_or_register',
         ]);
 
-        if ($dtoRequest->type == 'email' && empty($sendConfigs['send_email_service'])) {
-            throw new ApiException(32100);
-        } elseif ($dtoRequest->type == 'sms' && empty($sendConfigs['send_sms_service'])) {
-            throw new ApiException(32100);
+        switch ($dtoRequest->type) {
+            case 'email':
+                if (empty($sendConfigs['send_email_service'])) {
+                    throw new ApiException(32100);
+                }
+
+                $checkDisposableEmail = ValidationUtility::disposableEmail($dtoRequest->account);
+                if (! $checkDisposableEmail) {
+                    throw new ApiException(34110);
+                }
+
+                $accountName = $dtoRequest->account;
+                $account = Account::where('email', $accountName)->first();
+
+                $authAccountConfig = $authAccount?->email;
+                break;
+            case 'sms':
+                if (empty($sendConfigs['send_sms_service'])) {
+                    throw new ApiException(32100);
+                }
+
+                $accountName = $dtoRequest->countryCode.$dtoRequest->account;
+                $account = Account::where('phone', $accountName)->first();
+
+                $authAccountConfig = $authAccount?->phone;
+                break;
         }
 
-        if ($dtoRequest->type == 'email') {
-            $checkEmail = ValidationUtility::disposableEmail($dtoRequest->account);
-            if (! $checkEmail) {
-                throw new ApiException(34110);
-            }
-
-            $account = Account::where('email', $dtoRequest->account)->first();
-            $accountConfig = $account?->email;
-
-            $checkSend = ValidationUtility::sendCode($dtoRequest->account);
-        } else {
-            $phone = $dtoRequest->countryCode.$dtoRequest->account;
-            $account = Account::where('phone', $phone)->first();
-            $accountConfig = $account?->phone;
-
-            $checkSend = ValidationUtility::sendCode($dtoRequest->countryCode.$dtoRequest->account);
-        }
+        $checkSend = ValidationUtility::sendCode($accountName);
 
         $sendType = match ($dtoRequest->type) {
             'email' => 1,
@@ -262,7 +274,7 @@ class CommonController extends Controller
             'langTag' => $langTag,
         ];
 
-        if ($dtoRequest->useType == 1 && $account) {
+        if (($dtoRequest->useType == 1 || $dtoRequest->useType == 3) && $account) {
             switch ($dtoRequest->type) {
                 case 'email':
                     throw new ApiException(34205);
@@ -277,7 +289,7 @@ class CommonController extends Controller
             throw new ApiException(34301);
         }
 
-        if ($dtoRequest->useType == 3 && $accountConfig) {
+        if ($dtoRequest->useType == 3 && $authAccountConfig) {
             switch ($dtoRequest->type) {
                 case 'email':
                     throw new ApiException(34401);
@@ -288,9 +300,7 @@ class CommonController extends Controller
             }
         }
 
-        if ($dtoRequest->useType == 4 && empty($authAccount?->aid)) {
-            throw new ApiException(31501);
-        } elseif ($dtoRequest->useType == 4 && $authAccount?->aid) {
+        if ($dtoRequest->useType == 4) {
             switch ($dtoRequest->type) {
                 case 'email':
                     $wordBody['account'] = $authAccount->email;
