@@ -681,9 +681,9 @@ class AccountController extends Controller
         ];
 
         // edit email
-        if ($dtoRequest->editEmail) {
-            $checkEmail = ValidationUtility::disposableEmail($dtoRequest->editEmail);
-            if (! $checkEmail) {
+        if ($dtoRequest->newEmail) {
+            $checkDisposableEmail = ValidationUtility::disposableEmail($dtoRequest->newEmail);
+            if (! $checkDisposableEmail) {
                 throw new ApiException(34110);
             }
 
@@ -691,7 +691,7 @@ class AccountController extends Controller
                 throw new ApiException(33202);
             }
 
-            $checkEmail = Account::where('email', $dtoRequest->editEmail)->first();
+            $checkEmail = Account::where('email', $dtoRequest->newEmail)->first();
             if ($checkEmail) {
                 throw new ApiException(34205);
             }
@@ -706,7 +706,7 @@ class AccountController extends Controller
 
             $newCodeWordBody = [
                 'type' => 1,
-                'account' => $dtoRequest->editEmail,
+                'account' => $dtoRequest->newEmail,
                 'countryCode' => null,
                 'verifyCode' => $dtoRequest->newVerifyCode,
                 'templateId' => $authAccount->email ? VerifyCode::TEMPLATE_EDIT : VerifyCode::TEMPLATE_CHANGE,
@@ -718,12 +718,12 @@ class AccountController extends Controller
             }
 
             $authAccount->fill([
-                'email' => $dtoRequest->editEmail,
+                'email' => $dtoRequest->newEmail,
             ]);
         }
 
         // edit phone
-        if ($dtoRequest->editPhone) {
+        if ($dtoRequest->newPhone) {
             if ($authAccount->phone && empty($dtoRequest->verifyCode)) {
                 throw new ApiException(33202);
             }
@@ -738,8 +738,8 @@ class AccountController extends Controller
 
             $newCodeWordBody = [
                 'type' => 2,
-                'account' => $dtoRequest->editPhone,
-                'countryCode' => $dtoRequest->editCountryCode,
+                'account' => $dtoRequest->newPhone,
+                'countryCode' => $dtoRequest->newCountryCode,
                 'verifyCode' => $dtoRequest->newVerifyCode,
                 'templateId' => $authAccount->phone ? VerifyCode::TEMPLATE_EDIT : VerifyCode::TEMPLATE_CHANGE,
             ];
@@ -749,27 +749,46 @@ class AccountController extends Controller
                 return $fresnsResp->getOrigin();
             }
 
-            $newPhone = $dtoRequest->editCountryCode.$dtoRequest->editPhone;
+            $newPhone = $dtoRequest->newCountryCode.$dtoRequest->newPhone;
             $checkPhone = Account::where('phone', $newPhone)->first();
             if ($checkPhone) {
                 throw new ApiException(34206);
             }
 
             $authAccount->fill([
-                'country_code' => $dtoRequest->editCountryCode,
-                'pure_phone' => $dtoRequest->editPhone,
+                'country_code' => $dtoRequest->newCountryCode,
+                'pure_phone' => $dtoRequest->newPhone,
                 'phone' => $newPhone,
             ]);
         }
 
         // edit password
-        if ($dtoRequest->editPassword) {
-            if (empty($dtoRequest->password) && empty($dtoRequest->verifyCode)) {
+        if ($dtoRequest->newPassword) {
+            if (empty($dtoRequest->currentPassword) && empty($dtoRequest->verifyCode)) {
                 throw new ApiException(34111);
             }
 
-            if ($dtoRequest->editPassword != $dtoRequest->editPasswordConfirm) {
-                throw new ApiException(34104);
+            $newPassword = base64_decode($dtoRequest->newPassword, true);
+            $validatePassword = ValidationUtility::password($newPassword);
+
+            if (! $validatePassword['length']) {
+                throw new ApiException(34105);
+            }
+
+            if (! $validatePassword['number']) {
+                throw new ApiException(34106);
+            }
+
+            if (! $validatePassword['lowercase']) {
+                throw new ApiException(34107);
+            }
+
+            if (! $validatePassword['uppercase']) {
+                throw new ApiException(34108);
+            }
+
+            if (! $validatePassword['symbols']) {
+                throw new ApiException(34109);
             }
 
             if ($dtoRequest->verifyCode) {
@@ -782,10 +801,10 @@ class AccountController extends Controller
                 }
             }
 
-            if ($dtoRequest->password) {
-                $password = base64_decode($dtoRequest->password, true);
+            if ($dtoRequest->currentPassword) {
+                $currentPassword = base64_decode($dtoRequest->currentPassword, true);
 
-                if (! Hash::check($password, $authAccount->password)) {
+                if (! Hash::check($currentPassword, $authAccount->password)) {
                     // upload session log
                     $sessionLog['type'] = SessionLog::TYPE_ACCOUNT_EDIT_PASSWORD;
                     $sessionLog['objectAction'] = 'checkPassword';
@@ -796,7 +815,6 @@ class AccountController extends Controller
                 }
             }
 
-            $newPassword = base64_decode($dtoRequest->editPassword, true);
             $authAccount->fill([
                 'password' => Hash::make($newPassword),
             ]);
@@ -808,13 +826,9 @@ class AccountController extends Controller
         }
 
         // edit wallet password
-        if ($dtoRequest->editWalletPassword) {
-            if (empty($dtoRequest->walletPassword) && empty($dtoRequest->verifyCode)) {
+        if ($dtoRequest->newWalletPassword) {
+            if (empty($dtoRequest->currentWalletPassword) && empty($dtoRequest->verifyCode)) {
                 throw new ApiException(34111);
-            }
-
-            if ($dtoRequest->editWalletPassword != $dtoRequest->editWalletPasswordConfirm) {
-                throw new ApiException(34104);
             }
 
             $wallet = AccountWallet::where('account_id', $authAccount->id)->first();
@@ -832,10 +846,10 @@ class AccountController extends Controller
                 }
             }
 
-            if ($dtoRequest->walletPassword) {
-                $walletPassword = base64_decode($dtoRequest->walletPassword, true);
+            if ($dtoRequest->currentWalletPassword) {
+                $currentWalletPassword = base64_decode($dtoRequest->currentWalletPassword, true);
 
-                if (! Hash::check($walletPassword, $wallet->password)) {
+                if (! Hash::check($currentWalletPassword, $wallet->password)) {
                     // upload session log
                     $sessionLog['type'] = SessionLog::TYPE_WALLET_EDIT_PASSWORD;
                     $sessionLog['objectAction'] = 'checkPassword';
@@ -846,7 +860,7 @@ class AccountController extends Controller
                 }
             }
 
-            $newWalletPassword = base64_decode($dtoRequest->editWalletPassword, true);
+            $newWalletPassword = base64_decode($dtoRequest->newWalletPassword, true);
 
             $wallet->update([
                 'password' => Hash::make($newWalletPassword),
@@ -859,7 +873,7 @@ class AccountController extends Controller
         }
 
         // edit last login time
-        if ($dtoRequest->editLastLoginTime) {
+        if ($dtoRequest->updateLastLoginTime) {
             $authAccount->fill([
                 'last_login_at' => now(),
             ]);
