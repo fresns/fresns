@@ -190,8 +190,12 @@ class StrHelper
         return $domain ?? null;
     }
 
-    public static function extractDomainByUrl(string $url): ?string
+    public static function extractDomainByUrl(?string $url = null): ?string
     {
+        if (empty($url)) {
+            return null;
+        }
+
         $host = parse_url($url, PHP_URL_HOST);
         $domain = self::extractDomainByHost($host);
 

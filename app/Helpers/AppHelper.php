@@ -31,18 +31,23 @@ class AppHelper
     // get system info
     public static function getSystemInfo(): array
     {
-        $systemInfo['server'] = php_uname('s').' '.php_uname('r');
-        $systemInfo['web'] = $_SERVER['SERVER_SOFTWARE'];
-        $systemInfo['composer'] = self::getComposerVersionInfo();
+        $disableFunctions = explode(',', ini_get('disable_functions'));
 
-        $phpInfo['version'] = PHP_VERSION;
-        $phpInfo['cliInfo'] = 'PHP function proc_open is disabled and cannot fetch information';
-        $phpInfo['uploadMaxFileSize'] = ini_get('upload_max_filesize');
-        $systemInfo['php'] = $phpInfo;
-
-        if (function_exists('proc_open') && ! in_array('proc_open', explode(',', ini_get('disable_functions')))) {
-            $phpInfo['cliInfo'] = CommandUtility::getPhpProcess(['-v'])->run()->getOutput();
+        $phpCliInfo = 'PHP function proc_open is disabled and cannot fetch information';
+        if (function_exists('proc_open') && ! in_array('proc_open', $disableFunctions)) {
+            $phpCliInfo = CommandUtility::getPhpProcess(['-v'])->run()->getOutput();
         }
+
+        $systemInfo = [
+            'server' => php_uname('s').' '.php_uname('r'),
+            'web' => $_SERVER['SERVER_SOFTWARE'],
+            'composer' => self::getComposerVersionInfo(),
+            'php' => [
+                'version' => PHP_VERSION,
+                'cliInfo' => $phpCliInfo,
+                'uploadMaxFileSize' => ini_get('upload_max_filesize'),
+            ],
+        ];
 
         return $systemInfo;
     }
@@ -124,7 +129,9 @@ class AppHelper
             'versionInfo' => 'PHP function proc_open is disabled and version information is not available',
         ];
 
-        if (function_exists('proc_open') && ! in_array('proc_open', explode(',', ini_get('disable_functions')))) {
+        $disableFunctions = explode(',', ini_get('disable_functions'));
+
+        if (function_exists('proc_open') && ! in_array('proc_open', $disableFunctions)) {
             $composerInfo = CommandUtility::getComposerProcess(['-V'])->run()->getOutput();
             $toArray = explode(' ', $composerInfo);
 
