@@ -270,19 +270,46 @@ class AppUtility
 
     public static function editVersion(string $version): bool
     {
-        $fresnsJson = file_get_contents(
-            $path = base_path('fresns.json')
-        );
+        $fresnsJsonPath = base_path('fresns.json');
+        $statusJsonPath = public_path('status.json');
 
-        $currentVersion = json_decode($fresnsJson, true);
-        if (! $currentVersion) {
-            throw new \RuntimeException('Failed to update version information');
+        // fresns.json
+        try {
+            $fresnsJsonContents = file_get_contents($fresnsJsonPath);
+            $fresnsJson = json_decode($fresnsJsonContents, true);
+        } catch (\Exception $e) {
+            $fresnsJson = [
+                'name' => 'Fresns',
+                'version' => $version,
+                'license' => 'Apache-2.0',
+                'homepage' => 'https://fresns.org',
+                'plugins' => [],
+            ];
         }
 
-        $currentVersion['version'] = $version;
+        // status.json
+        try {
+            $statusJsonContents = file_get_contents($statusJsonPath);
+            $statusJson = json_decode($statusJsonContents, true);
+        } catch (\Exception $e) {
+            $statusJson = [
+                'name' => 'Fresns',
+                'version' => $version,
+                'activate' => true,
+                'deactivateDescription' => [
+                    'default' => '',
+                ],
+            ];
+        }
 
-        $editContent = json_encode($currentVersion, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
-        file_put_contents($path, $editContent);
+        $fresnsJson['version'] = $version;
+        $statusJson['version'] = $version;
+
+        $editFresnsContent = json_encode($fresnsJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
+        file_put_contents($fresnsJsonPath, $editFresnsContent);
+
+        $editStatusContent = json_encode($statusJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
+        file_put_contents($statusJsonPath, $editStatusContent);
 
         return true;
     }

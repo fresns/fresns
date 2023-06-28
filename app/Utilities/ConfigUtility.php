@@ -31,17 +31,27 @@ class ConfigUtility
     public static function addFresnsConfigItems(array $fresnsConfigItems): void
     {
         foreach ($fresnsConfigItems as $item) {
-            $config = Config::where('item_key', $item['item_key'])->first();
-            if (empty($config)) {
-                Config::create($item);
+            $itemKey = $item['item_key'] ?? null;
 
-                if ($item['is_multilingual'] ?? null) {
+            if (empty($itemKey)) {
+                continue;
+            }
+
+            $configModel = Config::where('item_key', $itemKey)->first();
+
+            if (empty($configModel)) {
+                $itemArr = collect($item)->only('item_key', 'item_value', 'item_type', 'item_tag', 'is_multilingual', 'is_api')->filter()->toArray();
+                Config::create($itemArr);
+
+                $isMultilingual = $item['is_multilingual'] ?? false;
+                $hasLangValues = array_key_exists('language_values', $item);
+
+                if ($isMultilingual && $hasLangValues) {
                     $fresnsLangItems = [
                         'table_name' => 'configs',
                         'table_column' => 'item_value',
-                        'table_id' => null,
-                        'table_key' => $item['item_key'],
-                        'language_values' => $item['language_values'] ?? [],
+                        'table_key' => $itemKey,
+                        'language_values' => $item['language_values'],
                     ];
                     ConfigUtility::changeFresnsLanguageItems($fresnsLangItems);
                 }
@@ -53,13 +63,13 @@ class ConfigUtility
     public static function removeFresnsConfigItems(array $fresnsConfigKeys): void
     {
         foreach ($fresnsConfigKeys as $key) {
-            $config = Config::where('item_key', $key)->where('is_custom', 1)->first();
+            $configModel = Config::where('item_key', $key)->where('is_custom', 1)->first();
 
-            if ($config?->is_custom == 1 && $config?->is_multilingual == 1) {
+            if ($configModel?->is_multilingual) {
                 Language::where('table_name', 'configs')->where('table_column', 'item_value')->where('table_key', $key)->forceDelete();
             }
 
-            $config?->forceDelete();
+            $configModel?->forceDelete();
         }
     }
 
@@ -67,18 +77,26 @@ class ConfigUtility
     public static function changeFresnsConfigItems(array $fresnsConfigItems): void
     {
         foreach ($fresnsConfigItems as $item) {
-            Config::updateOrCreate([
-                'item_key' => $item['item_key'],
-            ],
-                collect($item)->only('item_key', 'item_value', 'item_type', 'item_tag', 'is_multilingual', 'is_api')->toArray()
-            );
+            $itemKey = $item['item_key'] ?? null;
 
-            if ($item['is_multilingual'] ?? null) {
+            if (empty($itemKey)) {
+                continue;
+            }
+
+            $itemArr = collect($item)->only('item_key', 'item_value', 'item_type', 'item_tag', 'is_multilingual', 'is_api')->filter()->toArray();
+
+            Config::updateOrCreate([
+                'item_key' => $itemKey,
+            ], $itemArr);
+
+            $isMultilingual = $item['is_multilingual'] ?? false;
+            $hasLangValues = array_key_exists('language_values', $item);
+
+            if ($isMultilingual && $hasLangValues) {
                 $fresnsLangItems = [
                     'table_name' => 'configs',
                     'table_column' => 'item_value',
-                    'table_id' => null,
-                    'table_key' => $item['item_key'],
+                    'table_key' => $itemKey,
                     'language_values' => $item['language_values'] ?? [],
                 ];
                 ConfigUtility::changeFresnsLanguageItems($fresnsLangItems);
@@ -89,16 +107,42 @@ class ConfigUtility
     // change language items
     public static function changeFresnsLanguageItems($fresnsLangItems): void
     {
-        foreach ($fresnsLangItems['language_values'] ?? [] as $key => $value) {
-            $item = $fresnsLangItems;
-            $item['lang_tag'] = $key;
-            $item['lang_content'] = $value;
+        $tableName = $fresnsLangItems['table_name'] ?? null;
+        $tableColumn = $fresnsLangItems['table_column'] ?? null;
+        $tableId = $fresnsLangItems['table_id'] ?? null;
+        $tableKey = $fresnsLangItems['table_key'] ?? null;
+        $languageValues = $fresnsLangItems['language_values'] ?? [];
 
-            // use collect()->only() instead of unset($item['language_values'])
-            // https://fresns.org/supports/utilities/config.html#change-multilingual-content
-            unset($item['language_values']);
+        if (empty($tableName) || empty($tableColumn)) {
+            return;
+        }
 
-            Language::updateOrCreate($item);
+        if (empty($tableId) && empty($tableKey)) {
+            return;
+        }
+
+        if ($tableId) {
+            $langArr = [
+                'table_name' => $tableName,
+                'table_column' => $tableColumn,
+                'table_id' => $tableId,
+                'lang_tag' => null,
+            ];
+        } else {
+            $langArr = [
+                'table_name' => $tableName,
+                'table_column' => $tableColumn,
+                'table_key' => $tableKey,
+                'lang_tag' => null,
+            ];
+        }
+
+        foreach ($languageValues as $key => $value) {
+            $langArr['lang_tag'] = $key;
+
+            Language::updateOrCreate($langArr, [
+                'lang_content' => $value,
+            ]);
         }
     }
 
