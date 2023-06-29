@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.17.0 (2023-06-29)
+
+### Added
+- API: User, group, post, topic, comment, list interface added `createdDays` parameter, support for custom days within
+- API: Post and comment list interface `orderType` parameter option added `commentTime` parameter, support sorting by last comment time
+- Panel: Interactive naming configuration added concern object naming
+
+### Fixes
+- API: Wrong creation time key name in panel and topic data structure parameters, fixed to `createdDatetime`
+- API: User, Panel, Post, Topic, Comment, List interface fixed wrong word in
+    - Fixed `createDate` parameter to `createdDate`
+    - Fixed the `createdDate` option in the `orderType` parameter to `createdTime`
+- API: Change account profile interface unverified password strength configuration
+- Panel: Disable `proc_open` function when dashboard reports error
+- Words: Fix issue with blank draft judgment failure when creating draft
+
+### BREAKING CHANGES
+- API: Change account profile `/api/v2/account/edit` parameters refactoring, adopt natural language naming parameters
+
+
 ## 2.16.0 (2023-06-23)
 
 ### Added
