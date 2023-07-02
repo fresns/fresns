@@ -36,7 +36,7 @@ class FileUtility
     }
 
     // uploadFile
-    public static function uploadFile(array $bodyInfo, array $diskConfig, UploadedFile $file): array
+    public static function uploadFile(array $bodyInfo, array $diskConfig, UploadedFile $file): ?array
     {
         // $bodyInfoExample = [
         //     'platformId' => 'file_usages->platform_id',
@@ -65,6 +65,10 @@ class FileUtility
         $diskPath = $fresnsStorage->putFile($storePath, $file);
 
         // $filepath = storage_path('app/public/'.$diskPath);
+
+        if (empty($diskPath)) {
+            return null;
+        }
 
         return FileUtility::saveFileInfoToDatabase($bodyInfo, $diskPath, $file);
     }
