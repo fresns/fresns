@@ -47,6 +47,11 @@ class StrHelper
             return null;
         }
 
+        $len = mb_strlen($number);
+        if ($len <= 4) {
+            return $number;
+        }
+
         $head = substr($number, 0, 2);
         $tail = substr($number, -2);
         $starCount = strlen($number) - 4;
@@ -66,6 +71,7 @@ class StrHelper
         if ($len < 1) {
             return $name;
         }
+
         $last = mb_substr($name, -1, 1);
         $lastName = str_repeat('*', $len - 1);
 
