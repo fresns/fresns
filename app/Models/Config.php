@@ -12,8 +12,10 @@ class Config extends Model
 {
     public function getItemValueAttribute($value)
     {
-        if (in_array($this->item_type, ['array', 'plugins', 'object'])) {
+        if (in_array($this->item_type, ['array', 'plugins'])) {
             $value = json_decode($value, true) ?: [];
+        } elseif ($this->item_type == 'object') {
+            $value = json_decode($value, true) ?: null;
         } elseif ($this->item_type == 'boolean') {
             $value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
         } elseif ($this->item_type == 'number') {
@@ -26,6 +28,14 @@ class Config extends Model
     public function setItemValueAttribute($value)
     {
         if (in_array($this->item_type, ['array', 'plugins', 'object']) || is_array($value)) {
+            if (is_null($value)) {
+                $value = match ($this->item_type) {
+                    default => $value = '{}',
+                    'array' => $value = '[]',
+                    'json', 'object' => $value = '{}',
+                };
+            }
+
             if (! is_string($value)) {
                 $value = json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
             }
