@@ -337,7 +337,9 @@ class AppUtility
         $marketplaceUrl = AppUtility::MARKETPLACE_URL;
 
         Http::macro('market', function () use ($marketplaceUrl) {
-            return Http::withHeaders(AppUtility::getMarketHeaders())->baseUrl($marketplaceUrl);
+            return Http::withHeaders(AppUtility::getMarketHeaders())->baseUrl($marketplaceUrl)->withHeaders([
+                'accept' => 'application/json'
+            ]);;
         });
     }
 

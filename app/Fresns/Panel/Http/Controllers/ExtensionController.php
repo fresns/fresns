@@ -249,7 +249,7 @@ class ExtensionController extends Controller
         return \response()->json([
             'message' => $message,
             'data' => [
-                'output' => Artisan::output()."\n".__('FsLang::tips.upgradeSuccess'),
+                'output' => Artisan::output()."\n".$message,
             ],
         ], 200);
 
