@@ -309,6 +309,7 @@ class AccountController extends Controller
         ];
         $fresnsResponse = \FresnsCmdWord::plugin('Fresns')->verifyAccount($wordBody);
 
+        // verifyCode login
         if ($fresnsResponse->isErrorResponse()) {
             // upload session log
             $sessionLog['aid'] = $fresnsResponse->getData('aid') ?? null;
@@ -316,7 +317,11 @@ class AccountController extends Controller
             $sessionLog['objectResult'] = SessionLog::STATE_FAILURE;
             \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
-            $siteConfigs = ConfigHelper::fresnsConfigByItemKeys(['site_login_or_register', 'site_email_register']);
+            $siteConfigs = ConfigHelper::fresnsConfigByItemKeys([
+                'site_login_or_register',
+                'site_email_register',
+                'site_phone_register',
+            ]);
 
             if (! $siteConfigs['site_login_or_register'] || empty($dtoRequest->verifyCode)) {
                 return $fresnsResponse->errorResponse();
@@ -331,6 +336,10 @@ class AccountController extends Controller
                 if (! $checkEmail) {
                     throw new ApiException(34110);
                 }
+            }
+
+            if ($dtoRequest->type == 'phone' && ! $siteConfigs['site_phone_register']) {
+                return $fresnsResponse->errorResponse();
             }
 
             // check code
