@@ -131,7 +131,28 @@ class DateHelper
         $databaseDateTime = CacheHelper::get($cacheKey, $cacheTag);
 
         if (empty($databaseDateTime)) {
-            $databaseDateTime = (config('database.default') == 'sqlite') ? date('Y-m-d H:i:s', time()) : DB::selectOne('select now() as now')->now;
+            switch (config('database.default')) {
+                case 'mysql':
+                    $databaseDateTime = DB::selectOne('select now() as now')->now;
+                    break;
+
+                case 'pgsql':
+                    $currentDateTime = DB::selectOne("SELECT TO_CHAR(NOW(), 'YYYY-MM-DD HH24:MI:SS') as now");
+                    $databaseDateTime = $currentDateTime->now;
+                    break;
+
+                case 'sqlsrv':
+                    $currentDateTime = DB::selectOne("SELECT FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss') as now");
+                    $databaseDateTime = $currentDateTime->now;
+                    break;
+
+                case 'sqlite':
+                    $databaseDateTime = DB::selectOne("SELECT datetime('now') as now")->now;
+                    break;
+
+                default:
+                    $databaseDateTime = date('Y-m-d H:i:s', time());
+            }
 
             CacheHelper::put($databaseDateTime, $cacheKey, $cacheTag, 1, now()->addMinutes(3));
         }
