@@ -170,6 +170,7 @@ class FileHelper
             File::TYPE_VIDEO => 'videos',
             File::TYPE_AUDIO => 'audios',
             File::TYPE_DOCUMENT => 'documents',
+            default => 'images',
         };
 
         $usageTypeDir = match ($usageType) {
@@ -183,6 +184,7 @@ class FileHelper
             FileUsage::TYPE_COMMENT => '/comments/{YYYYMM}/{DD}/',
             FileUsage::TYPE_EXTEND => '/extends/{YYYYMM}/{DD}/',
             FileUsage::TYPE_PLUGIN => '/plugins/{YYYYMM}/{DD}/',
+            default => '/others/{YYYYMM}/',
         };
 
         $replaceUseTypeDir = str_replace(

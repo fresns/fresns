@@ -146,6 +146,7 @@ class FileUtility
                 'video_time' => $fileInfo['videoTime'] ?? null,
                 'video_poster_path' => $fileInfo['videoPosterPath'] ?? null,
                 'audio_time' => $fileInfo['audioTime'] ?? null,
+                'transcoding_state' => $fileInfo['transcodingState'] ?? 1,
                 'more_json' => $fileInfo['moreJson'],
                 'original_path' => $fileInfo['originalPath'] ?? null,
             ];
@@ -198,7 +199,7 @@ class FileUtility
         $imageWidth = null;
         $imageHeight = null;
         $imageIsLong = 0;
-        if ($bodyInfo['type'] == 1) {
+        if ($bodyInfo['type'] == File::TYPE_IMAGE) {
             $imageSize = getimagesize($file->path());
             $imageWidth = $imageSize[0] ?? null;
             $imageHeight = $imageSize[1] ?? null;
@@ -225,6 +226,10 @@ class FileUtility
             'image_width' => $imageWidth,
             'image_height' => $imageHeight,
             'image_is_long' => $imageIsLong,
+            'video_time' => $bodyInfo['videoTime'] ?? null,
+            'video_poster_path' => $bodyInfo['videoPosterPath'] ?? null,
+            'audio_time' => $bodyInfo['audioTime'] ?? null,
+            'transcoding_state' => $bodyInfo['transcodingState'] ?? 1,
             'more_json' => $bodyInfo['moreJson'] ?? null,
         ];
 

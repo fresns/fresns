@@ -568,6 +568,22 @@ class CommonController extends Controller
 
         switch ($dtoRequest->uploadMode) {
             case 'file':
+                $extension = $dtoRequest->file->extension();
+
+                $extensionNames = ConfigHelper::fresnsConfigByItemKey("{$dtoRequest->type}_extension_names");
+                $extensionArr = explode(',', $extensionNames);
+
+                if (! in_array($extension, $extensionArr)) {
+                    throw new ApiException(36310);
+                }
+
+                $mb = ConfigHelper::fresnsConfigByItemKey("{$dtoRequest->type}_max_size");
+                $bytes = $mb * 1024 * 1024;
+                $size = $dtoRequest->file->getSize();
+                if ($size > $bytes) {
+                    throw new ApiException(36113);
+                }
+
                 $wordBody = [
                     'usageType' => $usageType,
                     'platformId' => \request()->header('X-Fresns-Client-Platform-Id'),
