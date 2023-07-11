@@ -137,13 +137,11 @@ class DateHelper
                     break;
 
                 case 'pgsql':
-                    $currentDateTime = DB::selectOne("SELECT TO_CHAR(NOW(), 'YYYY-MM-DD HH24:MI:SS') as now");
-                    $databaseDateTime = $currentDateTime->now;
+                    $databaseDateTime = DB::selectOne("SELECT TO_CHAR(NOW(), 'YYYY-MM-DD HH24:MI:SS') as now")->now;
                     break;
 
                 case 'sqlsrv':
-                    $currentDateTime = DB::selectOne("SELECT FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss') as now");
-                    $databaseDateTime = $currentDateTime->now;
+                    $databaseDateTime = DB::selectOne("SELECT FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss') as now")->now;
                     break;
 
                 case 'sqlite':
