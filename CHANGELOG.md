@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.17.1 (2023-07-12)
+
+### Fixes
+- Data: Description fields for groups and topics do not support long content
+- Helpers: Configuring table object type output format incorrectly
+- Helpers: Get current database time error in PostgreSQL
+- Utilities: File upload error if not configured
+- Utilities: Marketplace accepts undefined request
+- Panel: Application installation fails with incorrect prompts
+
+
 ## 2.17.0 (2023-06-29)
 
 ### Added
