@@ -23,7 +23,7 @@ class CreateGroupsTable extends Migration
             $table->unsignedInteger('parent_id')->default(0)->index('group_parent_id');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('name', 64);
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->unsignedTinyInteger('type')->default(2);
             $table->unsignedTinyInteger('type_mode')->default(1);
             $table->unsignedTinyInteger('type_mode_end_after')->default(1);
