@@ -648,7 +648,7 @@ class InteractionUtility
 
                 $linkIds = DomainLinkUsage::type(DomainLinkUsage::TYPE_POST)->where('usage_id', $post?->id)->pluck('link_id')->toArray();
                 $domainIds = DomainLink::whereIn('id', $linkIds)->pluck('domain_id')->toArray();
-                $hashtagIds = $post->hashtags->pluck('id');
+                $hashtagIds = $post?->hashtags?->pluck('id');
 
                 if ($actionType == 'increment') {
                     if ($post?->parent_id) {
@@ -691,7 +691,7 @@ class InteractionUtility
 
                 $linkIds = DomainLinkUsage::type(DomainLinkUsage::TYPE_COMMENT)->where('usage_id', $comment?->id)->pluck('link_id')->toArray();
                 $domainIds = DomainLink::whereIn('id', $linkIds)->pluck('domain_id')->toArray();
-                $hashtagIds = $comment->hashtags->pluck('id');
+                $hashtagIds = $comment?->hashtags?->pluck('id');
 
                 if ($actionType == 'increment') {
                     $userState?->increment('comment_publish_count');
