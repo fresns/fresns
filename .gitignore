@@ -20,6 +20,8 @@ _ide_helper_models.php
 Homestead.json
 Homestead.yaml
 auth.json
+package.json
+package-lock.json
 npm-debug.log
 yarn-error.log
 install.lock
