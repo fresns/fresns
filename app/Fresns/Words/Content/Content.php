@@ -595,6 +595,7 @@ class Content
     public function logicalDeletionContent($wordBody)
     {
         $dtoWordBody = new LogicalDeletionContentDTO($wordBody);
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         switch ($dtoWordBody->contentType) {
             case 1:
@@ -603,6 +604,13 @@ class Content
                     1 => Post::where('pid', $dtoWordBody->contentFsid)->first(),
                     2 => Comment::where('cid', $dtoWordBody->contentFsid)->first(),
                 };
+
+                if (empty($model)) {
+                    return $this->failure(
+                        36400,
+                        ConfigUtility::getCodeMessage(36400, 'Fresns', $langTag)
+                    );
+                }
 
                 $modelAppend = match ($dtoWordBody->type) {
                     1 => PostAppend::where('post_id', $model->id)->first(),
@@ -642,6 +650,13 @@ class Content
                     2 => CommentLog::where('id', $dtoWordBody->contentLogId)->first(),
                 };
 
+                if (empty($model)) {
+                    return $this->failure(
+                        36400,
+                        ConfigUtility::getCodeMessage(36400, 'Fresns', $langTag)
+                    );
+                }
+
                 $tableName = match ($dtoWordBody->type) {
                     1 => 'post_logs',
                     2 => 'comment_logs',
@@ -663,7 +678,7 @@ class Content
         DomainLinkUsage::where('usage_type', $usageType)->where('usage_id', $model->id)->delete();
         Mention::where('user_id', $model->user_id)->where('mention_type', $usageType)->where('mention_id', $model->id)->delete();
 
-        $modelAppend->delete();
+        $modelAppend?->delete();
         $model->delete();
 
         return $this->success();
@@ -673,18 +688,26 @@ class Content
     public function physicalDeletionContent($wordBody)
     {
         $dtoWordBody = new PhysicalDeletionContentDTO($wordBody);
+        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
         switch ($dtoWordBody->contentType) {
             case 1:
                 // main
                 $model = match ($dtoWordBody->type) {
-                    1 => Post::where('pid', $dtoWordBody->contentFsid)->first(),
-                    2 => Comment::where('cid', $dtoWordBody->contentFsid)->first(),
+                    1 => Post::withTrashed()->where('pid', $dtoWordBody->contentFsid)->first(),
+                    2 => Comment::withTrashed()->where('cid', $dtoWordBody->contentFsid)->first(),
                 };
 
+                if (empty($model)) {
+                    return $this->failure(
+                        36400,
+                        ConfigUtility::getCodeMessage(36400, 'Fresns', $langTag)
+                    );
+                }
+
                 $modelAppend = match ($dtoWordBody->type) {
-                    1 => PostAppend::where('post_id', $model->id)->first(),
-                    2 => CommentAppend::where('comment_id', $model->id)->first(),
+                    1 => PostAppend::withTrashed()->where('post_id', $model->id)->first(),
+                    2 => CommentAppend::withTrashed()->where('comment_id', $model->id)->first(),
                 };
 
                 $type = match ($dtoWordBody->type) {
@@ -692,14 +715,16 @@ class Content
                     2 => 'comment',
                 };
 
-                InteractionUtility::publishStats($type, $model->id, 'decrement');
+                if (! $model->trashed()) {
+                    InteractionUtility::publishStats($type, $model->id, 'decrement');
+                }
 
                 if ($dtoWordBody->type == 1) {
-                    PostAuth::where('post_id', $model->id)->forceDelete();
-                    PostUser::where('post_id', $model->id)->forceDelete();
-                    Language::where('table_name', 'post_appends')->where('table_column', 'read_btn_name')->where('table_id', $model->id)->forceDelete();
-                    Language::where('table_name', 'post_appends')->where('table_column', 'user_list_name')->where('table_id', $model->id)->forceDelete();
-                    Language::where('table_name', 'post_appends')->where('table_column', 'comment_btn_name')->where('table_id', $model->id)->forceDelete();
+                    PostAuth::withTrashed()->where('post_id', $model->id)->forceDelete();
+                    PostUser::withTrashed()->where('post_id', $model->id)->forceDelete();
+                    Language::withTrashed()->where('table_name', 'post_appends')->where('table_column', 'read_btn_name')->where('table_id', $model->id)->forceDelete();
+                    Language::withTrashed()->where('table_name', 'post_appends')->where('table_column', 'user_list_name')->where('table_id', $model->id)->forceDelete();
+                    Language::withTrashed()->where('table_name', 'post_appends')->where('table_column', 'comment_btn_name')->where('table_id', $model->id)->forceDelete();
                 }
 
                 $tableName = match ($dtoWordBody->type) {
@@ -716,9 +741,16 @@ class Content
             case 2:
                 // log
                 $model = match ($dtoWordBody->type) {
-                    1 => PostLog::where('id', $dtoWordBody->contentLogId)->first(),
-                    2 => CommentLog::where('id', $dtoWordBody->contentLogId)->first(),
+                    1 => PostLog::withTrashed()->where('id', $dtoWordBody->contentLogId)->first(),
+                    2 => CommentLog::withTrashed()->where('id', $dtoWordBody->contentLogId)->first(),
                 };
+
+                if (empty($model)) {
+                    return $this->failure(
+                        36400,
+                        ConfigUtility::getCodeMessage(36400, 'Fresns', $langTag)
+                    );
+                }
 
                 $tableName = match ($dtoWordBody->type) {
                     1 => 'post_logs',
@@ -732,18 +764,18 @@ class Content
                 break;
         }
 
-        $fileIds = FileUsage::where('table_name', $tableName)->where('table_column', 'id')->where('table_id', $model->id)->pluck('file_id')->toArray();
-        FileUsage::where('table_name', $tableName)->where('table_column', 'id')->where('table_id', $model->id)->forceDelete();
+        $fileIds = FileUsage::withTrashed()->where('table_name', $tableName)->where('table_column', 'id')->where('table_id', $model->id)->pluck('file_id')->toArray();
+        FileUsage::withTrashed()->where('table_name', $tableName)->where('table_column', 'id')->where('table_id', $model->id)->forceDelete();
 
-        OperationUsage::where('usage_type', $usageType)->where('usage_id', $model->id)->forceDelete();
-        ArchiveUsage::where('usage_type', $usageType)->where('usage_id', $model->id)->forceDelete();
-        ExtendUsage::where('usage_type', $usageType)->where('usage_id', $model->id)->forceDelete();
+        OperationUsage::withTrashed()->where('usage_type', $usageType)->where('usage_id', $model->id)->forceDelete();
+        ArchiveUsage::withTrashed()->where('usage_type', $usageType)->where('usage_id', $model->id)->forceDelete();
+        ExtendUsage::withTrashed()->where('usage_type', $usageType)->where('usage_id', $model->id)->forceDelete();
 
-        HashtagUsage::where('usage_type', $usageType)->where('usage_id', $model->id)->forceDelete();
-        DomainLinkUsage::where('usage_type', $usageType)->where('usage_id', $model->id)->forceDelete();
-        Mention::where('user_id', $model->user_id)->where('mention_type', $usageType)->where('mention_id', $model->id)->forceDelete();
+        HashtagUsage::withTrashed()->where('usage_type', $usageType)->where('usage_id', $model->id)->forceDelete();
+        DomainLinkUsage::withTrashed()->where('usage_type', $usageType)->where('usage_id', $model->id)->forceDelete();
+        Mention::withTrashed()->where('user_id', $model->user_id)->where('mention_type', $usageType)->where('mention_id', $model->id)->forceDelete();
 
-        $modelAppend->forceDelete();
+        $modelAppend?->forceDelete();
         $model->forceDelete();
 
         $fileList = File::doesntHave('fileUsages')->whereIn('id', $fileIds)->get()->groupBy('type');
