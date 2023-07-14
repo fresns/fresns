@@ -612,6 +612,20 @@ class Content
                     );
                 }
 
+                // logs
+                $logModels = match ($dtoWordBody->type) {
+                    1 => PostLog::withTrashed()->where('post_id', $model->id)->get(),
+                    2 => CommentLog::withTrashed()->where('comment_id', $model->id)->get(),
+                };
+
+                foreach ($logModels as $log) {
+                    \FresnsCmdWord::plugin('Fresns')->logicalDeletionContent([
+                        'type' => $dtoWordBody->type,
+                        'contentType' => 2,
+                        'contentLogId' => $log->id,
+                    ]);
+                }
+
                 $modelAppend = match ($dtoWordBody->type) {
                     1 => PostAppend::where('post_id', $model->id)->first(),
                     2 => CommentAppend::where('comment_id', $model->id)->first(),
@@ -705,6 +719,20 @@ class Content
                     );
                 }
 
+                // logs
+                $logModels = match ($dtoWordBody->type) {
+                    1 => PostLog::withTrashed()->where('post_id', $model->id)->get(),
+                    2 => CommentLog::withTrashed()->where('comment_id', $model->id)->get(),
+                };
+
+                foreach ($logModels as $log) {
+                    \FresnsCmdWord::plugin('Fresns')->physicalDeletionContent([
+                        'type' => $dtoWordBody->type,
+                        'contentType' => 2,
+                        'contentLogId' => $log->id,
+                    ]);
+                }
+
                 $modelAppend = match ($dtoWordBody->type) {
                     1 => PostAppend::withTrashed()->where('post_id', $model->id)->first(),
                     2 => CommentAppend::withTrashed()->where('comment_id', $model->id)->first(),
@@ -752,6 +780,8 @@ class Content
                     );
                 }
 
+                $modelAppend = null;
+
                 $tableName = match ($dtoWordBody->type) {
                     1 => 'post_logs',
                     2 => 'comment_logs',
@@ -780,10 +810,12 @@ class Content
 
         $fileList = File::doesntHave('fileUsages')->whereIn('id', $fileIds)->get()->groupBy('type');
 
-        $files[File::TYPE_IMAGE] = $fileList->get(File::TYPE_IMAGE)?->pluck('id')?->all() ?? null;
-        $files[File::TYPE_IMAGE] = $fileList->get(File::TYPE_VIDEO)?->pluck('id')?->all() ?? null;
-        $files[File::TYPE_IMAGE] = $fileList->get(File::TYPE_AUDIO)?->pluck('id')?->all() ?? null;
-        $files[File::TYPE_IMAGE] = $fileList->get(File::TYPE_DOCUMENT)?->pluck('id')?->all() ?? null;
+        $files = [
+            File::TYPE_IMAGE => $fileList->get(File::TYPE_IMAGE)?->pluck('id')?->all() ?? [],
+            File::TYPE_VIDEO => $fileList->get(File::TYPE_VIDEO)?->pluck('id')?->all() ?? [],
+            File::TYPE_AUDIO => $fileList->get(File::TYPE_AUDIO)?->pluck('id')?->all() ?? [],
+            File::TYPE_DOCUMENT => $fileList->get(File::TYPE_DOCUMENT)?->pluck('id')?->all() ?? [],
+        ];
 
         foreach ($files as $type => $ids) {
             if (empty($ids)) {
