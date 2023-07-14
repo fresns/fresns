@@ -788,7 +788,11 @@ class EditorController extends Controller
 
         CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$authUser->uid}", 'fresnsUsers');
 
-        return $this->success();
+        $data = [
+            'fsid' => $fresnsResp->getData('fsid'),
+        ];
+
+        return $this->success($data);
     }
 
     // recall
