@@ -159,26 +159,28 @@ class Send
             return 22202; // Action model does not exist
         }
 
-        $notificationQuery = Notification::withTrashed()->where('user_id', $userId)->type($dtoWordBody['type']);
+        if ($dtoWordBody['type'] != Notification::TYPE_SYSTEM || $dtoWordBody['type'] != Notification::TYPE_RECOMMEND) {
+            $notificationQuery = Notification::withTrashed()->where('user_id', $userId)->type($dtoWordBody['type']);
 
-        $notificationQuery->when($actionUser, function ($query, $value) {
-            $query->where('action_user_id', $value->id);
-        });
+            $notificationQuery->when($actionUser, function ($query, $value) {
+                $query->where('action_user_id', $value->id);
+            });
 
-        $notificationQuery->when($dtoWordBody['actionType'], function ($query, $value) {
-            $query->where('action_type', $value);
-        });
+            $notificationQuery->when($dtoWordBody['actionType'], function ($query, $value) {
+                $query->where('action_type', $value);
+            });
 
-        $notificationQuery->when($actionModel, function ($query, $value) use ($actionObject) {
-            $query->where('action_object', $actionObject)->where('action_id', $value->id);
-        });
+            $notificationQuery->when($actionModel, function ($query, $value) use ($actionObject) {
+                $query->where('action_object', $actionObject)->where('action_id', $value->id);
+            });
 
-        $notificationQuery->where('is_read', 0);
+            $notificationQuery->where('is_read', 0);
 
-        $checkNotification = $notificationQuery->first();
+            $checkNotification = $notificationQuery->first();
 
-        if ($checkNotification) {
-            return 22203; // The same message has been notified
+            if ($checkNotification) {
+                return 22203; // The same message has been notified
+            }
         }
 
         $isMultilingual = $dtoWordBody['isMultilingual'] ?? 0;
