@@ -574,13 +574,13 @@ class CommonController extends Controller
                 $extensionArr = explode(',', $extensionNames);
 
                 if (! in_array($extension, $extensionArr)) {
-                    throw new ApiException(36310);
+                    throw new ApiException(36310, 'Fresns', ['currentFileExtension' => $extension]);
                 }
 
-                $mb = ConfigHelper::fresnsConfigByItemKey("{$dtoRequest->type}_max_size");
-                $bytes = $mb * 1024 * 1024;
-                $size = $dtoRequest->file->getSize();
-                if ($size > $bytes) {
+                $maxMb = ConfigHelper::fresnsConfigByItemKey("{$dtoRequest->type}_max_size") + 1;
+                $maxBytes = $maxMb * 1024 * 1024;
+                $fileSize = $dtoRequest->file->getSize();
+                if ($fileSize > $maxBytes) {
                     throw new ApiException(36113);
                 }
 
