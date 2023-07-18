@@ -36,7 +36,7 @@ use Illuminate\Support\Str;
 class PostService
 {
     // $type = list or detail
-    public function postData(?Post $post, string $type, string $langTag, string $timezone, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLong = null, ?string $authUserLat = null, ?bool $isPreview = false, ?bool $whetherToFilter = true)
+    public function postData(?Post $post, string $type, string $langTag, ?string $timezone = null, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLong = null, ?string $authUserLat = null, ?bool $isPreview = false, ?bool $whetherToFilter = true)
     {
         if (! $post) {
             return null;
@@ -89,7 +89,7 @@ class PostService
 
             $editControl['isMe'] = true;
             $editControl['canDelete'] = (bool) $post->postAppend->can_delete;
-            $editControl['canEdit'] = PermissionUtility::checkContentIsCanEdit('post', $post->created_at, $post->sticky_state, $post->digest_state, $langTag, $timezone);
+            $editControl['canEdit'] = PermissionUtility::checkContentIsCanEdit('post', $post->created_at, $post->sticky_state, $post->digest_state, $timezone, $langTag);
             $editControl['isPluginEditor'] = (bool) $post->postAppend->is_plugin_editor;
             $editControl['editorUrl'] = PluginHelper::fresnsPluginUrlByFskey($post->postAppend->editor_fskey);
             $item['editControls'] = $editControl;
@@ -187,7 +187,7 @@ class PostService
 
         // auth user is author
         if ($post->user_id == $authUserId) {
-            $postData['editControls']['canEdit'] = PermissionUtility::checkContentIsCanEdit('post', $post->created_at, $post->sticky_state, $post->digest_state, $langTag, $timezone);
+            $postData['editControls']['canEdit'] = PermissionUtility::checkContentIsCanEdit('post', $post->created_at, $post->sticky_state, $post->digest_state, $timezone, $langTag);
         } else {
             $postData['editControls'] = [
                 'isMe' => false,
@@ -375,7 +375,7 @@ class PostService
     }
 
     // handle post data date
-    public static function handlePostDate(?Post $post, ?array $postData, string $timezone, string $langTag)
+    public static function handlePostDate(?Post $post, ?array $postData, ?string $timezone = null, ?string $langTag = null)
     {
         if (empty($postData)) {
             return $postData;
@@ -419,11 +419,10 @@ class PostService
                 ->get();
 
             $service = new UserService();
-            $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
 
             $userList = [];
             foreach ($userLikes as $like) {
-                $userList[] = $service->userData($like->creator, 'list', $langTag, $timezone);
+                $userList[] = $service->userData($like->creator, 'list', $langTag);
             }
 
             CacheHelper::put($userList, $cacheKey, $cacheTags, 10, now()->addMinutes(10));
@@ -489,7 +488,6 @@ class PostService
 
             $service = new CommentService();
 
-            $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
             $commentConfig = [
                 'userId' => null,
                 'mapId' => null,
@@ -507,7 +505,7 @@ class PostService
                     $comment,
                     'list',
                     $langTag,
-                    $timezone,
+                    null,
                     $commentConfig['userId'],
                     $commentConfig['mapId'],
                     $commentConfig['longitude'],
@@ -532,7 +530,6 @@ class PostService
             return null;
         }
 
-        $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
         $postService = new PostService;
 
         $postConfig = [
@@ -548,7 +545,7 @@ class PostService
             $post,
             'list',
             $langTag,
-            $timezone,
+            null,
             $postConfig['userId'],
             $postConfig['mapId'],
             $postConfig['longitude'],
@@ -563,7 +560,7 @@ class PostService
 
     // post log data
     // $type = list or detail
-    public function postLogData(PostLog $log, string $type, string $langTag, string $timezone, ?int $authUserId = null)
+    public function postLogData(PostLog $log, string $type, string $langTag, ?string $timezone = null, ?int $authUserId = null)
     {
         $post = $log?->post;
         $parentPost = $log?->parentPost;
@@ -592,7 +589,7 @@ class PostService
         $info['isCommentDisabled'] = (bool) $log->is_comment_disabled;
         $info['isCommentPrivate'] = (bool) $log->is_comment_private;
         $info['mapJson'] = $log->map_json;
-        $info['readJson'] = ContentUtility::handleReadJson($log->read_json, $langTag, $timezone);
+        $info['readJson'] = ContentUtility::handleReadJson($log->read_json, $langTag);
         $info['userListJson'] = ContentUtility::handleUserListJson($log->user_list_json, $langTag);
         $info['commentBtnJson'] = ContentUtility::handleCommentBtnJson($log->comment_btn_json, $langTag);
         $info['state'] = $log->state;

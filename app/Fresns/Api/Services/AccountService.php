@@ -16,7 +16,7 @@ use App\Models\File;
 
 class AccountService
 {
-    public function accountData(?Account $account, string $langTag, string $timezone)
+    public function accountData(?Account $account, string $langTag, ?string $timezone = null)
     {
         if (! $account) {
             return null;
@@ -52,7 +52,7 @@ class AccountService
     }
 
     // handle account data date
-    public static function handleAccountDate(?array $accountData, string $timezone, string $langTag)
+    public static function handleAccountDate(?array $accountData, ?string $timezone = null, ?string $langTag = null)
     {
         if (empty($accountData)) {
             return $accountData;

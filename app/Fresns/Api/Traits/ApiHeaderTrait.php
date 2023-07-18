@@ -9,6 +9,7 @@
 namespace App\Fresns\Api\Traits;
 
 use App\Helpers\ConfigHelper;
+use App\Helpers\DateHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Account;
 use App\Models\User;
@@ -54,18 +55,21 @@ trait ApiHeaderTrait
     }
 
     // timezone
-    public function timezone(): string
+    public function timezone(): ?string
     {
-        $uid = \request()->header('X-Fresns-Uid');
-        $defaultTimezone = ConfigHelper::fresnsConfigDefaultTimezone();
+        $clientTimezone = \request()->header('X-Fresns-Client-Timezone');
 
-        if (empty($uid)) {
-            return \request()->header('X-Fresns-Client-Timezone', $defaultTimezone);
+        if (empty($clientTimezone)) {
+            return null;
         }
 
-        $authUser = $this->user();
+        $databaseTimezone = DateHelper::fresnsDatabaseTimezone();
 
-        return \request()->header('X-Fresns-Client-Timezone', $authUser?->timezone) ?? $defaultTimezone;
+        if ($clientTimezone == $databaseTimezone) {
+            return null;
+        }
+
+        return $clientTimezone;
     }
 
     // deviceInfo

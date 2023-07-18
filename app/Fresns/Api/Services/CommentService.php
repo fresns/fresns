@@ -36,7 +36,7 @@ use Illuminate\Support\Str;
 class CommentService
 {
     // $type = list or detail
-    public function commentData(?Comment $comment, string $type, string $langTag, string $timezone, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLong = null, ?string $authUserLat = null, ?bool $outputSubComments = false, ?bool $outputReplyToPost = false, ?bool $outputReplyToComment = false, ?bool $whetherToFilter = true)
+    public function commentData(?Comment $comment, string $type, string $langTag, ?string $timezone = null, ?int $authUserId = null, ?int $authUserMapId = null, ?string $authUserLong = null, ?string $authUserLat = null, ?bool $outputSubComments = false, ?bool $outputReplyToPost = false, ?bool $outputReplyToComment = false, ?bool $whetherToFilter = true)
     {
         if (! $comment) {
             return null;
@@ -185,7 +185,7 @@ class CommentService
         // auth user is author
         $isMe = $comment->user_id == $authUserId ? true : false;
         if ($isMe) {
-            $commentData['editControls']['canEdit'] = PermissionUtility::checkContentIsCanEdit('comment', $comment->created_at, $comment->is_sticky, $comment->digest_state, $langTag, $timezone);
+            $commentData['editControls']['canEdit'] = PermissionUtility::checkContentIsCanEdit('comment', $comment->created_at, $comment->is_sticky, $comment->digest_state, $timezone, $langTag);
         } else {
             $commentData['extendButton'] = [
                 'status' => false,
@@ -378,7 +378,7 @@ class CommentService
     }
 
     // handle comment data date
-    public static function handleCommentDate(?array $commentData, string $timezone, string $langTag)
+    public static function handleCommentDate(?array $commentData, ?string $timezone = null, ?string $langTag = null)
     {
         if (empty($commentData)) {
             return $commentData;
@@ -430,8 +430,6 @@ class CommentService
 
             $comments = $commentQuery->limit($limit)->get();
 
-            $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
-
             $commentService = new CommentService;
 
             $commentConfig = [
@@ -451,7 +449,7 @@ class CommentService
                     $comment,
                     'list',
                     $langTag,
-                    $timezone,
+                    null,
                     $commentConfig['userId'],
                     $commentConfig['mapId'],
                     $commentConfig['longitude'],
@@ -476,7 +474,6 @@ class CommentService
             return null;
         }
 
-        $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
         $postService = new PostService;
 
         $postConfig = [
@@ -492,7 +489,7 @@ class CommentService
             $post,
             'list',
             $langTag,
-            $timezone,
+            null,
             $postConfig['userId'],
             $postConfig['mapId'],
             $postConfig['longitude'],
@@ -512,8 +509,6 @@ class CommentService
             return null;
         }
 
-        $timezone = ConfigHelper::fresnsConfigDefaultTimezone();
-
         $commentService = new CommentService;
 
         $commentConfig = [
@@ -531,7 +526,7 @@ class CommentService
             $comment,
             'list',
             $langTag,
-            $timezone,
+            null,
             $commentConfig['userId'],
             $commentConfig['mapId'],
             $commentConfig['longitude'],
@@ -547,7 +542,7 @@ class CommentService
 
     // comment log data
     // $type = list or detail
-    public function commentLogData(CommentLog $log, string $type, string $langTag, string $timezone, ?int $authUserId = null)
+    public function commentLogData(CommentLog $log, string $type, string $langTag, ?string $timezone = null, ?int $authUserId = null)
     {
         $comment = $log?->comment;
         $parentComment = $log?->parentComment;

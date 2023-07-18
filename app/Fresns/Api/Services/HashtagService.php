@@ -24,7 +24,7 @@ use App\Utilities\SubscribeUtility;
 
 class HashtagService
 {
-    public function hashtagData(?Hashtag $hashtag, string $langTag, string $timezone, ?int $authUserId = null)
+    public function hashtagData(?Hashtag $hashtag, string $langTag, ?string $timezone = null, ?int $authUserId = null)
     {
         if (! $hashtag) {
             return null;
@@ -109,7 +109,7 @@ class HashtagService
     }
 
     // handle hashtag data date
-    public static function handleHashtagDate(?array $hashtagData, string $timezone, string $langTag)
+    public static function handleHashtagDate(?array $hashtagData, ?string $timezone = null, ?string $langTag = null)
     {
         if (empty($hashtagData)) {
             return $hashtagData;

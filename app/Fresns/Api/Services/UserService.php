@@ -260,7 +260,7 @@ class UserService
     }
 
     // handle user data date
-    public static function handleUserDate(?array $userData, ?string $timezone = null, string $langTag)
+    public static function handleUserDate(?array $userData, ?string $timezone = null, ?string $langTag = null)
     {
         if (empty($userData)) {
             return $userData;

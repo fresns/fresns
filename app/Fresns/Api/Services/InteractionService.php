@@ -53,7 +53,7 @@ class InteractionService
     }
 
     // get the users who marked it
-    public function getUsersWhoMarkIt(string $getType, string $markType, int $markId, string $orderDirection, string $langTag, string $timezone, ?int $authUserId = null)
+    public function getUsersWhoMarkIt(string $getType, string $markType, int $markId, string $orderDirection, string $langTag, ?string $timezone = null, ?int $authUserId = null)
     {
         switch ($getType) {
             case 'likers':
@@ -96,7 +96,7 @@ class InteractionService
     }
 
     // get a list of the content it marks
-    public function getItMarkList(string $getType, string $markTypeName, int $userId, string $orderDirection, string $langTag, string $timezone, ?int $authUserId = null)
+    public function getItMarkList(string $getType, string $markTypeName, int $userId, string $orderDirection, string $langTag, ?string $timezone = null, ?int $authUserId = null)
     {
         switch ($getType) {
             case 'like':

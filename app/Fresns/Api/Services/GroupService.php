@@ -28,7 +28,7 @@ use App\Utilities\SubscribeUtility;
 
 class GroupService
 {
-    public function groupData(?Group $group, string $langTag, string $timezone, ?int $authUserId = null)
+    public function groupData(?Group $group, string $langTag, ?string $timezone = null, ?int $authUserId = null)
     {
         if (! $group) {
             return null;
@@ -180,7 +180,7 @@ class GroupService
     }
 
     // handle group data date
-    public static function handleGroupDate(?array $groupData, string $timezone, string $langTag)
+    public static function handleGroupDate(?array $groupData, ?string $timezone = null, ?string $langTag = null)
     {
         if (empty($groupData)) {
             return $groupData;
