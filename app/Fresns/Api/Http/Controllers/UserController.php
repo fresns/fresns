@@ -47,7 +47,6 @@ use App\Models\UserBlock;
 use App\Models\UserExtcreditsLog;
 use App\Models\UserFollow;
 use App\Models\UserStat;
-use App\Utilities\ConfigUtility;
 use App\Utilities\ContentUtility;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
