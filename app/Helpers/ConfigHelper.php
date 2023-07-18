@@ -33,24 +33,6 @@ class ConfigHelper
         return $defaultLangTag ?? config('app.locale');
     }
 
-    // default timezone
-    public static function fresnsConfigDefaultTimezone(): string
-    {
-        $cacheKey = 'fresns_default_timezone';
-        $cacheTag = 'fresnsConfigs';
-        $defaultTimezone = CacheHelper::get($cacheKey, $cacheTag);
-
-        if (empty($defaultTimezone)) {
-            $defaultConfig = Config::where('item_key', 'default_timezone')->first();
-
-            $defaultTimezone = $defaultConfig?->item_value;
-
-            CacheHelper::put($defaultTimezone, $cacheKey, $cacheTag);
-        }
-
-        return $defaultTimezone;
-    }
-
     // lang tags
     public static function fresnsConfigLangTags(): array
     {

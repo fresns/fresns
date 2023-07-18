@@ -352,7 +352,6 @@ class AppUtility
             'site_name',
             'site_desc',
             'site_copyright',
-            'default_timezone',
             'default_language',
         ]);
 
@@ -372,7 +371,6 @@ class AppUtility
             'X-Fresns-Site-Name' => base64_encode($appConfig['site_name']),
             'X-Fresns-Site-Desc' => base64_encode($appConfig['site_desc']),
             'X-Fresns-Site-Copyright' => base64_encode($appConfig['site_copyright']),
-            'X-Fresns-Site-Timezone' => $appConfig['default_timezone'],
             'X-Fresns-Site-Language' => $appConfig['default_language'],
         ];
     }

@@ -526,7 +526,7 @@ class PermissionUtility
 
     // Check content is can edit
     // $type = post or comment
-    public static function checkContentIsCanEdit(string $type, Carbon $createdDatetime, int $stickyState, int $digestState, string $langTag, string $timezone): bool
+    public static function checkContentIsCanEdit(string $type, Carbon $createdDatetime, int $stickyState, int $digestState, ?string $timezone = null, ?string $langTag = null): bool
     {
         $editConfig = ConfigHelper::fresnsConfigByItemKeys([
             "{$type}_edit",

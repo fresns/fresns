@@ -786,7 +786,6 @@ class CacheHelper
      * tag: fresnsConfigs.
      */
     // fresns_default_langTag
-    // fresns_default_timezone
     // fresns_lang_tags
     // fresns_config_{$itemKey}_{$langTag}
     // fresns_config_keys_{$itemKey}_{$langTag}

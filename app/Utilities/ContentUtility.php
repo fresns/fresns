@@ -574,7 +574,7 @@ class ContentUtility
     }
 
     // handle read json
-    public static function handleReadJson(?array $readConfig, string $langTag, string $timezone): ?array
+    public static function handleReadJson(?array $readConfig, string $langTag): ?array
     {
         if (! $readConfig) {
             return null;
@@ -584,7 +584,7 @@ class ContentUtility
         if ($readConfig['permissions']['users']) {
             $users = User::whereIn('uid', $readConfig['permissions']['users'])->first();
             foreach ($users as $user) {
-                $userList = $user->getUserProfile($langTag, $timezone);
+                $userList = $user->getUserProfile();
             }
             $permissions['users'] = $userList;
         }
