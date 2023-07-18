@@ -93,6 +93,7 @@ return [
         'api.user.followers.you.follow',
         'api.user.mark.list',
         'api.user.auth',
+        'api.user.panel',
         'api.group.tree',
         'api.group.categories',
         'api.group.list',
@@ -148,5 +149,6 @@ return [
         'api.account.apply.delete',
         'api.account.revoke.delete',
         'api.user.auth',
+        'api.user.panel',
     ],
 ];

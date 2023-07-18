@@ -577,11 +577,24 @@ class UserController extends Controller
     }
 
     // panel
-    public function panel()
+    public function panel(Request $request)
     {
+        $uidOrUsername = $request->uidOrUsername;
         $langTag = $this->langTag();
-        $timezone = $this->timezone();
         $authUser = $this->user();
+
+        if (empty($uidOrUsername) && empty($authUser)) {
+            throw new ApiException(30005);
+        }
+
+        if ($uidOrUsername) {
+            $authAccount = $this->account();
+            $authUser = PrimaryHelper::fresnsModelByFsid('user', $uidOrUsername);
+
+            if ($authUser->account_id != $authAccount->id) {
+                throw new ApiException(35201);
+            }
+        }
 
         $userId = $authUser->id;
         $userUid = $authUser->uid;
@@ -659,18 +672,12 @@ class UserController extends Controller
             CacheHelper::put($draftCount, $draftsCacheKey, $cacheTag, null, $cacheTime);
         }
 
-        $publishConfig = [
-            'post' => ConfigUtility::getPublishConfigByType($userId, 'post', $langTag, $timezone),
-            'comment' => ConfigUtility::getPublishConfigByType($userId, 'comment', $langTag, $timezone),
-        ];
-
         $data['multiUser'] = $multiUser;
         $data['features'] = ExtendUtility::getUserExtensions('features', $userId, $langTag);
         $data['profiles'] = ExtendUtility::getUserExtensions('profiles', $userId, $langTag);
         $data['conversations'] = $conversations;
         $data['unreadNotifications'] = $unreadNotifications;
         $data['draftCount'] = $draftCount;
-        $data['publishConfig'] = $publishConfig;
         $data['fileAccept'] = FileHelper::fresnsFileAcceptByType();
 
         return $this->success($data);
