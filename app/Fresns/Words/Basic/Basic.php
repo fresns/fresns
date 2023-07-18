@@ -36,8 +36,8 @@ class Basic
             'platformId' => \request()->header('X-Fresns-Client-Platform-Id'),
             'version' => \request()->header('X-Fresns-Client-Version'),
             'deviceInfo' => \request()->header('X-Fresns-Client-Device-Info'),
-            'langTag' => \request()->header('X-Fresns-Client-Lang-Tag'),
             'timezone' => \request()->header('X-Fresns-Client-Timezone'),
+            'langTag' => \request()->header('X-Fresns-Client-Lang-Tag'),
             'contentFormat' => \request()->header('X-Fresns-Client-Content-Format'),
             'aid' => \request()->header('X-Fresns-Aid'),
             'aidToken' => \request()->header('X-Fresns-Aid-Token'),
@@ -111,18 +111,22 @@ class Basic
             );
         }
 
-        $timestampNum = strlen($dtoWordBody->timestamp);
-        $duration = 5; //Expiration time limit (unit: minutes)
+        $timestamp = (int) $dtoWordBody->timestamp;
+        $timestampNum = strlen($timestamp);
+        $now = now('UTC');
+        $nowTimestamp = strtotime($now);
 
         if ($timestampNum == 10) {
-            $now = time();
-            $expiredDuration = $duration * 60;
+            $expiredDuration = 60;
         } else {
-            $now = intval(microtime(true) * 1000);
-            $expiredDuration = $duration * 60 * 1000;
+            $nowTimestamp = $nowTimestamp * 1000;
+
+            $expiredDuration = 60 * 1000;
         }
 
-        if ($now - $dtoWordBody->timestamp > $expiredDuration) {
+        $diff = $nowTimestamp - $timestamp;
+
+        if (abs($diff) > $expiredDuration) {
             return $this->failure(
                 31303,
                 ConfigUtility::getCodeMessage(31303, 'Fresns', $langTag),
