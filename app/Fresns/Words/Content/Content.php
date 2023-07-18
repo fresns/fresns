@@ -199,8 +199,8 @@ class Content
     {
         $dtoWordBody = new GenerateDraftDTO($wordBody);
 
+        $timezone = \request()->header('X-Fresns-Client-Timezone');
         $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
-        $timezone = \request()->header('X-Fresns-Client-Timezone', ConfigHelper::fresnsConfigDefaultTimezone());
 
         $editTimeLimit = match ($dtoWordBody->type) {
             1 => ConfigHelper::fresnsConfigByItemKey('post_edit_time_limit'),

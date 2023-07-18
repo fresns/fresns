@@ -76,8 +76,6 @@ class User
             'banner_file_url' => $dtoWordBody->bannerUrl ?? null,
             'gender' => $dtoWordBody->gender ?? UserModel::GENDER_UNKNOWN,
             'birthday' => $dtoWordBody->birthday ?? null,
-            'timezone' => $dtoWordBody->timezone ?? null,
-            'language' => $dtoWordBody->language ?? null,
         ];
         $userModel = UserModel::create(array_filter($userArr));
 

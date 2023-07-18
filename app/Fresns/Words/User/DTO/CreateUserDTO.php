@@ -29,8 +29,6 @@ class CreateUserDTO extends DTO
             'bannerUrl' => ['string', 'nullable'],
             'gender' => ['numeric', 'nullable', 'in:1,2,3'],
             'birthday' => ['string', 'nullable', 'date_format:"Y-m-d H:i:s"'],
-            'timezone' => ['string', 'nullable'],
-            'language' => ['string', 'nullable'],
         ];
     }
 }
