@@ -110,19 +110,6 @@
         </div>
 
         <div class="row mb-4">
-            <label for="default_timezone" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.default_timezone') }}:</label>
-            <div class="col-lg-6">
-                <select class="form-select" name="default_timezone">
-                    @foreach ($params['utc'] as $utcItem)
-                        <option value="{{ $utcItem['value'] }}" {{ $params['default_timezone'] == $utcItem['value'] ? 'selected' : '' }}> {{ $utcItem['name'] }} </option>
-                    @endforeach
-                </select>
-                <div id="timezoneHelp" class="form-text">{{ __('FsLang::panel.default_timezone_tip') }}</div>
-            </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.default_timezone_desc') }}</div>
-        </div>
-
-        <div class="row mb-4">
             <label for="site_mode" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.site_mode') }}:</label>
             <div class="col-lg-6 pt-2" id="accordionSiteMode">
                 <div class="form-check form-check-inline">
@@ -229,7 +216,7 @@
         </div>
 
         <div class="row mb-4">
-            <label for="default_timezone" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.site_login') }}:</label>
+            <label for="site_login" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.site_login') }}:</label>
             <div class="col-lg-6 pt-2">
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="checkbox" id="account_email_login" name="site_email_login" value="true" {{ $params['site_email_login'] == 'true' ? 'checked' : '' }}>

@@ -18,7 +18,6 @@ class UpdateGeneralRequest extends FormRequest
             'site_desc' => 'array|nullable',
             'site_copyright' => 'string|nullable',
             'site_copyright_years' => 'string|nullable',
-            'default_timezone' => 'string|nullable',
             'site_mode' => 'string|nullable',
             'site_public_status' => 'string|nullable',
             'site_public_service' => 'string|nullable',

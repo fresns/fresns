@@ -33,7 +33,6 @@ class GeneralController extends Controller
             'site_logo',
             'site_copyright',
             'site_copyright_years',
-            'default_timezone',
             'site_mode',
             'site_public_status',
             'site_public_service',
@@ -138,7 +137,6 @@ class GeneralController extends Controller
             'site_icon',
             'site_logo',
             'site_copyright_years',
-            'default_timezone',
             'site_mode',
             'site_public_status',
             'site_public_service',
@@ -189,7 +187,6 @@ class GeneralController extends Controller
             'site_icon',
             'site_logo',
         ]);
-        CacheHelper::forgetFresnsKey('fresns_default_timezone');
 
         return $this->updateSuccess();
     }
