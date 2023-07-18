@@ -25,7 +25,7 @@ class DateHelper
         if (empty($databaseTimezone)) {
             $timezoneArray = ConfigHelper::fresnsConfigByItemKey('utc');
             $utc = [];
-            foreach($timezoneArray as $timezone) {
+            foreach ($timezoneArray as $timezone) {
                 $utc[] = floatval($timezone['value']);
             }
 
