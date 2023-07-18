@@ -54,15 +54,12 @@ class LanguageHelper
                     'table_id' => $tableId,
                 ])->get()->toArray();
 
-                if ($languageArr->isEmpty()) {
-                    $langContent = [];
-                } else {
-                    foreach ($languageArr as $language) {
-                        $item['langTag'] = $language['lang_tag'];
-                        $item['langContent'] = $language['lang_content'];
-                        $itemArr[] = $item;
-                    }
-                    $langContent = $itemArr;
+                $langContent = [];
+                foreach ($languageArr as $language) {
+                    $item['langTag'] = $language['lang_tag'];
+                    $item['langContent'] = $language['lang_content'];
+
+                    $langContent[] = $item;
                 }
             } else {
                 $langContent = Language::where([
