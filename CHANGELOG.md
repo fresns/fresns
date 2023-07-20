@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.17.2 (2023-07-20)
+
+### Fixes
+- API: `uidOrUsername` number uid converted to string to work
+- API: `/api/v2/notification/list` message triggered by anonymous user, not anonymizing user on message page
+    - Added new `actionUserIsAnonymous` parameter to message
+- Words: Error when physically deleting content
+- Words: dto fskey format misconfiguration
+- Words: Signature verification timestamp not compatible with time zone differences
+
+### BREAKING CHANGES
+- API: Header signature timestamps are standardized to UTC+0 time, affecting all clients.
+- API: Remove timezone customization from user profiles passed uniformly by client header.
+- API: `/api/v2/user/panel` can be requested by unlogged users, can query panel information of all users under account name.
+- API: `/api/v2/user/panel` removed `publishConfig` parameter, can request editor interface to get `/api/v2/editor/{type}/config`.
+
+
 ## 2.17.1 (2023-07-12)
 
 ### Fixes
