@@ -1110,25 +1110,29 @@ class UserController extends Controller
 
         switch ($dtoRequest->interactionType) {
             case 'follow':
-                $userNote = UserFollow::withTrashed()->where('user_id', $authUser->id)->type($markType)->where('follow_id', $primaryId)->first();
+                $userNote = UserFollow::where('user_id', $authUser->id)->type($markType)->where('follow_id', $primaryId)->first();
                 break;
 
             case 'block':
-                $userNote = UserBlock::withTrashed()->where('user_id', $authUser->id)->type($markType)->where('block_id', $primaryId)->first();
+                $userNote = UserBlock::where('user_id', $authUser->id)->type($markType)->where('block_id', $primaryId)->first();
                 break;
         }
 
-        if (empty($dtoRequest->note)) {
+        if (empty($userNote)) {
+            throw new ApiException(32201);
+        }
+
+        if ($dtoRequest->note) {
+            $userNote->update([
+                'user_note' => $dtoRequest->note,
+            ]);
+        } else {
             $userNote->update([
                 'user_note' => null,
             ]);
-
-            return $this->success();
         }
 
-        $userNote->update([
-            'user_note' => $dtoRequest->note,
-        ]);
+        CacheHelper::forgetFresnsInteraction($markType, $primaryId, $authUser->id);
 
         return $this->success();
     }
