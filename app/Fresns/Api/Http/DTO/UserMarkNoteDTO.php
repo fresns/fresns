@@ -18,7 +18,7 @@ class UserMarkNoteDTO extends DTO
             'interactionType' => ['string', 'required', 'in:follow,block'],
             'markType' => ['string', 'required', 'in:user,group,hashtag,post,comment'],
             'fsid' => ['required'],
-            'note' => ['string', 'nullable'],
+            'note' => ['string', 'max:128', 'nullable'],
         ];
     }
 }
