@@ -23,8 +23,8 @@ trait ExtendServiceTrait
         $info['type'] = $extendData->type;
         $info['textContent'] = $extendData->text_content;
         $info['textIsMarkdown'] = (bool) $extendData->text_is_markdown;
-        $info['infoType'] = $extendData->info_type;
-        $info['infoTypeString'] = StrHelper::infoTypeString($extendData->info_type);
+        $info['infoBoxType'] = $extendData->info_box_type;
+        $info['infoBoxTypeString'] = StrHelper::infoBoxTypeString($extendData->info_box_type);
         $info['cover'] = FileHelper::fresnsFileUrlByTableColumn($extendData->cover_file_id, $extendData->cover_file_url);
         $info['title'] = LanguageHelper::fresnsLanguageByTableId('extends', 'title', $extendData->id, $langTag) ?? $extendData->title;
         $info['titleColor'] = $extendData->title_color;
