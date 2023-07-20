@@ -582,16 +582,18 @@ class ContentUtility
 
         $permissions['users'] = [];
         if ($readConfig['permissions']['users']) {
-            $users = User::whereIn('uid', $readConfig['permissions']['users'])->first();
+            $users = User::whereIn('uid', $readConfig['permissions']['users'])->get();
+            $userList = [];
             foreach ($users as $user) {
-                $userList = $user->getUserProfile();
+                $userList[] = $user->getUserProfile();
             }
             $permissions['users'] = $userList;
         }
 
         $permissions['roles'] = [];
         if ($readConfig['permissions']['roles']) {
-            $roles = Role::whereIn('id', $readConfig['permissions']['roles'])->first();
+            $roles = Role::whereIn('id', $readConfig['permissions']['roles'])->get();
+            $roleList = [];
             foreach ($roles as $role) {
                 $roleItem['rid'] = $role->id;
                 $roleItem['nicknameColor'] = $role->nickname_color;
@@ -600,6 +602,7 @@ class ContentUtility
                 $roleItem['icon'] = FileHelper::fresnsFileUrlByTableColumn($role->icon_file_id, $role->icon_file_url);
                 $roleItem['iconDisplay'] = (bool) $role->is_display_icon;
                 $roleItem['status'] = (bool) $role->is_enabled;
+
                 $roleList[] = $roleItem;
             }
             $permissions['roles'] = $roleList;
