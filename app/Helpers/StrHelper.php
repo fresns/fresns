@@ -221,9 +221,13 @@ class StrHelper
         return $slug;
     }
 
-    public static function infoTypeString(int $infoType): string
+    public static function infoBoxTypeString(?int $infoBoxType = null): ?string
     {
-        $infoTypeString = match ($infoType) {
+        if (empty($infoBoxType)) {
+            return null;
+        }
+
+        $infoBoxTypeString = match ($infoBoxType) {
             1 => 'basic',
             2 => 'big',
             3 => 'portrait',
@@ -231,6 +235,6 @@ class StrHelper
             default => 'basic',
         };
 
-        return $infoTypeString;
+        return $infoBoxTypeString;
     }
 }
