@@ -16,7 +16,7 @@ class CommonFileLinkDTO extends DTO
     {
         return [
             'type' => ['string', 'required', 'in:post,comment,extend,conversation'],
-            'fsid' => ['alpha_dash', 'required'],
+            'fsid' => ['required'],
         ];
     }
 }

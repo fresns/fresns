@@ -23,7 +23,7 @@ class SendAppNotificationDTO extends DTO
             'content' => ['string', 'nullable'],
             'time' => ['string', 'nullable', 'date_format:"Y-m-d H:i:s"'],
             'linkType' => ['integer', 'nullable', 'in:1,2,3,4,5'],
-            'linkFsid' => ['string', 'required_with:linkType'],
+            'linkFsid' => ['required_with:linkType'],
             'linkUrl' => ['url', 'nullable'],
         ];
     }

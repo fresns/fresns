@@ -18,7 +18,7 @@ class GetPostDetailDTO extends DTO
             'pid' => ['string', 'required'],
             'langTag' => ['string', 'nullable'],
             'timezone' => ['string', 'nullable'],
-            'authUidOrUsername' => ['string', 'nullable'],
+            'authUidOrUsername' => ['nullable'],
             'type' => ['string', 'nullable'],
             'outputPreview' => ['boolean', 'nullable'],
             'mapId' => ['integer', 'nullable', 'between:1,11'],

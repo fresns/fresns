@@ -23,7 +23,7 @@ class SearchPostDTO extends DTO
             'mapId' => ['integer', 'nullable', 'between:1,11'],
             'mapLng' => ['numeric', 'nullable', 'min:-180', 'max:180'],
             'mapLat' => ['numeric', 'nullable', 'min:-90', 'max:90'],
-            'uidOrUsername' => ['string', 'nullable'], // posts->user_id
+            'uidOrUsername' => ['nullable'], // posts->user_id
             'gid' => ['string', 'nullable'], // posts->group_id
             'hid' => ['string', 'nullable'], // hashtag_usages->hashtag_id
             'allDigest' => ['boolean', 'nullable'],

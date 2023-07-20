@@ -15,7 +15,7 @@ class ConversationSendMessageDTO extends DTO
     public function rules(): array
     {
         return [
-            'uidOrUsername' => ['string', 'required'],
+            'uidOrUsername' => ['required'],
             'message' => ['string', 'nullable', 'required_without:fid'],
             'fid' => ['string', 'nullable', 'required_without:message'],
         ];

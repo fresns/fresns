@@ -18,7 +18,7 @@ class GetGroupDetailDTO extends DTO
             'gid' => ['string', 'required'],
             'langTag' => ['string', 'nullable'],
             'timezone' => ['string', 'nullable'],
-            'authUidOrUsername' => ['string', 'nullable'],
+            'authUidOrUsername' => ['nullable'],
         ];
     }
 }

@@ -15,7 +15,7 @@ class UserAuthDTO extends DTO
     public function rules(): array
     {
         return [
-            'uidOrUsername' => ['string', 'required'],
+            'uidOrUsername' => ['required'],
             'password' => ['string', 'nullable'],
             'deviceToken' => ['string', 'nullable'],
         ];

@@ -23,9 +23,10 @@ class SendNotificationDTO extends DTO
             'isAccessPlugin' => ['Boolean', 'nullable'],
             'pluginFskey' => ['string', 'nullable', 'exists:App\Models\Plugin,fskey'],
             'actionUid' => ['integer', 'nullable'],
+            'actionIsAnonymous' => ['Boolean', 'nullable'],
             'actionType' => ['integer', 'nullable', 'between:1,10', 'required_with:actionObject', 'required_with:actionFsid'],
             'actionObject' => ['integer', 'nullable', 'between:1,8', 'required_with:actionFsid'],
-            'actionFsid' => ['string', 'nullable', 'required_with:actionObject'],
+            'actionFsid' => ['nullable', 'required_with:actionObject'],
             'contentFsid' => ['string', 'nullable'],
         ];
     }
