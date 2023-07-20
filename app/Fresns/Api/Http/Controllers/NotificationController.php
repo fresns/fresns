@@ -17,6 +17,7 @@ use App\Fresns\Api\Services\PostService;
 use App\Fresns\Api\Services\UserService;
 use App\Helpers\CacheHelper;
 use App\Helpers\DateHelper;
+use App\Helpers\InteractionHelper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\PluginHelper;
 use App\Helpers\PrimaryHelper;
@@ -71,7 +72,10 @@ class NotificationController extends Controller
 
         $notificationList = [];
         foreach ($notifications as $notification) {
-            $actionUser = $notification->action_user_id ? $userService->userData($notification?->actionUser, 'list', $langTag, $timezone, $authUserId) : null;
+            $actionUser = null;
+            if ($notification->action_user_id) {
+                $actionUser = $notification->action_is_anonymous ? InteractionHelper::fresnsUserSubstitutionProfile() : $userService->userData($notification?->actionUser, 'list', $langTag, $timezone, $authUserId);
+            }
 
             // actionUser filter
             if ($actionUserFilter['keys'] && $actionUser) {
@@ -92,6 +96,7 @@ class NotificationController extends Controller
             $item['isAccessPlugin'] = (bool) $notification->is_access_plugin;
             $item['pluginUrl'] = PluginHelper::fresnsPluginUrlByFskey($notification->plugin_fskey);
             $item['actionUser'] = $actionUser;
+            $item['actionUserIsAnonymous'] = (bool) $notification->action_is_anonymous;
             $item['actionType'] = $notification->action_type;
             $item['actionObject'] = $notification->action_object;
             $item['actionInfo'] = null;

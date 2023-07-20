@@ -159,7 +159,10 @@ class Send
             return 22202; // Action model does not exist
         }
 
-        if ($dtoWordBody['type'] != Notification::TYPE_SYSTEM || $dtoWordBody['type'] != Notification::TYPE_RECOMMEND) {
+        if (! in_array($dtoWordBody['type'], [
+            Notification::TYPE_SYSTEM,
+            Notification::TYPE_RECOMMEND,
+        ])) {
             $notificationQuery = Notification::withTrashed()->where('user_id', $userId)->type($dtoWordBody['type']);
 
             $notificationQuery->when($actionUser, function ($query, $value) {
@@ -201,6 +204,7 @@ class Send
             'is_access_plugin' => $dtoWordBody['isAccessPlugin'] ?? 0,
             'plugin_fskey' => $dtoWordBody['pluginFskey'] ?? null,
             'action_user_id' => $actionUser?->id ?? null,
+            'action_is_anonymous' => $dtoWordBody['actionIsAnonymous'] ?? false,
             'action_type' => $dtoWordBody['actionType'] ?? null,
             'action_object' => $dtoWordBody['actionObject'] ?? null,
             'action_id' => $actionModel?->id ?? null,
