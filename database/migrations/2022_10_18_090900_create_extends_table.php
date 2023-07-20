@@ -25,7 +25,7 @@ class CreateExtendsTable extends Migration
             $table->unsignedTinyInteger('type')->default(1);
             $table->text('text_content')->nullable();
             $table->unsignedTinyInteger('text_is_markdown')->default(0);
-            $table->unsignedTinyInteger('info_type')->nullable();
+            $table->unsignedTinyInteger('info_box_type')->nullable();
             $table->unsignedBigInteger('cover_file_id')->nullable();
             $table->string('cover_file_url')->nullable();
             $table->string('title')->nullable();

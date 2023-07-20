@@ -37,7 +37,6 @@ class CreateUsersTable extends Migration
             $table->timestamp('verified_at')->nullable();
             $table->unsignedTinyInteger('conversation_limit')->default(1);
             $table->unsignedTinyInteger('comment_limit')->default(1);
-            $table->string('timezone', 16)->nullable();
             $table->timestamp('expired_at')->nullable();
             $table->timestamp('last_activity_at')->nullable();
             $table->timestamp('last_post_at')->nullable();
