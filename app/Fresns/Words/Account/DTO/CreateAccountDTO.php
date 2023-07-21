@@ -16,7 +16,7 @@ class CreateAccountDTO extends DTO
     {
         return [
             'type' => ['integer', 'required', 'in:1,2,3'],
-            'account' => ['string', 'nullable', 'required_if:type,1,2'],
+            'account' => ['nullable', 'required_if:type,1,2'], // email or integer
             'countryCode' => ['integer', 'nullable', 'required_if:type,2'],
             'connectInfo' => ['array', 'nullable', 'required_if:type,3'],
             'connectEmail' => ['string', 'nullable'],

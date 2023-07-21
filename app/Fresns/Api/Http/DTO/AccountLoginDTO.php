@@ -16,7 +16,7 @@ class AccountLoginDTO extends DTO
     {
         return [
             'type' => ['string', 'required', 'in:email,phone'],
-            'account' => ['string', 'required'],
+            'account' => ['required'], // email or integer
             'countryCode' => ['integer', 'nullable', 'required_if:type,phone'],
             'password' => ['string', 'nullable', 'required_without:verifyCode'],
             'verifyCode' => ['string', 'nullable', 'required_without:password'],

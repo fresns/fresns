@@ -16,7 +16,7 @@ class AccountRegisterDTO extends DTO
     {
         return [
             'type' => ['string', 'required', 'in:email,phone'],
-            'account' => ['string', 'required'],
+            'account' => ['required'], // email or integer
             'countryCode' => ['integer', 'nullable', 'required_if:type,phone'],
             'verifyCode' => ['string', 'required'],
             'password' => ['string', 'required'],
