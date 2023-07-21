@@ -743,7 +743,7 @@ class PermissionUtility
                 ->get();
         }
 
-        if (empty($usages)) {
+        if ($usages->isEmpty()) {
             return false;
         }
 
