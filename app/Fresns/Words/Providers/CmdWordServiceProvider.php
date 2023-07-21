@@ -16,6 +16,7 @@ use App\Fresns\Words\Detail\Detail;
 use App\Fresns\Words\Feature\Crontab;
 use App\Fresns\Words\Feature\Subscribe;
 use App\Fresns\Words\File\File;
+use App\Fresns\Words\Manage\Manage;
 use App\Fresns\Words\Send\Send;
 use App\Fresns\Words\User\User;
 use Illuminate\Support\ServiceProvider;
@@ -110,6 +111,11 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'getHashtagDetail', 'provider' => [Detail::class, 'getHashtagDetail']],
         ['word' => 'getPostDetail', 'provider' => [Detail::class, 'getPostDetail']],
         ['word' => 'getCommentDetail', 'provider' => [Detail::class, 'getCommentDetail']],
+
+        // Manage
+        ['word' => 'getPortalContent', 'provider' => [Manage::class, 'getPortalContent']],
+        ['word' => 'updatePortalContent', 'provider' => [Manage::class, 'updatePortalContent']],
+        ['word' => 'checkExtendPerm', 'provider' => [Manage::class, 'checkExtendPerm']],
 
         // Crontab
         ['word' => 'addCrontabItem', 'provider' => [Crontab::class, 'addCrontabItem']],
