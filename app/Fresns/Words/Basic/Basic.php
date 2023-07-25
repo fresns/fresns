@@ -117,11 +117,11 @@ class Basic
         $nowTimestamp = strtotime($now);
 
         if ($timestampNum == 10) {
-            $expiredDuration = 60;
+            $expiredDuration = 600; // seconds
         } else {
             $nowTimestamp = $nowTimestamp * 1000;
 
-            $expiredDuration = 60 * 1000;
+            $expiredDuration = 600 * 1000; // milliseconds
         }
 
         $diff = $nowTimestamp - $timestamp;
