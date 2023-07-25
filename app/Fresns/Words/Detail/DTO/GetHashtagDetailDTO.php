@@ -18,7 +18,7 @@ class GetHashtagDetailDTO extends DTO
             'hid' => ['string', 'required'],
             'langTag' => ['string', 'nullable'],
             'timezone' => ['string', 'nullable'],
-            'authUidOrUsername' => ['nullable'],
+            'authUid' => ['integer', 'nullable'],
         ];
     }
 }

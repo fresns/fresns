@@ -37,6 +37,7 @@ class Detail
     use ApiHeaderTrait;
     use CmdWordResponseTrait;
 
+    // getAccountDetail
     public function getAccountDetail($wordBody)
     {
         $dtoWordBody = new GetAccountDetailDTO($wordBody);
@@ -59,15 +60,12 @@ class Detail
         return $this->success($detail);
     }
 
+    // getUserDetail
     public function getUserDetail($wordBody)
     {
         $dtoWordBody = new GetUserDetailDTO($wordBody);
 
-        if (StrHelper::isPureInt($dtoWordBody->uidOrUsername)) {
-            $user = User::where('uid', $dtoWordBody->uidOrUsername)->first();
-        } else {
-            $user = User::where('username', $dtoWordBody->uidOrUsername)->first();
-        }
+        $user = User::where('uid', $dtoWordBody->uid)->first();
 
         if (empty($user)) {
             return $this->failure(
@@ -78,7 +76,7 @@ class Detail
 
         $langTag = $dtoWordBody->langTag ?? $this->langTag();
         $timezone = $dtoWordBody->timezone ?? $this->timezone();
-        $authUserId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->authUidOrUsername);
+        $authUserId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->authUid);
 
         $service = new UserService();
         $detail = $service->userData($user, 'detail', $langTag, $timezone, $authUserId);
@@ -86,6 +84,7 @@ class Detail
         return $this->success($detail);
     }
 
+    // getGroupDetail
     public function getGroupDetail($wordBody)
     {
         $dtoWordBody = new GetGroupDetailDTO($wordBody);
@@ -108,7 +107,7 @@ class Detail
 
         $langTag = $dtoWordBody->langTag ?? $this->langTag();
         $timezone = $dtoWordBody->timezone ?? $this->timezone();
-        $authUserId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->authUidOrUsername);
+        $authUserId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->authUid);
 
         $service = new GroupService();
         $detail = $service->groupData($group, $langTag, $timezone, $authUserId);
@@ -116,6 +115,7 @@ class Detail
         return $this->success($detail);
     }
 
+    // getHashtagDetail
     public function getHashtagDetail($wordBody)
     {
         $dtoWordBody = new GetHashtagDetailDTO($wordBody);
@@ -140,7 +140,7 @@ class Detail
 
         $langTag = $dtoWordBody->langTag ?? $this->langTag();
         $timezone = $dtoWordBody->timezone ?? $this->timezone();
-        $authUserId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->authUidOrUsername);
+        $authUserId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->authUid);
 
         $service = new HashtagService();
         $detail = $service->hashtagData($hashtag, $langTag, $timezone, $authUserId);
@@ -148,6 +148,7 @@ class Detail
         return $this->success($detail);
     }
 
+    // getPostDetail
     public function getPostDetail($wordBody)
     {
         $dtoWordBody = new GetPostDetailDTO($wordBody);
@@ -169,7 +170,7 @@ class Detail
             );
         }
 
-        $authUserId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->authUidOrUsername);
+        $authUserId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->authUid);
 
         if (! $post->is_enabled && $post->user_id != $authUserId) {
             return $this->failure(
@@ -188,6 +189,7 @@ class Detail
         return $this->success($detail);
     }
 
+    // getCommentDetail
     public function getCommentDetail($wordBody)
     {
         $dtoWordBody = new GetCommentDetailDTO($wordBody);
@@ -209,7 +211,7 @@ class Detail
             );
         }
 
-        $authUserId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->authUidOrUsername);
+        $authUserId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->authUid);
 
         if (! $comment->is_enabled && $comment->user_id != $authUserId) {
             return $this->failure(

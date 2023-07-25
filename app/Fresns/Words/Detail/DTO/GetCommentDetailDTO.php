@@ -18,7 +18,7 @@ class GetCommentDetailDTO extends DTO
             'cid' => ['string', 'required'],
             'langTag' => ['string', 'nullable'],
             'timezone' => ['string', 'nullable'],
-            'authUidOrUsername' => ['nullable'],
+            'authUid' => ['integer', 'nullable'],
             'type' => ['string', 'nullable'],
             'outputSubComments' => ['boolean', 'nullable'],
             'outputReplyToPost' => ['boolean', 'nullable'],
