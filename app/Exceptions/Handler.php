@@ -20,6 +20,8 @@ class Handler extends ExceptionHandler
      */
     protected $dontReport = [
         ApiException::class,
+        DTOException::class,
+        \Fresns\DTO\Exceptions\DTOException::class,
     ];
 
     /**
