@@ -656,6 +656,9 @@ class UserController extends Controller
                 'quotes' => Notification::where('type', Notification::TYPE_QUOTE)->where('user_id', $userId)->where('is_read', false)->count(),
             ];
 
+            $unreadAll = array_sum($unreadNotifications);
+            $unreadNotifications['all'] = $unreadAll;
+
             CacheHelper::put($unreadNotifications, $notificationsCacheKey, $cacheTag, null, $cacheTime);
         }
 
