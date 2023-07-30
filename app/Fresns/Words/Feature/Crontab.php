@@ -24,6 +24,7 @@ class Crontab
 {
     use CmdWordResponseTrait;
 
+    // addCrontabItem
     public function addCrontabItem($wordBody)
     {
         $dtoWordBody = new AddCrontabItemDTO($wordBody);
@@ -60,6 +61,7 @@ class Crontab
         return $this->success();
     }
 
+    // removeCrontabItem
     public function removeCrontabItem($wordBody)
     {
         $dtoWordBody = new RemoveCrontabItemDTO($wordBody);
@@ -86,6 +88,7 @@ class Crontab
         return $this->success();
     }
 
+    // checkUserRoleExpired
     public function checkUserRoleExpired()
     {
         $roleArr = UserRole::where('is_main', 1)->where('expired_at', '<', now())->get();
@@ -121,45 +124,65 @@ class Crontab
         return $this->success();
     }
 
+    // checkDeleteAccount
     public function checkDeleteAccount()
     {
         $deleteType = ConfigHelper::fresnsConfigByItemKey('delete_account_type');
 
-        if ($deleteType == 2) {
-            $this->logicalDeletionAccount();
-            $this->logicalDeletionUser();
-        } elseif ($deleteType == 3) {
-            $this->logicalDeletionAccount();
-            $this->logicalDeletionUser();
+        if ($deleteType == Config::DELETE_ACCOUNT_CLOSE) {
+            return $this->failure(21010);
+        }
+
+        $accountList = Account::where('wait_delete', true)->where('wait_delete_at', '<', now())->get();
+        $userList = User::where('wait_delete', true)->where('wait_delete_at', '<', now())->get();
+
+        switch ($deleteType) {
+            case Config::DELETE_ACCOUNT_LOGICAL:
+                foreach ($accountList as $account) {
+                    \FresnsCmdWord::plugin('Fresns')->logicalDeletionAccount([
+                        'aid' => $account->aid,
+                    ]);
+                }
+
+                foreach ($userList as $user) {
+                    \FresnsCmdWord::plugin('Fresns')->logicalDeletionUser([
+                        'uid' => $user->uid,
+                    ]);
+                }
+                break;
+
+            case Config::DELETE_ACCOUNT_PHYSICAL:
+                foreach ($accountList as $account) {
+                    // waiting for development
+                    // \FresnsCmdWord::plugin('Fresns')->physicalDeletionAccount([
+                    //     'aid' => $account->aid,
+                    // ]);
+
+                    \FresnsCmdWord::plugin('Fresns')->logicalDeletionAccount([
+                        'aid' => $account->aid,
+                    ]);
+                }
+
+                foreach ($userList as $user) {
+                    // waiting for development
+                    // \FresnsCmdWord::plugin('Fresns')->physicalDeletionUser([
+                    //     'uid' => $user->uid,
+                    // ]);
+
+                    \FresnsCmdWord::plugin('Fresns')->logicalDeletionUser([
+                        'uid' => $user->uid,
+                    ]);
+                }
+                break;
+
+            default:
+                return $this->failure(21004);
         }
 
         return $this->success();
     }
 
-    // logical deletion account
-    protected function logicalDeletionAccount()
-    {
-        $deleteList = Account::where('wait_delete', true)->where('wait_delete_at', '<', now())->get();
-
-        foreach ($deleteList as $account) {
-            \FresnsCmdWord::plugin('Fresns')->logicalDeletionAccount([
-                'aid' => $account->aid,
-            ]);
-        }
-    }
-
-    // logical deletion user
-    protected function logicalDeletionUser()
-    {
-        $deleteList = User::where('wait_delete', true)->where('wait_delete_at', '<', now())->get();
-
-        foreach ($deleteList as $user) {
-            \FresnsCmdWord::plugin('Fresns')->logicalDeletionUser([
-                'uid' => $user->uid,
-            ]);
-        }
-    }
-
+    // checkExtensionsVersion
     public function checkExtensionsVersion()
     {
         $plugins = Plugin::all();
