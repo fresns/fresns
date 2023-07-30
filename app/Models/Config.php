@@ -10,6 +10,10 @@ namespace App\Models;
 
 class Config extends Model
 {
+    const DELETE_ACCOUNT_CLOSE = 1;
+    const DELETE_ACCOUNT_LOGICAL = 2;
+    const DELETE_ACCOUNT_PHYSICAL = 3;
+
     public function getItemValueAttribute($value)
     {
         if (in_array($this->item_type, ['array', 'plugins'])) {
