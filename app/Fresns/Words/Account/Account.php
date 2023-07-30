@@ -10,8 +10,8 @@ namespace App\Fresns\Words\Account;
 
 use App\Fresns\Words\Account\DTO\CreateAccountDTO;
 use App\Fresns\Words\Account\DTO\CreateAccountTokenDTO;
+use App\Fresns\Words\Account\DTO\DeletionAccountDTO;
 use App\Fresns\Words\Account\DTO\DisconnectAccountConnectDTO;
-use App\Fresns\Words\Account\DTO\LogicalDeletionAccountDTO;
 use App\Fresns\Words\Account\DTO\SetAccountConnectDTO;
 use App\Fresns\Words\Account\DTO\VerifyAccountDTO;
 use App\Fresns\Words\Account\DTO\VerifyAccountTokenDTO;
@@ -508,7 +508,7 @@ class Account
 
     public function logicalDeletionAccount($wordBody)
     {
-        $dtoWordBody = new LogicalDeletionAccountDTO($wordBody);
+        $dtoWordBody = new DeletionAccountDTO($wordBody);
 
         $account = AccountModel::with(['connects', 'users'])->whereAid($dtoWordBody->aid)->first();
 
@@ -534,5 +534,18 @@ class Account
         }
 
         return $this->success();
+    }
+
+    public function physicalDeletionAccount($wordBody)
+    {
+        $dtoWordBody = new DeletionAccountDTO($wordBody);
+
+        if (config('queue.default') == 'sync') {
+            return $this->failure(21011);
+        }
+
+        // waiting for development
+
+        return $this->failure(21010);
     }
 }

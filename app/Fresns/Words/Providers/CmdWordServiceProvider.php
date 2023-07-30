@@ -55,6 +55,7 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'createAccountToken', 'provider' => [Account::class, 'createAccountToken']],
         ['word' => 'verifyAccountToken', 'provider' => [Account::class, 'verifyAccountToken']],
         ['word' => 'logicalDeletionAccount', 'provider' => [Account::class, 'logicalDeletionAccount']],
+        ['word' => 'physicalDeletionAccount', 'provider' => [Account::class, 'physicalDeletionAccount']],
 
         // Wallet
         ['word' => 'walletCheckPassword', 'provider' => [Wallet::class, 'walletCheckPassword']],
@@ -72,6 +73,7 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'createUserToken', 'provider' => [User::class, 'createUserToken']],
         ['word' => 'verifyUserToken', 'provider' => [User::class, 'verifyUserToken']],
         ['word' => 'logicalDeletionUser', 'provider' => [User::class, 'logicalDeletionUser']],
+        ['word' => 'physicalDeletionUser', 'provider' => [User::class, 'physicalDeletionUser']],
         ['word' => 'setUserExtcredits', 'provider' => [User::class, 'setUserExtcredits']],
         ['word' => 'setUserExpiryDatetime', 'provider' => [User::class, 'setUserExpiryDatetime']],
         ['word' => 'setUserGroupExpiryDatetime', 'provider' => [User::class, 'setUserGroupExpiryDatetime']],

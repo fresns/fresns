@@ -6,16 +6,16 @@
  * Released under the Apache-2.0 License.
  */
 
-namespace App\Fresns\Words\Account\DTO;
+namespace App\Fresns\Words\User\DTO;
 
 use Fresns\DTO\DTO;
 
-class LogicalDeletionAccountDTO extends DTO
+class DeletionUserDTO extends DTO
 {
     public function rules(): array
     {
         return [
-            'aid' => ['string', 'required', 'exists:App\Models\Account,aid'],
+            'uid' => ['integer', 'required', 'exists:App\Models\User,uid'],
         ];
     }
 }

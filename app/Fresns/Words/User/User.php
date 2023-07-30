@@ -12,7 +12,7 @@ use App\Fresns\Words\User\DTO\ClearUserAllBadgesDTO;
 use App\Fresns\Words\User\DTO\ClearUserBadgeDTO;
 use App\Fresns\Words\User\DTO\CreateUserDTO;
 use App\Fresns\Words\User\DTO\CreateUserTokenDTO;
-use App\Fresns\Words\User\DTO\LogicalDeletionUserDTO;
+use App\Fresns\Words\User\DTO\DeletionUserDTO;
 use App\Fresns\Words\User\DTO\SetUserBadgeDTO;
 use App\Fresns\Words\User\DTO\SetUserExpiryDatetimeDTO;
 use App\Fresns\Words\User\DTO\SetUserExtcreditsDTO;
@@ -306,13 +306,27 @@ class User
     // logicalDeletionUser
     public function logicalDeletionUser($wordBody)
     {
-        $dtoWordBody = new LogicalDeletionUserDTO($wordBody);
+        $dtoWordBody = new DeletionUserDTO($wordBody);
 
         $user = UserModel::where('uid', $dtoWordBody->uid)->first();
 
         $user->delete();
 
         return $this->success();
+    }
+
+    // physicalDeletionUser
+    public function physicalDeletionUser($wordBody)
+    {
+        $dtoWordBody = new DeletionUserDTO($wordBody);
+
+        if (config('queue.default') == 'sync') {
+            return $this->failure(21011);
+        }
+
+        // waiting for development
+
+        return $this->failure(21010);
     }
 
     // setUserExtcredits
