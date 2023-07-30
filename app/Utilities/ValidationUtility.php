@@ -38,8 +38,12 @@ class ValidationUtility
     }
 
     // Validate is disposable email
-    public static function disposableEmail(string $email): bool
+    public static function disposableEmail(?string $email = null): bool
     {
+        if (empty($email)) {
+            return true;
+        }
+
         $url = 'https://open.kickbox.com/v1/disposable/'.Str::after($email, '@');
 
         try {
