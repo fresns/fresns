@@ -235,7 +235,7 @@ class AppHelper
             'networkType' => $networkType,
             'networkIpv4' => $ipv4,
             'networkIpv6' => $ipv6,
-            'networkPort' => $_SERVER['REMOTE_PORT'],
+            'networkPort' => $_SERVER['REMOTE_PORT'] ?? null,
             'networkTimezone' => null,
             'networkOffset' => null,
             'networkIsp' => null,

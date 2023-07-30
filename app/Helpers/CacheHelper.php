@@ -706,9 +706,9 @@ class CacheHelper
 
         CacheHelper::forgetFresnsMultilingual("fresns_api_user_{$uid}", 'fresnsUsers');
         CacheHelper::forgetFresnsMultilingual("fresns_api_user_stats_{$uid}", 'fresnsUsers');
-        CacheHelper::forgetFresnsMultilingual("fresns_api_user_panel_conversations_{$uid}", 'fresnsUsers');
-        CacheHelper::forgetFresnsMultilingual("fresns_api_user_panel_notifications_{$uid}", 'fresnsUsers');
-        CacheHelper::forgetFresnsMultilingual("fresns_api_user_panel_drafts_{$uid}", 'fresnsUsers');
+        CacheHelper::forgetFresnsKey("fresns_api_user_panel_conversations_{$uid}", 'fresnsUsers');
+        CacheHelper::forgetFresnsKey("fresns_api_user_panel_notifications_{$uid}", 'fresnsUsers');
+        CacheHelper::forgetFresnsKey("fresns_api_user_panel_drafts_{$uid}", 'fresnsUsers');
 
         CacheHelper::forgetFresnsMultilingual("fresns_web_user_{$uid}", 'fresnsWeb');
         CacheHelper::forgetFresnsMultilingual("fresns_web_user_panel_{$uid}", 'fresnsWeb');
