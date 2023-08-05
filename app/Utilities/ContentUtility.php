@@ -581,7 +581,7 @@ class ContentUtility
         }
 
         $permissions['users'] = [];
-        if ($readConfig['permissions']['users']) {
+        if (isset($readConfig['permissions']['users']) && $readConfig['permissions']['users']) {
             $users = User::whereIn('uid', $readConfig['permissions']['users'])->get();
             $userList = [];
             foreach ($users as $user) {
@@ -591,7 +591,7 @@ class ContentUtility
         }
 
         $permissions['roles'] = [];
-        if ($readConfig['permissions']['roles']) {
+        if (isset($readConfig['permissions']['roles']) && $readConfig['permissions']['roles']) {
             $roles = Role::whereIn('id', $readConfig['permissions']['roles'])->get();
             $roleList = [];
             foreach ($roles as $role) {
