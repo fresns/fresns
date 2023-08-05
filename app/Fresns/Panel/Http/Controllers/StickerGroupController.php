@@ -31,7 +31,7 @@ class StickerGroupController extends Controller
 
         $groups = $this->makeStickerUrl($groups);
 
-        foreach ($groups as $k => $v){
+        foreach ($groups as $k => $v) {
             $groups[$k]['stickers'] = $this->makeStickerUrl($v->stickers);
         }
 
@@ -40,7 +40,7 @@ class StickerGroupController extends Controller
 
     public function makeStickerUrl($data)
     {
-        foreach ($data as $k => $v){
+        foreach ($data as $k => $v) {
             $data[$k]['stickerUrl'] = FileHelper::fresnsFileUrlByTableColumn($v->image_file_id, $v->image_file_url);
         }
 
