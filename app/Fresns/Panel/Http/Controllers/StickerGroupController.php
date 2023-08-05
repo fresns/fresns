@@ -9,6 +9,7 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Fresns\Panel\Http\Requests\UpdateStickerGroupRequest;
+use App\Helpers\FileHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\File;
 use App\Models\FileUsage;
@@ -28,7 +29,22 @@ class StickerGroupController extends Controller
             }])
             ->get();
 
+        $groups = $this->makeStickerUrl($groups);
+
+        foreach ($groups as $k => $v){
+            $groups[$k]['stickers'] = $this->makeStickerUrl($v->stickers);
+        }
+
         return view('FsView::operations.stickers', compact('groups'));
+    }
+
+    public function makeStickerUrl($data)
+    {
+        foreach ($data as $k => $v){
+            $data[$k]['stickerUrl'] = FileHelper::fresnsFileUrlByTableColumn($v->image_file_id, $v->image_file_url);
+        }
+
+        return $data;
     }
 
     public function store(Sticker $sticker, UpdateStickerGroupRequest $request)
