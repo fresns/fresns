@@ -217,6 +217,11 @@ class CommonController extends Controller
     public function sendVerifyCode(Request $request)
     {
         $dtoRequest = new CommonSendVerifyCodeDTO($request->all());
+
+        if ($dtoRequest->useType != 4 && empty($dtoRequest->countryCode)) {
+            throw new ApiException(30001);
+        }
+
         $authAccount = $this->account();
         $langTag = $this->langTag();
 
