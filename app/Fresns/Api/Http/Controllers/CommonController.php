@@ -218,10 +218,6 @@ class CommonController extends Controller
     {
         $dtoRequest = new CommonSendVerifyCodeDTO($request->all());
 
-        if ($dtoRequest->useType != 4 && empty($dtoRequest->countryCode)) {
-            throw new ApiException(30001);
-        }
-
         $authAccount = $this->account();
         $langTag = $this->langTag();
 
@@ -254,6 +250,10 @@ class CommonController extends Controller
                 $authAccountConfig = $authAccount?->email;
                 break;
             case 'sms':
+                if ($dtoRequest->useType != 4 && empty($dtoRequest->countryCode)) {
+                    throw new ApiException(30001);
+                }
+
                 if (empty($sendConfigs['send_sms_service'])) {
                     throw new ApiException(32100);
                 }
