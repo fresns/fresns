@@ -91,7 +91,6 @@ class ConfigUtility
             $itemArr['is_multilingual'] = $item['is_multilingual'];
             $itemArr['is_api'] = $item['is_api'];
 
-
             Config::updateOrCreate([
                 'item_key' => $itemKey,
             ], $itemArr);
