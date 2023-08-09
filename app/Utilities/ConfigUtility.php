@@ -40,7 +40,10 @@ class ConfigUtility
             $configModel = Config::where('item_key', $itemKey)->first();
 
             if (empty($configModel)) {
-                $itemArr = collect($item)->only('item_key', 'item_value', 'item_type', 'item_tag', 'is_multilingual', 'is_api')->filter()->toArray();
+                $itemArr = collect($item)->only('item_key', 'item_type', 'item_tag')->filter()->toArray();
+                $itemArr['item_value'] = $item['item_value'];
+                $itemArr['is_multilingual'] = $item['is_multilingual'];
+                $itemArr['is_api'] = $item['is_api'];
                 Config::create($itemArr);
 
                 $isMultilingual = $item['is_multilingual'] ?? false;
@@ -83,7 +86,11 @@ class ConfigUtility
                 continue;
             }
 
-            $itemArr = collect($item)->only('item_key', 'item_value', 'item_type', 'item_tag', 'is_multilingual', 'is_api')->filter()->toArray();
+            $itemArr = collect($item)->only('item_key', 'item_type', 'item_tag')->filter()->toArray();
+            $itemArr['item_value'] = $item['item_value'];
+            $itemArr['is_multilingual'] = $item['is_multilingual'];
+            $itemArr['is_api'] = $item['is_api'];
+
 
             Config::updateOrCreate([
                 'item_key' => $itemKey,
