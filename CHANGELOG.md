@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.18.1 (2023-08-12)
+
+### Fixes
+- Words: Fix notification service provider configuration key names
+- Utilities: Fix Configuration Tool missing alternate error
+
+
 ## 2.18.0 (2023-08-09)
 
 ### Added
