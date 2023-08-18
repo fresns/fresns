@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.18.2 (2023-08-18)
+
+### Fixes
+- Data: Fixed a bug in the content of the Verify Code template for application logout.
+- Data: Avoid redis conflict when deploying multiple Fresns on the same server.
+
+
 ## 2.18.1 (2023-08-12)
 
 ### Fixes

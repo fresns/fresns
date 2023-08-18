@@ -1,6 +1,6 @@
 {
     "name": "Fresns",
-    "version": "2.18.1",
+    "version": "2.18.2",
     "activate": true,
     "deactivateDescription": {
         "default": ""
