@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Str;
-
 return [
 
     /*
@@ -106,6 +104,6 @@ return [
     |
     */
 
-    'prefix' => 'fresns_cache_',
+    'prefix' => env('CACHE_PREFIX', 'fresns_cache_'),
 
 ];
