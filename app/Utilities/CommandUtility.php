@@ -62,7 +62,43 @@ class CommandUtility
 
         $extraDirs = array_map(fn ($dir) => rtrim($dir, '/'), $extraDirs);
 
-        return $instance->executableFinder->find($name, null, $extraDirs);
+        $path = $instance->executableFinder->find($name, null, $extraDirs);
+
+        if (empty($path)) {
+            $disableFunctions = explode(',', ini_get('disable_functions'));
+
+            if (function_exists('shell_exec') && ! in_array('shell_exec', $disableFunctions)) {
+                switch ($name) {
+                    case 'php':
+                        $path = shell_exec('which php');
+                        break;
+
+                    case 'composer':
+                        $path = shell_exec('which composer');
+                        break;
+
+                    default:
+                        return $path;
+                }
+
+                return trim($path);
+            }
+
+            switch ($name) {
+                case 'php':
+                    return '/usr/bin/php';
+                    break;
+
+                case 'composer':
+                    return '/usr/bin/composer';
+                    break;
+
+                default:
+                    return $path;
+            }
+        }
+
+        return $path;
     }
 
     public static function getPhpProcess(array $argument): mixed
