@@ -32,7 +32,9 @@
                     <label class="input-group-text">{{ __('FsLang::panel.website_engine_cookie_prefix') }}</label>
                     <select class="form-select" name="engine_cookie_prefix">
                         <option value="fresns_" {{ $params['engine_cookie_prefix'] == 'fresns_' ? 'selected' : '' }}>fresns_</option>
-                        <option value="fresns_single_" {{ $params['engine_cookie_prefix'] == 'fresns_single_' ? 'selected' : '' }}>fresns_single_</option>
+                        <option value="fresns_one_" {{ $params['engine_cookie_prefix'] == 'fresns_one_' ? 'selected' : '' }}>fresns_one_</option>
+                        <option value="fresns_two_" {{ $params['engine_cookie_prefix'] == 'fresns_two_' ? 'selected' : '' }}>fresns_two_</option>
+                        <option value="fresns_three_" {{ $params['engine_cookie_prefix'] == 'fresns_three_' ? 'selected' : '' }}>fresns_three_</option>
                     </select>
                 </div>
                 <!--engine_api_type-->
