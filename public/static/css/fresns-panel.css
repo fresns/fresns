@@ -163,6 +163,14 @@ body {
     }
 }
 
+@media (min-width: 1920px) {
+    .iframe-sidebar-preview {
+        position: initial;
+        height: calc(100% - 80px);
+        width: calc(100%);
+    }
+}
+
 .input-group > .select2-container--bootstrap-5 {
     width: auto;
     flex: 1 1 auto;
