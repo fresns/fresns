@@ -153,8 +153,6 @@ class Account
                 'avatarUrl' => $userInfo['avatarUrl'] ?? null,
                 'gender' => $userInfo['gender'] ?? null,
                 'birthday' => $userInfo['birthday'] ?? null,
-                'timezone' => $userInfo['timezone'] ?? null,
-                'language' => $userInfo['language'] ?? null,
             ];
 
             $fresnsResp = \FresnsCmdWord::plugin('Fresns')->createUser($userWordBody);
