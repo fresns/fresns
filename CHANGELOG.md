@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.18.3 (2023-08-24)
+
+### Fixes
+- API: Rollback to make file uploads support custom association tables
+- Install: Three functions needed for environment detection of missing queues: `pcntl_signal`, `pcntl_alarm`, `pcntl_async_signals`
+- Panel: Engine cookie prefixes increased to four, compatible with deploying multiple Fresns sites under the same domain name
+- Panel: Fixed plugin page width overflow on large monitors
+- Helpers: Fixed empty comment cache tag bug
+- Utilities: Use default value when querying php command environment variable is empty, compatible with `php: command not found`
+
+
 ## 2.18.2 (2023-08-18)
 
 ### Fixes
