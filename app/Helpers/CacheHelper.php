@@ -404,7 +404,7 @@ class CacheHelper
                     "fresns_api_comment_{$model->cid}_list_content",
                     "fresns_api_comment_{$model->cid}_detail_content",
                 ], 'fresnsComments');
-                CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$model->cid}", 'fresnsPosts');
+                CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$model->cid}", 'fresnsComments');
                 CacheHelper::forgetFresnsMultilingual("fresns_api_comment_{$id}_sub_comments", 'fresnsComments');
                 break;
 
