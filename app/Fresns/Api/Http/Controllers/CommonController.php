@@ -402,7 +402,10 @@ class CommonController extends Controller
             throw new ApiException(30001, 'Fresns', 'Missing tableKey');
         }
 
-        if (in_array($dtoRequest->tableName, ['post_logs', 'comment_logs']) && empty($dtoRequest->tableId)) {
+        if (in_array($dtoRequest->tableName, [
+            'post_logs',
+            'comment_logs',
+        ]) && empty($dtoRequest->tableId)) {
             throw new ApiException(30001, 'Fresns', 'Missing tableId');
         }
 
@@ -452,8 +455,8 @@ class CommonController extends Controller
                 break;
 
             default:
-                $checkQuery = null;
-                $checkUser = false;
+                $checkQuery = 'customize';
+                $checkUser = true;
         }
 
         if (empty($checkQuery)) {
@@ -571,6 +574,7 @@ class CommonController extends Controller
             }
         }
 
+        // upload
         switch ($dtoRequest->uploadMode) {
             case 'file':
                 $extension = $dtoRequest->file->extension();
@@ -624,6 +628,7 @@ class CommonController extends Controller
                 break;
         }
 
+        // user avatar or banner
         if ($fresnsResp->isSuccessResponse() && $dtoRequest->tableName == 'users') {
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 
