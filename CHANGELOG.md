@@ -3,7 +3,14 @@
 All notable changes to this project will be documented in this file.
 
 
-## 2.18.3 (2023-08-24)
+## 2.18.4 (08/25/2023)
+
+### Fixes
+- API: Upload file interface fixes custom related table issue
+- Panel: Dashboard view not displayed when new version is available
+
+
+## 2.18.3 (08/24/2023)
 
 ### Fixes
 - API: Rollback to make file uploads support custom association tables
@@ -14,21 +21,21 @@ All notable changes to this project will be documented in this file.
 - Utilities: Use default value when querying php command environment variable is empty, compatible with `php: command not found`
 
 
-## 2.18.2 (2023-08-18)
+## 2.18.2 (08/18/2023)
 
 ### Fixes
 - Data: Fixed a bug in the content of the Verify Code template for application logout.
 - Data: Avoid redis conflict when deploying multiple Fresns on the same server.
 
 
-## 2.18.1 (2023-08-12)
+## 2.18.1 (08/12/2023)
 
 ### Fixes
 - Words: Fix notification service provider configuration key names
 - Utilities: Fix Configuration Tool missing alternate error
 
 
-## 2.18.0 (2023-08-09)
+## 2.18.0 (08/09/2023)
 
 ### Added
 - API: Unread notification messages add `all` key-value pairs, server tally totals
@@ -44,7 +51,7 @@ All notable changes to this project will be documented in this file.
 - Utilities: Error when permissions parameter does not exist in read permission configuration.
 
 
-## 2.17.2 (2023-07-20)
+## 2.17.2 (07/20/2023)
 
 ### Fixes
 - API: `uidOrUsername` number uid converted to string to work
@@ -61,7 +68,7 @@ All notable changes to this project will be documented in this file.
 - API: `/api/v2/user/panel` removed `publishConfig` parameter, can request editor interface to get `/api/v2/editor/{type}/config`.
 
 
-## 2.17.1 (2023-07-12)
+## 2.17.1 (07/12/2023)
 
 ### Fixes
 - Data: Description fields for groups and topics do not support long content
@@ -72,7 +79,7 @@ All notable changes to this project will be documented in this file.
 - Panel: Application installation fails with incorrect prompts
 
 
-## 2.17.0 (2023-06-29)
+## 2.17.0 (06/29/2023)
 
 ### Added
 - API: User, group, post, topic, comment, list interface added `createdDays` parameter, support for custom days within
@@ -92,7 +99,7 @@ All notable changes to this project will be documented in this file.
 - API: Change account profile `/api/v2/account/edit` parameters refactoring, adopt natural language naming parameters
 
 
-## 2.16.0 (2023-06-23)
+## 2.16.0 (06/23/2023)
 
 ### Added
 - API: Added site status file `/status.json`
@@ -112,7 +119,7 @@ All notable changes to this project will be documented in this file.
     - Field `use_plugin_fskey` changed to `used_plugin_fskey`
 
 
-## 2.15.0 (2023-06-12)
+## 2.15.0 (06/12/2023)
 
 ### Fixes
 - Panel: Issue with output information view of installed plugin
@@ -132,7 +139,7 @@ All notable changes to this project will be documented in this file.
 - Panel: Support one-click installation of extensions, no need for users to copy anything
 
 
-## 2.14.0 (2023-05-30)
+## 2.14.0 (05/30/2023)
 
 ### Added
 - API: Added channels interface `/api/v2/global/channels`
@@ -152,19 +159,19 @@ All notable changes to this project will be documented in this file.
 - Panel: Dashboard data loaded asynchronously
 
 
-## 2.13.2 (2023-05-23)
+## 2.13.2 (05/23/2023)
 
 ### Fixes
 - Utilities: Queue issues for active user subscriptions
 
 
-## 2.13.1 (2023-05-23)
+## 2.13.1 (05/23/2023)
 
 ### Fixes
 - Utilities: Fixed a cache issue with getting characters
 
 
-## 2.13.0 (2023-05-23)
+## 2.13.0 (05/23/2023)
 
 ### Added
 - API: Add `viewCount` parameter to data structure for users, groups, hashtags, posts and comments
@@ -181,7 +188,7 @@ All notable changes to this project will be documented in this file.
 - Words: userExtendedCredits command word `extcredits` parameter changed to `extcreditsId`.
 
 
-## 2.12.0 (2023-05-18)
+## 2.12.0 (05/18/2023)
 
 ### Added
 - API: Plugin services for post and comment data can be configured separately
@@ -211,13 +218,13 @@ All notable changes to this project will be documented in this file.
 - API: Upload File Interface, if the upload is a user image, the user's profile (avatar image or banner image) is automatically updated without the need to prompt the user to change the profile interface.
 
 
-## 2.11.2 (2023-05-08)
+## 2.11.2 (05/08/2023)
 
 ### Fixes
 - API: Post and Comment data plugin provides
 
 
-## 2.11.1 (2023-05-08)
+## 2.11.1 (05/08/2023)
 
 ### Fixes
 - API: Percentage of post content preview not calculated correctly
@@ -225,7 +232,7 @@ All notable changes to this project will be documented in this file.
 - Data: Inconsistent upgrade dates
 
 
-## 2.11.0 (2023-05-06)
+## 2.11.0 (05/06/2023)
 
 ### Added
 - API: Editor uploads files to determine if content type is enabled for upload
@@ -250,21 +257,21 @@ All notable changes to this project will be documented in this file.
 - Framework: Command word manager `unikeyName` changed to `fsKeyName`
 
 
-## 2.10.2 (2023-04-27)
+## 2.10.2 (04/27/2023)
 
 ### Fixes
 - Words: `verifyUrlAuthorization` verify account or user login
 - Words: `ipInfo` redundant DTO configuration
 
 
-## 2.10.1 (2023-04-27)
+## 2.10.1 (04/27/2023)
 
 ### Fixes
 - API: Post authorization parameter error
 - Words: draft pending review cannot be published
 
 
-## 2.10.0 (2023-04-27)
+## 2.10.0 (04/27/2023)
 
 ### Added
 - API: Private mode support for whitelist role configuration
@@ -302,7 +309,7 @@ All notable changes to this project will be documented in this file.
     - Changed the name of the parameter to determine if the draft is being edited from `isEdit` to `isEditDraft`
 
 
-## 2.9.0 (2023-04-22)
+## 2.9.0 (04/22/2023)
 
 ### Added
 - Panel: Configurable maximum number of posts per day for role permissions
@@ -330,7 +337,7 @@ All notable changes to this project will be documented in this file.
 - Marketplace: There are interface customizations in the Application Marketplace, if you do not customize before upgrading, you will not be able to use the Application Marketplace.
 
 
-## 2.8.1 (2023-04-15)
+## 2.8.1 (04/15/2023)
 
 ### Fixes
 - Fix data table field errors
@@ -340,7 +347,7 @@ All notable changes to this project will be documented in this file.
 - Panel: Remove cookie.js file
 
 
-## 2.8.0 (2023-04-14)
+## 2.8.0 (04/14/2023)
 
 ### Added
 - Data: Support for five databases `MySQL`, `MariaDB`, `PostgreSQL`, `SQL Server`, `SQLite`.
@@ -371,7 +378,7 @@ All notable changes to this project will be documented in this file.
 - API: added group information structure `canViewContent` parameter
 
 
-## 2.7.2 (2023-03-05)
+## 2.7.2 (03/05/2023)
 
 ### Fixes
 - API: Fixed issue where the cache count for interactive operations was not cleared.
@@ -385,7 +392,7 @@ All notable changes to this project will be documented in this file.
 - Framework: fresns/plugin-manager to v2.4.6
 
 
-## 2.7.1 (2023-03-02)
+## 2.7.1 (02/03/2023)
 
 ### Fixes
 - Panel: Status code cannot specify `0` parameter
@@ -403,7 +410,7 @@ All notable changes to this project will be documented in this file.
 - Install: PHP extension `exif` requirement removed
 
 
-## 2.7.0 (2023-02-26)
+## 2.7.0 (02/26/2023)
 
 ### Added
 - API: List interface adds a period parameter for the creation date, supporting today, yesterday, this week, last week, this month, last month, this year, last year
@@ -436,7 +443,7 @@ All notable changes to this project will be documented in this file.
 - Framework: PHP version at least 8.1 required
 
 
-## 2.6.1 (2023-02-17)
+## 2.6.1 (02/17/2023)
 
 ### Fixes
 - API: Blocking word interface parameter judgment syntax error
@@ -447,7 +454,7 @@ All notable changes to this project will be documented in this file.
 - Panel: Change data source description text of content type
 
 
-## 2.6.0 (2023-02-16)
+## 2.6.0 (02/16/2023)
 
 ### Added
 - Model: Audio and video support for processing path configuration
@@ -485,7 +492,7 @@ All notable changes to this project will be documented in this file.
 - Data: Files table field `video_cover_path` modified to `video_poster_path`
 
 
-## 2.5.0 (2023-02-09)
+## 2.5.0 (02/09/2023)
 
 ### Added
 - API: Notification messages support marking all types of messages as read
@@ -512,7 +519,7 @@ All notable changes to this project will be documented in this file.
 - Data: The fresns project no longer uses remote resources and can be used on the LAN.
 
 
-## 2.4.0 (2023-02-01)
+## 2.4.0 (02/01/2023)
 
 ### Added
 - API: Only the author is visible when a post or comment is disabled
@@ -536,7 +543,7 @@ All notable changes to this project will be documented in this file.
 - Frame: fresns/plugin-manager to v2.4.0
 
 
-## 2.3.1 (2023-01-21)
+## 2.3.1 (01/21/2023)
 
 ### Fixes
 - Console: Fix upgrade command loading issue
@@ -545,7 +552,7 @@ All notable changes to this project will be documented in this file.
 - Console: Data updates for reconfiguration and upgrade functions
 
 
-## 2.3.0 (2023-01-21)
+## 2.3.0 (01/21/2023)
 
 ### Added
 - Helper: Get plugin host `PluginHelper::fresnsPluginHostByUnikey($unikey);`
@@ -560,7 +567,7 @@ All notable changes to this project will be documented in this file.
 - Helper: Adjust extended cache tag
 
 
-## 2.2.0 (2023-01-20)
+## 2.2.0 (01/20/2023)
 
 ### Added
 - Data: Added `disk` field to the files table
@@ -581,7 +588,7 @@ All notable changes to this project will be documented in this file.
 - API: Refactor headers parameter naming to use `X-` prefix and camel-case naming
 
 
-## 2.1.0 (2023-01-18)
+## 2.1.0 (01/18/2023)
 
 ### Added
 - Helper: New clear cache by tag `CacheHelper::forgetFresnsTag();`
@@ -607,13 +614,13 @@ All notable changes to this project will be documented in this file.
 - Frame: fresns/market-manager to v2.1.1
 
 
-## 2.0.1 (2023-01-11)
+## 2.0.1 (01/11/2023)
 
 ### Changed
 - Optimize cache tags
 
 
-## 2.0.0 (2023-01-09)
+## 2.0.0 (01/09/2023)
 
 ### Added
 - Panel: Support for emptying the file cache only
@@ -630,7 +637,7 @@ All notable changes to this project will be documented in this file.
 - Frame: laravel/framework to v9.46.0
 
 
-## 2.0.0-beta.8 (2022-12-24)
+## 2.0.0-beta.8 (12/24/2022)
 
 ### Added
 - API: Request header `contentFormat` parameter, allowing to get the content in the specified format
@@ -654,7 +661,7 @@ All notable changes to this project will be documented in this file.
 - Frame: fresns/plugin-manager to v2.3.2
 
 
-## 2.0.0-beta.7 (2022-12-13)
+## 2.0.0-beta.7 (12/13/2022)
 
 ### Added
 - API: Add `latestCommentTime` sub-level comment time parameter to comment messages
@@ -669,7 +676,7 @@ All notable changes to this project will be documented in this file.
 - Data: Reset initial language pack
 
 
-## 2.0.0-beta.6 (2022-12-12)
+## 2.0.0-beta.6 (12/12/2022)
 
 ### Added
 - API: Update the last comment time of a post after posting a comment
@@ -686,7 +693,7 @@ All notable changes to this project will be documented in this file.
 - API: Content types are named in plural `/api/v2/global/{type}/content-types`
 
 
-## 2.0.0-beta.5 (2022-12-08)
+## 2.0.0-beta.5 (12/08/2022)
 
 ### Added
 - API: Verify if the format of headers deviceInfo matches
@@ -704,7 +711,7 @@ All notable changes to this project will be documented in this file.
 - Frame: fresns/plugin-manager to v2.3.0
 
 
-## 2.0.0-beta.4 (2022-12-01)
+## 2.0.0-beta.4 (12/01/2022)
 
 ### Added
 - API: New cache to improve access speed
@@ -724,7 +731,7 @@ All notable changes to this project will be documented in this file.
 - Frame: laravel/framework to v9.42.2
 
 
-## 2.0.0-beta.3 (2022-11-28)
+## 2.0.0-beta.3 (11/28/2022)
 
 ### Added
 - Panel: Engine cookie prefix optional
@@ -753,7 +760,7 @@ All notable changes to this project will be documented in this file.
 - Frame: fresns/plugin-manager to v2.2.0
 
 
-## 2.0.0-beta.2 (2022-11-23)
+## 2.0.0-beta.2 (11/23/2022)
 
 ### Added
 - API: refactoring token logic
@@ -772,6 +779,6 @@ All notable changes to this project will be documented in this file.
 - Theme: ThemeFrame to v2.0.0-beta.2
 
 
-## 2.0.0-beta.1 (2022-11-22)
+## 2.0.0-beta.1 (11/22/2022)
 
 - 2.x first public beta
