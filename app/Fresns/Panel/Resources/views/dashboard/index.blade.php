@@ -390,7 +390,7 @@
                 const checkVersionElement = document.getElementById('checkVersion');
 
                 if (checkVersionElement && data) {
-                    checkVersionElement.show();
+                    $('#checkVersion').show();
                 }
             })
             .catch(error => {
@@ -430,7 +430,7 @@
                 });
             })
             .catch(error => {
-                console.error('checkVersion Error: ', error);
+                console.error('News Error: ', error);
             });
     </script>
 @endpush
