@@ -506,7 +506,7 @@ class CommonController extends Controller
             'conversation_messages' => FileUsage::TYPE_CONVERSATION,
             'post_logs' => FileUsage::TYPE_POST,
             'comment_logs' => FileUsage::TYPE_COMMENT,
-            default => null,
+            default => $dtoRequest->usageType,
         };
 
         // check publish file count
