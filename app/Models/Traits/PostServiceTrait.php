@@ -34,8 +34,10 @@ trait PostServiceTrait
             'comment_blocker_count',
         ]);
 
+        $siteUrl = $configKeys['site_url'] ?? config('app.url');
+
         $info['pid'] = $postData->pid;
-        $info['url'] = $configKeys['site_url'].'/'.$configKeys['website_post_detail_path'].'/'.$postData->pid;
+        $info['url'] = $siteUrl.'/'.$configKeys['website_post_detail_path'].'/'.$postData->pid;
         $info['title'] = $postData->title;
         $info['content'] = $postData->content;
         $info['contentLength'] = Str::length($postData->content);

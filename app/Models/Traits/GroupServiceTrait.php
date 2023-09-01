@@ -30,8 +30,10 @@ trait GroupServiceTrait
             'group_blocker_count',
         ]);
 
+        $siteUrl = $configKeys['site_url'] ?? config('app.url');
+
         $info['gid'] = $groupData->gid;
-        $info['url'] = $configKeys['site_url'].'/'.$configKeys['website_group_detail_path'].'/'.$groupData->gid;
+        $info['url'] = $siteUrl.'/'.$configKeys['website_group_detail_path'].'/'.$groupData->gid;
         $info['type'] = $groupData->type;
         $info['gname'] = LanguageHelper::fresnsLanguageByTableId('groups', 'name', $groupData->id, $langTag) ?? $groupData->name;
         $info['description'] = LanguageHelper::fresnsLanguageByTableId('groups', 'description', $groupData->id, $langTag) ?? $groupData->description;

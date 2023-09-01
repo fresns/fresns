@@ -27,8 +27,10 @@ trait CommentServiceTrait
             'comment_blocker_count',
         ]);
 
+        $siteUrl = $configKeys['site_url'] ?? config('app.url');
+
         $info['cid'] = $commentData->cid;
-        $info['url'] = $configKeys['site_url'].'/'.$configKeys['website_comment_detail_path'].'/'.$commentData->cid;
+        $info['url'] = $siteUrl.'/'.$configKeys['website_comment_detail_path'].'/'.$commentData->cid;
         $info['content'] = $commentData->content;
         $info['contentLength'] = Str::length($commentData->content);
         $info['langTag'] = $commentData->lang_tag;
