@@ -73,6 +73,7 @@ class CreateAccountsTable extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
 
+            $table->unique(['account_id', 'connect_platform_id'], 'account_connect_platform');
             $table->unique(['connect_platform_id', 'connect_account_id'], 'connect_id');
         });
 
