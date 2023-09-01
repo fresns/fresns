@@ -20,7 +20,7 @@ class CreateUserDTO extends DTO
             'platformId' => ['integer', 'nullable', 'between:1,11', 'required_with:aidToken'],
             'version' => ['string', 'nullable', 'required_with:aidToken'],
             'appId' => ['string', 'nullable', 'required_with:aidToken'],
-            'username' => ['string', 'nullable', 'alpha_dash', 'unique:App\Models\User,username'],
+            'username' => ['string', 'nullable', 'alpha_dash'],
             'nickname' => ['string', 'nullable'],
             'password' => ['string', 'nullable'],
             'avatarFid' => ['string', 'nullable'],
