@@ -123,6 +123,10 @@ trait AccountServiceTrait
             $connectsItemArr[] = $item;
         }
 
+        usort($connectsItemArr, function ($a, $b) {
+            return $a['connectPlatformId'] <=> $b['connectPlatformId'];
+        });
+
         return $connectsItemArr;
     }
 
