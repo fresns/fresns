@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.18.5 (09/01/2023)
+
+### Fixes
+- API: Sorting still uses ascending id order after account connection binding
+- API: If site URL is not configured, content links use URL alternatives in `.env`
+- Data: Create `account_id' and `connect_platform_id` unique value index for account interconnection to avoid binding a single account to the same connection platform
+- Words: Create user command words without checking that `username` is unique
+
+
 ## 2.18.4 (08/25/2023)
 
 ### Fixes
