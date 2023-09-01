@@ -266,23 +266,16 @@ class Account
         $dtoWordBody = new SetAccountConnectDTO($wordBody);
         $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
 
-        $accountConnect = AccountConnect::withTrashed()
-            ->with(['account'])
-            ->where('connect_platform_id', $dtoWordBody->connectPlatformId)
-            ->where('connect_account_id', $dtoWordBody->connectAccountId)
-            ->first();
+        $accountConnect = AccountConnect::withTrashed()->with(['account'])->where('connect_platform_id', $dtoWordBody->connectPlatformId)->where('connect_account_id', $dtoWordBody->connectAccountId)->first();
 
         $account = $accountConnect?->account;
 
         // I already have connected an account
         if ($accountConnect && $account) {
-            // The account you already have connected with does not match the account you want to run.
-            if ($account->aid != $dtoWordBody->aid) {
-                return $this->failure(
-                    34405,
-                    ConfigUtility::getCodeMessage(34405, 'Fresns', $langTag),
-                );
-            }
+            return $this->failure(
+                34405,
+                ConfigUtility::getCodeMessage(34405, 'Fresns', $langTag),
+            );
         }
 
         try {
