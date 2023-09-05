@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.18.6 (09/05/2023)
+
+### Fixes
+- API: Fixed problem where user interaction interface could not be requested without login
+- Data: New language identifier, compatible with multi-language privacy description text
+
+
 ## 2.18.5 (09/01/2023)
 
 ### Fixes
