@@ -7,7 +7,9 @@
  */
 
 return [
-    // No login for public mode account
+    // No login required to use
+
+    // Public mode account
     'publicAccount' => [
         'api.global.configs',
         'api.global.code.messages',
@@ -58,7 +60,7 @@ return [
         'api.comment.log.detail',
     ],
 
-    // No login for public mode user
+    // Public mode user
     'publicUser' => [
         'api.global.configs',
         'api.global.code.messages',
@@ -91,6 +93,7 @@ return [
         'api.user.list',
         'api.user.detail',
         'api.user.followers.you.follow',
+        'api.user.interaction',
         'api.user.mark.list',
         'api.user.auth',
         'api.user.panel',
@@ -117,7 +120,7 @@ return [
         'api.comment.log.detail',
     ],
 
-    // No login for private mode account
+    // Private mode account
     'privateAccount' => [
         'api.global.configs',
         'api.global.code.messages',
@@ -130,7 +133,7 @@ return [
         'api.account.reset.password',
     ],
 
-    // No login for private mode user
+    // Private mode user
     'privateUser' => [
         'api.global.configs',
         'api.global.code.messages',

@@ -7,7 +7,9 @@
  */
 
 return [
-    // Login to use for public mode account
+    // Login required to use
+
+    // Public mode account
     'publicAccount' => [
         'api.global.archives',
         'api.global.upload.token',
@@ -52,7 +54,7 @@ return [
         'api.editor.delete',
     ],
 
-    // Login to use for public mode user
+    // Public mode user
     'publicUser' => [
         'api.global.archives',
         'api.global.upload.token',
@@ -88,7 +90,7 @@ return [
         'api.editor.delete',
     ],
 
-    // Login to use for private mode account
+    // Private mode account
     'privateAccount' => [
         'api.global.archives',
         'api.global.upload.token',
@@ -171,7 +173,7 @@ return [
         'api.search.comments',
     ],
 
-    // Login to use for private mode user
+    // Private mode user
     'privateUser' => [
         'api.global.archives',
         'api.global.upload.token',
