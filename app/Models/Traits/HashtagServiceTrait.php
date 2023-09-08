@@ -27,8 +27,10 @@ trait HashtagServiceTrait
             'hashtag_blocker_count',
         ]);
 
+        $siteUrl = $configKeys['site_url'] ?? config('app.url');
+
         $info['hid'] = $hashtagData->slug;
-        $info['url'] = $configKeys['site_url'].'/'.$configKeys['website_hashtag_detail_path'].'/'.$hashtagData->slug;
+        $info['url'] = $siteUrl.'/'.$configKeys['website_hashtag_detail_path'].'/'.$hashtagData->slug;
         $info['hname'] = $hashtagData->name;
         $info['cover'] = FileHelper::fresnsFileUrlByTableColumn($hashtagData->cover_file_id, $hashtagData->cover_file_url);
         $info['description'] = LanguageHelper::fresnsLanguageByTableId('hashtags', 'description', $hashtagData->id, $langTag) ?? $hashtagData->description;

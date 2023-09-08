@@ -344,8 +344,12 @@ class InstallController extends Controller
     {
         $functions = [
             'symlink', // storage:link
+            'putenv', // composer
             'proc_open', // symfony/process
             'shell_exec', // symfony/console
+            'pcntl_signal', // illuminate/queue
+            'pcntl_alarm', // illuminate/queue
+            'pcntl_async_signals', // illuminate/queue
             'passthru', // fresns upgrade
         ];
 

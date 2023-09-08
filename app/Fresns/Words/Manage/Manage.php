@@ -12,6 +12,7 @@ use App\Fresns\Words\Manage\DTO\CheckExtendPermDTO;
 use App\Fresns\Words\Manage\DTO\GetPortalContentDTO;
 use App\Fresns\Words\Manage\DTO\UpdatePortalContentDTO;
 use App\Helpers\CacheHelper;
+use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Config;
 use App\Models\Language;
@@ -30,11 +31,12 @@ class Manage
         $platformId = $dtoWordBody->platformId;
 
         $portalKey = "portal_{$platformId}";
+        $langTag = $dtoWordBody->langTag ?? ConfigHelper::fresnsConfigDefaultLangTag();
 
         $portal = Language::where('table_name', 'configs')
             ->where('table_column', 'item_value')
             ->where('table_key', $portalKey)
-            ->where('lang_tag', $dtoWordBody->langTag)
+            ->where('lang_tag', $langTag)
             ->first()?->lang_content ?? null;
 
         return $this->success([
@@ -50,6 +52,7 @@ class Manage
         $platformId = $dtoWordBody->platformId;
 
         $portalKey = "portal_{$platformId}";
+        $langTag = $dtoWordBody->langTag ?? ConfigHelper::fresnsConfigDefaultLangTag();
 
         Config::withTrashed()->updateOrCreate([
             'item_key' => $portalKey,
@@ -67,7 +70,7 @@ class Manage
             'table_name' => 'configs',
             'table_column' => 'item_value',
             'table_key' => $portalKey,
-            'lang_tag' => $dtoWordBody->langTag,
+            'lang_tag' => $langTag,
         ], [
             'table_id' => null,
             'lang_content' => $dtoWordBody->content,

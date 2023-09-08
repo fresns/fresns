@@ -35,8 +35,8 @@
                     <tr>
                         <td><input type="number" data-action="{{ route('panel.stickers.rating', $group->id) }}" class="form-control input-number rating-number" value="{{ $group->rating }}"></td>
                         <td>
-                            @if ($group->image_file_url)
-                                <img src="{{ $group->image_file_url }}" width="24" height="24">
+                            @if ($group->stickerUrl)
+                                <img src="{{ $group->stickerUrl }}" width="24" height="24">
                             @endif
                             {{ $group->getLangName($defaultLanguage) }}
                         </td>

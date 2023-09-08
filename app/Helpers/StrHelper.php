@@ -27,7 +27,7 @@ class StrHelper
 
         $mask = match (true) {
             default => str_repeat('*', 3),
-            $len > 3 => str_repeat('*', bcsub($len, 3)),
+            $len > 3 => str_repeat('*', intval($len, 3)),
         };
 
         $offset = match (true) {

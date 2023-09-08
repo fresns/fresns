@@ -217,6 +217,7 @@ class CommonController extends Controller
     public function sendVerifyCode(Request $request)
     {
         $dtoRequest = new CommonSendVerifyCodeDTO($request->all());
+
         $authAccount = $this->account();
         $langTag = $this->langTag();
 
@@ -249,6 +250,10 @@ class CommonController extends Controller
                 $authAccountConfig = $authAccount?->email;
                 break;
             case 'sms':
+                if ($dtoRequest->useType != 4 && empty($dtoRequest->countryCode)) {
+                    throw new ApiException(30001);
+                }
+
                 if (empty($sendConfigs['send_sms_service'])) {
                     throw new ApiException(32100);
                 }
@@ -397,7 +402,10 @@ class CommonController extends Controller
             throw new ApiException(30001, 'Fresns', 'Missing tableKey');
         }
 
-        if (in_array($dtoRequest->tableName, ['post_logs', 'comment_logs']) && empty($dtoRequest->tableId)) {
+        if (in_array($dtoRequest->tableName, [
+            'post_logs',
+            'comment_logs',
+        ]) && empty($dtoRequest->tableId)) {
             throw new ApiException(30001, 'Fresns', 'Missing tableId');
         }
 
@@ -447,8 +455,8 @@ class CommonController extends Controller
                 break;
 
             default:
-                $checkQuery = null;
-                $checkUser = false;
+                $checkQuery = 'customize';
+                $checkUser = true;
         }
 
         if (empty($checkQuery)) {
@@ -498,7 +506,7 @@ class CommonController extends Controller
             'conversation_messages' => FileUsage::TYPE_CONVERSATION,
             'post_logs' => FileUsage::TYPE_POST,
             'comment_logs' => FileUsage::TYPE_COMMENT,
-            default => null,
+            default => $dtoRequest->usageType,
         };
 
         // check publish file count
@@ -566,6 +574,7 @@ class CommonController extends Controller
             }
         }
 
+        // upload
         switch ($dtoRequest->uploadMode) {
             case 'file':
                 $extension = $dtoRequest->file->extension();
@@ -619,6 +628,7 @@ class CommonController extends Controller
                 break;
         }
 
+        // user avatar or banner
         if ($fresnsResp->isSuccessResponse() && $dtoRequest->tableName == 'users') {
             $fileId = PrimaryHelper::fresnsFileIdByFid($fresnsResp->getData('fid'));
 

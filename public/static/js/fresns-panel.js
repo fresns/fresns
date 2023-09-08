@@ -893,7 +893,7 @@ $(document).ready(function () {
                 .attr('name', 'rating[' + sticker.id + ']')
                 .val(sticker.rating);
 
-            stickerTemplate.find('.sticker-img').attr('src', sticker.image_file_url);
+            stickerTemplate.find('.sticker-img').attr('src', sticker.stickerUrl);
             stickerTemplate.find('.sticker-code').html(sticker.code);
 
             stickerTemplate.find('input.sticker-enable').attr('name', 'enable[' + sticker.id + ']');

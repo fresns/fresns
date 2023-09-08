@@ -40,7 +40,10 @@ class ConfigUtility
             $configModel = Config::where('item_key', $itemKey)->first();
 
             if (empty($configModel)) {
-                $itemArr = collect($item)->only('item_key', 'item_value', 'item_type', 'item_tag', 'is_multilingual', 'is_api')->filter()->toArray();
+                $itemArr = collect($item)->only('item_key', 'item_type', 'item_tag')->filter()->toArray();
+                $itemArr['item_value'] = $item['item_value'] ?? null;
+                $itemArr['is_multilingual'] = $item['is_multilingual'] ?? false;
+                $itemArr['is_api'] = $item['is_api'] ?? false;
                 Config::create($itemArr);
 
                 $isMultilingual = $item['is_multilingual'] ?? false;
@@ -51,7 +54,7 @@ class ConfigUtility
                         'table_name' => 'configs',
                         'table_column' => 'item_value',
                         'table_key' => $itemKey,
-                        'language_values' => $item['language_values'],
+                        'language_values' => $item['language_values'] ?? [],
                     ];
                     ConfigUtility::changeFresnsLanguageItems($fresnsLangItems);
                 }
@@ -83,7 +86,10 @@ class ConfigUtility
                 continue;
             }
 
-            $itemArr = collect($item)->only('item_key', 'item_value', 'item_type', 'item_tag', 'is_multilingual', 'is_api')->filter()->toArray();
+            $itemArr = collect($item)->only('item_key', 'item_type', 'item_tag')->filter()->toArray();
+            $itemArr['item_value'] = $item['item_value'] ?? null;
+            $itemArr['is_multilingual'] = $item['is_multilingual'] ?? false;
+            $itemArr['is_api'] = $item['is_api'] ?? false;
 
             Config::updateOrCreate([
                 'item_key' => $itemKey,

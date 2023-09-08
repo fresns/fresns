@@ -1051,5 +1051,7 @@ class AccountController extends Controller
         \FresnsCmdWord::plugin('Fresns')->uploadSessionLog($sessionLog);
 
         CacheHelper::forgetFresnsAccount($authAccount->aid);
+
+        return $this->success();
     }
 }

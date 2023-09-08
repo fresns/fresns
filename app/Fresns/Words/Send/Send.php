@@ -100,8 +100,8 @@ class Send
         $dtoWordBody = new SendAppNotificationDTO($wordBody);
 
         $channelMap = [
-            1 => 'send_ios_service',
-            2 => 'send_android_service',
+            1 => 'ios_notifications_service',
+            2 => 'android_notifications_service',
         ];
 
         $itemKey = $channelMap[$dtoWordBody->channel];
@@ -120,7 +120,7 @@ class Send
         $dtoWordBody = new SendWechatMessageDTO($wordBody);
 
         $this->ensureFskeyIsNotEmpty(
-            $pluginFskey = ConfigHelper::fresnsConfigByItemKey('send_wechat_service')
+            $pluginFskey = ConfigHelper::fresnsConfigByItemKey('wechat_notifications_service')
         );
 
         $fresnsResp = \FresnsCmdWord::plugin($pluginFskey)->sendWechatMessage($wordBody);

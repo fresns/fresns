@@ -47,7 +47,7 @@ trait FileServiceTrait
 
         $fileConfigInfo = FileHelper::fresnsFileStorageConfigByType($fileData->type);
 
-        $path = $fileOriginalPath ?: $filePath;
+        $path = $fileData->original_path ? $fileOriginalPath : $filePath;
 
         $originalUrl = StrHelper::qualifyUrl($path, $fileConfigInfo['bucketDomain']);
 

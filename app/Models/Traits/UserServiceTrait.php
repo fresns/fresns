@@ -28,12 +28,14 @@ trait UserServiceTrait
             'site_mode',
         ]);
 
+        $siteUrl = $configKeys['site_url'] ?? config('app.url');
+
         if ($configKeys['user_identifier'] == 'uid') {
             $profile['fsid'] = $userData->uid;
-            $url = $configKeys['site_url'].'/'.$configKeys['website_user_detail_path'].'/'.$userData->uid;
+            $url = $siteUrl.'/'.$configKeys['website_user_detail_path'].'/'.$userData->uid;
         } else {
             $profile['fsid'] = $userData->username;
-            $url = $configKeys['site_url'].'/'.$configKeys['website_user_detail_path'].'/'.$userData->username;
+            $url = $siteUrl.'/'.$configKeys['website_user_detail_path'].'/'.$userData->username;
         }
 
         $expired = false;

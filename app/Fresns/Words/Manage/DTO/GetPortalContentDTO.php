@@ -16,7 +16,7 @@ class GetPortalContentDTO extends DTO
     {
         return [
             'platformId' => ['integer', 'required', 'between:1,11'],
-            'langTag' => ['string', 'required'],
+            'langTag' => ['string', 'nullable'],
         ];
     }
 }
