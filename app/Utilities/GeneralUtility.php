@@ -43,7 +43,7 @@ class GeneralUtility
     }
 
     // Calculate distance based on latitude and longitude
-    public static function distanceOfLocation(string $langTag, float $long, float $lat, float $userLong, float $userLat, ?int $mapId = null, ?int $userMapId = null): int|float
+    public static function distanceOfLocation(string $langTag, float $long, float $lat, float $userLong, float $userLat, ?int $mapId = null, ?int $userMapId = null): int
     {
         $unit = ConfigHelper::fresnsConfigLengthUnit($langTag); // Position unit
 
@@ -71,6 +71,6 @@ class GeneralUtility
             default => $distance,
         };
 
-        return $distanceByUnit;
+        return round($distanceByUnit);
     }
 }
