@@ -16,7 +16,7 @@ use App\Fresns\Words\File\DTO\LogicalDeletionFilesDTO;
 use App\Fresns\Words\File\DTO\PhysicalDeletionFilesDTO;
 use App\Fresns\Words\File\DTO\UploadFileDTO;
 use App\Fresns\Words\File\DTO\UploadFileInfoDTO;
-use App\Helpers\ConfigHelper;
+use App\Helpers\AppHelper;
 use App\Helpers\FileHelper;
 use App\Utilities\ConfigUtility;
 use App\Utilities\FileUtility;
@@ -29,7 +29,7 @@ class File
     public function getUploadToken($wordBody)
     {
         $dtoWordBody = new GetUploadTokenDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
@@ -48,7 +48,7 @@ class File
     public function uploadFile($wordBody)
     {
         $dtoWordBody = new UploadFileDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         // $bodyInfo = [
         //     'platformId' => $dtoWordBody->platformId,
@@ -83,7 +83,7 @@ class File
     public function uploadFileInfo($wordBody)
     {
         $dtoWordBody = new UploadFileInfoDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         // $bodyInfo = [
         //     'platformId' => $dtoWordBody->platformId,
@@ -118,7 +118,7 @@ class File
     public function getAntiLinkFileInfo($wordBody)
     {
         $dtoWordBody = new GetAntiLinkFileInfoDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
@@ -141,7 +141,7 @@ class File
     public function getAntiLinkFileInfoList($wordBody)
     {
         $dtoWordBody = new GetAntiLinkFileInfoListDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
@@ -164,7 +164,7 @@ class File
     public function getAntiLinkFileOriginalUrl($wordBody)
     {
         $dtoWordBody = new GetAntiLinkFileOriginalUrlDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 
@@ -198,7 +198,7 @@ class File
     public function physicalDeletionFiles($wordBody)
     {
         $dtoWordBody = new PhysicalDeletionFilesDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $storageConfig = FileHelper::fresnsFileStorageConfigByType($dtoWordBody->type);
 

@@ -21,6 +21,7 @@ use App\Fresns\Words\Content\DTO\SetContentCloseDeleteDTO;
 use App\Fresns\Words\Content\DTO\SetContentStickyAndDigestDTO;
 use App\Fresns\Words\Content\DTO\SetPostAffiliateUserDTO;
 use App\Fresns\Words\Content\DTO\SetPostAuthDTO;
+use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
@@ -57,7 +58,7 @@ class Content
     public function createDraft($wordBody)
     {
         $dtoWordBody = new CreateDraftDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $author = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
         if (! $author) {
@@ -200,7 +201,7 @@ class Content
         $dtoWordBody = new GenerateDraftDTO($wordBody);
 
         $timezone = \request()->header('X-Fresns-Client-Timezone');
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $editTimeLimit = match ($dtoWordBody->type) {
             1 => ConfigHelper::fresnsConfigByItemKey('post_edit_time_limit'),
@@ -305,7 +306,7 @@ class Content
             2 => CommentLog::where('id', $dtoWordBody->logId)->first(),
         };
 
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         if (empty($logModel)) {
             return $this->failure(
@@ -386,7 +387,7 @@ class Content
     public function contentQuickPublish($wordBody)
     {
         $dtoWordBody = new ContentQuickPublishDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $author = PrimaryHelper::fresnsModelByFsid('user', $dtoWordBody->uid);
         if (! $author) {
@@ -595,7 +596,7 @@ class Content
     public function logicalDeletionContent($wordBody)
     {
         $dtoWordBody = new LogicalDeletionContentDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         switch ($dtoWordBody->contentType) {
             case 1:
@@ -702,7 +703,7 @@ class Content
     public function physicalDeletionContent($wordBody)
     {
         $dtoWordBody = new PhysicalDeletionContentDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         switch ($dtoWordBody->contentType) {
             case 1:
@@ -835,7 +836,7 @@ class Content
     public function addContentMoreInfo($wordBody)
     {
         $dtoWordBody = new AddContentMoreInfoDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $primaryId = match ($dtoWordBody->type) {
             1 => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->fsid),
@@ -888,7 +889,7 @@ class Content
     public function setContentSticky($wordBody)
     {
         $dtoWordBody = new setContentStickyAndDigestDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $primaryId = match ($dtoWordBody->type) {
             1 => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->fsid),
@@ -923,7 +924,7 @@ class Content
     public function setContentDigest($wordBody)
     {
         $dtoWordBody = new SetContentStickyAndDigestDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $primaryId = match ($dtoWordBody->type) {
             1 => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->fsid),
@@ -958,7 +959,7 @@ class Content
     public function setContentCloseDelete($wordBody)
     {
         $dtoWordBody = new SetContentCloseDeleteDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $primaryId = match ($dtoWordBody->type) {
             1 => PrimaryHelper::fresnsPostIdByPid($dtoWordBody->fsid),
@@ -1006,7 +1007,7 @@ class Content
     public function setPostAuth($wordBody)
     {
         $dtoWordBody = new SetPostAuthDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $postId = PrimaryHelper::fresnsPostIdByPid($dtoWordBody->pid);
         if (empty($postId)) {
@@ -1069,7 +1070,7 @@ class Content
     public function setPostAffiliateUser($wordBody)
     {
         $dtoWordBody = new SetPostAffiliateUserDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $postId = PrimaryHelper::fresnsPostIdByPid($dtoWordBody->pid);
         if (empty($postId)) {
@@ -1113,7 +1114,7 @@ class Content
     public function setCommentExtendButton($wordBody)
     {
         $dtoWordBody = new SetCommentExtendButtonDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $commentId = PrimaryHelper::fresnsCommentIdByCid($dtoWordBody->cid);
         if (empty($commentId)) {

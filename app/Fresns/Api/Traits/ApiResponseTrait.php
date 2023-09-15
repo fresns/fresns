@@ -9,7 +9,6 @@
 namespace App\Fresns\Api\Traits;
 
 use App\Helpers\AppHelper;
-use App\Helpers\ConfigHelper;
 use App\Utilities\ConfigUtility;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +30,7 @@ trait ApiResponseTrait
             extract($data);
         }
 
-        $message = $message ?: ConfigUtility::getCodeMessage($code, 'Fresns', \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag()));
+        $message = $message ?: ConfigUtility::getCodeMessage($code, 'Fresns', AppHelper::getLangTag());
 
         $data = $data ?: null;
         $fresnsResponse = compact('code', 'message', 'data') + array_filter(compact('paginate'));
@@ -60,7 +59,7 @@ trait ApiResponseTrait
             'list' => [],
         ];
 
-        $message = ConfigUtility::getCodeMessage($code, 'Fresns', \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag())) ?? 'Unknown Warning';
+        $message = ConfigUtility::getCodeMessage($code, 'Fresns', AppHelper::getLangTag()) ?? 'Unknown Warning';
         $newMessage = "[{$code}] {$message}";
 
         return $this->success($data, $newMessage);

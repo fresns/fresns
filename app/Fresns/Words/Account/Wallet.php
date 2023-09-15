@@ -16,8 +16,8 @@ use App\Fresns\Words\Account\DTO\WalletRechargeDTO;
 use App\Fresns\Words\Account\DTO\WalletRevokeDTO;
 use App\Fresns\Words\Account\DTO\WalletUnfreezeDTO;
 use App\Fresns\Words\Account\DTO\WalletWithdrawDTO;
+use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
-use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\AccountWallet;
 use App\Models\AccountWalletLog;
@@ -33,7 +33,7 @@ class Wallet
     public function walletCheckPassword($wordBody)
     {
         $dtoWordBody = new WalletCheckPasswordDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
 
@@ -68,7 +68,7 @@ class Wallet
     public function walletRecharge($wordBody)
     {
         $dtoWordBody = new WalletRechargeDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
@@ -136,7 +136,7 @@ class Wallet
     public function walletWithdraw($wordBody)
     {
         $dtoWordBody = new WalletWithdrawDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
@@ -223,7 +223,7 @@ class Wallet
     public function walletFreeze($wordBody)
     {
         $dtoWordBody = new WalletFreezeDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
@@ -296,7 +296,7 @@ class Wallet
     public function walletUnfreeze($wordBody)
     {
         $dtoWordBody = new WalletUnfreezeDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
@@ -368,7 +368,7 @@ class Wallet
     public function walletIncrease($wordBody)
     {
         $dtoWordBody = new WalletIncreaseDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
@@ -501,7 +501,7 @@ class Wallet
     public function walletDecrease($wordBody)
     {
         $dtoWordBody = new WalletDecreaseDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
@@ -645,7 +645,7 @@ class Wallet
     public function walletRevoke($wordBody)
     {
         $dtoWordBody = new WalletRevokeDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);

@@ -279,4 +279,23 @@ class AppHelper
 
         return $newHeaders;
     }
+
+    // get lang tag
+    public static function getLangTag(): string
+    {
+        $clientLangTag = \request()->header('X-Fresns-Client-Lang-Tag');
+        $defaultLanguage = ConfigHelper::fresnsConfigDefaultLangTag();
+
+        if (empty($clientLangTag)) {
+            return $defaultLanguage;
+        }
+
+        $languageStatus = ConfigHelper::fresnsConfigByItemKey('language_status');
+
+        if (! $languageStatus) {
+            return $defaultLanguage;
+        }
+
+        return $clientLangTag;
+    }
 }

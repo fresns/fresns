@@ -44,6 +44,12 @@ trait ApiHeaderTrait
             return $defaultLanguage;
         }
 
+        $languageStatus = ConfigHelper::fresnsConfigByItemKey('language_status');
+
+        if (! $languageStatus) {
+            return $defaultLanguage;
+        }
+
         $langTagArr = ConfigHelper::fresnsConfigLangTags();
         foreach ($langTagArr as $langTag) {
             if ($langTag == $clientLangTag) {

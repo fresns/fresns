@@ -16,6 +16,7 @@ use App\Fresns\Words\Basic\DTO\SendCodeDTO;
 use App\Fresns\Words\Basic\DTO\UploadSessionLogDTO;
 use App\Fresns\Words\Basic\DTO\VerifySignDTO;
 use App\Fresns\Words\Basic\DTO\VerifyUrlAuthorizationDTO;
+use App\Helpers\AppHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
 use App\Helpers\SignHelper;
@@ -77,7 +78,7 @@ class Basic
     public function verifySign($wordBody)
     {
         $dtoWordBody = new VerifySignDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $keyInfo = PrimaryHelper::fresnsModelByFsid('key', $dtoWordBody->appId);
         $keyType = $dtoWordBody->verifyType ?? SessionKey::TYPE_CORE;
@@ -178,7 +179,7 @@ class Basic
     public function verifyUrlAuthorization($wordBody)
     {
         $dtoWordBody = new VerifyUrlAuthorizationDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         try {
             $urlAuthorizationData = urldecode(base64_decode($dtoWordBody->urlAuthorization));
@@ -300,7 +301,7 @@ class Basic
             $pluginFskey = ConfigHelper::fresnsConfigByItemKey('send_sms_service');
         }
 
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
         if (empty($pluginFskey)) {
             return $this->failure(
                 32100,
@@ -316,7 +317,7 @@ class Basic
     public function checkCode($wordBody)
     {
         $dtoWordBody = new CheckCodeDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         if ($dtoWordBody->type == 1) {
             $account = $dtoWordBody->account;

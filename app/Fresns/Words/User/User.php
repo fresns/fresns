@@ -19,6 +19,7 @@ use App\Fresns\Words\User\DTO\SetUserExtcreditsDTO;
 use App\Fresns\Words\User\DTO\SetUserGroupExpiryDatetimeDTO;
 use App\Fresns\Words\User\DTO\VerifyUserDTO;
 use App\Fresns\Words\User\DTO\VerifyUserTokenDTO;
+use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
@@ -55,7 +56,7 @@ class User
             }
         }
 
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $account = Account::where('aid', $dtoWordBody->aid)->first();
         if (empty($account)) {
@@ -110,7 +111,7 @@ class User
             return $verifyAccountToken->errorResponse();
         }
 
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         $user = UserModel::where('uid', $dtoWordBody->uid)->first();
@@ -250,7 +251,7 @@ class User
             return $verifyAccountToken->errorResponse();
         }
 
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
@@ -333,7 +334,7 @@ class User
     public function setUserExtcredits($wordBody)
     {
         $dtoWordBody = new SetUserExtcreditsDTO($wordBody);
-        $langTag = \request()->header('X-Fresns-Client-Lang-Tag', ConfigHelper::fresnsConfigDefaultLangTag());
+        $langTag = AppHelper::getLangTag();
 
         $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
         $userStat = UserStat::where('user_id', $userId)->first();
