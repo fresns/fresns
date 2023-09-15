@@ -21,6 +21,7 @@ class CreateHashtagsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name', 64)->unique('hashtag_name');
             $table->string('slug')->unique('hashtag_slug');
+            $table->unsignedSmallInteger('type')->default(1);
             $table->text('description')->nullable();
             $table->unsignedBigInteger('cover_file_id')->nullable();
             $table->string('cover_file_url')->nullable();

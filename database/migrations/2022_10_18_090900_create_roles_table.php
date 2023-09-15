@@ -29,14 +29,17 @@ class CreateRolesTable extends Migration
             switch (config('database.default')) {
                 case 'pgsql':
                     $table->jsonb('permissions')->nullable();
+                    $table->jsonb('more_json')->nullable();
                     break;
 
                 case 'sqlsrv':
                     $table->nvarchar('permissions', 'max')->nullable();
+                    $table->nvarchar('more_json', 'max')->nullable();
                     break;
 
                 default:
                     $table->json('permissions')->nullable();
+                    $table->json('more_json')->nullable();
             }
             $table->unsignedTinyInteger('rank_state')->default(1);
             $table->unsignedSmallInteger('rating')->default(9);
