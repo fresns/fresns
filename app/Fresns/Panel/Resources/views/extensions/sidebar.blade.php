@@ -25,8 +25,6 @@
     </nav>
 </div>
 
-<script src="/static/js/ansi_up.js"></script>
-
 <!--install modal-->
 <div class="modal fade" id="installModal" tabindex="-1" aria-labelledby="install" aria-hidden="true">
     <div class="modal-dialog">

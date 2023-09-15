@@ -553,7 +553,3 @@
         </div>
     </div>
 @endsection
-
-@push('script')
-    <script src="/static/js/ansi_up.js"></script>
-@endpush

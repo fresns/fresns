@@ -27,6 +27,7 @@
     <script src="{{ @asset('/static/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ @asset('/static/js/jquery.min.js') }}"></script>
     <script src="{{ @asset('/static/js/select2.min.js') }}"></script>
+    <script src="{{ @asset('/static/js/ansi_up.js') }}"></script>
     <script src="{{ @asset("/static/js/fresns-panel.js?{$versionMd5}") }}"></script>
     <script>
         $(document).ready(function () {
