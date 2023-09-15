@@ -37,6 +37,10 @@ class HashtagController extends Controller
             $query->whereNotIn('id', $value);
         });
 
+        $hashtagQuery->when($dtoRequest->type, function ($query, $value) {
+            $query->where('type', $value);
+        });
+
         if ($dtoRequest->createdDate) {
             switch ($dtoRequest->createdDate) {
                 case 'today':

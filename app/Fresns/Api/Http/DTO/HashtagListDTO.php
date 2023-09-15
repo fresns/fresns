@@ -15,6 +15,7 @@ class HashtagListDTO extends DTO
     public function rules(): array
     {
         return [
+            'type' => ['integer', 'nullable'],
             'createdDays' => ['integer', 'nullable'],
             'createdDate' => ['string', 'nullable', 'in:today,yesterday,week,lastWeek,month,lastMonth,year,lastYear'],
             'createdDateGt' => ['date_format:Y-m-d', 'nullable', 'before:createdDateLt'], // hashtags->created_at
