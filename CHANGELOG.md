@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.18.7 (09/15/2023)
+
+### Fixes
+- API: Calculate the distance of posts without taking integers
+- API: Topic data and interface support type filtering, compatible with input by class scenarios
+- API: When multi-language is off, the client language tag parameter should not be accepted.
+- Data: Added `more_json` field to role table to accommodate plugin scenarios.
+- Data: New identifier name for language pack configuration, compatible with app scenario.
+
+
 ## 2.18.6 (09/05/2023)
 
 ### Fixes
