@@ -34,7 +34,7 @@
                         <label class="input-group-text">{{ __('FsLang::panel.table_platform') }}</label>
                         <select class="form-select" name="connectId[]">
                             @foreach ($params['connects'] as $connect)
-                                @if ($connect['id'] == 23 || $connect['id'] == 26)
+                                @if ($connect['id'] == 23)
                                     @continue
                                 @endif
                                 <option value="{{ $connect['id'] }}" @if ($connectService['code'] == $connect['id']) selected @endif>{{ $connect['name'] }}</option>
@@ -394,7 +394,7 @@
             <label class="input-group-text">{{ __('FsLang::panel.table_platform') }}</label>
             <select class="form-select" name="connectId[]">
                 @foreach ($params['connects'] as $connect)
-                    @if ($connect['id'] == 23 || $connect['id'] == 26)
+                    @if ($connect['id'] == 23)
                         @continue
                     @endif
                     <option value="{{ $connect['id'] }}">{{ $connect['name'] }}</option>
