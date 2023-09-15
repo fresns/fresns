@@ -1098,9 +1098,12 @@ $(document).ready(function () {
                 $('#uninstall_artisan_output').html(html || trans('tips.uninstallSuccess')) //FsLang
             },
             error: function (response) {
-                progressExit && progressExit()
-                $('#uninstall_artisan_output').html(response.responseJSON.message + "<br><br>" + trans('tips.uninstallFailure'))
-                window.tips(response.responseJSON.message);
+                progressExit && progressExit();
+
+                var errorMessage = response && response.responseJSON && response.responseJSON.message ? response.responseJSON.message : "Unknown error";
+                $('#uninstall_artisan_output').html(errorMessage + "<br><br>" + trans('tips.uninstallFailure'));
+
+                window.tips(errorMessage);
             },
         });
     });
@@ -2292,9 +2295,12 @@ $(document).ready(function () {
                 $('#install_artisan_output').html(html || trans('tips.installSuccess')) //FsLang
             },
             error: function (response) {
-                progressExit && progressExit()
-                $('#install_artisan_output').html(response.responseJSON.message + "<br><br>" + trans('tips.installFailure'))
-                window.tips(response.responseJSON.message);
+                progressExit && progressExit();
+
+                var errorMessage = response && response.responseJSON && response.responseJSON.message ? response.responseJSON.message : "Unknown error";
+                $('#install_artisan_output').html(errorMessage + "<br><br>" + trans('tips.installFailure'));
+
+                window.tips(errorMessage);
             },
         });
     });
@@ -2354,9 +2360,12 @@ $(document).ready(function () {
                 $('#upgrade_artisan_output').html(html || trans('tips.upgradeSuccess')) //FsLang
             },
             error: function (response) {
-                progressExit && progressExit()
-                $('#upgrade_artisan_output').html(response.responseJSON.message + "<br><br>" + trans('tips.upgradeFailure'))
-                window.tips(response.responseJSON.message);
+                progressExit && progressExit();
+
+                var errorMessage = response && response.responseJSON && response.responseJSON.message ? response.responseJSON.message : "Unknown error";
+                $('#upgrade_artisan_output').html(errorMessage + "<br><br>" + trans('tips.upgradeFailure'));
+
+                window.tips(errorMessage);
             },
         });
     });
