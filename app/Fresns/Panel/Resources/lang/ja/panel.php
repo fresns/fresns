@@ -839,7 +839,7 @@ return [
     'permission_option_close_publish' => '公開を禁止します',
     'permission_option_editable' => '編集',
     'permission_option_non_editable' => '編集できません',
-    'permission_option_direct_release' => '直接通過する',
+    'permission_option_direct_release' => '直接透過する',
     'permission_option_required_review' => 'レビューする必要があります',
     'permission_option_title_optional_display' => '弱い表示',
     'permission_option_title_direct_display' => '強いディスプレイ',

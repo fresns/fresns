@@ -82,7 +82,7 @@ return [
     'done_title' => '成功了！',
     'done_desc' => 'Fresns 已成功安裝。感謝你，享受吧！',
     'done_account' => '使用者',
-    'done_password' => '登錄密碼',
+    'done_password' => '登入密碼',
     'done_password_desc' => '你所選擇的密碼。',
     'done_btn' => '登入',
 ];

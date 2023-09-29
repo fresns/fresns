@@ -32,8 +32,8 @@ return [
     'copySuccess' => '複製成功',
     'viewLog' => '執行遇到了問題，詳細信息請查看 Fresns 系統日誌',
     // auth empty
-    'auth_empty_title' => '請使用正確的入口登錄面板',
-    'auth_empty_description' => '您已退出登錄或者登錄超時，請訪問登錄入口重新登錄。',
+    'auth_empty_title' => '請使用正確的入口登入面板',
+    'auth_empty_description' => '您已退出登入或者登入超時，請訪問登入入口重新登入。',
     // request
     'request_in_progress' => '正在請求中...',
     'requestSuccess' => '請求成功',
@@ -90,7 +90,7 @@ return [
     'theme_json_format_error' => '主題配置文件格式錯誤',
     // others
     'account_not_found' => '賬號不存在或者輸入錯誤',
-    'account_login_limit' => '錯誤已超系統限制，請 1 小時後再登錄',
+    'account_login_limit' => '錯誤已超系統限制，請 1 小時後再登入',
     'timezone_error' => '資料庫時區和 .env 配置文件中時區不一致',
     'timezone_env_edit_tip' => '請修改根目錄 .env 配置文件中時區地名配置項',
     'secure_entry_route_conflicts' => '安全入口路由衝突',
