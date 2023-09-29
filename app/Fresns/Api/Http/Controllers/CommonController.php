@@ -341,6 +341,8 @@ class CommonController extends Controller
     {
         $dtoRequest = new CommonUploadLogDTO($request->all());
 
+        $deviceInfo = $this->deviceInfo();
+
         $wordBody = [
             'type' => $dtoRequest->type,
             'fskey' => $dtoRequest->fskey,
@@ -354,7 +356,7 @@ class CommonController extends Controller
             'objectAction' => $dtoRequest->objectAction,
             'objectResult' => $dtoRequest->objectResult,
             'objectOrderId' => $dtoRequest->objectOrderId,
-            'deviceInfo' => \request()->header('X-Fresns-Client-Device-Info'),
+            'deviceInfo' => $deviceInfo,
             'deviceToken' => $dtoRequest->deviceToken,
             'moreJson' => $dtoRequest->moreJson,
         ];

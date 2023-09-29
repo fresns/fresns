@@ -81,7 +81,19 @@ trait ApiHeaderTrait
     // deviceInfo
     public function deviceInfo(): array
     {
-        return json_decode(\request()->header('X-Fresns-Client-Device-Info'), true) ?? [];
+        try {
+            $stringify = base64_decode(\request()->header('X-Fresns-Client-Device-Info'), true);
+            $deviceInfoStringify = preg_replace('/[\x00-\x1F\x80-\xFF]/', ' ', $stringify); // sanitize JSON String
+            $deviceInfo = json_decode($deviceInfoStringify, true);
+
+            if (empty($deviceInfo)) {
+                $deviceInfo = [];
+            }
+        } catch (\Exception $e) {
+            $deviceInfo = [];
+        }
+
+        return $deviceInfo;
     }
 
     // auth account

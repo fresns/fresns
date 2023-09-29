@@ -52,7 +52,13 @@ class Basic
         $dtoWordBody = new CheckHeadersDTO($headers);
 
         try {
-            $deviceInfo = json_decode($dtoWordBody->deviceInfo, true);
+            $stringify = base64_decode($dtoWordBody->deviceInfo, true);
+            $deviceInfoStringify = preg_replace('/[\x00-\x1F\x80-\xFF]/', ' ', $stringify); // sanitize JSON String
+            $deviceInfo = json_decode($deviceInfoStringify, true);
+
+            if (empty($deviceInfo)) {
+                $deviceInfo = [];
+            }
         } catch (\Exception $e) {
             $deviceInfo = [];
         }
@@ -202,7 +208,13 @@ class Basic
 
         // check deviceInfo
         try {
-            $deviceInfo = json_decode($authorizationJson['X-Fresns-Client-Device-Info'], true);
+            $stringify = base64_decode($authorizationJson['X-Fresns-Client-Device-Info'], true);
+            $deviceInfoStringify = preg_replace('/[\x00-\x1F\x80-\xFF]/', ' ', $stringify); // sanitize JSON String
+            $deviceInfo = json_decode($deviceInfoStringify, true);
+
+            if (empty($deviceInfo)) {
+                $deviceInfo = [];
+            }
         } catch (\Exception $e) {
             $deviceInfo = [];
         }
