@@ -4,5 +4,64 @@
     "activate": true,
     "deactivateDescription": {
         "default": ""
+    },
+    "client": {
+        "mobile": {
+            "ios":{
+                "version": "",
+                "appStore": ""
+            },
+            "android":{
+                "version": "",
+                "googlePlay": "",
+                "packages": {
+                    "apk": ""
+                }
+            }
+        },
+        "tablet":{
+            "ios":{
+                "version": "",
+                "appStore": ""
+            },
+            "android":{
+                "version": "",
+                "googlePlay": "",
+                "packages": {
+                    "apk": ""
+                }
+            }
+        },
+        "desktop": {
+            "macos":{
+                "version": "",
+                "appStore": "",
+                "packages": {
+                    "intel": "",
+                    "appleSilicon": ""
+                }
+            },
+            "windows":{
+                "version": "",
+                "googlePlay": "",
+                "packages": {
+                    "x86": "",
+                    "x64": ""
+                }
+            },
+            "linux":{
+                "version": "",
+                "packages": {
+                    "x86Deb": "",
+                    "x86Rpm": "",
+                    "x86AppImage": "",
+                    "armDeb": "",
+                    "armRpm": "",
+                    "armAppImage": "",
+                    "loongArchDeb": "",
+                    "mipsDeb": ""
+                }
+            }
+        }
     }
 }
