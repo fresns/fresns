@@ -10,12 +10,6 @@ namespace App\Models;
 
 class Plugin extends Model
 {
-    const TYPE_PLUGIN = 1;
-    const TYPE_PANEL = 2;
-    const TYPE_ENGINE = 3;
-    const TYPE_THEME = 4;
-    const TYPE_STANDALONE = 5;
-
     use Traits\IsEnabledTrait;
 
     protected $casts = [

@@ -88,7 +88,7 @@
                             @foreach ($pluginsData as $plugin)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <img src="/assets/plugins/{{ $plugin->fskey }}/fresns.png" class="me-2" width="22" height="22">
+                                        <img src="/assets/{{ $plugin->fskey }}/fresns.png" class="me-2" width="22" height="22">
                                         <a href="{{ $marketplaceUrl.'/detail/'.$plugin->fskey }}" target="_blank" class="link-dark fresns-link">{{ $plugin->name }}</a>
                                         <span class="badge bg-secondary">{{ $plugin->version }}</span> to <span class="badge bg-primary">{{ $plugin->upgrade_version }}</span>
                                     </div>
@@ -115,145 +115,34 @@
             </div>
         </div>
 
-        <!--Panels-->
+        <!--Standalone Apps-->
         <div class="col-md-6 mb-4">
             <div class="card">
-                <div class="card-header">{{ __('FsLang::panel.sidebar_panels') }}</div>
+                <div class="card-header">{{ __('FsLang::panel.sidebar_apps') }}</div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         @if($appsData->isNotEmpty())
                             @foreach ($appsData as $app)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <img src="/assets/plugins/{{ $app->fskey }}/fresns.png" class="me-2" width="22" height="22">
                                         <a href="{{ $marketplaceUrl.'/detail/'.$app->fskey }}" target="_blank" class="link-dark fresns-link">{{ $app->name }}</a>
                                         <span class="badge bg-secondary">{{ $app->version }}</span> to <span class="badge bg-primary">{{ $app->upgrade_version }}</span>
-                                    </div>
-                                    <div>
-                                        <button type="button" class="btn btn-warning btn-sm upgrade-extensions"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#upgradeExtensions"
-                                            data-fskey="{{ $app->fskey }}"
-                                            data-name="{{ $app->name }}"
-                                            data-version="{{ $app->version }}"
-                                            data-new-version="{{ $app->upgrade_version }}">
-                                            {{ __('FsLang::panel.button_upgrade') }}
-                                        </button>
-                                    </div>
-                                </li>
-                            @endforeach
-                        @else
-                            <div class="p-5 text-center">
-                                <i class="bi bi-view-list"></i> {{ __('FsLang::tips.upgrade_none') }}
-                            </div>
-                        @endif
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!--Engines-->
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-header">{{ __('FsLang::panel.sidebar_engines') }}</div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        @if($enginesData->isNotEmpty())
-                            @foreach ($enginesData as $engine)
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <img src="/assets/plugins/{{ $engine->fskey }}/fresns.png" class="me-2" width="22" height="22">
-                                        <a href="{{ $marketplaceUrl.'/detail/'.$engine->fskey }}" target="_blank" class="link-dark fresns-link">{{ $engine->name }}</a>
-                                        <span class="badge bg-secondary">{{ $engine->version }}</span> to <span class="badge bg-primary">{{ $engine->upgrade_version }}</span>
-                                    </div>
-                                    <div>
-                                        <button type="button" class="btn btn-warning btn-sm upgrade-extensions"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#upgradeExtensions"
-                                            data-fskey="{{ $engine->fskey }}"
-                                            data-name="{{ $engine->name }}"
-                                            data-version="{{ $engine->version }}"
-                                            data-new-version="{{ $engine->upgrade_version }}">
-                                            {{ __('FsLang::panel.button_upgrade') }}
-                                        </button>
-                                    </div>
-                                </li>
-                            @endforeach
-                        @else
-                            <div class="p-5 text-center">
-                                <i class="bi bi-view-list"></i> {{ __('FsLang::tips.upgrade_none') }}
-                            </div>
-                        @endif
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!--Themes-->
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-header">{{ __('FsLang::panel.sidebar_themes') }}</div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        @if($themesData->isNotEmpty())
-                            @foreach ($themesData as $theme)
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <img src="/assets/themes/{{ $theme->fskey }}/fresns.png" class="me-2" width="22" height="22">
-                                        <a href="{{ $marketplaceUrl.'/detail/'.$theme->fskey }}" target="_blank" class="link-dark fresns-link">{{ $theme->name }}</a>
-                                        <span class="badge bg-secondary">{{ $theme->version }}</span> to <span class="badge bg-primary">{{ $theme->upgrade_version }}</span>
-                                    </div>
-                                    <div>
-                                        <button type="button" class="btn btn-warning btn-sm upgrade-extensions"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#upgradeExtensions"
-                                            data-fskey="{{ $theme->fskey }}"
-                                            data-name="{{ $theme->name }}"
-                                            data-version="{{ $theme->version }}"
-                                            data-new-version="{{ $theme->upgrade_version }}">
-                                            {{ __('FsLang::panel.button_upgrade') }}
-                                        </button>
-                                    </div>
-                                </li>
-                            @endforeach
-                        @else
-                            <div class="p-5 text-center">
-                                <i class="bi bi-view-list"></i> {{ __('FsLang::tips.upgrade_none') }}
-                            </div>
-                        @endif
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!--Standalone Deploy Apps-->
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-header">{{ __('FsLang::panel.download_application') }}</div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        @if($standaloneData->isNotEmpty())
-                            @foreach ($standaloneData as $standalone)
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <a href="{{ $marketplaceUrl.'/detail/'.$standalone->fskey }}" target="_blank" class="link-dark fresns-link">{{ $standalone->name }}</a>
-                                        <span class="badge bg-secondary">{{ $standalone->version }}</span> to <span class="badge bg-primary">{{ $standalone->upgrade_version }}</span>
                                     </div>
                                     <div>
                                         <button type="button" class="btn btn-warning btn-sm download-apps"
                                             data-bs-toggle="modal"
                                             data-bs-target="#downloadModal"
-                                            data-fskey="{{ $standalone->fskey }}"
-                                            data-name="{{ $standalone->name }}"
-                                            data-new-version="{{ $standalone->upgrade_version }}">
+                                            data-fskey="{{ $app->fskey }}"
+                                            data-name="{{ $app->name }}"
+                                            data-new-version="{{ $app->upgrade_version }}">
                                             {{ __('FsLang::panel.button_download') }}
                                         </button>
 
                                         <button type="button" class="btn btn-outline-danger btn-sm ms-2 delete-apps"
                                             data-bs-toggle="modal"
                                             data-bs-target="#deleteApps"
-                                            data-fskey="{{ $standalone->fskey }}"
-                                            data-name="{{ $standalone->name }}">
+                                            data-fskey="{{ $app->fskey }}"
+                                            data-name="{{ $app->name }}">
                                             {{ __('FsLang::panel.button_delete') }}
                                         </button>
                                     </div>

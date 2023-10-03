@@ -33,13 +33,13 @@ class DashboardController extends Controller
         $keyCount = SessionKey::count();
 
         $plugins = Plugin::all();
-        $pluginUpgradeCount = Plugin::where('is_upgrade', 1)->count();
+        $upgradeCount = Plugin::where('is_upgrade', true)->count();
 
         $systemInfo = AppHelper::getSystemInfo();
         $databaseInfo = AppHelper::getDatabaseInfo();
         $timezones = DateHelper::fresnsDatabaseTimezoneNames();
 
-        return view('FsView::dashboard.index', compact('currentVersion', 'adminCount', 'keyCount', 'plugins', 'pluginUpgradeCount', 'systemInfo', 'databaseInfo', 'timezones'));
+        return view('FsView::dashboard.index', compact('currentVersion', 'adminCount', 'keyCount', 'plugins', 'upgradeCount', 'systemInfo', 'databaseInfo', 'timezones'));
     }
 
     public function dashboardData(Request $request)
@@ -75,7 +75,7 @@ class DashboardController extends Controller
     // events
     public function eventList()
     {
-        $pluginUpgradeCount = Plugin::where('is_upgrade', 1)->count();
+        $upgradeCount = Plugin::where('is_upgrade', true)->count();
 
         // config keys
         $configKeys = [
@@ -91,6 +91,6 @@ class DashboardController extends Controller
         $subscribeList = $params['subscribe_items'];
         $crontabList = $params['crontab_items'];
 
-        return view('FsView::dashboard.events', compact('pluginUpgradeCount', 'subscribeList', 'crontabList'));
+        return view('FsView::dashboard.events', compact('upgradeCount', 'subscribeList', 'crontabList'));
     }
 }

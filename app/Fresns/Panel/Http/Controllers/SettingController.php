@@ -33,9 +33,9 @@ class SettingController extends Controller
             $params[$config->item_key] = $config->item_value;
         }
 
-        $pluginUpgradeCount = Plugin::where('is_upgrade', 1)->count();
+        $upgradeCount = Plugin::where('is_upgrade', true)->count();
 
-        return view('FsView::dashboard.settings', compact('params', 'pluginUpgradeCount'));
+        return view('FsView::dashboard.settings', compact('params', 'upgradeCount'));
     }
 
     public function update(UpdateConfigRequest $request)
@@ -78,9 +78,9 @@ class SettingController extends Controller
     // caches page
     public function caches()
     {
-        $pluginUpgradeCount = Plugin::where('is_upgrade', 1)->count();
+        $upgradeCount = Plugin::where('is_upgrade', true)->count();
 
-        return view('FsView::dashboard.caches', compact('pluginUpgradeCount'));
+        return view('FsView::dashboard.caches', compact('upgradeCount'));
     }
 
     // cacheAllClear

@@ -64,25 +64,13 @@
                 <li class="list-group-item">
                     <i class="bi bi-journal-code"></i> {{ __('FsLang::panel.sidebar_plugins') }}
                     <a href="{{ route('panel.plugins.index') }}">
-                        <span class="badge bg-info">{{ $plugins->where('type', 1)->count() }}</span>
+                        <span class="badge bg-info">{{ $plugins->where('is_standalone', false)->count() }}</span>
                     </a>
                 </li>
                 <li class="list-group-item">
-                    <i class="bi bi-layers"></i> {{ __('FsLang::panel.sidebar_panels') }}
+                    <i class="bi bi-app-indicator"></i> {{ __('FsLang::panel.sidebar_apps') }}
                     <a href="{{ route('panel.panels.index') }}">
-                        <span class="badge bg-info">{{ $plugins->where('type', 2)->count() }}</span>
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <i class="bi bi-laptop"></i> {{ __('FsLang::panel.sidebar_engines') }}
-                    <a href="{{ route('panel.engines.index') }}">
-                        <span class="badge bg-info">{{ $plugins->where('type', 3)->count() }}</span>
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <i class="bi bi-palette"></i> {{ __('FsLang::panel.sidebar_themes') }}
-                    <a href="{{ route('panel.themes.index') }}">
-                        <span class="badge bg-info">{{ $plugins->where('type', 4)->count() }}</span>
+                        <span class="badge bg-info">{{ $plugins->where('is_standalone', true)->count() }}</span>
                     </a>
                 </li>
             </ul>

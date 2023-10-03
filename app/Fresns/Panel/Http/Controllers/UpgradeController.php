@@ -28,12 +28,9 @@ class UpgradeController extends Controller
         $appVersion = AppHelper::VERSION;
         $versionCheckTime = Config::where('item_key', 'check_version_datetime')->first()?->item_value;
 
-        $pluginsData = Plugin::type(Plugin::TYPE_PLUGIN)->where('is_upgrade', 1)->get();
-        $appsData = Plugin::type(Plugin::TYPE_PANEL)->where('is_upgrade', 1)->get();
-        $enginesData = Plugin::type(Plugin::TYPE_ENGINE)->where('is_upgrade', 1)->get();
-        $themesData = Plugin::type(Plugin::TYPE_THEME)->where('is_upgrade', 1)->get();
-        $standaloneData = Plugin::type(Plugin::TYPE_STANDALONE)->where('is_upgrade', 1)->get();
-        $pluginUpgradeCount = Plugin::where('is_upgrade', 1)->count();
+        $pluginsData = Plugin::where('is_upgrade', true)->where('is_standalone', false)->get();
+        $appsData = Plugin::where('is_upgrade', true)->where('is_standalone', true)->get();
+        $upgradeCount = Plugin::where('is_upgrade', 1)->count();
 
         $autoUpgradeSteps = [
             1 => __('FsLang::tips.auto_upgrade_step_1'),
@@ -76,10 +73,7 @@ class UpgradeController extends Controller
             'versionCheckTime',
             'pluginsData',
             'appsData',
-            'enginesData',
-            'themesData',
-            'standaloneData',
-            'pluginUpgradeCount',
+            'upgradeCount',
             'autoUpgradeSteps',
             'autoUpgradeStepInt',
             'manualUpgradeSteps',

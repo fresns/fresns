@@ -22,8 +22,8 @@
                     <li class="nav-item">
                         <a class="nav-link {{ \Route::is('panel.upgrades*') ? 'active' : '' }} " href="{{ route('panel.upgrades') }}">
                             {{ __('FsLang::panel.sidebar_upgrades') }}
-                            @if($pluginUpgradeCount > 0)
-                                <span class="badge rounded-pill bg-danger">{{ $pluginUpgradeCount }}</span>
+                            @if($upgradeCount > 0)
+                                <span class="badge rounded-pill bg-danger">{{ $upgradeCount }}</span>
                             @endif
                         </a>
                     </li>

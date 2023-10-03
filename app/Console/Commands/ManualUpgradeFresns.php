@@ -174,14 +174,10 @@ class ManualUpgradeFresns extends Command
 
         foreach ($plugins as $plugin) {
             try {
-                if ($plugin->type == Plugin::TYPE_THEME) {
-                    $this->call('theme:publish', ['fskey' => $plugin->fskey]);
-                } else {
-                    $this->call('plugin:publish', ['fskey' => $plugin->fskey]);
+                $this->call('plugin:publish', ['fskey' => $plugin->fskey]);
 
-                    if ($plugin->is_enabled) {
-                        $this->call('plugin:activate', ['fskey' => $plugin->fskey]);
-                    }
+                if ($plugin->is_enabled) {
+                    $this->call('plugin:activate', ['fskey' => $plugin->fskey]);
                 }
             } catch (\Exception $e) {
                 logger('-- publish and activate: exception >> '.$e->getMessage());

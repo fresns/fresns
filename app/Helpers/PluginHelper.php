@@ -59,9 +59,9 @@ class PluginHelper
 
             $link = null;
             if ($plugin) {
-                $url = empty($plugin->plugin_host) ? config('app.url') : $plugin->plugin_host;
+                $host = empty($plugin->plugin_host) ? config('app.url') : $plugin->plugin_host;
 
-                $link = StrHelper::qualifyUrl($plugin->access_path, $url);
+                $link = StrHelper::qualifyUrl($plugin->access_path, $host);
             }
 
             $pluginUrl = $link;

@@ -314,7 +314,7 @@ class AppUtility
         return true;
     }
 
-    public static function checkPluginsStatus(int $type): void
+    public static function checkPluginsStatus(): void
     {
         $fresnsJsonFile = file_get_contents(config('plugins.manager.default.file'));
 
@@ -322,7 +322,7 @@ class AppUtility
 
         $plugins = $fresnsJson['plugins'] ?? null;
 
-        $pluginModels = Plugin::type($type)->get();
+        $pluginModels = Plugin::where('is_standalone', false)->get();
 
         foreach ($pluginModels as $plugin) {
             $status = $plugins[$plugin->fskey] ?? false;

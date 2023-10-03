@@ -20,8 +20,15 @@ class ExtensionController extends Controller
 {
     public function pluginIndex(Request $request)
     {
-        AppUtility::checkPluginsStatus(Plugin::TYPE_PLUGIN);
-        $plugins = Plugin::type(Plugin::TYPE_PLUGIN);
+        AppUtility::checkPluginsStatus();
+
+        $type = $request->type;
+
+        $pluginQuery = Plugin::query();
+
+        $pluginQuery->when($request->type, function ($query, $value) {
+            $query->where('type', $value);
+        });
 
         $isEnabled = match ($request->status) {
             'active' => 1,
@@ -30,13 +37,13 @@ class ExtensionController extends Controller
         };
 
         if (! is_null($isEnabled)) {
-            $plugins->isEnabled($isEnabled);
+            $pluginQuery->isEnabled($isEnabled);
         }
 
-        $plugins = $plugins->latest()->get();
+        $plugins = $pluginQuery->latest()->get();
 
-        $enableCount = Plugin::type(Plugin::TYPE_PLUGIN)->isEnabled()->count();
-        $disableCount = Plugin::type(Plugin::TYPE_PLUGIN)->isEnabled(false)->count();
+        $enableCount = Plugin::where('is_standalone', false)->isEnabled()->count();
+        $disableCount = Plugin::where('is_standalone', false)->isEnabled(false)->count();
 
         return view('FsView::extensions.plugins', compact('plugins', 'enableCount', 'disableCount', 'isEnabled'));
     }

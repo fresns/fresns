@@ -19,9 +19,9 @@ class AdminController extends Controller
     {
         $admins = Account::ofAdmin()->get();
         $isFounder = self::isFounder();
-        $pluginUpgradeCount = Plugin::where('is_upgrade', 1)->count();
+        $upgradeCount = Plugin::where('is_upgrade', true)->count();
 
-        return view('FsView::dashboard.admins', compact('admins', 'isFounder', 'pluginUpgradeCount'));
+        return view('FsView::dashboard.admins', compact('admins', 'isFounder', 'upgradeCount'));
     }
 
     public function store(StoreAdminRequest $request)
