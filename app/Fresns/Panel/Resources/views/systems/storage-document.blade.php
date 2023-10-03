@@ -24,12 +24,16 @@
                     </select>
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_secret_id') }}</label>
+                    <label class="input-group-text w-25">Secret ID</label>
                     <input type="text" class="form-control" id="document_secret_id" name="document_secret_id" value="{{ $params['document_secret_id'] }}">
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_secret_key') }}</label>
+                    <label class="input-group-text w-25">Secret Key</label>
                     <input type="text" class="form-control" id="document_secret_key" name="document_secret_key" value="{{ $params['document_secret_key'] }}">
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text w-25">Secret App</label>
+                    <input type="text" class="form-control" name="document_secret_app" value="{{ $params['document_secret_app'] }}">
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_bucket_name') }}</label>
@@ -61,7 +65,8 @@
                 <div class="input-group mb-3">
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_max_size') }}</label>
                     <input type="number" class="form-control" id="document_max_size" name="document_max_size" value="{{ $params['document_max_size'] }}">
-                    <label class="input-group-text">MB</label>
+                    <span class="input-group-text">MB</span>
+                    <span class="form-control text-end"><a href="{{ route('panel.roles.index') }}" target="_blank">{{ __('FsLang::panel.sidebar_roles') }} ({{ __('FsLang::panel.button_config_permission') }})</a></span>
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_url_status') }}</label>

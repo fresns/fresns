@@ -24,12 +24,16 @@
                     </select>
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_secret_id') }}</label>
+                    <label class="input-group-text w-25">Secret ID</label>
                     <input type="text" class="form-control" id="audio_secret_id" name="audio_secret_id" value="{{ $params['audio_secret_id'] }}">
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.storage_secret_key') }}</label>
+                    <label class="input-group-text w-25">Secret Key</label>
                     <input type="text" class="form-control" id="audio_secret_key" name="audio_secret_key" value="{{ $params['audio_secret_key'] }}">
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text w-25">Secret App</label>
+                    <input type="text" class="form-control" name="audio_secret_app" value="{{ $params['audio_secret_app'] }}">
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_bucket_name') }}</label>
@@ -62,11 +66,13 @@
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_max_size') }}</label>
                     <input type="number" class="form-control" id="audio_max_size" name="audio_max_size" value="{{ $params['audio_max_size'] }}">
                     <span class="input-group-text">MB</span>
+                    <span class="form-control text-end"><a href="{{ route('panel.roles.index') }}" target="_blank">{{ __('FsLang::panel.sidebar_roles') }} ({{ __('FsLang::panel.button_config_permission') }})</a></span>
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_max_time') }}</label>
                     <input type="number" class="form-control" id="audio_max_time" name="audio_max_time" value="{{ $params['audio_max_time'] }}">
                     <span class="input-group-text">{{ __('FsLang::panel.unit_second') }}</span>
+                    <span class="form-control text-end"><a href="{{ route('panel.roles.index') }}" target="_blank">{{ __('FsLang::panel.sidebar_roles') }} ({{ __('FsLang::panel.button_config_permission') }})</a></span>
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text w-25">{{ __('FsLang::panel.storage_url_status') }}</label>
