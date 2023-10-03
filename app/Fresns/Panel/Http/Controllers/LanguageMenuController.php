@@ -264,7 +264,7 @@ class LanguageMenuController extends Controller
 
         $languages = collect($languages)->reject(function ($language) use ($code) {
             return $language['langTag'] == $code;
-        })->toArray();
+        })->values()->toArray();
 
         $languageConfig->item_value = $languages;
         $languageConfig->save();
