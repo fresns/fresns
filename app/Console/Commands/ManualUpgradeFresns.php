@@ -165,7 +165,7 @@ class ManualUpgradeFresns extends Command
         return true;
     }
 
-    // step 4: publish and activate plugins or themes
+    // step 4: publish and activate plugins
     public function pluginPublishAndActivate()
     {
         $this->updateStep(self::STEP_PUBLISH_AND_ACTIVATE_EXTENSIONS);
