@@ -41,7 +41,7 @@ class CreatePluginsTable extends Migration
             $table->string('plugin_host', 128)->nullable();
             $table->string('access_path')->nullable();
             $table->string('settings_path', 128)->nullable();
-            $table->unsignedTinyInteger('theme_functions')->default(0);
+            $table->unsignedTinyInteger('is_standalone')->default(0);
             $table->unsignedTinyInteger('is_upgrade')->default(0);
             $table->string('upgrade_code', 32)->nullable();
             $table->string('upgrade_version', 16)->nullable();
