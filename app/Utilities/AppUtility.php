@@ -198,62 +198,6 @@ class AppUtility
         UserRole::where('user_id', 1)->where('is_main', 1)->update([
             'role_id' => 1,
         ]);
-
-        Artisan::call('plugin:install', [
-            'path' => realpath(base_path('extensions/plugins/FresnsEngine')),
-        ]);
-        Artisan::call('theme:install', [
-            'path' => realpath(base_path('extensions/themes/ThemeFrame')),
-        ]);
-        Artisan::call('theme:install', [
-            'path' => realpath(base_path('extensions/themes/Moments')),
-        ]);
-
-        AppUtility::setInitialConfiguration();
-    }
-
-    public static function setInitialConfiguration(): void
-    {
-        $engine = AppHelper::getPluginConfig('FresnsEngine');
-        $theme = AppHelper::getThemeConfig('ThemeFrame');
-
-        // check web engine and theme
-        if (empty($engine) && empty($theme)) {
-            return;
-        }
-
-        // create key
-        $appKey = new SessionKey();
-        $appKey->platform_id = 4;
-        $appKey->name = 'Fresns Engine';
-        $appKey->app_id = Str::random(8);
-        $appKey->app_secret = Str::random(32);
-        $appKey->save();
-
-        // config web engine and theme
-        $configKeys = [
-            'engine_key_id',
-            'FresnsEngine_Desktop',
-            'FresnsEngine_Mobile',
-        ];
-
-        $configValues = [
-            'engine_key_id' => $appKey->id,
-            'FresnsEngine_Desktop' => 'ThemeFrame',
-            'FresnsEngine_Mobile' => 'ThemeFrame',
-        ];
-
-        $configs = Config::whereIn('item_key', $configKeys)->get();
-
-        foreach ($configKeys as $configKey) {
-            $config = $configs->where('item_key', $configKey)->first();
-
-            $config->item_value = $configValues[$configKey];
-            $config->save();
-        }
-
-        // activate web engine
-        Artisan::call('market:activate', ['fskey' => 'FresnsEngine']);
     }
 
     public static function checkVersion(): bool

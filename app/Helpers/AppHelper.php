@@ -152,25 +152,6 @@ class AppHelper
         return $versionInfo;
     }
 
-    // get themes
-    public static function getThemes(): array
-    {
-        $themeFiles = glob(config('themes.paths.themes').'/*/theme.json');
-
-        $themes = [];
-        foreach ($themeFiles as $file) {
-            $themeJson = json_decode(@file_get_contents($file), true);
-
-            if (! $themeJson) {
-                continue;
-            }
-
-            $themes[] = $themeJson;
-        }
-
-        return $themes;
-    }
-
     // get plugin config
     public static function getPluginConfig(string $plugin): array
     {
@@ -183,20 +164,6 @@ class AppHelper
         $pluginConfig = json_decode(File::get($pluginJsonFile), true);
 
         return $pluginConfig;
-    }
-
-    // get theme config
-    public static function getThemeConfig(string $theme): array
-    {
-        $themeJsonFile = config('themes.paths.themes').'/'.$theme.'/theme.json';
-
-        if (! file_exists($themeJsonFile)) {
-            return [];
-        }
-
-        $themeConfig = json_decode(File::get($themeJsonFile), true);
-
-        return $themeConfig;
     }
 
     // get device info
