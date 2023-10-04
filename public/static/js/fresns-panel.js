@@ -1152,26 +1152,6 @@ $(document).ready(function () {
         }
     });
 
-    // theme set
-    $('#themeSetting').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget);
-        let action = button.data('action');
-        let fskey = button.data('fskey');
-        let desktopPlugin = button.data('desktop_plugin');
-        let mobilePlugin = button.data('mobile_plugin');
-
-        $(this).find('form').attr('action', action);
-        $(this)
-            .find('#desktopTheme')
-            .attr('name', fskey + '_Desktop');
-        $(this)
-            .find('#mobileTheme')
-            .attr('name', fskey + '_Mobile');
-
-        $(this).find('#desktopTheme').val(desktopPlugin);
-        $(this).find('#mobileTheme').val(mobilePlugin);
-    });
-
     // change default homepage
     $('.update-config').change(function () {
         $.ajax({

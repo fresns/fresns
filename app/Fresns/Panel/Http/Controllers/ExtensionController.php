@@ -8,11 +8,8 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
-use App\Helpers\AppHelper;
-use App\Models\Config;
 use App\Models\Plugin;
 use App\Utilities\AppUtility;
-use App\Utilities\ConfigUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 
@@ -24,7 +21,7 @@ class ExtensionController extends Controller
 
         $type = $request->type;
 
-        $pluginQuery = Plugin::query();
+        $pluginQuery = Plugin::where('is_standalone', false);
 
         $pluginQuery->when($request->type, function ($query, $value) {
             $query->where('type', $value);
@@ -48,121 +45,11 @@ class ExtensionController extends Controller
         return view('FsView::extensions.plugins', compact('plugins', 'enableCount', 'disableCount', 'isEnabled'));
     }
 
-    public function panelIndex(Request $request)
+    public function appIndex(Request $request)
     {
-        AppUtility::checkPluginsStatus(Plugin::TYPE_PANEL);
-        $panels = Plugin::type(Plugin::TYPE_PANEL);
+        $apps = Plugin::where('is_standalone', true)->latest()->get();
 
-        $isEnabled = match ($request->status) {
-            'active' => 1,
-            'inactive' => 0,
-            default => null,
-        };
-
-        if ($isEnabled) {
-            $panels->isEnabled($isEnabled);
-        }
-
-        $panels = $panels->latest()->get();
-
-        $enableCount = Plugin::type(Plugin::TYPE_PANEL)->isEnabled()->count();
-        $disableCount = Plugin::type(Plugin::TYPE_PANEL)->where('is_enabled', false)->count();
-
-        return view('FsView::extensions.panels', compact('panels', 'enableCount', 'disableCount', 'isEnabled'));
-    }
-
-    public function engineIndex()
-    {
-        AppUtility::checkPluginsStatus(Plugin::TYPE_ENGINE);
-        $engines = Plugin::type(Plugin::TYPE_ENGINE)->latest()->get();
-
-        $configKeys = [];
-        $engines->each(function ($engine) use (&$configKeys) {
-            $configKeys[] = $engine->fskey.'_Desktop';
-            $configKeys[] = $engine->fskey.'_Mobile';
-        });
-
-        $configs = Config::whereIn('item_key', $configKeys)->get();
-        $pluginKeys = $configs->pluck('item_value')->filter();
-        $plugins = Plugin::whereIn('fskey', $pluginKeys)->get()->mapWithKeys(function ($plugin, $key) {
-            return [$plugin->fskey => $plugin->name];
-        })->toArray();
-
-        $themes = Plugin::type(Plugin::TYPE_THEME)->latest()->get();
-
-        $FresnsEngine = Config::where('item_key', 'FresnsEngine')->first()?->item_value;
-        $themeFskey['desktop'] = Config::where('item_key', 'FresnsEngine_Desktop')->value('item_value');
-        $themeFskey['mobile'] = Config::where('item_key', 'FresnsEngine_Mobile')->value('item_value');
-
-        $themeName['desktop'] = Plugin::where('fskey', $themeFskey['desktop'])->value('name');
-        $themeName['mobile'] = Plugin::where('fskey', $themeFskey['mobile'])->value('name');
-
-        return view('FsView::extensions.engines', compact('engines', 'configs', 'themes', 'plugins', 'FresnsEngine', 'themeFskey', 'themeName'));
-    }
-
-    public function updateDefaultEngine(Request $request)
-    {
-        if ($request->get('is_enabled') != 0) {
-            Config::where('item_key', 'FresnsEngine')->update([
-                'item_value' => 'true',
-            ]);
-        } else {
-            Config::where('item_key', 'FresnsEngine')->update([
-                'item_value' => 'false',
-            ]);
-        }
-
-        return $this->updateSuccess();
-    }
-
-    public function updateEngineTheme(string $fskey, Request $request)
-    {
-        $desktopKey = $fskey.'_Desktop';
-        $mobileKey = $fskey.'_Mobile';
-
-        $desktopConfig = Config::where('item_key', $desktopKey)->first();
-        if ($request->has($desktopKey)) {
-            if (! $desktopConfig) {
-                $desktopConfig = new Config();
-                $desktopConfig->item_key = $desktopKey;
-                $desktopConfig->item_type = 'string';
-                $desktopConfig->item_tag = 'themes';
-            }
-            $desktopConfig->item_value = $request->$desktopKey;
-            $desktopConfig->save();
-        } else {
-            if ($desktopConfig) {
-                $desktopConfig->item_value = $request->$desktopKey;
-                $desktopConfig->save();
-            }
-        }
-
-        $mobileConfig = Config::where('item_key', $mobileKey)->first();
-        if ($request->has($mobileKey)) {
-            if (! $mobileConfig) {
-                $mobileConfig = new Config();
-                $mobileConfig->item_key = $mobileKey;
-                $mobileConfig->item_type = 'string';
-                $mobileConfig->item_tag = 'themes';
-            }
-
-            $mobileConfig->item_value = $request->$mobileKey;
-            $mobileConfig->save();
-        } else {
-            if ($mobileConfig) {
-                $mobileConfig->item_value = $request->$desktopKey;
-                $mobileConfig->save();
-            }
-        }
-
-        return $this->updateSuccess();
-    }
-
-    public function themeIndex()
-    {
-        $themes = Plugin::type(Plugin::TYPE_THEME)->latest()->get();
-
-        return view('FsView::extensions.themes', compact('themes'));
+        return view('FsView::extensions.apps', compact('apps'));
     }
 
     public function install(Request $request)
@@ -194,7 +81,7 @@ class ExtensionController extends Controller
                     return back()->with('failure', __('FsLang::tips.install_not_entered_directory'));
                 }
 
-                // plugin-manager or theme-manager
+                // plugin-manager
                 $exitCode = Artisan::call('market:require', [
                     'fskey' => $pluginDirectory,
                     '--install_type' => 'local',
@@ -218,7 +105,7 @@ class ExtensionController extends Controller
                     return back()->with('failure', __('FsLang::tips.install_not_upload_zip'));
                 }
 
-                // plugin-manager or theme-manager
+                // plugin-manager
                 $exitCode = Artisan::call('market:require', [
                     'fskey' => $pluginZipball,
                     '--install_type' => 'local',
@@ -280,41 +167,6 @@ class ExtensionController extends Controller
             $exitCode = Artisan::call('market:remove-plugin', ['fskey' => $request->plugin, '--cleardata' => true]);
         } else {
             $exitCode = Artisan::call('market:remove-plugin', ['fskey' => $request->plugin, '--cleardata' => false]);
-        }
-
-        // $exitCode = 0 success
-        // $exitCode != 0 fail
-
-        $message = __('FsLang::tips.uninstallSuccess');
-        if ($exitCode != 0) {
-            $message = __('FsLang::tips.uninstallFailure');
-        }
-
-        return response(Artisan::output()."\n".$message);
-    }
-
-    public function uninstallTheme(Request $request)
-    {
-        if ($request->get('clearData') == 1) {
-            $theme = $request->theme;
-            if (! $theme) {
-                abort(404);
-            }
-
-            $themeConfig = AppHelper::getThemeConfig($theme);
-            $functionKeys = $themeConfig['functionKeys'] ?? [];
-
-            if ($functionKeys) {
-                $itemKeys = array_map(function ($item) {
-                    return $item['itemKey'];
-                }, $functionKeys);
-
-                ConfigUtility::removeFresnsConfigItems($itemKeys);
-            }
-
-            $exitCode = Artisan::call('market:remove-theme', ['fskey' => $request->theme]);
-        } else {
-            $exitCode = Artisan::call('market:remove-theme', ['fskey' => $request->theme]);
         }
 
         // $exitCode = 0 success

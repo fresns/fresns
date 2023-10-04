@@ -43,7 +43,7 @@
                 @foreach ($plugins as $plugin)
                     <tr>
                         <td class="py-3">
-                            <img src="/assets/plugins/{{ $plugin->fskey }}/fresns.png" class="me-2" width="44" height="44">
+                            <img src="/assets/{{ $plugin->fskey }}/fresns.png" class="me-2" width="44" height="44">
                             <span class="fs-6"><a href="{{ $marketplaceUrl.'/detail/'.$plugin->fskey }}" target="_blank" class="link-dark fresns-link">{{ $plugin->name }}</a></span>
                             <span class="badge bg-secondary fs-9">{{ $plugin->version }}</span>
                             @if ($plugin->is_upgrade)
@@ -51,7 +51,13 @@
                             @endif
                         </td>
                         <td>{{ $plugin->description }}</td>
-                        <td><a href="{{ $plugin->author_link }}" target="_blank" class="link-info fresns-link fs-7">{{ $plugin->author }}</a></td>
+                        <td>
+                            @if ($plugin->author_link)
+                                <a href="{{ $plugin->author_link }}" target="_blank" class="link-info fresns-link fs-7">{{ $plugin->author }}</a>
+                            @else
+                                <span class="fs-7">{{ $plugin->author }}</span>
+                            @endif
+                        </td>
                         <td {!! App::getLocale() == 'en' ? 'style="width:210px"' : '' !!}>
                             @if ($plugin->is_enabled)
                                 <button type="button" class="btn btn-outline-secondary btn-sm plugin-manage" data-action="{{ route('panel.plugin.update', ['plugin' => $plugin->fskey]) }}" data-enable="0">{{ __('FsLang::panel.button_deactivate') }}</button>

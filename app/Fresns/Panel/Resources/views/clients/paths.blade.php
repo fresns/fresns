@@ -125,7 +125,7 @@
         </div>
 
         <!--comment-->
-        <div class="row mb-3">
+        <div class="row mb-5">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.comment') }}:</label>
             <div class="col-lg-8">
                 <div class="input-group">
@@ -223,7 +223,7 @@
         </div>
 
         <!--button_save-->
-        <div class="row my-4">
+        <div class="row my-5">
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
                 <button type="submit" class="btn btn-primary">{{ __('FsLang::panel.button_save') }}</button>

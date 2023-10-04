@@ -42,12 +42,10 @@ use App\Fresns\Panel\Http\Controllers\SettingController;
 use App\Fresns\Panel\Http\Controllers\StickerController;
 use App\Fresns\Panel\Http\Controllers\StickerGroupController;
 use App\Fresns\Panel\Http\Controllers\StorageController;
-use App\Fresns\Panel\Http\Controllers\ThemeFunctionController;
 use App\Fresns\Panel\Http\Controllers\UpgradeController;
 use App\Fresns\Panel\Http\Controllers\UserController;
 use App\Fresns\Panel\Http\Controllers\UserSearchController;
 use App\Fresns\Panel\Http\Controllers\WalletController;
-use App\Fresns\Panel\Http\Controllers\WebsiteController;
 use App\Helpers\CacheHelper;
 use App\Models\Config;
 use Illuminate\Support\Facades\File;
@@ -274,31 +272,22 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::get('code-messages', [CodeMessageController::class, 'index'])->name('code.messages.index');
         Route::put('code-messages/{codeMessage}', [CodeMessageController::class, 'update'])->name('code.messages.update');
         // path
-        Route::get('paths', [WebsiteController::class, 'pathIndex'])->name('paths.index');
-        Route::put('paths', [WebsiteController::class, 'pathUpdate'])->name('paths.update');
-        // website
-        Route::get('website', [WebsiteController::class, 'index'])->name('website.index');
-        Route::put('website', [WebsiteController::class, 'update'])->name('website.update');
-        // app
-        Route::get('app', [AppController::class, 'index'])->name('app.index');
-        Route::put('app', [AppController::class, 'update'])->name('app.update');
+        Route::get('paths', [AppController::class, 'pathIndex'])->name('paths.index');
+        Route::put('paths', [AppController::class, 'pathUpdate'])->name('paths.update');
+        // basic
+        Route::get('basic', [AppController::class, 'basicIndex'])->name('client.basic');
+        Route::put('basic', [AppController::class, 'basicUpdate'])->name('client.basic.update');
         // status
-        Route::get('status', [AppController::class, 'statusIndex'])->name('status.index');
-        Route::put('status', [AppController::class, 'statusUpdate'])->name('status.update');
+        Route::get('status', [AppController::class, 'statusIndex'])->name('client.status');
+        Route::put('status', [AppController::class, 'statusUpdate'])->name('client.status.update');
     });
 
     // app center
     Route::prefix('app-center')->group(function () {
         // plugins
         Route::get('plugins', [ExtensionController::class, 'pluginIndex'])->name('plugins.index');
-        // panels
-        Route::get('panels', [ExtensionController::class, 'panelIndex'])->name('panels.index');
-        // engines
-        Route::get('engines', [ExtensionController::class, 'engineIndex'])->name('engines.index');
-        Route::put('engines/{fskey}/theme', [ExtensionController::class, 'updateEngineTheme'])->name('engine.theme.update');
-        Route::patch('updateDefaultEngine', [ExtensionController::class, 'updateDefaultEngine'])->name('defaultEngine.theme.update');
-        // themes
-        Route::get('themes', [ExtensionController::class, 'themeIndex'])->name('themes.index');
+        // apps
+        Route::get('apps', [ExtensionController::class, 'appIndex'])->name('apps.index');
         // session key
         Route::resource('keys', SessionKeyController::class)->only([
             'index', 'store', 'update', 'destroy',
@@ -321,20 +310,12 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::patch('update', [ExtensionController::class, 'update'])->name('update');
         // uninstall
         Route::delete('uninstall', [ExtensionController::class, 'uninstall'])->name('uninstall');
-        Route::delete('uninstallTheme', [ExtensionController::class, 'uninstallTheme'])->name('uninstallTheme');
     });
 
     // extension apps
     Route::prefix('app')->name('app.')->group(function () {
         Route::post('download', [ExtensionController::class, 'appDownload'])->name('download');
         Route::delete('delete', [ExtensionController::class, 'appDelete'])->name('delete');
-    });
-
-    // theme manage
-    Route::prefix('theme')->name('theme.')->group(function () {
-        Route::get('{theme}', [ThemeFunctionController::class, 'show'])->name('functions');
-        Route::put('functions', [ThemeFunctionController::class, 'update'])->name('functions.update');
-        Route::put('functions/languages', [ThemeFunctionController::class, 'updateLanguages'])->name('functions.update.languages');
     });
 });
 

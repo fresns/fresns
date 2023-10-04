@@ -58,6 +58,7 @@
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.setting_build_type_desc') }}</div>
         </div>
+
         <div class="row mb-3">
             <label for="backend_url" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.setting_developer_options') }}:</label>
             <div class="col-lg-6">

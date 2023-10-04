@@ -77,6 +77,74 @@
                     </div>
                 </div>
 
+                <!--ios_config-->
+                <div class="row mb-4">
+                    <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.send_app_ios_config') }}:</label>
+                    <div class="col-lg-6">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text">{{ __('FsLang::panel.send_app_notifications') }}</label>
+                            <select class="form-select" name="ios_notifications_service">
+                                <option value="" {{ !$params['ios_notifications_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
+                                @foreach ($pluginParams['appNotifications'] as $plugin)
+                                    <option value="{{ $plugin->fskey }}" {{ $params['ios_notifications_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.send_app_ios_notifications_desc') }}</div>
+                </div>
+
+                <!--android_config-->
+                <div class="row mb-4">
+                    <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.send_app_android_config') }}:</label>
+                    <div class="col-lg-6">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text">{{ __('FsLang::panel.send_app_notifications') }}</label>
+                            <select class="form-select" name="android_notifications_service">
+                                <option value="" {{ !$params['android_notifications_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
+                                @foreach ($pluginParams['appNotifications'] as $plugin)
+                                    <option value="{{ $plugin->fskey }}" {{ $params['android_notifications_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.send_app_android_notifications_desc') }}</div>
+                </div>
+
+                <!--desktop_config-->
+                <div class="row mb-4">
+                    <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.send_app_desktop_config') }}:</label>
+                    <div class="col-lg-6">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text">{{ __('FsLang::panel.send_app_notifications') }}</label>
+                            <select class="form-select" name="desktop_notifications_service">
+                                <option value="" {{ !$params['desktop_notifications_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
+                                @foreach ($pluginParams['appNotifications'] as $plugin)
+                                    <option value="{{ $plugin->fskey }}" {{ $params['desktop_notifications_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.send_app_desktop_notifications_desc') }}</div>
+                </div>
+
+                <!--wechat_config-->
+                <div class="row mb-4">
+                    <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.send_app_wechat_config') }}:</label>
+                    <div class="col-lg-6">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text">{{ __('FsLang::panel.send_app_notifications') }}</label>
+                            <select class="form-select" name="wechat_notifications_service">
+                                <option value="" {{ !$params['wechat_notifications_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
+                                @foreach ($pluginParams['appNotifications'] as $plugin)
+                                    <option value="{{ $plugin->fskey }}" {{ $params['wechat_notifications_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.send_app_wechat_notifications_desc') }}</div>
+                </div>
+
                 <!--button_save-->
                 <div class="row my-3">
                     <div class="col-lg-2"></div>

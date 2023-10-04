@@ -69,7 +69,7 @@
                 </li>
                 <li class="list-group-item">
                     <i class="bi bi-app-indicator"></i> {{ __('FsLang::panel.sidebar_apps') }}
-                    <a href="{{ route('panel.panels.index') }}">
+                    <a href="{{ route('panel.apps.index') }}">
                         <span class="badge bg-info">{{ $plugins->where('is_standalone', true)->count() }}</span>
                     </a>
                 </li>

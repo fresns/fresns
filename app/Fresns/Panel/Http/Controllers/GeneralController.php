@@ -26,6 +26,7 @@ class GeneralController extends Controller
     {
         // config keys
         $configKeys = [
+            'utc',
             'site_url',
             'site_name',
             'site_desc',
@@ -46,7 +47,6 @@ class GeneralController extends Controller
             'site_email_login',
             'site_phone_login',
             'site_email',
-            'utc',
         ];
 
         // language keys

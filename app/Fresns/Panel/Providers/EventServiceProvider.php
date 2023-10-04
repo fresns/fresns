@@ -53,25 +53,6 @@ class EventServiceProvider extends ServiceProvider
             // delete database data
             ExtensionInstalledListener::class,
         ],
-
-        // theme
-        'theme:installing' => [
-            //
-        ],
-
-        'theme:installed' => [
-            // get theme.json insert into database
-            ExtensionInstalledListener::class,
-        ],
-
-        'theme:uninstalling' => [
-            //
-        ],
-
-        'theme:uninstalled' => [
-            // delete database data
-            ExtensionInstalledListener::class,
-        ],
     ];
 
     /**

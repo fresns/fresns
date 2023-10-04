@@ -8,58 +8,109 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Models\Config;
 use App\Helpers\AppHelper;
 use App\Helpers\ConfigHelper;
-use App\Models\Config;
-use App\Models\Plugin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class AppController extends Controller
 {
-    public function index()
+    // path index
+    public function pathIndex()
     {
         // config keys
         $configKeys = [
-            'ios_notifications_service',
-            'android_notifications_service',
-            'wechat_notifications_service',
+            'site_url',
+            'website_portal_path',
+            'website_user_path',
+            'website_group_path',
+            'website_hashtag_path',
+            'website_post_path',
+            'website_comment_path',
+            'website_user_detail_path',
+            'website_group_detail_path',
+            'website_hashtag_detail_path',
+            'website_post_detail_path',
+            'website_comment_detail_path',
         ];
-
         $configs = Config::whereIn('item_key', $configKeys)->get();
 
         foreach ($configs as $config) {
             $params[$config->item_key] = $config->item_value;
         }
 
-        $pluginScenes = [
-            'appNotifications',
-        ];
+        $siteUrl = $params['site_url'];
+        $siteUrl = rtrim($siteUrl, '/');
 
-        $plugins = Plugin::all();
-
-        $pluginParams = [];
-        foreach ($pluginScenes as $scene) {
-            $pluginParams[$scene] = $plugins->filter(function ($plugin) use ($scene) {
-                return in_array($scene, $plugin->scene);
-            });
-        }
-
-        return view('FsView::clients.app', compact('params', 'pluginParams'));
+        return view('FsView::clients.paths', compact('params', 'siteUrl'));
     }
 
-    public function update(Request $request)
+    // path update
+    public function pathUpdate(Request $request)
     {
+        // config keys
         $configKeys = [
-            'ios_notifications_service',
-            'android_notifications_service',
-            'wechat_notifications_service',
+            'website_portal_path',
+            'website_user_path',
+            'website_group_path',
+            'website_hashtag_path',
+            'website_post_path',
+            'website_comment_path',
+            'website_user_detail_path',
+            'website_group_detail_path',
+            'website_hashtag_detail_path',
+            'website_post_detail_path',
+            'website_comment_detail_path',
         ];
+
+        // system reserved
+        $pathKeys = [
+            'fresns',
+            'location',
+            'notifications',
+            'conversations',
+            'messages',
+            'drafts',
+        ];
+
+        $rules = [];
+        $messages = [];
+        foreach ($configKeys as $key) {
+            $rules[$key] = ['required', 'regex:/^[a-z]+$/i'];
+            $messages["$key.required"] = __('FsLang::tips.website_path_empty_error');
+            $messages["$key.regex"] = __('FsLang::tips.website_path_format_error');
+
+            if (in_array($request->{$key}, $pathKeys)) {
+                return back()->with('failure', sprintf(__('FsLang::tips.website_path_reserved_error').' -> ', $key));
+            }
+        }
+
+        $data = $request->only($configKeys);
+
+        $validate = validator($data, $rules, $messages);
+
+        if (! $validate->passes()) {
+            return back()->with('failure', $validate->errors()->first());
+        }
+
+        $data = array_unique($data);
+
+        if (count($configKeys) !== count($data)) {
+            return back()->with('failure', __('FsLang::tips.website_path_unique_error'));
+        }
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
 
         foreach ($configKeys as $configKey) {
             $config = $configs->where('item_key', $configKey)->first();
             if (! $config) {
+                continue;
+            }
+
+            if (! $request->has($configKey)) {
+                $config->setDefaultValue();
+                $config->save();
                 continue;
             }
 
@@ -70,6 +121,90 @@ class AppController extends Controller
         return $this->updateSuccess();
     }
 
+    // basic index
+    public function basicIndex()
+    {
+        // config keys
+        $configKeys = [
+            'website_cookie_prefix',
+            'website_stat_code',
+            'website_stat_position',
+            'site_china_mode',
+            'china_icp_filing',
+            'china_icp_license',
+            'china_psb_filing',
+            'china_broadcasting_license',
+        ];
+        $configs = Config::whereIn('item_key', $configKeys)->get();
+
+        foreach ($configs as $config) {
+            $params[$config->item_key] = $config->item_value;
+        }
+
+        $associationFile = public_path('apple-app-site-association');
+
+        $appleAppSiteAssociation = '';
+        if (file_exists($associationFile)) {
+            $appleAppSiteAssociation = file_get_contents($associationFile);
+        }
+
+        return view('FsView::clients.basic', compact('params', 'appleAppSiteAssociation'));
+    }
+
+    // basic update
+    public function basicUpdate(Request $request)
+    {
+        // config keys
+        $configKeys = [
+            'website_cookie_prefix',
+            'website_stat_code',
+            'website_stat_position',
+            'site_china_mode',
+            'china_icp_filing',
+            'china_icp_license',
+            'china_psb_filing',
+            'china_broadcasting_license',
+        ];
+
+        $configs = Config::whereIn('item_key', $configKeys)->get();
+
+        foreach ($configKeys as $configKey) {
+            $config = $configs->where('item_key', $configKey)->first();
+            if (! $config) {
+                continue;
+            }
+
+            if (! $request->has($configKey)) {
+                $config->setDefaultValue();
+                $config->save();
+                continue;
+            }
+
+            if ($configKey == 'website_cookie_prefix') {
+                $websiteCookiePrefix = Str::of($request->get('website_cookie_prefix'))->trim();
+
+                if (! Str::startsWith($websiteCookiePrefix, 'fresns_')) {
+                    $request->$configKey = 'fresns_'.$websiteCookiePrefix;
+                }
+            }
+
+            $config->item_value = $request->$configKey;
+            $config->save();
+        }
+
+        if ($request->appleAppSiteAssociation) {
+            $associationJson = json_decode($request->appleAppSiteAssociation, true);
+
+            $associationFile = public_path('apple-app-site-association');
+
+            $associationContent = json_encode($associationJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
+            file_put_contents($associationFile, $associationContent);
+        }
+
+        return $this->updateSuccess();
+    }
+
+    // status index
     public function statusIndex()
     {
         $statusJson = [
@@ -86,9 +221,12 @@ class AppController extends Controller
             $statusJson = json_decode(file_get_contents($statusJsonFile), true);
         }
 
-        return view('FsView::clients.status', compact('statusJson'));
+        $client = $statusJson['client'] ?? [];
+
+        return view('FsView::clients.status', compact('statusJson', 'client'));
     }
 
+    // status update
     public function statusUpdate(Request $request)
     {
         $activate = (bool) $request->activate;
@@ -103,11 +241,14 @@ class AppController extends Controller
         $defaultLangTag = ConfigHelper::fresnsConfigDefaultLangTag();
         $descriptionArr['default'] = $descriptionArr[$defaultLangTag] ?? array_values($descriptionArr)[0] ?? '';
 
+        $client = $request->client;
+
         $statusJson = [
             'name' => 'Fresns',
             'version' => AppHelper::VERSION,
             'activate' => $activate,
             'deactivateDescription' => $descriptionArr,
+            'client' => $client,
         ];
 
         $statusJsonFile = public_path('status.json');
