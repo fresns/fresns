@@ -42,6 +42,7 @@ use App\Models\Mention;
 use App\Models\Notification;
 use App\Models\PostLog;
 use App\Models\SessionLog;
+use App\Models\SessionToken;
 use App\Models\User;
 use App\Models\UserBlock;
 use App\Models\UserExtcreditsLog;
@@ -527,6 +528,7 @@ class UserController extends Controller
             'aid' => $fresnsResponse->getData('aid'),
             'aidToken' => $fresnsResponse->getData('aidToken'),
             'uid' => $fresnsResponse->getData('uid'),
+            'deviceToken' => $dtoRequest->deviceToken,
             'expiredTime' => null,
         ];
         $fresnsTokenResponse = \FresnsCmdWord::plugin('Fresns')->createUserToken($createTokenWordBody);
@@ -962,6 +964,20 @@ class UserController extends Controller
         // edit archives
         if ($dtoRequest->archives) {
             ContentUtility::saveArchiveUsages(ArchiveUsage::TYPE_USER, $authUser->id, $dtoRequest->archives);
+        }
+
+        // edit device token
+        if ($dtoRequest->deviceToken) {
+            $platformId = $this->platformId();
+            $appId = $this->appId();
+            $authAccount = $this->account();
+            $authAccountToken = $this->accountToken();
+            $authUserToken = $this->userToken();
+
+            $sessionToken = SessionToken::where('platform_id', $platformId)->where('app_id', $appId)->where('account_id', $authAccount->id)->where('account_token', $authAccountToken)->where('user_id', $authUser->id)->where('user_token', $authUserToken)->first();
+            $sessionToken->update([
+                'device_token' => $dtoRequest->deviceToken,
+            ]);
         }
 
         // session log

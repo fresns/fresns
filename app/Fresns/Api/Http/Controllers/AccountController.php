@@ -210,6 +210,7 @@ class AccountController extends Controller
             'version' => $this->version(),
             'appId' => $this->appId(),
             'aid' => $createAccountResp->getData('aid'),
+            'deviceToken' => $dtoRequest->deviceToken,
             'expiredTime' => null,
         ];
         $fresnsTokenResponse = \FresnsCmdWord::plugin('Fresns')->createAccountToken($createTokenWordBody);
@@ -388,6 +389,7 @@ class AccountController extends Controller
             'version' => $this->version(),
             'appId' => $this->appId(),
             'aid' => $aid,
+            'deviceToken' => $dtoRequest->deviceToken,
             'expiredTime' => null,
         ];
         $fresnsTokenResponse = \FresnsCmdWord::plugin('Fresns')->createAccountToken($createTokenWordBody);
@@ -904,6 +906,18 @@ class AccountController extends Controller
             if ($disconnectResp->isErrorResponse()) {
                 return $disconnectResp->errorResponse();
             }
+        }
+
+        // edit device token
+        if ($dtoRequest->deviceToken) {
+            $platformId = $this->platformId();
+            $appId = $this->appId();
+            $authAccountToken = $this->accountToken();
+
+            $sessionToken = SessionToken::where('platform_id', $platformId)->where('app_id', $appId)->where('account_id', $authAccount->id)->where('account_token', $authAccountToken)->first();
+            $sessionToken->update([
+                'device_token' => $dtoRequest->deviceToken,
+            ]);
         }
 
         // upload session log

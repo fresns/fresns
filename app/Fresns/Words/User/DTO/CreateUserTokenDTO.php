@@ -21,6 +21,7 @@ class CreateUserTokenDTO extends DTO
             'aid' => ['string', 'required'],
             'aidToken' => ['string', 'required'],
             'uid' => ['integer', 'required'],
+            'deviceToken' => ['string', 'nullable'],
             'expiredTime' => ['integer', 'nullable'],
         ];
     }

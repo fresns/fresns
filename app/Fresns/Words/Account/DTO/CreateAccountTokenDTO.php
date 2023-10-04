@@ -19,6 +19,7 @@ class CreateAccountTokenDTO extends DTO
             'version' => ['string', 'required'],
             'appId' => ['string', 'required'],
             'aid' => ['string', 'required'],
+            'deviceToken' => ['string', 'nullable'],
             'expiredTime' => ['integer', 'nullable'],
         ];
     }

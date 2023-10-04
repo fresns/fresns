@@ -44,6 +44,7 @@ class CreateSessionsTable extends Migration
             $table->string('user_token', 32)->nullable();
             $table->string('scope', 128)->nullable();
             $table->text('payload')->nullable();
+            $table->string('device_token', 128)->nullable();
             $table->timestamp('expired_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();

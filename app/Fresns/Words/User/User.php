@@ -223,6 +223,7 @@ class User
             'account_token' => $dtoWordBody->aidToken,
             'user_id' => $userId,
             'user_token' => $token,
+            'device_token' => $dtoWordBody->deviceToken ?? null,
             'expired_at' => $expiredDateTime,
         ];
 

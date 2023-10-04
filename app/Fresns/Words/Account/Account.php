@@ -419,6 +419,7 @@ class Account
             'app_id' => $dtoWordBody->appId,
             'account_id' => $accountId,
             'account_token' => $token,
+            'device_token' => $dtoWordBody->deviceToken ?? null,
             'expired_at' => $expiredDateTime,
         ];
 
