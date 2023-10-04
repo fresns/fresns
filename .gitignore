@@ -1,13 +1,15 @@
 /node_modules
+/website
 /public/build
 /public/hot
 /public/storage
 /storage/*.key
 /vendor
-/.phpunit.cache
-/.fleet
-/.idea
-/.vscode
+.phpunit.cache
+.fleet
+.idea
+.vscode
+.tmp
 .env
 .env.backup
 .env.production
@@ -29,7 +31,7 @@ composer.lock
 
 # R&D File
 /config/plugins.php
-/config/themes.php
 /config/markets.php
-/extensions/*
+/plugins/*
+composer-dev.json
 fresns-dev.json
