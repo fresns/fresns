@@ -108,6 +108,12 @@ trait ApiHeaderTrait
         return PrimaryHelper::fresnsModelByFsid('account', $aid);
     }
 
+    // auth account token
+    public function accountToken(): ?string
+    {
+        return \request()->header('X-Fresns-Aid-Token');
+    }
+
     // auth user
     public function user(): ?User
     {
@@ -118,5 +124,11 @@ trait ApiHeaderTrait
         }
 
         return PrimaryHelper::fresnsModelByFsid('user', $uid);
+    }
+
+    // auth user token
+    public function userToken(): ?string
+    {
+        return \request()->header('X-Fresns-Uid-Token');
     }
 }
