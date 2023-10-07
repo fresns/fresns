@@ -54,6 +54,7 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'disconnectAccountConnect', 'provider' => [Account::class, 'disconnectAccountConnect']],
         ['word' => 'createAccountToken', 'provider' => [Account::class, 'createAccountToken']],
         ['word' => 'verifyAccountToken', 'provider' => [Account::class, 'verifyAccountToken']],
+        ['word' => 'getAccountDeviceToken', 'provider' => [Account::class, 'getAccountDeviceToken']],
         ['word' => 'logicalDeletionAccount', 'provider' => [Account::class, 'logicalDeletionAccount']],
         ['word' => 'physicalDeletionAccount', 'provider' => [Account::class, 'physicalDeletionAccount']],
 
@@ -72,6 +73,7 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'verifyUser', 'provider' => [User::class, 'verifyUser']],
         ['word' => 'createUserToken', 'provider' => [User::class, 'createUserToken']],
         ['word' => 'verifyUserToken', 'provider' => [User::class, 'verifyUserToken']],
+        ['word' => 'getUserDeviceToken', 'provider' => [User::class, 'getUserDeviceToken']],
         ['word' => 'logicalDeletionUser', 'provider' => [User::class, 'logicalDeletionUser']],
         ['word' => 'physicalDeletionUser', 'provider' => [User::class, 'physicalDeletionUser']],
         ['word' => 'setUserExtcredits', 'provider' => [User::class, 'setUserExtcredits']],

@@ -12,6 +12,7 @@ use App\Fresns\Words\Account\DTO\CreateAccountDTO;
 use App\Fresns\Words\Account\DTO\CreateAccountTokenDTO;
 use App\Fresns\Words\Account\DTO\DeletionAccountDTO;
 use App\Fresns\Words\Account\DTO\DisconnectAccountConnectDTO;
+use App\Fresns\Words\Account\DTO\GetAccountDeviceTokenDTO;
 use App\Fresns\Words\Account\DTO\SetAccountConnectDTO;
 use App\Fresns\Words\Account\DTO\VerifyAccountDTO;
 use App\Fresns\Words\Account\DTO\VerifyAccountTokenDTO;
@@ -496,6 +497,33 @@ class Account
         }
 
         return $this->success();
+    }
+
+    public function getAccountDeviceToken($wordBody)
+    {
+        $dtoWordBody = new GetAccountDeviceTokenDTO($wordBody);
+
+        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
+
+        $tokenQuery = SessionToken::where('account_id', $accountId)->whereNotNull('device_token');
+
+        $tokenQuery->when($dtoWordBody->platformId, function ($query, $value) {
+            $query->where('platform_id', $value);
+        });
+
+        $tokens = $tokenQuery->latest()->get();
+
+        $tokenArr = [];
+        foreach ($tokens as $token) {
+            $item['platformId'] = $token->platform_id;
+            $item['uid'] = $token->user_id ? PrimaryHelper::fresnsModelById('user', $token->user_id)?->uid : null;
+            $item['deviceToken'] = $token->device_token;
+            $item['datetime'] = $token->created_at;
+
+            $tokenArr[] = $item;
+        }
+
+        return $this->success($tokenArr);
     }
 
     public function logicalDeletionAccount($wordBody)

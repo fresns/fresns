@@ -8,6 +8,7 @@
 
 namespace App\Fresns\Words\User;
 
+use App\Fresns\Words\Account\DTO\GetUserDeviceTokenDTO;
 use App\Fresns\Words\User\DTO\ClearUserAllBadgesDTO;
 use App\Fresns\Words\User\DTO\ClearUserBadgeDTO;
 use App\Fresns\Words\User\DTO\CreateUserDTO;
@@ -303,6 +304,33 @@ class User
         }
 
         return $this->success();
+    }
+
+    // getUserDeviceToken
+    public function getUserDeviceToken($wordBody)
+    {
+        $dtoWordBody = new GetUserDeviceTokenDTO($wordBody);
+
+        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+
+        $tokenQuery = SessionToken::where('user_id', $userId)->whereNotNull('device_token');
+
+        $tokenQuery->when($dtoWordBody->platformId, function ($query, $value) {
+            $query->where('platform_id', $value);
+        });
+
+        $tokens = $tokenQuery->latest()->get();
+
+        $tokenArr = [];
+        foreach ($tokens as $token) {
+            $item['platformId'] = $token->platform_id;
+            $item['deviceToken'] = $token->device_token;
+            $item['datetime'] = $token->created_at;
+
+            $tokenArr[] = $item;
+        }
+
+        return $this->success($tokenArr);
     }
 
     // logicalDeletionUser
