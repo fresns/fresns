@@ -1,0 +1,19 @@
+php:
+  preset: laravel
+  version: 8.1
+  finder:
+    not-name:
+      - index.php
+    not-path:
+      - "bootstrap"
+      - "config"
+      - "storage"
+      - "resources"
+      - "tests"
+js:
+  finder:
+    not-name:
+      - vite.config.js
+      - ansi_up.js
+      - base64.js
+css: true
