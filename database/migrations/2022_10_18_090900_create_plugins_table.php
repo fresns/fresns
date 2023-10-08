@@ -20,7 +20,7 @@ class CreatePluginsTable extends Migration
         Schema::create('plugins', function (Blueprint $table) {
             $table->integer('id', true);
             $table->string('fskey', 64)->unique('plugin_fskey');
-            $table->unsignedTinyInteger('type')->default(1);
+            $table->unsignedSmallInteger('type')->default(0);
             $table->string('name', 64);
             $table->string('description');
             $table->string('version', 16);
