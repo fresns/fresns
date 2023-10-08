@@ -107,6 +107,8 @@ class ConfigUtility
                 ];
                 ConfigUtility::changeFresnsLanguageItems($fresnsLangItems);
             }
+
+            CacheHelper::forgetFresnsConfigs($itemKey);
         }
     }
 

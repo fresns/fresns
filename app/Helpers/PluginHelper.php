@@ -150,8 +150,12 @@ class PluginHelper
     }
 
     // get plugin version
-    public static function fresnsPluginVersionByFskey(string $fskey): ?string
+    public static function fresnsPluginVersionByFskey(?string $fskey = null): ?string
     {
+        if (empty($fskey)) {
+            return null;
+        }
+
         $cacheKey = "fresns_plugin_version_{$fskey}";
         $cacheTags = ['fresnsExtensions', 'fresnsConfigs'];
 

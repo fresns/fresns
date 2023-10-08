@@ -1,5 +1,4 @@
 /node_modules
-/website
 /public/build
 /public/hot
 /public/storage
@@ -33,5 +32,7 @@ composer.lock
 /config/plugins.php
 /config/markets.php
 /plugins/*
+/website
+/Web-Engine
 composer-dev.json
 fresns-dev.json
