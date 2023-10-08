@@ -8,9 +8,9 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
-use App\Models\Config;
 use App\Helpers\AppHelper;
 use App\Helpers\ConfigHelper;
+use App\Models\Config;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
