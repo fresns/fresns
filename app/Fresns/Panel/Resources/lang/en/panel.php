@@ -172,6 +172,7 @@ return [
     'button_image_upload' => 'Upload',
     'button_image_input' => 'Input',
     'button_check_upgrade' => 'Check Upgrade',
+    'button_check_status' => 'Check Status',
     'button_batch_import' => 'Import',
     'button_batch_export' => 'Export',
     'button_config_email_template' => 'Config Email Template',
@@ -192,7 +193,6 @@ return [
     'button_group_move' => 'Move',
     'button_add_key' => 'Add Key',
     'button_reset_secret' => 'Reset Secret',
-    'button_use_theme' => 'Use Theme',
     'button_clear_cache' => 'Clear Cache',
     'button_clear_all_cache' => 'Clear All Cache',
     // Page table
@@ -260,7 +260,6 @@ return [
     'option_type_tree' => 'Tree',
     'option_type_list' => 'List',
     'option_uninstall_plugin_data' => 'Simultaneous deletion of the plugin data',
-    'option_uninstall_theme_data' => 'Simultaneous deletion of the theme data',
     // Commons
     'portal' => 'Portal',
     'user' => 'User',

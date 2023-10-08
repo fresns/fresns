@@ -172,6 +172,7 @@ return [
     'button_image_upload' => 'Carregar',
     'button_image_input' => 'Entrada',
     'button_check_upgrade' => 'Verifique a atualização',
+    'button_check_status' => 'Verificar o estado',
     'button_batch_import' => 'Importar',
     'button_batch_export' => 'Exportar',
     'button_config_email_template' => 'Modelo de e-mail de configuração',
@@ -192,7 +193,6 @@ return [
     'button_group_move' => 'Mover',
     'button_add_key' => 'Adicionar chave',
     'button_reset_secret' => 'Redefinir o segredo',
-    'button_use_theme' => 'Tema vinculado',
     'button_clear_cache' => 'cache claro',
     'button_clear_all_cache' => 'Limpar todas as Caches',
     // Page table
@@ -260,7 +260,6 @@ return [
     'option_type_tree' => 'Árvore',
     'option_type_list' => 'Lista',
     'option_uninstall_plugin_data' => 'Excleção simultânea dos dados do plugin',
-    'option_uninstall_theme_data' => 'Exclusão simultânea dos dados do tema',
     // Commons
     'portal' => 'Portal',
     'user' => 'Do utilizador',

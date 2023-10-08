@@ -172,6 +172,7 @@ return [
     'button_image_upload' => 'Загрузить',
     'button_image_input' => 'Вход',
     'button_check_upgrade' => 'Проверьте обновление',
+    'button_check_status' => 'Проверка состояния',
     'button_batch_import' => 'импорт',
     'button_batch_export' => 'Экспорт',
     'button_config_email_template' => 'Шаблон электронной почты конфигурации',
@@ -192,7 +193,6 @@ return [
     'button_group_move' => 'Переехать',
     'button_add_key' => 'Добавить ключ',
     'button_reset_secret' => 'Сброс секрета',
-    'button_use_theme' => 'Связанная тема',
     'button_clear_cache' => 'очистить кэш',
     'button_clear_all_cache' => 'Очистить весь кэш',
     // Page table
@@ -260,7 +260,6 @@ return [
     'option_type_tree' => 'Дерево',
     'option_type_list' => 'Список',
     'option_uninstall_plugin_data' => 'Одновременное удаление данных плагина',
-    'option_uninstall_theme_data' => 'Одновременное удаление данных темы',
     // Commons
     'portal' => 'Портал',
     'user' => 'Пользователь',

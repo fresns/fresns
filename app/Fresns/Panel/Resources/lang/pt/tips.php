@@ -83,11 +83,6 @@ return [
     'website_path_format_error' => 'não conseguiu salvar, os parâmetros do caminho só são suportados em letras simples em inglês',
     'website_path_reserved_error' => 'Salvar falha, o parâmetro do caminho contém o nome do parâmetro reservado do sistema',
     'website_path_unique_error' => 'não salvou, parâmetros de caminho duplicados, não é permitido que os nomes dos parâmetros de caminho se repitam um ao outro',
-    // theme
-    'theme_error' => 'O tema é incorrecto ou não existe',
-    'theme_functions_file_error' => 'O ficheiro de visualização da configuração do tema está incorrecto ou não existe',
-    'theme_json_file_error' => 'O ficheiro de configuração do tema está incorrecto ou não existe',
-    'theme_json_format_error' => 'O ficheiro de configuração do tema está no formato errado',
     // others
     'account_not_found' => 'Conta não existe ou inserir erros',
     'account_login_limit' => 'O erro excedeu o limite do sistema. Por favor, faça novamente o log in 1 hora mais tarde',

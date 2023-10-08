@@ -83,11 +83,6 @@ return [
     'website_path_format_error' => 'no se ha podido guardar, los parámetros de la ruta sólo se admiten en letras inglesas simples',
     'website_path_reserved_error' => 'Guardar falló, el parámetro de la ruta contiene el nombre del parámetro reservado del sistema',
     'website_path_unique_error' => 'fallo al guardar, parámetros de ruta duplicados, los nombres de los parámetros de ruta no pueden repetirse',
-    // theme
-    'theme_error' => 'El tema es incorrecto o no existe',
-    'theme_functions_file_error' => 'El archivo de la vista de configuración del tema es incorrecto o no existe',
-    'theme_json_file_error' => 'El archivo de configuración del tema es incorrecto o no existe',
-    'theme_json_format_error' => 'El archivo de configuración del tema tiene un formato incorrecto',
     // others
     'account_not_found' => 'La cuenta no existe o ingresa errores',
     'account_login_limit' => 'El error ha superado el límite del sistema. Por favor, vuelva a conectarse 1 hora más tarde',

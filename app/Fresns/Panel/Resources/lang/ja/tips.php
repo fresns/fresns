@@ -83,11 +83,6 @@ return [
     'website_path_format_error' => '保存に失敗しました。パスパラメータは、プレーンな英字でのみサポートされています。',
     'website_path_reserved_error' => '保存に失敗しました。path パラメータにシステム予約パラメータ名が含まれています。',
     'website_path_unique_error' => '保存に失敗しました、パスパラメータが重複しています、パスパラメータ名は互いに繰り返すことはできません。',
-    // theme
-    'theme_error' => 'テーマが正しくないか、存在しない',
-    'theme_functions_file_error' => 'テーマ設定ビューファイルが正しくない、または存在しない',
-    'theme_json_file_error' => 'テーマ設定ファイルが正しくない、または存在しない',
-    'theme_json_format_error' => 'テーマ設定ファイルのフォーマットが間違っている',
     // others
     'account_not_found' => 'アカウントが存在しないか、エラーを入力します',
     'account_login_limit' => 'エラーはシステムの制限を超えました。1時間後に再ログインしてください。',

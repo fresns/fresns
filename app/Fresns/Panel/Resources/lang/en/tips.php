@@ -83,11 +83,6 @@ return [
     'website_path_format_error' => 'Failed to save, path parameters only support plain English letters',
     'website_path_reserved_error' => 'Save failed, path parameter contains system reserved parameter name',
     'website_path_unique_error' => 'Failed to save, duplicate path parameters, path parameter names are not allowed to duplicate each other',
-    // theme
-    'theme_error' => 'The theme is incorrect or does not exist',
-    'theme_functions_file_error' => 'The theme config view file is incorrect or does not exist',
-    'theme_json_file_error' => 'Theme config file is incorrect or does not exist',
-    'theme_json_format_error' => 'The theme config file is in the wrong format',
     // others
     'account_not_found' => 'Account number does not exist or was entered incorrectly',
     'account_login_limit' => 'The error has exceeded the system limit. Please log in again 1 hour later',

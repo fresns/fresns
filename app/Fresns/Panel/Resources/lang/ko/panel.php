@@ -172,6 +172,7 @@ return [
     'button_image_upload' => '업로드',
     'button_image_input' => '입력',
     'button_check_upgrade' => '업그레이드 확인',
+    'button_check_status' => '상태 확인',
     'button_batch_import' => '수입',
     'button_batch_export' => '내 보내다',
     'button_config_email_template' => '구성 이메일 템플릿',
@@ -192,7 +193,6 @@ return [
     'button_group_move' => '이동하다',
     'button_add_key' => '키를 추가하십시오',
     'button_reset_secret' => '재설정 비밀',
-    'button_use_theme' => '연결된 테마',
     'button_clear_cache' => '캐시 지우기',
     'button_clear_all_cache' => '모든 캐시 지우기',
     // Page table
@@ -260,7 +260,6 @@ return [
     'option_type_tree' => '나무',
     'option_type_list' => '목록',
     'option_uninstall_plugin_data' => '플러그인 데이터의 동시 삭제',
-    'option_uninstall_theme_data' => '테마 데이터를 동시에 삭제합니다',
     // Commons
     'portal' => '문',
     'user' => '사용자',

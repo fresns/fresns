@@ -172,6 +172,7 @@ return [
     'button_image_upload' => 'アップロード',
     'button_image_input' => '入力',
     'button_check_upgrade' => 'アップグレードを確認してください',
+    'button_check_status' => 'ステータス確認',
     'button_batch_import' => '輸入',
     'button_batch_export' => '輸出',
     'button_config_email_template' => '電子メールテンプレートを設定します',
@@ -192,7 +193,6 @@ return [
     'button_group_move' => '動く',
     'button_add_key' => 'キーを追加してください',
     'button_reset_secret' => 'シークレットをリセットします',
-    'button_use_theme' => 'リンクされたテーマ',
     'button_clear_cache' => 'クリアキャッシュ',
     'button_clear_all_cache' => 'すべてのキャッシュを消去',
     // Page table
@@ -260,7 +260,6 @@ return [
     'option_type_tree' => '木',
     'option_type_list' => 'リスト',
     'option_uninstall_plugin_data' => 'プラグインデータの同時削除',
-    'option_uninstall_theme_data' => 'テーマデータの同時削除',
     // Commons
     'portal' => 'ポータル',
     'user' => 'ユーザー',

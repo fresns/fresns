@@ -172,6 +172,7 @@ return [
     'button_image_upload' => '上传图片',
     'button_image_input' => '输入地址',
     'button_check_upgrade' => '检查更新',
+    'button_check_status' => '检查状态',
     'button_batch_import' => '批量导入',
     'button_batch_export' => '批量导出',
     'button_config_email_template' => '配置邮件模板',
@@ -192,7 +193,6 @@ return [
     'button_group_move' => '合并',
     'button_add_key' => '新增密钥',
     'button_reset_secret' => '重置 Secret',
-    'button_use_theme' => '关联主题',
     'button_clear_cache' => '清理缓存',
     'button_clear_all_cache' => '清空全部缓存',
     // Page table
@@ -260,7 +260,6 @@ return [
     'option_type_tree' => '树结构',
     'option_type_list' => '列表',
     'option_uninstall_plugin_data' => '同步删除该插件的数据',
-    'option_uninstall_theme_data' => '同步删除该主题的数据',
     // Commons
     'portal' => '门户',
     'user' => '用户',

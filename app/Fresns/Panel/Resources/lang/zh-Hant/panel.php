@@ -92,7 +92,7 @@ return [
     'sidebar_language_packs' => '語言包配置',
     'sidebar_code_messages' => '狀態碼配置',
     'sidebar_client_basic' => '用戶端基礎',
-    'sidebar_client_status' => '用戶端状态',
+    'sidebar_client_status' => '用戶端狀態',
     'sidebar_plugins' => '擴充外掛',
     'sidebar_plugins_tab_all' => '全部',
     'sidebar_plugins_tab_active' => '已啟用',
@@ -173,6 +173,7 @@ return [
     'button_image_upload' => '上傳圖片',
     'button_image_input' => '輸入地址',
     'button_check_upgrade' => '檢查更新',
+    'button_check_status' => '檢查狀態',
     'button_batch_import' => '批量匯入',
     'button_batch_export' => '批量匯出',
     'button_config_email_template' => '配置郵件模板',
@@ -193,7 +194,6 @@ return [
     'button_group_move' => '合併',
     'button_add_key' => '新增密鑰',
     'button_reset_secret' => '重設 Secret',
-    'button_use_theme' => '關聯主題',
     'button_clear_cache' => '清除緩存',
     'button_clear_all_cache' => '清除所有緩存',
     // Page table
@@ -261,7 +261,6 @@ return [
     'option_type_tree' => '樹結構',
     'option_type_list' => '列表',
     'option_uninstall_plugin_data' => '同步刪除該外掛的數據',
-    'option_uninstall_theme_data' => '同步刪除該主題的數據',
     // Commons
     'portal' => '門戶',
     'user' => '用戶',

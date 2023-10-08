@@ -172,6 +172,7 @@ return [
     'button_image_upload' => 'Mengunggah',
     'button_image_input' => 'Memasukkan',
     'button_check_upgrade' => 'Periksa Upgrade',
+    'button_check_status' => 'Periksa Status',
     'button_batch_import' => 'Impor',
     'button_batch_export' => 'Ekspor',
     'button_config_email_template' => 'Config Email Template',
@@ -192,7 +193,6 @@ return [
     'button_group_move' => 'Bergerak',
     'button_add_key' => 'Tambahkan kunci',
     'button_reset_secret' => 'Reset Rahasia',
-    'button_use_theme' => 'Tema tertaut',
     'button_clear_cache' => 'bersihkan cache',
     'button_clear_all_cache' => 'Hapus Semua Cache',
     // Page table
@@ -260,7 +260,6 @@ return [
     'option_type_tree' => 'Pohon',
     'option_type_list' => 'Daftar',
     'option_uninstall_plugin_data' => 'Penghapusan secara simultan dari data plugin',
-    'option_uninstall_theme_data' => 'Penghapusan data tema secara simultan',
     // Commons
     'portal' => 'Pintu gerbang',
     'user' => 'Pengguna',

@@ -172,6 +172,7 @@ return [
     'button_image_upload' => 'डालना',
     'button_image_input' => 'इनपुट',
     'button_check_upgrade' => 'अपग्रेड की जाँच करें',
+    'button_check_status' => 'स्थिति जाँचिए',
     'button_batch_import' => 'आयात',
     'button_batch_export' => 'निर्यात',
     'button_config_email_template' => 'कॉन्फ़िगर ईमेल टेम्पलेट',
@@ -192,7 +193,6 @@ return [
     'button_group_move' => 'कदम',
     'button_add_key' => 'कुंजी जोड़ें',
     'button_reset_secret' => 'गुप्त रीसेट',
-    'button_use_theme' => 'लिंक थीम',
     'button_clear_cache' => 'कैश को साफ़ करें',
     'button_clear_all_cache' => 'सभी कैश साफ़ करें',
     // Page table
@@ -260,7 +260,6 @@ return [
     'option_type_tree' => 'पेड़',
     'option_type_list' => 'सूची',
     'option_uninstall_plugin_data' => 'प्लगइन डेटा के साथ-साथ विलोपन',
-    'option_uninstall_theme_data' => 'थीम डेटा का एक साथ विलोपन',
     // Commons
     'portal' => 'द्वार',
     'user' => 'उपयोगकर्ता',
