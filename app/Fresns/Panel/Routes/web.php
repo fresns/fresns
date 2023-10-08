@@ -21,7 +21,6 @@ use App\Fresns\Panel\Http\Controllers\ExtendGroupController;
 use App\Fresns\Panel\Http\Controllers\ExtendManageController;
 use App\Fresns\Panel\Http\Controllers\ExtendUserFeatureController;
 use App\Fresns\Panel\Http\Controllers\ExtendUserProfileController;
-use App\Fresns\Panel\Http\Controllers\ExtensionController;
 use App\Fresns\Panel\Http\Controllers\GeneralController;
 use App\Fresns\Panel\Http\Controllers\GroupController;
 use App\Fresns\Panel\Http\Controllers\IframeController;
@@ -31,6 +30,7 @@ use App\Fresns\Panel\Http\Controllers\LanguageMenuController;
 use App\Fresns\Panel\Http\Controllers\LanguagePackController;
 use App\Fresns\Panel\Http\Controllers\LoginController;
 use App\Fresns\Panel\Http\Controllers\MenuController;
+use App\Fresns\Panel\Http\Controllers\PluginController;
 use App\Fresns\Panel\Http\Controllers\PluginUsageController;
 use App\Fresns\Panel\Http\Controllers\PolicyController;
 use App\Fresns\Panel\Http\Controllers\PublishController;
@@ -285,9 +285,9 @@ Route::middleware(['panelAuth'])->group(function () {
     // app center
     Route::prefix('app-center')->group(function () {
         // plugins
-        Route::get('plugins', [ExtensionController::class, 'pluginIndex'])->name('plugins.index');
+        Route::get('plugins', [PluginController::class, 'index'])->name('plugins.index');
         // apps
-        Route::get('apps', [ExtensionController::class, 'appIndex'])->name('apps.index');
+        Route::get('apps', [PluginController::class, 'appIndex'])->name('apps.index');
         // session key
         Route::resource('keys', SessionKeyController::class)->only([
             'index', 'store', 'update', 'destroy',
@@ -302,20 +302,22 @@ Route::middleware(['panelAuth'])->group(function () {
     // plugin manage
     Route::prefix('plugin')->name('plugin.')->group(function () {
         // dashboard upgrade page
-        Route::patch('update-code', [ExtensionController::class, 'updateCode'])->name('update.code');
+        Route::patch('update-code', [PluginController::class, 'updateCode'])->name('update.code');
         // plugin install and upgrade
-        Route::put('install', [ExtensionController::class, 'install'])->name('install');
-        Route::put('upgrade', [ExtensionController::class, 'upgrade'])->name('upgrade');
+        Route::put('install', [PluginController::class, 'install'])->name('install');
+        Route::put('upgrade', [PluginController::class, 'upgrade'])->name('upgrade');
         // activate or deactivate
-        Route::patch('update', [ExtensionController::class, 'update'])->name('update');
+        Route::patch('update', [PluginController::class, 'update'])->name('update');
         // uninstall
-        Route::delete('uninstall', [ExtensionController::class, 'uninstall'])->name('uninstall');
+        Route::delete('uninstall', [PluginController::class, 'uninstall'])->name('uninstall');
+        // check status
+        Route::post('check-status', [PluginController::class, 'checkStatus'])->name('check.status');
     });
 
-    // extension apps
+    // apps
     Route::prefix('app')->name('app.')->group(function () {
-        Route::post('download', [ExtensionController::class, 'appDownload'])->name('download');
-        Route::delete('delete', [ExtensionController::class, 'appDelete'])->name('delete');
+        Route::post('download', [PluginController::class, 'appDownload'])->name('download');
+        Route::delete('delete', [PluginController::class, 'appDelete'])->name('delete');
     });
 });
 

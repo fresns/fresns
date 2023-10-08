@@ -7,7 +7,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav d-flex flex-column">
-                    <li class="nav-item"><a class="nav-link {{ \Route::is('panel.plugins.*') ? 'active' : '' }}" href="{{ route('panel.plugins.index') }}"><i class="bi bi-journal-code"></i> {{ __('FsLang::panel.sidebar_plugins') }}</a></li>
+                    <li class="nav-item"><a class="nav-link {{ \Route::is(['panel.plugins.*', 'panel.iframe.setting']) ? 'active' : '' }}" href="{{ route('panel.plugins.index') }}"><i class="bi bi-journal-code"></i> {{ __('FsLang::panel.sidebar_plugins') }}</a></li>
                     <li class="nav-item"><a class="nav-link {{ \Route::is('panel.apps.*') ? 'active' : '' }}" href="{{ route('panel.apps.index') }}"><i class="bi bi-app-indicator"></i> {{ __('FsLang::panel.sidebar_apps') }}</a></li>
                     <li><hr style="margin: 0.5rem 0"></li>
                     <li class="nav-item"><a class="nav-link {{ \Route::is('panel.keys.*') ? 'active' : '' }} " href="{{ route('panel.keys.index') }}"><i class="bi bi-key"></i> {{ __('FsLang::panel.sidebar_keys') }}</a></li>

@@ -13,6 +13,11 @@
         </div>
         <div class="col-lg-5">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
+                <form method="post" action="{{ route('panel.plugin.check.status') }}">
+                    @csrf
+                    @method('post')
+                    <button class="btn btn-primary rounded-0 rounded-start" type="submit"><i class="bi bi-arrow-clockwise"></i> {{ __('FsLang::panel.button_check_status') }}</button>
+                </form>
                 <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a>
             </div>
         </div>

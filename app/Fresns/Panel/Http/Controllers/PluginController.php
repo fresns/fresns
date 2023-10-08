@@ -13,12 +13,10 @@ use App\Utilities\AppUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 
-class ExtensionController extends Controller
+class PluginController extends Controller
 {
-    public function pluginIndex(Request $request)
+    public function index(Request $request)
     {
-        AppUtility::checkPluginsStatus();
-
         $type = $request->type;
 
         $pluginQuery = Plugin::where('is_standalone', false);
@@ -178,6 +176,13 @@ class ExtensionController extends Controller
         }
 
         return response(Artisan::output()."\n".$message);
+    }
+
+    public function checkStatus()
+    {
+        AppUtility::checkPluginsStatus();
+
+        return $this->requestSuccess();
     }
 
     public function updateCode(Request $request)

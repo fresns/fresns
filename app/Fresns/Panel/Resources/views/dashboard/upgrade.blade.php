@@ -138,9 +138,9 @@
                                             {{ __('FsLang::panel.button_download') }}
                                         </button>
 
-                                        <button type="button" class="btn btn-outline-danger btn-sm ms-2 delete-apps"
+                                        <button type="button" class="btn btn-outline-danger btn-sm ms-2 delete-app"
                                             data-bs-toggle="modal"
-                                            data-bs-target="#deleteApps"
+                                            data-bs-target="#deleteApp"
                                             data-fskey="{{ $app->fskey }}"
                                             data-name="{{ $app->name }}">
                                             {{ __('FsLang::panel.button_delete') }}
@@ -416,7 +416,7 @@
     </div>
 
     <!-- Upgrade Extensions Modal: delete apps -->
-    <div class="modal fade" id="deleteApps" tabindex="-1" aria-labelledby="deleteApps" aria-hidden="true">
+    <div class="modal fade" id="deleteApp" tabindex="-1" aria-labelledby="deleteApp" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

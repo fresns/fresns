@@ -2309,8 +2309,8 @@ $(document).ready(function () {
         $('input[name=app_fskey]').val(fskey)
     });
 
-    // delete apps
-    $('.delete-apps').on('click', function () {
+    // delete app
+    $('.delete-app').on('click', function () {
         let fskey = $(this).data('fskey');
         let name = $(this).data('name');
 
