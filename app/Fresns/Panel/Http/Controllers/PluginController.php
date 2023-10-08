@@ -162,9 +162,15 @@ class PluginController extends Controller
     public function uninstall(Request $request)
     {
         if ($request->get('clearData') == 1) {
-            $exitCode = Artisan::call('market:remove-plugin', ['fskey' => $request->plugin, '--cleardata' => true]);
+            $exitCode = Artisan::call('market:remove-plugin', [
+                'fskey' => $request->plugin,
+                '--cleardata' => true,
+            ]);
         } else {
-            $exitCode = Artisan::call('market:remove-plugin', ['fskey' => $request->plugin, '--cleardata' => false]);
+            $exitCode = Artisan::call('market:remove-plugin', [
+                'fskey' => $request->plugin,
+                '--cleardata' => false,
+            ]);
         }
 
         // $exitCode = 0 success
