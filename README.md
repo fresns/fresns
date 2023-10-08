@@ -21,7 +21,7 @@ Fresns is a free and open source social network service software, a general-purp
 | Social Network | Forum |
 | :---: | :---: |
 | ![Moments](https://files.fresns.org/wiki/previews/Moments.png) | ![ForumX](https://files.fresns.org/wiki/previews/ForumX.png) |
-| ![ForumQ](https://files.fresns.org/wiki/previews/ForumQ.png) | ![ThemeFrame](https://files.fresns.org/wiki/previews/ThemeFrame.png) |
+| ![ForumQ](https://files.fresns.org/wiki/previews/ForumQ.png) | ![WebFrame](https://files.fresns.org/wiki/previews/WebFrame.png) |
 
 - Get more: [https://marketplace.fresns.com/open-source/clients](https://marketplace.fresns.com/open-source/clients)
 
