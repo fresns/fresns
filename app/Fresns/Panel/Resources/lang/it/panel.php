@@ -1081,6 +1081,7 @@ return [
     'key_option_plugin_api_select' => 'Seleziona quale plugin per l\'uso',
     'key_option_plugin_api_select_desc' => 'Questa chiave può richiedere solo l\'API del plugin associato',
     // App-Center-Install
+    'install_plugin' => 'Installare il plugin',
     'install_application' => 'Installare l\'app',
     'install_mode' => 'Modalità di installazione',
     'install_mode_fskey' => 'Immettere la chiave Fresns',

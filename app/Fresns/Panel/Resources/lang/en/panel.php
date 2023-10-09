@@ -1081,6 +1081,7 @@ return [
     'key_option_plugin_api_select' => 'Select the key for which plugin',
     'key_option_plugin_api_select_desc' => 'This key can only request the API of the associated plugin',
     // App-Center-Install
+    'install_plugin' => 'Install Plugin',
     'install_application' => 'Install App',
     'install_mode' => 'Install Mode',
     'install_mode_fskey' => 'Input Fresns Key',

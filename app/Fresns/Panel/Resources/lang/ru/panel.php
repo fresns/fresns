@@ -1081,6 +1081,7 @@ return [
     'key_option_plugin_api_select' => 'Выберите, какой плагин для использования',
     'key_option_plugin_api_select_desc' => 'Этот ключ может запросить только API соответствующего плагина',
     // App-Center-Install
+    'install_plugin' => 'Установить плагин',
     'install_application' => 'Установить приложение',
     'install_mode' => 'Режим установки',
     'install_mode_fskey' => 'Ввод ключа Fresns',

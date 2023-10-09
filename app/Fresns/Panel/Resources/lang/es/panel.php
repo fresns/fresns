@@ -1081,6 +1081,7 @@ return [
     'key_option_plugin_api_select' => 'Seleccione el complemento para usar',
     'key_option_plugin_api_select_desc' => 'Esta clave solo puede solicitar la API del complemento asociado',
     // App-Center-Install
+    'install_plugin' => 'Instalar Plugin',
     'install_application' => 'Instalar aplicación',
     'install_mode' => 'Modo de instalación',
     'install_mode_fskey' => 'Introducir la clave de Fresns',

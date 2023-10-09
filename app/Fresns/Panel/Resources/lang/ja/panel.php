@@ -1081,6 +1081,7 @@ return [
     'key_option_plugin_api_select' => '使用するプラグインを選択してください',
     'key_option_plugin_api_select_desc' => 'このキーは、関連するプラグインのAPIのみを要求できます。',
     // App-Center-Install
+    'install_plugin' => 'プラグインのインストール',
     'install_application' => 'インストールアプリ',
     'install_mode' => 'インストールモード',
     'install_mode_fskey' => 'Fresnsキーの入力',

@@ -1081,6 +1081,7 @@ return [
     'key_option_plugin_api_select' => '사용할 플러그인을 선택하십시오',
     'key_option_plugin_api_select_desc' => '이 키는 연관된 플러그인의 API 만 요청할 수 있습니다',
     // App-Center-Install
+    'install_plugin' => '플러그인 설치',
     'install_application' => '앱 설치',
     'install_mode' => '설치 모드',
     'install_mode_fskey' => '입력 Fresns 키',

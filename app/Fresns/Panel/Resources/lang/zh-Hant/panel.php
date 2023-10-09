@@ -1082,6 +1082,7 @@ return [
     'key_option_plugin_api_select' => '選擇密鑰用於哪個外掛',
     'key_option_plugin_api_select_desc' => '該密鑰僅能請求關聯外掛的 API',
     // App-Center-Install
+    'install_plugin' => '安裝外掛',
     'install_application' => '安裝應用',
     'install_mode' => '安裝方式',
     'install_mode_fskey' => '輸入 key',

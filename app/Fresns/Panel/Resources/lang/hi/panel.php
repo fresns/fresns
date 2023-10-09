@@ -1081,6 +1081,7 @@ return [
     'key_option_plugin_api_select' => 'उपयोग के लिए कौन सा प्लगइन चुनें',
     'key_option_plugin_api_select_desc' => 'यह कुंजी केवल संबंधित प्लगइन के एपीआई का अनुरोध कर सकती है',
     // App-Center-Install
+    'install_plugin' => 'प्लग मैं स्थापित',
     'install_application' => 'एप्लिकेशन इंस्टॉल करें',
     'install_mode' => 'मोड स्थापित करें',
     'install_mode_fskey' => 'इनपुट Fresns कुंजी',

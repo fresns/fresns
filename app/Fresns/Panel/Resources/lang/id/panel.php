@@ -1081,6 +1081,7 @@ return [
     'key_option_plugin_api_select' => 'Pilih plugin mana yang digunakan',
     'key_option_plugin_api_select_desc' => 'Kunci ini hanya dapat meminta API dari plugin terkait',
     // App-Center-Install
+    'install_plugin' => 'Instal Plugin',
     'install_application' => 'Instal aplikasi',
     'install_mode' => 'Instal Mode',
     'install_mode_fskey' => 'Masukkan Kunci Fresns',

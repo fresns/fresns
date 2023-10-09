@@ -1081,6 +1081,7 @@ return [
     'key_option_plugin_api_select' => 'Wählen Sie aus, welches Plugin zur Verwendung verwendet wird',
     'key_option_plugin_api_select_desc' => 'Dieser Schlüssel kann nur die API des zugehörigen Plugins anfordern',
     // App-Center-Install
+    'install_plugin' => 'Plugin installieren',
     'install_application' => 'App installieren',
     'install_mode' => 'Installieren Modus',
     'install_mode_fskey' => 'Fresns-Schlüssel eingeben',

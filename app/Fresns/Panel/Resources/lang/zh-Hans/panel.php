@@ -1082,6 +1082,7 @@ return [
     'key_option_plugin_api_select' => '选择密钥用于哪个插件',
     'key_option_plugin_api_select_desc' => '该密钥仅能请求关联插件的 API',
     // App-Center-Install
+    'install_plugin' => '安装插件',
     'install_application' => '安装应用',
     'install_mode' => '安装方式',
     'install_mode_fskey' => '输入标识名',
