@@ -128,7 +128,7 @@ class Send
         return $fresnsResp->getOrigin();
     }
 
-    protected function ensureFskeyIsNotEmpty(string $string)
+    protected function ensureFskeyIsNotEmpty(?string $string = null)
     {
         if (empty($string)) {
             ExceptionConstant::getHandleClassByCode(ExceptionConstant::PLUGIN_CONFIG_ERROR)::throw();
