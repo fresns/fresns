@@ -391,8 +391,8 @@ return [
     'site_url_desc' => 'URL di accesso al sito principale',
     'site_name' => 'Nome del sito',
     'site_name_desc' => 'Il nome del tuo sito di Fresns',
-    'site_desc' => 'Introduzione del sito',
-    'site_desc_desc' => 'Introduzione al tuo sito Fresns',
+    'site_intro' => 'Introduzione del sito',
+    'site_intro_desc' => 'Introduzione al tuo sito Fresns',
     'site_logo' => 'Segno del sito',
     'site_logo_desc' => 'Le informazioni in "Impostazioni di archiviazione" devono essere configurate per caricare l\'immagine',
     'site_copyright' => 'Informazioni sul copyright',
@@ -431,7 +431,6 @@ return [
     'policy_delete_option_3' => 'Cancellazione fisica',
     'policy_delete_option_3_desc' => 'Logout fisico: dati di cancellazione fisica, dati utente e contenuti pubblicati saranno veramente cancellati',
     'policy_delete_crontab' => 'Ciclo di disconnessione',
-    'policy_editor_desc' => 'Il contenuto supporta la sintassi di markdown, ma la casella di ingresso non supporta l\'anteprima, si prega di salvare sull\'effetto di visualizzazione front-end',
     // System-Send
     'send_email_config' => 'Configurazione della cassetta postale',
     'send_sms_config' => 'Configurazione SMS',

@@ -84,6 +84,7 @@ return [
     'website_path_reserved_error' => 'Salvataggio fallito, il parametro percorso contiene un nome di parametro riservato al sistema',
     'website_path_unique_error' => 'Salvataggio fallito, parametri di percorso duplicati, i nomi dei parametri di percorso non possono ripetersi.',
     // others
+    'markdown_editor' => 'Il contenuto supporta la sintassi Markdown, ma la casella di input non supporta l\'anteprima; si prega di salvarla sul client per vedere l\'effetto.',
     'account_not_found' => 'L\'account non esiste o inserisci errori',
     'account_login_limit' => 'L\'errore ha superato il limite del sistema. Per favore, accedi di nuovo 1 ora dopo',
     'timezone_error' => 'Il fuso orario del database non corrisponde al fuso orario nel file di configurazione di .env',

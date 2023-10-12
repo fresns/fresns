@@ -391,8 +391,8 @@ return [
     'site_url_desc' => '메인 사이트 접속 URL',
     'site_name' => '사이트 이름',
     'site_name_desc' => 'Fresns 사이트의 이름',
-    'site_desc' => '사이트 소개',
-    'site_desc_desc' => 'Fresns 사이트 소개',
+    'site_intro' => '사이트 소개',
+    'site_intro_desc' => 'Fresns 사이트 소개',
     'site_logo' => '사이트 서명',
     'site_logo_desc' => '"저장소 설정"의 정보는 이미지를 업로드하도록 구성되어야합니다',
     'site_copyright' => '저작권 정보',
@@ -431,7 +431,6 @@ return [
     'policy_delete_option_3' => '물리적 취소',
     'policy_delete_option_3_desc' => '실제 로그 아웃 : 실제 삭제 데이터, 사용자 데이터 및 게시 된 콘텐츠가 진정으로 삭제됩니다',
     'policy_delete_crontab' => '로그 아웃주기',
-    'policy_editor_desc' => '콘텐츠는 MarkDown 구문을 지원하지만 입력란은 미리보기를 지원하지 않으며 프런트 엔드보기 효과에 저장하십시오',
     // System-Send
     'send_email_config' => '사서함 구성',
     'send_sms_config' => 'SMS 구성',

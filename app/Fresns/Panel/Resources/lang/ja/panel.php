@@ -391,8 +391,8 @@ return [
     'site_url_desc' => 'メインサイトのアクセスURL',
     'site_name' => 'サイト名',
     'site_name_desc' => 'Fresnsのサイト名です。',
-    'site_desc' => 'サイトの紹介',
-    'site_desc_desc' => 'Fresnsサイトの紹介です。',
+    'site_intro' => 'サイトの紹介',
+    'site_intro_desc' => 'Fresnsサイトの紹介です。',
     'site_logo' => 'サイトサイン',
     'site_logo_desc' => '「ストレージ設定」の情報は、画像をアップロードするように設定する必要があります。',
     'site_copyright' => '著作権情報',
@@ -431,7 +431,6 @@ return [
     'policy_delete_option_3' => '身体キャンセル',
     'policy_delete_option_3_desc' => '物理ログアウト：物理削除データ、ユーザーデータ、および公開コンテンツは本当に削除されます。',
     'policy_delete_crontab' => 'ログアウトサイクル',
-    'policy_editor_desc' => 'コンテンツはマークダウン構文をサポートしていますが、入力ボックスはプレビューをサポートしていません。フロントエンドの視聴効果に保存してください。',
     // System-Send
     'send_email_config' => 'メールボックスの設定',
     'send_sms_config' => 'SMS構成',

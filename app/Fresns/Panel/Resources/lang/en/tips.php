@@ -84,6 +84,7 @@ return [
     'website_path_reserved_error' => 'Save failed, path parameter contains system reserved parameter name',
     'website_path_unique_error' => 'Failed to save, duplicate path parameters, path parameter names are not allowed to duplicate each other',
     // others
+    'markdown_editor' => 'The content supports Markdown syntax, but the input box does not support preview, please save it to the client to see the effect.',
     'account_not_found' => 'Account number does not exist or was entered incorrectly',
     'account_login_limit' => 'The error has exceeded the system limit. Please log in again 1 hour later',
     'timezone_error' => 'The database timezone does not match the timezone in the .env config file',

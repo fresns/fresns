@@ -84,6 +84,7 @@ return [
     'website_path_reserved_error' => 'L\'enregistrement a échoué, le paramètre path contient un nom de paramètre réservé au système.',
     'website_path_unique_error' => 'Échec de l\'enregistrement, paramètres de chemin en double, les noms des paramètres de chemin ne sont pas autorisés à se répéter les uns les autres.',
     // others
+    'markdown_editor' => 'Le contenu prend en charge la syntaxe Markdown, mais la boîte de saisie ne prend pas en charge la prévisualisation, veuillez l\'enregistrer sur le client pour voir l\'effet.',
     'account_not_found' => 'Compte n\'existe pas ou n\'entre pas d\'erreur',
     'account_login_limit' => 'L\'erreur a dépassé la limite du système. Veuillez vous reconnecter 1 heure plus tard',
     'timezone_error' => 'Le fuseau horaire de la base de données ne correspond pas au fuseau horaire du fichier de configuration .env',

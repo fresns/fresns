@@ -84,6 +84,7 @@ return [
     'website_path_reserved_error' => 'Guardar falló, el parámetro de la ruta contiene el nombre del parámetro reservado del sistema',
     'website_path_unique_error' => 'fallo al guardar, parámetros de ruta duplicados, los nombres de los parámetros de ruta no pueden repetirse',
     // others
+    'markdown_editor' => 'El contenido soporta sintaxis Markdown, pero el cuadro de entrada no soporta vista previa, por favor guárdelo en el cliente para ver el efecto.',
     'account_not_found' => 'La cuenta no existe o ingresa errores',
     'account_login_limit' => 'El error ha superado el límite del sistema. Por favor, vuelva a conectarse 1 hora más tarde',
     'timezone_error' => 'La zona horaria de la base de datos no coincide con la zona horaria del archivo .env config.',

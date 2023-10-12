@@ -391,8 +391,8 @@ return [
     'site_url_desc' => 'Haupt-URL der Website',
     'site_name' => 'Site-Name',
     'site_name_desc' => 'Der Name Ihrer Fresns-Site',
-    'site_desc' => 'Site-Einführung',
-    'site_desc_desc' => 'Einführung in Ihre Fresns-Site',
+    'site_intro' => 'Site-Einführung',
+    'site_intro_desc' => 'Einführung in Ihre Fresns-Site',
     'site_logo' => 'Standortschild',
     'site_logo_desc' => 'Die Informationen in "Speichereinstellungen" müssen konfiguriert sein, um das Bild hochzuladen',
     'site_copyright' => 'Urheberrechtsinformation',
@@ -431,7 +431,6 @@ return [
     'policy_delete_option_3' => 'Körperliche Stornierung',
     'policy_delete_option_3_desc' => 'Physikalisches Logout: Physikalische Löschdaten, Benutzerdaten und veröffentlichte Inhalte werden wirklich gelöscht',
     'policy_delete_crontab' => 'Logout-Zyklus',
-    'policy_editor_desc' => 'Inhalt unterstützt die Markdown-Syntax, aber das Eingabetaster unterstützt die Vorschau nicht, bitte speichern Sie den Front-End-Ansichtseffekt',
     // System-Send
     'send_email_config' => 'Postfach-Konfiguration',
     'send_sms_config' => 'SMS-Konfiguration',

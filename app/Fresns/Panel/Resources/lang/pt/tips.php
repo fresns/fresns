@@ -84,6 +84,7 @@ return [
     'website_path_reserved_error' => 'Salvar falha, o parâmetro do caminho contém o nome do parâmetro reservado do sistema',
     'website_path_unique_error' => 'não salvou, parâmetros de caminho duplicados, não é permitido que os nomes dos parâmetros de caminho se repitam um ao outro',
     // others
+    'markdown_editor' => 'O conteúdo suporta a sintaxe Markdown, mas a caixa de entrada não suporta a pré-visualização.',
     'account_not_found' => 'Conta não existe ou inserir erros',
     'account_login_limit' => 'O erro excedeu o limite do sistema. Por favor, faça novamente o log in 1 hora mais tarde',
     'timezone_error' => 'O fuso horário da base de dados não corresponde ao fuso horário no ficheiro de configuração .env',

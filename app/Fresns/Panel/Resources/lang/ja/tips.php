@@ -84,6 +84,7 @@ return [
     'website_path_reserved_error' => '保存に失敗しました。path パラメータにシステム予約パラメータ名が含まれています。',
     'website_path_unique_error' => '保存に失敗しました、パスパラメータが重複しています、パスパラメータ名は互いに繰り返すことはできません。',
     // others
+    'markdown_editor' => 'コンテンツはMarkdown構文をサポートしていますが、入力ボックスはプレビューをサポートしていません。',
     'account_not_found' => 'アカウントが存在しないか、エラーを入力します',
     'account_login_limit' => 'エラーはシステムの制限を超えました。1時間後に再ログインしてください。',
     'timezone_error' => 'データベースのタイムゾーンと .env 設定ファイルのタイムゾーンが一致しない',

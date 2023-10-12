@@ -84,6 +84,7 @@ return [
     'website_path_reserved_error' => 'Simpan gagal, parameter jalur berisi nama parameter yang dicadangkan sistem',
     'website_path_unique_error' => 'Gagal menyimpan, parameter jalur duplikat, nama parameter jalur tidak diperbolehkan untuk saling mengulang',
     // others
+    'markdown_editor' => 'Konten mendukung sintaks Markdown, tetapi kotak input tidak mendukung pratinjau, silakan simpan ke klien untuk melihat efeknya.',
     'account_not_found' => 'Akun tidak ada atau masukkan kesalahan',
     'account_login_limit' => 'Kesalahan telah melampaui batas sistem. Silakan masuk lagi 1 jam kemudian',
     'timezone_error' => 'Zona waktu basis data tidak cocok dengan zona waktu di file konfigurasi .env',

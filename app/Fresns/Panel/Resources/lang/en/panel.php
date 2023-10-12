@@ -391,8 +391,8 @@ return [
     'site_url_desc' => 'Main site access URL',
     'site_name' => 'Site Name',
     'site_name_desc' => 'The name of your Fresns site',
-    'site_desc' => 'Site Description',
-    'site_desc_desc' => 'The introduction to your Fresns site',
+    'site_intro' => 'Site Description',
+    'site_intro_desc' => 'The introduction to your Fresns site',
     'site_logo' => 'Site Logo',
     'site_logo_desc' => 'The information in the "Storage settings" must be configured in order to upload images',
     'site_copyright' => 'Copyright Info',
@@ -431,7 +431,6 @@ return [
     'policy_delete_option_3' => 'Physical Deletion',
     'policy_delete_option_3_desc' => 'Physical Deletion: User profiles and published content will be deleted for real',
     'policy_delete_crontab' => 'Delete buffer days',
-    'policy_editor_desc' => 'The content supports Markdown syntax, but the input box does not support preview, please save it and go to the front-end to see the effect',
     // System-Send
     'send_email_config' => 'Email Config',
     'send_sms_config' => 'SMS Config',

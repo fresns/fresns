@@ -84,6 +84,7 @@ return [
     'website_path_reserved_error' => 'Speichern fehlgeschlagen, Pfadparameter enthält vom System reservierten Parameternamen',
     'website_path_unique_error' => 'Speichern fehlgeschlagen, doppelte Pfadparameter, die Namen der Pfadparameter dürfen sich nicht wiederholen',
     // others
+    'markdown_editor' => 'Der Inhalt unterstützt die Markdown-Syntax, aber das Eingabefeld unterstützt keine Vorschau. Bitte speichern Sie es auf dem Client, um den Effekt zu sehen.',
     'account_not_found' => 'Konto ist nicht vorhanden oder geben Fehler ein',
     'account_login_limit' => 'Der Fehler hat das Systemlimit überschritten. Bitte melden Sie sich 1 Stunde später erneut an',
     'timezone_error' => 'Die Zeitzone der Datenbank stimmt nicht mit der Zeitzone in der Konfigurationsdatei .env überein',

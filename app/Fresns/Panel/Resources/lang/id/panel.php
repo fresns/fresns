@@ -391,8 +391,8 @@ return [
     'site_url_desc' => 'URL akses situs utama',
     'site_name' => 'Nama situs',
     'site_name_desc' => 'Nama situs Fresns Anda',
-    'site_desc' => 'Pendahuluan Situs',
-    'site_desc_desc' => 'Pengantar situs Fresns Anda',
+    'site_intro' => 'Pendahuluan Situs',
+    'site_intro_desc' => 'Pengantar situs Fresns Anda',
     'site_logo' => 'Tanda situs',
     'site_logo_desc' => 'Informasi dalam "Pengaturan Penyimpanan" harus dikonfigurasi untuk mengunggah gambar',
     'site_copyright' => 'Informasi hak cipta',
@@ -431,7 +431,6 @@ return [
     'policy_delete_option_3' => 'Pembatalan fisik',
     'policy_delete_option_3_desc' => 'Logout Fisik: Data penghapusan fisik, data pengguna, dan konten yang dipublikasikan akan benar-benar dihapus',
     'policy_delete_crontab' => 'Logout Cycle',
-    'policy_editor_desc' => 'Konten mendukung sintaks Markdown, tetapi kotak input tidak mendukung pratinjau, silakan simpan ke efek tampilan front-end',
     // System-Send
     'send_email_config' => 'Konfigurasi kotak surat',
     'send_sms_config' => 'Konfigurasi SMS',

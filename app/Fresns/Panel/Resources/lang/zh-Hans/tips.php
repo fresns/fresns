@@ -84,6 +84,7 @@ return [
     'website_path_reserved_error' => '保存失败，路径参数含有系统保留参数名',
     'website_path_unique_error' => '保存失败，路径参数重复，路径参数名不允许彼此重复',
     // others
+    'markdown_editor' => '内容支持 Markdown 语法，但是输入框不支持预览，请保存后到客户端查看效果。',
     'account_not_found' => '账号不存在或者输入错误',
     'account_login_limit' => '错误已超系统限制，请 1 小时后再登录',
     'timezone_error' => '数据库时区和 .env 配置文件中时区不一致',
