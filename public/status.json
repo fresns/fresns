@@ -2,17 +2,23 @@
     "name": "Fresns",
     "version": "2.19.0",
     "activate": true,
-    "deactivateDescription": {
+    "deactivateDescribe": {
         "default": ""
     },
     "client": {
         "mobile": {
             "ios":{
                 "version": "",
+                "describe": {
+                    "default": ""
+                },
                 "appStore": ""
             },
             "android":{
                 "version": "",
+                "describe": {
+                    "default": ""
+                },
                 "googlePlay": "",
                 "packages": {
                     "apk": ""
@@ -22,10 +28,16 @@
         "tablet":{
             "ios":{
                 "version": "",
+                "describe": {
+                    "default": ""
+                },
                 "appStore": ""
             },
             "android":{
                 "version": "",
+                "describe": {
+                    "default": ""
+                },
                 "googlePlay": "",
                 "packages": {
                     "apk": ""
@@ -35,6 +47,9 @@
         "desktop": {
             "macos":{
                 "version": "",
+                "describe": {
+                    "default": ""
+                },
                 "appStore": "",
                 "packages": {
                     "intel": "",
@@ -43,6 +58,9 @@
             },
             "windows":{
                 "version": "",
+                "describe": {
+                    "default": ""
+                },
                 "googlePlay": "",
                 "packages": {
                     "x86": "",
@@ -51,6 +69,9 @@
             },
             "linux":{
                 "version": "",
+                "describe": {
+                    "default": ""
+                },
                 "packages": {
                     "x86Deb": "",
                     "x86Rpm": "",
@@ -58,7 +79,6 @@
                     "armDeb": "",
                     "armRpm": "",
                     "armAppImage": "",
-                    "loongArchDeb": "",
                     "mipsDeb": ""
                 }
             }

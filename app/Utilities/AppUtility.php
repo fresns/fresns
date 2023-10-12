@@ -237,7 +237,7 @@ class AppUtility
                 'name' => 'Fresns',
                 'version' => $version,
                 'activate' => true,
-                'deactivateDescription' => [
+                'deactivateDescribe' => [
                     'default' => '',
                 ],
             ];

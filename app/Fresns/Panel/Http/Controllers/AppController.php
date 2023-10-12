@@ -210,7 +210,7 @@ class AppController extends Controller
         $statusJson = [
             'name' => 'Fresns',
             'activate' => true,
-            'deactivateDescription' => [
+            'deactivateDescribe' => [
                 'default' => '',
             ],
         ];
@@ -229,27 +229,27 @@ class AppController extends Controller
     // status update
     public function statusUpdate(Request $request)
     {
-        $activate = (bool) $request->activate;
-
-        $descriptionArr = [];
-        if ($request->descriptionLangTag) {
-            foreach ($request->descriptionLangTag as $key => $langTag) {
-                $descriptionArr[$langTag] = $request->descriptionLangContent[$key] ?? '';
-            }
-        }
-
-        $defaultLangTag = ConfigHelper::fresnsConfigDefaultLangTag();
-        $descriptionArr['default'] = $descriptionArr[$defaultLangTag] ?? array_values($descriptionArr)[0] ?? '';
-
-        $client = $request->client;
-
         $statusJson = [
             'name' => 'Fresns',
             'version' => AppHelper::VERSION,
-            'activate' => $activate,
-            'deactivateDescription' => $descriptionArr,
-            'client' => $client,
+            'activate' => (bool) $request->activate,
+            'deactivateDescribe' => $request->deactivateDescribe,
+            'client' => $request->client,
         ];
+
+        $defaultLangTag = ConfigHelper::fresnsConfigDefaultLangTag();
+
+        $statusJson['deactivateDescribe']['default'] = $request->deactivateDescribe[$defaultLangTag] ?? array_values($request->deactivateDescribe)[0] ?? '';
+
+        $statusJson['client']['mobile']['ios']['describe']['default'] = $request->client['mobile']['ios']['describe'][$defaultLangTag] ?? array_values($request->client['mobile']['ios']['describe'])[0] ?? '';
+        $statusJson['client']['mobile']['android']['describe']['default'] = $request->client['mobile']['android']['describe'][$defaultLangTag] ?? array_values($request->client['mobile']['android']['describe'])[0] ?? '';
+
+        $statusJson['client']['tablet']['ios']['describe']['default'] = $request->client['tablet']['ios']['describe'][$defaultLangTag] ?? array_values($request->client['tablet']['ios']['describe'])[0] ?? '';
+        $statusJson['client']['tablet']['android']['describe']['default'] = $request->client['tablet']['android']['describe'][$defaultLangTag] ?? array_values($request->client['tablet']['android']['describe'])[0] ?? '';
+
+        $statusJson['client']['desktop']['macos']['describe']['default'] = $request->client['desktop']['macos']['describe'][$defaultLangTag] ?? array_values($request->client['desktop']['macos']['describe'])[0] ?? '';
+        $statusJson['client']['desktop']['windows']['describe']['default'] = $request->client['desktop']['windows']['describe'][$defaultLangTag] ?? array_values($request->client['desktop']['windows']['describe'])[0] ?? '';
+        $statusJson['client']['desktop']['linux']['describe']['default'] = $request->client['desktop']['linux']['describe'][$defaultLangTag] ?? array_values($request->client['desktop']['linux']['describe'])[0] ?? '';
 
         $statusJsonFile = public_path('status.json');
 

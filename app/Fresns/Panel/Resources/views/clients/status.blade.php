@@ -13,7 +13,7 @@
         </div>
         <div class="col-lg-5">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
-                <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a>
+                {{-- <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a> --}}
             </div>
         </div>
     </div>
@@ -42,30 +42,57 @@
 
         <div class="row mb-4">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.option_deactivate').' - '.__('FsLang::panel.table_description') }}:</label>
-            <div class="col-lg-9 pt-2 description-textarea">
-                <button type="button" class="btn btn-link btn-sm fs-7" id="addDescription"><i class="bi bi-plus-circle-dotted"></i> {{ __('FsLang::panel.button_add') }}</button>
-
-                @foreach ($statusJson['deactivateDescription'] ?? [] as $key => $description)
-                    @if ($key == 'default')
-                        @continue
-                    @endif
-
-                    <div class="input-group mt-2">
-                        <select class="form-select" name="descriptionLangTag[]">
-                            @foreach ($optionalLanguages as $lang)
-                                <option value="{{ $lang['langTag'] }}" {{ $lang['langTag'] == $key ? 'selected' : '' }}>
-                                    {{ $lang['langName'] }}
-                                    @if ($lang['areaName'])
-                                        {{ '('.$lang['areaName'].')' }}
-                                    @endif
-                                </option>
-                            @endforeach
-                        </select>
-                        <textarea class="form-control w-50" rows="3" name="descriptionLangContent[]">{{ $description }}</textarea>
-                        <button class="btn btn-outline-secondary fs-delete" type="button"><i class="bi bi-trash3"></i></button>
-                    </div>
-                @endforeach
+            <div class="col-lg-9">
+                <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start" data-bs-toggle="modal" data-bs-target="#descriptionModal">{{ $statusJson['deactivateDescribe']['default'] ?? 'Describe the reason for the deactivate' }}</button>
             </div>
+            <!-- Describe Modal -->
+            <div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModal" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">{{ __('FsLang::panel.button_setting') }}: {{ __('FsLang::panel.option_deactivate').' - '.__('FsLang::panel.table_description') }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle text-nowrap">
+                                    <thead>
+                                        <tr class="table-info">
+                                            <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_tag') }}</th>
+                                            <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_name') }}</th>
+                                            <th scope="col" class="w-50">{{ __('FsLang::panel.table_content') }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($optionalLanguages as $lang)
+                                            <tr>
+                                                <td>
+                                                    {{ $lang['langTag'] }}
+                                                    @if ($lang['langTag'] == $defaultLanguage)
+                                                        <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    {{ $lang['langName'] }}
+                                                    @if ($lang['areaName'])
+                                                        {{ '('.$lang['areaName'].')' }}
+                                                    @endif
+                                                </td>
+                                                <td><textarea name="deactivateDescribe[{{ $lang['langTag'] }}]" class="form-control" rows="5">{{ $statusJson['deactivateDescribe'][$lang['langTag']] ?? '' }}</textarea></td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--button_confirm-->
+                            <div class="text-center">
+                                <button type="button" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_confirm') }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Describe Modal end -->
         </div>
 
         <div class="row mb-3">
@@ -78,6 +105,58 @@
                         <span class="input-group-text w-25">Version</span>
                         <input type="text" class="form-control" name="client[mobile][ios][version]" value="{{ $client['mobile']['ios']['version'] ?? '' }}" placeholder="1.0.0">
                     </div>
+                    <div class="input-group mb-1">
+                        <span class="input-group-text w-25">Describe</span>
+                        <button type="button" class="btn btn-outline-secondary form-control btn-modal text-start" data-bs-toggle="modal" data-bs-target="#mobileIosDescribeModal">{{ Str::limit($client['mobile']['ios']['describe']['default'] ?? 'Describe this release', 80) }}</button>
+                    </div>
+                    <!-- Describe Modal -->
+                    <div class="modal fade" id="mobileIosDescribeModal" tabindex="-1" aria-labelledby="mobileIosDescribeModal" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">{{ __('FsLang::panel.button_setting') }}: Mobile iOS</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle text-nowrap">
+                                            <thead>
+                                                <tr class="table-info">
+                                                    <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_tag') }}</th>
+                                                    <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_name') }}</th>
+                                                    <th scope="col" class="w-50">{{ __('FsLang::panel.table_content') }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($optionalLanguages as $lang)
+                                                    <tr>
+                                                        <td>
+                                                            {{ $lang['langTag'] }}
+                                                            @if ($lang['langTag'] == $defaultLanguage)
+                                                                <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            {{ $lang['langName'] }}
+                                                            @if ($lang['areaName'])
+                                                                {{ '('.$lang['areaName'].')' }}
+                                                            @endif
+                                                        </td>
+                                                        <td><textarea name="client[mobile][ios][describe][{{ $lang['langTag'] }}]" class="form-control" rows="5">{{ $client['mobile']['ios']['describe'][$lang['langTag']] ?? '' }}</textarea></td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--button_confirm-->
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_confirm') }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Describe Modal end -->
                     <div class="input-group">
                         <span class="input-group-text w-25">App Store</span>
                         <input type="text" class="form-control" name="client[mobile][ios][appStore]" value="{{ $client['mobile']['ios']['appStore'] ?? '' }}" placeholder="https://">
@@ -90,6 +169,58 @@
                         <span class="input-group-text w-25">Version</span>
                         <input type="text" class="form-control" name="client[mobile][android][version]" value="{{ $client['mobile']['android']['version'] ?? '' }}" placeholder="1.0.0">
                     </div>
+                    <div class="input-group mb-1">
+                        <span class="input-group-text w-25">Describe</span>
+                        <button type="button" class="btn btn-outline-secondary form-control btn-modal text-start" data-bs-toggle="modal" data-bs-target="#mobileAndroidDescribeModal">{{ Str::limit($client['mobile']['android']['describe']['default'] ?? 'Describe this release', 80) }}</button>
+                    </div>
+                    <!-- Describe Modal -->
+                    <div class="modal fade" id="mobileAndroidDescribeModal" tabindex="-1" aria-labelledby="mobileAndroidDescribeModal" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">{{ __('FsLang::panel.button_setting') }}: Mobile Android</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle text-nowrap">
+                                            <thead>
+                                                <tr class="table-info">
+                                                    <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_tag') }}</th>
+                                                    <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_name') }}</th>
+                                                    <th scope="col" class="w-50">{{ __('FsLang::panel.table_content') }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($optionalLanguages as $lang)
+                                                    <tr>
+                                                        <td>
+                                                            {{ $lang['langTag'] }}
+                                                            @if ($lang['langTag'] == $defaultLanguage)
+                                                                <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            {{ $lang['langName'] }}
+                                                            @if ($lang['areaName'])
+                                                                {{ '('.$lang['areaName'].')' }}
+                                                            @endif
+                                                        </td>
+                                                        <td><textarea name="client[mobile][android][describe][{{ $lang['langTag'] }}]" class="form-control" rows="5">{{ $client['mobile']['android']['describe'][$lang['langTag']] ?? '' }}</textarea></td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--button_confirm-->
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_confirm') }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Describe Modal end -->
                     <div class="input-group mb-1">
                         <span class="input-group-text w-25">Google Play</span>
                         <input type="text" class="form-control" name="client[mobile][android][googlePlay]" value="{{ $client['mobile']['android']['googlePlay'] ?? '' }}" placeholder="https://">
@@ -114,6 +245,58 @@
                         <span class="input-group-text w-25">Version</span>
                         <input type="text" class="form-control" name="client[tablet][ios][version]" value="{{ $client['tablet']['ios']['version'] ?? '' }}" placeholder="1.0.0">
                     </div>
+                    <div class="input-group mb-1">
+                        <span class="input-group-text w-25">Describe</span>
+                        <button type="button" class="btn btn-outline-secondary form-control btn-modal text-start" data-bs-toggle="modal" data-bs-target="#tabletIosDescribeModal">{{ Str::limit($client['tablet']['ios']['describe']['default'] ?? 'Describe this release', 80) }}</button>
+                    </div>
+                    <!-- Describe Modal -->
+                    <div class="modal fade" id="tabletIosDescribeModal" tabindex="-1" aria-labelledby="tabletIosDescribeModal" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">{{ __('FsLang::panel.button_setting') }}: Tablet iOS</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle text-nowrap">
+                                            <thead>
+                                                <tr class="table-info">
+                                                    <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_tag') }}</th>
+                                                    <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_name') }}</th>
+                                                    <th scope="col" class="w-50">{{ __('FsLang::panel.table_content') }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($optionalLanguages as $lang)
+                                                    <tr>
+                                                        <td>
+                                                            {{ $lang['langTag'] }}
+                                                            @if ($lang['langTag'] == $defaultLanguage)
+                                                                <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            {{ $lang['langName'] }}
+                                                            @if ($lang['areaName'])
+                                                                {{ '('.$lang['areaName'].')' }}
+                                                            @endif
+                                                        </td>
+                                                        <td><textarea name="client[tablet][ios][describe][{{ $lang['langTag'] }}]" class="form-control" rows="5">{{ $client['tablet']['ios']['describe'][$lang['langTag']] ?? '' }}</textarea></td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--button_confirm-->
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_confirm') }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Describe Modal end -->
                     <div class="input-group">
                         <span class="input-group-text w-25">App Store</span>
                         <input type="text" class="form-control" name="client[tablet][ios][appStore]" value="{{ $client['tablet']['ios']['appStore'] ?? '' }}" placeholder="https://">
@@ -126,6 +309,58 @@
                         <span class="input-group-text w-25">Version</span>
                         <input type="text" class="form-control" name="client[tablet][android][version]" value="{{ $client['tablet']['android']['version'] ?? '' }}" placeholder="1.0.0">
                     </div>
+                    <div class="input-group mb-1">
+                        <span class="input-group-text w-25">Describe</span>
+                        <button type="button" class="btn btn-outline-secondary form-control btn-modal text-start" data-bs-toggle="modal" data-bs-target="#tabletAndroidDescribeModal">{{ Str::limit($client['tablet']['android']['describe']['default'] ?? 'Describe this release', 80) }}</button>
+                    </div>
+                    <!-- Describe Modal -->
+                    <div class="modal fade" id="tabletAndroidDescribeModal" tabindex="-1" aria-labelledby="tabletAndroidDescribeModal" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">{{ __('FsLang::panel.button_setting') }}: Tablet Android</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle text-nowrap">
+                                            <thead>
+                                                <tr class="table-info">
+                                                    <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_tag') }}</th>
+                                                    <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_name') }}</th>
+                                                    <th scope="col" class="w-50">{{ __('FsLang::panel.table_content') }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($optionalLanguages as $lang)
+                                                    <tr>
+                                                        <td>
+                                                            {{ $lang['langTag'] }}
+                                                            @if ($lang['langTag'] == $defaultLanguage)
+                                                                <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            {{ $lang['langName'] }}
+                                                            @if ($lang['areaName'])
+                                                                {{ '('.$lang['areaName'].')' }}
+                                                            @endif
+                                                        </td>
+                                                        <td><textarea name="client[tablet][android][describe][{{ $lang['langTag'] }}]" class="form-control" rows="5">{{ $client['tablet']['android']['describe'][$lang['langTag']] ?? '' }}</textarea></td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--button_confirm-->
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_confirm') }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Describe Modal end -->
                     <div class="input-group mb-1">
                         <span class="input-group-text w-25">Google Play</span>
                         <input type="text" class="form-control" name="client[tablet][android][googlePlay]" value="{{ $client['tablet']['android']['googlePlay'] ?? '' }}" placeholder="https://">
@@ -151,6 +386,58 @@
                         <input type="text" class="form-control" name="client[desktop][macos][version]" value="{{ $client['desktop']['macos']['version'] ?? '' }}" placeholder="1.0.0">
                     </div>
                     <div class="input-group mb-1">
+                        <span class="input-group-text w-25">Describe</span>
+                        <button type="button" class="btn btn-outline-secondary form-control btn-modal text-start" data-bs-toggle="modal" data-bs-target="#desktopMacosDescribeModal">{{ Str::limit($client['desktop']['macos']['describe']['default'] ?? 'Describe this release', 80) }}</button>
+                    </div>
+                    <!-- Describe Modal -->
+                    <div class="modal fade" id="desktopMacosDescribeModal" tabindex="-1" aria-labelledby="desktopMacosDescribeModal" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">{{ __('FsLang::panel.button_setting') }}: Desktop macOS</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle text-nowrap">
+                                            <thead>
+                                                <tr class="table-info">
+                                                    <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_tag') }}</th>
+                                                    <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_name') }}</th>
+                                                    <th scope="col" class="w-50">{{ __('FsLang::panel.table_content') }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($optionalLanguages as $lang)
+                                                    <tr>
+                                                        <td>
+                                                            {{ $lang['langTag'] }}
+                                                            @if ($lang['langTag'] == $defaultLanguage)
+                                                                <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            {{ $lang['langName'] }}
+                                                            @if ($lang['areaName'])
+                                                                {{ '('.$lang['areaName'].')' }}
+                                                            @endif
+                                                        </td>
+                                                        <td><textarea name="client[desktop][macos][describe][{{ $lang['langTag'] }}]" class="form-control" rows="5">{{ $client['desktop']['macos']['describe'][$lang['langTag']] ?? '' }}</textarea></td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--button_confirm-->
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_confirm') }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Describe Modal end -->
+                    <div class="input-group mb-1">
                         <span class="input-group-text w-25">App Store</span>
                         <input type="text" class="form-control" name="client[desktop][macos][appStore]" value="{{ $client['desktop']['macos']['appStore'] ?? '' }}" placeholder="https://">
                     </div>
@@ -173,6 +460,58 @@
                         <input type="text" class="form-control" name="client[desktop][windows][version]" value="{{ $client['desktop']['windows']['version'] ?? '' }}" placeholder="1.0.0">
                     </div>
                     <div class="input-group mb-1">
+                        <span class="input-group-text w-25">Describe</span>
+                        <button type="button" class="btn btn-outline-secondary form-control btn-modal text-start" data-bs-toggle="modal" data-bs-target="#desktopWindowsDescribeModal">{{ Str::limit($client['desktop']['windows']['describe']['default'] ?? 'Describe this release', 80) }}</button>
+                    </div>
+                    <!-- Describe Modal -->
+                    <div class="modal fade" id="desktopWindowsDescribeModal" tabindex="-1" aria-labelledby="desktopWindowsDescribeModal" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">{{ __('FsLang::panel.button_setting') }}: Desktop Windows</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle text-nowrap">
+                                            <thead>
+                                                <tr class="table-info">
+                                                    <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_tag') }}</th>
+                                                    <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_name') }}</th>
+                                                    <th scope="col" class="w-50">{{ __('FsLang::panel.table_content') }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($optionalLanguages as $lang)
+                                                    <tr>
+                                                        <td>
+                                                            {{ $lang['langTag'] }}
+                                                            @if ($lang['langTag'] == $defaultLanguage)
+                                                                <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            {{ $lang['langName'] }}
+                                                            @if ($lang['areaName'])
+                                                                {{ '('.$lang['areaName'].')' }}
+                                                            @endif
+                                                        </td>
+                                                        <td><textarea name="client[desktop][windows][describe][{{ $lang['langTag'] }}]" class="form-control" rows="5">{{ $client['desktop']['windows']['describe'][$lang['langTag']] ?? '' }}</textarea></td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--button_confirm-->
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_confirm') }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Describe Modal end -->
+                    <div class="input-group mb-1">
                         <span class="input-group-text w-25">x86</span>
                         <input type="text" class="form-control" name="client[desktop][windows][downloads][x86]" value="{{ $client['desktop']['windows']['downloads']['x86'] ?? '' }}" placeholder="https://">
                         <span class="input-group-text">.exe</span>
@@ -190,6 +529,58 @@
                         <span class="input-group-text w-25">Version</span>
                         <input type="text" class="form-control" name="client[desktop][linux][version]" value="{{ $client['desktop']['linux']['version'] ?? '' }}" placeholder="1.0.0">
                     </div>
+                    <div class="input-group mb-1">
+                        <span class="input-group-text w-25">Describe</span>
+                        <button type="button" class="btn btn-outline-secondary form-control btn-modal text-start" data-bs-toggle="modal" data-bs-target="#desktopLinuxDescribeModal">{{ Str::limit($client['desktop']['linux']['describe']['default'] ?? 'Describe this release', 80) }}</button>
+                    </div>
+                    <!-- Describe Modal -->
+                    <div class="modal fade" id="desktopLinuxDescribeModal" tabindex="-1" aria-labelledby="desktopLinuxDescribeModal" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">{{ __('FsLang::panel.button_setting') }}: Desktop Linux</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle text-nowrap">
+                                            <thead>
+                                                <tr class="table-info">
+                                                    <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_tag') }}</th>
+                                                    <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_name') }}</th>
+                                                    <th scope="col" class="w-50">{{ __('FsLang::panel.table_content') }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($optionalLanguages as $lang)
+                                                    <tr>
+                                                        <td>
+                                                            {{ $lang['langTag'] }}
+                                                            @if ($lang['langTag'] == $defaultLanguage)
+                                                                <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            {{ $lang['langName'] }}
+                                                            @if ($lang['areaName'])
+                                                                {{ '('.$lang['areaName'].')' }}
+                                                            @endif
+                                                        </td>
+                                                        <td><textarea name="client[desktop][linux][describe][{{ $lang['langTag'] }}]" class="form-control" rows="5">{{ $client['desktop']['linux']['describe'][$lang['langTag']] ?? '' }}</textarea></td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--button_confirm-->
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_confirm') }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Describe Modal end -->
                     <div class="input-group mb-1">
                         <span class="input-group-text w-25">X86 deb</span>
                         <input type="text" class="form-control" name="client[desktop][linux][downloads][x86Deb]" value="{{ $client['desktop']['linux']['downloads']['x86Deb'] ?? '' }}" placeholder="https://">
@@ -238,34 +629,4 @@
             </div>
         </div>
     </form>
-
-    <template id="descriptionTemplate">
-        <div class="input-group mt-2">
-            <select class="form-select" name="descriptionLangTag[]">
-                @foreach ($optionalLanguages as $lang)
-                    <option value="{{ $lang['langTag'] }}">
-                        {{ $lang['langName'] }}
-                        @if ($lang['areaName'])
-                            {{ '('.$lang['areaName'].')' }}
-                        @endif
-                    </option>
-                @endforeach
-            </select>
-            <textarea class="form-control w-50" rows="3" name="descriptionLangContent[]" required></textarea>
-            <button class="btn btn-outline-secondary fs-delete" type="button"><i class="bi bi-trash3"></i></button>
-        </div>
-    </template>
 @endsection
-
-@push('script')
-    <script>
-        $('#addDescription').click(function () {
-            let template = $('#descriptionTemplate');
-            $('.description-textarea').append(template.html());
-        });
-
-        $(document).on('click', '.fs-delete', function () {
-            $(this).parent().remove();
-        });
-    </script>
-@endpush
