@@ -24,8 +24,8 @@ class ManualUpgradeFresns extends Command
     const STEP_FAILURE = 0;
     const STEP_START = 1;
     const STEP_UPDATE_DATA = 2;
-    const STEP_COMPOSER_UPDATE_EXTENSIONS = 3;
-    const STEP_PUBLISH_AND_ACTIVATE_EXTENSIONS = 4;
+    const STEP_COMPOSER_UPDATE_PLUGINS = 3;
+    const STEP_PUBLISH_AND_ACTIVATE_PLUGINS = 4;
     const STEP_UPDATE_VERSION = 5;
     const STEP_CLEAR = 6;
     const STEP_DONE = 7;
@@ -97,8 +97,8 @@ class ManualUpgradeFresns extends Command
             self::STEP_FAILURE => 'Step --: Upgrade failure',
             self::STEP_START => 'Step 1/7: Initialization verification',
             self::STEP_UPDATE_DATA => 'Step 2/7: Update fresns data',
-            self::STEP_COMPOSER_UPDATE_EXTENSIONS => 'Step 3/7: Composer update all plugin dependency packages',
-            self::STEP_PUBLISH_AND_ACTIVATE_EXTENSIONS => 'Step 4/7: Publish and activate plugins',
+            self::STEP_COMPOSER_UPDATE_PLUGINS => 'Step 3/7: Composer update all plugin dependency packages',
+            self::STEP_PUBLISH_AND_ACTIVATE_PLUGINS => 'Step 4/7: Publish and activate plugins',
             self::STEP_UPDATE_VERSION => 'Step 5/7: Update fresns version',
             self::STEP_CLEAR => 'Step 6/7: Clear cache',
             self::STEP_DONE => 'Step 7/7: Done',
@@ -144,7 +144,7 @@ class ManualUpgradeFresns extends Command
     // step 3: composer all plugins
     public function pluginComposerInstall()
     {
-        $this->updateStep(self::STEP_COMPOSER_UPDATE_EXTENSIONS);
+        $this->updateStep(self::STEP_COMPOSER_UPDATE_PLUGINS);
 
         try {
             $exitCode = $this->call('plugin:composer-update');
@@ -168,7 +168,7 @@ class ManualUpgradeFresns extends Command
     // step 4: publish and activate plugins
     public function pluginPublishAndActivate()
     {
-        $this->updateStep(self::STEP_PUBLISH_AND_ACTIVATE_EXTENSIONS);
+        $this->updateStep(self::STEP_PUBLISH_AND_ACTIVATE_PLUGINS);
 
         $plugins = Plugin::all();
 

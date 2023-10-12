@@ -64,9 +64,9 @@ class Controller extends BaseController
             // area codes
             View::share('areaCodes', collect($areaCodes));
 
-            // Check Extensions Version
+            // Check Plugins Versions
             if (Carbon::parse($checkVersionDatetime)->diffInMinutes(now()) > 10) {
-                \FresnsCmdWord::plugin('Fresns')->checkExtensionsVersion();
+                \FresnsCmdWord::plugin('Fresns')->checkPluginsVersions();
 
                 // Time of the latest check version
                 Config::updateOrCreate([

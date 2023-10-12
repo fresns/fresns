@@ -82,7 +82,7 @@ class UpgradeController extends Controller
         ));
     }
 
-    // check fresns and extensions version
+    // check fresns and plugins version
     public function checkFresnsVersion()
     {
         CacheHelper::forgetFresnsKeys([
@@ -93,7 +93,7 @@ class UpgradeController extends Controller
         Cache::forget('autoUpgradeStep');
         Cache::forget('manualUpgradeStep');
 
-        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkExtensionsVersion();
+        $fresnsResp = \FresnsCmdWord::plugin('Fresns')->checkPluginsVersions();
 
         if ($fresnsResp->isSuccessResponse()) {
             return $this->requestSuccess();

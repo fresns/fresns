@@ -182,8 +182,8 @@ class Crontab
         return $this->success();
     }
 
-    // checkExtensionsVersion
-    public function checkExtensionsVersion()
+    // checkPluginsVersions
+    public function checkPluginsVersions()
     {
         $plugins = Plugin::all();
 
@@ -213,7 +213,7 @@ class Crontab
             $plugin = $plugins->where('fskey', $fskey)->first();
 
             // Same version number
-            if (version_compare($plugin->version, $version) === 0) {
+            if ($plugin->version == $version) {
                 continue;
             }
 
