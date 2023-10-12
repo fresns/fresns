@@ -30,6 +30,7 @@ class GeneralController extends Controller
             'site_url',
             'site_name',
             'site_desc',
+            'site_intro',
             'site_icon',
             'site_logo',
             'site_copyright',
@@ -53,6 +54,7 @@ class GeneralController extends Controller
         $langKeys = [
             'site_name',
             'site_desc',
+            'site_intro',
         ];
         $configs = Config::whereIn('item_key', $configKeys)->get();
 

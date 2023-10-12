@@ -13,7 +13,7 @@
         </div>
         <div class="col-lg-5">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
-                <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a>
+                {{-- <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a> --}}
             </div>
         </div>
     </div>
@@ -36,11 +36,18 @@
         </div>
 
         <div class="row mb-4">
-            <label for="site_desc" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.site_desc') }}:</label>
+            <label for="site_intro" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.site_intro') }}:</label>
             <div class="col-lg-6">
-                <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start" data-bs-toggle="modal" data-bs-target="#siteDescModal">{{ $defaultLangParams['site_desc'] }}</button>
+                <div class="input-group mb-2">
+                    <span class="input-group-text">Description</span>
+                    <button type="button" class="btn btn-outline-secondary form-control btn-modal text-start" data-bs-toggle="modal" data-bs-target="#siteDescModal">{{ $defaultLangParams['site_desc'] }}</button>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">Introduction</span>
+                    <button type="button" class="btn btn-outline-secondary form-control btn-modal text-start" data-bs-toggle="modal" data-bs-target="#siteIntroModal">{{ Str::limit($defaultLangParams['site_intro'], 140) }}</button>
+                </div>
             </div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.site_desc_desc') }}</div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.site_intro_desc') }}</div>
         </div>
 
         <div class="row mb-4">
@@ -245,7 +252,7 @@
     </form>
     <!--site form end-->
 
-    <!-- Language Modal -->
+    <!-- Name Language Modal -->
     <div class="modal fade" id="siteNameModal" tabindex="-1" aria-labelledby="siteNameModal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -298,12 +305,12 @@
         </div>
     </div>
 
-    <!-- Language Modal -->
+    <!-- Description Language Modal -->
     <div class="modal fade" id="siteDescModal" tabindex="-1" aria-labelledby="siteDescModal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">{{ __('FsLang::panel.button_setting') }}: {{ __('FsLang::panel.site_desc') }}</h5>
+                    <h5 class="modal-title">{{ __('FsLang::panel.button_setting') }}: {{ __('FsLang::panel.site_intro') }} - Description</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -335,7 +342,61 @@
                                                     {{ '('.$lang['areaName'].')' }}
                                                 @endif
                                             </td>
-                                            <td><textarea name="languages[{{ $lang['langTag'] }}]" class="form-control" rows="3">{{ $langParams['site_desc'][$lang['langTag']] ?? '' }}</textarea></td>
+                                            <td><textarea name="languages[{{ $lang['langTag'] }}]" class="form-control" rows="5">{{ $langParams['site_desc'][$lang['langTag']] ?? '' }}</textarea></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--button_save-->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_save') }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Introduction Language Modal -->
+    <div class="modal fade" id="siteIntroModal" tabindex="-1" aria-labelledby="siteIntroModal" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('FsLang::panel.button_setting') }}: {{ __('FsLang::panel.site_intro') }} - Introduction</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-text mb-3">{{ __('FsLang::tips.markdown_editor') }}</div>
+                    <form action="{{ route('panel.languages.batch.update', ['itemKey' => 'site_intro']) }}" method="post">
+                        @csrf
+                        @method('put')
+                        <input type="hidden" name="update_config" value="site_intro">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle text-nowrap">
+                                <thead>
+                                    <tr class="table-info">
+                                        <th scope="col">{{ __('FsLang::panel.table_lang_tag') }}</th>
+                                        <th scope="col">{{ __('FsLang::panel.table_lang_name') }}</th>
+                                        <th scope="col" class="w-75">{{ __('FsLang::panel.table_content') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($optionalLanguages as $lang)
+                                        <tr>
+                                            <td>
+                                                {{ $lang['langTag'] }}
+                                                @if ($lang['langTag'] == $defaultLanguage)
+                                                    <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                {{ $lang['langName'] }}
+                                                @if ($lang['areaName'])
+                                                    {{ '('.$lang['areaName'].')' }}
+                                                @endif
+                                            </td>
+                                            <td><textarea name="languages[{{ $lang['langTag'] }}]" class="form-control" rows="10">{{ $langParams['site_intro'][$lang['langTag']] ?? '' }}</textarea></td>
                                         </tr>
                                     @endforeach
                                 </tbody>

@@ -16,6 +16,7 @@ class UpdateGeneralRequest extends FormRequest
             'site_url' => 'url|nullable',
             'site_name' => 'array|nullable',
             'site_desc' => 'array|nullable',
+            'site_intro' => 'array|nullable',
             'site_copyright' => 'string|nullable',
             'site_copyright_years' => 'string|nullable',
             'site_mode' => 'string|nullable',
