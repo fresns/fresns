@@ -80,6 +80,19 @@ class LanguagesTableSeeder extends Seeder
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
                 'table_id' => null,
+                'table_key' => 'site_intro',
+                'lang_tag' => 'en',
+                'lang_content' => '# About Us
+
+To be edited',
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'table_name' => 'configs',
+                'table_column' => 'item_value',
+                'table_id' => null,
                 'table_key' => 'account_terms',
                 'lang_tag' => 'en',
                 'lang_content' => '# Terms of Service
@@ -1815,6 +1828,19 @@ To be edited',
                 'table_name' => 'configs',
                 'table_column' => 'item_value',
                 'table_id' => null,
+                'table_key' => 'site_intro',
+                'lang_tag' => 'zh-Hans',
+                'lang_content' => '# 关于我们
+
+待编辑',
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'table_name' => 'configs',
+                'table_column' => 'item_value',
+                'table_id' => null,
                 'table_key' => 'account_terms',
                 'lang_tag' => 'zh-Hans',
                 'lang_content' => '# 服务条款
@@ -3542,6 +3568,19 @@ To be edited',
                 'table_key' => 'site_desc',
                 'lang_tag' => 'zh-Hant',
                 'lang_content' => 'Fresns 是一款免費開源的社交網絡服務軟件，專為跨平台而打造的通用型社區產品，支持靈活多樣的內容形態，可以滿足多種運營場景，符合時代潮流，更開放且更易於二次開發。',
+                'created_at' => '2022-10-18 17:00:00',
+                'updated_at' => null,
+                'deleted_at' => null,
+            ],
+            [
+                'table_name' => 'configs',
+                'table_column' => 'item_value',
+                'table_id' => null,
+                'table_key' => 'site_intro',
+                'lang_tag' => 'zh-Hant',
+                'lang_content' => '# 關於我們
+
+待編輯',
                 'created_at' => '2022-10-18 17:00:00',
                 'updated_at' => null,
                 'deleted_at' => null,
