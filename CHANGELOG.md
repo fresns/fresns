@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.19.1 (10/12/2023)
+
+### Added
+- Panel: New "Site Introduction" configuration item in the site settings, which can be used in the client's "About" page
+- Panel: New "Description" configuration item in client status settings, which can be used to describe version updates
+
+### Fixes
+- Panel: Fixed issue with uploading plugin packages that could not be installed
+- Words: Fixed plugin version checking logic
+- Words: Fixed problem with verifyUrlAuthorization decoding order
+
+
 ## 2.19.0 (10/08/2023)
 
 ### Added
