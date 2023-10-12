@@ -15,7 +15,7 @@
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
                 <button class="btn btn-primary edit-group-category" type="button" data-action="{{ route('panel.groups.store') }}"><i class="bi bi-plus-circle-dotted"></i> {{ __('FsLang::panel.button_add_group_category') }}</button>
                 <button class="btn btn-success" type="button" data-bs-toggle="modal" data-action="{{ route('panel.groups.store') }}" data-bs-target="#groupModal"><i class="bi bi-plus-circle-dotted"></i> {{ __('FsLang::panel.button_add_group') }}</button>
-                <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a>
+                {{-- <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a> --}}
             </div>
         </div>
         <ul class="nav nav-tabs">

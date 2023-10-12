@@ -16,7 +16,7 @@
                 <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-action="{{ route('panel.block-words.store') }}" data-bs-target="#blockWordModal">
                     <i class="bi bi-plus-circle-dotted"></i> {{ __('FsLang::panel.button_add_block_word') }}
                 </button>
-                <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a>
+                {{-- <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a> --}}
             </div>
         </div>
     </div>

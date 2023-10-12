@@ -5,7 +5,7 @@
 	</div>
 	<div class="col-lg-5">
 		<div class="input-group mt-2 mb-4 justify-content-lg-end">
-			<a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a>
+			{{-- <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a> --}}
 		</div>
 	</div>
     <ul class="nav nav-tabs nav-fill">

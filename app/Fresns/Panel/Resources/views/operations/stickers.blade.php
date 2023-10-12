@@ -14,7 +14,7 @@
         <div class="col-lg-5">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
                 <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-action="{{ route('panel.stickers.store') }}" data-bs-target="#stickerGroupCreateModal"><i class="bi bi-plus-circle-dotted"></i> {{ __('FsLang::panel.button_add_sticker_group') }}</button>
-                <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a>
+                {{-- <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a> --}}
             </div>
         </div>
     </div>

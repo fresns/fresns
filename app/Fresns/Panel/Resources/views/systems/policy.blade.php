@@ -13,7 +13,7 @@
         </div>
         <div class="col-lg-5">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
-                <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a>
+                {{-- <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a> --}}
             </div>
         </div>
         <!--tab-list-->
@@ -227,10 +227,10 @@
                         <input type="hidden" name="lang_tag">
                         <input type="hidden" name="lang_key">
                         <div class="form-floating">
-                            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" name="content" style="height:400px"></textarea>
-                            <label for="floatingTextarea2" class="lang-label"></label>
+                            <textarea class="form-control" placeholder="Markdown" id="floatingTextarea" name="content" style="height:400px"></textarea>
+                            <label for="floatingTextarea" class="lang-label"></label>
                         </div>
-                        <div class="form-text">{{ __('FsLang::panel.policy_editor_desc') }}</div>
+                        <div class="form-text">{{ __('FsLang::tips.markdown_editor') }}</div>
                         <button type="submit" class="btn btn-primary mt-3" data-url="{{ route('panel.policy.index').'#contents-tab' }}">{{ __('FsLang::panel.button_save') }}</button>
                     </form>
                 </div>

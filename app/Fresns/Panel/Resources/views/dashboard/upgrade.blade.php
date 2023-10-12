@@ -18,7 +18,7 @@
                     <button class="btn btn-primary rounded-0 rounded-start" type="submit"><i class="bi bi-arrow-clockwise"></i> {{ __('FsLang::panel.button_check_upgrade') }}</button>
                 </form>
                 <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#resetUpgradeCodeModal">{{ __('FsLang::panel.button_reset'). ' Code' }}</button>
-                <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a>
+                {{-- <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a> --}}
             </div>
         </div>
     </div>
@@ -76,7 +76,7 @@
         </div>
     @endif
 
-    <!--Extensions-->
+    <!--Plugins and Apps-->
     <div class="row">
         <!--Plugins-->
         <div class="col-md-6 mb-4">
@@ -95,7 +95,7 @@
                                     <div>
                                         <button type="button" class="btn btn-warning btn-sm upgrade-extensions"
                                             data-bs-toggle="modal"
-                                            data-bs-target="#upgradeExtensions"
+                                            data-bs-target="#upgradePlugin"
                                             data-fskey="{{ $plugin->fskey }}"
                                             data-name="{{ $plugin->name }}"
                                             data-version="{{ $plugin->version }}"
@@ -313,8 +313,8 @@
         </div>
     </div>
 
-    <!-- Upgrade Extensions Modal: confirm upgrade -->
-    <div class="modal fade" id="upgradeExtensions" tabindex="-1" aria-labelledby="install" aria-hidden="true">
+    <!-- Plugin Modal: confirm upgrade -->
+    <div class="modal fade" id="upgradePlugin" tabindex="-1" aria-labelledby="install" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -335,7 +335,7 @@
                         @method('put')
                         <input type="hidden" name="fskey">
                         <input type="hidden" name="type">
-                        <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#upgradeStepModal" id="extensionsUpgradeSubmit">{{ __('FsLang::panel.button_confirm_upgrade') }}</button>
+                        <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#upgradeStepModal">{{ __('FsLang::panel.button_confirm_upgrade') }}</button>
                     </form>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('FsLang::panel.button_cancel') }}</button>
                 </div>
@@ -343,7 +343,7 @@
         </div>
     </div>
 
-    <!-- Upgrade Extensions Modal: artisan output info -->
+    <!-- Plugin Modal: artisan output info -->
     <div class="modal fade" id="upgradeStepModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="upgradeStepModal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -370,7 +370,7 @@
         </div>
     </div>
 
-    <!-- Upgrade Extensions Modal: download apps -->
+    <!-- App Modal: download apps -->
     <div class="modal fade" id="downloadModal" tabindex="-1" aria-labelledby="download" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -395,7 +395,7 @@
         </div>
     </div>
 
-    <!-- Upgrade Extensions Modal: download result -->
+    <!-- App Modal: download result -->
     <div class="modal fade" id="downloadResultModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="downloadResult" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -415,7 +415,7 @@
         </div>
     </div>
 
-    <!-- Upgrade Extensions Modal: delete apps -->
+    <!-- App Modal: delete apps -->
     <div class="modal fade" id="deleteApp" tabindex="-1" aria-labelledby="deleteApp" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
