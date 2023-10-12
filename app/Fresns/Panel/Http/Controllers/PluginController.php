@@ -92,7 +92,7 @@ class PluginController extends Controller
                 $pluginZipball = null;
                 $file = $request->file('plugin_zipball');
                 if ($file && $file->isValid()) {
-                    $dir = storage_path('extensions');
+                    $dir = config('markets.paths.uploads');
                     $filename = $file->hashName();
                     $file->move($dir, $filename);
 
