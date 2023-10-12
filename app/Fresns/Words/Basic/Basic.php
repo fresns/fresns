@@ -61,6 +61,7 @@ class Basic
             }
         } catch (\Exception $e) {
             $deviceInfo = [];
+            info('device info error', [$dtoWordBody->deviceInfo]);
         }
 
         // check deviceInfo
@@ -188,7 +189,7 @@ class Basic
         $langTag = AppHelper::getLangTag();
 
         try {
-            $urlAuthorizationData = urldecode(base64_decode($dtoWordBody->urlAuthorization));
+            $urlAuthorizationData = base64_decode(urldecode($dtoWordBody->urlAuthorization));
             $authorizationJson = json_decode($urlAuthorizationData, true) ?? [];
 
             if (empty($authorizationJson)) {
@@ -217,6 +218,7 @@ class Basic
             }
         } catch (\Exception $e) {
             $deviceInfo = [];
+            info('urlAuthorization device info error', [$authorizationJson['X-Fresns-Client-Device-Info']]);
         }
 
         new DeviceInfoDTO($deviceInfo);
