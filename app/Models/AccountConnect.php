@@ -40,11 +40,14 @@ class AccountConnect extends Model
     const CONNECT_WECHAT_MOBILE_APPLICATION = 26;
     const CONNECT_WECHAT_WEBSITE_APPLICATION = 27;
     const CONNECT_WECOM = 28;
-    const CONNECT_QQ = 29;
-    const CONNECT_GITEE = 30;
-    const CONNECT_WEIBO = 31;
-    const CONNECT_ALIPAY = 32;
-    const CONNECT_BYTEDANCE = 33;
+    const CONNECT_QQ_OPEN_PLATFORM = 29;
+    const CONNECT_QQ_MINI_PROGRAM = 30;
+    const CONNECT_QQ_MOBILE_APPLICATION = 31;
+    const CONNECT_QQ_WEBSITE_APPLICATION = 32;
+    const CONNECT_GITEE = 33;
+    const CONNECT_WEIBO = 34;
+    const CONNECT_ALIPAY = 35;
+    const CONNECT_BYTEDANCE = 36;
 
     protected $casts = [
         'more_json' => 'json',
