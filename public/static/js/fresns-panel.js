@@ -2256,7 +2256,7 @@ $(document).ready(function () {
         }
     });
 
-    // extensions install form
+    // plugin install form
     $('#installModal form').submit(function (event) {
         event.preventDefault();
 
@@ -2285,16 +2285,16 @@ $(document).ready(function () {
         });
     });
 
-    // extensions upgrade
-    $('.upgrade-extensions').on('click', function () {
+    // plugin upgrade
+    $('.upgrade-plugin').on('click', function () {
         let fskey = $(this).data('fskey');
         let name = $(this).data('name');
         let version = $(this).data('version');
         let upgradeVersion = $(this).data('new-version');
 
-        $('.extension-name').text(name)
-        $('.extension-version').text(version)
-        $('.extension-new-version').text(upgradeVersion)
+        $('.plugin-name').text(name)
+        $('.plugin-version').text(version)
+        $('.plugin-new-version').text(upgradeVersion)
         $('input[name=fskey]').val(fskey)
     });
 
@@ -2318,8 +2318,8 @@ $(document).ready(function () {
         $('input[name=app_fskey]').val(fskey)
     });
 
-    // extensions upgrade form
-    $('#upgradeExtensions form').submit(function (event) {
+    // plugin upgrade form
+    $('#upgradePlugin form').submit(function (event) {
         event.preventDefault();
 
         // set progress
@@ -2329,7 +2329,7 @@ $(document).ready(function () {
             method: $(this).attr('method'),
             url: $(this).attr('action'),
             dataType: 'json',
-            data: new FormData(document.querySelector('#upgradeExtensions form')),
+            data: new FormData(document.querySelector('#upgradePlugin form')),
             contentType: false,
             processData: false,
             success: function (response) {

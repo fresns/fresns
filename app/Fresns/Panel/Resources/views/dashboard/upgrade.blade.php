@@ -93,7 +93,7 @@
                                         <span class="badge bg-secondary">{{ $plugin->version }}</span> to <span class="badge bg-primary">{{ $plugin->upgrade_version }}</span>
                                     </div>
                                     <div>
-                                        <button type="button" class="btn btn-warning btn-sm upgrade-extensions"
+                                        <button type="button" class="btn btn-warning btn-sm upgrade-plugin"
                                             data-bs-toggle="modal"
                                             data-bs-target="#upgradePlugin"
                                             data-fskey="{{ $plugin->fskey }}"
@@ -320,8 +320,8 @@
                 <div class="modal-header">
                     <h5 class="modal-title">
                         <i class="bi bi-journal-code"></i>
-                        <span class="extension-name"></span>
-                        <span class="badge bg-secondary extension-version"></span> to <span class="badge bg-primary extension-new-version"></span>
+                        <span class="plugin-name"></span>
+                        <span class="badge bg-secondary plugin-version"></span> to <span class="badge bg-primary plugin-new-version"></span>
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -350,8 +350,8 @@
                 <div class="modal-header">
                     <h5 class="modal-title">
                         <i class="bi bi-journal-code"></i>
-                        <span class="extension-name"></span>
-                        <span class="badge bg-secondary extension-version"></span> to <span class="badge bg-primary extension-new-version"></span>
+                        <span class="plugin-name"></span>
+                        <span class="badge bg-secondary plugin-version"></span> to <span class="badge bg-primary plugin-new-version"></span>
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -360,7 +360,7 @@
 
                     <!--progress bar-->
                     <div class="mt-2">
-                        <div class="ajax-progress progress d-none" id="upgrade-extension-progress"></div>
+                        <div class="ajax-progress progress d-none" id="upgrade-plugin-progress"></div>
                     </div>
                 </div>
                 <div class="modal-footer">
