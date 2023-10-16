@@ -392,7 +392,7 @@ return [
     'site_url_desc' => 'Main site access URL',
     'site_name' => 'Site Name',
     'site_name_desc' => 'The name of your Fresns site',
-    'site_intro' => 'Site Description',
+    'site_intro' => 'Site Intro',
     'site_intro_desc' => 'The introduction to your Fresns site',
     'site_logo' => 'Site Logo',
     'site_logo_desc' => 'The information in the "Storage settings" must be configured in order to upload images',
