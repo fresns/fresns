@@ -158,6 +158,7 @@ return [
     'button_config' => '配置',
     'button_reset' => '重置',
     'button_confirm' => '确认',
+    'button_try_again' => '再试一次',
     'button_save' => '提交保存',
     'button_download' => '下载',
     'button_upgrade' => '升级',

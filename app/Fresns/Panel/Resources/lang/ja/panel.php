@@ -158,6 +158,7 @@ return [
     'button_config' => 'コンフィグ',
     'button_reset' => 'リセットする',
     'button_confirm' => '確認',
+    'button_try_again' => 'もう一度お試しください',
     'button_save' => 'セーブ',
     'button_download' => 'ダウンロード',
     'button_upgrade' => 'アップグレード',

@@ -158,6 +158,7 @@ return [
     'button_config' => 'Konfigurieren Sie',
     'button_reset' => 'Zurücksetzen',
     'button_confirm' => 'Bestätigen Sie',
+    'button_try_again' => 'Erneut versuchen',
     'button_save' => 'Speichern',
     'button_download' => 'Herunterladen',
     'button_upgrade' => 'Aktualisieren',

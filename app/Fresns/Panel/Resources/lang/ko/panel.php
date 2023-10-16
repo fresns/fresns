@@ -158,6 +158,7 @@ return [
     'button_config' => '구성',
     'button_reset' => '초기화',
     'button_confirm' => '확인하다',
+    'button_try_again' => '다시 시도하기',
     'button_save' => '구하다',
     'button_download' => '다운로드',
     'button_upgrade' => '업그레이드',

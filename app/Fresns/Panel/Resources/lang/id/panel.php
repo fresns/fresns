@@ -158,6 +158,7 @@ return [
     'button_config' => 'Config',
     'button_reset' => 'Mengatur ulang',
     'button_confirm' => 'Mengonfirmasi',
+    'button_try_again' => 'Coba Lagi',
     'button_save' => 'Menyimpan',
     'button_download' => 'Unduh',
     'button_upgrade' => 'Meningkatkan',

@@ -158,6 +158,7 @@ return [
     'button_config' => 'कॉन्फ़िग',
     'button_reset' => 'रीसेट',
     'button_confirm' => 'पुष्टि करना',
+    'button_try_again' => 'पुनः प्रयास करें',
     'button_save' => 'सहेजें',
     'button_download' => 'डाउनलोड करना',
     'button_upgrade' => 'उन्नत करना',

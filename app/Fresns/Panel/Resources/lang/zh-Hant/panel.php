@@ -159,6 +159,7 @@ return [
     'button_config' => '配置',
     'button_reset' => '重設',
     'button_confirm' => '確認',
+    'button_try_again' => '再試一次',
     'button_save' => '儲存',
     'button_download' => '下載',
     'button_upgrade' => '升級',

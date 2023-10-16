@@ -158,6 +158,7 @@ return [
     'button_config' => 'Конфигурация',
     'button_reset' => 'Сброс настроек',
     'button_confirm' => 'Подтверждать',
+    'button_try_again' => 'Попробовать ещё раз',
     'button_save' => 'Сохранять',
     'button_download' => 'Скачать',
     'button_upgrade' => 'Обновление',

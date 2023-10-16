@@ -158,6 +158,7 @@ return [
     'button_config' => 'Configurazione',
     'button_reset' => 'Ripristina',
     'button_confirm' => 'Confermare',
+    'button_try_again' => 'Riprova',
     'button_save' => 'Salva',
     'button_download' => 'Scaricare',
     'button_upgrade' => 'Aggiornare',
