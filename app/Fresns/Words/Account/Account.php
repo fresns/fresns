@@ -335,7 +335,7 @@ class Account
             ->where('connect_platform_id', $dtoWordBody->connectPlatformId)
             ->whereNotIn('connect_platform_id', [
                 AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM,
-                AccountConnect::CONNECT_QQ_OPEN_PLATFORM
+                AccountConnect::CONNECT_QQ_OPEN_PLATFORM,
             ])
             ->get();
 
