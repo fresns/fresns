@@ -15,7 +15,7 @@
     <title>Fresns {{ $code }}</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-icons.min.css">
     <link rel="stylesheet" href="/static/css/fresns-panel.css">
 </head>
 
@@ -36,6 +36,10 @@
                 <h3 class="card-title">Fresns {{ $code }}</h3>
                 <div class="mt-4">{!! $message !!}</div>
 
+                <div class="mt-4">
+                    <button type="button" class="btn btn-outline-primary" onclick="refreshPage()"><i class="bi bi-arrow-clockwise"></i></button>
+                </div>
+
                 @if ($email)
                     <div class="mt-4 pt-3">Administrator Email: <a href="mailto:{{ $email }}">{{ $email }}</a></div>
                 @endif
@@ -48,6 +52,34 @@
             <p class="my-5 text-muted">Powered by Fresns</p>
         </div>
     </footer>
+
+    <script src="/static/js/jquery.min.js"></script>
+    <script>
+        // Spinner for button click
+        $(document).on('click', 'button', function () {
+            var btn = $(this);
+            btn.prop('disabled', true);
+
+            // Hide <i> element
+            btn.find('i').hide();
+
+            // Add spinner if it does not exist
+            if (0 === btn.children('.spinner-border').length) {
+                btn.prepend(
+                    '<span class="spinner-border spinner-border-sm mg-r-5" role="status" aria-hidden="true"></span> '
+                );
+            }
+
+            // Perform other actions (e.g., reload the page)
+            if (btn.attr('onclick')) {
+                eval(btn.attr('onclick'));
+            }
+        });
+
+        function refreshPage() {
+            location.reload();
+        }
+    </script>
 </body>
 
 </html>
