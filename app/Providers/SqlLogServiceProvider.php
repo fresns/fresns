@@ -36,7 +36,7 @@ class SqlLogServiceProvider extends ServiceProvider
      */
     protected function registerQueryLogger(): void
     {
-        if (! $this->app['config']->get('app.debug')) {
+        if (! $this->app['config']->get('app.debug') || $this->app['config']->get('app.env') != 'local') {
             return;
         }
 
