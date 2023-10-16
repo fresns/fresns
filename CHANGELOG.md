@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.19.2 (10/16/2023)
+
+### Fixes
+- Models: Account connect platform to enhance the QQ platform
+- Providers: Production environment should not generate SQL logger
+- Views: Improve the error view
+
+
 ## 2.19.1 (10/12/2023)
 
 ### Added
