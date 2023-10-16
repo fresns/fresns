@@ -333,7 +333,10 @@ class Account
         $connectArr = AccountConnect::withTrashed()
             ->where('account_id', $accountModel->id)
             ->where('connect_platform_id', $dtoWordBody->connectPlatformId)
-            ->where('connect_platform_id', '!=', AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM)
+            ->whereNotIn('connect_platform_id', [
+                AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM,
+                AccountConnect::CONNECT_QQ_OPEN_PLATFORM
+            ])
             ->get();
 
         if ($connectArr->count() == 1 && empty($accountModel->email) && empty($accountModel->phone)) {
@@ -358,8 +361,8 @@ class Account
             $connects = AccountConnect::where('account_id', $accountModel->id)->whereIn('connect_platform_id', [
                 AccountConnect::CONNECT_WECHAT_OFFICIAL_ACCOUNT,
                 AccountConnect::CONNECT_WECHAT_MINI_PROGRAM,
-                AccountConnect::CONNECT_WECHAT_WEBSITE_APPLICATION,
                 AccountConnect::CONNECT_WECHAT_MOBILE_APPLICATION,
+                AccountConnect::CONNECT_WECHAT_WEBSITE_APPLICATION,
             ])->get();
 
             // Delete WeChat unionid
@@ -367,6 +370,28 @@ class Account
                 AccountConnect::withTrashed()
                     ->where('account_id', $accountModel->id)
                     ->where('connect_platform_id', AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM)
+                    ->forceDelete();
+            }
+        }
+
+        $qqArr = [
+            AccountConnect::CONNECT_QQ_MINI_PROGRAM,
+            AccountConnect::CONNECT_QQ_MOBILE_APPLICATION,
+            AccountConnect::CONNECT_QQ_WEBSITE_APPLICATION,
+        ];
+
+        if (in_array($dtoWordBody->connectPlatformId, $qqArr)) {
+            $connects = AccountConnect::where('account_id', $accountModel->id)->whereIn('connect_platform_id', [
+                AccountConnect::CONNECT_QQ_MINI_PROGRAM,
+                AccountConnect::CONNECT_QQ_MOBILE_APPLICATION,
+                AccountConnect::CONNECT_QQ_WEBSITE_APPLICATION,
+            ])->get();
+
+            // Delete WeChat unionid
+            if ($connects->isEmpty()) {
+                AccountConnect::withTrashed()
+                    ->where('account_id', $accountModel->id)
+                    ->where('connect_platform_id', AccountConnect::CONNECT_QQ_OPEN_PLATFORM)
                     ->forceDelete();
             }
         }
