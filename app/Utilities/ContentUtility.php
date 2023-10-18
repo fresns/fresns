@@ -253,7 +253,7 @@ class ContentUtility
     {
         $urlList = ContentUtility::extractLink($content);
 
-        $urlList = array_map(function($url) {
+        $urlList = array_map(function ($url) {
             return str_replace('&amp;', '&', $url);
         }, $urlList);
 
