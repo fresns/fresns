@@ -9,8 +9,8 @@
 namespace App\Http\Middleware;
 
 use App\Helpers\ConfigHelper;
-use Illuminate\Cookie\Middleware\EncryptCookies as Middleware;
 use Illuminate\Contracts\Encryption\Encrypter;
+use Illuminate\Cookie\Middleware\EncryptCookies as Middleware;
 
 class EncryptCookies extends Middleware
 {
