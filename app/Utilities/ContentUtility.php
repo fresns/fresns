@@ -56,7 +56,7 @@ class ContentUtility
         return match ($type) {
             'space' => $spacePattern,
             'hash' => $hashPattern,
-            'url' => '/(https?:\/\/[^\s\n]+)/i',
+            'url' => '/\b(https?:\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])\b/i',
             'at' => '/@(.*?)\s/',
             'sticker' => '/\[(.*?)\]/',
             'file' => '/\[file:(\w+)\]/',
@@ -253,6 +253,10 @@ class ContentUtility
     {
         $urlList = ContentUtility::extractLink($content);
 
+        $urlList = array_map(function($url) {
+            return str_replace('&amp;', '&', $url);
+        }, $urlList);
+
         $urlDataList = DomainLink::with('domain')->whereIn('link_url', $urlList)->get();
 
         $siteUrl = ConfigHelper::fresnsConfigByItemKey('site_url') ?? AppUtility::WEBSITE_URL;
@@ -265,6 +269,7 @@ class ContentUtility
 
         $newContent = preg_replace_callback(ContentUtility::getRegexpByType('url'), function ($matches) use ($urlDataList, $siteDomain, $contentLinkHandle) {
             $url = $matches[1];
+            $url = str_replace('&amp;', '&', $url);
 
             $urlData = $urlDataList->where('link_url', $url)->first();
             if (empty($urlData) || empty($urlData?->domain) || ! $urlData?->is_enabled || ! $urlData?->domain?->is_enabled) {
