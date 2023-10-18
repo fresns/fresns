@@ -104,8 +104,8 @@
                                 <input type="text" class="form-control" id="china_icp_license" name="china_icp_license" value="{{ $params['china_icp_license'] }}">
                             </div>
                             <div class="input-group mb-3">
-                                <label class="input-group-text" for="china_psb_filing">{{ __('FsLang::panel.china_psb_filing') }}</label>
-                                <input type="text" class="form-control" id="china_psb_filing" name="china_psb_filing" value="{{ $params['china_psb_filing'] }}">
+                                <label class="input-group-text" for="china_mps_filing">{{ __('FsLang::panel.china_mps_filing') }}</label>
+                                <input type="text" class="form-control" id="china_mps_filing" name="china_mps_filing" value="{{ $params['china_mps_filing'] }}">
                             </div>
                             <div class="input-group mb-1">
                                 <label class="input-group-text" for="china_broadcasting_license">{{ __('FsLang::panel.china_broadcasting_license') }}</label>

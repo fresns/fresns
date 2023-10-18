@@ -132,7 +132,7 @@ class AppController extends Controller
             'site_china_mode',
             'china_icp_filing',
             'china_icp_license',
-            'china_psb_filing',
+            'china_mps_filing',
             'china_broadcasting_license',
         ];
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -162,7 +162,7 @@ class AppController extends Controller
             'site_china_mode',
             'china_icp_filing',
             'china_icp_license',
-            'china_psb_filing',
+            'china_mps_filing',
             'china_broadcasting_license',
         ];
 

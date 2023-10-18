@@ -1068,7 +1068,7 @@ return [
     'china_mode_config' => '中国本土サーバーの設定（非必須項目）',
     'china_icp_filing' => 'インターネットコンテンツプロバイダー申請',
     'china_icp_license' => 'インターネットコンテンツプロバイダー許可証',
-    'china_psb_filing' => '公安局への申請',
+    'china_mps_filing' => '公安局への申請',
     'china_broadcasting_license' => '放送局免許',
     // Client-Status
     'client_status_desc' => 'クライアントは10分ごとにステータス設定を要求',

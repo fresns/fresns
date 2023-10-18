@@ -1068,7 +1068,7 @@ return [
     'china_mode_config' => '중국 본토 서버 구성(필수 필드 없음)',
     'china_icp_filing' => '인터넷 콘텐츠 제공자 제출',
     'china_icp_license' => '인터넷 콘텐츠 제공자 라이선스',
-    'china_psb_filing' => '공안국 제출',
+    'china_mps_filing' => '공안국 제출',
     'china_broadcasting_license' => '방송 라이센스',
     // Client-Status
     'client_status_desc' => '10분마다 클라이언트 요청 상태 구성',

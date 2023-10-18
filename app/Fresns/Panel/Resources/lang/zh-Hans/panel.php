@@ -1069,7 +1069,7 @@ return [
     'china_mode_config' => '中国大陆服务器配置（非必填项）',
     'china_icp_filing' => 'ICP 备案号',
     'china_icp_license' => 'ICP 许可证号',
-    'china_psb_filing' => '公安备案号',
+    'china_mps_filing' => '公安备案号',
     'china_broadcasting_license' => '广播电视节目制作经营许可证',
     // Client-Status
     'client_status_desc' => '客户端每 10 分钟请求一次状态配置',

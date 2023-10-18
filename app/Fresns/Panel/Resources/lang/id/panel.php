@@ -1068,7 +1068,7 @@ return [
     'china_mode_config' => 'Konfigurasi server daratan Tiongkok (bidang yang tidak diperlukan)',
     'china_icp_filing' => 'Pengajuan Penyedia Konten Internet',
     'china_icp_license' => 'Lisensi Penyedia Konten Internet',
-    'china_psb_filing' => 'Pengajuan Biro Keamanan Publik',
+    'china_mps_filing' => 'Pengajuan Biro Keamanan Publik',
     'china_broadcasting_license' => 'Lisensi Penyiaran',
     // Client-Status
     'client_status_desc' => 'Konfigurasi status permintaan klien setiap 10 menit',

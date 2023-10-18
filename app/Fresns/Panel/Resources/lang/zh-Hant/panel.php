@@ -1069,7 +1069,7 @@ return [
     'china_mode_config' => '中國伺服器配置（非必填項）',
     'china_icp_filing' => '互聯網內容提供商備案',
     'china_icp_license' => '互聯網內容提供商許可證',
-    'china_psb_filing' => '公安局備案',
+    'china_mps_filing' => '公安局備案',
     'china_broadcasting_license' => '廣播電視節目製作經營許可證',
     // Client-Status
     'client_status_desc' => '用戶端每 10 分鐘請求一次狀態配置',

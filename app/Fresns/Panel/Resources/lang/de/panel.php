@@ -1068,7 +1068,7 @@ return [
     'china_mode_config' => 'Serverkonfiguration für das chinesische Festland (nicht erforderliches Feld)',
     'china_icp_filing' => 'Internet Content Provider Einreichung',
     'china_icp_license' => 'Lizenz für Anbieter von Internetinhalten',
-    'china_psb_filing' => 'Büro für öffentliche Sicherheit Einreichung',
+    'china_mps_filing' => 'Büro für öffentliche Sicherheit Einreichung',
     'china_broadcasting_license' => 'Rundfunklizenz',
     // Client-Status
     'client_status_desc' => 'Client-Anforderung der Statuskonfiguration alle 10 Minuten',

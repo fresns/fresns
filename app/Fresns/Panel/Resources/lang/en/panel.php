@@ -1068,7 +1068,7 @@ return [
     'china_mode_config' => 'China Server Configuration (not required)',
     'china_icp_filing' => 'Internet Content Provider Filing',
     'china_icp_license' => 'Internet Content Provider License',
-    'china_psb_filing' => 'Public Security Bureau Filing',
+    'china_mps_filing' => 'Public Security Bureau Filing',
     'china_broadcasting_license' => 'Broadcasting License',
     // Client-Status
     'client_status_desc' => 'Client request status configuration every 10 minutes',

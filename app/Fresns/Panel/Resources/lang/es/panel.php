@@ -1068,7 +1068,7 @@ return [
     'china_mode_config' => 'Configuración del servidor de China continental (campo no obligatorio)',
     'china_icp_filing' => 'Presentación del proveedor de contenidos de Internet',
     'china_icp_license' => 'Licencia de proveedor de contenidos de Internet',
-    'china_psb_filing' => 'Presentación de la Oficina de Seguridad Pública',
+    'china_mps_filing' => 'Presentación de la Oficina de Seguridad Pública',
     'china_broadcasting_license' => 'Licencia de radiodifusión',
     // Client-Status
     'client_status_desc' => 'El cliente solicita la configuración del estado cada 10 minutos',
