@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.19.3 (10/19/2023)
+
+### Fixes
+- API: Fix parameter name errors in the post and comment interfaces
+- Words: Get user device credentials DTO namespace error
+- Helpers: New offsetMinutes parameter for cache time, customisable minute offset to avoid file theft URL invalidation
+- Utilities: Error parsing links in Markdown format
+
+
 ## 2.19.2 (10/16/2023)
 
 ### Fixes
