@@ -355,7 +355,7 @@ class CommentController extends Controller
             $query->where('comment_count', '>=', $value);
         });
 
-        $commentQuery->when($dtoRequest->commentCountGt, function ($query, $value) {
+        $commentQuery->when($dtoRequest->commentCountLt, function ($query, $value) {
             $query->where('comment_count', '<=', $value);
         });
 
