@@ -269,11 +269,23 @@ class PostService
 
             $postContent = ContentUtility::handleAndReplaceAll($postContent, $post->is_markdown, $post->user_id, Mention::TYPE_POST, $post->id);
 
-            // files
-            $files = $postData['files'];
-            $fidArr = ContentUtility::extractFile($postContent);
-            if ($type == 'detail' && $fidArr) {
-                $postContent = ContentUtility::replaceFile($postContent);
+            $contentData = [
+                'content' => $postContent,
+                'isBrief' => $isBrief,
+                'readConfig' => $postData['readConfig'],
+            ];
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+            CacheHelper::put($contentData, $cacheKey, $cacheTag, null, $cacheTime);
+        }
+
+        // files
+        $contentData['files'] = $postData['files'];
+        if ($type == 'detail') {
+            $fidArr = ContentUtility::extractFile($contentData['content']);
+
+            if ($fidArr) {
+                $postDetailContent = ContentUtility::replaceFile($contentData['content']);
 
                 $files = [
                     'images' => ArrUtility::forget($postData['files']['images'], 'fid', $fidArr),
@@ -281,26 +293,16 @@ class PostService
                     'audios' => ArrUtility::forget($postData['files']['audios'], 'fid', $fidArr),
                     'documents' => ArrUtility::forget($postData['files']['documents'], 'fid', $fidArr),
                 ];
+
+                $contentData['content'] = $postDetailContent;
+                $contentData['files'] = $files;
             }
-
-            $contentData = [
-                'content' => $postContent,
-                'isBrief' => $isBrief,
-                'readConfig' => $postData['readConfig'],
-                'extends' => $postData['extends'],
-                'files' => $files,
-            ];
-
-            $totalCount = array_sum(array_map('count', $files));
-
-            $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
-            if ($totalCount > 0) {
-                $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
-            }
-
-            CacheHelper::put($contentData, $cacheKey, $cacheTag, null, $cacheTime);
         }
 
+        // extends
+        $contentData['extends'] = $postData['extends'];
+
+        // contentFormat
         $contentFormat = \request()->header('X-Fresns-Client-Content-Format');
 
         if (! $contentData['readConfig']['isReadLocked']) {

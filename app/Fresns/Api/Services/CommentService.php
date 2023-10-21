@@ -285,11 +285,23 @@ class CommentService
 
             $commentContent = ContentUtility::handleAndReplaceAll($commentContent, $comment->is_markdown, $comment->user_id, Mention::TYPE_COMMENT, $comment->id);
 
-            // files
-            $files = $commentData['files'];
-            $fidArr = ContentUtility::extractFile($commentContent);
-            if ($type == 'detail' && $fidArr) {
-                $commentContent = ContentUtility::replaceFile($commentContent);
+            $contentData = [
+                'content' => $commentContent,
+                'isBrief' => $isBrief,
+                'isCommentPrivate' => $commentData['isCommentPrivate'],
+            ];
+
+            $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
+            CacheHelper::put($contentData, $cacheKey, $cacheTag, null, $cacheTime);
+        }
+
+        // files
+        $contentData['files'] = $commentData['files'];
+        if ($type == 'detail') {
+            $fidArr = ContentUtility::extractFile($contentData['content']);
+
+            if ($fidArr) {
+                $commentDetailContent = ContentUtility::replaceFile($contentData['content']);
 
                 $files = [
                     'images' => ArrUtility::forget($commentData['files']['images'], 'fid', $fidArr),
@@ -297,26 +309,16 @@ class CommentService
                     'audios' => ArrUtility::forget($commentData['files']['audios'], 'fid', $fidArr),
                     'documents' => ArrUtility::forget($commentData['files']['documents'], 'fid', $fidArr),
                 ];
+
+                $contentData['content'] = $commentDetailContent;
+                $contentData['files'] = $files;
             }
-
-            $contentData = [
-                'content' => $commentContent,
-                'isBrief' => $isBrief,
-                'isCommentPrivate' => $commentData['isCommentPrivate'],
-                'extends' => $commentData['extends'],
-                'files' => $files,
-            ];
-
-            $totalCount = array_sum(array_map('count', $files));
-
-            $cacheTime = CacheHelper::fresnsCacheTimeByFileType();
-            if ($totalCount > 0) {
-                $cacheTime = CacheHelper::fresnsCacheTimeByFileType(File::TYPE_ALL);
-            }
-
-            CacheHelper::put($contentData, $cacheKey, $cacheTag, null, $cacheTime);
         }
 
+        // extends
+        $contentData['extends'] = $commentData['extends'];
+
+        // isCommentPrivate
         if ($commentData['isCommentPrivate']) {
             $authUid = \request()->header('X-Fresns-Uid');
 
