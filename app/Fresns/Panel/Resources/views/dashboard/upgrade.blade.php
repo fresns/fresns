@@ -334,7 +334,6 @@
                         @csrf
                         @method('put')
                         <input type="hidden" name="fskey">
-                        <input type="hidden" name="type">
                         <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#upgradeStepModal">{{ __('FsLang::panel.button_confirm_upgrade') }}</button>
                     </form>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('FsLang::panel.button_cancel') }}</button>
