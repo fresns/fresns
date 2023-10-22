@@ -58,7 +58,7 @@ class AppUtility
             $baseUrl = AppUtility::BASE_URL;
 
             try {
-                $versionInfoUrl = $baseUrl.'/v2/19/version.json';
+                $versionInfoUrl = $baseUrl.'/v2/20/version.json';
                 $client = new \GuzzleHttp\Client(['verify' => false]);
                 $response = $client->request('GET', $versionInfoUrl);
                 $versionInfo = json_decode($response->getBody(), true);

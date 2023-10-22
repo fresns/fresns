@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.20.0 (10/22/2023)
+
+### Added
+- API: `/api/v2/account/wallet-logs` added `transactionId` and `transactionCode` parameters
+- API: `/api/v2/account/wallet-logs` transaction state uses `state` parameter name and numeric numbering for the state
+- API: `/api/v2/account/wallet-logs` added `datetimeFormat` parameter
+- API: `/api/v2/user/extcredits-logs` added `datetimeFormat` parameter
+- Words: Added `walletUpdateState` command word
+- Words: Added `immediate` parameter to `walletRecharge` command word
+- Words: Added `immediate` parameter to `walletWithdraw` command word
+
+### Fixes
+- API: Fixed wrong `pagination` parameter for interface list pages
+- API: Fix caching of content files to avoid URL failures
+- Models: Fix error when master role is empty
+- Install: Fix cookie prefix issue preventing installation when not installed
+
+### BREAKING CHANGES
+- API: Change pagination information parameter name to `pagination` for all list interfaces
+- API: `/api/v2/account/wallet-logs` parameter `createdDatetime` changed to `datetime`
+- API: `/api/v2/account/wallet-logs` parameter `createdTimeAgo` changed to `timeAgo`
+- API: `/api/v2/user/extcredits-logs` parameter `createdDatetime` changed to `datetime`
+- API: `/api/v2/user/extcredits-logs` parameter `createdTimeAgo` will be changed to `timeAgo`
+- Words: Wallet `walletRevoke` command word changed to `walletReversal`
+
+
 ## 2.19.3 (10/19/2023)
 
 ### Fixes
