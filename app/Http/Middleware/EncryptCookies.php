@@ -28,7 +28,11 @@ class EncryptCookies extends Middleware
     {
         parent::__construct($encrypter);
 
-        $cookiePrefix = ConfigHelper::fresnsConfigByItemKey('website_cookie_prefix');
+        try {
+            $cookiePrefix = ConfigHelper::fresnsConfigByItemKey('website_cookie_prefix') ?? 'fresns_';
+        } catch (\Exception $e) {
+            $cookiePrefix = 'fresns_';
+        }
 
         $this->except = array_merge($this->except, [
             "{$cookiePrefix}ulid",
