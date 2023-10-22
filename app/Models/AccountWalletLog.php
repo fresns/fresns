@@ -13,9 +13,11 @@ class AccountWalletLog extends Model
     const TYPE_IN_RECHARGE = 1;
     const TYPE_IN_FREEZE = 2;
     const TYPE_IN_TRANSACTION = 3;
-    const TYPE_DE_WITHDRAW = 4;
-    const TYPE_DE_UNFREEZE = 5;
-    const TYPE_DE_TRANSACTION = 6;
+    const TYPE_IN_REVERSAL = 4;
+    const TYPE_DE_WITHDRAW = 5;
+    const TYPE_DE_UNFREEZE = 6;
+    const TYPE_DE_TRANSACTION = 7;
+    const TYPE_DE_REVERSAL = 8;
 
     const STATE_PENDING = 1;
     const STATE_PROCESSING = 2;

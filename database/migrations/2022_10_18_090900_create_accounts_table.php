@@ -110,7 +110,7 @@ class CreateAccountsTable extends Migration
             $table->unsignedBigInteger('object_account_id')->nullable();
             $table->unsignedBigInteger('object_user_id')->nullable();
             $table->unsignedBigInteger('object_wallet_log_id')->nullable();
-            $table->unsignedTinyInteger('is_enabled')->default(1);
+            $table->unsignedTinyInteger('state')->default(1);
             $table->text('remark')->nullable();
             switch (config('database.default')) {
                 case 'pgsql':
@@ -124,6 +124,7 @@ class CreateAccountsTable extends Migration
                 default:
                     $table->json('more_json')->nullable();
             }
+            $table->timestamp('success_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
