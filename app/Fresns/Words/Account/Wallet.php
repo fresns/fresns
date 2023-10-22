@@ -228,7 +228,6 @@ class Wallet
         return $this->success();
     }
 
-
     // cmd word: wallet update state
     public function walletUpdateState($wordBody)
     {
