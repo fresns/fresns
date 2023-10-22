@@ -10,7 +10,7 @@ namespace App\Fresns\Words\Account\DTO;
 
 use Fresns\DTO\DTO;
 
-class WalletRevokeDTO extends DTO
+class WalletUpdateStateDTO extends DTO
 {
     public function rules(): array
     {
@@ -20,6 +20,7 @@ class WalletRevokeDTO extends DTO
             'logId' => ['integer', 'nullable', 'exists:App\Models\AccountWalletLog,id'],
             'transactionId' => ['integer', 'nullable', 'exists:App\Models\AccountWalletLog,transaction_id'],
             'transactionCode' => ['string', 'nullable', 'exists:App\Models\AccountWalletLog,transaction_code'],
+            'updateState' => ['integer', 'required', 'in:1,2,3,4'],
         ];
     }
 }

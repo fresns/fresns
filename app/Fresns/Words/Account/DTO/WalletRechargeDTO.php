@@ -24,6 +24,7 @@ class WalletRechargeDTO extends DTO
             'transactionCode' => ['string', 'nullable'],
             'remark' => ['string', 'nullable'],
             'moreJson' => ['json', 'nullable'],
+            'immediate' => ['boolean', 'nullable'],
         ];
     }
 }

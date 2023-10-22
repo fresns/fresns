@@ -62,11 +62,12 @@ class CmdWordServiceProvider extends ServiceProvider implements \Fresns\CmdWordM
         ['word' => 'walletCheckPassword', 'provider' => [Wallet::class, 'walletCheckPassword']],
         ['word' => 'walletRecharge', 'provider' => [Wallet::class, 'walletRecharge']],
         ['word' => 'walletWithdraw', 'provider' => [Wallet::class, 'walletWithdraw']],
+        ['word' => 'walletUpdateState', 'provider' => [Wallet::class, 'walletUpdateState']],
         ['word' => 'walletFreeze', 'provider' => [Wallet::class, 'walletFreeze']],
         ['word' => 'walletUnfreeze', 'provider' => [Wallet::class, 'walletUnfreeze']],
         ['word' => 'walletIncrease', 'provider' => [Wallet::class, 'walletIncrease']],
         ['word' => 'walletDecrease', 'provider' => [Wallet::class, 'walletDecrease']],
-        ['word' => 'walletRevoke', 'provider' => [Wallet::class, 'walletRevoke']],
+        ['word' => 'walletReversal', 'provider' => [Wallet::class, 'walletReversal']],
 
         // User
         ['word' => 'createUser', 'provider' => [User::class, 'createUser']],

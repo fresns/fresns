@@ -13,8 +13,9 @@ use App\Fresns\Words\Account\DTO\WalletDecreaseDTO;
 use App\Fresns\Words\Account\DTO\WalletFreezeDTO;
 use App\Fresns\Words\Account\DTO\WalletIncreaseDTO;
 use App\Fresns\Words\Account\DTO\WalletRechargeDTO;
-use App\Fresns\Words\Account\DTO\WalletRevokeDTO;
+use App\Fresns\Words\Account\DTO\WalletReversalDTO;
 use App\Fresns\Words\Account\DTO\WalletUnfreezeDTO;
+use App\Fresns\Words\Account\DTO\WalletUpdateStateDTO;
 use App\Fresns\Words\Account\DTO\WalletWithdrawDTO;
 use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
@@ -23,6 +24,7 @@ use App\Models\AccountWallet;
 use App\Models\AccountWalletLog;
 use App\Utilities\ConfigUtility;
 use Fresns\CmdWordManager\Traits\CmdWordResponseTrait;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class Wallet
@@ -119,13 +121,16 @@ class Wallet
             'system_fee' => $systemFee,
             'opening_balance' => $wallet->balance,
             'closing_balance' => $closingBalance,
+            'state' => $dtoWordBody->immediate ? AccountWalletLog::STATE_SUCCESS : AccountWalletLog::STATE_PENDING,
             'remark' => $dtoWordBody->remark,
             'more_json' => $dtoWordBody->moreJson,
         ];
 
         AccountWalletLog::create($logData);
 
-        static::balanceChange($wallet, 'increment', $transactionAmount);
+        if ($dtoWordBody->immediate) {
+            static::balanceChange($wallet, 'increment', $transactionAmount);
+        }
 
         CacheHelper::forgetFresnsAccount($dtoWordBody->aid);
 
@@ -207,12 +212,135 @@ class Wallet
             'system_fee' => $systemFee,
             'opening_balance' => $wallet->balance,
             'closing_balance' => $closingBalance,
+            'state' => $dtoWordBody->immediate ? AccountWalletLog::STATE_SUCCESS : AccountWalletLog::STATE_PENDING,
             'remark' => $dtoWordBody->remark,
             'more_json' => $dtoWordBody->moreJson,
         ];
 
         AccountWalletLog::create($logData);
-        static::balanceChange($wallet, 'decrement', $amountTotal);
+
+        if ($dtoWordBody->immediate) {
+            static::balanceChange($wallet, 'decrement', $amountTotal);
+        }
+
+        CacheHelper::forgetFresnsAccount($dtoWordBody->aid);
+
+        return $this->success();
+    }
+
+
+    // cmd word: wallet update state
+    public function walletUpdateState($wordBody)
+    {
+        $dtoWordBody = new WalletUpdateStateDTO($wordBody);
+        $langTag = AppHelper::getLangTag();
+
+        if (empty($dtoWordBody->logId) && empty($dtoWordBody->transactionId) && empty($dtoWordBody->transactionCode)) {
+            return $this->failure(
+                21005,
+                ConfigUtility::getCodeMessage(21005, 'Fresns', $langTag)
+            );
+        }
+
+        $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
+
+        // Account wallet password is incorrect
+        if (empty($accountId)) {
+            return $this->failure(
+                31502,
+                ConfigUtility::getCodeMessage(31502, 'Fresns', $langTag)
+            );
+        }
+
+        $walletLogQuery = AccountWalletLog::where('account_id', $accountId)->whereIn('state', [
+            AccountWalletLog::STATE_PENDING,
+            AccountWalletLog::STATE_PROCESSING,
+        ]);
+
+        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
+        $walletLogQuery->when($userId, function ($query, $value) {
+            $query->where('user_id', $value);
+        });
+
+        $walletLogQuery->when($dtoWordBody->logId, function ($query, $value) {
+            $query->where('id', $value);
+        });
+
+        $walletLogQuery->when($dtoWordBody->transactionId, function ($query, $value) {
+            $query->where('transaction_id', $value);
+        });
+
+        $walletLogQuery->when($dtoWordBody->transactionCode, function ($query, $value) {
+            $query->where('transaction_code', $value);
+        });
+
+        $walletLog = $walletLogQuery->first();
+
+        if (empty($walletLog)) {
+            return $this->failure(
+                32201,
+                ConfigUtility::getCodeMessage(32201, 'Fresns', $langTag)
+            );
+        }
+
+        if (! in_array($walletLog->type, [
+            AccountWalletLog::TYPE_IN_RECHARGE,
+            AccountWalletLog::TYPE_DE_WITHDRAW,
+        ])) {
+            return $this->failure(
+                21007,
+                ConfigUtility::getCodeMessage(21007, 'Fresns', $langTag)
+            );
+        }
+
+        if ($dtoWordBody->updateState != AccountWalletLog::STATE_SUCCESS) {
+            $walletLog->update([
+                'state' => $dtoWordBody->updateState,
+            ]);
+
+            CacheHelper::forgetFresnsAccount($dtoWordBody->aid);
+
+            return $this->success();
+        }
+
+        $wallet = AccountWallet::where('account_id', $accountId)->first();
+        if (empty($wallet)) {
+            return $this->failure(
+                34501,
+                ConfigUtility::getCodeMessage(34501, 'Fresns', $langTag)
+            );
+        }
+
+        switch ($walletLog->type) {
+            case AccountWalletLog::TYPE_IN_RECHARGE:
+                static::balanceChange($wallet, 'increment', $walletLog->transaction_amount);
+
+                $closingBalance = $wallet->balance + $walletLog->transaction_amount;
+                break;
+
+            case AccountWalletLog::TYPE_DE_WITHDRAW:
+                $checkBalance = static::checkBalance($wallet, $walletLog->amount_total);
+
+                // The counterparty wallet balance is not allowed to make payment
+                if (! $checkBalance) {
+                    return $this->failure(
+                        34504,
+                        ConfigUtility::getCodeMessage(34504, 'Fresns', $langTag)
+                    );
+                }
+
+                static::balanceChange($wallet, 'decrement', $walletLog->amount_total);
+
+                $closingBalance = $wallet->balance - $walletLog->amount_total;
+                break;
+        }
+
+        $walletLog->update([
+            'opening_balance' => $wallet->balance,
+            'closing_balance' => $closingBalance,
+            'state' => AccountWalletLog::STATE_SUCCESS,
+            'success_at' => now(),
+        ]);
 
         CacheHelper::forgetFresnsAccount($dtoWordBody->aid);
 
@@ -279,6 +407,7 @@ class Wallet
             'system_fee' => 0.00,
             'opening_balance' => $wallet->balance,
             'closing_balance' => $wallet->balance,
+            'state' => AccountWalletLog::STATE_SUCCESS,
             'remark' => $dtoWordBody->remark,
             'more_json' => $dtoWordBody->moreJson,
         ];
@@ -351,6 +480,7 @@ class Wallet
             'system_fee' => 0.00,
             'opening_balance' => $wallet->balance,
             'closing_balance' => $wallet->balance,
+            'state' => AccountWalletLog::STATE_SUCCESS,
             'remark' => $dtoWordBody->remark,
             'more_json' => $dtoWordBody->moreJson,
         ];
@@ -423,6 +553,7 @@ class Wallet
             'closing_balance' => $closingBalance,
             'object_account_id' => $originAccountId,
             'object_user_id' => $originUserId,
+            'state' => AccountWalletLog::STATE_SUCCESS,
             'remark' => $dtoWordBody->remark,
             'more_json' => $dtoWordBody->moreJson,
         ];
@@ -482,6 +613,7 @@ class Wallet
                 'object_account_id' => $accountId,
                 'object_user_id' => $userId,
                 'object_wallet_log_id' => $increaseLog->id,
+                'state' => AccountWalletLog::STATE_SUCCESS,
                 'remark' => $dtoWordBody->remark,
                 'more_json' => $dtoWordBody->moreJson,
             ];
@@ -577,6 +709,7 @@ class Wallet
             'object_account_id' => $originAccountId,
             'object_user_id' => $originUserId,
             'remark' => $dtoWordBody->remark,
+            'state' => AccountWalletLog::STATE_SUCCESS,
             'more_json' => $dtoWordBody->moreJson,
         ];
 
@@ -626,6 +759,7 @@ class Wallet
                 'object_account_id' => $accountId,
                 'object_user_id' => $userId,
                 'object_wallet_log_id' => $decrementLog->id,
+                'state' => AccountWalletLog::STATE_SUCCESS,
                 'remark' => $dtoWordBody->remark,
                 'more_json' => $dtoWordBody->moreJson,
             ];
@@ -641,10 +775,10 @@ class Wallet
         return $this->success();
     }
 
-    // cmd word: wallet revoke
-    public function walletRevoke($wordBody)
+    // cmd word: wallet reversal
+    public function walletReversal($wordBody)
     {
-        $dtoWordBody = new WalletRevokeDTO($wordBody);
+        $dtoWordBody = new WalletReversalDTO($wordBody);
         $langTag = AppHelper::getLangTag();
 
         if (empty($dtoWordBody->logId) && empty($dtoWordBody->transactionId) && empty($dtoWordBody->transactionCode)) {
@@ -655,7 +789,6 @@ class Wallet
         }
 
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
-        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
 
         // Account wallet password is incorrect
         if (empty($accountId)) {
@@ -665,8 +798,9 @@ class Wallet
             );
         }
 
-        $walletLogQuery = AccountWalletLog::where('account_id', $accountId);
+        $walletLogQuery = AccountWalletLog::where('account_id', $accountId)->where('state', AccountWalletLog::STATE_SUCCESS);
 
+        $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
         $walletLogQuery->when($userId, function ($query, $value) {
             $query->where('user_id', $value);
         });
@@ -683,12 +817,22 @@ class Wallet
             $query->where('transaction_code', $value);
         });
 
-        $walletLog = $walletLogQuery->where('state', AccountWalletLog::STATE_SUCCESS)->first();
+        $walletLog = $walletLogQuery->first();
 
         if (empty($walletLog)) {
             return $this->failure(
                 32201,
                 ConfigUtility::getCodeMessage(32201, 'Fresns', $langTag)
+            );
+        }
+
+        if (! in_array($walletLog->type, [
+            AccountWalletLog::TYPE_IN_TRANSACTION,
+            AccountWalletLog::TYPE_DE_TRANSACTION,
+        ])) {
+            return $this->failure(
+                21007,
+                ConfigUtility::getCodeMessage(21007, 'Fresns', $langTag)
             );
         }
 
@@ -708,7 +852,7 @@ class Wallet
 
             $objectWallet = AccountWallet::where('account_id', $objectWalletLog?->account_id)->first();
 
-            if ($objectWalletLog && $objectWallet) {
+            if ($objectWalletLog && $objectWallet && $objectWalletLog->type == AccountWalletLog::TYPE_IN_TRANSACTION) {
                 $checkObjectBalance = static::checkBalance($objectWallet, $objectWalletLog->amount_total);
                 // The counterparty wallet balance is not allowed to make payment
                 if (! $checkObjectBalance) {
@@ -719,41 +863,107 @@ class Wallet
                 }
 
                 $objectWalletLog->update([
-                    'is_enabled' => false,
+                    'state' => AccountWalletLog::STATE_REVERSED,
                 ]);
             }
         }
 
-        // The counterparty wallet balance is not allowed to make payment
-        $checkBalance = static::checkBalance($wallet, $walletLog->amount_total);
-        if (! $checkBalance) {
-            return $this->failure(
-                34504,
-                ConfigUtility::getCodeMessage(34504, 'Fresns', $langTag)
-            );
+        if ($walletLog->type == AccountWalletLog::TYPE_IN_TRANSACTION) {
+            // The counterparty wallet balance is not allowed to make payment
+            $checkBalance = static::checkBalance($wallet, $walletLog->amount_total);
+            if (! $checkBalance) {
+                return $this->failure(
+                    34504,
+                    ConfigUtility::getCodeMessage(34504, 'Fresns', $langTag)
+                );
+            }
         }
 
         $walletLog->update([
-            'is_enabled' => false,
+            'state' => AccountWalletLog::STATE_REVERSED,
         ]);
 
         switch ($walletLog->type) {
             case AccountWalletLog::TYPE_IN_TRANSACTION:
                 $wallet->decrement('balance', $walletLog->amount_total);
+                $newBalance = $wallet->balance - $walletLog->amount_total;
+                $reversalType = AccountWalletLog::TYPE_DE_REVERSAL;
 
                 if ($objectWalletLog && $objectWallet) {
                     $objectWallet->increment('balance', $objectWalletLog->amount_total);
+                    $objectNewBalance = $objectWallet->balance + $objectWalletLog->amount_total;
+
+                    $originLogData = [
+                        'account_id' => $objectWalletLog->account_id,
+                        'user_id' => $objectWalletLog->user_id,
+                        'type' => AccountWalletLog::TYPE_IN_REVERSAL,
+                        'plugin_fskey' => $objectWalletLog->plugin_fskey,
+                        'transaction_id' => $objectWalletLog->transaction_id,
+                        'transaction_code' => $objectWalletLog->transaction_code,
+                        'amount_total' => $objectWalletLog->amount_total,
+                        'transaction_amount' => 0.00,
+                        'system_fee' => 0.00,
+                        'opening_balance' => $objectWallet->balance,
+                        'closing_balance' => $objectNewBalance,
+                        'object_account_id' => $objectWalletLog->object_account_id,
+                        'object_user_id' => $objectWalletLog->object_user_id,
+                        'object_wallet_log_id' => $objectWalletLog->id,
+                        'state' => AccountWalletLog::STATE_SUCCESS,
+                    ];
+                    AccountWalletLog::create($originLogData);
                 }
                 break;
 
             case AccountWalletLog::TYPE_DE_TRANSACTION:
                 $wallet->increment('balance', $walletLog->amount_total);
+                $newBalance = $wallet->balance + $walletLog->amount_total;
+                $reversalType = AccountWalletLog::TYPE_IN_REVERSAL;
 
                 if ($objectWalletLog && $objectWallet) {
                     $objectWallet->decrement('balance', $objectWalletLog->amount_total);
+                    $objectNewBalance = $objectWallet->balance - $objectWalletLog->amount_total;
+
+                    $originLogData = [
+                        'account_id' => $objectWalletLog->account_id,
+                        'user_id' => $objectWalletLog->user_id,
+                        'type' => AccountWalletLog::TYPE_DE_REVERSAL,
+                        'plugin_fskey' => $objectWalletLog->plugin_fskey,
+                        'transaction_id' => $objectWalletLog->transaction_id,
+                        'transaction_code' => $objectWalletLog->transaction_code,
+                        'amount_total' => $objectWalletLog->amount_total,
+                        'transaction_amount' => 0.00,
+                        'system_fee' => 0.00,
+                        'opening_balance' => $objectWallet->balance,
+                        'closing_balance' => $objectNewBalance,
+                        'object_account_id' => $objectWalletLog->object_account_id,
+                        'object_user_id' => $objectWalletLog->object_user_id,
+                        'object_wallet_log_id' => $objectWalletLog->id,
+                        'state' => AccountWalletLog::STATE_SUCCESS,
+                    ];
+                    AccountWalletLog::create($originLogData);
                 }
                 break;
         }
+
+        // wallet log
+        $logData = [
+            'account_id' => $accountId,
+            'user_id' => $walletLog->user_id,
+            'type' => $reversalType,
+            'plugin_fskey' => $walletLog->plugin_fskey,
+            'transaction_id' => $walletLog->transaction_id,
+            'transaction_code' => $walletLog->transaction_code,
+            'amount_total' => $walletLog->amount_total,
+            'transaction_amount' => 0.00,
+            'system_fee' => 0.00,
+            'opening_balance' => $wallet->balance,
+            'closing_balance' => $newBalance,
+            'object_account_id' => $walletLog->object_account_id,
+            'object_user_id' => $walletLog->object_user_id,
+            'object_wallet_log_id' => $walletLog->id,
+            'state' => AccountWalletLog::STATE_SUCCESS,
+        ];
+        AccountWalletLog::create($logData);
 
         CacheHelper::forgetFresnsAccount($dtoWordBody->aid);
 
@@ -785,7 +995,10 @@ class Wallet
     // check closing balance
     public static function checkClosingBalance(AccountWallet $wallet): bool
     {
-        $walletLog = AccountWalletLog::where('account_id', $wallet->account_id)->where('state', AccountWalletLog::STATE_SUCCESS)->latest('id')->first();
+        $walletLog = AccountWalletLog::where('account_id', $wallet->account_id)
+            ->where('state', AccountWalletLog::STATE_SUCCESS)
+            ->orderByDesc(DB::raw('COALESCE(success_at, created_at)'))
+            ->first();
 
         $closingBalance = $walletLog?->closing_balance ?? 0.00;
 
