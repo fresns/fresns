@@ -47,9 +47,14 @@ trait AccountServiceTrait
         $connects = ConfigHelper::fresnsConfigByItemKey('connects');
         $connectServices = ConfigHelper::fresnsConfigByItemKey('account_connect_services') ?? [];
 
+        $excludeConnectIds = [
+            AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM,
+            AccountConnect::CONNECT_QQ_OPEN_PLATFORM,
+        ];
+
         $connectsItemArr = [];
         foreach ($connectsArr as $connect) {
-            if ($connect->connect_platform_id == AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM) {
+            if (in_array($connect->connect_platform_id, $excludeConnectIds)) {
                 continue;
             }
 
@@ -92,14 +97,12 @@ trait AccountServiceTrait
 
         $connectPlatformIdArr = $connectsArr->pluck('connect_platform_id')->toArray();
 
+        $combinedArray = array_merge($connectPlatformIdArr, $excludeConnectIds);
+
         foreach ($connectServices as $service) {
             $connectPlatformId = (int) $service['code'];
 
-            if ($connectPlatformId == AccountConnect::CONNECT_WECHAT_OPEN_PLATFORM) {
-                continue;
-            }
-
-            if (in_array($connectPlatformId, $connectPlatformIdArr)) {
+            if (in_array($connectPlatformId, $combinedArray)) {
                 continue;
             }
 
