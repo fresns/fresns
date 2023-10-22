@@ -35,6 +35,7 @@ use App\Utilities\ExtendUtility;
 use App\Utilities\SubscribeUtility;
 use App\Utilities\ValidationUtility;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -566,10 +567,12 @@ class AccountController extends Controller
         $langTag = $this->langTag();
         $timezone = $this->timezone();
 
-        $walletLogQuery = AccountWalletLog::with(['user'])->where('account_id', $authAccount->id)->orderBy('created_at', 'desc');
+        $walletLogQuery = AccountWalletLog::with(['user'])->where('account_id', $authAccount->id);
 
-        if (isset($dtoRequest->status)) {
-            $walletLogQuery->where('is_enabled', $dtoRequest->status);
+        $walletLogQuery->orderByDesc(DB::raw('COALESCE(success_at, created_at)'));
+
+        if ($dtoRequest->state) {
+            $walletLogQuery->where('state', $dtoRequest->state);
         }
 
         if ($dtoRequest->type) {
@@ -583,19 +586,22 @@ class AccountController extends Controller
 
         $logList = [];
         foreach ($walletLogs as $log) {
+            $datetime = $log->success_at ?? $log->created_at;
+
             $item['type'] = $log->type;
+            $item['fskey'] = $log->plugin_fskey;
+            $item['transactionId'] = $log->transaction_id;
+            $item['transactionCode'] = $log->transaction_code;
             $item['amountTotal'] = $log->amount_total;
             $item['transactionAmount'] = $log->transaction_amount;
             $item['systemFee'] = $log->system_fee;
             $item['openingBalance'] = $log->opening_balance;
             $item['closingBalance'] = $log->closing_balance;
-            $item['createdDatetime'] = DateHelper::fresnsFormatDateTime($log->created_at, $timezone, $langTag);
-            $item['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($log->created_at, $langTag);
-            $item['remark'] = $log->remark;
             $item['user'] = $log?->user ? $service->userData($log?->user, 'list', $langTag, $timezone, $authUser?->id) : null;
-            $item['transactionId'] = $log->transaction_id;
-            $item['transactionCode'] = $log->transaction_code;
-            $item['fskey'] = $log->plugin_fskey;
+            $item['remark'] = $log->remark;
+            $item['datetime'] = DateHelper::fresnsFormatDateTime($datetime, $timezone, $langTag);
+            $item['datetimeFormat'] = DateHelper::fresnsFormatDateTime($datetime, $timezone, $langTag);
+            $item['timeAgo'] = DateHelper::fresnsHumanReadableTime($datetime, $langTag);
             $item['state'] = $log->state;
 
             $logList[] = $item;

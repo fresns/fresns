@@ -16,7 +16,7 @@ class AccountWalletLogsDTO extends DTO
     {
         return [
             'type' => ['string', 'nullable'],
-            'status' => ['boolean', 'nullable'],
+            'state' => ['integer', 'nullable', 'in:1,2,3,4,5'],
             'whitelistKeys' => ['string', 'nullable'],
             'blacklistKeys' => ['string', 'nullable'],
             'pageSize' => ['integer', 'nullable', 'between:1,50'],
