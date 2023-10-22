@@ -23,17 +23,17 @@ trait ApiResponseTrait
             $data = null;
         }
 
-        // paginate data
+        // pagination data
         $meta = [];
-        $paginate = [];
-        if (isset($data['data']) && isset($data['paginate'])) {
+        $pagination = [];
+        if (isset($data['data']) && isset($data['pagination'])) {
             extract($data);
         }
 
         $message = $message ?: ConfigUtility::getCodeMessage($code, 'Fresns', AppHelper::getLangTag());
 
         $data = $data ?: null;
-        $fresnsResponse = compact('code', 'message', 'data') + array_filter(compact('paginate'));
+        $fresnsResponse = compact('code', 'message', 'data') + array_filter(compact('pagination'));
 
         return \response(
             \json_encode($fresnsResponse, \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE | \JSON_PRETTY_PRINT),
@@ -50,7 +50,7 @@ trait ApiResponseTrait
     public function warning(int $code, ?string $message = null, mixed $data = null)
     {
         $data = [
-            'paginate' => [
+            'pagination' => [
                 'total' => 0,
                 'pageSize' => 15,
                 'currentPage' => 1,
@@ -105,7 +105,7 @@ trait ApiResponseTrait
     public function paginate(LengthAwarePaginator $paginate, ?callable $callable = null)
     {
         return $this->success([
-            'paginate' => [
+            'pagination' => [
                 'total' => $paginate->total(),
                 'pageSize' => $paginate->perPage(),
                 'currentPage' => $paginate->currentPage(),
