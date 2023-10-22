@@ -713,8 +713,9 @@ class UserController extends Controller
             $item['closingAmount'] = $log->closing_amount;
             $item['fskey'] = $log->plugin_fskey;
             $item['remark'] = $log->remark;
-            $item['createdDatetime'] = DateHelper::fresnsFormatDateTime($log->created_at, $timezone, $langTag);
-            $item['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($log->created_at, $langTag);
+            $item['datetime'] = DateHelper::fresnsDateTimeByTimezone($log->created_at, $timezone, $langTag);
+            $item['datetimeFormat'] = DateHelper::fresnsFormatDateTime($log->created_at, $timezone, $langTag);
+            $item['timeAgo'] = DateHelper::fresnsHumanReadableTime($log->created_at, $langTag);
 
             $logList[] = $item;
         }

@@ -599,7 +599,7 @@ class AccountController extends Controller
             $item['closingBalance'] = $log->closing_balance;
             $item['user'] = $log?->user ? $service->userData($log?->user, 'list', $langTag, $timezone, $authUser?->id) : null;
             $item['remark'] = $log->remark;
-            $item['datetime'] = DateHelper::fresnsFormatDateTime($datetime, $timezone, $langTag);
+            $item['datetime'] = DateHelper::fresnsDateTimeByTimezone($datetime, $timezone, $langTag);
             $item['datetimeFormat'] = DateHelper::fresnsFormatDateTime($datetime, $timezone, $langTag);
             $item['timeAgo'] = DateHelper::fresnsHumanReadableTime($datetime, $langTag);
             $item['state'] = $log->state;
