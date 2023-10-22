@@ -647,6 +647,13 @@ class Wallet
         $dtoWordBody = new WalletRevokeDTO($wordBody);
         $langTag = AppHelper::getLangTag();
 
+        if (empty($dtoWordBody->logId) && empty($dtoWordBody->transactionId) && empty($dtoWordBody->transactionCode)) {
+            return $this->failure(
+                21005,
+                ConfigUtility::getCodeMessage(21005, 'Fresns', $langTag)
+            );
+        }
+
         $accountId = PrimaryHelper::fresnsAccountIdByAid($dtoWordBody->aid);
         $userId = PrimaryHelper::fresnsUserIdByUidOrUsername($dtoWordBody->uid);
 
@@ -658,11 +665,25 @@ class Wallet
             );
         }
 
-        if (empty($userId)) {
-            $walletLog = AccountWalletLog::where('id', $dtoWordBody->logId)->where('account_id', $accountId)->isEnabled()->first();
-        } else {
-            $walletLog = AccountWalletLog::where('id', $dtoWordBody->logId)->where('account_id', $accountId)->where('user_id', $userId)->isEnabled()->first();
-        }
+        $walletLogQuery = AccountWalletLog::where('account_id', $accountId);
+
+        $walletLogQuery->when($userId, function ($query, $value) {
+            $query->where('user_id', $value);
+        });
+
+        $walletLogQuery->when($dtoWordBody->logId, function ($query, $value) {
+            $query->where('id', $value);
+        });
+
+        $walletLogQuery->when($dtoWordBody->transactionId, function ($query, $value) {
+            $query->where('transaction_id', $value);
+        });
+
+        $walletLogQuery->when($dtoWordBody->transactionCode, function ($query, $value) {
+            $query->where('transaction_code', $value);
+        });
+
+        $walletLog = $walletLogQuery->where('state', AccountWalletLog::STATE_SUCCESS)->first();
 
         if (empty($walletLog)) {
             return $this->failure(
@@ -764,7 +785,7 @@ class Wallet
     // check closing balance
     public static function checkClosingBalance(AccountWallet $wallet): bool
     {
-        $walletLog = AccountWalletLog::where('account_id', $wallet->account_id)->isEnabled()->latest('id')->first();
+        $walletLog = AccountWalletLog::where('account_id', $wallet->account_id)->where('state', AccountWalletLog::STATE_SUCCESS)->latest('id')->first();
 
         $closingBalance = $walletLog?->closing_balance ?? 0.00;
 

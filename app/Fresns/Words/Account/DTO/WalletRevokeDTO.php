@@ -15,9 +15,11 @@ class WalletRevokeDTO extends DTO
     public function rules(): array
     {
         return [
-            'logId' => ['integer', 'nullable', 'exists:App\Models\AccountWalletLog,id'],
             'aid' => ['string', 'required', 'exists:App\Models\Account,aid'],
             'uid' => ['integer', 'nullable', 'exists:App\Models\User,uid'],
+            'logId' => ['integer', 'nullable', 'exists:App\Models\AccountWalletLog,id'],
+            'transactionId' => ['integer', 'nullable', 'exists:App\Models\AccountWalletLog,transaction_id'],
+            'transactionCode' => ['string', 'nullable', 'exists:App\Models\AccountWalletLog,transaction_code'],
         ];
     }
 }

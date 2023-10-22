@@ -17,7 +17,11 @@ class AccountWalletLog extends Model
     const TYPE_DE_UNFREEZE = 5;
     const TYPE_DE_TRANSACTION = 6;
 
-    use Traits\IsEnabledTrait;
+    const STATE_PENDING = 1;
+    const STATE_PROCESSING = 2;
+    const STATE_SUCCESS = 3;
+    const STATE_FAILED = 4;
+    const STATE_REVERSED = 5;
 
     protected $casts = [
         'more_json' => 'json',

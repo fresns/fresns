@@ -593,8 +593,10 @@ class AccountController extends Controller
             $item['createdTimeAgo'] = DateHelper::fresnsHumanReadableTime($log->created_at, $langTag);
             $item['remark'] = $log->remark;
             $item['user'] = $log?->user ? $service->userData($log?->user, 'list', $langTag, $timezone, $authUser?->id) : null;
+            $item['transactionId'] = $log->transaction_id;
+            $item['transactionCode'] = $log->transaction_code;
             $item['fskey'] = $log->plugin_fskey;
-            $item['status'] = (bool) $log->is_enabled;
+            $item['state'] = $log->state;
 
             $logList[] = $item;
         }
