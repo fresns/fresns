@@ -11,9 +11,9 @@ namespace App\Console\Commands;
 use App\Helpers\AppHelper;
 use App\Helpers\CacheHelper;
 use App\Utilities\AppUtility;
-use Fresns\PluginManager\Support\Process;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -144,7 +144,15 @@ class UpgradeFresns extends Command
         $this->updateStep(self::STEP_DOWNLOAD);
         logger('upgrade: fresns download zip');
 
-        $client = new \GuzzleHttp\Client();
+        $httpProxy = config('app.http_proxy');
+
+        $options = [
+            'proxy' => [
+                'http' => $httpProxy,
+                'https' => $httpProxy,
+            ],
+        ];
+        $client = new \GuzzleHttp\Client($options);
 
         $downloadUrl = AppUtility::newVersion()['upgradePackage'];
 
@@ -214,15 +222,15 @@ class UpgradeFresns extends Command
 
         // composer command
         logger('-- composer command');
-        $process = Process::run('composer update', $this->output);
+        $exitCode = $this->call('plugin:composer-update');
 
-        if (! $process->isSuccessful()) {
-            logger('-- -- composer error: '.$process->getErrorOutput());
+        if ($exitCode) {
+            logger('-- -- composer error: '.Artisan::output());
 
             return false;
         }
 
-        logger('-- -- composer finish: '.$process->getOutput());
+        logger('-- -- composer finish: '.Artisan::output());
 
         return true;
     }

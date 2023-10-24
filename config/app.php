@@ -59,6 +59,8 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
+    'http_proxy' => env('HTTP_PROXY'),
+
     /*
     |--------------------------------------------------------------------------
     | Fresns Config
