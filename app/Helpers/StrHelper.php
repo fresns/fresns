@@ -184,11 +184,15 @@ class StrHelper
                 }
             }
 
-            $domain = match ($count) {
-                1 => implode('.', array_reverse([$reverseDomainData[0], $reverseDomainData[1]])),
-                2 => implode('.', array_reverse([$reverseDomainData[0], $reverseDomainData[1], $reverseDomainData[2]])),
-                default => $host,
-            };
+            if ($count == count($reverseDomainData)) {
+                $domain = implode('.', array_reverse($reverseDomainData));
+            } else {
+                $domain = match ($count) {
+                    1 => implode('.', array_reverse([$reverseDomainData[0], $reverseDomainData[1]])),
+                    2 => implode('.', array_reverse([$reverseDomainData[0], $reverseDomainData[1], $reverseDomainData[2]])),
+                    default => $host,
+                };
+            }
         } catch (\Exception $e) {
             $domain = null;
         }
