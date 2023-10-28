@@ -91,6 +91,8 @@ class Crontab
     // checkUserRoleExpired
     public function checkUserRoleExpired()
     {
+        logger('cmd word: checkUserRoleExpired');
+
         $roleArr = UserRole::where('is_main', 1)->where('expired_at', '<', now())->get();
 
         foreach ($roleArr as $role) {
@@ -127,6 +129,8 @@ class Crontab
     // checkDeleteAccount
     public function checkDeleteAccount()
     {
+        logger('cmd word: checkDeleteAccount');
+
         $deleteType = ConfigHelper::fresnsConfigByItemKey('delete_account_type');
 
         if ($deleteType == Config::DELETE_ACCOUNT_CLOSE) {

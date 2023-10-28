@@ -23,7 +23,7 @@ class Kernel extends ConsoleKernel
         $crontabItems = ConfigHelper::fresnsConfigByItemKey('crontab_items') ?? [];
 
         foreach ($crontabItems as $cron) {
-            if ($cron['fskey'] !== 'Fresns') {
+            if ($cron['fskey'] != 'Fresns') {
                 $plugin = Plugin::where('fskey', $cron['fskey'])->isEnabled()->first();
 
                 if (empty($plugin)) {
@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
             }
 
             $schedule->call(function () use ($cron) {
-                logger("schedule: {$cron['fskey']} -> {$cron['cmdWord']}");
+                logger("schedule: {$cron['fskey']} -> {$cron['cmdWord']} | {$cron['cronTableFormat']}");
 
                 \FresnsCmdWord::plugin($cron['fskey'])->{$cron['cmdWord']}();
             })->cron($cron['cronTableFormat']);
