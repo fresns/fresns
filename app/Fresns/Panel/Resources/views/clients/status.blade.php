@@ -43,7 +43,13 @@
         <div class="row mb-4">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.option_deactivate').' - '.__('FsLang::panel.table_description') }}:</label>
             <div class="col-lg-9">
-                <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start" data-bs-toggle="modal" data-bs-target="#descriptionModal">{{ $statusJson['deactivateDescribe']['default'] ?? 'Describe the reason for the deactivate' }}</button>
+                <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start" data-bs-toggle="modal" data-bs-target="#descriptionModal">
+                    @if ($statusJson['deactivateDescribe']['default'])
+                        {{ $statusJson['deactivateDescribe']['default'] }}
+                    @else
+                        Describe the reason for the deactivate
+                    @endif
+                </button>
             </div>
             <!-- Describe Modal -->
             <div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModal" aria-hidden="true">
