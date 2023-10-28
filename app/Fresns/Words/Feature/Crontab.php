@@ -185,6 +185,8 @@ class Crontab
     // checkPluginsVersions
     public function checkPluginsVersions()
     {
+        logger('cmd word: checkPluginsVersions');
+
         $plugins = Plugin::all();
 
         // market-manager
