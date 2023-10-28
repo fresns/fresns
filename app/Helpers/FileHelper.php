@@ -313,6 +313,10 @@ class FileHelper
     {
         $fileInfo = FileHelper::fresnsFileInfoById($fileIdOrFid);
 
+        if (empty($fileInfo)) {
+            return null;
+        }
+
         $key = match ($fileInfo['type']) {
             File::TYPE_IMAGE => 'imageConfig',
             File::TYPE_VIDEO => 'video',
