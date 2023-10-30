@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.21.0 (10/30/2023)
+
+### Added
+- Panel: Configurable post and comment deletion
+- Framework: add `HTTP_PROXY` config
+
+### Fixes
+- Panel: group paginate
+
+
 ## 2.20.0 (10/22/2023)
 
 ### Added
