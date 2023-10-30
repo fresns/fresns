@@ -98,7 +98,7 @@ class SubscribeUtility
 
                         \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
                     } catch (\Exception $e) {
-                        logger("Error executing cmdWord: " . $e->getMessage());
+                        logger('Error executing cmdWord: '.$e->getMessage());
                     }
                 });
             }
@@ -148,7 +148,7 @@ class SubscribeUtility
 
                         \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
                     } catch (\Exception $e) {
-                        logger("Error executing cmdWord: " . $e->getMessage());
+                        logger('Error executing cmdWord: '.$e->getMessage());
                     }
                 });
             }
@@ -185,7 +185,7 @@ class SubscribeUtility
 
                         \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
                     } catch (\Exception $e) {
-                        logger("Error executing cmdWord: " . $e->getMessage());
+                        logger('Error executing cmdWord: '.$e->getMessage());
                     }
                 });
             }
@@ -246,7 +246,7 @@ class SubscribeUtility
 
                         \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
                     } catch (\Exception $e) {
-                        logger("Error executing cmdWord: " . $e->getMessage());
+                        logger('Error executing cmdWord: '.$e->getMessage());
                     }
                 });
             }
