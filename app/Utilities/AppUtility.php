@@ -57,9 +57,19 @@ class AppUtility
         if (empty($newVersion)) {
             $baseUrl = AppUtility::BASE_URL;
 
+            $httpProxy = config('app.http_proxy');
+
+            $options = [
+                'verify' => false,
+                'proxy' => [
+                    'http' => $httpProxy,
+                    'https' => $httpProxy,
+                ],
+            ];
+
             try {
-                $versionInfoUrl = $baseUrl.'/v2/20/version.json';
-                $client = new \GuzzleHttp\Client(['verify' => false]);
+                $versionInfoUrl = $baseUrl.'/v2/21/version.json';
+                $client = new \GuzzleHttp\Client($options);
                 $response = $client->request('GET', $versionInfoUrl);
                 $versionInfo = json_decode($response->getBody(), true);
                 $buildType = ConfigHelper::fresnsConfigByItemKey('build_type');
@@ -96,9 +106,19 @@ class AppUtility
         if (empty($news)) {
             $baseUrl = AppUtility::BASE_URL;
 
+            $httpProxy = config('app.http_proxy');
+
+            $options = [
+                'verify' => false,
+                'proxy' => [
+                    'http' => $httpProxy,
+                    'https' => $httpProxy,
+                ],
+            ];
+
             try {
                 $newUrl = $baseUrl.'/v2/news.json';
-                $client = new \GuzzleHttp\Client(['verify' => false]);
+                $client = new \GuzzleHttp\Client($options);
                 $response = $client->request('GET', $newUrl);
                 $news = json_decode($response->getBody(), true);
             } catch (\Exception $e) {
