@@ -89,7 +89,7 @@ class PostService
 
             $editControl['isMe'] = true;
             $editControl['canDelete'] = (bool) $post->postAppend->can_delete;
-            $editControl['canEdit'] = PermissionUtility::checkContentIsCanEdit('post', $post->created_at, $post->sticky_state, $post->digest_state, $timezone, $langTag);
+            $editControl['canEdit'] = false;
             $editControl['isPluginEditor'] = (bool) $post->postAppend->is_plugin_editor;
             $editControl['editorUrl'] = PluginHelper::fresnsPluginUrlByFskey($post->postAppend->editor_fskey);
             $item['editControls'] = $editControl;
@@ -187,7 +187,8 @@ class PostService
 
         // auth user is author
         if ($post->user_id == $authUserId) {
-            $postData['editControls']['canEdit'] = PermissionUtility::checkContentIsCanEdit('post', $post->created_at, $post->sticky_state, $post->digest_state, $timezone, $langTag);
+            $postData['editControls']['canDelete'] = $postData['editControls']['canDelete'] ? PermissionUtility::checkContentIsCanDelete('post', $post->digest_state, $post->sticky_state) : false;
+            $postData['editControls']['canEdit'] = PermissionUtility::checkContentIsCanEdit('post', $post->created_at, $post->digest_state, $post->sticky_state, $timezone, $langTag);
         } else {
             $postData['editControls'] = [
                 'isMe' => false,

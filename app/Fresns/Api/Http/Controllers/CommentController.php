@@ -30,6 +30,7 @@ use App\Models\Comment;
 use App\Models\CommentLog;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
+use App\Utilities\PermissionUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -662,7 +663,9 @@ class CommentController extends Controller
             throw new ApiException(36403);
         }
 
-        if (! $comment->commentAppend->can_delete) {
+        $canDelete = PermissionUtility::checkContentIsCanDelete('comment', $comment->digest_state, $comment->is_sticky);
+
+        if (! $comment->commentAppend->can_delete || ! $canDelete) {
             throw new ApiException(36401);
         }
 

@@ -185,7 +185,8 @@ class CommentService
         // auth user is author
         $isMe = $comment->user_id == $authUserId ? true : false;
         if ($isMe) {
-            $commentData['editControls']['canEdit'] = PermissionUtility::checkContentIsCanEdit('comment', $comment->created_at, $comment->is_sticky, $comment->digest_state, $timezone, $langTag);
+            $commentData['editControls']['canDelete'] = $commentData['editControls']['canDelete'] ? PermissionUtility::checkContentIsCanDelete('comment', $comment->digest_state, $comment->is_sticky) : false;
+            $commentData['editControls']['canEdit'] = PermissionUtility::checkContentIsCanEdit('comment', $comment->created_at, $comment->digest_state, $comment->is_sticky, $timezone, $langTag);
         } else {
             $commentData['extendButton'] = [
                 'status' => false,

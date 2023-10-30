@@ -31,6 +31,7 @@ use App\Models\PostLog;
 use App\Models\PostUser;
 use App\Utilities\ExtendUtility;
 use App\Utilities\InteractionUtility;
+use App\Utilities\PermissionUtility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -693,7 +694,9 @@ class PostController extends Controller
             throw new ApiException(36403);
         }
 
-        if (! $post->postAppend->can_delete) {
+        $canDelete = PermissionUtility::checkContentIsCanDelete('post', $post->digest_state, $post->sticky_state);
+
+        if (! $post->postAppend->can_delete || ! $canDelete) {
             throw new ApiException(36401);
         }
 
