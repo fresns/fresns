@@ -17,6 +17,8 @@ class Comment extends Model
     const DIGEST_NO = 1;
     const DIGEST_GENERAL = 2;
     const DIGEST_PREMIUM = 3;
+    const STICKY_NO = 0;
+    const STICKY_YES = 1;
 
     protected $dates = [
         'latest_edit_at',
