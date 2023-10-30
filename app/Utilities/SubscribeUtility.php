@@ -53,7 +53,11 @@ class SubscribeUtility
             return $item['type'] == $type;
         });
 
-        return array_values($filtered);
+        $subArr = array_values($filtered);
+
+        info('subscribe items', $subArr);
+
+        return $subArr;
     }
 
     // notifyDataChange
@@ -86,12 +90,15 @@ class SubscribeUtility
 
             foreach ($subscribeItems as $item) {
                 Queue::push(function () use ($item, $wordBody) {
+                    logger("notifyDataChange: {$item['fskey']} -> {$item['cmdWord']}");
+
                     try {
                         $fskey = $item['fskey'];
                         $cmdWord = $item['cmdWord'];
 
                         \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
                     } catch (\Exception $e) {
+                        logger("Error executing cmdWord: " . $e->getMessage());
                     }
                 });
             }
@@ -133,12 +140,15 @@ class SubscribeUtility
 
             foreach ($subscribeItems as $item) {
                 Queue::push(function () use ($item, $wordBody) {
+                    logger("notifyDataChange: {$item['fskey']} -> {$item['cmdWord']}");
+
                     try {
                         $fskey = $item['fskey'];
                         $cmdWord = $item['cmdWord'];
 
                         \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
                     } catch (\Exception $e) {
+                        logger("Error executing cmdWord: " . $e->getMessage());
                     }
                 });
             }
@@ -167,12 +177,15 @@ class SubscribeUtility
 
             foreach ($subscribeItems as $item) {
                 Queue::push(function () use ($item, $wordBody) {
+                    logger("notifyDataChange: {$item['fskey']} -> {$item['cmdWord']}");
+
                     try {
                         $fskey = $item['fskey'];
                         $cmdWord = $item['cmdWord'];
 
                         \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
                     } catch (\Exception $e) {
+                        logger("Error executing cmdWord: " . $e->getMessage());
                     }
                 });
             }
@@ -225,12 +238,15 @@ class SubscribeUtility
 
             foreach ($subscribeItems as $item) {
                 Queue::push(function () use ($item, $wordBody) {
+                    logger("notifyDataChange: {$item['fskey']} -> {$item['cmdWord']}");
+
                     try {
                         $fskey = $item['fskey'];
                         $cmdWord = $item['cmdWord'];
 
                         \FresnsCmdWord::plugin($fskey)->$cmdWord($wordBody);
                     } catch (\Exception $e) {
+                        logger("Error executing cmdWord: " . $e->getMessage());
                     }
                 });
             }
