@@ -115,16 +115,16 @@
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.publish_rules_desc') }}</div>
         </div>
         <!--publish_comment_edit_config-->
-        <div class="row mb-5">
+        <div class="row mb-3">
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.publish_comment_edit_config') }}:</label>
             <div class="col-lg-6 pt-2">
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="comment_edit" id="comment_edit_status_0" value="false" data-bs-toggle="collapse" data-bs-target=".comment_edit_setting.show" aria-expanded="false" aria-controls="comment_edit_setting" {{ !$params['comment_edit'] ? 'checked' : '' }}>
-                    <label class="form-check-label" for="comment_edit_status_0">{{ __('FsLang::panel.permission_option_non_editable') }}</label>
+                    <label class="form-check-label" for="comment_edit_status_0">{{ __('FsLang::panel.permission_option_cannot_be_edited') }}</label>
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="comment_edit" id="comment_edit_status_1" value="true" data-bs-toggle="collapse" data-bs-target=".comment_edit_setting:not(.show)" aria-expanded="false" aria-controls="comment_edit_setting" {{ $params['comment_edit'] ? 'checked' : '' }}>
-                    <label class="form-check-label" for="comment_edit_status_1">{{ __('FsLang::panel.permission_option_editable') }}</label>
+                    <label class="form-check-label" for="comment_edit_status_1">{{ __('FsLang::panel.permission_option_can_be_edited') }}</label>
                 </div>
                 <!--comment_edit_setting-->
                 <div class="collapse comment_edit_setting mt-3 {{ $params['comment_edit'] ? 'show' : '' }}">
@@ -138,11 +138,11 @@
                         <div class="form-control bg-white">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="comment_edit_sticky_limit" id="comment_edit_sticky_false" value="false" {{ !$params['comment_edit_sticky_limit'] ? 'checked' : '' }}>
-                                <label class="form-check-label" for="comment_edit_sticky_false">{{ __('FsLang::panel.permission_option_non_editable') }}</label>
+                                <label class="form-check-label" for="comment_edit_sticky_false">{{ __('FsLang::panel.permission_option_cannot_be_edited') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="comment_edit_sticky_limit" id="comment_edit_sticky_true" value="true" {{ $params['comment_edit_sticky_limit'] ? 'checked' : '' }}>
-                                <label class="form-check-label" for="comment_edit_sticky_true">{{ __('FsLang::panel.permission_option_editable') }}</label>
+                                <label class="form-check-label" for="comment_edit_sticky_true">{{ __('FsLang::panel.permission_option_can_be_edited') }}</label>
                             </div>
                         </div>
                     </div>
@@ -151,11 +151,11 @@
                         <div class="form-control bg-white">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="comment_edit_digest_limit" id="comment_edit_digest_false" value="false" {{ !$params['comment_edit_digest_limit'] ? 'checked' : '' }}>
-                                <label class="form-check-label" for="comment_edit_digest_false">{{ __('FsLang::panel.permission_option_non_editable') }}</label>
+                                <label class="form-check-label" for="comment_edit_digest_false">{{ __('FsLang::panel.permission_option_cannot_be_edited') }}</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="comment_edit_digest_limit" id="comment_edit_digest_true" value="true" {{ $params['comment_edit_digest_limit'] ? 'checked' : '' }}>
-                                <label class="form-check-label" for="comment_edit_digest_true">{{ __('FsLang::panel.permission_option_editable') }}</label>
+                                <label class="form-check-label" for="comment_edit_digest_true">{{ __('FsLang::panel.permission_option_can_be_edited') }}</label>
                             </div>
                         </div>
                     </div>
@@ -163,6 +163,51 @@
                 <!--comment_edit_setting end-->
             </div>
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.publish_edit_desc') }}</div>
+        </div>
+        <!--publish_comment_delete_config-->
+        <div class="row mb-5">
+            <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.publish_comment_delete_config') }}:</label>
+            <div class="col-lg-6 pt-2">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="comment_delete" id="comment_delete_status_0" data-bs-toggle="collapse" data-bs-target=".comment_delete_setting.show" aria-expanded="false" aria-controls="comment_delete_setting" value="false" {{ !$params['comment_delete'] ? 'checked' : '' }}>
+                    <label class="form-check-label" for="comment_delete_status_0">{{ __('FsLang::panel.permission_option_cannot_be_deleted') }}</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="comment_delete" id="comment_delete_status_1" data-bs-toggle="collapse" data-bs-target=".comment_delete_setting:not(.show)" aria-expanded="true" aria-controls="comment_delete_setting" value="true" {{ $params['comment_delete'] ? 'checked' : '' }}>
+                    <label class="form-check-label" for="comment_delete_status_1">{{ __('FsLang::panel.permission_option_can_be_deleted') }}</label>
+                </div>
+                <!--comment_delete_setting-->
+                <div class="collapse comment_delete_setting mt-3 {{ $params['comment_delete'] ? 'show' : '' }}">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text">{{ __('FsLang::panel.publish_edit_sticky_limit') }}</label>
+                        <div class="form-control bg-white">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="comment_delete_sticky_limit" id="comment_delete_sticky_false" value="false" {{ !$params['comment_delete_sticky_limit'] ? 'checked' : '' }}>
+                                <label class="form-check-label" for="comment_delete_sticky_false">{{ __('FsLang::panel.permission_option_cannot_be_deleted') }}</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="comment_delete_sticky_limit" id="comment_delete_sticky_true" value="true" {{ $params['comment_delete_sticky_limit'] ? 'checked' : '' }}>
+                                <label class="form-check-label" for="comment_delete_sticky_true">{{ __('FsLang::panel.permission_option_can_be_deleted') }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text">{{ __('FsLang::panel.publish_edit_digest_limit') }}</label>
+                        <div class="form-control bg-white">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="comment_delete_digest_limit" id="comment_delete_digest_false" value="false" {{ !$params['comment_delete_digest_limit'] ? 'checked' : '' }}>
+                                <label class="form-check-label" for="comment_delete_digest_false">{{ __('FsLang::panel.permission_option_cannot_be_deleted') }}</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="comment_delete_digest_limit" id="comment_delete_digest_true" value="true" {{ $params['comment_delete_digest_limit'] ? 'checked' : '' }}>
+                                <label class="form-check-label" for="comment_delete_digest_true">{{ __('FsLang::panel.permission_option_can_be_deleted') }}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--comment_edit_setting end-->
+            </div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.publish_delete_desc') }}</div>
         </div>
         <!--publish_editor_config-->
         <div class="row mb-5">
