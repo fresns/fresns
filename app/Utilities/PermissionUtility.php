@@ -524,9 +524,38 @@ class PermissionUtility
         return $commentPerm;
     }
 
+    // Check content is can delete
+    // $type = post or comment
+    public static function checkContentIsCanDelete(string $type, int $digestState, int $stickyState): bool
+    {
+        $deleteConfig = ConfigHelper::fresnsConfigByItemKeys([
+            "{$type}_delete",
+            "{$type}_delete_sticky_limit",
+            "{$type}_delete_digest_limit",
+        ]);
+
+        if (! $deleteConfig["{$type}_delete"]) {
+            return false;
+        }
+
+        if ($digestState != Post::STICKY_NO && ! $deleteConfig["{$type}_delete_digest_limit"]) {
+            return false;
+        }
+
+        if ($type == 'post' && $stickyState != Post::STICKY_NO && ! $deleteConfig["{$type}_delete_sticky_limit"]) {
+            return false;
+        }
+
+        if ($type == 'comment' && $stickyState == Comment::STICKY_YES && ! $deleteConfig["{$type}_delete_sticky_limit"]) {
+            return false;
+        }
+
+        return true;
+    }
+
     // Check content is can edit
     // $type = post or comment
-    public static function checkContentIsCanEdit(string $type, Carbon $createdDatetime, int $stickyState, int $digestState, ?string $timezone = null, ?string $langTag = null): bool
+    public static function checkContentIsCanEdit(string $type, Carbon $createdDatetime, int $digestState, int $stickyState, ?string $timezone = null, ?string $langTag = null): bool
     {
         $editConfig = ConfigHelper::fresnsConfigByItemKeys([
             "{$type}_edit",
@@ -545,22 +574,16 @@ class PermissionUtility
             return false;
         }
 
-        if ($digestState != 1) {
-            if (! $editConfig["{$type}_edit_digest_limit"]) {
-                return false;
-            }
+        if ($digestState != Post::STICKY_NO && ! $editConfig["{$type}_edit_digest_limit"]) {
+            return false;
         }
 
-        if ($type == 'post' && $stickyState != 1) {
-            if (! $editConfig["{$type}_edit_sticky_limit"]) {
-                return false;
-            }
+        if ($type == 'post' && $stickyState != Post::STICKY_NO && ! $editConfig["{$type}_edit_sticky_limit"]) {
+            return false;
         }
 
-        if ($type == 'comment' && $stickyState == 1) {
-            if (! $editConfig["{$type}_edit_sticky_limit"]) {
-                return false;
-            }
+        if ($type == 'comment' && $stickyState == Comment::STICKY_YES && ! $editConfig["{$type}_edit_sticky_limit"]) {
+            return false;
         }
 
         return true;
