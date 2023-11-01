@@ -72,9 +72,17 @@ class StickerController extends Controller
         $group = Sticker::group()->where('id', $request->parent_id)->firstOrFail();
 
         $stickerImages = $group->stickers;
-        $deleteIds = $stickerImages->pluck('id')->diff(array_keys($request->rating));
-        if ($deleteIds->count()) {
-            $group->stickers()->whereIn('id', $deleteIds)->delete();
+
+        if ($request->rating ?? []) {
+            $deleteIds = $stickerImages->pluck('id')->diff(array_keys($request->rating));
+
+            if ($deleteIds->count()) {
+                $group->stickers()->whereIn('id', $deleteIds)->delete();
+            }
+        } else {
+            foreach ($stickerImages as $stickerImage) {
+                $stickerImage->delete();
+            }
         }
 
         foreach ($request->rating ?? [] as $id => $rating) {
