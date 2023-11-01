@@ -59,7 +59,7 @@ class GroupController extends Controller
                 ->where('parent_id', $parentId)
                 ->isEnabled()
                 ->with('creator', 'followByPlugin', 'names', 'descriptions', 'admins')
-                ->get();
+                ->paginate(25);
         }
 
         extract(get_object_vars($this));
@@ -105,7 +105,7 @@ class GroupController extends Controller
             ->with('creator', 'followByPlugin', 'category', 'admins')
             ->where('is_recommend', 1)
             ->isEnabled()
-            ->get();
+            ->paginate(25);
 
         $plugins = Plugin::all();
         $plugins = $plugins->filter(function ($plugin) {
@@ -138,7 +138,7 @@ class GroupController extends Controller
             ->where('is_enabled', false)
             ->orderBy('rating')
             ->with('creator', 'followByPlugin', 'category')
-            ->get();
+            ->paginate(25);
 
         $plugins = Plugin::all();
         $plugins = $plugins->filter(function ($plugin) {
