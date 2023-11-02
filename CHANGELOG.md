@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.21.1 (11/02/2023)
+
+### Fixes
+- Panel: Group paginate error
+- Panel: Error deleting sticker in batch
+- Panel: Error when client state `deactivateDescribe` parameter is empty
+
+
 ## 2.21.0 (10/30/2023)
 
 ### Added
