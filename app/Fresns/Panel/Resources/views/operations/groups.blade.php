@@ -154,7 +154,7 @@
                     </tbody>
                 </table>
             </div>
-            {{ $groups ? $groups->links() : '' }}
+            {{ $groups->appends(request()->all())->links() }}
         </div>
     </div>
 

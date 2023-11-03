@@ -91,7 +91,7 @@
             </tbody>
         </table>
     </div>
-    {{ $groups ? $groups->links() : '' }}
+    {{ $groups->appends(request()->all())->links() }}
 
     <!--group edit modal-->
     @include('FsView::operations.group-edit')
