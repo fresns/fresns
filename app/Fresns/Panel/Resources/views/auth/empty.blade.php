@@ -2,7 +2,7 @@
 
 @section('body')
     <header class="form-signin text-center">
-        <img class="mt-3 mb-2" src="{{ @asset('/static/images/icon.png') }}" alt="Fresns" width="72" height="72">
+        <img class="mt-3 mb-2" src="/static/images/icon.png" alt="Fresns" width="72" height="72">
         <h2 class="mb-5">Fresns</h2>
         <h4 class="mb-3 fw-normal">{{ __('FsLang::panel.language') }}</h4>
         <select class="form-select mb-5 change-lang" aria-label=".form-select-lg example">

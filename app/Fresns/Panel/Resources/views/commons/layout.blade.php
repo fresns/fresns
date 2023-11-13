@@ -9,11 +9,11 @@
     <meta name="_token" content="{{ csrf_token() }}">
     <title>{{ __('FsLang::panel.fresns_panel') }}</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="{{ @asset("/static/css/bootstrap.min.css?v={$versionMd5}") }}">
-    <link rel="stylesheet" href="{{ @asset("/static/css/bootstrap-icons.min.css?v={$versionMd5}") }}">
-    <link rel="stylesheet" href="{{ @asset("/static/css/select2.min.css?v={$versionMd5}") }}">
-    <link rel="stylesheet" href="{{ @asset("/static/css/select2-bootstrap-5-theme.min.css?v={$versionMd5}") }}">
-    <link rel="stylesheet" href="{{ @asset("/static/css/fresns-panel.css?{$versionMd5}") }}">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css?v={{ $versionMd5 }}">
+    <link rel="stylesheet" href="/static/css/bootstrap-icons.min.css?v={{ $versionMd5 }}">
+    <link rel="stylesheet" href="/static/css/select2.min.css?v={{ $versionMd5 }}">
+    <link rel="stylesheet" href="/static/css/select2-bootstrap-5-theme.min.css?v={{ $versionMd5 }}">
+    <link rel="stylesheet" href="/static/css/fresns-panel.css?v={{ $versionMd5 }}">
     @stack('css')
 </head>
 
@@ -24,11 +24,11 @@
         @include('FsView::commons.tips')
     </div>
 
-    <script src="{{ @asset("/static/js/bootstrap.bundle.min.js?v={$versionMd5}") }}"></script>
-    <script src="{{ @asset("/static/js/jquery.min.js?v={$versionMd5}") }}"></script>
-    <script src="{{ @asset("/static/js/select2.min.js?v={$versionMd5}") }}"></script>
-    <script src="{{ @asset("/static/js/ansi_up.js?v={$versionMd5}") }}"></script>
-    <script src="{{ @asset("/static/js/fresns-panel.js?v={$versionMd5}") }}"></script>
+    <script src="/static/js/bootstrap.bundle.min.js?v={{ $versionMd5 }}"></script>
+    <script src="/static/js/jquery.min.js?v={{ $versionMd5 }}"></script>
+    <script src="/static/js/select2.min.js?v={{ $versionMd5 }}"></script>
+    <script src="/static/js/ansi_up.js?v={{ $versionMd5 }}"></script>
+    <script src="/static/js/fresns-panel.js?v={{ $versionMd5 }}"></script>
     <script>
         $(document).ready(function () {
             window.locale = $('html').attr('lang')
