@@ -9,9 +9,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Fresns @lang('Install::install.title')</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="{{ @asset('/static/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ @asset('/static/css/bootstrap-icons.min.css') }}">
-    <link rel="stylesheet" href="{{ @asset('/static/css/fresns-panel.css') }}">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/static/css/fresns-panel.css">
     @stack('css')
 </head>
 
@@ -22,8 +22,8 @@
         @yield('body')
     </main>
 
-    <script src="{{ @asset('/static/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ @asset('/static/js/jquery.min.js') }}"></script>
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/jquery.min.js"></script>
     @stack('js')
 </body>
 
