@@ -266,6 +266,7 @@ class Wallet
         });
 
         $walletLogQuery->when($dtoWordBody->transactionId, function ($query, $value) {
+            $value = (int) $value;
             $query->where('transaction_id', $value);
         });
 
