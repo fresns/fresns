@@ -33,6 +33,7 @@ class CreateCommentsTable extends Migration
             $table->decimal('map_latitude', 12, 8)->nullable();
             $table->unsignedTinyInteger('is_sticky')->default(0);
             $table->unsignedTinyInteger('digest_state')->default(1)->index('comment_digest_state');
+            $table->timestamp('digested_at')->nullable();
             $table->unsignedInteger('view_count')->default(0);
             $table->unsignedInteger('like_count')->default(0);
             $table->unsignedInteger('dislike_count')->default(0);
