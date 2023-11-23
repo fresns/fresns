@@ -129,7 +129,9 @@ class LoginController extends Controller
             Cookie::queue('panel_lang', config('app.locale'));
         }
 
-        return view('FsView::auth.login');
+        $versionMd5 = AppHelper::VERSION_MD5_16BIT;
+
+        return view('FsView::auth.login', compact('versionMd5'));
     }
 
     public function loggedOut(Request $request)
@@ -143,6 +145,8 @@ class LoginController extends Controller
         $siteUrlConfig = Config::where('item_key', 'site_url')->first();
         $siteUrl = $siteUrlConfig->item_value ?? '/';
 
-        return view('FsView::auth.empty', compact('siteUrl'));
+        $versionMd5 = AppHelper::VERSION_MD5_16BIT;
+
+        return view('FsView::auth.empty', compact('siteUrl', 'versionMd5'));
     }
 }
