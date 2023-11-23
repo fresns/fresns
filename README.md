@@ -1,4 +1,4 @@
-<p align="center"><a href="https://fresns.org" target="_blank"><img src="https://raw.githubusercontent.com/fresns/docs/main/images/Fresns-Logo(orange).png" width="300"></a></p>
+<p align="center"><a href="https://fresns.org" target="_blank"><img src="https://files.fresns.org/images/logo.png" width="300"></a></p>
 
 <p align="center">
 <img src="https://img.shields.io/packagist/dependency-v/fresns/fresns/php" alt="PHP">
