@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.21.3 (11/24/2023)
+
+### Fixes
+- Panel: version md5 parameter
+
+
 ## 2.21.2 (11/23/2023)
 
 ### Fixes
