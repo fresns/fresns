@@ -36,6 +36,8 @@ class CreateAccountsTable extends Migration
             $table->unsignedTinyInteger('verify_identity_type')->nullable();
             $table->timestamp('verify_at')->nullable();
             $table->text('verify_log')->nullable();
+            $table->string('fs_connected_id', 26)->nullable()->unique('fs_connected_id');
+            $table->string('fs_connected_token', 64)->nullable()->unique('fs_connected_token');
             $table->unsignedTinyInteger('is_enabled')->default(1);
             $table->unsignedTinyInteger('wait_delete')->default(0);
             $table->timestamp('wait_delete_at')->nullable();
@@ -51,6 +53,7 @@ class CreateAccountsTable extends Migration
             $table->string('connect_account_id', 128);
             $table->string('connect_token', 128)->nullable();
             $table->string('connect_refresh_token', 128)->nullable();
+            $table->timestamp('refresh_token_expired_at')->nullable();
             $table->string('connect_username', 128)->nullable();
             $table->string('connect_nickname', 128)->nullable();
             $table->string('connect_avatar')->nullable();
@@ -68,7 +71,6 @@ class CreateAccountsTable extends Migration
                 default:
                     $table->json('more_json')->nullable();
             }
-            $table->timestamp('refresh_token_expired_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
