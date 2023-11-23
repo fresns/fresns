@@ -25,7 +25,7 @@ class AppUtility
     const WEBSITE_URL = 'https://fresns.org';
     const WEBSITE_ZH_HANS_URL = 'https://zh-hans.fresns.org';
     const WEBSITE_ZH_HANT_URL = 'https://zh-hant.fresns.org';
-    const COMMUNITY_URL = 'https://discuss.fresns.com';
+    const COMMUNITY_URL = 'https://discuss.fresns.org';
     const MARKETPLACE_URL = 'https://marketplace.fresns.com';
 
     public static function currentVersion(): array
@@ -68,7 +68,7 @@ class AppUtility
             ];
 
             try {
-                $versionInfoUrl = $baseUrl.'/v2/21/version.json';
+                $versionInfoUrl = $baseUrl.'/v2/22/version.json';
                 $client = new \GuzzleHttp\Client($options);
                 $response = $client->request('GET', $versionInfoUrl);
                 $versionInfo = json_decode($response->getBody(), true);

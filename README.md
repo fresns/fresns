@@ -27,7 +27,7 @@ Fresns is a free and open source social network service software, a general-purp
 
 ## Installation
 
-Read the [**Installation guide**](https://fresns.org/guide/install.html) to get started. For support, refer to the [documentation](https://fresns.org/guide/), and ask questions on the [community forum](https://discuss.fresns.com/) or [github issues](https://github.com/fresns/fresns/issues).
+Read the [**Installation guide**](https://fresns.org/guide/install.html) to get started. For support, refer to the [documentation](https://fresns.org/guide/), and ask questions on the [community forum](https://discuss.fresns.org/) or [github issues](https://github.com/fresns/fresns/issues).
 
 ## Contributing
 
