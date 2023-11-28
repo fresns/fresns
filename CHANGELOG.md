@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 
 
+## 2.21.4 (11/28/2023)
+
+### Fixes
+- Panel: Group paginate error
+
+
 ## 2.21.3 (11/24/2023)
 
 ### Fixes
