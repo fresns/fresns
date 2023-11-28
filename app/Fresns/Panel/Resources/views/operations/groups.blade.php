@@ -154,7 +154,9 @@
                     </tbody>
                 </table>
             </div>
-            {{ $groups->appends(request()->all())->links() }}
+            @if ($groups instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                {{ $groups->appends(request()->all())->links() }}
+            @endif
         </div>
     </div>
 

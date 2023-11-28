@@ -91,7 +91,9 @@
             </tbody>
         </table>
     </div>
-    {{ $groups->appends(request()->all())->links() }}
+    @if ($groups instanceof \Illuminate\Pagination\LengthAwarePaginator)
+        {{ $groups->appends(request()->all())->links() }}
+    @endif
 
     <!--group edit modal-->
     @include('FsView::operations.group-edit')
