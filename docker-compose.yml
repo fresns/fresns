@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+
+    fresns.nginx:
+        build:
+            context: ./docker
+            dockerfile: nginx.dockerfile
+        depends_on:
+            - fresns.php
+            - fresns.postgres
+            - fresns.redis
+        environment:
+            DB_HOST: fresns.postgres
+            REDIS_HOST: fresns.redis
+        container_name: fs.nginx
+        ports:
+            - '${APP_PORT:-80}:80'
+            - '${APP_PORT:-443}:443'
+        volumes:
+            - ./:/var/www/html
+        networks:
+            - fresns
+
+    fresns.php:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: fs.php
+        volumes:
+            - ./:/var/www/html
+        networks:
+            - fresns
+
+    fresns.redis:
+        image: 'redis:7.0'
+        container_name: fs.cache
+        volumes:
+            - ./docker/volumes/redis:/data
+        ports:
+            - '${FORWARD_REDIS_PORT:-6380}:6379'
+        healthcheck:
+            test: [ "CMD", "redis-cli", "ping" ]
+            retries: 3
+            timeout: 5s
+        networks:
+            - fresns
+
+networks:
+    fresns:
+        driver: bridge
+
+volumes:
+  fresns-db:
+    driver: local

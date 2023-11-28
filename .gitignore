@@ -36,3 +36,8 @@ composer.lock
 /Web-Engine
 composer-dev.json
 fresns-dev.json
+
+# Docker
+!docker/volumes/redis
+docker/volumes/redis/*
+!docker/volumes/redis/.gitkeep
