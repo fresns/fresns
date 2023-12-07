@@ -133,11 +133,11 @@ class CommentController extends Controller
             $viewPost = PrimaryHelper::fresnsModelByFsid('post', $dtoRequest->pid);
 
             if (empty($viewPost) || $viewPost->trashed()) {
-                throw new ApiException(37300);
+                throw new ApiException(37400);
             }
 
             if (! $viewPost->is_enabled && $viewPost->user_id != $authUserId) {
-                throw new ApiException(37301);
+                throw new ApiException(37401);
             }
 
             $commentVisibilityRule = ConfigHelper::fresnsConfigByItemKey('comment_visibility_rule');
@@ -145,7 +145,7 @@ class CommentController extends Controller
                 $visibilityTime = $viewPost->created_at->addDay($commentVisibilityRule);
 
                 if ($visibilityTime->lt(now())) {
-                    return $this->warning(37404);
+                    return $this->warning(37504);
                 }
             }
 
@@ -171,11 +171,11 @@ class CommentController extends Controller
             $viewComment = PrimaryHelper::fresnsModelByFsid('comment', $dtoRequest->cid);
 
             if (empty($viewComment) || $viewComment->trashed()) {
-                throw new ApiException(37400);
+                throw new ApiException(37500);
             }
 
             if (! $viewComment->is_enabled) {
-                throw new ApiException(37401);
+                throw new ApiException(37501);
             }
 
             if ($viewComment->top_parent_id) {
@@ -467,7 +467,7 @@ class CommentController extends Controller
         $comment = Comment::with(['author'])->where('cid', $cid)->first();
 
         if (empty($comment)) {
-            throw new ApiException(37400);
+            throw new ApiException(37500);
         }
 
         // check author
@@ -477,7 +477,7 @@ class CommentController extends Controller
 
         // check is enabled
         if (! $comment->is_enabled && $comment->user_id != $authUserId) {
-            throw new ApiException(37401);
+            throw new ApiException(37501);
         }
 
         UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
@@ -545,7 +545,7 @@ class CommentController extends Controller
         $comment = Comment::with(['author'])->where('cid', $cid)->first();
 
         if (empty($comment)) {
-            throw new ApiException(37400);
+            throw new ApiException(37500);
         }
 
         // check author
@@ -555,7 +555,7 @@ class CommentController extends Controller
 
         // check is enabled
         if (! $comment->is_enabled && $comment->user_id != $authUserId) {
-            throw new ApiException(37401);
+            throw new ApiException(37501);
         }
 
         UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
@@ -585,7 +585,7 @@ class CommentController extends Controller
         $comment = Comment::with(['author'])->where('cid', $cid)->first();
 
         if (empty($comment)) {
-            throw new ApiException(37400);
+            throw new ApiException(37500);
         }
 
         // check author
@@ -595,7 +595,7 @@ class CommentController extends Controller
 
         // check is enabled
         if (! $comment->is_enabled && $comment->user_id != $authUserId) {
-            throw new ApiException(37401);
+            throw new ApiException(37501);
         }
 
         UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
@@ -621,7 +621,7 @@ class CommentController extends Controller
         $comment = Comment::with(['author'])->where('cid', $cid)->first();
 
         if (empty($comment)) {
-            throw new ApiException(37400);
+            throw new ApiException(37500);
         }
 
         // check author
@@ -631,7 +631,7 @@ class CommentController extends Controller
 
         // check is enabled
         if (! $comment->is_enabled && $comment->user_id != $authUserId) {
-            throw new ApiException(37401);
+            throw new ApiException(37501);
         }
 
         UserService::checkUserContentViewPerm($comment->created_at, $authUserId);
@@ -639,7 +639,7 @@ class CommentController extends Controller
         $log = CommentLog::with(['parentComment', 'post', 'author'])->where('comment_id', $comment->id)->where('id', $logId)->where('state', CommentLog::STATE_SUCCESS)->first();
 
         if (empty($log)) {
-            throw new ApiException(37402);
+            throw new ApiException(37502);
         }
 
         $service = new CommentService();
@@ -654,7 +654,7 @@ class CommentController extends Controller
         $comment = Comment::where('cid', $cid)->first();
 
         if (empty($comment)) {
-            throw new ApiException(37400);
+            throw new ApiException(37500);
         }
 
         $authUser = $this->user();

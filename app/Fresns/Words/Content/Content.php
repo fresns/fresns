@@ -131,8 +131,8 @@ class Content
                 $checkPost = Post::where('pid', $dtoWordBody->commentPid)->first();
                 if (empty($checkPost)) {
                     return $this->failure(
-                        37300,
-                        ConfigUtility::getCodeMessage(37300, 'Fresns', $langTag)
+                        37400,
+                        ConfigUtility::getCodeMessage(37400, 'Fresns', $langTag)
                     );
                 }
 
@@ -844,8 +844,8 @@ class Content
         };
 
         $errorCode = match ($dtoWordBody->type) {
-            1 => 37300,
-            2 => 37400,
+            1 => 37400,
+            2 => 37500,
         };
 
         if (empty($primaryId)) {
@@ -897,8 +897,8 @@ class Content
         };
 
         $errorCode = match ($dtoWordBody->type) {
-            1 => 37300,
-            2 => 37400,
+            1 => 37400,
+            2 => 37500,
         };
 
         if (empty($primaryId)) {
@@ -932,8 +932,8 @@ class Content
         };
 
         $errorCode = match ($dtoWordBody->type) {
-            1 => 37300,
-            2 => 37400,
+            1 => 37400,
+            2 => 37500,
         };
 
         if (empty($primaryId)) {
@@ -967,8 +967,8 @@ class Content
         };
 
         $errorCode = match ($dtoWordBody->type) {
-            1 => 37300,
-            2 => 37400,
+            1 => 37400,
+            2 => 37500,
         };
 
         if (empty($primaryId)) {
@@ -1012,8 +1012,8 @@ class Content
         $postId = PrimaryHelper::fresnsPostIdByPid($dtoWordBody->pid);
         if (empty($postId)) {
             return $this->failure(
-                37300,
-                ConfigUtility::getCodeMessage(37300, 'Fresns', $langTag)
+                37400,
+                ConfigUtility::getCodeMessage(37400, 'Fresns', $langTag)
             );
         }
 
@@ -1075,8 +1075,8 @@ class Content
         $postId = PrimaryHelper::fresnsPostIdByPid($dtoWordBody->pid);
         if (empty($postId)) {
             return $this->failure(
-                37300,
-                ConfigUtility::getCodeMessage(37300, 'Fresns', $langTag)
+                37400,
+                ConfigUtility::getCodeMessage(37400, 'Fresns', $langTag)
             );
         }
 
@@ -1119,16 +1119,16 @@ class Content
         $commentId = PrimaryHelper::fresnsCommentIdByCid($dtoWordBody->cid);
         if (empty($commentId)) {
             return $this->failure(
-                37400,
-                ConfigUtility::getCodeMessage(37400, 'Fresns', $langTag)
+                37500,
+                ConfigUtility::getCodeMessage(37500, 'Fresns', $langTag)
             );
         }
 
         $commentAppend = CommentAppend::where('comment_id', $commentId)->first();
         if (empty($commentAppend)) {
             return $this->failure(
-                37400,
-                ConfigUtility::getCodeMessage(37400, 'Fresns', $langTag)
+                37500,
+                ConfigUtility::getCodeMessage(37500, 'Fresns', $langTag)
             );
         }
 

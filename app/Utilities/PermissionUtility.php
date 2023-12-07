@@ -466,7 +466,7 @@ class PermissionUtility
     public static function checkPostCommentPerm(?string $pidOrPostId = null, ?int $userId = null): array
     {
         $commentPerm['status'] = false;
-        $commentPerm['code'] = 37300;
+        $commentPerm['code'] = 37400;
 
         if (empty($pidOrPostId)) {
             return $commentPerm;

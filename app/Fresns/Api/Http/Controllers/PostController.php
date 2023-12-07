@@ -400,7 +400,7 @@ class PostController extends Controller
         $post = Post::with(['author'])->where('pid', $pid)->first();
 
         if (empty($post)) {
-            throw new ApiException(37300);
+            throw new ApiException(37400);
         }
 
         // check author
@@ -410,7 +410,7 @@ class PostController extends Controller
 
         // check is enabled
         if (! $post->is_enabled && $post->user_id != $authUserId) {
-            throw new ApiException(37301);
+            throw new ApiException(37401);
         }
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
@@ -459,7 +459,7 @@ class PostController extends Controller
         $post = Post::with(['author'])->where('pid', $pid)->first();
 
         if (empty($post)) {
-            throw new ApiException(37300);
+            throw new ApiException(37400);
         }
 
         // check author
@@ -469,7 +469,7 @@ class PostController extends Controller
 
         // check is enabled
         if (! $post->is_enabled && $post->user_id != $authUserId) {
-            throw new ApiException(37301);
+            throw new ApiException(37401);
         }
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
@@ -495,7 +495,7 @@ class PostController extends Controller
         $post = Post::with(['author'])->where('pid', $pid)->first();
 
         if (empty($post)) {
-            throw new ApiException(37300);
+            throw new ApiException(37400);
         }
 
         // check author
@@ -505,7 +505,7 @@ class PostController extends Controller
 
         // check is enabled
         if (! $post->is_enabled && $post->user_id != $authUserId) {
-            throw new ApiException(37301);
+            throw new ApiException(37401);
         }
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
@@ -532,7 +532,7 @@ class PostController extends Controller
         $post = Post::with(['author'])->where('pid', $pid)->first();
 
         if (empty($post)) {
-            throw new ApiException(37300);
+            throw new ApiException(37400);
         }
 
         // check author
@@ -542,7 +542,7 @@ class PostController extends Controller
 
         // check is enabled
         if (! $post->is_enabled && $post->user_id != $authUserId) {
-            throw new ApiException(37301);
+            throw new ApiException(37401);
         }
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
@@ -622,7 +622,7 @@ class PostController extends Controller
         $post = Post::with(['author'])->where('pid', $pid)->first();
 
         if (empty($post)) {
-            throw new ApiException(37300);
+            throw new ApiException(37400);
         }
 
         // check author
@@ -632,7 +632,7 @@ class PostController extends Controller
 
         // check is enabled
         if (! $post->is_enabled && $post->user_id != $authUserId) {
-            throw new ApiException(37301);
+            throw new ApiException(37401);
         }
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
@@ -658,11 +658,11 @@ class PostController extends Controller
         $post = Post::where('pid', $pid)->first();
 
         if (empty($post)) {
-            throw new ApiException(37300);
+            throw new ApiException(37400);
         }
 
         if (! $post->is_enabled && $post->user_id != $authUserId) {
-            throw new ApiException(37301);
+            throw new ApiException(37401);
         }
 
         UserService::checkUserContentViewPerm($post->created_at, $authUserId);
@@ -670,7 +670,7 @@ class PostController extends Controller
         $log = PostLog::with(['parentPost', 'group', 'author'])->where('post_id', $post->id)->where('id', $logId)->where('state', PostLog::STATE_SUCCESS)->first();
 
         if (empty($log)) {
-            throw new ApiException(37302);
+            throw new ApiException(37402);
         }
 
         $service = new PostService();

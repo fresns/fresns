@@ -675,11 +675,11 @@ class CommonController extends Controller
         // check file
         $file = File::whereFid($fid)->first();
         if (empty($file)) {
-            throw new ApiException(37500);
+            throw new ApiException(37600);
         }
 
         if (! $file->is_enabled) {
-            throw new ApiException(37501);
+            throw new ApiException(37601);
         }
 
         // get model
@@ -758,11 +758,11 @@ class CommonController extends Controller
 
         $file = File::whereFid($fid)->first();
         if (empty($file)) {
-            throw new ApiException(37500);
+            throw new ApiException(37600);
         }
 
         if (! $file->is_enabled) {
-            throw new ApiException(37501);
+            throw new ApiException(37601);
         }
 
         $dbType = config('database.default');

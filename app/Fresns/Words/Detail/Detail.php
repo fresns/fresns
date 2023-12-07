@@ -157,8 +157,8 @@ class Detail
 
         if (empty($post)) {
             return $this->failure(
-                37300,
-                ConfigUtility::getCodeMessage(37300, 'Fresns', $this->langTag())
+                37400,
+                ConfigUtility::getCodeMessage(37400, 'Fresns', $this->langTag())
             );
         }
 
@@ -174,8 +174,8 @@ class Detail
 
         if (! $post->is_enabled && $post->user_id != $authUserId) {
             return $this->failure(
-                37301,
-                ConfigUtility::getCodeMessage(37301, 'Fresns', $this->langTag())
+                37401,
+                ConfigUtility::getCodeMessage(37401, 'Fresns', $this->langTag())
             );
         }
 
@@ -198,8 +198,8 @@ class Detail
 
         if (empty($comment)) {
             return $this->failure(
-                37400,
-                ConfigUtility::getCodeMessage(37400, 'Fresns', $this->langTag())
+                37500,
+                ConfigUtility::getCodeMessage(37500, 'Fresns', $this->langTag())
             );
         }
 
@@ -215,8 +215,8 @@ class Detail
 
         if (! $comment->is_enabled && $comment->user_id != $authUserId) {
             return $this->failure(
-                37401,
-                ConfigUtility::getCodeMessage(37401, 'Fresns', $this->langTag())
+                37501,
+                ConfigUtility::getCodeMessage(37501, 'Fresns', $this->langTag())
             );
         }
 
