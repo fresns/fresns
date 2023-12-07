@@ -435,11 +435,16 @@ class ContentUtility
         if ($isMarkdown) {
             $content = Str::swap([
                 '<script>' => '&lt;script&gt;',
-                '</script>' => '&lt;/script&gt;',
+                '</script>' => '&lt;&#47;script&gt;',
                 '<iframe>' => '&lt;iframe&gt;',
-                '</iframe>' => '&lt;/iframe&gt;',
+                '</iframe>' => '&lt;&#47;iframe&gt;',
+                '<frame>' => '&lt;frame&gt;',
+                '</frame>' => '&lt;&#47;frame&gt;',
                 '"javascript' => '&#34;javascript',
+                'javascript"' => 'javascript&#34;',
                 "'javascript" => '&#39;javascript',
+                "javascript'" => 'javascript&#39;',
+                'alert(' => 'alert &#40;',
             ], $content);
         } else {
             $content = htmlentities($content);
