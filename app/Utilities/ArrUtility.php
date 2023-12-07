@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 class ArrUtility
 {
     // get key value
-    public static function get(?array $array, string $key, string|array $values): object|array
+    public static function get(?array $array, string $key, string|array $values, ?bool $asArray = true): object|array
     {
         if (empty($array)) {
             return [];
@@ -28,7 +28,7 @@ class ArrUtility
 
         $data = $findData->values()->toArray();
 
-        if (count($data) == 1) {
+        if (count($data) == 1 && ! $asArray) {
             return $data[0];
         }
 
@@ -36,7 +36,7 @@ class ArrUtility
     }
 
     // forget key value
-    public static function forget(?array $array, string $key, string|array $values): object|array
+    public static function forget(?array $array, string $key, string|array $values, ?bool $asArray = true): object|array
     {
         if (empty($array)) {
             return [];
@@ -50,7 +50,7 @@ class ArrUtility
 
         $data = $otherData->values()->toArray();
 
-        if (count($data) == 1) {
+        if (count($data) == 1 && ! $asArray) {
             return $data[0];
         }
 
@@ -58,7 +58,7 @@ class ArrUtility
     }
 
     // pull key value
-    public static function pull(?array &$array, string $key, string|array $values): object|array
+    public static function pull(?array &$array, string $key, string|array $values, ?bool $asArray = true): object|array
     {
         if (empty($array)) {
             return [];
@@ -74,7 +74,7 @@ class ArrUtility
 
         $data = $findData->values()->toArray();
 
-        if (count($data) == 1) {
+        if (count($data) == 1 && ! $asArray) {
             return $data[0];
         }
 

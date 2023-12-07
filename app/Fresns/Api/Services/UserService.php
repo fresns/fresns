@@ -73,8 +73,8 @@ class UserService
             $item['roles'] = PermissionUtility::getUserRoles($user->id, $langTag);
 
             if ($item['operations']['diversifyImages']) {
-                $decorate = ArrUtility::pull($item['operations']['diversifyImages'], 'code', 'decorate');
-                $verifiedIcon = ArrUtility::pull($item['operations']['diversifyImages'], 'code', 'verified');
+                $decorate = ArrUtility::pull($item['operations']['diversifyImages'], 'code', 'decorate', false);
+                $verifiedIcon = ArrUtility::pull($item['operations']['diversifyImages'], 'code', 'verified', false);
 
                 $userProfile['decorate'] = $decorate['imageUrl'] ?? null;
                 $userProfile['verifiedIcon'] = $verifiedIcon['imageUrl'] ?? null;
