@@ -12,10 +12,7 @@ use App\Fresns\Panel\Http\Requests\UpdateDefaultLanguageRequest;
 use App\Fresns\Panel\Http\Requests\UpdateLanguageMenuRequest;
 use App\Fresns\Panel\Http\Requests\UpdateLanguageRankRequest;
 use App\Helpers\CacheHelper;
-use App\Models\CodeMessage;
 use App\Models\Config;
-use App\Models\Language;
-use App\Models\Seo;
 
 class LanguageMenuController extends Controller
 {
