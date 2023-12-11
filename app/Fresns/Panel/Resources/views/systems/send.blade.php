@@ -43,7 +43,7 @@
                             <label class="input-group-text">{{ __('FsLang::panel.table_service') }}</label>
                             <select class="form-select" name="send_email_service">
                                 <option value="" {{ !$params['send_email_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
-                                @foreach ($pluginParams['sendEmail'] as $plugin)
+                                @foreach ($emailPlugins as $plugin)
                                     <option value="{{ $plugin->fskey }}" {{ $params['send_email_service'] == $plugin->fskey ? 'selected' : '' }}> {{ $plugin->name }}</option>
                                 @endforeach
                             </select>
@@ -59,7 +59,7 @@
                             <label class="input-group-text">{{ __('FsLang::panel.table_service') }}</label>
                             <select class="form-select" name="send_sms_service">
                                 <option value="" {{ !$params['send_sms_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
-                                @foreach ($pluginParams['sendSms'] as $plugin)
+                                @foreach ($smsPlugins as $plugin)
                                     <option value="{{ $plugin->fskey }}" {{ $params['send_sms_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                                 @endforeach
                             </select>
@@ -85,7 +85,7 @@
                             <label class="input-group-text">{{ __('FsLang::panel.send_app_notifications') }}</label>
                             <select class="form-select" name="ios_notifications_service">
                                 <option value="" {{ !$params['ios_notifications_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
-                                @foreach ($pluginParams['appNotifications'] as $plugin)
+                                @foreach ($appPlugins as $plugin)
                                     <option value="{{ $plugin->fskey }}" {{ $params['ios_notifications_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                                 @endforeach
                             </select>
@@ -102,7 +102,7 @@
                             <label class="input-group-text">{{ __('FsLang::panel.send_app_notifications') }}</label>
                             <select class="form-select" name="android_notifications_service">
                                 <option value="" {{ !$params['android_notifications_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
-                                @foreach ($pluginParams['appNotifications'] as $plugin)
+                                @foreach ($appPlugins as $plugin)
                                     <option value="{{ $plugin->fskey }}" {{ $params['android_notifications_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                                 @endforeach
                             </select>
@@ -119,7 +119,7 @@
                             <label class="input-group-text">{{ __('FsLang::panel.send_app_notifications') }}</label>
                             <select class="form-select" name="desktop_notifications_service">
                                 <option value="" {{ !$params['desktop_notifications_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
-                                @foreach ($pluginParams['appNotifications'] as $plugin)
+                                @foreach ($appPlugins as $plugin)
                                     <option value="{{ $plugin->fskey }}" {{ $params['desktop_notifications_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                                 @endforeach
                             </select>
@@ -136,7 +136,7 @@
                             <label class="input-group-text">{{ __('FsLang::panel.send_app_notifications') }}</label>
                             <select class="form-select" name="wechat_notifications_service">
                                 <option value="" {{ !$params['wechat_notifications_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
-                                @foreach ($pluginParams['appNotifications'] as $plugin)
+                                @foreach ($wechatPlugins as $plugin)
                                     <option value="{{ $plugin->fskey }}" {{ $params['wechat_notifications_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                                 @endforeach
                             </select>
@@ -184,7 +184,7 @@
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-outline-primary btn-sm me-3"
-                                        data-languages="{{ json_encode($codeParams[$key]['email']['template'] ?? []) }}"
+                                        data-languages="{{ json_encode($codeParams[$key]['email']['templates'] ?? []) }}"
                                         data-enable="{{ $codeParams[$key]['email']['isEnabled'] ?? false }}"
                                         data-action="{{ route('panel.send.email.update', ['itemKey' => $key])}}"
                                         data-title="{{ $name }}"
@@ -192,11 +192,10 @@
                                         {{ __('FsLang::panel.button_config_email_template') }}
                                     </button>
                                     <button type="button" class="btn btn-outline-primary btn-sm"
-                                        data-languages="{{ json_encode($codeParams[$key]['sms']['template'] ?? []) }}"
+                                        data-languages="{{ json_encode($codeParams[$key]['sms']['templates'] ?? []) }}"
                                         data-enable="{{ $codeParams[$key]['sms']['isEnabled'] ?? false }}"
                                         data-action="{{ route('panel.send.sms.update', ['itemKey' => $key])}}"
                                         data-title="{{ $name }}"
-                                        data-languages="{{ json_encode($codeParams[$key]['sms']['template'] ?? []) }}"
                                         data-bs-toggle="modal" data-bs-target="#smsModal">
                                         {{ __('FsLang::panel.button_config_sms_template') }}
                                     </button>

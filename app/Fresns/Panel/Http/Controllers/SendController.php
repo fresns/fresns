@@ -55,22 +55,21 @@ class SendController extends Controller
 
         $params['send_sms_supported_codes'] = join(PHP_EOL, $params['send_sms_supported_codes']);
 
-        $pluginScenes = [
-            'sendEmail',
-            'sendSms',
-            'appNotifications',
-        ];
-
         $plugins = Plugin::all();
+        $emailPlugins = $plugins->filter(function ($plugin) {
+            return in_array('sendEmail', $plugin->panel_usages);
+        });
+        $smsPlugins = $plugins->filter(function ($plugin) {
+            return in_array('sendSms', $plugin->panel_usages);
+        });
+        $appPlugins = $plugins->filter(function ($plugin) {
+            return in_array('appNotifications', $plugin->panel_usages);
+        });
+        $wechatPlugins = $plugins->filter(function ($plugin) {
+            return in_array('wechatNotifications', $plugin->panel_usages);
+        });
 
-        $pluginParams = [];
-        foreach ($pluginScenes as $scene) {
-            $pluginParams[$scene] = $plugins->filter(function ($plugin) use ($scene) {
-                return in_array($scene, $plugin->scene);
-            });
-        }
-
-        return view('FsView::systems.send', compact('params', 'pluginParams', 'templateConfigKeys', 'codeParams'));
+        return view('FsView::systems.send', compact('params', 'emailPlugins', 'smsPlugins', 'appPlugins', 'wechatPlugins', 'templateConfigKeys', 'codeParams'));
     }
 
     public function update(Request $request)
@@ -123,7 +122,7 @@ class SendController extends Controller
         foreach ($value as &$item) {
             if ($item['type'] == 'email') {
                 $item['isEnabled'] = $request->is_enabled ? true : false;
-                $item['template'] = $emailTemplates;
+                $item['templates'] = $emailTemplates;
             }
         }
 
@@ -151,7 +150,7 @@ class SendController extends Controller
         foreach ($value as &$item) {
             if ($item['type'] == 'sms') {
                 $item['isEnabled'] = $request->is_enabled ? true : false;
-                $item['template'] = $smsTemplates;
+                $item['templates'] = $smsTemplates;
             }
         }
 
