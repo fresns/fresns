@@ -495,16 +495,16 @@ $(document).ready(function () {
         });
     });
 
-    $(document).on('click', 'input.rating-number', function () {
+    $(document).on('click', 'input.order-number', function () {
         return false;
     });
 
-    $(document).on('change', 'input.rating-number', function () {
+    $(document).on('change', 'input.order-number', function () {
         $.ajax({
             method: 'post',
             url: $(this).data('action'),
             data: {
-                rating: $(this).val(),
+                order: $(this).val(),
                 _method: 'put',
             },
             success: function (response) {
@@ -520,37 +520,11 @@ $(document).ready(function () {
             language = button.data('language'),
             action = button.data('action');
 
-        let status = language.areaStatus ? 1 : 0;
         let isEnabled = language.isEnabled ? 1 : 0;
 
         $(this).find('form').attr('action', action);
-        $(this).find('input[name=rating]').val(language.rating);
-        $(this).find('input[name=old_lang_tag]').val(language.langTag);
-        $(this).find('select[name=lang_code]').val(language.langCode);
-        $(this)
-            .find('input:radio[name=area_status][value="' + status + '"]')
-            .prop('checked', true)
-            .click();
-        $(this).find('select[name=continent_id]').val(language.continentId);
-
-        let continentSelect = $(this).find('select[name=continent_id]');
-        continent = language.continentId;
-        let areas = continentSelect.data('children');
-        areas = areas.filter((area) => {
-            if (area.continentId == continent) {
-                return true;
-            }
-            return false;
-        });
-
-        let childrenSelect = continentSelect.next();
-        childrenSelect.find('option').remove();
-
-        areas.map((area) => {
-            childrenSelect.append('<option value="' + area.code + '">' + area.name + ' > ' + area.code + '</option>');
-        });
-
-        $(this).find('select[name=area_code]').val(language.areaCode);
+        $(this).find('input[name=order]').val(language.order);
+        $(this).find('input[name=lang_tag]').val(language.langTag);
         $(this).find('select[name=length_units]').val(language.lengthUnits);
         $(this).find('select[name=date_format]').val(language.dateFormat);
         $(this).find('input[name=time_format_minute]').val(language.timeFormatMinute);

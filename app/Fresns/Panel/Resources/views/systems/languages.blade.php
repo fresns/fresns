@@ -235,57 +235,18 @@
                     <form action="" method="post">
                         @csrf
                         @method('put')
-                        <input type="hidden" name="old_lang_tag" value="">
+                        <!--langTag-->
+                        <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_lang_tag') }}</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="lang_tag" value="" disabled required>
+                            </div>
+                        </div>
                         <!--table_order-->
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_order') }}</label>
                             <div class="col-sm-9">
                                 <input type="number" name="order" required class="form-control input-number">
-                            </div>
-                        </div>
-                        <!--table_langCode-->
-                        <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.language_table_langCode') }}</label>
-                            <div class="col-sm-9">
-                                <select class="form-select" name="lang_code" disabled required>
-                                    @foreach ($codes as $code)
-                                        <option value={{ $code['code'] }}>{{ $code['name'] }}-{{ $code['localName'] }} > {{ $code['code'] }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <!--table_area-->
-                        <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.language_table_area') }}</label>
-                            <div class="col-sm-9 pt-2">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="area_status" id="area_status_false" value="0" data-bs-toggle="collapse" data-bs-target=".edit_area_setting.show" aria-expanded="false" aria-controls="area_setting" disabled checked>
-                                    <label class="form-check-label" for="area_status_false">{{ __('FsLang::panel.option_close') }}</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="area_status" id="area_status_true" value="1" data-bs-toggle="collapse" data-bs-target=".edit_area_setting:not(.show)" aria-expanded="false" aria-controls="area_setting" disabled>
-                                    <label class="form-check-label" for="area_status_true">{{ __('FsLang::panel.option_open') }}</label>
-                                </div>
-                            </div>
-                        </div>
-                        <!--table_areaCode-->
-                        <div class="collapse edit_area_setting">
-                            <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.language_table_areaCode') }}</label>
-                                <div class="col-sm-9">
-                                    <div class="input-group">
-                                        <select class="form-select select-continent"
-                                            data-children="{{ json_encode($areaCodes) }}" name="continent_id" disabled>
-                                            <option selected disabled>{{ __('FsLang::panel.language_select_continent') }}</option>
-                                            @foreach ($continents as $continent)
-                                                <option value="{{ $continent['id'] }}">{{ $continent['name'] }}</option>
-                                            @endforeach
-                                        </select>
-                                        <select class="form-select" name="area_code">
-                                            <option selected disabled>{{ __('FsLang::panel.language_select_areaCode') }}</option>
-                                        </select>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <!--table_lengthUnit-->

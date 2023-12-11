@@ -14,10 +14,6 @@ class UpdateLanguageMenuRequest extends FormRequest
     {
         $rules = [
             'order' => 'required|int',
-            'old_lang_tag' => 'string',
-            'continent_id' => 'int',
-            'area_code' => 'string',
-            'area_status' => 'required|boolean',
             'length_unit' => 'required|string',
             'date_format' => 'required|string',
             'time_format_minute' => 'required|string',

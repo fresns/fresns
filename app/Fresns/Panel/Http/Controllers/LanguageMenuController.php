@@ -36,10 +36,7 @@ class LanguageMenuController extends Controller
         $continentConfig = Config::where('item_key', 'continents')->firstOrFail();
         $continents = $continentConfig->item_value;
 
-        return view('FsView::systems.languages', compact(
-            'languages', 'defaultLanguage', 'status',
-            'codes', 'continents'
-        ));
+        return view('FsView::systems.languages', compact('languages', 'defaultLanguage', 'status', 'codes', 'continents'));
     }
 
     public function switchStatus()
@@ -144,51 +141,31 @@ class LanguageMenuController extends Controller
     {
         $languageConfig = Config::where('item_key', 'language_menus')->firstOrFail();
         $languages = $languageConfig->item_value;
+
         $languageCollection = collect($languages);
-        $oldConfig = $languageCollection->where('langTag', $request->old_lang_tag)->first();
-        if (! $oldConfig) {
+        $langConfig = $languageCollection->where('langTag', $langTag)->first();
+        if (! $langConfig) {
             return back()->with('failure', __('FsLang::tips.language_not_exists'));
         }
 
-        $langCode = $oldConfig['langCode'];
-        // check exists
-        $langTag = ($request->area_code && $request->area_status) ? $langCode.'-'.$request->area_code : $langCode;
-
-        if ($langTag != $request->old_lang_tag && collect($languages)->where('langTag', $langTag)->first()) {
-            return back()->with('failure', __('FsLang::tips.language_exists'));
-        }
-
-        // default language
-        $defaultLanguageConfig = Config::where('item_key', 'default_language')->firstOrFail();
-        $defaultLanguage = $defaultLanguageConfig->item_value;
-
-        $areaName = '';
-        if ($request->area_status && $request->area_code) {
-            $areaCodeConfig = Config::where('item_key', 'area_codes')->firstOrFail();
-            $areaCodes = $areaCodeConfig->item_value;
-
-            $areaCode = collect($areaCodes)->where('code', $request->area_code)->firstOrFail();
-            $areaName = $areaCode['name'];
-        }
-
-        $languageKey = $languageCollection->search(function ($item) use ($request) {
-            return $item['langTag'] == $request->old_lang_tag;
+        $languageKey = $languageCollection->search(function ($item) use ($langTag) {
+            return $item['langTag'] == $langTag;
         });
 
-        if ($languageKey === false) {
+        if (! $languageKey) {
             return back()->with('failure', __('FsLang::tips.language_not_exists'));
         }
 
         $data = [
             'order' => $request->order,
-            'langCode' => $oldConfig['langCode'],
-            'langName' => $oldConfig['langName'] ?? '',
+            'langCode' => $langConfig['langCode'],
+            'langName' => $langConfig['langName'] ?? '',
             'langTag' => $langTag,
-            'continentId' => $request->area_status ? $request->continent_id : 0,
-            'areaStatus' => (bool) $request->area_status,
-            'areaCode' => $request->area_status ? $request->area_code : null,
-            'areaName' => $areaName,
-            'writingDirection' => $oldConfig['writingDirection'],
+            'continentId' => $langConfig['continentId'] ?? 0,
+            'areaStatus' => $langConfig['areaStatus'] ?? false,
+            'areaCode' => $langConfig['areaStatus'] ? $langConfig['areaCode'] : null,
+            'areaName' => $langConfig['areaName'],
+            'writingDirection' => $langConfig['writingDirection'],
             'lengthUnit' => $request->length_unit,
             'dateFormat' => $request->date_format,
             'timeFormatMinute' => $request->time_format_minute,
@@ -196,7 +173,7 @@ class LanguageMenuController extends Controller
             'timeFormatDay' => $request->time_format_day,
             'timeFormatMonth' => $request->time_format_month,
             'timeFormatYear' => $request->time_format_year,
-            'packVersion' => 1,
+            'packVersion' => $langConfig['packVersion'] ?? 1,
             'isEnabled' => (bool) $request->is_enabled,
         ];
 
@@ -204,53 +181,7 @@ class LanguageMenuController extends Controller
         $languageConfig->item_value = array_values($languages);
         $languageConfig->save();
 
-        // If it is the default language, modify the configuration
-        if ($defaultLanguage == $request->old_lang_tag && $request->old_lang_tag != $langTag) {
-            $defaultLanguageConfig->item_value = $langTag;
-            $defaultLanguageConfig->save();
-        }
-
-        // Language tag changes can be made with the event
-        if ($request->old_lang_tag != $langTag) {
-            $this->updateAllLangTag($request->old_lang_tag, $langTag);
-        }
-
         return $this->updateSuccess();
-    }
-
-    protected function updateAllLangTag(string $oldLangTag, string $langTag)
-    {
-        Language::where('lang_tag', $oldLangTag)->update(['lang_tag' => $langTag]);
-        Seo::where('lang_tag', $oldLangTag)->update(['lang_tag' => $langTag]);
-        CodeMessage::where('lang_tag', $oldLangTag)->update(['lang_tag' => $langTag]);
-
-        $configKeys = [
-            'verifycode_template1',
-            'verifycode_template2',
-            'verifycode_template3',
-            'verifycode_template4',
-            'verifycode_template5',
-            'verifycode_template6',
-            'verifycode_template7',
-        ];
-
-        Config::whereIn('item_key', $configKeys)->get()->each(function ($config) use ($oldLangTag, $langTag) {
-            $value = $config->item_value;
-            if (! $value) {
-                return;
-            }
-
-            foreach ($value as &$item) {
-                foreach ($item['template'] as &$template) {
-                    if ($template['langTag'] == $oldLangTag) {
-                        $template['langTag'] = $langTag;
-                    }
-                }
-            }
-
-            $config->item_value = $value;
-            $config->save();
-        });
     }
 
     public function destroy(string $code)
