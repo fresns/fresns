@@ -78,6 +78,9 @@ return [
     'uninstall_step_5' => 'Selesai',
     // delete app
     'delete_app_warning' => 'Jika Anda tidak ingin menampilkan peringatan pembaruan untuk aplikasi, Anda dapat menghapus aplikasi tersebut. Setelah dihapus, Anda tidak akan lagi diberi peringatan ketika versi baru tersedia.',
+    // dashboard
+    'panel_config' => 'Setelah memodifikasi konfigurasi, cache perlu dibersihkan sebelum konfigurasi baru dapat berlaku.',
+    'plugin_install_or_upgrade' => 'Setelah plugin diinstal atau di-upgrade, plugin dimatikan secara default dan perlu diaktifkan secara manual untuk menghindari masalah sistem yang disebabkan oleh kesalahan pada plugin.',
     // website
     'website_path_empty_error' => 'Gagal menyimpan, parameter jalur tidak diperbolehkan kosong',
     'website_path_format_error' => 'Gagal disimpan, parameter jalur hanya didukung dalam huruf Inggris biasa',

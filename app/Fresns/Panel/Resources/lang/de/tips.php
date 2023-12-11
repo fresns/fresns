@@ -78,6 +78,9 @@ return [
     'uninstall_step_5' => 'Getan',
     // delete app
     'delete_app_warning' => 'Wenn Sie keine Update-Warnung für die App anzeigen möchten, können Sie die App löschen. Nach dem Löschen werden Sie nicht mehr benachrichtigt, wenn eine neue Version verfügbar ist.',
+    // dashboard
+    'panel_config' => 'Nach der Änderung der Konfiguration muss der Cache geleert werden, bevor die neue Konfiguration wirksam werden kann.',
+    'plugin_install_or_upgrade' => 'Nachdem das Plugin installiert oder aktualisiert wurde, ist es standardmäßig deaktiviert und muss manuell aktiviert werden, um Systemprobleme zu vermeiden, die durch Fehler im Plugin verursacht werden.',
     // website
     'website_path_empty_error' => 'Speichern fehlgeschlagen, Pfadparameter darf nicht leer sein',
     'website_path_format_error' => 'konnte nicht gespeichert werden, Pfadparameter werden nur in Klartext unterstützt',

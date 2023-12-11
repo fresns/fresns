@@ -78,6 +78,9 @@ return [
     'uninstall_step_5' => 'Terminé',
     // delete app
     'delete_app_warning' => 'Si vous ne souhaitez pas afficher d\'alerte de mise à jour pour l\'application, vous pouvez la supprimer. Après la suppression, vous ne serez plus alerté de la disponibilité d\'une nouvelle version.',
+    // dashboard
+    'panel_config' => 'Après avoir modifié la configuration, le cache doit être effacé avant que la nouvelle configuration puisse prendre effet.',
+    'plugin_install_or_upgrade' => 'Après l\'installation ou la mise à jour du plugin, celui-ci est désactivé par défaut et doit être activé manuellement afin d\'éviter les problèmes de système causés par des erreurs dans le plugin.',
     // website
     'website_path_empty_error' => 'Échec de la sauvegarde, le paramètre "path" ne doit pas être vide.',
     'website_path_format_error' => 'a échoué à enregistrer, les paramètres de chemin d\'accès ne sont supportés qu\'en lettres anglaises simples.',

@@ -78,6 +78,9 @@ return [
     'uninstall_step_5' => '완료',
     // delete app
     'delete_app_warning' => '앱에 대한 업데이트 알림을 표시하지 않으려면 앱을 삭제하면 됩니다. 앱을 삭제하면 새 버전이 출시될 때 더 이상 알림이 표시되지 않습니다.',
+    // dashboard
+    'panel_config' => '구성을 수정한 후 새 구성을 적용하려면 캐시를 지워야 합니다.',
+    'plugin_install_or_upgrade' => '플러그인을 설치하거나 업그레이드한 후 플러그인 오류로 인한 시스템 문제를 방지하기 위해 기본적으로 비활성화되어 있으며 수동으로 활성화해야 합니다.',
     // website
     'website_path_empty_error' => '저장하지 못했습니다. 경로 매개변수는 비워둘 수 없습니다.',
     'website_path_format_error' => '저장에 실패했습니다. 경로 매개변수는 순수 영문자만 지원합니다.',

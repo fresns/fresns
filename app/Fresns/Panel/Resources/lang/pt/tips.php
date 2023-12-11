@@ -78,6 +78,9 @@ return [
     'uninstall_step_5' => 'Feito',
     // delete app
     'delete_app_warning' => 'Se não pretender apresentar um alerta de atualização para a aplicação, pode eliminar a aplicação. Após a eliminação, deixará de ser alertado quando estiver disponível uma nova versão.',
+    // dashboard
+    'panel_config' => 'Após a modificação da configuração, a cache precisa de ser limpa antes que a nova configuração possa ter efeito.',
+    'plugin_install_or_upgrade' => 'Depois de instalado ou actualizado, o plugin é desligado por defeito e precisa de ser activado manualmente para evitar problemas no sistema causados por erros no plugin.',
     // website
     'website_path_empty_error' => 'Falha no salvamento, o parâmetro do caminho não pode estar vazio',
     'website_path_format_error' => 'não conseguiu salvar, os parâmetros do caminho só são suportados em letras simples em inglês',

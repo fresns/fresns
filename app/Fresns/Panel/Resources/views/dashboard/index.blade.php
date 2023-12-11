@@ -164,8 +164,8 @@
                 <div class="card-header">{{ __('FsLang::panel.tips') }}</div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item text-secondary">{{ __('FsLang::panel.tip_config') }}</li>
-                        <li class="list-group-item text-secondary">{{ __('FsLang::panel.tip_plugin_install_or_upgrade') }}</li>
+                        <li class="list-group-item text-secondary">{{ __('FsLang::tips.panel_config') }}</li>
+                        <li class="list-group-item text-secondary">{{ __('FsLang::tips.plugin_install_or_upgrade') }}</li>
                     </ul>
                 </div>
             </div>

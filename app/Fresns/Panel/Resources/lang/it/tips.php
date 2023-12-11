@@ -78,6 +78,9 @@ return [
     'uninstall_step_5' => 'Fatto',
     // delete app
     'delete_app_warning' => 'Se non si desidera visualizzare un avviso di aggiornamento per l\'applicazione, è possibile eliminare l\'applicazione. Dopo l\'eliminazione, l\'utente non verrà più avvisato quando sarà disponibile una nuova versione.',
+    // dashboard
+    'panel_config' => 'Dopo aver modificato la configurazione, è necessario cancellare la cache prima che la nuova configurazione diventi effettiva.',
+    'plugin_install_or_upgrade' => 'Dopo l\'installazione o l\'aggiornamento, il plugin è disattivato per impostazione predefinita e deve essere attivato manualmente per evitare problemi di sistema causati da errori nel plugin.',
     // website
     'website_path_empty_error' => 'Salvataggio fallito, il parametro percorso non può essere vuoto',
     'website_path_format_error' => 'non è riuscito a salvare, i parametri di percorso sono supportati solo in lettere semplici.',

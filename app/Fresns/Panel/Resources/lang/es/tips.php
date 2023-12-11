@@ -78,6 +78,9 @@ return [
     'uninstall_step_5' => 'Hecho',
     // delete app
     'delete_app_warning' => 'Si no desea mostrar una alerta de actualización de la aplicación, puede eliminarla. Una vez eliminada, dejará de recibir alertas cuando haya una nueva versión disponible.',
+    // dashboard
+    'panel_config' => 'Después de modificar la configuración, es necesario borrar la caché antes de que la nueva configuración surta efecto.',
+    'plugin_install_or_upgrade' => 'Después de instalar o actualizar el plugin, se desactiva por defecto y es necesario activarlo manualmente para evitar problemas en el sistema causados por errores en el plugin.',
     // website
     'website_path_empty_error' => 'Fallo al guardar, el parámetro de la ruta no puede estar vacío',
     'website_path_format_error' => 'no se ha podido guardar, los parámetros de la ruta sólo se admiten en letras inglesas simples',
