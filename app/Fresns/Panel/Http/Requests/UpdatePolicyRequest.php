@@ -17,10 +17,10 @@ class UpdatePolicyRequest extends FormRequest
             'send_sms_service' => 'string|nullable',
             'send_sms_default_code' => 'string|nullable',
             'send_sms_supported_codes' => 'string|nullable',
-            'send_ios_service' => 'string|nullable',
-            'send_android_service' => 'string|nullable',
-            'send_wechat_service' => 'string|nullable',
-
+            'ios_notifications_service' => 'string|nullable',
+            'android_notifications_service' => 'string|nullable',
+            'desktop_notifications_service' => 'string|nullable',
+            'wechat_notifications_service' => 'string|nullable',
         ];
     }
 

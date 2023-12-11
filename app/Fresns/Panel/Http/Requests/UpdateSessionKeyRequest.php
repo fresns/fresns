@@ -13,10 +13,10 @@ class UpdateSessionKeyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'platform_id' => 'required|int',
-            'name' => 'required|string',
-            'type' => 'required|int',
-            'is_enabled' => 'required|boolean',
+            'platform_id' => 'int|required',
+            'name' => 'string|required',
+            'type' => 'int|required',
+            'is_enabled' => 'boolean|required',
             'plugin_fskey' => 'exists:App\Models\Plugin,fskey',
         ];
     }

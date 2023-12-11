@@ -13,15 +13,15 @@ class UpdateLanguageMenuRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'order' => 'required|int',
-            'length_unit' => 'required|string',
-            'date_format' => 'required|string',
-            'time_format_minute' => 'required|string',
-            'time_format_hour' => 'required|string',
-            'time_format_day' => 'required|string',
-            'time_format_month' => 'required|string',
-            'time_format_year' => 'required|string',
-            'is_enabled' => 'required|boolean',
+            'order' => 'int|required',
+            'length_unit' => 'string|required',
+            'date_format' => 'string|required',
+            'time_format_minute' => 'string|required',
+            'time_format_hour' => 'string|required',
+            'time_format_day' => 'string|required',
+            'time_format_month' => 'string|required',
+            'time_format_year' => 'string|required',
+            'is_enabled' => 'boolean|required',
         ];
 
         if ($this->method() == 'POST') {

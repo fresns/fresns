@@ -10,7 +10,7 @@ namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Fresns\Panel\Http\Requests\UpdateDefaultLanguageRequest;
 use App\Fresns\Panel\Http\Requests\UpdateLanguageMenuRequest;
-use App\Fresns\Panel\Http\Requests\UpdateLanguageRankRequest;
+use App\Fresns\Panel\Http\Requests\UpdateLanguageOrderRequest;
 use App\Helpers\CacheHelper;
 use App\Models\Config;
 
@@ -59,7 +59,7 @@ class LanguageMenuController extends Controller
         return $this->updateSuccess();
     }
 
-    public function updateOrder(UpdateLanguageRankRequest $request, $langTag)
+    public function updateOrder(UpdateLanguageOrderRequest $request, $langTag)
     {
         $languageConfig = Config::where('item_key', 'language_menus')->firstOrFail();
         $languages = $languageConfig->item_value;

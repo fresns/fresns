@@ -8,12 +8,12 @@
 
 namespace App\Fresns\Panel\Http\Requests;
 
-class UpdateLanguageRankRequest extends FormRequest
+class UpdateLanguageOrderRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'order' => 'required|int',
+            'order' => 'int|required',
         ];
     }
 

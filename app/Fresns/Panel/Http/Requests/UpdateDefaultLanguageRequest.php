@@ -13,7 +13,7 @@ class UpdateDefaultLanguageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'default_language' => 'required|string',
+            'default_language' => 'string|required',
         ];
     }
 

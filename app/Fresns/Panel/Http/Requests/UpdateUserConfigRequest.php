@@ -13,18 +13,10 @@ class UpdateUserConfigRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'connects' => 'array',
-            'connect_plugins' => 'array',
-            'account_real_name_service' => 'nullable|string',
-            'multi_user_status' => 'string',
-            'multi_user_service' => 'nullable|string',
-            'multi_user_roles' => 'array',
             'default_role' => 'int',
-            //'default_avatar' => 'required|int',
-            //'anonymous_avatar' => 'required|int',
-            //'deactivate_avatar' => 'required|int',
-            'password_length' => 'int',
-            'password_strength' => 'array',
+            //'default_avatar' => 'int|required',
+            //'anonymous_avatar' => 'int|required',
+            //'deactivate_avatar' => 'int|required',
             'username_min' => 'int',
             'username_max' => 'int',
             'username_edit' => 'int',

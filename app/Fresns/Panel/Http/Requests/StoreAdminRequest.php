@@ -13,7 +13,7 @@ class StoreAdminRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'accountName' => 'required|string',
+            'accountName' => 'string|required',
         ];
     }
 }
