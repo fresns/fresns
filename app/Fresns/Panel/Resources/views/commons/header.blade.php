@@ -24,22 +24,21 @@
                             'panel.general.*',
                             'panel.policy.*',
                             'panel.send.*',
-                            'panel.user.*',
+                            'panel.account.*',
                             'panel.wallet.*',
-                            'panel.maps.*',
+                            'panel.social.*',
                         ]) ? 'active' : ''}}" href="{{ route('panel.languages.index') }}">{{ __('FsLang::panel.menu_systems') }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ \Route::is([
-                            'panel.rename.*',
+                            'panel.user.*',
+                            'panel.content.*',
                             'panel.interaction.*',
-                            'panel.publish.post.*',
-                            'panel.publish.comment.*',
+                            'panel.publish.*',
+                            'panel.roles.*',
                             'panel.stickers.*',
-                            'panel.block-words.*',
                             'panel.groups.*',
-                            'panel.roles.*'
-                        ]) ? 'active' : ''}}" href="{{ route('panel.rename.index' )}}">{{ __('FsLang::panel.menu_operations') }}</a>
+                        ]) ? 'active' : ''}}" href="{{ route('panel.user.index' )}}">{{ __('FsLang::panel.menu_operations') }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ \Route::is([

@@ -6,9 +6,9 @@
  * Released under the Apache-2.0 License.
  */
 
+use App\Fresns\Panel\Http\Controllers\AccountController;
 use App\Fresns\Panel\Http\Controllers\AdminController;
 use App\Fresns\Panel\Http\Controllers\AppController;
-use App\Fresns\Panel\Http\Controllers\BlockWordController;
 use App\Fresns\Panel\Http\Controllers\CodeMessageController;
 use App\Fresns\Panel\Http\Controllers\ColumnController;
 use App\Fresns\Panel\Http\Controllers\ConfigController;
@@ -34,11 +34,11 @@ use App\Fresns\Panel\Http\Controllers\PluginController;
 use App\Fresns\Panel\Http\Controllers\PluginUsageController;
 use App\Fresns\Panel\Http\Controllers\PolicyController;
 use App\Fresns\Panel\Http\Controllers\PublishController;
-use App\Fresns\Panel\Http\Controllers\RenameController;
 use App\Fresns\Panel\Http\Controllers\RoleController;
 use App\Fresns\Panel\Http\Controllers\SendController;
 use App\Fresns\Panel\Http\Controllers\SessionKeyController;
 use App\Fresns\Panel\Http\Controllers\SettingController;
+use App\Fresns\Panel\Http\Controllers\SocialController;
 use App\Fresns\Panel\Http\Controllers\StickerController;
 use App\Fresns\Panel\Http\Controllers\StickerGroupController;
 use App\Fresns\Panel\Http\Controllers\StorageController;
@@ -130,10 +130,9 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::put('send/update', [SendController::class, 'update'])->name('send.update');
         Route::put('send/verifyCodeTemplate/{itemKey}/sms', [SendController::class, 'updateSms'])->name('send.sms.update');
         Route::put('send/verifyCodeTemplate/{itemKey}/email', [SendController::class, 'updateEmail'])->name('send.email.update');
-        // user
-        Route::get('user', [UserController::class, 'show'])->name('user.index');
-        Route::put('user-update', [UserController::class, 'update'])->name('user.update');
-        Route::put('user/update-extcredits', [UserController::class, 'updateExtcredits'])->name('user.update.extcredits');
+        // account
+        Route::get('account', [AccountController::class, 'show'])->name('account.index');
+        Route::put('account/update', [AccountController::class, 'update'])->name('account.update');
         // wallet
         Route::get('wallet', [WalletController::class, 'show'])->name('wallet.index');
         Route::put('wallet', [WalletController::class, 'update'])->name('wallet.update');
@@ -158,16 +157,34 @@ Route::middleware(['panelAuth'])->group(function () {
         // storage-substitution
         Route::get('storage/substitution', [StorageController::class, 'substitutionShow'])->name('storage.substitution.index');
         Route::put('storage/substitution', [StorageController::class, 'substitutionUpdate'])->name('storage.substitution.update');
+        // social
+        Route::get('social', [SocialController::class, 'show'])->name('social.index');
+        Route::put('social/update', [SocialController::class, 'update'])->name('social.update');
     });
 
     // operatings
     Route::prefix('operations')->group(function () {
-        // rename
-        Route::get('rename', [RenameController::class, 'show'])->name('rename.index');
+        // user
+        Route::get('user', [UserController::class, 'show'])->name('user.index');
+        Route::put('user/update', [UserController::class, 'update'])->name('user.update');
+        Route::put('user/update-extcredits', [UserController::class, 'updateExtcredits'])->name('user.update.extcredits');
         // interaction
         Route::get('interaction', [InteractionController::class, 'show'])->name('interaction.index');
         Route::put('interaction', [InteractionController::class, 'update'])->name('interaction.update');
         Route::put('interaction-update-hashtag-regexp', [InteractionController::class, 'updateHashtagRegexp'])->name('interaction.update.hashtag.regexp');
+        // publish-post
+        Route::get('publish/post', [PublishController::class, 'postShow'])->name('publish.post.index');
+        Route::put('publish/post', [PublishController::class, 'postUpdate'])->name('publish.post.update');
+        // publish-comment
+        Route::get('publish/comment', [PublishController::class, 'commentShow'])->name('publish.comment.index');
+        Route::put('publish/comment', [PublishController::class, 'commentUpdate'])->name('publish.comment.update');
+        // roles
+        Route::resource('roles', RoleController::class)->only([
+            'index', 'store', 'update', 'destroy',
+        ]);
+        Route::put('roles/{role}/rating', [RoleController::class, 'updateRating'])->name('roles.rating');
+        Route::get('roles/{role}/permissions', [RoleController::class, 'showPermissions'])->name('roles.permissions.index');
+        Route::put('roles/{role}/permissions', [RoleController::class, 'updatePermissions'])->name('roles.permissions.update');
         // stickers
         Route::resource('stickers', StickerGroupController::class)->only([
             'index', 'store', 'update', 'destroy',
@@ -179,27 +196,6 @@ Route::middleware(['panelAuth'])->group(function () {
         ])->parameters([
             'sticker-images' => 'stickerImage',
         ]);
-        // publish-post
-        Route::get('publish/post', [PublishController::class, 'postShow'])->name('publish.post.index');
-        Route::put('publish/post', [PublishController::class, 'postUpdate'])->name('publish.post.update');
-        // publish-comment
-        Route::get('publish/comment', [PublishController::class, 'commentShow'])->name('publish.comment.index');
-        Route::put('publish/comment', [PublishController::class, 'commentUpdate'])->name('publish.comment.update');
-        // block-words
-        Route::resource('block-words', BlockWordController::class)->only([
-            'index', 'store', 'update', 'destroy',
-        ])->parameters([
-            'block-words' => 'blockWord',
-        ]);
-        Route::post('block-words/export', [BlockWordController::class, 'export'])->name('block-words.export');
-        Route::post('block-words/import', [BlockWordController::class, 'import'])->name('block-words.import');
-        // roles
-        Route::resource('roles', RoleController::class)->only([
-            'index', 'store', 'update', 'destroy',
-        ]);
-        Route::put('roles/{role}/rating', [RoleController::class, 'updateRating'])->name('roles.rating');
-        Route::get('roles/{role}/permissions', [RoleController::class, 'showPermissions'])->name('roles.permissions.index');
-        Route::put('roles/{role}/permissions', [RoleController::class, 'updatePermissions'])->name('roles.permissions.update');
         // groups
         Route::resource('groups', GroupController::class)->only([
             'index', 'store', 'update', 'destroy',
