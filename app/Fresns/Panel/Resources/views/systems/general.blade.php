@@ -155,7 +155,7 @@
                             <div class="input-group mb-3">
                                 <label class="input-group-text" for="site_private_plugin">{{ __('FsLang::panel.site_mode_private_join_service') }}</label>
                                 <select class="form-select" id="site_private_plugin" name="site_private_service">
-                                    <option value="" selected>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
+                                    <option value="" {{ !$params['site_private_service'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
                                     @foreach ($joinPlugins as $plugin)
                                         <option value="{{ $plugin->fskey }}" {{ $params['site_private_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                                     @endforeach
@@ -207,7 +207,6 @@
                     <form action="{{ route('panel.languages.batch.update', ['itemKey' => 'site_name']) }}" method="post">
                         @csrf
                         @method('put')
-                        <input type="hidden" name="update_config" value="site_name">
                         <div class="table-responsive">
                             <table class="table table-hover align-middle text-nowrap">
                                 <thead>
@@ -260,7 +259,6 @@
                     <form action="{{ route('panel.languages.batch.update', ['itemKey' => 'site_desc']) }}" method="post">
                         @csrf
                         @method('put')
-                        <input type="hidden" name="update_config" value="site_desc">
                         <div class="table-responsive">
                             <table class="table table-hover align-middle text-nowrap">
                                 <thead>
@@ -314,7 +312,6 @@
                     <form action="{{ route('panel.languages.batch.update', ['itemKey' => 'site_intro']) }}" method="post">
                         @csrf
                         @method('put')
-                        <input type="hidden" name="update_config" value="site_intro">
                         <div class="table-responsive">
                             <table class="table table-hover align-middle text-nowrap">
                                 <thead>
