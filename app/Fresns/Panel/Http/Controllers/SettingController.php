@@ -8,7 +8,6 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
-use App\Fresns\Panel\Http\Requests\UpdateConfigRequest;
 use App\Helpers\CacheHelper;
 use App\Helpers\PrimaryHelper;
 use App\Models\Config;
@@ -38,7 +37,7 @@ class SettingController extends Controller
         return view('FsView::dashboard.settings', compact('params', 'upgradeCount'));
     }
 
-    public function update(UpdateConfigRequest $request)
+    public function update(Request $request)
     {
         if ($request->path && Str::startsWith($request->path, config('FsConfig.route_blacklist'))) {
             return back()->with('failure', __('FsLang::tips.secure_entry_route_conflicts'));

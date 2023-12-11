@@ -11,7 +11,6 @@ namespace App\Fresns\Panel\Http\Controllers;
 use App\Fresns\Panel\Http\Requests\StoreAdminRequest;
 use App\Models\Account;
 use App\Models\Plugin;
-use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -49,7 +48,7 @@ class AdminController extends Controller
         return $this->createSuccess();
     }
 
-    public function destroy(Request $request, Account $admin)
+    public function destroy(Account $admin)
     {
         $isFounder = self::isFounder();
         if (! $isFounder) {

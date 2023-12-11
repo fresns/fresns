@@ -18,8 +18,8 @@ class LanguageController extends Controller
         $config = Config::where('item_key', $itemKey)->first();
 
         if (! $config) {
-            // create but no content
             $config = new Config();
+
             $config->fill([
                 'item_key' => $itemKey,
                 'item_type' => 'object',
@@ -37,12 +37,25 @@ class LanguageController extends Controller
 
     public function batchUpdate($itemKey, Request $request)
     {
-        Config::updateOrCreate([
-            'item_key' => $itemKey,
-        ], [
-            'item_value' => $request->languages,
-            'item_type' => 'object',
-        ]);
+        $config = Config::where('item_key', $itemKey)->first();
+
+        if (! $config) {
+            $config = new Config();
+
+            $config->fill([
+                'item_key' => $itemKey,
+                'item_type' => 'object',
+            ]);
+        }
+
+        $itemValue = $config->item_value;
+
+        foreach ($request->languages as $langTag => $langContent) {
+            $itemValue[$langTag] = $langContent;
+        }
+
+        $config->item_value = $itemValue;
+        $config->save();
 
         return $this->updateSuccess();
     }
