@@ -49,20 +49,12 @@ class StorageController extends Controller
             $params[$config->item_key] = $config->item_value;
         }
 
-        $pluginScenes = [
-            'storage',
-        ];
-
         $plugins = Plugin::all();
+        $storagePlugins = $plugins->filter(function ($plugin) {
+            return in_array('storage', $plugin->panel_usages);
+        });
 
-        $pluginParams = [];
-        foreach ($pluginScenes as $scene) {
-            $pluginParams[$scene] = $plugins->filter(function ($plugin) use ($scene) {
-                return in_array($scene, $plugin->scene);
-            });
-        }
-
-        return view('FsView::systems.storage-image', compact('params', 'pluginParams'));
+        return view('FsView::systems.storage-image', compact('params', 'storagePlugins'));
     }
 
     public function imageUpdate(Request $request)
@@ -134,20 +126,12 @@ class StorageController extends Controller
             $params[$config->item_key] = $config->item_value;
         }
 
-        $pluginScenes = [
-            'storage',
-        ];
-
         $plugins = Plugin::all();
+        $storagePlugins = $plugins->filter(function ($plugin) {
+            return in_array('storage', $plugin->panel_usages);
+        });
 
-        $pluginParams = [];
-        foreach ($pluginScenes as $scene) {
-            $pluginParams[$scene] = $plugins->filter(function ($plugin) use ($scene) {
-                return in_array($scene, $plugin->scene);
-            });
-        }
-
-        return view('FsView::systems.storage-video', compact('params', 'pluginParams'));
+        return view('FsView::systems.storage-video', compact('params', 'storagePlugins'));
     }
 
     public function videoUpdate(Request $request)
@@ -217,20 +201,12 @@ class StorageController extends Controller
             $params[$config->item_key] = $config->item_value;
         }
 
-        $pluginScenes = [
-            'storage',
-        ];
-
         $plugins = Plugin::all();
+        $storagePlugins = $plugins->filter(function ($plugin) {
+            return in_array('storage', $plugin->panel_usages);
+        });
 
-        $pluginParams = [];
-        foreach ($pluginScenes as $scene) {
-            $pluginParams[$scene] = $plugins->filter(function ($plugin) use ($scene) {
-                return in_array($scene, $plugin->scene);
-            });
-        }
-
-        return view('FsView::systems.storage-audio', compact('params', 'pluginParams'));
+        return view('FsView::systems.storage-audio', compact('params', 'storagePlugins'));
     }
 
     public function audioUpdate(Request $request)
@@ -298,20 +274,13 @@ class StorageController extends Controller
         foreach ($configs as $config) {
             $params[$config->item_key] = $config->item_value;
         }
-        $pluginScenes = [
-            'storage',
-        ];
 
         $plugins = Plugin::all();
+        $storagePlugins = $plugins->filter(function ($plugin) {
+            return in_array('storage', $plugin->panel_usages);
+        });
 
-        $pluginParams = [];
-        foreach ($pluginScenes as $scene) {
-            $pluginParams[$scene] = $plugins->filter(function ($plugin) use ($scene) {
-                return in_array($scene, $plugin->scene);
-            });
-        }
-
-        return view('FsView::systems.storage-document', compact('params', 'pluginParams'));
+        return view('FsView::systems.storage-document', compact('params', 'storagePlugins'));
     }
 
     public function documentUpdate(Request $request)

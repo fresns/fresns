@@ -18,7 +18,7 @@
                     <span class="input-group-text w-25">{{ __('FsLang::panel.storage_service_provider') }}</span>
                     <select class="form-select" id="audio_service" name="audio_service">
                         <option value="">🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
-                        @foreach ($pluginParams['storage'] as $plugin)
+                        @foreach ($storagePlugins as $plugin)
                             <option value="{{ $plugin->fskey }}" {{ $params['audio_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>

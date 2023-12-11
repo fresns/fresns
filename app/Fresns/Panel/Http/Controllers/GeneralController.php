@@ -69,7 +69,7 @@ class GeneralController extends Controller
 
         $plugins = Plugin::all();
         $joinPlugins = $plugins->filter(function ($plugin) {
-            return in_array('join', $plugin->scene);
+            return in_array('join', $plugin->panel_usages);
         });
 
         $roles = Role::all();

@@ -13,10 +13,10 @@ class Plugin extends Model
     use Traits\IsEnabledTrait;
 
     protected $casts = [
-        'scene' => 'array',
+        'panel_usages' => 'array',
     ];
 
-    public function getSceneAttribute($value)
+    public function getPanelUsagesAttribute($value)
     {
         if (is_string($value)) {
             $value = json_decode($value, true);
