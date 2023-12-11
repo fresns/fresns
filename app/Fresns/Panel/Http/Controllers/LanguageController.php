@@ -9,70 +9,40 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Models\Config;
-use App\Models\Language;
 use Illuminate\Http\Request;
 
 class LanguageController extends Controller
 {
     public function update($itemKey, Request $request)
     {
-        $language = Language::ofConfig()
-            ->where('table_key', $itemKey)
-            ->where('lang_tag', $request->lang_tag)
-            ->first();
+        $config = Config::where('item_key', $itemKey)->first();
 
-        if (! $language) {
+        if (! $config) {
             // create but no content
-            $language = new Language();
-            $language->fill([
-                'table_name' => 'configs',
-                'table_column' => 'item_value',
-                'table_key' => $itemKey,
-                'lang_tag' => $request->lang_tag,
+            $config = new Config();
+            $config->fill([
+                'item_key' => $itemKey,
+                'item_type' => 'object',
             ]);
         }
 
-        $language->lang_content = $request->content;
-        $language->save();
+        $itemValue = $config->item_value;
+        $itemValue[$request->langTag] = $request->langContent;
+
+        $config->item_value = $itemValue;
+        $config->save();
 
         return $this->updateSuccess();
     }
 
     public function batchUpdate($itemKey, Request $request)
     {
-        foreach ($request->languages as $langTag => $content) {
-            $language = Language::ofConfig()
-                ->where('table_key', $itemKey)
-                ->where('lang_tag', $langTag)
-                ->first();
-            if (! $language) {
-                // create but no content
-                if (! $content) {
-                    continue;
-                }
-                $language = new Language();
-                $language->fill([
-                    'table_name' => 'configs',
-                    'table_column' => 'item_value',
-                    'table_key' => $itemKey,
-                    'lang_tag' => $langTag,
-                ]);
-            }
-
-            $language->lang_content = $content;
-            $language->save();
-        }
-
-        if ($request->update_config || $request->sync_config) {
-            $key = $request->update_config ?: $itemKey;
-            $config = Config::where('item_key', $key)->first();
-            $content = $request->languages[$this->defaultLanguage] ?? current(array_filter($request->languages));
-
-            if ($config && $content) {
-                $config->item_value = $content;
-                $config->save();
-            }
-        }
+        Config::updateOrCreate([
+            'item_key' => $itemKey,
+        ], [
+            'item_value' => $request->languages,
+            'item_type' => 'object',
+        ]);
 
         return $this->updateSuccess();
     }

@@ -67,6 +67,11 @@ Route::middleware(['panelAuth'])->group(function () {
 
     // update config
     Route::put('configs/{config:item_key}', [ConfigController::class, 'update'])->name('configs.update');
+    // update language
+    Route::put('languages/batch-update/{itemKey}', [LanguageController::class, 'batchUpdate'])->name('languages.batch.update');
+    Route::put('languages/update/{itemKey}', [LanguageController::class, 'update'])->name('languages.update');
+    // users search
+    Route::get('users/search', [UserSearchController::class, 'search'])->name('users.search');
     // plugin usages
     Route::put('plugin-usages/{id}/rating', [PluginUsageController::class, 'updateRating'])->name('plugin-usages.rating.update');
     Route::resource('plugin-usages', PluginUsageController::class)->only([
@@ -74,11 +79,6 @@ Route::middleware(['panelAuth'])->group(function () {
     ])->parameters([
         'plugin-usages' => 'pluginUsage',
     ]);
-    // update language
-    Route::put('batch/languages/{itemKey}', [LanguageController::class, 'batchUpdate'])->name('languages.batch.update');
-    Route::put('languages/{itemKey}', [LanguageController::class, 'update'])->name('languages.update');
-    // users search
-    Route::get('users/search', [UserSearchController::class, 'search'])->name('users.search');
 
     // The following pages function
 
@@ -117,7 +117,7 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::put('languageMenus/status/switch', [LanguageMenuController::class, 'switchStatus'])->name('languageMenus.status.switch');
         Route::put('languageMenus/{langTag}', [LanguageMenuController::class, 'update'])->name('languageMenus.update');
         Route::put('languageMenus/{langTag}/order', [LanguageMenuController::class, 'updateOrder'])->name('languageMenus.order.update');
-        Route::put('default/languages/update', [LanguageMenuController::class, 'updateDefaultLanguage'])->name('languageMenus.default.update');
+        Route::put('languageMenus/update-default', [LanguageMenuController::class, 'updateDefaultLanguage'])->name('languageMenus.default.update');
         Route::delete('languageMenus/{langTag}', [LanguageMenuController::class, 'destroy'])->name('languageMenus.destroy');
         // general
         Route::get('general', [GeneralController::class, 'show'])->name('general.index');
