@@ -541,40 +541,33 @@ $(document).ready(function () {
     // update language
     $('#updateLanguage').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget),
-            langTag = button.data('lang_tag'),
-            langTagDesc = button.data('lang_tag_desc'),
-            content = button.data('content'),
-            key = button.data('key'),
             title = button.data('title'),
+            langLabel = button.data('lang_label'),
+            langTag = button.data('lang_tag'),
+            langContent = button.data('lang_content'),
             action = button.data('action');
 
         $(this).find('form').attr('action', action);
-        $(this).find('.lang-label').text(langTagDesc);
+        $(this).find('.lang-label').text(langLabel);
         $(this).find('.modal-title').text(title);
-        $(this).find('input[name=lang_tag]').val(langTag);
-        $(this).find('input[name=lang_key]').val(key);
-        $(this).find('textarea[name=content]').val(content);
+        $(this).find('input[name=langTag]').val(langTag);
+        $(this).find('textarea[name=langContent]').val(langContent);
     });
 
     $('#updateLanguageForm').submit(function () {
         $('#updateLanguage').modal('hide');
-        let content = $(this).find('textarea[name=content]').val();
-        let langTag = $(this).find('input[name=lang_tag]').val();
-        let langKey = $(this).find('input[name=lang_key]').val();
+        let langTag = $(this).find('input[name=langTag]').val();
+        let langContent = $(this).find('textarea[name=langContent]').val();
 
         $.ajax({
             method: 'post',
             url: $(this).attr('action'),
             data: {
-                lang_tag: langTag,
-                content: content,
+                langTag: langTag,
+                langContent: langContent,
                 _method: 'put',
             },
             success: function (response) {
-                $('#policyTabContent')
-                    .find("[data-lang_tag='" + langTag + "'][data-key='" + langKey + "']")
-                    .data('content', content);
-
                 window.tips(response.message);
 
                 if ($('.btn-primary[data-url]').data('url')) {

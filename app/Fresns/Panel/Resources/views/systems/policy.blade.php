@@ -63,16 +63,16 @@
                         </div>
                     </div>
                 </div>
-                <!--policy_cookies-->
+                <!--policy_cookie-->
                 <div class="row mb-3">
-                    <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.policy_cookies') }}:</label>
+                    <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.policy_cookie') }}:</label>
                     <div class="col-lg-6 pt-2">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="account_cookies_status" id="account_cookies_false" value="false" {{ !$params['account_cookies_status'] ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="account_cookie_status" id="account_cookies_false" value="false" {{ !$params['account_cookie_status'] ? 'checked' : '' }}>
                             <label class="form-check-label" for="account_cookies_false">{{ __('FsLang::panel.option_hidden') }}</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="account_cookies_status" id="account_cookies_true" value="true" {{ $params['account_cookies_status'] ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="account_cookie_status" id="account_cookies_true" value="true" {{ $params['account_cookie_status'] ? 'checked' : '' }}>
                             <label class="form-check-label" for="account_cookies_true">{{ __('FsLang::panel.option_visible') }}</label>
                         </div>
                     </div>
@@ -151,7 +151,7 @@
                         <th scope="col">{{ __('FsLang::panel.table_lang_name') }}</th>
                         <th scope="col">{{ __('FsLang::panel.policy_terms') }}</th>
                         <th scope="col">{{ __('FsLang::panel.policy_privacy') }}</th>
-                        <th scope="col">{{ __('FsLang::panel.policy_cookies') }}</th>
+                        <th scope="col">{{ __('FsLang::panel.policy_cookie') }}</th>
                         <th scope="col">{{ __('FsLang::panel.policy_delete_account') }}</th>
                     </tr>
                 </thead>
@@ -174,36 +174,36 @@
                             <td>
                                 <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#updateLanguage"
-                                    data-action="{{ route('panel.languages.update', ['itemKey' => 'account_terms']) }}"
-                                    data-lang_tag_desc="{{ $langName }}" data-lang_tag="{{ $lang['langTag'] }}"
-                                    data-key="account_terms"
+                                    data-action="{{ route('panel.languages.update', ['itemKey' => 'account_terms_policy']) }}"
                                     data-title="{{ __('FsLang::panel.policy_terms') }}"
-                                    data-content="{{ $langParams['account_terms'][$lang['langTag']] ?? '' }}">{{ __('FsLang::panel.button_edit') }}</button>
+                                    data-lang_label="{{ $langName }}"
+                                    data-lang_tag="{{ $lang['langTag'] }}"
+                                    data-lang_content="{{ $params['account_terms_policy'][$lang['langTag']] ?? '' }}">{{ __('FsLang::panel.button_edit') }}</button>
                             </td>
                             <td>
                                 <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#updateLanguage"
-                                    data-action="{{ route('panel.languages.update', ['itemKey' => 'account_privacy']) }}"
-                                    data-lang_tag_desc="{{ $langName }}" data-lang_tag="{{ $lang['langTag'] }}"
-                                    data-key="account_privacy"
+                                    data-action="{{ route('panel.languages.update', ['itemKey' => 'account_privacy_policy']) }}"
                                     data-title="{{ __('FsLang::panel.policy_privacy') }}"
-                                    data-content="{{ $langParams['account_privacy'][$lang['langTag']] ?? '' }}">{{ __('FsLang::panel.button_edit') }}</button>
+                                    data-lang_label="{{ $langName }}"
+                                    data-lang_tag="{{ $lang['langTag'] }}"
+                                    data-lang_content="{{ $params['account_privacy_policy'][$lang['langTag']] ?? '' }}">{{ __('FsLang::panel.button_edit') }}</button>
                             </td>
                             <td><button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#updateLanguage"
-                                    data-action="{{ route('panel.languages.update', ['itemKey' => 'account_cookies']) }}"
-                                    data-lang_tag_desc="{{ $langName }}" data-lang_tag="{{ $lang['langTag'] }}"
-                                    data-key="account_cookies"
-                                    data-title="{{ __('FsLang::panel.policy_cookies') }}"
-                                    data-content="{{ $langParams['account_cookies'][$lang['langTag']] ?? '' }}">{{ __('FsLang::panel.button_edit') }}</button>
+                                    data-action="{{ route('panel.languages.update', ['itemKey' => 'account_cookie_policy']) }}"
+                                    data-title="{{ __('FsLang::panel.policy_cookie') }}"
+                                    data-lang_label="{{ $langName }}"
+                                    data-lang_tag="{{ $lang['langTag'] }}"
+                                    data-lang_content="{{ $params['account_cookie_policy'][$lang['langTag']] ?? '' }}">{{ __('FsLang::panel.button_edit') }}</button>
                             </td>
                             <td><button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#updateLanguage"
-                                    data-action="{{ route('panel.languages.update', ['itemKey' => 'account_delete']) }}"
-                                    data-lang_tag_desc="{{ $langName }}" data-lang_tag="{{ $lang['langTag'] }}"
-                                    data-key="account_delete"
+                                    data-action="{{ route('panel.languages.update', ['itemKey' => 'account_delete_policy']) }}"
                                     data-title="{{ __('FsLang::panel.policy_delete_account') }}"
-                                    data-content="{{ $langParams['account_delete'][$lang['langTag']] ?? '' }}">{{ __('FsLang::panel.button_edit') }}</button>
+                                    data-lang_label="{{ $langName }}"
+                                    data-lang_tag="{{ $lang['langTag'] }}"
+                                    data-lang_content="{{ $params['account_delete_policy'][$lang['langTag']] ?? '' }}">{{ __('FsLang::panel.button_edit') }}</button>
                             </td>
                         </tr>
                     @endforeach
@@ -224,10 +224,9 @@
                     <form method="post" id="updateLanguageForm">
                         @csrf
                         @method('put')
-                        <input type="hidden" name="lang_tag">
-                        <input type="hidden" name="lang_key">
+                        <input type="hidden" name="langTag">
                         <div class="form-floating">
-                            <textarea class="form-control" placeholder="Markdown" id="floatingTextarea" name="content" style="height:400px"></textarea>
+                            <textarea class="form-control" placeholder="Markdown" id="floatingTextarea" name="langContent" style="height:400px"></textarea>
                             <label for="floatingTextarea" class="lang-label"></label>
                         </div>
                         <div class="form-text">{{ __('FsLang::tips.markdown_editor') }}</div>

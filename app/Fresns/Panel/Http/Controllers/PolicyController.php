@@ -8,9 +8,8 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
-use App\Fresns\Panel\Http\Requests\UpdatePolicyRequest;
 use App\Models\Config;
-use App\Models\Language;
+use Illuminate\Http\Request;
 
 class PolicyController extends Controller
 {
@@ -20,42 +19,33 @@ class PolicyController extends Controller
         $configKeys = [
             'account_terms_status',
             'account_privacy_status',
-            'account_cookies_status',
+            'account_cookie_status',
             'account_ip_location_status',
             'account_delete_status',
             'delete_account_type',
             'delete_account_todo',
+            'account_terms_policy',
+            'account_privacy_policy',
+            'account_cookie_policy',
+            'account_delete_policy',
         ];
 
-        // language keys
-        $langKeys = [
-            'account_terms',
-            'account_privacy',
-            'account_cookies',
-            'account_delete',
-        ];
         $configs = Config::whereIn('item_key', $configKeys)->get();
 
-        $languages = Language::ofConfig()->whereIn('table_key', $langKeys)->get();
-
+        $params = [];
         foreach ($configs as $config) {
             $params[$config->item_key] = $config->item_value;
         }
 
-        $langParams = [];
-        foreach ($langKeys as $langKey) {
-            $langParams[$langKey] = $languages->where('table_key', $langKey)->pluck('lang_content', 'lang_tag')->toArray();
-        }
-
-        return view('FsView::systems.policy', compact('params', 'langParams'));
+        return view('FsView::systems.policy', compact('params'));
     }
 
-    public function update(UpdatePolicyRequest $request)
+    public function update(Request $request)
     {
         $configKeys = [
             'account_terms_status',
             'account_privacy_status',
-            'account_cookies_status',
+            'account_cookie_status',
             'account_ip_location_status',
             'account_delete_status',
             'delete_account_type',
