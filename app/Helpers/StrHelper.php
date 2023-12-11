@@ -200,6 +200,7 @@ class StrHelper
         return $domain ?? null;
     }
 
+    // extractDomainByUrl
     public static function extractDomainByUrl(?string $url = null): ?string
     {
         if (empty($url)) {
@@ -212,6 +213,26 @@ class StrHelper
         return $domain;
     }
 
+    // language content
+    public static function languageContent(?array $contentArr, ?string $langTag = null): ?string
+    {
+        if (empty($contentArr)) {
+            return null;
+        }
+
+        if ($langTag && isset($contentArr[$langTag])) {
+            return $contentArr[$langTag];
+        }
+
+        $defaultLangTag = ConfigHelper::fresnsConfigDefaultLangTag();
+        if (isset($contentArr[$defaultLangTag])) {
+            return $contentArr[$defaultLangTag];
+        }
+
+        return reset($contentArr) ?: null;
+    }
+
+    // slug
     public static function slug(string $text): string
     {
         if (preg_match("/^[A-Za-z\s]+$/", $text)) {
@@ -225,6 +246,7 @@ class StrHelper
         return $slug;
     }
 
+    // infoBoxTypeString
     public static function infoBoxTypeString(?int $infoBoxType = null): ?string
     {
         if (empty($infoBoxType)) {

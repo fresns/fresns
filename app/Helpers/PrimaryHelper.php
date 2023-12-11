@@ -38,6 +38,7 @@ class PrimaryHelper
         }
 
         $cacheTags = match ($modelName) {
+            'config' => ['fresnsModels', 'fresnsConfigs'],
             'key' => ['fresnsModels', 'fresnsSystems'],
             'account' => ['fresnsModels', 'fresnsAccounts'],
             'user' => ['fresnsModels', 'fresnsUsers'],
@@ -63,6 +64,10 @@ class PrimaryHelper
             switch ($modelName) {
                 case 'key':
                     $fresnsModel = SessionKey::where('app_id', $fsid)->first();
+                    break;
+
+                case 'config':
+                    $fresnsModel = Config::where('item_key', $fsid)->first();
                     break;
 
                 case 'account':

@@ -73,88 +73,25 @@ class ConfigHelper
     // Get config value based on Key
     public static function fresnsConfigByItemKey(string $itemKey, ?string $langTag = null): mixed
     {
-        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
+        $itemData = PrimaryHelper::fresnsModelByFsid('config', $itemKey);
 
-        $cacheKey = "fresns_config_{$itemKey}_{$langTag}";
-        $cacheTag = 'fresnsConfigs';
-
-        // is known to be empty
-        $isKnownEmpty = CacheHelper::isKnownEmpty($cacheKey);
-        if ($isKnownEmpty) {
+        if (empty($itemData)) {
             return null;
         }
 
-        $itemValue = CacheHelper::get($cacheKey, $cacheTag);
-
-        if (empty($itemValue)) {
-            $itemValue = null;
-
-            $itemData = Config::where('item_key', $itemKey)->first();
-            if ($itemData) {
-                $itemValue = $itemData->is_multilingual ? LanguageHelper::fresnsLanguageByTableKey($itemData->item_key, $itemData->item_type, $langTag) : $itemData->item_value;
-            }
-
-            CacheHelper::put($itemValue, $cacheKey, $cacheTag);
-        }
-
-        return $itemValue;
+        return $itemData->is_multilingual ? StrHelper::languageContent($itemData->item_value, $langTag) : $itemData->item_value;
     }
 
     // Get multiple values based on multiple keys
     public static function fresnsConfigByItemKeys(array $itemKeys, ?string $langTag = null): array
     {
-        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
+        $keysData = [];
 
-        $key = reset($itemKeys).'_'.end($itemKeys).'_'.count($itemKeys);
-        $cacheKey = "fresns_config_keys_{$key}_{$langTag}";
-
-        $keysData = CacheHelper::get($cacheKey, 'fresnsConfigs');
-
-        if (empty($keysData)) {
-            $cacheConfigKeys = Cache::get('fresns_cache_config_keys') ?? [];
-            $keysData = [];
-
-            foreach ($itemKeys as $itemKey) {
-                $keysData[$itemKey] = ConfigHelper::fresnsConfigByItemKey($itemKey, $langTag);
-
-                $cacheConfigKeys = Arr::add($cacheConfigKeys, $itemKey, $cacheKey);
-            }
-
-            CacheHelper::put($keysData, $cacheKey, 'fresnsConfigs');
-            Cache::forever('fresns_cache_config_keys', $cacheConfigKeys);
+        foreach ($itemKeys as $itemKey) {
+            $keysData[$itemKey] = ConfigHelper::fresnsConfigByItemKey($itemKey, $langTag);
         }
 
         return $keysData;
-    }
-
-    // Get config value based on Tag
-    public static function fresnsConfigByItemTag(string $itemTag, ?string $langTag = null): array
-    {
-        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
-
-        $cacheKey = "fresns_config_tag_{$itemTag}_{$langTag}";
-        $cacheTag = 'fresnsConfigs';
-
-        $tagData = CacheHelper::get($cacheKey, $cacheTag);
-
-        if (empty($tagData)) {
-            $itemData = Config::where('item_tag', $itemTag)->get();
-
-            $itemDataArr = [];
-            foreach ($itemData as $item) {
-                if ($item->is_multilingual) {
-                    $itemDataArr[$item->item_key] = LanguageHelper::fresnsLanguageByTableKey($item->item_key, $item->item_type, $langTag);
-                } else {
-                    $itemDataArr[$item->item_key] = $item->item_value;
-                }
-            }
-
-            $tagData = $itemDataArr;
-
-            CacheHelper::put($tagData, $cacheKey, $cacheTag);
-        }
-
-        return $tagData;
     }
 
     // Get config api value based on Key
@@ -183,8 +120,8 @@ class ConfigHelper
 
             $itemValue = $config->item_value;
 
-            if ($config->is_multilingual == 1) {
-                $itemValue = LanguageHelper::fresnsLanguageByTableKey($config->item_key, $config->item_type, $langTag);
+            if ($config->is_multilingual) {
+                $itemValue = StrHelper::languageContent($config->item_value, $langTag);
             } elseif ($config->item_type == 'file') {
                 $itemValue = ConfigHelper::fresnsConfigFileUrlByItemKey($config->item_key);
             } elseif ($config->item_type == 'plugin') {
