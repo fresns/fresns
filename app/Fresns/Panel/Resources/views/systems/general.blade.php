@@ -110,77 +110,41 @@
             <div class="col-lg-6">
                 <div class="input-group">
                     <span class="input-group-text">&copy;</span>
-                    <input type="text" class="form-control" id="site_copyright" placeholder="Fresns" name="site_copyright" value="{{ $params['site_copyright'] }}">
+                    <input type="text" class="form-control" id="site_copyright_name" placeholder="Fresns" name="site_copyright_name" value="{{ $params['site_copyright_name'] }}">
                     <input type="text" class="form-control" id="site_copyright_years" placeholder="2020-2023" name="site_copyright_years" value="{{ $params['site_copyright_years'] }}">
                 </div>
             </div>
         </div>
 
         <div class="row mb-4">
-            <label for="site_mode" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.site_mode') }}:</label>
-            <div class="col-lg-6 pt-2" id="accordionSiteMode">
+            <label for="site_email" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.site_email') }}:</label>
+            <div class="col-lg-6"><input type="email" class="form-control" id="site_email" name="site_email" value="{{ $params['site_email'] }}" placeholder="support@fresns.org"></div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.site_email_desc') }}</div>
+        </div>
+
+        <!--site_mode-->
+        <div class="row">
+            <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.site_mode') }}:</label>
+            <div class="col-lg-5 pt-2">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="site_mode" id="site_mode_public" value="public" data-bs-toggle="collapse" data-bs-target=".public_setting:not(.show)" aria-controls="public_setting" {{ $params['site_mode'] == 'public' ? 'aria-expanded="true" checked' : 'aria-expanded="false"' }}>
+                    <input class="form-check-input" type="radio" name="site_mode" id="site_mode_public" value="public" data-bs-toggle="collapse" data-bs-target=".private_setting.show" aria-expanded="false" aria-controls="private_setting" {{ ($params['site_mode'] == 'public') ? 'checked' : '' }}>
                     <label class="form-check-label" for="site_mode_public">{{ __('FsLang::panel.site_mode_public') }}</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="site_mode" id="site_mode_private" value="private" data-bs-toggle="collapse" data-bs-target=".private_setting:not(.show)" aria-controls="private_setting" {{ $params['site_mode'] == 'private' ? 'aria-expanded="true" checked' : 'aria-expanded="false"' }}>
+                    <input class="form-check-input" type="radio" name="site_mode" id="site_mode_private" value="private" data-bs-toggle="collapse" data-bs-target=".private_setting:not(.show)" aria-expanded="false" aria-controls="private_setting" {{ ($params['site_mode'] == 'private') ? 'checked' : '' }}>
                     <label class="form-check-label" for="site_mode_private">{{ __('FsLang::panel.site_mode_private') }}</label>
                 </div>
-
-                <!--public-->
-                <div class="collapse public_setting {{ $params['site_mode'] == 'public' ? 'show' : '' }}" aria-labelledby="site_mode_public" data-bs-parent="#accordionSiteMode">
-                    <div class="card mt-2">
-                        <div class="card-header text-success">{{ __('FsLang::panel.site_mode_public_desc') }}</div>
+            </div>
+        </div>
+        <!--site_mode_private Config-->
+        <div class="row mb-4">
+            <label class="col-lg-2 col-form-label text-lg-end"></label>
+            <div class="col-lg-5">
+                <div class="collapse private_setting {{ ($params['site_mode'] == 'private') ? 'show' : '' }}">
+                    <div class="card mt-1">
+                        <div class="card-header">{{ __('FsLang::panel.site_mode_private_desc') }}</div>
                         <div class="card-body">
-                            <!--public config-->
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="register_status">{{ __('FsLang::panel.site_mode_public_register_status') }}</label>
-                                <select class="form-select" id="register_status" name="site_public_status">
-                                    <option value="false" {{ $params['site_public_status'] == 'false' ? 'selected' : '' }}>{{ __('FsLang::panel.option_close') }}</option>
-                                    <option value="true" {{ $params['site_public_status'] == 'true' ? 'selected' : '' }}>{{ __('FsLang::panel.option_open') }}</option>
-                                </select>
-                            </div>
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="register_plugin">{{ __('FsLang::panel.site_mode_public_register_service') }}</label>
-                                <select class="form-select" id="register_plugin" name="site_public_service">
-                                    <option value="" selected>{{ __('FsLang::panel.option_default') }}</option>
-                                    @foreach ($registerPlugins as $plugin)
-                                        <option value="{{ $plugin->fskey }}" {{ $params['site_public_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="input-group mb-3">
-                                <label class="input-group-text">{{ __('FsLang::panel.site_mode_public_register_type') }}</label>
-                                <div class="form-control bg-white">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="account_email" name="site_email_register" value="true" {{ $params['site_email_register'] == 'true' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="account_email">{{ __('FsLang::panel.site_mode_public_register_type_email') }}</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="account_phone" name="site_phone_register" value="true" {{ $params['site_phone_register'] == 'true' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="account_phone">{{ __('FsLang::panel.site_mode_public_register_type_phone') }}</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="input-group mb-1">
-                                <label class="input-group-text" for="site_login_or_register">{{ __('FsLang::panel.site_mode_public_login_or_register') }}</label>
-                                <select class="form-select" id="site_login_or_register" name="site_login_or_register">
-                                    <option value="false" {{ $params['site_login_or_register'] == 'false' ? 'selected' : '' }}>{{ __('FsLang::panel.option_no') }}</option>
-                                    <option value="true" {{ $params['site_login_or_register'] == 'true' ? 'selected' : '' }}>{{ __('FsLang::panel.option_yes') }}</option>
-                                </select>
-                            </div>
-                            <!--public config end-->
-                        </div>
-                    </div>
-                </div>
-
-                <!--private-->
-                <div class="collapse private_setting {{ $params['site_mode'] == 'private' ? 'show' : '' }}" aria-labelledby="site_mode_private" data-bs-parent="#accordionSiteMode">
-                    <div class="card mt-2">
-                        <div class="card-header text-danger">{{ __('FsLang::panel.site_mode_private_desc') }}</div>
-                        <div class="card-body">
-                            <!--private config-->
+                            <!--Config-->
                             <div class="input-group mb-3">
                                 <label class="input-group-text" for="site_private_type">{{ __('FsLang::panel.site_mode_private_join_status') }}</label>
                                 <select class="form-select" id="site_private_type" name="site_private_status">
@@ -214,32 +178,11 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <!--private config end-->
+                            <!--Config end-->
                         </div>
                     </div>
                 </div>
-                <!--mode end-->
             </div>
-        </div>
-
-        <div class="row mb-4">
-            <label for="site_login" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.site_login') }}:</label>
-            <div class="col-lg-6 pt-2">
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="account_email_login" name="site_email_login" value="true" {{ $params['site_email_login'] == 'true' ? 'checked' : '' }}>
-                    <label class="form-check-label" for="account_email_login">{{ __('FsLang::panel.site_login_type_email') }}</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="account_phone_login" name="site_phone_login" value="true" {{ $params['site_phone_login'] == 'true' ? 'checked' : '' }}>
-                    <label class="form-check-label" for="account_phone_login">{{ __('FsLang::panel.site_login_type_phone') }}</label>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mb-4">
-            <label for="site_email" class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.site_email') }}:</label>
-            <div class="col-lg-6"><input type="email" class="form-control" id="site_email" name="site_email" value="{{ $params['site_email'] }}" placeholder="support@fresns.org"></div>
-            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.site_email_desc') }}</div>
         </div>
 
         <!--button_save-->
@@ -289,7 +232,7 @@
                                                     {{ '('.$lang['areaName'].')' }}
                                                 @endif
                                             </td>
-                                            <td><input type="text" name="languages[{{ $lang['langTag'] }}]" class="form-control" value="{{ $langParams['site_name'][$lang['langTag']] ?? '' }}"></td>
+                                            <td><input type="text" name="languages[{{ $lang['langTag'] }}]" class="form-control" value="{{ $params['site_name'][$lang['langTag']] ?? '' }}"></td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -342,7 +285,7 @@
                                                     {{ '('.$lang['areaName'].')' }}
                                                 @endif
                                             </td>
-                                            <td><textarea name="languages[{{ $lang['langTag'] }}]" class="form-control" rows="5">{{ $langParams['site_desc'][$lang['langTag']] ?? '' }}</textarea></td>
+                                            <td><textarea name="languages[{{ $lang['langTag'] }}]" class="form-control" rows="5">{{ $params['site_desc'][$lang['langTag']] ?? '' }}</textarea></td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -396,7 +339,7 @@
                                                     {{ '('.$lang['areaName'].')' }}
                                                 @endif
                                             </td>
-                                            <td><textarea name="languages[{{ $lang['langTag'] }}]" class="form-control" rows="10">{{ $langParams['site_intro'][$lang['langTag']] ?? '' }}</textarea></td>
+                                            <td><textarea name="languages[{{ $lang['langTag'] }}]" class="form-control" rows="10">{{ $params['site_intro'][$lang['langTag']] ?? '' }}</textarea></td>
                                         </tr>
                                     @endforeach
                                 </tbody>

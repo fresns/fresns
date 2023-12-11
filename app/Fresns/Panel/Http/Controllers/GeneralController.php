@@ -12,10 +12,10 @@ use App\Fresns\Panel\Http\Requests\UpdateGeneralRequest;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
+use App\Helpers\StrHelper;
 use App\Models\Config;
 use App\Models\File;
 use App\Models\FileUsage;
-use App\Models\Language;
 use App\Models\Plugin;
 use App\Models\Role;
 use Illuminate\Support\Str;
@@ -26,59 +26,28 @@ class GeneralController extends Controller
     {
         // config keys
         $configKeys = [
-            'utc',
             'site_url',
             'site_name',
             'site_desc',
             'site_intro',
             'site_icon',
             'site_logo',
-            'site_copyright',
+            'site_copyright_name',
             'site_copyright_years',
+            'site_email',
             'site_mode',
-            'site_public_status',
-            'site_public_service',
-            'site_email_register',
-            'site_phone_register',
-            'site_login_or_register',
             'site_private_status',
             'site_private_service',
             'site_private_end_after',
             'site_private_whitelist_roles',
-            'site_email_login',
-            'site_phone_login',
-            'site_email',
         ];
 
-        // language keys
-        $langKeys = [
-            'site_name',
-            'site_desc',
-            'site_intro',
-        ];
         $configs = Config::whereIn('item_key', $configKeys)->get();
-
-        $languages = Language::ofConfig()->whereIn('table_key', $langKeys)->get();
 
         $params = [];
         foreach ($configs as $config) {
             $params[$config->item_key] = $config->item_value;
         }
-
-        $langParams = [];
-        $defaultLangParams = [];
-        foreach ($langKeys as $langKey) {
-            $langParams[$langKey] = $languages->where('table_key', $langKey)->pluck('lang_content', 'lang_tag')->toArray();
-            $defaultLangParams[$langKey] = $languages->where('table_key', $langKey)->where('lang_tag', $this->defaultLanguage)->first()['lang_content'] ?? '';
-        }
-
-        $plugins = Plugin::all();
-        $registerPlugins = $plugins->filter(function ($plugin) {
-            return in_array('register', $plugin->scene);
-        });
-        $joinPlugins = $plugins->filter(function ($plugin) {
-            return in_array('join', $plugin->scene);
-        });
 
         $configImageInfo['iconUrl'] = ConfigHelper::fresnsConfigFileUrlByItemKey('site_icon');
         $configImageInfo['iconType'] = ConfigHelper::fresnsConfigFileValueTypeByItemKey('site_icon');
@@ -86,9 +55,26 @@ class GeneralController extends Controller
         $configImageInfo['logoType'] = ConfigHelper::fresnsConfigFileValueTypeByItemKey('site_logo');
         $configImageInfo[] = $configImageInfo;
 
+        // language keys
+        $langKeys = [
+            'site_name',
+            'site_desc',
+            'site_intro',
+        ];
+
+        $defaultLangParams = [];
+        foreach ($langKeys as $langKey) {
+            $defaultLangParams[$langKey] = StrHelper::languageContent($params[$langKey]);
+        }
+
+        $plugins = Plugin::all();
+        $joinPlugins = $plugins->filter(function ($plugin) {
+            return in_array('join', $plugin->scene);
+        });
+
         $roles = Role::all();
 
-        return view('FsView::systems.general', compact('params', 'configImageInfo', 'langParams', 'defaultLangParams', 'registerPlugins', 'joinPlugins', 'roles'));
+        return view('FsView::systems.general', compact('params', 'configImageInfo', 'defaultLangParams', 'joinPlugins', 'roles'));
     }
 
     public function update(UpdateGeneralRequest $request)
@@ -135,23 +121,16 @@ class GeneralController extends Controller
 
         $configKeys = [
             'site_url',
-            'site_copyright',
             'site_icon',
             'site_logo',
+            'site_copyright_name',
             'site_copyright_years',
+            'site_email',
             'site_mode',
-            'site_public_status',
-            'site_public_service',
-            'site_email_register',
-            'site_phone_register',
-            'site_login_or_register',
             'site_private_status',
             'site_private_service',
             'site_private_end_after',
             'site_private_whitelist_roles',
-            'site_email_login',
-            'site_phone_login',
-            'site_email',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
