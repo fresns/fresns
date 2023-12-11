@@ -13,7 +13,7 @@ class UpdateLanguageMenuRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'rating' => 'required|string',
+            'order' => 'required|int',
             'old_lang_tag' => 'string',
             'continent_id' => 'int',
             'area_code' => 'string',

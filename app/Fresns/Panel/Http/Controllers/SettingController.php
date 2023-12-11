@@ -24,7 +24,7 @@ class SettingController extends Controller
         $configKeys = [
             'developer_mode',
             'build_type',
-            'panel_path',
+            'panel_configs',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -67,9 +67,13 @@ class SettingController extends Controller
             $path = Str::of($request->panel_path)->trim();
             $path = Str::of($path)->rtrim('/');
 
-            $pathConfig = Config::where('item_key', 'panel_path')->firstOrNew();
-            $pathConfig->item_value = $path;
-            $pathConfig->save();
+            $panelConfigs = Config::where('item_key', 'panel_configs')->firstOrNew();
+
+            $itemValue = $panelConfigs->item_value;
+            $itemValue['path'] = $path;
+
+            $panelConfigs->item_value = $itemValue;
+            $panelConfigs->save();
         }
 
         return $this->updateSuccess();

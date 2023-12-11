@@ -53,7 +53,7 @@
                 @foreach ($languages as $language)
                     <tr>
                         <td>
-                            <input type="number" data-action="{{ route('panel.languageMenus.rating.update', ['langTag' => $language['langTag']]) }}" class="form-control input-number rating-number" value="{{ $language['rating'] }}">
+                            <input type="number" data-action="{{ route('panel.languageMenus.order.update', ['langTag' => $language['langTag']]) }}" class="form-control input-number order-number" value="{{ $language['order'] }}">
                         </td>
                         <td>
                             <input data-action="{{ route('panel.languageMenus.default.update') }}" class="form-check-input" type="radio" name="default_language" value="{{ $language['langTag'] }}" {{ $language['langTag'] == $defaultLanguage ? 'checked' : '' }}>
@@ -94,7 +94,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_order') }}</label>
                             <div class="col-sm-9">
-                                <input type="number" name="rating" required class="form-control input-number">
+                                <input type="number" name="order" required class="form-control input-number">
                             </div>
                         </div>
                         <!--table_langCode-->
@@ -240,7 +240,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_order') }}</label>
                             <div class="col-sm-9">
-                                <input type="number" name="rating" required class="form-control input-number">
+                                <input type="number" name="order" required class="form-control input-number">
                             </div>
                         </div>
                         <!--table_langCode-->
@@ -259,11 +259,11 @@
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.language_table_area') }}</label>
                             <div class="col-sm-9 pt-2">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="area_status" id="area_status_false" value="0" data-bs-toggle="collapse" data-bs-target=".edit_area_setting.show" aria-expanded="false" aria-controls="area_setting" checked>
+                                    <input class="form-check-input" type="radio" name="area_status" id="area_status_false" value="0" data-bs-toggle="collapse" data-bs-target=".edit_area_setting.show" aria-expanded="false" aria-controls="area_setting" disabled checked>
                                     <label class="form-check-label" for="area_status_false">{{ __('FsLang::panel.option_close') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="area_status" id="area_status_true" value="1" data-bs-toggle="collapse" data-bs-target=".edit_area_setting:not(.show)" aria-expanded="false" aria-controls="area_setting">
+                                    <input class="form-check-input" type="radio" name="area_status" id="area_status_true" value="1" data-bs-toggle="collapse" data-bs-target=".edit_area_setting:not(.show)" aria-expanded="false" aria-controls="area_setting" disabled>
                                     <label class="form-check-label" for="area_status_true">{{ __('FsLang::panel.option_open') }}</label>
                                 </div>
                             </div>
@@ -275,7 +275,7 @@
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         <select class="form-select select-continent"
-                                            data-children="{{ json_encode($areaCodes) }}" name="continent_id">
+                                            data-children="{{ json_encode($areaCodes) }}" name="continent_id" disabled>
                                             <option selected disabled>{{ __('FsLang::panel.language_select_continent') }}</option>
                                             @foreach ($continents as $continent)
                                                 <option value="{{ $continent['id'] }}">{{ $continent['name'] }}</option>

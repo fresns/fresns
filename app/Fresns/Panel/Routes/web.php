@@ -47,22 +47,14 @@ use App\Fresns\Panel\Http\Controllers\UserController;
 use App\Fresns\Panel\Http\Controllers\UserSearchController;
 use App\Fresns\Panel\Http\Controllers\WalletController;
 use App\Helpers\CacheHelper;
-use App\Models\Config;
+use App\Helpers\PrimaryHelper;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 try {
-    $cacheKey = 'fresns_panel_login_path';
-    $cacheTag = 'fresnsSystems';
-    $loginPath = CacheHelper::get($cacheKey, $cacheTag);
+    $itemData = PrimaryHelper::fresnsModelByFsid('config', 'panel_configs');
 
-    if (empty($loginPath)) {
-        $loginConfig = Config::where('item_key', 'panel_path')->first();
-
-        $loginPath = $loginConfig->item_value ?? 'admin';
-
-        CacheHelper::put($loginPath, $cacheKey, $cacheTag, 10, now()->addMinutes(10));
-    }
+    $loginPath = $itemData?->item_value['path'] ?? 'admin';
 } catch (\Exception $e) {
     $loginPath = 'admin';
 }
@@ -124,7 +116,7 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::post('languageMenus', [LanguageMenuController::class, 'store'])->name('languageMenus.store');
         Route::put('languageMenus/status/switch', [LanguageMenuController::class, 'switchStatus'])->name('languageMenus.status.switch');
         Route::put('languageMenus/{langTag}', [LanguageMenuController::class, 'update'])->name('languageMenus.update');
-        Route::put('languageMenus/{langTag}/rating', [LanguageMenuController::class, 'updateRating'])->name('languageMenus.rating.update');
+        Route::put('languageMenus/{langTag}/order', [LanguageMenuController::class, 'updateOrder'])->name('languageMenus.order.update');
         Route::put('default/languages/update', [LanguageMenuController::class, 'updateDefaultLanguage'])->name('languageMenus.default.update');
         Route::delete('languageMenus/{langTag}', [LanguageMenuController::class, 'destroy'])->name('languageMenus.destroy');
         // general
