@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <!--manage header-->
+    <!--header-->
     <div class="row mb-4 border-bottom">
         <div class="col-lg-9">
             <h3>{{ __('FsLang::panel.sidebar_extend_manage') }}</h3>
@@ -13,14 +13,15 @@
         </div>
         <div class="col-lg-3">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
-                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-action="{{ route('panel.manage.store') }}" data-bs-target="#configModal">
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#editModal" data-action="{{ route('panel.plugin-usages.store', ['usageType' => 'manage']) }}">
                     <i class="bi bi-plus-circle-dotted"></i> {{ __('FsLang::panel.button_add_service_provider') }}
                 </button>
                 {{-- <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a> --}}
             </div>
         </div>
     </div>
-    <!--manage config-->
+
+    <!--list-->
     <div class="table-responsive">
         <table class="table table-hover align-middle text-nowrap">
             <thead>
@@ -39,13 +40,13 @@
             <tbody>
                 @foreach ($pluginUsages as $item)
                     <tr>
-                        <td><input type="number" data-action="{{ route('panel.plugin-usages.rating.update', $item->id) }}" class="form-control input-number rating-number" value="{{ $item->rating }}"></td>
-                        <td>{{ optional($item->plugin)->name }}</td>
+                        <td><input type="number" class="form-control input-number order-number" data-action="{{ route('panel.plugin-usages.update-order', $item->id) }}" value="{{ $item->sort_order }}"></td>
+                        <td>{{ optional($item->plugin)->name ?? $item->plugin_fskey }}</td>
                         <td>
                             @if ($item->getIconUrl())
                                 <img src="{{ $item->getIconUrl() }}" width="24" height="24">
                             @endif
-                            {{ $item->getLangName($defaultLanguage) }}
+                            {{ $item->getLangContent('name', $defaultLanguage) }}
                         </td>
                         <td>
                             @if (in_array(1, explode(',', $item->scene)))
@@ -61,7 +62,7 @@
                         <td>
                             @foreach ($roles as $role)
                                 @if (in_array($role->id, explode(',', $item->roles)))
-                                    <span class="badge bg-light text-dark">{{ $role->getLangName($defaultLanguage) }}</span>
+                                    <span class="badge bg-light text-dark">{{ $role->getLangContent('name', $defaultLanguage) }}</span>
                                 @endif
                             @endforeach
                         </td>
@@ -81,15 +82,14 @@
                             @endif
                         </td>
                         <td>
-                            <form action="{{ route('panel.manage.destroy', $item->id) }}" method="post">
+                            <form action="{{ route('panel.plugin-usages.destroy', $item->id) }}" method="post">
                                 @csrf
                                 @method('delete')
                                 <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
-                                    data-names="{{ $item->names->toJson() }}"
-                                    data-default-name="{{ $item->getLangName($defaultLanguage) }}"
+                                    data-default-name="{{ $item->getLangContent('name', $defaultLanguage) }}"
                                     data-params="{{ json_encode($item->attributesToArray()) }}"
-                                    data-action="{{ route('panel.manage.update', $item->id) }}"
-                                    data-bs-target="#configModal">{{ __('FsLang::panel.button_edit') }}</button>
+                                    data-action="{{ route('panel.plugin-usages.update', $item->id) }}"
+                                    data-bs-target="#editModal">{{ __('FsLang::panel.button_edit') }}</button>
                                 @if ($item->can_delete)
                                     <button type="submit" class="btn btn-link link-danger ms-1 fresns-link fs-7 delete-button">{{ __('FsLang::panel.button_delete') }}</button>
                                 @endif
@@ -100,21 +100,15 @@
             </tbody>
         </table>
     </div>
-    <!--list end-->
+    @if ($pluginUsages instanceof \Illuminate\Pagination\LengthAwarePaginator)
+        {{ $pluginUsages->appends(request()->all())->links() }}
+    @endif
 
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            {!! $pluginUsages->render() !!}
-        </ul>
-    </nav>
-    <!--pagination end-->
-
-    <!-- Config Modal -->
+    <!--modal-->
     <form action="" method="post" enctype="multipart/form-data">
         @csrf
         @method('post')
-        <input type="hidden" name="update_name" value="0">
-        <div class="modal fade  name-lang-parent expend-manage-modal" id="configModal" tabindex="-1" aria-labelledby="configModal" aria-hidden="true">
+        <div class="modal fade plugin-usage-modal" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -125,7 +119,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_order') }}</label>
                             <div class="col-sm-9">
-                                <input type="number" class="form-control input-number" name="rating" required>
+                                <input type="number" class="form-control input-number" name="sort_order" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -156,23 +150,23 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_name') }}</label>
                             <div class="col-sm-9">
-                                <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start name-button" data-parent="#configModal" data-bs-toggle="modal" data-bs-target="#langModal">{{ __('FsLang::panel.table_name') }}</button>
+                                <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start name-button" data-parent="#editModal" data-bs-toggle="modal" data-bs-target="#langModal">{{ __('FsLang::panel.table_name') }}</button>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_scene') }}</label>
                             <div class="col-sm-9 pt-2">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="1" name="scene[]">
-                                    <label class="form-check-label" for="inlineCheckbox1">{{ __('FsLang::panel.post') }}</label>
+                                    <input class="form-check-input" type="checkbox" id="scenePost" value="1" name="scene[]">
+                                    <label class="form-check-label" for="scenePost">{{ __('FsLang::panel.post') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="2" name="scene[]">
-                                    <label class="form-check-label" for="inlineCheckbox2">{{ __('FsLang::panel.comment') }}</label>
+                                    <input class="form-check-input" type="checkbox" id="sceneComment" value="2" name="scene[]">
+                                    <label class="form-check-label" for="sceneComment">{{ __('FsLang::panel.comment') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="3" name="scene[]">
-                                    <label class="form-check-label" for="inlineCheckbox3">{{ __('FsLang::panel.user') }}</label>
+                                    <input class="form-check-input" type="checkbox" id="sceneUser" value="3" name="scene[]">
+                                    <label class="form-check-label" for="sceneUser">{{ __('FsLang::panel.user') }}</label>
                                 </div>
                             </div>
                         </div>
@@ -201,7 +195,7 @@
                                 <div class="col-sm-9">
                                     <select class="form-select select2" multiple name="roles[]" id='roles'>
                                         @foreach ($roles as $role)
-                                            <option value="{{ $role->id }}">{{ $role->getLangName($defaultLanguage) }}</option>
+                                            <option value="{{ $role->id }}">{{ $role->getLangContent('name', $defaultLanguage) }}</option>
                                         @endforeach
                                     </select>
                                 </div>

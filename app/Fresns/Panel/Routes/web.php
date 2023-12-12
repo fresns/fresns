@@ -13,14 +13,7 @@ use App\Fresns\Panel\Http\Controllers\CodeMessageController;
 use App\Fresns\Panel\Http\Controllers\ColumnController;
 use App\Fresns\Panel\Http\Controllers\ConfigController;
 use App\Fresns\Panel\Http\Controllers\DashboardController;
-use App\Fresns\Panel\Http\Controllers\ExtendChannel;
 use App\Fresns\Panel\Http\Controllers\ExtendContentHandlerController;
-use App\Fresns\Panel\Http\Controllers\ExtendContentTypeController;
-use App\Fresns\Panel\Http\Controllers\ExtendEditorController;
-use App\Fresns\Panel\Http\Controllers\ExtendGroupController;
-use App\Fresns\Panel\Http\Controllers\ExtendManageController;
-use App\Fresns\Panel\Http\Controllers\ExtendUserFeatureController;
-use App\Fresns\Panel\Http\Controllers\ExtendUserProfileController;
 use App\Fresns\Panel\Http\Controllers\GeneralController;
 use App\Fresns\Panel\Http\Controllers\GroupController;
 use App\Fresns\Panel\Http\Controllers\IframeController;
@@ -65,22 +58,15 @@ Route::post($loginPath, [LoginController::class, 'login'])->name('login');
 Route::middleware(['panelAuth'])->group(function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-    // update config
-    Route::put('configs/{config:item_key}', [ConfigController::class, 'update'])->name('configs.update');
+    // fresns upgrade
+    Route::post('auto-upgrade', [UpgradeController::class, 'autoUpgrade'])->name('upgrade.auto');
+    Route::post('manual-upgrade', [UpgradeController::class, 'manualUpgrade'])->name('upgrade.manual');
+    Route::get('upgrade/info', [UpgradeController::class, 'upgradeInfo'])->name('upgrade.info');
     // update language
     Route::put('languages/batch-update/{itemKey}', [LanguageController::class, 'batchUpdate'])->name('languages.batch.update');
     Route::put('languages/update/{itemKey}', [LanguageController::class, 'update'])->name('languages.update');
     // users search
     Route::get('users/search', [UserSearchController::class, 'search'])->name('users.search');
-    // plugin usages
-    Route::put('plugin-usages/{id}/rating', [PluginUsageController::class, 'updateRating'])->name('plugin-usages.rating.update');
-    Route::resource('plugin-usages', PluginUsageController::class)->only([
-        'store', 'update', 'destroy',
-    ])->parameters([
-        'plugin-usages' => 'pluginUsage',
-    ]);
-
-    // The following pages function
 
     // dashboard-home
     Route::get('dashboard', [DashboardController::class, 'show'])->name('dashboard');
@@ -96,11 +82,6 @@ Route::middleware(['panelAuth'])->group(function () {
     // dashboard-upgrades
     Route::get('upgrades', [UpgradeController::class, 'show'])->name('upgrades');
     Route::patch('upgrade/check', [UpgradeController::class, 'checkFresnsVersion'])->name('upgrade.check');
-    // fresns upgrade
-    Route::post('auto-upgrade', [UpgradeController::class, 'autoUpgrade'])->name('upgrade.auto');
-    Route::post('manual-upgrade', [UpgradeController::class, 'manualUpgrade'])->name('upgrade.manual');
-    Route::get('upgrade/info', [UpgradeController::class, 'upgradeInfo'])->name('upgrade.info');
-
     // dashboard-admins
     Route::resource('admins', AdminController::class)->only([
         'index', 'store', 'destroy',
@@ -113,12 +94,23 @@ Route::middleware(['panelAuth'])->group(function () {
     Route::prefix('systems')->group(function () {
         // languages
         Route::get('languages', [LanguageMenuController::class, 'index'])->name('languages.index');
+        Route::put('languageMenus/status', [LanguageMenuController::class, 'switchStatus'])->name('languageMenus.status');
         Route::post('languageMenus', [LanguageMenuController::class, 'store'])->name('languageMenus.store');
-        Route::put('languageMenus/status/switch', [LanguageMenuController::class, 'switchStatus'])->name('languageMenus.status.switch');
-        Route::put('languageMenus/{langTag}', [LanguageMenuController::class, 'update'])->name('languageMenus.update');
-        Route::put('languageMenus/{langTag}/order', [LanguageMenuController::class, 'updateOrder'])->name('languageMenus.order.update');
         Route::put('languageMenus/update-default', [LanguageMenuController::class, 'updateDefaultLanguage'])->name('languageMenus.default.update');
+        Route::put('languageMenus/{langTag}', [LanguageMenuController::class, 'update'])->name('languageMenus.update');
+        Route::patch('languageMenus/{langTag}/order', [LanguageMenuController::class, 'updateOrder'])->name('languageMenus.order.update');
         Route::delete('languageMenus/{langTag}', [LanguageMenuController::class, 'destroy'])->name('languageMenus.destroy');
+        // storage
+        Route::get('storage/image', [StorageController::class, 'imageShow'])->name('storage.image.index');
+        Route::put('storage/image', [StorageController::class, 'imageUpdate'])->name('storage.image.update');
+        Route::get('storage/video', [StorageController::class, 'videoShow'])->name('storage.video.index');
+        Route::put('storage/video', [StorageController::class, 'videoUpdate'])->name('storage.video.update');
+        Route::get('storage/audio', [StorageController::class, 'audioShow'])->name('storage.audio.index');
+        Route::put('storage/audio', [StorageController::class, 'audioUpdate'])->name('storage.audio.update');
+        Route::get('storage/document', [StorageController::class, 'documentShow'])->name('storage.document.index');
+        Route::put('storage/document', [StorageController::class, 'documentUpdate'])->name('storage.document.update');
+        Route::get('storage/substitution', [StorageController::class, 'substitutionShow'])->name('storage.substitution.index');
+        Route::put('storage/substitution', [StorageController::class, 'substitutionUpdate'])->name('storage.substitution.update');
         // general
         Route::get('general', [GeneralController::class, 'show'])->name('general.index');
         Route::put('general', [GeneralController::class, 'update'])->name('general.update');
@@ -136,33 +128,12 @@ Route::middleware(['panelAuth'])->group(function () {
         // wallet
         Route::get('wallet', [WalletController::class, 'show'])->name('wallet.index');
         Route::put('wallet', [WalletController::class, 'update'])->name('wallet.update');
-        Route::get('wallet/recharge', [WalletController::class, 'rechargeIndex'])->name('wallet.recharge.index');
-        Route::post('wallet/recharge', [WalletController::class, 'rechargeStore'])->name('wallet.recharge.store');
-        Route::put('wallet/recharge/{pluginUsage}', [WalletController::class, 'rechargeUpdate'])->name('wallet.recharge.update');
-        Route::get('wallet/withdraw', [WalletController::class, 'withdrawIndex'])->name('wallet.withdraw.index');
-        Route::post('wallet/withdraw', [WalletController::class, 'withdrawStore'])->name('wallet.withdraw.store');
-        Route::put('wallet/withdraw/{pluginUsage}', [WalletController::class, 'withdrawUpdate'])->name('wallet.withdraw.update');
-        // storage-image
-        Route::get('storage/image', [StorageController::class, 'imageShow'])->name('storage.image.index');
-        Route::put('storage/image', [StorageController::class, 'imageUpdate'])->name('storage.image.update');
-        // storage-video
-        Route::get('storage/video', [StorageController::class, 'videoShow'])->name('storage.video.index');
-        Route::put('storage/video', [StorageController::class, 'videoUpdate'])->name('storage.video.update');
-        // storage-audio
-        Route::get('storage/audio', [StorageController::class, 'audioShow'])->name('storage.audio.index');
-        Route::put('storage/audio', [StorageController::class, 'audioUpdate'])->name('storage.audio.update');
-        // storage-document
-        Route::get('storage/document', [StorageController::class, 'documentShow'])->name('storage.document.index');
-        Route::put('storage/document', [StorageController::class, 'documentUpdate'])->name('storage.document.update');
-        // storage-substitution
-        Route::get('storage/substitution', [StorageController::class, 'substitutionShow'])->name('storage.substitution.index');
-        Route::put('storage/substitution', [StorageController::class, 'substitutionUpdate'])->name('storage.substitution.update');
         // social
         Route::get('social', [SocialController::class, 'show'])->name('social.index');
         Route::put('social/update', [SocialController::class, 'update'])->name('social.update');
     });
 
-    // operatings
+    // operations
     Route::prefix('operations')->group(function () {
         // user
         Route::get('user', [UserController::class, 'show'])->name('user.index');
@@ -211,38 +182,18 @@ Route::middleware(['panelAuth'])->group(function () {
 
     // extends
     Route::prefix('extends')->group(function () {
-        // editor
-        Route::resource('editor', ExtendEditorController::class)->only([
-            'index', 'store', 'update', 'destroy',
-        ]);
-        // content-type
-        Route::resource('content-type', ExtendContentTypeController::class)->only([
-            'index', 'store', 'update', 'destroy',
-        ]);
-        Route::put('content-type/{id}/dataSources/{key}', [ExtendContentTypeController::class, 'updateSource'])->name('content-type.source');
         // content-handler
         Route::get('content-handler', [ExtendContentHandlerController::class, 'index'])->name('content-handler.index');
         Route::put('content-handler', [ExtendContentHandlerController::class, 'update'])->name('content-handler.update');
-        // manage
-        Route::resource('manage', ExtendManageController::class)->only([
-            'index', 'store', 'update', 'destroy',
-        ]);
-        // group
-        Route::resource('group', ExtendGroupController::class)->only([
-            'index', 'store', 'update', 'destroy',
-        ]);
-        // user-feature
-        Route::resource('user-feature', ExtendUserFeatureController::class)->only([
-            'index', 'store', 'update', 'destroy',
-        ]);
-        // user-profile
-        Route::resource('user-profile', ExtendUserProfileController::class)->only([
-            'index', 'store', 'update', 'destroy',
-        ]);
-        // channel
-        Route::resource('channel', ExtendChannel::class)->only([
-            'index', 'store', 'update', 'destroy',
-        ]);
+    });
+
+    // plugin usages
+    Route::prefix('plugin-usages')->name('plugin-usages.')->group(function () {
+        Route::get('{usageType}', [PluginUsageController::class, 'show'])->name('index');
+        Route::post('{usageType}/store', [PluginUsageController::class, 'store'])->name('store');
+        Route::put('update/{id}', [PluginUsageController::class, 'update'])->name('update');
+        Route::delete('destroy/{id}', [PluginUsageController::class, 'destroy'])->name('destroy');
+        Route::patch('order/{id}', [PluginUsageController::class, 'updateOrder'])->name('update-order');
     });
 
     // clients
@@ -250,6 +201,8 @@ Route::middleware(['panelAuth'])->group(function () {
         // menus
         Route::get('menus', [MenuController::class, 'index'])->name('menus.index');
         Route::put('menus/{key}/update', [MenuController::class, 'update'])->name('menus.update');
+        // update default_homepage
+        Route::put('configs/{config:item_key}', [ConfigController::class, 'update'])->name('configs.update');
         // columns
         Route::get('columns', [ColumnController::class, 'index'])->name('columns.index');
         // language pack

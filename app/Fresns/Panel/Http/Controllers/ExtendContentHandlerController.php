@@ -42,7 +42,7 @@ class ExtendContentHandlerController extends Controller
             $params[$config->item_key] = $config->item_value;
         }
 
-        $pluginScenes = [
+        $panelUsages = [
             'extendIp',
             'extendMap',
             'extendReview',
@@ -52,9 +52,9 @@ class ExtendContentHandlerController extends Controller
         ];
         $plugins = Plugin::all();
         $pluginParams = [];
-        foreach ($pluginScenes as $scene) {
-            $pluginParams[$scene] = $plugins->filter(function ($plugin) use ($scene) {
-                return in_array($scene, $plugin->scene);
+        foreach ($panelUsages as $usage) {
+            $pluginParams[$usage] = $plugins->filter(function ($plugin) use ($usage) {
+                return in_array($usage, $plugin->panel_usages);
             });
         }
 

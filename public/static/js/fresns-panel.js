@@ -384,11 +384,11 @@ $(document).ready(function () {
         }
     });
 
-    // admin config
-    $('#adminConfig .update-panel-url').change(function () {
-        let systemUrl = $('#adminConfig').find('input[name=system_url]').val();
-        let panelPath = $('#adminConfig').find('input[name=panel_path]').val();
-        $('#adminConfig')
+    // panel config
+    $('#panelConfig .update-panel-url').change(function () {
+        let systemUrl = $('#panelConfig').find('input[name=system_url]').val();
+        let panelPath = $('#panelConfig').find('input[name=panel_path]').val();
+        $('#panelConfig')
             .find('#panelUrl')
             .text(systemUrl + '/fresns/' + panelPath);
     });
@@ -505,7 +505,7 @@ $(document).ready(function () {
             url: $(this).data('action'),
             data: {
                 order: $(this).val(),
-                _method: 'put',
+                _method: 'patch',
             },
             success: function (response) {
                 window.tips(response.message);
@@ -579,7 +579,62 @@ $(document).ready(function () {
         return false;
     });
 
-    // user connect
+    $('#emailModal').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget);
+        let languages = button.data('languages');
+        let isEnabled = button.data('enable');
+        let action = button.data('action');
+        let title = button.data('title');
+
+        $(this).find('form').trigger('reset');
+        $(this)
+            .find('input:radio[name=is_enabled][value="' + isEnabled + '"]')
+            .prop('checked', true);
+        $(this).find('form').attr('action', action);
+        $(this).find('.modal-title').text(title);
+
+        if (languages) {
+            languages.map((language) => {
+                $(this)
+                    .find("input[name='titles[" + language.langTag + "]'")
+                    .val(language.title);
+                $(this)
+                    .find("textarea[name='contents[" + language.langTag + "]'")
+                    .val(language.content);
+            });
+        }
+    });
+
+    $('#smsModal').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget);
+        let languages = button.data('languages');
+        let isEnabled = button.data('enable');
+        let action = button.data('action');
+        let title = button.data('title');
+
+        $(this).find('form').trigger('reset');
+        $(this)
+            .find('input:radio[name=is_enabled][value="' + isEnabled + '"]')
+            .prop('checked', true);
+        $(this).find('form').attr('action', action);
+        $(this).find('.modal-title').text(title);
+
+        if (languages) {
+            languages.map((language) => {
+                $(this)
+                    .find("input[name='sign_names[" + language.langTag + "]'")
+                    .val(language.signName);
+                $(this)
+                    .find("input[name='template_codes[" + language.langTag + "]'")
+                    .val(language.templateCode);
+                $(this)
+                    .find("input[name='code_params[" + language.langTag + "]'")
+                    .val(language.codeParam);
+            });
+        }
+    });
+
+    // account connect
     $('#addConnect').click(function () {
         let template = $('#connectTemplate');
         $('.connect-box').append(template.html());
@@ -596,8 +651,8 @@ $(document).ready(function () {
         }
         return false;
     }
-    //user config
-    $('#userConfigForm').submit(function () {
+    // account config
+    $('#accountConfigForm').submit(function () {
         let connectItems = $(this).find('select[name="connects[]"]');
         let connects = [];
         connectItems.map((index, item) => {
@@ -628,49 +683,88 @@ $(document).ready(function () {
         $(this).parent().remove();
     });
 
-    // Generic processing (name multilingual) start
-    $('.name-lang-parent').on('show.bs.modal', function (e) {
+    // plugin-usages
+    $('.plugin-usage-modal').on('show.bs.modal', function (e) {
         if ($(this).data('is_back')) {
             return;
         }
 
         let button = $(e.relatedTarget);
-        let action = button.data('action');
         let params = button.data('params');
-        let names = button.data('names');
         let defaultName = button.data('default-name');
+        let action = button.data('action');
+
+        //reset default
+        $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
+        $('.inputUrl').hide();
+        $('.inputFile').show();
 
         $(this).parent('form').attr('action', action);
-        $(this).parent('form').find('input[name=update_name]').val(0);
-        $(this)
-            .parent('form')
-            .find('input[name=_method]')
-            .val(params ? 'put' : 'post');
+        $(this).parent('form').find('input[name=_method]').val(params ? 'put' : 'post');
         $(this).parent('form').trigger('reset');
 
         if (!params) {
             $(this).find('.name-button').text(trans('panel.table_name')); //FsLang
+
             return;
         }
 
-        $(this)
-            .find('.name-button')
-            .text(defaultName ? defaultName : params.name ? params.name : trans('panel.table_name')); //FsLang
+        if (params.icon_file_url) {
+            $(this).find('input[name=icon_file_url]').val(params.icon_file_url);
+            $(this).find('input[name=icon_file_url]').removeAttr('style');
+            $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
+            $('.inputFile').css('display', 'none');
+        } else {
+            $(this).find('input[name=icon_file_url]').val('');
+        }
 
-        if (names) {
-            names.map((name, index) => {
-                $(this)
-                    .parent('form')
-                    .find("input[name='names[" + name.lang_tag + "]'")
-                    .val(name.lang_content);
-            });
+        $(this).find('input[name=sort_order]').val(params.sort_order);
+        $(this).find('select[name=plugin_fskey]').val(params.plugin_fskey);
+        $(this).find('.name-button').text(defaultName);
+        $(this).find('input[name=parameter]').val(params.parameter);
+        $(this).find('input[name=editor_number]').val(params.editor_number);
+        $(this).find('input:radio[name=editor_toolbar][value="' + params.editor_toolbar + '"]').prop('checked', true).click();
+        $(this).find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]').prop('checked', true).click();
+
+        Object.entries(params.name).forEach(([langTag, langContent]) => {
+            $(this).parent('form').find("input[name='names[" + langTag + "]']").val(langContent);
+        });
+
+        $('#scenePost').removeAttr('checked');
+        $('#sceneComment').removeAttr('checked');
+        $('#sceneUser').removeAttr('checked');
+        if (params.scene) {
+            scene = params.scene.split(',');
+            for (var i = 0; i < scene.length; i++) {
+                if (scene[i] == 1) {
+                    $('#scenePost').attr('checked', 'checked');
+                }
+                if (scene[i] == 2) {
+                    $('#sceneComment').attr('checked', 'checked');
+                }
+                if (scene[i] == 3) {
+                    $('#sceneUser').attr('checked', 'checked');
+                }
+            }
+        }
+
+        if (params.roles) {
+            $(this).find('select[name="roles[]"]').val(params.roles.split(',')).change();
+        }
+
+        $(this).find('input:radio[name=is_group_admin][value="' + params.is_group_admin + '"]').prop('checked', true).click();
+        if (params.is_group_admin) {
+            $('#usage_setting').removeClass('show');
+        } else {
+            $('#usage_setting').addClass('show');
         }
     });
 
-    $('.name-lang-parent').on('hide.bs.modal', function (e) {
+    $('.plugin-usage-modal').on('hide.bs.modal', function (e) {
         $(this).data('is_back', false);
     });
 
+    // Generic processing (name multilingual)
     $('.name-lang-modal').on('show.bs.modal', function (e) {
         if ($(this).data('is_back')) {
             return;
@@ -682,39 +776,21 @@ $(document).ready(function () {
             return;
         }
 
-        var $this = $(this);
         $(this).on('hide.bs.modal', function (e) {
             if (parent) {
                 let defaultName = $(this).find('.text-primary').closest('tr').find('.name-input').val();
                 if (!defaultName) {
-                    defaultName = $(this)
-                        .find('.name-input')
-                        .filter(function () {
-                            return $(this).val() != '';
-                        })
-                        .first()
-                        .val();
+                    defaultName = $(this).find('.name-input').filter(function () {
+                        return $(this).val() != '';
+                    }).first().val();
                 }
 
                 $(parent).find('.name-button').text(defaultName);
 
                 $(parent).data('is_back', true);
-                $this.parent('form').find('input[name=update_name]').val(1);
                 $(parent).modal('show');
             }
         });
-    });
-
-    $('.update-name-modal').on('hide.bs.modal', function (e) {
-        defaultName = $(this)
-            .find('.name-input')
-            .filter(function () {
-                return $(this).val() != '';
-            })
-            .first()
-            .val();
-
-        $('.name-button').text(defaultName);
     });
 
     $('.description-lang-modal').on('show.bs.modal', function (e) {
@@ -733,13 +809,9 @@ $(document).ready(function () {
             if (parent) {
                 let defaultDesc = $(this).find('.text-primary').closest('tr').find('.desc-input').val();
                 if (!defaultDesc) {
-                    defaultDesc = $(this)
-                        .find('.desc-input')
-                        .filter(function () {
-                            return $(this).val() != '';
-                        })
-                        .first()
-                        .val();
+                    defaultDesc = $(this).find('.desc-input').filter(function () {
+                        return $(this).val() != '';
+                    }).first().val();
                 }
 
                 $(parent).find('.desc-button').text(defaultDesc);
@@ -750,44 +822,6 @@ $(document).ready(function () {
         });
     });
     // Generic processing (name multilingual) end
-
-    // map config
-    $('#createMap').on('show.bs.modal', function (e) {
-        if ($(this).data('is_back')) {
-            return;
-        }
-
-        let button = $(e.relatedTarget);
-        let params = button.data('params');
-
-        $(this).parent('form').trigger('reset');
-
-        //reset default
-        $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
-        $('.inputUrl').hide();
-        $('.inputFile').show();
-
-        if (!params) {
-            return;
-        }
-        let configParams = button.data('config_params');
-
-        if (params.icon_file_url) {
-            $(this).find('input[name=icon_file_url]').val(params.icon_file_url);
-            $(this).find('input[name=icon_file_url]').removeAttr('style');
-            $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
-            $('.inputFile').css('display', 'none');
-        }
-        $(this).find('input[name=rating]').val(params.rating);
-        $(this).find('select[name=plugin_fskey]').val(params.plugin_fskey);
-        $(this).find('select[name=parameter]').val(params.parameter);
-        $(this).find('input[name=app_id]').val(configParams.appId);
-        $(this).find('input[name=app_key]').val(configParams.appKey);
-        $(this)
-            .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
-            .prop('checked', true)
-            .click();
-    });
 
     $('#configLangModal').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget),
@@ -880,29 +914,6 @@ $(document).ready(function () {
 
     $(document).on('click', '.delete-sticker', function () {
         $(this).closest('tr').remove();
-    });
-
-    $('#blockWordModal').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget);
-        let params = button.data('params');
-        let action = button.data('action');
-
-        $(this).find('form').attr('action', action);
-        $(this)
-            .find('form')
-            .find('input[name=_method]')
-            .val(params ? 'put' : 'post');
-
-        if (!params) {
-            $(this).find('form').trigger('reset');
-            return;
-        }
-
-        $(this).find('input[name=word]').val(params.word);
-        $(this).find('input[name=replace_word]').val(params.replace_word);
-        $(this).find('select[name=content_mode]').val(params.content_mode);
-        $(this).find('select[name=user_mode]').val(params.user_mode);
-        $(this).find('select[name=dialog_mode]').val(params.dialog_mode);
     });
 
     // user_roles
@@ -1011,114 +1022,6 @@ $(document).ready(function () {
         }
     });
 
-    // plugin setting
-    $('.plugin-manage').click(function () {
-        $.ajax({
-            method: 'post',
-            url: $(this).data('action'),
-            data: {
-                _method: 'patch',
-                is_enabled: $(this).data('enable')
-            },
-            success: function (response) {
-                window.tips(response.message);
-                location.reload();
-            },
-        });
-    });
-
-    $('#uninstallConfirm').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget);
-            window.pluginName = button.data('name');
-            window.clearDataDesc = button.data('clear_data_desc');
-            window.url = button.data('action');
-
-        $(this).find('.modal-title').text( window.pluginName );
-        $(this).find('.form-check-label').text( window.clearDataDesc );
-    });
-
-    $('#uninstallStepModal').on('show.bs.modal', function (e) {
-        $(this).find('.modal-title').text(window.pluginName);
-    });
-
-    $('.uninstall-plugin').click(function () {
-        var clearData = $("#uninstallConfirm").find('#uninstallData').prop("checked");
-        if (clearData ){
-            clearData = 1
-        }
-        else {
-            clearData = 0
-        }
-        window.uninstallMessage = trans('tips.uninstallFailure'); //FsLang
-        $.ajax({
-            method: 'post',
-            url: window.url + '&clearData=' + clearData,
-            data: {
-                _method: 'delete'
-            },
-            success: function (response) {
-                progressDown && progressDown()
-                var ansi_up = new AnsiUp;
-                var html = ansi_up.ansi_to_html(response);
-
-                console.log('uninstall response', html)
-                $('#uninstall_artisan_output').html(html || trans('tips.uninstallSuccess')) //FsLang
-            },
-            error: function (response) {
-                progressExit && progressExit();
-
-                var errorMessage = response && response.responseJSON && response.responseJSON.message ? response.responseJSON.message : "Unknown error";
-                $('#uninstall_artisan_output').html(errorMessage + "<br><br>" + trans('tips.uninstallFailure'));
-
-                window.tips(errorMessage);
-            },
-        });
-    });
-
-    $('#installModal').on('show.bs.modal', function (e) {
-        $('#inputFskeyOrInputFile').text('').hide()
-        $('input[name=plugin_fskey]').removeClass('is-invalid')
-        $('input[name=plugin_zipball]').removeClass('is-invalid')
-    });
-
-    $('.install_method').click(function (e) {
-        let install_method = $(this).parent().data('name')
-        $('input[name=install_method]').val(install_method)
-    });
-
-    $('#installSubmit').click(function (e) {
-        e.preventDefault();
-
-        let install_method = $('input[name=install_method]').val()
-        let plugin_fskey = $('input[name=plugin_fskey]').val()
-        let plugin_directory = $('input[name=plugin_directory]').val()
-        let plugin_zipball = $('input[name=plugin_zipball]').val()
-
-        if (plugin_fskey || plugin_zipball || plugin_directory) {
-            $(this).submit()
-            $('#installStepModal').modal('toggle')
-            return;
-        }
-
-        if (install_method == 'inputFskey' && !plugin_fskey) {
-            $('input[name=plugin_fskey]').addClass('is-invalid')
-            $('#inputFskeyOrInputFile').text(trans('tips.install_not_entered_key')).show() // FsLang
-            return;
-        }
-
-        if (install_method == 'inputDirectory' && !plugin_zipball) {
-            $('input[name=plugin_directory]').addClass('is-invalid')
-            $('#inputFskeyOrInputFile').text(trans('tips.install_not_entered_directory')).show() // FsLang
-            return;
-        }
-
-        if (install_method == 'inputZipball' && !plugin_zipball) {
-            $('input[name=plugin_zipball]').addClass('is-invalid')
-            $('#inputFskeyOrInputFile').text(trans('tips.install_not_upload_zip')).show() // FsLang
-            return;
-        }
-    });
-
     // change default homepage
     $('.update-config').change(function () {
         $.ajax({
@@ -1218,40 +1121,6 @@ $(document).ready(function () {
     $('#addLangPack').click(function () {
         let template = $('#languagePackTemplate');
         $('.lang-pack-box').append(template.html());
-    });
-
-    // extend services
-    $('.extend-modal').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget);
-        let params = button.data('params');
-
-        //reset default
-        $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
-        $('.inputUrl').hide();
-        $('.inputFile').show();
-
-        if (!params) {
-            return;
-        }
-
-        if (params.icon_file_url) {
-            $(this).find('input[name=icon_file_url]').val(params.icon_file_url);
-            $(this).find('input[name=icon_file_url]').removeAttr('style');
-            $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
-            $('.inputFile').css('display', 'none');
-        } else {
-            $(this).find('input[name=icon_file_url]').val('');
-        }
-        $(this).find('input[name=rating]').val(params.rating);
-        $(this).find('select[name=plugin_fskey]').val(params.plugin_fskey);
-        $(this).find('input[name=parameter]').val(params.parameter);
-        if (params.name) {
-            $(this).find('.name-button').text(params.name);
-        }
-        $(this)
-            .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
-            .prop('checked', true)
-            .click();
     });
 
     // group edit
@@ -1564,200 +1433,14 @@ $(document).ready(function () {
         }
     });
 
-    $('.select2')
-        .closest('form')
-        .on('reset', function (ev) {
-            var targetJQForm = $(ev.target);
-            setTimeout(
-                function () {
-                    this.find('.select2').trigger('change');
-                }.bind(targetJQForm),
-                0
-            );
-        });
-
-    //expend-editor-modal
-    $('.expend-editor-modal').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget);
-        let params = button.data('params');
-
-        if (!params) {
-            return;
-        }
-        $('#inlineCheckbox1').removeAttr('checked');
-        $('#inlineCheckbox2').removeAttr('checked');
-        $(this).find('input[name=rating]').val(params.rating);
-        $(this).find('select[name=plugin_fskey]').val(params.plugin_fskey);
-        $(this).find('input[name=parameter]').val(params.parameter);
-        $(this).find('input[name=editor_number]').val(params.editor_number);
-
-        $('.inputUrl').css('display', 'none');
-        $('.inputFile').removeAttr('style');
-        $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
-        if (params.icon_file_url) {
-            $(this).find('input[name=icon_file_url]').val(params.icon_file_url);
-            $(this).find('input[name=icon_file_url]').removeAttr('style');
-            $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
-            $('.inputFile').css('display', 'none');
-        }
-
-        if (params.roles) {
-            $(this).find('select[name="roles[]"]').val(params.roles.split(',')).change();
-        }
-        scene = params.scene.split(',');
-        for (var i = 0; i < scene.length; i++) {
-            if (scene[i] == 1) {
-                $('#inlineCheckbox1').attr('checked', 'checked');
-            }
-            if (scene[i] == 2) {
-                $('#inlineCheckbox2').attr('checked', 'checked');
-            }
-        }
-
-        if (params.name) {
-            $(this).find('.name-button').text(params.name);
-        }
-        $(this)
-            .find('input:radio[name=editor_toolbar][value="' + params.editor_toolbar + '"]')
-            .prop('checked', true)
-            .click();
-        $(this)
-            .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
-            .prop('checked', true)
-            .click();
-    });
-
-    //expend-manage-modal
-    $('.expend-manage-modal').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget);
-        let params = button.data('params');
-
-        if (!params) {
-            return;
-        }
-        $('#inlineCheckbox1').removeAttr('checked');
-        $('#inlineCheckbox2').removeAttr('checked');
-        $('#inlineCheckbox3').removeAttr('checked');
-
-        $(this).find('input[name=rating]').val(params.rating);
-        $(this).find('select[name=plugin_fskey]').val(params.plugin_fskey);
-        $(this).find('input[name=parameter]').val(params.parameter);
-
-        $('.inputUrl').css('display', 'none');
-        $('.inputFile').removeAttr('style');
-        $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
-        if (params.icon_file_url) {
-            $(this).find('input[name=icon_file_url]').val(params.icon_file_url);
-            $(this).find('input[name=icon_file_url]').removeAttr('style');
-            $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
-            $('.inputFile').css('display', 'none');
-        }
-
-        $(this).find('select[name="roles[]"]').val('').change();
-        if (params.roles) {
-            $(this).find('select[name="roles[]"]').val(params.roles.split(',')).change();
-        }
-        scene = params.scene.split(',');
-        for (var i = 0; i < scene.length; i++) {
-            if (scene[i] == 1) {
-                $('#inlineCheckbox1').attr('checked', 'checked');
-            }
-            if (scene[i] == 2) {
-                $('#inlineCheckbox2').attr('checked', 'checked');
-            }
-            if (scene[i] == 3) {
-                $('#inlineCheckbox3').attr('checked', 'checked');
-            }
-        }
-
-        if (params.name) {
-            $(this).find('.name-button').text(params.name);
-        }
-        $(this)
-            .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
-            .prop('checked', true)
-            .click();
-
-        $(this)
-            .find('input:radio[name=is_group_admin][value="' + params.is_group_admin + '"]')
-            .prop('checked', true)
-            .click();
-
-        if (params.is_group_admin == 0) {
-            $('#usage_setting').addClass('show');
-        } else {
-            $('#usage_setting').removeClass('show');
-        }
-    });
-
-    //expend-profile-modal
-    $('.expend-profile-modal').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget);
-        let params = button.data('params');
-
-        if (!params) {
-            return;
-        }
-        $(this).find('input[name=rating]').val(params.rating);
-        $(this).find('select[name=plugin_fskey]').val(params.plugin_fskey);
-        $(this).find('input[name=parameter]').val(params.parameter);
-
-        $('.inputUrl').css('display', 'none');
-        $('.inputFile').removeAttr('style');
-        $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
-        if (params.icon_file_url) {
-            $(this).find('input[name=icon_file_url]').val(params.icon_file_url);
-            $(this).find('input[name=icon_file_url]').removeAttr('style');
-            $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
-            $('.inputFile').css('display', 'none');
-        }
-
-        if (params.roles) {
-            $(this).find('select[name="roles[]"]').val(params.roles.split(',')).change();
-        }
-
-        if (params.name) {
-            $(this).find('.name-button').text(params.name);
-        }
-        $(this)
-            .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
-            .prop('checked', true)
-            .click();
-    });
-
-    //expend-feature-modal
-    $('.expend-feature-modal').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget);
-        let params = button.data('params');
-
-        if (!params) {
-            return;
-        }
-        $(this).find('input[name=rating]').val(params.rating);
-        $(this).find('select[name=plugin_fskey]').val(params.plugin_fskey);
-        $(this).find('input[name=parameter]').val(params.parameter);
-
-        $('.inputUrl').css('display', 'none');
-        $('.inputFile').removeAttr('style');
-        $('.showSelectTypeName').text(trans('panel.button_image_upload')); //FsLang
-        if (params.icon_file_url) {
-            $(this).find('input[name=icon_file_url]').val(params.icon_file_url);
-            $(this).find('input[name=icon_file_url]').removeAttr('style');
-            $('.showSelectTypeName').text(trans('panel.button_image_input')); //FsLang
-            $('.inputFile').css('display', 'none');
-        }
-
-        if (params.roles) {
-            $(this).find('select[name="roles[]"]').val(params.roles.split(',')).change();
-        }
-
-        if (params.name) {
-            $(this).find('.name-button').text(params.name);
-        }
-        $(this)
-            .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
-            .prop('checked', true)
-            .click();
+    $('.select2').closest('form').on('reset', function (ev) {
+        var targetJQForm = $(ev.target);
+        setTimeout(
+            function () {
+                this.find('.select2').trigger('change');
+            }.bind(targetJQForm),
+            0
+        );
     });
 
     $('#parentGroupId').on('change', function () {
@@ -1838,116 +1521,6 @@ $(document).ready(function () {
         }
     });
 
-    // expend type edit
-    $('#createTypeModal').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget);
-        let params = button.data('params');
-        if (!params) {
-            return;
-        }
-
-        let dataSources = params.data_sources;
-        let postByAll = dataSources.postByAll ? dataSources.postByAll.pluginFskey : null;
-        let postByFollow = dataSources.postByFollow ? dataSources.postByFollow.pluginFskey : null;
-        let postByNearby = dataSources.postByNearby ? dataSources.postByNearby.pluginFskey : null;
-        let commentByAll = dataSources.commentByAll ? dataSources.commentByAll.pluginFskey : null;
-        let commentByFollow = dataSources.commentByFollow ? dataSources.commentByFollow.pluginFskey : null;
-        let commentByNearby = dataSources.commentByNearby ? dataSources.commentByNearby.pluginFskey : null;
-
-        $('#inlineCheckbox1').removeAttr('checked');
-        $('#inlineCheckbox2').removeAttr('checked');
-
-        $(this).find('input[name=rating]').val(params.rating);
-        $(this).find('select[name=plugin_fskey]').val(params.plugin_fskey);
-
-        if (postByAll) {
-            $(this).find('select[name=post_all]').val(postByAll);
-        }
-        if (postByFollow) {
-            $(this).find('select[name=post_follow]').val(postByFollow);
-        }
-        if (postByNearby) {
-            $(this).find('select[name=post_nearby]').val(postByNearby);
-        }
-        if (commentByAll) {
-            $(this).find('select[name=comment_all]').val(commentByAll);
-        }
-        if (commentByFollow) {
-            $(this).find('select[name=comment_follow]').val(commentByFollow);
-        }
-        if (commentByNearby) {
-            $(this).find('select[name=comment_nearby]').val(commentByNearby);
-        }
-
-        if (params.scene) {
-            scene = params.scene.split(',');
-            for (var i = 0; i < scene.length; i++) {
-                if (scene[i] == 1) {
-                    $('#inlineCheckbox1').attr('checked', 'checked');
-                }
-                if (scene[i] == 2) {
-                    $('#inlineCheckbox2').attr('checked', 'checked');
-                }
-            }
-        }
-
-        $(this)
-            .find('input:radio[name=is_enabled][value="' + params.is_enabled + '"]')
-            .prop('checked', true);
-    });
-
-    // panel types edit
-    $('#pluginRatingModal').on('show.bs.modal', function (e) {
-        if ($(this).data('is_back')) {
-            return;
-        }
-        let button = $(e.relatedTarget);
-        let params = button.data('params');
-        let action = button.data('action');
-        let defaultLanguage = button.data('default_language');
-
-        $(this).find('.rating-item').remove();
-        $(this).find('form').attr('action', action);
-
-        let template = $('#ratingTemplate').contents();
-        params = JSON.parse(params);
-        $(this).data('languages', null);
-
-        params.map((param) => {
-            let titles = new Object();
-            let descriptions = new Object();
-
-            let title, description;
-            param.intro.map((item) => {
-                titles[item.langTag] = item.title;
-                descriptions[item.langTag] = item.description;
-
-                if (item.langTag == defaultLanguage) {
-                    title = item.title;
-                    description = item.description;
-                }
-            });
-
-            let ratingTemplate = template.clone();
-            ratingTemplate.find('input[name="ids[]"]').val(param.id);
-            ratingTemplate.find('.rating-title').data('languages', param.intro);
-            ratingTemplate.find('input[name="titles[]"]').val(JSON.stringify(titles));
-            ratingTemplate.find('.rating-description').data('languages', param.intro);
-            ratingTemplate.find('input[name="descriptions[]"]').val(JSON.stringify(descriptions));
-
-            if (title) {
-                ratingTemplate.find('button.rating-title').text(title);
-            }
-            if (description) {
-                ratingTemplate.find('button.rating-description').text(description);
-            }
-
-            ratingTemplate.insertBefore($(this).find('.add-rating-tr'));
-        });
-
-        $('#pluginRatingTitleLangModal');
-    });
-
     // selectInputType
     $('.selectInputType li').click(function () {
         let inputName = $(this).data('name');
@@ -1958,146 +1531,6 @@ $(document).ready(function () {
             .parent()
             .siblings('.' + inputName)
             .removeAttr('style');
-    });
-
-    // content type data source
-    $('#pluginRatingModal .add-rating').click(function () {
-        let template = $('#ratingTemplate').clone();
-
-        $(template.html()).insertBefore($('#pluginRatingModal').find('.add-rating-tr'));
-    });
-
-    $(document).on('click', '.delete-rating-number', function () {
-        $(this).closest('tr').remove();
-    });
-
-    $('#pluginRatingTitleLangModal').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget);
-        let languages = button.data('languages');
-        $(this).find('form').trigger('reset');
-        $(this).data('button', e.relatedTarget);
-
-        if (!languages) {
-            return;
-        }
-
-        languages.map((language) => {
-            $(this)
-                .find('input[name=' + language.langTag)
-                .val(language.title);
-        });
-    });
-
-    $('#pluginRatingTitleLangModal').on('hide.bs.modal', function (e) {
-        let button = $($(this).data('button'));
-        $('#pluginRatingModal').data('is_back', true);
-        $('#pluginRatingModal').modal('show');
-
-        let titles = $(this).find('form').serializeArray();
-        let data = new Object();
-        titles.map((title) => {
-            data[title.name] = title.value;
-        });
-        button.siblings('input').val(JSON.stringify(data));
-    });
-
-    $('#pluginRatingDescLangModal').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget);
-        let languages = button.data('languages');
-        $(this).find('form').trigger('reset');
-        $(this).data('button', e.relatedTarget);
-
-        if (!languages) {
-            return;
-        }
-
-        languages.map((language) => {
-            $(this)
-                .find('input[name=' + language.langTag)
-                .val(language.description);
-        });
-    });
-
-    $('#pluginRatingDescLangModal').on('hide.bs.modal', function (e) {
-        let button = $($(this).data('button'));
-        $('#pluginRatingModal').data('is_back', true);
-        $('#pluginRatingModal').modal('show');
-
-        let descriptions = $(this).find('form').serializeArray();
-        let data = new Object();
-        descriptions.map((description) => {
-            data[description.name] = description.value;
-        });
-        button.siblings('input').val(JSON.stringify(data));
-    });
-
-    $('#pluginRatingModal').on('hide.bs.modal', function (e) {
-        $(this).data('is_back', false);
-    });
-
-    // panel types edit end
-    $('#importBlockWords').click(function () {
-        console.log($('#importBlockInput'));
-        $('#importBlockInput').click();
-    });
-
-    $('#importBlockInput').change(function () {
-        $(this).closest('form').submit();
-    });
-
-    $('#emailModal').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget);
-        let languages = button.data('languages');
-        let isEnabled = button.data('enable');
-        let action = button.data('action');
-        let title = button.data('title');
-
-        $(this).find('form').trigger('reset');
-        $(this)
-            .find('input:radio[name=is_enabled][value="' + isEnabled + '"]')
-            .prop('checked', true);
-        $(this).find('form').attr('action', action);
-        $(this).find('.modal-title').text(title);
-
-        if (languages) {
-            languages.map((language) => {
-                $(this)
-                    .find("input[name='titles[" + language.langTag + "]'")
-                    .val(language.title);
-                $(this)
-                    .find("textarea[name='contents[" + language.langTag + "]'")
-                    .val(language.content);
-            });
-        }
-    });
-
-    $('#smsModal').on('show.bs.modal', function (e) {
-        let button = $(e.relatedTarget);
-        let languages = button.data('languages');
-        let isEnabled = button.data('enable');
-        let action = button.data('action');
-        let title = button.data('title');
-
-        $(this).find('form').trigger('reset');
-        $(this)
-            .find('input:radio[name=is_enabled][value="' + isEnabled + '"]')
-            .prop('checked', true);
-        $(this).find('form').attr('action', action);
-        $(this).find('.modal-title').text(title);
-
-        if (languages) {
-            languages.map((language) => {
-                $(this)
-                    .find("input[name='sign_names[" + language.langTag + "]'")
-                    .val(language.signName);
-                $(this)
-                    .find("input[name='template_codes[" + language.langTag + "]'")
-                    .val(language.templateCode);
-                $(this)
-                    .find("input[name='code_params[" + language.langTag + "]'")
-                    .val(language.codeParam);
-            });
-        }
     });
 
     $('.delete-button').click(function () {
@@ -2223,6 +1656,134 @@ $(document).ready(function () {
         }
     });
 
+    $('#editMessages').on('show.bs.modal', function(e) {
+        let button = $(e.relatedTarget);
+        let action = button.data('action');
+        let messages = button.data('messages');
+        let name = button.data('name');
+        let code = button.data('code');
+        let fskey= button.data('fskey');
+
+        $(this).find('.code-message-plugin-name').text(name)
+        $(this).find('.code-message-plugin-code').text(code)
+        $(this).find('.code-message-plugin-fskey').text(fskey)
+
+        $(this).find('form').attr('action', action);
+        Object.entries(messages).forEach(([langTag, message]) => {
+            console.log($(this).find("textarea[name='messages[" + langTag + "]'"))
+            $(this).find("textarea[name='messages[" + langTag + "]'")
+                    .val(message);
+        })
+    });
+
+    // plugin setting
+    $('.plugin-manage').click(function () {
+        $.ajax({
+            method: 'post',
+            url: $(this).data('action'),
+            data: {
+                _method: 'patch',
+                is_enabled: $(this).data('enable')
+            },
+            success: function (response) {
+                window.tips(response.message);
+                location.reload();
+            },
+        });
+    });
+
+    $('#uninstallConfirm').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget);
+            window.pluginName = button.data('name');
+            window.clearDataDesc = button.data('clear_data_desc');
+            window.url = button.data('action');
+
+        $(this).find('.modal-title').text( window.pluginName );
+        $(this).find('.form-check-label').text( window.clearDataDesc );
+    });
+
+    $('#uninstallStepModal').on('show.bs.modal', function (e) {
+        $(this).find('.modal-title').text(window.pluginName);
+    });
+
+    $('.uninstall-plugin').click(function () {
+        var clearData = $("#uninstallConfirm").find('#uninstallData').prop("checked");
+        if (clearData ){
+            clearData = 1
+        }
+        else {
+            clearData = 0
+        }
+        window.uninstallMessage = trans('tips.uninstallFailure'); //FsLang
+        $.ajax({
+            method: 'post',
+            url: window.url + '&clearData=' + clearData,
+            data: {
+                _method: 'delete'
+            },
+            success: function (response) {
+                progressDown && progressDown()
+                var ansi_up = new AnsiUp;
+                var html = ansi_up.ansi_to_html(response);
+
+                console.log('uninstall response', html)
+                $('#uninstall_artisan_output').html(html || trans('tips.uninstallSuccess')) //FsLang
+            },
+            error: function (response) {
+                progressExit && progressExit();
+
+                var errorMessage = response && response.responseJSON && response.responseJSON.message ? response.responseJSON.message : "Unknown error";
+                $('#uninstall_artisan_output').html(errorMessage + "<br><br>" + trans('tips.uninstallFailure'));
+
+                window.tips(errorMessage);
+            },
+        });
+    });
+
+    $('#installModal').on('show.bs.modal', function (e) {
+        $('#inputFskeyOrInputFile').text('').hide()
+        $('input[name=plugin_fskey]').removeClass('is-invalid')
+        $('input[name=plugin_zipball]').removeClass('is-invalid')
+    });
+
+    $('.install_method').click(function (e) {
+        let install_method = $(this).parent().data('name')
+        $('input[name=install_method]').val(install_method)
+    });
+
+    $('#installSubmit').click(function (e) {
+        e.preventDefault();
+
+        let install_method = $('input[name=install_method]').val()
+        let plugin_fskey = $('input[name=plugin_fskey]').val()
+        let plugin_directory = $('input[name=plugin_directory]').val()
+        let plugin_zipball = $('input[name=plugin_zipball]').val()
+
+        if (plugin_fskey || plugin_zipball || plugin_directory) {
+            $(this).submit()
+            $('#installStepModal').modal('toggle')
+            return;
+        }
+
+        if (install_method == 'inputFskey' && !plugin_fskey) {
+            $('input[name=plugin_fskey]').addClass('is-invalid')
+            $('#inputFskeyOrInputFile').text(trans('tips.install_not_entered_key')).show() // FsLang
+            return;
+        }
+
+        if (install_method == 'inputDirectory' && !plugin_zipball) {
+            $('input[name=plugin_directory]').addClass('is-invalid')
+            $('#inputFskeyOrInputFile').text(trans('tips.install_not_entered_directory')).show() // FsLang
+            return;
+        }
+
+        if (install_method == 'inputZipball' && !plugin_zipball) {
+            $('input[name=plugin_zipball]').addClass('is-invalid')
+            $('#inputFskeyOrInputFile').text(trans('tips.install_not_upload_zip')).show() // FsLang
+            return;
+        }
+    });
+
     // plugin install form
     $('#installModal form').submit(function (event) {
         event.preventDefault();
@@ -2315,26 +1876,6 @@ $(document).ready(function () {
                 window.tips(errorMessage);
             },
         });
-    });
-
-    $('#editMessages').on('show.bs.modal', function(e) {
-        let button = $(e.relatedTarget);
-        let action = button.data('action');
-        let messages = button.data('messages');
-        let name = button.data('name');
-        let code = button.data('code');
-        let fskey= button.data('fskey');
-
-        $(this).find('.code-message-plugin-name').text(name)
-        $(this).find('.code-message-plugin-code').text(code)
-        $(this).find('.code-message-plugin-fskey').text(fskey)
-
-        $(this).find('form').attr('action', action);
-        Object.entries(messages).forEach(([langTag, message]) => {
-            console.log($(this).find("textarea[name='messages[" + langTag + "]'"))
-            $(this).find("textarea[name='messages[" + langTag + "]'")
-                    .val(message);
-        })
     });
 
     $('#downloadModal form').submit(function () {

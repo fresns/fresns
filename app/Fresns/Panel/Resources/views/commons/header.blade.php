@@ -8,7 +8,7 @@
             <div class="collapse navbar-collapse" id="headerNavbar">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link {{ \Route::is([
+                        <a class="nav-link {{ Route::is([
                             'panel.dashboard*',
                             'panel.admins*',
                             'panel.events*',
@@ -18,7 +18,7 @@
                         ]) ? 'active' : '' }}" href="{{ route('panel.dashboard') }}">{{ __('FsLang::panel.menu_dashboard') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ \Route::is([
+                        <a class="nav-link {{ Route::is([
                             'panel.languages.*',
                             'panel.storage.*',
                             'panel.general.*',
@@ -27,10 +27,10 @@
                             'panel.account.*',
                             'panel.wallet.*',
                             'panel.social.*',
-                        ]) ? 'active' : ''}}" href="{{ route('panel.languages.index') }}">{{ __('FsLang::panel.menu_systems') }}</a>
+                        ]) ? 'active' : ''}} {{ in_array(request()->route('usageType'), ['wallet-recharge', 'wallet-withdraw']) ? 'active' : '' }}" href="{{ route('panel.languages.index') }}">{{ __('FsLang::panel.menu_systems') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ \Route::is([
+                        <a class="nav-link {{ Route::is([
                             'panel.user.*',
                             'panel.content.*',
                             'panel.interaction.*',
@@ -41,19 +41,18 @@
                         ]) ? 'active' : ''}}" href="{{ route('panel.user.index' )}}">{{ __('FsLang::panel.menu_operations') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ \Route::is([
-                            'panel.content-handler.*',
-                            'panel.content-type.*',
-                            'panel.editor.*',
-                            'panel.manage.*',
-                            'panel.group.*',
-                            'panel.user-feature.*',
-                            'panel.user-profile.*',
-                            'panel.channel.*',
-                        ]) ? 'active' : '' }}" href="{{ route('panel.content-handler.index') }}">{{ __('FsLang::panel.menu_extends') }}</a>
+                        <a class="nav-link {{ in_array(request()->route('usageType'), [
+                            'content-type',
+                            'editor',
+                            'manage',
+                            'group',
+                            'user-feature',
+                            'user-profile',
+                            'channel',
+                        ]) ? 'active' : '' }} {{ Route::is('panel.content-handler.*') ? 'active' : '' }}" href="{{ route('panel.content-handler.index') }}">{{ __('FsLang::panel.menu_extends') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ \Route::is([
+                        <a class="nav-link {{ Route::is([
                             'panel.menus.*',
                             'panel.columns.*',
                             'panel.language.packs.*',
@@ -63,7 +62,7 @@
                         ]) ? 'active' : '' }}" href="{{ route('panel.menus.index') }}">{{ __('FsLang::panel.menu_clients') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ \Route::is([
+                        <a class="nav-link {{ Route::is([
                             'panel.plugins.*',
                             'panel.apps.*',
                             'panel.keys.*',

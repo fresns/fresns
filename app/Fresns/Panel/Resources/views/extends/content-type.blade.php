@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <!--content_type header-->
+    <!--header-->
     <div class="row mb-4 border-bottom">
         <div class="col-lg-9">
             <h3>{{ __('FsLang::panel.sidebar_extend_content_type') }}</h3>
@@ -13,14 +13,15 @@
         </div>
         <div class="col-lg-3">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
-                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#createTypeModal">
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#editModal" data-action="{{ route('panel.plugin-usages.store', ['usageType' => 'content-type']) }}">
                     <i class="bi bi-plus-circle-dotted"></i> {{ __('FsLang::panel.button_add_service_provider') }}
                 </button>
                 {{-- <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a> --}}
             </div>
         </div>
     </div>
-    <!--content_type config-->
+
+    <!--list-->
     <div class="table-responsive">
         <table class="table table-hover align-middle text-nowrap">
             <thead>
@@ -28,7 +29,6 @@
                     <th scope="col" style="width:6rem;">{{ __('FsLang::panel.table_order') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_plugin') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_name') }}</th>
-                    <th scope="col">{{ __('FsLang::panel.table_data_source') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_scene') }}</th>
                     <th scope="col">{{ __('FsLang::panel.table_status') }}</th>
                     <th scope="col" style="width:8rem;">{{ __('FsLang::panel.table_options') }}</th>
@@ -37,34 +37,13 @@
             <tbody>
                 @foreach ($pluginUsages as $item)
                     <tr>
-                        <td><input type="number" data-action="{{ route('panel.plugin-usages.rating.update', $item->id) }}" class="form-control input-number rating-number" value="{{ $item['rating'] }}"></td>
+                        <td><input type="number" class="form-control input-number order-number" data-action="{{ route('panel.plugin-usages.update-order', $item->id) }}" value="{{ $item->sort_order }}"></td>
                         <td>{{ optional($item->plugin)->name ?? $item->plugin_fskey }}</td>
-                        <td>{{ $item->getLangName($defaultLanguage) }}</td>
                         <td>
-                            @if (!empty($item->data_sources['postByAll']['pluginFskey']))
-                                <button type="button" class="btn btn-outline-secondary btn-sm update-data-source"
-                                    data-bs-toggle="modal"
-                                    data-action="{{ route('panel.content-type.source', ['id' => $item->id, 'key' => 'postByAll']) }}"
-                                    data-params="{{ json_encode($item->data_sources['postByAll']['pluginRating'] ?? []) }} "
-                                    data-default_language="{{$defaultLanguage}}"
-                                    data-bs-target="#pluginRatingModal">{{ __('FsLang::panel.extend_content_type_option_post_all') }}</button>
+                            @if ($item->getIconUrl())
+                                <img src="{{ $item->getIconUrl() }}" width="24" height="24">
                             @endif
-                            @if (!empty($item->data_sources['postByFollow']['pluginFskey']))
-                                <button type="button" class="btn btn-outline-secondary btn-sm update-data-source"
-                                    data-bs-toggle="modal"
-                                    data-action="{{ route('panel.content-type.source', ['id' => $item->id, 'key' => 'postByFollow']) }}"
-                                    data-params="{{ json_encode($item->data_sources['postByFollow']['pluginRating'] ?? []) }} "
-                                    data-default_language="{{$defaultLanguage}}"
-                                    data-bs-target="#pluginRatingModal">{{ __('FsLang::panel.extend_content_type_option_post_follow') }}</button>
-                            @endif
-                            @if (!empty($item->data_sources['postByNearby']['pluginFskey']))
-                                <button type="button" class="btn btn-outline-secondary btn-sm update-data-source"
-                                    data-bs-toggle="modal"
-                                    data-action="{{ route('panel.content-type.source', ['id' => $item->id, 'key' => 'postByNearby']) }}"
-                                    data-params="{{ json_encode($item->data_sources['postByNearby']['pluginRating'] ?? []) }} "
-                                    data-default_language="{{$defaultLanguage}}"
-                                    data-bs-target="#pluginRatingModal">{{ __('FsLang::panel.extend_content_type_option_post_nearby') }}</button>
-                            @endif
+                            {{ $item->getLangContent('name', $defaultLanguage) }}
                         </td>
                         <td>
                             @if (in_array(1, explode(',', $item->scene)))
@@ -82,15 +61,14 @@
                             @endif
                         </td>
                         <td>
-                            <form method="post" action="{{ route('panel.plugin-usages.destroy', $item) }}">
+                            <form action="{{ route('panel.plugin-usages.destroy', $item->id) }}" method="post">
                                 @csrf
                                 @method('delete')
                                 <button type="button" class="btn btn-outline-primary btn-sm"
-                                    data-names="{{ $item->names->toJson() }}"
-                                    data-default-name="{{ $item->getLangName($defaultLanguage) }}"
+                                    data-default-name="{{ $item->getLangContent('name', $defaultLanguage) }}"
                                     data-params="{{ json_encode($item->attributesToArray()) }}"
-                                    data-action="{{ route('panel.content-type.update', $item->id) }}"
-                                    data-bs-toggle="modal" data-bs-target="#createTypeModal">{{ __('FsLang::panel.button_edit') }}</button>
+                                    data-action="{{ route('panel.plugin-usages.update', $item->id) }}"
+                                    data-bs-toggle="modal" data-bs-target="#editModal">{{ __('FsLang::panel.button_edit') }}</button>
                                 @if ($item->can_delete)
                                     <button type="submit" class="btn btn-link link-danger ms-1 fresns-link fs-7 delete-button">{{ __('FsLang::panel.button_delete') }}</button>
                                 @endif
@@ -101,15 +79,16 @@
             </tbody>
         </table>
     </div>
-    {{ $pluginUsages->links() }}
-    <!--list end-->
+    @if ($pluginUsages instanceof \Illuminate\Pagination\LengthAwarePaginator)
+        {{ $pluginUsages->appends(request()->all())->links() }}
+    @endif
 
-    <form action="" method="post">
+    <!--modal-->
+    <form action="" method="post" enctype="multipart/form-data">
         @csrf
         @method('post')
-        <input type="hidden" name="update_name" value="0">
         <!-- Config Modal -->
-        <div class="modal fade name-lang-parent" id="createTypeModal" tabindex="-1" aria-labelledby="createTypeModal" aria-hidden="true">
+        <div class="modal fade plugin-usage-modal" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -120,7 +99,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_order') }}</label>
                             <div class="col-sm-9">
-                                <input type="number" name="rating" required class="form-control input-number">
+                                <input type="number" class="form-control input-number" name="sort_order" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -141,56 +120,35 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_name') }}</label>
+                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_icon') }}</label>
                             <div class="col-sm-9">
-                                <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start name-button" data-parent="#createTypeModal" data-bs-toggle="modal" data-bs-target="#langModal">{{ __('FsLang::panel.table_name') }}</button>
+                                <div class="input-group">
+                                    <button class="btn btn-outline-secondary dropdown-toggle showSelectTypeName" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('FsLang::panel.button_image_upload') }}</button>
+                                    <ul class="dropdown-menu selectInputType">
+                                        <li data-name="inputFile"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_upload') }}</a></li>
+                                        <li data-name="inputUrl"><a class="dropdown-item" href="#">{{ __('FsLang::panel.button_image_input') }}</a></li>
+                                    </ul>
+                                    <input type="file" class="form-control inputFile" name="icon_file">
+                                    <input type="text" class="form-control inputUrl" name="icon_file_url" value="" style="display:none;">
+                                </div>
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_data_source') }}</label>
+                            <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_name') }}</label>
                             <div class="col-sm-9">
-                                <div class="form-floating mb-3">
-                                    <select class="form-select" id="floatingSelect" name="post_all">
-                                        <option disabled>{{ __('FsLang::panel.select_box_tip_data_source') }}</option>
-                                        <option value="" selected>{{ __('FsLang::panel.option_default') }}</option>
-                                        @foreach ($plugins as $plugin)
-                                            <option value="{{ $plugin->fskey }}">{{ $plugin->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="floatingSelect"><i class="bi bi-card-list me-1"></i>/api/v2/post/list <i class="bi bi-card-list me-1 ms-3"></i>/api/v2/comment/list</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <select class="form-select" id="floatingSelect" name="post_follow">
-                                        <option disabled>{{ __('FsLang::panel.select_box_tip_data_source') }}</option>
-                                        <option value="" selected>{{ __('FsLang::panel.option_default') }}</option>
-                                        @foreach ($plugins as $plugin)
-                                            <option value="{{ $plugin->fskey }}">{{ $plugin->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="floatingSelect"><i class="bi bi-card-list me-1"></i>/api/v2/post/follow <i class="bi bi-card-list me-1 ms-3"></i>/api/v2/comment/follow</label>
-                                </div>
-                                <div class="form-floating">
-                                    <select class="form-select" id="floatingSelect" name="post_nearby">
-                                        <option disabled>{{ __('FsLang::panel.select_box_tip_data_source') }}</option>
-                                        <option value="" selected>{{ __('FsLang::panel.option_default') }}</option>
-                                        @foreach ($plugins as $plugin)
-                                            <option value="{{ $plugin->fskey }}">{{ $plugin->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="floatingSelect"><i class="bi bi-card-list me-1"></i>/api/v2/post/nearby <i class="bi bi-card-list me-1 ms-3"></i>/api/v2/comment/nearby</label>
-                                </div>
+                                <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start name-button" data-parent="#editModal" data-bs-toggle="modal" data-bs-target="#langModal">{{ __('FsLang::panel.table_name') }}</button>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_scene') }}</label>
                             <div class="col-sm-9 pt-2">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="1" name="scene[]" checked>
-                                    <label class="form-check-label" for="inlineCheckbox1">{{ __('FsLang::panel.post') }}</label>
+                                    <input class="form-check-input" type="checkbox" id="scenePost" value="1" name="scene[]" checked>
+                                    <label class="form-check-label" for="scenePost">{{ __('FsLang::panel.post') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="2" name="scene[]">
-                                    <label class="form-check-label" for="inlineCheckbox2">{{ __('FsLang::panel.comment') }}</label>
+                                    <input class="form-check-input" type="checkbox" id="sceneComment" value="2" name="scene[]">
+                                    <label class="form-check-label" for="sceneComment">{{ __('FsLang::panel.comment') }}</label>
                                 </div>
                             </div>
                         </div>
@@ -264,155 +222,4 @@
             </div>
         </div>
     </form>
-
-    <!-- pluginRating Modal -->
-    <div class="modal fade name-lang-modal" id="pluginRatingModal" tabindex="-1" aria-labelledby="pluginRatingModal" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">{{ __('FsLang::panel.extend_content_type_rating') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="pluginRatingForm" method="post">
-                        @csrf
-                        @method('put')
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle text-nowrap">
-                                <thead>
-                                    <tr class="table-info">
-                                        <th scope="col" style="width:10rem;">{{ __('FsLang::panel.table_number') }} <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.extend_content_type_rating_desc') }}"></i></th>
-                                        <th scope="col">{{ __('FsLang::panel.table_title') }}</th>
-                                        <th scope="col">{{ __('FsLang::panel.table_description') }}</th>
-                                        <th scope="col" style="width:6rem;">{{ __('FsLang::panel.table_options') }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="add-rating-tr">
-                                        <td colspan="4"><button class="btn btn-outline-success btn-sm px-3 add-rating" type="button"><i class="bi bi-plus-circle-dotted"></i> {{ __('FsLang::panel.button_add') }}</button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary">{{ __('FsLang::panel.button_save') }}</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <template id="ratingTemplate">
-        <tr class="rating-item">
-            <td><input required type="number" name="ids[]" class="form-control input-number"></td>
-            <td>
-                <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start rating-title" data-bs-toggle="modal" data-bs-target="#pluginRatingTitleLangModal">{{ __('FsLang::panel.table_title') }}</button>
-                <input type="hidden" name="titles[]">
-            </td>
-            <td>
-                <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start rating-description" data-bs-toggle="modal" data-bs-target="#pluginRatingDescLangModal">{{ __('FsLang::panel.table_description') }}</button>
-                <input type="hidden" name="descriptions[]">
-            </td>
-            <td><button type="button" class="btn btn-link link-danger ms-1 fresns-link fs-7 delete-rating-number">{{ __('FsLang::panel.button_delete') }}</button></td>
-        </tr>
-    </template>
-
-    <!-- pluginRating Language Modal -->
-    <div class="modal fade" id="pluginRatingTitleLangModal" tabindex="-1" aria-labelledby="pluginRatingTitleLangModal" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">{{ __('FsLang::panel.table_title') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="ratingTitleForm">
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle text-nowrap">
-                                <thead>
-                                    <tr class="table-info">
-                                        <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_tag') }}</th>
-                                        <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_name') }}</th>
-                                        <th scope="col" class="w-50">{{ __('FsLang::panel.table_content') }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($optionalLanguages as $lang)
-                                        <tr>
-                                            <td>
-                                                {{ $lang['langTag'] }}
-                                                @if ($lang['langTag'] == $defaultLanguage)
-                                                    <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                {{ $lang['langName'] }}
-                                                @if ($lang['areaName'])
-                                                    {{ '('.$lang['areaName'].')' }}
-                                                @endif
-                                            </td>
-                                            <td><input type="text" name="{{ $lang['langTag'] }}" class="form-control" value=""></td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="text-center">
-                            <button type="button" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_confirm') }}</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- pluginRating Language Modal -->
-    <div class="modal fade" id="pluginRatingDescLangModal" tabindex="-1" aria-labelledby="pluginRatingDescLangModal" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">{{ __('FsLang::panel.table_description') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle text-nowrap">
-                                <thead>
-                                    <tr class="table-info">
-                                        <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_tag') }}</th>
-                                        <th scope="col" class="w-25">{{ __('FsLang::panel.table_lang_name') }}</th>
-                                        <th scope="col" class="w-50">{{ __('FsLang::panel.table_content') }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($optionalLanguages as $lang)
-                                        <tr>
-                                            <td>
-                                                {{ $lang['langTag'] }}
-                                                @if ($lang['langTag'] == $defaultLanguage)
-                                                    <i class="bi bi-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('FsLang::panel.default_language') }}" data-bs-original-title="{{ __('FsLang::panel.default_language') }}" aria-label="{{ __('FsLang::panel.default_language') }}"></i>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                {{ $lang['langName'] }}
-                                                @if ($lang['areaName'])
-                                                    {{ '('.$lang['areaName'].')' }}
-                                                @endif
-                                            </td>
-                                            <td><input type="text" name="{{ $lang['langTag'] }}" class="form-control" value=""></td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="text-center">
-                            <button type="button" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">{{ __('FsLang::panel.button_confirm') }}</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
