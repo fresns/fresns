@@ -2317,40 +2317,6 @@ $(document).ready(function () {
         });
     });
 
-    $('#walletCurrencyName').on('hide.bs.modal', function(e) {
-        let defaultName = $(this).find('.text-primary').closest('tr').find('.name-input').val();
-        if (!defaultName) {
-            defaultName = $(this)
-            .find('.name-input')
-            .filter(function () {
-                return $(this).val() != '';
-            })
-            .first()
-            .val();
-        }
-
-        if (defaultName) {
-            $('#currencyNameButton').text(defaultName);
-        }
-    });
-
-    $('#walletCurrencyUnit').on('hide.bs.modal', function(e) {
-        let defaultName = $(this).find('.text-primary').closest('tr').find('.name-input').val();
-        if (!defaultName) {
-            defaultName = $(this)
-            .find('.name-input')
-            .filter(function () {
-                return $(this).val() != '';
-            })
-            .first()
-            .val();
-        }
-
-        if (defaultName) {
-            $('#currencyUnitButton').text(defaultName);
-        }
-    });
-
     $('#editMessages').on('show.bs.modal', function(e) {
         let button = $(e.relatedTarget);
         let action = button.data('action');

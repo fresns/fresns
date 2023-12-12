@@ -9,6 +9,7 @@
 namespace App\Fresns\Panel\Http\Controllers;
 
 use App\Helpers\PrimaryHelper;
+use App\Helpers\StrHelper;
 use App\Models\Config;
 use App\Models\File;
 use App\Models\FileUsage;
@@ -23,19 +24,19 @@ class WalletController extends Controller
     {
         // config keys
         $configKeys = [
+            'currency_codes',
             'wallet_status',
             'wallet_currency_code',
+            'wallet_currency_name',
+            'wallet_currency_unit',
             'wallet_withdraw_status',
             'wallet_withdraw_review',
-            'wallet_withdraw_verify',
+            'wallet_withdraw_check_kyc',
             'wallet_withdraw_interval_time',
             'wallet_withdraw_rate',
             'wallet_withdraw_min_sum',
             'wallet_withdraw_max_sum',
             'wallet_withdraw_sum_limit',
-            'currency_codes',
-            'wallet_currency_name',
-            'wallet_currency_unit',
             'wallet_currency_precision',
         ];
 
@@ -50,16 +51,12 @@ class WalletController extends Controller
             'wallet_currency_unit',
         ];
 
-        $languages = Language::ofConfig()->whereIn('table_key', $langKeys)->get();
-
-        $langParams = [];
         $defaultLangParams = [];
         foreach ($langKeys as $langKey) {
-            $langParams[$langKey] = $languages->where('table_key', $langKey)->pluck('lang_content', 'lang_tag')->toArray();
-            $defaultLangParams[$langKey] = $languages->where('table_key', $langKey)->where('lang_tag', $this->defaultLanguage)->first()['lang_content'] ?? '';
+            $defaultLangParams[$langKey] = StrHelper::languageContent($params[$langKey]);
         }
 
-        return view('FsView::systems.wallet', compact('params', 'defaultLangParams', 'langParams'));
+        return view('FsView::systems.wallet', compact('params', 'defaultLangParams'));
     }
 
     public function update(Request $request)
@@ -69,7 +66,7 @@ class WalletController extends Controller
             'wallet_currency_code',
             'wallet_withdraw_status',
             'wallet_withdraw_review',
-            'wallet_withdraw_verify',
+            'wallet_withdraw_check_kyc',
             'wallet_withdraw_interval_time',
             'wallet_withdraw_rate',
             'wallet_withdraw_min_sum',
@@ -95,52 +92,6 @@ class WalletController extends Controller
             $config->save();
         }
 
-        foreach ($request->wallet_currency_name as $langTag => $content) {
-            $language = Language::ofConfig()
-                ->where('table_key', 'wallet_currency_name')
-                ->where('lang_tag', $langTag)
-                ->first();
-            if (! $language) {
-                // create but no content
-                if (! $content) {
-                    continue;
-                }
-                $language = new Language();
-                $language->fill([
-                    'table_name' => 'configs',
-                    'table_column' => 'item_value',
-                    'table_key' => 'wallet_currency_name',
-                    'lang_tag' => $langTag,
-                ]);
-            }
-
-            $language->lang_content = $content;
-            $language->save();
-        }
-
-        foreach ($request->wallet_currency_unit as $langTag => $content) {
-            $language = Language::ofConfig()
-                ->where('table_key', 'wallet_currency_unit')
-                ->where('lang_tag', $langTag)
-                ->first();
-            if (! $language) {
-                // create but no content
-                if (! $content) {
-                    continue;
-                }
-                $language = new Language();
-                $language->fill([
-                    'table_name' => 'configs',
-                    'table_column' => 'item_value',
-                    'table_key' => 'wallet_currency_unit',
-                    'lang_tag' => $langTag,
-                ]);
-            }
-
-            $language->lang_content = $content;
-            $language->save();
-        }
-
         return $this->updateSuccess();
     }
 
@@ -149,11 +100,11 @@ class WalletController extends Controller
         $plugins = Plugin::all();
 
         $plugins = $plugins->filter(function ($plugin) {
-            return in_array('recharge', $plugin->scene);
+            return in_array('walletRecharge', $plugin->panel_usages);
         });
 
         $pluginUsages = PluginUsage::type(PluginUsage::TYPE_WALLET_RECHARGE)
-            ->orderBy('rating')
+            ->orderBy('sort_order')
             ->with('plugin', 'names')
             ->get();
 
@@ -168,7 +119,7 @@ class WalletController extends Controller
         $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enabled = $request->is_enabled;
-        $pluginUsage->rating = $request->rating;
+        $pluginUsage->sort_order = $request->sort_order;
         $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->save();
 
@@ -228,7 +179,7 @@ class WalletController extends Controller
         $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enabled = $request->is_enabled;
-        $pluginUsage->rating = $request->rating;
+        $pluginUsage->sort_order = $request->sort_order;
 
         if ($request->file('icon_file')) {
             $wordBody = [
@@ -287,13 +238,13 @@ class WalletController extends Controller
     public function withdrawIndex()
     {
         $pluginUsages = PluginUsage::type(PluginUsage::TYPE_WALLET_WITHDRAW)
-            ->orderBy('rating')
+            ->orderBy('sort_order')
             ->with('plugin')
             ->get();
 
         $plugins = Plugin::all();
         $plugins = $plugins->filter(function ($plugin) {
-            return in_array('withdraw', $plugin->scene);
+            return in_array('walletWithdraw', $plugin->panel_usages);
         });
 
         return view('FsView::systems.wallet-withdraw', compact('pluginUsages', 'plugins'));
@@ -307,7 +258,7 @@ class WalletController extends Controller
         $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enabled = $request->is_enabled;
-        $pluginUsage->rating = $request->rating;
+        $pluginUsage->sort_order = $request->sort_order;
         $pluginUsage->icon_file_url = $request->icon_file_url;
         $pluginUsage->save();
 
@@ -367,7 +318,7 @@ class WalletController extends Controller
         $pluginUsage->plugin_fskey = $request->plugin_fskey;
         $pluginUsage->parameter = $request->parameter;
         $pluginUsage->is_enabled = $request->is_enabled;
-        $pluginUsage->rating = $request->rating;
+        $pluginUsage->sort_order = $request->sort_order;
 
         if ($request->file('icon_file')) {
             $wordBody = [
