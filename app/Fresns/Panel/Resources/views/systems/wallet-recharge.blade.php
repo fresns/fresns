@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <!--wallet header-->
+    <!--header-->
     <div class="row mb-4">
         <div class="col-lg-7">
             <h3>{{ __('FsLang::panel.sidebar_wallet') }}</h3>
@@ -13,7 +13,7 @@
         </div>
         <div class="col-lg-5">
             <div class="input-group mt-2 mb-4 justify-content-lg-end">
-                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-action="{{ route('panel.wallet.recharge.store') }}" data-bs-target="#createPayModal">
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#editModal" data-action="{{ route('panel.plugin-usages.store', ['usageType' => 'wallet-recharge']) }}">
                     <i class="bi bi-plus-circle-dotted"></i> {{ __('FsLang::panel.button_add_service_provider') }}
                 </button>
                 {{-- <a class="btn btn-outline-secondary" href="#" role="button">{{ __('FsLang::panel.button_support') }}</a> --}}
@@ -21,11 +21,12 @@
         </div>
         <ul class="nav nav-tabs">
             <li class="nav-item"><a class="nav-link" href="{{ route('panel.wallet.index') }}">{{ __('FsLang::panel.sidebar_wallet_tab_options') }}</a></li>
-            <li class="nav-item"><a class="nav-link active" href="{{ route('panel.wallet.recharge.index') }}">{{ __('FsLang::panel.sidebar_wallet_tab_recharge_services') }}</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('panel.wallet.withdraw.index') }}">{{ __('FsLang::panel.sidebar_wallet_tab_withdraw_services') }}</a></li>
+            <li class="nav-item"><a class="nav-link active" href="{{ route('panel.plugin-usages.index', ['usageType' => 'wallet-recharge']) }}">{{ __('FsLang::panel.sidebar_wallet_tab_recharge_services') }}</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('panel.plugin-usages.index', ['usageType' => 'wallet-withdraw']) }}">{{ __('FsLang::panel.sidebar_wallet_tab_withdraw_services') }}</a></li>
         </ul>
     </div>
-    <!--service list-->
+
+    <!--list-->
     <div class="table-responsive">
         <table class="table table-hover align-middle text-nowrap">
             <thead>
@@ -41,32 +42,31 @@
             <tbody>
                 @foreach ($pluginUsages as $item)
                     <tr>
-                        <td><input type="number" class="form-control input-number rating-number" data-action="{{ route('panel.plugin-usages.rating.update', $item->id) }}" value="{{ $item['rating'] }}"></td>
-                        <td>{{ optional($item->plugin)->name }}</td>
+                        <td><input type="number" class="form-control input-number order-number" data-action="{{ route('panel.plugin-usages.update-order', $item->id) }}" value="{{ $item->sort_order }}"></td>
+                        <td>{{ optional($item->plugin)->name ?? $item->plugin_fskey }}</td>
                         <td>
                             @if ($item->getIconUrl())
                                 <img src="{{ $item->getIconUrl() }}" width="24" height="24">
                             @endif
-                            {{ $item->getLangName($defaultLanguage) }}
+                            {{ $item->getLangContent('name', $defaultLanguage) }}
                         </td>
                         <td>{{ $item->parameter }}</td>
                         <td>
-                            @if ($item['is_enabled'])
+                            @if ($item->is_enabled)
                                 <i class="bi bi-check-lg text-success"></i>
                             @else
                                 <i class="bi bi-dash-lg text-secondary"></i>
                             @endif
                         </td>
                         <td>
-                            <form method="post" action="{{ route('panel.plugin-usages.destroy', $item) }}">
+                            <form action="{{ route('panel.plugin-usages.destroy', $item->id) }}" method="post">
                                 @csrf
                                 @method('delete')
                                 <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
-                                    data-names="{{ $item->names->toJson() }}"
-                                    data-default-name="{{ $item->getLangName($defaultLanguage) }}"
                                     data-params="{{ json_encode($item->attributesToArray()) }}"
-                                    data-action="{{ route('panel.wallet.recharge.update', $item) }}"
-                                    data-bs-target="#createPayModal">{{ __('FsLang::panel.button_edit') }}</button>
+                                    data-default-name="{{ $item->getLangContent('name', $defaultLanguage) }}"
+                                    data-action="{{ route('panel.plugin-usages.update', $item->id) }}"
+                                    data-bs-target="#editModal">{{ __('FsLang::panel.button_edit') }}</button>
                                 <button type="submit" class="btn btn-link link-danger ms-1 fresns-link fs-7 delete-button">{{ __('FsLang::panel.button_delete') }}</button>
                             </form>
                         </td>
@@ -75,13 +75,16 @@
             </tbody>
         </table>
     </div>
+    @if ($pluginUsages instanceof \Illuminate\Pagination\LengthAwarePaginator)
+        {{ $pluginUsages->appends(request()->all())->links() }}
+    @endif
 
+    <!--modal-->
     <form action="" method="post" enctype="multipart/form-data">
         @csrf
         @method('post')
-        <input type="hidden" name="update_name" value="0">
         <!-- Modal -->
-        <div class="modal fade name-lang-parent extend-modal" id="createPayModal" tabindex="-1" aria-labelledby="createPayModal" aria-hidden="true">
+        <div class="modal fade plugin-usage-modal" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -92,7 +95,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_order') }}</label>
                             <div class="col-sm-9">
-                                <input type="number" class="form-control input-number" required name="rating">
+                                <input type="number" class="form-control input-number" name="sort_order" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -123,7 +126,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">{{ __('FsLang::panel.table_name') }}</label>
                             <div class="col-sm-9">
-                                <button type="button" class="name-button btn btn-outline-secondary btn-modal w-100 text-start name-button" data-parent="#createPayModal" data-bs-toggle="modal" data-bs-target="#langModal">
+                                <button type="button" class="btn btn-outline-secondary btn-modal w-100 text-start name-button" data-parent="#editModal" data-bs-toggle="modal" data-bs-target="#langModal">
                                     {{ __('FsLang::panel.table_name') }}
                                 </button>
                             </div>
