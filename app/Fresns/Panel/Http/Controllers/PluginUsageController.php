@@ -47,7 +47,7 @@ class PluginUsageController extends Controller
         };
 
         $plugins = Plugin::all();
-        $plugins = $plugins->filter(function ($plugin) use($panelUsageName) {
+        $plugins = $plugins->filter(function ($plugin) use ($panelUsageName) {
             return in_array($panelUsageName, $plugin->panel_usages);
         });
 
