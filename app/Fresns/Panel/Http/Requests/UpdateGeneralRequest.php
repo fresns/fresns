@@ -21,7 +21,7 @@ class UpdateGeneralRequest extends FormRequest
             'site_copyright_years' => 'string|nullable',
             'site_email' => 'email|nullable',
             'site_mode' => 'string|nullable',
-            'site_private_status' => 'boolean|nullable',
+            'site_private_status' => 'string|nullable',
             'site_private_service' => 'string|nullable',
             'site_private_end_after' => 'int|nullable',
             'site_private_whitelist_roles' => 'array|nullable',

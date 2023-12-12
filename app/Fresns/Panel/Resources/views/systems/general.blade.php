@@ -173,7 +173,7 @@
                                 <select class="form-select select2" multiple name="site_private_whitelist_roles[]">
                                     @foreach ($roles as $role)
                                         @if ($role->type != 2)
-                                            <option value="{{ $role->id }}" {{ in_array($role->id, $params['site_private_whitelist_roles']) ? 'selected' : '' }}>{{ $role->getLangName($defaultLanguage) }}</option>
+                                            <option value="{{ $role->id }}" {{ in_array($role->id, $params['site_private_whitelist_roles']) ? 'selected' : '' }}>{{ $role->getLangContent('name', $defaultLanguage) }}</option>
                                         @endif
                                     @endforeach
                                 </select>
