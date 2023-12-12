@@ -18,7 +18,7 @@
         </div>
     </div>
     <!--account config-->
-    <form action="{{ route('panel.account.update') }}" method="post">
+    <form action="{{ route('panel.account.update') }}" id="accountConfigForm" method="post">
         @csrf
         @method('put')
 

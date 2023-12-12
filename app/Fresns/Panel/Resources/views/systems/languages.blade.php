@@ -18,7 +18,7 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li>
-                        <form action="{{ route('panel.languageMenus.status.switch') }}" method="post">
+                        <form action="{{ route('panel.languageMenus.status') }}" method="post">
                             @csrf
                             @method('put')
                             <button class="dropdown-item" type="submit">{{ $status ? __('FsLang::panel.button_deactivate') : __('FsLang::panel.button_activate') }}</button>

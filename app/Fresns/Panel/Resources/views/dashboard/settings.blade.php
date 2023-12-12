@@ -17,7 +17,7 @@
         </div>
     </div>
     <!--form-->
-    <form action="{{ route('panel.settings.update') }}" method="post" id="adminConfig">
+    <form action="{{ route('panel.settings.update') }}" method="post" id="panelConfig">
         @csrf
         @method('put')
 
