@@ -17,6 +17,7 @@ class Model extends BaseModel
     use HasFactory;
     use SoftDeletes;
     use Traits\DataChangeNotifyTrait;
+    use Traits\LangContentTrait;
 
     protected $guarded = [];
 

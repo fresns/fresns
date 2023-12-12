@@ -10,14 +10,11 @@ namespace App\Models;
 
 class Role extends Model
 {
-    const TYPE_ADMIN = 1;
-    const TYPE_SYSTEM = 2;
-    const TYPE_USER = 3;
-
-    use Traits\LangNameTrait;
     use Traits\IsEnabledTrait;
 
     protected $casts = [
+        'name' => 'json',
         'permissions' => 'json',
+        'more_info' => 'json',
     ];
 }

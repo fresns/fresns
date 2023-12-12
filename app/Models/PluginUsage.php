@@ -24,12 +24,11 @@ class PluginUsage extends Model
     const SCENE_COMMENT = 2;
     const SCENE_USER = 3;
 
-    use Traits\LangNameTrait;
     use Traits\PluginUsageServiceTrait;
     use Traits\IsEnabledTrait;
 
     protected $casts = [
-        'data_sources' => 'json',
+        'name' => 'json',
     ];
 
     public function scopeType($query, int $type)

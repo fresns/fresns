@@ -29,14 +29,6 @@ trait PluginUsageServiceTrait
         $info['editorToolbar'] = (bool) $usageData->editor_toolbar;
         $info['editorNumber'] = $usageData->editor_number;
 
-        $pluginRating['postByAll'] = PluginHelper::pluginDataRatingHandle('postByAll', $usageData->data_sources, $langTag);
-        $pluginRating['postByFollow'] = PluginHelper::pluginDataRatingHandle('postByFollow', $usageData->data_sources, $langTag);
-        $pluginRating['postByNearby'] = PluginHelper::pluginDataRatingHandle('postByNearby', $usageData->data_sources, $langTag);
-        $pluginRating['commentByAll'] = PluginHelper::pluginDataRatingHandle('commentByAll', $usageData->data_sources, $langTag);
-        $pluginRating['commentByFollow'] = PluginHelper::pluginDataRatingHandle('commentByFollow', $usageData->data_sources, $langTag);
-        $pluginRating['commentByNearby'] = PluginHelper::pluginDataRatingHandle('commentByNearby', $usageData->data_sources, $langTag);
-        $info['pluginRating'] = $pluginRating;
-
         return $info;
     }
 

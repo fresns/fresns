@@ -185,27 +185,4 @@ class PluginHelper
 
         return $upgradeCode;
     }
-
-    // handle plugin data rating
-    public static function pluginDataRatingHandle(string $key, ?array $dataSources = null, ?string $langTag = null): array
-    {
-        if (empty($dataSources)) {
-            return [];
-        }
-
-        $pluginRatingArr = $dataSources[$key]['pluginRating'] ?? [];
-
-        $langTag = $langTag ?: ConfigHelper::fresnsConfigDefaultLangTag();
-
-        $pluginRating = [];
-        foreach ($pluginRatingArr as $arr) {
-            $item['id'] = $arr['id'];
-            $item['title'] = collect($arr['intro'])->where('langTag', $langTag)->first()['title'] ?? null;
-            $item['description'] = collect($arr['intro'])->where('langTag', $langTag)->first()['description'] ?? null;
-
-            $pluginRating[] = $item;
-        }
-
-        return $pluginRating;
-    }
 }

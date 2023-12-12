@@ -13,7 +13,6 @@ class Sticker extends Model
     const TYPE_STICKER = 1;
     const TYPE_GROUP = 2;
 
-    use Traits\LangNameTrait;
     use Traits\IsEnabledTrait;
 
     public function scopeGroup($query)
