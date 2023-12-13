@@ -131,6 +131,7 @@ Route::middleware(['panelAuth'])->group(function () {
         // social
         Route::get('social', [SocialController::class, 'show'])->name('social.index');
         Route::put('social/update', [SocialController::class, 'update'])->name('social.update');
+        Route::patch('social/update-hashtag-regexp', [SocialController::class, 'updateHashtagRegexp'])->name('social.update.hashtag-regexp');
     });
 
     // operations
@@ -142,7 +143,6 @@ Route::middleware(['panelAuth'])->group(function () {
         // interaction
         Route::get('interaction', [InteractionController::class, 'show'])->name('interaction.index');
         Route::put('interaction', [InteractionController::class, 'update'])->name('interaction.update');
-        Route::put('interaction-update-hashtag-regexp', [InteractionController::class, 'updateHashtagRegexp'])->name('interaction.update.hashtag.regexp');
         // publish-post
         Route::get('publish/post', [PublishController::class, 'postShow'])->name('publish.post.index');
         Route::put('publish/post', [PublishController::class, 'postUpdate'])->name('publish.post.update');
