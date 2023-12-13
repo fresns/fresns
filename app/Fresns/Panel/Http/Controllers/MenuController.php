@@ -191,7 +191,6 @@ class MenuController extends Controller
                 $status = new Config;
                 $status->item_key = $enableKey;
                 $status->item_type = 'boolean';
-                $status->item_tag = 'menus';
             }
             $status->item_value = $request->is_enabled;
             $status->save();
@@ -203,7 +202,6 @@ class MenuController extends Controller
                 $indexType = new Config;
                 $indexType->item_key = $typeKey;
                 $indexType->item_type = 'string';
-                $indexType->item_tag = 'menus';
             }
 
             $indexType->item_value = $request->index_type;
@@ -216,7 +214,6 @@ class MenuController extends Controller
                 $queryState = new Config;
                 $queryState->item_key = $queryStateKey;
                 $queryState->item_type = 'number';
-                $queryState->item_tag = 'menus';
             }
 
             $queryState->item_value = $request->query_state;
@@ -229,7 +226,6 @@ class MenuController extends Controller
                 $queryConfig = new Config;
                 $queryConfig->item_key = $queryConfigKey;
                 $queryConfig->item_type = 'string';
-                $queryConfig->item_tag = 'menus';
             }
 
             $queryConfig->item_value = $request->query_config;

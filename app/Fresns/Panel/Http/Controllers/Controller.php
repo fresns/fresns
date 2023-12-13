@@ -74,7 +74,6 @@ class Controller extends BaseController
                 ], [
                     'item_value' => now(),
                     'item_type' => 'string',
-                    'item_tag' => 'systems',
                 ]);
             }
         } catch (\Exception $e) {

@@ -235,7 +235,6 @@ class Crontab
         ], [
             'item_value' => now(),
             'item_type' => 'string',
-            'item_tag' => 'systems',
         ]);
 
         return $this->success();

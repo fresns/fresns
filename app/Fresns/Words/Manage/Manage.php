@@ -59,7 +59,6 @@ class Manage
         ], [
             'item_value' => null,
             'item_type' => 'string',
-            'item_tag' => 'client',
             'is_multilingual' => 1,
             'is_custom' => 1,
             'is_api' => 1,

@@ -99,12 +99,11 @@ class ColumnController extends Controller
         ];
 
         foreach ($configKeys as $configKey) {
-            $config = Config::where('item_tag', 'menus')->where('item_key', $configKey)->first();
+            $config = Config::where('item_key', $configKey)->first();
             if (! $config) {
                 $config = new Config();
                 $config->item_key = $configKey;
                 $config->item_type = 'string';
-                $config->item_tag = 'menus';
                 $config->is_multilingual = 1;
                 $config->save();
             }

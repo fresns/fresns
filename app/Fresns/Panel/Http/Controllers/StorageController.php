@@ -238,7 +238,6 @@ class StorageController extends Controller
                 $config = new Config();
                 $config->item_key = $configKey;
                 $config->item_type = 'number';
-                $config->item_tag = 'storageAudios';
             }
 
             $value = $request->$configKey;

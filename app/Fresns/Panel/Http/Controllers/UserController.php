@@ -284,7 +284,6 @@ class UserController extends Controller
                 $state->item_key = $inputState;
                 $state->item_value = $request->extcredits_state;
                 $state->item_type = 'number';
-                $state->item_tag = 'users';
                 $state->is_multilingual = 0;
                 $state->is_custom = 0;
                 $state->is_api = 1;

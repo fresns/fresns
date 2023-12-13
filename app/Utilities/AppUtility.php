@@ -183,7 +183,6 @@ class AppUtility
         ], [
             'item_value' => now(),
             'item_type' => 'string',
-            'item_tag' => 'systems',
         ]);
 
         // install.lock

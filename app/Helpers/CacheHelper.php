@@ -236,7 +236,6 @@ class CacheHelper
         ], [
             'item_value' => now(),
             'item_type' => 'string',
-            'item_tag' => 'systems',
             'is_multilingual' => 0,
             'is_custom' => 0,
             'is_api' => 1,
@@ -266,7 +265,6 @@ class CacheHelper
             ], [
                 'item_value' => now(),
                 'item_type' => 'string',
-                'item_tag' => 'systems',
                 'is_multilingual' => 0,
                 'is_custom' => 0,
                 'is_api' => 1,
@@ -787,9 +785,6 @@ class CacheHelper
      */
     // fresns_default_langTag
     // fresns_lang_tags
-    // fresns_config_{$itemKey}_{$langTag}
-    // fresns_config_keys_{$itemKey}_{$langTag}
-    // fresns_config_tag_{$itemTag}_{$langTag}
     // fresns_config_api_{$itemKey}_{$langTag}
     // fresns_config_file_accept
     // fresns_config_file_url_expire
@@ -815,6 +810,7 @@ class CacheHelper
     /**
      * tag: fresnsModels.
      */
+    // fresns_model_config_{$itemKey}                               // +tag: fresnsConfigs
     // fresns_model_account_{$aid}                                  // +tag: fresnsAccounts
     // fresns_model_user_{$uidOrUsername}_by_fsid                   // +tag: fresnsUsers
     // fresns_model_user_{$userId}                                  // +tag: fresnsUsers

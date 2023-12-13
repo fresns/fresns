@@ -61,11 +61,6 @@ class Config extends Model
         return $query->where('item_key', 'platforms');
     }
 
-    public function scopeTag($query, $value)
-    {
-        return $query->where('item_tag', $value);
-    }
-
     public function setDefaultValue()
     {
         if ($this->item_type == 'boolean') {
@@ -79,10 +74,5 @@ class Config extends Model
         }
 
         return $this;
-    }
-
-    public function languages()
-    {
-        return $this->hasMany(Language::class, 'table_key', 'item_key')->where('table_name', 'configs');
     }
 }
