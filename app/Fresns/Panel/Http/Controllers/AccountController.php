@@ -8,9 +8,9 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Fresns\Panel\Http\Requests\UpdateAccountRequest;
 use App\Models\Config;
 use App\Models\Plugin;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class AccountController extends Controller
@@ -62,7 +62,7 @@ class AccountController extends Controller
         return view('FsView::systems.account', compact('params', 'accountCenterPlugins', 'accountRegisterPlugins', 'accountConnectPlugins', 'accountKycPlugins'));
     }
 
-    public function update(Request $request)
+    public function update(UpdateAccountRequest $request)
     {
         $configKeys = [
             'account_center_service',
@@ -77,7 +77,6 @@ class AccountController extends Controller
             'account_phone_login',
             'account_login_with_code',
             'account_login_or_register',
-            'account_connect_services',
             'account_kyc_service',
             'password_length',
             'password_strength',
@@ -98,7 +97,7 @@ class AccountController extends Controller
                 continue;
             }
 
-            $value = $request->configKey;
+            $value = $request->$configKey;
 
             if (in_array($configKey, [
                 'account_center_path',
