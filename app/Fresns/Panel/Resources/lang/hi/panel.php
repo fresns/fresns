@@ -452,6 +452,7 @@ return [
     'account_password_config' => 'पासवर्ड कॉन्फ़िग',
     'account_center_service' => 'खाता केंद्र',
     'account_center_path' => 'पथ',
+    'account_center_captcha' => 'Captcha',
     'account_register_path' => 'पथ पंजीकृत करें',
     'account_register_status' => 'खुले पंजीकरण',
     'account_register_service' => 'पंजीकरण समारोह विन्यास',

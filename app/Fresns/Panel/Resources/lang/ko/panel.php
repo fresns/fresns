@@ -452,6 +452,7 @@ return [
     'account_password_config' => '비밀번호 구성',
     'account_center_service' => '계정 센터',
     'account_center_path' => '경로',
+    'account_center_captcha' => 'Captcha',
     'account_register_path' => '등록 경로',
     'account_register_status' => '오픈 등록 여부',
     'account_register_service' => '등록 기능 구성',

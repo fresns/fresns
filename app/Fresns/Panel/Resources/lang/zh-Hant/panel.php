@@ -452,6 +452,7 @@ return [
     'account_password_config' => '密碼設定',
     'account_center_service' => '帳戶中心',
     'account_center_path' => '帳戶中心路徑',
+    'account_center_captcha' => '驗證碼方案',
     'account_register_path' => '註冊入口',
     'account_register_status' => '是否開放註冊',
     'account_register_service' => '註冊功能配置',

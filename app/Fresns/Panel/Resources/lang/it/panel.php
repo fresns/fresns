@@ -452,6 +452,7 @@ return [
     'account_password_config' => 'Configurazione della password',
     'account_center_service' => 'Centro account',
     'account_center_path' => 'Percorso',
+    'account_center_captcha' => 'Captcha',
     'account_register_path' => 'Percorso di registrazione',
     'account_register_status' => 'Sia registrazione aperta',
     'account_register_service' => 'Configurazione della funzione di registrazione',

@@ -452,6 +452,7 @@ return [
     'account_password_config' => 'Konfigurasi Kata Sandi',
     'account_center_service' => 'Pusat Akun',
     'account_center_path' => 'Jalur',
+    'account_center_captcha' => 'Captcha',
     'account_register_path' => 'Jalur Pendaftaran',
     'account_register_status' => 'Apakah buka registrasi',
     'account_register_service' => 'Konfigurasi fungsi pendaftaran',

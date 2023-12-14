@@ -452,6 +452,7 @@ return [
     'account_password_config' => 'Конфигурация пароля',
     'account_center_service' => 'Центр учетных записей',
     'account_center_path' => 'Путь',
+    'account_center_captcha' => 'Captcha',
     'account_register_path' => 'Путь регистрации',
     'account_register_status' => 'Будь то открытая регистрация',
     'account_register_service' => 'Конфигурация функции регистрации',

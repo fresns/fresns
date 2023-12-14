@@ -452,6 +452,7 @@ return [
     'account_password_config' => 'Config mot de passe',
     'account_center_service' => 'Centre de compte',
     'account_center_path' => 'Chemin d\'accès',
+    'account_center_captcha' => 'Captcha',
     'account_register_path' => 'Chemin d\'accès à l\'enregistrement',
     'account_register_status' => 'Si l\'enregistrement ouvert',
     'account_register_service' => 'Config de la fonction d\'enregistrement',

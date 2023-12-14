@@ -452,6 +452,7 @@ return [
     'account_password_config' => 'Password Config',
     'account_center_service' => 'Account Center',
     'account_center_path' => 'Path',
+    'account_center_captcha' => 'Captcha',
     'account_register_path' => 'Register Path',
     'account_register_status' => 'Whether to open register',
     'account_register_service' => 'Register function config',

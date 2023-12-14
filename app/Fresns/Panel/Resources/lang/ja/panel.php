@@ -452,6 +452,7 @@ return [
     'account_password_config' => 'パスワード設定',
     'account_center_service' => 'アカウントセンター',
     'account_center_path' => 'パス',
+    'account_center_captcha' => 'Captcha',
     'account_register_path' => '登録パス',
     'account_register_status' => 'オープン登録かどうか',
     'account_register_service' => '登録機能の設定',

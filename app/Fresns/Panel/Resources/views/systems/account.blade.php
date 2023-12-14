@@ -35,9 +35,34 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="input-group">
+                <div class="input-group mb-3">
                     <label class="input-group-text">{{ __('FsLang::panel.account_center_path') }}</label>
                     <input type="text" class="form-control" name="account_center_path" value="{{ $params['account_center_path'] }}">
+                </div>
+
+                <div class="card">
+                    <div class="card-header">{{ __('FsLang::panel.account_center_captcha') }}</div>
+                    <div class="card-body">
+                        <!--captcha-->
+                        <div class="input-group mb-3">
+                            <label class="input-group-text">{{ __('FsLang::panel.table_status') }}</label>
+                            <select class="form-select" name="account_center_captcha">
+                                <option value="" {{ !$params['account_center_captcha'] ? 'selected' : '' }}>🚫 {{ __('FsLang::panel.option_deactivate') }}</option>
+                                <option value="turnstile" {{ $params['account_center_captcha'] == 'turnstile' ? 'selected' : '' }}>Turnstile (Cloudflare)</option>
+                                <option value="reCAPTCHA" {{ $params['account_center_captcha'] == 'reCAPTCHA' ? 'selected' : '' }}>reCAPTCHA (Google)</option>
+                                <option value="hCaptcha" {{ $params['account_center_captcha'] == 'hCaptcha' ? 'selected' : '' }}>hCaptcha (Intuition Machines)</option>
+                            </select>
+                        </div>
+                        <div class="input-group mb-2">
+                            <label class="input-group-text">Site Key</label>
+                            <input type="text" class="form-control" name="account_center_captcha_configs[siteKey]" value="{{ $params['account_center_captcha_configs']['siteKey'] }}">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-group-text">Secret Key</label>
+                            <input type="text" class="form-control" name="account_center_captcha_configs[secretKey]" value="{{ $params['account_center_captcha_configs']['secretKey'] }}">
+                        </div>
+                        <!--captcha end-->
+                    </div>
                 </div>
             </div>
         </div>
