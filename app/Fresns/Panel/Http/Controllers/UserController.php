@@ -12,11 +12,10 @@ use App\Fresns\Panel\Http\Requests\UpdateUserConfigRequest;
 use App\Helpers\CacheHelper;
 use App\Helpers\ConfigHelper;
 use App\Helpers\PrimaryHelper;
+use App\Helpers\StrHelper;
 use App\Models\Config;
 use App\Models\File;
 use App\Models\FileUsage;
-use App\Models\Language;
-use App\Models\Plugin;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
@@ -26,19 +25,19 @@ class UserController extends Controller
     {
         // config keys
         $configKeys = [
-            'account_connect_services',
-            'account_real_name_service',
-            'multi_user_status',
-            'multi_user_service',
-            'multi_user_roles',
+            'user_name',
+            'user_uid_name',
+            'user_username_name',
+            'user_nickname_name',
+            'user_role_name',
+            'user_bio_name',
             'default_role',
             'default_avatar',
             'anonymous_avatar',
             'deactivate_avatar',
             'user_identifier',
             'user_uid_digit',
-            'password_length',
-            'password_strength',
+            'user_ban_names',
             'username_min',
             'username_max',
             'username_edit',
@@ -50,12 +49,24 @@ class UserController extends Controller
             'bio_support_mention',
             'bio_support_link',
             'bio_support_hashtag',
-            'connects',
+            'extcredits1_name',
+            'extcredits1_unit',
             'extcredits1_state',
+            'extcredits2_name',
+            'extcredits2_unit',
             'extcredits2_state',
+            'extcredits3_name',
+            'extcredits3_unit',
             'extcredits3_state',
+            'extcredits4_name',
+            'extcredits4_unit',
             'extcredits4_state',
+            'extcredits5_name',
+            'extcredits5_unit',
             'extcredits5_state',
+            'conversation_status',
+            'conversation_files',
+            'conversation_file_upload_type',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -65,20 +76,7 @@ class UserController extends Controller
             $params[$config->item_key] = $config->item_value;
         }
 
-        $pluginScenes = [
-            'connect',
-            'realName',
-            'multiUser',
-        ];
-
-        $plugins = Plugin::all();
-
-        $pluginParams = [];
-        foreach ($pluginScenes as $scene) {
-            $pluginParams[$scene] = $plugins->filter(function ($plugin) use ($scene) {
-                return in_array($scene, $plugin->scene);
-            });
-        }
+        $params['user_ban_names'] = join(PHP_EOL, $params['user_ban_names']);
 
         $configImageInfo['defaultAvatarUrl'] = ConfigHelper::fresnsConfigFileUrlByItemKey('default_avatar');
         $configImageInfo['defaultAvatarType'] = ConfigHelper::fresnsConfigFileValueTypeByItemKey('default_avatar');
@@ -90,7 +88,14 @@ class UserController extends Controller
 
         $roles = Role::all();
 
+        // language keys
         $langKeys = [
+            'user_name',
+            'user_uid_name',
+            'user_username_name',
+            'user_nickname_name',
+            'user_role_name',
+            'user_bio_name',
             'extcredits1_name',
             'extcredits1_unit',
             'extcredits2_name',
@@ -103,19 +108,12 @@ class UserController extends Controller
             'extcredits5_unit',
         ];
 
-        $langConfigs = Config::whereIn('item_key', $langKeys)
-            ->with('languages')
-            ->get();
-        $langConfigs = $langConfigs->mapWithKeys(function ($config) {
-            return [$config->item_key => $config];
-        });
+        $defaultLangParams = [];
+        foreach ($langKeys as $langKey) {
+            $defaultLangParams[$langKey] = StrHelper::languageContent($params[$langKey]);
+        }
 
-        $defaultLangParams = Language::ofConfig()
-            ->whereIn('table_key', $langKeys)
-            ->where('lang_tag', $this->defaultLanguage)
-            ->pluck('lang_content', 'table_key');
-
-        return view('FsView::systems.user', compact('params', 'pluginParams', 'configImageInfo', 'roles', 'langConfigs', 'defaultLangParams'));
+        return view('FsView::operations.user', compact('params', 'configImageInfo', 'roles', 'defaultLangParams'));
     }
 
     public function update(UpdateUserConfigRequest $request)
@@ -181,18 +179,13 @@ class UserController extends Controller
         }
 
         $configKeys = [
-            'account_real_name_service',
-            'multi_user_status',
-            'multi_user_service',
-            'multi_user_roles',
             'default_role',
             'default_avatar',
             'anonymous_avatar',
             'deactivate_avatar',
             'user_identifier',
             'user_uid_digit',
-            'password_length',
-            'password_strength',
+            'user_ban_names',
             'username_min',
             'username_max',
             'username_edit',
@@ -204,6 +197,9 @@ class UserController extends Controller
             'bio_support_mention',
             'bio_support_link',
             'bio_support_hashtag',
+            'conversation_status',
+            'conversation_files',
+            'conversation_file_upload_type',
         ];
 
         $configs = Config::whereIn('item_key', $configKeys)->get();
@@ -221,43 +217,13 @@ class UserController extends Controller
             }
 
             $value = $request->$configKey;
-
-            if ($configKey == 'multi_user_roles') {
-                if (in_array(0, $request->$configKey)) {
-                    $value = [];
-                }
+            if ($configKey == 'user_ban_names') {
+                $value = explode("\r\n", $request->user_ban_names);
             }
 
             $config->item_value = $value;
             $config->save();
         }
-
-        $services = [];
-        if ($request->connectId) {
-            foreach ($request->connectId as $key => $id) {
-                if (array_key_exists($key, $services)) {
-                    continue;
-                }
-                $services[$id] = [
-                    'order' => $request->connectOrder[$key] ?? 9,
-                    'code' => $id,
-                    'fskey' => $request->connectPlugin[$key] ?? '',
-                ];
-            }
-
-            usort($services, function ($a, $b) {
-                if ($a['order'] == 1) {
-                    return -1;
-                } elseif ($b['order'] == 1) {
-                    return 1;
-                } else {
-                    return $a['order'] - $b['order'];
-                }
-            });
-        }
-        $config = Config::where('item_key', 'account_connect_services')->first();
-        $config->item_value = $services;
-        $config->save();
 
         CacheHelper::forgetFresnsConfigs([
             'default_avatar',
