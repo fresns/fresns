@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <!--content_handler header-->
+    <!--header-->
     <div class="row mb-5 border-bottom">
         <div class="col-lg-9">
             <h3>{{ __('FsLang::panel.sidebar_extend_content_handler') }}</h3>
@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    <!--content_handler config-->
+    <!--config-->
     <form action="{{ route('panel.content-handler.update') }}" method="post">
         @csrf
         @method('put')
@@ -88,7 +88,7 @@
                     </select>
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text">{{ __('FsLang::panel.extend_content_list_by_follow') }}</label>
+                    <label class="input-group-text">{{ __('FsLang::panel.extend_content_list_by_timelines') }}</label>
                     <select class="form-select" name="post_follow_service">
                         <option value="" disabled>{{ __('FsLang::panel.post') }}</option>
                         <option value="" {{ !$params['post_follow_service'] ? 'selected' : '' }}>{{ __('FsLang::panel.option_default') }}</option>
@@ -180,6 +180,16 @@
                         <option value="" {{ !$params['search_hashtags_service'] ? 'selected' : '' }}>⛔️ {{ __('FsLang::panel.option_close') }}</option>
                         @foreach ($pluginParams['extendSearch'] as $plugin)
                             <option value="{{ $plugin->fskey }}" {{ $params['search_hashtags_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <!--geotags-->
+                <div class="input-group mb-3">
+                    <label class="input-group-text">{{ __('FsLang::panel.extend_content_search_geotags') }}</label>
+                    <select class="form-select" name="search_geotags_service">
+                        <option value="" {{ !$params['search_geotags_service'] ? 'selected' : '' }}>⛔️ {{ __('FsLang::panel.option_close') }}</option>
+                        @foreach ($pluginParams['extendSearch'] as $plugin)
+                            <option value="{{ $plugin->fskey }}" {{ $params['search_geotags_service'] == $plugin->fskey ? 'selected' : '' }}>{{ $plugin->name }}</option>
                         @endforeach
                     </select>
                 </div>

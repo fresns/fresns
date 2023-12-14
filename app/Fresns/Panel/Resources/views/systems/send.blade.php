@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <!--send header-->
+    <!--header-->
     <div class="row mb-4">
         <div class="col-lg-7">
             <h3>{{ __('FsLang::panel.sidebar_send') }}</h3>
@@ -27,7 +27,7 @@
         </ul>
     </div>
 
-    <!--send config-->
+    <!--config-->
     <div class="tab-content" id="sendTabContent">
         <!--services-->
         <div class="tab-pane fade show active" id="services" role="tabpanel" aria-labelledby="services-tab">

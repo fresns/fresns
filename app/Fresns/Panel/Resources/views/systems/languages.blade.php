@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <!--lang header-->
+    <!--header-->
     <div class="row mb-4 border-bottom">
         <div class="col-lg-7">
             <h3>{{ __('FsLang::panel.sidebar_languages') }}</h3>
@@ -32,7 +32,8 @@
             </div>
         </div>
     </div>
-    <!--lang list-->
+
+    <!--list-->
     <div class="table-responsive">
         <table class="table table-hover align-middle text-nowrap">
             <thead>

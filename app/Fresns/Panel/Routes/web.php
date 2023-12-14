@@ -11,7 +11,9 @@ use App\Fresns\Panel\Http\Controllers\AdminController;
 use App\Fresns\Panel\Http\Controllers\AppController;
 use App\Fresns\Panel\Http\Controllers\CodeMessageController;
 use App\Fresns\Panel\Http\Controllers\ColumnController;
+use App\Fresns\Panel\Http\Controllers\CommonController;
 use App\Fresns\Panel\Http\Controllers\ConfigController;
+use App\Fresns\Panel\Http\Controllers\ContentController;
 use App\Fresns\Panel\Http\Controllers\DashboardController;
 use App\Fresns\Panel\Http\Controllers\ExtendContentHandlerController;
 use App\Fresns\Panel\Http\Controllers\GeneralController;
@@ -19,7 +21,6 @@ use App\Fresns\Panel\Http\Controllers\GroupController;
 use App\Fresns\Panel\Http\Controllers\IframeController;
 use App\Fresns\Panel\Http\Controllers\InteractionController;
 use App\Fresns\Panel\Http\Controllers\LanguageController;
-use App\Fresns\Panel\Http\Controllers\LanguageMenuController;
 use App\Fresns\Panel\Http\Controllers\LanguagePackController;
 use App\Fresns\Panel\Http\Controllers\LoginController;
 use App\Fresns\Panel\Http\Controllers\MenuController;
@@ -31,13 +32,11 @@ use App\Fresns\Panel\Http\Controllers\RoleController;
 use App\Fresns\Panel\Http\Controllers\SendController;
 use App\Fresns\Panel\Http\Controllers\SessionKeyController;
 use App\Fresns\Panel\Http\Controllers\SettingController;
-use App\Fresns\Panel\Http\Controllers\SocialController;
 use App\Fresns\Panel\Http\Controllers\StickerController;
 use App\Fresns\Panel\Http\Controllers\StickerGroupController;
 use App\Fresns\Panel\Http\Controllers\StorageController;
 use App\Fresns\Panel\Http\Controllers\UpgradeController;
 use App\Fresns\Panel\Http\Controllers\UserController;
-use App\Fresns\Panel\Http\Controllers\UserSearchController;
 use App\Fresns\Panel\Http\Controllers\WalletController;
 use App\Helpers\CacheHelper;
 use App\Helpers\PrimaryHelper;
@@ -63,10 +62,10 @@ Route::middleware(['panelAuth'])->group(function () {
     Route::post('manual-upgrade', [UpgradeController::class, 'manualUpgrade'])->name('upgrade.manual');
     Route::get('upgrade/info', [UpgradeController::class, 'upgradeInfo'])->name('upgrade.info');
     // update language
-    Route::put('languages/batch-update/{itemKey}', [LanguageController::class, 'batchUpdate'])->name('languages.batch.update');
-    Route::put('languages/update/{itemKey}', [LanguageController::class, 'update'])->name('languages.update');
-    // users search
-    Route::get('users/search', [UserSearchController::class, 'search'])->name('users.search');
+    Route::put('languages/batch-update/{itemKey}', [CommonController::class, 'languageBatchUpdate'])->name('languages.batch.update');
+    Route::put('languages/update/{itemKey}', [CommonController::class, 'languageUpdate'])->name('languages.update');
+    // search users
+    Route::get('search/users', [CommonController::class, 'searchUsers'])->name('search.users');
 
     // dashboard-home
     Route::get('dashboard', [DashboardController::class, 'show'])->name('dashboard');
@@ -88,18 +87,18 @@ Route::middleware(['panelAuth'])->group(function () {
     ]);
     // dashboard-settings
     Route::get('settings', [SettingController::class, 'show'])->name('settings');
-    Route::put('settings/update', [SettingController::class, 'update'])->name('settings.update');
+    Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
 
     // systems
     Route::prefix('systems')->group(function () {
         // languages
-        Route::get('languages', [LanguageMenuController::class, 'index'])->name('languages.index');
-        Route::put('languageMenus/status', [LanguageMenuController::class, 'switchStatus'])->name('languageMenus.status');
-        Route::post('languageMenus', [LanguageMenuController::class, 'store'])->name('languageMenus.store');
-        Route::put('languageMenus/update-default', [LanguageMenuController::class, 'updateDefaultLanguage'])->name('languageMenus.default.update');
-        Route::put('languageMenus/{langTag}', [LanguageMenuController::class, 'update'])->name('languageMenus.update');
-        Route::patch('languageMenus/{langTag}/order', [LanguageMenuController::class, 'updateOrder'])->name('languageMenus.order.update');
-        Route::delete('languageMenus/{langTag}', [LanguageMenuController::class, 'destroy'])->name('languageMenus.destroy');
+        Route::get('languages', [LanguageController::class, 'index'])->name('languages.index');
+        Route::put('languageMenus/status', [LanguageController::class, 'switchStatus'])->name('languageMenus.status');
+        Route::post('languageMenus', [LanguageController::class, 'store'])->name('languageMenus.store');
+        Route::put('languageMenus/update-default', [LanguageController::class, 'updateDefaultLanguage'])->name('languageMenus.default.update');
+        Route::put('languageMenus/{langTag}', [LanguageController::class, 'update'])->name('languageMenus.update');
+        Route::patch('languageMenus/{langTag}/order', [LanguageController::class, 'updateOrder'])->name('languageMenus.order.update');
+        Route::delete('languageMenus/{langTag}', [LanguageController::class, 'destroy'])->name('languageMenus.destroy');
         // storage
         Route::get('storage/image', [StorageController::class, 'imageShow'])->name('storage.image.index');
         Route::put('storage/image', [StorageController::class, 'imageUpdate'])->name('storage.image.update');
@@ -119,27 +118,27 @@ Route::middleware(['panelAuth'])->group(function () {
         Route::put('policy', [PolicyController::class, 'update'])->name('policy.update');
         // send
         Route::get('send', [SendController::class, 'show'])->name('send.index');
-        Route::put('send/update', [SendController::class, 'update'])->name('send.update');
+        Route::put('send', [SendController::class, 'update'])->name('send.update');
         Route::put('send/verifyCodeTemplate/{itemKey}/sms', [SendController::class, 'updateSms'])->name('send.sms.update');
         Route::put('send/verifyCodeTemplate/{itemKey}/email', [SendController::class, 'updateEmail'])->name('send.email.update');
         // account
         Route::get('account', [AccountController::class, 'show'])->name('account.index');
-        Route::put('account/update', [AccountController::class, 'update'])->name('account.update');
+        Route::put('account', [AccountController::class, 'update'])->name('account.update');
         // wallet
         Route::get('wallet', [WalletController::class, 'show'])->name('wallet.index');
         Route::put('wallet', [WalletController::class, 'update'])->name('wallet.update');
-        // social
-        Route::get('social', [SocialController::class, 'show'])->name('social.index');
-        Route::put('social/update', [SocialController::class, 'update'])->name('social.update');
-        Route::patch('social/update-hashtag-regexp', [SocialController::class, 'updateHashtagRegexp'])->name('social.update.hashtag-regexp');
     });
 
     // operations
     Route::prefix('operations')->group(function () {
         // user
         Route::get('user', [UserController::class, 'show'])->name('user.index');
-        Route::put('user/update', [UserController::class, 'update'])->name('user.update');
-        Route::put('user/update-extcredits', [UserController::class, 'updateExtcredits'])->name('user.update.extcredits');
+        Route::put('user', [UserController::class, 'update'])->name('user.update');
+        Route::patch('user/extcredits', [UserController::class, 'updateExtcredits'])->name('user.update.extcredits');
+        // content
+        Route::get('content', [ContentController::class, 'show'])->name('content.index');
+        Route::put('content', [ContentController::class, 'update'])->name('content.update');
+        Route::patch('content/hashtag-regexp', [ContentController::class, 'updateHashtagRegexp'])->name('content.update.hashtag-regexp');
         // interaction
         Route::get('interaction', [InteractionController::class, 'show'])->name('interaction.index');
         Route::put('interaction', [InteractionController::class, 'update'])->name('interaction.update');

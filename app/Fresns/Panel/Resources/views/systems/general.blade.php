@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <!--general header-->
+    <!--header-->
     <div class="row mb-4 border-bottom">
         <div class="col-lg-7">
             <h3>{{ __('FsLang::panel.sidebar_general') }}</h3>
@@ -17,7 +17,8 @@
             </div>
         </div>
     </div>
-    <!--general config-->
+
+    <!--config-->
     <form action="{{ route('panel.general.update') }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('put')
@@ -193,7 +194,6 @@
             </div>
         </div>
     </form>
-    <!--site form end-->
 
     <!-- Name Language Modal -->
     <div class="modal fade" id="siteNameModal" tabindex="-1" aria-labelledby="siteNameModal" aria-hidden="true">

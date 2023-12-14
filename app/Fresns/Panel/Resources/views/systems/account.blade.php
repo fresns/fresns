@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <!--account header-->
+    <!--header-->
     <div class="row mb-4 border-bottom">
         <div class="col-lg-7">
             <h3>{{ __('FsLang::panel.sidebar_account') }}</h3>
@@ -17,7 +17,8 @@
             </div>
         </div>
     </div>
-    <!--account config-->
+
+    <!--config-->
     <form action="{{ route('panel.account.update') }}" id="accountConfigForm" method="post">
         @csrf
         @method('put')
@@ -238,7 +239,7 @@
         </div>
     </form>
 
-    <!--account_connect_services template-->
+    <!--connects template-->
     <template id="connectTemplate">
         <div class="input-group mt-3">
             <label class="input-group-text">{{ __('FsLang::panel.table_platform') }}</label>

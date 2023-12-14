@@ -33,6 +33,7 @@ class ExtendContentHandlerController extends Controller
             'search_users_service',
             'search_groups_service',
             'search_hashtags_service',
+            'search_geotags_service',
             'search_posts_service',
             'search_comments_service',
         ];
@@ -80,6 +81,7 @@ class ExtendContentHandlerController extends Controller
             'search_users_service',
             'search_groups_service',
             'search_hashtags_service',
+            'search_geotags_service',
             'search_posts_service',
             'search_comments_service',
         ];

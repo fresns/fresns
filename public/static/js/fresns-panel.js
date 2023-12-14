@@ -825,18 +825,16 @@ $(document).ready(function () {
 
     $('#configLangModal').on('show.bs.modal', function (e) {
         let button = $(e.relatedTarget),
-            languages = button.data('languages'),
-            itemKey = button.data('item_key'),
-            action = button.data('action');
+            action = button.data('action'),
+            languages = button.data('languages');
 
-        $(this).find('form').attr('action', action);
-        $(this).find('form').trigger('reset');
-        $(this).find('input[name=update_config]').val(itemKey);
+        let form = $(this).find('form');
+            form.attr('action', action);
+            form.trigger('reset');
 
         if (languages) {
-            let $this = $(this);
-            languages.map(function (language, index) {
-                $this.find("input[name='languages[" + language.lang_tag + "]'").val(language.lang_content);
+            Object.entries(languages).forEach(([langTag, langContent]) => {
+                form.find("input[name='languages[" + langTag + "]']").val(langContent);
             });
         }
     });
@@ -1265,10 +1263,11 @@ $(document).ready(function () {
         });
     });
 
+    // search users
     $('.group-user-select2').select2({
         theme: 'bootstrap-5',
         ajax: {
-            url: '/fresns/users/search',
+            url: '/fresns/search/users',
             dataType: 'json',
             data: function (params) {
                 return {

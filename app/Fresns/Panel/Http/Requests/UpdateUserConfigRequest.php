@@ -13,16 +13,14 @@ class UpdateUserConfigRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'default_role' => 'int',
-            //'default_avatar' => 'int|required',
-            //'anonymous_avatar' => 'int|required',
-            //'deactivate_avatar' => 'int|required',
-            'username_min' => 'int',
-            'username_max' => 'int',
-            'username_edit' => 'int',
-            'nickname_min' => 'int',
-            'nickname_max' => 'int',
-            'nickname_edit' => 'int',
+            'default_role' => 'int|required',
+            'username_min' => 'int|required',
+            'username_max' => 'int|required',
+            'username_edit' => 'int|required',
+            'nickname_min' => 'int|required',
+            'nickname_max' => 'int|required',
+            'nickname_edit' => 'int|required',
+            'bio_length' => 'int|required',
         ];
     }
 

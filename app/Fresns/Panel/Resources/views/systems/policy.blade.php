@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <!--policy header-->
+    <!--header-->
     <div class="row mb-4">
         <div class="col-lg-7">
             <h3>{{ __('FsLang::panel.sidebar_policy') }}</h3>
@@ -27,7 +27,7 @@
         </ul>
     </div>
 
-    <!--policy config-->
+    <!--config-->
     <div class="tab-content" id="policiesTabContent">
         <!--options-->
         <div class="tab-pane fade show active" id="options" role="tabpanel" aria-labelledby="options-tab">

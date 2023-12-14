@@ -8,55 +8,195 @@
 
 namespace App\Fresns\Panel\Http\Controllers;
 
+use App\Fresns\Panel\Http\Requests\UpdateDefaultLanguageRequest;
+use App\Fresns\Panel\Http\Requests\UpdateLanguageMenuRequest;
+use App\Fresns\Panel\Http\Requests\UpdateLanguageOrderRequest;
+use App\Helpers\CacheHelper;
 use App\Models\Config;
-use Illuminate\Http\Request;
 
 class LanguageController extends Controller
 {
-    public function update($itemKey, Request $request)
+    public function index()
     {
-        $config = Config::where('item_key', $itemKey)->first();
+        $languageConfig = Config::where('item_key', 'language_menus')->firstOrFail();
+        $languages = collect($languageConfig->item_value)->sortBy('order');
 
-        if (! $config) {
-            $config = new Config();
+        $defaultLanguageConfig = Config::where('item_key', 'default_language')->firstOrFail();
+        $defaultLanguage = $defaultLanguageConfig->item_value;
 
-            $config->fill([
-                'item_key' => $itemKey,
-                'item_type' => 'object',
-            ]);
-        }
+        $statusConfig = Config::where('item_key', 'language_status')->firstOrFail();
+        $status = $statusConfig->item_value;
 
-        $itemValue = $config->item_value;
-        $itemValue[$request->langTag] = $request->langContent;
+        $codeConfig = Config::where('item_key', 'language_codes')->firstOrFail();
+        $codes = $codeConfig->item_value;
 
-        $config->item_value = $itemValue;
-        $config->save();
+        $continentConfig = Config::where('item_key', 'continents')->firstOrFail();
+        $continents = $continentConfig->item_value;
+
+        return view('FsView::systems.languages', compact('languages', 'defaultLanguage', 'status', 'codes', 'continents'));
+    }
+
+    public function switchStatus()
+    {
+        $statusConfig = Config::where('item_key', 'language_status')->firstOrFail();
+        $statusConfig->item_value = ! $statusConfig->item_value;
+        $statusConfig->save();
+
+        CacheHelper::forgetFresnsConfigs('language_status');
 
         return $this->updateSuccess();
     }
 
-    public function batchUpdate($itemKey, Request $request)
+    public function updateDefaultLanguage(UpdateDefaultLanguageRequest $request)
     {
-        $config = Config::where('item_key', $itemKey)->first();
+        $defaultLanguageConfig = Config::where('item_key', 'default_language')->firstOrFail();
+        $defaultLanguageConfig->item_value = $request->default_language;
+        $defaultLanguageConfig->save();
 
-        if (! $config) {
-            $config = new Config();
-
-            $config->fill([
-                'item_key' => $itemKey,
-                'item_type' => 'object',
-            ]);
-        }
-
-        $itemValue = $config->item_value;
-
-        foreach ($request->languages as $langTag => $langContent) {
-            $itemValue[$langTag] = $langContent;
-        }
-
-        $config->item_value = $itemValue;
-        $config->save();
+        CacheHelper::forgetFresnsConfigs('default_language');
+        CacheHelper::forgetFresnsKey('fresns_default_langTag');
 
         return $this->updateSuccess();
+    }
+
+    public function updateOrder(UpdateLanguageOrderRequest $request, $langTag)
+    {
+        $languageConfig = Config::where('item_key', 'language_menus')->firstOrFail();
+        $languages = $languageConfig->item_value;
+
+        $languageKey = collect($languages)->search(function ($item) use ($langTag) {
+            return $item['langTag'] == $langTag;
+        });
+
+        if (! $languageKey) {
+            return back()->with('failure', __('FsLang::tips.language_not_exists'));
+        }
+
+        $language = $languages[$languageKey];
+        $language['order'] = $request->order;
+
+        $languages[$languageKey] = $language;
+        $languageConfig->item_value = array_values($languages);
+        $languageConfig->save();
+
+        return $this->updateSuccess();
+    }
+
+    public function store(UpdateLanguageMenuRequest $request)
+    {
+        $codeConfig = Config::where('item_key', 'language_codes')->firstOrFail();
+        $codes = $codeConfig->item_value;
+        $code = collect($codes)->where('code', $request->lang_code)->firstOrFail();
+
+        $languageConfig = Config::where('item_key', 'language_menus')->firstOrFail();
+        $languages = $languageConfig->item_value;
+
+        $langTag = ($request->area_code && $request->area_status) ? $request->lang_code.'-'.$request->area_code : $request->lang_code;
+
+        if (collect($languages)->where('langTag', $langTag)->first()) {
+            return back()->with('failure', __('FsLang::tips.language_exists'));
+        }
+
+        $areaName = '';
+        if ($request->area_status && $request->area_code) {
+            $areaCodeConfig = Config::where('item_key', 'area_codes')->firstOrFail();
+            $areaCodes = $areaCodeConfig->item_value;
+
+            $areaCode = collect($areaCodes)->where('code', $request->area_code)->firstOrFail();
+            $areaName = $areaCode['name'];
+        }
+
+        $data = [
+            'order' => $request->order,
+            'langCode' => $request->lang_code,
+            'langName' => $code['name'] ?? '',
+            'langTag' => $langTag,
+            'continentId' => $request->area_status ? $request->continent_id : 0,
+            'areaStatus' => (bool) $request->area_status,
+            'areaCode' => $request->area_status ? $request->area_code : null,
+            'areaName' => $areaName,
+            'writingDirection' => $code['writingDirection'],
+            'lengthUnit' => $request->length_unit,
+            'dateFormat' => $request->date_format,
+            'timeFormatMinute' => $request->time_format_minute,
+            'timeFormatHour' => $request->time_format_hour,
+            'timeFormatDay' => $request->time_format_day,
+            'timeFormatMonth' => $request->time_format_month,
+            'timeFormatYear' => $request->time_format_year,
+            'packVersion' => 1,
+            'isEnabled' => (bool) $request->is_enabled,
+        ];
+
+        $languages[] = $data;
+        $languageConfig->item_value = $languages;
+        $languageConfig->save();
+
+        return $this->createSuccess();
+    }
+
+    public function update(UpdateLanguageMenuRequest $request, string $langTag)
+    {
+        $languageConfig = Config::where('item_key', 'language_menus')->firstOrFail();
+        $languages = $languageConfig->item_value;
+
+        $languageCollection = collect($languages);
+        $langConfig = $languageCollection->where('langTag', $langTag)->first();
+        if (! $langConfig) {
+            return back()->with('failure', __('FsLang::tips.language_not_exists'));
+        }
+
+        $languageKey = $languageCollection->search(function ($item) use ($langTag) {
+            return $item['langTag'] == $langTag;
+        });
+
+        if (! $languageKey) {
+            return back()->with('failure', __('FsLang::tips.language_not_exists'));
+        }
+
+        $data = [
+            'order' => $request->order,
+            'langCode' => $langConfig['langCode'],
+            'langName' => $langConfig['langName'] ?? '',
+            'langTag' => $langTag,
+            'continentId' => $langConfig['continentId'] ?? 0,
+            'areaStatus' => $langConfig['areaStatus'] ?? false,
+            'areaCode' => $langConfig['areaStatus'] ? $langConfig['areaCode'] : null,
+            'areaName' => $langConfig['areaName'],
+            'writingDirection' => $langConfig['writingDirection'],
+            'lengthUnit' => $request->length_unit,
+            'dateFormat' => $request->date_format,
+            'timeFormatMinute' => $request->time_format_minute,
+            'timeFormatHour' => $request->time_format_hour,
+            'timeFormatDay' => $request->time_format_day,
+            'timeFormatMonth' => $request->time_format_month,
+            'timeFormatYear' => $request->time_format_year,
+            'packVersion' => $langConfig['packVersion'] ?? 1,
+            'isEnabled' => (bool) $request->is_enabled,
+        ];
+
+        $languages[$languageKey] = $data;
+        $languageConfig->item_value = array_values($languages);
+        $languageConfig->save();
+
+        return $this->updateSuccess();
+    }
+
+    public function destroy(string $code)
+    {
+        if ($this->defaultLanguage == $code) {
+            return back()->with('failure', __('FsLang::tips.delete_default_language_error'));
+        }
+
+        $languageConfig = Config::where('item_key', 'language_menus')->firstOrFail();
+        $languages = $languageConfig->item_value;
+
+        $languages = collect($languages)->reject(function ($language) use ($code) {
+            return $language['langTag'] == $code;
+        })->values()->toArray();
+
+        $languageConfig->item_value = $languages;
+        $languageConfig->save();
+
+        return $this->deleteSuccess();
     }
 }

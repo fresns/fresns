@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <!--user header-->
+    <!--header-->
     <div class="row mb-4 border-bottom">
         <div class="col-lg-7">
             <h3>{{ __('FsLang::panel.sidebar_user') }}</h3>
@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    <!--user config-->
+    <!--config-->
     <form action="{{ route('panel.user.update') }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('put')

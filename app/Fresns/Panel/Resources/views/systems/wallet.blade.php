@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <!--wallet header-->
+    <!--header-->
     <div class="row mb-4">
         <div class="col-lg-7">
             <h3>{{ __('FsLang::panel.sidebar_wallet') }}</h3>
@@ -22,7 +22,8 @@
             <li class="nav-item"><a class="nav-link" href="{{ route('panel.plugin-usages.index', ['usageType' => 'wallet-withdraw']) }}">{{ __('FsLang::panel.sidebar_wallet_tab_withdraw_services') }}</a></li>
         </ul>
     </div>
-    <!--wallet config-->
+
+    <!--config-->
     <form action="{{ route('panel.wallet.update') }}" method="post">
         @csrf
         @method('put')
