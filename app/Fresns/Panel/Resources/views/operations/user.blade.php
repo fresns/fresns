@@ -27,8 +27,8 @@
             <label class="col-lg-2 col-form-label text-lg-end">{{ __('FsLang::panel.config_name') }}:</label>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.user_name') }}</label>
-                    <button class="btn btn-outline-secondary text-start rename-btn w-75" type="button" data-bs-toggle="modal"
+                    <label class="input-group-text rename-label">{{ __('FsLang::panel.user_name') }}</label>
+                    <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                         data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'user_name']) }}"
                         data-languages="{{ json_encode($params['user_name']) }}"
                         data-bs-target="#configLangModal">{{ $defaultLangParams['user_name'] ?? '' }}
@@ -41,8 +41,8 @@
             <label class="col-lg-2"></label>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.user_uid_name') }}</label>
-                    <button class="btn btn-outline-secondary text-start rename-btn w-75" type="button" data-bs-toggle="modal"
+                    <label class="input-group-text rename-label">{{ __('FsLang::panel.user_uid_name') }}</label>
+                    <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                         data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'user_uid_name']) }}"
                         data-languages="{{ json_encode($params['user_uid_name']) }}"
                         data-bs-target="#configLangModal">{{ $defaultLangParams['user_uid_name'] ?? '' }}
@@ -55,8 +55,8 @@
             <label class="col-lg-2"></label>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.user_username_name') }}</label>
-                    <button class="btn btn-outline-secondary text-start rename-btn w-75" type="button" data-bs-toggle="modal"
+                    <label class="input-group-text rename-label">{{ __('FsLang::panel.user_username_name') }}</label>
+                    <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                         data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'user_username_name']) }}"
                         data-languages="{{ json_encode($params['user_username_name']) }}"
                         data-bs-target="#configLangModal">{{ $defaultLangParams['user_username_name'] ?? '' }}
@@ -69,8 +69,8 @@
             <label class="col-lg-2"></label>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.user_nickname_name') }}</label>
-                    <button class="btn btn-outline-secondary text-start rename-btn w-75" type="button" data-bs-toggle="modal"
+                    <label class="input-group-text rename-label">{{ __('FsLang::panel.user_nickname_name') }}</label>
+                    <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                         data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'user_nickname_name']) }}"
                         data-languages="{{ json_encode($params['user_nickname_name']) }}"
                         data-bs-target="#configLangModal">{{ $defaultLangParams['user_nickname_name'] ?? '' }}
@@ -83,8 +83,8 @@
             <label class="col-lg-2"></label>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.user_role_name') }}</label>
-                    <button class="btn btn-outline-secondary text-start rename-btn w-75" type="button" data-bs-toggle="modal"
+                    <label class="input-group-text rename-label">{{ __('FsLang::panel.user_role_name') }}</label>
+                    <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                         data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'user_role_name']) }}"
                         data-languages="{{ json_encode($params['user_role_name']) }}"
                         data-bs-target="#configLangModal">{{ $defaultLangParams['user_role_name'] ?? '' }}
@@ -97,8 +97,8 @@
             <label class="col-lg-2"></label>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <label class="input-group-text w-25">{{ __('FsLang::panel.user_bio_name') }}</label>
-                    <button class="btn btn-outline-secondary text-start rename-btn w-75" type="button" data-bs-toggle="modal"
+                    <label class="input-group-text rename-label">{{ __('FsLang::panel.user_bio_name') }}</label>
+                    <button class="btn btn-outline-secondary text-start rename-btn" type="button" data-bs-toggle="modal"
                         data-action="{{ route('panel.languages.batch.update', ['itemKey' => 'user_bio_name']) }}"
                         data-languages="{{ json_encode($params['user_bio_name']) }}"
                         data-bs-target="#configLangModal">{{ $defaultLangParams['user_bio_name'] ?? '' }}
@@ -238,14 +238,45 @@
             <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.user_uid_digit_desc') }}</div>
         </div>
         <div class="row mb-5">
-            <label class="col-lg-2 col-form-label text-lg-end"></label>
+            <label class="col-lg-2"></label>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <label class="input-group-text">{{ __('FsLang::panel.user_ban_names') }}</label>
-                    <textarea class="form-control" name="user_ban_names" style="height: 200px">{!! $params['user_ban_names'] !!}</textarea>
-                    <span class="input-group-text w-50 text-start text-wrap fs-7">{{ __('FsLang::panel.user_ban_names_desc') }}</span>
+                    <label class="input-group-text">Profile Home</label>
+                    <select class="form-select" name="profile_default_homepage">
+                        <option value="posts" {{ $params['profile_default_homepage'] == 'posts' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_posts') }}</option>
+                        <option value="comments" {{ $params['profile_default_homepage'] == 'comments' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_comments') }}</option>
+                        <option value="likers" {{ $params['profile_default_homepage'] == 'likers' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_likers') }}</option>
+                        <option value="dislikers" {{ $params['profile_default_homepage'] == 'dislikers' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_dislikers') }}</option>
+                        <option value="followers" {{ $params['profile_default_homepage'] == 'followers' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_followers') }}</option>
+                        <option value="blockers" {{ $params['profile_default_homepage'] == 'blockers' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_blockers') }}</option>
+                        <option value="like_users" {{ $params['profile_default_homepage'] == 'like_users' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_like_users') }}</option>
+                        <option value="like_groups" {{ $params['profile_default_homepage'] == 'like_groups' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_like_groups') }}</option>
+                        <option value="like_hashtags" {{ $params['profile_default_homepage'] == 'like_hashtags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_like_hashtags') }}</option>
+                        <option value="like_geotags" {{ $params['profile_default_homepage'] == 'like_geotags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_like_geotags') }}</option>
+                        <option value="like_posts" {{ $params['profile_default_homepage'] == 'like_posts' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_like_posts') }}</option>
+                        <option value="like_comments" {{ $params['profile_default_homepage'] == 'like_comments' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_like_comments') }}</option>
+                        <option value="dislike_users" {{ $params['profile_default_homepage'] == 'dislike_users' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_dislike_users') }}</option>
+                        <option value="dislike_groups" {{ $params['profile_default_homepage'] == 'dislike_groups' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_dislike_groups') }}</option>
+                        <option value="dislike_hashtags" {{ $params['profile_default_homepage'] == 'dislike_hashtags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_dislike_hashtags') }}</option>
+                        <option value="dislike_geotags" {{ $params['profile_default_homepage'] == 'dislike_geotags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_dislike_geotags') }}</option>
+                        <option value="dislike_posts" {{ $params['profile_default_homepage'] == 'dislike_posts' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_dislike_posts') }}</option>
+                        <option value="dislike_comments" {{ $params['profile_default_homepage'] == 'dislike_comments' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_dislike_comments') }}</option>
+                        <option value="follow_users" {{ $params['profile_default_homepage'] == 'follow_users' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_follow_users') }}</option>
+                        <option value="follow_groups" {{ $params['profile_default_homepage'] == 'follow_groups' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_follow_groups') }}</option>
+                        <option value="follow_hashtags" {{ $params['profile_default_homepage'] == 'follow_hashtags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_follow_hashtags') }}</option>
+                        <option value="follow_geotags" {{ $params['profile_default_homepage'] == 'follow_geotags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_follow_geotags') }}</option>
+                        <option value="follow_posts" {{ $params['profile_default_homepage'] == 'follow_posts' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_follow_posts') }}</option>
+                        <option value="follow_comments" {{ $params['profile_default_homepage'] == 'follow_comments' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_follow_comments') }}</option>
+                        <option value="block_users" {{ $params['profile_default_homepage'] == 'block_users' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_block_users') }}</option>
+                        <option value="block_groups" {{ $params['profile_default_homepage'] == 'block_groups' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_block_groups') }}</option>
+                        <option value="block_hashtags" {{ $params['profile_default_homepage'] == 'block_hashtags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_block_hashtags') }}</option>
+                        <option value="block_geotags" {{ $params['profile_default_homepage'] == 'block_geotags' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_block_geotags') }}</option>
+                        <option value="block_posts" {{ $params['profile_default_homepage'] == 'block_posts' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_block_posts') }}</option>
+                        <option value="block_comments" {{ $params['profile_default_homepage'] == 'block_comments' ? 'selected' : '' }}>{{ __('FsLang::panel.profile_block_comments') }}</option>
+                    </select>
                 </div>
             </div>
+            <div class="col-lg-4 form-text pt-1"><i class="bi bi-info-circle"></i> {{ __('FsLang::panel.user_profile_desc') }}</div>
         </div>
 
         <!--config_edit-->
@@ -284,6 +315,11 @@
                             <label class="form-check-label" for="nickname_unique_true">{{ __('FsLang::panel.option_yes') }}</label>
                         </div>
                     </div>
+                </div>
+                <div class="input-group mb-2">
+                    <label class="input-group-text">{{ __('FsLang::panel.user_ban_names') }}</label>
+                    <textarea class="form-control" name="user_ban_names" style="height: 200px">{!! $params['user_ban_names'] !!}</textarea>
+                    <span class="input-group-text w-50 text-start text-wrap fs-7">{{ __('FsLang::panel.user_ban_names_desc') }}</span>
                 </div>
                 <div class="input-group mb-2">
                     <label class="input-group-text">{{ __('FsLang::panel.user_edit_bio_length') }}</label>
